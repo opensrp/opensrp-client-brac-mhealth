@@ -22,7 +22,7 @@ public class DashBoardViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         itemBg = itemView.findViewById(R.id.item_bg);
         imageView = itemView.findViewById(R.id.image_view);
-        textViewTitle = itemView.findViewById(R.id.title_txt);
+        textViewTitle = itemView.findViewById(R.id.patient_name_age);
         textViewCount = itemView.findViewById(R.id.count_txt);
     }
 }

@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.presenter;
 import android.app.Activity;
 
 import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
+import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.chw.core.contract.CoreApplication;
 import org.smartregister.chw.core.contract.NavigationContract;
 import org.smartregister.chw.core.model.NavigationModel;
@@ -27,5 +28,11 @@ public class HnppNavigationPresenter extends NavigationPresenter {
         SyncServiceJob.scheduleJobImmediately(SyncServiceJob.TAG);
         PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
         PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
+        VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+
+//        if (JobManager.instance().getAllJobRequestsForTag(VisitLogServiceJob.TAG).isEmpty()){
+//        }
+
     }
+
 }

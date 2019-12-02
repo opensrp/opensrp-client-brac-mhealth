@@ -29,6 +29,8 @@ public class HnppConstants extends CoreConstants {
     public static final int MEMBER_ID_SUFFIX = 11;
     public static final int HOUSE_HOLD_ID_SUFFIX = 9;
     public static SimpleDateFormat DDMMYY = new SimpleDateFormat("dd-MM-yyyy");
+    public enum VisitType {DUE, OVERDUE, LESS_TWENTY_FOUR, VISIT_THIS_MONTH, NOT_VISIT_THIS_MONTH, EXPIRY, VISIT_DONE}
+
     public class HOME_VISIT_FORMS {
         public static final String  ANC_CARD_FORM = "anc_card_form";
         public static final String  IMMUNIZATION = "hv_immunization";
