@@ -23,6 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.custom_view.FamilyMemberFloatingMenu;
 import org.smartregister.brac.hnpp.fragment.HnppMemberProfileDueFragment;
+import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
 import org.smartregister.brac.hnpp.fragment.MemberOtherServiceFragment;
 import org.smartregister.brac.hnpp.fragment.MemberProfileActivityFragment;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
@@ -59,9 +60,9 @@ import java.util.Map;
 import timber.log.Timber;
 
 import static org.smartregister.brac.hnpp.utils.HnppConstants.MEMBER_ID_SUFFIX;
-import static org.smartregister.brac.hnpp.utils.HnppJsonFormUtils.REQUEST_CODE_JSON_ANC1;
 
 public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberProfileActivity {
+    private static final int REQUEST_CODE_REFERRAL = 5555;
     private CustomFontTextView textViewDetails3;
     private String familyBaseEntityId;
 
@@ -125,7 +126,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     protected void startAncRegister() {
 //        //TODO implement start anc register for HF
         HnppAncRegisterActivity.startHnppAncRegisterActivity(HnppFamilyOtherMemberProfileActivity.this, baseEntityId, PhoneNumber,
-                org.smartregister.brac.hnpp.utils.HnppConstants.JSON_FORM.getAncRegistration(), null, familyBaseEntityId, familyName);
+                org.smartregister.brac.hnpp.utils.HnppConstants.HOME_VISIT_FORMS.ANC_FORM, null, familyBaseEntityId, familyName);
     }
 
     @Override
@@ -167,20 +168,19 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         BaseFamilyProfileDueFragment profileMemberFragment = HnppMemberProfileDueFragment.newInstance(this.getIntent().getExtras());
-        BaseFamilyProfileActivityFragment activityFragment = MemberProfileActivityFragment.newInstance(this.getIntent().getExtras());
 
         adapter.addFragment(profileMemberFragment, this.getString(R.string.due).toUpperCase());
         adapter.addFragment(new MemberOtherServiceFragment(), this.getString(R.string.other_service).toUpperCase());
-        adapter.addFragment(activityFragment, this.getString(R.string.activity).toUpperCase());
+        adapter.addFragment(MemberHistoryFragment.getInstance(this.getIntent().getExtras()), this.getString(R.string.activity).toUpperCase());
 
         viewPager.setAdapter(adapter);
 
         return viewPager;
     }
 
-    public void startAnyFormActivity(){
+    public void startAnyFormActivity(String formName, int requestCode){
        try {
-           JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(HnppConstants.HOME_VISIT_FORMS.ANC1_FORM);
+           JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
            jsonForm.put(JsonFormUtils.ENTITY_ID, familyBaseEntityId);
            Intent intent = new Intent(this, org.smartregister.family.util.Utils.metadata().familyMemberFormActivity);
            intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
@@ -192,7 +192,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
            intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
            intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
            if (this != null) {
-               this.startActivityForResult(intent, REQUEST_CODE_JSON_ANC1);
+               this.startActivityForResult(intent, requestCode);
            }
        }catch (Exception e){
            
@@ -216,7 +216,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_JSON_ANC1){
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_REFERRAL){
 //            String type = StringUtils.isBlank(parentEventType) ? getEncounterType() : getEncounterType();
             String type = HnppJsonFormUtils.getEncounterType();
             String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
@@ -228,10 +228,6 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                 visit = HnppJsonFormUtils.saveVisit(false, baseEntityId, type, jsonStrings, "");
             } catch (Exception e) {
                 e.printStackTrace();
-            }
-            if (visit != null) {
-//                saveVisitDetails(visit, payloadType, payloadDetails);
-//                processExternalVisits(visit, externalVisits, memberID);
             }
         }
             super.onActivityResult(requestCode, resultCode, data);
@@ -291,7 +287,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         startActivity(intent);
     }
     public void openRefereal() {
-        startAnyFormActivity();
+        startAnyFormActivity(HnppConstants.HOME_VISIT_FORMS.MEMBER_REFERRAL,REQUEST_CODE_REFERRAL);
     }
 
     @Override
@@ -318,9 +314,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     }
 
     private void setupMenuOptions(Menu menu) {
-
+        menu.findItem(R.id.action_anc_registration).setTitle("গর্ভবতী রেজিস্ট্রেশন");
         menu.findItem(R.id.action_malaria_registration).setVisible(false);
-        menu.findItem(R.id.action_malaria_followup_visit).setVisible(true);
+        menu.findItem(R.id.action_malaria_followup_visit).setVisible(false);
         menu.findItem(R.id.action_sick_child_follow_up).setVisible(false);
         menu.findItem(R.id.action_malaria_diagnosis).setVisible(false);
         menu.findItem(R.id.action_remove_member).setVisible(false);

@@ -119,9 +119,16 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
 //            saveLanguage("bn");
 //        }
     }
+    private HnppNavigationModel hnppNavigationModel;
+    public HnppNavigationModel getHnppNavigationModel() {
+        if(hnppNavigationModel == null){
+            hnppNavigationModel = new HnppNavigationModel();
+        }
+        return hnppNavigationModel;
+    }
 
     public void setupNavigation(HnppNavigationPresenter mPresenter){
-        NavigationMenu.setupNavigationMenu(new HnppNavigationListener(),mPresenter,this, new HnppNavigationTopView(), new HnppNavigationMenu(), new HnppNavigationModel(),
+        NavigationMenu.setupNavigationMenu(new HnppNavigationListener(),mPresenter,this, new HnppNavigationTopView(), new HnppNavigationMenu(), getHnppNavigationModel(),
                 getRegisteredActivities(), false);
     }
     public static CommonFtsObject createCommonFtsObject() {

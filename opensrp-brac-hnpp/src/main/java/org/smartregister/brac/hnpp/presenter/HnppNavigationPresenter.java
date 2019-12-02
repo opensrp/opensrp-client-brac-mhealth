@@ -1,14 +1,6 @@
 package org.smartregister.brac.hnpp.presenter;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.Context;
-import android.os.Build;
-
-import com.evernote.android.job.JobManager;
-
 import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.chw.core.contract.CoreApplication;

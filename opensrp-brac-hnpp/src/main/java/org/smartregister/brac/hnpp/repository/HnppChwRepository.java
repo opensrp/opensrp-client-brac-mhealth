@@ -58,6 +58,8 @@ public class HnppChwRepository extends CoreChwRepository {
 
     private void upgradeToVersion8(Context context, SQLiteDatabase db) {
 //        HnppVisitLogRepository.createTable(db);
+//        db.execSQL("ALTER TABLE ec_anc_register ADD COLUMN height VARCHAR;");
+
     }
 
     private void upgradeToVersion7(Context context, SQLiteDatabase db) {

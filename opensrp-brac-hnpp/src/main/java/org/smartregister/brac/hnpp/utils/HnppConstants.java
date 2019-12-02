@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
+import com.google.common.collect.ImmutableMap;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.AllConstants;
@@ -15,25 +17,41 @@ import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.util.Utils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class HnppConstants extends CoreConstants {
     public static final String TEST_GU_ID = "test";
     public static final String MODULE_ID_TRAINING = "TRAINING";
     public static final int MEMBER_ID_SUFFIX = 11;
     public static final int HOUSE_HOLD_ID_SUFFIX = 9;
+    public static SimpleDateFormat DDMMYY = new SimpleDateFormat("dd-MM-yyyy");
     public class HOME_VISIT_FORMS {
         public static final String  ANC_CARD_FORM = "anc_card_form";
         public static final String  IMMUNIZATION = "hv_immunization";
         public static final String  DANGER_SIGNS = "anc_hv_danger_signs";
 
+        public static final String  ANC_FORM = "hnpp_anc_registration";
         public static final String  ANC1_FORM = "hnpp_anc1_registration";
         public static final String  ANC2_FORM = "hnpp_anc2_registration";
         public static final String  ANC3_FORM = "hnpp_anc3_registration";
         public static final String  GENERAL_DISEASE = "hnpp_anc_general_disease";
         public static final String  PREGNANCY_HISTORY = "hnpp_anc_pregnancy_history";
+        public static final String  MEMBER_REFERRAL = "hnpp_member_referral";
+
+    }
+    public class EVENT_TYPE{
+
+        public static final String MEMBER_REFERRAL = "Member Referral";
+        public static final String ANC_PREGNANCY_HISTORY = "ANC Pregnancy History";
+        public static final String ANC_GENERAL_DISEASE = "ANC General Disease";
+        public static final String ANC1_REGISTRATION = "ANC1 Registration";
+        public static final String ANC2_REGISTRATION = "ANC2 Registration";
+        public static final String ANC3_REGISTRATION = "ANC3 Registration";
+        public static final String ANC_REGISTRATION = "ANC Registration";
 
     }
     public class OTHER_SERVICE_TYPE{
@@ -158,8 +176,65 @@ public class HnppConstants extends CoreConstants {
     }
 
     public static String getRelationWithHouseholdHead(String value){
+        String relationshipObject = "{" +
+                "  \"খানা প্রধান\": \"Household Head\"," +
+                "  \"মা/আম্মা\": \"Mother\"," +
+                "  \"বাবা/আব্বা\": \"Father\"," +
+                "  \"ছেলে\": \"Son\"," +
+                "  \"মেয়ে\": \"Daughter\"," +
+                "  \"স্ত্রী\": \"Wife\"," +
+                "  \"স্বামী\": \"Husband\"," +
+                "  \"নাতি\": \"Grandson\"," +
+                "  \"নাতনী\": \"GrandDaughter\"," +
+                "  \"ছেলের বউ\": \"SonsWife\"," +
+                "  \"মেয়ের স্বামী\": \"DaughtersHusband\"," +
+                "  \"শ্বশুর\": \"Father in law\"," +
+                "  \"শাশুড়ি\": \"Mother in law\"," +
+                "  \"দাদা\": \"Grandpa\"," +
+                "  \"দাদি\": \"Grandma\"," +
+                "  \"নানা\": \"Grandfather\"," +
+                "  \"নানী\": \"Grandmother\"," +
+                "  \"অন্যান্য\": \"Others\"" +
+                "}";
+        return getKeyByValue(relationshipObject,value);
+    }
+    public static final Map<String,Integer> iconMapping = ImmutableMap.<String,Integer> builder()
+            .put("গর্ভবতী পরিচর্যা-১ম ত্রিমাসিক",R.mipmap.ic_anc_pink)
+            .put("গর্ভবতী পরিচর্যা - ২য় ত্রিমাসিক",R.mipmap.ic_anc_pink)
+            .put("গর্ভবতী পরিচর্যা - ৩য় ত্রিমাসিক",R.mipmap.ic_anc_pink)
+            .put("শারীরিক সমস্যা",R.mipmap.ic_anc_pink)
+            .put( "পূর্বের গর্ভের ইতিহাস",R.mipmap.ic_anc_pink)
+            .put("ANC1 Registration",R.mipmap.ic_anc_pink)
+            .put("ANC2 Registration",R.mipmap.ic_anc_pink)
+            .put("ANC3 Registration",R.mipmap.ic_anc_pink)
+            .put("ANC General Disease",R.mipmap.ic_anc_pink)
+            .put( "ANC Pregnancy History",R.mipmap.ic_anc_pink)
+            .put(HnppConstants.EventType.FAMILY_REGISTRATION,R.drawable.ic_home)
+            .put(HnppConstants.EventType.FAMILY_MEMBER_REGISTRATION,R.drawable.rowavatar_member)
+            .put(HnppConstants.EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,R.drawable.rowavatar_member)
+            .put(HnppConstants.EventType.CHILD_REGISTRATION,R.drawable.rowavatar_child)
+            .build();
+    public static final Map<String,String> visitEventTypeMapping = ImmutableMap.<String,String> builder()
+            .put("ANC1 Registration","গর্ভবতী পরিচর্যা - ১ম ত্রিমাসিক")
+            .put("ANC2 Registration","গর্ভবতী পরিচর্যা - ২য় ত্রিমাসিক")
+            .put("ANC3 Registration","গর্ভবতী পরিচর্যা - ৩য় ত্রিমাসিক")
+            .put("ANC General Disease","শারীরিক সমস্যা")
+            .put( "ANC Pregnancy History","পূর্বের গর্ভের ইতিহাস")
+            .put(HnppConstants.HOME_VISIT_FORMS.ANC1_FORM,"গর্ভবতী পরিচর্যা")
+            .put(HnppConstants.HOME_VISIT_FORMS.GENERAL_DISEASE,"শারীরিক সমস্যা")
+            .put( HnppConstants.HOME_VISIT_FORMS.PREGNANCY_HISTORY,"পূর্বের গর্ভের ইতিহাস")
+            .build();
+    public static final Map<String,String> eventTypeMapping = ImmutableMap.<String,String> builder()
+            .put(HnppConstants.EventType.FAMILY_REGISTRATION,"খানা নিবন্ধন")
+            .put(HnppConstants.EventType.FAMILY_MEMBER_REGISTRATION,"সদস্য নিবন্ধন")
+            .put(HnppConstants.EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,"সদস্য আপডেট")
+            .put(HnppConstants.EventType.CHILD_REGISTRATION,"শিশু নিবন্ধন")
+            .put(HnppConstants.EVENT_TYPE.MEMBER_REFERRAL,"Member referral")
+            .build();
+
+    private static String getKeyByValue(String mapperObj, String value){
         try {
-            JSONObject choiceObject = new JSONObject(relationshipObject);
+            JSONObject choiceObject = new JSONObject(mapperObj);
             for (int i = 0; i < choiceObject.names().length(); i++) {
                 if (value.equalsIgnoreCase(choiceObject.getString(choiceObject.names().getString(i)))) {
                     value = choiceObject.names().getString(i);
@@ -171,24 +246,4 @@ public class HnppConstants extends CoreConstants {
         }
         return value;
     }
-    public static String relationshipObject = "{" +
-            "  \"খানা প্রধান\": \"Household Head\"," +
-            "  \"মা/আম্মা\": \"Mother\"," +
-            "  \"বাবা/আব্বা\": \"Father\"," +
-            "  \"ছেলে\": \"Son\"," +
-            "  \"মেয়ে\": \"Daughter\"," +
-            "  \"স্ত্রী\": \"Wife\"," +
-            "  \"স্বামী\": \"Husband\"," +
-            "  \"নাতি\": \"Grandson\"," +
-            "  \"নাতনী\": \"GrandDaughter\"," +
-            "  \"ছেলের বউ\": \"SonsWife\"," +
-            "  \"মেয়ের স্বামী\": \"DaughtersHusband\"," +
-            "  \"শ্বশুর\": \"Father in law\"," +
-            "  \"শাশুড়ি\": \"Mother in law\"," +
-            "  \"দাদা\": \"Grandpa\"," +
-            "  \"দাদি\": \"Grandma\"," +
-            "  \"নানা\": \"Grandfather\"," +
-            "  \"নানী\": \"Grandmother\"," +
-            "  \"অন্যান্য\": \"Others\"" +
-            "}";
 }

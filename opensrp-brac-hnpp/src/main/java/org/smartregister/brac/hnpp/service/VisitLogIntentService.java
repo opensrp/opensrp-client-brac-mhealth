@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.HnppApplication;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.VisitLog;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
@@ -22,6 +23,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC1_REGISTRATION;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC2_REGISTRATION;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC3_REGISTRATION;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
 import static org.smartregister.util.JsonFormUtils.gson;
 
 public class VisitLogIntentService extends IntentService {
@@ -107,16 +114,16 @@ public class VisitLogIntentService extends IntentService {
 
     public JSONObject loadFormFromAsset(String encounter_type) {
         String form_name = "";
-        if ("ANC Pregnancy History".equalsIgnoreCase(encounter_type)) {
-            form_name = "hnpp_anc_pregnancy_history.json";
-        } else if ("ANC General Disease".equalsIgnoreCase(encounter_type)) {
-            form_name = "hnpp_anc_general_disease.json";
-        } else if ("ANC1 Registration".equalsIgnoreCase(encounter_type)) {
-            form_name = "hnpp_anc_anc1_registration.json";
-        } else if ("ANC2 Registration".equalsIgnoreCase(encounter_type)) {
-            form_name = "hnpp_anc_anc2_registration.json";
-        } else if ("ANC3 Registration".equalsIgnoreCase(encounter_type)) {
-            form_name = "hnpp_anc_anc3_registration.json";
+        if (ANC_PREGNANCY_HISTORY.equalsIgnoreCase(encounter_type)) {
+            form_name = HnppConstants.HOME_VISIT_FORMS.PREGNANCY_HISTORY+".json";
+        } else if (ANC_GENERAL_DISEASE.equalsIgnoreCase(encounter_type)) {
+            form_name = HnppConstants.HOME_VISIT_FORMS.GENERAL_DISEASE+".json";
+        } else if (ANC1_REGISTRATION.equalsIgnoreCase(encounter_type)) {
+            form_name = HnppConstants.HOME_VISIT_FORMS.ANC1_FORM+".json";
+        } else if (ANC2_REGISTRATION.equalsIgnoreCase(encounter_type)) {
+            form_name = HnppConstants.HOME_VISIT_FORMS.ANC2_FORM+".json";
+        } else if (ANC3_REGISTRATION.equalsIgnoreCase(encounter_type)) {
+            form_name = HnppConstants.HOME_VISIT_FORMS.ANC3_FORM+".json";
         }
         String jsonString = AssetHandler.readFileFromAssetsFolder("json.form/"+form_name, VisitLogIntentService.this);
         try {

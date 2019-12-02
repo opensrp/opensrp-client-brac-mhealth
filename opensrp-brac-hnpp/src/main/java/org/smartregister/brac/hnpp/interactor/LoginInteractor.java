@@ -4,7 +4,7 @@ import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.job.SSLocationFetchJob;
 import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
-import org.smartregister.chw.core.job.HomeVisitServiceJob;
+import org.smartregister.brac.hnpp.job.HomeVisitServiceJob;
 import org.smartregister.job.PullUniqueIdsServiceJob;
 import org.smartregister.job.SyncServiceJob;
 import org.smartregister.login.interactor.BaseLoginInteractor;

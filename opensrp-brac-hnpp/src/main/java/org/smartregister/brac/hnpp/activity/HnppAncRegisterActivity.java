@@ -39,7 +39,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
         unique_id = uniqueId;
         intent.putExtra(org.smartregister.chw.anc.util.Constants.ACTIVITY_PAYLOAD.ACTION, org.smartregister.chw.anc.util.Constants.ACTIVITY_PAYLOAD_TYPE.REGISTRATION);
         intent.putExtra(Constants.ACTIVITY_PAYLOAD.TABLE_NAME, getFormTable());
-        activity.startActivity(intent);
+        activity.startActivityForResult(intent, Constants.REQUEST_CODE_GET_JSON);
     }
 
 //    @Override

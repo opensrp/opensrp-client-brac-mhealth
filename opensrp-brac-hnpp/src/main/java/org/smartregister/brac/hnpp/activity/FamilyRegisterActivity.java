@@ -79,15 +79,16 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(new HnppFamilyBottomNavListener(this, bottomNavigationView));
     }
     NavigationMenu navigationMenu;
+    HnppNavigationPresenter hnppNavigationPresenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         navigationMenu = NavigationMenu.getInstance(this, null, null);
-        HnppApplication.getHNPPInstance().setupNavigation(
-                new HnppNavigationPresenter(
-                        HnppApplication.getInstance(),
-                        navigationMenu,
-                        new HnppNavigationModel()));
+        hnppNavigationPresenter = new HnppNavigationPresenter(
+                HnppApplication.getHNPPInstance(),
+                navigationMenu,
+                HnppApplication.getHNPPInstance().getHnppNavigationModel());
+        HnppApplication.getHNPPInstance().setupNavigation(hnppNavigationPresenter);
 
         HnppApplication.getInstance().notifyAppContextChange(); // initialize the language (bug in translation)
 
