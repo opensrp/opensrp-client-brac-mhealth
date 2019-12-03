@@ -5,11 +5,16 @@ import android.text.TextUtils;
 
 import net.sqlcipher.Cursor;
 import net.sqlcipher.database.SQLiteDatabase;
+
+import org.smartregister.brac.hnpp.utils.ANCRegister;
 import org.smartregister.brac.hnpp.utils.VisitLog;
+import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.repository.BaseRepository;
 import org.smartregister.repository.Repository;
 import java.util.ArrayList;
 import java.util.List;
+
+import timber.log.Timber;
 
 public class HnppVisitLogRepository extends BaseRepository {
 
@@ -119,7 +124,36 @@ public class HnppVisitLogRepository extends BaseRepository {
         return visitLogs;
 
     }
+    public ANCRegister getLastANCRegister(String baseEntityID) {
+        SQLiteDatabase database = getReadableDatabase();
+        net.sqlcipher.Cursor cursor = null;
+        try {
+            if (database == null) {
+                return null;
+            }
+            String[] ANC_TABLE_COLUMNS = {"last_menstrual_period", "edd", "no_prev_preg", "no_surv_children","height"};
 
+            cursor = database.query(Constants.TABLES.ANC_MEMBERS, ANC_TABLE_COLUMNS, BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE, new String[]{baseEntityID}, null, null, null);
+
+            if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
+                ANCRegister ancRegister = new ANCRegister();
+                ancRegister.setLastMenstrualPeriod(cursor.getString(0));
+                ancRegister.setEDD(cursor.getString(1));
+                ancRegister.setNoPrevPreg(cursor.getString(2));
+                ancRegister.setNoSurvChildren(cursor.getString(3));
+                ancRegister.setHEIGHT(cursor.getString(4));
+                return ancRegister;
+            }
+        } catch (Exception e) {
+            Timber.e(e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return null;
+
+    }
     public ArrayList<VisitLog> getAllVisitLog(String baseEntityId) {
         SQLiteDatabase database = getReadableDatabase();
         String selection = BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE;

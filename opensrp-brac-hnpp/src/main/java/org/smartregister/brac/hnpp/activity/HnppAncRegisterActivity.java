@@ -14,11 +14,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.BuildConfig;
+import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.fragment.AncRegisterFragment;
 import org.smartregister.brac.hnpp.fragment.HnppAncRegisterFragment;
 import org.smartregister.brac.hnpp.listener.HnppBottomNavigationListener;
 import org.smartregister.brac.hnpp.listener.HnppFamilyBottomNavListener;
+import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
+import org.smartregister.brac.hnpp.utils.ANCRegister;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.anc.util.DBConstants;
@@ -86,18 +90,28 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
             bottomNavigationView.getMenu().removeItem(org.smartregister.family.R.id.action_scan_qr);
         }
     }
+    private HnppVisitLogRepository visitLogRepository;
 
     @Override
     public void startFormActivity(JSONObject jsonForm) {
-//        AncLibrary.getInstance().
-        try {
+
+    try {
+            visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
+            ANCRegister ancRegister = visitLogRepository.getLastANCRegister(getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.BASE_ENTITY_ID));
             JSONObject stepOne = jsonForm.getJSONObject(JsonFormUtils.STEP1);
             JSONArray jsonArray = stepOne.getJSONArray(JsonFormUtils.FIELDS);
             updateFormField(jsonArray, DBConstants.KEY.TEMP_UNIQUE_ID, unique_id);
             updateFormField(jsonArray, CoreConstants.JsonAssets.FAM_NAME, familyName);
             updateFormField(jsonArray, CoreConstants.JsonAssets.FAMILY_MEMBER.PHONE_NUMBER, phone_number);
             updateFormField(jsonArray, org.smartregister.family.util.DBConstants.KEY.RELATIONAL_ID, familyBaseEntityId);
-
+            if(ancRegister!=null){
+                updateEncounterType(jsonForm);
+                updateFormField(jsonArray, HnppConstants.ANC_REGISTER_COLUMNS.LAST_MENSTRUAL_PERIOD, ancRegister.getLastMenstrualPeriod());
+                updateFormField(jsonArray, HnppConstants.ANC_REGISTER_COLUMNS.EDD, ancRegister.getEDD());
+                updateFormField(jsonArray, HnppConstants.ANC_REGISTER_COLUMNS.NO_PREV_PREG, ancRegister.getNoPrevPreg());
+                updateFormField(jsonArray, HnppConstants.ANC_REGISTER_COLUMNS.NO_SURV_CHILDREN, ancRegister.getNoSurvChildren());
+                updateFormField(jsonArray, HnppConstants.ANC_REGISTER_COLUMNS.HEIGHT, ancRegister.getHEIGHT());
+            }
             Intent intent = new Intent(this, Utils.metadata().familyMemberFormActivity);
             intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
 
@@ -111,7 +125,13 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
             e.printStackTrace();
         }
     }
-
+    private void updateEncounterType(JSONObject jsonForm){
+        try {
+            jsonForm.put("encounter_type",HnppConstants.EVENT_TYPE.UPDATE_ANC_REGISTRATION);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
     private void updateFormField(JSONArray formFieldArrays, String formFeildKey, String updateValue) {
         if (updateValue != null) {
             JSONObject formObject = org.smartregister.util.JsonFormUtils.getFieldJSONObject(formFieldArrays, formFeildKey);
@@ -166,7 +186,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
                 } else if (encounter_type.equalsIgnoreCase(CoreConstants.EventType.ANC_HOME_VISIT)) {
                     //ChwScheduleTaskExecutor.getInstance().execute(baseEnityId, CoreConstants.EventType.ANC_HOME_VISIT, new Date());
                 }
-                SyncServiceJob.scheduleJobImmediately(SyncServiceJob.TAG);
+               // SyncServiceJob.scheduleJobImmediately(SyncServiceJob.TAG);
             } catch (Exception e) {
                 Timber.e(e);
             }

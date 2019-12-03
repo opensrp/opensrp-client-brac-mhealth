@@ -30,7 +30,13 @@ public class HnppConstants extends CoreConstants {
     public static final int HOUSE_HOLD_ID_SUFFIX = 9;
     public static SimpleDateFormat DDMMYY = new SimpleDateFormat("dd-MM-yyyy");
     public enum VisitType {DUE, OVERDUE, LESS_TWENTY_FOUR, VISIT_THIS_MONTH, NOT_VISIT_THIS_MONTH, EXPIRY, VISIT_DONE}
-
+    public class ANC_REGISTER_COLUMNS {
+        public static final String LAST_MENSTRUAL_PERIOD = "last_menstrual_period";
+        public static final String EDD = "edd";
+        public static final String NO_PREV_PREG = "no_prev_preg";
+        public static final String NO_SURV_CHILDREN = "no_surv_children";
+        public static final String HEIGHT = "height";
+    }
     public class HOME_VISIT_FORMS {
         public static final String  ANC_CARD_FORM = "anc_card_form";
         public static final String  IMMUNIZATION = "hv_immunization";
@@ -199,6 +205,8 @@ public class HnppConstants extends CoreConstants {
         public static final String ANC2_REGISTRATION = "ANC2 Registration";
         public static final String ANC3_REGISTRATION = "ANC3 Registration";
         public static final String ANC_REGISTRATION = "ANC Registration";
+        public static final String UPDATE_ANC_REGISTRATION = "Update ANC Registration";
+
 
     }
     public static final Map<String,Integer> iconMapping = ImmutableMap.<String,Integer> builder()
@@ -213,6 +221,7 @@ public class HnppConstants extends CoreConstants {
             .put("ANC General Disease",R.mipmap.ic_anc_pink)
             .put( "ANC Pregnancy History",R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.ANC_REGISTRATION,R.mipmap.ic_anc_pink)
+            .put(EVENT_TYPE.UPDATE_ANC_REGISTRATION,R.mipmap.ic_anc_pink)
             .put(HnppConstants.EventType.FAMILY_REGISTRATION,R.drawable.ic_home)
             .put(HnppConstants.EventType.FAMILY_MEMBER_REGISTRATION,R.drawable.rowavatar_member)
             .put(HnppConstants.EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,R.drawable.rowavatar_member)
@@ -237,6 +246,7 @@ public class HnppConstants extends CoreConstants {
             .put(HnppConstants.EventType.CHILD_REGISTRATION,"শিশু নিবন্ধন")
             .put(HnppConstants.EVENT_TYPE.MEMBER_REFERRAL,"রেফারেল")
             .put(EVENT_TYPE.ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন")
+            .put(EVENT_TYPE.UPDATE_ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন আপডেট")
             .build();
 
     private static String getKeyByValue(String mapperObj, String value){
