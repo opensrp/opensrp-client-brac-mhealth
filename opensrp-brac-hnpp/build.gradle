@@ -40,13 +40,7 @@ android {
         versionName "1.1.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
-        buildConfigField "String", 'opensrp_url', '"http://mhealth.brac.net:8080/opensrp/"'
-        buildConfigField "String", 'opensrp_url_release', '"http://mhealth.brac.net:8080/opensrp/"'
-        buildConfigField "String", 'opensrp_url_release_with_https', '"https://mhealth.brac.net:8080/opensrp/"'
-        buildConfigField "String", 'opensrp_url_release_without_slash', '"http://mhealth.brac.net:8080/opensrp"'
 
-        buildConfigField "String", "SIMPRINT_PROJECT_ID_TRAINING",'"pcmqBbcaB4xWvfRHRELG"'
-        buildConfigField "String", "SIMPRINT_PROJECT_ID_RELEASE",'"pcmqBbcaB4xWvfRHRELG"'
 
 //        buildConfigField "String", 'opensrp_url', '"http://hnpptest.mpower-social.com:8080/opensrp/"'
 //        buildConfigField "String", 'opensrp_url_debug', '"http://hnpptest.mpower-social.com:8080/opensrp/"'
@@ -107,6 +101,28 @@ android {
         unitTests.all {
             systemProperty 'robolectric.enabledSdks', '28'
             jvmArgs '-noverify'
+        }
+    }
+    flavorDimensions 'baseDimension'
+    productFlavors {
+        live{
+            dimension = 'baseDimension'
+            versionCode 8
+            versionName "1.1.7"
+            buildConfigField "String", 'opensrp_url', '"http://mhealth.brac.net:8080/opensrp/"'
+            buildConfigField "boolean", "IS_RELEASE", "true"
+            buildConfigField "String", "SIMPRINT_PROJECT_ID_TRAINING",'"pcmqBbcaB4xWvfRHRELG"'
+            buildConfigField "String", "SIMPRINT_PROJECT_ID_RELEASE",'"pcmqBbcaB4xWvfRHRELG"'
+        }
+        training{
+            dimension = 'baseDimension'
+            applicationIdSuffix ".training"
+            versionCode 8
+            versionName "1.1.7"
+            buildConfigField "String", 'opensrp_url', '"http://mhealthtest.brac.net:8080/opensrp/"'
+            buildConfigField "boolean", "IS_RELEASE", "false"
+            buildConfigField "String", "SIMPRINT_PROJECT_ID_TRAINING",'"pcmqBbcaB4xWvfRHRELG"'
+            buildConfigField "String", "SIMPRINT_PROJECT_ID_RELEASE",'"pcmqBbcaB4xWvfRHRELG"'
         }
     }
 
