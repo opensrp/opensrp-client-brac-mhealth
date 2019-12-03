@@ -41,8 +41,14 @@ public class MemberHistoryInteractor implements MemberHistoryContract.Interactor
         for(VisitLog visitLog : visitLogs){
             MemberHistoryData historyData = new MemberHistoryData();
             String eventType = visitLog.getEventType();
+            historyData.setEventType(eventType);
             historyData.setTitle(HnppConstants.visitEventTypeMapping.get(eventType));
-            historyData.setImageSource(HnppConstants.iconMapping.get(eventType));
+            try{
+                historyData.setImageSource(HnppConstants.iconMapping.get(eventType));
+            }catch(NullPointerException e){
+
+            }
+            historyData.setVisitDetails(visitLog.getVisitJson());
             historyData.setVisitDate(visitLog.getVisitDate());
             historyDataArrayList.add(historyData);
         }

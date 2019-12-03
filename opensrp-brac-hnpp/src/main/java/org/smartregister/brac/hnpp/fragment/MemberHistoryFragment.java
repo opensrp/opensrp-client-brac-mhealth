@@ -82,9 +82,14 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
         return presenter;
     }
 
-    private MemberHistoryAdapter.OnClickAdapter onClickAdapter = (position, content) -> startFormActivity(content);
+    private MemberHistoryAdapter.OnClickAdapter onClickAdapter = new MemberHistoryAdapter.OnClickAdapter() {
+        @Override
+        public void onClick(int position, MemberHistoryData content) {
+            startFormActivity(content);
+        }
+    };
     private void startFormActivity(MemberHistoryData content){
-        switch (content.getVisitType()){
+        switch (content.getEventType()){
 
         }
     }

@@ -21,10 +21,10 @@ public class MemberDueViewHolder extends RecyclerView.ViewHolder {
 
     public MemberDueViewHolder(@NonNull View itemView) {
         super(itemView);
-        itemBg = itemView.findViewById(R.id.member_due_bar);
+        itemBg = itemView.findViewById(R.id.register_columns);
         statusImage = itemView.findViewById(R.id.status);
         imageView = itemView.findViewById(R.id.image_view);
-        textViewTitle = itemView.findViewById(R.id.title_txt);
+        textViewTitle = itemView.findViewById(R.id.patient_name_age);
         textViewLastVisit = itemView.findViewById(R.id.last_visit);
     }
 }

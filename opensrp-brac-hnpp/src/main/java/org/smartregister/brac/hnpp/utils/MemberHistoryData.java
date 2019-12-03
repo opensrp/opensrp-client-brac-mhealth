@@ -4,7 +4,7 @@ public class MemberHistoryData {
 
     private int imageSource;
     private String title;
-    private String visitType;
+    private String eventType;
     private long visitDate;
     private String visitDetails;
 
@@ -24,12 +24,12 @@ public class MemberHistoryData {
         this.title = title;
     }
 
-    public String getVisitType() {
-        return visitType;
+    public String getEventType() {
+        return eventType;
     }
 
-    public void setVisitType(String visitType) {
-        this.visitType = visitType;
+    public void setEventType(String visitType) {
+        this.eventType = visitType;
     }
 
     public long getVisitDate() {

@@ -1,6 +1,6 @@
 {
   "count": "1",
-  "encounter_type": "Member referral",
+  "encounter_type": "Member Referral",
   "entity_id": "",
   "metadata": {
     "start": {
@@ -49,7 +49,15 @@
   "step1": {
     "title": "রেফারেল",
     "fields": [
-
+      {
+        "key": "form_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "Member referral",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": "XXXX"
+      },
       {
         "key": "cause_of_referral",
         "openmrs_entity_parent": "",

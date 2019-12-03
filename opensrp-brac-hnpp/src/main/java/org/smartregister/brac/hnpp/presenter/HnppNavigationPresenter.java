@@ -1,6 +1,7 @@
 package org.smartregister.brac.hnpp.presenter;
 
 import android.app.Activity;
+
 import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.chw.core.contract.CoreApplication;

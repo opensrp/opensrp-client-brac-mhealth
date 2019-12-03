@@ -29,6 +29,8 @@ public class HnppConstants extends CoreConstants {
     public static final int MEMBER_ID_SUFFIX = 11;
     public static final int HOUSE_HOLD_ID_SUFFIX = 9;
     public static SimpleDateFormat DDMMYY = new SimpleDateFormat("dd-MM-yyyy");
+    public enum VisitType {DUE, OVERDUE, LESS_TWENTY_FOUR, VISIT_THIS_MONTH, NOT_VISIT_THIS_MONTH, EXPIRY, VISIT_DONE}
+
     public class HOME_VISIT_FORMS {
         public static final String  ANC_CARD_FORM = "anc_card_form";
         public static final String  IMMUNIZATION = "hv_immunization";
@@ -41,17 +43,6 @@ public class HnppConstants extends CoreConstants {
         public static final String  GENERAL_DISEASE = "hnpp_anc_general_disease";
         public static final String  PREGNANCY_HISTORY = "hnpp_anc_pregnancy_history";
         public static final String  MEMBER_REFERRAL = "hnpp_member_referral";
-
-    }
-    public class EVENT_TYPE{
-
-        public static final String MEMBER_REFERRAL = "Member Referral";
-        public static final String ANC_PREGNANCY_HISTORY = "ANC Pregnancy History";
-        public static final String ANC_GENERAL_DISEASE = "ANC General Disease";
-        public static final String ANC1_REGISTRATION = "ANC1 Registration";
-        public static final String ANC2_REGISTRATION = "ANC2 Registration";
-        public static final String ANC3_REGISTRATION = "ANC3 Registration";
-        public static final String ANC_REGISTRATION = "ANC Registration";
 
     }
     public class OTHER_SERVICE_TYPE{
@@ -198,6 +189,18 @@ public class HnppConstants extends CoreConstants {
                 "}";
         return getKeyByValue(relationshipObject,value);
     }
+
+    public class EVENT_TYPE{
+
+        public static final String MEMBER_REFERRAL = "Member Referral";
+        public static final String ANC_PREGNANCY_HISTORY = "ANC Pregnancy History";
+        public static final String ANC_GENERAL_DISEASE = "ANC General Disease";
+        public static final String ANC1_REGISTRATION = "ANC1 Registration";
+        public static final String ANC2_REGISTRATION = "ANC2 Registration";
+        public static final String ANC3_REGISTRATION = "ANC3 Registration";
+        public static final String ANC_REGISTRATION = "ANC Registration";
+
+    }
     public static final Map<String,Integer> iconMapping = ImmutableMap.<String,Integer> builder()
             .put("গর্ভবতী পরিচর্যা-১ম ত্রিমাসিক",R.mipmap.ic_anc_pink)
             .put("গর্ভবতী পরিচর্যা - ২য় ত্রিমাসিক",R.mipmap.ic_anc_pink)
@@ -209,10 +212,12 @@ public class HnppConstants extends CoreConstants {
             .put("ANC3 Registration",R.mipmap.ic_anc_pink)
             .put("ANC General Disease",R.mipmap.ic_anc_pink)
             .put( "ANC Pregnancy History",R.mipmap.ic_anc_pink)
+            .put(EVENT_TYPE.ANC_REGISTRATION,R.mipmap.ic_anc_pink)
             .put(HnppConstants.EventType.FAMILY_REGISTRATION,R.drawable.ic_home)
             .put(HnppConstants.EventType.FAMILY_MEMBER_REGISTRATION,R.drawable.rowavatar_member)
             .put(HnppConstants.EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,R.drawable.rowavatar_member)
             .put(HnppConstants.EventType.CHILD_REGISTRATION,R.drawable.rowavatar_child)
+            .put(EVENT_TYPE.MEMBER_REFERRAL,R.mipmap.ic_refer)
             .build();
     public static final Map<String,String> visitEventTypeMapping = ImmutableMap.<String,String> builder()
             .put("ANC1 Registration","গর্ভবতী পরিচর্যা - ১ম ত্রিমাসিক")
@@ -222,6 +227,7 @@ public class HnppConstants extends CoreConstants {
             .put( "ANC Pregnancy History","পূর্বের গর্ভের ইতিহাস")
             .put(HnppConstants.HOME_VISIT_FORMS.ANC1_FORM,"গর্ভবতী পরিচর্যা")
             .put(HnppConstants.HOME_VISIT_FORMS.GENERAL_DISEASE,"শারীরিক সমস্যা")
+            .put(EVENT_TYPE.MEMBER_REFERRAL,"রেফারেল")
             .put( HnppConstants.HOME_VISIT_FORMS.PREGNANCY_HISTORY,"পূর্বের গর্ভের ইতিহাস")
             .build();
     public static final Map<String,String> eventTypeMapping = ImmutableMap.<String,String> builder()
@@ -229,7 +235,8 @@ public class HnppConstants extends CoreConstants {
             .put(HnppConstants.EventType.FAMILY_MEMBER_REGISTRATION,"সদস্য নিবন্ধন")
             .put(HnppConstants.EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,"সদস্য আপডেট")
             .put(HnppConstants.EventType.CHILD_REGISTRATION,"শিশু নিবন্ধন")
-            .put(HnppConstants.EVENT_TYPE.MEMBER_REFERRAL,"Member referral")
+            .put(HnppConstants.EVENT_TYPE.MEMBER_REFERRAL,"রেফারেল")
+            .put(EVENT_TYPE.ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন")
             .build();
 
     private static String getKeyByValue(String mapperObj, String value){

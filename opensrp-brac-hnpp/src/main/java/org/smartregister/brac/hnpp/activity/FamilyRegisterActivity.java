@@ -82,13 +82,14 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
     HnppNavigationPresenter hnppNavigationPresenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         navigationMenu = NavigationMenu.getInstance(this, null, null);
         hnppNavigationPresenter = new HnppNavigationPresenter(
                 HnppApplication.getHNPPInstance(),
                 navigationMenu,
                 HnppApplication.getHNPPInstance().getHnppNavigationModel());
         HnppApplication.getHNPPInstance().setupNavigation(hnppNavigationPresenter);
+
+        super.onCreate(savedInstanceState);
 
         HnppApplication.getInstance().notifyAppContextChange(); // initialize the language (bug in translation)
 

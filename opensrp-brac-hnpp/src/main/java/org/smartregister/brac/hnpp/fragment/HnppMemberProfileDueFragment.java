@@ -1,28 +1,18 @@
 package org.smartregister.brac.hnpp.fragment;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.vijay.jsonwizard.constants.JsonFormConstants;
-import com.vijay.jsonwizard.domain.Form;
-
-import org.json.JSONObject;
 import org.smartregister.brac.hnpp.R;
-import org.smartregister.brac.hnpp.activity.FamilyProfileActivity;
 import org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity;
 import org.smartregister.brac.hnpp.model.MemberProfileDueModel;
 import org.smartregister.brac.hnpp.presenter.HnppMemberProfileDuePresenter;
-import org.smartregister.brac.hnpp.provider.MemberDueRegisterProvider;
-import org.smartregister.chw.anc.domain.MemberObject;
-import org.smartregister.chw.core.utils.WashCheck;
+import org.smartregister.brac.hnpp.provider.HnppFamilyDueRegisterProvider;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.adapter.FamilyRecyclerViewCustomAdapter;
 import org.smartregister.family.fragment.BaseFamilyProfileDueFragment;
@@ -88,10 +78,11 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
 
     @Override
     public void initializeAdapter(Set<org.smartregister.configurableviews.model.View> visibleColumns) {
-        MemberDueRegisterProvider chwDueRegisterProvider = new MemberDueRegisterProvider(this.getActivity(), this.commonRepository(), visibleColumns, this.registerActionHandler, this.paginationViewHandler);
+        HnppFamilyDueRegisterProvider chwDueRegisterProvider = new HnppFamilyDueRegisterProvider(this.getActivity(), this.commonRepository(), visibleColumns, this.registerActionHandler, this.paginationViewHandler);
         this.clientAdapter = new FamilyRecyclerViewCustomAdapter(null, chwDueRegisterProvider, this.context().commonrepository(this.tablename), Utils.metadata().familyDueRegister.showPagination);
-        this.clientAdapter.setCurrentlimit(Utils.metadata().familyDueRegister.currentLimit);
+        this.clientAdapter.setCurrentlimit(0);
         this.clientsView.setAdapter(this.clientAdapter);
+        this.clientsView.setVisibility(View.GONE);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -134,7 +125,7 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
         otherServiceView.setVisibility(View.VISIBLE);
         View anc1View = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
         ImageView imageanc1View = anc1View.findViewById(R.id.image_view);
-        TextView nameanc1View =  anc1View.findViewById(R.id.title_txt);
+        TextView nameanc1View =  anc1View.findViewById(R.id.patient_name_age);
         imageanc1View.setImageResource(R.mipmap.ic_anc_pink);
         nameanc1View.setText("গর্ভবতী পরিচর্যা-১ম ত্রিমাসিক");
         anc1View.setTag(TAG_OPEN_ANC1);
@@ -143,7 +134,7 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
 
         View familyView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
         ImageView image = familyView.findViewById(R.id.image_view);
-        TextView name =  familyView.findViewById(R.id.title_txt);
+        TextView name =  familyView.findViewById(R.id.patient_name_age);
         image.setImageResource(R.drawable.childrow_family);
         name.setText("ফেমেলির অন্যান্য সেবা");
         familyView.setTag(TAG_OPEN_FAMILY);
@@ -152,7 +143,7 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
 
         View referelView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
         ImageView imageReferel = referelView.findViewById(R.id.image_view);
-        TextView nameReferel =  referelView.findViewById(R.id.title_txt);
+        TextView nameReferel =  referelView.findViewById(R.id.patient_name_age);
         imageReferel.setImageResource(R.mipmap.ic_refer);
         nameReferel.setText("রেফেরেল");
         referelView.setTag(TAG_OPEN_REFEREAL);

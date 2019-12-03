@@ -29,6 +29,7 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC3_RE
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.MEMBER_REFERRAL;
 import static org.smartregister.util.JsonFormUtils.gson;
 
 public class VisitLogIntentService extends IntentService {
@@ -66,7 +67,7 @@ public class VisitLogIntentService extends IntentService {
                             }
                             VisitLog log = new VisitLog();
                             log.setVisitId(visit.getVisitId());
-                            log.setVisitType("ANC_HOME_VISIT");
+                            log.setVisitType(visit.getVisitType());
                             log.setBaseEntityId(base_entity_id);
                             log.setVisitDate(visit.getCreatedAt().getTime());
                             log.setEventType(encounter_type);
@@ -124,12 +125,17 @@ public class VisitLogIntentService extends IntentService {
             form_name = HnppConstants.HOME_VISIT_FORMS.ANC2_FORM+".json";
         } else if (ANC3_REGISTRATION.equalsIgnoreCase(encounter_type)) {
             form_name = HnppConstants.HOME_VISIT_FORMS.ANC3_FORM+".json";
+        }else if (MEMBER_REFERRAL.equalsIgnoreCase(encounter_type)) {
+            form_name = HnppConstants.HOME_VISIT_FORMS.MEMBER_REFERRAL+".json";
         }
-        String jsonString = AssetHandler.readFileFromAssetsFolder("json.form/"+form_name, VisitLogIntentService.this);
+
         try {
+            String jsonString = AssetHandler.readFileFromAssetsFolder("json.form/"+form_name, VisitLogIntentService.this);
             return new JSONObject(jsonString);
         } catch (JSONException e) {
             e.printStackTrace();
+        } catch (NullPointerException e){
+
         }
         return new JSONObject();
     }

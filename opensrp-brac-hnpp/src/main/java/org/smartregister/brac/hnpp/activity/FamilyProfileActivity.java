@@ -12,6 +12,7 @@ import com.vijay.jsonwizard.domain.Form;
 
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.fragment.FamilyProfileDueFragment;
 import org.smartregister.brac.hnpp.model.HnppFamilyProfileModel;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.core.activity.CoreFamilyProfileActivity;
@@ -21,6 +22,7 @@ import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.brac.hnpp.fragment.FamilyProfileMemberFragment;
 import org.smartregister.brac.hnpp.presenter.FamilyProfilePresenter;
 import org.smartregister.family.adapter.ViewPagerAdapter;
+import org.smartregister.family.fragment.BaseFamilyProfileDueFragment;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.JsonFormUtils;
@@ -145,7 +147,8 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(FamilyProfileMemberFragment.newInstance(this.getIntent().getExtras()),
                 this.getString(R.string.member));
-
+        adapter.addFragment(FamilyProfileDueFragment.newInstance(this.getIntent().getExtras()),
+                this.getString(R.string.due));
         viewPager.setAdapter(adapter);
 
         if (getIntent().getBooleanExtra(CoreConstants.INTENT_KEY.SERVICE_DUE, false) ||

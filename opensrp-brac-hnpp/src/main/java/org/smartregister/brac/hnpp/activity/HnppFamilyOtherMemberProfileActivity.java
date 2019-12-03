@@ -26,6 +26,7 @@ import org.smartregister.brac.hnpp.fragment.HnppMemberProfileDueFragment;
 import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
 import org.smartregister.brac.hnpp.fragment.MemberOtherServiceFragment;
 import org.smartregister.brac.hnpp.fragment.MemberProfileActivityFragment;
+import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
@@ -216,6 +217,10 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == Activity.RESULT_OK){
+            //TODO: Need to check request code
+            VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+        }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_REFERRAL){
 //            String type = StringUtils.isBlank(parentEventType) ? getEncounterType() : getEncounterType();
             String type = HnppJsonFormUtils.getEncounterType();
