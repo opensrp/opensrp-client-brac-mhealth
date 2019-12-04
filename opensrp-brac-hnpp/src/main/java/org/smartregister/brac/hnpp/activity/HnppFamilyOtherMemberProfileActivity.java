@@ -64,6 +64,8 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.MEMBER_ID_SUFFIX;
 
 public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberProfileActivity {
     private static final int REQUEST_CODE_REFERRAL = 5555;
+    private static final int REQUEST_CODE_PREGNANCY_OUTCOME = 5556;
+
     private CustomFontTextView textViewDetails3;
     private String familyBaseEntityId;
 
@@ -122,7 +124,12 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         setupMenuOptions(menu);
         return true;
     }
-
+    @Override
+    protected void startPncRegister() {
+//        //TODO implement start anc register for HF
+        HnppPncRegisterActivity.startHnppPncRegisterActivity(HnppFamilyOtherMemberProfileActivity.this, baseEntityId, PhoneNumber,
+                org.smartregister.brac.hnpp.utils.HnppConstants.HOME_VISIT_FORMS.ANC_FORM, null, familyBaseEntityId, familyName);
+    }
     @Override
     protected void startAncRegister() {
 //        //TODO implement start anc register for HF
@@ -133,8 +140,8 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     @Override
     public void startMalariaRegister() {
         //TODO implement start anc malaria for HF
-        HnppHomeVisitActivity.startMe(this, new MemberObject(commonPersonObject), false);
-
+//        HnppHomeVisitActivity.startMe(this, new MemberObject(commonPersonObject), false);
+        startAnyFormActivity(HnppConstants.HOME_VISIT_FORMS.PREGNANCY_OUTCOME,REQUEST_CODE_PREGNANCY_OUTCOME);
     }
 
     @Override
@@ -320,16 +327,20 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 
     private void setupMenuOptions(Menu menu) {
         menu.findItem(R.id.action_anc_registration).setTitle("গর্ভবতী রেজিস্ট্রেশন");
-        menu.findItem(R.id.action_malaria_registration).setVisible(false);
-        menu.findItem(R.id.action_malaria_followup_visit).setVisible(false);
-        menu.findItem(R.id.action_sick_child_follow_up).setVisible(false);
-        menu.findItem(R.id.action_malaria_diagnosis).setVisible(false);
-        menu.findItem(R.id.action_remove_member).setVisible(false);
+        menu.findItem(R.id.action_malaria_registration).setTitle("প্রসবের ফলাফল");
+        menu.findItem(R.id.action_remove_member).setTitle("সদস্য বাদ দিন / মাইগ্রেট / মৃত্যু");
+        menu.findItem(R.id.action_malaria_registration).setVisible(true);
+        menu.findItem(R.id.action_remove_member).setVisible(true);
+
         if (HnppUtils.isWomanOfReproductiveAge(commonPersonObject)) {
             menu.findItem(R.id.action_anc_registration).setVisible(true);
         } else {
             menu.findItem(R.id.action_anc_registration).setVisible(false);
         }
+
+        menu.findItem(R.id.action_malaria_followup_visit).setVisible(false);
+        menu.findItem(R.id.action_sick_child_follow_up).setVisible(false);
+        menu.findItem(R.id.action_malaria_diagnosis).setVisible(false);
 
     }
 }

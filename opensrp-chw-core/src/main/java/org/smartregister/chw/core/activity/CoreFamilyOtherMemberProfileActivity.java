@@ -154,6 +154,7 @@ public abstract class CoreFamilyOtherMemberProfileActivity extends BaseFamilyOth
     }
 
     protected abstract void startAncRegister();
+    protected abstract void startPncRegister();
 
     protected abstract void startMalariaRegister();
 

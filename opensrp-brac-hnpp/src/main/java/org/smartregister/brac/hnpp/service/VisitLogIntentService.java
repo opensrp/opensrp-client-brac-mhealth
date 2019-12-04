@@ -29,6 +29,7 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC3_RE
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ELCO;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.MEMBER_REFERRAL;
 import static org.smartregister.util.JsonFormUtils.gson;
 
@@ -127,6 +128,8 @@ public class VisitLogIntentService extends IntentService {
             form_name = HnppConstants.HOME_VISIT_FORMS.ANC3_FORM+".json";
         }else if (MEMBER_REFERRAL.equalsIgnoreCase(encounter_type)) {
             form_name = HnppConstants.HOME_VISIT_FORMS.MEMBER_REFERRAL+".json";
+        }else if (ELCO.equalsIgnoreCase(encounter_type)) {
+            form_name = HnppConstants.HOME_VISIT_FORMS.ELCO+".json";
         }
 
         try {

@@ -1,0 +1,583 @@
+{
+  "count": "1",
+  "encounter_type": "PNC Registration",
+  "entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location": ""
+  },
+  "step1": {
+    "title": "PNC Registration",
+    "fields": [
+
+      {
+        "key": "body_temperature",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "body_temperature",
+        "type": "edit_text",
+        "hint": "তাপমাত্রা (ফারেনহাইট )",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "pulse_rate",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "pulse_rate",
+        "type": "edit_text",
+        "hint": "নাড়ির গতি(প্রতি মিনিটে )",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "pregnancy_symptoms",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "pregnancy_symptoms",
+        "type": "check_box",
+        "label": "নিচের সমস্যাগুলো আছে কিনা?",
+        "exclusive": [
+          "chk_none"
+        ],
+        "options": [
+          {
+            "key": "unconscious_state",
+            "text": "অচেতন অবস্থা ",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "unconscious_state"
+          },
+          {
+            "key": "dyspnoea_chest_pain",
+            "text": "শ্বাসকষ্ট/ বুকে ব্যথা ",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "dyspnoea_chest_pain"
+          },
+          {
+            "key": "fatigue",
+            "text": "দাঁড়িয়ে থাকলে দুর্বল লাগে",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "fatigue"
+          },
+          {
+            "key": "over_sweating",
+            "text": "অতিরিক্ত ঘামানো ",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "over_sweating"
+          },
+          {
+            "key": "cold_intelorant",
+            "text": "ঠান্ডা সহ্য করতে না পারা",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "cold_intelorant"
+          },
+          {
+            "key": "obesity",
+            "text": "অতিরিক্ত ওজন বৃদ্ধি",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "obesity"
+          },
+          {
+            "key": "chk_none",
+            "text": "কোনটিই নয়",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "chk_none"
+          }
+        ]
+      },
+      {
+        "key": "enabled_label",
+        "type": "label",
+        "label_text_style": "bold",
+        "text": "রক্তচাপ",
+        "text_color": "#000000",
+        "v_required": {
+          "value": true
+        }
+      },
+      {
+        "key": "blood_pressure_systolic",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "blood_pressure_systolic",
+        "type": "edit_text",
+        "hint": "সিস্টোলিক",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "blood_pressure_diastolic",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "blood_pressure_diastolic",
+        "type": "edit_text",
+        "hint": "ডায়াস্টোলিক",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "spacer",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "spacer",
+        "type": "spacer",
+        "spacer_height": "15sp"
+      },
+      {
+        "key": "has_given_vitA",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "has_given_vitA",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "ভিটামিন এ-ক্যাপসুল দেয়া হয়েছে কিনা? ",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "number_of_iron_medication",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "number_of_iron_medication",
+        "type": "edit_text",
+        "hint": "গতমাসে কয়টি আয়রন বড়ি খেয়েছেন?",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "number_of_calcium_medication",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "number_of_calcium_medication",
+        "type": "edit_text",
+        "hint": "গতমাসে কয়টি ক্যালসিয়াম বড়ি খেয়েছেন?",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "has_smelly_discharge",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "has_smelly_discharge",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "দূর্গন্ধ যুক্ত স্রাব আছে কিনা ?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "has_abdominal_pain",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "has_abdominal_pain",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "তলপেটে ব্যাথা আছে কিনা ",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "has_edema",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "has_edema",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "ইডিমা",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "excess_bleeding",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "excess_bleeding",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "অতিরিক্ত রক্তক্ষরণ",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+
+      {
+        "key": "obsessive_compulsive_disorder",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "obsessive_compulsive_disorder",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "খিচুনি",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "perineum_sewing",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "perineum_sewing",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "পেরিনিয়াম সেলাই",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "sewing_length",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "sewing_length",
+        "type": "edit_text",
+        "hint": "সেলাইয়েরই দৈর্ঘ্য (ইঞ্চি)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "other_conditions",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "other_conditions",
+        "type": "edit_text",
+        "hint": "অন্যান্য সমস্যা ",
+
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "has_family_planning_method",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "has_family_planning_method",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "কোনো পরিবার পরিকল্পনা পদ্ধতি ব্যবহার করছেন কিনা?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+
+      },
+      {
+        "key": "reason_to_refer",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "reason_to_refer",
+        "type": "edit_text",
+        "hint": "রেফারেল এর কারণ ",
+
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "other_reason_to_refer",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "other_reason_to_refer",
+        "type": "edit_text",
+        "hint": "অন্যান্য কারণ",
+
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "place_of_refer",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "place_of_refer",
+        "type": "check_box",
+        "label": "রেফারের স্থান",
+        "exclusive": [
+          "chk_none"
+        ],
+        "options": [
+          {
+            "key": "brac_monitoring_center",
+            "text": "ব্র্যাক ম্যাটারনিটি সেন্টার",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "brac_monitoring_center"
+          },
+          {
+            "key": "union_sub_health_clinic",
+            "text": "ইউনিয়ন উপ-স্বাস্থ্য কেন্দ্র",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "union_sub_health_clinic"
+          },
+          {
+            "key": "upzailla_health_complex",
+            "text": "উপজেলা স্বাস্থ্য কমপ্লেক্স",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "upzailla_health_complex"
+          },
+          {
+            "key": "union_family_welfare_center",
+            "text": "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "union_family_welfare_center"
+          },
+          {
+            "key": "union_health_and_family_welfare_center",
+            "text": "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "union_health_and_family_welfare_center"
+          },
+          {
+            "key": "mother_and_child_welfare_center",
+            "text": "মা ও শিশু কল্যাণ কেন্দ্র",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "mother_and_child_welfare_center"
+          },
+          {
+            "key": "headquarters_hospital",
+            "text": "সদর হাসপাতাল",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "headquarters_hospital"
+          },
+          {
+            "key": "medical_college_hospital",
+            "text": "মেডিকেল কলেজ হাসপাতাল",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "medical_college_hospital"
+          },
+          {
+            "key": "private_clinic",
+            "text": "বেসরকারি ক্লিনিক",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "private_clinic"
+          },
+          {
+            "key": "specialized_hospital",
+            "text": "বিশেষায়িত হাসপাতাল",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "specialized_hospital"
+          },
+          {
+            "key": "other",
+            "text": "অন্যান্য",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "other"
+          }
+        ]
+      },
+      {
+        "key": "advise",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "advise",
+        "type": "edit_text",
+        "hint": "উপদেশ",
+
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      }
+    ]
+  }
+}

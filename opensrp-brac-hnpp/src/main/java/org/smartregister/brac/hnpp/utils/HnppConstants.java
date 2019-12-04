@@ -48,7 +48,15 @@ public class HnppConstants extends CoreConstants {
         public static final String  ANC3_FORM = "hnpp_anc3_registration";
         public static final String  GENERAL_DISEASE = "hnpp_anc_general_disease";
         public static final String  PREGNANCY_HISTORY = "hnpp_anc_pregnancy_history";
+        public static final String  PREGNANCY_OUTCOME = "hnpp_anc_pregnancy_outcome";
         public static final String  MEMBER_REFERRAL = "hnpp_member_referral";
+        public static final String  ELCO = "elco_register";
+
+    }
+    public static class TABLE_NAME {
+        public static final String PNC_REGISTRATION = "ec_family";
+        public static final String FAMILY_MEMBER = "ec_family_member";
+        public static final String CHILD = "ec_child";
 
     }
     public class OTHER_SERVICE_TYPE{
@@ -197,7 +205,7 @@ public class HnppConstants extends CoreConstants {
     }
 
     public class EVENT_TYPE{
-
+        public static final String ELCO = "ELCO Registration";
         public static final String MEMBER_REFERRAL = "Member Referral";
         public static final String ANC_PREGNANCY_HISTORY = "ANC Pregnancy History";
         public static final String ANC_GENERAL_DISEASE = "ANC General Disease";
