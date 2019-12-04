@@ -2,7 +2,6 @@ package org.smartregister.brac.hnpp.utils;
 
 import android.graphics.Color;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 import com.google.common.collect.ImmutableMap;
@@ -10,7 +9,6 @@ import com.google.common.collect.ImmutableMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.AllConstants;
-import org.smartregister.Context;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.chw.core.utils.CoreConstants;
@@ -37,7 +35,7 @@ public class HnppConstants extends CoreConstants {
         public static final String NO_SURV_CHILDREN = "no_surv_children";
         public static final String HEIGHT = "height";
     }
-    public class HOME_VISIT_FORMS {
+    public class JSON_FORMS {
         public static final String  ANC_CARD_FORM = "anc_card_form";
         public static final String  IMMUNIZATION = "hv_immunization";
         public static final String  DANGER_SIGNS = "anc_hv_danger_signs";
@@ -49,6 +47,7 @@ public class HnppConstants extends CoreConstants {
         public static final String  GENERAL_DISEASE = "hnpp_anc_general_disease";
         public static final String  PREGNANCY_HISTORY = "hnpp_anc_pregnancy_history";
         public static final String  MEMBER_REFERRAL = "hnpp_member_referral";
+        public static final String  ELCO = "hnpp_elco_form";
 
     }
     public class OTHER_SERVICE_TYPE{
@@ -215,11 +214,11 @@ public class HnppConstants extends CoreConstants {
             .put("গর্ভবতী পরিচর্যা - ৩য় ত্রিমাসিক",R.mipmap.ic_anc_pink)
             .put("শারীরিক সমস্যা",R.mipmap.ic_anc_pink)
             .put( "পূর্বের গর্ভের ইতিহাস",R.mipmap.ic_anc_pink)
-            .put("ANC1 Registration",R.mipmap.ic_anc_pink)
-            .put("ANC2 Registration",R.mipmap.ic_anc_pink)
-            .put("ANC3 Registration",R.mipmap.ic_anc_pink)
-            .put("ANC General Disease",R.mipmap.ic_anc_pink)
-            .put( "ANC Pregnancy History",R.mipmap.ic_anc_pink)
+            .put(EVENT_TYPE.ANC1_REGISTRATION,R.mipmap.ic_anc_pink)
+            .put(EVENT_TYPE.ANC2_REGISTRATION,R.mipmap.ic_anc_pink)
+            .put(EVENT_TYPE.ANC3_REGISTRATION,R.mipmap.ic_anc_pink)
+            .put(EVENT_TYPE.ANC_GENERAL_DISEASE,R.mipmap.ic_anc_pink)
+            .put(EVENT_TYPE.ANC_PREGNANCY_HISTORY,R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.ANC_REGISTRATION,R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.UPDATE_ANC_REGISTRATION,R.mipmap.ic_anc_pink)
             .put(HnppConstants.EventType.FAMILY_REGISTRATION,R.drawable.ic_home)
@@ -229,15 +228,15 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.MEMBER_REFERRAL,R.mipmap.ic_refer)
             .build();
     public static final Map<String,String> visitEventTypeMapping = ImmutableMap.<String,String> builder()
-            .put("ANC1 Registration","গর্ভবতী পরিচর্যা - ১ম ত্রিমাসিক")
-            .put("ANC2 Registration","গর্ভবতী পরিচর্যা - ২য় ত্রিমাসিক")
-            .put("ANC3 Registration","গর্ভবতী পরিচর্যা - ৩য় ত্রিমাসিক")
-            .put("ANC General Disease","শারীরিক সমস্যা")
-            .put( "ANC Pregnancy History","পূর্বের গর্ভের ইতিহাস")
-            .put(HnppConstants.HOME_VISIT_FORMS.ANC1_FORM,"গর্ভবতী পরিচর্যা")
-            .put(HnppConstants.HOME_VISIT_FORMS.GENERAL_DISEASE,"শারীরিক সমস্যা")
+            .put(EVENT_TYPE.ANC1_REGISTRATION,"গর্ভবতী পরিচর্যা - ১ম ত্রিমাসিক")
+            .put(EVENT_TYPE.ANC2_REGISTRATION,"গর্ভবতী পরিচর্যা - ২য় ত্রিমাসিক")
+            .put(EVENT_TYPE.ANC3_REGISTRATION,"গর্ভবতী পরিচর্যা - ৩য় ত্রিমাসিক")
+            .put(EVENT_TYPE.ANC_GENERAL_DISEASE,"শারীরিক সমস্যা")
+            .put(EVENT_TYPE.ANC_PREGNANCY_HISTORY,"পূর্বের গর্ভের ইতিহাস")
+            .put(JSON_FORMS.ANC1_FORM,"গর্ভবতী পরিচর্যা")
+            .put(JSON_FORMS.GENERAL_DISEASE,"শারীরিক সমস্যা")
             .put(EVENT_TYPE.MEMBER_REFERRAL,"রেফারেল")
-            .put( HnppConstants.HOME_VISIT_FORMS.PREGNANCY_HISTORY,"পূর্বের গর্ভের ইতিহাস")
+            .put( JSON_FORMS.PREGNANCY_HISTORY,"পূর্বের গর্ভের ইতিহাস")
             .build();
     public static final Map<String,String> eventTypeMapping = ImmutableMap.<String,String> builder()
             .put(HnppConstants.EventType.FAMILY_REGISTRATION,"খানা নিবন্ধন")

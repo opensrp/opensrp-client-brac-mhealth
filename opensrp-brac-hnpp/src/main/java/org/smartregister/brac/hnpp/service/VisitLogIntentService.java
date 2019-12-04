@@ -28,7 +28,6 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC2_RE
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC3_REGISTRATION;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
-import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.MEMBER_REFERRAL;
 import static org.smartregister.util.JsonFormUtils.gson;
 
@@ -116,17 +115,17 @@ public class VisitLogIntentService extends IntentService {
     public JSONObject loadFormFromAsset(String encounter_type) {
         String form_name = "";
         if (ANC_PREGNANCY_HISTORY.equalsIgnoreCase(encounter_type)) {
-            form_name = HnppConstants.HOME_VISIT_FORMS.PREGNANCY_HISTORY+".json";
+            form_name = HnppConstants.JSON_FORMS.PREGNANCY_HISTORY+".json";
         } else if (ANC_GENERAL_DISEASE.equalsIgnoreCase(encounter_type)) {
-            form_name = HnppConstants.HOME_VISIT_FORMS.GENERAL_DISEASE+".json";
+            form_name = HnppConstants.JSON_FORMS.GENERAL_DISEASE+".json";
         } else if (ANC1_REGISTRATION.equalsIgnoreCase(encounter_type)) {
-            form_name = HnppConstants.HOME_VISIT_FORMS.ANC1_FORM+".json";
+            form_name = HnppConstants.JSON_FORMS.ANC1_FORM+".json";
         } else if (ANC2_REGISTRATION.equalsIgnoreCase(encounter_type)) {
-            form_name = HnppConstants.HOME_VISIT_FORMS.ANC2_FORM+".json";
+            form_name = HnppConstants.JSON_FORMS.ANC2_FORM+".json";
         } else if (ANC3_REGISTRATION.equalsIgnoreCase(encounter_type)) {
-            form_name = HnppConstants.HOME_VISIT_FORMS.ANC3_FORM+".json";
+            form_name = HnppConstants.JSON_FORMS.ANC3_FORM+".json";
         }else if (MEMBER_REFERRAL.equalsIgnoreCase(encounter_type)) {
-            form_name = HnppConstants.HOME_VISIT_FORMS.MEMBER_REFERRAL+".json";
+            form_name = HnppConstants.JSON_FORMS.MEMBER_REFERRAL+".json";
         }
 
         try {

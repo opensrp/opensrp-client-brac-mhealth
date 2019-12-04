@@ -7,6 +7,7 @@ import net.sqlcipher.Cursor;
 import net.sqlcipher.database.SQLiteDatabase;
 
 import org.smartregister.brac.hnpp.utils.ANCRegister;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.VisitLog;
 import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.repository.BaseRepository;
@@ -153,6 +154,15 @@ public class HnppVisitLogRepository extends BaseRepository {
         }
         return null;
 
+    }
+    public boolean isFirstTime(String baseEntityId){
+        SQLiteDatabase database = getReadableDatabase();
+        String selection = BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE+" and "+EVENT_TYPE+" = ?"+COLLATE_NOCASE;
+        String[] selectionArgs = new String[]{baseEntityId, HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY};
+        net.sqlcipher.Cursor cursor = database.query(VISIT_LOG_TABLE_NAME, TABLE_COLUMNS, selection, selectionArgs, null, null, VISIT_DATE + " DESC");
+        ArrayList<VisitLog> visits = getAllVisitLog(cursor);
+
+        return  visits!=null && visits.size()>0;
     }
     public ArrayList<VisitLog> getAllVisitLog(String baseEntityId) {
         SQLiteDatabase database = getReadableDatabase();
