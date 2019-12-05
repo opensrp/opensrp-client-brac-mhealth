@@ -104,7 +104,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
             updateFormField(jsonArray, CoreConstants.JsonAssets.FAM_NAME, familyName);
             updateFormField(jsonArray, CoreConstants.JsonAssets.FAMILY_MEMBER.PHONE_NUMBER, phone_number);
             updateFormField(jsonArray, org.smartregister.family.util.DBConstants.KEY.RELATIONAL_ID, familyBaseEntityId);
-            if(ancRegister!=null){
+            if(ancRegister!=null) {
                 updateEncounterType(jsonForm);
                 updateFormField(jsonArray, HnppConstants.ANC_REGISTER_COLUMNS.LAST_MENSTRUAL_PERIOD, ancRegister.getLastMenstrualPeriod());
                 updateFormField(jsonArray, HnppConstants.ANC_REGISTER_COLUMNS.EDD, ancRegister.getEDD());

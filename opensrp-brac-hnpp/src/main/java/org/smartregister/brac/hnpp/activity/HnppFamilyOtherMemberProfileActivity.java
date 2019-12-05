@@ -60,6 +60,8 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.MEMBER_ID_SUFFIX;
 
 public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberProfileActivity {
     private static final int REQUEST_CODE_REFERRAL = 5555;
+    private static final int REQUEST_CODE_PREGNANCY_OUTCOME = 5556;
+
     private CustomFontTextView textViewDetails3;
     private String familyBaseEntityId;
 
@@ -118,7 +120,12 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         setupMenuOptions(menu);
         return true;
     }
-
+    @Override
+    protected void startPncRegister() {
+//        //TODO implement start anc register for HF
+        HnppPncRegisterActivity.startHnppPncRegisterActivity(HnppFamilyOtherMemberProfileActivity.this, baseEntityId, PhoneNumber,
+                org.smartregister.brac.hnpp.utils.HnppConstants.JSON_FORMS.ANC_FORM, null, familyBaseEntityId, familyName);
+    }
     @Override
     protected void startAncRegister() {
 //        //TODO implement start anc register for HF
@@ -128,9 +135,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 
     @Override
     public void startMalariaRegister() {
-        //start PNC registration
-        HnppHomeVisitActivity.startMe(this, new MemberObject(commonPersonObject), false);
-
+        //TODO implement start anc malaria for HF
+//        HnppHomeVisitActivity.startMe(this, new MemberObject(commonPersonObject), false);
+        startAnyFormActivity(HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME,REQUEST_CODE_PREGNANCY_OUTCOME);
     }
 
     @Override
@@ -175,7 +182,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         return viewPager;
     }
 
-    public void startAnyFormActivity(String formName, int requestCode){
+    public void startAnyFormActivity(String formName, int requestCode) {
        try {
            JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
            jsonForm.put(JsonFormUtils.ENTITY_ID, familyBaseEntityId);
@@ -321,6 +328,11 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         menu.findItem(R.id.action_sick_child_follow_up).setVisible(false);
         menu.findItem(R.id.action_malaria_diagnosis).setTitle("PNC রেজিস্ট্রেশন");
         menu.findItem(R.id.action_remove_member).setVisible(false);
+        menu.findItem(R.id.action_pregnancy_out_come).setTitle("প্রসবের ফলাফল");
+        menu.findItem(R.id.action_remove_member).setTitle("সদস্য বাদ দিন / মাইগ্রেট / মৃত্যু");
+        menu.findItem(R.id.action_malaria_registration).setVisible(true);
+        menu.findItem(R.id.action_remove_member).setVisible(true);
+
         if (FormApplicability.isWomanOfReproductiveAge(commonPersonObject)) {
             menu.findItem(R.id.action_anc_registration).setVisible(true);
             menu.findItem(R.id.action_pregnancy_out_come).setVisible(true);
