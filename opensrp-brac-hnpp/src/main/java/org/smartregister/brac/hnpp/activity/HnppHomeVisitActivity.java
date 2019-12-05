@@ -3,8 +3,6 @@ package org.smartregister.brac.hnpp.activity;
 import android.app.Activity;
 import android.content.Intent;
 import org.smartregister.brac.hnpp.interactor.HnppAncHomeVisitInteractor;
-import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
-import org.smartregister.brac.hnpp.utils.HnppUtils;
 import org.smartregister.chw.anc.activity.BaseAncHomeVisitActivity;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.anc.model.BaseAncHomeVisitAction;

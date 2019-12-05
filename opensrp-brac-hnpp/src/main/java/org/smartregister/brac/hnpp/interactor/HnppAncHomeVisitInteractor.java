@@ -1,16 +1,14 @@
 package org.smartregister.brac.hnpp.interactor;
 
 import android.content.Context;
-import org.smartregister.brac.hnpp.R;
+
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppHomeVisitActionHelper;
-import org.smartregister.chw.anc.actionhelper.DangerSignsHelper;
 import org.smartregister.chw.anc.contract.BaseAncHomeVisitContract;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.anc.interactor.BaseAncHomeVisitInteractor;
 import org.smartregister.chw.anc.model.BaseAncHomeVisitAction;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
 
@@ -23,25 +21,25 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
 
                 Context context = view.getContext();
 
-                String title1 = HnppConstants.visitEventTypeMapping.get(HnppConstants.HOME_VISIT_FORMS.ANC1_FORM);
-                String title2 = HnppConstants.visitEventTypeMapping.get(HnppConstants.HOME_VISIT_FORMS.GENERAL_DISEASE);
-                String title3 = HnppConstants.visitEventTypeMapping.get(HnppConstants.HOME_VISIT_FORMS.PREGNANCY_HISTORY);
+                String title1 = HnppConstants.visitEventTypeMapping.get(HnppConstants.JSON_FORMS.ANC1_FORM);
+                String title2 = HnppConstants.visitEventTypeMapping.get(HnppConstants.JSON_FORMS.GENERAL_DISEASE);
+                String title3 = HnppConstants.visitEventTypeMapping.get(HnppConstants.JSON_FORMS.PREGNANCY_HISTORY);
 
                 BaseAncHomeVisitAction ANC1_FORM = new BaseAncHomeVisitAction.Builder(context,title1 )
                         .withOptional(false)
-                        .withFormName(HnppConstants.HOME_VISIT_FORMS.ANC1_FORM)
+                        .withFormName(HnppConstants.JSON_FORMS.ANC1_FORM)
                         .withHelper(new HnppHomeVisitActionHelper())
                         .build();
 
                 BaseAncHomeVisitAction GENERAL_DISEASE = new BaseAncHomeVisitAction.Builder(context,title2 )
                         .withOptional(false)
-                        .withFormName(HnppConstants.HOME_VISIT_FORMS.GENERAL_DISEASE)
+                        .withFormName(HnppConstants.JSON_FORMS.GENERAL_DISEASE)
                         .withHelper(new HnppHomeVisitActionHelper())
                         .build();
 
                 BaseAncHomeVisitAction PREGNANCY_HISTORY = new BaseAncHomeVisitAction.Builder(context, title3)
                         .withOptional(false)
-                        .withFormName(HnppConstants.HOME_VISIT_FORMS.PREGNANCY_HISTORY)
+                        .withFormName(HnppConstants.JSON_FORMS.PREGNANCY_HISTORY)
                         .withHelper(new HnppHomeVisitActionHelper())
                         .build();
 

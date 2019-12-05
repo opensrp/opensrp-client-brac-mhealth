@@ -14,23 +14,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
-import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.custom_view.FamilyMemberFloatingMenu;
 import org.smartregister.brac.hnpp.fragment.HnppMemberProfileDueFragment;
 import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
 import org.smartregister.brac.hnpp.fragment.MemberOtherServiceFragment;
-import org.smartregister.brac.hnpp.fragment.MemberProfileActivityFragment;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
+import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
-import org.smartregister.brac.hnpp.utils.HnppUtils;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.core.activity.CoreFamilyOtherMemberProfileActivity;
@@ -45,7 +42,6 @@ import org.smartregister.brac.hnpp.presenter.HnppFamilyOtherMemberActivityPresen
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.adapter.ViewPagerAdapter;
 import org.smartregister.family.fragment.BaseFamilyOtherMemberProfileFragment;
-import org.smartregister.family.fragment.BaseFamilyProfileActivityFragment;
 import org.smartregister.family.fragment.BaseFamilyProfileDueFragment;
 import org.smartregister.family.model.BaseFamilyOtherMemberProfileActivityModel;
 import org.smartregister.family.util.Constants;
@@ -128,20 +124,20 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     protected void startPncRegister() {
 //        //TODO implement start anc register for HF
         HnppPncRegisterActivity.startHnppPncRegisterActivity(HnppFamilyOtherMemberProfileActivity.this, baseEntityId, PhoneNumber,
-                org.smartregister.brac.hnpp.utils.HnppConstants.HOME_VISIT_FORMS.ANC_FORM, null, familyBaseEntityId, familyName);
+                org.smartregister.brac.hnpp.utils.HnppConstants.JSON_FORMS.ANC_FORM, null, familyBaseEntityId, familyName);
     }
     @Override
     protected void startAncRegister() {
 //        //TODO implement start anc register for HF
         HnppAncRegisterActivity.startHnppAncRegisterActivity(HnppFamilyOtherMemberProfileActivity.this, baseEntityId, PhoneNumber,
-                org.smartregister.brac.hnpp.utils.HnppConstants.HOME_VISIT_FORMS.ANC_FORM, null, familyBaseEntityId, familyName);
+                HnppConstants.JSON_FORMS.ANC_FORM, null, familyBaseEntityId, familyName);
     }
 
     @Override
     public void startMalariaRegister() {
         //TODO implement start anc malaria for HF
 //        HnppHomeVisitActivity.startMe(this, new MemberObject(commonPersonObject), false);
-        startAnyFormActivity(HnppConstants.HOME_VISIT_FORMS.PREGNANCY_OUTCOME,REQUEST_CODE_PREGNANCY_OUTCOME);
+        startAnyFormActivity(HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME,REQUEST_CODE_PREGNANCY_OUTCOME);
     }
 
     @Override
@@ -186,7 +182,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         return viewPager;
     }
 
-    public void startAnyFormActivity(String formName, int requestCode){
+    public void startAnyFormActivity(String formName, int requestCode) {
        try {
            JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
            jsonForm.put(JsonFormUtils.ENTITY_ID, familyBaseEntityId);
@@ -299,7 +295,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         startActivity(intent);
     }
     public void openRefereal() {
-        startAnyFormActivity(HnppConstants.HOME_VISIT_FORMS.MEMBER_REFERRAL,REQUEST_CODE_REFERRAL);
+        startAnyFormActivity(HnppConstants.JSON_FORMS.MEMBER_REFERRAL,REQUEST_CODE_REFERRAL);
     }
 
     @Override
@@ -327,20 +323,28 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 
     private void setupMenuOptions(Menu menu) {
         menu.findItem(R.id.action_anc_registration).setTitle("গর্ভবতী রেজিস্ট্রেশন");
-        menu.findItem(R.id.action_malaria_registration).setTitle("প্রসবের ফলাফল");
+        menu.findItem(R.id.action_malaria_registration).setVisible(false);
+        menu.findItem(R.id.action_malaria_followup_visit).setVisible(false);
+        menu.findItem(R.id.action_sick_child_follow_up).setVisible(false);
+        menu.findItem(R.id.action_malaria_diagnosis).setTitle("PNC রেজিস্ট্রেশন");
+        menu.findItem(R.id.action_remove_member).setVisible(false);
+        menu.findItem(R.id.action_pregnancy_out_come).setTitle("প্রসবের ফলাফল");
         menu.findItem(R.id.action_remove_member).setTitle("সদস্য বাদ দিন / মাইগ্রেট / মৃত্যু");
         menu.findItem(R.id.action_malaria_registration).setVisible(true);
         menu.findItem(R.id.action_remove_member).setVisible(true);
 
-        if (HnppUtils.isWomanOfReproductiveAge(commonPersonObject)) {
+        if (FormApplicability.isWomanOfReproductiveAge(commonPersonObject)) {
             menu.findItem(R.id.action_anc_registration).setVisible(true);
+            menu.findItem(R.id.action_pregnancy_out_come).setVisible(true);
         } else {
             menu.findItem(R.id.action_anc_registration).setVisible(false);
+            menu.findItem(R.id.action_pregnancy_out_come).setVisible(false);
         }
-
-        menu.findItem(R.id.action_malaria_followup_visit).setVisible(false);
-        menu.findItem(R.id.action_sick_child_follow_up).setVisible(false);
-        menu.findItem(R.id.action_malaria_diagnosis).setVisible(false);
+        if(FormApplicability.isPncVisible(commonPersonObject)){
+            menu.findItem(R.id.action_malaria_diagnosis).setEnabled(true);
+        }else{
+            menu.findItem(R.id.action_malaria_diagnosis).setEnabled(false);
+        }
 
     }
 }
