@@ -131,14 +131,7 @@ public class HnppConstants extends CoreConstants {
     }
 
     public static boolean isReleaseBuild(){
-        AllSharedPreferences preferences = Utils.getAllSharedPreferences();
-        String usingUrl = preferences.getPreference(AllConstants.DRISHTI_BASE_URL);
-        if(!TextUtils.isEmpty(usingUrl) && (usingUrl.equalsIgnoreCase(BuildConfig.opensrp_url_release)
-                || usingUrl.equalsIgnoreCase(BuildConfig.opensrp_url_release_without_slash)
-        || usingUrl.equalsIgnoreCase(BuildConfig.opensrp_url_release_with_https))){
-            return true;
-        }
-        return false;
+        return BuildConfig.IS_RELEASE;
     }
     public static String getSimPrintsProjectId(){
 
