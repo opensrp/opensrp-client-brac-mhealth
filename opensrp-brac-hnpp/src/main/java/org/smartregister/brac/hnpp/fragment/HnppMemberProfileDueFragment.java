@@ -122,6 +122,7 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
         if(otherServiceView.getVisibility() == View.VISIBLE){
             return;
         }
+        //if women
         otherServiceView.setVisibility(View.VISIBLE);
         View anc1View = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
         ImageView imageanc1View = anc1View.findViewById(R.id.image_view);

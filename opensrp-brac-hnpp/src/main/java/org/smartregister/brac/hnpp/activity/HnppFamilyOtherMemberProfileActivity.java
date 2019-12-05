@@ -322,6 +322,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     }
 
     private void setupMenuOptions(Menu menu) {
+        menu.findItem(R.id.action_remove_member).setTitle("সদস্য বাদ দিন / মাইগ্রেট / মৃত্যু");
         menu.findItem(R.id.action_anc_registration).setTitle("গর্ভবতী রেজিস্ট্রেশন");
         menu.findItem(R.id.action_malaria_registration).setVisible(false);
         menu.findItem(R.id.action_malaria_followup_visit).setVisible(false);
@@ -329,8 +330,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         menu.findItem(R.id.action_malaria_diagnosis).setTitle("PNC রেজিস্ট্রেশন");
         menu.findItem(R.id.action_remove_member).setVisible(false);
         menu.findItem(R.id.action_pregnancy_out_come).setTitle("প্রসবের ফলাফল");
-        menu.findItem(R.id.action_remove_member).setTitle("সদস্য বাদ দিন / মাইগ্রেট / মৃত্যু");
-        menu.findItem(R.id.action_malaria_registration).setVisible(true);
+
         menu.findItem(R.id.action_remove_member).setVisible(true);
 
         if (FormApplicability.isWomanOfReproductiveAge(commonPersonObject)) {
@@ -341,9 +341,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             menu.findItem(R.id.action_pregnancy_out_come).setVisible(false);
         }
         if(FormApplicability.isPncVisible(commonPersonObject)){
-            menu.findItem(R.id.action_malaria_diagnosis).setEnabled(true);
+            menu.findItem(R.id.action_malaria_diagnosis).setVisible(true);
         }else{
-            menu.findItem(R.id.action_malaria_diagnosis).setEnabled(false);
+            menu.findItem(R.id.action_malaria_diagnosis).setVisible(false);
         }
 
     }

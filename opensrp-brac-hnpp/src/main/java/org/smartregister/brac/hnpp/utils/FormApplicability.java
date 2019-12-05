@@ -19,23 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 public class FormApplicability {
-    private HnppVisitLogRepository visitLogRepository;
-    private FormApplicability instance;
-    private FormApplicability(){
-        visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
-    }
-    public FormApplicability getInstance(){
-        if(instance == null){
-            instance = new FormApplicability();
-        }
-        return instance;
-    }
-    public boolean isAncOptionVisible(int age, boolean isMarried){
-        return isElco(age,isMarried);
-    }
-    public boolean isPregnancyOutcomeVisible(int age, boolean isMarried, String baseEntityId){
-        return isElco(age,isMarried) && !isDonePregnancyOutCome(baseEntityId);
-    }
+
     public static boolean isPncVisible(CommonPersonObjectClient commonPersonObject) {
         String baseEntityId = org.smartregister.util.Utils.getValue(commonPersonObject.getColumnmaps(), "base_entity_id", false);
 
@@ -59,7 +43,7 @@ public class FormApplicability {
 
     }
 
-    public String getDueFormForWomen(String baseEntityId, int age, boolean isMarried, String lmp){
+    public String getDueFormForMarriedWomen(String baseEntityId, int age,String lmp){
         String formName = "";
         if(!TextUtils.isEmpty(lmp)){
             int dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(lmp), new DateTime()).getDays() / 7;
@@ -76,13 +60,13 @@ public class FormApplicability {
             }
             return "";
         }
-        if(isElco(age,isMarried)){
+        if(isElco(age)){
             return HnppConstants.JSON_FORMS.ELCO;
         }
         return formName;
     }
-    public boolean isElco(int age, boolean isMarried){
-        return isMarried && age > 10 && age < 50;
+    public static boolean isElco(int age){
+        return age > 15 && age < 50;
     }
     public boolean isDonePregnancyOutCome(String baseEntityId){
         String DeliveryDateSql = "SELECT delivery_date FROM ec_pregnancy_outcome where base_entity_id = ? ";
@@ -92,7 +76,7 @@ public class FormApplicability {
         return false;
     }
     public boolean isFirstTimeAnc(String baseEntityId){
-        visitLogRepository.getAllVisitLog(baseEntityId);
+        HnppApplication.getHNPPInstance().getHnppVisitLogRepository().getAllVisitLog(baseEntityId);
         return false;
 
     }
@@ -108,7 +92,7 @@ public class FormApplicability {
         if (!TextUtils.isEmpty(dobString) && gender.trim().equalsIgnoreCase("F") && !TextUtils.isEmpty(maritalStatus) && maritalStatus.equalsIgnoreCase("Married")) {
             Period period = new Period(new DateTime(dobString), new DateTime());
             int age = period.getYears();
-            return age >= 15 && age <= 49;
+            return isElco(age);
         }
 
         return false;

@@ -227,6 +227,7 @@ public class HnppConstants extends CoreConstants {
             .put(HnppConstants.EventType.CHILD_REGISTRATION,R.drawable.rowavatar_child)
             .put(EVENT_TYPE.MEMBER_REFERRAL,R.mipmap.ic_refer)
             .build();
+    //need to show the title at row/option
     public static final Map<String,String> visitEventTypeMapping = ImmutableMap.<String,String> builder()
             .put(EVENT_TYPE.ANC1_REGISTRATION,"গর্ভবতী পরিচর্যা - ১ম ত্রিমাসিক")
             .put(EVENT_TYPE.ANC2_REGISTRATION,"গর্ভবতী পরিচর্যা - ২য় ত্রিমাসিক")
@@ -238,6 +239,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.MEMBER_REFERRAL,"রেফারেল")
             .put( JSON_FORMS.PREGNANCY_HISTORY,"পূর্বের গর্ভের ইতিহাস")
             .build();
+    //needed for dashboard
     public static final Map<String,String> eventTypeMapping = ImmutableMap.<String,String> builder()
             .put(HnppConstants.EventType.FAMILY_REGISTRATION,"খানা নিবন্ধন")
             .put(HnppConstants.EventType.FAMILY_MEMBER_REGISTRATION,"সদস্য নিবন্ধন")
