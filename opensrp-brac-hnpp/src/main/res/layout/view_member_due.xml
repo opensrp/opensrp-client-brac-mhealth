@@ -5,7 +5,6 @@
     android:id="@+id/register_columns"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
-    android:paddingBottom="@dimen/register_list_max_padding"
     android:paddingTop="@dimen/register_list_max_padding">
     <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/status"
@@ -73,6 +72,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:visibility="gone"
         android:background="@drawable/grey_left_border"
         >
 
@@ -131,7 +131,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
         android:layout_alignWithParentIfMissing="true"
-        android:layout_below="@+id/patient_column"
+        android:layout_below="@+id/image_view"
         android:background="@color/light_grey"
-        android:visibility="gone" />
+        android:visibility="visible" />
 </RelativeLayout>

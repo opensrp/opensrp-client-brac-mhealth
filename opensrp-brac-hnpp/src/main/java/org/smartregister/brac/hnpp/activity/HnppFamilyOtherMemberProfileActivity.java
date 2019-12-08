@@ -42,7 +42,6 @@ import org.smartregister.brac.hnpp.presenter.HnppFamilyOtherMemberActivityPresen
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.adapter.ViewPagerAdapter;
 import org.smartregister.family.fragment.BaseFamilyOtherMemberProfileFragment;
-import org.smartregister.family.fragment.BaseFamilyProfileDueFragment;
 import org.smartregister.family.model.BaseFamilyOtherMemberProfileActivityModel;
 import org.smartregister.family.util.Constants;
 import org.smartregister.helper.ImageRenderHelper;
@@ -173,7 +172,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         adapter.addFragment(profileMemberFragment, this.getString(R.string.due).toUpperCase());
         adapter.addFragment(new MemberOtherServiceFragment(), this.getString(R.string.other_service).toUpperCase());
         adapter.addFragment(MemberHistoryFragment.getInstance(this.getIntent().getExtras()), this.getString(R.string.activity).toUpperCase());
-
+        viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(adapter);
 
         return viewPager;
@@ -345,7 +344,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             menu.findItem(R.id.action_anc_registration).setVisible(false);
             menu.findItem(R.id.action_pregnancy_out_come).setVisible(false);
         }
-        if(FormApplicability.isPncVisible(commonPersonObject)){
+        if(FormApplicability.isPregnancyOutcomeVisible(commonPersonObject)){
             menu.findItem(R.id.action_malaria_diagnosis).setVisible(true);
         }else{
             menu.findItem(R.id.action_malaria_diagnosis).setVisible(false);

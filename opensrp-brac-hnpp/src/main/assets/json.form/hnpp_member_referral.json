@@ -53,7 +53,7 @@
         "key": "form_name",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "Member referral",
+        "openmrs_entity_id": "Member Referral",
         "openmrs_data_type": "text",
         "type": "hidden",
         "value": "XXXX"

@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class FormApplicability {
 
-    public static boolean isPncVisible(CommonPersonObjectClient commonPersonObject) {
+    public static boolean isPregnancyOutcomeVisible(CommonPersonObjectClient commonPersonObject) {
         String baseEntityId = org.smartregister.util.Utils.getValue(commonPersonObject.getColumnmaps(), "base_entity_id", false);
 
         String DeliveryDateSql = "SELECT delivery_date FROM ec_pregnancy_outcome where base_entity_id = ? ";
@@ -47,7 +47,7 @@ public class FormApplicability {
         String lmp = getLmp(baseEntityId);
 
         if(!TextUtils.isEmpty(lmp)){
-            int dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(lmp), new DateTime()).getDays() / 7;
+            int dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(lmp), new DateTime()).getDays();
             if(dayPass > 1 && dayPass < 84){
                 //first trimester
                 if(isFirstTimeAnc(baseEntityId)){
