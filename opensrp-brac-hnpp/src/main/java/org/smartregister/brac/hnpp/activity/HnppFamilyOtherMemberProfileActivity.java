@@ -59,7 +59,7 @@ import timber.log.Timber;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.MEMBER_ID_SUFFIX;
 
 public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberProfileActivity {
-    private static final int REQUEST_CODE_REFERRAL = 5555;
+    private static final int REQUEST_HOME_VISIT = 5555;
     private static final int REQUEST_CODE_PREGNANCY_OUTCOME = 5556;
 
     private CustomFontTextView textViewDetails3;
@@ -122,23 +122,20 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     }
     @Override
     protected void startPncRegister() {
-//        //TODO implement start anc register for HF
         HnppPncRegisterActivity.startHnppPncRegisterActivity(HnppFamilyOtherMemberProfileActivity.this, baseEntityId, PhoneNumber,
                 org.smartregister.brac.hnpp.utils.HnppConstants.JSON_FORMS.ANC_FORM, null, familyBaseEntityId, familyName);
     }
     @Override
     protected void startAncRegister() {
-//        //TODO implement start anc register for HF
         HnppAncRegisterActivity.startHnppAncRegisterActivity(HnppFamilyOtherMemberProfileActivity.this, baseEntityId, PhoneNumber,
                 HnppConstants.JSON_FORMS.ANC_FORM, null, familyBaseEntityId, familyName);
     }
 
     @Override
     public void startMalariaRegister() {
-        //TODO implement start anc malaria for HF
-//        HnppHomeVisitActivity.startMe(this, new MemberObject(commonPersonObject), false);
         startAnyFormActivity(HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME,REQUEST_CODE_PREGNANCY_OUTCOME);
     }
+
 
     @Override
     protected void removeIndividualProfile() {
@@ -171,8 +168,8 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     protected ViewPager setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        BaseFamilyProfileDueFragment profileMemberFragment = HnppMemberProfileDueFragment.newInstance(this.getIntent().getExtras());
-
+        HnppMemberProfileDueFragment profileMemberFragment =(HnppMemberProfileDueFragment) HnppMemberProfileDueFragment.newInstance(this.getIntent().getExtras());
+        profileMemberFragment.setCommonPersonObjectClient(commonPersonObject);
         adapter.addFragment(profileMemberFragment, this.getString(R.string.due).toUpperCase());
         adapter.addFragment(new MemberOtherServiceFragment(), this.getString(R.string.other_service).toUpperCase());
         adapter.addFragment(MemberHistoryFragment.getInstance(this.getIntent().getExtras()), this.getString(R.string.activity).toUpperCase());
@@ -224,7 +221,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             //TODO: Need to check request code
             VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
         }
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_REFERRAL){
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
 //            String type = StringUtils.isBlank(parentEventType) ? getEncounterType() : getEncounterType();
             String type = HnppJsonFormUtils.getEncounterType();
             String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
@@ -295,7 +292,15 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         startActivity(intent);
     }
     public void openRefereal() {
-        startAnyFormActivity(HnppConstants.JSON_FORMS.MEMBER_REFERRAL,REQUEST_CODE_REFERRAL);
+        startAnyFormActivity(HnppConstants.JSON_FORMS.MEMBER_REFERRAL,REQUEST_HOME_VISIT);
+    }
+
+    public void openHomeVisitSingleForm(String formName){
+        startAnyFormActivity(formName,REQUEST_HOME_VISIT);
+    }
+
+    public void openHomeVisitForm(){
+        HnppHomeVisitActivity.startMe(this, new MemberObject(commonPersonObject), false);
     }
 
     @Override

@@ -43,30 +43,41 @@ public class FormApplicability {
 
     }
 
-    public String getDueFormForMarriedWomen(String baseEntityId, int age,String lmp){
-        String formName = "";
+    public static String getDueFormForMarriedWomen(String baseEntityId, int age){
+        String lmp = getLmp(baseEntityId);
+
         if(!TextUtils.isEmpty(lmp)){
             int dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(lmp), new DateTime()).getDays() / 7;
             if(dayPass > 1 && dayPass < 84){
                 //first trimester
                 if(isFirstTimeAnc(baseEntityId)){
-                    return HnppConstants.JSON_FORMS.PREGNANCY_HISTORY;
+                    return HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
                 }
-                return HnppConstants.JSON_FORMS.ANC1_FORM;
+                return HnppConstants.EVENT_TYPE.ANC1_REGISTRATION;
             }else if(dayPass > 84 && dayPass < 168){
-                return HnppConstants.JSON_FORMS.ANC2_FORM;
+                return HnppConstants.EVENT_TYPE.ANC2_REGISTRATION;
             }else if(dayPass > 168){
-                return HnppConstants.JSON_FORMS.ANC3_FORM;
+                return HnppConstants.EVENT_TYPE.ANC3_REGISTRATION;
             }
             return "";
         }
         if(isElco(age)){
-            return HnppConstants.JSON_FORMS.ELCO;
+            return HnppConstants.EVENT_TYPE.ELCO;
         }
-        return formName;
+        return "";
     }
     public static boolean isElco(int age){
         return age > 15 && age < 50;
+    }
+
+    public static String getLmp(String baseEntityId){
+        String lmp = "SELECT last_menstrual_period FROM ec_anc_register where base_entity_id = ? ";
+        List<Map<String, String>> valus = AbstractDao.readData(lmp, new String[]{baseEntityId});
+        if(valus.size()>0){
+            return valus.get(0).get("last_menstrual_period");
+        }
+        return "";
+
     }
     public boolean isDonePregnancyOutCome(String baseEntityId){
         String DeliveryDateSql = "SELECT delivery_date FROM ec_pregnancy_outcome where base_entity_id = ? ";
@@ -75,9 +86,8 @@ public class FormApplicability {
         if(valus.size() > 0) return true;
         return false;
     }
-    public boolean isFirstTimeAnc(String baseEntityId){
-        HnppApplication.getHNPPInstance().getHnppVisitLogRepository().getAllVisitLog(baseEntityId);
-        return false;
+    public static boolean isFirstTimeAnc(String baseEntityId){
+        return HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isFirstTime(baseEntityId);
 
     }
     public static boolean isWomanOfReproductiveAge(CommonPersonObjectClient commonPersonObject) {
@@ -86,16 +96,23 @@ public class FormApplicability {
         }
 
         // check age and gender
-        String dobString = org.smartregister.util.Utils.getValue(commonPersonObject.getColumnmaps(), "dob", false);
+        int age = getAge(commonPersonObject);
         String gender = org.smartregister.util.Utils.getValue(commonPersonObject.getColumnmaps(), "gender", false);
         String maritalStatus  = org.smartregister.util.Utils.getValue(commonPersonObject.getColumnmaps(), "marital_status", false);
-        if (!TextUtils.isEmpty(dobString) && gender.trim().equalsIgnoreCase("F") && !TextUtils.isEmpty(maritalStatus) && maritalStatus.equalsIgnoreCase("Married")) {
-            Period period = new Period(new DateTime(dobString), new DateTime());
-            int age = period.getYears();
+        if ( age != -1 && gender.trim().equalsIgnoreCase("F") && !TextUtils.isEmpty(maritalStatus) && maritalStatus.equalsIgnoreCase("Married")) {
+
             return isElco(age);
         }
 
         return false;
+    }
+    public static int getAge(CommonPersonObjectClient commonPersonObject){
+        String dobString = org.smartregister.util.Utils.getValue(commonPersonObject.getColumnmaps(), "dob", false);
+        if(!TextUtils.isEmpty(dobString) ){
+            Period period = new Period(new DateTime(dobString), new DateTime());
+            return period.getYears();
+        }
+        return -1;
     }
 
 }

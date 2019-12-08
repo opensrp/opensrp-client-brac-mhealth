@@ -151,6 +151,7 @@ public class HnppConstants extends CoreConstants {
         public static final String MODULE_ID = "module_id";
         public static final String RELATION_WITH_HOUSEHOLD = "relation_with_household_head";
         public static final String GU_ID = "gu_id";
+        public static final String MARITAL_STATUS = "marital_status";
         public static final String HOUSE_HOLD_ID = "house_hold_id";
         public static final String HOUSE_HOLD_NAME = "house_hold_name";
         public static final String SS_NAME = "ss_name";
@@ -208,6 +209,9 @@ public class HnppConstants extends CoreConstants {
 
 
     }
+    public static final Map<String,String> eventTypeFormNameMapping = ImmutableMap.<String,String> builder()
+            .put(EVENT_TYPE.ANC1_REGISTRATION,JSON_FORMS.ANC1_FORM)
+            .build();
     public static final Map<String,Integer> iconMapping = ImmutableMap.<String,Integer> builder()
             .put("গর্ভবতী পরিচর্যা-১ম ত্রিমাসিক",R.mipmap.ic_anc_pink)
             .put("গর্ভবতী পরিচর্যা - ২য় ত্রিমাসিক",R.mipmap.ic_anc_pink)
@@ -221,6 +225,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ANC_PREGNANCY_HISTORY,R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.ANC_REGISTRATION,R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.UPDATE_ANC_REGISTRATION,R.mipmap.ic_anc_pink)
+            .put(EVENT_TYPE.ELCO,R.drawable.ic_elco)
             .put(HnppConstants.EventType.FAMILY_REGISTRATION,R.drawable.ic_home)
             .put(HnppConstants.EventType.FAMILY_MEMBER_REGISTRATION,R.drawable.rowavatar_member)
             .put(HnppConstants.EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,R.drawable.rowavatar_member)
@@ -234,6 +239,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ANC3_REGISTRATION,"গর্ভবতী পরিচর্যা - ৩য় ত্রিমাসিক")
             .put(EVENT_TYPE.ANC_GENERAL_DISEASE,"শারীরিক সমস্যা")
             .put(EVENT_TYPE.ANC_PREGNANCY_HISTORY,"পূর্বের গর্ভের ইতিহাস")
+            .put(EVENT_TYPE.ELCO,"ELCO নিবন্ধন")
             .put(JSON_FORMS.ANC1_FORM,"গর্ভবতী পরিচর্যা")
             .put(JSON_FORMS.GENERAL_DISEASE,"শারীরিক সমস্যা")
             .put(EVENT_TYPE.MEMBER_REFERRAL,"রেফারেল")
@@ -246,6 +252,7 @@ public class HnppConstants extends CoreConstants {
             .put(HnppConstants.EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,"সদস্য আপডেট")
             .put(HnppConstants.EventType.CHILD_REGISTRATION,"শিশু নিবন্ধন")
             .put(HnppConstants.EVENT_TYPE.MEMBER_REFERRAL,"রেফারেল")
+            .put(EVENT_TYPE.ELCO,"ELCO নিবন্ধন")
             .put(EVENT_TYPE.ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন")
             .put(EVENT_TYPE.UPDATE_ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন আপডেট")
             .build();

@@ -2,6 +2,7 @@ package org.smartregister.brac.hnpp.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,6 +14,8 @@ import org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity
 import org.smartregister.brac.hnpp.model.MemberProfileDueModel;
 import org.smartregister.brac.hnpp.presenter.HnppMemberProfileDuePresenter;
 import org.smartregister.brac.hnpp.provider.HnppFamilyDueRegisterProvider;
+import org.smartregister.brac.hnpp.utils.FormApplicability;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.adapter.FamilyRecyclerViewCustomAdapter;
 import org.smartregister.family.fragment.BaseFamilyProfileDueFragment;
@@ -23,6 +26,8 @@ import java.util.HashMap;
 import java.util.Set;
 
 import timber.log.Timber;
+
+import static org.smartregister.brac.hnpp.utils.HnppConstants.eventTypeFormNameMapping;
 
 public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment implements View.OnClickListener {
     private static final int TAG_OPEN_ANC1 = 101;
@@ -40,6 +45,8 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
     private String familyBaseEntityId;
     private String baseEntityId;
     private LinearLayout otherServiceView;
+    private CommonPersonObjectClient commonPersonObjectClient;
+    private boolean isFirstAnc = false;
 
 
     public static BaseFamilyProfileDueFragment newInstance(Bundle bundle) {
@@ -50,6 +57,9 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
         }
         fragment.setArguments(args);
         return fragment;
+    }
+    public void setCommonPersonObjectClient(CommonPersonObjectClient commonPersonObjectClient){
+        this.commonPersonObjectClient = commonPersonObjectClient;
     }
 
     @Override
@@ -122,16 +132,35 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
         if(otherServiceView.getVisibility() == View.VISIBLE){
             return;
         }
-        //if women
+        String gender = org.smartregister.util.Utils.getValue(commonPersonObjectClient.getColumnmaps(), "gender", false);
+        String maritalStatus  = org.smartregister.util.Utils.getValue(commonPersonObjectClient.getColumnmaps(), "marital_status", false);
         otherServiceView.setVisibility(View.VISIBLE);
-        View anc1View = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
-        ImageView imageanc1View = anc1View.findViewById(R.id.image_view);
-        TextView nameanc1View =  anc1View.findViewById(R.id.patient_name_age);
-        imageanc1View.setImageResource(R.mipmap.ic_anc_pink);
-        nameanc1View.setText("গর্ভবতী পরিচর্যা-১ম ত্রিমাসিক");
-        anc1View.setTag(TAG_OPEN_ANC1);
-        anc1View.setOnClickListener(this);
-        otherServiceView.addView(anc1View);
+        if(gender.equalsIgnoreCase("F") && maritalStatus.equalsIgnoreCase("Married")){
+            //if women
+
+            View anc1View = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+            ImageView imageanc1View = anc1View.findViewById(R.id.image_view);
+            TextView nameanc1View =  anc1View.findViewById(R.id.patient_name_age);
+            anc1View.setTag(TAG_OPEN_ANC1);
+            anc1View.setOnClickListener(this);
+            String eventType = FormApplicability.getDueFormForMarriedWomen(baseEntityId,FormApplicability.getAge(commonPersonObjectClient));
+            if(!TextUtils.isEmpty(eventType)){
+                if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY)) {
+                    isFirstAnc = true;
+                    nameanc1View.setText(HnppConstants.visitEventTypeMapping.get(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION));
+                }else{
+                    isFirstAnc = false;
+                    nameanc1View.setText(HnppConstants.visitEventTypeMapping.get(eventType));
+                }
+
+            }
+            imageanc1View.setImageResource(HnppConstants.iconMapping.get(eventType));
+            anc1View.setTag(org.smartregister.family.R.id.VIEW_ID,eventType);
+
+            otherServiceView.addView(anc1View);
+
+        }
+
 
         View familyView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
         ImageView image = familyView.findViewById(R.id.image_view);
@@ -185,7 +214,12 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
                 case TAG_OPEN_ANC1:
                     if (getActivity() != null && getActivity() instanceof HnppFamilyOtherMemberProfileActivity) {
                         HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) getActivity();
-                        activity.startMalariaRegister();
+                        String eventType = (String) v.getTag(org.smartregister.family.R.id.VIEW_ID);
+                        if(isFirstAnc){
+                            activity.openHomeVisitForm();
+                        }else {
+                            activity.openHomeVisitSingleForm(eventTypeFormNameMapping.get(eventType));
+                        }
                     }
                     break;
             }

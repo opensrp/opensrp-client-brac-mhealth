@@ -21,23 +21,7 @@ public class HnppHomeVisitActivity extends BaseAncHomeVisitActivity {
         intent.putExtra(Constants.ANC_MEMBER_OBJECTS.EDIT_MODE, isEditMode);
         activity.startActivityForResult(intent, Constants.REQUEST_CODE_HOME_VISIT);
     }
-    @Override
-    public void submitVisit() {
-        super.submitVisit();
-        if(actionList!=null){
-            for (Map.Entry<String, BaseAncHomeVisitAction> entry : actionList.entrySet()) {
-                String key = entry.getKey();
-                BaseAncHomeVisitAction value = entry.getValue();
-                String form_name = value.getFormName();
-                String jsonPayload = value.getJsonPayload();
-//                jsonPayload = HnppUtils.createObsWithFormName(jsonPayload);
-//                value.setJsonPayload(jsonPayload);
-                // now work with key and value...
-//                HnppJsonFormUtils.saveVisitLogEvent(value.getJsonPayload(),memberObject.getBaseEntityId());
-            }
-        }
 
-    }
 
     @Override
     protected void registerPresenter() {
