@@ -97,9 +97,8 @@ public class FormApplicability {
 
         // check age and gender
         int age = getAge(commonPersonObject);
-        String gender = org.smartregister.util.Utils.getValue(commonPersonObject.getColumnmaps(), "gender", false);
         String maritalStatus  = org.smartregister.util.Utils.getValue(commonPersonObject.getColumnmaps(), "marital_status", false);
-        if ( age != -1 && gender.trim().equalsIgnoreCase("F") && !TextUtils.isEmpty(maritalStatus) && maritalStatus.equalsIgnoreCase("Married")) {
+        if ( age != -1 && getGender(commonPersonObject).trim().equalsIgnoreCase("F") && !TextUtils.isEmpty(maritalStatus) && maritalStatus.equalsIgnoreCase("Married")) {
 
             return isElco(age);
         }
@@ -114,14 +113,17 @@ public class FormApplicability {
         }
         return -1;
     }
+    public static String getGender(CommonPersonObjectClient commonPersonObject){
+        return org.smartregister.util.Utils.getValue(commonPersonObject.getColumnmaps(), "gender", false);
+    }
     //other service and package
-    public boolean isIycfApplicable(int age){
+    public static boolean isIycfApplicable(int age){
         return age <=5;
     }
-    public boolean isAdolescentApplicable(int age, boolean isWomen){
+    public static boolean isAdolescentApplicable(int age, boolean isWomen){
         return isWomen && age>=10 && age <=19;
     }
-    public boolean isWomenPackageApplicable(int age, boolean isWomen){
+    public static boolean isWomenPackageApplicable(int age, boolean isWomen){
         return isWomen && age >=10;
     }
 

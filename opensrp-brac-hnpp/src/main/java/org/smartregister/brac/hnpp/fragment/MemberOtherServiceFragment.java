@@ -68,6 +68,13 @@ public class MemberOtherServiceFragment extends Fragment implements OtherService
     private void startFormActivity(OtherServiceData content){
         switch (content.getType()){
             case HnppConstants.OTHER_SERVICE_TYPE.TYPE_GIRL_PACKAGE:
+
+                break;
+            case HnppConstants.OTHER_SERVICE_TYPE.TYPE_NCD:
+                break;
+            case HnppConstants.OTHER_SERVICE_TYPE.TYPE_IYCF:
+                break;
+            case HnppConstants.OTHER_SERVICE_TYPE.TYPE_WOMEN_PACKAGE:
                 break;
         }
     }

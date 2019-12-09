@@ -1,0 +1,34 @@
+name: step1_ncd_toaster
+description: if bmi> 25 show toast
+priority: 1
+condition: "step1_bmi > 15"
+actions:
+  - "isRelevant = true"
+---
+name: step1_bp_toaster_1
+description: if bp > 140
+priority: 1
+condition: "step1_blood_pressure_systolic > 140"
+actions:
+  - "isRelevant = true"
+---
+name: step1_bp_toaster_2
+description: if bp > 90
+priority: 1
+condition: "step1_blood_pressure_diastolic > 90"
+actions:
+  - "isRelevant = true"
+---
+name: step1_glucose_toaster_1
+description: if fasting_blood_sugar >= 7
+priority: 1
+condition: "step1_fasting_blood_sugar >= 7"
+actions:
+  - "isRelevant = true"
+---
+name: step1_glucose_toaster_2
+description: if random_blood_sugar >= 11.1
+priority: 1
+condition: "step1_random_blood_sugar >= 11.1"
+actions:
+  - "isRelevant = true"

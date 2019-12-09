@@ -1,0 +1,7 @@
+---
+name: step1_weight
+description: Calculated weight
+priority: 1
+condition: "step1_dob != '' && helper.getDifferenceDays(step1_dob) / 365.25 <= 180"
+actions:
+  - "calculation =  step1_weight * 10"
