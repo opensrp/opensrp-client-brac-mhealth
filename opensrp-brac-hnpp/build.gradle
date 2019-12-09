@@ -117,7 +117,7 @@ android {
         training{
             dimension = 'baseDimension'
             applicationIdSuffix ".training"
-            versionCode 9
+            versionCode 10
             versionName "1.1.7"
             buildConfigField "String", 'opensrp_url', '"http://mhealthtest.brac.net:8080/opensrp/"'
             buildConfigField "boolean", "IS_RELEASE", "false"

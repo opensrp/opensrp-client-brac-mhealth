@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -90,6 +91,7 @@ public class HNPPMemberJsonFormFragment extends JsonWizardFormFragment {
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
+                if(TextUtils.isEmpty(family_name)) return;
                     Collection<View> formdataviews =  getJsonApi().getFormDataViews();
                     MaterialEditText first_name_view = null;
                 Iterator<View> iterator = formdataviews.iterator();

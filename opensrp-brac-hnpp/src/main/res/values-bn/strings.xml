@@ -107,4 +107,7 @@
     <string name="return_to_family_members">পরিবারের তালিকা</string>
     <string name="household_id_null_message">খানা প্রধানের আইডি পাওয়া যাইনি । পুনরাই লগ আউট করে লগইন করুন</string>
     <string name="ok">আচ্ছা</string>
+    <string name="cancel">ফিরে যান</string>
+    <string name="scan_again">আবার চেষ্টা করুন</string>
+    <string name="fail_result">ফলাফল পাওয়া যাই নি</string>
 </resources>
