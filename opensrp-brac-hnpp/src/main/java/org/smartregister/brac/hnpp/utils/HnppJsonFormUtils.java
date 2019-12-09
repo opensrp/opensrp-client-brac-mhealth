@@ -494,6 +494,46 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             return null;
         }
     }
+
+    public static FamilyEventClient processPregnancyOutcomeForm(AllSharedPreferences allSharedPreferences, String jsonString, String familyBaseEntityId, String encounterType) {
+        try {
+            Triple<Boolean, JSONObject, JSONArray> registrationFormParams = validateParameters(jsonString);
+            if (!(Boolean)registrationFormParams.getLeft()) {
+                return null;
+            } else {
+                JSONObject jsonForm = (JSONObject)registrationFormParams.getMiddle();
+                JSONArray fields = (JSONArray)registrationFormParams.getRight();
+                String familyId = getString(jsonForm, "relational_id");
+                String entityId = getString(jsonForm, "entity_id");
+                if (StringUtils.isBlank(entityId)) {
+                    entityId = generateRandomUUIDString();
+                }
+
+                lastInteractedWith(fields);
+                dobEstimatedUpdateFromAge(fields);
+                String motherEntityId = updateMotherName(fields,familyId);
+
+                FormTag formTag = formTag(allSharedPreferences);
+                formTag.appVersionName = BuildConfig.VERSION_NAME;
+                Client baseClient = org.smartregister.util.JsonFormUtils.createBaseClient(fields, formTag, entityId);
+                if (baseClient != null && !baseClient.getBaseEntityId().equals(familyBaseEntityId)) {
+                    baseClient.addRelationship(Utils.metadata().familyMemberRegister.familyRelationKey, familyBaseEntityId);
+                }
+
+                Context context = HnppApplication.getInstance().getContext().applicationContext();
+                addRelationship(context, motherEntityId,familyId, baseClient);
+                Event baseEvent = org.smartregister.util.JsonFormUtils.createEvent(fields, getJSONObject(jsonForm, "metadata"), formTag, entityId, encounterType, Utils.metadata().familyMemberRegister.tableName);
+                tagSyncMetadata(allSharedPreferences, baseEvent);
+
+                String entity_id = baseClient.getBaseEntityId();
+                updateFormSubmissionID(encounterType,entity_id,baseEvent);
+                return new FamilyEventClient(baseClient, baseEvent);
+            }
+        } catch (Exception var10) {
+            Timber.e(var10);
+            return null;
+        }
+    }
 //    public static FamilyEventClient processFamilyUpdateForm(AllSharedPreferences allSharedPreferences, String jsonString) {
 //        try {
 //            Triple<Boolean, JSONObject, JSONArray> registrationFormParams = validateParameters(jsonString);

@@ -907,7 +907,7 @@
           "type": "Event",
           "json_mapping": {
             "field": "obs.fieldCode",
-            "concept": "161033AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            "concept": "preg_outcome"
           }
         },
         {
@@ -915,7 +915,7 @@
           "type": "Event",
           "json_mapping": {
             "field": "obs.fieldCode",
-            "concept": "165248AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            "concept": "miscarriage_date"
           }
         },
         {
@@ -923,7 +923,15 @@
           "type": "Event",
           "json_mapping": {
             "field": "obs.fieldCode",
-            "concept": "5599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            "concept": "delivery_date"
+          }
+        },
+        {
+          "column_name": "delivery_time",
+          "type": "Event",
+          "json_mapping": {
+            "field": "obs.fieldCode",
+            "concept": "delivery_time"
           }
         },
         {
@@ -931,7 +939,111 @@
           "type": "Event",
           "json_mapping": {
             "field": "obs.fieldCode",
-            "concept": "1572AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            "concept": "delivery_place"
+          }
+        },
+        {
+          "column_name": "no_born_alive",
+          "type": "Event",
+          "json_mapping": {
+            "field": "obs.fieldCode",
+            "concept": "no_born_alive"
+          }
+        },
+        {
+          "column_name": "other_delivery_place",
+          "type": "Event",
+          "json_mapping": {
+            "field": "obs.fieldCode",
+            "concept": "other_delivery_place"
+          }
+        },
+        {
+          "column_name": "delivery_assistance",
+          "type": "Event",
+          "json_mapping": {
+            "field": "obs.fieldCode",
+            "concept": "delivery_assistance"
+          }
+        },
+        {
+          "column_name": "other_delivery_assistance",
+          "type": "Event",
+          "json_mapping": {
+            "field": "obs.fieldCode",
+            "concept": "other_delivery_assistance"
+          }
+        },
+        {
+          "column_name": "delivery_method",
+          "type": "Event",
+          "json_mapping": {
+            "field": "obs.fieldCode",
+            "concept": "delivery_method"
+          }
+        },
+        {
+          "column_name": "delivery_complication",
+          "type": "Event",
+          "json_mapping": {
+            "field": "obs.fieldCode",
+            "concept": "delivery_complication"
+          }
+        },
+        {
+          "column_name": "complications",
+          "type": "Event",
+          "json_mapping": {
+            "field": "obs.fieldCode",
+            "concept": "complications"
+          }
+        },
+        {
+          "column_name": "other_complications",
+          "type": "Event",
+          "json_mapping": {
+            "field": "obs.fieldCode",
+            "concept": "other_complications"
+          }
+        },
+        {
+          "column_name": "no_still_born",
+          "type": "Event",
+          "json_mapping": {
+            "field": "obs.fieldCode",
+            "concept": "no_still_born"
+          }
+        },
+        {
+          "column_name": "no_born_alive_died",
+          "type": "Event",
+          "json_mapping": {
+            "field": "obs.fieldCode",
+            "concept": "no_born_alive_died"
+          }
+        },
+        {
+          "column_name": "no_miscarriage",
+          "type": "Event",
+          "json_mapping": {
+            "field": "obs.fieldCode",
+            "concept": "no_miscarriage"
+          }
+        },
+        {
+          "column_name": "type_miscarriage",
+          "type": "Event",
+          "json_mapping": {
+            "field": "obs.fieldCode",
+            "concept": "type_miscarriage"
+          }
+        },
+        {
+          "column_name": "cause_born_alive_died",
+          "type": "Event",
+          "json_mapping": {
+            "field": "obs.fieldCode",
+            "concept": "cause_born_alive_died"
           }
         },
         {

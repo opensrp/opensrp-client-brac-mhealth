@@ -57,6 +57,7 @@ import java.util.Map;
 import timber.log.Timber;
 
 import static org.smartregister.brac.hnpp.utils.HnppConstants.MEMBER_ID_SUFFIX;
+import static org.smartregister.chw.malaria.util.Constants.REQUEST_CODE_GET_JSON;
 
 public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberProfileActivity {
     private static final int REQUEST_CODE_REFERRAL = 5555;
@@ -137,7 +138,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     public void startMalariaRegister() {
         //TODO implement start anc malaria for HF
 //        HnppHomeVisitActivity.startMe(this, new MemberObject(commonPersonObject), false);
-        startAnyFormActivity(HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME,REQUEST_CODE_PREGNANCY_OUTCOME);
+//        startPregnancyFormActivity(HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME, org.smartregister.family.util.JsonFormUtils.REQUEST_CODE_GET_JSON);
+        HnppAncRegisterActivity.startHnppAncRegisterActivity(HnppFamilyOtherMemberProfileActivity.this, baseEntityId, PhoneNumber,
+                HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME, null, familyBaseEntityId, familyName);
     }
 
     @Override
@@ -181,7 +184,26 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 
         return viewPager;
     }
+    public void startPregnancyFormActivity(String formName, int requestCode) {
+        try {
+            JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
+            jsonForm.put(JsonFormUtils.ENTITY_ID, familyBaseEntityId);
+            Intent intent = new Intent(this, org.smartregister.family.util.Utils.metadata().familyMemberFormActivity);
+            intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
 
+            Form form = new Form();
+            form.setWizard(true);
+            form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+
+            intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+            intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
+            if (this != null) {
+                this.startActivityForResult(intent, requestCode);
+            }
+        }catch (Exception e){
+
+        }
+    }
     public void startAnyFormActivity(String formName, int requestCode) {
        try {
            JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
@@ -237,6 +259,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }else if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_PREGNANCY_OUTCOME){
         }
             super.onActivityResult(requestCode, resultCode, data);
     }

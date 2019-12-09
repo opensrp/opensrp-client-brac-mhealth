@@ -5,15 +5,6 @@ priority: 1
 condition: "step1_preg_outcome == 'miscarriage'"
 actions:
   - "isRelevant = true"
-
----
-name: step1_delivery_date
-description: delivery_date relevance
-priority: 1
-condition: "step1_preg_outcome != 'miscarriage' && step1_preg_outcome != ''"
-actions:
-  - "isRelevant = true"
-
 ---
 name: step1_no_children
 description: no_children relevance
@@ -26,10 +17,30 @@ actions:
 name: step1_delivery_place
 description: delivery_place relevance
 priority: 1
-condition: "step1_preg_outcome != '' && step1_preg_outcome != 'miscarriage'"
+condition: "step1_preg_outcome == 'born_alive' || step1_preg_outcome == 'still_born'"
 actions:
   - "isRelevant = true"
-
+---
+name: step1_delivery_assistance
+description: delivery_assistance relevance
+priority: 1
+condition: "step1_preg_outcome == 'born_alive' || step1_preg_outcome == 'still_born'"
+actions:
+  - "isRelevant = true"
+---
+name: step1_delivery_method
+description: delivery_method relevance
+priority: 1
+condition: "step1_preg_outcome == 'born_alive' || step1_preg_outcome == 'still_born'"
+actions:
+  - "isRelevant = true"
+---
+name: step1_delivery_complication
+description: delivery_complication relevance
+priority: 1
+condition: "step1_preg_outcome == 'born_alive' || step1_preg_outcome == 'still_born'"
+actions:
+  - "isRelevant = true"
 ---
 name: step1_delivery_home
 description: delivery_home relevance
@@ -37,7 +48,6 @@ priority: 1
 condition: "step1_delivery_place == 'At home'"
 actions:
   - "isRelevant = true"
-
 ---
 name: step1_delivery_hf
 description: delivery_hf relevance
@@ -57,6 +67,62 @@ actions:
 ---
 name: step1_baby_label
 description: delivery_place relevance
+priority: 1
+condition: "step1_preg_outcome == 'born_alive' || step1_preg_outcome == 'alive_with_problem'"
+actions:
+  - "isRelevant = true"
+---
+name: step1_first_name
+description: first_name relevance
+priority: 1
+condition: "step1_preg_outcome == 'born_alive' || step1_preg_outcome == 'alive_with_problem'"
+actions:
+  - "isRelevant = true"
+---
+name: step1_gender
+description: gender relevance
+priority: 1
+condition: "step1_preg_outcome == 'born_alive' || step1_preg_outcome == 'alive_with_problem'"
+actions:
+  - "isRelevant = true"
+---
+name: step1_birth_weight_taken
+description: birth_weight_taken relevance
+priority: 1
+condition: "step1_preg_outcome == 'born_alive' || step1_preg_outcome == 'alive_with_problem'"
+actions:
+  - "isRelevant = true"
+---
+name: step1_chlorohexadin
+description: chlorohexadin relevance
+priority: 1
+condition: "step1_preg_outcome == 'born_alive' || step1_preg_outcome == 'alive_with_problem'"
+actions:
+  - "isRelevant = true"
+---
+name: step1_breastfeeding_time
+description: breastfeeding_time relevance
+priority: 1
+condition: "step1_preg_outcome == 'born_alive' || step1_preg_outcome == 'alive_with_problem'"
+actions:
+  - "isRelevant = true"
+---
+name: step1_head_body_covered
+description: head_body_covered relevance
+priority: 1
+condition: "step1_preg_outcome == 'born_alive' || step1_preg_outcome == 'alive_with_problem'"
+actions:
+  - "isRelevant = true"
+---
+name: step1_birth_defect
+description: birth_defect relevance
+priority: 1
+condition: "step1_preg_outcome == 'born_alive' || step1_preg_outcome == 'alive_with_problem'"
+actions:
+  - "isRelevant = true"
+---
+name: step1_breast_feeded
+description: breast_feeded relevance
 priority: 1
 condition: "step1_preg_outcome == 'born_alive' || step1_preg_outcome == 'alive_with_problem'"
 actions:

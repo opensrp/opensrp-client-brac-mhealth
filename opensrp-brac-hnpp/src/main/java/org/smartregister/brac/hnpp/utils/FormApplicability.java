@@ -44,14 +44,17 @@ public class FormApplicability {
         List<Map<String, String>> valus = AbstractDao.readData(DeliveryDateSql, new String[]{baseEntityId});
         if(valus.size() > 0){
             String deliveryDate = valus.get(0).get("delivery_date");
-            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-            Date deliveryDateformatted = null;
-            try {
-                deliveryDateformatted = dateFormat.parse(deliveryDate);
-                int day = Days.daysBetween((new DateTime(deliveryDateformatted)), new DateTime(System.currentTimeMillis())).getDays();
-                return day < 41;
-            } catch (ParseException e) {
-                e.printStackTrace();
+
+            if(deliveryDate!=null){
+                DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                Date deliveryDateformatted = null;
+                try {
+                    deliveryDateformatted = dateFormat.parse(deliveryDate);
+                    int day = Days.daysBetween((new DateTime(deliveryDateformatted)), new DateTime(System.currentTimeMillis())).getDays();
+                    return day < 41;
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
 
         }

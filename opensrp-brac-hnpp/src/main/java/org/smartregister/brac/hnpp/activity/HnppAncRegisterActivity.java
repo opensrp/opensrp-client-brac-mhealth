@@ -41,6 +41,8 @@ import timber.log.Timber;
 
 public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
 
+    private HnppVisitLogRepository visitLogRepository;
+
     public static void startHnppAncRegisterActivity(Activity activity, String memberBaseEntityID, String phoneNumber, String formName,
                                                     String uniqueId, String familyBaseID, String family_name) {
         Intent intent = new Intent(activity, org.smartregister.brac.hnpp.activity.HnppAncRegisterActivity.class);
@@ -55,7 +57,23 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
         activity.startActivityForResult(intent, Constants.REQUEST_CODE_GET_JSON);
     }
 
-//    @Override
+    public static void registerBottomNavigation(BottomNavigationHelper bottomNavigationHelper,
+                                                BottomNavigationView bottomNavigationView, Activity activity) {
+        if (bottomNavigationView != null) {
+            bottomNavigationView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
+
+            bottomNavigationView.getMenu().clear();
+            bottomNavigationView.inflateMenu(R.menu.bottom_nav_family_menu);
+            bottomNavigationHelper.disableShiftMode(bottomNavigationView);
+            bottomNavigationView.setOnNavigationItemSelectedListener(new HnppBottomNavigationListener(activity));
+        }
+
+        if (!BuildConfig.SUPPORT_QR) {
+            bottomNavigationView.getMenu().removeItem(org.smartregister.family.R.id.action_scan_qr);
+        }
+    }
+
+    //    @Override
 //    public Class getRegisterActivity(String register) {
 //        if (register.equals(ANC_REGISTRATION))
 //            return HnppAncRegisterActivity.class;
@@ -75,36 +93,23 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
             }
         }).show();
     }
-    public static void registerBottomNavigation(BottomNavigationHelper bottomNavigationHelper,
-                                                BottomNavigationView bottomNavigationView, Activity activity) {
-        if (bottomNavigationView != null) {
-            bottomNavigationView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
-
-            bottomNavigationView.getMenu().clear();
-            bottomNavigationView.inflateMenu(R.menu.bottom_nav_family_menu);
-            bottomNavigationHelper.disableShiftMode(bottomNavigationView);
-            bottomNavigationView.setOnNavigationItemSelectedListener(new HnppBottomNavigationListener(activity));
-        }
-
-        if (!BuildConfig.SUPPORT_QR) {
-            bottomNavigationView.getMenu().removeItem(org.smartregister.family.R.id.action_scan_qr);
-        }
-    }
-    private HnppVisitLogRepository visitLogRepository;
 
     @Override
     public void startFormActivity(JSONObject jsonForm) {
 
-    try {
+        try {
             visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
-            ANCRegister ancRegister = visitLogRepository.getLastANCRegister(getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.BASE_ENTITY_ID));
+            ANCRegister ancRegister = null;
+            if (form_name != null && form_name.equals(CoreConstants.JSON_FORM.getAncRegistration())) {
+                ancRegister = visitLogRepository.getLastANCRegister(getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.BASE_ENTITY_ID));
+            }
             JSONObject stepOne = jsonForm.getJSONObject(JsonFormUtils.STEP1);
             JSONArray jsonArray = stepOne.getJSONArray(JsonFormUtils.FIELDS);
             updateFormField(jsonArray, DBConstants.KEY.TEMP_UNIQUE_ID, unique_id);
             updateFormField(jsonArray, CoreConstants.JsonAssets.FAM_NAME, familyName);
             updateFormField(jsonArray, CoreConstants.JsonAssets.FAMILY_MEMBER.PHONE_NUMBER, phone_number);
             updateFormField(jsonArray, org.smartregister.family.util.DBConstants.KEY.RELATIONAL_ID, familyBaseEntityId);
-            if(ancRegister!=null) {
+            if (ancRegister != null) {
                 updateEncounterType(jsonForm);
                 updateFormField(jsonArray, HnppConstants.ANC_REGISTER_COLUMNS.LAST_MENSTRUAL_PERIOD, ancRegister.getLastMenstrualPeriod());
                 updateFormField(jsonArray, HnppConstants.ANC_REGISTER_COLUMNS.EDD, ancRegister.getEDD());
@@ -125,13 +130,15 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
             e.printStackTrace();
         }
     }
-    private void updateEncounterType(JSONObject jsonForm){
+
+    private void updateEncounterType(JSONObject jsonForm) {
         try {
-            jsonForm.put("encounter_type",HnppConstants.EVENT_TYPE.UPDATE_ANC_REGISTRATION);
+            jsonForm.put("encounter_type", HnppConstants.EVENT_TYPE.UPDATE_ANC_REGISTRATION);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
+
     private void updateFormField(JSONArray formFieldArrays, String formFeildKey, String updateValue) {
         if (updateValue != null) {
             JSONObject formObject = org.smartregister.util.JsonFormUtils.getFieldJSONObject(formFieldArrays, formFeildKey);
@@ -186,7 +193,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
                 } else if (encounter_type.equalsIgnoreCase(CoreConstants.EventType.ANC_HOME_VISIT)) {
                     //ChwScheduleTaskExecutor.getInstance().execute(baseEnityId, CoreConstants.EventType.ANC_HOME_VISIT, new Date());
                 }
-               // SyncServiceJob.scheduleJobImmediately(SyncServiceJob.TAG);
+                // SyncServiceJob.scheduleJobImmediately(SyncServiceJob.TAG);
             } catch (Exception e) {
                 Timber.e(e);
             }

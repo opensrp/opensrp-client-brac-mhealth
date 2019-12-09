@@ -89,7 +89,7 @@
         "key": "preg_outcome",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "161033AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "preg_outcome",
         "type": "native_radio",
         "label": "প্রসবের ফলাফল",
         "label_text_style": "bold",
@@ -140,7 +140,7 @@
         "openmrs_entity_id": "no_born_alive",
         "openmrs_data_type": "select one",
         "type": "spinner",
-        "hint": "জীবিত জন্ম",
+        "hint": "জীবিত জন্ম সংখ্যা",
         "values": [
           "1",
           "2+"
@@ -161,47 +161,30 @@
         }
       },
       {
-        "key": "miscarriage_date",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "165248AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-        "type": "date_picker",
-        "hint": "Date of miscarriage",
-        "expanded": false,
-        "max_date": "today",
-        "v_required": {
-          "value": "true",
-          "err": "Please enter date the woman miscarried."
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_relevance.yml"
-            }
-          }
-        }
-      },
-
-
-      {
         "key": "delivery_place",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "1572AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "delivery_place",
         "openmrs_data_type": "select one",
         "type": "spinner",
-        "hint": "The place the mother gave birth",
+        "hint": "প্রসবের স্থান",
         "values": [
-          "At home",
-          "At a health facility",
-          "On the way to the health facility",
-          "Other"
+          "বাড়ি",
+          "ব্র্যাক ম্যাটারনিটি সেন্টার",
+          "ক্লিনিক",
+          "বেসরকারি ক্লিনিক",
+          "সদর হাসপাতাল/ উপজেলা স্বাস্থ্য ক্লিনিক/ ইউনিয়ন স্বাস্থ্য কেন্দ্র",
+          "কমিউনিটি ক্লিনিক",
+          "অন্যান্য"
         ],
         "openmrs_choice_ids": {
-          "At Home": "1536AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "At a health facility": "1588AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "On the way to the health facility": "1601AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "Other": "5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          "বাড়ি": "home",
+          "ব্র্যাক ম্যাটারনিটি সেন্টার": "brac_monitoring_center",
+          "ক্লিনিক": "clinic",
+          "বেসরকারি ক্লিনিক": "private_clinic",
+          "সদর হাসপাতাল/ উপজেলা স্বাস্থ্য ক্লিনিক/ ইউনিয়ন স্বাস্থ্য কেন্দ্র": "sadar_hospital_upazila_health_clinic_union_health_center",
+          "কমিউনিটি ক্লিনিক": "community_clinic",
+          "অন্যান্য": "other"
         },
         "v_required": {
           "value": "true",
@@ -216,64 +199,58 @@
         }
       },
       {
-        "key": "delivery_home",
+        "key": "other_delivery_place",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "1573AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-        "type": "native_radio",
-        "label": "Who helped the mother with a home delivery?",
-        "label_text_style": "bold",
-        "text_color": "#C0C0C0",
+        "openmrs_entity_id": "other_delivery_place",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "edit_type": "name",
+        "hint": "লিখুন",
         "v_required": {
-          "value": "true",
-          "err": "Please select"
+          "value": true,
+          "err": "লিখুন"
+        },
+        "v_regex": {
+          "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
+          "err": "একটি বৈধ নাম লিখুন"
         },
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_relevance.yml"
-            }
+          "step1:delivery_place": {
+            "type": "string",
+            "ex": "equalTo(., \"অন্যান্য\")"
           }
-        },
-        "options": [
-          {
-            "key": "gave_birth_alone",
-            "text": "She gave birth at home alone",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-          },
-          {
-            "key": "gave_birth_with_help",
-            "text": "She gave birth at home with the help of a family member/friend/neighbor",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "1575AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-          },
-          {
-            "key": "midwife_help",
-            "text": "She gave birth at home with the help of a traditional midwife",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "125872AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-          }
-        ]
+        }
       },
       {
-        "key": "delivery_hf",
+        "key": "delivery_assistance",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "159771AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-        "type": "native_radio",
-        "label": "The mother gave birth in a health facility. Who accompanied the mother to the health facility?",
-        "label_text_style": "bold",
-        "text_color": "#C0C0C0",
+        "openmrs_entity_id": "delivery_assistance",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "প্রসবের সহায়তাকারী",
+        "values": [
+          "ডাক্তার",
+          "নার্স",
+          "এফ ডাব্লিউ ভি",
+          "সি এস বি এ / মিডওয়াইফ",
+          "স্বাস্থ্য কর্মী",
+          "অপ্রশিক্ষিত ধাত্রী",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "ডাক্তার": "doctor",
+          "নার্স": "nurse",
+          "এফ ডাব্লিউ ভি": "fwd",
+          "সি এস বি এ / মিডওয়াইফ": "csba_midwife",
+          "স্বাস্থ্য কর্মী": "health_worker",
+          "অপ্রশিক্ষিত ধাত্রী": "untrained_midwife",
+          "অন্যান্য": "other"
+        },
         "v_required": {
           "value": "true",
-          "err": "Please select"
+          "err": "Please select one option"
         },
         "relevance": {
           "rules-engine": {
@@ -281,49 +258,293 @@
               "rules-file": "anc_pregnancy_outcome_relevance.yml"
             }
           }
+        }
+      },
+      {
+        "key": "other_delivery_assistance",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "other_delivery_assistance",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "edit_type": "name",
+        "hint": "লিখুন",
+        "v_required": {
+          "value": true,
+          "err": "লিখুন"
         },
-        "options": [
-          {
-            "key": "facility_family_member",
-            "text": "She gave birth in a helath facility, and she was accompanied by family member(s)",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "969AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-          },
-          {
-            "key": "facility_midwife",
-            "text": "She gave birth in a health facility, and she was accompanied by a traditional midwife",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "1575AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-          },
-          {
-            "key": "alone",
-            "text": "She gave birth in a health facility, and she came by herself",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-          },
-          {
-            "key": "other_pple",
-            "text": "She gave birth in a health facility, and she was accompanied by other people",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "1582AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-          },
-          {
-            "key": "other_chw",
-            "text": "She gave birth in a health facility, and she was accompanied by the CHW",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "1555AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        "v_regex": {
+          "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
+          "err": "একটি বৈধ নাম লিখুন"
+        },
+        "relevance": {
+          "step1:delivery_assistance": {
+            "type": "string",
+            "ex": "equalTo(., \"অন্যান্য\")"
           }
-        ]
+        }
+      },
+      {
+        "key": "delivery_method",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "delivery_method",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "প্রসবের পদ্ধতি",
+        "values": [
+          "স্বাভাবিক",
+          "সিজারিয়ান"
+        ],
+        "openmrs_choice_ids": {
+          "স্বাভাবিক": "normal",
+          "সিজারিয়ান": "c_section"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Please select one option"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_pregnancy_outcome_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "delivery_complication",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "delivery_complication",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "প্রসব কালীন কোন জটিলতা হয়েছিল কিনা",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Please select one option"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_pregnancy_outcome_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "complications",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "complications",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "প্রসব কালীন জটিলতা",
+        "values": [
+          "অতিরিক্ত রক্তক্ষরন",
+          "খিচুনি",
+          "বিলম্বিত প্রসব",
+          "গর্ভফুল আটকে গিয়েছিল",
+          "বাচ্চার মাথা ছাড়া অন্য অঙ্গ এসেছিল",
+          "জমজ প্রসব",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "অতিরিক্ত রক্তক্ষরন": "excess_bleeding",
+          "খিচুনি": "obsessive_compulsive_disorder",
+          "বিলম্বিত প্রসব": "delayed_delivery",
+          "গর্ভফুল আটকে গিয়েছিল": "womb_was_stuck",
+          "বাচ্চার মাথা ছাড়া অন্য অঙ্গ এসেছিল": "other_organ_came_out",
+          "জমজ প্রসব": "",
+          "অন্যান্য": ""
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Please select one option"
+        },
+        "relevance": {
+          "step1:delivery_complication": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "other_complications",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "other_complications",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "edit_type": "name",
+        "hint": "লিখুন",
+        "v_required": {
+          "value": true,
+          "err": "লিখুন"
+        },
+        "v_regex": {
+          "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
+          "err": "একটি বৈধ নাম লিখুন"
+        },
+        "relevance": {
+          "step1:complications": {
+            "type": "string",
+            "ex": "equalTo(., \"অন্যান্য\")"
+          }
+        }
+      },
+      {
+        "key": "no_still_born",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "no_still_born",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "মৃত জন্ম সংখ্যা",
+        "values": [
+          "1",
+          "2+"
+        ],
+        "openmrs_choice_ids": {
+          "1": "159913AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "2+": "159914AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Please select one option"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "type": "string",
+            "ex": "equalTo(., \"still_born\")"
+          }
+        }
+      },
+      {
+        "key": "no_born_alive_died",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "no_born_alive_died",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "মৃত নবজাতকের সংখ্যা",
+        "values": [
+          "1",
+          "2+"
+        ],
+        "openmrs_choice_ids": {
+          "1": "159913AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "2+": "159914AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Please select one option"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "type": "string",
+            "ex": "equalTo(., \"born_alive_died\")"
+          }
+        }
+      },
+      {
+        "key": "no_miscarriage",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "no_miscarriage",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "গর্ভপাত সংখ্যা",
+        "values": [
+          "1",
+          "2+"
+        ],
+        "openmrs_choice_ids": {
+          "1": "159913AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "2+": "159914AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Please select one option"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "type": "string",
+            "ex": "equalTo(., \"miscarriage\")"
+          }
+        }
+      },
+      {
+        "key": "type_miscarriage",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "type_miscarriage",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "গর্ভপাতের ধরণ",
+        "values": [
+          "অনাকাঙ্খিত গর্ভপাত",
+          "ঔষধ দ্বারা গর্ভপাত"
+        ],
+        "openmrs_choice_ids": {
+          "অনাকাঙ্খিত গর্ভপাত": "unnecessary_abortion",
+          "ঔষধ দ্বারা গর্ভপাত": "abortion_by_medication"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Please select one option"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "type": "string",
+            "ex": "equalTo(., \"miscarriage\")"
+          }
+        }
+      },
+      {
+        "key": "cause_born_alive_died",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cause_born_alive_died",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "নবজাতকের মৃত্যুর কারণ",
+        "values": [
+          "শ্বাসরোধ",
+          "অস্বাভাবিক কম তাপমাত্রা",
+          "কম জন্ম ওজন",
+          "খিঁচুনি",
+          "নাভির সংক্রমণ",
+          "জানা নেই",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "শ্বাসরোধ": "shortness_of_breath",
+          "অস্বাভাবিক কম তাপমাত্রা": "abnormally_low_temperatures",
+          "কম জন্ম ওজন": "low_birth_weight",
+          "খিঁচুনি": "itching",
+          "নাভির সংক্রমণ": "infection_of_the_navel",
+          "জানা নেই": "unknown",
+          "অন্যান্য": "other"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Please select one option"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "type": "string",
+            "ex": "equalTo(., \"born_alive_died\")"
+          }
+        }
       },
       {
         "key": "baby_label",
@@ -336,14 +557,29 @@
         "text_color": "#000000",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_relevance.yml"
-            }
-          }
+        "openmrs_entity_id": ""
+      },
+      {
+        "key": "add_child",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "add_child",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "শিশু নিবন্ধন",
+        "values": [
+          "1",
+          "2+"
+        ],
+        "openmrs_choice_ids": {
+          "1": "159913AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "2+": "159914AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Please select one option"
         }
+
       },
       {
         "key": "temp_unique_id",
@@ -357,159 +593,26 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_identifier",
         "openmrs_entity_id": "opensrp_id",
-        "type": "barcode",
-        "barcode_type": "qrcode",
-        "hint": "Boresha Afya ID",
-        "scanButtonText": "Scan QR Code",
-        "v_numeric": {
-          "value": "true",
-          "err": "Please enter a valid ID"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "Please enter the UNIQUE ID"
-        },
-        "calculation": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_calculation.yml"
-            }
-          }
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "surname",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "edit_text",
-        "hint": "Surname",
-        "edit_type": "name",
-        "v_regex": {
-          "value": "[A-Za-z\\u00C0-\\u017F\\s\\u00C0-\\u017F\\.\\-]*",
-          "err": "Please enter a valid name"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "Please enter the surname"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "same_as_fam_name_chk",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "openmrs_data_type": "text",
-        "type": "check_box",
-        "options": [
-          {
-            "key": "same_as_fam_name",
-            "text": "Surname same as family name",
-            "text_size": "18px",
-            "value": "false"
-          }
-        ],
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "fam_name",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "label",
-        "hidden": "true"
-      },
-      {
-        "key": "surname_calculation",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person",
-        "openmrs_entity_id": "last_name",
         "type": "hidden",
-        "hint": "Surname as Family name",
-        "calculation": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_calculation.yml"
-            }
-          }
-        }
+        "value": "2222"
       },
       {
         "key": "first_name",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person",
         "openmrs_entity_id": "first_name",
+        "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "First name",
+        "hint": "নাম",
+        "expanded": false,
         "edit_type": "name",
         "v_required": {
           "value": "true",
-          "err": "Please enter the first name"
+          "err": "নাম লিখুন"
         },
         "v_regex": {
-          "value": "[A-Za-z\\u00C0-\\u017F\\s\\u00C0-\\u017F\\.\\-]*",
-          "err": "Please enter a valid name"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "middle_name",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person",
-        "openmrs_entity_id": "middle_name",
-        "type": "edit_text",
-        "hint": "Middle name",
-        "edit_type": "name",
-        "v_regex": {
-          "value": "[A-Za-z\\u00C0-\\u017F\\s\\u00C0-\\u017F\\.\\-]*",
-          "err": "Please enter a valid name"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "dob",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person",
-        "openmrs_entity_id": "birthdate",
-        "type": "hidden",
-        "calculation": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_calculation.yml"
-            }
-          }
+          "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
+          "err": "একটি বৈধ নাম লিখুন"
         }
       },
       {
@@ -518,134 +621,157 @@
         "openmrs_entity": "person",
         "openmrs_entity_id": "gender",
         "type": "spinner",
-        "hint": "Sex",
+        "hint": "লিঙ্গ",
         "values": [
-          "Male",
-          "Female"
-        ],
-        "v_required": {
-          "value": "true",
-          "err": "Please enter the sex"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "disabilities",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "159522AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-        "type": "spinner",
-        "hint": "Physical disabilities",
-        "values": [
-          "Yes",
-          "No"
+          "পুরুষ",
+          "নারী",
+          "তৃতীয় লিঙ্গ"
         ],
         "openmrs_choice_ids": {
-          "Yes": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "No": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          "পুরুষ": "M",
+          "নারী":"F",
+          "তৃতীয় লিঙ্গ": "O"
         },
         "v_required": {
-          "value": "true",
-          "err": "Please enter the sex"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_relevance.yml"
-            }
-          }
+          "value": true,
+          "err": "লিঙ্গ প্রবেশ করুন"
         }
       },
       {
-        "key": "type_of_disability",
+        "key": "birth_weight_taken",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "birth_weight_taken",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "জন্মকালীন ওজন নেওয়া হয়েছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Please select one option"
+        }
+      },
+      {
+        "key": "birth_weight",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "birth_weight",
         "type": "edit_text",
-        "hint": "Type of physical disabilities",
-        "edit_type": "name",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_relevance.yml"
-            }
-          }
+        "hint": "ওজন(কেজি)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
         }
       },
       {
-        "key": "early_bf_1hr",
+        "key": "chlorohexadin",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "164819AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "chlorohexadin",
+        "openmrs_data_type": "select one",
         "type": "spinner",
-        "hint": "Early initiation of breastfeeding (1 hr)?",
+        "hint": "নাভিতে ৭.১% ক্লোরোহেক্সিডিন দেয়া হয়েছে কিনা?",
         "values": [
-          "Yes",
-          "No"
+          "হ্যাঁ",
+          "না"
         ],
         "openmrs_choice_ids": {
-          "Yes": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "No": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          "হ্যাঁ": "Yes",
+          "না": "No"
         },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_relevance.yml"
-            }
-          }
+        "v_required": {
+          "value": "true",
+          "err": "Please select one option"
         }
       },
       {
-        "key": "vacc_birth",
+        "key": "breastfeeding_time",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "984AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-        "type": "check_box",
-        "label": "Which vaccinations were given?",
-        "label_text_style": "normal",
-        "text_color": "#C0C0C0",
-        "exclusive": [
-          "chk_none"
-        ],
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_relevance.yml"
-            }
-          }
+        "openmrs_entity_id": "breastfeeding_time",
+        "type": "edit_text",
+        "hint": "প্রসবের কতক্ষন পর মায়ের দুধ খাওয়ানো হয়েছে?",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
         },
-        "options": [
-          {
-            "key": "chk_none",
-            "text": "None",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "164369AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-          },
-          {
-            "key": "chk_opv_0",
-            "text": "OPV 0",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "783AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-          },
-          {
-            "key": "chk_bcg",
-            "text": "BCG",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "886AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-          }
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "head_body_covered",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "head_body_covered",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "শিশুর মাথা সহ শরীর মোড়ানো হয়েছে কিনা ?",
+        "values": [
+          "হ্যাঁ",
+          "না"
         ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
         "v_required": {
           "value": "true",
-          "err": "Please enter the current weight"
+          "err": "Please select one option"
+        }
+      },
+      {
+        "key": "birth_defect",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "birth_defect",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "শিশুর জন্ম গত ক্রুটি আছে কিনা?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Please select one option"
+        }
+      },
+      {
+        "key": "breast_feeded",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "breast_feeded",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "প্রসবের কতক্ষন পর মায়ের দুধ খাওয়ানো হয়েছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Please select one option"
         }
       }
     ]
