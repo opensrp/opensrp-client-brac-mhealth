@@ -45,13 +45,18 @@ public class HNPPMemberJsonFormActivity extends FamilyWizardFormActivity {
             switch (requestCode) {
                 case REQUEST_CODE_REGISTER:
                     if(registration!=null){
-                        String uniqueId = registration.getGuid();
-                        jsonWizardFormFragment.updateGuid(uniqueId);
+                        if(registration.getCheckStatus()){
+                            String uniqueId = registration.getGuid();
+                            jsonWizardFormFragment.updateGuid(uniqueId);
+                        }else{
+                            jsonWizardFormFragment.updateGuid(HnppConstants.TEST_GU_ID);
+                        }
+
                     }
                     break;
             }
         }else if(resultCode == RESULT_CANCELED && requestCode == REQUEST_CODE_REGISTER){
-            jsonWizardFormFragment.updateGuid(HnppConstants.TEST_GU_ID);
+            jsonWizardFormFragment.updateGuid("");
         }
      }
     @Override

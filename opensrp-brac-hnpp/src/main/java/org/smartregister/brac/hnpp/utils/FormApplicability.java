@@ -114,5 +114,15 @@ public class FormApplicability {
         }
         return -1;
     }
+    //other service and package
+    public boolean isIycfApplicable(int age){
+        return age <=5;
+    }
+    public boolean isAdolescentApplicable(int age, boolean isWomen){
+        return isWomen && age>=10 && age <=19;
+    }
+    public boolean isWomenPackageApplicable(int age, boolean isWomen){
+        return isWomen && age >=10;
+    }
 
 }

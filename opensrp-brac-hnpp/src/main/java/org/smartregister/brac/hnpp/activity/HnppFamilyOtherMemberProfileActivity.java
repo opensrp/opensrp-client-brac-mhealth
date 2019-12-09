@@ -170,7 +170,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         HnppMemberProfileDueFragment profileMemberFragment =(HnppMemberProfileDueFragment) HnppMemberProfileDueFragment.newInstance(this.getIntent().getExtras());
         profileMemberFragment.setCommonPersonObjectClient(commonPersonObject);
         adapter.addFragment(profileMemberFragment, this.getString(R.string.due).toUpperCase());
-        adapter.addFragment(new MemberOtherServiceFragment(), this.getString(R.string.other_service).toUpperCase());
+        MemberOtherServiceFragment memberOtherServiceFragment = new MemberOtherServiceFragment();
+        memberOtherServiceFragment.setCommonPersonObjectClient(commonPersonObject);
+        adapter.addFragment(memberOtherServiceFragment, this.getString(R.string.other_service).toUpperCase());
         adapter.addFragment(MemberHistoryFragment.getInstance(this.getIntent().getExtras()), this.getString(R.string.activity).toUpperCase());
         viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(adapter);

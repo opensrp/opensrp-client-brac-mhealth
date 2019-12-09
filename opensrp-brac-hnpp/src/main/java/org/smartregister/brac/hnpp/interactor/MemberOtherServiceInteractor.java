@@ -6,6 +6,7 @@ import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.contract.OtherServiceContract;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.OtherServiceData;
+import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.util.AppExecutors;
 
 import java.util.ArrayList;
@@ -20,16 +21,18 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
 
 
     @Override
-    public void fetchData(Context context, OtherServiceContract.InteractorCallBack callBack) {
+    public void fetchData(CommonPersonObjectClient commonPersonObjectClient, Context context, OtherServiceContract.InteractorCallBack callBack) {
 
         Runnable runnable = () -> {
-            ArrayList<OtherServiceData> otherServiceData = getOtherService();
+            ArrayList<OtherServiceData> otherServiceData = getOtherService(commonPersonObjectClient);
             appExecutors.mainThread().execute(() -> callBack.onUpdateList(otherServiceData));
         };
         appExecutors.diskIO().execute(runnable);
 
     }
-    private ArrayList<OtherServiceData> getOtherService(){
+    private ArrayList<OtherServiceData> getOtherService(CommonPersonObjectClient commonPersonObjectClient){
+
+
 
         ArrayList<OtherServiceData> otherServiceDataList = new ArrayList<>();
         OtherServiceData otherServiceData = new OtherServiceData();
