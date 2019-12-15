@@ -7,12 +7,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.bottomnavigation.LabelVisibilityMode;
 import android.support.design.widget.BottomNavigationView;
+import android.widget.Toast;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.HnppApplication;
+import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.model.HnppFamilyRegisterModel;
 import org.smartregister.brac.hnpp.presenter.FamilyRegisterPresenter;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -91,6 +93,10 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
 
     @Override
     public void startFormActivity(JSONObject jsonForm) {
+        if(SSLocationHelper.getInstance().getSsModels().size() == 0){
+            Toast.makeText(this,"ss  লোকেশন পাওয়া যায়নি . পুনরায় লগইন করুন",Toast.LENGTH_LONG).show();
+            return;
+        }
         Intent intent = new Intent(this, Utils.metadata().familyFormActivity);
         intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
         Form form = new Form();

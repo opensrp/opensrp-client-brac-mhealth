@@ -48,7 +48,7 @@ android {
         buildConfigField "String[]", "ALLOWED_LOCATION_LEVELS", '{"MOH Jhpiego Facility Name" , "Village"}'
         buildConfigField "String", 'DEFAULT_LOCATION', '"Village"'
         buildConfigField "boolean", 'SUPPORT_QR', 'false'
-        buildConfigField "int", "DATABASE_VERSION", '6'
+        buildConfigField "int", "DATABASE_VERSION", '7'
         buildConfigField "int", "DATA_SYNC_DURATION_MINUTES", '10'
         buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "1800000l"
         buildConfigField "boolean", "TIME_CHECK", "false"
@@ -107,9 +107,9 @@ android {
     productFlavors {
         live{
             dimension = 'baseDimension'
-            versionCode 9
-            versionName "1.1.7"
-            buildConfigField "String", 'opensrp_url', '"http://mhealth.brac.net:8080/opensrp/"'
+            versionCode 10
+            versionName "1.1.8"
+            buildConfigField "String", 'opensrp_url', '"https://mhealth.brac.net/opensrp/"'
             buildConfigField "boolean", "IS_RELEASE", "true"
             buildConfigField "String", "SIMPRINT_PROJECT_ID_TRAINING",'"pcmqBbcaB4xWvfRHRELG"'
             buildConfigField "String", "SIMPRINT_PROJECT_ID_RELEASE",'"pcmqBbcaB4xWvfRHRELG"'
@@ -117,8 +117,8 @@ android {
         training{
             dimension = 'baseDimension'
             applicationIdSuffix ".training"
-            versionCode 10
-            versionName "1.1.7"
+            versionCode 11
+            versionName "1.1.8"
             buildConfigField "String", 'opensrp_url', '"http://mhealthtest.brac.net:8080/opensrp/"'
             buildConfigField "boolean", "IS_RELEASE", "false"
             buildConfigField "String", "SIMPRINT_PROJECT_ID_TRAINING",'"pcmqBbcaB4xWvfRHRELG"'

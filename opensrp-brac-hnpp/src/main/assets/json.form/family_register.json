@@ -81,7 +81,7 @@
         },
         "v_required": {
           "value": "true",
-          "err": "গ্রামের নাম নির্বাচন করুন"
+          "err": "স্বাস্থ্য সেবিকার নাম নির্বাচন করুন"
         }
       },
       {
@@ -167,7 +167,7 @@
       {
         "key": "serial_no",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person_identifier",
+        "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "serial_no",
         "type": "edit_text",
         "hint": "সিরিয়াল নাম্বার",
@@ -237,7 +237,7 @@
         },
         "v_regex": {
           "value": "(5[0]|[1-4][0-9]|[1-9])|\s*",
-          "err": "সদস্য সংখ্যা অবশ্যই সর্বনিম্ন 1 সর্বোচ্চ 50 এর মধ্যে হওয়া উচিত"
+          "err": "সদস্য সংখ্যা অবশ্যই সর্বনিম্ন 1 সর্বোচ্চ 50 এর মধ্যে হবে প্রথমে 0 দিয়ে শুরু করা যাবে না"
         },
         "v_max_length": {
           "value": "2",

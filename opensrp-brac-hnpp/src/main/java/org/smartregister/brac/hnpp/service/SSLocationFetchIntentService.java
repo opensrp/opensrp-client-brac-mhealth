@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.HnppApplication;
+import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.domain.Response;
 import org.smartregister.service.HTTPAgent;
@@ -49,6 +50,7 @@ public class SSLocationFetchIntentService extends IntentService {
                     e.printStackTrace();
                 }
             }
+            SSLocationHelper.getInstance().updateModel();
 
         }
 

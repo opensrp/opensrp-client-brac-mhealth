@@ -16,6 +16,7 @@ import org.smartregister.brac.hnpp.activity.HNPPMemberJsonFormActivity;
 import org.smartregister.brac.hnpp.activity.HnppAllMemberRegisterActivity;
 import org.smartregister.brac.hnpp.custom_view.HnppNavigationTopView;
 import org.smartregister.brac.hnpp.listener.HnppNavigationListener;
+import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.repository.HnppChwRepository;
 import org.smartregister.brac.hnpp.repository.SSLocationRepository;
 import org.smartregister.brac.hnpp.repository.HouseholdIdRepository;
@@ -142,6 +143,7 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
     }
     @Override
     public void forceLogout() {
+        SSLocationHelper.clearLocation();
         Intent intent = new Intent(this,org.smartregister.brac.hnpp.activity.LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addCategory(Intent.CATEGORY_HOME);

@@ -45,6 +45,9 @@ public class HnppChwRepository extends CoreChwRepository {
                 case 6:
                     upgradeToVersion6(context, db);
                     break;
+                case 7:
+                    upgradeToVersion7(context, db);
+                    break;
 
                 default:
                     break;
@@ -53,6 +56,15 @@ public class HnppChwRepository extends CoreChwRepository {
         }
     }
 
+    private void upgradeToVersion7(Context context, SQLiteDatabase db) {
+        try{
+            db.execSQL("UPDATE client set syncStatus='Unsynced' where syncStatus='Synced'");
+            db.execSQL("UPDATE event set syncStatus='Unsynced',serverVersion= 0");
+
+        }catch (Exception e){
+            Timber.w(HnppChwRepository.class.getName(),"update client problem"+e);
+        }
+    }
     private void upgradeToVersion6(Context context, SQLiteDatabase db) {
         try{
             db.execSQL("ALTER TABLE ec_family ADD COLUMN serial_no VARCHAR;");
@@ -63,5 +75,6 @@ public class HnppChwRepository extends CoreChwRepository {
         }
 
     }
+
 
 }

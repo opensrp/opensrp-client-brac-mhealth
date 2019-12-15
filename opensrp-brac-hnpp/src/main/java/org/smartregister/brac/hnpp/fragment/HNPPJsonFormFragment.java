@@ -215,9 +215,8 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
                 if(o instanceof String){
                     String str = (String)o;
                     if(!TextUtils.isEmpty(str) && str.equalsIgnoreCase("test")){
-
-                        showNewIdRetriveaPopup();
                         PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
+                        showNewIdRetriveaPopup();
                         return;
                     }
 

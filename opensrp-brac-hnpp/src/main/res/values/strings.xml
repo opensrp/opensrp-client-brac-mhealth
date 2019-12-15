@@ -111,5 +111,6 @@
     <string name="cancel">ফিরে যান</string>
     <string name="scan_again">আবার চেষ্টা করুন</string>
     <string name="fail_result">ফলাফল পাওয়া যাই নি</string>
+    <string name="done">সম্পন্ন</string>
 
 </resources>

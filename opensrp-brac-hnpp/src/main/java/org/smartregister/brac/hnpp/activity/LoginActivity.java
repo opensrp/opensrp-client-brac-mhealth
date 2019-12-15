@@ -14,11 +14,12 @@ import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 
+import org.apache.commons.lang3.StringUtils;
 import org.smartregister.AllConstants;
-import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
@@ -36,6 +37,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import io.fabric.sdk.android.BuildConfig;
 
 
 public class LoginActivity extends BaseLoginActivity implements BaseLoginContract.View {
@@ -128,9 +131,14 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         findViewById(R.id.login_login_btn).setAlpha(1.0f);
         mActivity = this;
         HnppConstants.updateAppBackgroundOnResume(findViewById(R.id.login_layout));
-        if(!BuildConfig.DEBUG)app_version_status();
+       // if(BuildConfig.DEBUG)app_version_status();
     }
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add("Settings");
+        menu.add("App version :"+ BuildConfig.VERSION_NAME);
+        return true;
+    }
     @Override
     protected void onPause() {
         super.onPause();
@@ -203,24 +211,29 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         org.smartregister.util.Utils.startAsyncTask(new AsyncTask() {
             String version_code = "";
             String version = "";
+            String download_url = "";
 
             @Override
             protected Object doInBackground(Object[] objects) {
                 try {
-                    String baseUrl = Utils.getAllSharedPreferences().getPreference(AllConstants.DRISHTI_BASE_URL);
                     // Create a URL for the desired page
-                    baseUrl = baseUrl.replace("opensrp/", "");
-                    URL url = new URL(baseUrl + "opt/multimedia/app-version.txt");
+                    URL url = new URL(HnppConstants.APP_VERSION_URL);
 
                     // Read all the text returned by the server
                     BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-                    String str;
-                    str = "";
-                    while ((str = in.readLine()) != null) {
+                    String line = "";
+                    int i = 0;
+                    while ((line = in.readLine()) != null) {
                         // str is one line of text; readLine() strips the newline character(s)
-                        version_code += str;
+                        if (i++ == 0) {
+                            version_code = line;
+                        } else {
+                            download_url = line;
+                        }
+
                     }
                     in.close();
+
                 } catch (MalformedURLException e) {
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -234,21 +247,19 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
                 try {
                     PackageInfo pInfo = LoginActivity.this.getPackageManager().getPackageInfo(getPackageName(), 0);
                     version = pInfo.versionName;
-                    if (!version_code.trim().isEmpty()&&!version.equalsIgnoreCase(version_code.trim())) {
+                    if (!version_code.trim().isEmpty() && !version.equalsIgnoreCase(version_code.trim()) && !StringUtils.isEmpty(download_url)) {
                         android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(LoginActivity.this).create();
-                        alertDialog.setTitle("নতুন ভার্সন আপডেট করুন ");
+                        alertDialog.setTitle("নতুন ভার্সন আপডেট করুন "+version_code);
                         alertDialog.setCancelable(false);
 
                         alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE, "আপডেট",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         try {
-                                            final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
                                             try {
-                                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-                                            } catch (android.content.ActivityNotFoundException anfe) {
-                                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(download_url)));
 
+                                            } catch (android.content.ActivityNotFoundException anfe) {
                                             }
 
 
@@ -257,7 +268,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
                                         }
                                     }
                                 });
-                        if ( mActivity!=null && alertDialog != null)
+                        if (mActivity != null && alertDialog != null)
                             alertDialog.show();
                     }
                 } catch (PackageManager.NameNotFoundException e) {

@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.util.Pair;
 
 import com.google.gson.Gson;
+import com.vijay.jsonwizard.widgets.DatePickerFactory;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
@@ -43,6 +44,7 @@ import org.smartregister.util.FormUtils;
 import org.smartregister.view.LocationPickerView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -65,7 +67,15 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         fingerPrint.put("project_id", HnppConstants.getSimPrintsProjectId());
         fingerPrint.put("user_id",CoreLibrary.getInstance().context().allSharedPreferences().fetchRegisteredANM());
         fingerPrint.put("module_id",moduleId);
-        form.put("family_name",HnppChildUtils.getFamilyName(familyBaseEntityId));
+        try{
+            String[] familyData = HnppChildUtils.getNameMobileFromFamily(familyBaseEntityId);
+            if(familyData.length >0){
+                form.put("family_name",familyData[0]);
+                form.put("phone_no",familyData[1]);
+            }
+        }catch (Exception e){
+
+        }
 
         String entity_id = form.getString("entity_id");
         try {
@@ -406,13 +416,20 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 if (StringUtils.isNotBlank(ageString) && NumberUtils.isNumber(ageString)) {
                     int age = Integer.valueOf(ageString);
                     JSONObject dobJSONObject = getFieldJSONObject(fields, "dob");
-                    dobJSONObject.put("value", Utils.getDob(age));
+                    dobJSONObject.put("value", getDobWithToday(age));
                 }
             }
         } catch (JSONException var9) {
             Timber.e(var9);
         }
         processAttributesWithChoiceIDsForSave(fields);
+    }
+    public static String getDobWithToday(int age) {
+        Calendar cal = Calendar.getInstance();
+        if (age > 0)
+            cal.add(Calendar.YEAR, -age);
+        return DatePickerFactory.DATE_FORMAT.format(cal.getTime());
+
     }
     private static JSONArray processAttributesWithChoiceIDsForSave(JSONArray fields) {
         for (int i = 0; i < fields.length(); i++) {

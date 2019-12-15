@@ -21,7 +21,7 @@
           "column_name": "serial_no",
           "type": "Client",
           "json_mapping": {
-            "field": "identifiers.serial_no"
+            "field": "attributes.serial_no"
           }
         },
         {

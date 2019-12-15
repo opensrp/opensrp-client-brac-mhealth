@@ -23,6 +23,8 @@ public class HnppConstants extends CoreConstants {
     public static final int MEMBER_ID_SUFFIX = 11;
     public static final int HOUSE_HOLD_ID_SUFFIX = 9;
 
+    public static final String APP_VERSION_URL="https://raw.githubusercontent.com/OpenSRP/opensrp-client-brac-mhealth/app_version/app_version";
+
     public static boolean isExistSpecialCharacter(String filters){
         if(!TextUtils.isEmpty(filters) && filters.contains("/")){
             return true;

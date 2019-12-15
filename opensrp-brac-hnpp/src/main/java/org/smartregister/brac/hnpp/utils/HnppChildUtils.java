@@ -50,21 +50,22 @@ public class HnppChildUtils extends CoreChildUtils {
         }
         return entityId;
     }
-    public static String getFamilyName(String familyID){
-        String query = "select first_name from ec_family where base_entity_id = '"+familyID+"'";
+    public static String[] getNameMobileFromFamily(String familyID){
+        String query = "select first_name,phone_number from ec_family where base_entity_id = '"+familyID+"'";
         Cursor cursor = null;
-        String name = "";
+        String[] nameNumber = new String[2];
         try {
             cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             cursor.moveToFirst();
-            name = cursor.getString(0);
+            nameNumber[0] = cursor.getString(0);
+            nameNumber[1] = cursor.getString(1);
         } catch (Exception e) {
             Timber.e(e);
         } finally {
             if (cursor != null)
                 cursor.close();
         }
-        return name;
+        return nameNumber;
     }
     public static ArrayList<String> getAllWomenInHouseHold(String familyID){
         String query = "select first_name from ec_family_member where (gender = 'নারী' OR gender = 'F') and ((marital_status != 'অবিবাহিত' AND marital_status != 'Unmarried') and marital_status IS NOT NULL) and relational_id = '"+familyID+"'";
