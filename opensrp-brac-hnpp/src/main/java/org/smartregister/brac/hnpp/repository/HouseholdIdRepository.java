@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.repository;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.text.TextUtils;
 import android.util.Log;
 
 import net.sqlcipher.database.SQLiteDatabase;
@@ -83,6 +84,30 @@ public class HouseholdIdRepository extends BaseRepository {
             database.endTransaction();
         }
     }
+    public void insertVillageId(String id ) {
+        SQLiteDatabase database = getWritableDatabase();
+
+        try {
+            String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
+
+            database.beginTransaction();
+                ContentValues values = new ContentValues();
+                values.put(VILLAGE_ID_COLUMN, id);
+                values.put(OPENMRS_ID_COLUMN, "");
+                values.put(STATUS_COLUMN, STATUS_USED);
+                values.put(SYNCED_BY_COLUMN, userName);
+                values.put(CREATED_AT_COLUMN, dateFormat.format(new Date()));
+                if(!isVillageIdExist(id)){
+                    database.insert(HouseholdIds_TABLE_NAME, null, values);
+                }
+
+            database.setTransactionSuccessful();
+        } catch (SQLException e) {
+            Log.e(TAG, e.getMessage(), e);
+        } finally {
+            database.endTransaction();
+        }
+    }
 
     public Long countUnUsedIds() {
         long count = 0;
@@ -104,15 +129,15 @@ public class HouseholdIdRepository extends BaseRepository {
         return count;
     }
 
-    public String openmrsIdsByVillage(String village_id) {
-        String openmrs_ids = "";
+    public boolean isVillageIdExist(String village_id) {
+        String status = "";
         Cursor cursor = null;
         try {
-            cursor = getWritableDatabase().rawQuery("SELECT " + OPENMRS_ID_COLUMN + " FROM " + HouseholdIds_TABLE_NAME + " WHERE " + STATUS_COLUMN + "=? AND" + VILLAGE_ID_COLUMN + " =? ORDER BY " + CREATED_AT_COLUMN + " ASC LIMIT 1",
-                    new String[]{String.valueOf(STATUS_NOT_USED), String.valueOf(village_id)});
+            cursor = getWritableDatabase().rawQuery("SELECT " + STATUS_COLUMN + " FROM " + HouseholdIds_TABLE_NAME + " WHERE " + VILLAGE_ID_COLUMN + " =? ORDER BY " + CREATED_AT_COLUMN + " ASC LIMIT 1",
+                    new String[]{String.valueOf(village_id)});
             if (null != cursor && cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                openmrs_ids = cursor.getString(0);
+                status = cursor.getString(0);
             }
 
         } catch (SQLException e) {
@@ -121,7 +146,7 @@ public class HouseholdIdRepository extends BaseRepository {
             if (cursor != null)
                 cursor.close();
         }
-        return openmrs_ids;
+        return !TextUtils.isEmpty(status);
     }
 
     public String getUnusedVillageId(){

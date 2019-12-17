@@ -202,7 +202,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
                 village_id = String.valueOf(ssLocations.village.id);
                 hhid = householdIdRepo.getNextHouseholdId(village_id);
                 if(hhid == null){
-                    return "test";
+                    return village_id;
                 }
                 unique_id = SSLocationHelper.getInstance().generateHouseHoldId(ssLocations, hhid.getOpenmrsId() + "");
 
@@ -214,7 +214,8 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
                 super.onPostExecute(o);
                 if(o instanceof String){
                     String str = (String)o;
-                    if(!TextUtils.isEmpty(str) && str.equalsIgnoreCase("test")){
+                    if(!TextUtils.isEmpty(str)){
+                        HnppApplication.getHNPPInstance().getHouseholdIdRepository().insertVillageId(village_id);
                         PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
                         showNewIdRetriveaPopup();
                         return;
