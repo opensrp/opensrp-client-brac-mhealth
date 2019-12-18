@@ -37,8 +37,7 @@ public class HNPPApplicationUtils {
     private static String[] retrieveFtsSearchFields(String tableName) {
         switch (tableName) {
             case CoreConstants.TABLE_NAME.FAMILY:
-                return new String[]{DBConstants.KEY.VILLAGE_TOWN, HnppConstants.KEY.CLASTER, DBConstants.KEY.FIRST_NAME,
-                        DBConstants.KEY.LAST_NAME, DBConstants.KEY.UNIQUE_ID, HnppConstants.KEY.HOUSE_HOLD_NAME, HnppConstants.KEY.SERIAL_NO, DBConstants.KEY.PHONE_NUMBER};
+                return new String[]{HnppConstants.KEY.CLASTER, DBConstants.KEY.FIRST_NAME, DBConstants.KEY.UNIQUE_ID, HnppConstants.KEY.HOUSE_HOLD_NAME, HnppConstants.KEY.SERIAL_NO, DBConstants.KEY.PHONE_NUMBER};
             case CoreConstants.TABLE_NAME.FAMILY_MEMBER:
                 return new String[]{DBConstants.KEY.FIRST_NAME, DBConstants.KEY.MIDDLE_NAME,
                         DBConstants.KEY.LAST_NAME, DBConstants.KEY.UNIQUE_ID, DBConstants.KEY.PHONE_NUMBER};

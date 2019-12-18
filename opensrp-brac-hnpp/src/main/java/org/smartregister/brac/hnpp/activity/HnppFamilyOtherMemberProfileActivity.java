@@ -25,6 +25,7 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.fragment.BaseFamilyOtherMemberProfileFragment;
 import org.smartregister.family.model.BaseFamilyOtherMemberProfileActivityModel;
 import org.smartregister.family.util.Constants;
+import org.smartregister.family.util.DBConstants;
 import org.smartregister.helper.ImageRenderHelper;
 import org.smartregister.view.contract.BaseProfileContract;
 import org.smartregister.view.customcontrols.CustomFontTextView;
@@ -147,6 +148,24 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     @Override
     protected Class<? extends CoreFamilyProfileActivity> getFamilyProfileActivity() {
         return FamilyProfileActivity.class;
+    }
+
+    @Override
+    protected void openFamilyDueTab() {
+        Intent intent = new Intent(this, getFamilyProfileActivity());
+        intent.putExtras(getIntent().getExtras());
+
+//        intent.putExtra(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, familyBaseEntityId);
+//        intent.putExtra(Constants.INTENT_KEY.FAMILY_HEAD, familyHead);
+//        intent.putExtra(Constants.INTENT_KEY.PRIMARY_CAREGIVER, primaryCaregiver);
+//        intent.putExtra(Constants.INTENT_KEY.FAMILY_NAME, familyName);
+//        String moduleId = HnppChildUtils.getModuleId(familyHead);
+//        intent.putExtra(HnppConstants.KEY.MODULE_ID, moduleId);
+//        String villageTown = getIntent().getStringExtra(Constants.INTENT_KEY.VILLAGE_TOWN);
+//        intent.putExtra(Constants.INTENT_KEY.VILLAGE_TOWN,villageTown);
+//        intent.putExtra(DBConstants.KEY.UNIQUE_ID, getIntent().getStringExtra(DBConstants.KEY.UNIQUE_ID));
+        intent.putExtra(CoreConstants.INTENT_KEY.SERVICE_DUE, true);
+        startActivity(intent);
     }
 
     @Override

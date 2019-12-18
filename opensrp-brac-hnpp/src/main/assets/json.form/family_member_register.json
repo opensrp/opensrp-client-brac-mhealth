@@ -130,7 +130,7 @@
         "edit_type": "name",
         "v_required": {
           "value": "true",
-          "err": "প্রথম নাম লিখুন"
+          "err": "নাম লিখুন"
         },
         "v_regex": {
           "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
@@ -326,7 +326,7 @@
         },
         "v_required": {
           "value": true,
-          "err": "মান নির্বাচন করুন"
+          "err": "জন্মতারিখ নির্বাচন করুন"
         }
       },
       {
