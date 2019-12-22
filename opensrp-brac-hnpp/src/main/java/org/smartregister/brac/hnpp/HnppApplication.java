@@ -1,6 +1,8 @@
 package org.smartregister.brac.hnpp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
 import com.crashlytics.android.Crashlytics;
@@ -22,6 +24,7 @@ import org.smartregister.brac.hnpp.repository.SSLocationRepository;
 import org.smartregister.brac.hnpp.repository.HouseholdIdRepository;
 import org.smartregister.brac.hnpp.sync.HnppSyncConfiguration;
 import org.smartregister.brac.hnpp.utils.HNPPApplicationUtils;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.contract.CoreApplication;
 import org.smartregister.chw.core.custom_views.NavigationMenu;
@@ -67,6 +70,9 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
     @Override
     public void onCreate() {
         super.onCreate();
+        mInstance = this;
+        context = Context.getInstance();
+
         //init Job Manager
         SyncStatusBroadcastReceiver.init(this);
         JobManager.create(this).addJobCreator(new HnppJobCreator());
@@ -86,8 +92,7 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
 //                    .allSharedPreferences().fetchRegisteredANM()));
 //        }
 
-        mInstance = this;
-        context = Context.getInstance();
+
         context.updateApplicationContext(getApplicationContext());
         context.updateCommonFtsObject(createCommonFtsObject());
 
@@ -105,6 +110,7 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
         //AncLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
         //PncLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
        // MalariaLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
+
         setOpenSRPUrl();
         // set up processor
         FamilyLibrary.getInstance().setClientProcessorForJava(ChwClientProcessor.getInstance(getApplicationContext()));
@@ -145,12 +151,32 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
     public void forceLogout() {
         SSLocationHelper.clearLocation();
         Intent intent = new Intent(this,org.smartregister.brac.hnpp.activity.LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
         context.userService().logoutSession();
+        startActivity(intent);
+
+    }
+    public void appSwitch() {
+        Runtime.getRuntime().exit(0);
+        //System.exit(0);
+        SSLocationHelper.clearLocation();
+        Intent intent = new Intent(this,org.smartregister.brac.hnpp.activity.LoginActivity.class);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        setOpenSRPUrl();
+        context.userService().logoutSession();
+        startActivity(intent);
+
+    }
+    public void clearDatabase(){
+        ((HnppChwRepository)getRepository()).deleteDatabase();
+    }
+    public void clearSharePreference(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        preferences.edit().clear().commit();
     }
 
     public @NotNull Map<String, Class> getRegisteredActivities() {
@@ -194,8 +220,9 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
 
     public void setOpenSRPUrl() {
         AllSharedPreferences preferences = Utils.getAllSharedPreferences();
+        boolean isRelease = HnppConstants.isReleaseBuild();
         //if(TextUtils.isEmpty(preferences.getPreference(AllConstants.DRISHTI_BASE_URL))){
-          preferences.savePreference(AllConstants.DRISHTI_BASE_URL, BuildConfig.opensrp_url);
+          preferences.savePreference(AllConstants.DRISHTI_BASE_URL, isRelease? BuildConfig.opensrp_url_live:BuildConfig.opensrp_url_training);
 
         //}
 

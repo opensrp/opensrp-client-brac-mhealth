@@ -1,18 +1,23 @@
 package org.smartregister.brac.hnpp.utils;
 
+import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
+import android.os.Environment;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.smartregister.AllConstants;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.util.Utils;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -22,25 +27,27 @@ public class HnppConstants extends CoreConstants {
     public static final String MODULE_ID_TRAINING = "TRAINING";
     public static final int MEMBER_ID_SUFFIX = 11;
     public static final int HOUSE_HOLD_ID_SUFFIX = 9;
+    public static final String IS_RELEASE = "is_release_build";
+    public static final String IS_DEVICE_VERIFY = "is_device_verify";
 
-    public static final String APP_VERSION_URL="https://raw.githubusercontent.com/OpenSRP/opensrp-client-brac-mhealth/app_version/app_version";
 
-    public static boolean isExistSpecialCharacter(String filters){
-        if(!TextUtils.isEmpty(filters) && filters.contains("/")){
+    public static boolean isExistSpecialCharacter(String filters) {
+        if (!TextUtils.isEmpty(filters) && filters.contains("/")) {
             return true;
         }
         return false;
     }
 
-    public static void updateAppBackground(View view){
-        if(!isReleaseBuild()){
+    public static void updateAppBackground(View view) {
+        if (!isReleaseBuild()) {
             view.setBackgroundColor(Color.parseColor("#B53737"));
         }
     }
-    public static void updateAppBackgroundOnResume(View view){
-        if(!isReleaseBuild()){
+
+    public static void updateAppBackgroundOnResume(View view) {
+        if (!isReleaseBuild()) {
             view.setBackgroundColor(Color.parseColor("#B53737"));
-        }else{
+        } else {
             view.setBackgroundColor(Color.parseColor("#F6F6F6"));
         }
     }
@@ -49,10 +56,11 @@ public class HnppConstants extends CoreConstants {
 
         return new ArrayList<>(getClasterNames().keySet());
     }
-    public static String getClusterNameFromValue(String value){
+
+    public static String getClusterNameFromValue(String value) {
         HashMap<String, String> keys = getClasterNames();
-        for (String key: keys.keySet()){
-            if(keys.get(key).equalsIgnoreCase(value)){
+        for (String key : keys.keySet()) {
+            if (keys.get(key).equalsIgnoreCase(value)) {
                 return key;
             }
         }
@@ -60,7 +68,7 @@ public class HnppConstants extends CoreConstants {
     }
 
     public static HashMap<String, String> getClasterNames() {
-        LinkedHashMap<String,String> clusterArray = new LinkedHashMap<>();
+        LinkedHashMap<String, String> clusterArray = new LinkedHashMap<>();
         clusterArray.put("ক্লাস্টার ১", "1st_Cluster");
         clusterArray.put("ক্লাস্টার ২", "2nd_Cluster");
         clusterArray.put("ক্লাস্টার ৩", "3rd_Cluster");
@@ -78,19 +86,76 @@ public class HnppConstants extends CoreConstants {
         public static final String VILLAGE_INDEX = "village_index";
     }
 
-    public static String getTotalCountBn(int count){
+    public static String getTotalCountBn(int count) {
         char[] bn_numbers = "০১২৩৪৫৬৭৮৯".toCharArray();
         String c = String.valueOf(count);
         String number_to_return = "";
-        for(char ch: c.toCharArray()){
+        for (char ch : c.toCharArray()) {
 
-            number_to_return+=bn_numbers[Integer.valueOf(ch)%Integer.valueOf('0')];
+            number_to_return += bn_numbers[Integer.valueOf(ch) % Integer.valueOf('0')];
         }
         return number_to_return;
     }
 
-    public static boolean isReleaseBuild(){
-        return BuildConfig.IS_RELEASE;
+    public static boolean isReleaseBuild() {
+        AllSharedPreferences preferences = Utils.getAllSharedPreferences();
+        String isReleaseBuild = preferences.getPreference(IS_RELEASE);
+        if (TextUtils.isEmpty(isReleaseBuild) || isReleaseBuild.equalsIgnoreCase("L")) {
+            return true;
+        }
+        return false;
+    }
+
+    public static String getDeviceId(TelephonyManager mTelephonyManager, Context context,boolean fromSettings) {
+        String deviceId = null;
+        if (mTelephonyManager != null) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                deviceId = mTelephonyManager.getDeviceId(1);
+                if(fromSettings){
+                    deviceId = deviceId+"\n"+mTelephonyManager.getDeviceId(2);
+                }
+            }
+
+        }
+        return deviceId;
+    }
+    public static boolean isDeviceVerified(){
+        AllSharedPreferences preferences = Utils.getAllSharedPreferences();
+        String isDeviceVerif = preferences.getPreference(IS_DEVICE_VERIFY);
+        if(!TextUtils.isEmpty(isDeviceVerif) && isDeviceVerif.equalsIgnoreCase("V")){
+            return true;
+        }
+        return false;
+    }
+    public static void updateLiveTest(String appMode){
+        AllSharedPreferences preferences = Utils.getAllSharedPreferences();
+        preferences.savePreference(IS_RELEASE,appMode);
+    }
+
+    private String getAppModeFromFile(){
+        File sdcard = Environment.getExternalStorageDirectory();
+        File file = new File(sdcard,"mhealth_app_mode.txt");
+        StringBuilder text = new StringBuilder();
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                text.append(line);
+                text.append('\n');
+            }
+            br.close();
+        }
+        catch (IOException e) {
+            //You'll need to add proper error handling here
+        }
+        return text.toString();
+    }
+    public static void updateDeviceVerified(boolean isVerify){
+        AllSharedPreferences preferences = Utils.getAllSharedPreferences();
+        preferences.savePreference(IS_DEVICE_VERIFY,isVerify?"V":"");
     }
     public static String getSimPrintsProjectId(){
 

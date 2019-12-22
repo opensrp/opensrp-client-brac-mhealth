@@ -44,9 +44,14 @@ public class LoginInteractor extends BaseLoginInteractor implements BaseLoginCon
 
     @Override
     protected void scheduleJobsImmediately() {
-        PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
-        PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
-        SSLocationFetchJob.scheduleJobImmediately(SSLocationFetchJob.TAG);
-        SyncServiceJob.scheduleJobImmediately(SyncServiceJob.TAG);
+        try{
+            PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
+            PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
+            SSLocationFetchJob.scheduleJobImmediately(SSLocationFetchJob.TAG);
+            SyncServiceJob.scheduleJobImmediately(SyncServiceJob.TAG);
+        }catch (Exception e){
+
+        }
+
     }
 }

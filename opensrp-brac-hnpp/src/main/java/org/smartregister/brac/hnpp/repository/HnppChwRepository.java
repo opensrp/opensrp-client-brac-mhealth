@@ -20,6 +20,10 @@ public class HnppChwRepository extends CoreChwRepository {
         this.context = context;
     }
 
+    public void deleteDatabase(){
+        context.deleteDatabase(AllConstants.DATABASE_NAME);
+    }
+
     @Override
     public void onCreate(SQLiteDatabase database) {
         super.onCreate(database);

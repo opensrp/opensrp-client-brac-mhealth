@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/transparent"
+    android:paddingLeft="20dp"
+    android:layout_marginTop="-5dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <TextView
+        android:text="Operation"
+        android:textColor="@color/black"
+        android:layout_marginBottom="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/test_button"
+            android:layout_width="fill_parent"
+            android:minWidth="100dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/test_button_bg"
+            android:padding="10dp"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:text="TEST" />
+        <TextView
+            android:id="@+id/live_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:minWidth="100dp"
+            android:background="@drawable/live_button_bg"
+            android:ellipsize="marquee"
+            android:fadingEdge="horizontal"
+            android:padding="10dp"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="LIVE"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
+
+
+    </LinearLayout>
+</LinearLayout>

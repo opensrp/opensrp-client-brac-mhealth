@@ -185,7 +185,8 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         ivLogo.setImageResource(topFlavor !=null ? topFlavor.getTopLogo() : R.drawable.ic_logo);
         TextView tvLogo = rootView.findViewById(R.id.tvLogo);
         tvLogo.setText(topFlavor !=null ? topFlavor.topText() : activity.getString(R.string.nav_logo));
-
+        TextView tvAppVersion = rootView.findViewById(R.id.tvappversion);
+        tvAppVersion.setText(topFlavor !=null ? topFlavor.appVersionText(): "");
         if (syncProgressBar != null) {
             FadingCircle circle = new FadingCircle();
             syncProgressBar.setIndeterminateDrawable(circle);
@@ -422,5 +423,6 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     public interface FlavorTop {
         int getTopLogo();
         String topText();
+        String appVersionText();
     }
 }

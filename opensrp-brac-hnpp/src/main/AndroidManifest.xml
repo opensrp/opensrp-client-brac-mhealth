@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="org.smartregister.brac.hnpp">
 
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <application
         android:name="org.smartregister.brac.hnpp.HnppApplication"
         android:allowBackup="false"
@@ -144,6 +145,8 @@
             android:name=".activity.HnppAllMemberRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
+        <activity android:name=".activity.HnppSettingsActivity" />
+
         <service android:name="org.smartregister.immunization.service.intent.VaccineIntentService" />
         <service android:name="org.smartregister.immunization.service.intent.RecurringIntentService" />
         <service android:name="org.smartregister.sync.intent.PullUniqueIdsIntentService" />
