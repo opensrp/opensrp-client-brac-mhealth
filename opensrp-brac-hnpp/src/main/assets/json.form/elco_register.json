@@ -47,7 +47,7 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "ELCO Registration",
+    "title": "ELCO নিবন্ধন",
     "fields": [
       {
         "key": "form_name",

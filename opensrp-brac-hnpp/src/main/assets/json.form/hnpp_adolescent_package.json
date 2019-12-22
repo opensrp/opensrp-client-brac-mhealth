@@ -1,0 +1,492 @@
+{
+  "count": "1",
+  "encounter_type": "Adolescent package",
+  "entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location": ""
+  },
+  "step1": {
+    "title": "কিশোরী সেবা প্যাকেজ",
+    "fields": [
+      {
+        "key": "form_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "Adolescent package",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": "XXXX"
+      },
+      {
+        "key": "marital_status",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": ""
+      },
+      {
+        "key": "weight",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "weight",
+        "type": "edit_text",
+        "hint": "ওজন(কেজি)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "height",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "height",
+        "type": "edit_text",
+        "hint": "ঊচচতা(সে.মি.)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "bmi",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "bmi",
+        "type": "edit_text",
+        "hint": "বি.এম.আই",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_adolescent_package_calculation.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "ad_toaster_1",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "নিয়মিত অনুশীলন এবং স্বাস্থ্যকর ডায়েট অনুশীলনের মাধ্যমে ওজন হ্রাস করার পরামর্শ যেমন কার্বোহাইড্রেট এবং ফ্যাট হ্রাস এবং শাকসবজি গ্রহণ বাড়িয়ে তোলা",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_ncd_package_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "hemoglobin",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "hemoglobin",
+        "type": "edit_text",
+        "hint": "হিমোগ্লোবিন(gm/dl)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "ad_toaster_2",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "আয়রন সমৃদ্ধ ডায়েটের জন্য যেমন মাছ, মাংস, লিভার, সবুজ শাক এবং রঙিন ফল এবং শাকসব্জির পরামর্শ, আয়রন ফলিক অ্যাসিড পরিপূরক গ্রহণ করুন, স্যান্ডেল ব্যবহার করুন, প্রতি 6 মাসের ব্যবধানে ডিওয়ার্মিং ট্যাবলেট গ্রহণ করুন",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_adolescent_package_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "ad_toaster_3",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "refer to UHC",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_adolescent_package_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "iron_folic_acid",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "iron_folic_acid",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "আয়রন ফলিক ট্যাবলেট খাচ্ছে কি? ",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+
+      },
+      {
+        "key": "Vermicompost",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "Vermicompost",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "গত ৬ মাসে কৃমিনাশক ঔষধ খেয়েছে কি?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+
+      },
+      {
+        "key": "family_planning",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "family_planning",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "পরিবার পরিকল্পনা পদ্ধতি কোনটি ব্যবহার করছেন?",
+        "values": [
+          "বড়ি",
+          "কনডম",
+          "ইঞ্জেকশান",
+          "আই ইউ ডি",
+          "নরপ্লান্ট",
+          "মহিলা বন্ধ্যাকরণ"
+        ],
+        "openmrs_choice_ids": {
+          "বড়ি": "",
+          "কনডম": "",
+          "ইঞ্জেকশান": "",
+          "আই ইউ ডি": "",
+          "নরপ্লান্ট": "",
+          "মহিলা বন্ধ্যাকরণ ": ""
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_adolescent_package_relevance.yml"
+            }
+          }
+        }
+
+      },
+      {
+        "key": "other_problem",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "other_problem",
+        "type": "check_box",
+        "label": "অন্য কোন শারীরিক সমস্যা?",
+        "exclusive": [
+          "None"
+        ],
+        "options": [
+          {
+            "key": "Irritation_in_urine",
+            "text": "প্রস্রাবে জ্বালা",
+            "value": false,
+            "openmrs_entity": "",
+            "openmrs_entity_id": "Irritation_in_urine",
+            "openmrs_entity_parent": ""
+          },
+          {
+            "key": "Smelly_discharge",
+            "text": "দূর্গন্ধযুক্ত স্রাব",
+            "value": false,
+            "openmrs_entity": "",
+            "openmrs_entity_id": "Smelly_discharge",
+            "openmrs_entity_parent": ""
+          },
+          {
+            "key": "Vaginal_irritation",
+            "text": "যোনিপথে জ্বালা/ব্যথা",
+            "value": false,
+            "openmrs_entity": "",
+            "openmrs_entity_id": "Vaginal_irritation",
+            "openmrs_entity_parent": ""
+          },
+          {
+            "key": "Abnormal_changes_in_genitalia",
+            "text": "যৌনাঙ্গে অস্বাভাবিক পরিবর্তন",
+            "value": false,
+            "openmrs_entity": "",
+            "openmrs_entity_id": "Abnormal_changes_in_genitalia",
+            "openmrs_entity_parent": ""
+          },
+          {
+            "key": "Pain_in_the_abdomen",
+            "text": "তলপেটে ব্যথা",
+            "value": false,
+            "openmrs_entity": "",
+            "openmrs_entity_id": "Pain_in_the_abdomen",
+            "openmrs_entity_parent": ""
+          }
+        ],
+        "v_required": {
+          "value": "true",
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "cause_of_referral",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cause_of_referral",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "রেফারেল এর কারণ",
+        "values": [
+          "গর্ভাবস্থার সমস্যা",
+          "প্রসবে সমস্যা",
+          "শিশু বিষয়ক সমস্যা",
+          "চোখে সমস্যা",
+          "ডায়বেটিস",
+          "উচ্চ রক্তচাপ",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "গর্ভাবস্থার সমস্যা": "",
+          "প্রসবে সমস্যা": "",
+          "শিশু বিষয়ক সমস্যা": "",
+          "চোখে সমস্যা": "",
+          "ডায়বেটিস": "",
+          "উচ্চ রক্তচাপ": "",
+          "অন্যান্য": ""
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+
+      },
+      {
+        "key": "other_cause",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "other_cause",
+        "type": "edit_text",
+        "hint": "অন্যান্য সমস্যা",
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "step1:cause_of_referral": {
+            "type": "string",
+            "ex": "equalTo(., \"অন্যান্য\")"
+          }
+        }
+      },
+      {
+        "key": "place_of_referral",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "place_of_referral",
+        "type": "check_box",
+        "label": "রেফারের স্থান",
+        "exclusive": [
+          "None"
+        ],
+        "options": [
+          {
+            "key": "brac_maternity_center",
+            "text": "ব্র্যাক ম্যাটারনিটি সেন্টার",
+            "value": false,
+            "openmrs_entity": "",
+            "openmrs_entity_id": "brac_maternity_center",
+            "openmrs_entity_parent": ""
+          },
+          {
+            "key": "union_health_center",
+            "text": "ইউনিয়ন উপ-স্বাস্থ্য কেন্দ্র",
+            "value": false,
+            "openmrs_entity": "",
+            "openmrs_entity_id": "union_health_center",
+            "openmrs_entity_parent": ""
+          },
+          {
+            "key": "upozzila_health_complex",
+            "text": "উপজেলা স্বাস্থ্য কমপ্লেক্স",
+            "value": false,
+            "openmrs_entity": "",
+            "openmrs_entity_id": "upozzila_health_complex",
+            "openmrs_entity_parent": ""
+          },
+          {
+            "key": "union_family_kollan_center",
+            "text": "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র",
+            "value": false,
+            "openmrs_entity": "",
+            "openmrs_entity_id": "union_family_kollan_center",
+            "openmrs_entity_parent": ""
+          },
+          {
+            "key": "union_health_and_family_kollan_center",
+            "text": "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
+            "value": false,
+            "openmrs_entity": "",
+            "openmrs_entity_id": "union_health_and_family_kollan_center",
+            "openmrs_entity_parent": ""
+          },
+          {
+            "key": "mother_child_kollan_center",
+            "text": "মা ও শিশু কল্যাণ কেন্দ্র",
+            "value": false,
+            "openmrs_entity": "",
+            "openmrs_entity_id": "mother_child_kollan_center",
+            "openmrs_entity_parent": ""
+          },
+          {
+            "key": "center_hospital",
+            "text": "সদর হাসপাতাল",
+            "value": false,
+            "openmrs_entity": "",
+            "openmrs_entity_id": "center_hospital",
+            "openmrs_entity_parent": ""
+          },
+          {
+            "key": "medical_collage_hospital",
+            "text": "মেডিকেল কলেজ হাসপাতাল",
+            "value": false,
+            "openmrs_entity": "",
+            "openmrs_entity_id": "medical_collage_hospital",
+            "openmrs_entity_parent": ""
+          },
+          {
+            "key": "private_clinic",
+            "text": "বেসরকারি ক্লিনিক",
+            "value": false,
+            "openmrs_entity": "",
+            "openmrs_entity_id": "private_clinic",
+            "openmrs_entity_parent": ""
+          },
+          {
+            "key": "spacial_hospital",
+            "text": "বিশেষায়িত হাসপাতাল",
+            "value": false,
+            "openmrs_entity": "",
+            "openmrs_entity_id": "spacial_hospital",
+            "openmrs_entity_parent": ""
+          },
+          {
+            "key": "other_option",
+            "text": "অন্যান্য",
+            "value": false,
+            "openmrs_entity": "",
+            "openmrs_entity_id": "other_option",
+            "openmrs_entity_parent": ""
+          }
+        ],
+        "v_required": {
+          "value": "true",
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "advice",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "advice",
+        "type": "edit_text",
+        "hint": "উপদেশ",
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      }
+    ]
+  }
+}

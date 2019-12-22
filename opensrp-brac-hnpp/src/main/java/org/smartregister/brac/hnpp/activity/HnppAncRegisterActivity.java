@@ -6,35 +6,30 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.bottomnavigation.LabelVisibilityMode;
 import android.support.design.widget.BottomNavigationView;
-
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
-import org.smartregister.brac.hnpp.fragment.AncRegisterFragment;
 import org.smartregister.brac.hnpp.fragment.HnppAncRegisterFragment;
 import org.smartregister.brac.hnpp.listener.HnppBottomNavigationListener;
 import org.smartregister.brac.hnpp.listener.HnppFamilyBottomNavListener;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.utils.ANCRegister;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
-import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.anc.util.DBConstants;
 import org.smartregister.chw.core.activity.CoreAncRegisterActivity;
-import org.smartregister.chw.core.listener.CoreBottomNavigationListener;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
 import org.smartregister.helper.BottomNavigationHelper;
-import org.smartregister.job.SyncServiceJob;
 import org.smartregister.view.fragment.BaseRegisterFragment;
-
 
 import timber.log.Timber;
 
@@ -105,6 +100,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
             }
             JSONObject stepOne = jsonForm.getJSONObject(JsonFormUtils.STEP1);
             JSONArray jsonArray = stepOne.getJSONArray(JsonFormUtils.FIELDS);
+            updateFormField(jsonArray, DBConstants.KEY.UNIQUE_ID, unique_id);
             updateFormField(jsonArray, DBConstants.KEY.TEMP_UNIQUE_ID, unique_id);
             updateFormField(jsonArray, CoreConstants.JsonAssets.FAM_NAME, familyName);
             updateFormField(jsonArray, CoreConstants.JsonAssets.FAMILY_MEMBER.PHONE_NUMBER, phone_number);
@@ -179,14 +175,20 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        JSONObject form = null;
         if (resultCode == Activity.RESULT_OK && requestCode == Constants.REQUEST_CODE_GET_JSON) {
 //            process the form
+
             try {
                 String jsonString = data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON);
-                JSONObject form = new JSONObject(jsonString);
+                form = new JSONObject(jsonString);
+                JSONObject step1 = form.getJSONObject("step1");
                 String baseEnityId = form.optString(Constants.JSON_FORM_EXTRA.ENTITY_TYPE);
                 String encounter_type = form.optString(Constants.JSON_FORM_EXTRA.ENCOUNTER_TYPE);
+                if(encounter_type.equalsIgnoreCase("Pregnancy Outcome")){
+                    JSONArray fields = step1.getJSONArray("fields");
+                    updateUniqueId(fields);
+                }
 
                 if (encounter_type.equalsIgnoreCase(CoreConstants.EventType.PNC_HOME_VISIT)) {
                     //ChwScheduleTaskExecutor.getInstance().execute(baseEnityId, CoreConstants.EventType.PNC_HOME_VISIT, new Date());
@@ -196,6 +198,45 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
                 // SyncServiceJob.scheduleJobImmediately(SyncServiceJob.TAG);
             } catch (Exception e) {
                 Timber.e(e);
+            }
+        }
+        if(form!=null){
+            data.putExtra(Constants.JSON_FORM_EXTRA.JSON,form.toString());
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+
+
+    }
+
+    public static void updateUniqueId(JSONArray fields){
+        boolean has_delivery_date = false;
+        for(int i=0;i<fields.length();i++){
+            try {
+                JSONObject object = fields.getJSONObject(i);
+                if("delivery_date".equalsIgnoreCase(object.getString("key"))){
+
+                    if(object.has("value")&&!StringUtils.isEmpty(object.getString("value"))){
+                        has_delivery_date = true;
+                        break;
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(!has_delivery_date){
+            for(int i=0;i<fields.length();i++){
+                try {
+                    JSONObject object = fields.getJSONObject(i);
+                    if("unique_id".equalsIgnoreCase(object.getString("key"))){
+
+                        object.put("value","");
+                        break;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

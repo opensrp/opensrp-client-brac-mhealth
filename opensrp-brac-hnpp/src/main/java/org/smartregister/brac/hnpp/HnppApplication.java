@@ -140,12 +140,12 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
 
     @Override
     public void logoutCurrentUser() {
-//        Intent intent = new Intent(this,org.smartregister.brac.hnpp.activity.LoginActivity.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        intent.addCategory(Intent.CATEGORY_HOME);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        startActivity(intent);
+        Intent intent = new Intent(this,org.smartregister.brac.hnpp.activity.LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
 //        context.userService().logoutSession();
     }
     @Override
@@ -207,10 +207,10 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
 
     public void setOpenSRPUrl() {
         AllSharedPreferences preferences = Utils.getAllSharedPreferences();
-        if(TextUtils.isEmpty(preferences.getPreference(AllConstants.DRISHTI_BASE_URL))){
+        //if(TextUtils.isEmpty(preferences.getPreference(AllConstants.DRISHTI_BASE_URL))){
           preferences.savePreference(AllConstants.DRISHTI_BASE_URL, BuildConfig.opensrp_url);
 
-        }
+        //}
 
     }
     public EventClientRepository getEventClientRepository() {

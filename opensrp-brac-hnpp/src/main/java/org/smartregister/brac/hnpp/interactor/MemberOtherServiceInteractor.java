@@ -4,8 +4,10 @@ import android.content.Context;
 
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.contract.OtherServiceContract;
+import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.OtherServiceData;
+import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.util.AppExecutors;
 
 import java.util.ArrayList;
@@ -20,29 +22,21 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
 
 
     @Override
-    public void fetchData(Context context, OtherServiceContract.InteractorCallBack callBack) {
+    public void fetchData(CommonPersonObjectClient commonPersonObjectClient, Context context, OtherServiceContract.InteractorCallBack callBack) {
 
         Runnable runnable = () -> {
-            ArrayList<OtherServiceData> otherServiceData = getOtherService();
+            ArrayList<OtherServiceData> otherServiceData = getOtherService(commonPersonObjectClient);
             appExecutors.mainThread().execute(() -> callBack.onUpdateList(otherServiceData));
         };
         appExecutors.diskIO().execute(runnable);
 
     }
-    private ArrayList<OtherServiceData> getOtherService(){
+    private ArrayList<OtherServiceData> getOtherService(CommonPersonObjectClient commonPersonObjectClient){
+
+        int age = FormApplicability.getAge(commonPersonObjectClient);
+        String gender = FormApplicability.getGender(commonPersonObjectClient);
 
         ArrayList<OtherServiceData> otherServiceDataList = new ArrayList<>();
-        OtherServiceData otherServiceData = new OtherServiceData();
-        otherServiceData.setImageSource(R.drawable.woman_placeholder);
-        otherServiceData.setTitle("নারী সেবা প্যাকেজ");
-        otherServiceData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_WOMEN_PACKAGE);
-        otherServiceDataList.add(otherServiceData);
-
-        OtherServiceData otherServiceData2 = new OtherServiceData();
-        otherServiceData2.setImageSource(R.drawable.woman_placeholder);
-        otherServiceData2.setTitle("কিশোরী সেবা প্যাকেজ");
-        otherServiceData2.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_GIRL_PACKAGE);
-        otherServiceDataList.add(otherServiceData2);
 
         OtherServiceData otherServiceData3 = new OtherServiceData();
         otherServiceData3.setImageSource(R.drawable.ic_muac);
@@ -50,12 +44,29 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
         otherServiceData3.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_NCD);
         otherServiceDataList.add(otherServiceData3);
 
-        OtherServiceData otherServiceData4 = new OtherServiceData();
-        otherServiceData4.setImageSource(R.drawable.child_girl_infant);
-        otherServiceData4.setTitle("শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)");
-        otherServiceData4.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_IYCF);
-        otherServiceDataList.add(otherServiceData4);
+        if(FormApplicability.isWomenPackageApplicable(age,gender.equalsIgnoreCase("F"))){
+            OtherServiceData otherServiceData = new OtherServiceData();
+            otherServiceData.setImageSource(R.drawable.woman_placeholder);
+            otherServiceData.setTitle("নারী সেবা প্যাকেজ");
+            otherServiceData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_WOMEN_PACKAGE);
+            otherServiceDataList.add(otherServiceData);
+        }
 
+        if(FormApplicability.isAdolescentApplicable(age,gender.equalsIgnoreCase("F"))){
+            OtherServiceData otherServiceData2 = new OtherServiceData();
+            otherServiceData2.setImageSource(R.drawable.woman_placeholder);
+            otherServiceData2.setTitle("কিশোরী সেবা প্যাকেজ");
+            otherServiceData2.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_GIRL_PACKAGE);
+            otherServiceDataList.add(otherServiceData2);
+        }
+
+        if(FormApplicability.isIycfApplicable(age)){
+            OtherServiceData otherServiceData4 = new OtherServiceData();
+            otherServiceData4.setImageSource(R.drawable.child_girl_infant);
+            otherServiceData4.setTitle("শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)");
+            otherServiceData4.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_IYCF);
+            otherServiceDataList.add(otherServiceData4);
+        }
         return otherServiceDataList;
     }
 }

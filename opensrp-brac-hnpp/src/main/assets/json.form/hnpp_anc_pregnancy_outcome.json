@@ -58,33 +58,7 @@
         "openmrs_entity_id": "relational_id",
         "type": "hidden"
       },
-      {
-        "key": "delivery_date",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "delivery_date",
-        "type": "date_picker",
-        "hint": "প্রসবের তারিখ",
-        "expanded": false,
-        "max_date": "today",
-        "v_required": {
-          "value": "true",
-          "err": "Please enter date the woman delivered"
-        }
-      },
-      {
-        "key": "delivery_time",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "delivery_time",
-        "type": "time_picker",
-        "hint": "প্রসবের সময়",
-        "expanded": false,
-        "v_required": {
-          "value": "true",
-          "err": "Please enter date the woman delivered"
-        }
-      },
+
       {
         "key": "preg_outcome",
         "openmrs_entity_parent": "",
@@ -134,6 +108,45 @@
         }
       },
       {
+        "key": "delivery_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "delivery_date",
+        "type": "date_picker",
+        "hint": "প্রসবের তারিখ",
+        "expanded": false,
+        "max_date": "today",
+        "v_required": {
+          "value": "true",
+          "err": "Please enter date the woman delivered"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "type": "string",
+            "ex": "equalTo(., \"born_alive\")"
+          }
+        }
+      },
+      {
+        "key": "delivery_time",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "delivery_time",
+        "type": "time_picker",
+        "hint": "প্রসবের সময়",
+        "expanded": false,
+        "v_required": {
+          "value": "true",
+          "err": "Please enter date the woman delivered"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "type": "string",
+            "ex": "equalTo(., \"born_alive\")"
+          }
+        }
+      },
+      {
         "key": "no_born_alive",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -146,8 +159,8 @@
           "2+"
         ],
         "openmrs_choice_ids": {
-          "1": "159913AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "2+": "159914AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          "1": "1",
+          "2+": "2"
         },
         "v_required": {
           "value": "true",
@@ -414,8 +427,8 @@
           "2+"
         ],
         "openmrs_choice_ids": {
-          "1": "159913AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "2+": "159914AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          "1": "1",
+          "2+": "2"
         },
         "v_required": {
           "value": "true",
@@ -441,8 +454,8 @@
           "2+"
         ],
         "openmrs_choice_ids": {
-          "1": "159913AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "2+": "159914AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          "1": "1",
+          "2+": "2"
         },
         "v_required": {
           "value": "true",
@@ -468,8 +481,8 @@
           "2+"
         ],
         "openmrs_choice_ids": {
-          "1": "159913AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "2+": "159914AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          "1": "1",
+          "2+": "2"
         },
         "v_required": {
           "value": "true",
@@ -557,7 +570,13 @@
         "text_color": "#000000",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
-        "openmrs_entity_id": ""
+        "openmrs_entity_id": "",
+        "relevance": {
+          "step1:preg_outcome": {
+            "type": "string",
+            "ex": "equalTo(., \"born_alive\")"
+          }
+        }
       },
       {
         "key": "add_child",
@@ -565,21 +584,20 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "add_child",
         "openmrs_data_type": "select one",
-        "type": "spinner",
+        "type": "hidden",
         "hint": "শিশু নিবন্ধন",
         "values": [
           "1",
           "2+"
         ],
         "openmrs_choice_ids": {
-          "1": "159913AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "2+": "159914AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          "1": "1",
+          "2+": "2"
         },
         "v_required": {
           "value": "true",
           "err": "Please select one option"
         }
-
       },
       {
         "key": "temp_unique_id",
@@ -594,7 +612,7 @@
         "openmrs_entity": "person_identifier",
         "openmrs_entity_id": "opensrp_id",
         "type": "hidden",
-        "value": "2222"
+        "value": ""
       },
       {
         "key": "first_name",
@@ -613,6 +631,36 @@
         "v_regex": {
           "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
           "err": "একটি বৈধ নাম লিখুন"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "type": "string",
+            "ex": "equalTo(., \"born_alive\")"
+          }
+        }
+      },
+      {
+        "key": "dob",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person",
+        "openmrs_entity_id": "birthdate",
+        "type": "date_picker",
+        "hint": "জন্ম তারিখ",
+        "expanded": false,
+        "duration": {
+          "label": "Age"
+        },
+        "min_date": "today-59m",
+        "max_date": "today",
+        "v_required": {
+          "value": "true",
+          "err": "জন্ম তারিখ প্রবেশ করুন"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "type": "string",
+            "ex": "equalTo(., \"born_alive\")"
+          }
         }
       },
       {
@@ -635,6 +683,12 @@
         "v_required": {
           "value": true,
           "err": "লিঙ্গ প্রবেশ করুন"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "type": "string",
+            "ex": "equalTo(., \"born_alive\")"
+          }
         }
       },
       {
@@ -656,6 +710,12 @@
         "v_required": {
           "value": "true",
           "err": "Please select one option"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "type": "string",
+            "ex": "equalTo(., \"born_alive\")"
+          }
         }
       },
       {
@@ -672,6 +732,12 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "step1:birth_weight_taken": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
         }
       },
       {
@@ -693,6 +759,12 @@
         "v_required": {
           "value": "true",
           "err": "Please select one option"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "type": "string",
+            "ex": "equalTo(., \"born_alive\")"
+          }
         }
       },
       {
@@ -709,6 +781,12 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "type": "string",
+            "ex": "equalTo(., \"born_alive\")"
+          }
         }
       },
       {
@@ -730,13 +808,19 @@
         "v_required": {
           "value": "true",
           "err": "Please select one option"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "type": "string",
+            "ex": "equalTo(., \"born_alive\")"
+          }
         }
       },
       {
-        "key": "birth_defect",
+        "key": "physically_challenged",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "birth_defect",
+        "openmrs_entity_id": "physically_challenged",
         "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "শিশুর জন্ম গত ক্রুটি আছে কিনা?",
@@ -751,6 +835,12 @@
         "v_required": {
           "value": "true",
           "err": "Please select one option"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "type": "string",
+            "ex": "equalTo(., \"born_alive\")"
+          }
         }
       },
       {
@@ -772,6 +862,12 @@
         "v_required": {
           "value": "true",
           "err": "Please select one option"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "type": "string",
+            "ex": "equalTo(., \"born_alive\")"
+          }
         }
       }
     ]

@@ -1,0 +1,69 @@
+name: step1_weight_toaster_1
+description: if weight 2 to 7 and age 0 to 180 day show toast
+priority: 1
+condition: "(step1_weight > 2 && step1_weight < 7) && (helper.getDifferenceDays(step1_dob) / 365.25 <= 180) "
+actions:
+  - "isRelevant = true"
+---
+name: step1_weight_toaster_2
+description: if weight 7 to 11 and age 210 to 720 day show toast
+priority: 1
+condition: "(step1_weight > 7 && step1_weight < 11) && (helper.getDifferenceDays(step1_dob) / 365.25 >= 210 && helper.getDifferenceDays(step1_dob) / 365.25 <= 720) "
+actions:
+  - "isRelevant = true"
+---
+name: step1_weight_toaster_3
+description: if weight 1 to 2.5 and age 210 to 720 day show toast
+priority: 1
+condition: "(step1_weight > 1 && step1_weight < 2.5)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_head_balance
+description: if age 3 month 5 month
+priority: 1
+condition: "(helper.getDifferenceDays(step1_dob) / 365.25 >= 90 && helper.getDifferenceDays(step1_dob) / 365.25 <= 150)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_can_sit
+description: if age 6 month 8 month
+priority: 1
+condition: "(helper.getDifferenceDays(step1_dob) / 365.25 >= 180 && helper.getDifferenceDays(step1_dob) / 365.25 <= 240)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_can_crap
+description: if age 9 month 10 month
+priority: 1
+condition: "(helper.getDifferenceDays(step1_dob) / 365.25 >= 270 && helper.getDifferenceDays(step1_dob) / 365.25 <= 300)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_can_catch
+description: if age >11 month
+priority: 1
+condition: "(helper.getDifferenceDays(step1_dob) / 365.25 >= 330)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_can_walk
+description: if age 12 to 17 month
+priority: 1
+condition: "(helper.getDifferenceDays(step1_dob) / 365.25 >= 360 && helper.getDifferenceDays(step1_dob) / 365.25 <= 510)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_can_one_walk
+description: if age 18 to 23 month
+priority: 1
+condition: "(helper.getDifferenceDays(step1_dob) / 365.25 >= 540 && helper.getDifferenceDays(step1_dob) / 365.25 <= 690)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_can_run
+description: if age >24 month
+priority: 1
+condition: "(helper.getDifferenceDays(step1_dob) / 365.25 >= 720)"
+actions:
+  - "isRelevant = true"

@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.contract;
 import android.content.Context;
 
 import org.smartregister.brac.hnpp.utils.OtherServiceData;
+import org.smartregister.commonregistry.CommonPersonObjectClient;
 
 import java.util.ArrayList;
 
@@ -21,12 +22,12 @@ public interface OtherServiceContract {
     }
 
     interface Presenter{
-        void fetchData();
+        void fetchData(CommonPersonObjectClient  commonPersonObjectClient);
         ArrayList<OtherServiceData> getData();
         View getView();
     }
     interface Interactor{
-        void fetchData(Context context, InteractorCallBack callBack);
+        void fetchData(CommonPersonObjectClient  commonPersonObjectClient, Context context, InteractorCallBack callBack);
     }
 
     interface InteractorCallBack{

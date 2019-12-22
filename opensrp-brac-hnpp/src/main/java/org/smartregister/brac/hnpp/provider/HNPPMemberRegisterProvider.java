@@ -121,14 +121,14 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
         ((TextView)viewHolder.gender).setSingleLine(false);
         viewHolder.gender.setTextColor(ContextCompat.getColor(context, android.R.color.black));
         fillValue(viewHolder.patientNameAge, patientName);
-//        String gender_key = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), "gender", true);
-//        String gender = "";
-//        if (gender_key.equalsIgnoreCase("Male")) {
-//            gender = this.context.getString(org.smartregister.family.R.string.male);
-//        } else if (gender_key.equalsIgnoreCase("Female")) {
-//            gender = this.context.getString(org.smartregister.family.R.string.female);
-//        }
-        String relationAge = context.getString(R.string.relation_with_member_and_head,relation_with_household_head) + "<br>বয়সঃ " + org.smartregister.family.util.Utils.getTranslatedDate(dobString, this.context);
+        String gender_key = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), "gender", true);
+        String gender = "";
+        if (gender_key.equalsIgnoreCase("M")) {
+            gender = "পুরুষ";
+        } else if (gender_key.equalsIgnoreCase("F")) {
+            gender = "নারী";
+        }
+        String relationAge = context.getString(R.string.relation_with_member_and_head,relation_with_household_head) + "<br>বয়সঃ " + org.smartregister.family.util.Utils.getTranslatedDate(dobString, this.context)+", "+gender;
 
         if(!TextUtils.isEmpty(guId)){
             if(guId.equalsIgnoreCase(HnppConstants.TEST_GU_ID)){

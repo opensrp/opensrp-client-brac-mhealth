@@ -162,7 +162,7 @@ public class HnppVisitLogRepository extends BaseRepository {
         net.sqlcipher.Cursor cursor = database.query(VISIT_LOG_TABLE_NAME, TABLE_COLUMNS, selection, selectionArgs, null, null, VISIT_DATE + " DESC");
         ArrayList<VisitLog> visits = getAllVisitLog(cursor);
 
-        return  visits!=null && visits.size()>0;
+        return  visits!=null && visits.size() == 0;
     }
     public ArrayList<VisitLog> getAllVisitLog(String baseEntityId) {
         SQLiteDatabase database = getReadableDatabase();

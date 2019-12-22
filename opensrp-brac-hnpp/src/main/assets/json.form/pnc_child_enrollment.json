@@ -88,86 +88,22 @@
         }
       },
       {
-        "key": "surname",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "edit_text",
-        "hint": "Surname",
-        "edit_type": "name",
-        "v_regex": {
-          "value": "[A-Za-z\\s\\.\\-]*",
-          "err": "Please enter a valid name"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "Please enter the surname"
-        }
-      },
-      {
-        "key": "same_as_fam_name",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "openmrs_data_type": "text",
-        "type": "check_box",
-        "label": "",
-        "exclusive": [
-          "none"
-        ],
-        "options": [
-          {
-            "key": "same_as_fam_name",
-            "text": "Surname same as family name",
-            "text_size": "18px",
-            "value": "false"
-          }
-        ]
-      },
-      {
-        "key": "last_name",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person",
-        "openmrs_entity_id": "last_name",
-        "type": "hidden",
-        "hint": "Surname as Family name"
-      },
-      {
         "key": "first_name",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person",
         "openmrs_entity_id": "first_name",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "First name",
+        "hint": "নাম",
         "expanded": false,
         "edit_type": "name",
         "v_required": {
           "value": "true",
-          "err": "Please Enter first name"
+          "err": "নাম লিখুন"
         },
         "v_regex": {
-          "value": "[A-Za-z\\s\\-]*",
-          "err": "Please Enter a Valid Name"
-        }
-      },
-      {
-        "key": "middle_name",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person",
-        "openmrs_entity_id": "middle_name",
-        "openmrs_data_type": "text",
-        "type": "edit_text",
-        "hint": "Middle name",
-        "expanded": false,
-        "edit_type": "name",
-        "v_required": {
-          "value": "true",
-          "err": "Please Enter middle name"
-        },
-        "v_regex": {
-          "value": "[A-Za-z\\s\\.\\-]*",
-          "err": "Please Enter a Valid Name"
+          "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
+          "err": "একটি বৈধ নাম লিখুন"
         }
       },
       {
@@ -176,16 +112,16 @@
         "openmrs_entity": "person",
         "openmrs_entity_id": "birthdate",
         "type": "date_picker",
-        "hint": "Date of birth (DOB)",
+        "hint": "জন্ম তারিখ",
         "expanded": false,
         "duration": {
           "label": "Age"
         },
-        "min_date": "today-5y",
+        "min_date": "today-59m",
         "max_date": "today",
         "v_required": {
           "value": "true",
-          "err": "Please enter the date of birth"
+          "err": "জন্ম তারিখ প্রবেশ করুন"
         }
       },
       {
@@ -193,40 +129,158 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person",
         "openmrs_entity_id": "gender",
-        "type": "edit_text",
-        "hint": "Sex"
-      },
-      {
-        "key": "disabilities",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "162558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "type": "spinner",
-        "hint": "Physical disabilities",
+        "hint": "লিঙ্গ",
         "values": [
-          "Yes",
-          "No"
+          "পুরুষ",
+          "নারী",
+          "তৃতীয় লিঙ্গ"
         ],
         "openmrs_choice_ids": {
-          "Yes": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "No": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          "পুরুষ": "M",
+          "নারী":"F",
+          "তৃতীয় লিঙ্গ": "O"
         },
         "v_required": {
-          "value": "true",
-          "err": "Please select one"
+          "value": true,
+          "err": "লিঙ্গ প্রবেশ করুন"
         }
       },
       {
-        "key": "type_of_disability",
+        "key": "birth_weight_taken",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "birth_weight_taken",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "জন্মকালীন ওজন নেওয়া হয়েছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Please select one option"
+        }
+      },
+      {
+        "key": "birth_weight",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "birth_weight",
         "type": "edit_text",
-        "edit_type": "name",
-        "hint": "Type of physical disabilities",
+        "hint": "ওজন(কেজি)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
         "v_required": {
           "value": true,
-          "err": "Please enter type of physical disabilities"
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "chlorohexadin",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "chlorohexadin",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "নাভিতে ৭.১% ক্লোরোহেক্সিডিন দেয়া হয়েছে কিনা?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Please select one option"
+        }
+      },
+      {
+        "key": "breastfeeding_time",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "breastfeeding_time",
+        "type": "edit_text",
+        "hint": "প্রসবের কতক্ষন পর মায়ের দুধ খাওয়ানো হয়েছে?",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "head_body_covered",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "head_body_covered",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "শিশুর মাথা সহ শরীর মোড়ানো হয়েছে কিনা ?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Please select one option"
+        }
+      },
+      {
+        "key": "physically_challenged",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "physically_challenged",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "শিশুর জন্ম গত ক্রুটি আছে কিনা?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Please select one option"
+        }
+      },
+      {
+        "key": "breast_feeded",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "breast_feeded",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "প্রসবের কতক্ষন পর মায়ের দুধ খাওয়ানো হয়েছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Please select one option"
         }
       }
     ]

@@ -603,7 +603,7 @@
           "type": "Event",
           "json_mapping": {
             "field": "obs.fieldCode",
-            "concept": "162558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            "concept": "physically_challenged"
           }
         },
         {
@@ -668,6 +668,56 @@
           "json_mapping": {
             "field": "obs.fieldCode",
             "formSubmissionField": "vaccine_card"
+          }
+        },
+
+        {
+          "column_name": "birth_weight_taken",
+          "type": "Event",
+          "json_mapping": {
+            "field": "obs.fieldCode",
+            "formSubmissionField": "birth_weight_taken"
+          }
+        },
+        {
+          "column_name": "birth_weight",
+          "type": "Event",
+          "json_mapping": {
+            "field": "obs.fieldCode",
+            "formSubmissionField": "birth_weight"
+          }
+        },
+        {
+          "column_name": "chlorohexadin",
+          "type": "Event",
+          "json_mapping": {
+            "field": "obs.fieldCode",
+            "formSubmissionField": "chlorohexadin"
+          }
+        },
+        {
+          "column_name": "breastfeeding_time",
+          "type": "Event",
+          "json_mapping": {
+            "field": "obs.fieldCode",
+            "formSubmissionField": "breastfeeding_time"
+          }
+        },
+        {
+          "column_name": "head_body_covered",
+          "type": "Event",
+          "json_mapping": {
+            "field": "obs.fieldCode",
+            "formSubmissionField": "head_body_covered"
+          }
+        },
+
+        {
+          "column_name": "breast_feeded",
+          "type": "Event",
+          "json_mapping": {
+            "field": "obs.fieldCode",
+            "formSubmissionField": "breast_feeded"
           }
         }
       ]

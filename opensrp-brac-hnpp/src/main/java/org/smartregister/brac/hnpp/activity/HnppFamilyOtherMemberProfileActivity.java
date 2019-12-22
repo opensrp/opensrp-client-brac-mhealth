@@ -42,7 +42,6 @@ import org.smartregister.brac.hnpp.presenter.HnppFamilyOtherMemberActivityPresen
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.adapter.ViewPagerAdapter;
 import org.smartregister.family.fragment.BaseFamilyOtherMemberProfileFragment;
-import org.smartregister.family.fragment.BaseFamilyProfileDueFragment;
 import org.smartregister.family.model.BaseFamilyOtherMemberProfileActivityModel;
 import org.smartregister.family.util.Constants;
 import org.smartregister.helper.ImageRenderHelper;
@@ -57,10 +56,9 @@ import java.util.Map;
 import timber.log.Timber;
 
 import static org.smartregister.brac.hnpp.utils.HnppConstants.MEMBER_ID_SUFFIX;
-import static org.smartregister.chw.malaria.util.Constants.REQUEST_CODE_GET_JSON;
 
 public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberProfileActivity {
-    private static final int REQUEST_CODE_REFERRAL = 5555;
+    private static final int REQUEST_HOME_VISIT = 5555;
     private static final int REQUEST_CODE_PREGNANCY_OUTCOME = 5556;
 
     private CustomFontTextView textViewDetails3;
@@ -123,29 +121,33 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     }
     @Override
     protected void startPncRegister() {
-//        //TODO implement start anc register for HF
         HnppPncRegisterActivity.startHnppPncRegisterActivity(HnppFamilyOtherMemberProfileActivity.this, baseEntityId, PhoneNumber,
                 org.smartregister.brac.hnpp.utils.HnppConstants.JSON_FORMS.ANC_FORM, null, familyBaseEntityId, familyName);
     }
     @Override
     protected void startAncRegister() {
-//        //TODO implement start anc register for HF
         HnppAncRegisterActivity.startHnppAncRegisterActivity(HnppFamilyOtherMemberProfileActivity.this, baseEntityId, PhoneNumber,
                 HnppConstants.JSON_FORMS.ANC_FORM, null, familyBaseEntityId, familyName);
     }
 
     @Override
     public void startMalariaRegister() {
+//        startAnyFormActivity(HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME,REQUEST_CODE_PREGNANCY_OUTCOME);
         //TODO implement start anc malaria for HF
 //        HnppHomeVisitActivity.startMe(this, new MemberObject(commonPersonObject), false);
 //        startPregnancyFormActivity(HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME, org.smartregister.family.util.JsonFormUtils.REQUEST_CODE_GET_JSON);
+
         HnppAncRegisterActivity.startHnppAncRegisterActivity(HnppFamilyOtherMemberProfileActivity.this, baseEntityId, PhoneNumber,
-                HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME, null, familyBaseEntityId, familyName);
+                HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME, HnppJsonFormUtils.getUniqueMemberId(familyBaseEntityId), familyBaseEntityId, familyName);
     }
+
+
 
     @Override
     protected void removeIndividualProfile() {
         Timber.d("Remove member action is not required in HF");
+        IndividualProfileRemoveActivity.startIndividualProfileActivity(HnppFamilyOtherMemberProfileActivity.this,
+                commonPersonObject, familyBaseEntityId, familyHead, primaryCaregiver, FamilyRegisterActivity.class.getCanonicalName());
     }
 
     @Override
@@ -174,36 +176,19 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     protected ViewPager setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        BaseFamilyProfileDueFragment profileMemberFragment = HnppMemberProfileDueFragment.newInstance(this.getIntent().getExtras());
-
+        HnppMemberProfileDueFragment profileMemberFragment =(HnppMemberProfileDueFragment) HnppMemberProfileDueFragment.newInstance(this.getIntent().getExtras());
+        profileMemberFragment.setCommonPersonObjectClient(commonPersonObject);
         adapter.addFragment(profileMemberFragment, this.getString(R.string.due).toUpperCase());
-        adapter.addFragment(new MemberOtherServiceFragment(), this.getString(R.string.other_service).toUpperCase());
+        MemberOtherServiceFragment memberOtherServiceFragment = new MemberOtherServiceFragment();
+        memberOtherServiceFragment.setCommonPersonObjectClient(commonPersonObject);
+        adapter.addFragment(memberOtherServiceFragment, this.getString(R.string.other_service).toUpperCase());
         adapter.addFragment(MemberHistoryFragment.getInstance(this.getIntent().getExtras()), this.getString(R.string.activity).toUpperCase());
-
+        viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(adapter);
 
         return viewPager;
     }
-    public void startPregnancyFormActivity(String formName, int requestCode) {
-        try {
-            JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
-            jsonForm.put(JsonFormUtils.ENTITY_ID, familyBaseEntityId);
-            Intent intent = new Intent(this, org.smartregister.family.util.Utils.metadata().familyMemberFormActivity);
-            intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
 
-            Form form = new Form();
-            form.setWizard(true);
-            form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
-
-            intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
-            intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
-            if (this != null) {
-                this.startActivityForResult(intent, requestCode);
-            }
-        }catch (Exception e){
-
-        }
-    }
     public void startAnyFormActivity(String formName, int requestCode) {
        try {
            JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
@@ -246,7 +231,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             //TODO: Need to check request code
             VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
         }
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_REFERRAL){
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
 //            String type = StringUtils.isBlank(parentEventType) ? getEncounterType() : getEncounterType();
             String type = HnppJsonFormUtils.getEncounterType();
             String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
@@ -259,7 +244,6 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }else if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_PREGNANCY_OUTCOME){
         }
             super.onActivityResult(requestCode, resultCode, data);
     }
@@ -283,6 +267,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     public boolean onOptionsItemSelected(MenuItem item) {
         int i = item.getItemId();
         if (i == R.id.action_malaria_followup_visit) {
+            startMalariaRegister();
+            return true;
+        }if (i == R.id.action_pregnancy_out_come) {
             startMalariaRegister();
             return true;
         }
@@ -318,7 +305,15 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         startActivity(intent);
     }
     public void openRefereal() {
-        startAnyFormActivity(HnppConstants.JSON_FORMS.MEMBER_REFERRAL,REQUEST_CODE_REFERRAL);
+        startAnyFormActivity(HnppConstants.JSON_FORMS.MEMBER_REFERRAL,REQUEST_HOME_VISIT);
+    }
+
+    public void openHomeVisitSingleForm(String formName){
+        startAnyFormActivity(formName,REQUEST_HOME_VISIT);
+    }
+
+    public void openHomeVisitForm(){
+        HnppHomeVisitActivity.startMe(this, new MemberObject(commonPersonObject), false);
     }
 
     @Override
@@ -345,15 +340,15 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     }
 
     private void setupMenuOptions(Menu menu) {
+        menu.findItem(R.id.action_remove_member).setTitle("সদস্য বাদ দিন / মাইগ্রেট / মৃত্যু");
         menu.findItem(R.id.action_anc_registration).setTitle("গর্ভবতী রেজিস্ট্রেশন");
         menu.findItem(R.id.action_malaria_registration).setVisible(false);
         menu.findItem(R.id.action_malaria_followup_visit).setVisible(false);
         menu.findItem(R.id.action_sick_child_follow_up).setVisible(false);
         menu.findItem(R.id.action_malaria_diagnosis).setTitle("PNC রেজিস্ট্রেশন");
-        menu.findItem(R.id.action_remove_member).setVisible(false);
+        menu.findItem(R.id.action_remove_member).setVisible(true);
         menu.findItem(R.id.action_pregnancy_out_come).setTitle("প্রসবের ফলাফল");
-        menu.findItem(R.id.action_remove_member).setTitle("সদস্য বাদ দিন / মাইগ্রেট / মৃত্যু");
-        menu.findItem(R.id.action_malaria_registration).setVisible(true);
+
         menu.findItem(R.id.action_remove_member).setVisible(true);
 
         if (FormApplicability.isWomanOfReproductiveAge(commonPersonObject)) {
@@ -363,10 +358,10 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             menu.findItem(R.id.action_anc_registration).setVisible(false);
             menu.findItem(R.id.action_pregnancy_out_come).setVisible(false);
         }
-        if(FormApplicability.isPncVisible(commonPersonObject)){
-            menu.findItem(R.id.action_malaria_diagnosis).setEnabled(true);
+        if(FormApplicability.isPregnancyOutcomeVisible(commonPersonObject)){
+            menu.findItem(R.id.action_malaria_diagnosis).setVisible(true);
         }else{
-            menu.findItem(R.id.action_malaria_diagnosis).setEnabled(false);
+            menu.findItem(R.id.action_malaria_diagnosis).setVisible(false);
         }
 
     }

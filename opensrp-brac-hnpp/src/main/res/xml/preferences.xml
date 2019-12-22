@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Server">
+
+        <EditTextPreference
+            android:defaultValue="@string/opensrp_url"
+            android:key="DRISHTI_BASE_URL"
+            android:title="OpenSRP base URL"
+            android:editable="false"
+            android:summary="Defines the base server url that handles requests"
+            android:dialogTitle="OpenSRP base URL"
+            android:dialogMessage="Enter Base Server Url"
+            android:persistent="true" />
+        <EditTextPreference
+            android:key="APP_VERSION"
+            android:title="App Version"
+            android:selectable="false"
+            android:editable="false"
+            android:summary="Defines the base server url that handles requests"
+            android:persistent="true" />
+        <EditTextPreference
+            android:key="IMEI_NO"
+            android:title="IMEI"
+            android:selectable="false"
+            android:editable="false"
+            android:summary="Defines the base server url that handles requests"
+            android:persistent="true" />
+        <SwitchPreference
+            android:key="APP_MODE"
+            android:title="Test"
+            android:defaultValue="false" />
+        <org.smartregister.brac.hnpp.widget.LivePreference
+            android:key="change_pin"
+            android:layout="@layout/preference_textview"/>
+
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

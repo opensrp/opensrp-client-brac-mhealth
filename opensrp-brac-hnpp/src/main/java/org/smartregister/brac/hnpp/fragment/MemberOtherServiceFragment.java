@@ -15,11 +15,17 @@ import org.smartregister.brac.hnpp.contract.OtherServiceContract;
 import org.smartregister.brac.hnpp.presenter.MemberOtherServicePresenter;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.OtherServiceData;
+import org.smartregister.commonregistry.CommonPersonObjectClient;
 
 public class MemberOtherServiceFragment extends Fragment implements OtherServiceContract.View {
 
     private MemberOtherServicePresenter presenter;
     private RecyclerView clientsView;
+    private CommonPersonObjectClient commonPersonObjectClient;
+
+    public void setCommonPersonObjectClient(CommonPersonObjectClient commonPersonObjectClient){
+        this.commonPersonObjectClient = commonPersonObjectClient;
+    }
 
     @Nullable
     @Override
@@ -33,7 +39,7 @@ public class MemberOtherServiceFragment extends Fragment implements OtherService
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         presenter = new MemberOtherServicePresenter(this);
-        presenter.fetchData();
+        presenter.fetchData(commonPersonObjectClient);
     }
 
     @Override
@@ -62,6 +68,13 @@ public class MemberOtherServiceFragment extends Fragment implements OtherService
     private void startFormActivity(OtherServiceData content){
         switch (content.getType()){
             case HnppConstants.OTHER_SERVICE_TYPE.TYPE_GIRL_PACKAGE:
+
+                break;
+            case HnppConstants.OTHER_SERVICE_TYPE.TYPE_NCD:
+                break;
+            case HnppConstants.OTHER_SERVICE_TYPE.TYPE_IYCF:
+                break;
+            case HnppConstants.OTHER_SERVICE_TYPE.TYPE_WOMEN_PACKAGE:
                 break;
         }
     }

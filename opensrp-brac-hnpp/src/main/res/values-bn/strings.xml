@@ -113,4 +113,7 @@
     <string name="activity">ইতিহাস</string>
     <string name="profile_activity_not_visited">Marked not visited on %s</string>
     <string name="profile_activity_completed">Completed on %s</string>
+    <string name="cancel">ফিরে যান</string>
+    <string name="scan_again">আবার চেষ্টা করুন</string>
+    <string name="fail_result">ফলাফল পাওয়া যাই নি</string>
 </resources>

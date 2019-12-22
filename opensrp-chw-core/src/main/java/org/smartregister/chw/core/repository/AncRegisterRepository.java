@@ -15,16 +15,19 @@ import timber.log.Timber;
 
 public class AncRegisterRepository extends BaseRepository {
 
+    public static final String FAMILY_TABLE_NAME = "ec_family";
     public static final String TABLE_NAME = "ec_family_member";
     public static final String FIRST_NAME = "first_name";
     public static final String MIDDLE_NAME = "middle_name";
     public static final String LAST_NAME = "last_name";
     public static final String PHONE_NUMBER = "phone_number";
     public static final String BASE_ENTITY_ID = "base_entity_id";
+    public static final String UNIQUE_ID = "unique_id";
     public static final String LAST_MENSTRUAL_PERIOD = "last_menstrual_period";
 
     public static final String[] TABLE_COLUMNS = {FIRST_NAME, MIDDLE_NAME, LAST_NAME, PHONE_NUMBER};
     public static final String[] ANC_COUNT_TABLE_COLUMNS = {BASE_ENTITY_ID};
+    public static final String[] UNIQUE_ID_COLUMNS = {UNIQUE_ID};
     public static final String[] LAST_MENSTRUAL_PERIOD_COLUMNS = {LAST_MENSTRUAL_PERIOD};
 
 
@@ -152,7 +155,34 @@ public class AncRegisterRepository extends BaseRepository {
         return 0;
 
     }
+    public String getHouseholdId(String familyBaseID) {
+        SQLiteDatabase database = getReadableDatabase();
+        Cursor cursor = null;
+        try {
+            if (database == null) {
+                return "";
+            }
+            String selection = DBConstants.KEY.BASE_ENTITY_ID + " = ? ";
+            String[] selectionArgs = new String[]{familyBaseID};
 
+            cursor = database.query(FAMILY_TABLE_NAME,
+                    UNIQUE_ID_COLUMNS, selection, selectionArgs, null, null, null);
+            if(cursor!=null&&cursor.getCount()>0&&cursor.moveToFirst()){
+
+                return cursor.getString(0);
+            }
+
+
+        } catch (Exception e) {
+            Timber.e(e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return "";
+
+    }
     public int getMemberCount(String familyBaseID) {
         SQLiteDatabase database = getReadableDatabase();
         Cursor cursor = null;

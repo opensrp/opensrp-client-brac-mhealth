@@ -64,6 +64,16 @@ public class HnppChwRepository extends CoreChwRepository {
 
     private void upgradeToVersion7(Context context, SQLiteDatabase db) {
         try{
+            db.execSQL("ALTER TABLE ec_child ADD COLUMN birth_weight_taken VARCHAR;");
+            db.execSQL("ALTER TABLE ec_child ADD COLUMN birth_weight VARCHAR;");
+            db.execSQL("ALTER TABLE ec_child ADD COLUMN chlorohexadin VARCHAR;");
+            db.execSQL("ALTER TABLE ec_child ADD COLUMN breastfeeding_time VARCHAR;");
+            db.execSQL("ALTER TABLE ec_child ADD COLUMN head_body_covered VARCHAR;");
+            db.execSQL("ALTER TABLE ec_child ADD COLUMN breast_feeded VARCHAR;");
+        }catch (Exception e){
+
+        }
+        try{
             db.execSQL("ALTER TABLE ec_family ADD COLUMN serial_no VARCHAR;");
             db.execSQL("ALTER TABLE ec_family_member ADD COLUMN mother_name VARCHAR;");
             db.execSQL("ALTER TABLE ec_family_member ADD COLUMN mother_entity_id VARCHAR;");

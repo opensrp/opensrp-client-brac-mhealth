@@ -4,6 +4,7 @@ import org.smartregister.brac.hnpp.contract.OtherServiceContract;
 import org.smartregister.brac.hnpp.fragment.MemberOtherServiceFragment;
 import org.smartregister.brac.hnpp.interactor.MemberOtherServiceInteractor;
 import org.smartregister.brac.hnpp.utils.OtherServiceData;
+import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.util.AppExecutors;
 
 import java.util.ArrayList;
@@ -20,8 +21,8 @@ public class MemberOtherServicePresenter implements OtherServiceContract.Present
         interactor = new MemberOtherServiceInteractor(new AppExecutors());
     }
     @Override
-    public void fetchData() {
-        interactor.fetchData(getView().getContext(),this);
+    public void fetchData(CommonPersonObjectClient commonPersonObjectClient) {
+        interactor.fetchData(commonPersonObjectClient,getView().getContext(),this);
     }
 
     @Override

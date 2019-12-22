@@ -99,7 +99,7 @@
         "key": "closure_reason_fam",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "160417AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "closure_reason_fam",
         "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "Reason for closure",

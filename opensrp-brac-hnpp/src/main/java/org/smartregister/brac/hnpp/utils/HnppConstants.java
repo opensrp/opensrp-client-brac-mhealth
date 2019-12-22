@@ -138,14 +138,7 @@ public class HnppConstants extends CoreConstants {
     }
 
     public static boolean isReleaseBuild(){
-        AllSharedPreferences preferences = Utils.getAllSharedPreferences();
-        String usingUrl = preferences.getPreference(AllConstants.DRISHTI_BASE_URL);
-        if(!TextUtils.isEmpty(usingUrl) && (usingUrl.equalsIgnoreCase(BuildConfig.opensrp_url_release)
-                || usingUrl.equalsIgnoreCase(BuildConfig.opensrp_url_release_without_slash)
-        || usingUrl.equalsIgnoreCase(BuildConfig.opensrp_url_release_with_https))){
-            return true;
-        }
-        return false;
+        return BuildConfig.IS_RELEASE;
     }
     public static String getSimPrintsProjectId(){
 
@@ -158,6 +151,7 @@ public class HnppConstants extends CoreConstants {
         public static final String MODULE_ID = "module_id";
         public static final String RELATION_WITH_HOUSEHOLD = "relation_with_household_head";
         public static final String GU_ID = "gu_id";
+        public static final String MARITAL_STATUS = "marital_status";
         public static final String HOUSE_HOLD_ID = "house_hold_id";
         public static final String HOUSE_HOLD_NAME = "house_hold_name";
         public static final String SS_NAME = "ss_name";
@@ -215,6 +209,12 @@ public class HnppConstants extends CoreConstants {
 
 
     }
+    public static final Map<String,String> eventTypeFormNameMapping = ImmutableMap.<String,String> builder()
+            .put(EVENT_TYPE.ANC1_REGISTRATION,JSON_FORMS.ANC1_FORM)
+            .put(EVENT_TYPE.ANC2_REGISTRATION,JSON_FORMS.ANC2_FORM)
+            .put(EVENT_TYPE.ANC3_REGISTRATION,JSON_FORMS.ANC3_FORM)
+            .put(EVENT_TYPE.ELCO,JSON_FORMS.ELCO)
+            .build();
     public static final Map<String,Integer> iconMapping = ImmutableMap.<String,Integer> builder()
             .put("গর্ভবতী পরিচর্যা-১ম ত্রিমাসিক",R.mipmap.ic_anc_pink)
             .put("গর্ভবতী পরিচর্যা - ২য় ত্রিমাসিক",R.mipmap.ic_anc_pink)
@@ -228,29 +228,37 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ANC_PREGNANCY_HISTORY,R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.ANC_REGISTRATION,R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.UPDATE_ANC_REGISTRATION,R.mipmap.ic_anc_pink)
+            .put(EVENT_TYPE.ELCO,R.drawable.ic_elco)
             .put(HnppConstants.EventType.FAMILY_REGISTRATION,R.drawable.ic_home)
             .put(HnppConstants.EventType.FAMILY_MEMBER_REGISTRATION,R.drawable.rowavatar_member)
             .put(HnppConstants.EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,R.drawable.rowavatar_member)
             .put(HnppConstants.EventType.CHILD_REGISTRATION,R.drawable.rowavatar_child)
             .put(EVENT_TYPE.MEMBER_REFERRAL,R.mipmap.ic_refer)
+            .put("Member referral",R.mipmap.ic_refer)
             .build();
+    //need to show the title at row/option
     public static final Map<String,String> visitEventTypeMapping = ImmutableMap.<String,String> builder()
             .put(EVENT_TYPE.ANC1_REGISTRATION,"গর্ভবতী পরিচর্যা - ১ম ত্রিমাসিক")
             .put(EVENT_TYPE.ANC2_REGISTRATION,"গর্ভবতী পরিচর্যা - ২য় ত্রিমাসিক")
             .put(EVENT_TYPE.ANC3_REGISTRATION,"গর্ভবতী পরিচর্যা - ৩য় ত্রিমাসিক")
             .put(EVENT_TYPE.ANC_GENERAL_DISEASE,"শারীরিক সমস্যা")
             .put(EVENT_TYPE.ANC_PREGNANCY_HISTORY,"পূর্বের গর্ভের ইতিহাস")
+            .put(EVENT_TYPE.ELCO,"ELCO নিবন্ধন")
             .put(JSON_FORMS.ANC1_FORM,"গর্ভবতী পরিচর্যা")
             .put(JSON_FORMS.GENERAL_DISEASE,"শারীরিক সমস্যা")
             .put(EVENT_TYPE.MEMBER_REFERRAL,"রেফারেল")
+            .put("Member referral","রেফারেল")
             .put( JSON_FORMS.PREGNANCY_HISTORY,"পূর্বের গর্ভের ইতিহাস")
             .build();
+    //needed for dashboard
     public static final Map<String,String> eventTypeMapping = ImmutableMap.<String,String> builder()
             .put(HnppConstants.EventType.FAMILY_REGISTRATION,"খানা নিবন্ধন")
             .put(HnppConstants.EventType.FAMILY_MEMBER_REGISTRATION,"সদস্য নিবন্ধন")
             .put(HnppConstants.EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,"সদস্য আপডেট")
             .put(HnppConstants.EventType.CHILD_REGISTRATION,"শিশু নিবন্ধন")
             .put(HnppConstants.EVENT_TYPE.MEMBER_REFERRAL,"রেফারেল")
+            .put("Member referral","রেফারেল")
+            .put(EVENT_TYPE.ELCO,"ELCO নিবন্ধন")
             .put(EVENT_TYPE.ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন")
             .put(EVENT_TYPE.UPDATE_ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন আপডেট")
             .build();

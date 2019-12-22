@@ -498,31 +498,6 @@
         }
       },
       {
-        "key": "pregnant_status",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "Pregnancy_Status",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "আপনি কি গর্ভবতী ?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_family_member_relevance.yml"
-            }
-          }
-        }
-      },
-
-      {
         "key": "finger_print",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",

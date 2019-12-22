@@ -17,7 +17,7 @@ public class HNPPFamilyProfileMemberModel extends CoreFamilyProfileMemberModel {
         columnList.add(CoreConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.PHONE_NUMBER);
         columnList.add(CoreConstants.TABLE_NAME.FAMILY_MEMBER + "." + HnppConstants.KEY.RELATION_WITH_HOUSEHOLD);
         columnList.add(CoreConstants.TABLE_NAME.FAMILY_MEMBER + "." + HnppConstants.KEY.GU_ID);
-
+        columnList.add(CoreConstants.TABLE_NAME.FAMILY_MEMBER + "." + HnppConstants.KEY.MARITAL_STATUS);
         return columnList.toArray(new String[columnList.size()]);
     }
 }

@@ -14,9 +14,11 @@ import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import org.apache.commons.lang3.StringUtils;
 import org.smartregister.AllConstants;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
@@ -26,9 +28,12 @@ import org.smartregister.brac.hnpp.job.SSLocationFetchJob;
 import org.smartregister.brac.hnpp.presenter.LoginPresenter;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.family.util.Constants;
+import org.smartregister.job.SyncServiceJob;
 import org.smartregister.task.SaveTeamLocationsTask;
+import org.smartregister.util.StringUtil;
 import org.smartregister.util.Utils;
 import org.smartregister.view.activity.BaseLoginActivity;
+import org.smartregister.view.activity.SettingsActivity;
 import org.smartregister.view.contract.BaseLoginContract;
 
 import java.io.BufferedReader;
@@ -118,6 +123,15 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
 
     }
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getTitle().toString().equalsIgnoreCase("Settings")) {
+            startActivity(new Intent(this, HnppSettingsActivity.class));
+            return true;
+        }
+        return false;
+//        return super.onOptionsItemSelected(item);
+    }
+    @Override
     protected void onResume() {
         super.onResume();
         mLoginPresenter.processViewCustomizations();
@@ -128,7 +142,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         findViewById(R.id.login_login_btn).setAlpha(1.0f);
         mActivity = this;
         HnppConstants.updateAppBackgroundOnResume(findViewById(R.id.login_layout));
-        if(!BuildConfig.DEBUG)app_version_status();
+        if(BuildConfig.DEBUG)app_version_status();
     }
 
     @Override
@@ -203,24 +217,30 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         org.smartregister.util.Utils.startAsyncTask(new AsyncTask() {
             String version_code = "";
             String version = "";
-
+            String download_url = "";
             @Override
             protected Object doInBackground(Object[] objects) {
                 try {
                     String baseUrl = Utils.getAllSharedPreferences().getPreference(AllConstants.DRISHTI_BASE_URL);
                     // Create a URL for the desired page
                     baseUrl = baseUrl.replace("opensrp/", "");
-                    URL url = new URL(baseUrl + "opt/multimedia/app-version.txt");
+                    URL url = new URL("https://raw.githubusercontent.com/OpenSRP/opensrp-client-brac-mhealth/app_version/app_version");
 
                     // Read all the text returned by the server
                     BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-                    String str;
-                    str = "";
-                    while ((str = in.readLine()) != null) {
+                    String line = "";
+                    int i =0;
+                    while ((line = in.readLine()) != null) {
                         // str is one line of text; readLine() strips the newline character(s)
-                        version_code += str;
+                        if(i++==0){
+                            version_code = line;
+                        }else{
+                            download_url = line;
+                        }
+
                     }
                     in.close();
+
                 } catch (MalformedURLException e) {
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -234,7 +254,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
                 try {
                     PackageInfo pInfo = LoginActivity.this.getPackageManager().getPackageInfo(getPackageName(), 0);
                     version = pInfo.versionName;
-                    if (!version_code.trim().isEmpty()&&!version.equalsIgnoreCase(version_code.trim())) {
+                    if (!version_code.trim().isEmpty()&&!version.equalsIgnoreCase(version_code.trim())&& !StringUtils.isEmpty(download_url)) {
                         android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(LoginActivity.this).create();
                         alertDialog.setTitle("নতুন ভার্সন আপডেট করুন ");
                         alertDialog.setCancelable(false);
@@ -245,10 +265,12 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
                                         try {
                                             final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
                                             try {
-                                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-                                            } catch (android.content.ActivityNotFoundException anfe) {
-                                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(download_url)));
 
+//                                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                                            } catch (android.content.ActivityNotFoundException anfe) {
+//                                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+//                                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(download_url)));
                                             }
 
 

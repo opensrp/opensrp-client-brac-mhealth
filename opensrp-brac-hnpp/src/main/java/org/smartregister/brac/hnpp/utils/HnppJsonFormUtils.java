@@ -209,6 +209,11 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         memberId.put(org.smartregister.family.util.JsonFormUtils.VALUE, houseHoldId+memberCountWithZero(memberCount+1));
         return form;
     }
+    public static String getUniqueMemberId(String familyBaseEntityId) {
+        String houseHoldId = HnppApplication.ancRegisterRepository().getHouseholdId(familyBaseEntityId);
+        int memberCount = HnppApplication.ancRegisterRepository().getMemberCount(familyBaseEntityId);
+        return houseHoldId+memberCountWithZero(memberCount+1);
+    }
     public static JSONObject updateFormWithSimPrintsEnable(JSONObject form) throws Exception{
 
         boolean simPrintsEnable = true;

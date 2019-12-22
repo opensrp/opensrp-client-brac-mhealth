@@ -42,6 +42,8 @@ public class HnppFingerPrintFactory extends FingerPrintFactory {
         if(!TextUtils.isEmpty(guid)){
             button.setVisibility(View.GONE);
             if(imageView != null) imageView.setOnClickListener(null);
+        }else{
+            imageView.setImageResource(R.drawable.fingerprint_not_found);
         }
     }
 

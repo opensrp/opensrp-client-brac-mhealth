@@ -1,0 +1,27 @@
+name: step1_ad_toaster_1
+description: if bmi< 18.5 show toast
+priority: 1
+condition: "step1_bmi < 18.5"
+actions:
+  - "isRelevant = true"
+---
+name: step1_ad_toaster_2
+description: if hemoglobin 40 to 70
+priority: 1
+condition: "step1_hemoglobin >= 40 && step1_hemoglobin <= 70"
+actions:
+  - "isRelevant = true"
+---
+name: step1_ad_toaster_3
+description: if if hemoglobin less 40
+priority: 1
+condition: "step1_hemoglobin < 40"
+actions:
+  - "isRelevant = true"
+---
+name: step1_family_planning
+description: if married
+priority: 1
+condition: "step1_marital_status.equalsIgnoreCase('married')"
+actions:
+  - "isRelevant = true"

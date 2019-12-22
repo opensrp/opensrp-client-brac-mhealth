@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
+import org.apache.commons.lang3.StringUtils;
 import org.opensrp.api.constants.Gender;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -17,6 +18,7 @@ import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.core.activity.CoreChildProfileActivity;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.helper.ImageRenderHelper;
+import org.smartregister.util.StringUtil;
 
 import static org.smartregister.brac.hnpp.utils.HnppConstants.MEMBER_ID_SUFFIX;
 
@@ -69,6 +71,7 @@ public class HnppCoreChildProfileActivity extends CoreChildProfileActivity {
         menu.findItem(org.smartregister.chw.core.R.id.action_malaria_followup_visit).setVisible(false);
         menu.findItem(org.smartregister.chw.core.R.id.action_sick_child_follow_up).setVisible(false);
         menu.findItem(org.smartregister.chw.core.R.id.action_malaria_diagnosis).setVisible(false);
+        menu.findItem(org.smartregister.chw.core.R.id.action_remove_member).setVisible(true);
         return true;
     }
 
@@ -82,6 +85,7 @@ public class HnppCoreChildProfileActivity extends CoreChildProfileActivity {
     }
     @Override
     public void setId(String id) {
+        if(!StringUtils.isEmpty(id)&&id.length()>=MEMBER_ID_SUFFIX)
         textViewId.setText("ID:"+id.substring(id.length() - MEMBER_ID_SUFFIX));
     }
 }
