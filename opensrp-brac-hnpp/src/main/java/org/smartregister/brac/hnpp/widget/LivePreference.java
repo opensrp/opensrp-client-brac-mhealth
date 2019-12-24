@@ -89,14 +89,14 @@ public class LivePreference extends Preference  {
 
         alert.setPositiveButton("Submit", (dialog, whichButton) -> {
             if(edittext.getText().toString().isEmpty()){
-                Toast.makeText(context,"Password empty",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,"পাসওয়ার্ড দিন",Toast.LENGTH_SHORT).show();
                 return;
             }
 
             passwordCheck(edittext.getText().toString().trim());
 
         });
-        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        alert.setNegativeButton("বাতিল", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
 
             }
@@ -147,10 +147,10 @@ public class LivePreference extends Preference  {
                     }
                 }else{
                     android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(getContext()).create();
-                    alertDialog.setTitle("Password not match with server");
+                    alertDialog.setTitle("পাসওয়ার্ড মিলে নাই");
                     alertDialog.setCancelable(false);
 
-                    alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE, "OK",
+                    alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE, "ওকে",
                             (dialog, which) -> {
 
                             });
