@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Environment;
+import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.View;
@@ -114,6 +115,13 @@ public class HnppConstants extends CoreConstants {
                 deviceId = mTelephonyManager.getDeviceId(1);
                 if(fromSettings){
                     deviceId = deviceId+"\n"+mTelephonyManager.getDeviceId(2);
+                }
+            }else {
+                if (mTelephonyManager.getPhoneType() == TelephonyManager.PHONE_TYPE_NONE) { //For tablet
+                    deviceId = Settings.Secure.getString(context.getApplicationContext().getContentResolver(),
+                            Settings.Secure.ANDROID_ID);
+                } else { //for normal phones
+                    deviceId = mTelephonyManager.getDeviceId();
                 }
             }
 

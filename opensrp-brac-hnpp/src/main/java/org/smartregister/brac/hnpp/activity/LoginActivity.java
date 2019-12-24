@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -139,7 +140,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         findViewById(R.id.login_login_btn).setAlpha(1.0f);
         mActivity = this;
         HnppConstants.updateAppBackgroundOnResume(findViewById(R.id.login_layout));
-        if(!BuildConfig.DEBUG)isDeviceVerifyiedCheck();
+        //isDeviceVerifyiedCheck();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -227,7 +228,9 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         finish();
     }
     public void isDeviceVerifyiedCheck() {
-        if(HnppConstants.isDeviceVerified()) return;
+        if(HnppConstants.isDeviceVerified()){
+            return;
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
                     != PackageManager.PERMISSION_GRANTED) {
@@ -241,13 +244,26 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             mTelephonyManager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
         }
         String devieImei = HnppConstants.getDeviceId(mTelephonyManager,this,false);
-        Log.v("DEVICE_IMEI","devieImei>>"+devieImei);
         if(TextUtils.isEmpty(devieImei)){
-            Toast.makeText(this,"IMEI not found",Toast.LENGTH_LONG).show();
+            android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(LoginActivity.this).create();
+            alertDialog.setTitle("এই ডিভাইস টির IMEI পাওয়া যাইনি");
+            alertDialog.setCancelable(false);
+
+            alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE, "ওকে",
+                    (dialog, which) -> {
+                        if (mActivity != null) mActivity.finish();
+                    });
+            if (mActivity != null && alertDialog != null)
+                alertDialog.show();
             return;
         }
         org.smartregister.util.Utils.startAsyncTask(new AsyncTask() {
 
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                showProgressDialog();
+            }
 
             @Override
             protected Object doInBackground(Object[] objects) {
@@ -258,8 +274,10 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
                     baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf(endString));
                 }
                  try {
+                    // baseUrl = "http://mhealthtest.brac.net:8080/opensrp";
                             String url = baseUrl + "/deviceverify/get?imei=" + devieImei;
-                            Response resp = CoreLibrary.getInstance().context().getHttpAgent().fetch(url);
+                            Log.v("IMEI_URL","url:"+url);
+                            Response resp = CoreLibrary.getInstance().context().getHttpAgent().fetchWithoutAuth(url);
                             if (resp.isFailure()) {
                                 throw new NoHttpResponseException(" not returned data");
                             }
@@ -287,6 +305,8 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         }, null);
     }
     private void showDialog(String status, String devieImei){
+        hideProgressDialog();
+        Log.v("IMEI_URL","showDialog:"+status);
         if(TextUtils.isEmpty(status) || !status.equalsIgnoreCase("true")){
             HnppConstants.updateDeviceVerified(false);
             android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(LoginActivity.this).create();
@@ -297,10 +317,22 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
                     (dialog, which) -> {
                         if (mActivity != null) mActivity.finish();
                     });
-            if (mActivity != null && alertDialog != null)
+            if (mActivity != null)
                 alertDialog.show();
         }else{
             HnppConstants.updateDeviceVerified(true);
+        }
+    }
+    private ProgressDialog dialog;
+    private void showProgressDialog(){
+        dialog = new ProgressDialog(this);
+        dialog.setMessage("ডিভাইস টি রেজিস্টার কিনা ছেক করা হচ্ছে");
+        dialog.setCancelable(false);
+        dialog.show();
+    }
+    private void hideProgressDialog(){
+        if(dialog !=null && dialog.isShowing()){
+            dialog.dismiss();
         }
     }
     private TelephonyManager mTelephonyManager;

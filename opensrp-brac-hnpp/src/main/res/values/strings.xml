@@ -113,5 +113,28 @@
     <string name="fail_result">ফলাফল পাওয়া যাই নি</string>
     <string name="done">সম্পন্ন</string>
     <string name="app_version_name">App version: %1$s</string>
+    <string name="sync_failed_timeout_error">সিঙ্ক ফেইল্ড। সার্ভারের সাথে সংযোগ স্থাপন করা সম্ভব হচ্ছে না। দয়া করে ইন্টারনেট সংযোগ চেক করুন।</string>
+    <string name="unauthorized_group">আপনার অ্যাকাউন্টটি এই ডিভাইসে ব্যবহারের উপযোগী নয়</string>
+    <string name="no_internet_connectivity">ইন্টারনেট সংযোগ নেই। দয়া করে ইন্টারনেট সংযোগ চালু করুন।</string>
+    <string name="unknown_response">লগইন ‌ফেইল্ড</string>
+    <string name="unauthorized">ইউজার নেম অথবা পাসওয়ার্ড সঠিক নয়। দয়া করে সঠিক ইউজার নেম এবং পাসওয়ার্ড দিন।</string>
+    <string name="account_disabled">অ্যাকাউন্ট চালু নেই</string>
+    <string name="account_disabled_logged_off">এই অ্যাকাউন্টটি সাময়িকভাবে বন্ধ করা আছে। দয়া করে আপনি আপনার কর্তৃপক্ষের সাথে যোগাযোগ করুন।</string>
 
+    <string name="response_null">সার্ভারের প্রতিক্রিয়া খুঁজে পাওয়া যায় নি,আবার চেষ্টা করুন</string>
+    <string name="url_missing">ইউআরএল খুঁজে পাওয়া যাইনি</string>
+    <string name="exception_login">সার্ভারের প্রতিক্রিয়া খুঁজে পাওয়া যায় নি,আবার চেষ্টা করুন</string>
+    <string name="login_failed_dialog_title">লগইন ‌ফেইল্ড</string>
+
+    <string name="error_invalid_username">নামটি সঠিক হয়নি</string>
+    <string name="error_invalid_password">পাসওয়ার্ড দিন</string>
+    <string name="error_incorrect_password">পাসওয়ার্ড সঠিক হয়নি</string>
+    <string name="sync_failed">সিঙ্ক ফেইল্ড</string>
+    <string name="sync_failed_no_internet">সিঙ্ক ফেইল্ড। দয়া করে ইন্টারনেট সংযোগ চালু করুন।</string>
+    <string name="error_field_required">নাম দিন</string>
+    <string name="action_log_out">লগ আউট</string>
+    <string name="family_has_service_overdue">অন্যান্য সদস্য</string>
+    <string name="loggin_in_dialog_title">লগ ইন হচ্ছে…</string>
+    <string name="please_wait_message">অনুগ্রহপূর্বক অপেক্ষা করুন</string>
+    <string name="loggin_in_dialog_message">অনুগ্রহপূর্বক অপেক্ষা করুন</string>
 </resources>

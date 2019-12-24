@@ -259,6 +259,14 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                         org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(),HnppConstants.KEY.SS_NAME, false));
 
                 break;
+            case "serial_no":
+                String serialNo = org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(),HnppConstants.KEY.SERIAL_NO, false);
+                if(TextUtils.isEmpty(serialNo)){
+                    jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,"H");
+                }else{
+                    jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,serialNo);
+                }
+                break;
 
 
             case "first_name":

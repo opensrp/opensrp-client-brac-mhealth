@@ -96,7 +96,6 @@ public class CoreChildProfileActivity extends BaseProfileActivity implements Cor
     private View viewLastVisitRow, viewMostDueRow, viewFamilyRow;
     private TextView textViewNotVisitMonth, textViewUndo, textViewNameDue, textViewFamilyHas;
     private ImageView imageViewCross;
-    private ProgressBar progressBar;
     protected String gender;
 
     public static void startMe(Activity activity, boolean isComesFromFamily, MemberObject memberObject, Class<?> cls) {
@@ -150,17 +149,11 @@ public class CoreChildProfileActivity extends BaseProfileActivity implements Cor
     public void onClick(View view) {
         int i = view.getId();
         if (i == R.id.textview_visit_not) {
-            showProgressBar();
             presenter().updateVisitNotDone(System.currentTimeMillis());
             tvEdit.setVisibility(View.GONE);
         } else if (i == R.id.textview_undo) {
-            showProgressBar();
             presenter().updateVisitNotDone(0);
         }
-    }
-
-    private void showProgressBar() {
-        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -207,7 +200,6 @@ public class CoreChildProfileActivity extends BaseProfileActivity implements Cor
         viewLastVisitRow = findViewById(R.id.view_last_visit_row);
         viewMostDueRow = findViewById(R.id.view_most_due_overdue_row);
         viewFamilyRow = findViewById(R.id.view_family_row);
-        progressBar = findViewById(R.id.progress_bar);
         textViewRecord.setOnClickListener(this);
         textViewVisitNot.setOnClickListener(this);
         textViewUndo.setOnClickListener(this);
@@ -511,7 +503,6 @@ public class CoreChildProfileActivity extends BaseProfileActivity implements Cor
 
     @Override
     public void hideProgressBar() {
-        progressBar.setVisibility(View.GONE);
     }
 
     @Override
