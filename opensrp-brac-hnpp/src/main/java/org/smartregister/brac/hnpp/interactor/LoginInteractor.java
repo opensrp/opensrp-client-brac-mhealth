@@ -1,6 +1,7 @@
 package org.smartregister.brac.hnpp.interactor;
 
 import org.smartregister.brac.hnpp.BuildConfig;
+import org.smartregister.brac.hnpp.job.HnppPncCloseJob;
 import org.smartregister.brac.hnpp.job.SSLocationFetchJob;
 import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
@@ -56,5 +57,6 @@ try{
         SyncServiceJob.scheduleJobImmediately(SyncServiceJob.TAG);
         HomeVisitServiceJob.scheduleJobImmediately(HomeVisitServiceJob.TAG);
         VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+        HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
     }
 }

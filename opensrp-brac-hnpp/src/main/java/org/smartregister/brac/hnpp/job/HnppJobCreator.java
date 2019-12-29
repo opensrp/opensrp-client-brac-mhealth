@@ -54,6 +54,8 @@ public class HnppJobCreator implements JobCreator {
                 return new PlanIntentServiceJob();
             case VisitLogServiceJob.TAG:
                 return new VisitLogServiceJob();
+            case HnppPncCloseJob.TAG:
+                return new HnppPncCloseJob();
             default:
                 Timber.d("Please create job and specify the right job tag");
                 return null;

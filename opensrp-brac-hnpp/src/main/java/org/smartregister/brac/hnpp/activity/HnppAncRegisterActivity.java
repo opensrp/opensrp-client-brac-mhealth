@@ -95,7 +95,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
         try {
             visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
             ANCRegister ancRegister = null;
-            if (form_name != null && form_name.equals(CoreConstants.JSON_FORM.getAncRegistration())) {
+            if (form_name != null && form_name.equals(HnppConstants.JSON_FORMS.ANC_FORM)) {
                 ancRegister = visitLogRepository.getLastANCRegister(getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.BASE_ENTITY_ID));
             }
             JSONObject stepOne = jsonForm.getJSONObject(JsonFormUtils.STEP1);

@@ -152,10 +152,14 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
                     isFirstAnc = false;
                     nameanc1View.setText(HnppConstants.visitEventTypeMapping.get(eventType));
                 }
-
+                imageanc1View.setImageResource(HnppConstants.iconMapping.get(eventType));
+                anc1View.setTag(org.smartregister.family.R.id.VIEW_ID,eventType);
+                if(getActivity() instanceof HnppFamilyOtherMemberProfileActivity){
+                    HnppFamilyOtherMemberProfileActivity aaa = (HnppFamilyOtherMemberProfileActivity) getActivity();
+                    aaa.updatePregnancyOutcomeVisible(eventType);
+                }
             }
-            imageanc1View.setImageResource(HnppConstants.iconMapping.get(eventType));
-            anc1View.setTag(org.smartregister.family.R.id.VIEW_ID,eventType);
+
 
             otherServiceView.addView(anc1View);
 

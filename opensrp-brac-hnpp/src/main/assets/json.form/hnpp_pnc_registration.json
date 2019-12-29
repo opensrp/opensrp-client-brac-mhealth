@@ -47,9 +47,17 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "PNC Registration",
+    "title": "প্রসবোত্তর পরিচর্যা",
     "fields": [
-
+      {
+        "key": "form_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "PNC Registration",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": "XXXX"
+      },
       {
         "key": "body_temperature",
         "openmrs_entity_parent": "",

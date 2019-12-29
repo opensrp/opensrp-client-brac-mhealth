@@ -50,21 +50,13 @@
     "title": "গর্ভবতী পরিচর্যা - ২য় ত্রিমাসিক",
     "fields": [
       {
-        "key": "expected_delivery_date",
+        "key": "edd",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "expected_delivery_date",
+        "openmrs_entity_id": "edd",
         "type": "edit_text",
-        "hint": "EDD",
-        "editable": false,
-        "v_numeric": {
-          "value": "true",
-          "err": "Enter a valid Number"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
+        "hint": "সম্ভাব্য প্রসবের তারিখ",
+        "read_only": true
       },
       {
         "key": "weight",

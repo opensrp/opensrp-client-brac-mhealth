@@ -20,50 +20,27 @@ import java.util.Map;
 
 public class FormApplicability {
 
-    public static boolean isPregnancyOutcomeVisible(CommonPersonObjectClient commonPersonObject) {
-        String baseEntityId = org.smartregister.util.Utils.getValue(commonPersonObject.getColumnmaps(), "base_entity_id", false);
-
-        String DeliveryDateSql = "SELECT delivery_date FROM ec_pregnancy_outcome where base_entity_id = ? ";
-
-        List<Map<String, String>> valus = AbstractDao.readData(DeliveryDateSql, new String[]{baseEntityId});
-        if(valus.size() > 0){
-            String deliveryDate = valus.get(0).get("delivery_date");
-
-            if(deliveryDate!=null){
-                DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-                Date deliveryDateformatted = null;
-                try {
-                    deliveryDateformatted = dateFormat.parse(deliveryDate);
-                    int day = Days.daysBetween((new DateTime(deliveryDateformatted)), new DateTime(System.currentTimeMillis())).getDays();
-                    return day < 41;
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }
-        return false;
-
-    }
-
     public static String getDueFormForMarriedWomen(String baseEntityId, int age){
         String lmp = getLmp(baseEntityId);
-
-        if(!TextUtils.isEmpty(lmp)){
-            int dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(lmp), new DateTime()).getDays();
-            if(dayPass > 1 && dayPass < 84){
-                //first trimester
-                if(isFirstTimeAnc(baseEntityId)){
-                    return HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
+            if(!TextUtils.isEmpty(lmp)&&!isClosedPregnancyOutCome(baseEntityId)){
+                int dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(lmp), new DateTime()).getDays();
+                if(isDonePregnancyOutCome(baseEntityId)){
+                    return HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
                 }
-                return HnppConstants.EVENT_TYPE.ANC1_REGISTRATION;
-            }else if(dayPass > 84 && dayPass < 168){
-                return HnppConstants.EVENT_TYPE.ANC2_REGISTRATION;
-            }else if(dayPass > 168){
-                return HnppConstants.EVENT_TYPE.ANC3_REGISTRATION;
+                if(dayPass > 1 && dayPass <= 84){
+                    //first trimester
+                    if(isFirstTimeAnc(baseEntityId)){
+                        return HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
+                    }
+                    return HnppConstants.EVENT_TYPE.ANC1_REGISTRATION;
+                }else if(dayPass > 84 && dayPass <= 168){
+                    return HnppConstants.EVENT_TYPE.ANC2_REGISTRATION;
+                }else if(dayPass > 168){
+                    return HnppConstants.EVENT_TYPE.ANC3_REGISTRATION;
+                }
+                return "";
             }
-            return "";
-        }
+
         if(isElco(age)){
             return HnppConstants.EVENT_TYPE.ELCO;
         }
@@ -79,14 +56,34 @@ public class FormApplicability {
         if(valus.size()>0){
             return valus.get(0).get("last_menstrual_period");
         }
+
         return "";
 
     }
-    public boolean isDonePregnancyOutCome(String baseEntityId){
+    public static boolean isClosedPregnancyOutCome(String baseEntityId){
+        String DeliveryDateSql = "SELECT is_closed FROM ec_pregnancy_outcome where base_entity_id = ? ";
+
+        List<Map<String, String>> valus = AbstractDao.readData(DeliveryDateSql, new String[]{baseEntityId});
+
+        if(valus.size() > 0){
+            if("1".equalsIgnoreCase(valus.get(0).get("is_closed"))){
+                return true;
+            }
+
+
+        }
+        return false;
+    }
+    public static boolean isDonePregnancyOutCome(String baseEntityId){
         String DeliveryDateSql = "SELECT delivery_date FROM ec_pregnancy_outcome where base_entity_id = ? ";
 
         List<Map<String, String>> valus = AbstractDao.readData(DeliveryDateSql, new String[]{baseEntityId});
-        if(valus.size() > 0) return true;
+
+        if(valus.size() > 0){
+            int dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(valus.get(0).get("delivery_date")), new DateTime()).getDays();
+            if(dayPass<=41)
+                return true;
+        }
         return false;
     }
     public static boolean isFirstTimeAnc(String baseEntityId){

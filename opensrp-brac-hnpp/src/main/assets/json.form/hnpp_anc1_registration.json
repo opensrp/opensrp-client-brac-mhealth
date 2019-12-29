@@ -58,38 +58,15 @@
         "type": "hidden",
         "value": "XXXX"
       },
-      {
-        "key": "last_menstrual_period",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-        "type": "date_picker",
-        "hint": "Last Menstrual Period (LMP)",
-        "label_info_title": "LMP",
-        "label_info_text": "LMP = first day of Last Menstrual Period. If the exact date is unknown, but the period of the month is known, use day 5 for beginning of the month, day 15 for middle of the month and day 25 for end of the month.",
-        "expanded": false,
-        "max_date": "today-42d",
-        "min_date": "today-308d",
-        "v_required": {
-          "value": "true",
-          "err": "LMP required"
-        }
-      },
+
       {
         "key": "edd",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "edd",
         "type": "edit_text",
-        "hint": "সম্ভাব্য প্রসবের তারিখ",
-        "editable": false,
-        "calculation": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_anc_member_registration_calculation.yml"
-            }
-          }
-        }
+        "read_only": true,
+        "hint": "সম্ভাব্য প্রসবের তারিখ"
       },
       {
         "key": "weight",

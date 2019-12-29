@@ -27,7 +27,9 @@ import com.evernote.android.job.JobManager;
 import org.apache.commons.lang3.StringUtils;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.job.HnppPncCloseJob;
 import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
+import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSLocations;
 import org.smartregister.brac.hnpp.location.SSModel;
@@ -401,6 +403,14 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
         if(JobManager.instance().getAllJobRequestsForTag(PullHouseholdIdsServiceJob.TAG).isEmpty()){
             PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
         }
+        if(JobManager.instance().getAllJobRequestsForTag(VisitLogServiceJob.TAG).isEmpty()){
+            VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+        }
+        if(JobManager.instance().getAllJobRequestsForTag(HnppPncCloseJob.TAG).isEmpty()){
+            HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
+        }
+
+
     }
 
     @Override

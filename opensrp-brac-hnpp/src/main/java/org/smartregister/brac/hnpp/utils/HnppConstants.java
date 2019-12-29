@@ -49,6 +49,8 @@ public class HnppConstants extends CoreConstants {
         public static final String  PREGNANCY_OUTCOME = "hnpp_anc_pregnancy_outcome";
         public static final String  MEMBER_REFERRAL = "hnpp_member_referral";
         public static final String  ELCO = "elco_register";
+        public static final String  PNC_FORM = "hnpp_pnc_registration";
+
 
     }
     public static class TABLE_NAME {
@@ -206,6 +208,7 @@ public class HnppConstants extends CoreConstants {
         public static final String ANC3_REGISTRATION = "ANC3 Registration";
         public static final String ANC_REGISTRATION = "ANC Registration";
         public static final String UPDATE_ANC_REGISTRATION = "Update ANC Registration";
+        public static final String PNC_REGISTRATION = "PNC Registration";
 
 
     }
@@ -214,6 +217,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ANC2_REGISTRATION,JSON_FORMS.ANC2_FORM)
             .put(EVENT_TYPE.ANC3_REGISTRATION,JSON_FORMS.ANC3_FORM)
             .put(EVENT_TYPE.ELCO,JSON_FORMS.ELCO)
+            .put(EVENT_TYPE.PNC_REGISTRATION,JSON_FORMS.PNC_FORM)
             .build();
     public static final Map<String,Integer> iconMapping = ImmutableMap.<String,Integer> builder()
             .put("গর্ভবতী পরিচর্যা-১ম ত্রিমাসিক",R.mipmap.ic_anc_pink)
@@ -221,6 +225,7 @@ public class HnppConstants extends CoreConstants {
             .put("গর্ভবতী পরিচর্যা - ৩য় ত্রিমাসিক",R.mipmap.ic_anc_pink)
             .put("শারীরিক সমস্যা",R.mipmap.ic_anc_pink)
             .put( "পূর্বের গর্ভের ইতিহাস",R.mipmap.ic_anc_pink)
+            .put(EVENT_TYPE.PNC_REGISTRATION,R.drawable.sidemenu_pnc)
             .put(EVENT_TYPE.ANC1_REGISTRATION,R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.ANC2_REGISTRATION,R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.ANC3_REGISTRATION,R.mipmap.ic_anc_pink)
@@ -249,6 +254,8 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.MEMBER_REFERRAL,"রেফারেল")
             .put("Member referral","রেফারেল")
             .put( JSON_FORMS.PREGNANCY_HISTORY,"পূর্বের গর্ভের ইতিহাস")
+            .put( JSON_FORMS.PNC_FORM,"প্রসবোত্তর পরিচর্যা")
+            .put( EVENT_TYPE.PNC_REGISTRATION,"প্রসবোত্তর পরিচর্যা")
             .build();
     //needed for dashboard
     public static final Map<String,String> eventTypeMapping = ImmutableMap.<String,String> builder()

@@ -32,6 +32,7 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_REG
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ELCO;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ELCO;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.MEMBER_REFERRAL;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
 import static org.smartregister.util.JsonFormUtils.gson;
 
 public class VisitLogIntentService extends IntentService {
@@ -129,7 +130,9 @@ public class VisitLogIntentService extends IntentService {
             form_name = HnppConstants.JSON_FORMS.ANC3_FORM+".json";
         }else if (MEMBER_REFERRAL.equalsIgnoreCase(encounter_type)) {
             form_name = HnppConstants.JSON_FORMS.MEMBER_REFERRAL+".json";
-        }else if (ELCO.equalsIgnoreCase(encounter_type)) {
+        }else if (PNC_REGISTRATION.equalsIgnoreCase(encounter_type)) {
+            form_name = HnppConstants.JSON_FORMS.PNC_FORM+".json";
+        } else if (ELCO.equalsIgnoreCase(encounter_type)) {
             form_name = HnppConstants.JSON_FORMS.ELCO+".json";
         }
 

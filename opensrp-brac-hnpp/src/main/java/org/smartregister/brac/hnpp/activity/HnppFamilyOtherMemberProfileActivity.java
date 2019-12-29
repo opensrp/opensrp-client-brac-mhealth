@@ -18,12 +18,17 @@ import android.widget.TextView;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.custom_view.FamilyMemberFloatingMenu;
 import org.smartregister.brac.hnpp.fragment.HnppMemberProfileDueFragment;
 import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
 import org.smartregister.brac.hnpp.fragment.MemberOtherServiceFragment;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
+import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
+import org.smartregister.brac.hnpp.utils.ANCRegister;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -112,10 +117,11 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     public void setProfileDetailOne(String detailOne) {
         ((TextView)findViewById(R.id.textview_detail_one)).setText(HnppConstants.getGender(detailOne));
     }
-
+    Menu menu;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
+        this.menu = menu;
         setupMenuOptions(menu);
         return true;
     }
@@ -192,6 +198,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     public void startAnyFormActivity(String formName, int requestCode) {
        try {
            JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
+           addEDDField(formName,jsonForm);
            jsonForm.put(JsonFormUtils.ENTITY_ID, familyBaseEntityId);
            Intent intent = new Intent(this, org.smartregister.family.util.Utils.metadata().familyMemberFormActivity);
            intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
@@ -209,7 +216,38 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
            
        }
     }
+    public void addEDDField(String formName,JSONObject jsonForm){
+        if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM)||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM)||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM)){
+            JSONObject stepOne = null;
+            try {
+                HnppVisitLogRepository visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
+                ANCRegister ancRegister = null;
 
+                ancRegister = visitLogRepository.getLastANCRegister(baseEntityId);
+                if(ancRegister!=null){
+                    stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+                    JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+                    updateFormField(jsonArray, HnppConstants.ANC_REGISTER_COLUMNS.EDD, ancRegister.getEDD());
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    private void updateFormField(JSONArray formFieldArrays, String formFeildKey, String updateValue) {
+        if (updateValue != null) {
+            JSONObject formObject = org.smartregister.util.JsonFormUtils.getFieldJSONObject(formFieldArrays, formFeildKey);
+            if (formObject != null) {
+                try {
+                    formObject.remove(org.smartregister.util.JsonFormUtils.VALUE);
+                    formObject.put(org.smartregister.util.JsonFormUtils.VALUE, updateValue);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
     @Override
     protected void startEditMemberJsonForm(Integer title_resource, CommonPersonObjectClient client) {
 
@@ -346,23 +384,29 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         menu.findItem(R.id.action_malaria_followup_visit).setVisible(false);
         menu.findItem(R.id.action_sick_child_follow_up).setVisible(false);
         menu.findItem(R.id.action_malaria_diagnosis).setTitle("PNC রেজিস্ট্রেশন");
-        menu.findItem(R.id.action_remove_member).setVisible(true);
         menu.findItem(R.id.action_pregnancy_out_come).setTitle("প্রসবের ফলাফল");
 
         menu.findItem(R.id.action_remove_member).setVisible(true);
 
         if (FormApplicability.isWomanOfReproductiveAge(commonPersonObject)) {
             menu.findItem(R.id.action_anc_registration).setVisible(true);
-            menu.findItem(R.id.action_pregnancy_out_come).setVisible(true);
+//            menu.findItem(R.id.action_pregnancy_out_come).setVisible(true);
         } else {
             menu.findItem(R.id.action_anc_registration).setVisible(false);
+//            menu.findItem(R.id.action_pregnancy_out_come).setVisible(false);
+        }
+        menu.findItem(R.id.action_malaria_diagnosis).setVisible(false);
+
+
+    }
+    public void updatePregnancyOutcomeVisible(String eventType){
+
+
+        if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)
+        || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
+            menu.findItem(R.id.action_pregnancy_out_come).setVisible(true);
+        }else{
             menu.findItem(R.id.action_pregnancy_out_come).setVisible(false);
         }
-        if(FormApplicability.isPregnancyOutcomeVisible(commonPersonObject)){
-            menu.findItem(R.id.action_malaria_diagnosis).setVisible(true);
-        }else{
-            menu.findItem(R.id.action_malaria_diagnosis).setVisible(false);
-        }
-
     }
 }

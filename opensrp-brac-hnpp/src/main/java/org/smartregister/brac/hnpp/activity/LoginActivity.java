@@ -14,10 +14,8 @@ import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-
 import org.apache.commons.lang3.StringUtils;
 import org.smartregister.AllConstants;
 import org.smartregister.brac.hnpp.BuildConfig;
@@ -28,20 +26,15 @@ import org.smartregister.brac.hnpp.job.SSLocationFetchJob;
 import org.smartregister.brac.hnpp.presenter.LoginPresenter;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.family.util.Constants;
-import org.smartregister.job.SyncServiceJob;
 import org.smartregister.task.SaveTeamLocationsTask;
-import org.smartregister.util.StringUtil;
 import org.smartregister.util.Utils;
 import org.smartregister.view.activity.BaseLoginActivity;
-import org.smartregister.view.activity.SettingsActivity;
 import org.smartregister.view.contract.BaseLoginContract;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-
 
 public class LoginActivity extends BaseLoginActivity implements BaseLoginContract.View {
     public static final String TAG = BaseLoginActivity.class.getCanonicalName();
@@ -122,15 +115,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
 
 
     }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getTitle().toString().equalsIgnoreCase("Settings")) {
-            startActivity(new Intent(this, HnppSettingsActivity.class));
-            return true;
-        }
-        return false;
-//        return super.onOptionsItemSelected(item);
-    }
+
     @Override
     protected void onResume() {
         super.onResume();

@@ -18,11 +18,7 @@
         android:enabled="true"
         android:title="@string/anc_registration"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/action_pregnancy_out_come"
-        android:enabled="true"
-        android:title="@string/anc_pregnancy_out_come"
-        app:showAsAction="never" />
+
     <item
         android:id="@+id/action_malaria_registration"
         android:enabled="true"
