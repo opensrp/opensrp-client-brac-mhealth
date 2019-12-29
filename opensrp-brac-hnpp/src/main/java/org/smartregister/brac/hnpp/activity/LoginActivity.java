@@ -325,10 +325,13 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
     }
     private ProgressDialog dialog;
     private void showProgressDialog(){
-        dialog = new ProgressDialog(this);
-        dialog.setMessage("ডিভাইস টি রেজিস্টার কিনা ছেক করা হচ্ছে");
-        dialog.setCancelable(false);
-        dialog.show();
+        if(dialog == null){
+            dialog = new ProgressDialog(this);
+            dialog.setMessage("ডিভাইস টি রেজিস্টার কিনা ছেক করা হচ্ছে");
+            dialog.setCancelable(false);
+            dialog.show();
+        }
+
     }
     private void hideProgressDialog(){
         if(dialog !=null && dialog.isShowing()){
