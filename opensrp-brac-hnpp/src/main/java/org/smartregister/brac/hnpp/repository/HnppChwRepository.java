@@ -50,6 +50,7 @@ public class HnppChwRepository extends CoreChwRepository {
                     upgradeToVersion6(context, db);
                     break;
                 case 7:
+                case 8:
                     upgradeToVersion7(context, db);
                     break;
 

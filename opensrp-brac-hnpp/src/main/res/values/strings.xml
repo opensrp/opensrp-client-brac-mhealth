@@ -137,4 +137,6 @@
     <string name="loggin_in_dialog_title">লগ ইন হচ্ছে…</string>
     <string name="please_wait_message">অনুগ্রহপূর্বক অপেক্ষা করুন</string>
     <string name="loggin_in_dialog_message">অনুগ্রহপূর্বক অপেক্ষা করুন</string>
+    <string name="head_of_family">খানা প্রধান</string>
+    <string name="call_caregiver">কল করতে চান?</string>
 </resources>

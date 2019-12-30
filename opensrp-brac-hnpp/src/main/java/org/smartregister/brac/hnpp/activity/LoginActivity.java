@@ -327,7 +327,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
     private void showProgressDialog(){
         if(dialog == null){
             dialog = new ProgressDialog(this);
-            dialog.setMessage("ডিভাইস টি রেজিস্টার কিনা ছেক করা হচ্ছে");
+            dialog.setMessage("ডিভাইস টি রেজিস্টার কিনা চেক করা হচ্ছে");
             dialog.setCancelable(false);
             dialog.show();
         }
