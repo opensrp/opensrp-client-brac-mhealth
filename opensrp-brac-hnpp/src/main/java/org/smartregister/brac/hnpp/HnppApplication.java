@@ -19,6 +19,7 @@ import org.smartregister.brac.hnpp.activity.HnppAllMemberRegisterActivity;
 import org.smartregister.brac.hnpp.custom_view.HnppNavigationTopView;
 import org.smartregister.brac.hnpp.listener.HnppNavigationListener;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
+import org.smartregister.brac.hnpp.presenter.HnppNavigationPresenter;
 import org.smartregister.brac.hnpp.repository.HnppChwRepository;
 import org.smartregister.brac.hnpp.repository.SSLocationRepository;
 import org.smartregister.brac.hnpp.repository.HouseholdIdRepository;
@@ -82,8 +83,8 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
                 HnppApplication.getInstance().getApplicationContext().getAssets());
 
         //Setup Navigation menu. Done only once when app is created
-        NavigationMenu.setupNavigationMenu(new HnppNavigationListener(),null,this, new HnppNavigationTopView(), new HnppNavigationMenu(), new HnppNavigationModel(),
-                getRegisteredActivities(), false);
+//        NavigationMenu.setupNavigationMenu(new HnppNavigationListener(),null,this, new HnppNavigationTopView(), new HnppNavigationMenu(), new HnppNavigationModel(),
+//                getRegisteredActivities(), false);
 
 //        if (BuildConfig.DEBUG) {
 //            Timber.plant(new Timber.DebugTree());
@@ -137,6 +138,30 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
         return (HnppApplication) mInstance;
     }
 
+
+    private HnppNavigationModel hnppNavigationModel;
+
+    public HnppNavigationModel getHnppNavigationModel() {
+
+        if(hnppNavigationModel == null){
+
+            hnppNavigationModel = new HnppNavigationModel();
+
+        }
+
+        return hnppNavigationModel;
+
+    }
+
+    public void setupNavigation(HnppNavigationPresenter mPresenter){
+
+        NavigationMenu.setupNavigationMenu(new HnppNavigationListener(),mPresenter,this, new HnppNavigationTopView(), new HnppNavigationMenu(), getHnppNavigationModel(),
+
+                getRegisteredActivities(), false);
+
+    }
+
+
     @Override
     public void logoutCurrentUser() {
 //        Intent intent = new Intent(this,org.smartregister.brac.hnpp.activity.LoginActivity.class);
@@ -154,6 +179,17 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.userService().logoutSession();
+        startActivity(intent);
+
+    }
+    public void forceLogoutForRemoteLogin() {
+        SSLocationHelper.clearLocation();
+        Intent intent = new Intent(this,org.smartregister.brac.hnpp.activity.LoginActivity.class);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.userService().forceRemoteLogin();
         context.userService().logoutSession();
         startActivity(intent);
 

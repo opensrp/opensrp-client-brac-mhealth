@@ -140,7 +140,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         findViewById(R.id.login_login_btn).setAlpha(1.0f);
         mActivity = this;
         HnppConstants.updateAppBackgroundOnResume(findViewById(R.id.login_layout));
-        isDeviceVerifyiedCheck();
+        if(!BuildConfig.DEBUG)isDeviceVerifyiedCheck();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

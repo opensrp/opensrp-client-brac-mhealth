@@ -39,6 +39,7 @@ public class SSLocationFetchIntentService extends IntentService {
     protected void onHandleIntent( Intent intent) {
         JSONArray jsonObjectLocation = getLocationList();
         if(jsonObjectLocation!=null){
+            HnppApplication.getSSLocationRepository().dropTable();
             for(int i=0;i<jsonObjectLocation.length();i++){
                 try {
                     JSONObject object = jsonObjectLocation.getJSONObject(i);

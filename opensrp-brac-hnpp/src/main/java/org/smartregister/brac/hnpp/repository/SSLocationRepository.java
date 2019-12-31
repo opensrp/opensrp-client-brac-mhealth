@@ -61,19 +61,17 @@ public class SSLocationRepository extends BaseRepository {
         database.execSQL(CREATE_LOCATION_TABLE);
         database.execSQL(CREATE_LOCATION_NAME_INDEX);
     }
+    public void dropTable(){
+        getWritableDatabase().execSQL("delete from "+getLocationTableName());
+    }
 
     public void addOrUpdate(SSModel ssModel) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(SS_NAME, ssModel.username.trim());
         contentValues.put(IS_SIMPRINT_ENABLE, ssModel.simprints_enable);
         contentValues.put(GEOJSON, gson.toJson(ssModel.locations));
-        if(isExistLocation(ssModel.username.trim())){
-           int updated =  getWritableDatabase().update(getLocationTableName(),contentValues,SS_NAME+" = ? ",new String[]{ssModel.username.trim()});
-            Log.v("LOCATION_FETCH","addOrUpdate>>updated:"+updated);
-        }else{
-            long inserted = getWritableDatabase().replace(getLocationTableName(), null, contentValues);
-            Log.v("LOCATION_FETCH","addOrUpdate>>inserted:"+inserted);
-        }
+        long inserted = getWritableDatabase().replace(getLocationTableName(), null, contentValues);
+         Log.v("LOCATION_FETCH","addOrUpdate>>inserted:"+inserted);
 
 
     }
