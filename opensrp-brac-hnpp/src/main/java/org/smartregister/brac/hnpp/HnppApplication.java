@@ -1,6 +1,8 @@
 package org.smartregister.brac.hnpp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import com.evernote.android.job.JobManager;
 import org.jetbrains.annotations.NotNull;
@@ -14,6 +16,8 @@ import org.smartregister.brac.hnpp.activity.HnppAncRegisterActivity;
 import org.smartregister.brac.hnpp.custom_view.HnppNavigationTopView;
 import org.smartregister.brac.hnpp.listener.HnppNavigationListener;
 import org.smartregister.brac.hnpp.presenter.HnppNavigationPresenter;
+import org.smartregister.brac.hnpp.location.SSLocationHelper;
+import org.smartregister.brac.hnpp.presenter.HnppNavigationPresenter;
 import org.smartregister.brac.hnpp.repository.HnppChwRepository;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.repository.SSLocationRepository;
@@ -21,6 +25,7 @@ import org.smartregister.brac.hnpp.repository.HouseholdIdRepository;
 import org.smartregister.brac.hnpp.sync.HnppClientProcessor;
 import org.smartregister.brac.hnpp.sync.HnppSyncConfiguration;
 import org.smartregister.brac.hnpp.utils.HNPPApplicationUtils;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.contract.CoreApplication;
@@ -63,6 +68,9 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
     @Override
     public void onCreate() {
         super.onCreate();
+        mInstance = this;
+        context = Context.getInstance();
+
         //init Job Manager
         SyncStatusBroadcastReceiver.init(this);
         JobManager.create(this).addJobCreator(new HnppJobCreator());
@@ -82,8 +90,7 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
 //                    .allSharedPreferences().fetchRegisteredANM()));
 //        }
 
-        mInstance = this;
-        context = Context.getInstance();
+
         context.updateApplicationContext(getApplicationContext());
         context.updateCommonFtsObject(createCommonFtsObject());
 
@@ -120,24 +127,36 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
 //            saveLanguage("bn");
 //        }
     }
-    private HnppNavigationModel hnppNavigationModel;
-    public HnppNavigationModel getHnppNavigationModel() {
-        if(hnppNavigationModel == null){
-            hnppNavigationModel = new HnppNavigationModel();
-        }
-        return hnppNavigationModel;
-    }
-
-    public void setupNavigation(HnppNavigationPresenter mPresenter){
-        NavigationMenu.setupNavigationMenu(new HnppNavigationListener(),mPresenter,this, new HnppNavigationTopView(), new HnppNavigationMenu(), getHnppNavigationModel(),
-                getRegisteredActivities(), false);
-    }
     public static CommonFtsObject createCommonFtsObject() {
         return HNPPApplicationUtils.getCommonFtsObject(commonFtsObject);
     }
     public static synchronized HnppApplication getHNPPInstance() {
         return (HnppApplication) mInstance;
     }
+
+
+    private HnppNavigationModel hnppNavigationModel;
+
+    public HnppNavigationModel getHnppNavigationModel() {
+
+        if(hnppNavigationModel == null){
+
+            hnppNavigationModel = new HnppNavigationModel();
+
+        }
+
+        return hnppNavigationModel;
+
+    }
+
+    public void setupNavigation(HnppNavigationPresenter mPresenter){
+
+        NavigationMenu.setupNavigationMenu(new HnppNavigationListener(),mPresenter,this, new HnppNavigationTopView(), new HnppNavigationMenu(), getHnppNavigationModel(),
+
+                getRegisteredActivities(), false);
+
+    }
+
 
     @Override
     public void logoutCurrentUser() {
@@ -151,13 +170,45 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
     }
     @Override
     public void forceLogout() {
+        SSLocationHelper.clearLocation();
         Intent intent = new Intent(this,org.smartregister.brac.hnpp.activity.LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
         context.userService().logoutSession();
+        startActivity(intent);
+
+    }
+    public void forceLogoutForRemoteLogin() {
+        SSLocationHelper.clearLocation();
+        Intent intent = new Intent(this,org.smartregister.brac.hnpp.activity.LoginActivity.class);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.userService().forceRemoteLogin();
+        context.userService().logoutSession();
+        startActivity(intent);
+
+    }
+    public void appSwitch() {
+        Runtime.getRuntime().exit(0);
+        //System.exit(0);
+        SSLocationHelper.clearLocation();
+        Intent intent = new Intent(this,org.smartregister.brac.hnpp.activity.LoginActivity.class);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        setOpenSRPUrl();
+        context.userService().logoutSession();
+        startActivity(intent);
+
+    }
+    public void clearDatabase(){
+        ((HnppChwRepository)getRepository()).deleteDatabase();
+    }
+    public void clearSharePreference(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        preferences.edit().clear().commit();
     }
 
     public @NotNull Map<String, Class> getRegisteredActivities() {
@@ -208,8 +259,9 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
 
     public void setOpenSRPUrl() {
         AllSharedPreferences preferences = Utils.getAllSharedPreferences();
+        boolean isRelease = HnppConstants.isReleaseBuild();
         //if(TextUtils.isEmpty(preferences.getPreference(AllConstants.DRISHTI_BASE_URL))){
-          preferences.savePreference(AllConstants.DRISHTI_BASE_URL, BuildConfig.opensrp_url);
+          preferences.savePreference(AllConstants.DRISHTI_BASE_URL, isRelease? BuildConfig.opensrp_url_live:BuildConfig.opensrp_url_training);
 
         //}
 

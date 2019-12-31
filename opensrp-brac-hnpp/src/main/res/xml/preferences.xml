@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="Server">
+    <PreferenceCategory >
 
         <EditTextPreference
             android:defaultValue="@string/opensrp_url"
@@ -12,5 +12,26 @@
             android:dialogMessage="Enter Base Server Url"
             android:persistent="true" />
 
+        <org.smartregister.brac.hnpp.widget.LivePreference
+            android:title="Operation"
+            android:key="change_pin"
+            android:layout="@layout/preference_textview"/>
+        <EditTextPreference
+            android:key="APP_VERSION"
+            android:title="App Version"
+            android:selectable="false"
+            android:editable="false"
+            android:summary="Defines the base server url that handles requests"
+            android:persistent="true" />
+        <EditTextPreference
+            android:key="IMEI_NO"
+            android:title="IMEI"
+            android:selectable="false"
+            android:editable="false"
+            android:summary="Defines the base server url that handles requests"
+            android:persistent="true" />
+
+
     </PreferenceCategory>
+
 </PreferenceScreen>

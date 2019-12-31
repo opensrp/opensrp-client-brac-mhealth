@@ -1,10 +1,12 @@
 package org.smartregister.chw.core.interactor;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.support.annotation.VisibleForTesting;
 
 import org.apache.commons.lang3.StringUtils;
 import org.smartregister.chw.core.R;
+import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.contract.FamilyCallDialogContract;
 import org.smartregister.chw.core.model.FamilyCallDialogModel;
 import org.smartregister.commonregistry.CommonPersonObject;
@@ -13,6 +15,8 @@ import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.family.util.AppExecutors;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.Utils;
+
+import timber.log.Timber;
 
 public class FamilyCallDialogInteractor implements FamilyCallDialogContract.Interactor {
 
@@ -74,10 +78,13 @@ public class FamilyCallDialogInteractor implements FamilyCallDialogContract.Inte
             return null;
         }
 
-        String baseID = (isHead && StringUtils.isNotBlank(familyHeadID)) ? familyHeadID : primaryCaregiverID;
+        String baseID = getHouseHoldHeadIdByFamilyId(familyHeadID);//(isHead && StringUtils.isNotBlank(familyHeadID)) ? familyHeadID : primaryCaregiverID;
 
 
         final CommonPersonObject personObject = getCommonRepository(Utils.metadata().familyMemberRegister.tableName).findByBaseEntityId(baseID);
+        if(personObject == null){
+            return null;
+        }
         final CommonPersonObjectClient client = new CommonPersonObjectClient(personObject.getCaseId(), personObject.getDetails(), "");
         client.setColumnmaps(personObject.getColumnmaps());
 
@@ -95,12 +102,32 @@ public class FamilyCallDialogInteractor implements FamilyCallDialogContract.Inte
                 )
         );
 
-        model.setRole((primaryCaregiverID.toLowerCase().equals(familyHeadID.toLowerCase()))
-                ? String.format("%s, %s", context.getString(R.string.head_of_family), context.getString(R.string.care_giver))
-                : (isHead ? context.getString(R.string.head_of_family)
-                : context.getString(R.string.care_giver)));
+        model.setRole(context.getString(R.string.head_of_family));
 
         return model;
+    }
+    public static String getHouseHoldHeadIdByFamilyId(String familyId){
+        String query = "select base_entity_id from ec_family_member where  relational_id = '"+familyId+"' and relation_with_household_head = 'Household Head'";
+        Cursor cursor = null;
+        String entityId="";
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() > 0){
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    entityId = cursor.getString(0);
+                    cursor.moveToNext();
+                }
+
+            }
+
+        } catch (Exception e) {
+            Timber.e(e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return entityId;
     }
 
 }

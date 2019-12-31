@@ -130,7 +130,7 @@
         "edit_type": "name",
         "v_required": {
           "value": "true",
-          "err": "প্রথম নাম লিখুন"
+          "err": "নাম লিখুন"
         },
         "v_regex": {
           "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
@@ -143,14 +143,14 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "mother_name",
         "type": "spinner",
-        "hint": "মাতার নাম",
+        "hint": "এই সদস্যের মাতার নাম",
         "values": [
           "মাতা রেজিস্টার্ড নয়"
         ],
         "openmrs_choice_ids": {
         },
         "v_required": {
-          "value": true,
+          "value": false,
           "err": "মান নির্বাচন করুন"
         },
         "relevance": {
@@ -170,13 +170,13 @@
         "type": "edit_text",
         "edit_type": "name",
         "hint": "মাতার নাম (ইংরেজীতে)",
-        "v_required": {
-          "value": true,
-          "err": "মা / অভিভাবকের প্রথম নাম লিখুন"
-        },
         "v_regex": {
-          "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
+          "value": "^$|^[a-zA-Z][A-Za-z\\.\\- ]*",
           "err": "একটি বৈধ নাম লিখুন"
+        },
+        "v_required": {
+          "value": false,
+          "err": "মান নির্বাচন করুন"
         },
         "relevance": {
           "rules-engine": {
@@ -326,7 +326,7 @@
         },
         "v_required": {
           "value": true,
-          "err": "মান নির্বাচন করুন"
+          "err": "জন্মতারিখ নির্বাচন করুন"
         }
       },
       {

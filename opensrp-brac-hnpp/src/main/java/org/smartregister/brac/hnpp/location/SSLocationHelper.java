@@ -30,15 +30,14 @@ public class SSLocationHelper {
         return ssModels;
     }
 
-//    public ArrayList<SSLocationForm> getSsLocationForms() {
-//        if(ssLocationForms != null && ssLocationForms.isEmpty()){
-//            setSsLocationForms();
-//        }
-//        return ssLocationForms;
-//    }
-
     private void setSsLocationForms(){
+            ssModels.clear();
             ssModels =  HnppApplication.getSSLocationRepository().getAllLocations();
+    }
+    public void updateModel(){
+        if(ssModels !=null){
+            setSsLocationForms();
+        }
     }
 
     public String generateHouseHoldId(SSLocations ssLocations,String lastFourDigit){
@@ -60,6 +59,9 @@ public class SSLocationHelper {
         address.setCountyDistrict(ssLocations.district.name);
         address.setCountry(ssLocations.country.name);
         return address;
+    }
+    public static void clearLocation(){
+        instance =null;
     }
 
 }

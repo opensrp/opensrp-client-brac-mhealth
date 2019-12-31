@@ -143,6 +143,8 @@ public class HnppFamilyRegisterProvider extends CoreRegisterProvider  {
         String serialNo = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.SERIAL_NO, true);
         if(!TextUtils.isEmpty(serialNo) && serialNo.length() > 2){
             serialNo = serialNo.substring(0,1)+"-"+serialNo.substring(1);
+        }else if(serialNo.isEmpty() || serialNo.equalsIgnoreCase("H")){
+            serialNo="";
         }
         setText(viewHolder.houseHoldId,context.getString(R.string.house_hold_id,serialNo,houseHoldId));
 

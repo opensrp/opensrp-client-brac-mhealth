@@ -20,6 +20,10 @@ public class HnppChwRepository extends CoreChwRepository {
         this.context = context;
     }
 
+    public void deleteDatabase(){
+        context.deleteDatabase(AllConstants.DATABASE_NAME);
+    }
+
     @Override
     public void onCreate(SQLiteDatabase database) {
         super.onCreate(database);
@@ -42,11 +46,20 @@ public class HnppChwRepository extends CoreChwRepository {
         int upgradeTo = oldVersion + 1;
         while (upgradeTo <= newVersion) {
             switch (upgradeTo) {
-                case 7:
-                    upgradeToVersion7(context, db);
+                case 10:
+                    upgradeToVersion10(context,db);
+                    break;
+                case 9:
+                    upgradeToVersion9(context, db);
                     break;
                 case 8:
                     upgradeToVersion8(context, db);
+                    break;
+                case 11:
+                    upgradeToVersion11(context, db);
+                    break;
+                case 12:
+                    upgradeToVersion12(context, db);
                     break;
 
                 default:
@@ -56,23 +69,21 @@ public class HnppChwRepository extends CoreChwRepository {
         }
     }
 
-    private void upgradeToVersion8(Context context, SQLiteDatabase db) {
-//        HnppVisitLogRepository.createTable(db);
-//        db.execSQL("ALTER TABLE ec_anc_register ADD COLUMN height VARCHAR;");
 
-    }
-
-    private void upgradeToVersion7(Context context, SQLiteDatabase db) {
-        try{
+    private void upgradeToVersion9(Context context, SQLiteDatabase db) {
+        try {
             db.execSQL("ALTER TABLE ec_child ADD COLUMN birth_weight_taken VARCHAR;");
             db.execSQL("ALTER TABLE ec_child ADD COLUMN birth_weight VARCHAR;");
             db.execSQL("ALTER TABLE ec_child ADD COLUMN chlorohexadin VARCHAR;");
             db.execSQL("ALTER TABLE ec_child ADD COLUMN breastfeeding_time VARCHAR;");
             db.execSQL("ALTER TABLE ec_child ADD COLUMN head_body_covered VARCHAR;");
             db.execSQL("ALTER TABLE ec_child ADD COLUMN breast_feeded VARCHAR;");
-        }catch (Exception e){
+
+        } catch (Exception e) {
 
         }
+    }
+    private void upgradeToVersion10(Context context, SQLiteDatabase db) {
         try{
             db.execSQL("ALTER TABLE ec_family ADD COLUMN serial_no VARCHAR;");
             db.execSQL("ALTER TABLE ec_family_member ADD COLUMN mother_name VARCHAR;");
@@ -92,6 +103,25 @@ public class HnppChwRepository extends CoreChwRepository {
 
         }
 
+
+    }
+    private void upgradeToVersion8(Context context, SQLiteDatabase db) {
+        try{
+            db.execSQL("UPDATE client set syncStatus='Unsynced' where syncStatus='Synced'");
+            db.execSQL("UPDATE event set syncStatus='Unsynced',serverVersion= 0");
+
+        }catch (Exception e){
+            Timber.w(HnppChwRepository.class.getName(),"update client problem"+e);
+        }
+    }
+    private void upgradeToVersion11(Context context, SQLiteDatabase db) {
+
+        db.execSQL("CREATE TABLE ec_visit_log (visit_id VARCHAR,visit_type VARCHAR,base_entity_id VARCHAR NOT NULL,visit_date VARCHAR,event_type VARCHAR,visit_json TEXT)");
+
+    }
+    private void upgradeToVersion12(Context context, SQLiteDatabase db) {
+
+        db.execSQL("ALTER TABLE ec_anc_register ADD COLUMN height VARCHAR;");
 
     }
 

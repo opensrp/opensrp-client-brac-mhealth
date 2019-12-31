@@ -59,7 +59,7 @@ public abstract class CoreFamilyOtherMemberActivityPresenter extends BaseFamilyO
 
     @Override
     public void verifyHasPhone() {
-        ((CoreFamilyProfileInteractor) profileInteractor).verifyHasPhone(familyBaseEntityId, this);
+       // ((CoreFamilyProfileInteractor) profileInteractor).verifyHasPhone(familyBaseEntityId, this);
     }
 
     @Override

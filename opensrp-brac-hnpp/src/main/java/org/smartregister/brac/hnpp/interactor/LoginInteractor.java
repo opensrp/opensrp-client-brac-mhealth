@@ -51,12 +51,17 @@ try{
 
     @Override
     protected void scheduleJobsImmediately() {
-        PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
-        PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
-        SSLocationFetchJob.scheduleJobImmediately(SSLocationFetchJob.TAG);
-        SyncServiceJob.scheduleJobImmediately(SyncServiceJob.TAG);
-        HomeVisitServiceJob.scheduleJobImmediately(HomeVisitServiceJob.TAG);
-        VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
-        HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
+        try{
+            PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
+            PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
+            SSLocationFetchJob.scheduleJobImmediately(SSLocationFetchJob.TAG);
+            SyncServiceJob.scheduleJobImmediately(SyncServiceJob.TAG);
+            HomeVisitServiceJob.scheduleJobImmediately(HomeVisitServiceJob.TAG);
+            VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+            HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
+        }catch (Exception e){
+
+        }
+
     }
 }

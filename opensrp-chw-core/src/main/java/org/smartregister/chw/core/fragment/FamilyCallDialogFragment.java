@@ -132,9 +132,13 @@ public class FamilyCallDialogFragment extends DialogFragment implements FamilyCa
         if (model != null && StringUtils.isNotBlank(model.getPhoneNumber())) {
             llFamilyHead.setVisibility(View.VISIBLE);
             tvFamilyHeadName.setText(model.getName());
+            if(model.getPhoneNumber().equalsIgnoreCase("0")){
+                tvFamilyHeadPhone.setTag(null);
+            }else{
+                tvFamilyHeadPhone.setTag(model.getPhoneNumber());
 
+            }
             tvFamilyHeadPhone.setText(String.format(getString(R.string.call_prompt), model.getPhoneNumber()));
-            tvFamilyHeadPhone.setTag(model.getPhoneNumber());
 
             tvFamilyHeadTitle.setText(model.getRole());
         } else {

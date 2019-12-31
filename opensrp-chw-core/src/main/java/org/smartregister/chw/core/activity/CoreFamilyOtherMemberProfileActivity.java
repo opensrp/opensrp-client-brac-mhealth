@@ -311,7 +311,7 @@ public abstract class CoreFamilyOtherMemberProfileActivity extends BaseFamilyOth
 
     protected abstract BaseFamilyOtherMemberProfileFragment getFamilyOtherMemberProfileFragment();
 
-    private void openFamilyDueTab() {
+    protected void openFamilyDueTab() {
         Intent intent = new Intent(this, getFamilyProfileActivity());
 
         intent.putExtra(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, familyBaseEntityId);

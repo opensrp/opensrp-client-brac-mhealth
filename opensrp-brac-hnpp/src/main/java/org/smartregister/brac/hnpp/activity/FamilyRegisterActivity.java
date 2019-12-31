@@ -7,12 +7,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.bottomnavigation.LabelVisibilityMode;
 import android.support.design.widget.BottomNavigationView;
+import android.widget.Toast;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.HnppApplication;
+import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.listener.HnppBottomNavigationListener;
 import org.smartregister.brac.hnpp.model.HnppFamilyRegisterModel;
 import org.smartregister.brac.hnpp.model.HnppNavigationModel;
@@ -79,18 +81,24 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(new HnppFamilyBottomNavListener(this, bottomNavigationView));
     }
     NavigationMenu navigationMenu;
+
     HnppNavigationPresenter hnppNavigationPresenter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        navigationMenu = NavigationMenu.getInstance(this, null, null);
-        hnppNavigationPresenter = new HnppNavigationPresenter(
-                HnppApplication.getHNPPInstance(),
-                navigationMenu,
-                HnppApplication.getHNPPInstance().getHnppNavigationModel());
-        HnppApplication.getHNPPInstance().setupNavigation(hnppNavigationPresenter);
-
         super.onCreate(savedInstanceState);
+        navigationMenu = NavigationMenu.getInstance(this, null, null);
 
+        hnppNavigationPresenter = new HnppNavigationPresenter(
+
+                HnppApplication.getHNPPInstance(),
+
+                navigationMenu,
+
+                HnppApplication.getHNPPInstance().getHnppNavigationModel());
+
+        HnppApplication.getHNPPInstance().setupNavigation(hnppNavigationPresenter);
         HnppApplication.getInstance().notifyAppContextChange(); // initialize the language (bug in translation)
 
         action = getIntent().getStringExtra(CoreConstants.ACTIVITY_PAYLOAD.ACTION);
@@ -101,6 +109,10 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
 
     @Override
     public void startFormActivity(JSONObject jsonForm) {
+        if(SSLocationHelper.getInstance().getSsModels().size() == 0){
+            Toast.makeText(this,"ss  লোকেশন পাওয়া যায়নি . পুনরায় লগইন করুন",Toast.LENGTH_LONG).show();
+            return;
+        }
         Intent intent = new Intent(this, Utils.metadata().familyFormActivity);
         intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
         Form form = new Form();

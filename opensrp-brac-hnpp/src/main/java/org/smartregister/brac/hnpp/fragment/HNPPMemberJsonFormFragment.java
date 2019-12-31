@@ -65,7 +65,7 @@ public class HNPPMemberJsonFormFragment extends JsonWizardFormFragment {
         }
        // hideKeyBoard();
     }
-    private String family_name = "";
+    private String family_name = "",phone_no = "";
     private void processHouseholdName(final int position){
         Utils.startAsyncTask(new AsyncTask() {
 
@@ -83,6 +83,17 @@ public class HNPPMemberJsonFormFragment extends JsonWizardFormFragment {
                     }
 
                 }
+                if(StringUtils.isEmpty(phone_no)){
+
+                    if (formObject.has("phone_no")) {
+                        try {
+                            phone_no = formObject.getString("phone_no");
+                        } catch (JSONException e) {
+
+                        }
+                    }
+
+                }
 
 
                 return null;
@@ -91,9 +102,10 @@ public class HNPPMemberJsonFormFragment extends JsonWizardFormFragment {
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
-                if(TextUtils.isEmpty(family_name)) return;
+                if(TextUtils.isEmpty(family_name) && TextUtils.isEmpty(phone_no)) return;
                     Collection<View> formdataviews =  getJsonApi().getFormDataViews();
                     MaterialEditText first_name_view = null;
+                MaterialEditText phone_number_view = null;
                 Iterator<View> iterator = formdataviews.iterator();
 
                 // while loop
@@ -102,20 +114,30 @@ public class HNPPMemberJsonFormFragment extends JsonWizardFormFragment {
                     if (field_view instanceof MaterialEditText) {
                         if (((MaterialEditText) field_view).getFloatingLabelText()!=null&&((MaterialEditText) field_view).getFloatingLabelText().toString().trim().equalsIgnoreCase("নাম")) {
                             first_name_view = ((MaterialEditText) field_view);
-                            break;
+                        }
+                        else if (((MaterialEditText) field_view).getFloatingLabelText()!=null&&((MaterialEditText) field_view).getFloatingLabelText().toString().trim().equalsIgnoreCase("মোবাইল নম্বর")) {
+                            phone_number_view = ((MaterialEditText) field_view);
                         }
 
                     }
                 }
 
-                    if(first_name_view!=null){
+                if(first_name_view!=null){
 
                         if(position == 0){
                             first_name_view.setText(family_name);
                         }else if(first_name_view.getText().toString().equalsIgnoreCase(family_name)){
                             first_name_view.setText("");
                         }
+                }
+                if(phone_number_view!=null){
+
+                    if(position == 0){
+                        phone_number_view.setText(phone_no);
+                    }else if(!phone_no.equals("0")&& phone_number_view.getText().toString().equalsIgnoreCase(phone_no)){
+                        phone_number_view.setText("");
                     }
+                }
 
             }
         },null);

@@ -49,6 +49,7 @@ import org.smartregister.family.adapter.ViewPagerAdapter;
 import org.smartregister.family.fragment.BaseFamilyOtherMemberProfileFragment;
 import org.smartregister.family.model.BaseFamilyOtherMemberProfileActivityModel;
 import org.smartregister.family.util.Constants;
+import org.smartregister.family.util.DBConstants;
 import org.smartregister.helper.ImageRenderHelper;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
@@ -324,23 +325,30 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     }
 
     @Override
+    public void openFamilyDueTab() {
+        Intent intent = new Intent(this, getFamilyProfileActivity());
+        intent.putExtras(getIntent().getExtras());
+
+//        intent.putExtra(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, familyBaseEntityId);
+//        intent.putExtra(Constants.INTENT_KEY.FAMILY_HEAD, familyHead);
+//        intent.putExtra(Constants.INTENT_KEY.PRIMARY_CAREGIVER, primaryCaregiver);
+//        intent.putExtra(Constants.INTENT_KEY.FAMILY_NAME, familyName);
+//        String moduleId = HnppChildUtils.getModuleId(familyHead);
+//        intent.putExtra(HnppConstants.KEY.MODULE_ID, moduleId);
+//        String villageTown = getIntent().getStringExtra(Constants.INTENT_KEY.VILLAGE_TOWN);
+//        intent.putExtra(Constants.INTENT_KEY.VILLAGE_TOWN,villageTown);
+//        intent.putExtra(DBConstants.KEY.UNIQUE_ID, getIntent().getStringExtra(DBConstants.KEY.UNIQUE_ID));
+        intent.putExtra(CoreConstants.INTENT_KEY.SERVICE_DUE, true);
+        startActivity(intent);
+    }
+
+    @Override
     public void updateHasPhone(boolean hasPhone) {
         super.updateHasPhone(hasPhone);
         if (!hasPhone) {
             familyFloatingMenu.hideFab();
         }
 
-    }
-    public void openFamilyDueTab() {
-        Intent intent = new Intent(this, getFamilyProfileActivity());
-
-        intent.putExtra(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, familyBaseEntityId);
-        intent.putExtra(Constants.INTENT_KEY.FAMILY_HEAD, familyHead);
-        intent.putExtra(Constants.INTENT_KEY.PRIMARY_CAREGIVER, primaryCaregiver);
-        intent.putExtra(Constants.INTENT_KEY.FAMILY_NAME, familyName);
-
-        intent.putExtra(CoreConstants.INTENT_KEY.SERVICE_DUE, true);
-        startActivity(intent);
     }
     public void openRefereal() {
         startAnyFormActivity(HnppConstants.JSON_FORMS.MEMBER_REFERRAL,REQUEST_HOME_VISIT);

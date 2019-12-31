@@ -83,7 +83,7 @@ public class HnppAllMemberRegisterFragment extends CoreChildRegisterFragment imp
         patient.getColumnmaps().put(Constants.INTENT_KEY.BASE_ENTITY_ID, patient.getCaseId());
         String dobString = org.smartregister.family.util.Utils.getDuration(org.smartregister.family.util.Utils.getValue(patient.getColumnmaps(), DBConstants.KEY.DOB, false));
         Integer yearOfBirth = CoreChildUtils.dobStringToYear(dobString);
-        if (yearOfBirth != null && yearOfBirth < 5) {
+        if (yearOfBirth == null || yearOfBirth < 5) {
             HnppChildProfileActivity.startMe(getActivity(), familyId, false, new MemberObject(patient), HnppChildProfileActivity.class);
 
         } else {

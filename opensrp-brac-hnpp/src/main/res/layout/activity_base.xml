@@ -218,7 +218,21 @@
 
                         </RelativeLayout>
 
-
+                        <TextView
+                            android:id="@+id/tvappversion"
+                            android:paddingStart="15dp"
+                            android:paddingLeft="15dp"
+                            android:paddingBottom="15dp"
+                            android:layout_below="@+id/tvSyncTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:fontFamily="sans-serif"
+                            android:text="@string/app_version"
+                            android:textColor="@color/white"
+                            android:textSize="18sp" />
                     </LinearLayout>
 
                 </RelativeLayout>
