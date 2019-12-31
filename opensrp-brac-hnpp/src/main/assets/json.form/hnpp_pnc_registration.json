@@ -56,7 +56,7 @@
         "openmrs_entity_id": "PNC Registration",
         "openmrs_data_type": "text",
         "type": "hidden",
-        "value": "XXXX"
+        "value": "hnpp_pnc_registration"
       },
       {
         "key": "body_temperature",

@@ -56,7 +56,7 @@
         "openmrs_entity_id": "Member Referral",
         "openmrs_data_type": "text",
         "type": "hidden",
-        "value": "XXXX"
+        "value": "hnpp_member_referral"
       },
       {
         "key": "cause_of_referral",

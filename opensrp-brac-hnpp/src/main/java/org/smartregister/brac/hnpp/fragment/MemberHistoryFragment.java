@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,7 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.vijay.jsonwizard.constants.JsonFormConstants;
+import com.vijay.jsonwizard.domain.Form;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.activity.HnppFormViewActivity;
 import org.smartregister.brac.hnpp.adapter.MemberHistoryAdapter;
 import org.smartregister.brac.hnpp.adapter.OtherServiceAdapter;
 import org.smartregister.brac.hnpp.contract.MemberHistoryContract;
@@ -20,6 +28,8 @@ import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.MemberHistoryData;
 import org.smartregister.brac.hnpp.utils.OtherServiceData;
 import org.smartregister.family.util.Constants;
+import org.smartregister.family.util.JsonFormUtils;
+import org.smartregister.util.FormUtils;
 
 public class MemberHistoryFragment extends Fragment implements MemberHistoryContract.View {
 
@@ -89,8 +99,45 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
         }
     };
     private void startFormActivity(MemberHistoryData content){
+        try {
+            JSONObject jsonForm = new JSONObject(content.getVisitDetails());
+            makeReadOnlyFields(jsonForm);
+
+            Intent intent = new Intent(getActivity(), HnppFormViewActivity.class);
+            intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+
+            Form form = new Form();
+            form.setWizard(false);
+            form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+            form.setHideSaveLabel(true);
+            form.setSaveLabel("");
+            intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+            intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, false);
+            if (this != null) {
+                this.startActivity(intent);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         switch (content.getEventType()){
 
         }
+    }
+    public void makeReadOnlyFields(JSONObject jsonObject){
+        JSONObject stepOne = null;
+        try {
+            stepOne = jsonObject.getJSONObject(JsonFormUtils.STEP1);
+            JSONArray jsonArray = stepOne.getJSONArray(JsonFormUtils.FIELDS);
+            for(int i=0;i<jsonArray.length();i++){
+                JSONObject fieldObject = jsonArray.getJSONObject(i);
+                fieldObject.put(JsonFormUtils.READ_ONLY, true);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
     }
 }

@@ -56,7 +56,7 @@
         "openmrs_entity_id": "ANC Pregnancy History",
         "openmrs_data_type": "text",
         "type": "hidden",
-        "value": "XXXX"
+        "value": "hnpp_anc_pregnancy_history"
       },
       {
         "key": "abortion_mr",

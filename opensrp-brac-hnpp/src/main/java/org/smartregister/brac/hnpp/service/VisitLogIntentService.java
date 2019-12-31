@@ -154,7 +154,12 @@ public class VisitLogIntentService extends IntentService {
             if ("form_name".equalsIgnoreCase(o.getFormSubmissionField())) {
                 forms.add(o.getFieldCode());
             }
-            details.put(o.getFormSubmissionField(),o.getValue());
+
+            if(details.containsKey(o.getFormSubmissionField())) {
+                details.put(o.getFormSubmissionField(),details.get(o.getFormSubmissionField())+" "+o.getValue());
+            } else {
+                details.put(o.getFormSubmissionField(),o.getValue());
+            }
         }
         HashMap<String,Object>form_details = new HashMap<>();
         form_details.put("form_name",forms);

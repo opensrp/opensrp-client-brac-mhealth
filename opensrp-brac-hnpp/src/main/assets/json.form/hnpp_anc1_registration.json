@@ -56,7 +56,7 @@
         "openmrs_entity_id": "ANC1 Registration",
         "openmrs_data_type": "text",
         "type": "hidden",
-        "value": "XXXX"
+        "value": "hnpp_anc1_registration"
       },
 
       {
