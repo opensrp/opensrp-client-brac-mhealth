@@ -98,6 +98,7 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
             startFormActivity(content);
         }
     };
+
     private void startFormActivity(MemberHistoryData content){
         try {
             JSONObject jsonForm = new JSONObject(content.getVisitDetails());
