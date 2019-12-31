@@ -57,7 +57,7 @@
         "openmrs_entity_id": "Women package",
         "openmrs_data_type": "text",
         "type": "hidden",
-        "value": "XXXX"
+        "value": "hnpp_women_package"
       }
     ]
   }

@@ -56,7 +56,7 @@
         "openmrs_entity_id": "Adolescent package",
         "openmrs_data_type": "text",
         "type": "hidden",
-        "value": "XXXX"
+        "value": "hnpp_adolescent_package"
       },
       {
         "key": "marital_status",

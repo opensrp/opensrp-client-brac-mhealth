@@ -30,6 +30,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+
         <activity
             android:name="org.smartregister.family.activity.FamilyWizardFormActivity"
             android:screenOrientation="portrait"
@@ -144,6 +145,11 @@
 
         <activity android:name="org.smartregister.chw.core.activity.ChwP2pModeSelectActivity" />
         <activity android:name=".activity.HNPPJsonFormActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/FamilyTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+        <activity android:name=".activity.HnppFormViewActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/FamilyTheme.NoActionBar"

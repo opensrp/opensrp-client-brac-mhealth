@@ -56,7 +56,7 @@
         "openmrs_entity_id": "ELCO Registration",
         "openmrs_data_type": "text",
         "type": "hidden",
-        "value": "XXXX"
+        "value": "elco_register"
       },
       {
         "key": "familyplanning_method_known",
@@ -208,8 +208,8 @@
       {
         "key": "type_of_complications",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "type_of_complications",
         "openmrs_data_type": "text",
         "type": "check_box",
         "label": "কি ধরণের জটিলতা হয়েছিল?",
@@ -221,49 +221,57 @@
             "key": "bleeding",
             "text": "অতিরিক্ত রক্তক্ষরণ",
             "value": false,
-            "openmrs_choice_id": "bleeding"
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "bleeding"
           },
           {
             "key": "closed_monthly",
             "text": "মাসিক বন্ধ",
             "value": false,
-            "openmrs_choice_id": "closed_monthly"
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "closed_monthly"
           },
           {
             "key": "cramps",
             "text": "তলপেটে ব্যথা",
             "value": false,
-            "openmrs_choice_id": "cramps"
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "cramps"
           },
           {
             "key": "nausea",
             "text": "মাথা ঘোরা/ বমি বমি ভাব",
             "value": false,
-            "openmrs_choice_id": "nausea"
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "nausea"
           },
           {
             "key": "irregular_menses",
             "text": "অনিয়মিত মাসিক",
             "value": false,
-            "openmrs_choice_id": "irregular_menses"
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "irregular_menses"
           },
           {
             "key": "tender_breasts",
             "text": "স্তনে ব্যথা",
             "value": false,
-            "openmrs_choice_id": "tender_breasts"
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "tender_breasts"
           },
           {
             "key": "lactose_deficiency",
             "text": "বুকের দুধ কমে যাওয়া",
             "value": false,
-            "openmrs_choice_id": "lactose_deficiency"
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "lactose_deficiency"
           },
           {
             "key": "dyspnoea",
             "text": "বুকে ব্যথা ও শ্বাসকষ্ট",
             "value": false,
-            "openmrs_choice_id": "dyspnoea"
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "dyspnoea"
           }
         ],
         "relevance": {

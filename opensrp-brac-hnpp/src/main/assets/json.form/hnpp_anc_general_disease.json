@@ -56,7 +56,7 @@
         "openmrs_entity_id": "ANC General Disease",
         "openmrs_data_type": "text",
         "type": "hidden",
-        "value": "XXXX"
+        "value": "hnpp_anc_general_disease"
       },
       {
         "key": "high_blood_pressure",

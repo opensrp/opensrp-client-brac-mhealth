@@ -56,7 +56,7 @@
         "openmrs_entity_id": "IYCF package",
         "openmrs_data_type": "text",
         "type": "hidden",
-        "value": "XXXX"
+        "value": "hnpp_iycf_package"
       },
       {
         "key": "dob",
