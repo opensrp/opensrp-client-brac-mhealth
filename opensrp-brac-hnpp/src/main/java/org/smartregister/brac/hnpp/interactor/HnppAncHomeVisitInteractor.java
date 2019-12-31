@@ -2,6 +2,12 @@ package org.smartregister.brac.hnpp.interactor;
 
 import android.content.Context;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.smartregister.brac.hnpp.HnppApplication;
+import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
+import org.smartregister.brac.hnpp.utils.ANCRegister;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppHomeVisitActionHelper;
 import org.smartregister.chw.anc.contract.BaseAncHomeVisitContract;
@@ -30,7 +36,13 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
                         .withFormName(HnppConstants.JSON_FORMS.ANC1_FORM)
                         .withHelper(new HnppHomeVisitActionHelper())
                         .build();
-
+                try {
+                    JSONObject jsonPayload = new JSONObject(ANC1_FORM.getJsonPayload());
+                    addEDDField(memberObject.getBaseEntityId(),HnppConstants.JSON_FORMS.ANC1_FORM,jsonPayload);
+                    ANC1_FORM.setJsonPayload(jsonPayload.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 BaseAncHomeVisitAction GENERAL_DISEASE = new BaseAncHomeVisitAction.Builder(context,title2 )
                         .withOptional(false)
                         .withFormName(HnppConstants.JSON_FORMS.GENERAL_DISEASE)
@@ -60,5 +72,36 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
         appExecutors.diskIO().execute(runnable);
     }
 
+    public void addEDDField(String baseEntityId, String formName, JSONObject jsonForm){
+        if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM)||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM)||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM)){
+            JSONObject stepOne = null;
+            try {
+                HnppVisitLogRepository visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
+                ANCRegister ancRegister = null;
 
+                ancRegister = visitLogRepository.getLastANCRegister(baseEntityId);
+                if(ancRegister!=null){
+                    stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+                    JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+                    updateFormField(jsonArray, HnppConstants.ANC_REGISTER_COLUMNS.EDD, ancRegister.getEDD());
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    private void updateFormField(JSONArray formFieldArrays, String formFeildKey, String updateValue) {
+        if (updateValue != null) {
+            JSONObject formObject = org.smartregister.util.JsonFormUtils.getFieldJSONObject(formFieldArrays, formFeildKey);
+            if (formObject != null) {
+                try {
+                    formObject.remove(org.smartregister.util.JsonFormUtils.VALUE);
+                    formObject.put(org.smartregister.util.JsonFormUtils.VALUE, updateValue);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }
