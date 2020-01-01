@@ -13,10 +13,13 @@ import timber.log.Timber;
 
 public class HnppHomeVisitActionHelper extends HomeVisitActionHelper {
     private String signs_present = "";
-    private String counseling = "Yes";
+    private String counseling = "";
 
     @Override
     public void onPayloadReceived(String jsonPayload) {
+        if(!StringUtils.isBlank(jsonPayload)){
+            counseling = "yes";
+        }
 
     }
 

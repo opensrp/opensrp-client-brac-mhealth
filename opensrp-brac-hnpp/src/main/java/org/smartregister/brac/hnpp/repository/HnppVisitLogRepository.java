@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import net.sqlcipher.Cursor;
 import net.sqlcipher.database.SQLiteDatabase;
+import net.sqlcipher.database.SQLiteException;
 
 import org.smartregister.brac.hnpp.utils.ANCRegister;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -34,7 +35,11 @@ public class HnppVisitLogRepository extends BaseRepository {
     }
 
     public static void createTable(SQLiteDatabase database) {
-        database.execSQL(VISIT_LOG_SQL);
+       try{
+           database.execSQL(VISIT_LOG_SQL);
+       }catch (SQLiteException e){
+
+       }
     }
 
     public void add(VisitLog visitLog) {

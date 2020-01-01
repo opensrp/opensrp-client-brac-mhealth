@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.repository;
 import android.content.Context;
 
 import net.sqlcipher.database.SQLiteDatabase;
+import net.sqlcipher.database.SQLiteException;
 
 import org.smartregister.AllConstants;
 import org.smartregister.chw.anc.repository.VisitDetailsRepository;
@@ -116,12 +117,20 @@ public class HnppChwRepository extends CoreChwRepository {
     }
     private void upgradeToVersion11(Context context, SQLiteDatabase db) {
 
-        db.execSQL("CREATE TABLE ec_visit_log (visit_id VARCHAR,visit_type VARCHAR,base_entity_id VARCHAR NOT NULL,visit_date VARCHAR,event_type VARCHAR,visit_json TEXT)");
+       try{
+           db.execSQL("CREATE TABLE ec_visit_log (visit_id VARCHAR,visit_type VARCHAR,base_entity_id VARCHAR NOT NULL,visit_date VARCHAR,event_type VARCHAR,visit_json TEXT)");
+       }catch (SQLiteException e){
+
+       }
 
     }
     private void upgradeToVersion12(Context context, SQLiteDatabase db) {
 
-        db.execSQL("ALTER TABLE ec_anc_register ADD COLUMN height VARCHAR;");
+        try{
+            db.execSQL("ALTER TABLE ec_anc_register ADD COLUMN height VARCHAR;");
+        }catch (SQLiteException e){
+            Timber.w(HnppChwRepository.class.getName(),"ALTER TABLE ec_anc_register"+e);
+        }
 
     }
 
