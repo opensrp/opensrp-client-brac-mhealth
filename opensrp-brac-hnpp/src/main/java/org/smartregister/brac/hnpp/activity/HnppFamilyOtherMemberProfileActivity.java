@@ -178,21 +178,23 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             textViewDetails3.setText("ID: " + detailThree);
         }
     }
-
+    MemberOtherServiceFragment memberOtherServiceFragment;
+    MemberHistoryFragment memberHistoryFragment;
+    HnppMemberProfileDueFragment profileMemberFragment;
     @Override
     protected ViewPager setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        HnppMemberProfileDueFragment profileMemberFragment =(HnppMemberProfileDueFragment) HnppMemberProfileDueFragment.newInstance(this.getIntent().getExtras());
+        profileMemberFragment =(HnppMemberProfileDueFragment) HnppMemberProfileDueFragment.newInstance(this.getIntent().getExtras());
         profileMemberFragment.setCommonPersonObjectClient(commonPersonObject);
         adapter.addFragment(profileMemberFragment, this.getString(R.string.due).toUpperCase());
-        MemberOtherServiceFragment memberOtherServiceFragment = new MemberOtherServiceFragment();
+        memberOtherServiceFragment = new MemberOtherServiceFragment();
+        memberHistoryFragment = MemberHistoryFragment.getInstance(this.getIntent().getExtras());
         memberOtherServiceFragment.setCommonPersonObjectClient(commonPersonObject);
         adapter.addFragment(memberOtherServiceFragment, this.getString(R.string.other_service).toUpperCase());
-        adapter.addFragment(MemberHistoryFragment.getInstance(this.getIntent().getExtras()), this.getString(R.string.activity).toUpperCase());
+        adapter.addFragment(memberHistoryFragment, this.getString(R.string.activity).toUpperCase());
         viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(adapter);
-
         return viewPager;
     }
 
@@ -269,6 +271,18 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         if(resultCode == Activity.RESULT_OK){
             //TODO: Need to check request code
             VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+            if(memberOtherServiceFragment!=null){
+
+            }
+            if(memberHistoryFragment !=null){
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        memberHistoryFragment.onActivityResult(0,0,null);
+
+                    }
+                },2000);
+            }
         }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
 //            String type = StringUtils.isBlank(parentEventType) ? getEncounterType() : getEncounterType();
@@ -284,7 +298,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                 e.printStackTrace();
             }
         }
-            super.onActivityResult(requestCode, resultCode, data);
+
+        super.onActivityResult(requestCode, resultCode, data);
+
     }
 
     @Override

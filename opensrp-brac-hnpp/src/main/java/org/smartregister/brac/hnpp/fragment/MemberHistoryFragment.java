@@ -69,6 +69,16 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if(presenter==null){
+
+        }else{
+
+        }
+    }
+
+    @Override
     public void showProgressBar() {
 
     }
@@ -120,9 +130,7 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        switch (content.getEventType()){
 
-        }
     }
     public void makeReadOnlyFields(JSONObject jsonObject){
         JSONObject stepOne = null;
@@ -139,6 +147,7 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
+        if(presenter!=null)
+        presenter.fetchData(baseEntityId);
     }
 }
