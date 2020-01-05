@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,6 +58,7 @@ import org.smartregister.view.contract.BaseProfileContract;
 import org.smartregister.view.customcontrols.CustomFontTextView;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import timber.log.Timber;
@@ -181,10 +183,16 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     MemberOtherServiceFragment memberOtherServiceFragment;
     MemberHistoryFragment memberHistoryFragment;
     HnppMemberProfileDueFragment profileMemberFragment;
+    ViewPager mViewPager;
     @Override
     protected ViewPager setupViewPager(ViewPager viewPager) {
+        this.mViewPager = viewPager;
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
-
+        List<Map<String,String>> genderMaritalStatus = HnppDBUtils.getGenderMaritalStatus(baseEntityId);
+        if(genderMaritalStatus != null && genderMaritalStatus.size()>0) {
+            commonPersonObject.getColumnmaps().put("gender", genderMaritalStatus.get(0).get("gender"));
+            commonPersonObject.getColumnmaps().put("marital_status", genderMaritalStatus.get(0).get("marital_status"));
+        }
         profileMemberFragment =(HnppMemberProfileDueFragment) HnppMemberProfileDueFragment.newInstance(this.getIntent().getExtras());
         profileMemberFragment.setCommonPersonObjectClient(commonPersonObject);
         adapter.addFragment(profileMemberFragment, this.getString(R.string.due).toUpperCase());
@@ -271,32 +279,38 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         if(resultCode == Activity.RESULT_OK){
             //TODO: Need to check request code
             VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
-            if(memberOtherServiceFragment!=null){
 
+        }
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
+
+//            String type = StringUtils.isBlank(parentEventType) ? getEncounterType() : getEncounterType();
+           // String type = HnppJsonFormUtils.getEncounterType();
+            String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
+            Map<String, String> jsonStrings = new HashMap<>();
+            jsonStrings.put("First",jsonString);
+            Visit visit = null;
+            try {
+            JSONObject form = new JSONObject(jsonString);
+            String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
+                type = HnppJsonFormUtils.getEncounterType(type);
+            // persist to database
+
+
+                visit = HnppJsonFormUtils.saveVisit(false, baseEntityId, type, jsonStrings, "");
+            } catch (Exception e) {
+                e.printStackTrace();
             }
             if(memberHistoryFragment !=null){
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         memberHistoryFragment.onActivityResult(0,0,null);
+                        mViewPager.setCurrentItem(3,true);
 
                     }
                 },2000);
             }
-        }
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
-//            String type = StringUtils.isBlank(parentEventType) ? getEncounterType() : getEncounterType();
-            String type = HnppJsonFormUtils.getEncounterType();
-            String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
-            Map<String, String> jsonStrings = new HashMap<>();
-            jsonStrings.put("First",jsonString);
-            // persist to database
-            Visit visit = null;
-            try {
-                visit = HnppJsonFormUtils.saveVisit(false, baseEntityId, type, jsonStrings, "");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
         }
 
         super.onActivityResult(requestCode, resultCode, data);
@@ -366,6 +380,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         }
 
     }
+    public void openServiceForms(String formName){
+        startAnyFormActivity(formName,REQUEST_HOME_VISIT);
+    }
     public void openRefereal() {
         startAnyFormActivity(HnppConstants.JSON_FORMS.MEMBER_REFERRAL,REQUEST_HOME_VISIT);
     }
@@ -409,7 +426,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         menu.findItem(R.id.action_sick_child_follow_up).setVisible(false);
         menu.findItem(R.id.action_malaria_diagnosis).setTitle("PNC রেজিস্ট্রেশন");
         menu.findItem(R.id.action_pregnancy_out_come).setTitle("প্রসবের ফলাফল");
-
+        menu.findItem(R.id.action_pregnancy_out_come).setVisible(false);
         menu.findItem(R.id.action_remove_member).setVisible(true);
 
         if (FormApplicability.isWomanOfReproductiveAge(commonPersonObject)) {

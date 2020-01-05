@@ -8,6 +8,7 @@ import android.util.Log;
 import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
+import org.smartregister.brac.hnpp.job.HomeVisitServiceJob;
 import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.chw.core.contract.CoreApplication;
@@ -105,6 +106,7 @@ public class HnppNavigationPresenter extends NavigationPresenter {
             });
 
         }else{
+            HomeVisitServiceJob.scheduleJobImmediately(HomeVisitServiceJob.TAG);
             SyncServiceJob.scheduleJobImmediately(SyncServiceJob.TAG);
             PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
             PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);

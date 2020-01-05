@@ -566,7 +566,7 @@
         "has_bg": true,
         "left_padding": "20dp",
         "right_padding": "20dp",
-        "text_size": "5sp",
+        "text_size": "25sp",
         "text_color": "#000000",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
@@ -850,7 +850,7 @@
         "openmrs_entity_id": "breast_feeded",
         "openmrs_data_type": "select one",
         "type": "spinner",
-        "hint": "প্রসবের কতক্ষন পর মায়ের দুধ খাওয়ানো হয়েছে?",
+        "hint": "প্রসবের পর মায়ের দুধ খাওয়ানো হয়েছে?",
         "values": [
           "হ্যাঁ",
           "না"

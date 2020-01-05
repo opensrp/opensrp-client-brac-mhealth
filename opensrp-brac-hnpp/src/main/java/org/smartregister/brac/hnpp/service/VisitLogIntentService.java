@@ -31,8 +31,12 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_PRE
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ELCO;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ELCO;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.GIRL_PACKAGE;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.MEMBER_REFERRAL;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.NCD_PACKAGE;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.WOMEN_PACKAGE;
 import static org.smartregister.util.JsonFormUtils.gson;
 
 public class VisitLogIntentService extends IntentService {
@@ -134,6 +138,14 @@ public class VisitLogIntentService extends IntentService {
             form_name = HnppConstants.JSON_FORMS.PNC_FORM+".json";
         } else if (ELCO.equalsIgnoreCase(encounter_type)) {
             form_name = HnppConstants.JSON_FORMS.ELCO+".json";
+        }else if (NCD_PACKAGE.equalsIgnoreCase(encounter_type)) {
+            form_name = HnppConstants.JSON_FORMS.NCD_PACKAGE+".json";
+        }else if (WOMEN_PACKAGE.equalsIgnoreCase(encounter_type)) {
+            form_name = HnppConstants.JSON_FORMS.WOMEN_PACKAGE+".json";
+        }else if (GIRL_PACKAGE.equalsIgnoreCase(encounter_type)) {
+            form_name = HnppConstants.JSON_FORMS.GIRL_PACKAGE+".json";
+        }else if (IYCF_PACKAGE.equalsIgnoreCase(encounter_type)) {
+            form_name = HnppConstants.JSON_FORMS.IYCF_PACKAGE+".json";
         }
 
         try {

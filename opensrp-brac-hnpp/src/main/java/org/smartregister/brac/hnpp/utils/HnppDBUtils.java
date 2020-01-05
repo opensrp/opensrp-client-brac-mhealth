@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.chw.core.application.CoreChwApplication;
+import org.smartregister.chw.core.dao.AbstractDao;
 import org.smartregister.chw.core.utils.ChildDBConstants;
 import org.smartregister.chw.core.utils.CoreChildUtils;
 import org.smartregister.chw.core.utils.CoreConstants;
@@ -21,11 +22,18 @@ import org.smartregister.sync.helper.ECSyncHelper;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import timber.log.Timber;
 
 public class HnppDBUtils extends CoreChildUtils {
+
+    public static List<Map<String,String>>  getGenderMaritalStatus(String baseEntityId){
+            String lmp = "SELECT gender,marital_status FROM ec_family_member where base_entity_id = ? ";
+            List<Map<String, String>> valus = AbstractDao.readData(lmp, new String[]{baseEntityId});
+            return valus;
+    }
 
 
     public static String getMotherBaseEntityId(String familyId, String motherName){

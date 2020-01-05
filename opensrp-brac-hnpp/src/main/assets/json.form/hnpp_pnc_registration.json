@@ -163,12 +163,15 @@
       {
         "key": "enabled_label",
         "type": "label",
-        "label_text_style": "bold",
         "text": "রক্তচাপ",
+        "has_bg": true,
+        "left_padding": "20dp",
+        "right_padding": "20dp",
+        "text_size": "25sp",
         "text_color": "#000000",
-        "v_required": {
-          "value": true
-        }
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": ""
       },
       {
         "key": "blood_pressure_systolic",

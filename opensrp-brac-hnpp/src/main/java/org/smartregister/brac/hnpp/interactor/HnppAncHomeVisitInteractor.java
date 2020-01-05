@@ -18,6 +18,11 @@ import java.util.LinkedHashMap;
 
 public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
 
+    HnppHomeVisitActionHelper ANC1_FORMHelper;
+    HnppHomeVisitActionHelper GENERAL_DISEASEHelper;
+    HnppHomeVisitActionHelper PREGNANCY_HISTORYHelper;
+
+
     @Override
     public void calculateActions(final BaseAncHomeVisitContract.View view, final MemberObject memberObject, final BaseAncHomeVisitContract.InteractorCallBack callBack) {
         final Runnable runnable = () -> {
@@ -30,11 +35,11 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
                 String title1 = HnppConstants.visitEventTypeMapping.get(HnppConstants.JSON_FORMS.ANC1_FORM);
                 String title2 = HnppConstants.visitEventTypeMapping.get(HnppConstants.JSON_FORMS.GENERAL_DISEASE);
                 String title3 = HnppConstants.visitEventTypeMapping.get(HnppConstants.JSON_FORMS.PREGNANCY_HISTORY);
-
+                ANC1_FORMHelper = new HnppHomeVisitActionHelper();
                 BaseAncHomeVisitAction ANC1_FORM = new BaseAncHomeVisitAction.Builder(context,title1 )
                         .withOptional(false)
                         .withFormName(HnppConstants.JSON_FORMS.ANC1_FORM)
-                        .withHelper(new HnppHomeVisitActionHelper())
+                        .withHelper(ANC1_FORMHelper)
                         .build();
                 try {
                     JSONObject jsonPayload = new JSONObject(ANC1_FORM.getJsonPayload());
@@ -43,17 +48,34 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                GENERAL_DISEASEHelper = new HnppHomeVisitActionHelper();
                 BaseAncHomeVisitAction GENERAL_DISEASE = new BaseAncHomeVisitAction.Builder(context,title2 )
                         .withOptional(false)
                         .withFormName(HnppConstants.JSON_FORMS.GENERAL_DISEASE)
-                        .withHelper(new HnppHomeVisitActionHelper())
+                        .withHelper(GENERAL_DISEASEHelper)
                         .build();
+                try {
+                    JSONObject jsonPayload = new JSONObject(GENERAL_DISEASE.getJsonPayload());
+                    GENERAL_DISEASE.setJsonPayload(jsonPayload.toString());
+
+                }catch (Exception e){
+
+                }
+
+                PREGNANCY_HISTORYHelper = new HnppHomeVisitActionHelper();
 
                 BaseAncHomeVisitAction PREGNANCY_HISTORY = new BaseAncHomeVisitAction.Builder(context, title3)
                         .withOptional(false)
                         .withFormName(HnppConstants.JSON_FORMS.PREGNANCY_HISTORY)
-                        .withHelper(new HnppHomeVisitActionHelper())
+                        .withHelper(PREGNANCY_HISTORYHelper)
                         .build();
+                try {
+                    JSONObject jsonPayload = new JSONObject(PREGNANCY_HISTORY.getJsonPayload());
+                    PREGNANCY_HISTORY.setJsonPayload(jsonPayload.toString());
+
+                }catch (Exception e){
+
+                }
 
                 actionList.put(title3, PREGNANCY_HISTORY);
                 actionList.put(title2, GENERAL_DISEASE);

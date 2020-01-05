@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity;
 import org.smartregister.brac.hnpp.adapter.OtherServiceAdapter;
 import org.smartregister.brac.hnpp.contract.OtherServiceContract;
 import org.smartregister.brac.hnpp.presenter.MemberOtherServicePresenter;
@@ -68,13 +69,29 @@ public class MemberOtherServiceFragment extends Fragment implements OtherService
     private void startFormActivity(OtherServiceData content){
         switch (content.getType()){
             case HnppConstants.OTHER_SERVICE_TYPE.TYPE_GIRL_PACKAGE:
+                if (getActivity() != null && getActivity() instanceof HnppFamilyOtherMemberProfileActivity) {
+                    HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) getActivity();
+                    activity.openServiceForms(HnppConstants.JSON_FORMS.GIRL_PACKAGE);
+                }
 
                 break;
             case HnppConstants.OTHER_SERVICE_TYPE.TYPE_NCD:
+                if (getActivity() != null && getActivity() instanceof HnppFamilyOtherMemberProfileActivity) {
+                    HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) getActivity();
+                    activity.openServiceForms(HnppConstants.JSON_FORMS.NCD_PACKAGE);
+                }
                 break;
             case HnppConstants.OTHER_SERVICE_TYPE.TYPE_IYCF:
+                if (getActivity() != null && getActivity() instanceof HnppFamilyOtherMemberProfileActivity) {
+                    HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) getActivity();
+                    activity.openServiceForms(HnppConstants.JSON_FORMS.IYCF_PACKAGE);
+                }
                 break;
             case HnppConstants.OTHER_SERVICE_TYPE.TYPE_WOMEN_PACKAGE:
+                if (getActivity() != null && getActivity() instanceof HnppFamilyOtherMemberProfileActivity) {
+                    HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) getActivity();
+                    activity.openServiceForms(HnppConstants.JSON_FORMS.WOMEN_PACKAGE);
+                }
                 break;
         }
     }

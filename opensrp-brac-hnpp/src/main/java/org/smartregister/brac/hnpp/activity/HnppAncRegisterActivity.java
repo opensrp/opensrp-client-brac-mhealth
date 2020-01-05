@@ -207,6 +207,10 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
 
 
     }
+    @Override
+    public void onRegistrationSaved(boolean isEdit) {
+
+    }
 
     public static void updateUniqueId(JSONArray fields){
         boolean has_delivery_date = false;

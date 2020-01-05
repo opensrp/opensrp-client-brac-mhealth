@@ -385,57 +385,50 @@
             "key": "brac_maternity_center",
             "text": "ব্র্যাক ম্যাটারনিটি সেন্টার",
             "value": false,
-            "openmrs_entity": "",
-            "openmrs_entity_id": "brac_maternity_center",
-            "openmrs_entity_parent": ""
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "brac_maternity_center"
           },
           {
             "key": "union_health_center",
             "text": "ইউনিয়ন উপ-স্বাস্থ্য কেন্দ্র",
             "value": false,
-            "openmrs_entity": "",
-            "openmrs_entity_id": "union_health_center",
-            "openmrs_entity_parent": ""
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "union_health_center"
           },
           {
             "key": "upozzila_health_complex",
             "text": "উপজেলা স্বাস্থ্য কমপ্লেক্স",
             "value": false,
-            "openmrs_entity": "",
-            "openmrs_entity_id": "upozzila_health_complex",
-            "openmrs_entity_parent": ""
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "upozzila_health_complex"
           },
           {
             "key": "union_family_kollan_center",
             "text": "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র",
             "value": false,
-            "openmrs_entity": "",
-            "openmrs_entity_id": "union_family_kollan_center",
-            "openmrs_entity_parent": ""
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "union_family_kollan_center"
           },
           {
             "key": "union_health_and_family_kollan_center",
             "text": "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
             "value": false,
-            "openmrs_entity": "",
-            "openmrs_entity_id": "union_health_and_family_kollan_center",
-            "openmrs_entity_parent": ""
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "union_health_and_family_kollan_center"
           },
           {
             "key": "mother_child_kollan_center",
             "text": "মা ও শিশু কল্যাণ কেন্দ্র",
             "value": false,
-            "openmrs_entity": "",
-            "openmrs_entity_id": "mother_child_kollan_center",
-            "openmrs_entity_parent": ""
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "mother_child_kollan_center"
           },
           {
             "key": "center_hospital",
             "text": "সদর হাসপাতাল",
             "value": false,
-            "openmrs_entity": "",
-            "openmrs_entity_id": "center_hospital",
-            "openmrs_entity_parent": ""
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "center_hospital"
           },
           {
             "key": "medical_collage_hospital",

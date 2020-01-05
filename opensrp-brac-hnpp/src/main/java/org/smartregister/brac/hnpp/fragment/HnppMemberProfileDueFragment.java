@@ -16,6 +16,7 @@ import org.smartregister.brac.hnpp.presenter.HnppMemberProfileDuePresenter;
 import org.smartregister.brac.hnpp.provider.HnppFamilyDueRegisterProvider;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.adapter.FamilyRecyclerViewCustomAdapter;
 import org.smartregister.family.fragment.BaseFamilyProfileDueFragment;
@@ -23,6 +24,8 @@ import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.Utils;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import timber.log.Timber;
@@ -132,45 +135,46 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
         if(otherServiceView.getVisibility() == View.VISIBLE){
             return;
         }
-        String gender = org.smartregister.util.Utils.getValue(commonPersonObjectClient.getColumnmaps(), "gender", false);
-        String maritalStatus  = org.smartregister.util.Utils.getValue(commonPersonObjectClient.getColumnmaps(), "marital_status", false);
-        otherServiceView.setVisibility(View.VISIBLE);
-        if(gender.equalsIgnoreCase("F") && maritalStatus.equalsIgnoreCase("Married")){
-            //if women
+            String gender = org.smartregister.util.Utils.getValue(commonPersonObjectClient.getColumnmaps(), "gender", false);
+            String maritalStatus  = org.smartregister.util.Utils.getValue(commonPersonObjectClient.getColumnmaps(), "marital_status", false);
+            otherServiceView.setVisibility(View.VISIBLE);
+            if(gender.equalsIgnoreCase("F") && maritalStatus.equalsIgnoreCase("Married")){
+                //if women
 
-            View anc1View = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
-            ImageView imageanc1View = anc1View.findViewById(R.id.image_view);
-            TextView nameanc1View =  anc1View.findViewById(R.id.patient_name_age);
-            anc1View.setTag(TAG_OPEN_ANC1);
-            anc1View.setOnClickListener(this);
-            String eventType = FormApplicability.getDueFormForMarriedWomen(baseEntityId,FormApplicability.getAge(commonPersonObjectClient));
-            if(!TextUtils.isEmpty(eventType)){
-                if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY)) {
-                    isFirstAnc = true;
-                    nameanc1View.setText(HnppConstants.visitEventTypeMapping.get(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION));
-                }else{
-                    isFirstAnc = false;
-                    nameanc1View.setText(HnppConstants.visitEventTypeMapping.get(eventType));
+                View anc1View = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+                ImageView imageanc1View = anc1View.findViewById(R.id.image_view);
+                TextView nameanc1View =  anc1View.findViewById(R.id.patient_name_age);
+                anc1View.setTag(TAG_OPEN_ANC1);
+                anc1View.setOnClickListener(this);
+                String eventType = FormApplicability.getDueFormForMarriedWomen(baseEntityId,FormApplicability.getAge(commonPersonObjectClient));
+                if(!TextUtils.isEmpty(eventType)){
+                    if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY)) {
+                        isFirstAnc = true;
+                        nameanc1View.setText(HnppConstants.visitEventTypeMapping.get(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION));
+                    }else{
+                        isFirstAnc = false;
+                        nameanc1View.setText(HnppConstants.visitEventTypeMapping.get(eventType));
+                    }
+                    imageanc1View.setImageResource(HnppConstants.iconMapping.get(eventType));
+                    anc1View.setTag(org.smartregister.family.R.id.VIEW_ID,eventType);
+                    if(getActivity() instanceof HnppFamilyOtherMemberProfileActivity){
+                        HnppFamilyOtherMemberProfileActivity aaa = (HnppFamilyOtherMemberProfileActivity) getActivity();
+                        aaa.updatePregnancyOutcomeVisible(eventType);
+                    }
                 }
-                imageanc1View.setImageResource(HnppConstants.iconMapping.get(eventType));
-                anc1View.setTag(org.smartregister.family.R.id.VIEW_ID,eventType);
-                if(getActivity() instanceof HnppFamilyOtherMemberProfileActivity){
-                    HnppFamilyOtherMemberProfileActivity aaa = (HnppFamilyOtherMemberProfileActivity) getActivity();
-                    aaa.updatePregnancyOutcomeVisible(eventType);
-                }
+
+
+                otherServiceView.addView(anc1View);
+
             }
-
-
-            otherServiceView.addView(anc1View);
-
-        }
 
 
         View familyView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
         ImageView image = familyView.findViewById(R.id.image_view);
         TextView name =  familyView.findViewById(R.id.patient_name_age);
+        familyView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
         image.setImageResource(R.drawable.childrow_family);
-        name.setText("ফেমেলির অন্যান্য সেবা");
+        name.setText("ফেমেলির অন্যান্য সদস্য সেবা (বাকি)");
         familyView.setTag(TAG_OPEN_FAMILY);
         familyView.setOnClickListener(this);
         otherServiceView.addView(familyView);
@@ -178,6 +182,7 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
         View referelView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
         ImageView imageReferel = referelView.findViewById(R.id.image_view);
         TextView nameReferel =  referelView.findViewById(R.id.patient_name_age);
+        referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
         imageReferel.setImageResource(R.mipmap.ic_refer);
         nameReferel.setText("রেফেরেল");
         referelView.setTag(TAG_OPEN_REFEREAL);

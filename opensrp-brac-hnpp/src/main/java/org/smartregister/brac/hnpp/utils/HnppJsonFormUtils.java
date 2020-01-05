@@ -104,8 +104,24 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         }
         return null;
     }
-    public static String getEncounterType() {
-        return org.smartregister.chw.anc.util.Constants.EVENT_TYPE.ANC_HOME_VISIT;
+    public static String getEncounterType(String formEncounterType) {
+        switch (formEncounterType){
+            case HnppConstants.EVENT_TYPE.ELCO:
+                return HnppConstants.EVENT_TYPE.ELCO;
+            case HnppConstants.EVENT_TYPE.MEMBER_REFERRAL:
+                return HnppConstants.EVENT_TYPE.MEMBER_REFERRAL;
+            case HnppConstants.EVENT_TYPE.GIRL_PACKAGE:
+                return HnppConstants.EVENT_TYPE.GIRL_PACKAGE;
+            case HnppConstants.EVENT_TYPE.WOMEN_PACKAGE:
+                return HnppConstants.EVENT_TYPE.WOMEN_PACKAGE;
+            case HnppConstants.EVENT_TYPE.NCD_PACKAGE:
+                return HnppConstants.EVENT_TYPE.NCD_PACKAGE;
+            case HnppConstants.EVENT_TYPE.IYCF_PACKAGE:
+                return HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
+                default:
+                    return org.smartregister.chw.anc.util.Constants.EVENT_TYPE.ANC_HOME_VISIT;
+        }
+
     }
 
     private static String getTableName() {

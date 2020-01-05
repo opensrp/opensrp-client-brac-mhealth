@@ -112,7 +112,7 @@ public class ChwClientProcessor extends ClientProcessorForJava {
         return serviceTable;
     }
 
-    public void processEvents(ClientClassification clientClassification, Table vaccineTable, Table serviceTable, EventClient eventClient, Event event, String eventType) throws Exception {
+    protected void processEvents(ClientClassification clientClassification, Table vaccineTable, Table serviceTable, EventClient eventClient, Event event, String eventType) throws Exception {
         switch (eventType) {
             case VaccineIntentService.EVENT_TYPE:
             case VaccineIntentService.EVENT_TYPE_OUT_OF_CATCHMENT:
@@ -182,7 +182,7 @@ public class ChwClientProcessor extends ClientProcessorForJava {
     }
 
     // possible to delegate
-    private Boolean processVaccine(EventClient vaccine, Table vaccineTable, boolean outOfCatchment) {
+    protected Boolean processVaccine(EventClient vaccine, Table vaccineTable, boolean outOfCatchment) {
 
         try {
             if (vaccine == null || vaccine.getEvent() == null) {
@@ -235,7 +235,7 @@ public class ChwClientProcessor extends ClientProcessorForJava {
     }
 
     // possible to delegate
-    private Boolean processService(EventClient service, Table serviceTable) {
+    protected Boolean processService(EventClient service, Table serviceTable) {
 
         try {
 
@@ -307,14 +307,14 @@ public class ChwClientProcessor extends ClientProcessorForJava {
         }
     }
 
-    private void processVisitEvent(List<EventClient> eventClients, String parentEventName) {
+    protected void processVisitEvent(List<EventClient> eventClients, String parentEventName) {
         for (EventClient eventClient : eventClients) {
             processVisitEvent(eventClient, parentEventName); // save locally
         }
     }
 
     // possible to delegate
-    private void processVisitEvent(EventClient eventClient) {
+    protected void processVisitEvent(EventClient eventClient) {
         try {
             processAncHomeVisit(eventClient, null, null); // save locally
         } catch (Exception e) {
@@ -359,7 +359,7 @@ public class ChwClientProcessor extends ClientProcessorForJava {
      *
      * @param familyID
      */
-    private void processRemoveFamily(String familyID, Date eventDate) {
+    protected void processRemoveFamily(String familyID, Date eventDate) {
 
         Date myEventDate = eventDate;
         if (myEventDate == null) {
@@ -399,7 +399,7 @@ public class ChwClientProcessor extends ClientProcessorForJava {
         }
     }
 
-    private void processRemoveMember(String baseEntityId, Date eventDate) {
+    protected void processRemoveMember(String baseEntityId, Date eventDate) {
 
         Date myEventDate = eventDate;
         if (myEventDate == null) {
@@ -429,7 +429,7 @@ public class ChwClientProcessor extends ClientProcessorForJava {
         }
     }
 
-    private void processRemoveChild(String baseEntityId, Date eventDate) {
+    protected void processRemoveChild(String baseEntityId, Date eventDate) {
 
         Date myEventDate = eventDate;
         if (myEventDate == null) {

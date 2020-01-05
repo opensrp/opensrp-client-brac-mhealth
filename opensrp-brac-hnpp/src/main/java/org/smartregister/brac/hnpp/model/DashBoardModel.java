@@ -36,7 +36,7 @@ public class DashBoardModel implements DashBoardContract.Model {
         String query = "select eventType,count(*),eventDate as count from event where strftime('%Y-%m-%d', eventDate) BETWEEN '"+fromDate+"' AND '"+todate+"' group by eventType";
         Cursor cursor = null;
         dashBoardDataArrayList.clear();
-        try {
+       // try {
             cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() > 0){
                 cursor.moveToFirst();
@@ -45,19 +45,24 @@ public class DashBoardModel implements DashBoardContract.Model {
                     dashBoardData1.setCount(cursor.getInt(1));
                     dashBoardData1.setEventType(cursor.getString(0));
                     dashBoardData1.setTitle(HnppConstants.eventTypeMapping.get(dashBoardData1.getEventType()));
-                    dashBoardData1.setImageSource((int)HnppConstants.iconMapping.get(dashBoardData1.getEventType()));
+                    try{
+                        dashBoardData1.setImageSource((int)HnppConstants.iconMapping.get(dashBoardData1.getEventType()));
+                    }catch (Exception e){
+
+                    }
                     dashBoardDataArrayList.add(dashBoardData1);
                     cursor.moveToNext();
                 }
+                cursor.close();
 
             }
 
-        } catch (Exception e) {
-            Timber.e(e);
-        } finally {
-            if (cursor != null)
-                cursor.close();
-        }
+//        } catch (Exception e) {
+//            Timber.e(e);
+//        } finally {
+//            if (cursor != null)
+//                cursor.close();
+//        }
         return dashBoardDataArrayList;
     }
 

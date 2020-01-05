@@ -205,12 +205,15 @@
       {
         "key": "enabled_label",
         "type": "label",
-        "label_text_style": "bold",
-        "text": "রক্তচাপ",
+        "text":"রক্তচাপ",
+        "has_bg": true,
+        "left_padding": "20dp",
+        "right_padding": "20dp",
+        "text_size": "25sp",
         "text_color": "#000000",
-        "v_required": {
-          "value": true
-        }
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": ""
       },
       {
         "key": "blood_pressure_systolic",
@@ -437,12 +440,15 @@
       {
         "key": "enabled_label",
         "type": "label",
-        "label_text_style": "bold",
-        "text": "গ্লুকোজ(mmol/l) - রক্ত পরীক্ষা ",
+        "text":"গ্লুকোজ(mmol/l) - রক্ত পরীক্ষা ",
+        "has_bg": true,
+        "left_padding": "20dp",
+        "right_padding": "20dp",
+        "text_size": "25sp",
         "text_color": "#000000",
-        "v_required": {
-          "value": true
-        }
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": ""
       },
       {
         "key": "blood_sugar_test_condition",

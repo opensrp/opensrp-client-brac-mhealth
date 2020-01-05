@@ -14,12 +14,14 @@ import timber.log.Timber;
 public class HnppHomeVisitActionHelper extends HomeVisitActionHelper {
     private String signs_present = "";
     private String counseling = "";
+    private boolean isFirstTime = true;
 
     @Override
     public void onPayloadReceived(String jsonPayload) {
-        if(!StringUtils.isBlank(jsonPayload)){
+        if(!isFirstTime && !StringUtils.isBlank(jsonPayload)){
             counseling = "yes";
         }
+        isFirstTime = false;
 
     }
 
@@ -41,6 +43,7 @@ public class HnppHomeVisitActionHelper extends HomeVisitActionHelper {
 
     @Override
     public BaseAncHomeVisitAction.Status evaluateStatusOnPayload() {
+
         if (StringUtils.isBlank(counseling))
             return BaseAncHomeVisitAction.Status.PENDING;
 
