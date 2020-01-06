@@ -87,7 +87,7 @@ public class LivePreference extends Preference  {
         alert.setCancelable(false);
         alert.setView(edittext);
 
-        alert.setPositiveButton("সাবমিট", (dialog, whichButton) -> {
+        alert.setPositiveButton("জমা দিন", (dialog, whichButton) -> {
             if(edittext.getText().toString().isEmpty()){
                 Toast.makeText(context,"পাসওয়ার্ড দিন",Toast.LENGTH_SHORT).show();
                 return;

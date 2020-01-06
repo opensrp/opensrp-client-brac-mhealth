@@ -434,33 +434,29 @@
             "key": "medical_collage_hospital",
             "text": "মেডিকেল কলেজ হাসপাতাল",
             "value": false,
-            "openmrs_entity": "",
-            "openmrs_entity_id": "medical_collage_hospital",
-            "openmrs_entity_parent": ""
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "medical_collage_hospital"
           },
           {
             "key": "private_clinic",
             "text": "বেসরকারি ক্লিনিক",
             "value": false,
-            "openmrs_entity": "",
-            "openmrs_entity_id": "private_clinic",
-            "openmrs_entity_parent": ""
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "private_clinic"
           },
           {
             "key": "spacial_hospital",
             "text": "বিশেষায়িত হাসপাতাল",
             "value": false,
-            "openmrs_entity": "",
-            "openmrs_entity_id": "spacial_hospital",
-            "openmrs_entity_parent": ""
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "spacial_hospital"
           },
           {
             "key": "other_option",
             "text": "অন্যান্য",
             "value": false,
-            "openmrs_entity": "",
-            "openmrs_entity_id": "other_option",
-            "openmrs_entity_parent": ""
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "other_option"
           }
         ],
         "v_required": {

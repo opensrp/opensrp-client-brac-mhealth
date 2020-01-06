@@ -118,6 +118,8 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 return HnppConstants.EVENT_TYPE.NCD_PACKAGE;
             case HnppConstants.EVENT_TYPE.IYCF_PACKAGE:
                 return HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
+            case  HnppConstants.EVENT_TYPE.PNC_REGISTRATION:
+                return org.smartregister.chw.anc.util.Constants.EVENT_TYPE.PNC_HOME_VISIT;
                 default:
                     return org.smartregister.chw.anc.util.Constants.EVENT_TYPE.ANC_HOME_VISIT;
         }

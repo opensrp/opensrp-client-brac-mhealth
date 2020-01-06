@@ -478,7 +478,6 @@
             "key": "brac_maternity_center",
             "text": "ব্র্যাক ম্যাটারনিটি সেন্টার",
             "value": false,
-
             "openmrs_entity": "concept",
             "openmrs_entity_id": "brac_maternity_center"
           },
@@ -521,7 +520,7 @@
             "key": "center_hospital",
             "text": "সদর হাসপাতাল",
             "value": false,
-            "openmrs_entity": "ceoncept",
+            "openmrs_entity": "concept",
             "openmrs_entity_id": "center_hospital"
           },
           {

@@ -15,6 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.Utils;
 import org.smartregister.repository.AllSharedPreferences;
@@ -305,7 +306,8 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.GIRL_PACKAGE, R.drawable.woman_placeholder)
             .put(EVENT_TYPE.NCD_PACKAGE,R.drawable.ic_muac)
             .put(EVENT_TYPE.IYCF_PACKAGE, R.drawable.child_girl_infant)
-            .put(org.smartregister.chw.anc.util.Constants.EVENT_TYPE.ANC_HOME_VISIT,R.mipmap.ic_anc_pink)
+            .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,R.mipmap.ic_anc_pink)
+            .put(Constants.EVENT_TYPE.PNC_HOME_VISIT,R.drawable.sidemenu_pnc)
             .put("Member referral",R.mipmap.ic_refer)
             .build();
     //need to show the title at row/option
@@ -343,7 +345,9 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.GIRL_PACKAGE, "কিশোরী সেবা প্যাকেজ")
             .put(EVENT_TYPE.NCD_PACKAGE, "ব্যাধি সেবা প্যাকেজ (এন সি ডি)")
             .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)")
-            .put(org.smartregister.chw.anc.util.Constants.EVENT_TYPE.ANC_HOME_VISIT,"গর্ভবতী পরিচর্যা ভিজিট")
+            .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,"গর্ভবতী পরিচর্যা ভিজিট")
+            .put(Constants.EVENT_TYPE.PNC_HOME_VISIT,"প্রসবোত্তর পরিচর্যা ভিজিট")
+            .put( EVENT_TYPE.PNC_REGISTRATION,"প্রসবোত্তর পরিচর্যা")
             .build();
 
     private static String getKeyByValue(String mapperObj, String value){
