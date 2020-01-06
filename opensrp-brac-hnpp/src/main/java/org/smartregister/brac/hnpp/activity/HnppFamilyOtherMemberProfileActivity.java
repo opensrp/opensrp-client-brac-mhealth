@@ -308,7 +308,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                         mViewPager.setCurrentItem(3,true);
 
                     }
-                },2000);
+                },1000);
             }
 
         }
@@ -339,7 +339,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             startMalariaRegister();
             return true;
         }if (i == R.id.action_pregnancy_out_come) {
-            startMalariaRegister();
+            startPncRegister();
             return true;
         }
         return super.onOptionsItemSelected(item);

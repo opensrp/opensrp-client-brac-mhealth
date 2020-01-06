@@ -8,6 +8,7 @@ import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.pnc.activity.BasePncRegisterActivity;
 
 public class HnppPncRegisterActivity extends BasePncRegisterActivity {
+
     public static void startHnppPncRegisterActivity(Activity activity, String memberBaseEntityID, String phoneNumber, String formName,
                                                     String uniqueId, String familyBaseID, String family_name) {
         Intent intent = new Intent(activity, org.smartregister.brac.hnpp.activity.HnppAncRegisterActivity.class);
