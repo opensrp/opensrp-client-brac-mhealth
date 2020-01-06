@@ -54,7 +54,6 @@ public class HnppNavigationPresenter extends NavigationPresenter {
                 }
                 try {
                     String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
-                    baseUrl = "http://192.168.19.146:8080/opensrp";
                     String url = baseUrl + "/user/status?username=" + userName+"&version="+ BuildConfig.VERSION_NAME;
                     Log.v("USER_STATUS","url:"+url);
                     Response resp = CoreLibrary.getInstance().context().getHttpAgent().fetchWithoutAuth(url);
