@@ -90,7 +90,8 @@ public class HnppAllMemberRegisterFragment extends CoreChildRegisterFragment imp
             // HnppChildProfileActivity.startMe(getActivity(), houseHoldId,false, new MemberObject(patient), HnppChildProfileActivity.class);
             String houseHoldHead = org.smartregister.family.util.Utils.getValue(patient.getColumnmaps(), HnppConstants.KEY.HOUSE_HOLD_NAME, true);
             String address = org.smartregister.family.util.Utils.getValue(patient.getColumnmaps(), HnppConstants.KEY.VILLAGE_NAME, true);
-
+            String houseHoldId = org.smartregister.family.util.Utils.getValue(patient.getColumnmaps(), HnppConstants.KEY.HOUSE_HOLD_ID, true);
+            String moduleId = org.smartregister.family.util.Utils.getValue(patient.getColumnmaps(), HnppConstants.KEY.MODULE_ID, true);
             Intent intent = new Intent(getActivity(), HnppFamilyOtherMemberProfileActivity.class);
             intent.putExtras(getArguments());
             intent.putExtra(Constants.INTENT_KEY.BASE_ENTITY_ID, patient.getCaseId());
@@ -99,6 +100,8 @@ public class HnppAllMemberRegisterFragment extends CoreChildRegisterFragment imp
             intent.putExtra(Constants.INTENT_KEY.FAMILY_HEAD, familyId);
             intent.putExtra(Constants.INTENT_KEY.PRIMARY_CAREGIVER, familyId);
             intent.putExtra(Constants.INTENT_KEY.VILLAGE_TOWN, address);
+            intent.putExtra(DBConstants.KEY.UNIQUE_ID,houseHoldId);
+            intent.putExtra(HnppConstants.KEY.HOUSE_HOLD_ID,moduleId);
             intent.putExtra(Constants.INTENT_KEY.FAMILY_NAME, houseHoldHead);
             startActivity(intent);
         }

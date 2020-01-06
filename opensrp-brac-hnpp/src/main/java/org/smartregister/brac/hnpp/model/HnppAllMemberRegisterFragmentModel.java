@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.model;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.core.model.CoreChildRegisterFragmentModel;
 import org.smartregister.chw.core.utils.ChildDBConstants;
+import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
 import org.smartregister.family.util.DBConstants;
 
@@ -33,8 +34,9 @@ public class HnppAllMemberRegisterFragmentModel extends CoreChildRegisterFragmen
         columnList.add(familyMemberTable + "." + DBConstants.KEY.UNIQUE_ID);
         columnList.add(familyMemberTable + "." + DBConstants.KEY.GENDER);
         columnList.add(familyMemberTable + "." + DBConstants.KEY.DOB);
+        columnList.add(familyTable + "." + DBConstants.KEY.UNIQUE_ID + " as " + HnppConstants.KEY.HOUSE_HOLD_ID);
         columnList.add(familyTable + "." + DBConstants.KEY.FIRST_NAME + " as " + HnppConstants.KEY.HOUSE_HOLD_NAME);
-
+        columnList.add(familyTable+ "." + HnppConstants.KEY.MODULE_ID);
         return columnList.toArray(new String[columnList.size()]);
     }
 }
