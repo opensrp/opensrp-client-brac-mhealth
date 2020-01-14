@@ -30,6 +30,7 @@ import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.core.activity.CoreChildHomeVisitActivity;
 import org.smartregister.chw.core.fragment.CoreChildRegisterFragment;
+import org.smartregister.chw.core.utils.ChildDBConstants;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.commonregistry.CommonFtsObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
@@ -41,6 +42,7 @@ import org.smartregister.family.util.DBConstants;
 import org.smartregister.util.Utils;
 import org.smartregister.view.activity.BaseRegisterActivity;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -199,9 +201,11 @@ public class HnppChildRegisterFragment extends CoreChildRegisterFragment impleme
                     sql = childMainFilter(mainCondition, presenter().getMainCondition(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.CHILD)), filters, Sortqueries, clientAdapter.getCurrentlimit(), clientAdapter.getCurrentoffset());
                     sql = sql.substring(0,sql.indexOf("ORDER BY"));
                 }else{
-                    sql = "SELECT * FROM ec_child WHERE date_removed IS NULL";
-//                    sql = sql.replace("date_removed","ec_child.date_removed");
-//                    sql = sql.replace(DBConstants.KEY.DATE_REMOVED,tableColConcat((CoreConstants.TABLE_NAME.CHILD),DBConstants.KEY.DATE_REMOVED));
+                    String condition = String.format(" where %s is null AND %s", DBConstants.KEY.DATE_REMOVED, ChildDBConstants.childAgeLimitFilter());
+
+                    sql = MessageFormat.format("select * from {0} {1}", "ec_child", condition);
+
+                    //sql = "SELECT * FROM ec_child WHERE date_removed IS NULL";
                 }
 
                 List<String> ids = commonRepository().findSearchIds(sql);

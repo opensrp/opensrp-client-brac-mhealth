@@ -10,8 +10,10 @@ import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.domain.HouseholdId;
 import org.smartregister.brac.hnpp.exception.PullHouseholdIdsException;
 import org.smartregister.brac.hnpp.repository.HouseholdIdRepository;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.domain.Response;
 import org.smartregister.service.HTTPAgent;
+import org.smartregister.util.JsonFormUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,14 +59,12 @@ public class PullHouseholdIdIntentService extends IntentService {
         if (baseUrl.endsWith(endString)) {
             baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf(endString));
         }
-//        baseUrl = "http://192.168.22.152:8080/opensrp";
         String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
         String vid = householdIdRepo.getUnusedVillageId();
-        Log.d("getUnusedVillageId",vid);
         if(vid.equalsIgnoreCase("-1")){
             return new JSONArray();
         }
-        String url = baseUrl + ID_URL + "?villageId=" + vid + "&username=" + userName;
+        String url = baseUrl + ID_URL + "?villageId=" + vid + "&username=" + userName+"&device_imei="+ HnppConstants.getDeviceImeiFromSharedPref()+"&uuid="+ JsonFormUtils.generateRandomUUIDString();
         Log.i(PullHouseholdIdIntentService.class.getName(), "URL: " + url);
 
         if (httpAgent == null) {

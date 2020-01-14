@@ -34,6 +34,7 @@ public class HnppConstants extends CoreConstants {
     public static final int HOUSE_HOLD_ID_SUFFIX = 9;
     public static final String IS_RELEASE = "is_release_build";
     public static final String IS_DEVICE_VERIFY = "is_device_verify";
+    public static final String DEVICE_IMEI = "device_imei";
 
     public static SimpleDateFormat DDMMYY = new SimpleDateFormat("dd-MM-yyyy");
     public enum VisitType {DUE, OVERDUE, LESS_TWENTY_FOUR, VISIT_THIS_MONTH, NOT_VISIT_THIS_MONTH, EXPIRY, VISIT_DONE}
@@ -171,13 +172,18 @@ public class HnppConstants extends CoreConstants {
         }
         return false;
     }
+    public static String getDeviceImeiFromSharedPref(){
+        String imei = Utils.getAllSharedPreferences().getPreference(DEVICE_IMEI);
+        return TextUtils.isEmpty(imei)?"testimei":imei;
+    }
     public static void updateLiveTest(String appMode){
         AllSharedPreferences preferences = Utils.getAllSharedPreferences();
         preferences.savePreference(IS_RELEASE,appMode);
     }
-    public static void updateDeviceVerified(boolean isVerify){
+    public static void updateDeviceVerified(boolean isVerify, String deviceImei){
         AllSharedPreferences preferences = Utils.getAllSharedPreferences();
         preferences.savePreference(IS_DEVICE_VERIFY,isVerify?"V":"");
+        preferences.savePreference(DEVICE_IMEI,deviceImei);
     }
     public static String getSimPrintsProjectId(){
 
