@@ -66,7 +66,7 @@ import timber.log.Timber;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.MEMBER_ID_SUFFIX;
 
 public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberProfileActivity {
-    private static final int REQUEST_HOME_VISIT = 5555;
+    public static final int REQUEST_HOME_VISIT = 5555;
     private static final int REQUEST_CODE_PREGNANCY_OUTCOME = 5556;
 
     private CustomFontTextView textViewDetails3;

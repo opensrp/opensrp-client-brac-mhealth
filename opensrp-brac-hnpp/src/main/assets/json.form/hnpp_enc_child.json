@@ -47,8 +47,17 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "ENC Registration",
+    "title": "ENC পরিচর্যা",
     "fields": [
+      {
+        "key": "form_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "IYCF package",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": "hnpp_enc_child"
+      },
       {
         "key": "body_temperature",
         "openmrs_entity_parent": "",

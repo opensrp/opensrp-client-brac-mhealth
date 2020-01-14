@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.activity.HnppChildProfileActivity;
 import org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity;
 import org.smartregister.brac.hnpp.adapter.OtherServiceAdapter;
 import org.smartregister.brac.hnpp.contract.OtherServiceContract;
@@ -79,11 +80,17 @@ public class MemberOtherServiceFragment extends Fragment implements OtherService
                 if (getActivity() != null && getActivity() instanceof HnppFamilyOtherMemberProfileActivity) {
                     HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) getActivity();
                     activity.openServiceForms(HnppConstants.JSON_FORMS.NCD_PACKAGE);
+                }else if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                    HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                    activity.openServiceForms(HnppConstants.JSON_FORMS.NCD_PACKAGE);
                 }
                 break;
             case HnppConstants.OTHER_SERVICE_TYPE.TYPE_IYCF:
                 if (getActivity() != null && getActivity() instanceof HnppFamilyOtherMemberProfileActivity) {
                     HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) getActivity();
+                    activity.openServiceForms(HnppConstants.JSON_FORMS.IYCF_PACKAGE);
+                }else if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                    HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
                     activity.openServiceForms(HnppConstants.JSON_FORMS.IYCF_PACKAGE);
                 }
                 break;

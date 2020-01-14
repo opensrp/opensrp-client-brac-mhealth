@@ -2,6 +2,8 @@ package org.smartregister.brac.hnpp.fragment;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
+
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.FamilyProfileActivity;
 import org.smartregister.brac.hnpp.activity.HnppChildProfileActivity;
@@ -55,8 +57,13 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment {
 
     @Override
     public void setupViews(View view) {
-        super.setupViews(view);
-        emptyView = view.findViewById(R.id.empty_view);
+       try {
+           super.setupViews(view);
+           emptyView = view.findViewById(R.id.empty_view);
+       }catch (Exception e){
+           Toast.makeText(getActivity(),getString(R.string.fail_result),Toast.LENGTH_SHORT).show();
+       }
+
 
     }
 

@@ -1,6 +1,9 @@
 package org.smartregister.brac.hnpp.activity;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -11,10 +14,18 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.vijay.jsonwizard.constants.JsonFormConstants;
+import com.vijay.jsonwizard.domain.Form;
+
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
 import org.smartregister.brac.hnpp.adapter.ReferralCardViewAdapter;
 import org.smartregister.brac.hnpp.custom_view.FamilyMemberFloatingMenu;
+import org.smartregister.brac.hnpp.fragment.HnppMemberProfileDueFragment;
+import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
+import org.smartregister.brac.hnpp.fragment.MemberOtherServiceFragment;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.core.activity.CoreChildHomeVisitActivity;
 import org.smartregister.chw.core.activity.CoreChildMedicalHistoryActivity;
@@ -27,18 +38,26 @@ import org.smartregister.chw.core.presenter.CoreChildProfilePresenter;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.presenter.HnppChildProfilePresenter;
+import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.domain.Task;
+import org.smartregister.family.adapter.ViewPagerAdapter;
 import org.smartregister.family.util.Constants;
+import org.smartregister.util.FormUtils;
+import org.smartregister.util.JsonFormUtils;
 
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import static org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity.REQUEST_HOME_VISIT;
 
 public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     public CoreFamilyMemberFloatingMenu familyFloatingMenu;
     public RelativeLayout referralRow;
     public RecyclerView referralRecyclerView;
+    public CommonPersonObjectClient commonPersonObject;
 
     @Override
     protected void onCreation() {
@@ -47,6 +66,32 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
         onClickFloatingMenu = getOnClickFloatingMenu(this, (HnppChildProfilePresenter) presenter);
         setupViews();
         setUpToolbar();
+    }
+    @Override
+    protected void updateTopBar() {
+        if (gender.equalsIgnoreCase("পুরুষ")) {
+            imageViewProfile.setBorderColor(getResources().getColor(org.smartregister.chw.core.R.color.light_blue));
+        } else if (gender.equalsIgnoreCase("মহিলা")) {
+            imageViewProfile.setBorderColor(getResources().getColor(org.smartregister.chw.core.R.color.light_pink));
+        }
+        TabLayout tabLayout = findViewById(R.id.tabs);
+        ViewPager viewPager = findViewById(R.id.viewpager);
+        tabLayout.setupWithViewPager(setupViewPager(viewPager));
+    }
+    @Override
+    public void setProfileName(String fullName) {
+        patientName = fullName;
+        textViewParentName.setText(fullName);
+    }
+
+    @Override
+    public void setParentName(String parentName) {
+        textViewGender.append(","+parentName);
+    }
+
+    @Override
+    public void setAge(String age) {
+        textViewChildName.setText(age);
     }
 
     @Override
@@ -89,8 +134,32 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
         prepareFab();
         fetchProfileData();
         presenter().fetchTasks();
-    }
 
+
+    }
+    MemberOtherServiceFragment memberOtherServiceFragment;
+    MemberHistoryFragment memberHistoryFragment;
+    HnppMemberProfileDueFragment profileMemberFragment;
+    ViewPager mViewPager;
+    protected ViewPagerAdapter adapter;
+    @Override
+    protected ViewPager setupViewPager(ViewPager viewPager) {
+        commonPersonObject = ((HnppChildProfilePresenter)presenter()).commonPersonObjectClient;
+        this.mViewPager = viewPager;
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
+
+        profileMemberFragment =(HnppMemberProfileDueFragment) HnppMemberProfileDueFragment.newInstance(this.getIntent().getExtras());
+        profileMemberFragment.setCommonPersonObjectClient(commonPersonObject);
+        adapter.addFragment(profileMemberFragment, this.getString(R.string.due).toUpperCase());
+        memberOtherServiceFragment = new MemberOtherServiceFragment();
+        memberHistoryFragment = MemberHistoryFragment.getInstance(this.getIntent().getExtras());
+        memberOtherServiceFragment.setCommonPersonObjectClient(commonPersonObject);
+        adapter.addFragment(memberOtherServiceFragment, this.getString(R.string.other_service).toUpperCase());
+        adapter.addFragment(memberHistoryFragment, this.getString(R.string.activity).toUpperCase());
+        viewPager.setOffscreenPageLimit(3);
+        viewPager.setAdapter(adapter);
+        return viewPager;
+    }
     @Override
     public void setFamilyHasNothingDue() {
         layoutFamilyHasRow.setVisibility(View.GONE);
@@ -201,5 +270,51 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
         familyFloatingMenu.fab.setOnClickListener(v -> FamilyCallDialogFragment.launchDialog(
                 this, ((HnppChildProfilePresenter) presenter).getFamilyId()));
 
+    }
+    public void openServiceForms(String formName){
+        startAnyFormActivity(formName,REQUEST_HOME_VISIT);
+    }
+
+    public void openEnc() {
+        startAnyFormActivity(HnppConstants.JSON_FORMS.ENC_REGISTRATION,REQUEST_HOME_VISIT);
+    }
+    public void openRefereal() {
+        startAnyFormActivity(HnppConstants.JSON_FORMS.MEMBER_REFERRAL,REQUEST_HOME_VISIT);
+    }
+    public void startAnyFormActivity(String formName, int requestCode) {
+        try {
+            JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
+            jsonForm.put(JsonFormUtils.ENTITY_ID, memberObject.getFamilyHead());
+            Intent intent = new Intent(this, org.smartregister.family.util.Utils.metadata().familyMemberFormActivity);
+            intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+
+            Form form = new Form();
+            form.setWizard(false);
+            form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+
+            intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+            intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
+            if (this != null) {
+                this.startActivityForResult(intent, requestCode);
+            }
+        }catch (Exception e){
+
+        }
+    }
+    public void openFamilyDueTab() {
+        Intent intent = new Intent(this,FamilyProfileActivity.class);
+        intent.putExtras(getIntent().getExtras());
+
+//        intent.putExtra(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, familyBaseEntityId);
+//        intent.putExtra(Constants.INTENT_KEY.FAMILY_HEAD, familyHead);
+//        intent.putExtra(Constants.INTENT_KEY.PRIMARY_CAREGIVER, primaryCaregiver);
+//        intent.putExtra(Constants.INTENT_KEY.FAMILY_NAME, familyName);
+//        String moduleId = HnppChildUtils.getModuleId(familyHead);
+//        intent.putExtra(HnppConstants.KEY.MODULE_ID, moduleId);
+//        String villageTown = getIntent().getStringExtra(Constants.INTENT_KEY.VILLAGE_TOWN);
+//        intent.putExtra(Constants.INTENT_KEY.VILLAGE_TOWN,villageTown);
+//        intent.putExtra(DBConstants.KEY.UNIQUE_ID, getIntent().getStringExtra(DBConstants.KEY.UNIQUE_ID));
+        intent.putExtra(CoreConstants.INTENT_KEY.SERVICE_DUE, true);
+        startActivity(intent);
     }
 }

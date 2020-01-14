@@ -31,6 +31,7 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_PRE
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ELCO;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ELCO;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ENC_REGISTRATION;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.GIRL_PACKAGE;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.MEMBER_REFERRAL;
@@ -147,7 +148,9 @@ public class VisitLogIntentService extends IntentService {
         }else if (IYCF_PACKAGE.equalsIgnoreCase(encounter_type)) {
             form_name = HnppConstants.JSON_FORMS.IYCF_PACKAGE+".json";
         }
-
+        else if (ENC_REGISTRATION.equalsIgnoreCase(encounter_type)) {
+            form_name = HnppConstants.JSON_FORMS.ENC_REGISTRATION+".json";
+        }
         try {
             String jsonString = AssetHandler.readFileFromAssetsFolder("json.form/"+form_name, VisitLogIntentService.this);
             return new JSONObject(jsonString);

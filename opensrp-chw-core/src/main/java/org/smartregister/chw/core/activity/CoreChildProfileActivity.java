@@ -89,7 +89,7 @@ public class CoreChildProfileActivity extends BaseProfileActivity implements Cor
     private boolean appBarTitleIsShown = true;
     private int appBarLayoutScrollRange = -1;
     protected TextView textViewTitle,textViewId;
-    private TextView textViewChildName, textViewGender, textViewAddress, textViewRecord, textViewVisitNot, tvEdit;
+    protected TextView textViewChildName, textViewGender, textViewAddress, textViewRecord, textViewVisitNot, tvEdit;
     private RelativeLayout layoutNotRecordView, layoutLastVisitRow, layoutMostDueOverdue;
     private RelativeLayout layoutRecordButtonDone;
     private LinearLayout layoutRecordView;

@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 public class HnppChildProfilePresenter extends CoreChildProfilePresenter {
     String houseHoldId = "";
+    public CommonPersonObjectClient commonPersonObjectClient;
 
     public HnppChildProfilePresenter(CoreChildProfileContract.View childView, CoreChildProfileContract.Model model, String houseHoldId, String childBaseEntityId) {
         this.houseHoldId = houseHoldId;
@@ -39,6 +40,7 @@ public class HnppChildProfilePresenter extends CoreChildProfilePresenter {
         if (client == null || client.getColumnmaps() == null) {
             return;
         }
+        this.commonPersonObjectClient = client;
         String motherEntityId = Utils.getValue(client.getColumnmaps(), ChildDBConstants.KEY.MOTHER_ENTITY_ID, true);
         String relationId = Utils.getValue(client.getColumnmaps(), ChildDBConstants.KEY.RELATIONAL_ID, true);
         String motherName = Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.CHILD_MOTHER_NAME, true);
@@ -60,9 +62,9 @@ public class HnppChildProfilePresenter extends CoreChildProfilePresenter {
         //dobString = dobString.contains("y") ? dobString.substring(0, dobString.indexOf("y")) : dobString;
         String address = org.smartregister.family.util.Utils.getValue(client.getColumnmaps(), ChildDBConstants.KEY.FAMILY_HOME_ADDRESS, true);
         String gender = org.smartregister.family.util.Utils.getValue(client.getColumnmaps(), DBConstants.KEY.GENDER, true);
-
+        String getGender = HnppConstants.getGender(gender);
         getView().setAddress(address);
-        getView().setGender(gender);
+        getView().setGender(getGender);
 
         String uniqueId = Utils.getValue(client.getColumnmaps(), DBConstants.KEY.UNIQUE_ID, false);
         uniqueId = String.format(getView().getString(org.smartregister.family.R.string.unique_id_text), uniqueId);

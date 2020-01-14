@@ -4,12 +4,15 @@ import android.text.TextUtils;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
+import org.joda.time.LocalDate;
 import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.chw.core.dao.AbstractDao;
+import org.smartregister.chw.core.utils.Utils;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
+import org.smartregister.util.DateUtil;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -48,6 +51,13 @@ public class FormApplicability {
     }
     public static boolean isElco(int age){
         return age > 15 && age < 50;
+    }
+    public static boolean isEncVisible(Date dob){
+        int dayPass = DateUtil.dayDifference(new LocalDate(dob),new LocalDate(System.currentTimeMillis()));
+        if(dayPass <= 41){
+            return true;
+        }
+        return false;
     }
 
     public static String getLmp(String baseEntityId){

@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.activity.HnppChildProfileActivity;
 import org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity;
 import org.smartregister.brac.hnpp.model.MemberProfileDueModel;
 import org.smartregister.brac.hnpp.presenter.HnppMemberProfileDuePresenter;
@@ -21,8 +22,10 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.adapter.FamilyRecyclerViewCustomAdapter;
 import org.smartregister.family.fragment.BaseFamilyProfileDueFragment;
 import org.smartregister.family.util.Constants;
+import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.Utils;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +42,7 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
 
     private static final int TAG_OPEN_FAMILY = 111;
     private static final int TAG_OPEN_REFEREAL = 222;
+    private static final int TAG_ENC= 333;
 
 
     private int dueCount = 0;
@@ -167,6 +171,20 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
                 otherServiceView.addView(anc1View);
 
             }
+        String dobString =org.smartregister.family.util.Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOB, false);
+        Date dob = Utils.dobStringToDate(dobString);
+        boolean isEnc = FormApplicability.isEncVisible(dob);
+        if(isEnc){
+            View encView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+            ImageView image1 = encView.findViewById(R.id.image_view);
+            TextView name1 =  encView.findViewById(R.id.patient_name_age);
+            encView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+            image1.setImageResource(R.mipmap.ic_child);
+            name1.setText("ENC ");
+            encView.setTag(TAG_ENC);
+            encView.setOnClickListener(this);
+            otherServiceView.addView(encView);
+        }
 
 
         View familyView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
@@ -212,11 +230,17 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
                     if (getActivity() != null && getActivity() instanceof HnppFamilyOtherMemberProfileActivity) {
                         HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) getActivity();
                         activity.openFamilyDueTab();
+                    }else if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                        activity.openFamilyDueTab();
                     }
                     break;
                 case TAG_OPEN_REFEREAL:
                     if (getActivity() != null && getActivity() instanceof HnppFamilyOtherMemberProfileActivity) {
                         HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) getActivity();
+                        activity.openRefereal();
+                    }else if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
                         activity.openRefereal();
                     }
                     break;
@@ -229,6 +253,12 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
                         }else {
                             activity.openHomeVisitSingleForm(eventTypeFormNameMapping.get(eventType));
                         }
+                    }
+                    break;
+                case TAG_ENC:
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                        activity.openEnc();
                     }
                     break;
             }

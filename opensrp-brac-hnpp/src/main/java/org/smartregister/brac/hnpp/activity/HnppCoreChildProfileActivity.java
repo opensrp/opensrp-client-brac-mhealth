@@ -53,6 +53,10 @@ public class HnppCoreChildProfileActivity extends CoreChildProfileActivity {
             final Drawable upArrow = getResources().getDrawable(org.smartregister.chw.core.R.drawable.ic_arrow_back_white_24dp);
             upArrow.setColorFilter(getResources().getColor(org.smartregister.chw.core.R.color.text_blue), PorterDuff.Mode.SRC_ATOP);
             actionBar.setHomeAsUpIndicator(upArrow);
+            actionBar.setDisplayShowTitleEnabled(false);
+            //toolbar.setNavigationIcon(R.drawable.ic_toolbar);
+            toolbar.setTitle("");
+            toolbar.setSubtitle("");
         }
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
         textViewTitle.setOnClickListener(v -> onBackPressed());
