@@ -422,9 +422,6 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
     @Override
     public void onSyncComplete(FetchStatus fetchStatus) {
         super.onSyncComplete(fetchStatus);
-        if(JobManager.instance().getAllJobRequestsForTag(PullHouseholdIdsServiceJob.TAG).isEmpty()){
-            PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
-        }
     }
 
     @Override

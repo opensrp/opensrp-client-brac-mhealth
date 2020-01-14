@@ -308,7 +308,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         hideProgressDialog();
         Log.v("IMEI_URL","showDialog:"+status);
         if(TextUtils.isEmpty(status) || !status.equalsIgnoreCase("true")){
-            HnppConstants.updateDeviceVerified(false);
+            HnppConstants.updateDeviceVerified(false,devieImei);
             android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(LoginActivity.this).create();
             alertDialog.setTitle("এই ডিভাইস টি রেজিস্টার করা হয় নি।ডিভাইস id:"+devieImei);
             alertDialog.setCancelable(false);
@@ -320,7 +320,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             if (mActivity != null)
                 alertDialog.show();
         }else{
-            HnppConstants.updateDeviceVerified(true);
+            HnppConstants.updateDeviceVerified(true,devieImei);
         }
     }
     private ProgressDialog dialog;

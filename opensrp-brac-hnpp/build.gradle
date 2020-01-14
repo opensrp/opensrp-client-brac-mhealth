@@ -41,6 +41,8 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         buildConfigField "String", 'opensrp_url_live', '"https://mhealth.brac.net/opensrp/"'
+       // buildConfigField "String", 'opensrp_url_training', '"http://192.168.19.146:8080/opensrp/"'
+
         buildConfigField "String", 'opensrp_url_training', '"http://mhealthtest.brac.net:8080/opensrp/"'
         buildConfigField "String", "SIMPRINT_PROJECT_ID_TRAINING",'"pcmqBbcaB4xWvfRHRELG"'
         buildConfigField "String", "SIMPRINT_PROJECT_ID_RELEASE",'"pcmqBbcaB4xWvfRHRELG"'

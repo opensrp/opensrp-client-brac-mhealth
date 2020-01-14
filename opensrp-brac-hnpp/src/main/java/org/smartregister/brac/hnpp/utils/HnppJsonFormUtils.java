@@ -284,13 +284,13 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
                 break;
             case "mother_name":
-                String motherNameAlter = Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.CHILD_MOTHER_NAME_REGISTERED, true);
+                String motherNameAlter = Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.CHILD_MOTHER_NAME_REGISTERED, false);
                 if(!TextUtils.isEmpty(motherNameAlter) && motherNameAlter.equalsIgnoreCase("মাতা রেজিস্টার্ড নয়")){
                     jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,motherNameAlter);
                 }else{
-                    String motherEntityId = Utils.getValue(client.getColumnmaps(), ChildDBConstants.KEY.MOTHER_ENTITY_ID, true);
-                    String relationId = Utils.getValue(client.getColumnmaps(), ChildDBConstants.KEY.RELATIONAL_ID, true);
-                    String motherName = Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.CHILD_MOTHER_NAME, true);
+                    String motherEntityId = Utils.getValue(client.getColumnmaps(), ChildDBConstants.KEY.MOTHER_ENTITY_ID, false);
+                    String relationId = Utils.getValue(client.getColumnmaps(), ChildDBConstants.KEY.RELATIONAL_ID, false);
+                    String motherName = Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.CHILD_MOTHER_NAME, false);
 
                     motherName = HnppChildUtils.getMotherName(motherEntityId,relationId,motherName);
                     jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,motherName);
@@ -604,7 +604,8 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                     if(rObject.getString("client_relationship").equalsIgnoreCase("family")){
                         child.addRelationship(rObject.getString("client_relationship"), familyId);
 
-                    }else if(rObject.getString("client_relationship").equalsIgnoreCase("mother")){
+                    }
+                    else if(rObject.getString("client_relationship").equalsIgnoreCase("mother")){
                         child.addRelationship(rObject.getString("client_relationship"), motherEntityId);
 
                     }

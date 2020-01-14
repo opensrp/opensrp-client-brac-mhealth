@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.preference.Preference;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -114,6 +115,7 @@ public class LivePreference extends Preference  {
                     // Create a URL for the desired page
                     baseUrl = baseUrl.replace("opensrp/", "");
                     URL url = new URL(baseUrl + "opt/multimedia/change_apk.txt");
+                    Log.v("passwordCheck","url>>"+url);
 
                     // Read all the text returned by the server
                     BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
