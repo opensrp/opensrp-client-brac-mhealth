@@ -246,7 +246,7 @@ public class HnppChildRegisterFragment extends CoreChildRegisterFragment impleme
         super.onViewClicked(view);
         if (view.getTag() != null && view.getTag(R.id.VIEW_ID) == CLICK_VIEW_DOSAGE_STATUS && view.getTag() instanceof CommonPersonObjectClient) {
             CommonPersonObjectClient client = (CommonPersonObjectClient) view.getTag();
-            String baseEntityId = Utils.getValue(client.getColumnmaps(), DBConstants.KEY.BASE_ENTITY_ID, true);
+            String baseEntityId = Utils.getValue(client.getColumnmaps(), DBConstants.KEY.BASE_ENTITY_ID, false);
             if (StringUtils.isNotBlank(baseEntityId)) {
                 CoreChildHomeVisitActivity.startMe(getActivity(), new MemberObject(client), false);
             }
