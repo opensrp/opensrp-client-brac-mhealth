@@ -62,7 +62,9 @@ public class HnppChwRepository extends CoreChwRepository {
                 case 12:
                     upgradeToVersion12(context, db);
                     break;
-
+                case 13:
+                    upgradeToVersion13(context, db);
+                    break;
                 default:
                     break;
             }
@@ -122,6 +124,15 @@ public class HnppChwRepository extends CoreChwRepository {
        }catch (SQLiteException e){
 
        }
+
+    }
+    private void upgradeToVersion13(Context context, SQLiteDatabase db) {
+
+        try{
+            db.execSQL("ALTER TABLE ec_family ADD COLUMN last_home_visit VARCHAR;");
+        }catch (SQLiteException e){
+            Timber.w(HnppChwRepository.class.getName(),"ALTER TABLE ec_anc_register"+e);
+        }
 
     }
     private void upgradeToVersion12(Context context, SQLiteDatabase db) {

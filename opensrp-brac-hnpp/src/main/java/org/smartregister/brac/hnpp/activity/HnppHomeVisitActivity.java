@@ -2,6 +2,11 @@ package org.smartregister.brac.hnpp.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+
+import com.vijay.jsonwizard.activities.JsonFormActivity;
+import com.vijay.jsonwizard.constants.JsonFormConstants;
+
+import org.json.JSONObject;
 import org.smartregister.brac.hnpp.interactor.HnppAncHomeVisitInteractor;
 import org.smartregister.chw.anc.activity.BaseAncHomeVisitActivity;
 import org.smartregister.chw.anc.domain.MemberObject;
@@ -22,7 +27,17 @@ public class HnppHomeVisitActivity extends BaseAncHomeVisitActivity {
         activity.startActivityForResult(intent, Constants.REQUEST_CODE_HOME_VISIT);
     }
 
+    @Override
+    public void startFormActivity(JSONObject jsonForm) {
+        Intent intent = new Intent(this, HnppAncJsonFormActivity.class);
+        intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
 
+        if (getFormConfig() != null) {
+            intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, getFormConfig());
+        }
+
+        startActivityForResult(intent, Constants.REQUEST_CODE_GET_JSON);
+    }
     @Override
     protected void registerPresenter() {
         presenter = new BaseAncHomeVisitPresenter(memberObject, this, new HnppAncHomeVisitInteractor());
