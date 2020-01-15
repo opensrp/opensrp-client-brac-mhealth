@@ -41,6 +41,7 @@ public class HnppChildProfilePresenter extends CoreChildProfilePresenter {
             return;
         }
         this.commonPersonObjectClient = client;
+
         String motherEntityId = Utils.getValue(client.getColumnmaps(), ChildDBConstants.KEY.MOTHER_ENTITY_ID, false);
         String relationId = Utils.getValue(client.getColumnmaps(), ChildDBConstants.KEY.RELATIONAL_ID, false);
         String motherName = Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.CHILD_MOTHER_NAME, true);

@@ -131,8 +131,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     @Override
     protected void startPncRegister() {
         HnppPncRegisterActivity.startHnppPncRegisterActivity(HnppFamilyOtherMemberProfileActivity.this, baseEntityId, PhoneNumber,
-                org.smartregister.brac.hnpp.utils.HnppConstants.JSON_FORMS.ANC_FORM, null, familyBaseEntityId, familyName);
+                HnppConstants.JSON_FORMS.PNC_FORM, null, familyBaseEntityId, familyName);
     }
+
     @Override
     protected void startAncRegister() {
         HnppAncRegisterActivity.startHnppAncRegisterActivity(HnppFamilyOtherMemberProfileActivity.this, baseEntityId, PhoneNumber,
@@ -145,7 +146,8 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         //TODO implement start anc malaria for HF
 //        HnppHomeVisitActivity.startMe(this, new MemberObject(commonPersonObject), false);
 //        startPregnancyFormActivity(HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME, org.smartregister.family.util.JsonFormUtils.REQUEST_CODE_GET_JSON);
-
+//        HnppPncRegisterActivity.startHnppPncRegisterActivity(HnppFamilyOtherMemberProfileActivity.this, baseEntityId, PhoneNumber,
+//                HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME, HnppJsonFormUtils.getUniqueMemberId(familyBaseEntityId), familyBaseEntityId, familyName);
         HnppAncRegisterActivity.startHnppAncRegisterActivity(HnppFamilyOtherMemberProfileActivity.this, baseEntityId, PhoneNumber,
                 HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME, HnppJsonFormUtils.getUniqueMemberId(familyBaseEntityId), familyBaseEntityId, familyName);
     }
@@ -211,7 +213,11 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
            JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
            addEDDField(formName,jsonForm);
            jsonForm.put(JsonFormUtils.ENTITY_ID, familyBaseEntityId);
-           Intent intent = new Intent(this, org.smartregister.family.util.Utils.metadata().familyMemberFormActivity);
+           Intent intent;
+//           if(formName.contains("anc"))
+           intent = new Intent(this, HnppAncJsonFormActivity.class);
+//           else
+//               intent = new Intent(this, org.smartregister.family.util.Utils.metadata().familyMemberFormActivity);
            intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
 
            Form form = new Form();
@@ -336,10 +342,10 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     public boolean onOptionsItemSelected(MenuItem item) {
         int i = item.getItemId();
         if (i == R.id.action_malaria_followup_visit) {
-            startMalariaRegister();
+            startPncRegister();
             return true;
         }if (i == R.id.action_pregnancy_out_come) {
-            startPncRegister();
+            startMalariaRegister();
             return true;
         }
         return super.onOptionsItemSelected(item);

@@ -41,7 +41,17 @@ public class HnppVisitLogRepository extends BaseRepository {
 
        }
     }
+    public void updateFamilyLastHomeVisit(String base_entity_id,String last_home_visit){
+        try{
+            SQLiteDatabase database = getWritableDatabase();
+            String sql = "update ec_family set last_home_visit = '"+last_home_visit+"' where " +
+                    "base_entity_id = (select relational_id from ec_family_member where " +
+                    "base_entity_id='"+base_entity_id+"')";
+            database.execSQL(sql);
+        }catch(Exception e){
 
+        }
+    }
     public void add(VisitLog visitLog) {
         if (visitLog == null) {
             return;

@@ -89,13 +89,34 @@ public class FormApplicability {
 
         List<Map<String, String>> valus = AbstractDao.readData(DeliveryDateSql, new String[]{baseEntityId});
 
-        if(valus.size() > 0){
+        if(valus.size() > 0&&valus.get(0).get("delivery_date")!=null){
             int dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(valus.get(0).get("delivery_date")), new DateTime()).getDays();
             if(dayPass<=41)
                 return true;
         }
         return false;
     }
+    public static int getDaysFromEDD(String edd){
+        int dayPass = Days.daysBetween(new DateTime(),DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(edd)).getDays();
+        return 281 - dayPass;
+    }
+
+    public static int getUterusLengthInCM(String edd){
+        int days = getDaysFromEDD(edd);
+        if(days>=112&&days<=140){
+            return 24;
+        }else if(days>=141&&days<=168){
+            return 28;
+        }else if(days>=169&&days<=196){
+            return 32;
+        }else if(days>=197&&days<=224){
+            return 36;
+        }else if(days>=225&&days<=252){
+            return 38;
+        }
+        return 0;
+    }
+
     public static boolean isFirstTimeAnc(String baseEntityId){
         return HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isFirstTime(baseEntityId);
 
