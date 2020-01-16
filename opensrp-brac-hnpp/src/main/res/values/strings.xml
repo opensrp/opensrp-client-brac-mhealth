@@ -145,5 +145,7 @@
     <string name="activity">ইতিহাস</string>
     <string name="profile_activity_not_visited">Marked not visited on %s</string>
     <string name="profile_activity_completed">Completed on %s</string>
+    <string name="last_visit_date">শেষ পরিদর্শনের তারিখ : %s</string>
+    <string name="last_visit_date_empty">পরিদর্শনে যাওয়া হয়নি </string>
 
 </resources>

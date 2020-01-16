@@ -22,6 +22,8 @@ public class HnppFamilyRegisterFragmentModel extends BaseFamilyRegisterFramentMo
         columnList.add(CoreConstants.TABLE_NAME.FAMILY + "." + HnppConstants.KEY.SS_NAME);
         columnList.add(CoreConstants.TABLE_NAME.FAMILY + "." + HnppConstants.KEY.SERIAL_NO);
         columnList.add(CoreConstants.TABLE_NAME.FAMILY + "." + HnppConstants.KEY.MODULE_ID);
+        columnList.add(CoreConstants.TABLE_NAME.FAMILY + "." + HnppConstants.KEY.LAST_HOME_VISIT);
+        columnList.add(CoreConstants.TABLE_NAME.FAMILY + "." + HnppConstants.KEY.DATE_CREATED);
         return columnList.toArray(new String[columnList.size()]);
     }
 }

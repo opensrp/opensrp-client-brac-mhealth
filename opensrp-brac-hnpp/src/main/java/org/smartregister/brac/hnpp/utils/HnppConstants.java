@@ -11,6 +11,9 @@ import android.view.View;
 
 import com.google.common.collect.ImmutableMap;
 
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.Months;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.BuildConfig;
@@ -38,6 +41,7 @@ public class HnppConstants extends CoreConstants {
 
     public static SimpleDateFormat DDMMYY = new SimpleDateFormat("dd-MM-yyyy");
     public enum VisitType {DUE, OVERDUE, LESS_TWENTY_FOUR, VISIT_THIS_MONTH, NOT_VISIT_THIS_MONTH, EXPIRY, VISIT_DONE}
+    public enum HomeVisitType {GREEN, YELLOW, RED, BROWN}
     public class ANC_REGISTER_COLUMNS {
         public static final String LAST_MENSTRUAL_PERIOD = "last_menstrual_period";
         public static final String EDD = "edd";
@@ -57,6 +61,26 @@ public class HnppConstants extends CoreConstants {
         public static final int TYPE_GIRL_PACKAGE = 2;
         public static final int TYPE_NCD = 3;
         public static final int TYPE_IYCF = 4;
+    }
+
+    public static String getHomeVisitStatus(long lastHomeVisit , String dateCreatedStr){
+
+        LocalDate lastVisitDate = new LocalDate(lastHomeVisit);
+
+        LocalDate dateCreated = new LocalDate(TextUtils.isEmpty(dateCreatedStr) ? System.currentTimeMillis(): new DateTime(dateCreatedStr).toLocalDate());
+
+        LocalDate todayDate = new LocalDate();
+        int monthDiff = getMonthsDifference((lastHomeVisit != 0 ? lastVisitDate : dateCreated), todayDate);
+        if(monthDiff >= 8) return HomeVisitType.BROWN.name();
+        if(monthDiff >= 5) return HomeVisitType.RED.name();
+        if(monthDiff > 3) return HomeVisitType.YELLOW.name();
+        return HomeVisitType.GREEN.name();
+
+    }
+    private static int getMonthsDifference(LocalDate date1, LocalDate date2) {
+        return Months.monthsBetween(
+                date1.withDayOfMonth(1),
+                date2.withDayOfMonth(1)).getMonths();
     }
 
     public static boolean isExistSpecialCharacter(String filters) {
@@ -208,6 +232,8 @@ public class HnppConstants extends CoreConstants {
         public static final String BIRTH_ID = "birth_id";
         public static final String IS_BITHDAY_KNOWN = "is_birthday_known";
         public static final String BLOOD_GROUP = "blood_group";
+        public static final String LAST_HOME_VISIT = "last_home_visit";
+        public static final String DATE_CREATED = "date_created";
     }
 
     public static class IDENTIFIER {

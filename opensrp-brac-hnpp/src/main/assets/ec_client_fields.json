@@ -216,6 +216,13 @@
           "json_mapping": {
             "field": "attributes.last_home_visit"
           }
+        },
+        {
+          "column_name": "date_created",
+          "type": "Client",
+          "json_mapping": {
+            "field": "dateCreated"
+          }
         }
       ]
     },

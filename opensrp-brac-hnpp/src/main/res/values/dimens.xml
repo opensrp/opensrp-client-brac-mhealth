@@ -2,6 +2,6 @@
 <resources>
     <dimen name="login_font_size">14sp</dimen>
     <dimen name="floating_label_top_spacing">18dp</dimen>
-    <dimen name="register_list_item_width">100dp</dimen>
-    <dimen name="register_list_item_height">55dp</dimen>
+    <dimen name="register_list_item_width">150dp</dimen>
+    <dimen name="register_list_item_height">100dp</dimen>
 </resources>

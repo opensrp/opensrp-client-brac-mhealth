@@ -214,7 +214,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:visibility="gone"
+        android:visibility="visible"
         android:background="@drawable/grey_left_border"
         android:paddingBottom="@dimen/register_list_top_bottom_padding"
         android:paddingEnd="@dimen/register_list_item_padding"
@@ -229,7 +229,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:adjustViewBounds="true"
-            android:background="@drawable/due_contact"
+            android:background="@drawable/green_status"
             android:elevation="@dimen/register_list_elevation"
             android:gravity="center"
             android:hapticFeedbackEnabled="true"
@@ -239,8 +239,9 @@
             android:text="Home Visit"
             android:textAllCaps="false"
             android:textAppearance="?android:textAppearanceSmall"
-            android:textColor="@color/vaccine_blue_bg_st"
+            android:textColor="@color/white"
             android:textSize="@dimen/register_list_due_size"
+            android:textStyle="bold"
             android:typeface="normal" />
 
     </LinearLayout>

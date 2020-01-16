@@ -145,4 +145,6 @@
     <string name="sync_failed">সিঙ্ক ফেইল্ড</string>
     <string name="head_of_family">খানা প্রধান</string>
     <string name="call_caregiver">কল করতে চান?</string>
+    <string name="last_visit_date">শেষ পরিদর্শনের তারিখ : %s</string>
+    <string name="last_visit_date_empty">পরিদর্শনে যাওয়া হয়নি </string>
 </resources>

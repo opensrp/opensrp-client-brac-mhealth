@@ -65,6 +65,9 @@ public class HnppChwRepository extends CoreChwRepository {
                 case 13:
                     upgradeToVersion13(context, db);
                     break;
+                case 16:
+                    upgradeToVersion16(context, db);
+                    break;
                 default:
                     break;
             }
@@ -139,6 +142,15 @@ public class HnppChwRepository extends CoreChwRepository {
 
         try{
             db.execSQL("ALTER TABLE ec_anc_register ADD COLUMN height VARCHAR;");
+        }catch (SQLiteException e){
+            Timber.w(HnppChwRepository.class.getName(),"ALTER TABLE ec_anc_register"+e);
+        }
+
+    }
+    private void upgradeToVersion16(Context context, SQLiteDatabase db) {
+
+        try{
+            db.execSQL("ALTER TABLE ec_family ADD COLUMN date_created VARCHAR;");
         }catch (SQLiteException e){
             Timber.w(HnppChwRepository.class.getName(),"ALTER TABLE ec_anc_register"+e);
         }

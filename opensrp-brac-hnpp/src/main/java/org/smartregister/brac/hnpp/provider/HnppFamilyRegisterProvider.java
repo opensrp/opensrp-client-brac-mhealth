@@ -39,8 +39,11 @@ import org.smartregister.view.dialog.SortOption;
 import org.smartregister.view.viewholder.OnClickFormLauncher;
 
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -148,13 +151,12 @@ public class HnppFamilyRegisterProvider extends CoreRegisterProvider  {
             serialNo="";
         }
         setText(viewHolder.houseHoldId,context.getString(R.string.house_hold_id,serialNo,houseHoldId));
+        String lastHomeVisitStr = Utils.getValue(pc.getColumnmaps(),HnppConstants.KEY.LAST_HOME_VISIT,false);
+        String dateCreated = Utils.getValue(pc.getColumnmaps(),HnppConstants.KEY.DATE_CREATED,false);
+        long lastVisit = TextUtils.isEmpty(lastHomeVisitStr) ? 0 : Long.parseLong(lastHomeVisitStr);
 
-//        String phoneNumber = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.PHONE_NUMBER, true);
-//        if(!TextUtils.isEmpty(phoneNumber) && phoneNumber.length() > 1){
-//            setText(viewHolder.mobileNumber,phoneNumber);
-//        }else{
-//            setText(viewHolder.mobileNumber,context.getString(R.string.phone_no,phoneNumber));
-//        }
+        String visitStatus = HnppConstants.getHomeVisitStatus(lastVisit,dateCreated);
+        updateDueBtn(viewHolder.dueButton,visitStatus,lastVisit);
         String ssName = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.SS_NAME, true);
         setText(viewHolder.mobileNumber,context.getString(R.string.ss_name,ssName));
         View patient = viewHolder.patientColumn;
@@ -169,6 +171,24 @@ public class HnppFamilyRegisterProvider extends CoreRegisterProvider  {
                 viewHolder.patientColumn.performClick();
             }
         });
+    }
+    private void updateDueBtn(Button dueBtn,  String visitStatus, long lastVisit){
+        if(visitStatus.equalsIgnoreCase(HnppConstants.HomeVisitType.GREEN.name())){
+            dueBtn.setBackgroundResource(R.drawable.green_status);
+        }else if(visitStatus.equalsIgnoreCase(HnppConstants.HomeVisitType.YELLOW.name())){
+            dueBtn.setBackgroundResource(R.drawable.yellow_status);
+        }else if(visitStatus.equalsIgnoreCase(HnppConstants.HomeVisitType.RED.name())){
+            dueBtn.setBackgroundResource(R.drawable.red_status);
+        }else if(visitStatus.equalsIgnoreCase(HnppConstants.HomeVisitType.BROWN.name())){
+            dueBtn.setBackgroundResource(R.drawable.brown_status);
+        }
+        if(lastVisit == 0){
+            dueBtn.setText(context.getString(R.string.last_visit_date_empty));
+        }else{
+            String date = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date(lastVisit));
+            dueBtn.setText(context.getString(R.string.last_visit_date,date));
+        }
+
     }
     private void setText(TextView textView,String value){
         if(textView == null) return;
@@ -305,11 +325,12 @@ public class HnppFamilyRegisterProvider extends CoreRegisterProvider  {
         public CircleImageView addMemberBtn;
         public ImageView profileImage;
         public View patientColumn;
-        public LinearLayout memberIcon,maleView,femaleView,ancView;
+        public LinearLayout memberIcon,maleView,femaleView,ancView,duePanel;
 
         public View registerColumns;
         public TextView womenCount,maleChildCount,femaleChildCount;
         public ImageView womenImage,maleImage,femaleImage;
+        public Button dueTextButton;
 
         public HouseHoldRegisterProvider(View itemView) {
             super(itemView);
@@ -330,6 +351,8 @@ public class HnppFamilyRegisterProvider extends CoreRegisterProvider  {
             addMemberBtn = itemView.findViewById(R.id.add_member_btn);
 
             patientColumn = itemView.findViewById(R.id.patient_column);
+            duePanel = itemView.findViewById(R.id.due_button_wrapper);
+            dueTextButton = itemView.findViewById(R.id.due_button);
 
             memberIcon = itemView.findViewById(R.id.member_icon_layout);
             memberIcon.setVisibility(View.GONE);
