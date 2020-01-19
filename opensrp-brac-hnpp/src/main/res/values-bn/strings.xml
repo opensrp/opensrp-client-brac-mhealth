@@ -145,4 +145,7 @@
     <string name="sync_failed">সিঙ্ক ফেইল্ড</string>
     <string name="head_of_family">খানা প্রধান</string>
     <string name="call_caregiver">কল করতে চান?</string>
+    <string name="pnc_visit_day_due">DAY %s VISIT DUE</string>
+    <string name="pnc_visit_day_overdue">DAY %s OVERDUE</string>
+    <string name="next">পরবর্তী</string>
 </resources>

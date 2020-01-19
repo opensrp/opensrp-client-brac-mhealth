@@ -145,5 +145,7 @@
     <string name="activity">ইতিহাস</string>
     <string name="profile_activity_not_visited">Marked not visited on %s</string>
     <string name="profile_activity_completed">Completed on %s</string>
-
+    <string name="pnc_visit_day_due">DAY %s VISIT DUE</string>
+    <string name="pnc_visit_day_overdue">DAY %s OVERDUE</string>
+    <string name="next">পরবর্তী</string>
 </resources>

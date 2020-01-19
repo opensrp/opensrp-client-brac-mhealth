@@ -2,15 +2,21 @@ package org.smartregister.brac.hnpp.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.design.bottomnavigation.LabelVisibilityMode;
+import android.support.design.widget.BottomNavigationView;
 
-import org.smartregister.brac.hnpp.utils.HnppConstants;
-import org.smartregister.chw.anc.fragment.BaseAncRegisterFragment;
+import org.smartregister.brac.hnpp.BuildConfig;
+import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.fragment.HnppPncRegisterFragment;
+import org.smartregister.brac.hnpp.listener.HnppBottomNavigationListener;
+import org.smartregister.brac.hnpp.listener.HnppFamilyBottomNavListener;
 import org.smartregister.chw.anc.util.Constants;
-import org.smartregister.chw.pnc.activity.BasePncRegisterActivity;
+import org.smartregister.chw.core.custom_views.NavigationMenu;
+import org.smartregister.chw.core.utils.CoreConstants;
+import org.smartregister.helper.BottomNavigationHelper;
+import org.smartregister.view.fragment.BaseRegisterFragment;
 
-import timber.log.Timber;
-
-public class HnppPncRegisterActivity extends BasePncRegisterActivity {
+public class HnppPncRegisterActivity extends AncRegisterActivity {
 
     public static void startHnppPncRegisterActivity(Activity activity, String memberBaseEntityID, String phoneNumber, String formName,
                                                     String uniqueId, String familyBaseID, String family_name) {
@@ -21,12 +27,62 @@ public class HnppPncRegisterActivity extends BasePncRegisterActivity {
         intent.putExtra(Constants.ACTIVITY_PAYLOAD.TABLE_NAME, getFormTable());
         activity.startActivityForResult(intent, Constants.REQUEST_CODE_GET_JSON);
     }
+    public static void registerBottomNavigation(BottomNavigationHelper bottomNavigationHelper,
+                                                BottomNavigationView bottomNavigationView, Activity activity) {
+        if (bottomNavigationView != null) {
+            bottomNavigationView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
+
+            bottomNavigationView.getMenu().clear();
+            bottomNavigationView.inflateMenu(R.menu.bottom_nav_family_menu);
+            bottomNavigationHelper.disableShiftMode(bottomNavigationView);
+            bottomNavigationView.setOnNavigationItemSelectedListener(new HnppBottomNavigationListener(activity));
+        }
+
+        if (!BuildConfig.SUPPORT_QR) {
+            bottomNavigationView.getMenu().removeItem(org.smartregister.family.R.id.action_scan_qr);
+        }
+    }
+    @Override
+    protected BaseRegisterFragment getRegisterFragment() {
+        return new HnppPncRegisterFragment();
+    }
+
+    @Override
+    public void switchToBaseFragment() {
+        Intent intent = new Intent(this, FamilyRegisterActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+
+
+    @Override
+    protected void registerBottomNavigation() {
+        super.registerBottomNavigation();
+
+        if (!BuildConfig.SUPPORT_QR) {
+            bottomNavigationView.getMenu().removeItem(org.smartregister.family.R.id.action_scan_qr);
+        }
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new HnppFamilyBottomNavListener(this, bottomNavigationView));
+        org.smartregister.brac.hnpp.activity.HnppPncRegisterActivity.registerBottomNavigation(bottomNavigationHelper, bottomNavigationView, this);
+
+    }
     @Override
     public void startFormActivity(String formName, String entityId, String metaData) {
 
     }
     public static String getFormTable() {
 
-        return HnppConstants.TABLE_NAME.PNC_REGISTRATION;
+        return CoreConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME;
+    }
+    @Override
+    protected void onResumption() {
+        super.onResumption();
+        NavigationMenu menu = NavigationMenu.getInstance(this, null, null);
+        if (menu != null) {
+            menu.getNavigationAdapter()
+                    .setSelectedView(CoreConstants.DrawerMenu.PNC);
+        }
     }
 }
