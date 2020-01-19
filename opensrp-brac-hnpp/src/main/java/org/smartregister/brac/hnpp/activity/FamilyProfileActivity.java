@@ -147,14 +147,14 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(FamilyProfileMemberFragment.newInstance(this.getIntent().getExtras()),
                 this.getString(R.string.member));
-        adapter.addFragment(FamilyProfileDueFragment.newInstance(this.getIntent().getExtras()),
-                this.getString(R.string.due));
+//        adapter.addFragment(FamilyProfileDueFragment.newInstance(this.getIntent().getExtras()),
+//                this.getString(R.string.due));
         viewPager.setAdapter(adapter);
-
-        if (getIntent().getBooleanExtra(CoreConstants.INTENT_KEY.SERVICE_DUE, false) ||
-                getIntent().getBooleanExtra(Constants.INTENT_KEY.GO_TO_DUE_PAGE, false)) {
-            viewPager.setCurrentItem(1);
-        }
+//
+//        if (getIntent().getBooleanExtra(CoreConstants.INTENT_KEY.SERVICE_DUE, false) ||
+//                getIntent().getBooleanExtra(Constants.INTENT_KEY.GO_TO_DUE_PAGE, false)) {
+//            viewPager.setCurrentItem(1);
+//        }
 
         return viewPager;
     }

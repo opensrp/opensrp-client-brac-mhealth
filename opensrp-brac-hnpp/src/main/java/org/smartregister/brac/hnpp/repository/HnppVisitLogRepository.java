@@ -183,8 +183,14 @@ public class HnppVisitLogRepository extends BaseRepository {
         SQLiteDatabase database = getReadableDatabase();
         String selection = BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE;
         String[] selectionArgs = new String[]{baseEntityId};
-        net.sqlcipher.Cursor cursor = database.query(VISIT_LOG_TABLE_NAME, TABLE_COLUMNS, selection, selectionArgs, null, null, VISIT_DATE + " DESC");
-        return getAllVisitLog(cursor);
+        try{
+            net.sqlcipher.Cursor cursor = database.query(VISIT_LOG_TABLE_NAME, TABLE_COLUMNS, selection, selectionArgs, null, null, VISIT_DATE + " DESC");
+            return getAllVisitLog(cursor);
+        }catch (Exception e){
+
+        }
+        return new ArrayList<>();
+
     }
 
     public VisitLog getLatestEntry(String familyId) {

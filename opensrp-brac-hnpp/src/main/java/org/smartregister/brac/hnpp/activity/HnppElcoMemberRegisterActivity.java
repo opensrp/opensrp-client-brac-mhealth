@@ -39,7 +39,7 @@ public class HnppElcoMemberRegisterActivity extends CoreChildRegisterActivity {
         super.onResumption();
         NavigationMenu menu = NavigationMenu.getInstance(this, null, null);
         if (menu != null) {
-            menu.getNavigationAdapter().setSelectedView(CoreConstants.DrawerMenu.ALL_MEMBER);
+            menu.getNavigationAdapter().setSelectedView(CoreConstants.DrawerMenu.ELCO_CLIENT);
         }
     }
 

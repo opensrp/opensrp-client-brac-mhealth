@@ -12,13 +12,18 @@ public class ChildDBConstants {
     public static String childAgeLimitFilter() {
         return childAgeLimitFilter(DBConstants.KEY.DOB, FIVE_YEAR);
     }
-    public static String elcoFilter(){
+    public static String elcoFilterWithTableName(){
         String query = " ((( julianday('now') - julianday(ec_family_member.dob))/365.25) >" + 10 + ")";
         String query2 = " ((( julianday('now') - julianday(ec_family_member.dob))/365.25) <" + 50 + ")";
         String married = " ec_family_member.marital_status = 'Married' and ec_family_member.gender = 'F'";
         return query+" AND "+query2 +" AND "+married;
     }
-
+    public static String elcoFilter(){
+        String query = " ((( julianday('now') - julianday(dob))/365.25) >" + 10 + ")";
+        String query2 = " ((( julianday('now') - julianday(dob))/365.25) <" + 50 + ")";
+        String married = " marital_status = 'Married' and gender = 'F'";
+        return query+" AND "+query2 +" AND "+married;
+    }
     private static String childAgeLimitFilter(String dateColumn, int age) {
         return " ((( julianday('now') - julianday(" + dateColumn + "))/365.25) <" + age + ")";
     }

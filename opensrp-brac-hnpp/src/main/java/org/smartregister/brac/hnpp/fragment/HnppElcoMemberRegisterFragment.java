@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -114,7 +115,8 @@ public class HnppElcoMemberRegisterFragment extends CoreChildRegisterFragment im
     @Override
     public void initializeAdapter(Set<View> visibleColumns) {
         HnppAllMemberRegisterProvider childRegisterProvider = new HnppAllMemberRegisterProvider(getActivity(), commonRepository(), visibleColumns, registerActionHandler, paginationViewHandler);
-        clientAdapter = new RecyclerViewPaginatedAdapter(null, childRegisterProvider, context().commonrepository(CoreConstants.TABLE_NAME.FAMILY_MEMBER));
+        CommonRepository commonRepository = context().commonrepository(CoreConstants.TABLE_NAME.FAMILY_MEMBER);
+        clientAdapter = new RecyclerViewPaginatedAdapter(null, childRegisterProvider, commonRepository);
         clientAdapter.setCurrentlimit(20);
         clientsView.setAdapter(clientAdapter);
     }
@@ -178,6 +180,11 @@ public class HnppElcoMemberRegisterFragment extends CoreChildRegisterFragment im
         clientAdapter.setCurrentoffset(0);
         super.filter(filterString, joinTableString, mainConditionString, qrCode);
 
+    }
+
+    @Override
+    public void filterandSortExecute() {
+        super.filterandSortExecute();
     }
 
     @Override
@@ -366,9 +373,11 @@ public class HnppElcoMemberRegisterFragment extends CoreChildRegisterFragment im
                 clientAdapter.setTotalcount(ids.size());
             }
         } catch (Exception e) {
+            Log.v("TESTING",""+e);
             Timber.e(e);
         }
     }
+    @Override
     protected String filterandSortQuery() {
         SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(mainSelect);
 
@@ -387,6 +396,7 @@ public class HnppElcoMemberRegisterFragment extends CoreChildRegisterFragment im
 
             }
         } catch (Exception e) {
+            Log.v("TESTING",""+e);
             Timber.e(e);
         }
 

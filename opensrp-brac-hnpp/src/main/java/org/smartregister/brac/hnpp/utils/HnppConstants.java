@@ -227,7 +227,7 @@ public class HnppConstants extends CoreConstants {
         public static final String SERIAL_NO = "serial_no";
         public static final String CHILD_MOTHER_NAME_REGISTERED = "mother_name";
         public static final String CHILD_MOTHER_NAME = "Mother_Guardian_First_Name_english";
-        public static final String ID_AVAIL = "id_avail";
+        public static final String GENDER = "gender";
         public static final String NATIONAL_ID = "national_id";
         public static final String BIRTH_ID = "birth_id";
         public static final String IS_BITHDAY_KNOWN = "is_birthday_known";

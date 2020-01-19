@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.presenter;
 
+import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.model.HnppElcoMemberRegisterFragmentModel;
 import org.smartregister.chw.core.contract.CoreChildRegisterFragmentContract;
 import org.smartregister.chw.core.presenter.CoreChildRegisterFragmentPresenter;
@@ -17,6 +18,11 @@ public class HnppElcoMemberRegisterFragmentPresenter extends CoreChildRegisterFr
     public HnppElcoMemberRegisterFragmentPresenter(CoreChildRegisterFragmentContract.View view, CoreChildRegisterFragmentContract.Model model, String viewConfigurationIdentifier) {
         super(view, model, viewConfigurationIdentifier);
         this.model = (HnppElcoMemberRegisterFragmentModel)model;
+    }
+    @Override
+    public void processViewConfigurations() {
+        super.processViewConfigurations();
+
     }
 
     @Override
@@ -46,5 +52,9 @@ public class HnppElcoMemberRegisterFragmentPresenter extends CoreChildRegisterFr
     @Override
     public String getMainCondition(String tableName) {
         return String.format(" %s is null AND %s", tableName + "." + DBConstants.KEY.DATE_REMOVED, ChildDBConstants.elcoFilter());
+    }
+    @Override
+    public String getDefaultSortQuery() {
+        return DBConstants.KEY.LAST_INTERACTED_WITH + " DESC ";// AND "+ChildDBConstants.childAgeLimitFilter();
     }
 }

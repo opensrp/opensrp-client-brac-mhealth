@@ -62,7 +62,7 @@ public class NavigationInteractor implements NavigationContract.Interactor {
         String mainCondition;
         if(tableName.equalsIgnoreCase("test")){
             tableName = "ec_family_member";
-            mainCondition = String.format(" where %s is null AND %s", DBConstants.KEY.DATE_REMOVED, ChildDBConstants.elcoFilter());
+            mainCondition = String.format(" where %s is null AND %s", DBConstants.KEY.DATE_REMOVED, ChildDBConstants.elcoFilterWithTableName());
 
         }
         else if (tableName.equalsIgnoreCase(CoreConstants.TABLE_NAME.CHILD)) {
