@@ -147,5 +147,7 @@
     <string name="profile_activity_completed">Completed on %s</string>
     <string name="last_visit_date">শেষ পরিদর্শনের তারিখ : %s</string>
     <string name="last_visit_date_empty">পরিদর্শনে যাওয়া হয়নি </string>
-
+    <string name="pnc_visit_day_due">DAY %s VISIT DUE</string>
+    <string name="pnc_visit_day_overdue">DAY %s OVERDUE</string>
+    <string name="next">পরবর্তী</string>
 </resources>

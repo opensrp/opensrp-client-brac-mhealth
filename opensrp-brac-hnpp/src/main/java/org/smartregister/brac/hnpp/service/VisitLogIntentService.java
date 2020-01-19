@@ -81,8 +81,9 @@ public class VisitLogIntentService extends IntentService {
                             log.setEventType(encounter_type);
                             log.setVisitJson(form_object.toString());
                             HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
-                            HnppApplication.getHNPPInstance().getHnppVisitLogRepository().updateFamilyLastHomeVisit(base_entity_id,String.valueOf(visit.getCreatedAt().getTime()));
-
+                            if (ELCO.equalsIgnoreCase(encounter_type)){
+                                HnppApplication.getHNPPInstance().getHnppVisitLogRepository().updateFamilyLastHomeVisit(base_entity_id,String.valueOf(visit.getCreatedAt().getTime()));
+                            }
                         }
 
                     } catch (JSONException e) {

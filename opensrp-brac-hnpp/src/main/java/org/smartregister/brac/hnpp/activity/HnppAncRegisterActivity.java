@@ -51,7 +51,6 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
         intent.putExtra(Constants.ACTIVITY_PAYLOAD.TABLE_NAME, getFormTable());
         activity.startActivityForResult(intent, Constants.REQUEST_CODE_GET_JSON);
     }
-
     public static void registerBottomNavigation(BottomNavigationHelper bottomNavigationHelper,
                                                 BottomNavigationView bottomNavigationView, Activity activity) {
         if (bottomNavigationView != null) {
@@ -158,7 +157,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
         }
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new HnppFamilyBottomNavListener(this, bottomNavigationView));
-        org.smartregister.brac.hnpp.activity.FamilyRegisterActivity.registerBottomNavigation(bottomNavigationHelper, bottomNavigationView, this);
+        org.smartregister.brac.hnpp.activity.HnppAncRegisterActivity.registerBottomNavigation(bottomNavigationHelper, bottomNavigationView, this);
 
     }
 
