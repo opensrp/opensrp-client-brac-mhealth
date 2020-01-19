@@ -99,7 +99,7 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
                 HnppApplication.getHNPPInstance().getHnppNavigationModel());
 
         HnppApplication.getHNPPInstance().setupNavigation(hnppNavigationPresenter);
-        HnppApplication.getInstance().notifyAppContextChange(); // initialize the language (bug in translation)
+        //HnppApplication.getInstance().notifyAppContextChange(); // initialize the language (bug in translation)
 
         action = getIntent().getStringExtra(CoreConstants.ACTIVITY_PAYLOAD.ACTION);
         if (action != null && action.equals(CoreConstants.ACTION.START_REGISTRATION)) {

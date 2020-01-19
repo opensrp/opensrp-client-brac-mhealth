@@ -47,7 +47,7 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "ELCO নিবন্ধন",
+    "title": "সক্ষম দম্পতি নিবন্ধন",
     "fields": [
       {
         "key": "form_name",

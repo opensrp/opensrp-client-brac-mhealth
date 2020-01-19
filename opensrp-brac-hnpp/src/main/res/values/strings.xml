@@ -7,7 +7,7 @@
 
     <string name="menu_all_clients">সকল ক্লায়েন্ট</string>
     <string name="menu_all_families">খানার তালিকা</string>
-    <string name="menu_elco_clients">যোগ্য দম্পতি</string>
+    <string name="menu_elco_clients">সক্ষম দম্পতি</string>
     <string name="menu_anc_clients">এএনসি ক্লায়েন্ট</string>
     <string name="menu_pnc_clients">পিএনসি ক্লায়েন্ট</string>
     <string name="menu_child_clients">শিশু তালিকা</string>

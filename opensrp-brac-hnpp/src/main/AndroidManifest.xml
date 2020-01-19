@@ -175,6 +175,8 @@
         <activity android:name=".activity.HnppPncRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
+        <activity android:name=".activity.HnppElcoMemberRegisterActivity" android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar" />
 
         <service android:name="org.smartregister.immunization.service.intent.VaccineIntentService" />
         <service android:name="org.smartregister.immunization.service.intent.RecurringIntentService" />

@@ -13,6 +13,7 @@ import org.smartregister.brac.hnpp.activity.HNPPJsonFormActivity;
 import org.smartregister.brac.hnpp.activity.HNPPMemberJsonFormActivity;
 import org.smartregister.brac.hnpp.activity.HnppAllMemberRegisterActivity;
 import org.smartregister.brac.hnpp.activity.HnppAncRegisterActivity;
+import org.smartregister.brac.hnpp.activity.HnppElcoMemberRegisterActivity;
 import org.smartregister.brac.hnpp.activity.HnppPncRegisterActivity;
 import org.smartregister.brac.hnpp.custom_view.HnppNavigationTopView;
 import org.smartregister.brac.hnpp.listener.HnppNavigationListener;
@@ -161,12 +162,12 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
 
     @Override
     public void logoutCurrentUser() {
-        Intent intent = new Intent(this,org.smartregister.brac.hnpp.activity.LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.addCategory(Intent.CATEGORY_HOME);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+//        Intent intent = new Intent(this,org.smartregister.brac.hnpp.activity.LoginActivity.class);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intent.addCategory(Intent.CATEGORY_HOME);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        startActivity(intent);
 //        context.userService().logoutSession();
     }
     @Override
@@ -217,7 +218,7 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.ANC_REGISTER_ACTIVITY, HnppAncRegisterActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.FAMILY_REGISTER_ACTIVITY, FamilyRegisterActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.ALL_MEMBER_REGISTER_ACTIVITY, HnppAllMemberRegisterActivity.class);
-
+        registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.ELCO_REGISTER_ACTIVITY, HnppElcoMemberRegisterActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.CHILD_REGISTER_ACTIVITY, ChildRegisterActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.PNC_REGISTER_ACTIVITY, HnppPncRegisterActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.REFERRALS_REGISTER_ACTIVITY, ReferralRegisterActivity.class);

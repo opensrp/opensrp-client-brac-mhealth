@@ -351,7 +351,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ANC3_REGISTRATION,"গর্ভবতী পরিচর্যা - ৩য় ত্রিমাসিক")
             .put(EVENT_TYPE.ANC_GENERAL_DISEASE,"শারীরিক সমস্যা")
             .put(EVENT_TYPE.ANC_PREGNANCY_HISTORY,"পূর্বের গর্ভের ইতিহাস")
-            .put(EVENT_TYPE.ELCO,"ELCO নিবন্ধন")
+            .put(EVENT_TYPE.ELCO,"সক্ষম দম্পতি নিবন্ধন")
             .put(JSON_FORMS.ANC1_FORM,"গর্ভবতী পরিচর্যা")
             .put(JSON_FORMS.GENERAL_DISEASE,"শারীরিক সমস্যা")
             .put(EVENT_TYPE.MEMBER_REFERRAL,"রেফারেল")
@@ -363,7 +363,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.GIRL_PACKAGE, "কিশোরী সেবা প্যাকেজ")
             .put(EVENT_TYPE.NCD_PACKAGE, "ব্যাধি সেবা প্যাকেজ (এন সি ডি)")
             .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)")
-            .put(EVENT_TYPE.ENC_REGISTRATION, "ENC পরিচর্যা")
+            .put(EVENT_TYPE.ENC_REGISTRATION, "সক্ষম দম্পতি পরিচর্যা")
             .build();
     //needed for dashboard
     public static final Map<String,String> eventTypeMapping = ImmutableMap.<String,String> builder()
@@ -373,7 +373,7 @@ public class HnppConstants extends CoreConstants {
             .put(HnppConstants.EventType.CHILD_REGISTRATION,"শিশু নিবন্ধন")
             .put(HnppConstants.EVENT_TYPE.MEMBER_REFERRAL,"রেফারেল")
             .put("Member referral","রেফারেল")
-            .put(EVENT_TYPE.ELCO,"ELCO নিবন্ধন")
+            .put(EVENT_TYPE.ELCO,"সক্ষম দম্পতি নিবন্ধন")
             .put(EVENT_TYPE.ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন")
             .put(EVENT_TYPE.UPDATE_ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন আপডেট")
             .put(EVENT_TYPE.WOMEN_PACKAGE,"নারী সেবা প্যাকেজ")
@@ -383,7 +383,7 @@ public class HnppConstants extends CoreConstants {
             .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,"গর্ভবতী পরিচর্যা ভিজিট")
             .put(Constants.EVENT_TYPE.PNC_HOME_VISIT,"প্রসবোত্তর পরিচর্যা ভিজিট")
             .put(EVENT_TYPE.PNC_REGISTRATION,"প্রসবোত্তর পরিচর্যা")
-            .put(EVENT_TYPE.ENC_REGISTRATION, "ENC পরিচর্যা")
+            .put(EVENT_TYPE.ENC_REGISTRATION, "সক্ষম দম্পতি পরিচর্যা")
             .build();
 
     private static String getKeyByValue(String mapperObj, String value){
