@@ -46,6 +46,9 @@ import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.cursoradapter.RecyclerViewPaginatedAdapter;
 import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
 import org.smartregister.family.util.Constants;
+import org.smartregister.view.customcontrols.CustomFontTextView;
+import org.smartregister.view.customcontrols.FontVariant;
+
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -209,7 +212,13 @@ public class HnppPncRegisterFragment extends BasePncRegisterFragment implements 
         super.setupViews(view);
         HnppConstants.updateAppBackground((view.findViewById(R.id.register_nav_bar_container)));
         HnppConstants.updateAppBackground(view.findViewById(org.smartregister.R.id.register_toolbar));
-
+        CustomFontTextView titleView = view.findViewById(org.smartregister.family.R.id.txt_title_label);
+        if (titleView != null) {
+            titleView.setVisibility(View.VISIBLE);
+            titleView.setText(getString(getToolBarTitle()));
+            titleView.setFontVariant(FontVariant.REGULAR);
+            titleView.setPadding(0, titleView.getTop(), titleView.getPaddingRight(), titleView.getPaddingBottom());
+        }
         ((TextView) view.findViewById(org.smartregister.chw.core.R.id.filter_text_view)).setText("");
         view.findViewById(org.smartregister.chw.core.R.id.filter_sort_layout).setVisibility(android.view.View.VISIBLE);
         android.view.View searchBarLayout = view.findViewById(org.smartregister.family.R.id.search_bar_layout);
@@ -556,6 +565,9 @@ public class HnppPncRegisterFragment extends BasePncRegisterFragment implements 
         return super.onCreateLoader(id, args);
 
 
+    }
+    protected int getToolBarTitle() {
+        return R.string.menu_pnc_clients;
     }
 
 
