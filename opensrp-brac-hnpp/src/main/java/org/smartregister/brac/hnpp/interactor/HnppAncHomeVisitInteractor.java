@@ -29,6 +29,7 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
             final LinkedHashMap<String, BaseAncHomeVisitAction> actionList = new LinkedHashMap<>();
 
             try {
+                HnppVisitLogRepository visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
 
                 Context context = view.getContext();
 
@@ -44,6 +45,7 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
                 try {
                     JSONObject jsonPayload = new JSONObject(ANC1_FORM.getJsonPayload());
                     addEDDField(memberObject.getBaseEntityId(),HnppConstants.JSON_FORMS.ANC1_FORM,jsonPayload);
+                    addHeightField(memberObject.getBaseEntityId(),HnppConstants.JSON_FORMS.ANC1_FORM,jsonPayload);
                     ANC1_FORM.setJsonPayload(jsonPayload.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -72,7 +74,6 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
                 try {
                     JSONObject jsonPayload = new JSONObject(PREGNANCY_HISTORY.getJsonPayload());
                     PREGNANCY_HISTORY.setJsonPayload(jsonPayload.toString());
-
                 }catch (Exception e){
 
                 }
@@ -93,7 +94,20 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
 
         appExecutors.diskIO().execute(runnable);
     }
+    public void addHeightField(String baseEntityId, String formName, JSONObject jsonForm) {
+        if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM)||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM)||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM)) {
+            HnppVisitLogRepository visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
+            JSONObject stepOne = null;
+            try {
+                stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+                JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+                updateFormField(jsonArray,"height",visitLogRepository.getHeight(baseEntityId));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
+        }
+        }
     public void addEDDField(String baseEntityId, String formName, JSONObject jsonForm){
         if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM)||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM)||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM)){
             JSONObject stepOne = null;

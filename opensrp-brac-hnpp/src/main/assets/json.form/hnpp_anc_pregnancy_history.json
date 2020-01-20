@@ -79,6 +79,22 @@
         }
       },
       {
+        "key": "risk_toaster_1",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "risk",
+        "text_color": "#CF0800",
+        "toaster_type": "problem",
+        "relevance": {
+          "step1:abortion_mr": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
         "key": "still_birth",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -98,7 +114,22 @@
           "err": "প্রশ্নের উত্তর দিন"
         }
       },
-
+      {
+        "key": "risk_toaster_2",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "risk",
+        "text_color": "#CF0800",
+        "toaster_type": "problem",
+        "relevance": {
+          "step1:still_birth": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+      },
       {
         "key": "c_section",
         "openmrs_entity_parent": "",
@@ -117,6 +148,22 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "risk_toaster_3",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "risk",
+        "text_color": "#CF0800",
+        "toaster_type": "problem",
+        "relevance": {
+          "step1:c_section": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
         }
       },
       {
@@ -140,6 +187,22 @@
         }
       },
       {
+        "key": "risk_toaster_4",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "risk",
+        "text_color": "#CF0800",
+        "toaster_type": "problem",
+        "relevance": {
+          "step1:obsessive_compulsive_disorder": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
         "key": "postnatal_bleeding",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -157,6 +220,22 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "risk_toaster_5",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "risk",
+        "text_color": "#CF0800",
+        "toaster_type": "problem",
+        "relevance": {
+          "step1:postnatal_bleeding": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
         }
       }
     ]
