@@ -447,6 +447,6 @@ public class HnppElcoMemberRegisterFragment extends CoreChildRegisterFragment im
 
     @Override
     protected int getToolBarTitle() {
-        return R.string.menu_all_member;
+        return R.string.menu_elco_clients;
     }
 }
