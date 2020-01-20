@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,6 +36,7 @@ import org.smartregister.chw.core.fragment.FamilyCallDialogFragment;
 import org.smartregister.chw.core.listener.OnClickFloatingMenu;
 import org.smartregister.chw.core.model.CoreChildProfileModel;
 import org.smartregister.chw.core.presenter.CoreChildProfilePresenter;
+import org.smartregister.chw.core.utils.CoreChildUtils;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.presenter.HnppChildProfilePresenter;
@@ -137,6 +139,30 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
 
 
     }
+
+    @Override
+    public void setServiceNameDue(String serviceName, String dueDate) {
+        if (!TextUtils.isEmpty(serviceName)) {
+            if(profileMemberFragment != null){
+                profileMemberFragment.updateChildDueEntry(1,serviceName,dueDate);
+            }
+        }
+    }
+
+    @Override
+    public void setServiceNameOverDue(String serviceName, String dueDate) {
+        if(profileMemberFragment != null){
+            profileMemberFragment.updateChildDueEntry(2,serviceName,dueDate);
+        }
+    }
+
+    @Override
+    public void setServiceNameUpcoming(String serviceName, String dueDate) {
+        if(profileMemberFragment != null){
+            profileMemberFragment.updateChildDueEntry(3,serviceName,dueDate);
+        }
+
+    }
     MemberOtherServiceFragment memberOtherServiceFragment;
     MemberHistoryFragment memberHistoryFragment;
     HnppMemberProfileDueFragment profileMemberFragment;
@@ -159,6 +185,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
         viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(adapter);
         return viewPager;
+    }
+    public void startChildHomeVisit(){
+
     }
     @Override
     public void setFamilyHasNothingDue() {

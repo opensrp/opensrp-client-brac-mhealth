@@ -11,6 +11,14 @@ import org.smartregister.chw.anc.repository.VisitRepository;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.repository.CoreChwRepository;
 import org.smartregister.brac.hnpp.BuildConfig;
+import org.smartregister.immunization.ImmunizationLibrary;
+import org.smartregister.immunization.repository.RecurringServiceRecordRepository;
+import org.smartregister.immunization.repository.RecurringServiceTypeRepository;
+import org.smartregister.immunization.repository.VaccineNameRepository;
+import org.smartregister.immunization.repository.VaccineRepository;
+import org.smartregister.immunization.repository.VaccineTypeRepository;
+import org.smartregister.immunization.util.IMDatabaseUtils;
+
 import timber.log.Timber;
 
 public class HnppChwRepository extends CoreChwRepository {
@@ -37,6 +45,14 @@ public class HnppChwRepository extends CoreChwRepository {
         VisitRepository.createTable(database);
         VisitDetailsRepository.createTable(database);
         HnppVisitLogRepository.createTable(database);
+        VaccineRepository.createTable(database);
+        VaccineNameRepository.createTable(database);
+        VaccineTypeRepository.createTable(database);
+
+        RecurringServiceTypeRepository.createTable(database);
+        RecurringServiceRecordRepository.createTable(database);
+        RecurringServiceTypeRepository recurringServiceTypeRepository = ImmunizationLibrary.getInstance().recurringServiceTypeRepository();
+        IMDatabaseUtils.populateRecurringServices(context, database, recurringServiceTypeRepository);
     }
 
     @Override
@@ -156,5 +172,4 @@ public class HnppChwRepository extends CoreChwRepository {
         }
 
     }
-
 }

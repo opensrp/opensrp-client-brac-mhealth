@@ -18,6 +18,7 @@ import org.smartregister.brac.hnpp.provider.HnppFamilyDueRegisterProvider;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
+import org.smartregister.chw.core.utils.CoreChildUtils;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.adapter.FamilyRecyclerViewCustomAdapter;
 import org.smartregister.family.fragment.BaseFamilyProfileDueFragment;
@@ -43,6 +44,7 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
     private static final int TAG_OPEN_FAMILY = 111;
     private static final int TAG_OPEN_REFEREAL = 222;
     private static final int TAG_ENC= 333;
+    private static final int TAG_CHILD_DUE= 444;
 
 
     private int dueCount = 0;
@@ -54,6 +56,7 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
     private LinearLayout otherServiceView;
     private CommonPersonObjectClient commonPersonObjectClient;
     private boolean isFirstAnc = false;
+    private Handler handler;
 
 
     public static BaseFamilyProfileDueFragment newInstance(Bundle bundle) {
@@ -91,6 +94,7 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
         super.setupViews(view);
         emptyView = view.findViewById(R.id.empty_view);
         otherServiceView = view.findViewById(R.id.other_option);
+
     }
 
     @Override
@@ -100,7 +104,8 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
         this.clientAdapter.setCurrentlimit(0);
         this.clientsView.setAdapter(this.clientAdapter);
         this.clientsView.setVisibility(View.GONE);
-        new Handler().postDelayed(new Runnable() {
+        handler = new Handler();
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 addStaticView();
@@ -133,6 +138,34 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
         if (view.getTag() instanceof CommonPersonObjectClient) {
             CommonPersonObjectClient patient = (CommonPersonObjectClient) view.getTag();
         }
+
+    }
+    public void  updateChildDueEntry(int type, String serviceName, String dueDate){
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                View encView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+                ImageView image1 = encView.findViewById(R.id.image_view);
+                TextView name1 =  encView.findViewById(R.id.patient_name_age);
+                encView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+                image1.setImageResource(R.mipmap.ic_child);
+                switch (type){
+                    case 1:
+                        name1.setText(CoreChildUtils.fromHtml(getString(org.smartregister.chw.core.R.string.vaccine_service_due, serviceName, dueDate)));
+
+                        break;
+                    case 2:
+                        name1.setText(CoreChildUtils.fromHtml(getString(org.smartregister.chw.core.R.string.vaccine_service_overdue, serviceName, dueDate)));
+                        break;
+                    case 3:
+                        name1.setText(CoreChildUtils.fromHtml(getString(org.smartregister.chw.core.R.string.vaccine_service_upcoming, serviceName, dueDate)));
+                        break;
+                }
+                encView.setTag(TAG_CHILD_DUE);
+                encView.setOnClickListener(HnppMemberProfileDueFragment.this);
+                otherServiceView.addView(encView);
+            }
+        },500);
 
     }
     private void addStaticView(){
@@ -261,7 +294,19 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
                         activity.openEnc();
                     }
                     break;
+                case TAG_CHILD_DUE:
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                        activity.startChildHomeVisit();
+                    }
+                    break;
             }
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if(handler != null) handler.removeCallbacksAndMessages(null);
     }
 }
