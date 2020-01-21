@@ -57,6 +57,7 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
     private CommonPersonObjectClient commonPersonObjectClient;
     private boolean isFirstAnc = false;
     private Handler handler;
+    private boolean isStart = true;
 
 
     public static BaseFamilyProfileDueFragment newInstance(Bundle bundle) {
@@ -70,6 +71,28 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
     }
     public void setCommonPersonObjectClient(CommonPersonObjectClient commonPersonObjectClient){
         this.commonPersonObjectClient = commonPersonObjectClient;
+    }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser && !isStart){
+            updateStaticView();
+        }
+    }
+
+    private void updateStaticView() {
+        if(FormApplicability.isDueAnyForm(baseEntityId,eventType)){
+            handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    addStaticView();
+                }
+            },500);
+        }else{
+           if(otherServiceView!=null && anc1View !=null) otherServiceView.removeView(anc1View);
+        }
+
     }
 
     @Override
@@ -94,6 +117,7 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
         super.setupViews(view);
         emptyView = view.findViewById(R.id.empty_view);
         otherServiceView = view.findViewById(R.id.other_option);
+        isStart = false;
 
     }
 
@@ -104,13 +128,7 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
         this.clientAdapter.setCurrentlimit(0);
         this.clientsView.setAdapter(this.clientAdapter);
         this.clientsView.setVisibility(View.GONE);
-        handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                addStaticView();
-            }
-        },500);
+        updateStaticView();
 
 
     }
@@ -144,6 +162,7 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                if(otherServiceView.getVisibility() == View.GONE) otherServiceView.setVisibility(View.VISIBLE);
                 View encView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
                 ImageView image1 = encView.findViewById(R.id.image_view);
                 TextView name1 =  encView.findViewById(R.id.patient_name_age);
@@ -168,6 +187,8 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
         },500);
 
     }
+    String eventType = "";
+    View anc1View;
     private void addStaticView(){
         if(otherServiceView.getVisibility() == View.VISIBLE){
             return;
@@ -178,13 +199,13 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
             if(gender.equalsIgnoreCase("F") && maritalStatus.equalsIgnoreCase("Married")){
                 //if women
 
-                View anc1View = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+                anc1View = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
                 ImageView imageanc1View = anc1View.findViewById(R.id.image_view);
                 TextView nameanc1View =  anc1View.findViewById(R.id.patient_name_age);
                 anc1View.setTag(TAG_OPEN_ANC1);
                 anc1View.setOnClickListener(this);
-                String eventType = FormApplicability.getDueFormForMarriedWomen(baseEntityId,FormApplicability.getAge(commonPersonObjectClient));
-                if(!TextUtils.isEmpty(eventType)){
+                eventType = FormApplicability.getDueFormForMarriedWomen(baseEntityId,FormApplicability.getAge(commonPersonObjectClient));
+                if(FormApplicability.isDueAnyForm(baseEntityId,eventType) && !TextUtils.isEmpty(eventType)){
                     if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY)) {
                         isFirstAnc = true;
                         nameanc1View.setText(HnppConstants.visitEventTypeMapping.get(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION));
@@ -198,10 +219,11 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
                         HnppFamilyOtherMemberProfileActivity aaa = (HnppFamilyOtherMemberProfileActivity) getActivity();
                         aaa.updatePregnancyOutcomeVisible(eventType);
                     }
+                    otherServiceView.addView(anc1View);
                 }
 
 
-                otherServiceView.addView(anc1View);
+
 
             }
         String dobString =org.smartregister.family.util.Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOB, false);

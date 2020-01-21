@@ -19,35 +19,21 @@ import org.json.JSONObject;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.HnppFormViewActivity;
 import org.smartregister.brac.hnpp.adapter.MemberHistoryAdapter;
-import org.smartregister.brac.hnpp.adapter.OtherServiceAdapter;
 import org.smartregister.brac.hnpp.contract.MemberHistoryContract;
-import org.smartregister.brac.hnpp.contract.OtherServiceContract;
+import org.smartregister.brac.hnpp.presenter.FamilyHistoryPresenter;
 import org.smartregister.brac.hnpp.presenter.MemberHistoryPresenter;
-import org.smartregister.brac.hnpp.presenter.MemberOtherServicePresenter;
-import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.MemberHistoryData;
-import org.smartregister.brac.hnpp.utils.OtherServiceData;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.JsonFormUtils;
-import org.smartregister.util.FormUtils;
 
-public class MemberHistoryFragment extends Fragment implements MemberHistoryContract.View {
+public class FamilyHistoryFragment extends Fragment implements MemberHistoryContract.View {
 
-    private MemberHistoryPresenter presenter;
+    private FamilyHistoryPresenter presenter;
     private RecyclerView clientsView;
     private String baseEntityId;
-    private boolean isStart = true;
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser && !isStart){
-            presenter.fetchData(baseEntityId);
-        }
-    }
-
-    public static MemberHistoryFragment getInstance(Bundle bundle){
-        MemberHistoryFragment memberHistoryFragment = new MemberHistoryFragment();
+    public static FamilyHistoryFragment getInstance(Bundle bundle){
+        FamilyHistoryFragment memberHistoryFragment = new FamilyHistoryFragment();
         Bundle args = bundle;
         if(args == null){
             args = new Bundle();
@@ -61,20 +47,19 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recycler_view,null);
         clientsView = view.findViewById(R.id.recycler_view);
-        isStart = false;
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        baseEntityId = getArguments().getString(Constants.INTENT_KEY.BASE_ENTITY_ID);
+        baseEntityId = getArguments().getString(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID);
         initializePresenter();
     }
 
     @Override
     public void initializePresenter() {
-        presenter = new MemberHistoryPresenter(this);
+        presenter = new FamilyHistoryPresenter(this);
         presenter.fetchData(baseEntityId);
     }
 
@@ -125,7 +110,7 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
             makeReadOnlyFields(jsonForm);
 
             Intent intent = new Intent(getActivity(), HnppFormViewActivity.class);
-            intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+            intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
 
             Form form = new Form();
             form.setWizard(false);
@@ -133,7 +118,7 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
             form.setHideSaveLabel(true);
             form.setSaveLabel("");
             intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
-            intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, false);
+            intent.putExtra(Constants.WizardFormActivity.EnableOnCloseDialog, false);
             if (this != null) {
                 this.startActivity(intent);
             }
@@ -155,9 +140,9 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
             e.printStackTrace();
         }
     }
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if(presenter!=null)
-//        presenter.fetchData(baseEntityId);
-//    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(presenter!=null)
+        presenter.fetchData(baseEntityId);
+    }
 }

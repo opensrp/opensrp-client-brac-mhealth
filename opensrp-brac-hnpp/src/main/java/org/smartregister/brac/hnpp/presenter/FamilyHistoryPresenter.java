@@ -1,27 +1,25 @@
 package org.smartregister.brac.hnpp.presenter;
 
 import org.smartregister.brac.hnpp.contract.MemberHistoryContract;
-import org.smartregister.brac.hnpp.contract.OtherServiceContract;
+import org.smartregister.brac.hnpp.fragment.FamilyHistoryFragment;
 import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
-import org.smartregister.brac.hnpp.fragment.MemberOtherServiceFragment;
+import org.smartregister.brac.hnpp.interactor.FamilyHistoryInteractor;
 import org.smartregister.brac.hnpp.interactor.MemberHistoryInteractor;
-import org.smartregister.brac.hnpp.interactor.MemberOtherServiceInteractor;
 import org.smartregister.brac.hnpp.utils.MemberHistoryData;
-import org.smartregister.brac.hnpp.utils.OtherServiceData;
 import org.smartregister.family.util.AppExecutors;
 
 import java.util.ArrayList;
 
-public class MemberHistoryPresenter implements MemberHistoryContract.Presenter, MemberHistoryContract.InteractorCallBack {
+public class FamilyHistoryPresenter implements MemberHistoryContract.Presenter, MemberHistoryContract.InteractorCallBack {
 
 
     private MemberHistoryContract.View view;
-    private ArrayList<MemberHistoryData> data = new ArrayList<>();
+    private ArrayList<MemberHistoryData> data;
     private MemberHistoryContract.Interactor interactor;
 
-    public MemberHistoryPresenter(MemberHistoryContract.View view){
+    public FamilyHistoryPresenter(MemberHistoryContract.View view){
         this.view = view;
-        interactor = new MemberHistoryInteractor(new AppExecutors());
+        interactor = new FamilyHistoryInteractor(new AppExecutors());
     }
 
     @Override
@@ -36,13 +34,12 @@ public class MemberHistoryPresenter implements MemberHistoryContract.Presenter, 
 
     @Override
     public void onUpdateList(ArrayList<MemberHistoryData> list) {
-        this.data.clear();
         this.data = list;
         if(getView() != null) getView().updateAdapter();
     }
 
     @Override
-    public MemberHistoryFragment getView() {
-        return (MemberHistoryFragment) view;
+    public FamilyHistoryFragment getView() {
+        return (FamilyHistoryFragment) view;
     }
 }

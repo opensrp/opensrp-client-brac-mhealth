@@ -5,6 +5,7 @@ public class VisitLog {
     public String visitId;
     public String visitType;
     public String baseEntityId;
+    public String familyId;
     public long visitDate;
     public String eventType;
     public String visitJson;
@@ -55,5 +56,13 @@ public class VisitLog {
 
     public void setVisitJson(String visitJson) {
         this.visitJson = visitJson;
+    }
+
+    public void setFamilyId(String familyId) {
+        this.familyId = familyId;
+    }
+
+    public String getFamilyId() {
+        return familyId;
     }
 }

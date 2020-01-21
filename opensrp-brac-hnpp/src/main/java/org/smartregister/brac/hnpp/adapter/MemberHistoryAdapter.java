@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,9 +45,13 @@ public class MemberHistoryAdapter extends RecyclerView.Adapter<MemberDueViewHold
     public void onBindViewHolder(@NonNull final MemberDueViewHolder viewHolder, int position) {
         final MemberHistoryData content = contentList.get(position);
         viewHolder.imageView.setImageResource(content.getImageSource());
-        viewHolder.textViewTitle.setText(content.getTitle());
+        if(!TextUtils.isEmpty(content.getMemberName())){
+            viewHolder.textViewTitle.setText(content.getMemberName()+"\n সেবা:"+content.getTitle());
+        }else{
+            viewHolder.textViewTitle.setText("সেবা: "+content.getTitle());
+        }
         viewHolder.textViewLastVisit.setVisibility(View.VISIBLE);
-        viewHolder.textViewLastVisit.setText(HnppConstants.DDMMYY.format(content.getVisitDate()));
+        viewHolder.textViewLastVisit.setText("তারিখ: "+HnppConstants.DDMMYY.format(content.getVisitDate()));
         viewHolder.itemView.setOnClickListener(v -> onClickAdapter.onClick(position, content));
     }
 

@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.VisitLog;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
@@ -33,6 +34,7 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ELCO;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ELCO;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ENC_REGISTRATION;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.GIRL_PACKAGE;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.MEMBER_REFERRAL;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.NCD_PACKAGE;
@@ -77,11 +79,16 @@ public class VisitLogIntentService extends IntentService {
                             log.setVisitId(visit.getVisitId());
                             log.setVisitType(visit.getVisitType());
                             log.setBaseEntityId(base_entity_id);
+                            if(HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)){
+                                log.setFamilyId(base_entity_id);
+                            }else{
+                                log.setFamilyId(HnppDBUtils.getFamilyIdFromBaseEntityId(base_entity_id));
+                            }
                             log.setVisitDate(visit.getCreatedAt().getTime());
                             log.setEventType(encounter_type);
                             log.setVisitJson(form_object.toString());
                             HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
-                            if (ELCO.equalsIgnoreCase(encounter_type)){
+                            if (HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)){
                                 HnppApplication.getHNPPInstance().getHnppVisitLogRepository().updateFamilyLastHomeVisit(base_entity_id,String.valueOf(visit.getCreatedAt().getTime()));
                             }
                         }
@@ -153,6 +160,9 @@ public class VisitLogIntentService extends IntentService {
         }
         else if (ENC_REGISTRATION.equalsIgnoreCase(encounter_type)) {
             form_name = HnppConstants.JSON_FORMS.ENC_REGISTRATION+".json";
+        }
+        else if (HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)) {
+            form_name = HnppConstants.JSON_FORMS.HOME_VISIT_FAMILY+".json";
         }
         try {
             String jsonString = AssetHandler.readFileFromAssetsFolder("json.form/"+form_name, VisitLogIntentService.this);

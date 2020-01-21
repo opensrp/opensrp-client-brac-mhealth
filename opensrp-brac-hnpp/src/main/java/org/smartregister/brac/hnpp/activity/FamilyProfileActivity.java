@@ -1,20 +1,28 @@
 package org.smartregister.brac.hnpp.activity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.fragment.FamilyHistoryFragment;
 import org.smartregister.brac.hnpp.fragment.FamilyProfileDueFragment;
+import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
+import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.model.HnppFamilyProfileModel;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
+import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.core.activity.CoreFamilyProfileActivity;
 import org.smartregister.chw.core.activity.CoreFamilyProfileMenuActivity;
 import org.smartregister.chw.core.activity.CoreFamilyRemoveMemberActivity;
@@ -27,8 +35,14 @@ import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
+import org.smartregister.util.FormUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import timber.log.Timber;
+
+import static org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity.REQUEST_HOME_VISIT;
 
 public class FamilyProfileActivity extends CoreFamilyProfileActivity {
 
@@ -120,6 +134,34 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
             }
 
         }
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
+            VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+
+            String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
+            Map<String, String> jsonStrings = new HashMap<>();
+            jsonStrings.put("First",jsonString);
+            Visit visit = null;
+            try {
+                JSONObject form = new JSONObject(jsonString);
+                String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
+                type = HnppJsonFormUtils.getEncounterType(type);
+
+                visit = HnppJsonFormUtils.saveVisit(false, familyBaseEntityId, type, jsonStrings, "");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if(familyHistoryFragment !=null){
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        familyHistoryFragment.onActivityResult(0,0,null);
+                        mViewPager.setCurrentItem(3,true);
+
+                    }
+                },1000);
+            }
+
+        }
         //super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -140,21 +182,21 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         houseHoldId = getIntent().getStringExtra(DBConstants.KEY.UNIQUE_ID);
         presenter = new FamilyProfilePresenter(this, new HnppFamilyProfileModel(familyName,moduleId,houseHoldId,familyBaseEntityId),houseHoldId, familyBaseEntityId, familyHead, primaryCaregiver, familyName);
     }
+    private FamilyHistoryFragment familyHistoryFragment;
+    private ViewPager mViewPager;
 
     @Override
     protected ViewPager setupViewPager(ViewPager viewPager) {
-
+        this.mViewPager = viewPager;
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(FamilyProfileMemberFragment.newInstance(this.getIntent().getExtras()),
                 this.getString(R.string.member));
-//        adapter.addFragment(FamilyProfileDueFragment.newInstance(this.getIntent().getExtras()),
-//                this.getString(R.string.due));
+        FamilyProfileDueFragment familyProfileDueFragment =(FamilyProfileDueFragment) FamilyProfileDueFragment.newInstance(this.getIntent().getExtras());
+        familyHistoryFragment = FamilyHistoryFragment.getInstance(this.getIntent().getExtras());
+        adapter.addFragment(familyProfileDueFragment,this.getString(R.string.due));
+        adapter.addFragment(familyHistoryFragment, this.getString(R.string.activity).toUpperCase());
+        viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(adapter);
-//
-//        if (getIntent().getBooleanExtra(CoreConstants.INTENT_KEY.SERVICE_DUE, false) ||
-//                getIntent().getBooleanExtra(Constants.INTENT_KEY.GO_TO_DUE_PAGE, false)) {
-//            viewPager.setCurrentItem(1);
-//        }
 
         return viewPager;
     }
@@ -175,6 +217,30 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
 
         if (changeCareGiver != null) {
             changeCareGiver.setVisible(false);
+        }
+    }
+    public void openHomeVisitFamily() {
+        startAnyFormActivity(HnppConstants.JSON_FORMS.HOME_VISIT_FAMILY,REQUEST_HOME_VISIT);
+    }
+    public void startAnyFormActivity(String formName, int requestCode) {
+        try {
+            JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
+            jsonForm.put(org.smartregister.util.JsonFormUtils.ENTITY_ID, familyBaseEntityId);
+            Intent intent;
+            intent = new Intent(this, org.smartregister.family.util.Utils.metadata().familyMemberFormActivity);
+            intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+
+            Form form = new Form();
+            form.setWizard(false);
+            form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+
+            intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+            intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
+            if (this != null) {
+                this.startActivityForResult(intent, requestCode);
+            }
+        }catch (Exception e){
+
         }
     }
 }

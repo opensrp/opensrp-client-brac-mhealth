@@ -29,6 +29,8 @@ import timber.log.Timber;
 
 public class HnppDBUtils extends CoreChildUtils {
 
+
+
     public static List<Map<String,String>>  getGenderMaritalStatus(String baseEntityId){
             String lmp = "SELECT gender,marital_status FROM ec_family_member where base_entity_id = ? ";
             List<Map<String, String>> valus = AbstractDao.readData(lmp, new String[]{baseEntityId});
@@ -115,6 +117,42 @@ public class HnppDBUtils extends CoreChildUtils {
                 cursor.close();
         }
         return womenList;
+    }
+    public static String getNameBaseEntityId(String baseEntityId){
+        String query = "select first_name from ec_family_member where base_entity_id = '"+baseEntityId+"'";
+        Cursor cursor = null;
+        String motherName="";
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                motherName = cursor.getString(0);
+                cursor.close();
+            }
+
+            return motherName;
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return motherName;
+    }
+    public static String getFamilyIdFromBaseEntityId(String baseEntityId){
+        String query = "select relational_id from ec_family_member where base_entity_id = '"+baseEntityId+"'";
+        Cursor cursor = null;
+        String motherName="";
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                motherName = cursor.getString(0);
+                cursor.close();
+            }
+
+            return motherName;
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return motherName;
     }
     public static String getMotherNameFromMemberTable(String motherEntityId){
         String query = "select first_name from ec_family_member where base_entity_id = '"+motherEntityId+"'";
