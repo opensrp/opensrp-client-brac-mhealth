@@ -40,11 +40,15 @@ public class HnppAllMemberRegisterFragmentPresenter extends CoreChildRegisterFra
 
     @Override
     public String getMainCondition() {
-        return String.format(" %s is null ", DBConstants.KEY.DATE_REMOVED);
+        return String.format(" %s is null ", CoreConstants.TABLE_NAME.FAMILY_MEMBER+ "." +DBConstants.KEY.DATE_REMOVED);
     }
 
     @Override
     public String getMainCondition(String tableName) {
         return String.format(" %s is null ", tableName + "." + DBConstants.KEY.DATE_REMOVED);
+    }
+    @Override
+    public String getDefaultSortQuery() {
+        return  CoreConstants.TABLE_NAME.FAMILY_MEMBER+ "." +DBConstants.KEY.LAST_INTERACTED_WITH + " DESC ";// AND "+ChildDBConstants.childAgeLimitFilter();
     }
 }
