@@ -285,7 +285,7 @@
         "key": "familyplanning_referral",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
-        "openmrs_entity_id": "",
+        "openmrs_entity_id": "familyplanning_referral",
         "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "পরিবার পরিকল্পনা পদ্ধতির জন্য রেফার করা হয়েছিলো?",
@@ -312,7 +312,7 @@
         "key": "familyplanning_referral_location",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
-        "openmrs_entity_id": "",
+        "openmrs_entity_id": "familyplanning_referral_location",
         "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "কোথায় রেফার করা হয়েছিলো?",
@@ -338,6 +338,107 @@
         },
         "relevance": {
           "step1:familyplanning_referral": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "refer_place_visit",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "refer_place_visit",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "রেফারকৃত স্থানে গিয়েছিলেন?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "step1:familyplanning_method_known": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "last_lmp_weeks",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "last_lmp_weeks",
+        "type": "edit_text",
+        "hint": "কয় সপ্তাহ আগে মাসিক হয়েছিল?",
+        "v_numeric": {
+          "value": "true",
+          "err": "সংখ্যাটি অবশ্যই পূর্ণসংখ্যা হওয়া আবশ্যক"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "LMP required"
+        }
+      },
+      {
+        "key": "pregnancy_test_taken",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "pregnancy_test_taken",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "গর্ভবতী পরীক্ষা কি করেছেন?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "step1:last_lmp_weeks": {
+            "type": "numeric",
+            "ex": "greaterThanEqualTo(., \"6\")"
+          }
+        }
+      },
+      {
+        "key": "pregnancy_test_result",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "pregnancy_test_result",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "পরীক্ষার ফলাফল কি?",
+        "values": [
+          "গর্ভবতী",
+          "গর্ভবতী নয়"
+        ],
+        "openmrs_choice_ids": {
+          "গর্ভবতী": "pregnant",
+          "গর্ভবতী নয়": "not-pregnant"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "step1:pregnancy_test_taken": {
             "type": "string",
             "ex": "equalTo(., \"হ্যাঁ\")"
           }

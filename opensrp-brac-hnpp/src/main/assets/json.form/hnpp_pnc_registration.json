@@ -59,6 +59,31 @@
         "value": "hnpp_pnc_registration"
       },
       {
+        "key": "number_of_pnc",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "number_of_pnc",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "কত নম্বর গর্ভপরবর্তী সেবা (পি.এন.সি.)?",
+        "values": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "openmrs_choice_ids": {
+          "1": "1",
+          "2": "2",
+          "3": "3",
+          "4": "4"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
         "key": "body_temperature",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
