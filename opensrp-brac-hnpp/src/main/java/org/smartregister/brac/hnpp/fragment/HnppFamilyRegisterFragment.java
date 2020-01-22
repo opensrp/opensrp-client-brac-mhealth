@@ -150,11 +150,10 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
 
     @Override
     public void filter(String filterString, String joinTableString, String mainConditionString, boolean qrCode) {
-        if(HnppConstants.isExistSpecialCharacter(filterString)){
-            filterString = "\""+filterString;
-        }
+//        if(HnppConstants.isExistSpecialCharacter(filterString)){
+//            filterString = "\""+filterString;
+//        }
         searchFilterString = filterString;
-        filterString = getFilterString();
         clientAdapter.setCurrentoffset(0);
         super.filter(filterString, joinTableString, mainConditionString, qrCode);
     }
@@ -193,6 +192,7 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
         StringBuilder customFilter = new StringBuilder();
         if (StringUtils.isNotBlank(searchFilterString)) {
             customFilter.append(MessageFormat.format(" and ( {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.FIRST_NAME, searchFilterString));
+            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.SERIAL_NO, searchFilterString));
             customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.UNIQUE_ID, searchFilterString));
 
         }
@@ -255,6 +255,7 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
         StringBuilder customFilter = new StringBuilder();
         if (StringUtils.isNotBlank(searchFilterString)) {
             customFilter.append(MessageFormat.format(" and ( {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.FIRST_NAME, searchFilterString));
+            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.SERIAL_NO, searchFilterString));
             customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.UNIQUE_ID, searchFilterString));
 
         }
@@ -433,33 +434,9 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
 
         textViewVillageNameFilter.setText(getString(R.string.filter_village_name, mSelectedVillageName));
         textViewClasterNameFilter.setText(getString(R.string.claster_village_name, HnppConstants.getClusterNameFromValue(mSelectedClasterName)));
-        String filterString = getFilterString();
-        filter(filterString, "", DEFAULT_MAIN_CONDITION);
+        filter(searchFilterString, "", DEFAULT_MAIN_CONDITION,false);
     }
 
-    public void filter(String filterString, String joinTableString, String mainConditionString) {
-        clientAdapter.setCurrentoffset(0);
-        super.filter(filterString, joinTableString, mainConditionString, false);
-    }
-
-    public String getFilterString() {
-        String selected_claster = "";
-        if (!StringUtils.isEmpty(mSelectedClasterName)) {
-            selected_claster = mSelectedClasterName.replace("_", " AND ");
-        }
-        String str = StringUtils.isEmpty(mSelectedVillageName) ?
-                (StringUtils.isEmpty(mSelectedClasterName) ?
-                        "" : selected_claster) : (StringUtils.isEmpty(mSelectedClasterName) ?
-                mSelectedVillageName : "" + mSelectedVillageName + " AND " + selected_claster + "");
-        if (StringUtils.isEmpty(str)) {
-            return searchFilterString;
-        } else if (!StringUtils.isEmpty(searchFilterString)) {
-            return str + " AND " + searchFilterString;
-        } else {
-            return str;
-        }
-
-    }
 
     @Override
     public void onSyncComplete(FetchStatus fetchStatus) {
