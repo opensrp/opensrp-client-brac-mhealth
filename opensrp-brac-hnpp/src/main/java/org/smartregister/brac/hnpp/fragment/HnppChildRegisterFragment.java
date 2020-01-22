@@ -107,11 +107,11 @@ public class HnppChildRegisterFragment extends CoreChildRegisterFragment impleme
     @Override
     public void filter(String filterString, String joinTableString, String mainConditionString, boolean qrCode) {
         searchFilterString = filterString;
-        mSelectedVillageName = "";
-        mSelectedClasterName = "";
-        if(clients_header_layout.getVisibility() == android.view.View.VISIBLE){
-            clients_header_layout.setVisibility(android.view.View.GONE);
-        }
+//        mSelectedVillageName = "";
+//        mSelectedClasterName = "";
+//        if(clients_header_layout.getVisibility() == android.view.View.VISIBLE){
+//            clients_header_layout.setVisibility(android.view.View.GONE);
+//        }
         clientAdapter.setCurrentoffset(0);
         super.filter(filterString, joinTableString, mainConditionString, qrCode);
 
