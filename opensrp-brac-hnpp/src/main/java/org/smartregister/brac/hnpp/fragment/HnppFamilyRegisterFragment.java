@@ -48,6 +48,7 @@ import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.Utils;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -182,11 +183,29 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
                 break;
         }
     }
-
+    @Override
+    protected boolean isValidFilterForFts(CommonRepository commonRepository) {
+        return false;
+    }
     @Override
     public void countExecute() {
         SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(mainSelect);
+        StringBuilder customFilter = new StringBuilder();
+        if (StringUtils.isNotBlank(searchFilterString)) {
+            customFilter.append(MessageFormat.format(" and ( {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.FIRST_NAME, searchFilterString));
+            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.UNIQUE_ID, searchFilterString));
 
+        }
+        if(!StringUtils.isEmpty(mSelectedClasterName)&&!StringUtils.isEmpty(mSelectedVillageName)){
+            customFilter.append(MessageFormat.format(" and ( {0}.{1} like ''%{2}%''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
+            customFilter.append(MessageFormat.format(" and {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
+
+        }else if(!StringUtils.isEmpty(mSelectedClasterName)){
+            customFilter.append(MessageFormat.format(" and {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
+
+        }else if(!StringUtils.isEmpty(mSelectedVillageName)){
+            customFilter.append(MessageFormat.format(" and {0}.{1} like ''%{2}%''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
+        }
         String query = "";
         try {
             if (isValidFilterForFts(commonRepository())) {
@@ -198,6 +217,14 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
 //                query = sqb.toStringFts(ids, tablename, CommonRepository.ID_COLUMN,
 //                        Sortqueries);
 //                query = sqb.Endquery(query);
+                clientAdapter.setTotalcount(ids.size());
+            }else{
+                String sql = "";
+                sql = mainSelect;
+                if (StringUtils.isNotBlank(customFilter)) {
+                    sql = sql + customFilter;
+                }
+                List<String> ids = commonRepository().findSearchIds(sql);
                 clientAdapter.setTotalcount(ids.size());
             }
         } catch (Exception e) {
@@ -225,7 +252,22 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
     @Override
     protected String defaultFilterAndSortQuery() {
         SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(mainSelect);
+        StringBuilder customFilter = new StringBuilder();
+        if (StringUtils.isNotBlank(searchFilterString)) {
+            customFilter.append(MessageFormat.format(" and ( {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.FIRST_NAME, searchFilterString));
+            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.UNIQUE_ID, searchFilterString));
 
+        }
+        if(!StringUtils.isEmpty(mSelectedClasterName)&&!StringUtils.isEmpty(mSelectedVillageName)){
+            customFilter.append(MessageFormat.format(" and ( {0}.{1} like ''%{2}%''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
+            customFilter.append(MessageFormat.format(" and {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
+
+        }else if(!StringUtils.isEmpty(mSelectedClasterName)){
+            customFilter.append(MessageFormat.format(" and {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
+
+        }else if(!StringUtils.isEmpty(mSelectedVillageName)){
+            customFilter.append(MessageFormat.format(" and {0}.{1} like ''%{2}%''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
+        }
         String query = "";
         try {
             if (isValidFilterForFts(commonRepository())) {
@@ -236,7 +278,7 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
                         Sortqueries);
                 query = sqb.Endquery(query);
             } else {
-                sqb.addCondition(filters);
+                sqb.addCondition(customFilter.toString());
                 query = sqb.orderbyCondition(Sortqueries);
                 query = sqb.Endquery(sqb.addlimitandOffset(query, clientAdapter.getCurrentlimit(), clientAdapter.getCurrentoffset()));
 
