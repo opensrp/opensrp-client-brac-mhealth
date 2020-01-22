@@ -460,28 +460,8 @@ public class HnppAllMemberRegisterFragment extends CoreChildRegisterFragment imp
         }
         textViewVillageNameFilter.setText(getString(R.string.filter_village_name, mSelectedVillageName));
         textViewClasterNameFilter.setText(getString(R.string.claster_village_name, HnppConstants.getClusterNameFromValue(mSelectedClasterName)));
-        String filterString = getFilterString();
-        filter(filterString, "", DEFAULT_MAIN_CONDITION);
+        filter(searchFilterString, "", DEFAULT_MAIN_CONDITION,false);
 
-
-    }
-
-    public void filter(String filterString, String joinTableString, String mainConditionString) {
-        clientAdapter.setCurrentoffset(0);
-        super.filter(filterString, joinTableString, mainConditionString, false);
-    }
-
-    public String getFilterString() {
-        String selected_claster = "";
-        if(!StringUtils.isEmpty(mSelectedClasterName)){
-            selected_claster = mSelectedClasterName.replace("_"," AND ");
-        }
-        String str = StringUtils.isEmpty(mSelectedVillageName) ?
-                (StringUtils.isEmpty(mSelectedClasterName) ?
-                        "" : selected_claster) : (StringUtils.isEmpty(mSelectedClasterName) ?
-                mSelectedVillageName : "" + mSelectedVillageName + " AND " + selected_claster + "");
-
-        return str;
     }
 
     @Override
