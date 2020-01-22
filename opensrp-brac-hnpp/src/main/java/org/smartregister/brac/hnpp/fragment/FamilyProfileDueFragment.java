@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import org.smartregister.brac.hnpp.model.FamilyProfileDueModel;
 import org.smartregister.brac.hnpp.presenter.FamilyProfileDuePresenter;
 import org.smartregister.brac.hnpp.provider.HnppFamilyDueRegisterProvider;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.ProfileDueInfo;
 import org.smartregister.chw.anc.domain.MemberObject;
@@ -103,7 +105,7 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment imple
 
     }
     private void updateStaticView(){
-        if(FormApplicability.isDueHHVisit(familyBaseEntityId)){
+       // if(FormApplicability.isDueHHVisit(familyBaseEntityId)){
             handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -111,28 +113,57 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment imple
                     addStaticView();
                 }
             },500);
-        }else{
-            if(otherServiceView !=null) otherServiceView.setVisibility(View.GONE);
-        }
+//        }else{
+//            if(otherServiceView !=null) otherServiceView.setVisibility(View.GONE);
+//        }
     }
 
     private void addStaticView(){
+        if(otherServiceView == null) return;
         if(otherServiceView.getVisibility() == View.VISIBLE){
-            return;
+            otherServiceView.removeAllViews();
         }
+
         otherServiceView.setVisibility(View.VISIBLE);
-        View homeVisitView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
-        ImageView image1 = homeVisitView.findViewById(R.id.image_view);
-        TextView name1 =  homeVisitView.findViewById(R.id.patient_name_age);
-        homeVisitView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-        image1.setImageResource(R.mipmap.ic_icon_home);
-        name1.setText("খানা পরিদর্শন");
-        homeVisitView.setTag(TAG_HOME_VISIT);
-        homeVisitView.setOnClickListener(this);
-        otherServiceView.addView(homeVisitView);
+        if(FormApplicability.isDueHHVisit(familyBaseEntityId)){
+            View homeVisitView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+            ImageView image1 = homeVisitView.findViewById(R.id.image_view);
+            TextView name1 =  homeVisitView.findViewById(R.id.patient_name_age);
+            homeVisitView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+            image1.setImageResource(R.mipmap.ic_icon_home);
+            name1.setText("খানা পরিদর্শন");
+            homeVisitView.setTag(TAG_HOME_VISIT);
+            homeVisitView.setOnClickListener(this);
+            if(otherServiceView.getVisibility() == View.VISIBLE){
+                return;
+            }
+            otherServiceView.addView(homeVisitView);
+        }
+
+        updateDueView();
     }
     private void updateDueView(){
         ArrayList<ProfileDueInfo> getAllMemberDueInfo = HnppDBUtils.getDueListByFamilyId(familyBaseEntityId);
+        for(ProfileDueInfo profileDueInfo : getAllMemberDueInfo){
+            View homeVisitView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+            ImageView image1 = homeVisitView.findViewById(R.id.image_view);
+            TextView name1 =  homeVisitView.findViewById(R.id.patient_name_age);
+            homeVisitView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+            homeVisitView.findViewById(R.id.due_button_wrapper).setVisibility(View.VISIBLE);
+            Button dueTextBtn = homeVisitView.findViewById(R.id.due_button);
+            dueTextBtn.setText(profileDueInfo.getEventType());
+            try{
+                image1.setImageResource(HnppConstants.iconMapping.get(profileDueInfo.getEventType()));
+            }catch (Exception e){
+                image1.setImageResource(R.drawable.rowavatar_member);
+            }
+            name1.setText(profileDueInfo.getName());
+            ((TextView)homeVisitView.findViewById(R.id.last_visit)).setVisibility(View.VISIBLE);
+            ((TextView)homeVisitView.findViewById(R.id.last_visit)).setText(getString(R.string.boyos)+":"+profileDueInfo.getAge());
+//            homeVisitView.setTag(TAG_HOME_VISIT);
+//            homeVisitView.setOnClickListener(this);
+            otherServiceView.addView(homeVisitView);
+        }
     }
 
     @Override

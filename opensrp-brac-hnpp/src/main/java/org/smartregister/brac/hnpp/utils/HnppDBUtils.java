@@ -18,6 +18,7 @@ import org.smartregister.clientandeventmodel.Obs;
 import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.util.DBConstants;
+import org.smartregister.family.util.Utils;
 import org.smartregister.repository.BaseRepository;
 import org.smartregister.sync.helper.ECSyncHelper;
 
@@ -45,7 +46,26 @@ public class HnppDBUtils extends CoreChildUtils {
                     profileDueInfo.setMaritalStatus(cursor.getString(2));
                     profileDueInfo.setName(cursor.getString(3));
                     profileDueInfo.setDob(cursor.getString(4));
-                    profileDueInfoArrayList.add(profileDueInfo);
+                    String dobString = Utils.getDuration(profileDueInfo.getDob());
+                    profileDueInfo.setAge(dobString);
+                    if(profileDueInfo.getGender().equalsIgnoreCase("F") && profileDueInfo.getMaritalStatus().equalsIgnoreCase("Married")){
+                        String eventType = FormApplicability.getDueFormForMarriedWomen(profileDueInfo.getBaseEntityId(),
+                                FormApplicability.getAge(profileDueInfo.getDob()));
+                        if(FormApplicability.isDueAnyForm(profileDueInfo.getBaseEntityId(),eventType) && !TextUtils.isEmpty(eventType)){
+                            profileDueInfo.setEventType(HnppConstants.visitEventTypeMapping.get(eventType));
+                            profileDueInfoArrayList.add(profileDueInfo);
+                        }
+
+
+                    }else {
+                        Date dob = Utils.dobStringToDate(profileDueInfo.getDob());
+                        boolean isEnc = FormApplicability.isEncVisible(dob);
+                        if(isEnc){
+                            profileDueInfo.setEventType(HnppConstants.visitEventTypeMapping.get(HnppConstants.EVENT_TYPE.ENC_REGISTRATION));
+                            profileDueInfoArrayList.add(profileDueInfo);
+                        }
+                    }
+
                     cursor.moveToNext();
                 }
 
