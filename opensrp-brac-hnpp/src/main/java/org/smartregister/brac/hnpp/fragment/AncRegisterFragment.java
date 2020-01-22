@@ -7,7 +7,7 @@ import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.fragment.CoreAncRegisterFragment;
 import org.smartregister.chw.core.presenter.AncRegisterFragmentPresenter;
 import org.smartregister.chw.core.utils.Utils;
-import org.smartregister.brac.hnpp.provider.HfAncRegisterProvider;
+import org.smartregister.brac.hnpp.provider.HnppAncRegisterProvider;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.configurableviews.model.View;
 import org.smartregister.cursoradapter.RecyclerViewPaginatedAdapter;
@@ -19,7 +19,7 @@ public class AncRegisterFragment extends CoreAncRegisterFragment {
 
     @Override
     public void initializeAdapter(Set<View> visibleColumns) {
-        HfAncRegisterProvider provider = new HfAncRegisterProvider(getActivity(), commonRepository(), visibleColumns, registerActionHandler, paginationViewHandler);
+        HnppAncRegisterProvider provider = new HnppAncRegisterProvider(getActivity(), commonRepository(), visibleColumns, registerActionHandler, paginationViewHandler);
         clientAdapter = new RecyclerViewPaginatedAdapter(null, provider, context().commonrepository(this.tablename));
         clientAdapter.setCurrentlimit(20);
         clientsView.setAdapter(clientAdapter);

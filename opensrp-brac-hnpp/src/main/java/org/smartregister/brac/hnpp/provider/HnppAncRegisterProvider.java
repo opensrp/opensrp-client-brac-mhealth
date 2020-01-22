@@ -23,12 +23,12 @@ import org.smartregister.view.contract.SmartRegisterClient;
 import java.text.MessageFormat;
 import java.util.Set;
 
-public class HfAncRegisterProvider extends ChwAncRegisterProvider {
+public class HnppAncRegisterProvider extends ChwAncRegisterProvider {
     private final LayoutInflater inflater;
     private View.OnClickListener onClickListener;
     private Context context;
 
-    public HfAncRegisterProvider(Context context, CommonRepository commonRepository, Set visibleColumns, View.OnClickListener onClickListener, View.OnClickListener paginationClickListener) {
+    public HnppAncRegisterProvider(Context context, CommonRepository commonRepository, Set visibleColumns, View.OnClickListener onClickListener, View.OnClickListener paginationClickListener) {
         super(context, commonRepository, visibleColumns, onClickListener, paginationClickListener);
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.onClickListener = onClickListener;
@@ -50,17 +50,17 @@ public class HfAncRegisterProvider extends ChwAncRegisterProvider {
         if (StringUtils.isNotBlank(dobString) && StringUtils.isNotBlank(lmpString)) {
             int age = Years.yearsBetween(new DateTime(dobString), new DateTime()).getYears();
 
-            String gaLocation = MessageFormat.format("{0}: {1} {2} {3} {4}",
+            String gaLocation = MessageFormat.format("{0}: {1} {2} {3}",
                     context.getString(R.string.gestation_age_initial),
                     NCUtils.gestationAgeString(lmpString, context, false),
                     context.getString(R.string.abbrv_weeks),
-                    context.getString(R.string.interpunct),
-                    Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.VILLAGE_TOWN, true));
+                    context.getString(R.string.interpunct));
 
-            String patientNameAge = MessageFormat.format("{0}, {1}", patientName, age);
+            String patientNameAge = MessageFormat.format("{0},{1}: {2}", patientName,context.getString(R.string.boyos), age);
             viewHolder.patientName.setText(patientNameAge);
             viewHolder.patientAge.setText(gaLocation);
         }
+        viewHolder.villageTown.setText(Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.VILLAGE_TOWN, true));
 
         // add patient listener
         viewHolder.patientColumn.setOnClickListener(onClickListener);

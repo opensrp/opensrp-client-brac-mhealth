@@ -12,6 +12,7 @@ import org.smartregister.chw.core.utils.ChildDBConstants;
 import org.smartregister.chw.core.utils.CoreChildUtils;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.CoreJsonFormUtils;
+import org.smartregister.clientandeventmodel.DateUtil;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.clientandeventmodel.Obs;
 import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
@@ -28,6 +29,36 @@ import java.util.Map;
 import timber.log.Timber;
 
 public class HnppDBUtils extends CoreChildUtils {
+
+    public static ArrayList<ProfileDueInfo> getDueListByFamilyId(String familyId){
+        ArrayList<ProfileDueInfo> profileDueInfoArrayList = new ArrayList<>();
+        String query = "select base_entity_id,gender,marital_status,first_name,dob from ec_family_member where relational_id = '"+familyId+"'";
+        Cursor cursor = null;
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() > 0){
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    ProfileDueInfo profileDueInfo = new ProfileDueInfo();
+                    profileDueInfo.setBaseEntityId(cursor.getString(0));
+                    profileDueInfo.setGender(cursor.getString(1));
+                    profileDueInfo.setMaritalStatus(cursor.getString(2));
+                    profileDueInfo.setName(cursor.getString(3));
+                    profileDueInfo.setDob(cursor.getString(4));
+                    profileDueInfoArrayList.add(profileDueInfo);
+                    cursor.moveToNext();
+                }
+
+            }
+
+        } catch (Exception e) {
+            Timber.e(e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return profileDueInfoArrayList;
+    }
 
 
 

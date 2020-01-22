@@ -197,6 +197,10 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         adapter.addFragment(familyHistoryFragment, this.getString(R.string.activity).toUpperCase());
         viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(adapter);
+        if (getIntent().getBooleanExtra(CoreConstants.INTENT_KEY.SERVICE_DUE, false) ||
+                getIntent().getBooleanExtra(Constants.INTENT_KEY.GO_TO_DUE_PAGE, false)) {
+            viewPager.setCurrentItem(1);
+        }
 
         return viewPager;
     }

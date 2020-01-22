@@ -51,29 +51,6 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
         intent.putExtra(Constants.ACTIVITY_PAYLOAD.TABLE_NAME, getFormTable());
         activity.startActivityForResult(intent, Constants.REQUEST_CODE_GET_JSON);
     }
-    public static void registerBottomNavigation(BottomNavigationHelper bottomNavigationHelper,
-                                                BottomNavigationView bottomNavigationView, Activity activity) {
-        if (bottomNavigationView != null) {
-            bottomNavigationView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
-
-            bottomNavigationView.getMenu().clear();
-            bottomNavigationView.inflateMenu(R.menu.bottom_nav_family_menu);
-            bottomNavigationHelper.disableShiftMode(bottomNavigationView);
-            bottomNavigationView.setOnNavigationItemSelectedListener(new HnppBottomNavigationListener(activity));
-        }
-
-        if (!BuildConfig.SUPPORT_QR) {
-            bottomNavigationView.getMenu().removeItem(org.smartregister.family.R.id.action_scan_qr);
-        }
-    }
-
-    //    @Override
-//    public Class getRegisterActivity(String register) {
-//        if (register.equals(ANC_REGISTRATION))
-//            return HnppAncRegisterActivity.class;
-//        else
-//            return PncRegisterActivity.class;
-//    }
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this).setMessage(getString(R.string.exit_app_message))
@@ -155,10 +132,9 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
         if (!BuildConfig.SUPPORT_QR) {
             bottomNavigationView.getMenu().removeItem(org.smartregister.family.R.id.action_scan_qr);
         }
-
+        bottomNavigationView.getMenu().removeItem(org.smartregister.family.R.id.action_register);
+        bottomNavigationView.getMenu().removeItem(org.smartregister.family.R.id.action_job_aids);
         bottomNavigationView.setOnNavigationItemSelectedListener(new HnppFamilyBottomNavListener(this, bottomNavigationView));
-        org.smartregister.brac.hnpp.activity.HnppAncRegisterActivity.registerBottomNavigation(bottomNavigationHelper, bottomNavigationView, this);
-
     }
 
     @Override

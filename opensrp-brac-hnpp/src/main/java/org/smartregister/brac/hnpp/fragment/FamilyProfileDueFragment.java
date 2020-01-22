@@ -16,12 +16,16 @@ import org.smartregister.brac.hnpp.model.FamilyProfileDueModel;
 import org.smartregister.brac.hnpp.presenter.FamilyProfileDuePresenter;
 import org.smartregister.brac.hnpp.provider.HnppFamilyDueRegisterProvider;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
+import org.smartregister.brac.hnpp.utils.HnppDBUtils;
+import org.smartregister.brac.hnpp.utils.ProfileDueInfo;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.adapter.FamilyRecyclerViewCustomAdapter;
 import org.smartregister.family.fragment.BaseFamilyProfileDueFragment;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.Utils;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -126,6 +130,9 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment imple
         homeVisitView.setTag(TAG_HOME_VISIT);
         homeVisitView.setOnClickListener(this);
         otherServiceView.addView(homeVisitView);
+    }
+    private void updateDueView(){
+        ArrayList<ProfileDueInfo> getAllMemberDueInfo = HnppDBUtils.getDueListByFamilyId(familyBaseEntityId);
     }
 
     @Override
