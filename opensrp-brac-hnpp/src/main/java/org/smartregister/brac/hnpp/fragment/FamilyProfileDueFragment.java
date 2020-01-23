@@ -42,6 +42,7 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment imple
     private String familyBaseEntityId;
     private LinearLayout otherServiceView;
     private static final int TAG_HOME_VISIT= 666;
+    private static final int TAG_PROFILE= 777;
     private Handler handler;
     private boolean isStart = true;
 
@@ -134,9 +135,7 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment imple
             name1.setText("খানা পরিদর্শন");
             homeVisitView.setTag(TAG_HOME_VISIT);
             homeVisitView.setOnClickListener(this);
-            if(otherServiceView.getVisibility() == View.VISIBLE){
-                return;
-            }
+
             otherServiceView.addView(homeVisitView);
         }
 
@@ -160,8 +159,16 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment imple
             name1.setText(profileDueInfo.getName());
             ((TextView)homeVisitView.findViewById(R.id.last_visit)).setVisibility(View.VISIBLE);
             ((TextView)homeVisitView.findViewById(R.id.last_visit)).setText(getString(R.string.boyos)+":"+profileDueInfo.getAge());
-//            homeVisitView.setTag(TAG_HOME_VISIT);
-//            homeVisitView.setOnClickListener(this);
+            homeVisitView.setTag(TAG_PROFILE);
+            homeVisitView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (getActivity() != null && getActivity() instanceof FamilyProfileActivity) {
+                        FamilyProfileActivity activity = (FamilyProfileActivity) getActivity();
+                        activity.openProfile(profileDueInfo.getBaseEntityId());
+                    }
+                }
+            });
             otherServiceView.addView(homeVisitView);
         }
     }

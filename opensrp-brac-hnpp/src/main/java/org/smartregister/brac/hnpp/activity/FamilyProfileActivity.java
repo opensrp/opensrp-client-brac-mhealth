@@ -26,9 +26,13 @@ import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.core.activity.CoreFamilyProfileActivity;
 import org.smartregister.chw.core.activity.CoreFamilyProfileMenuActivity;
 import org.smartregister.chw.core.activity.CoreFamilyRemoveMemberActivity;
+import org.smartregister.chw.core.utils.CoreChildUtils;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.brac.hnpp.fragment.FamilyProfileMemberFragment;
 import org.smartregister.brac.hnpp.presenter.FamilyProfilePresenter;
+import org.smartregister.commonregistry.CommonPersonObject;
+import org.smartregister.commonregistry.CommonPersonObjectClient;
+import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.family.adapter.ViewPagerAdapter;
 import org.smartregister.family.fragment.BaseFamilyProfileDueFragment;
 import org.smartregister.family.util.Constants;
@@ -183,14 +187,15 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         presenter = new FamilyProfilePresenter(this, new HnppFamilyProfileModel(familyName,moduleId,houseHoldId,familyBaseEntityId),houseHoldId, familyBaseEntityId, familyHead, primaryCaregiver, familyName);
     }
     private FamilyHistoryFragment familyHistoryFragment;
+    private FamilyProfileMemberFragment familyProfileMemberFragment;
     private ViewPager mViewPager;
 
     @Override
     protected ViewPager setupViewPager(ViewPager viewPager) {
         this.mViewPager = viewPager;
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(FamilyProfileMemberFragment.newInstance(this.getIntent().getExtras()),
-                this.getString(R.string.member));
+        familyProfileMemberFragment = (FamilyProfileMemberFragment)FamilyProfileMemberFragment.newInstance(this.getIntent().getExtras());
+        adapter.addFragment(familyProfileMemberFragment,this.getString(R.string.member));
         FamilyProfileDueFragment familyProfileDueFragment =(FamilyProfileDueFragment) FamilyProfileDueFragment.newInstance(this.getIntent().getExtras());
         familyHistoryFragment = FamilyHistoryFragment.getInstance(this.getIntent().getExtras());
         adapter.addFragment(familyProfileDueFragment,this.getString(R.string.due));
@@ -226,6 +231,17 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
     public void openHomeVisitFamily() {
         startAnyFormActivity(HnppConstants.JSON_FORMS.HOME_VISIT_FAMILY,REQUEST_HOME_VISIT);
     }
+    public void openProfile(String baseEntityId){
+        CommonPersonObjectClient commonPersonObjectClient = clientObject(baseEntityId);
+        String dobString = Utils.getDuration(Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOB, false));
+        Integer yearOfBirth = CoreChildUtils.dobStringToYear(dobString);
+        if (yearOfBirth != null && yearOfBirth > 5) {
+            familyProfileMemberFragment.goToOtherMemberProfileActivity(commonPersonObjectClient);
+        }else{
+            familyProfileMemberFragment.goToChildProfileActivity(commonPersonObjectClient);
+        }
+
+    }
     public void startAnyFormActivity(String formName, int requestCode) {
         try {
             JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
@@ -246,5 +262,13 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         }catch (Exception e){
 
         }
+    }
+    private CommonPersonObjectClient clientObject(String baseEntityId) {
+        CommonRepository commonRepository =Utils.context().commonrepository(Utils.metadata().familyMemberRegister.tableName);
+        final CommonPersonObject commonPersonObject = commonRepository.findByBaseEntityId(baseEntityId);
+        final CommonPersonObjectClient client =
+                new CommonPersonObjectClient(commonPersonObject.getCaseId(), commonPersonObject.getDetails(), "");
+        client.setColumnmaps(commonPersonObject.getColumnmaps());
+        return client;
     }
 }
