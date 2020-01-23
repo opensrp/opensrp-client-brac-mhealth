@@ -214,16 +214,6 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         return false;
     }
 
-    public static VisitLog createNewVisitLog(String baseEntityId,String event_type,String visit_type,String jsonString) {
-        VisitLog visitLog = new VisitLog();
-        visitLog.setVisitId(generateRandomUUIDString());
-        visitLog.setVisitType(visit_type);
-        visitLog.setBaseEntityId(baseEntityId);
-        visitLog.setVisitDate(new Date().getTime());
-        visitLog.setEventType(event_type);
-        visitLog.setVisitJson(jsonString);
-        return visitLog;
-    }
 
     public static JSONObject updateFormWithMemberId(JSONObject form,String houseHoldId, String familyBaseEntityId) throws JSONException {
         JSONArray field = fields(form, STEP1);

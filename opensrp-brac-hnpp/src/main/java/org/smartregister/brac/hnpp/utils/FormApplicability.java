@@ -23,6 +23,14 @@ import java.util.Map;
 
 public class FormApplicability {
 
+    public static boolean isDueHHVisit(String baseEntityId){
+        return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneWihinTwentyFourHours(baseEntityId, HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY);
+
+    }
+    public static boolean isDueAnyForm(String baseEntityId, String eventType){
+        return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneWihinTwentyFourHours(baseEntityId, eventType);
+
+    }
     public static String getDueFormForMarriedWomen(String baseEntityId, int age){
         String lmp = getLmp(baseEntityId);
             if(!TextUtils.isEmpty(lmp)&&!isClosedPregnancyOutCome(baseEntityId)){

@@ -1,7 +1,12 @@
 package org.smartregister.brac.hnpp.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.smartregister.brac.hnpp.R;
@@ -10,6 +15,7 @@ import org.smartregister.brac.hnpp.activity.HnppChildProfileActivity;
 import org.smartregister.brac.hnpp.model.FamilyProfileDueModel;
 import org.smartregister.brac.hnpp.presenter.FamilyProfileDuePresenter;
 import org.smartregister.brac.hnpp.provider.HnppFamilyDueRegisterProvider;
+import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.adapter.FamilyRecyclerViewCustomAdapter;
@@ -21,13 +27,25 @@ import java.util.Set;
 
 import timber.log.Timber;
 
-public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment {
+public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment implements View.OnClickListener {
 
     private int dueCount = 0;
     private View emptyView;
     private String familyName;
     private long dateFamilyCreated;
     private String familyBaseEntityId;
+    private LinearLayout otherServiceView;
+    private static final int TAG_HOME_VISIT= 666;
+    private Handler handler;
+    private boolean isStart = true;
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser && !isStart){
+            updateStaticView();
+        }
+    }
 
     public static BaseFamilyProfileDueFragment newInstance(Bundle bundle) {
         Bundle args = bundle;
@@ -59,7 +77,10 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment {
     public void setupViews(View view) {
        try {
            super.setupViews(view);
+           isStart = false;
+           otherServiceView = view.findViewById(R.id.other_option);
            emptyView = view.findViewById(R.id.empty_view);
+           emptyView.setVisibility(View.GONE);
        }catch (Exception e){
            Toast.makeText(getActivity(),getString(R.string.fail_result),Toast.LENGTH_SHORT).show();
        }
@@ -71,8 +92,40 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment {
     public void initializeAdapter(Set<org.smartregister.configurableviews.model.View> visibleColumns) {
         HnppFamilyDueRegisterProvider chwDueRegisterProvider = new HnppFamilyDueRegisterProvider(this.getActivity(), this.commonRepository(), visibleColumns, this.registerActionHandler, this.paginationViewHandler);
         this.clientAdapter = new FamilyRecyclerViewCustomAdapter(null, chwDueRegisterProvider, this.context().commonrepository(this.tablename), Utils.metadata().familyDueRegister.showPagination);
-        this.clientAdapter.setCurrentlimit(Utils.metadata().familyDueRegister.currentLimit);
+        this.clientAdapter.setCurrentlimit(0);
         this.clientsView.setAdapter(this.clientAdapter);
+        this.clientsView.setVisibility(View.GONE);
+        updateStaticView();
+
+    }
+    private void updateStaticView(){
+        if(FormApplicability.isDueHHVisit(familyBaseEntityId)){
+            handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    addStaticView();
+                }
+            },500);
+        }else{
+            if(otherServiceView !=null) otherServiceView.setVisibility(View.GONE);
+        }
+    }
+
+    private void addStaticView(){
+        if(otherServiceView.getVisibility() == View.VISIBLE){
+            return;
+        }
+        otherServiceView.setVisibility(View.VISIBLE);
+        View homeVisitView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+        ImageView image1 = homeVisitView.findViewById(R.id.image_view);
+        TextView name1 =  homeVisitView.findViewById(R.id.patient_name_age);
+        homeVisitView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+        image1.setImageResource(R.mipmap.ic_icon_home);
+        name1.setText("খানা পরিদর্শন");
+        homeVisitView.setTag(TAG_HOME_VISIT);
+        homeVisitView.setOnClickListener(this);
+        otherServiceView.addView(homeVisitView);
     }
 
     @Override
@@ -104,16 +157,16 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment {
 
     @Override
     public void countExecute() {
-        super.countExecute();
-        final int count = clientAdapter.getTotalcount();
-
-        if (getActivity() != null && count != dueCount) {
-            dueCount = count;
-            ((FamilyProfileActivity) getActivity()).updateDueCount(dueCount);
-        }
-        if (getActivity() != null) {
-            getActivity().runOnUiThread(() -> onEmptyRegisterCount(count < 1));
-        }
+//        super.countExecute();
+//        final int count = clientAdapter.getTotalcount();
+//
+//        if (getActivity() != null && count != dueCount) {
+//            dueCount = count;
+//            ((FamilyProfileActivity) getActivity()).updateDueCount(dueCount);
+//        }
+//        if (getActivity() != null) {
+//            getActivity().runOnUiThread(() -> onEmptyRegisterCount(count < 1));
+//        }
     }
 
     public void onEmptyRegisterCount(final boolean has_no_records) {
@@ -123,4 +176,25 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment {
     }
 
 
+    @Override
+    public void onClick(View v) {
+        Integer tag = (Integer) v.getTag();
+        if (tag != null) {
+            switch (tag) {
+
+                case TAG_HOME_VISIT:
+                    if (getActivity() != null && getActivity() instanceof FamilyProfileActivity) {
+                        FamilyProfileActivity activity = (FamilyProfileActivity) getActivity();
+                        activity.openHomeVisitFamily();
+                    }
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        if(handler !=null) handler.removeCallbacksAndMessages(null);
+        super.onDestroyView();
+    }
 }

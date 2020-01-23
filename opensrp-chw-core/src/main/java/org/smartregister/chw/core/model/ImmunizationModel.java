@@ -61,7 +61,7 @@ public class ImmunizationModel {
                     continue;
                 }
 
-                String stateKey = VaccinateActionUtils.stateKey(vaccine);
+                String stateKey = "";//VaccinateActionUtils.stateKey(vaccine);
                 if (stateKey.equalsIgnoreCase("18 " + context.getString(R.string.month_full))) {
                     continue;
                 }

@@ -1,12 +1,15 @@
 package org.smartregister.brac.hnpp.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 
 import com.vijay.jsonwizard.activities.JsonFormActivity;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 
 import org.json.JSONObject;
+import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.interactor.HnppAncHomeVisitInteractor;
 import org.smartregister.chw.anc.activity.BaseAncHomeVisitActivity;
 import org.smartregister.chw.anc.domain.MemberObject;
@@ -26,7 +29,19 @@ public class HnppHomeVisitActivity extends BaseAncHomeVisitActivity {
         intent.putExtra(Constants.ANC_MEMBER_OBJECTS.EDIT_MODE, isEditMode);
         activity.startActivityForResult(intent, Constants.REQUEST_CODE_HOME_VISIT);
     }
-
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this).setMessage(getString(R.string.exit_app_message))
+                .setTitle(getString(R.string.exit_app_title)).setCancelable(false)
+                .setPositiveButton(R.string.yes_button_label, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        finish();
+                    }
+                }).setNegativeButton(R.string.no_button_label, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+            }
+        }).show();
+    }
     @Override
     public void startFormActivity(JSONObject jsonForm) {
         Intent intent = new Intent(this, HnppAncJsonFormActivity.class);

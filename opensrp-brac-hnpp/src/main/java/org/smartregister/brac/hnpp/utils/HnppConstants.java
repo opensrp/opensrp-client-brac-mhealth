@@ -290,6 +290,7 @@ public class HnppConstants extends CoreConstants {
         public static final String  NCD_PACKAGE = "hnpp_ncd_package";
         public static final String  IYCF_PACKAGE = "hnpp_iycf_package";
         public static final String ENC_REGISTRATION = "hnpp_enc_child";
+        public static final String HOME_VISIT_FAMILY = "hnpp_hh_visit";
 
     }
 
@@ -309,6 +310,7 @@ public class HnppConstants extends CoreConstants {
         public static final String NCD_PACKAGE = "NCD package";
         public static final String IYCF_PACKAGE = "IYCF package";
         public static final String ENC_REGISTRATION = "ENC Registration";
+        public static final String HOME_VISIT_FAMILY = "HH visit";
 
 
     }
@@ -347,6 +349,7 @@ public class HnppConstants extends CoreConstants {
             .put(Constants.EVENT_TYPE.PNC_HOME_VISIT,R.drawable.sidemenu_pnc)
             .put(EVENT_TYPE.ENC_REGISTRATION,R.mipmap.ic_child)
             .put("Member referral",R.mipmap.ic_refer)
+            .put(EVENT_TYPE.HOME_VISIT_FAMILY, R.mipmap.ic_icon_home)
             .build();
     //need to show the title at row/option
     public static final Map<String,String> visitEventTypeMapping = ImmutableMap.<String,String> builder()
@@ -368,6 +371,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.NCD_PACKAGE, "ব্যাধি সেবা প্যাকেজ (এন সি ডি)")
             .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)")
             .put(EVENT_TYPE.ENC_REGISTRATION, "সক্ষম দম্পতি পরিচর্যা")
+            .put(EVENT_TYPE.HOME_VISIT_FAMILY, "খানা পরিদর্শন")
             .build();
     //needed for dashboard
     public static final Map<String,String> eventTypeMapping = ImmutableMap.<String,String> builder()
@@ -388,6 +392,7 @@ public class HnppConstants extends CoreConstants {
             .put(Constants.EVENT_TYPE.PNC_HOME_VISIT,"প্রসবোত্তর পরিচর্যা ভিজিট")
             .put(EVENT_TYPE.PNC_REGISTRATION,"প্রসবোত্তর পরিচর্যা")
             .put(EVENT_TYPE.ENC_REGISTRATION, "সক্ষম দম্পতি পরিচর্যা")
+            .put(EVENT_TYPE.HOME_VISIT_FAMILY, "খানা পরিদর্শন")
             .build();
 
     private static String getKeyByValue(String mapperObj, String value){

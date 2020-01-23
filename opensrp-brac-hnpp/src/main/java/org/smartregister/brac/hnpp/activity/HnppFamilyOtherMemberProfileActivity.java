@@ -310,7 +310,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        memberHistoryFragment.onActivityResult(0,0,null);
+//                        memberHistoryFragment.onActivityResult(0,0,null);
                         mViewPager.setCurrentItem(3,true);
 
                     }

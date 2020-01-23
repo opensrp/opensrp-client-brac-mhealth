@@ -7,6 +7,15 @@ public class MemberHistoryData {
     private String eventType;
     private long visitDate;
     private String visitDetails;
+    private String memberName;
+
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
+    }
+
+    public String getMemberName() {
+        return memberName;
+    }
 
     public int getImageSource() {
         return imageSource;

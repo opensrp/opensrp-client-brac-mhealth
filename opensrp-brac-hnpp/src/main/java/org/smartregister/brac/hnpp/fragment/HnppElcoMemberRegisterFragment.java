@@ -457,6 +457,7 @@ public class HnppElcoMemberRegisterFragment extends CoreChildRegisterFragment im
         return query;
     }
     public static String mainFilter(String mainCondition, String mainMemberCondition, String filters, String sort, int limit, int offset) {
+
         return "SELECT " + CommonFtsObject.idColumn + " FROM " + CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER) + " WHERE " + CommonFtsObject.idColumn + " IN " +
                 " ( SELECT " + CommonFtsObject.idColumn + " FROM " + CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER) + " WHERE  " + mainCondition + "  AND " + CommonFtsObject.phraseColumn + HnppDBUtils.matchPhrase(filters) +
                 " UNION " +
