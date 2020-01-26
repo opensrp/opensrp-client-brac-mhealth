@@ -321,6 +321,21 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
 
     }
+    public static JSONObject updateFormWithAllMemberName(JSONObject form , ArrayList<String> motherNameList) throws Exception{
+
+        JSONArray jsonArray = new JSONArray();
+        for(String name : motherNameList){
+            jsonArray.put(name);
+        }
+        jsonArray.put("কাউকে পাওয়া যায়নি");
+        JSONArray field = fields(form, STEP1);
+        JSONObject spinner = getFieldJSONObject(field, "hh_visit_members");
+
+        spinner.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);
+        return form;
+
+
+    }
 
     public static JSONObject getAutoPopulatedJsonEditFormString(String formName, Context context, CommonPersonObjectClient client, String eventType) {
         try {

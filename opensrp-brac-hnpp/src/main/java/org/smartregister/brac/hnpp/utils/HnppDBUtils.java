@@ -153,6 +153,26 @@ public class HnppDBUtils extends CoreChildUtils {
         }
         return womenList;
     }
+    public static ArrayList<String> getAllMembersInHouseHold(String familyID){
+        String query = "select first_name from ec_family_member where relational_id = '"+familyID+"'";
+        Cursor cursor = null;
+        ArrayList<String> memberList = new ArrayList<>();
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                String name = cursor.getString(0);
+                memberList.add(name);
+                cursor.moveToNext();
+            }
+        } catch (Exception e) {
+            Timber.e(e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return memberList;
+    }
     public static ArrayList<String> getAllWomenInHouseHold(String entityId, String familyID){
         String query = "select first_name from ec_family_member where (gender = 'নারী' OR gender = 'F') and ((marital_status != 'অবিবাহিত' AND marital_status != 'Unmarried') and marital_status IS NOT NULL) and relational_id = '"+familyID+"' and base_entity_id != '"+entityId+"'";
         Cursor cursor = null;

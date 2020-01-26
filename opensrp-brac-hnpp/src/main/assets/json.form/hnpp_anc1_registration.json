@@ -69,6 +69,56 @@
         "hint": "সম্ভাব্য প্রসবের তারিখ"
       },
       {
+        "key": "number_of_anc",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "number_of_anc",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "কত নম্বর গর্ভবতী পরিচর্যা সেবা (এ.এন.সি.)?",
+        "values": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8"
+        ],
+        "openmrs_choice_ids": {
+          "1": "1",
+          "2": "2",
+          "3": "3",
+          "4": "4",
+          "5": "5",
+          "6": "6",
+          "7": "7",
+          "8": "8"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "height",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "height",
+        "type": "edit_text",
+        "hint": "মায়ের উচ্চতা (সে.মি.)",
+        "type": "hidden",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
         "key": "weight",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -99,6 +149,13 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        },
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_bmi_calculation_rule.yml"
+            }
+          }
         }
       },
       {

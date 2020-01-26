@@ -100,6 +100,11 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
                 if (((MaterialEditText)v).getFloatingLabelText()!=null&&(((MaterialEditText)v).getFloatingLabelText().toString()).equals("হিমোগ্লোবিন(gm/dl)")){
                     ((MaterialEditText)v).addTextChangedListener(textWatcherhemoglobin);
                 }
+                if (((MaterialEditText) v).getFloatingLabelText() != null && (((MaterialEditText) v).getFloatingLabelText().toString()).equals("বি.এম.আই")) {
+                    ((MaterialEditText) v).setEnabled(false);
+//                    JSONObject formObject = getJsonApi().getmJSONObject();
+//                    System.out.print(formObject);
+                }
             }
         }
 

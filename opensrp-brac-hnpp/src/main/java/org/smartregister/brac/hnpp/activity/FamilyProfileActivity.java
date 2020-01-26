@@ -21,6 +21,7 @@ import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.model.HnppFamilyProfileModel;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.core.activity.CoreFamilyProfileActivity;
@@ -41,6 +42,7 @@ import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
 import org.smartregister.util.FormUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -245,6 +247,11 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
     public void startAnyFormActivity(String formName, int requestCode) {
         try {
             JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
+            if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.HOME_VISIT_FAMILY)){
+                ArrayList<String> memberList = HnppDBUtils.getAllMembersInHouseHold(familyBaseEntityId);
+                HnppJsonFormUtils.updateFormWithAllMemberName(jsonForm,memberList);
+            }
+
             jsonForm.put(org.smartregister.util.JsonFormUtils.ENTITY_ID, familyBaseEntityId);
             Intent intent;
             intent = new Intent(this, org.smartregister.family.util.Utils.metadata().familyMemberFormActivity);
