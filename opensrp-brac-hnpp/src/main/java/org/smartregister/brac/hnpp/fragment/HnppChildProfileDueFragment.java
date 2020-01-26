@@ -17,7 +17,6 @@ import org.smartregister.brac.hnpp.presenter.HnppMemberProfileDuePresenter;
 import org.smartregister.brac.hnpp.provider.HnppFamilyDueRegisterProvider;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
-import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.chw.core.utils.CoreChildUtils;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.adapter.FamilyRecyclerViewCustomAdapter;
@@ -28,15 +27,13 @@ import org.smartregister.family.util.Utils;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import timber.log.Timber;
 
 import static org.smartregister.brac.hnpp.utils.HnppConstants.eventTypeFormNameMapping;
 
-public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment implements View.OnClickListener {
+public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment implements View.OnClickListener {
     private static final int TAG_OPEN_ANC1 = 101;
     private static final int TAG_OPEN_ANC2 = 102;
     private static final int TAG_OPEN_ANC3 = 103;
@@ -62,7 +59,7 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
 
     public static BaseFamilyProfileDueFragment newInstance(Bundle bundle) {
         Bundle args = bundle;
-        BaseFamilyProfileDueFragment fragment = new HnppMemberProfileDueFragment();
+        BaseFamilyProfileDueFragment fragment = new HnppChildProfileDueFragment();
         if (args == null) {
             args = new Bundle();
         }
@@ -158,46 +155,44 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
         }
 
     }
+    public void  updateChildDueEntry(int type, String serviceName, String dueDate){
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(otherServiceView.getVisibility() == View.GONE)
+                    otherServiceView.setVisibility(View.VISIBLE);
+                View encView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+                ImageView image1 = encView.findViewById(R.id.image_view);
+                TextView name1 =  encView.findViewById(R.id.patient_name_age);
+                encView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+                image1.setImageResource(R.mipmap.ic_child);
+                switch (type){
+                    case 1:
+                        name1.setText(CoreChildUtils.fromHtml(getString(org.smartregister.chw.core.R.string.vaccine_service_due, serviceName, dueDate)));
+
+                        break;
+                    case 2:
+                        name1.setText(CoreChildUtils.fromHtml(getString(org.smartregister.chw.core.R.string.vaccine_service_overdue, serviceName, dueDate)));
+                        break;
+                    case 3:
+                        name1.setText(CoreChildUtils.fromHtml(getString(org.smartregister.chw.core.R.string.vaccine_service_upcoming, serviceName, dueDate)));
+                        break;
+                }
+                encView.setTag(TAG_CHILD_DUE);
+                encView.setOnClickListener(HnppChildProfileDueFragment.this);
+                otherServiceView.addView(encView);
+            }
+        },500);
+
+    }
     String eventType = "";
     View anc1View;
     private void addStaticView(){
         if(otherServiceView.getVisibility() == View.VISIBLE){
             return;
         }
-            String gender = org.smartregister.util.Utils.getValue(commonPersonObjectClient.getColumnmaps(), "gender", false);
-            String maritalStatus  = org.smartregister.util.Utils.getValue(commonPersonObjectClient.getColumnmaps(), "marital_status", false);
-            otherServiceView.setVisibility(View.VISIBLE);
-            if(gender.equalsIgnoreCase("F") && maritalStatus.equalsIgnoreCase("Married")){
-                //if women
 
-                anc1View = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
-                ImageView imageanc1View = anc1View.findViewById(R.id.image_view);
-                TextView nameanc1View =  anc1View.findViewById(R.id.patient_name_age);
-                anc1View.setTag(TAG_OPEN_ANC1);
-                anc1View.setOnClickListener(this);
-                eventType = FormApplicability.getDueFormForMarriedWomen(baseEntityId,FormApplicability.getAge(commonPersonObjectClient));
-                if(FormApplicability.isDueAnyForm(baseEntityId,eventType) && !TextUtils.isEmpty(eventType)){
-                    if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY)) {
-                        isFirstAnc = true;
-                        nameanc1View.setText(HnppConstants.visitEventTypeMapping.get(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION));
-                    }else{
-                        isFirstAnc = false;
-                        nameanc1View.setText(HnppConstants.visitEventTypeMapping.get(eventType));
-                    }
-                    imageanc1View.setImageResource(HnppConstants.iconMapping.get(eventType));
-                    anc1View.setTag(org.smartregister.family.R.id.VIEW_ID,eventType);
-                    if(getActivity() instanceof HnppFamilyOtherMemberProfileActivity){
-                        HnppFamilyOtherMemberProfileActivity aaa = (HnppFamilyOtherMemberProfileActivity) getActivity();
-                        aaa.updatePregnancyOutcomeVisible(eventType);
-                    }
-                    otherServiceView.addView(anc1View);
-                }
-
-
-
-
-            }
-        String dobString =org.smartregister.family.util.Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOB, false);
+        String dobString = Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOB, false);
         Date dob = Utils.dobStringToDate(dobString);
         boolean isEnc = FormApplicability.isEncVisible(dob);
         if(isEnc){
@@ -252,27 +247,16 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
         Integer tag = (Integer) v.getTag();
         if (tag != null) {
             switch (tag) {
-                case TAG_OPEN_FAMILY:
-                    if (getActivity() != null && getActivity() instanceof HnppFamilyOtherMemberProfileActivity) {
-                        HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) getActivity();
-                        activity.openFamilyDueTab();
+                case TAG_ENC:
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                        activity.openEnc();
                     }
                     break;
-                case TAG_OPEN_REFEREAL:
-                    if (getActivity() != null && getActivity() instanceof HnppFamilyOtherMemberProfileActivity) {
-                        HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) getActivity();
-                        activity.openRefereal();
-                    }
-                    break;
-                case TAG_OPEN_ANC1:
-                    if (getActivity() != null && getActivity() instanceof HnppFamilyOtherMemberProfileActivity) {
-                        HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) getActivity();
-                        String eventType = (String) v.getTag(org.smartregister.family.R.id.VIEW_ID);
-                        if(isFirstAnc){
-                            activity.openHomeVisitForm();
-                        }else {
-                            activity.openHomeVisitSingleForm(eventTypeFormNameMapping.get(eventType));
-                        }
+                case TAG_CHILD_DUE:
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                        activity.startChildHomeVisit();
                     }
                     break;
             }

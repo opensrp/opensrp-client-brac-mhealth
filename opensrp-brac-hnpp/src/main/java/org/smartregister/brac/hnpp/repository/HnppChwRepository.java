@@ -53,6 +53,8 @@ public class HnppChwRepository extends CoreChwRepository {
         RecurringServiceRecordRepository.createTable(database);
         RecurringServiceTypeRepository recurringServiceTypeRepository = ImmunizationLibrary.getInstance().recurringServiceTypeRepository();
         IMDatabaseUtils.populateRecurringServices(context, database, recurringServiceTypeRepository);
+        upgradeToVersion18(context,database);
+
     }
 
     @Override
@@ -87,11 +89,36 @@ public class HnppChwRepository extends CoreChwRepository {
                 case 17:
                     upgradeToVersion17(context, db);
                     break;
+                case 18:
+                    upgradeToVersion18(context, db);
+                    break;
                 default:
                     break;
             }
             upgradeTo++;
         }
+    }
+
+    private void upgradeToVersion18(Context context, SQLiteDatabase db) {
+        db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_EVENT_ID_COL);
+        db.execSQL(VaccineRepository.EVENT_ID_INDEX);
+        db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_FORMSUBMISSION_ID_COL);
+        db.execSQL(VaccineRepository.FORMSUBMISSION_INDEX);
+        db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL);
+        db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL_INDEX);
+        db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_HIA2_STATUS_COL);
+        IMDatabaseUtils.accessAssetsAndFillDataBaseForVaccineTypes(context, db);
+        db.execSQL(VaccineRepository.ALTER_ADD_CREATED_AT_COLUMN);
+        VaccineRepository.migrateCreatedAt(db);
+        db.execSQL(RecurringServiceRecordRepository.ALTER_ADD_CREATED_AT_COLUMN);
+        RecurringServiceRecordRepository.migrateCreatedAt(db);
+        db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_TEAM_COL);
+        db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_TEAM_ID_COL);
+        db.execSQL(RecurringServiceRecordRepository.UPDATE_TABLE_ADD_TEAM_COL);
+        db.execSQL(RecurringServiceRecordRepository.UPDATE_TABLE_ADD_TEAM_ID_COL);
+        db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_CHILD_LOCATION_ID_COL);
+        db.execSQL(RecurringServiceRecordRepository.UPDATE_TABLE_ADD_CHILD_LOCATION_ID_COL);
+
     }
 
 

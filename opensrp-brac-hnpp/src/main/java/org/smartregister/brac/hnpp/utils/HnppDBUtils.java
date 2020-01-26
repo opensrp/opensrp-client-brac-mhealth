@@ -52,7 +52,11 @@ public class HnppDBUtils extends CoreChildUtils {
                         String eventType = FormApplicability.getDueFormForMarriedWomen(profileDueInfo.getBaseEntityId(),
                                 FormApplicability.getAge(profileDueInfo.getDob()));
                         if(FormApplicability.isDueAnyForm(profileDueInfo.getBaseEntityId(),eventType) && !TextUtils.isEmpty(eventType)){
-                            profileDueInfo.setEventType(HnppConstants.visitEventTypeMapping.get(eventType));
+                            if(eventType.equalsIgnoreCase("পূর্বের গর্ভের ইতিহাস")){
+                                profileDueInfo.setEventType("গর্ভবতী পরিচর্যা - ১ম ত্রিমাসিক");
+                            }else{
+                                profileDueInfo.setEventType(HnppConstants.visitEventTypeMapping.get(eventType));
+                            }
                             profileDueInfoArrayList.add(profileDueInfo);
                         }
 

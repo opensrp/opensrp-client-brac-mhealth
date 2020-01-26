@@ -77,6 +77,11 @@ public class HnppChildProfilePresenter extends CoreChildProfilePresenter {
     }
 
     @Override
+    public void fetchProfileData() {
+        super.fetchProfileData();
+    }
+
+    @Override
     public void verifyHasPhone() {
         //new HnppFamilyProfileInteractor().verifyHasPhone(familyID, this);
     }

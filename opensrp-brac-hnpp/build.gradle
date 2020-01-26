@@ -41,14 +41,13 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         buildConfigField "String", 'opensrp_url_live', '"https://mhealth.brac.net/opensrp/"'
-//        buildConfigField "String", 'opensrp_url_training', '"http://192.168.19.146:8080/opensrp/"'
-        buildConfigField "String", 'opensrp_url_training', '"http://mhealthtest.brac.net:8080/opensrp/"'
+
         buildConfigField "String", "SIMPRINT_PROJECT_ID_TRAINING",'"pcmqBbcaB4xWvfRHRELG"'
         buildConfigField "String", "SIMPRINT_PROJECT_ID_RELEASE",'"pcmqBbcaB4xWvfRHRELG"'
         buildConfigField "String[]", "ALLOWED_LOCATION_LEVELS", '{"MOH Jhpiego Facility Name" , "Village"}'
         buildConfigField "String", 'DEFAULT_LOCATION', '"Village"'
         buildConfigField "boolean", 'SUPPORT_QR', 'false'
-        buildConfigField "int", "DATABASE_VERSION", '17'
+        buildConfigField "int", "DATABASE_VERSION", '18'
         buildConfigField "int", "DATA_SYNC_DURATION_MINUTES", '10'
         buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "1800000l"
         buildConfigField "boolean", "TIME_CHECK", "false"
@@ -75,6 +74,7 @@ android {
             buildConfigField "int", "PULL_SSLOCATION", '180'
             buildConfigField "int", "REPORT_INDICATOR_GENERATION_MINUTES", '15'
             buildConfigField "int", "HOME_VISIT_MINUTES", '60'
+            buildConfigField "String", 'opensrp_url_training', '"http://mhealthtest.brac.net:8080/opensrp/"'
         }
 
         debug {
@@ -89,6 +89,8 @@ android {
             buildConfigField "int", "PULL_SSLOCATION", '180'
             buildConfigField "int", "REPORT_INDICATOR_GENERATION_MINUTES", '15'
             buildConfigField "int", "HOME_VISIT_MINUTES", '10'
+            buildConfigField "String", 'opensrp_url_training', '"http://192.168.19.146:8080/opensrp/"'
+
             testCoverageEnabled true
         }
     }
