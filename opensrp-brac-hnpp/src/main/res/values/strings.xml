@@ -154,4 +154,5 @@
     <string name="anc_visit">গর্ভবতী পরিচর্যা</string>
     <string name="submit">সাবমিট</string>
     <string name="boyos">বয়স</string>
+    <string name="gps_searching">জিপিএস ডেটা অনুসন্ধান করা হচ্ছে</string>
 </resources>

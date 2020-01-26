@@ -1,17 +1,28 @@
 package org.smartregister.brac.hnpp.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
+import com.vijay.jsonwizard.utils.PermissionUtils;
 
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.R;
@@ -231,7 +242,101 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         }
     }
     public void openHomeVisitFamily() {
-        startAnyFormActivity(HnppConstants.JSON_FORMS.HOME_VISIT_FAMILY,REQUEST_HOME_VISIT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions((Activity) this, new String[]{
+                        Manifest.permission.ACCESS_FINE_LOCATION}, PermissionUtils.FINE_LOCATION_PERMISSION_REQUEST_CODE);
+                return;
+            } else {
+                getGPSLocation();
+            }
+        }
+
+    }
+    private void getGPSLocation(){
+        org.smartregister.util.Utils.startAsyncTask(new AsyncTask() {
+            LocationManager locationManager;
+            Location location;
+            boolean isGPSEnable,isNetworkEnable;
+            double latitude,longitude;
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                showProgressDialog(R.string.gps_searching);
+            }
+
+            @Override
+            protected Object doInBackground(Object[] objects) {
+
+                locationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
+                isGPSEnable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                isNetworkEnable = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+                if (!isGPSEnable && !isNetworkEnable){
+
+                }else {
+
+                    if (isNetworkEnable) {
+                        location = null;
+                        if (locationManager != null) {
+                            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                            if (location != null) {
+
+                                Log.e("latitude", location.getLatitude() + "");
+                                Log.e("longitude", location.getLongitude() + "");
+
+                                latitude = location.getLatitude();
+                                longitude = location.getLongitude();
+                            }
+                        }
+
+                    }
+
+
+                    if (isGPSEnable) {
+                        location = null;
+                        if (locationManager != null) {
+                            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                            if (location != null) {
+                                Log.e("latitude", location.getLatitude() + "");
+                                Log.e("longitude", location.getLongitude() + "");
+                                latitude = location.getLatitude();
+                                longitude = location.getLongitude();
+                            }
+                        }
+                    }
+                }
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                hideProgressDialog();
+                try{
+                    JSONObject jsonForm = FormUtils.getInstance(getApplicationContext()).getFormJson(HnppConstants.JSON_FORMS.HOME_VISIT_FAMILY);
+                    ArrayList<String> memberList = HnppDBUtils.getAllMembersInHouseHold(familyBaseEntityId);
+                    HnppJsonFormUtils.updateFormWithAllMemberName(jsonForm,memberList);
+                    HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
+                    startHHFormActivity(jsonForm,REQUEST_HOME_VISIT);
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, null);
+
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (PermissionUtils.verifyPermissionGranted(permissions, grantResults, Manifest.permission.ACCESS_FINE_LOCATION)) {
+            getGPSLocation();
+        }
     }
     public void openProfile(String baseEntityId){
         CommonPersonObjectClient commonPersonObjectClient = clientObject(baseEntityId);
@@ -244,13 +349,29 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         }
 
     }
+    public void startHHFormActivity(JSONObject jsonForm, int requestCode) {
+        try {
+            jsonForm.put(org.smartregister.util.JsonFormUtils.ENTITY_ID, familyBaseEntityId);
+            Intent intent;
+            intent = new Intent(this, org.smartregister.family.util.Utils.metadata().familyMemberFormActivity);
+            intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+
+            Form form = new Form();
+            form.setWizard(false);
+            form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+
+            intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+            intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
+            if (this != null) {
+                this.startActivityForResult(intent, requestCode);
+            }
+        }catch (Exception e){
+
+        }
+    }
     public void startAnyFormActivity(String formName, int requestCode) {
         try {
             JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
-            if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.HOME_VISIT_FAMILY)){
-                ArrayList<String> memberList = HnppDBUtils.getAllMembersInHouseHold(familyBaseEntityId);
-                HnppJsonFormUtils.updateFormWithAllMemberName(jsonForm,memberList);
-            }
 
             jsonForm.put(org.smartregister.util.JsonFormUtils.ENTITY_ID, familyBaseEntityId);
             Intent intent;

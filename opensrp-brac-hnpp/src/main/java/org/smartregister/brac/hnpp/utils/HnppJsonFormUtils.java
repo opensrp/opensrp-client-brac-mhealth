@@ -336,6 +336,14 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
 
     }
+    public static JSONObject updateLatitudeLongitude(JSONObject form,double latitude, double longitude) throws JSONException {
+        JSONArray field = fields(form, STEP1);
+        JSONObject latitude_field = getFieldJSONObject(field, "latitude");
+        JSONObject longitude_field = getFieldJSONObject(field, "longitude");
+        latitude_field.put(org.smartregister.family.util.JsonFormUtils.VALUE,latitude );
+        longitude_field.put(org.smartregister.family.util.JsonFormUtils.VALUE,longitude );
+        return form;
+    }
 
     public static JSONObject getAutoPopulatedJsonEditFormString(String formName, Context context, CommonPersonObjectClient client, String eventType) {
         try {
