@@ -65,6 +65,7 @@
         "openmrs_entity_id": "number_of_pnc",
         "openmrs_data_type": "",
         "type": "spinner",
+        "read_only": true,
         "hint": "কত নম্বর গর্ভপরবর্তী সেবা (পি.এন.সি.)?",
         "values": [
           "1",

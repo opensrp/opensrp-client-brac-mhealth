@@ -212,9 +212,13 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
        try {
            JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
            addEDDField(formName,jsonForm);
-           jsonForm.put(JsonFormUtils.ENTITY_ID, familyBaseEntityId);
+           jsonForm.put(JsonFormUtils.ENTITY_ID, baseEntityId);
            Intent intent;
 //           if(formName.contains("anc"))
+           HnppVisitLogRepository visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
+           JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+           JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+           updateFormField(jsonArray,"height",visitLogRepository.getHeight(baseEntityId));
            intent = new Intent(this, HnppAncJsonFormActivity.class);
 //           else
 //               intent = new Intent(this, org.smartregister.family.util.Utils.metadata().familyMemberFormActivity);

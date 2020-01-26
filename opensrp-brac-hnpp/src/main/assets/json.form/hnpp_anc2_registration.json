@@ -101,6 +101,23 @@
         }
       },
       {
+        "key": "height",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "height",
+        "type": "edit_text",
+        "hint": "মায়ের উচ্চতা (সে.মি.)",
+        "type": "hidden",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
         "key": "weight",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -131,6 +148,13 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        },
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_bmi_calculation_rule.yml"
+            }
+          }
         }
       },
       {

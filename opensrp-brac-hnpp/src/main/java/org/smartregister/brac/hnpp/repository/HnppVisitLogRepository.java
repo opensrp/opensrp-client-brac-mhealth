@@ -71,6 +71,16 @@ public class HnppVisitLogRepository extends BaseRepository {
         }
 
     }
+
+    public String getHeight(String base_entity_id){
+        SQLiteDatabase database = getWritableDatabase();
+        Cursor cursor = database.rawQuery("select height from ec_anc_register where base_entity_id = '"+base_entity_id+"'",null);
+        if(cursor!=null && cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            return cursor.getString(0);
+        }
+        return "1";
+    }
     public ArrayList<String> getVisitIds(){
         ArrayList<String>visit_ids = new ArrayList<String>();
         try{
