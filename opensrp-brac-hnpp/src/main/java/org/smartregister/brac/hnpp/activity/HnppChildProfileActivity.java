@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.adapter.ReferralCardViewAdapter;
 import org.smartregister.brac.hnpp.custom_view.FamilyMemberFloatingMenu;
+import org.smartregister.brac.hnpp.fragment.HnppChildProfileDueFragment;
 import org.smartregister.brac.hnpp.fragment.HnppMemberProfileDueFragment;
 import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
 import org.smartregister.brac.hnpp.fragment.MemberOtherServiceFragment;
@@ -165,7 +166,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     }
     MemberOtherServiceFragment memberOtherServiceFragment;
     MemberHistoryFragment memberHistoryFragment;
-    HnppMemberProfileDueFragment profileMemberFragment;
+    HnppChildProfileDueFragment profileMemberFragment;
     ViewPager mViewPager;
     protected ViewPagerAdapter adapter;
     @Override
@@ -174,7 +175,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
         this.mViewPager = viewPager;
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        profileMemberFragment =(HnppMemberProfileDueFragment) HnppMemberProfileDueFragment.newInstance(this.getIntent().getExtras());
+        profileMemberFragment =(HnppChildProfileDueFragment) HnppChildProfileDueFragment.newInstance(this.getIntent().getExtras());
         profileMemberFragment.setCommonPersonObjectClient(commonPersonObject);
         adapter.addFragment(profileMemberFragment, this.getString(R.string.due).toUpperCase());
         memberOtherServiceFragment = new MemberOtherServiceFragment();

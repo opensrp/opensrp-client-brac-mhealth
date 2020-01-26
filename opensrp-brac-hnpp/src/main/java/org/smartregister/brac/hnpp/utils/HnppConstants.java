@@ -370,7 +370,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.GIRL_PACKAGE, "কিশোরী সেবা প্যাকেজ")
             .put(EVENT_TYPE.NCD_PACKAGE, "ব্যাধি সেবা প্যাকেজ (এন সি ডি)")
             .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)")
-            .put(EVENT_TYPE.ENC_REGISTRATION, "সক্ষম দম্পতি পরিচর্যা")
+            .put(EVENT_TYPE.ENC_REGISTRATION, "ENC")
             .put(EVENT_TYPE.HOME_VISIT_FAMILY, "খানা পরিদর্শন")
             .build();
     //needed for dashboard
@@ -391,7 +391,7 @@ public class HnppConstants extends CoreConstants {
             .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,"গর্ভবতী পরিচর্যা ভিজিট")
             .put(Constants.EVENT_TYPE.PNC_HOME_VISIT,"প্রসবোত্তর পরিচর্যা ভিজিট")
             .put(EVENT_TYPE.PNC_REGISTRATION,"প্রসবোত্তর পরিচর্যা")
-            .put(EVENT_TYPE.ENC_REGISTRATION, "সক্ষম দম্পতি পরিচর্যা")
+            .put(EVENT_TYPE.ENC_REGISTRATION, "ENC")
             .put(EVENT_TYPE.HOME_VISIT_FAMILY, "খানা পরিদর্শন")
             .build();
 

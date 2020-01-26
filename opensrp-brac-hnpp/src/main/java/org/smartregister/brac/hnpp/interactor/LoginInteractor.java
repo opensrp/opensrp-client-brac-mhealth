@@ -60,6 +60,7 @@ try{
             HomeVisitServiceJob.scheduleJobImmediately(HomeVisitServiceJob.TAG);
             VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
             HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
+            VaccineRecurringServiceJob.scheduleJobImmediately(VaccineRecurringServiceJob.TAG);
         }catch (Exception e){
 
         }

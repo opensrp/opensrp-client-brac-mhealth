@@ -31,7 +31,7 @@ import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSLocations;
 import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.model.HnppPncRegisterFragmentModel;
-import org.smartregister.brac.hnpp.provider.HfAncRegisterProvider;
+import org.smartregister.brac.hnpp.provider.HnppAncRegisterProvider;
 import org.smartregister.brac.hnpp.provider.HnppPncRegisterProvider;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.anc.domain.MemberObject;
@@ -484,7 +484,7 @@ public class HnppAncRegisterFragment extends AncRegisterFragment implements View
     }
     @Override
     public void initializeAdapter(Set<org.smartregister.configurableviews.model.View> visibleColumns) {
-        HfAncRegisterProvider provider = new HfAncRegisterProvider(getActivity(), commonRepository(), visibleColumns, registerActionHandler, paginationViewHandler);
+        HnppAncRegisterProvider provider = new HnppAncRegisterProvider(getActivity(), commonRepository(), visibleColumns, registerActionHandler, paginationViewHandler);
         clientAdapter = new RecyclerViewPaginatedAdapter(null, provider, context().commonrepository(this.tablename));
         clientAdapter.setCurrentlimit(20);
         clientsView.setAdapter(clientAdapter);

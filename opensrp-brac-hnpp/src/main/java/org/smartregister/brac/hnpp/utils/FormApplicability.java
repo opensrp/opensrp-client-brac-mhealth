@@ -152,6 +152,13 @@ public class FormApplicability {
         }
         return -1;
     }
+    public static int getAge(String dobString){
+        if(!TextUtils.isEmpty(dobString) ){
+            Period period = new Period(new DateTime(dobString), new DateTime());
+            return period.getYears();
+        }
+        return -1;
+    }
     public static String getGender(CommonPersonObjectClient commonPersonObject){
         return org.smartregister.util.Utils.getValue(commonPersonObject.getColumnmaps(), "gender", false);
     }

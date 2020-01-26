@@ -2,10 +2,14 @@ package org.smartregister.brac.hnpp.fragment;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.Gravity;
 import android.view.ViewGroup;
@@ -27,7 +31,6 @@ import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.model.HnppAllMemberRegisterFragmentModel;
 import org.smartregister.brac.hnpp.presenter.HnppAllMemberRegisterFragmentPresenter;
 import org.smartregister.brac.hnpp.provider.HnppAllMemberRegisterProvider;
-import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.core.activity.CoreChildHomeVisitActivity;
@@ -35,7 +38,6 @@ import org.smartregister.chw.core.fragment.CoreChildRegisterFragment;
 import org.smartregister.chw.core.utils.ChildDBConstants;
 import org.smartregister.chw.core.utils.CoreChildUtils;
 import org.smartregister.chw.core.utils.CoreConstants;
-import org.smartregister.commonregistry.CommonFtsObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.configurableviews.model.View;
@@ -170,13 +172,34 @@ public class HnppAllMemberRegisterFragment extends CoreChildRegisterFragment imp
     public void filter(String filterString, String joinTableString, String mainConditionString, boolean qrCode) {
         this.joinTables = new String[]{CoreConstants.TABLE_NAME.FAMILY};
         searchFilterString = filterString;
-        mSelectedVillageName = "";
-        mSelectedClasterName = "";
-        if(clients_header_layout.getVisibility() == android.view.View.VISIBLE){
-            clients_header_layout.setVisibility(android.view.View.GONE);
-        }
+//        mSelectedVillageName = "";
+//        mSelectedClasterName = "";
+//        if(clients_header_layout.getVisibility() == android.view.View.VISIBLE){
+//            clients_header_layout.setVisibility(android.view.View.GONE);
+//        }
         clientAdapter.setCurrentoffset(0);
-        super.filter(filterString, joinTableString, mainConditionString, qrCode);
+        super.filter(searchFilterString, joinTableString, mainConditionString, qrCode);
+
+    }
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, final Bundle args) {
+        switch (id) {
+            case LOADER_ID:
+                // Returns a new CursorLoader
+                return new CursorLoader(getActivity()) {
+                    @Override
+                    public Cursor loadInBackground() {
+                        // Count query
+                        if (args != null && args.getBoolean("count_execute")) {
+                            countExecute();
+                        }
+                        return commonRepository().rawCustomQueryForAdapter(filterandSortQuery());
+                    }
+                };
+            default:
+                // An invalid id was passed in
+                return null;
+        }
 
     }
 
@@ -346,43 +369,30 @@ public class HnppAllMemberRegisterFragment extends CoreChildRegisterFragment imp
             dialog.show();
         }
     }
+
     @Override
     public void countExecute() {
-        SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(mainSelect);
         StringBuilder customFilter = new StringBuilder();
-        if (StringUtils.isNotBlank(filters)) {
-            customFilter.append(MessageFormat.format(" and ( {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.FIRST_NAME, filters));
-            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.LAST_NAME, filters));
-            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.MIDDLE_NAME, filters));
+        if (StringUtils.isNotBlank(searchFilterString)) {
+            customFilter.append(MessageFormat.format(" and ( {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.FIRST_NAME, searchFilterString));
+            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.LAST_NAME, searchFilterString));
+            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.MIDDLE_NAME, searchFilterString));
+            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.UNIQUE_ID, searchFilterString));
+
         }
         if(!StringUtils.isEmpty(mSelectedClasterName)&&!StringUtils.isEmpty(mSelectedVillageName)){
-            customFilter.append(MessageFormat.format(" or ( {0}.{1} like ''%{2}%''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
-            customFilter.append(MessageFormat.format(" and {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
+            customFilter.append(MessageFormat.format(" and ( {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
+            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ) ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
 
         }else if(!StringUtils.isEmpty(mSelectedClasterName)){
-            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
+            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
 
         }else if(!StringUtils.isEmpty(mSelectedVillageName)){
-            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
+            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
         }
-        if (StringUtils.isNotBlank(filters))
-            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.UNIQUE_ID, filters));
 
-        String query = "";
         try {
-            if (isValidFilterForFts(commonRepository())) {
-                String sql = "";
-                if(!StringUtils.isEmpty(filters)){
-                    sql = mainFilter(mainCondition, presenter().getMainCondition(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER)), filters, Sortqueries, clientAdapter.getCurrentlimit(), clientAdapter.getCurrentoffset());
-                    sql = sql.substring(0,sql.indexOf("ORDER BY"));
-                }else{
-                    sql = mainSelect;
-//                    sql = sql.replace("date_removed","ec_family_member.date_removed");
-                }
 
-                List<String> ids = commonRepository().findSearchIds(sql);
-                clientAdapter.setTotalcount(ids.size());
-            }else{
                 String sql = "";
                 sql = mainSelect;
                 if (StringUtils.isNotBlank(customFilter)) {
@@ -390,46 +400,42 @@ public class HnppAllMemberRegisterFragment extends CoreChildRegisterFragment imp
                 }
                 List<String> ids = commonRepository().findSearchIds(sql);
                 clientAdapter.setTotalcount(ids.size());
-            }
+
         } catch (Exception e) {
             Timber.e(e);
         }
     }
+
+
+    @Override
     protected String filterandSortQuery() {
         SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(mainSelect);
         StringBuilder customFilter = new StringBuilder();
-        if (StringUtils.isNotBlank(filters)) {
-            customFilter.append(MessageFormat.format(" and ( {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.FIRST_NAME, filters));
-            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.LAST_NAME, filters));
-            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.MIDDLE_NAME, filters));
+        if (StringUtils.isNotBlank(searchFilterString)) {
+            customFilter.append(MessageFormat.format(" and ( {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.FIRST_NAME, searchFilterString));
+            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.LAST_NAME, searchFilterString));
+            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.MIDDLE_NAME, searchFilterString));
+            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.UNIQUE_ID, searchFilterString));
+
         }
         if(!StringUtils.isEmpty(mSelectedClasterName)&&!StringUtils.isEmpty(mSelectedVillageName)){
-            customFilter.append(MessageFormat.format(" or ( {0}.{1} like ''%{2}%''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
-            customFilter.append(MessageFormat.format(" and {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
+            customFilter.append(MessageFormat.format(" and ( {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
+            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ) ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
 
         }else if(!StringUtils.isEmpty(mSelectedClasterName)){
-            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
+            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
 
         }else if(!StringUtils.isEmpty(mSelectedVillageName)){
-            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
+            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
         }
-        if (StringUtils.isNotBlank(filters))
-            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.UNIQUE_ID, filters));
 
         String query = "";
         try {
-            if (isValidFilterForFts(commonRepository())) {
-                String sql = mainFilter(mainCondition, presenter().getMainCondition(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER)), filters, Sortqueries, clientAdapter.getCurrentlimit(), clientAdapter.getCurrentoffset());
-                List<String> ids = commonRepository().findSearchIds(sql);
-                query = sqb.toStringFts(ids, tablename, CommonRepository.ID_COLUMN,
-                        Sortqueries);
-                query = sqb.Endquery(query);
-            } else {
                 sqb.addCondition(customFilter.toString());
                 query = sqb.orderbyCondition(Sortqueries);
                 query = sqb.Endquery(sqb.addlimitandOffset(query, clientAdapter.getCurrentlimit(), clientAdapter.getCurrentoffset()));
 
-            }
+
         } catch (Exception e) {
             Timber.e(e);
         }
@@ -442,16 +448,6 @@ public class HnppAllMemberRegisterFragment extends CoreChildRegisterFragment imp
         return false;
     }
 
-    public static String mainFilter(String mainCondition, String mainMemberCondition, String filters, String sort, int limit, int offset) {
-        return "SELECT " + CommonFtsObject.idColumn + " FROM " + CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER) + " WHERE " + CommonFtsObject.idColumn + " IN " +
-                " ( SELECT " + CommonFtsObject.idColumn + " FROM " + CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER) + " WHERE  " + mainCondition + "  AND " + CommonFtsObject.phraseColumn + HnppDBUtils.matchPhrase(filters) +
-                " UNION " +
-                " SELECT " + tableColConcat(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER), CommonFtsObject.idColumn) + " FROM " + CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER) +
-                " JOIN " + CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY) + " on " + tableColConcat(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER), CommonFtsObject.relationalIdColumn) +
-                " = " + tableColConcat(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY), CommonFtsObject.idColumn) +
-                " WHERE  " + mainMemberCondition.trim() + " AND " + tableColConcat(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY), CommonFtsObject.phraseColumn + HnppDBUtils.matchPhrase(filters)) +
-                ")  " + orderByClause(sort) + limitClause(limit, offset);
-    }
     public void updateFilterView(){
         if(StringUtils.isEmpty(mSelectedVillageName) && StringUtils.isEmpty(mSelectedClasterName)){
             clients_header_layout.setVisibility(android.view.View.GONE);
@@ -460,28 +456,8 @@ public class HnppAllMemberRegisterFragment extends CoreChildRegisterFragment imp
         }
         textViewVillageNameFilter.setText(getString(R.string.filter_village_name, mSelectedVillageName));
         textViewClasterNameFilter.setText(getString(R.string.claster_village_name, HnppConstants.getClusterNameFromValue(mSelectedClasterName)));
-        String filterString = getFilterString();
-        filter(filterString, "", DEFAULT_MAIN_CONDITION);
+        filter(searchFilterString, "", DEFAULT_MAIN_CONDITION,false);
 
-
-    }
-
-    public void filter(String filterString, String joinTableString, String mainConditionString) {
-        clientAdapter.setCurrentoffset(0);
-        super.filter(filterString, joinTableString, mainConditionString, false);
-    }
-
-    public String getFilterString() {
-        String selected_claster = "";
-        if(!StringUtils.isEmpty(mSelectedClasterName)){
-            selected_claster = mSelectedClasterName.replace("_"," AND ");
-        }
-        String str = StringUtils.isEmpty(mSelectedVillageName) ?
-                (StringUtils.isEmpty(mSelectedClasterName) ?
-                        "" : selected_claster) : (StringUtils.isEmpty(mSelectedClasterName) ?
-                mSelectedVillageName : "" + mSelectedVillageName + " AND " + selected_claster + "");
-
-        return str;
     }
 
     @Override

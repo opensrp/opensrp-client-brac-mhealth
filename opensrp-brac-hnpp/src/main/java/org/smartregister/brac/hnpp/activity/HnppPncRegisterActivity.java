@@ -27,21 +27,6 @@ public class HnppPncRegisterActivity extends AncRegisterActivity {
         intent.putExtra(Constants.ACTIVITY_PAYLOAD.TABLE_NAME, getFormTable());
         activity.startActivityForResult(intent, Constants.REQUEST_CODE_GET_JSON);
     }
-    public static void registerBottomNavigation(BottomNavigationHelper bottomNavigationHelper,
-                                                BottomNavigationView bottomNavigationView, Activity activity) {
-        if (bottomNavigationView != null) {
-            bottomNavigationView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
-
-            bottomNavigationView.getMenu().clear();
-            bottomNavigationView.inflateMenu(R.menu.bottom_nav_family_menu);
-            bottomNavigationHelper.disableShiftMode(bottomNavigationView);
-            bottomNavigationView.setOnNavigationItemSelectedListener(new HnppBottomNavigationListener(activity));
-        }
-
-        if (!BuildConfig.SUPPORT_QR) {
-            bottomNavigationView.getMenu().removeItem(org.smartregister.family.R.id.action_scan_qr);
-        }
-    }
     @Override
     protected BaseRegisterFragment getRegisterFragment() {
         return new HnppPncRegisterFragment();
@@ -63,10 +48,9 @@ public class HnppPncRegisterActivity extends AncRegisterActivity {
         if (!BuildConfig.SUPPORT_QR) {
             bottomNavigationView.getMenu().removeItem(org.smartregister.family.R.id.action_scan_qr);
         }
-
+        bottomNavigationView.getMenu().removeItem(org.smartregister.family.R.id.action_register);
+        bottomNavigationView.getMenu().removeItem(org.smartregister.family.R.id.action_job_aids);
         bottomNavigationView.setOnNavigationItemSelectedListener(new HnppFamilyBottomNavListener(this, bottomNavigationView));
-        org.smartregister.brac.hnpp.activity.HnppPncRegisterActivity.registerBottomNavigation(bottomNavigationHelper, bottomNavigationView, this);
-
     }
     @Override
     public void startFormActivity(String formName, String entityId, String metaData) {

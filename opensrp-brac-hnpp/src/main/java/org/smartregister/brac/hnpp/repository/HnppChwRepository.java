@@ -11,6 +11,7 @@ import org.smartregister.chw.anc.repository.VisitRepository;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.repository.CoreChwRepository;
 import org.smartregister.brac.hnpp.BuildConfig;
+import org.smartregister.configurableviews.repository.ConfigurableViewsRepository;
 import org.smartregister.immunization.ImmunizationLibrary;
 import org.smartregister.immunization.repository.RecurringServiceRecordRepository;
 import org.smartregister.immunization.repository.RecurringServiceTypeRepository;
@@ -18,6 +19,10 @@ import org.smartregister.immunization.repository.VaccineNameRepository;
 import org.smartregister.immunization.repository.VaccineRepository;
 import org.smartregister.immunization.repository.VaccineTypeRepository;
 import org.smartregister.immunization.util.IMDatabaseUtils;
+import org.smartregister.repository.EventClientRepository;
+import org.smartregister.repository.LocationRepository;
+import org.smartregister.repository.SettingsRepository;
+import org.smartregister.repository.UniqueIdRepository;
 
 import timber.log.Timber;
 
@@ -35,7 +40,7 @@ public class HnppChwRepository extends CoreChwRepository {
 
     @Override
     public void onCreate(SQLiteDatabase database) {
-        super.onCreate(database);
+       super.onCreate(database);
     }
 
     @Override
@@ -53,6 +58,8 @@ public class HnppChwRepository extends CoreChwRepository {
         RecurringServiceRecordRepository.createTable(database);
         RecurringServiceTypeRepository recurringServiceTypeRepository = ImmunizationLibrary.getInstance().recurringServiceTypeRepository();
         IMDatabaseUtils.populateRecurringServices(context, database, recurringServiceTypeRepository);
+        upgradeToVersion18(context,database);
+
     }
 
     @Override
@@ -87,11 +94,36 @@ public class HnppChwRepository extends CoreChwRepository {
                 case 17:
                     upgradeToVersion17(context, db);
                     break;
+                case 18:
+                    upgradeToVersion18(context, db);
+                    break;
                 default:
                     break;
             }
             upgradeTo++;
         }
+    }
+
+    private void upgradeToVersion18(Context context, SQLiteDatabase db) {
+        db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_EVENT_ID_COL);
+        db.execSQL(VaccineRepository.EVENT_ID_INDEX);
+        db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_FORMSUBMISSION_ID_COL);
+        db.execSQL(VaccineRepository.FORMSUBMISSION_INDEX);
+        db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL);
+        db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL_INDEX);
+        db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_HIA2_STATUS_COL);
+        IMDatabaseUtils.accessAssetsAndFillDataBaseForVaccineTypes(context, db);
+        db.execSQL(VaccineRepository.ALTER_ADD_CREATED_AT_COLUMN);
+        VaccineRepository.migrateCreatedAt(db);
+        db.execSQL(RecurringServiceRecordRepository.ALTER_ADD_CREATED_AT_COLUMN);
+        RecurringServiceRecordRepository.migrateCreatedAt(db);
+        db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_TEAM_COL);
+        db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_TEAM_ID_COL);
+        db.execSQL(RecurringServiceRecordRepository.UPDATE_TABLE_ADD_TEAM_COL);
+        db.execSQL(RecurringServiceRecordRepository.UPDATE_TABLE_ADD_TEAM_ID_COL);
+        db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_CHILD_LOCATION_ID_COL);
+        db.execSQL(RecurringServiceRecordRepository.UPDATE_TABLE_ADD_CHILD_LOCATION_ID_COL);
+
     }
 
 

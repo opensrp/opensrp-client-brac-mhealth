@@ -81,23 +81,8 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
         CoreConstants.JSON_FORM.setLocaleAndAssetManager(HnppApplication.getCurrentLocale(),
                 HnppApplication.getInstance().getApplicationContext().getAssets());
 
-        //Setup Navigation menu. Done only once when app is created
-//        NavigationMenu.setupNavigationMenu(new HnppNavigationListener(),null,this, new HnppNavigationTopView(), new HnppNavigationMenu(), new HnppNavigationModel(),
-//                getRegisteredActivities(), false);
-
-//        if (BuildConfig.DEBUG) {
-//            Timber.plant(new Timber.DebugTree());
-//        } else {
-//            Timber.plant(new CrashlyticsTree(HnppApplication.getInstance().getContext()
-//                    .allSharedPreferences().fetchRegisteredANM()));
-//        }
-
-
         context.updateApplicationContext(getApplicationContext());
         context.updateCommonFtsObject(createCommonFtsObject());
-
-//        Fabric.with(this, new Crashlytics.Builder().core(new CrashlyticsCore.Builder()
-//                .disabled(BuildConfig.DEBUG).build()).build());
 
         // init json helper
         this.jsonSpecHelper = new JsonSpecHelper(this);
@@ -105,6 +90,7 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
         ConfigurableViewsLibrary.init(context, getRepository());
         FamilyLibrary.init(context, getRepository(), getMetadata(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
         ImmunizationLibrary.init(context, getRepository(), null, BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
+        initOfflineSchedules();
         LocationHelper.init(new ArrayList<>(Arrays.asList(BuildConfig.ALLOWED_LOCATION_LEVELS)), BuildConfig.DEFAULT_LOCATION);
         //ReportingLibrary.init(context, getRepository(), null, BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
         AncLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
@@ -114,20 +100,6 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
         // set up processor
         FamilyLibrary.getInstance().setClientProcessorForJava(HnppClientProcessor.getInstance(getApplicationContext()));
 
-
-
-
-//        Configuration configuration = getApplicationContext().getResources().getConfiguration();
-//        String language;
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//            language = configuration.getLocales().get(0).getLanguage();
-//        } else {
-//            language = configuration.locale.getLanguage();
-//        }
-//
-//        if (language.equals("bn")) {
-//            saveLanguage("bn");
-//        }
     }
     public static CommonFtsObject createCommonFtsObject() {
         return HNPPApplicationUtils.getCommonFtsObject(commonFtsObject);

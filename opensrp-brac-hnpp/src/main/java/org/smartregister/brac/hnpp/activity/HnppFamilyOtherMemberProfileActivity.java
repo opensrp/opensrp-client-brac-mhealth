@@ -315,7 +315,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                     @Override
                     public void run() {
 //                        memberHistoryFragment.onActivityResult(0,0,null);
-                        mViewPager.setCurrentItem(3,true);
+                        mViewPager.setCurrentItem(2,true);
 
                     }
                 },1000);

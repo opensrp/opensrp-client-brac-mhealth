@@ -150,4 +150,8 @@
     <string name="pnc_visit_day_due">DAY %s VISIT DUE</string>
     <string name="pnc_visit_day_overdue">DAY %s OVERDUE</string>
     <string name="next">পরবর্তী</string>
+    <string name="pnc_visit">প্রসবোত্তর পরিচর্যা</string>
+    <string name="anc_visit">গর্ভবতী পরিচর্যা</string>
+    <string name="submit">সাবমিট</string>
+    <string name="boyos">বয়স</string>
 </resources>

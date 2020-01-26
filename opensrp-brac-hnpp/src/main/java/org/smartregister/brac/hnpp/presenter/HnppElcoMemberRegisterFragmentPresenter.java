@@ -46,7 +46,7 @@ public class HnppElcoMemberRegisterFragmentPresenter extends CoreChildRegisterFr
 
     @Override
     public String getMainCondition() {
-        return String.format(" %s is null AND %s",CoreConstants.TABLE_NAME.FAMILY_MEMBER + "." +  DBConstants.KEY.DATE_REMOVED, ChildDBConstants.elcoFilter());
+        return String.format(" %s is null AND %s", CoreConstants.TABLE_NAME.FAMILY_MEMBER+"."+DBConstants.KEY.DATE_REMOVED, ChildDBConstants.elcoFilter());
     }
 
     @Override
@@ -55,6 +55,6 @@ public class HnppElcoMemberRegisterFragmentPresenter extends CoreChildRegisterFr
     }
     @Override
     public String getDefaultSortQuery() {
-        return CoreConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.LAST_INTERACTED_WITH + " DESC ";// AND "+ChildDBConstants.childAgeLimitFilter();
+        return CoreConstants.TABLE_NAME.FAMILY_MEMBER+"."+DBConstants.KEY.LAST_INTERACTED_WITH + " DESC ";// AND "+ChildDBConstants.childAgeLimitFilter();
     }
 }

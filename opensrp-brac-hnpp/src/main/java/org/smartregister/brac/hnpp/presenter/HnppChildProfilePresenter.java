@@ -31,7 +31,9 @@ public class HnppChildProfilePresenter extends CoreChildProfilePresenter {
     public HnppChildProfilePresenter(CoreChildProfileContract.View childView, CoreChildProfileContract.Model model, String houseHoldId, String childBaseEntityId) {
         this.houseHoldId = houseHoldId;
         setView(new WeakReference<>(childView));
-        setInteractor(new HnppChildProfileInteractor());
+        HnppChildProfileInteractor interactor = new HnppChildProfileInteractor();
+        interactor.setChildBaseEntityId(childBaseEntityId);
+        setInteractor(interactor);
         setModel(model);
         setChildBaseEntityId(childBaseEntityId);
     }
@@ -74,6 +76,11 @@ public class HnppChildProfilePresenter extends CoreChildProfilePresenter {
 
         getView().setProfileImage(client.getCaseId());
 
+    }
+
+    @Override
+    public void fetchProfileData() {
+        super.fetchProfileData();
     }
 
     @Override

@@ -68,7 +68,7 @@
     <LinearLayout
         android:id="@+id/due_button_wrapper"
         android:layout_width="@dimen/register_list_item_width"
-        android:layout_height="@dimen/register_list_item_height"
+        android:layout_height="50dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"

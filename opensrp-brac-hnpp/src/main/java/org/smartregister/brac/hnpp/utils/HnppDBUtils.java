@@ -12,11 +12,13 @@ import org.smartregister.chw.core.utils.ChildDBConstants;
 import org.smartregister.chw.core.utils.CoreChildUtils;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.CoreJsonFormUtils;
+import org.smartregister.clientandeventmodel.DateUtil;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.clientandeventmodel.Obs;
 import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.util.DBConstants;
+import org.smartregister.family.util.Utils;
 import org.smartregister.repository.BaseRepository;
 import org.smartregister.sync.helper.ECSyncHelper;
 
@@ -28,6 +30,59 @@ import java.util.Map;
 import timber.log.Timber;
 
 public class HnppDBUtils extends CoreChildUtils {
+
+    public static ArrayList<ProfileDueInfo> getDueListByFamilyId(String familyId){
+        ArrayList<ProfileDueInfo> profileDueInfoArrayList = new ArrayList<>();
+        String query = "select base_entity_id,gender,marital_status,first_name,dob from ec_family_member where relational_id = '"+familyId+"'";
+        Cursor cursor = null;
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() > 0){
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    ProfileDueInfo profileDueInfo = new ProfileDueInfo();
+                    profileDueInfo.setBaseEntityId(cursor.getString(0));
+                    profileDueInfo.setGender(cursor.getString(1));
+                    profileDueInfo.setMaritalStatus(cursor.getString(2));
+                    profileDueInfo.setName(cursor.getString(3));
+                    profileDueInfo.setDob(cursor.getString(4));
+                    String dobString = Utils.getDuration(profileDueInfo.getDob());
+                    profileDueInfo.setAge(dobString);
+                    if(profileDueInfo.getGender().equalsIgnoreCase("F") && profileDueInfo.getMaritalStatus().equalsIgnoreCase("Married")){
+                        String eventType = FormApplicability.getDueFormForMarriedWomen(profileDueInfo.getBaseEntityId(),
+                                FormApplicability.getAge(profileDueInfo.getDob()));
+                        if(FormApplicability.isDueAnyForm(profileDueInfo.getBaseEntityId(),eventType) && !TextUtils.isEmpty(eventType)){
+                            if(eventType.equalsIgnoreCase("পূর্বের গর্ভের ইতিহাস")){
+                                profileDueInfo.setEventType("গর্ভবতী পরিচর্যা - ১ম ত্রিমাসিক");
+                            }else{
+                                profileDueInfo.setEventType(HnppConstants.visitEventTypeMapping.get(eventType));
+                            }
+                            profileDueInfoArrayList.add(profileDueInfo);
+                        }
+
+
+                    }else {
+                        Date dob = Utils.dobStringToDate(profileDueInfo.getDob());
+                        boolean isEnc = FormApplicability.isEncVisible(dob);
+                        if(isEnc){
+                            profileDueInfo.setEventType(HnppConstants.visitEventTypeMapping.get(HnppConstants.EVENT_TYPE.ENC_REGISTRATION));
+                            profileDueInfoArrayList.add(profileDueInfo);
+                        }
+                    }
+
+                    cursor.moveToNext();
+                }
+
+            }
+
+        } catch (Exception e) {
+            Timber.e(e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return profileDueInfoArrayList;
+    }
 
 
 

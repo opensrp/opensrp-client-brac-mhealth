@@ -31,7 +31,15 @@ public class FamilyHistoryFragment extends Fragment implements MemberHistoryCont
     private FamilyHistoryPresenter presenter;
     private RecyclerView clientsView;
     private String baseEntityId;
+    private boolean isStart = true;
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser && !isStart){
+            presenter.fetchData(baseEntityId);
+        }
+    }
     public static FamilyHistoryFragment getInstance(Bundle bundle){
         FamilyHistoryFragment memberHistoryFragment = new FamilyHistoryFragment();
         Bundle args = bundle;
@@ -47,6 +55,7 @@ public class FamilyHistoryFragment extends Fragment implements MemberHistoryCont
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recycler_view,null);
         clientsView = view.findViewById(R.id.recycler_view);
+        isStart = false;
         return view;
     }
 

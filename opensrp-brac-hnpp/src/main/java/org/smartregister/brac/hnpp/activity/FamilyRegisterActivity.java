@@ -33,6 +33,8 @@ import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
 import org.smartregister.helper.BottomNavigationHelper;
+import org.smartregister.immunization.service.intent.RecurringIntentService;
+import org.smartregister.immunization.service.intent.VaccineIntentService;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 
 
@@ -100,7 +102,6 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
 
         HnppApplication.getHNPPInstance().setupNavigation(hnppNavigationPresenter);
         //HnppApplication.getInstance().notifyAppContextChange(); // initialize the language (bug in translation)
-
         action = getIntent().getStringExtra(CoreConstants.ACTIVITY_PAYLOAD.ACTION);
         if (action != null && action.equals(CoreConstants.ACTION.START_REGISTRATION)) {
             startRegistration();
