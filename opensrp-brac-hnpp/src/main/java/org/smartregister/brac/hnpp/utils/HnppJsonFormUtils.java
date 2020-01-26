@@ -85,9 +85,11 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
         String derivedEncounterType = StringUtils.isBlank(parentEventType) ? encounterType : "";
         Event baseEvent = org.smartregister.chw.anc.util.JsonFormUtils.processVisitJsonForm(allSharedPreferences, memberID, derivedEncounterType, jsonString, getTableName());
-
-        if (StringUtils.isBlank(parentEventType))
+        if(encounterType.equalsIgnoreCase(org.smartregister.chw.anc.util.Constants.EVENT_TYPE.ANC_HOME_VISIT)){
             prepareEvent(baseEvent);
+        }
+//        if (StringUtils.isBlank(parentEventType))
+//            prepareEvent(baseEvent);
 
         if (baseEvent != null) {
             baseEvent.setFormSubmissionId(JsonFormUtils.generateRandomUUIDString());
@@ -120,6 +122,8 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 return HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
             case  HnppConstants.EVENT_TYPE.PNC_REGISTRATION:
                 return org.smartregister.chw.anc.util.Constants.EVENT_TYPE.PNC_HOME_VISIT;
+            case  HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY:
+                return HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY;
                 default:
                     return org.smartregister.chw.anc.util.Constants.EVENT_TYPE.ANC_HOME_VISIT;
         }
@@ -322,16 +326,29 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
     }
     public static JSONObject updateFormWithAllMemberName(JSONObject form , ArrayList<String> motherNameList) throws Exception{
-
-        JSONArray jsonArray = new JSONArray();
-        for(String name : motherNameList){
-            jsonArray.put(name);
-        }
-        jsonArray.put("কাউকে পাওয়া যায়নি");
         JSONArray field = fields(form, STEP1);
-        JSONObject spinner = getFieldJSONObject(field, "hh_visit_members");
+        JSONObject hh_visit_members = getFieldJSONObject(field, "hh_visit_members");
 
-        spinner.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);
+        JSONArray jsonArray = hh_visit_members.getJSONArray("options");
+        for(String name : motherNameList){
+            JSONObject item = new JSONObject();
+            item.put("key",name.replace(" ","_"));
+            item.put("text",name);
+            item.put("value",false);
+            item.put("openmrs_entity","concept");
+            item.put("openmrs_entity_id",name.replace(" ","_"));
+
+            jsonArray.put(item);
+        }
+
+        JSONObject not_found = new JSONObject();
+        not_found.put("key","chk_nobody");
+        not_found.put("text","কাউকে পাওয়া যায়নি");
+        not_found.put("value",false);
+        not_found.put("openmrs_entity","concept");
+        not_found.put("openmrs_entity_id","chk_nobody");
+        jsonArray.put(not_found);
+
         return form;
 
 

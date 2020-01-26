@@ -251,6 +251,8 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
             } else {
                 getGPSLocation();
             }
+        }else {
+            getGPSLocation();
         }
 
     }

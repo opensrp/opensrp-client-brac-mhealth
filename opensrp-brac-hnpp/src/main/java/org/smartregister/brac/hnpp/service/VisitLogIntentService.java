@@ -115,14 +115,46 @@ public class VisitLogIntentService extends IntentService {
                 }
                 jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,value);
             }else if (jsonObject.has("options")) {
-                JSONArray option_array = jsonObject.getJSONArray("options");
-                for (int i = 0; i < option_array.length(); i++) {
-                    JSONObject option = option_array.getJSONObject(i);
-                    if (value.contains(option.optString("key"))) {
-                        option.put("value", "true");
+                if(jsonObject.getString("key").equalsIgnoreCase("hh_visit_members")){
+                    JSONArray option_array = jsonObject.getJSONArray("options");
+                    String[] strs = value.split(",");
+                    if(strs.length == 0){
+
+                    }else{
+                        for(String name : strs){
+                            JSONObject item = new JSONObject();
+                            if(name.equalsIgnoreCase("chk_nobody")){
+
+                                item.put("key","chk_nobody");
+                                item.put("text","কাউকে পাওয়া যায়নি");
+                                item.put("value",true);
+                                item.put("openmrs_entity","concept");
+                                item.put("openmrs_entity_id","chk_nobody");
+                            }else{
+                                item.put("key",name.replace(" ","_"));
+                                item.put("text",name);
+                                item.put("value",true);
+                                item.put("openmrs_entity","concept");
+                                item.put("openmrs_entity_id",name.replace(" ","_"));
+                            }
+
+
+                            option_array.put(item);
+                        }
+                    }
+
+                }else{
+                    JSONArray option_array = jsonObject.getJSONArray("options");
+                    for (int i = 0; i < option_array.length(); i++) {
+                        JSONObject option = option_array.getJSONObject(i);
+                        if (value.contains(option.optString("key"))) {
+                            option.put("value", "true");
+                        }
                     }
                 }
-            }else{
+
+            }
+            else{
                 jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE, value);
             }
 
@@ -184,7 +216,7 @@ public class VisitLogIntentService extends IntentService {
             }
 
             if(details.containsKey(o.getFormSubmissionField())) {
-                details.put(o.getFormSubmissionField(),details.get(o.getFormSubmissionField())+" "+o.getValue());
+                details.put(o.getFormSubmissionField(),details.get(o.getFormSubmissionField())+","+o.getValue());
             } else {
                 details.put(o.getFormSubmissionField(),o.getValue());
             }
