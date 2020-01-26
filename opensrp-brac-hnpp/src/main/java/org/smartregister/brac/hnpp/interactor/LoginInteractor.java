@@ -7,9 +7,11 @@ import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.job.HomeVisitServiceJob;
 import org.smartregister.chw.core.job.VaccineRecurringServiceJob;
+import org.smartregister.immunization.job.VaccineServiceJob;
 import org.smartregister.job.PullUniqueIdsServiceJob;
 import org.smartregister.job.SyncServiceJob;
 import org.smartregister.login.interactor.BaseLoginInteractor;
+import org.smartregister.service.AlertService;
 import org.smartregister.view.contract.BaseLoginContract;
 
 import java.util.concurrent.TimeUnit;
@@ -60,7 +62,9 @@ try{
             HomeVisitServiceJob.scheduleJobImmediately(HomeVisitServiceJob.TAG);
             VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
             HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
+            VaccineServiceJob.scheduleJobImmediately(VaccineServiceJob.TAG);
             VaccineRecurringServiceJob.scheduleJobImmediately(VaccineRecurringServiceJob.TAG);
+
         }catch (Exception e){
 
         }
