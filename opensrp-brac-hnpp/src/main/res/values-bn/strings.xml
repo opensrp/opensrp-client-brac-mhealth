@@ -107,12 +107,7 @@
     <string name="return_to_family_members">পরিবারের তালিকা</string>
     <string name="household_id_null_message">খানা প্রধানের আইডি পাওয়া যাইনি । পুনরাই লগ আউট করে লগইন করুন</string>
     <string name="ok">আচ্ছা</string>
-    <string name="last_visit_prefix">শেষ পরিদর্শন %1$s আগে</string>
-    <string name="due">বাকি </string>
-    <string name="other_service">অন্যান্য সেবা ও প্যাকেজ </string>
-    <string name="activity">ইতিহাস</string>
-    <string name="profile_activity_not_visited">Marked not visited on %s</string>
-    <string name="profile_activity_completed">Completed on %s</string>
+
     <string name="cancel">ফিরে যান</string>
     <string name="scan_again">আবার চেষ্টা করুন</string>
     <string name="fail_result">ফলাফল পাওয়া যাই নি</string>
@@ -149,6 +144,12 @@
     <string name="last_visit_date_empty">পরিদর্শনে যাওয়া হয়নি </string>
     <string name="pnc_visit_day_due">DAY %s VISIT DUE</string>
     <string name="pnc_visit_day_overdue">DAY %s OVERDUE</string>
+    <string name="last_visit_prefix">শেষ পরিদর্শন %1$s আগে</string>
+    <string name="due">বাকি </string>
+    <string name="other_service">অন্যান্য সেবা ও প্যাকেজ </string>
+    <string name="activity">ইতিহাস</string>
+    <string name="profile_activity_not_visited">Marked not visited on %s</string>
+    <string name="profile_activity_completed">Completed on %s</string>
     <string name="pnc_visit">প্রসবোত্তর পরিচর্যা</string>
     <string name="anc_visit">গর্ভবতী পরিচর্যা</string>
     <string name="next">পরবর্তী</string>

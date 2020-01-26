@@ -11,6 +11,7 @@ import org.smartregister.chw.anc.repository.VisitRepository;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.repository.CoreChwRepository;
 import org.smartregister.brac.hnpp.BuildConfig;
+import org.smartregister.configurableviews.repository.ConfigurableViewsRepository;
 import org.smartregister.immunization.ImmunizationLibrary;
 import org.smartregister.immunization.repository.RecurringServiceRecordRepository;
 import org.smartregister.immunization.repository.RecurringServiceTypeRepository;
@@ -18,6 +19,10 @@ import org.smartregister.immunization.repository.VaccineNameRepository;
 import org.smartregister.immunization.repository.VaccineRepository;
 import org.smartregister.immunization.repository.VaccineTypeRepository;
 import org.smartregister.immunization.util.IMDatabaseUtils;
+import org.smartregister.repository.EventClientRepository;
+import org.smartregister.repository.LocationRepository;
+import org.smartregister.repository.SettingsRepository;
+import org.smartregister.repository.UniqueIdRepository;
 
 import timber.log.Timber;
 
@@ -35,7 +40,7 @@ public class HnppChwRepository extends CoreChwRepository {
 
     @Override
     public void onCreate(SQLiteDatabase database) {
-        super.onCreate(database);
+       super.onCreate(database);
     }
 
     @Override

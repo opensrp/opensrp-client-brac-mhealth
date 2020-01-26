@@ -91,7 +91,6 @@ public class CoreChwRepository extends Repository {
         SettingsRepository.onUpgrade(database);
         ConfigurableViewsRepository.createTable(database);
         LocationRepository.createTable(database);
-        onUpgrade(database, 1, databaseVersion);
         onCreation(database);
 
     }
