@@ -78,17 +78,8 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
     }
 
     private void updateStaticView() {
-        if(FormApplicability.isDueAnyForm(baseEntityId,eventType)){
-            handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
                     addStaticView();
-                }
-            },500);
-        }else{
-           if(otherServiceView!=null && anc1View !=null) otherServiceView.removeView(anc1View);
-        }
+
 
     }
 
@@ -185,13 +176,11 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         },500);
 
     }
-    String eventType = "";
-    View anc1View;
     private void addStaticView(){
         if(otherServiceView.getVisibility() == View.VISIBLE){
-            return;
+            otherServiceView.removeAllViews();
         }
-
+        otherServiceView.setVisibility(View.VISIBLE);
         String dobString = Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOB, false);
         Date dob = Utils.dobStringToDate(dobString);
         boolean isEnc = FormApplicability.isEncVisible(dob);
@@ -256,7 +245,19 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                 case TAG_CHILD_DUE:
                     if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
-                        activity.startChildHomeVisit();
+                        activity.openVisitHomeScreen(false);
+                    }
+                    break;
+                case TAG_OPEN_FAMILY:
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                        activity.openFamilyDueTab();
+                    }
+                    break;
+                case TAG_OPEN_REFEREAL:
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                        activity.openRefereal();
                     }
                     break;
             }

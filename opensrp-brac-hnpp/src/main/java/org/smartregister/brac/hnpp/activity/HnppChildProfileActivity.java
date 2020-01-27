@@ -270,7 +270,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     }
 
     //TODO Child Refactor
-    private void openVisitHomeScreen(boolean isEditMode) {
+    public void openVisitHomeScreen(boolean isEditMode) {
         CoreChildHomeVisitActivity.startMe(this, new MemberObject(((HnppChildProfilePresenter) presenter()).getChildClient()), isEditMode);
     }
 

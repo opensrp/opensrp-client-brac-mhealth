@@ -155,4 +155,7 @@
     <string name="submit">সাবমিট</string>
     <string name="boyos">বয়স</string>
     <string name="gps_searching">জিপিএস ডেটা অনুসন্ধান করা হচ্ছে</string>
+    <string name="vaccine_service_due"><![CDATA[%1$s <font color=#000000>বাকি (%2$s)</font></b>]]></string>
+    <string name="vaccine_service_overdue"><![CDATA[%1$s <font color=#f04646>ওভারডিউ (%2$s)</font></b>]]></string>
+    <string name="vaccine_service_upcoming"><![CDATA[%1$s <font color=#7f7f7f>আপকামিং (%2$s)</font></b>]]></string>
 </resources>
