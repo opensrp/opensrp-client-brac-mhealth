@@ -51,7 +51,6 @@ public class VisitLogIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
         ArrayList<String> visit_ids = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().getVisitIds();
         for (int i = 0; i < visit_ids.size(); i++) {
             List<Visit> v = AncLibrary.getInstance().visitRepository().getVisitsByVisitId(visit_ids.get(i));
@@ -61,7 +60,6 @@ public class VisitLogIntentService extends IntentService {
                     try {
 
                         Event baseEvent = gson.fromJson(eventJson, Event.class);
-                        JSONObject eventObject = new JSONObject(eventJson);
                         String base_entity_id = baseEvent.getBaseEntityId();
                         HashMap<String,Object>form_details = getFormNamesFromEventObject(baseEvent);
                         ArrayList<String> encounter_types = (ArrayList<String>) form_details.get("form_name");

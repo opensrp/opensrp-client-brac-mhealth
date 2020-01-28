@@ -65,7 +65,6 @@ public class HnppCoreChildProfileActivity extends CoreChildProfileActivity {
             appBarLayout.setOutlineProvider(null);
         }
         imageRenderHelper = new ImageRenderHelper(this);
-        registerReceiver(mDateTimeChangedReceiver, getsIntentFilter());
         houseHoldId = getIntent().getStringExtra(HnppConstants.KEY.HOUSE_HOLD_ID);
     }
     @Override

@@ -15,6 +15,7 @@ import org.apache.commons.lang3.tuple.Triple;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.AllConstants;
 import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
@@ -352,6 +353,12 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         return form;
 
 
+    }
+    public static JSONObject getJson(String formName, String baseEntityID) throws Exception {
+        String locationId = HnppApplication.getInstance().getContext().allSharedPreferences().getPreference(AllConstants.CURRENT_LOCATION_ID);
+        JSONObject jsonObject = org.smartregister.chw.anc.util.JsonFormUtils.getFormAsJson(formName);
+        org.smartregister.chw.anc.util.JsonFormUtils.getRegistrationForm(jsonObject, baseEntityID, locationId);
+        return jsonObject;
     }
     public static JSONObject updateLatitudeLongitude(JSONObject form,double latitude, double longitude) throws JSONException {
         JSONArray field = fields(form, STEP1);

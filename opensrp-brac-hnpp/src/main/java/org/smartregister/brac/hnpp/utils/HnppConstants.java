@@ -350,6 +350,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ENC_REGISTRATION,R.mipmap.ic_child)
             .put("Member referral",R.mipmap.ic_refer)
             .put(EVENT_TYPE.HOME_VISIT_FAMILY, R.mipmap.ic_icon_home)
+            .put(EventType.CHILD_HOME_VISIT, R.mipmap.ic_icon_home)
             .build();
     //need to show the title at row/option
     public static final Map<String,String> visitEventTypeMapping = ImmutableMap.<String,String> builder()
@@ -393,6 +394,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.PNC_REGISTRATION,"প্রসবোত্তর পরিচর্যা")
             .put(EVENT_TYPE.ENC_REGISTRATION, "ENC")
             .put(EVENT_TYPE.HOME_VISIT_FAMILY, "খানা পরিদর্শন")
+            .put(EventType.CHILD_HOME_VISIT, "শিশু হোম ভিজিট")
             .build();
 
     private static String getKeyByValue(String mapperObj, String value){

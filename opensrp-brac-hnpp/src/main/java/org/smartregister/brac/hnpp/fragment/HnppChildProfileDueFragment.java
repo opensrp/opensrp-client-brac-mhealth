@@ -74,11 +74,22 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser && !isStart){
             updateStaticView();
+            if(getActivity() instanceof HnppChildProfileActivity){
+                HnppChildProfileActivity b = (HnppChildProfileActivity) getActivity();
+                b.updateImmunizationData();
+            }
         }
     }
 
     private void updateStaticView() {
-                    addStaticView();
+        handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                addStaticView();
+            }
+        },500);
+
 
 
     }
@@ -105,6 +116,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         super.setupViews(view);
         emptyView = view.findViewById(R.id.empty_view);
         otherServiceView = view.findViewById(R.id.other_option);
+
         isStart = false;
 
     }
@@ -146,39 +158,42 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         }
 
     }
+    View encView;
     public void  updateChildDueEntry(int type, String serviceName, String dueDate){
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(otherServiceView.getVisibility() == View.GONE)
-                    otherServiceView.setVisibility(View.VISIBLE);
-                View encView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
-                ImageView image1 = encView.findViewById(R.id.image_view);
-                TextView name1 =  encView.findViewById(R.id.patient_name_age);
-                encView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-                image1.setImageResource(R.mipmap.ic_child);
-                switch (type){
-                    case 1:
-                        name1.setText(CoreChildUtils.fromHtml(getString(org.smartregister.chw.core.R.string.vaccine_service_due, serviceName, dueDate)));
+       if(handler !=null){
+           handler.postDelayed(new Runnable() {
+               @Override
+               public void run() {
+                   otherServiceView.setVisibility(View.VISIBLE);
+                   if(encView !=null) otherServiceView.removeView(encView);
+                   encView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+                   ImageView image1 = encView.findViewById(R.id.image_view);
+                   TextView name1 =  encView.findViewById(R.id.patient_name_age);
+                   encView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+                   image1.setImageResource(R.mipmap.ic_child);
+                   switch (type){
+                       case 1:
+                           name1.setText(CoreChildUtils.fromHtml(getString(org.smartregister.chw.core.R.string.vaccine_service_due, serviceName, dueDate)));
 
-                        break;
-                    case 2:
-                        name1.setText(CoreChildUtils.fromHtml(getString(org.smartregister.chw.core.R.string.vaccine_service_overdue, serviceName, dueDate)));
-                        break;
-                    case 3:
-                        name1.setText(CoreChildUtils.fromHtml(getString(org.smartregister.chw.core.R.string.vaccine_service_upcoming, serviceName, dueDate)));
-                        break;
-                }
-                encView.setTag(TAG_CHILD_DUE);
-                encView.setOnClickListener(HnppChildProfileDueFragment.this);
-                otherServiceView.addView(encView);
-            }
-        },500);
+                           break;
+                       case 2:
+                           name1.setText(CoreChildUtils.fromHtml(getString(org.smartregister.chw.core.R.string.vaccine_service_overdue, serviceName, dueDate)));
+                           break;
+                       case 3:
+                           name1.setText(CoreChildUtils.fromHtml(getString(org.smartregister.chw.core.R.string.vaccine_service_upcoming, serviceName, dueDate)));
+                           break;
+                   }
+                   encView.setTag(TAG_CHILD_DUE);
+                   encView.setOnClickListener(HnppChildProfileDueFragment.this);
+                   otherServiceView.addView(encView);
+               }
+           },500);
+       }
 
     }
     private void addStaticView(){
         if(otherServiceView.getVisibility() == View.VISIBLE){
-            otherServiceView.removeAllViews();
+            return;
         }
         otherServiceView.setVisibility(View.VISIBLE);
         String dobString = Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOB, false);

@@ -205,6 +205,7 @@ public class HnppVisitLogRepository extends BaseRepository {
                 entityId = cursor.getString(0);
                 cursor.moveToNext();
             }
+            cursor.close();
 
         }
         return !TextUtils.isEmpty(entityId);

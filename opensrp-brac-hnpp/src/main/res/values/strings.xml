@@ -155,7 +155,27 @@
     <string name="submit">সাবমিট</string>
     <string name="boyos">বয়স</string>
     <string name="gps_searching">জিপিএস ডেটা অনুসন্ধান করা হচ্ছে</string>
+    <string name="date_given">দেয়া হয়েছে</string>
     <string name="vaccine_service_due"><![CDATA[%1$s <font color=#000000>বাকি (%2$s)</font></b>]]></string>
     <string name="vaccine_service_overdue"><![CDATA[%1$s <font color=#f04646>ওভারডিউ (%2$s)</font></b>]]></string>
     <string name="vaccine_service_upcoming"><![CDATA[%1$s <font color=#7f7f7f>আপকামিং (%2$s)</font></b>]]></string>
+    <string name="home_visit">হোম ভিজিট</string>
+    <string name="given">দেয়া হয়েছে</string>
+    <string name="given_on">দেয়া হয়েছে %1$s তারিখে</string>
+    <string name="home_visit_suffix"> &#183; হোম ভিজিট</string>
+    <string name="fill_earler_immunization"><![CDATA[<i>আগের টিকাদান রেকর্ড করুন</i>]]></string>
+    <string name="immunizations">টিকাদান (%s)</string>
+    <string name="immunizations_count">টিকাদান ({0})</string>
+    <string name="at_birth">জন্মের সময়</string>
+    <string name="vitamin_given">কখন %1$s দেয়া হয়েছে?</string>
+    <string name="overdue">ওভারডিউ&#160;</string>
+    <string name="not_given_with_spaces">&#160;দেয়া হয়নি&#160;</string>
+    <string name="given_on_with_spaces">&#160;দেয়া হয়েছে&#160;</string>
+    <string name="when_vaccines_given_text">কখন টিকা দেওয়া হয়েছিল?</string>
+    <string name="when_vaccine">কখন %s টিকা দেওয়া হয়েছিল?</string>
+    <string name="vaccines_done_date">{0} - দেয়া হয়েছে {1}</string>
+    <string name="no_vaccines_were_done">কোনও ভ্যাকসিন করা হয়নি</string>
+    <string name="record_immunizations">টিকা রেকর্ড</string>
+    <string name="which_vaccines_given_text">কোন টিকা দেওয়া হয়েছিল?</string>
+    <string name="add_date_separately">+ প্রতিটি ভ্যাকসিনের জন্য তারিখ যুক্ত করুন</string>
 </resources>

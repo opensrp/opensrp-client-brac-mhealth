@@ -14,9 +14,8 @@ public class AncRegisterActivity extends CoreAncRegisterActivity {
         /*if (hasChildRegistration) {
             startReferralsRegisterActivity(PncRegisterActivity.class);
         } else*/
-        if (!hasChildRegistration) {
             startRegisterActivity(AncRegisterActivity.class);
-        }
+
         finish();
     }
 
@@ -40,7 +39,7 @@ public class AncRegisterActivity extends CoreAncRegisterActivity {
         finish();
     }
 
-    private void startRegisterActivity(Class registerClass) {
+    public void startRegisterActivity(Class registerClass) {
         Intent intent = new Intent(this, registerClass);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         this.startActivity(intent);

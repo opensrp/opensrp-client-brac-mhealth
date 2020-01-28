@@ -2,6 +2,7 @@ package org.smartregister.brac.hnpp.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,9 +27,12 @@ import org.smartregister.brac.hnpp.fragment.HnppChildProfileDueFragment;
 import org.smartregister.brac.hnpp.fragment.HnppMemberProfileDueFragment;
 import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
 import org.smartregister.brac.hnpp.fragment.MemberOtherServiceFragment;
+import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
+import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.chw.anc.domain.MemberObject;
+import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.core.activity.CoreChildHomeVisitActivity;
 import org.smartregister.chw.core.activity.CoreChildMedicalHistoryActivity;
 import org.smartregister.chw.core.activity.CoreUpcomingServicesActivity;
@@ -49,6 +53,7 @@ import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -139,6 +144,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
         //presenter().fetchTasks();
 
 
+    }
+    public void updateImmunization(){
+        updateImmunizationData();
     }
 
     @Override
@@ -269,9 +277,8 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
         CoreUpcomingServicesActivity.startUpcomingServicesActivity(this, ((CoreChildProfilePresenter) presenter()).getChildClient());
     }
 
-    //TODO Child Refactor
     public void openVisitHomeScreen(boolean isEditMode) {
-        CoreChildHomeVisitActivity.startMe(this, new MemberObject(((HnppChildProfilePresenter) presenter()).getChildClient()), isEditMode);
+        ChildHomeVisitActivity.startMe(this, memberObject, isEditMode, ChildHomeVisitActivity.class);
     }
 
     public OnClickFloatingMenu getOnClickFloatingMenu(final Activity activity, final HnppChildProfilePresenter presenter) {
@@ -330,6 +337,44 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
         }catch (Exception e){
 
         }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
+
+            VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+            String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
+            Map<String, String> jsonStrings = new HashMap<>();
+            jsonStrings.put("First",jsonString);
+            Visit visit = null;
+            try {
+                JSONObject form = new JSONObject(jsonString);
+                String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
+                type = HnppJsonFormUtils.getEncounterType(type);
+                // persist to database
+
+
+                visit = HnppJsonFormUtils.saveVisit(false, childBaseEntityId, type, jsonStrings, "");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if(memberHistoryFragment !=null){
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+//                        memberHistoryFragment.onActivityResult(0,0,null);
+                        mViewPager.setCurrentItem(2,true);
+
+                    }
+                },1000);
+            }
+
+        }else if(resultCode == Activity.RESULT_OK && requestCode == org.smartregister.chw.anc.util.Constants.REQUEST_CODE_HOME_VISIT){
+           if(mViewPager!=null) mViewPager.setCurrentItem(0,true);
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+
     }
     public void openFamilyDueTab() {
         Intent intent = new Intent(this,FamilyProfileActivity.class);
