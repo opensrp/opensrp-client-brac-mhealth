@@ -666,7 +666,37 @@
         "openmrs_entity_id": "other_complication",
         "type": "edit_text",
         "hint": "লিখুন ",
-
+        "relevance": {
+          "step1:has_other_complication": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "refer_reason",
+        "type": "label",
+        "text":"রেফারেল এর কারণ: গর্ভবতী পরিচর্যা সংক্রান্ত সমস্যা",
+        "has_bg": true,
+        "left_padding": "20dp",
+        "right_padding": "20dp",
+        "text_size": "25sp",
+        "text_color": "#000000",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": ""
+      },
+      {
+        "key": "other_refer_reason",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "other_refer_reason",
+        "type": "edit_text",
+        "hint": "অন্যান্য কারণ ",
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"

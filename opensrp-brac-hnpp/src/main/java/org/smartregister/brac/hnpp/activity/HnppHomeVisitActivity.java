@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.view.View;
 
 import com.vijay.jsonwizard.activities.JsonFormActivity;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
+import com.vijay.jsonwizard.domain.Form;
 
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.R;
@@ -31,8 +33,8 @@ public class HnppHomeVisitActivity extends BaseAncHomeVisitActivity {
     }
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(this).setMessage(getString(R.string.exit_app_message))
-                .setTitle(getString(R.string.exit_app_title)).setCancelable(false)
+        new AlertDialog.Builder(this).setMessage(R.string.form_back_confirm_dialog_message)
+                .setTitle(R.string.form_back_confirm_dialog_title).setCancelable(false)
                 .setPositiveButton(R.string.yes_button_label, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         finish();
@@ -43,13 +45,22 @@ public class HnppHomeVisitActivity extends BaseAncHomeVisitActivity {
         }).show();
     }
     @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.close) {
+            onBackPressed();
+        } else if (v.getId() == R.id.customFontTextViewSubmit) {
+            submitVisit();
+        }
+    }
+    @Override
     public void startFormActivity(JSONObject jsonForm) {
         Intent intent = new Intent(this, HnppAncJsonFormActivity.class);
         intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+        Form form = new Form();
+        form.setWizard(false);
+        form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
-        if (getFormConfig() != null) {
-            intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, getFormConfig());
-        }
+        intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
 
         startActivityForResult(intent, Constants.REQUEST_CODE_GET_JSON);
     }

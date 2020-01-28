@@ -1,0 +1,34 @@
+name: step1_albumin_toaster_3
+description: If edema = Yes && Systolic BP=>120 or. Diastolic =>80 && Urine Albumin= Positive is known as pre-eclempsia
+priority: 1
+condition: "(step1_has_edema.equalsIgnoreCase('হ্যাঁ'))&&(step1_blood_pressure_systolic >= 120 || step1_blood_pressure_diastolic >= 80) && (step1_albumin_test.equalsIgnoreCase('হ্যাঁ')) "
+actions:
+  - "isRelevant = true"
+---
+name: step1_can_run
+description: if age >24 month
+priority: 1
+condition: "(helper.getDifferenceDays(step1_dob) / 365.25 >= 720)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_albumin_toaster_3
+description: albumin_toaster_3
+priority: 1
+condition: "step1_no_prev_preg > 4"
+actions:
+  - "isRelevant = true"
+---
+name: step1_risk_toaster_1
+description: risk_toaster_1
+priority: 1
+condition: "step1_no_prev_preg > 4"
+actions:
+  - "isRelevant = true"
+---
+name: step1_risk_toaster_2
+description: risk_toaster_2
+priority: 1
+condition: "step1_height < 145"
+actions:
+  - "isRelevant = true"

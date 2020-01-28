@@ -1,0 +1,35 @@
+---
+name: step1_advice_toaster_1
+description: advice_toaster_1
+priority: 1
+condition: "!step1_weight.isEmpty() && step1_bmi < 18.5"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_2
+description: advice_toaster_2
+priority: 1
+condition: "!step1_weight.isEmpty() && step1_bmi >= 18.5"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_3
+description: advice_toaster_3
+priority: 1
+condition: "step1_body_temperature > 99"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_4
+description: advice_toaster_4
+priority: 1
+condition: "step1_hemoglobin_test >= 8 && step1_hemoglobin_test <= 10"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_5
+description: advice_toaster_5
+priority: 1
+condition: "step1_albumin_test.equalsIgnoreCase('হ্যাঁ')"
+actions:
+  - "isRelevant = true"

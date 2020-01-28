@@ -63,14 +63,12 @@
         "openmrs_entity_id": "1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "type": "date_picker",
         "hint": "শেষ মাসিকের তারিখ",
-        "label_info_title": "LMP",
-        "label_info_text": "LMP = first day of Last Menstrual Period. If the exact date is unknown, but the period of the month is known, use day 5 for beginning of the month, day 15 for middle of the month and day 25 for end of the month.",
         "expanded": false,
         "max_date": "today-42d",
         "min_date": "today-308d",
         "v_required": {
-          "value": "true",
-          "err": "LMP required"
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
         }
       },
       {
@@ -108,6 +106,23 @@
         "v_min": {
           "value": "0",
           "err": "Number must be equal or greater than 0"
+        }
+      },
+      {
+        "key": "risk_toaster_1",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "risk",
+        "text_color": "#CF0800",
+        "toaster_type": "problem",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_risk_relevance.yml"
+            }
+          }
         }
       },
       {
@@ -152,6 +167,23 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "risk_toaster_2",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "risk",
+        "text_color": "#CF0800",
+        "toaster_type": "problem",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_risk_relevance.yml"
+            }
+          }
         }
       }
     ]
