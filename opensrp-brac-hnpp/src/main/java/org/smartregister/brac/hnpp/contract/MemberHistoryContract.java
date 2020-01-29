@@ -24,6 +24,6 @@ public interface MemberHistoryContract {
         void onUpdateList(ArrayList<MemberHistoryData> list);
     }
     interface Interactor{
-        void fetchData(Context context, String baseEntityId, MemberHistoryContract.InteractorCallBack callBack);
+        void fetchData(Context context,String baseEntityId, MemberHistoryContract.InteractorCallBack callBack);
     }
 }

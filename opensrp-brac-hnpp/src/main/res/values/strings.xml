@@ -178,4 +178,6 @@
     <string name="record_immunizations">টিকা রেকর্ড</string>
     <string name="which_vaccines_given_text">কোন টিকা দেওয়া হয়েছিল?</string>
     <string name="add_date_separately">+ প্রতিটি ভ্যাকসিনের জন্য তারিখ যুক্ত করুন</string>
+    <string name="label_immunization_records">IMMUNISATION &amp; SERVICES</string>
+    <string name="return_to_children_profile">শিশু ইনফো</string>
 </resources>

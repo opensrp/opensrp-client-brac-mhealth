@@ -23,6 +23,8 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.adapter.ReferralCardViewAdapter;
 import org.smartregister.brac.hnpp.custom_view.FamilyMemberFloatingMenu;
+import org.smartregister.brac.hnpp.fragment.ChildHistoryFragment;
+import org.smartregister.brac.hnpp.fragment.ChildImmunizationFragment;
 import org.smartregister.brac.hnpp.fragment.HnppChildProfileDueFragment;
 import org.smartregister.brac.hnpp.fragment.HnppMemberProfileDueFragment;
 import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
@@ -173,7 +175,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
 
     }
     MemberOtherServiceFragment memberOtherServiceFragment;
-    MemberHistoryFragment memberHistoryFragment;
+    ChildHistoryFragment memberHistoryFragment;
     HnppChildProfileDueFragment profileMemberFragment;
     ViewPager mViewPager;
     protected ViewPagerAdapter adapter;
@@ -187,7 +189,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
         profileMemberFragment.setCommonPersonObjectClient(commonPersonObject);
         adapter.addFragment(profileMemberFragment, this.getString(R.string.due).toUpperCase());
         memberOtherServiceFragment = new MemberOtherServiceFragment();
-        memberHistoryFragment = MemberHistoryFragment.getInstance(this.getIntent().getExtras());
+        memberHistoryFragment = ChildHistoryFragment.getInstance(this.getIntent().getExtras());
         memberOtherServiceFragment.setCommonPersonObjectClient(commonPersonObject);
         adapter.addFragment(memberOtherServiceFragment, this.getString(R.string.other_service).toUpperCase());
         adapter.addFragment(memberHistoryFragment, this.getString(R.string.activity).toUpperCase());
@@ -276,9 +278,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     private void openUpcomingServicePage() {
         CoreUpcomingServicesActivity.startUpcomingServicesActivity(this, ((CoreChildProfilePresenter) presenter()).getChildClient());
     }
-
     public void openVisitHomeScreen(boolean isEditMode) {
-        ChildHomeVisitActivity.startMe(this, memberObject, isEditMode, ChildHomeVisitActivity.class);
+        ChildVaccinationActivity.startChildVaccinationActivity(this,this.getIntent().getExtras(),commonPersonObject);
+        //ChildHomeVisitActivity.startMe(this, memberObject, isEditMode, ChildHomeVisitActivity.class);
     }
 
     public OnClickFloatingMenu getOnClickFloatingMenu(final Activity activity, final HnppChildProfilePresenter presenter) {
@@ -371,6 +373,8 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
 
         }else if(resultCode == Activity.RESULT_OK && requestCode == org.smartregister.chw.anc.util.Constants.REQUEST_CODE_HOME_VISIT){
            if(mViewPager!=null) mViewPager.setCurrentItem(0,true);
+        } else if(resultCode == Activity.RESULT_OK && requestCode == ChildVaccinationActivity.VACCINE_REQUEST_CODE){
+            profileMemberFragment.setUserVisibleHint(true);
         }
 
         super.onActivityResult(requestCode, resultCode, data);

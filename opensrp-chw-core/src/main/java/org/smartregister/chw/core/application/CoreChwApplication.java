@@ -1,6 +1,7 @@
 package org.smartregister.chw.core.application;
 
 import android.content.Intent;
+import android.util.Log;
 
 import org.smartregister.Context;
 import org.smartregister.chw.core.activity.CoreFamilyProfileActivity;
@@ -159,24 +160,7 @@ public class CoreChwApplication extends DrishtiApplication implements CoreApplic
         return locationRepository;
     }
 
-    public void initOfflineSchedules() {
-        try {
-            // child schedules
-            List<VaccineGroup> childVaccines = VaccinatorUtils.getSupportedVaccines(this);
-            List<Vaccine> specialVaccines = VaccinatorUtils.getSpecialVaccines(this);
-            VaccineSchedule.init(childVaccines, specialVaccines, CoreConstants.SERVICE_GROUPS.CHILD);
-        } catch (Exception e) {
-            Timber.e(e);
-        }
 
-        try {
-            // mother vaccines
-            List<VaccineGroup> womanVaccines = VaccinatorUtils.getSupportedWomanVaccines(this);
-            VaccineSchedule.init(womanVaccines, null, CoreConstants.SERVICE_GROUPS.WOMAN);
-        } catch (Exception e) {
-            Timber.e(e);
-        }
-    }
 
     public AllCommonsRepository getAllCommonsRepository(String table) {
         return CoreChwApplication.getInstance().getContext().allCommonsRepositoryobjects(table);

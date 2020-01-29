@@ -6,6 +6,7 @@ public class MemberHistoryData {
     private String title;
     private String eventType;
     private long visitDate;
+    private String visitDay;
     private String visitDetails;
     private String memberName;
 
@@ -55,5 +56,13 @@ public class MemberHistoryData {
 
     public void setVisitDetails(String visitDetails) {
         this.visitDetails = visitDetails;
+    }
+
+    public void setVisitDay(String visitDay) {
+        this.visitDay = visitDay;
+    }
+
+    public String getVisitDay() {
+        return visitDay;
     }
 }

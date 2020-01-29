@@ -311,6 +311,8 @@ public class HnppConstants extends CoreConstants {
         public static final String IYCF_PACKAGE = "IYCF package";
         public static final String ENC_REGISTRATION = "ENC Registration";
         public static final String HOME_VISIT_FAMILY = "HH visit";
+        public static final String VACCINATION = "Vaccination";
+        public static final String SERVICES = "Recurring Service";
 
 
     }
@@ -351,6 +353,8 @@ public class HnppConstants extends CoreConstants {
             .put("Member referral",R.mipmap.ic_refer)
             .put(EVENT_TYPE.HOME_VISIT_FAMILY, R.mipmap.ic_icon_home)
             .put(EventType.CHILD_HOME_VISIT, R.mipmap.ic_icon_home)
+            .put(EVENT_TYPE.VACCINATION, R.drawable.ic_muac)
+            .put(EVENT_TYPE.SERVICES, R.mipmap.form_vitamin)
             .build();
     //need to show the title at row/option
     public static final Map<String,String> visitEventTypeMapping = ImmutableMap.<String,String> builder()
@@ -373,6 +377,8 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)")
             .put(EVENT_TYPE.ENC_REGISTRATION, "ENC")
             .put(EVENT_TYPE.HOME_VISIT_FAMILY, "খানা পরিদর্শন")
+            .put(EVENT_TYPE.VACCINATION, "ভ্যাকসিনেশন")
+            .put(EVENT_TYPE.SERVICES, "ভিটামিন সার্ভিস")
             .build();
     //needed for dashboard
     public static final Map<String,String> eventTypeMapping = ImmutableMap.<String,String> builder()
@@ -395,6 +401,8 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ENC_REGISTRATION, "ENC")
             .put(EVENT_TYPE.HOME_VISIT_FAMILY, "খানা পরিদর্শন")
             .put(EventType.CHILD_HOME_VISIT, "শিশু হোম ভিজিট")
+            .put(EVENT_TYPE.VACCINATION, "ভ্যাকসিনেশন")
+            .put(EVENT_TYPE.SERVICES, "ভিটামিন সার্ভিস")
             .build();
 
     private static String getKeyByValue(String mapperObj, String value){

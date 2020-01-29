@@ -1,6 +1,5 @@
 package org.smartregister.brac.hnpp.actionhelper;
 
-
 import android.content.Context;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
@@ -55,27 +54,27 @@ public class VitaminaAction extends HomeVisitActionHelper {
     private boolean isOverDue() {
         return new LocalDate().isAfter(new LocalDate(alert.startDate()).plusDays(14));
     }
-    /*
-        @Override
-        public void onPayloadReceived(BaseAncHomeVisitAction ba) {
+/*
+    @Override
+    public void onPayloadReceived(BaseAncHomeVisitAction ba) {
+        try {
+            JSONObject jsonObject = new JSONObject(ba.getJsonPayload());
+            String value = org.smartregister.chw.util.JsonFormUtils.getValue(jsonObject, MessageFormat.format("vitamin_a{0}_date", serviceIteration));
+
             try {
-                JSONObject jsonObject = new JSONObject(ba.getJsonPayload());
-                String value = org.smartregister.chw.util.JsonFormUtils.getValue(jsonObject, MessageFormat.format("vitamin_a{0}_date", serviceIteration));
-
-                try {
-                    if (ba.getServiceWrapper() != null && ba.getServiceWrapper().size() > 0) {
-                        DateTime updateDate = DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(value);
-                        ba.getServiceWrapper().get(0).setUpdatedVaccineDate(updateDate, false);
-                    }
-                } catch (Exception e) {
-                    Timber.e(e);
+                if (ba.getServiceWrapper() != null && ba.getServiceWrapper().size() > 0) {
+                    DateTime updateDate = DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(value);
+                    ba.getServiceWrapper().get(0).setUpdatedVaccineDate(updateDate, false);
                 }
-
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 Timber.e(e);
             }
+
+        } catch (JSONException e) {
+            Timber.e(e);
         }
-    */
+    }
+*/
     public JSONObject preProcess(JSONObject jsonObject, String iteration) {
         try {
             JSONArray fields = JsonFormUtils.fields(jsonObject);
