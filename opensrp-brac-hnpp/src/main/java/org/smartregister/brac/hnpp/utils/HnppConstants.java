@@ -292,6 +292,9 @@ public class HnppConstants extends CoreConstants {
         public static final String ENC_REGISTRATION = "hnpp_enc_child";
         public static final String HOME_VISIT_FAMILY = "hnpp_hh_visit";
 
+        public static final String REFERREL_FOLLOWUP = "hnpp_member_referral_followup";
+        public static final String CHILD_FOLLOWUP = "hnpp_child_followup";
+
     }
 
     public class EVENT_TYPE{
@@ -313,6 +316,10 @@ public class HnppConstants extends CoreConstants {
         public static final String HOME_VISIT_FAMILY = "HH visit";
         public static final String VACCINATION = "Vaccination";
         public static final String SERVICES = "Recurring Service";
+
+        public static final String REFERREL_FOLLOWUP = "Member Referral Followup";
+        public static final String CHILD_FOLLOWUP = "Child Followup";
+
 
 
     }
@@ -355,6 +362,8 @@ public class HnppConstants extends CoreConstants {
             .put(EventType.CHILD_HOME_VISIT, R.mipmap.ic_icon_home)
             .put(EVENT_TYPE.VACCINATION, R.drawable.ic_muac)
             .put(EVENT_TYPE.SERVICES, R.mipmap.form_vitamin)
+            .put(EVENT_TYPE.REFERREL_FOLLOWUP,R.mipmap.ic_refer)
+            .put(EVENT_TYPE.CHILD_FOLLOWUP,R.drawable.rowavatar_child)
             .build();
     //need to show the title at row/option
     public static final Map<String,String> visitEventTypeMapping = ImmutableMap.<String,String> builder()
@@ -379,6 +388,8 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.HOME_VISIT_FAMILY, "খানা পরিদর্শন")
             .put(EVENT_TYPE.VACCINATION, "ভ্যাকসিনেশন")
             .put(EVENT_TYPE.SERVICES, "ভিটামিন সার্ভিস")
+            .put(EVENT_TYPE.REFERREL_FOLLOWUP,"রেফারেল ফলোআপ")
+            .put(EVENT_TYPE.CHILD_FOLLOWUP,"শিশু ফলোআপ")
             .build();
     //needed for dashboard
     public static final Map<String,String> eventTypeMapping = ImmutableMap.<String,String> builder()
@@ -403,6 +414,8 @@ public class HnppConstants extends CoreConstants {
             .put(EventType.CHILD_HOME_VISIT, "শিশু হোম ভিজিট")
             .put(EVENT_TYPE.VACCINATION, "ভ্যাকসিনেশন")
             .put(EVENT_TYPE.SERVICES, "ভিটামিন সার্ভিস")
+            .put(EVENT_TYPE.REFERREL_FOLLOWUP,"রেফারেল ফলোআপ")
+            .put(EVENT_TYPE.CHILD_FOLLOWUP,"শিশু ফলোআপ")
             .build();
 
     private static String getKeyByValue(String mapperObj, String value){

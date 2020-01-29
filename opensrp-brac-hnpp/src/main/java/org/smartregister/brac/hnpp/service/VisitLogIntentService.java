@@ -31,6 +31,7 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC3_RE
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ELCO;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ELCO;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ENC_REGISTRATION;
@@ -40,6 +41,7 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.IYCF_PA
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.MEMBER_REFERRAL;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.NCD_PACKAGE;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.WOMEN_PACKAGE;
 import static org.smartregister.util.JsonFormUtils.gson;
 
@@ -216,6 +218,12 @@ public class VisitLogIntentService extends IntentService {
         }
         else if (HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)) {
             form_name = HnppConstants.JSON_FORMS.HOME_VISIT_FAMILY+".json";
+        }
+        else if (REFERREL_FOLLOWUP.equalsIgnoreCase(encounter_type)) {
+            form_name = HnppConstants.JSON_FORMS.REFERREL_FOLLOWUP+".json";
+        }
+        else if (CHILD_FOLLOWUP.equalsIgnoreCase(encounter_type)) {
+            form_name = HnppConstants.JSON_FORMS.CHILD_FOLLOWUP+".json";
         }
         try {
             String jsonString = AssetHandler.readFileFromAssetsFolder("json.form/"+form_name, VisitLogIntentService.this);
