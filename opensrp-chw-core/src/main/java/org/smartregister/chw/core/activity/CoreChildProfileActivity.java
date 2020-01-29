@@ -20,14 +20,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
-import org.apache.commons.lang3.tuple.Triple;
 import org.json.JSONObject;
 import org.opensrp.api.constants.Gender;
 import org.smartregister.chw.anc.domain.MemberObject;
@@ -51,36 +49,19 @@ import java.util.Set;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import timber.log.Timber;
+import org.apache.commons.lang3.tuple.Triple;
 
 
 public class CoreChildProfileActivity extends BaseProfileActivity implements CoreChildProfileContract.View, CoreChildRegisterContract.InteractorCallBack {
-    public static IntentFilter sIntentFilter;
     private static Activity startActivity;
 
-    static {
-        sIntentFilter = new IntentFilter();
-        sIntentFilter.addAction(Intent.ACTION_DATE_CHANGED);
-        sIntentFilter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
-        sIntentFilter.addAction(Intent.ACTION_TIME_CHANGED);
-    }
 
     public String childBaseEntityId;
     public boolean isComesFromFamily = false;
     public String lastVisitDay;
     public OnClickFloatingMenu onClickFloatingMenu;
     public Handler handler = new Handler();
-    public final BroadcastReceiver mDateTimeChangedReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            final String action = intent.getAction();
-            assert action != null;
-            if (action.equals(Intent.ACTION_TIME_CHANGED) ||
-                    action.equals(Intent.ACTION_TIMEZONE_CHANGED)) {
-                fetchProfileData();
 
-            }
-        }
-    };
     public RelativeLayout layoutFamilyHasRow;
     protected TextView textViewParentName, textViewLastVisit, textViewMedicalHistory;
     protected CircleImageView imageViewProfile;
@@ -102,6 +83,7 @@ public class CoreChildProfileActivity extends BaseProfileActivity implements Cor
         startActivity = activity;
         Intent intent = new Intent(activity, cls);
         intent.putExtra(CoreConstants.INTENT_KEY.IS_COMES_FROM_FAMILY, isComesFromFamily);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(org.smartregister.chw.anc.util.Constants.ANC_MEMBER_OBJECTS.MEMBER_PROFILE_OBJECT, memberObject);
         activity.startActivity(intent);
     }
@@ -134,16 +116,8 @@ public class CoreChildProfileActivity extends BaseProfileActivity implements Cor
             appBarLayout.setOutlineProvider(null);
         }
         imageRenderHelper = new ImageRenderHelper(this);
-        registerReceiver(mDateTimeChangedReceiver, getsIntentFilter());
     }
 
-    public static IntentFilter getsIntentFilter() {
-        return sIntentFilter;
-    }
-
-    public static void setsIntentFilter(IntentFilter sIntentFilter) {
-        CoreChildProfileActivity.sIntentFilter = sIntentFilter;
-    }
 
     @Override
     public void onClick(View view) {
@@ -267,7 +241,7 @@ public class CoreChildProfileActivity extends BaseProfileActivity implements Cor
      * from childhomevisitfragment screen and need at medical history/upcoming service data.
      * need postdelay to update the client map
      */
-    private void updateImmunizationData() {
+    public void updateImmunizationData() {
         handler.postDelayed(() -> {
             layoutMostDueOverdue.setVisibility(View.GONE);
             viewMostDueRow.setVisibility(View.GONE);
@@ -536,9 +510,9 @@ public class CoreChildProfileActivity extends BaseProfileActivity implements Cor
 
     @Override
     public void onUniqueIdFetched(Triple<String, String, String> triple, String entityId, String familyId) {
-        //TODO
-        Timber.d("onUniqueIdFetched unimplemented");
+
     }
+
 
     @Override
     public void onRegistrationSaved(boolean isEdit) {
@@ -572,7 +546,6 @@ public class CoreChildProfileActivity extends BaseProfileActivity implements Cor
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(mDateTimeChangedReceiver);
         handler.removeCallbacksAndMessages(null);
     }
 

@@ -52,7 +52,6 @@ public class VisitLogIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
         ArrayList<String> visit_ids = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().getVisitIds();
         for (int i = 0; i < visit_ids.size(); i++) {
             List<Visit> v = AncLibrary.getInstance().visitRepository().getVisitsByVisitId(visit_ids.get(i));
@@ -62,7 +61,6 @@ public class VisitLogIntentService extends IntentService {
                     try {
 
                         Event baseEvent = gson.fromJson(eventJson, Event.class);
-                        JSONObject eventObject = new JSONObject(eventJson);
                         String base_entity_id = baseEvent.getBaseEntityId();
                         HashMap<String,Object>form_details = getFormNamesFromEventObject(baseEvent);
                         ArrayList<String> encounter_types = (ArrayList<String>) form_details.get("form_name");
@@ -138,15 +136,46 @@ public class VisitLogIntentService extends IntentService {
                 }
                 jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,value);
             }else if (jsonObject.has("options")) {
-                JSONArray option_array = jsonObject.getJSONArray("options");
-                for (int i = 0; i < option_array.length(); i++) {
-                    JSONObject option = option_array.getJSONObject(i);
-                    if (value.contains(option.optString("key"))) {
-                        option.put("value", "true");
+                if(jsonObject.getString("key").equalsIgnoreCase("hh_visit_members")){
+                    JSONArray option_array = jsonObject.getJSONArray("options");
+                    String[] strs = value.split(",");
+                    if(strs.length == 0){
+
+                    }else{
+                        for(String name : strs){
+                            JSONObject item = new JSONObject();
+                            if(name.equalsIgnoreCase("chk_nobody")){
+
+                                item.put("key","chk_nobody");
+                                item.put("text","কাউকে পাওয়া যায়নি");
+                                item.put("value",true);
+                                item.put("openmrs_entity","concept");
+                                item.put("openmrs_entity_id","chk_nobody");
+                            }else{
+                                item.put("key",name.replace(" ","_"));
+                                item.put("text",name);
+                                item.put("value",true);
+                                item.put("openmrs_entity","concept");
+                                item.put("openmrs_entity_id",name.replace(" ","_"));
+                            }
+
+
+                            option_array.put(item);
+                        }
+                    }
+
+                }else{
+                    JSONArray option_array = jsonObject.getJSONArray("options");
+                    for (int i = 0; i < option_array.length(); i++) {
+                        JSONObject option = option_array.getJSONObject(i);
+                        if (value.contains(option.optString("key"))) {
+                            option.put("value", "true");
+                        }
                     }
                 }
-                jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,value);
-            }else{
+
+            }
+            else{
                 jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE, value);
             }
 

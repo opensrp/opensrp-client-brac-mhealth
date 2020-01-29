@@ -130,6 +130,7 @@ public class ChwClientProcessor extends ClientProcessorForJava {
             case CoreConstants.EventType.CHILD_HOME_VISIT:
                 processVisitEvent(Utils.processOldEvents(eventClient), CoreConstants.EventType.CHILD_HOME_VISIT);
                 processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
+
                 break;
             case CoreConstants.EventType.CHILD_VISIT_NOT_DONE:
                 processVisitEvent(eventClient);

@@ -55,6 +55,7 @@ public class CoreConstants {
     }
 
     public static final class EventType {
+        public static final String VITAMIN_A = "child_hv_vitamin_a";
         public static final String BIRTH_CERTIFICATION = "Birth Certification";
         public static final String OBS_ILLNESS = "Observations Illness";
         public static final String COUNSELING = "Counseling";

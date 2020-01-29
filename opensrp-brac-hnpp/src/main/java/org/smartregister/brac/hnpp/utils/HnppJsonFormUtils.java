@@ -15,6 +15,7 @@ import org.apache.commons.lang3.tuple.Triple;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.AllConstants;
 import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
@@ -86,9 +87,11 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
         String derivedEncounterType = StringUtils.isBlank(parentEventType) ? encounterType : "";
         Event baseEvent = org.smartregister.chw.anc.util.JsonFormUtils.processVisitJsonForm(allSharedPreferences, memberID, derivedEncounterType, jsonString, getTableName());
-
-        if (StringUtils.isBlank(parentEventType))
+        if(encounterType.equalsIgnoreCase(org.smartregister.chw.anc.util.Constants.EVENT_TYPE.ANC_HOME_VISIT)){
             prepareEvent(baseEvent);
+        }
+//        if (StringUtils.isBlank(parentEventType))
+//            prepareEvent(baseEvent);
 
         if (baseEvent != null) {
             baseEvent.setFormSubmissionId(JsonFormUtils.generateRandomUUIDString());
@@ -121,6 +124,8 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 return HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
             case  HnppConstants.EVENT_TYPE.PNC_REGISTRATION:
                 return org.smartregister.chw.anc.util.Constants.EVENT_TYPE.PNC_HOME_VISIT;
+            case  HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY:
+                return HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY;
                 default:
                     return org.smartregister.chw.anc.util.Constants.EVENT_TYPE.ANC_HOME_VISIT;
         }
@@ -357,6 +362,48 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         return form;
 
 
+    }
+    public static JSONObject updateFormWithAllMemberName(JSONObject form , ArrayList<String> motherNameList) throws Exception{
+        JSONArray field = fields(form, STEP1);
+        JSONObject hh_visit_members = getFieldJSONObject(field, "hh_visit_members");
+
+        JSONArray jsonArray = hh_visit_members.getJSONArray("options");
+        for(String name : motherNameList){
+            JSONObject item = new JSONObject();
+            item.put("key",name.replace(" ","_"));
+            item.put("text",name);
+            item.put("value",false);
+            item.put("openmrs_entity","concept");
+            item.put("openmrs_entity_id",name.replace(" ","_"));
+
+            jsonArray.put(item);
+        }
+
+        JSONObject not_found = new JSONObject();
+        not_found.put("key","chk_nobody");
+        not_found.put("text","কাউকে পাওয়া যায়নি");
+        not_found.put("value",false);
+        not_found.put("openmrs_entity","concept");
+        not_found.put("openmrs_entity_id","chk_nobody");
+        jsonArray.put(not_found);
+
+        return form;
+
+
+    }
+    public static JSONObject getJson(String formName, String baseEntityID) throws Exception {
+        String locationId = HnppApplication.getInstance().getContext().allSharedPreferences().getPreference(AllConstants.CURRENT_LOCATION_ID);
+        JSONObject jsonObject = org.smartregister.chw.anc.util.JsonFormUtils.getFormAsJson(formName);
+        org.smartregister.chw.anc.util.JsonFormUtils.getRegistrationForm(jsonObject, baseEntityID, locationId);
+        return jsonObject;
+    }
+    public static JSONObject updateLatitudeLongitude(JSONObject form,double latitude, double longitude) throws JSONException {
+        JSONArray field = fields(form, STEP1);
+        JSONObject latitude_field = getFieldJSONObject(field, "latitude");
+        JSONObject longitude_field = getFieldJSONObject(field, "longitude");
+        latitude_field.put(org.smartregister.family.util.JsonFormUtils.VALUE,latitude );
+        longitude_field.put(org.smartregister.family.util.JsonFormUtils.VALUE,longitude );
+        return form;
     }
 
     public static JSONObject getAutoPopulatedJsonEditFormString(String formName, Context context, CommonPersonObjectClient client, String eventType) {

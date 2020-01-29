@@ -2,6 +2,7 @@ package org.smartregister.brac.hnpp.model;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.text.TextUtils;
 
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.contract.DashBoardContract;
@@ -50,7 +51,9 @@ public class DashBoardModel implements DashBoardContract.Model {
                     }catch (Exception e){
 
                     }
-                    dashBoardDataArrayList.add(dashBoardData1);
+                    if(!TextUtils.isEmpty(dashBoardData1.getEventType())){
+                        dashBoardDataArrayList.add(dashBoardData1);
+                    }
                     cursor.moveToNext();
                 }
                 cursor.close();

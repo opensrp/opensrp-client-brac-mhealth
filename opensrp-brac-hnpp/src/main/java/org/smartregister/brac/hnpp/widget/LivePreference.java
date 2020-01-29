@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.smartregister.AllConstants;
+import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -136,7 +137,7 @@ public class LivePreference extends Preference  {
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
-                if(!serverPassword.trim().isEmpty() && serverPassword.equalsIgnoreCase(inputedPassword)){
+                if(BuildConfig.DEBUG || !serverPassword.trim().isEmpty() && serverPassword.equalsIgnoreCase(inputedPassword)){
                     if(appMode.equalsIgnoreCase("T")){
                         String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
                         if(TextUtils.isEmpty(userName)){

@@ -8,6 +8,15 @@ public class ProfileDueInfo {
     private String gender;
     private String maritalStatus;
     private String dob;
+    private String originalEventType;
+
+    public String getOriginalEventType() {
+        return originalEventType;
+    }
+
+    public void setOriginalEventType(String originalEventType) {
+        this.originalEventType = originalEventType;
+    }
 
     public String getName() {
         return name;

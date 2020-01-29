@@ -12,6 +12,7 @@ import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.repository.VisitDetailsRepository;
 import org.smartregister.chw.anc.repository.VisitRepository;
 import org.smartregister.chw.anc.util.NCUtils;
+import org.smartregister.chw.core.job.VaccineRecurringServiceJob;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.immunization.service.intent.RecurringIntentService;
 import org.smartregister.immunization.service.intent.VaccineIntentService;
@@ -50,11 +51,7 @@ public class HomeVisitIntentService extends IntentService {
         }
     }
 
-    /**
-     * Process all the visit older than 24 hours
-     *
-     * @throws Exception
-     */
+
     protected void processVisits() throws Exception {
         processVisits(visitRepository, null);
     }
@@ -81,9 +78,6 @@ public class HomeVisitIntentService extends IntentService {
         // process after all events are saved
         NCUtils.startClientProcessing();
 
-        // process vaccines and services
-        Context context = AncLibrary.getInstance().context().applicationContext();
-        context.startService(new Intent(context, VaccineIntentService.class));
-        context.startService(new Intent(context, RecurringIntentService.class));
+        VaccineRecurringServiceJob.scheduleJobImmediately(VaccineRecurringServiceJob.TAG);
     }
 }

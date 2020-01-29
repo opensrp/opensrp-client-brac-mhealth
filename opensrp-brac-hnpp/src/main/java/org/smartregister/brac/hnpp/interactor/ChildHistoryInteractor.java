@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 
 import org.smartregister.brac.hnpp.HnppApplication;
-import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.contract.MemberHistoryContract;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -15,12 +14,12 @@ import org.smartregister.family.util.AppExecutors;
 
 import java.util.ArrayList;
 
-public class MemberHistoryInteractor implements MemberHistoryContract.Interactor {
+public class ChildHistoryInteractor implements MemberHistoryContract.Interactor {
 
     private AppExecutors appExecutors;
     private HnppVisitLogRepository visitLogRepository;
 
-    public MemberHistoryInteractor(AppExecutors appExecutors){
+    public ChildHistoryInteractor(AppExecutors appExecutors){
         this.appExecutors = appExecutors;
         visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
     }
@@ -54,9 +53,40 @@ public class MemberHistoryInteractor implements MemberHistoryContract.Interactor
             historyData.setVisitDate(visitLog.getVisitDate());
             historyDataArrayList.add(historyData);
         }
+        ArrayList<MemberHistoryData> moreHistory = getImmunizationData(baseEntityId);
+        if(moreHistory.size()>0){
+            historyDataArrayList.addAll(moreHistory);
+        }
 
         return historyDataArrayList;
 
+    }
+    private ArrayList<MemberHistoryData> getImmunizationData(String baseEntityId){
+        ArrayList<MemberHistoryData> memberHistoryDataList = new ArrayList<>();
+        String query = "select eventType,eventDate  from event where (eventType = 'Vaccination' or eventType = 'Recurring Service') and baseEntityId = '"+baseEntityId+"' group by eventDate";
+        Cursor cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        if(cursor !=null && cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                MemberHistoryData memberHistoryData1 = new MemberHistoryData();
+                String eventType = cursor.getString(0);
+                String date = cursor.getString(1);
+                memberHistoryData1.setTitle(HnppConstants.visitEventTypeMapping.get(eventType));
+                try{
+                    memberHistoryData1.setImageSource(HnppConstants.iconMapping.get(eventType));
+                }catch(NullPointerException e){
+
+                }
+                memberHistoryData1.setEventType(eventType);
+                memberHistoryData1.setVisitDay(date);
+                memberHistoryDataList.add(memberHistoryData1);
+                cursor.moveToNext();
+
+            }
+            cursor.close();
+
+        }
+        return memberHistoryDataList;
     }
 
 }

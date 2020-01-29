@@ -59,6 +59,7 @@
         "type": "hidden",
         "value": "hnpp_hh_visit"
       },
+
       {
         "key": "hh_position",
         "openmrs_entity_parent": "",
@@ -82,7 +83,7 @@
       {
         "key": "hh_visit_members",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "hh_visit_members",
         "type": "check_box",
         "label": "খানায় কার সাথে দেখে হয়েছে?",
@@ -92,23 +93,26 @@
           "chk_nobody"
         ],
         "options": [
-          {
-            "key": "chk_nobody",
-            "text": "কাউকে পাওয়া যায়নি",
-            "value": false,
-            "openmrs_entity": "person_attribute",
-            "openmrs_entity_id": "chk_none"
-          }
+
         ]
       },
       {
-        "key": "gps",
+        "key": "latitude",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "gps",
-        "openmrs_data_type": "text",
-        "hidden": true,
-        "type": "gps"
+        "openmrs_entity_id": "latitude",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "অক্ষাংশ"
+      },
+      {
+        "key": "longitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "longitude",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "দ্রাঘিমা"
       }
     ]
   }

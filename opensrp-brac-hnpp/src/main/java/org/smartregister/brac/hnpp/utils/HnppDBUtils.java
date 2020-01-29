@@ -24,6 +24,7 @@ import org.smartregister.sync.helper.ECSyncHelper;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -48,27 +49,33 @@ public class HnppDBUtils extends CoreChildUtils {
                     profileDueInfo.setDob(cursor.getString(4));
                     String dobString = Utils.getDuration(profileDueInfo.getDob());
                     profileDueInfo.setAge(dobString);
-                    if(profileDueInfo.getGender().equalsIgnoreCase("F") && profileDueInfo.getMaritalStatus().equalsIgnoreCase("Married")){
-                        String eventType = FormApplicability.getDueFormForMarriedWomen(profileDueInfo.getBaseEntityId(),
-                                FormApplicability.getAge(profileDueInfo.getDob()));
-                        if(FormApplicability.isDueAnyForm(profileDueInfo.getBaseEntityId(),eventType) && !TextUtils.isEmpty(eventType)){
-                            if(eventType.equalsIgnoreCase("পূর্বের গর্ভের ইতিহাস")){
-                                profileDueInfo.setEventType("গর্ভবতী পরিচর্যা - ১ম ত্রিমাসিক");
-                            }else{
-                                profileDueInfo.setEventType(HnppConstants.visitEventTypeMapping.get(eventType));
+                    try{
+                        if(profileDueInfo.getGender().equalsIgnoreCase("F") && profileDueInfo.getMaritalStatus().equalsIgnoreCase("Married")){
+                            String eventType = FormApplicability.getDueFormForMarriedWomen(profileDueInfo.getBaseEntityId(),
+                                    FormApplicability.getAge(profileDueInfo.getDob()));
+                            profileDueInfo.setOriginalEventType(eventType);
+                            //if(FormApplicability.isDueAnyForm(profileDueInfo.getBaseEntityId(),eventType) && !TextUtils.isEmpty(eventType)){
+                                if(eventType.equalsIgnoreCase("পূর্বের গর্ভের ইতিহাস")){
+                                    profileDueInfo.setEventType("গর্ভবতী পরিচর্যা - ১ম ত্রিমাসিক");
+                                }else{
+                                    profileDueInfo.setEventType(HnppConstants.visitEventTypeMapping.get(eventType));
+                                }
+                                profileDueInfoArrayList.add(profileDueInfo);
+                            //}
+
+
+                        }else {
+                            Date dob = Utils.dobStringToDate(profileDueInfo.getDob());
+                            boolean isEnc = FormApplicability.isEncVisible(dob);
+                            if(isEnc){
+                                profileDueInfo.setEventType(HnppConstants.visitEventTypeMapping.get(HnppConstants.EVENT_TYPE.ENC_REGISTRATION));
+                                profileDueInfoArrayList.add(profileDueInfo);
                             }
-                            profileDueInfoArrayList.add(profileDueInfo);
                         }
+                    }catch (Exception e){
 
-
-                    }else {
-                        Date dob = Utils.dobStringToDate(profileDueInfo.getDob());
-                        boolean isEnc = FormApplicability.isEncVisible(dob);
-                        if(isEnc){
-                            profileDueInfo.setEventType(HnppConstants.visitEventTypeMapping.get(HnppConstants.EVENT_TYPE.ENC_REGISTRATION));
-                            profileDueInfoArrayList.add(profileDueInfo);
-                        }
                     }
+
 
                     cursor.moveToNext();
                 }
@@ -80,6 +87,13 @@ public class HnppDBUtils extends CoreChildUtils {
         } finally {
             if (cursor != null)
                 cursor.close();
+            Iterator<ProfileDueInfo> profileDueInfoIterator = profileDueInfoArrayList.iterator();
+            while (profileDueInfoIterator.hasNext()){
+                ProfileDueInfo p = profileDueInfoIterator.next();
+                if(!FormApplicability.isDueAnyForm(p.getBaseEntityId(),p.getOriginalEventType()) && !TextUtils.isEmpty(p.getOriginalEventType())){
+                    profileDueInfoIterator.remove();
+                }
+            }
         }
         return profileDueInfoArrayList;
     }
@@ -152,6 +166,26 @@ public class HnppDBUtils extends CoreChildUtils {
                 cursor.close();
         }
         return womenList;
+    }
+    public static ArrayList<String> getAllMembersInHouseHold(String familyID){
+        String query = "select first_name from ec_family_member where relational_id = '"+familyID+"'";
+        Cursor cursor = null;
+        ArrayList<String> memberList = new ArrayList<>();
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                String name = cursor.getString(0);
+                memberList.add(name);
+                cursor.moveToNext();
+            }
+        } catch (Exception e) {
+            Timber.e(e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return memberList;
     }
     public static ArrayList<String> getAllWomenInHouseHold(String entityId, String familyID){
         String query = "select first_name from ec_family_member where (gender = 'নারী' OR gender = 'F') and ((marital_status != 'অবিবাহিত' AND marital_status != 'Unmarried') and marital_status IS NOT NULL) and relational_id = '"+familyID+"' and base_entity_id != '"+entityId+"'";

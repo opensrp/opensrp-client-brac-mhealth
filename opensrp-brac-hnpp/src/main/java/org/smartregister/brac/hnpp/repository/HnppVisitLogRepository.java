@@ -202,20 +202,52 @@ public class HnppVisitLogRepository extends BaseRepository {
     }
     public boolean isDoneWihinTwentyFourHours(String baseEntityId, String eventTpe) {
 
-        SQLiteDatabase database = getReadableDatabase();
-        String selection = BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE+" and "+EVENT_TYPE+" = ?"+COLLATE_NOCASE+"and (" + VISIT_DATE + "/1000 < strftime('%s',datetime('now','-1 day')))";
-        String[] selectionArgs = new String[]{baseEntityId,eventTpe};
-        net.sqlcipher.Cursor cursor = database.query(VISIT_LOG_TABLE_NAME, new String[]{BASE_ENTITY_ID}, selection, selectionArgs, null, null, VISIT_DATE + " DESC");
-        String entityId ="";
-        if(cursor !=null && cursor.getCount() > 0){
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-                entityId = cursor.getString(0);
-                cursor.moveToNext();
+        String eventType="";
+        String query = "select event_type from ec_visit_log where event_type ='"+eventTpe+"' and base_entity_id ='"+baseEntityId+"' and (strftime('%d',datetime(visit_date/1000,'unixepoch')) = strftime('%d',datetime('now')))";
+        android.database.Cursor cursor = null;
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+
+                    eventType = cursor.getString(0);
+                    cursor.moveToNext();
+
+                }
             }
+        }catch (Exception e){
 
         }
-        return !TextUtils.isEmpty(entityId);
+        finally {
+            if(cursor!=null) cursor.close();
+        }
+        return !TextUtils.isEmpty(eventType);
+    }
+    public  ArrayList<String> getEventsWithin24Hours(String baseEntityId){
+
+        ArrayList<String> eventList = new ArrayList<>();
+        SQLiteDatabase database = getReadableDatabase();
+        String query = "select event_type from ec_visit_log where base_entity_id ='"+baseEntityId+"' and (strftime('%d',datetime(visit_date/1000,'unixepoch')) = strftime('%d',datetime('now')))";
+        android.database.Cursor cursor = null;
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+
+                    eventList.add(cursor.getString(0));
+                    cursor.moveToNext();
+
+                }
+            }
+        }catch (Exception e){
+
+        }
+        finally {
+            if(cursor!=null) cursor.close();
+        }
+        return eventList;
     }
     public ArrayList<VisitLog> getAllVisitLog(String baseEntityId) {
         SQLiteDatabase database = getReadableDatabase();

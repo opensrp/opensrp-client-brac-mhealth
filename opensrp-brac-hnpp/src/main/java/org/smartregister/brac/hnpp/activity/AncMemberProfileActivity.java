@@ -46,6 +46,7 @@ public class AncMemberProfileActivity extends CoreAncMemberProfileActivity {
     public RelativeLayout referralRow;
     public RecyclerView referralRecyclerView;
     private CommonPersonObjectClient commonPersonObjectClient;
+    MemberObject MEMBER_OBJECT = new MemberObject();
 
     public static void startMe(Activity activity, MemberObject memberObject, String familyHeadName, String familyHeadPhoneNumber, CommonPersonObjectClient commonPersonObjectClient) {
         Intent intent = new Intent(activity, AncMemberProfileActivity.class);
@@ -66,18 +67,6 @@ public class AncMemberProfileActivity extends CoreAncMemberProfileActivity {
         }
 
         ancMemberProfilePresenter().fetchTasks();
-    }
-
-    @Override
-    public void setUpComingServicesStatus(String service, AlertStatus status, Date date) {
-        view_most_due_overdue_row.setVisibility(View.GONE);
-        rlUpcomingServices.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void setFamilyStatus(AlertStatus status) {
-        view_family_row.setVisibility(View.GONE);
-        rlFamilyServicesDue.setVisibility(View.GONE);
     }
 
     @Override

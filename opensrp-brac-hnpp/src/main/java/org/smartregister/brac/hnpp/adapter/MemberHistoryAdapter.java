@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.vision.text.Text;
+
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.holder.MemberDueViewHolder;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -51,7 +53,13 @@ public class MemberHistoryAdapter extends RecyclerView.Adapter<MemberDueViewHold
             viewHolder.textViewTitle.setText("সেবা: "+content.getTitle());
         }
         viewHolder.textViewLastVisit.setVisibility(View.VISIBLE);
-        viewHolder.textViewLastVisit.setText("তারিখ: "+HnppConstants.DDMMYY.format(content.getVisitDate()));
+        if(!TextUtils.isEmpty(content.getVisitDay())){
+            viewHolder.textViewLastVisit.setText("তারিখ: "+content.getVisitDay());
+
+        }else{
+            viewHolder.textViewLastVisit.setText("তারিখ: "+HnppConstants.DDMMYY.format(content.getVisitDate()));
+
+        }
         viewHolder.itemView.setOnClickListener(v -> onClickAdapter.onClick(position, content));
     }
 

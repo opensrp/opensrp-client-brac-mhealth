@@ -177,6 +177,8 @@
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity android:name=".activity.HnppElcoMemberRegisterActivity" android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
+        <activity android:name=".activity.ChildVaccinationActivity" android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar"/>
 
         <service android:name="org.smartregister.immunization.service.intent.VaccineIntentService" />
         <service android:name="org.smartregister.immunization.service.intent.RecurringIntentService" />
@@ -213,5 +215,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
 </manifest>
