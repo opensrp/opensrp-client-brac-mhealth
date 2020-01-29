@@ -118,6 +118,24 @@ public class ChildDBConstants {
         public static final String NUTRITION_STATUS = "nutrition_status";
         public static final String VACCINE_CARD = "vaccine_card";
         public static final String MOTHER_ENTITY_ID = "mother_entity_id";
+
+        public static final String BIRTH_WEIGHT_TAKEN = "birth_weight_taken";
+        public static final String BIRTH_WEIGHT = "birth_weight";
+        public static final String CHLOROHEXADIN = "chlorohexadin";
+        public static final String BREASTFEEDING_TIME = "breastfeeding_time";
+        public static final String HEAD_BODY_COVERED = "head_body_covered";
+        public static final String PHYSICALLY_CHALLENGED = "physically_challenged";
+        public static final String BREAST_FEEDED = "breast_feeded";
+
+
+
+
+
+
+
+
+
+
         // Family child visit status
         //public static final String CHILD_VISIT_STATUS = "child_visit_status";
     }

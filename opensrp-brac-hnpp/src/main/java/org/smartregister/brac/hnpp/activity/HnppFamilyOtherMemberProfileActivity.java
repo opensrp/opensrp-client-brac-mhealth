@@ -186,12 +186,14 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     MemberHistoryFragment memberHistoryFragment;
     HnppMemberProfileDueFragment profileMemberFragment;
     ViewPager mViewPager;
+    String gender = "";
     @Override
     protected ViewPager setupViewPager(ViewPager viewPager) {
         this.mViewPager = viewPager;
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         List<Map<String,String>> genderMaritalStatus = HnppDBUtils.getGenderMaritalStatus(baseEntityId);
         if(genderMaritalStatus != null && genderMaritalStatus.size()>0) {
+            gender = genderMaritalStatus.get(0).get("gender");
             commonPersonObject.getColumnmaps().put("gender", genderMaritalStatus.get(0).get("gender"));
             commonPersonObject.getColumnmaps().put("marital_status", genderMaritalStatus.get(0).get("marital_status"));
         }
@@ -211,9 +213,14 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     public void startAnyFormActivity(String formName, int requestCode) {
        try {
            JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
-           addEDDField(formName,jsonForm);
+           HnppJsonFormUtils.addEDDField(formName,jsonForm,baseEntityId);
            jsonForm.put(JsonFormUtils.ENTITY_ID, baseEntityId);
            Intent intent;
+           if(gender.equalsIgnoreCase("F"))
+               HnppJsonFormUtils.addMemberTypeField(HnppConstants.JSON_FORMS.MEMBER_REFERRAL,jsonForm,"Woman");
+           else
+               HnppJsonFormUtils.addMemberTypeField(HnppConstants.JSON_FORMS.MEMBER_REFERRAL,jsonForm,"All");
+
 //           if(formName.contains("anc"))
            HnppVisitLogRepository visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
            JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
@@ -237,25 +244,8 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
            
        }
     }
-    public void addEDDField(String formName,JSONObject jsonForm){
-        if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM)||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM)||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM)){
-            JSONObject stepOne = null;
-            try {
-                HnppVisitLogRepository visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
-                ANCRegister ancRegister = null;
 
-                ancRegister = visitLogRepository.getLastANCRegister(baseEntityId);
-                if(ancRegister!=null){
-                    stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
-                    JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
-                    updateFormField(jsonArray, HnppConstants.ANC_REGISTER_COLUMNS.EDD, ancRegister.getEDD());
-                }
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
     private void updateFormField(JSONArray formFieldArrays, String formFeildKey, String updateValue) {
         if (updateValue != null) {
             JSONObject formObject = org.smartregister.util.JsonFormUtils.getFieldJSONObject(formFieldArrays, formFeildKey);

@@ -29,6 +29,10 @@ public class HnppVisitLogRepository extends BaseRepository {
     public static final String VISIT_DATE = "visit_date";
     public static final String EVENT_TYPE = "event_type";
     public static final String VISIT_JSON = "visit_json";
+    public static final String REFER_REASON = "refer_reason";
+    public static final String REFER_PLACE = "refer_place";
+
+
     public static final String[] TABLE_COLUMNS = {VISIT_ID, VISIT_TYPE,FAMILY_ID, BASE_ENTITY_ID, VISIT_DATE,EVENT_TYPE,VISIT_JSON};
     private static final String VISIT_LOG_SQL = "CREATE TABLE ec_visit_log (visit_id VARCHAR,visit_type VARCHAR,base_entity_id VARCHAR NOT NULL,family_id VARCHAR NOT NULL,visit_date VARCHAR,event_type VARCHAR,visit_json TEXT)";
 
@@ -125,6 +129,10 @@ public class HnppVisitLogRepository extends BaseRepository {
         values.put(VISIT_DATE, visitLog.getVisitDate());
         values.put(EVENT_TYPE, visitLog.getEventType());
         values.put(VISIT_JSON, visitLog.getVisitJson());
+        values.put(REFER_PLACE, visitLog.getReferPlace());
+        values.put(REFER_REASON, visitLog.getReferReason());
+
+
         return values;
     }
 

@@ -106,6 +106,8 @@ public class CoreConstants {
         public static final String FAMILY_REGISTER = "family_register";
         public static final String FAMILY_MEMBER_REGISTER = "family_member_register";
         public static final String CHILD_REGISTER = "child_enrollment";
+        public static final String DEFAULT_CHILD_REGISTER = "hnpp_default_child_enrollment";
+
         public static final String FAMILY_DETAILS_REGISTER = "family_details_register";
         public static final String FAMILY_DETAILS_REMOVE_MEMBER = "family_details_remove_member";
 
@@ -156,7 +158,9 @@ public class CoreConstants {
         public static String getChildRegister() {
             return Utils.getLocalForm(CHILD_REGISTER, locale, assetManager);
         }
-
+        public static String getDefaultChildRegister() {
+            return Utils.getLocalForm(DEFAULT_CHILD_REGISTER, locale, assetManager);
+        }
         public static String getFamilyDetailsRegister() {
             return Utils.getLocalForm(FAMILY_DETAILS_REGISTER, locale, assetManager);
         }

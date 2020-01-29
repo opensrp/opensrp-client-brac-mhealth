@@ -9,6 +9,24 @@ public class VisitLog {
     public long visitDate;
     public String eventType;
     public String visitJson;
+    public String referPlace;
+    public String referReason;
+
+    public String getReferPlace() {
+        return referPlace;
+    }
+
+    public void setReferPlace(String refer_place) {
+        this.referPlace = refer_place;
+    }
+
+    public String getReferReason() {
+        return referReason;
+    }
+
+    public void setReferReason(String refer_reason) {
+        this.referReason = refer_reason;
+    }
 
     public String getVisitId() {
         return visitId;

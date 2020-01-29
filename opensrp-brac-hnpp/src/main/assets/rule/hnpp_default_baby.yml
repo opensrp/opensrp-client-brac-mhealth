@@ -1,0 +1,63 @@
+---
+name: step1_birth_weight_taken
+description: birth_weight_taken
+priority: 1
+condition: "helper.formatDate(step1_dob,'d') <= 41"
+actions:
+  - "isRelevant = true"
+---
+name: step1_birth_weight
+description: birth_weight
+priority: 1
+condition: "helper.formatDate(step1_dob,'d') <= 41"
+actions:
+  - "isRelevant = true"
+---
+name: step1_chlorohexadin
+description: chlorohexadin
+priority: 1
+condition: "helper.formatDate(step1_dob,'d') <= 41"
+actions:
+  - "isRelevant = true"
+---
+name: step1_breastfeeding_time
+description: breastfeeding_time
+priority: 1
+condition: "helper.formatDate(step1_dob,'d') <= 41"
+actions:
+  - "isRelevant = true"
+---
+name: step1_head_body_covered
+description: head_body_covered
+priority: 1
+condition: "helper.formatDate(step1_dob,'d') <= 41"
+actions:
+  - "isRelevant = true"
+---
+name: step1_physically_challenged
+description: physically_challenged
+priority: 1
+condition: "helper.formatDate(step1_dob,'d') <= 41"
+actions:
+  - "isRelevant = true"
+---
+name: step1_breast_feeded
+description: breast_feeded
+priority: 1
+condition: "helper.formatDate(step1_dob,'d') <= 41"
+actions:
+  - "isRelevant = true"
+---
+name: step1_blood_group
+description: blood_group
+priority: 1
+condition: "helper.formatDate(step1_dob,'d') > 41"
+actions:
+  - "isRelevant = true"
+---
+name: step1_relation_with_household_head
+description: relation_with_household_head
+priority: 1
+condition: "helper.formatDate(step1_dob,'d') > 41"
+actions:
+  - "isRelevant = true"

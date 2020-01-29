@@ -614,10 +614,10 @@
         },
         {
           "column_name": "physically_challenged",
-          "type": "Event",
+          "type": "Client",
           "json_mapping": {
-            "field": "obs.fieldCode",
-            "concept": "physically_challenged"
+            "field": "attributes.physically_challenged"
+
           }
         },
         {
@@ -687,51 +687,51 @@
 
         {
           "column_name": "birth_weight_taken",
-          "type": "Event",
+          "type": "Client",
           "json_mapping": {
-            "field": "obs.fieldCode",
-            "formSubmissionField": "birth_weight_taken"
+            "field": "attributes.birth_weight_taken"
+
           }
         },
         {
           "column_name": "birth_weight",
-          "type": "Event",
+          "type": "Client",
           "json_mapping": {
-            "field": "obs.fieldCode",
-            "formSubmissionField": "birth_weight"
+            "field": "attributes.birth_weight"
+
           }
         },
         {
           "column_name": "chlorohexadin",
-          "type": "Event",
+          "type": "Client",
           "json_mapping": {
-            "field": "obs.fieldCode",
-            "formSubmissionField": "chlorohexadin"
+            "field": "attributes.chlorohexadin"
+
           }
         },
         {
           "column_name": "breastfeeding_time",
-          "type": "Event",
+          "type": "Client",
           "json_mapping": {
-            "field": "obs.fieldCode",
-            "formSubmissionField": "breastfeeding_time"
+            "field": "attributes.breastfeeding_time"
+
           }
         },
         {
           "column_name": "head_body_covered",
-          "type": "Event",
+          "type": "Client",
           "json_mapping": {
-            "field": "obs.fieldCode",
-            "formSubmissionField": "head_body_covered"
+            "field": "attributes.head_body_covered"
+
           }
         },
 
         {
           "column_name": "breast_feeded",
-          "type": "Event",
+          "type": "Client",
           "json_mapping": {
-            "field": "obs.fieldCode",
-            "formSubmissionField": "breast_feeded"
+            "field": "attributes.breast_feeded"
+
           }
         }
       ]

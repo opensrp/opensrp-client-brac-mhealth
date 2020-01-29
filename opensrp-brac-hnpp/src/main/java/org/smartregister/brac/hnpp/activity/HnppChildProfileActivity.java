@@ -19,6 +19,8 @@ import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.adapter.ReferralCardViewAdapter;
 import org.smartregister.brac.hnpp.custom_view.FamilyMemberFloatingMenu;
@@ -28,6 +30,7 @@ import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
 import org.smartregister.brac.hnpp.fragment.MemberOtherServiceFragment;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
+import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.core.activity.CoreChildHomeVisitActivity;
 import org.smartregister.chw.core.activity.CoreChildMedicalHistoryActivity;
@@ -55,6 +58,7 @@ import java.util.Map;
 import java.util.Set;
 
 import static org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity.REQUEST_HOME_VISIT;
+import static org.smartregister.chw.anc.util.JsonFormUtils.updateFormField;
 
 public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     public CoreFamilyMemberFloatingMenu familyFloatingMenu;
@@ -317,6 +321,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
             jsonForm.put(JsonFormUtils.ENTITY_ID, memberObject.getFamilyHead());
             Intent intent = new Intent(this, org.smartregister.family.util.Utils.metadata().familyMemberFormActivity);
             intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+            HnppJsonFormUtils.addMemberTypeField(HnppConstants.JSON_FORMS.MEMBER_REFERRAL, jsonForm, "Child");
 
             Form form = new Form();
             form.setWizard(false);
@@ -331,6 +336,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
 
         }
     }
+
     public void openFamilyDueTab() {
         Intent intent = new Intent(this,FamilyProfileActivity.class);
         intent.putExtras(getIntent().getExtras());

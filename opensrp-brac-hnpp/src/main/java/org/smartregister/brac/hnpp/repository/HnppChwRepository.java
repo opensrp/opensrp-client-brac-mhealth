@@ -126,6 +126,9 @@ public class HnppChwRepository extends CoreChwRepository {
         db.execSQL(RecurringServiceRecordRepository.UPDATE_TABLE_ADD_CHILD_LOCATION_ID_COL);
         db.execSQL(AlertRepository.ALTER_ADD_OFFLINE_COLUMN);
         db.execSQL(AlertRepository.OFFLINE_INDEX);
+        db.execSQL("ALTER TABLE ec_visit_log ADD COLUMN refer_place VARCHAR;");
+        db.execSQL("ALTER TABLE ec_visit_log ADD COLUMN refer_reason VARCHAR;");
+
 
     }
 

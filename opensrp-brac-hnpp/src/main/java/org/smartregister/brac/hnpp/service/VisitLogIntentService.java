@@ -15,6 +15,7 @@ import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.VisitLog;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
+import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.clientandeventmodel.Obs;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
@@ -79,6 +80,28 @@ public class VisitLogIntentService extends IntentService {
                             log.setVisitId(visit.getVisitId());
                             log.setVisitType(visit.getVisitType());
                             log.setBaseEntityId(base_entity_id);
+                            if(MEMBER_REFERRAL.equalsIgnoreCase(encounter_type)){
+                                String refer_reason = "";
+                                String place_of_refer = "";
+                                if(details.containsKey("cause_of_referral_woman")&&!StringUtils.isEmpty(details.get("cause_of_referral_woman"))){
+                                    refer_reason = details.get("cause_of_referral_woman");
+                                }else if(details.containsKey("cause_of_referral_all")&&!StringUtils.isEmpty(details.get("cause_of_referral_all"))){
+                                    refer_reason = details.get("cause_of_referral_all");
+
+                                }else if(details.containsKey("cause_of_referral_child")&&!StringUtils.isEmpty(details.get("cause_of_referral_child"))){
+                                    refer_reason = details.get("cause_of_referral_child");
+
+                                }
+
+                                log.setReferReason(refer_reason);
+
+                                if(details.containsKey("place_of_referral")){
+                                    place_of_refer = details.get("place_of_referral");
+                                }
+                                log.setReferPlace(place_of_refer);
+
+
+                            }
                             if(HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)){
                                 log.setFamilyId(base_entity_id);
                             }else{
@@ -122,6 +145,7 @@ public class VisitLogIntentService extends IntentService {
                         option.put("value", "true");
                     }
                 }
+                jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,value);
             }else{
                 jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE, value);
             }
@@ -184,7 +208,7 @@ public class VisitLogIntentService extends IntentService {
             }
 
             if(details.containsKey(o.getFormSubmissionField())) {
-                details.put(o.getFormSubmissionField(),details.get(o.getFormSubmissionField())+" "+o.getValue());
+                details.put(o.getFormSubmissionField(),details.get(o.getFormSubmissionField())+","+o.getValue());
             } else {
                 details.put(o.getFormSubmissionField(),o.getValue());
             }
