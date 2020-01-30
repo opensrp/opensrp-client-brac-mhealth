@@ -13,6 +13,7 @@ import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.HnppChildProfileActivity;
 import org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity;
 import org.smartregister.brac.hnpp.model.MemberProfileDueModel;
+import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
 import org.smartregister.brac.hnpp.presenter.HnppMemberProfileDuePresenter;
 import org.smartregister.brac.hnpp.provider.HnppFamilyDueRegisterProvider;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
@@ -26,6 +27,7 @@ import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.Utils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +37,8 @@ import java.util.Set;
 import timber.log.Timber;
 
 import static org.smartregister.brac.hnpp.utils.HnppConstants.eventTypeFormNameMapping;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.eventTypeMapping;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.iconMapping;
 
 public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment implements View.OnClickListener {
     private static final int TAG_OPEN_ANC1 = 101;
@@ -72,16 +76,16 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
     public void setCommonPersonObjectClient(CommonPersonObjectClient commonPersonObjectClient){
         this.commonPersonObjectClient = commonPersonObjectClient;
     }
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser && !isStart){
-            updateStaticView();
-        }
-    }
+//    @Override
+//    public void setUserVisibleHint(boolean isVisibleToUser) {
+//        super.setUserVisibleHint(isVisibleToUser);
+//        if(isVisibleToUser && !isStart){
+//            addStaticView();
+//        }
+//    }
 
-    private void updateStaticView() {
-        if(FormApplicability.isDueAnyForm(baseEntityId,eventType)){
+    public void updateStaticView() {
+       // if(FormApplicability.isDueAnyForm(baseEntityId,eventType)){
             handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -89,9 +93,9 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
                     addStaticView();
                 }
             },500);
-        }else{
-           if(otherServiceView!=null && anc1View !=null) otherServiceView.removeView(anc1View);
-        }
+//        }else{
+//           if(otherServiceView!=null && anc1View !=null) otherServiceView.removeView(anc1View);
+//        }
 
     }
 
@@ -161,9 +165,9 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
     String eventType = "";
     View anc1View;
     private void addStaticView(){
-        if(otherServiceView.getVisibility() == View.VISIBLE){
-            return;
-        }
+                if(otherServiceView.getVisibility() == View.VISIBLE){
+                    otherServiceView.removeAllViews();
+                }
             String gender = org.smartregister.util.Utils.getValue(commonPersonObjectClient.getColumnmaps(), "gender", false);
             String maritalStatus  = org.smartregister.util.Utils.getValue(commonPersonObjectClient.getColumnmaps(), "marital_status", false);
             otherServiceView.setVisibility(View.VISIBLE);
@@ -193,24 +197,7 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
                     otherServiceView.addView(anc1View);
                 }
 
-
-
-
             }
-        String dobString =org.smartregister.family.util.Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOB, false);
-        Date dob = Utils.dobStringToDate(dobString);
-        boolean isEnc = FormApplicability.isEncVisible(dob);
-        if(isEnc){
-            View encView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
-            ImageView image1 = encView.findViewById(R.id.image_view);
-            TextView name1 =  encView.findViewById(R.id.patient_name_age);
-            encView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-            image1.setImageResource(R.mipmap.ic_child);
-            name1.setText("ENC ");
-            encView.setTag(TAG_ENC);
-            encView.setOnClickListener(this);
-            otherServiceView.addView(encView);
-        }
 
 
         View familyView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
@@ -232,6 +219,24 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
         referelView.setTag(TAG_OPEN_REFEREAL);
         referelView.setOnClickListener(this);
         otherServiceView.addView(referelView);
+        ArrayList<ReferralFollowUpModel> getList = FormApplicability.getReferralFollowUp(baseEntityId);
+
+        for(ReferralFollowUpModel referralFollowUpModel : getList){
+
+            View referrelFollowUp = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+            ImageView imgFollowup = referrelFollowUp.findViewById(R.id.image_view);
+            TextView nReferel =  referrelFollowUp.findViewById(R.id.patient_name_age);
+            TextView lastVisitRow = referrelFollowUp.findViewById(R.id.last_visit);
+            lastVisitRow.setVisibility(View.VISIBLE);
+            referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+            imgFollowup.setImageResource(iconMapping.get(HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP));
+            nReferel.setText(eventTypeMapping.get(HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP));
+            lastVisitRow.setText(referralFollowUpModel.getReferralReason());
+            referrelFollowUp.setTag(referralFollowUpModel);
+            referrelFollowUp.setOnClickListener(this);
+            otherServiceView.addView(referrelFollowUp);
+
+        }
 
     }
 
@@ -249,6 +254,14 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
 
     @Override
     public void onClick(View v) {
+        if(v.getTag() instanceof ReferralFollowUpModel){
+            ReferralFollowUpModel referralFollowUpModel = (ReferralFollowUpModel) v.getTag();
+            if (getActivity() != null && getActivity() instanceof HnppFamilyOtherMemberProfileActivity) {
+                HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) getActivity();
+                activity.openReferealFollowUp(referralFollowUpModel);
+            }
+            return;
+        }
         Integer tag = (Integer) v.getTag();
         if (tag != null) {
             switch (tag) {

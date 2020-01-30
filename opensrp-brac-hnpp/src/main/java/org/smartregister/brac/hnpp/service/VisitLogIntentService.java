@@ -102,6 +102,22 @@ public class VisitLogIntentService extends IntentService {
 
 
                             }
+                            if(REFERREL_FOLLOWUP.equalsIgnoreCase(encounter_type)){
+                                String refer_reason = "";
+                                String place_of_refer = "";
+                                if(details.containsKey("caused_referred")&&!StringUtils.isEmpty(details.get("caused_referred"))){
+                                    refer_reason = details.get("caused_referred");
+                                }
+
+                                log.setReferReason(refer_reason);
+
+                                if(details.containsKey("place_referred")){
+                                    place_of_refer = details.get("place_of_referral");
+                                }
+                                log.setReferPlace(place_of_refer);
+
+
+                            }
                             if(HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)){
                                 log.setFamilyId(base_entity_id);
                             }else{

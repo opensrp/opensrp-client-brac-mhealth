@@ -32,6 +32,8 @@ import java.util.Set;
 import timber.log.Timber;
 
 import static org.smartregister.brac.hnpp.utils.HnppConstants.eventTypeFormNameMapping;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.eventTypeMapping;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.iconMapping;
 
 public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment implements View.OnClickListener {
     private static final int TAG_OPEN_ANC1 = 101;
@@ -162,6 +164,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
     }
     View encView;
     public void  updateChildDueEntry(int type, String serviceName, String dueDate){
+        serviceName = HnppConstants.immunizationMapping.get(serviceName.toUpperCase());
 //       if(handler !=null){
 //           handler.postDelayed(new Runnable() {
 //               @Override
@@ -233,13 +236,13 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         referelView.setTag(TAG_OPEN_REFEREAL);
         referelView.setOnClickListener(this);
         otherServiceView.addView(referelView);
-        if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.MEMBER_REFERRAL)){
+        if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP)){
             View followupView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
             ImageView fImg = followupView.findViewById(R.id.image_view);
             TextView fName =  followupView.findViewById(R.id.patient_name_age);
             followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-            fImg.setImageResource(R.mipmap.ic_child);
-            fName.setText("রেফেরেল");
+            fImg.setImageResource(iconMapping.get(HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP));
+            fName.setText(eventTypeMapping.get(HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP));
             followupView.setTag(TAG_CHILD_FOLLOWUP);
             followupView.setOnClickListener(this);
             otherServiceView.addView(followupView);

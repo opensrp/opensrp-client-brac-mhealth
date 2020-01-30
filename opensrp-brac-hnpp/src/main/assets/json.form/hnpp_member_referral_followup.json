@@ -53,19 +53,10 @@
         "key": "form_name",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "Member Referral",
+        "openmrs_entity_id": "Member Referral Followup",
         "openmrs_data_type": "text",
         "type": "hidden",
-        "value": "hnpp_member_referral"
-      },
-      {
-        "key": "member_type",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "member_type",
-        "openmrs_data_type": "text",
-        "type": "hidden",
-        "value": "Woman"
+        "value": "hnpp_member_referral_followup"
       },
       {
         "key": "caused_referred",

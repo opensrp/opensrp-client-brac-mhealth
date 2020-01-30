@@ -7,6 +7,7 @@ import net.sqlcipher.Cursor;
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteException;
 
+import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
 import org.smartregister.brac.hnpp.utils.ANCRegister;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.VisitLog;
@@ -135,7 +136,36 @@ public class HnppVisitLogRepository extends BaseRepository {
 
         return values;
     }
+    public  ArrayList<ReferralFollowUpModel> getAllReferrelFollowUp(String baseEntityId){
 
+        ArrayList<ReferralFollowUpModel> list = new ArrayList<>();
+        String query = "select "+BASE_ENTITY_ID+","+REFER_REASON+","+REFER_PLACE+" from ec_visit_log  where base_entity_id= '"+baseEntityId+"' and event_type = '"+HnppConstants.EVENT_TYPE.MEMBER_REFERRAL+"' AND refer_reason != \"\" " +
+            "and refer_reason NOT IN(select refer_reason from ec_visit_log where base_entity_id= '"+baseEntityId+"' and event_type = '"+HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP+"' and refer_reason is not null)";
+
+        //String query = "select "+BASE_ENTITY_ID+","+REFER_REASON+","+REFER_PLACE+" from "+ VISIT_LOG_TABLE_NAME +" where base_entity_id ='"+baseEntityId+"' and "+EVENT_TYPE+" = '"+HnppConstants.EVENT_TYPE.MEMBER_REFERRAL+"'";
+        android.database.Cursor cursor = null;
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    ReferralFollowUpModel referralFollowUpModel = new ReferralFollowUpModel();
+                    referralFollowUpModel.setBaseEntityId(cursor.getString(0));
+                    referralFollowUpModel.setReferralReason(cursor.getString(1));
+                    referralFollowUpModel.setReferralPlace(cursor.getString(2));
+                    list.add(referralFollowUpModel);
+                    cursor.moveToNext();
+
+                }
+            }
+        }catch (Exception e){
+
+        }
+        finally {
+            if(cursor!=null) cursor.close();
+        }
+        return list;
+    }
     private ArrayList<VisitLog> getAllVisitLog(Cursor cursor) {
         ArrayList<VisitLog> visitLogs = new ArrayList<>();
         try {

@@ -28,6 +28,7 @@ import org.smartregister.brac.hnpp.fragment.HnppMemberProfileDueFragment;
 import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
 import org.smartregister.brac.hnpp.fragment.MemberOtherServiceFragment;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
+import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.utils.ANCRegister;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
@@ -216,10 +217,13 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
            HnppJsonFormUtils.addEDDField(formName,jsonForm,baseEntityId);
            jsonForm.put(JsonFormUtils.ENTITY_ID, baseEntityId);
            Intent intent;
-           if(gender.equalsIgnoreCase("F"))
-               HnppJsonFormUtils.addMemberTypeField(HnppConstants.JSON_FORMS.MEMBER_REFERRAL,jsonForm,"Woman");
-           else
-               HnppJsonFormUtils.addMemberTypeField(HnppConstants.JSON_FORMS.MEMBER_REFERRAL,jsonForm,"All");
+           if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.MEMBER_REFERRAL)){
+               if(gender.equalsIgnoreCase("F"))
+                   HnppJsonFormUtils.addMemberTypeField(HnppConstants.JSON_FORMS.MEMBER_REFERRAL,jsonForm,"Woman");
+               else
+                   HnppJsonFormUtils.addMemberTypeField(HnppConstants.JSON_FORMS.MEMBER_REFERRAL,jsonForm,"All");
+
+           }
 
 //           if(formName.contains("anc"))
            HnppVisitLogRepository visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
@@ -306,6 +310,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                     public void run() {
 //                        memberHistoryFragment.onActivityResult(0,0,null);
                         mViewPager.setCurrentItem(2,true);
+                        if(profileMemberFragment !=null){
+                            profileMemberFragment.updateStaticView();
+                        }
 
                     }
                 },1000);
@@ -385,6 +392,29 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     }
     public void openRefereal() {
         startAnyFormActivity(HnppConstants.JSON_FORMS.MEMBER_REFERRAL,REQUEST_HOME_VISIT);
+    }
+    public void openReferealFollowUp(ReferralFollowUpModel referralFollowUpModel) {
+
+        try {
+            JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(HnppConstants.JSON_FORMS.REFERREL_FOLLOWUP);
+            jsonForm.put(JsonFormUtils.ENTITY_ID, baseEntityId);
+            HnppJsonFormUtils.addReferrelReasonPlaceField(jsonForm,referralFollowUpModel.getReferralReason(),referralFollowUpModel.getReferralPlace());
+            Intent intent;
+            intent = new Intent(this, HnppAncJsonFormActivity.class);
+            intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+
+            Form form = new Form();
+            form.setWizard(false);
+            form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+
+            intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+            intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
+            if (this != null) {
+                this.startActivityForResult(intent, REQUEST_HOME_VISIT);
+            }
+        }catch (Exception e){
+
+        }
     }
 
     public void openHomeVisitSingleForm(String formName){

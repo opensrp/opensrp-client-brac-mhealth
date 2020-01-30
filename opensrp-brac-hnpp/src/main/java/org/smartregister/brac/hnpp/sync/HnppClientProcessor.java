@@ -27,6 +27,8 @@ public class HnppClientProcessor extends ChwClientProcessor {
         switch (eventType) {
             case HnppConstants.EVENT_TYPE.ELCO:
             case HnppConstants.EVENT_TYPE.MEMBER_REFERRAL:
+            case HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP:
+            case HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP:
             case HnppConstants.EVENT_TYPE.GIRL_PACKAGE:
             case HnppConstants.EVENT_TYPE.WOMEN_PACKAGE:
             case HnppConstants.EVENT_TYPE.NCD_PACKAGE:

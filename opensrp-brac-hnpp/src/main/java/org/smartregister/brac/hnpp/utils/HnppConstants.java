@@ -417,6 +417,18 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.REFERREL_FOLLOWUP,"রেফারেল ফলোআপ")
             .put(EVENT_TYPE.CHILD_FOLLOWUP,"শিশু ফলোআপ")
             .build();
+    public static final Map<String,String> immunizationMapping = ImmutableMap.<String,String> builder()
+            .put("PENTA 1","পেন্টা-১")
+            .put("PENTA 2","পেন্টা-২")
+            .put("PENTA 3","পেন্টা-৩")
+            .put("OPV 1","পোলিও-১")
+            .put("OPV 2","পোলিও-২")
+            .put("OPV 3","পোলিও-৩")
+            .put("PCV 1","পিসিভি-১")
+            .put("PCV 2","পিসিভি-২")
+            .put("PCV 3","পিসিভি-৩")
+            .put("BCG","বিসিজি")
+            .build();
 
     private static String getKeyByValue(String mapperObj, String value){
         try {

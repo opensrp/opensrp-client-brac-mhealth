@@ -126,6 +126,10 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 return org.smartregister.chw.anc.util.Constants.EVENT_TYPE.PNC_HOME_VISIT;
             case  HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY:
                 return HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY;
+            case  HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP:
+                return HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP;
+            case  HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP:
+                return HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP;
                 default:
                     return org.smartregister.chw.anc.util.Constants.EVENT_TYPE.ANC_HOME_VISIT;
         }
@@ -162,6 +166,22 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 e.printStackTrace();
             }
         }
+    }
+    public static void addReferrelReasonPlaceField(JSONObject jsonForm,String reason, String place){
+            JSONObject stepOne = null;
+            try {
+
+                stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+                JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+
+                updateFormField(jsonArray, "caused_referred", reason);
+                updateFormField(jsonArray, "place_referred", place);
+
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
     }
     public static void addMemberTypeField(String formName,JSONObject jsonForm,String memberType){
         if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.MEMBER_REFERRAL)){

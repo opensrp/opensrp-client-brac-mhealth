@@ -79,8 +79,8 @@ public class HnppFamilyDueRegisterProvider implements RecyclerViewProvider<HnppF
         populatePatientColumn(pc, client, viewHolder);
         // populateIdentifierColumn(pc, viewHolder);
 
-        viewHolder.status.setVisibility(View.GONE);
-        Utils.startAsyncTask(new UpdateAsyncTask(viewHolder, pc), null);
+        viewHolder.status.setVisibility(View.INVISIBLE);
+       // Utils.startAsyncTask(new UpdateAsyncTask(viewHolder, pc), null);
     }
 
     @Override
@@ -107,23 +107,23 @@ public class HnppFamilyDueRegisterProvider implements RecyclerViewProvider<HnppF
 
         String dob = org.smartregister.chw.core.utils.Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.DOB, false);
         String dobString = Utils.getDuration(dob);
-        patientName = patientName + ", " + context.getString(R.string.age,dobString) ;
         fillValue(viewHolder.patientNameAge, patientName);
-
+        viewHolder.lastVisit.setVisibility(View.VISIBLE);
+        viewHolder.lastVisit.setText(context.getString(R.string.age,dobString) );
         // Update UI cutoffs
         viewHolder.patientNameAge.setTextSize(TypedValue.COMPLEX_UNIT_PX, context.getResources().getDimensionPixelSize(R.dimen.member_due_list_title_size));
 
         viewHolder.nextArrow.setVisibility(View.GONE);
 
-        String lastVisit = org.smartregister.chw.core.utils.Utils.getValue(pc.getColumnmaps(), ChildDBConstants.KEY.LAST_HOME_VISIT, false);
-        if (StringUtils.isNotBlank(lastVisit)) {
-            // String lastVisitString = Utils.actualDuration(context, Utils.getDuration(lastVisit));
-            String lastVisitString = org.smartregister.chw.core.utils.Utils.actualDaysBetweenDateAndNow(context, lastVisit);
-            viewHolder.lastVisit.setText(String.format(context.getString(R.string.last_visit_prefix), lastVisitString));
-            viewHolder.lastVisit.setVisibility(View.VISIBLE);
-        } else {
-            viewHolder.lastVisit.setVisibility(View.INVISIBLE);
-        }
+//        String lastVisit = org.smartregister.chw.core.utils.Utils.getValue(pc.getColumnmaps(), ChildDBConstants.KEY.LAST_HOME_VISIT, false);
+//        if (StringUtils.isNotBlank(lastVisit)) {
+//            // String lastVisitString = Utils.actualDuration(context, Utils.getDuration(lastVisit));
+//            String lastVisitString = org.smartregister.chw.core.utils.Utils.actualDaysBetweenDateAndNow(context, lastVisit);
+//            viewHolder.lastVisit.setText(String.format(context.getString(R.string.last_visit_prefix), lastVisitString));
+//            viewHolder.lastVisit.setVisibility(View.VISIBLE);
+//        } else {
+//            viewHolder.lastVisit.setVisibility(View.INVISIBLE);
+//        }
 
         viewHolder.nextArrowColumn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,23 +171,23 @@ public class HnppFamilyDueRegisterProvider implements RecyclerViewProvider<HnppF
         }
     }
 
-    private ChildVisit retrieveChildVisitList(Rules rules, CommonPersonObjectClient pc) {
-        String dobString = org.smartregister.chw.core.utils.Utils.getDuration(org.smartregister.chw.core.utils.Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.DOB, false));
-        String lastVisitDate = org.smartregister.chw.core.utils.Utils.getValue(pc.getColumnmaps(), ChildDBConstants.KEY.LAST_HOME_VISIT, false);
-        String visitNotDone = org.smartregister.chw.core.utils.Utils.getValue(pc.getColumnmaps(), ChildDBConstants.KEY.VISIT_NOT_DONE, false);
-        String strDateCreated = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), ChildDBConstants.KEY.DATE_CREATED, false);
-        long lastVisit = 0, visitNot = 0, dateCreated = 0;
-        if (!TextUtils.isEmpty(lastVisitDate)) {
-            lastVisit = Long.valueOf(lastVisitDate);
-        }
-        if (!TextUtils.isEmpty(visitNotDone)) {
-            visitNot = Long.valueOf(visitNotDone);
-        }
-        if (!TextUtils.isEmpty(strDateCreated)) {
-            dateCreated = org.smartregister.family.util.Utils.dobStringToDateTime(strDateCreated).getMillis();
-        }
-        return CoreChildUtils.getChildVisitStatus(context, rules, dobString, lastVisit, visitNot, dateCreated);
-    }
+//    private ChildVisit retrieveChildVisitList(Rules rules, CommonPersonObjectClient pc) {
+//        String dobString = org.smartregister.chw.core.utils.Utils.getDuration(org.smartregister.chw.core.utils.Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.DOB, false));
+//        String lastVisitDate = org.smartregister.chw.core.utils.Utils.getValue(pc.getColumnmaps(), ChildDBConstants.KEY.LAST_HOME_VISIT, false);
+//        String visitNotDone = org.smartregister.chw.core.utils.Utils.getValue(pc.getColumnmaps(), ChildDBConstants.KEY.VISIT_NOT_DONE, false);
+//        String strDateCreated = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), ChildDBConstants.KEY.DATE_CREATED, false);
+//        long lastVisit = 0, visitNot = 0, dateCreated = 0;
+//        if (!TextUtils.isEmpty(lastVisitDate)) {
+//            lastVisit = Long.valueOf(lastVisitDate);
+//        }
+//        if (!TextUtils.isEmpty(visitNotDone)) {
+//            visitNot = Long.valueOf(visitNotDone);
+//        }
+//        if (!TextUtils.isEmpty(strDateCreated)) {
+//            dateCreated = org.smartregister.family.util.Utils.dobStringToDateTime(strDateCreated).getMillis();
+//        }
+//        return CoreChildUtils.getChildVisitStatus(context, rules, dobString, lastVisit, visitNot, dateCreated);
+//    }
 
     @Override
     public SmartRegisterClients updateClients(FilterOption villageFilter, ServiceModeOption serviceModeOption, FilterOption searchFilter, SortOption sortOption) {
@@ -249,32 +249,32 @@ public class HnppFamilyDueRegisterProvider implements RecyclerViewProvider<HnppF
             v.setText(value);
 
     }
-    private class UpdateAsyncTask extends AsyncTask<Void, Void, Void> {
-        private final DueViewHolder viewHolder;
-        private final CommonPersonObjectClient pc;
-
-        private final Rules rules;
-
-        private ChildVisit childVisit;
-
-        private UpdateAsyncTask(DueViewHolder viewHolder, CommonPersonObjectClient pc) {
-            this.viewHolder = viewHolder;
-            this.pc = pc;
-            this.rules = HnppApplication.getInstance().getRulesEngineHelper().rules(CoreConstants.RULE_FILE.HOME_VISIT);
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            childVisit = retrieveChildVisitList(rules, pc);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void param) {
-            // Update status column
-            updateDueColumn(viewHolder, childVisit);
-        }
-    }
+//    private class UpdateAsyncTask extends AsyncTask<Void, Void, Void> {
+//        private final DueViewHolder viewHolder;
+//        private final CommonPersonObjectClient pc;
+//
+//        private final Rules rules;
+//
+//        private ChildVisit childVisit;
+//
+//        private UpdateAsyncTask(DueViewHolder viewHolder, CommonPersonObjectClient pc) {
+//            this.viewHolder = viewHolder;
+//            this.pc = pc;
+//            this.rules = HnppApplication.getInstance().getRulesEngineHelper().rules(CoreConstants.RULE_FILE.HOME_VISIT);
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Void... params) {
+//            childVisit = retrieveChildVisitList(rules, pc);
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void param) {
+//            // Update status column
+//            updateDueColumn(viewHolder, childVisit);
+//        }
+//    }
     ////////////////////////////////////////////////////////////////
     // Inner classes
     ////////////////////////////////////////////////////////////////
