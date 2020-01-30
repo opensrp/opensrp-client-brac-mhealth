@@ -105,7 +105,9 @@
         "v_required": {
           "value": "true",
           "err": "Please select pregnancy outcome"
-        }
+        },
+        "value":"born_alive"
+
       },
       {
         "key": "delivery_date",
