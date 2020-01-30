@@ -128,6 +128,7 @@ public class CoreAncRegisterActivity extends BaseAncRegisterActivity {
         }
     }
 
+    @Override
     public void onRegistrationSaved(boolean isEdit) {
         finish();
         startRegisterActivity(CoreAncRegisterActivity.class);
@@ -159,7 +160,7 @@ public class CoreAncRegisterActivity extends BaseAncRegisterActivity {
         return super.getRegisterFragment();
     }
 
-    public void startRegisterActivity(Class registerClass) {
+    private void startRegisterActivity(Class registerClass) {
         Intent intent = new Intent(this, registerClass);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         this.startActivity(intent);

@@ -9,7 +9,6 @@ import android.view.View;
 import org.jeasy.rules.api.Rules;
 import org.joda.time.DateTime;
 import org.smartregister.chw.anc.activity.BaseAncMemberProfileActivity;
-import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.presenter.BaseAncMemberProfilePresenter;
 import org.smartregister.chw.anc.util.Constants;
@@ -70,20 +69,20 @@ public abstract class CoreAncMemberProfileActivity extends BaseAncMemberProfileA
     }
 
     public CoreAncMemberProfilePresenter ancMemberProfilePresenter() {
-        return new CoreAncMemberProfilePresenter(this, new CoreAncMemberProfileInteractor(this),new MemberObject());
+        return new CoreAncMemberProfilePresenter(this, new CoreAncMemberProfileInteractor(this), MEMBER_OBJECT);
     }
 
     @Override
     protected void registerPresenter() {
-        presenter = new BaseAncMemberProfilePresenter(this, new CoreAncMemberProfileInteractor(this),new MemberObject());
+        presenter = new BaseAncMemberProfilePresenter(this, new CoreAncMemberProfileInteractor(this), MEMBER_OBJECT);
     }
 
     @Override
     public void setupViews() {
         super.setupViews();
         Rules rules = CoreChwApplication.getInstance().getRulesEngineHelper().rules(CoreConstants.RULE_FILE.ANC_HOME_VISIT);
-        MemberObject memberObject = new MemberObject();
-        VisitSummary visitSummary = HomeVisitUtil.getAncVisitStatus(this, rules, memberObject.getLastMenstrualPeriod(), memberObject.getLastContactVisit(), null, new DateTime(memberObject.getDateCreated()).toLocalDate());
+
+        VisitSummary visitSummary = HomeVisitUtil.getAncVisitStatus(this, rules, MEMBER_OBJECT.getLastMenstrualPeriod(), MEMBER_OBJECT.getLastContactVisit(), null, new DateTime(MEMBER_OBJECT.getDateCreated()).toLocalDate());
         String visitStatus = visitSummary.getVisitStatus();
 
         if (!visitStatus.equalsIgnoreCase(CoreConstants.VISIT_STATE.DUE) &&
@@ -109,7 +108,7 @@ public abstract class CoreAncMemberProfileActivity extends BaseAncMemberProfileA
 
     @Override
     public void openMedicalHistory() {
-        CoreAncMedicalHistoryActivity.startMe(this, new MemberObject());
+        CoreAncMedicalHistoryActivity.startMe(this, MEMBER_OBJECT);
     }
 
     @Override
