@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.interactor.HnppChildProfileInteractor;
 import org.smartregister.brac.hnpp.model.HnppChildRegisterModel;
+import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
@@ -23,6 +24,7 @@ import org.smartregister.family.util.Utils;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class HnppChildProfilePresenter extends CoreChildProfilePresenter {
     String houseHoldId = "";
@@ -91,7 +93,11 @@ public class HnppChildProfilePresenter extends CoreChildProfilePresenter {
     @Override
     public void startFormForEdit(String title, CommonPersonObjectClient client) {
         try {
-            JSONObject form = HnppJsonFormUtils.getAutoPopulatedJsonEditFormString(CoreConstants.JSON_FORM.getChildRegister(), getView().getApplicationContext(), client, CoreConstants.EventType.UPDATE_CHILD_REGISTRATION);
+            JSONObject form;
+
+            form = HnppJsonFormUtils.getAutoPopulatedJsonEditFormString(CoreConstants.JSON_FORM.getChildRegister(), getView().getApplicationContext(), client, CoreConstants.EventType.UPDATE_CHILD_REGISTRATION);
+
+
             ArrayList<String> womenList = HnppDBUtils.getAllWomenInHouseHold(familyID);
             HnppJsonFormUtils.updateFormWithMotherName(form,womenList);
             if (!StringUtils.isBlank(client.getColumnmaps().get(ChildDBConstants.KEY.RELATIONAL_ID))) {

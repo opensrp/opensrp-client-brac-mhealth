@@ -344,6 +344,17 @@ public class HnppDBUtils extends CoreChildUtils {
         columnList.add(tableName + "." + HnppConstants.KEY.CHILD_MOTHER_NAME_REGISTERED);
         columnList.add(tableName + "." + HnppConstants.KEY.BLOOD_GROUP);
         columnList.add(tableName + "." + ChildDBConstants.KEY.MOTHER_ENTITY_ID);
+
+        columnList.add(tableName + "." + ChildDBConstants.KEY.BIRTH_WEIGHT_TAKEN);
+        columnList.add(tableName + "." + ChildDBConstants.KEY.BIRTH_WEIGHT);
+        columnList.add(tableName + "." + ChildDBConstants.KEY.CHLOROHEXADIN);
+        columnList.add(tableName + "." + ChildDBConstants.KEY.BREASTFEEDING_TIME);
+        columnList.add(tableName + "." + ChildDBConstants.KEY.HEAD_BODY_COVERED);
+        columnList.add(tableName + "." + ChildDBConstants.KEY.PHYSICALLY_CHALLENGED);
+        columnList.add(tableName + "." + ChildDBConstants.KEY.BREAST_FEEDED);
+
+
+
         return columnList.toArray(new String[columnList.size()]);
     }
     public static String getMotherName(String motherEntityId, String relationId, String motherName){

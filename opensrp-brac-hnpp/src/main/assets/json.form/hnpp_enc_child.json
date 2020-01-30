@@ -53,7 +53,7 @@
         "key": "form_name",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "IYCF package",
+        "openmrs_entity_id": "ENC Registration",
         "openmrs_data_type": "text",
         "type": "hidden",
         "value": "hnpp_enc_child"

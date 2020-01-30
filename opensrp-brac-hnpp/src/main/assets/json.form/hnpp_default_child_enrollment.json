@@ -1,6 +1,6 @@
 {
   "count": "1",
-  "encounter_type": "Child Registration",
+  "encounter_type": "Default Child Registration",
   "entity_id": "",
   "relational_id": "",
   "mother_entity_id": "",
@@ -93,84 +93,11 @@
         "v_regex": {
           "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
           "err": "একটি বৈধ নাম লিখুন"
-      }
-      },
-      {
-        "key": "relation_with_household_head",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "Relation_with_HOH",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "খানা প্রধান এই সদস্যের কি হয়?",
-        "values": [
-          "মা/আম্মা",
-          "বাবা/আব্বা",
-          "দাদা",
-          "দাদি",
-          "নানা",
-          "নানী",
-          "অন্যান্য"
-        ],
-        "openmrs_choice_ids": {
-          "মা/আম্মা":"Mother",
-          "বাবা/আব্বা":"Father",
-          "দাদা":"Grandpa",
-          "দাদি":"Grandma",
-          "নানা":"Grandfather",
-          "নানী":"Grandmother",
-          "অন্যান্য": "Others"
-        },
-        "v_required": {
-          "value": true,
-          "err": "সম্পর্ক নির্বাচন করুন"
         },
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "mother_name",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "mother_name",
-        "type": "spinner",
-        "hint": "মাতার নাম",
-        "values": [
-          "মাতা রেজিস্টার্ড নয়"
-        ],
-        "openmrs_choice_ids": {
-        },
-        "v_required": {
-          "value": true,
-          "err": "মাতার নাম নির্বাচন করুন"
-        }
-      },
-      {
-        "key": "Mother_Guardian_First_Name_english",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "motherNameEnglish",
-        "openmrs_data_type": "text",
-        "type": "edit_text",
-        "edit_type": "name",
-        "hint": "মাতার নাম (ইংরেজীতে)",
-        "v_required": {
-          "value": true,
-          "err": "মা / অভিভাবকের প্রথম নাম লিখুন"
-        },
-        "v_regex": {
-          "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
-          "err": "একটি বৈধ নাম লিখুন"
-        },
-        "relevance": {
-          "step1:mother_name": {
+          "step1:preg_outcome": {
             "type": "string",
-            "ex": "equalTo(., \"মাতা রেজিস্টার্ড নয়\")"
+            "ex": "equalTo(., \"born_alive\")"
           }
         }
       },
@@ -203,7 +130,6 @@
           "পুরুষ",
           "নারী",
           "তৃতীয় লিঙ্গ"
-
         ],
         "openmrs_choice_ids": {
           "পুরুষ": "M",
@@ -215,49 +141,6 @@
           "err": "লিঙ্গ প্রবেশ করুন"
         }
       },
-      {
-        "key": "blood_group",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "Blood_Group",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "রক্তের গ্রুপ",
-        "values": [
-          "A+",
-          "A-",
-          "B+",
-          "B-",
-          "O+",
-          "O-",
-          "AB+",
-          "AB-",
-          "রক্তের গ্রুপ জানা নেই"
-        ],
-        "openmrs_choice_ids": {
-          "A+": "A+",
-          "A-": "A-",
-          "B+": "B+",
-          "B-": "B-",
-          "O+": "O+",
-          "O-": "O-",
-          "AB+": "AB+",
-          "AB-": "AB-",
-          "রক্তের গ্রুপ জানা নেই": "Do Not Know Blood Group"
-        },
-        "v_required": {
-          "value": true,
-          "err": "রক্ত গ্রুপ নির্বাচন করুন"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
-        }
-      },
-
       {
         "key": "birth_weight_taken",
         "openmrs_entity_parent": "",
@@ -277,13 +160,6 @@
         "v_required": {
           "value": "true",
           "err": "Please select one option"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
         }
       },
       {
@@ -300,13 +176,6 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
         }
       },
       {
@@ -328,13 +197,6 @@
         "v_required": {
           "value": "true",
           "err": "Please select one option"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
         }
       },
       {
@@ -351,13 +213,6 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
         }
       },
       {
@@ -379,13 +234,6 @@
         "v_required": {
           "value": "true",
           "err": "Please select one option"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
         }
       },
       {
@@ -407,13 +255,6 @@
         "v_required": {
           "value": "true",
           "err": "Please select one option"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
         }
       },
       {
@@ -435,28 +276,7 @@
         "v_required": {
           "value": "true",
           "err": "Please select one option"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
         }
-      },
-
-
-      {
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "key": "section",
-        "type": "section_label",
-        "section_background": "#3797ca",
-        "text_color": "#FFFFFF",
-        "text_size": "22px",
-        "label_text_style": "bold",
-        "name": "সব তথ্য পূরণ করা হলে জমা দিন"
       }
     ]
   }

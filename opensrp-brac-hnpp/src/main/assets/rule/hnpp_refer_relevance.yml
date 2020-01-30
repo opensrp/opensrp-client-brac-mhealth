@@ -1,0 +1,7 @@
+---
+name: step1_other_refer_reason
+description: other_refer_reason
+priority: 1
+condition: "step1_cause_of_referral_woman.equalsIgnoreCase('অন্যান্য') || step1_cause_of_referral_child.equalsIgnoreCase('অন্যান্য') || step1_cause_of_referral_all.equalsIgnoreCase('অন্যান্য')"
+actions:
+  - "isRelevant = true"

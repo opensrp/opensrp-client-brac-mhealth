@@ -64,6 +64,7 @@ import java.util.Map;
 import timber.log.Timber;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.smartregister.chw.anc.util.JsonFormUtils.updateFormField;
 
 /**
  * Created by keyman on 13/11/2018.
@@ -141,6 +142,42 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             list.add(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date()));
             baseEvent.addObs(new Obs("concept", "text", "anc_visit_date", "",
                     list, new ArrayList<>(), null, "anc_visit_date"));
+        }
+    }
+    public static void addEDDField(String formName,JSONObject jsonForm,String baseEntityId){
+        if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM)||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM)||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM)){
+            JSONObject stepOne = null;
+            try {
+                HnppVisitLogRepository visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
+                ANCRegister ancRegister = null;
+
+                ancRegister = visitLogRepository.getLastANCRegister(baseEntityId);
+                if(ancRegister!=null){
+                    stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+                    JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+                    updateFormField(jsonArray, HnppConstants.ANC_REGISTER_COLUMNS.EDD, ancRegister.getEDD());
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public static void addMemberTypeField(String formName,JSONObject jsonForm,String memberType){
+        if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.MEMBER_REFERRAL)){
+            JSONObject stepOne = null;
+            try {
+
+                stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+                JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+
+                updateFormField(jsonArray, "member_type", memberType);
+
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
     public static JSONObject updateFormWithModuleId(JSONObject form,String moduleId, String familyBaseEntityId) throws JSONException {

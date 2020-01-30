@@ -694,7 +694,7 @@
       {
         "key": "birth_weight_taken",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
+        "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "birth_weight_taken",
         "openmrs_data_type": "select one",
         "type": "spinner",
@@ -721,7 +721,7 @@
       {
         "key": "birth_weight",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
+        "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "birth_weight",
         "type": "edit_text",
         "hint": "ওজন(কেজি)",
@@ -743,7 +743,7 @@
       {
         "key": "chlorohexadin",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
+        "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "chlorohexadin",
         "openmrs_data_type": "select one",
         "type": "spinner",
@@ -770,7 +770,7 @@
       {
         "key": "breastfeeding_time",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
+        "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "breastfeeding_time",
         "type": "edit_text",
         "hint": "প্রসবের কতক্ষন পর মায়ের দুধ খাওয়ানো হয়েছে?",
@@ -792,7 +792,7 @@
       {
         "key": "head_body_covered",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
+        "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "head_body_covered",
         "openmrs_data_type": "select one",
         "type": "spinner",
@@ -819,7 +819,7 @@
       {
         "key": "physically_challenged",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
+        "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "physically_challenged",
         "openmrs_data_type": "select one",
         "type": "spinner",
@@ -846,7 +846,7 @@
       {
         "key": "breast_feeded",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
+        "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "breast_feeded",
         "openmrs_data_type": "select one",
         "type": "spinner",
