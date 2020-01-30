@@ -429,6 +429,28 @@ public class HnppConstants extends CoreConstants {
             .put("PCV 3","পিসিভি-৩")
             .put("BCG","বিসিজি")
             .build();
+    public static final Map<String,String> referealResonMapping = ImmutableMap.<String,String> builder()
+            .put("pregnancy_problems","গর্ভাবস্থার সমস্যা")
+            .put("delivery_problems","প্রসবে সমস্যা")
+            .put("problems_eyes","চোখে সমস্যা")
+            .put("diabetes","ডায়বেটিস")
+            .put("high_blood_pressure","উচ্চ রক্তচাপ")
+            .put("problems_with_birth_control","জন্মবিরতিকরণ পদ্ধতি সংক্রান্ত সমস্যা")
+            .put("other","অন্যান্য")
+            .build();
+    public static final Map<String,String> referealPlaceMapping = ImmutableMap.<String,String> builder()
+            .put("brac_maternity_center", "ব্র্যাক ম্যাটারনিটি সেন্টার")
+            .put("union_health_center","ইউনিয়ন উপ-স্বাস্থ্য কেন্দ্র")
+            .put("upozzila_health_complex","উপজেলা স্বাস্থ্য কমপ্লেক্স")
+            .put("union_family_kollan_center","ইউনিয়ন পরিবার কল্যাণ কেন্দ্র")
+            .put("union_health_and_family_kollan_center","ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র")
+            .put("mother_child_kollan_center","মা ও শিশু কল্যাণ কেন্দ্র")
+            .put("center_hospital","সদর হাসপাতাল")
+            .put("medical_collage_hospital","মেডিকেল কলেজ হাসপাতাল")
+            .put("private_clinic","বেসরকারি ক্লিনিক")
+            .put("spacial_hospital","বিশেষায়িত হাসপাতাল")
+            .put("other_option","অন্যান্য")
+            .build();
 
     private static String getKeyByValue(String mapperObj, String value){
         try {

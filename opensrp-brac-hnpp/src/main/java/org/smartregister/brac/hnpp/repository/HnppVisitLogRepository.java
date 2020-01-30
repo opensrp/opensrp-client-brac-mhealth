@@ -151,8 +151,8 @@ public class HnppVisitLogRepository extends BaseRepository {
                 while (!cursor.isAfterLast()) {
                     ReferralFollowUpModel referralFollowUpModel = new ReferralFollowUpModel();
                     referralFollowUpModel.setBaseEntityId(cursor.getString(0));
-                    referralFollowUpModel.setReferralReason(cursor.getString(1));
-                    referralFollowUpModel.setReferralPlace(cursor.getString(2));
+                    referralFollowUpModel.setReferralReason(HnppConstants.referealResonMapping.get(cursor.getString(1)));
+                    referralFollowUpModel.setReferralPlace(HnppConstants.referealPlaceMapping.get(cursor.getString(2)));
                     list.add(referralFollowUpModel);
                     cursor.moveToNext();
 

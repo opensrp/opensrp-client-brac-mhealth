@@ -73,10 +73,6 @@
             android:name="org.smartregister.brac.hnpp.activity.IndividualProfileRemoveActivity"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name="org.smartregister.brac.hnpp.activity.ChildHomeVisitActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/HNPPTheme.NoActionBar" />
-        <activity
             android:name="org.smartregister.brac.hnpp.activity.HnppHomeVisitActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"  />
