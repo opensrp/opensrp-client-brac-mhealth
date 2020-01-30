@@ -123,7 +123,7 @@
         "relevance": {
           "step1:preg_outcome": {
             "type": "string",
-            "ex": "equalTo(., \"born_alive\")"
+            "ex": "notEqualTo(., \"miscarriage\")"
           }
         }
       },
@@ -142,7 +142,7 @@
         "relevance": {
           "step1:preg_outcome": {
             "type": "string",
-            "ex": "equalTo(., \"born_alive\")"
+            "ex": "notEqualTo(., \"miscarriage\")"
           }
         }
       },

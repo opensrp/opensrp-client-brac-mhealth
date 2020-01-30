@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.bottomnavigation.LabelVisibilityMode;
 import android.support.design.widget.BottomNavigationView;
+
+import com.google.gson.Gson;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
@@ -17,19 +19,27 @@ import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.fragment.HnppAncRegisterFragment;
+import org.smartregister.brac.hnpp.interactor.HnppBaseAncRegisterInteractor;
 import org.smartregister.brac.hnpp.listener.HnppBottomNavigationListener;
 import org.smartregister.brac.hnpp.listener.HnppFamilyBottomNavListener;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.utils.ANCRegister;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.chw.anc.interactor.BaseAncRegisterInteractor;
+import org.smartregister.chw.anc.model.BaseAncRegisterModel;
+import org.smartregister.chw.anc.presenter.BaseAncRegisterPresenter;
 import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.anc.util.DBConstants;
 import org.smartregister.chw.core.activity.CoreAncRegisterActivity;
 import org.smartregister.chw.core.utils.CoreConstants;
+import org.smartregister.clientandeventmodel.Address;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
 import org.smartregister.helper.BottomNavigationHelper;
 import org.smartregister.view.fragment.BaseRegisterFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import timber.log.Timber;
 
@@ -64,7 +74,10 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
             }
         }).show();
     }
-
+    @Override
+    protected void initializePresenter() {
+        presenter = new BaseAncRegisterPresenter(this, new BaseAncRegisterModel(), new HnppBaseAncRegisterInteractor());
+    }
     @Override
     public void startFormActivity(JSONObject jsonForm) {
 
@@ -91,7 +104,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
             }
             Intent intent = new Intent(this, Utils.metadata().familyMemberFormActivity);
             intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
-
+//            updateWithSSLocation();
             Form form = new Form();
             form.setActionBarBackground(org.smartregister.chw.core.R.color.family_actionbar);
             form.setWizard(false);
