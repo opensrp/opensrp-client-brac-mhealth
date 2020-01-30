@@ -181,7 +181,7 @@ public abstract class CoreAncRegisterFragment extends BaseAncRegisterFragment {
             familyHeadPhone = detailsMap.get(org.smartregister.chw.anc.util.Constants.ANC_MEMBER_OBJECTS.FAMILY_HEAD_PHONE);
         }
 
-        CoreAncMemberProfileActivity.startMe(getActivity(), new MemberObject(client).getBaseEntityId());
+        CoreAncMemberProfileActivity.startMe(getActivity(), new MemberObject(client), familyName, familyHeadPhone);
     }
 
     @Override
