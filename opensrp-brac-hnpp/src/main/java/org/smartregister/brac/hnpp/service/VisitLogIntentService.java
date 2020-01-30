@@ -123,12 +123,12 @@ public class VisitLogIntentService extends IntentService {
                             }else{
                                 log.setFamilyId(HnppDBUtils.getFamilyIdFromBaseEntityId(base_entity_id));
                             }
-                            log.setVisitDate(visit.getCreatedAt().getTime());
+                            log.setVisitDate(visit.getDate().getTime());
                             log.setEventType(encounter_type);
                             log.setVisitJson(form_object.toString());
                             HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
                             if (HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)){
-                                HnppApplication.getHNPPInstance().getHnppVisitLogRepository().updateFamilyLastHomeVisit(base_entity_id,String.valueOf(visit.getCreatedAt().getTime()));
+                                HnppApplication.getHNPPInstance().getHnppVisitLogRepository().updateFamilyLastHomeVisit(base_entity_id,String.valueOf(visit.getDate().getTime()));
                             }
                         }
 
