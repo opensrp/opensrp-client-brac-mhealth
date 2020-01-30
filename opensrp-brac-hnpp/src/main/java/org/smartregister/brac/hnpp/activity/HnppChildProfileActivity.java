@@ -320,6 +320,10 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     public void openRefereal() {
         startAnyFormActivity(HnppConstants.JSON_FORMS.MEMBER_REFERRAL,REQUEST_HOME_VISIT);
     }
+
+    public void openFollowUp() {
+        startAnyFormActivity(HnppConstants.JSON_FORMS.MEMBER_REFERRAL,REQUEST_HOME_VISIT);
+    }
     public void startAnyFormActivity(String formName, int requestCode) {
         try {
             JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);

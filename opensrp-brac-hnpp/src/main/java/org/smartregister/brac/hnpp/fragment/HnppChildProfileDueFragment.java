@@ -40,6 +40,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
 
     private static final int TAG_OPEN_FAMILY = 111;
     private static final int TAG_OPEN_REFEREAL = 222;
+    private static final int TAG_CHILD_FOLLOWUP = 3330;
     private static final int TAG_ENC= 333;
     private static final int TAG_CHILD_DUE= 444;
 
@@ -74,10 +75,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser && !isStart){
             updateStaticView();
-            if(getActivity() instanceof HnppChildProfileActivity){
-                HnppChildProfileActivity b = (HnppChildProfileActivity) getActivity();
-                b.updateImmunizationData();
-            }
+
         }
     }
 
@@ -87,6 +85,10 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             @Override
             public void run() {
                 addStaticView();
+                if(getActivity() instanceof HnppChildProfileActivity){
+                    HnppChildProfileActivity b = (HnppChildProfileActivity) getActivity();
+                    b.updateImmunizationData();
+                }
             }
         },500);
 
@@ -160,10 +162,10 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
     }
     View encView;
     public void  updateChildDueEntry(int type, String serviceName, String dueDate){
-       if(handler !=null){
-           handler.postDelayed(new Runnable() {
-               @Override
-               public void run() {
+//       if(handler !=null){
+//           handler.postDelayed(new Runnable() {
+//               @Override
+//               public void run() {
                    otherServiceView.setVisibility(View.VISIBLE);
                    if(encView !=null) otherServiceView.removeView(encView);
                    encView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
@@ -186,14 +188,14 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                    encView.setTag(TAG_CHILD_DUE);
                    encView.setOnClickListener(HnppChildProfileDueFragment.this);
                    otherServiceView.addView(encView);
-               }
-           },500);
-       }
+//               }
+//           },500);
+       //}
 
     }
     private void addStaticView(){
         if(otherServiceView.getVisibility() == View.VISIBLE){
-            return;
+            otherServiceView.removeAllViews();
         }
         otherServiceView.setVisibility(View.VISIBLE);
         String dobString = Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOB, false);
@@ -231,6 +233,19 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         referelView.setTag(TAG_OPEN_REFEREAL);
         referelView.setOnClickListener(this);
         otherServiceView.addView(referelView);
+        if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.MEMBER_REFERRAL)){
+            View followupView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+            ImageView fImg = followupView.findViewById(R.id.image_view);
+            TextView fName =  followupView.findViewById(R.id.patient_name_age);
+            followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+            fImg.setImageResource(R.mipmap.ic_child);
+            fName.setText("রেফেরেল");
+            followupView.setTag(TAG_CHILD_FOLLOWUP);
+            followupView.setOnClickListener(this);
+            otherServiceView.addView(followupView);
+        }
+
+
 
     }
 
@@ -273,6 +288,13 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                     if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
                         activity.openRefereal();
+                    }
+                    break;
+
+                case TAG_CHILD_FOLLOWUP:
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                        activity.openFollowUp();
                     }
                     break;
             }

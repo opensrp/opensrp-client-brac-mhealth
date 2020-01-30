@@ -99,9 +99,9 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment imple
     public void initializeAdapter(Set<org.smartregister.configurableviews.model.View> visibleColumns) {
         HnppFamilyDueRegisterProvider chwDueRegisterProvider = new HnppFamilyDueRegisterProvider(this.getActivity(), this.commonRepository(), visibleColumns, this.registerActionHandler, this.paginationViewHandler);
         this.clientAdapter = new FamilyRecyclerViewCustomAdapter(null, chwDueRegisterProvider, this.context().commonrepository(this.tablename), Utils.metadata().familyDueRegister.showPagination);
-        this.clientAdapter.setCurrentlimit(0);
+        this.clientAdapter.setCurrentlimit(10);
         this.clientsView.setAdapter(this.clientAdapter);
-        this.clientsView.setVisibility(View.GONE);
+        //this.clientsView.setVisibility(View.GONE);
         updateStaticView();
 
     }

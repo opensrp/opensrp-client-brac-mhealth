@@ -192,7 +192,7 @@ public class CoreChildProfileActivity extends BaseProfileActivity implements Cor
     @Override
     protected void fetchProfileData() {
         presenter().fetchProfileData();
-        updateImmunizationData();
+        //updateImmunizationData();
     }
 
     @Override

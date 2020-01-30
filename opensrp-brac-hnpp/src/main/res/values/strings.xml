@@ -164,9 +164,7 @@
     <string name="given_on">দেয়া হয়েছে %1$s তারিখে</string>
     <string name="home_visit_suffix"> &#183; হোম ভিজিট</string>
     <string name="fill_earler_immunization"><![CDATA[<i>আগের টিকাদান রেকর্ড করুন</i>]]></string>
-    <string name="immunizations">টিকাদান (%s)</string>
     <string name="immunizations_count">টিকাদান ({0})</string>
-    <string name="at_birth">জন্মের সময়</string>
     <string name="vitamin_given">কখন %1$s দেয়া হয়েছে?</string>
     <string name="overdue">ওভারডিউ&#160;</string>
     <string name="not_given_with_spaces">&#160;দেয়া হয়নি&#160;</string>
@@ -178,6 +176,88 @@
     <string name="record_immunizations">টিকা রেকর্ড</string>
     <string name="which_vaccines_given_text">কোন টিকা দেওয়া হয়েছিল?</string>
     <string name="add_date_separately">+ প্রতিটি ভ্যাকসিনের জন্য তারিখ যুক্ত করুন</string>
-    <string name="label_immunization_records">IMMUNISATION &amp; SERVICES</string>
+    <string name="label_immunization_records">টিকাদান &amp; ভিটামিন সার্ভিস</string>
     <string name="return_to_children_profile">শিশু ইনফো</string>
+
+    <string name="immunizations">টিকাদান</string>
+    <string name="recurring">ভিটামিন সার্ভিস</string>
+    <string name="done_today">আজ দেয়া হয়েছে</string>
+    <string name="vaccine_done_today">আজ ভ্যাকসিন দেয়া হয়েছে</string>
+    <string name="vaccine_done_earlier">ভ্যাকসিন পূর্বে দেয়া হয়েছে</string>
+    <string name="vaccines_done_today">আজ ভ্যাকসিন দেয়া হয়েছে</string>
+    <string name="vaccines_done_earlier">ভ্যাকসিন পূর্বে দেয়া হয়েছে</string>
+    <string name="vaccine_name">ভ্যাকসিনের  নাম</string>
+    <string name="vaccine_number">ভ্যাকসিনের নাম্বার</string>
+    <string name="vaccine">ভ্যাকসিন</string>
+    <string name="set">জমা দিন</string>
+    <string name="undo_record_vaccination">আপনি কি আনডু করতে চান</string>
+    <string name="change_service_date">তারিখ পরিবর্তন করুন</string>
+    <string name="birth">জন্ম</string>
+    <string name="yes_undo_vaccination">হ্যাঁ ভ্যাকসিন আনডু করতে চাই</string>
+    <string name="no_go_back">না, ফিরে যাও</string>
+    <string name="service">সার্ভিস</string>
+    <string name="units">ইউনিট</string>
+    <string name="edit">এডিট</string>
+    <string name="undo">আনডু </string>
+
+    <string name="record_all">সমস্ত রেকর্ড</string>
+    <string name="record_">রেকর্ড %1$s</string>
+    <string name="record_due_">রেকর্ড %1$s - ডিউ %2$s</string>
+    <string name="mr_due_">%1$s - ডিউ %2$s</string>
+    <string name="due_">%1$s: ডিউ %2$s</string>
+    <string name="today">আজ</string>
+
+    <!-- Recurring Services -->
+    <string name="recurring_services">ভিটামিন সার্ভিস</string>
+    <string name="given_today">%1$s আজ দেয়া হয়েছে</string>
+    <string name="given_earlier">%1$s পূর্বে দেয়া হয়েছে</string>
+    <string name="itn_given">Has the child been\ngiven an ITN?</string>
+    <string name="itn_date">Date that the ITN\nwas provided:</string>
+    <string name="itn_under_net">Is the child sleeping\nunder a net?</string>
+    <string name="yes">হ্যাঁ</string>
+    <string name="no">না</string>
+    <string name="record_itn">Record ITN Provided</string>
+    <string name="go_back">ফিরে যাও</string>
+    <string name="undo_service">আনডু সার্ভিস?</string>
+    <string name="yes_undo_service">হ্যাঁ, আনডু সার্ভিস</string>
+    <string name="cannot_record_vaccine">রেকর্ড করা যাচ্ছে না %1$s</string>
+
+    <string name="activate_child_status_dialog_title">This child\'s status is %1$s. Make %2$s active?</string>
+    <string name="activate_child_status_dialog_message">Making the child active will resume the service schedules and lets you record services.</string>
+    <string name="make_active">Make Active</string>
+
+    <!-- Immunization Names-->
+    <string name="bcg">বিসিজি</string>
+    <string name="hepb">HepB</string>
+    <string name="opv_0">OPV 0</string>
+    <string name="opv_1">পোলিও-১</string>
+    <string name="pcv_1">পিসিভি-১</string>
+    <string name="penta_1">পেন্টা-১</string>
+    <string name="rota_1">Rota 1</string>
+    <string name="opv_2">পোলিও-২</string>
+    <string name="pcv_2">পিসিভি-২</string>
+    <string name="penta_2">পেন্টা-২</string>
+    <string name="rota_2">Rota 2</string>
+    <string name="opv_3">পোলিও-৩</string>
+    <string name="ipv">আই পি ভি</string>
+    <string name="pcv_3">পিসিভি-৩</string>
+    <string name="penta_3">পেন্টা-৩</string>
+    <string name="meningococcal">Meningococcal</string>
+    <string name="yellow_fever">Yellow Fever</string>
+    <string name="mr_1">MR 1</string>
+    <string name="mr_2">MR 2</string>
+    <string name="vit_a_1">Vit A 6 Months</string>
+    <string name="vit_a_2">Vit A 12 Months</string>
+
+
+    <string name="at_birth">জন্মের সময়</string>
+    <string name="_6_weeks">৬ সপ্তাহ</string>
+    <string name="_10_weeks">১০ সপ্তাহ</string>
+    <string name="_14_weeks">১৪ সপ্তাহ</string>
+    <string name="_18_weeks">১৮ সপ্তাহ</string>
+    <string name="_9_months">৯ মাস</string>
+    <string name="_18_months">১৮ মাস</string>
+
+    <string name="expired">মেয়াদোত্তীর্ণ</string>
+    <string name="expired_colon">মেয়াদোত্তীর্ণ: %1$s</string>
 </resources>
