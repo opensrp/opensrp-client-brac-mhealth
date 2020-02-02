@@ -457,7 +457,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         menu.findItem(R.id.action_malaria_diagnosis).setTitle("PNC রেজিস্ট্রেশন");
         menu.findItem(R.id.action_pregnancy_out_come).setTitle("প্রসবের ফলাফল");
         menu.findItem(R.id.action_pregnancy_out_come).setVisible(false);
-        menu.findItem(R.id.action_remove_member).setVisible(true);
+        menu.findItem(R.id.action_remove_member).setVisible(false);
 
         if (FormApplicability.isWomanOfReproductiveAge(commonPersonObject)) {
             menu.findItem(R.id.action_anc_registration).setVisible(true);
@@ -471,7 +471,6 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 
     }
     public void updatePregnancyOutcomeVisible(String eventType){
-
 
         if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)
         || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){

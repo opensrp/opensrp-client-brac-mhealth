@@ -120,7 +120,11 @@
           "অন্যান্য"
         ],
         "openmrs_choice_ids": {
-
+          "শিশু বিষয়ক সমস্যা": "child_problems",
+          "চোখে সমস্যা": "problems_eyes",
+          "ডায়বেটিস": "diabetes",
+          "উচ্চ রক্তচাপ": "high_blood_pressure",
+          "অন্যান্য": "other"
         },
         "v_required": {
           "value": true,

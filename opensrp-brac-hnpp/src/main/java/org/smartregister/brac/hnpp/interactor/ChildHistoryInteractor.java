@@ -63,7 +63,7 @@ public class ChildHistoryInteractor implements MemberHistoryContract.Interactor 
     }
     private ArrayList<MemberHistoryData> getImmunizationData(String baseEntityId){
         ArrayList<MemberHistoryData> memberHistoryDataList = new ArrayList<>();
-        String query = "select eventType,eventDate  from event where (eventType = 'Vaccination' or eventType = 'Recurring Service') and baseEntityId = '"+baseEntityId+"' group by eventDate";
+        String query = "select eventType,eventDate  from event where (eventType = 'Vaccination' or eventType = 'Recurring Service') and baseEntityId = '"+baseEntityId+"' group by eventDate order by eventDate desc";
         Cursor cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         if(cursor !=null && cursor.getCount() > 0) {
             cursor.moveToFirst();

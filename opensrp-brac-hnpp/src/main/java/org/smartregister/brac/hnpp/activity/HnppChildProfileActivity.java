@@ -32,6 +32,7 @@ import org.smartregister.brac.hnpp.fragment.HnppMemberProfileDueFragment;
 import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
 import org.smartregister.brac.hnpp.fragment.MemberOtherServiceFragment;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
+import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
@@ -326,6 +327,29 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
 
     public void openFollowUp() {
         startAnyFormActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOWUP,REQUEST_HOME_VISIT);
+    }
+    public void openReferealFollowUp(ReferralFollowUpModel referralFollowUpModel) {
+
+        try {
+            JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(HnppConstants.JSON_FORMS.REFERREL_FOLLOWUP);
+            jsonForm.put(JsonFormUtils.ENTITY_ID, childBaseEntityId);
+            HnppJsonFormUtils.addReferrelReasonPlaceField(jsonForm,referralFollowUpModel.getReferralReason(),referralFollowUpModel.getReferralPlace());
+            Intent intent;
+            intent = new Intent(this, HnppAncJsonFormActivity.class);
+            intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+
+            Form form = new Form();
+            form.setWizard(false);
+            form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+
+            intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+            intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
+            if (this != null) {
+                this.startActivityForResult(intent, REQUEST_HOME_VISIT);
+            }
+        }catch (Exception e){
+
+        }
     }
     public void startAnyFormActivity(String formName, int requestCode) {
         try {

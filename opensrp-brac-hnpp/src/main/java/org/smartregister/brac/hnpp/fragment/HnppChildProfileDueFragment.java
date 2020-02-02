@@ -13,6 +13,7 @@ import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.HnppChildProfileActivity;
 import org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity;
 import org.smartregister.brac.hnpp.model.MemberProfileDueModel;
+import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
 import org.smartregister.brac.hnpp.presenter.HnppMemberProfileDuePresenter;
 import org.smartregister.brac.hnpp.provider.HnppFamilyDueRegisterProvider;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
@@ -25,6 +26,7 @@ import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.Utils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
@@ -247,7 +249,24 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             followupView.setOnClickListener(this);
             otherServiceView.addView(followupView);
         }
+        ArrayList<ReferralFollowUpModel> getList = FormApplicability.getReferralFollowUp(baseEntityId);
 
+        for(ReferralFollowUpModel referralFollowUpModel : getList){
+
+            View referrelFollowUp = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+            ImageView imgFollowup = referrelFollowUp.findViewById(R.id.image_view);
+            TextView nReferel =  referrelFollowUp.findViewById(R.id.patient_name_age);
+            TextView lastVisitRow = referrelFollowUp.findViewById(R.id.last_visit);
+            lastVisitRow.setVisibility(View.VISIBLE);
+            referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+            imgFollowup.setImageResource(iconMapping.get(HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP));
+            nReferel.setText(eventTypeMapping.get(HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP));
+            lastVisitRow.setText(referralFollowUpModel.getReferralReason());
+            referrelFollowUp.setTag(referralFollowUpModel);
+            referrelFollowUp.setOnClickListener(this);
+            otherServiceView.addView(referrelFollowUp);
+
+        }
 
 
     }
@@ -266,6 +285,14 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
 
     @Override
     public void onClick(View v) {
+        if(v.getTag() instanceof ReferralFollowUpModel){
+            ReferralFollowUpModel referralFollowUpModel = (ReferralFollowUpModel) v.getTag();
+            if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                activity.openReferealFollowUp(referralFollowUpModel);
+            }
+            return;
+        }
         Integer tag = (Integer) v.getTag();
         if (tag != null) {
             switch (tag) {

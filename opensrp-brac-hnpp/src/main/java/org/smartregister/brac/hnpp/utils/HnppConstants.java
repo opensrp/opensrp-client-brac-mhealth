@@ -316,7 +316,7 @@ public class HnppConstants extends CoreConstants {
         public static final String HOME_VISIT_FAMILY = "HH visit";
         public static final String VACCINATION = "Vaccination";
         public static final String SERVICES = "Recurring Service";
-
+        public static final String PREGNANCY_OUTCOME = "Pregnancy Outcome";
         public static final String REFERREL_FOLLOWUP = "Member Referral Followup";
         public static final String CHILD_FOLLOWUP = "Child Followup";
 
@@ -337,6 +337,7 @@ public class HnppConstants extends CoreConstants {
             .put("শারীরিক সমস্যা",R.mipmap.ic_anc_pink)
             .put( "পূর্বের গর্ভের ইতিহাস",R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.PNC_REGISTRATION,R.drawable.sidemenu_pnc)
+            .put(EVENT_TYPE.PREGNANCY_OUTCOME,R.drawable.sidemenu_pnc)
             .put(EVENT_TYPE.ANC1_REGISTRATION,R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.ANC2_REGISTRATION,R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.ANC3_REGISTRATION,R.mipmap.ic_anc_pink)
@@ -378,6 +379,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.MEMBER_REFERRAL,"রেফারেল")
             .put("Member referral","রেফারেল")
             .put( JSON_FORMS.PREGNANCY_HISTORY,"পূর্বের গর্ভের ইতিহাস")
+            .put( EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসবের ফলাফল")
             .put( JSON_FORMS.PNC_FORM,"প্রসবোত্তর পরিচর্যা")
             .put( EVENT_TYPE.PNC_REGISTRATION,"প্রসবোত্তর পরিচর্যা")
             .put(EVENT_TYPE.WOMEN_PACKAGE,"নারী সেবা প্যাকেজ")
@@ -398,6 +400,7 @@ public class HnppConstants extends CoreConstants {
             .put(HnppConstants.EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,"সদস্য আপডেট")
             .put(HnppConstants.EventType.CHILD_REGISTRATION,"শিশু নিবন্ধন")
             .put(HnppConstants.EVENT_TYPE.MEMBER_REFERRAL,"রেফারেল")
+            .put(EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসবের ফলাফল")
             .put("Member referral","রেফারেল")
             .put(EVENT_TYPE.ELCO,"সক্ষম দম্পতি নিবন্ধন")
             .put(EVENT_TYPE.ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন")

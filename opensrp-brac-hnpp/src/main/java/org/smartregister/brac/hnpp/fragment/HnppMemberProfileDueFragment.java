@@ -190,13 +190,13 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
                     }
                     imageanc1View.setImageResource(HnppConstants.iconMapping.get(eventType));
                     anc1View.setTag(org.smartregister.family.R.id.VIEW_ID,eventType);
-                    if(getActivity() instanceof HnppFamilyOtherMemberProfileActivity){
-                        HnppFamilyOtherMemberProfileActivity aaa = (HnppFamilyOtherMemberProfileActivity) getActivity();
-                        aaa.updatePregnancyOutcomeVisible(eventType);
-                    }
+
                     otherServiceView.addView(anc1View);
                 }
-
+                if(getActivity() instanceof HnppFamilyOtherMemberProfileActivity){
+                    HnppFamilyOtherMemberProfileActivity aaa = (HnppFamilyOtherMemberProfileActivity) getActivity();
+                    aaa.updatePregnancyOutcomeVisible(eventType);
+                }
             }
 
 
