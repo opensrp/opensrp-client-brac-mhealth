@@ -356,14 +356,14 @@ public class HnppAncRegisterFragment extends AncRegisterFragment implements View
             customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.MIDDLE_NAME, filters));
         }
         if(!StringUtils.isEmpty(mSelectedClasterName)&&!StringUtils.isEmpty(mSelectedVillageName)){
-            customFilter.append(MessageFormat.format(" or ( {0}.{1} like ''%{2}%''  ", HnppConstants.TABLE_NAME.FAMILY, DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
-            customFilter.append(MessageFormat.format(" and {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
+            customFilter.append(MessageFormat.format(" or ( {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
+            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ) ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
 
         }else if(!StringUtils.isEmpty(mSelectedClasterName)){
-            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
+            customFilter.append(MessageFormat.format(" or {0}.{1} = ''{2}'' ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
 
         }else if(!StringUtils.isEmpty(mSelectedVillageName)){
-            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%''  ", HnppConstants.TABLE_NAME.FAMILY, DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
+            customFilter.append(MessageFormat.format(" or {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
         }
         if (StringUtils.isNotBlank(filters))
             customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.UNIQUE_ID, filters));
@@ -371,21 +371,21 @@ public class HnppAncRegisterFragment extends AncRegisterFragment implements View
         if (dueFilterActive) {
             customFilter.append(MessageFormat.format(" and ( {0} ) ", getDueCondition()));
         }
-
+        customFilter.append(MessageFormat.format(" and ( {0} ) ", getCondition()));
         try {
-            if (isValidFilterForFts(commonRepository())) {
-
-                String myquery = QueryBuilder.getQuery(joinTables, mainCondition, tablename, customFilter.toString(), clientAdapter, Sortqueries);
-                List<String> ids = commonRepository().findSearchIds(myquery);
-                query = sqb.toStringFts(ids, tablename, CommonRepository.ID_COLUMN,
-                        Sortqueries);
-                query = sqb.Endquery(query);
-            } else {
+//            if (isValidFilterForFts(commonRepository())) {
+//
+//                String myquery = QueryBuilder.getQuery(joinTables, mainCondition, tablename, customFilter.toString(), clientAdapter, Sortqueries);
+//                List<String> ids = commonRepository().findSearchIds(myquery);
+//                query = sqb.toStringFts(ids, tablename, CommonRepository.ID_COLUMN,
+//                        Sortqueries);
+//                query = sqb.Endquery(query);
+//            } else {
                 sqb.addCondition(customFilter.toString());
                 query = sqb.orderbyCondition(Sortqueries);
                 query = sqb.Endquery(sqb.addlimitandOffset(query, clientAdapter.getCurrentlimit(), clientAdapter.getCurrentoffset()));
 
-            }
+           // }
         } catch (Exception e) {
             Timber.e(e);
         }
@@ -403,6 +403,8 @@ public class HnppAncRegisterFragment extends AncRegisterFragment implements View
             String query = "select count(*) from " + presenter().getMainTable() + " inner join " + HnppConstants.TABLE_NAME.FAMILY_MEMBER +
                     " on " + presenter().getMainTable() + "." + DBConstants.KEY.BASE_ENTITY_ID + " = " +
                     HnppConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.BASE_ENTITY_ID +
+                    " INNER JOIN ec_anc_log ON  ec_anc_register.base_entity_id = ec_anc_log.base_entity_id COLLATE NOCASE " +
+                    " inner join ec_family  on ec_family.base_entity_id = ec_family_member.relational_id "+
                     " where " + getCondition();
             StringBuilder customFilter = new StringBuilder();
             if (StringUtils.isNotBlank(filters)) {
@@ -411,14 +413,14 @@ public class HnppAncRegisterFragment extends AncRegisterFragment implements View
                 customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.MIDDLE_NAME, filters));
             }
             if(!StringUtils.isEmpty(mSelectedClasterName)&&!StringUtils.isEmpty(mSelectedVillageName)){
-                customFilter.append(MessageFormat.format(" or ( {0}.{1} like ''%{2}%''  ", HnppConstants.TABLE_NAME.FAMILY, DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
-                customFilter.append(MessageFormat.format(" and {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
+                customFilter.append(MessageFormat.format(" or ( {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
+                customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ) ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
 
             }else if(!StringUtils.isEmpty(mSelectedClasterName)){
-                customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
+                customFilter.append(MessageFormat.format(" or {0}.{1} = ''{2}'' ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
 
             }else if(!StringUtils.isEmpty(mSelectedVillageName)){
-                customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%''  ", HnppConstants.TABLE_NAME.FAMILY, DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
+                customFilter.append(MessageFormat.format(" or {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
             }
             if (StringUtils.isNotBlank(filters))
                 customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.UNIQUE_ID, filters));
@@ -468,20 +470,8 @@ public class HnppAncRegisterFragment extends AncRegisterFragment implements View
 
 
     }
-    private void dueFilter(View dueOnlyLayout) {
-        filter(searchText(), "", getDueCondition());
-        dueOnlyLayout.setTag(DUE_FILTER_TAG);
-        switchViews(dueOnlyLayout, true);
-    }
     private static final String DUE_FILTER_TAG = "PRESSED";
-    private String getCondition() {
-        return " " + HnppConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.DATE_REMOVED + " is null ";
-    }
-    private void normalFilter(View dueOnlyLayout) {
-        filter(searchText(), "", getCondition());
-        dueOnlyLayout.setTag(null);
-        switchViews(dueOnlyLayout, false);
-    }
+
     @Override
     public void initializeAdapter(Set<org.smartregister.configurableviews.model.View> visibleColumns) {
         HnppAncRegisterProvider provider = new HnppAncRegisterProvider(getActivity(), commonRepository(), visibleColumns, registerActionHandler, paginationViewHandler);
@@ -528,5 +518,10 @@ public class HnppAncRegisterFragment extends AncRegisterFragment implements View
     }
     protected int getToolBarTitle() {
         return R.string.menu_anc_clients;
+    }
+    private String getCondition() {
+        return " " + HnppConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.DATE_REMOVED + " is null " +
+                "AND " + HnppConstants.TABLE_NAME.ANC_MEMBER + "." + DBConstants.KEY.IS_CLOSED + " = '0' " +
+                "AND ec_anc_register.base_entity_id NOT IN (SELECT ec_pregnancy_outcome.base_entity_id from ec_pregnancy_outcome where ec_pregnancy_outcome.is_closed = '0')";
     }
 }
