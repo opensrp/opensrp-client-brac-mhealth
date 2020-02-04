@@ -75,8 +75,8 @@ public class HnppConstants extends CoreConstants {
 
         LocalDate todayDate = new LocalDate();
         int monthDiff = getMonthsDifference((lastHomeVisit != 0 ? lastVisitDate : dateCreated), todayDate);
-        if(monthDiff >= 8) return HomeVisitType.BROWN.name();
-        if(monthDiff >= 5) return HomeVisitType.RED.name();
+        if(monthDiff > 7) return HomeVisitType.BROWN.name();
+        if(monthDiff > 5) return HomeVisitType.RED.name();
         if(monthDiff > 3) return HomeVisitType.YELLOW.name();
         return HomeVisitType.GREEN.name();
 
@@ -320,6 +320,7 @@ public class HnppConstants extends CoreConstants {
         public static final String REFERREL_FOLLOWUP = "Member Referral Followup";
         public static final String CHILD_FOLLOWUP = "Child Followup";
         public static final String PNC_CHILD_REGISTRATION = "PNC Child Registration";
+        public static final String UPDATE_CHILD_REGISTRATION = "Update Child Registration";
 
 
 
@@ -367,6 +368,8 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.REFERREL_FOLLOWUP,R.mipmap.ic_refer)
             .put(EVENT_TYPE.CHILD_FOLLOWUP,R.drawable.rowavatar_child)
             .put(EVENT_TYPE.PNC_CHILD_REGISTRATION,R.drawable.rowavatar_child)
+            .put(EVENT_TYPE.UPDATE_CHILD_REGISTRATION,R.drawable.rowavatar_child)
+            .put("Update Family Registration",R.mipmap.ic_icon_home)
             .build();
     //need to show the title at row/option
     public static final Map<String,String> visitEventTypeMapping = ImmutableMap.<String,String> builder()
@@ -395,6 +398,8 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.REFERREL_FOLLOWUP,"রেফারেল ফলোআপ")
             .put(EVENT_TYPE.CHILD_FOLLOWUP,"শিশু ফলোআপ")
             .put(EVENT_TYPE.PNC_CHILD_REGISTRATION,"প্রসবের ফলাফল-শিশু")
+            .put(EVENT_TYPE.UPDATE_CHILD_REGISTRATION,"শিশু নিবন্ধন আপডেট")
+            .put("Update Family Registration","খানা নিবন্ধন আপডেট")
             .build();
     //needed for dashboard
     public static final Map<String,String> eventTypeMapping = ImmutableMap.<String,String> builder()
@@ -423,6 +428,8 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.REFERREL_FOLLOWUP,"রেফারেল ফলোআপ")
             .put(EVENT_TYPE.CHILD_FOLLOWUP,"শিশু ফলোআপ")
             .put(EVENT_TYPE.PNC_CHILD_REGISTRATION,"প্রসবের ফলাফল-শিশু")
+            .put(EVENT_TYPE.UPDATE_CHILD_REGISTRATION,"শিশু নিবন্ধন আপডেট")
+            .put("Update Family Registration","খানা নিবন্ধন আপডেট")
             .build();
     public static final Map<String,String> immunizationMapping = ImmutableMap.<String,String> builder()
             .put("PENTA 1","পেন্টা-১")
