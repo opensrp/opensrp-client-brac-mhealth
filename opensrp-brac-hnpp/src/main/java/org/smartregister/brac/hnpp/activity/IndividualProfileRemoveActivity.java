@@ -14,8 +14,8 @@ public class IndividualProfileRemoveActivity extends CoreIndividualProfileRemove
         Intent intent = new Intent(activity, IndividualProfileRemoveActivity.class);
         intent.putExtra(HnppConstants.INTENT_KEY.CHILD_COMMON_PERSON, commonPersonObjectClient);
         intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, familyBaseEntityId);
-        intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_HEAD, familyHead);
-        intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.PRIMARY_CAREGIVER, primaryCareGiver);
+        intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_HEAD, "");
+        intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.PRIMARY_CAREGIVER, "");
         intent.putExtra(HnppConstants.INTENT_KEY.VIEW_REGISTER_CLASS, viewRegisterClass);
         activity.startActivityForResult(intent, HnppConstants.ProfileActivityResults.CHANGE_COMPLETED);
     }

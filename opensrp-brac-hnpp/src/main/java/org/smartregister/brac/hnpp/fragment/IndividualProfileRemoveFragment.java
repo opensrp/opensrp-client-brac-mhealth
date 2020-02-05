@@ -3,6 +3,9 @@ package org.smartregister.brac.hnpp.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.vijay.jsonwizard.constants.JsonFormConstants;
+import com.vijay.jsonwizard.domain.Form;
+
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 
@@ -19,6 +22,9 @@ import org.smartregister.chw.core.fragment.CoreFamilyProfileChangeDialog;
 import org.smartregister.chw.core.fragment.CoreIndividualProfileRemoveFragment;
 import org.smartregister.chw.core.fragment.FamilyRemoveMemberConfirmDialog;
 import org.smartregister.chw.core.utils.CoreConstants;
+import org.smartregister.family.util.Constants;
+import org.smartregister.family.util.JsonFormUtils;
+import org.smartregister.family.util.Utils;
 
 
 import java.util.Set;
@@ -64,7 +70,20 @@ public class IndividualProfileRemoveFragment extends CoreIndividualProfileRemove
             }
         }
     }
+    @Override
+    public void startJsonActivity(JSONObject jsonObject) {
+        // Intent intent = new Intent(getContext(), Utils.metadata().familyMemberFormActivity);
+        Intent intent = new Intent(getActivity(), Utils.metadata().familyMemberFormActivity);
+        intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonObject.toString());
 
+        Form form = new Form();
+        form.setActionBarBackground(org.smartregister.family.R.color.family_actionbar);
+        form.setWizard(false);
+        form.setSaveLabel("জমা দিন");
+        intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+
+        startActivityForResult(intent, JsonFormUtils.REQUEST_CODE_GET_JSON);
+    }
     @Override
     public void onEveryoneRemoved() {
         if (getActivity() != null && getActivity() instanceof IndividualProfileRemoveActivity) {

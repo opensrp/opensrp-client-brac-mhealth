@@ -1,7 +1,12 @@
 package org.smartregister.brac.hnpp.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import com.vijay.jsonwizard.constants.JsonFormConstants;
+import com.vijay.jsonwizard.domain.Form;
+
+import org.json.JSONObject;
 import org.smartregister.brac.hnpp.activity.FamilyRegisterActivity;
 import org.smartregister.brac.hnpp.model.FamilyRemoveMemberModel;
 import org.smartregister.chw.core.activity.CoreFamilyRegisterActivity;
@@ -10,6 +15,9 @@ import org.smartregister.chw.core.fragment.CoreFamilyRemoveMemberFragment;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.brac.hnpp.presenter.FamilyRemoveMemberPresenter;
 import org.smartregister.brac.hnpp.provider.HfFamilyRemoveMemberProvider;
+import org.smartregister.family.util.Constants;
+import org.smartregister.family.util.JsonFormUtils;
+import org.smartregister.family.util.Utils;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -29,7 +37,20 @@ public class FamilyRemoveMemberFragment extends CoreFamilyRemoveMemberFragment {
         fragment.setArguments(args);
         return fragment;
     }
+    @Override
+    public void startJsonActivity(JSONObject jsonObject) {
+        // Intent intent = new Intent(getContext(), Utils.metadata().familyMemberFormActivity);
+        Intent intent = new Intent(getActivity(), Utils.metadata().familyMemberFormActivity);
+        intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonObject.toString());
 
+        Form form = new Form();
+        form.setActionBarBackground(org.smartregister.family.R.color.family_actionbar);
+        form.setWizard(false);
+        form.setSaveLabel("জমা দিন");
+        intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+
+        startActivityForResult(intent, JsonFormUtils.REQUEST_CODE_GET_JSON);
+    }
     @Override
     protected void setRemoveMemberProvider(Set visibleColumns, String familyHead, String primaryCaregiver, String familyBaseEntityId) {
         this.removeMemberProvider = new HfFamilyRemoveMemberProvider(familyBaseEntityId, this.getActivity(),

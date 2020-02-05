@@ -207,6 +207,7 @@ public class HnppPncRegisterFragment extends BasePncRegisterFragment implements 
     private TextView textViewVillageNameFilter, textViewClasterNameFilter;
     private ImageView imageViewVillageNameFilter, imageViewClasterNameFilter;
     private ViewGroup clients_header_layout;
+
     @Override
     public void setupViews(android.view.View view) {
         super.setupViews(view);
@@ -358,7 +359,8 @@ public class HnppPncRegisterFragment extends BasePncRegisterFragment implements 
 
     private String getCondition() {
         return " " + HnppConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.DATE_REMOVED + " is null " +
-                "AND " + HnppConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME + "." + DBConstants.KEY.IS_CLOSED + " is 0 ";
+                "AND " + HnppConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME + "." + DBConstants.KEY.IS_CLOSED + " is 0 " +
+                "AND " + HnppConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.IS_CLOSED + " = '0' ";
     }
 
     @Override
@@ -446,9 +448,10 @@ public class HnppPncRegisterFragment extends BasePncRegisterFragment implements 
 
 
     private String defaultFilterAndSortQuery() {
-        SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(mainSelect);
         joinTables = new String[]{"ec_family"};
-        String query = "";
+        String query = mainSelect+" where " + getCondition();
+        SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(query);
+
         StringBuilder customFilter = new StringBuilder();
         if (StringUtils.isNotBlank(filters)) {
             customFilter.append(MessageFormat.format(" and ( {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.FIRST_NAME, filters));
@@ -481,6 +484,7 @@ public class HnppPncRegisterFragment extends BasePncRegisterFragment implements 
                         Sortqueries);
                 query = sqb.Endquery(query);
             } else {
+//                sqb.addCondition(getCondition()+customFilter.toString());
                 sqb.addCondition(customFilter.toString());
                 query = sqb.orderbyCondition(Sortqueries);
                 query = sqb.Endquery(sqb.addlimitandOffset(query, clientAdapter.getCurrentlimit(), clientAdapter.getCurrentoffset()));
@@ -495,6 +499,7 @@ public class HnppPncRegisterFragment extends BasePncRegisterFragment implements 
 
     @Override
     public void countExecute() {
+//        String query = mainSelect+" where " + getCondition();
 
         Cursor c = null;
         try {
@@ -503,7 +508,8 @@ public class HnppPncRegisterFragment extends BasePncRegisterFragment implements 
                     " on " + presenter().getMainTable() + "." + DBConstants.KEY.BASE_ENTITY_ID + " = " +
                     HnppConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.BASE_ENTITY_ID +
                     " where " + getCondition();
-
+            SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(query);
+            joinTables = new String[]{"ec_family"};
             StringBuilder customFilter = new StringBuilder();
             if (StringUtils.isNotBlank(filters)) {
                 customFilter.append(MessageFormat.format(" and ( {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.FIRST_NAME, filters));
@@ -525,6 +531,8 @@ public class HnppPncRegisterFragment extends BasePncRegisterFragment implements 
 
 
             if (StringUtils.isNotBlank(customFilter)) {
+//                sqb.addCondition(customFilter.toString());
+
                 query = query + customFilter;
             }
 
