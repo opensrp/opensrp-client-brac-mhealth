@@ -92,6 +92,7 @@ public class AbstractDao {
             list.add(res);
             cursor.moveToNext();
         }
+        cursor.close();
         return list;
     }
 

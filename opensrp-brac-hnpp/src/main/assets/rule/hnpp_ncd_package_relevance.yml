@@ -1,7 +1,7 @@
 name: step1_ncd_toaster
 description: if bmi> 25 show toast
 priority: 1
-condition: "step1_bmi > 15"
+condition: "step1_bmi > 25"
 actions:
   - "isRelevant = true"
 ---
