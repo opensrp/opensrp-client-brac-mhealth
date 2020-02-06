@@ -202,10 +202,6 @@
           "value": "true",
           "err": "Enter a valid Number"
         },
-        "v_regex": {
-          "value": "[0-9]*",
-          "err": "দশমিক অনুমোদিত নয়"
-        },
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
@@ -590,10 +586,6 @@
           "value": "true",
           "err": "Enter a valid Number"
         },
-        "v_regex": {
-          "value": "[0-9]*",
-          "err": "দশমিক অনুমোদিত নয়"
-        },
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
@@ -609,10 +601,6 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
-        },
-        "v_regex": {
-          "value": "[0-9]*",
-          "err": "দশমিক অনুমোদিত নয়"
         },
         "v_required": {
           "value": true,
@@ -637,10 +625,6 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
-        },
-        "v_regex": {
-          "value": "[0-9]*",
-          "err": "দশমিক অনুমোদিত নয়"
         },
         "v_required": {
           "value": true,
