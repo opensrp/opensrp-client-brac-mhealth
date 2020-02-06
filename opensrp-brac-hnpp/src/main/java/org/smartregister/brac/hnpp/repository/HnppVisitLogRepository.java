@@ -242,9 +242,18 @@ public class HnppVisitLogRepository extends BaseRepository {
         return  visits!=null && visits.size() == 0;
     }
     public boolean isDoneWihinTwentyFourHours(String baseEntityId, String eventTpe) {
+        if(TextUtils.isEmpty(eventTpe)) return true;
+        String query ="";
+        if(eventTpe.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION) ||
+                eventTpe.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY)){
+            query  = "select event_type from ec_visit_log where (event_type ='"+HnppConstants.EVENT_TYPE.ANC1_REGISTRATION+"' OR event_type ='"+HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY+"') and base_entity_id ='"+baseEntityId+"' and (strftime('%d',datetime(visit_date/1000,'unixepoch','localtime')) = strftime('%d',datetime('now')))";
+
+        }else{
+            query = "select event_type from ec_visit_log where event_type ='"+eventTpe+"' and base_entity_id ='"+baseEntityId+"' and (strftime('%d',datetime(visit_date/1000,'unixepoch','localtime')) = strftime('%d',datetime('now')))";
+
+        }
 
         String eventType="";
-        String query = "select event_type from ec_visit_log where event_type ='"+eventTpe+"' and base_entity_id ='"+baseEntityId+"' and (strftime('%d',datetime(visit_date/1000,'unixepoch','localtime')) = strftime('%d',datetime('now')))";
         android.database.Cursor cursor = null;
         try {
             cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
