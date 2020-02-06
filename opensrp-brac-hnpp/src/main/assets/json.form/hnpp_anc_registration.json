@@ -97,15 +97,15 @@
         "hint": "সর্বমোট গর্ভসংখ্যা (এই গর্ভ সহ)",
         "v_required": {
           "value": "true",
-          "err": "Equal or greater than 0"
+          "err": "সংখ্যাটি 0 এর চেয়ে সমান বা বড় হতে হবে"
         },
         "v_numeric": {
           "value": "true",
-          "err": "Equal or greater than 0"
+          "err": "সংখ্যাটি 0 এর চেয়ে সমান বা বড় হতে হবে"
         },
         "v_min": {
           "value": "0",
-          "err": "Number must be equal or greater than 0"
+          "err": "সংখ্যাটি 0 এর চেয়ে সমান বা বড় হতে হবে"
         }
       },
       {
@@ -142,15 +142,15 @@
         },
         "v_required": {
           "value": "true",
-          "err": "Required"
+          "err": "সংখ্যাটি 0 এর চেয়ে সমান বা বড় হতে হবে"
         },
         "v_numeric": {
           "value": "true",
-          "err": ""
+          "err": "সংখ্যাটি 0 এর চেয়ে সমান বা বড় হতে হবে"
         },
         "v_min": {
           "value": "0",
-          "err": "Age must be equal or greater than 0"
+          "err": "সংখ্যাটি 0 এর চেয়ে সমান বা বড় হতে হবে"
         }
       },
       {
@@ -162,7 +162,7 @@
         "hint": "মায়ের উচ্চতা (সে.মি.)",
         "v_numeric": {
           "value": "true",
-          "err": "Enter a valid Number"
+          "err": "একটি সঠিক নম্বর লিখুন"
         },
         "v_required": {
           "value": true,
