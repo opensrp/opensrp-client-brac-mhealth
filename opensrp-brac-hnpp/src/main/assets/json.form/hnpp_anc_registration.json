@@ -64,8 +64,8 @@
         "type": "date_picker",
         "hint": "শেষ মাসিকের তারিখ",
         "expanded": false,
-        "max_date": "today-42d",
         "min_date": "today-308d",
+        "max_date": "today-42d",
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
