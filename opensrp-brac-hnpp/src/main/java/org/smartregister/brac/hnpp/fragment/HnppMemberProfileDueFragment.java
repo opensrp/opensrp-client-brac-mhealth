@@ -205,7 +205,7 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
         TextView name =  familyView.findViewById(R.id.patient_name_age);
         familyView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
         image.setImageResource(R.drawable.childrow_family);
-        name.setText("ফেমেলির অন্যান্য সদস্য সেবা (বাকি)");
+        name.setText("পরিবারের অন্যান্য সদস্য সেবা (বাকি)");
         familyView.setTag(TAG_OPEN_FAMILY);
         familyView.setOnClickListener(this);
         otherServiceView.addView(familyView);
@@ -215,7 +215,7 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
         TextView nameReferel =  referelView.findViewById(R.id.patient_name_age);
         referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
         imageReferel.setImageResource(R.mipmap.ic_refer);
-        nameReferel.setText("রেফেরেল");
+        nameReferel.setText("রেফারেল");
         referelView.setTag(TAG_OPEN_REFEREAL);
         referelView.setOnClickListener(this);
         otherServiceView.addView(referelView);

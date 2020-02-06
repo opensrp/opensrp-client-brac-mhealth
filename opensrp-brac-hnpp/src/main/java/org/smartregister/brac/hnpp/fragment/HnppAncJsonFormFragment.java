@@ -10,10 +10,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.rey.material.widget.Spinner;
+import com.vijay.jsonwizard.customviews.MaterialSpinner;
 import com.vijay.jsonwizard.fragments.JsonWizardFormFragment;
 
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +28,7 @@ import org.smartregister.brac.hnpp.utils.FormApplicability;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
 
 public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
     ArrayList<ViewObject> viewList = new ArrayList<>();
@@ -106,11 +110,35 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
 //                    System.out.print(formObject);
                 }
             }
+
+            if(v instanceof MaterialSpinner){
+                if (((MaterialSpinner) v).getHint() != null && (((MaterialSpinner) v).getHint().toString()).equals("বিলিরুবিন - প্রস্রাব পরিক্ষা *")) {
+                    ((MaterialSpinner) v).setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                            // your code here
+                            bilirubin = position == 0;
+                            referUHCCheckStatus(bilirubin);
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parentView) {
+                            // your code here
+                        }
+
+                    });
+
+//                    JSONObject formObject = getJsonApi().getmJSONObject();
+//                    System.out.print(formObject);
+                }
+            }
         }
 
         getEddDate();
 //        System.out.println(formDataViews);
     }
+    boolean bilirubin = false;
     int uterusLengthCM = 0;
     String edd = null;
     public void getEddDate(){
@@ -394,7 +422,7 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
         }
     }
     public void referUHCCheckStatus(boolean isChecked) {
-        isChecked = isChecked||fastingSugar||randomSugar||blood_pressure_diastolic||blood_pressure_systolic||hemoglobin;
+        isChecked = isChecked||fastingSugar||randomSugar||blood_pressure_diastolic||blood_pressure_systolic||hemoglobin||bilirubin;
         for (int i = 0; i < viewList.size(); i++) {
             CompoundButton buttonView = viewList.get(i).view;
             String label = viewList.get(i).label;

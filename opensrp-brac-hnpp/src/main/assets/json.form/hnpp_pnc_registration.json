@@ -104,6 +104,23 @@
         }
       },
       {
+        "key": "advice_toaster_3",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "জ্বররোধী ঔষধ পরামর্শ",
+        "text_color": "#1199F9",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "pulse_rate",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
