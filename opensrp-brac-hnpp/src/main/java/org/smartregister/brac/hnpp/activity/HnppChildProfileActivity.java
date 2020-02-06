@@ -260,7 +260,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
         super.onCreateOptionsMenu(menu);
         menu.findItem(R.id.action_anc_registration).setVisible(false);
         menu.findItem(R.id.action_malaria_registration).setVisible(false);
-        menu.findItem(R.id.action_remove_member).setVisible(true);
+        menu.findItem(R.id.action_remove_member).setVisible(false);
         menu.findItem(R.id.action_sick_child_follow_up).setVisible(false);
         menu.findItem(R.id.action_malaria_diagnosis).setVisible(false);
         menu.findItem(R.id.action_pregnancy_out_come).setVisible(false);
