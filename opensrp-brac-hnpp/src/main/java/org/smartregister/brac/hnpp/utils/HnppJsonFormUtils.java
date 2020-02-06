@@ -183,6 +183,22 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 e.printStackTrace();
             }
     }
+    public static void addMaritalStatus(JSONObject jsonForm,String maritalStatus){
+            JSONObject stepOne = null;
+            try {
+
+                stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+                JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+
+                updateFormField(jsonArray, "marital_status", maritalStatus);
+
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+    }
     public static void addMemberTypeField(String formName,JSONObject jsonForm,String memberType){
         if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.MEMBER_REFERRAL)){
             JSONObject stepOne = null;
@@ -721,7 +737,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         return DatePickerFactory.DATE_FORMAT.format(cal.getTime());
 
     }
-    private static JSONArray processAttributesWithChoiceIDsForSave(JSONArray fields) {
+    public static JSONArray processAttributesWithChoiceIDsForSave(JSONArray fields) {
         for (int i = 0; i < fields.length(); i++) {
             try {
                 JSONObject fieldObject = fields.getJSONObject(i);

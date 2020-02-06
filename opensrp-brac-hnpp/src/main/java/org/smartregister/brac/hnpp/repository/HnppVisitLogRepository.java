@@ -244,7 +244,7 @@ public class HnppVisitLogRepository extends BaseRepository {
     public boolean isDoneWihinTwentyFourHours(String baseEntityId, String eventTpe) {
 
         String eventType="";
-        String query = "select event_type from ec_visit_log where event_type ='"+eventTpe+"' and base_entity_id ='"+baseEntityId+"' and (strftime('%d',datetime(visit_date/1000,'unixepoch')) = strftime('%d',datetime('now')))";
+        String query = "select event_type from ec_visit_log where event_type ='"+eventTpe+"' and base_entity_id ='"+baseEntityId+"' and (strftime('%d',datetime(visit_date/1000,'unixepoch','localtime')) = strftime('%d',datetime('now')))";
         android.database.Cursor cursor = null;
         try {
             cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});

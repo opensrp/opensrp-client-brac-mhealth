@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import org.smartregister.AllConstants;
 import org.smartregister.Context;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
+import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.contract.BaseAncRegisterContract;
 import org.smartregister.chw.anc.interactor.BaseAncRegisterInteractor;
@@ -65,8 +66,9 @@ public class HnppBaseAncRegisterInteractor extends BaseAncRegisterInteractor {
                         JSONObject familyIdObject = org.smartregister.util.JsonFormUtils.getFieldJSONObject(fields, DBConstants.KEY.RELATIONAL_ID);
                         String familyBaseEntityId = familyIdObject.getString(JsonFormUtils.VALUE);
                         pncForm = JsonFormUtils.populatePNCForm(pncForm, fields, familyBaseEntityId);
+                        HnppJsonFormUtils.processAttributesWithChoiceIDsForSave(fields);
 
-                        processPncChild(fields, allSharedPreferences, childBaseEntityId, familyBaseEntityId, motherBaseId);
+                        processChild(fields, allSharedPreferences, childBaseEntityId, familyBaseEntityId, motherBaseId);
                         if (pncForm != null) {
                             saveRegistration(pncForm.toString(), EC_CHILD);
                             NCUtils.saveVaccineEvents(fields, childBaseEntityId);
@@ -123,8 +125,7 @@ public class HnppBaseAncRegisterInteractor extends BaseAncRegisterInteractor {
         NCUtils.startClientProcessing();
     }
 
-    @Override
-    public void processPncChild(JSONArray fields, AllSharedPreferences allSharedPreferences, String entityId, String familyBaseEntityId, String motherBaseId) {
+    private void processChild(JSONArray fields, AllSharedPreferences allSharedPreferences, String entityId, String familyBaseEntityId, String motherBaseId) {
         try {
             Client pncChild = org.smartregister.util.JsonFormUtils.createBaseClient(fields, JsonFormUtils.formTag(allSharedPreferences), entityId);
             pncChild.addRelationship(Constants.RELATIONSHIP.FAMILY, familyBaseEntityId);

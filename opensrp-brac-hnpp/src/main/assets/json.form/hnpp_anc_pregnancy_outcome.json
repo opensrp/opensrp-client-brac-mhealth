@@ -238,6 +238,34 @@
         }
       },
       {
+        "key": "pnc_received",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "pnc_received",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "জন্মদানের পর ৪৮ ঘন্টার মধ্যে গর্ভপরবর্তী সেবা (পি.এন.সি.) পেয়েছে কিনা?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Please select one option"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "delivery_assistance",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -350,7 +378,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_relevance.yml"
+              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
             }
           }
         }
@@ -726,7 +754,7 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "birth_weight",
         "type": "edit_text",
-        "hint": "ওজন(কেজি)",
+        "hint": "জন্মকালীন ওজন(কেজি)",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
@@ -739,6 +767,23 @@
           "step1:birth_weight_taken": {
             "type": "string",
             "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "ad_toaster_1",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "1.5-2.4 = ক্যাঙ্গারু মাতার যত্নের জন্য ",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
+            }
           }
         }
       },

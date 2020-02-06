@@ -188,6 +188,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     HnppMemberProfileDueFragment profileMemberFragment;
     ViewPager mViewPager;
     String gender = "";
+    String maritalStatus ="";
     @Override
     protected ViewPager setupViewPager(ViewPager viewPager) {
         this.mViewPager = viewPager;
@@ -195,8 +196,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         List<Map<String,String>> genderMaritalStatus = HnppDBUtils.getGenderMaritalStatus(baseEntityId);
         if(genderMaritalStatus != null && genderMaritalStatus.size()>0) {
             gender = genderMaritalStatus.get(0).get("gender");
-            commonPersonObject.getColumnmaps().put("gender", genderMaritalStatus.get(0).get("gender"));
-            commonPersonObject.getColumnmaps().put("marital_status", genderMaritalStatus.get(0).get("marital_status"));
+            maritalStatus = genderMaritalStatus.get(0).get("marital_status");
+            commonPersonObject.getColumnmaps().put("gender", gender);
+            commonPersonObject.getColumnmaps().put("marital_status", maritalStatus);
         }
         profileMemberFragment =(HnppMemberProfileDueFragment) HnppMemberProfileDueFragment.newInstance(this.getIntent().getExtras());
         profileMemberFragment.setCommonPersonObjectClient(commonPersonObject);
@@ -223,6 +225,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                else
                    HnppJsonFormUtils.addMemberTypeField(HnppConstants.JSON_FORMS.MEMBER_REFERRAL,jsonForm,"All");
 
+           }
+           if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.GIRL_PACKAGE)){
+               HnppJsonFormUtils.addMaritalStatus(jsonForm,maritalStatus);
            }
 
 //           if(formName.contains("anc"))

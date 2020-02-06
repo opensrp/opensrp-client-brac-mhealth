@@ -121,13 +121,13 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "নিয়মিত অনুশীলন এবং স্বাস্থ্যকর ডায়েট অনুশীলনের মাধ্যমে ওজন হ্রাস করার পরামর্শ যেমন কার্বোহাইড্রেট এবং ফ্যাট হ্রাস এবং শাকসবজি গ্রহণ বাড়িয়ে তোলা",
+        "text": "প্রোটিন শক্তি সমৃদ্ধ খাবারের জন্য পরামর্শ",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_ncd_package_relevance.yml"
+              "rules-file": "hnpp_adolescent_package_relevance.yml"
             }
           }
         }
@@ -155,23 +155,6 @@
         "openmrs_entity_id": "",
         "type": "toaster_notes",
         "text": "আয়রন সমৃদ্ধ ডায়েটের জন্য যেমন মাছ, মাংস, লিভার, সবুজ শাক এবং রঙিন ফল এবং শাকসব্জির পরামর্শ, আয়রন ফলিক অ্যাসিড পরিপূরক গ্রহণ করুন, স্যান্ডেল ব্যবহার করুন, প্রতি 6 মাসের ব্যবধানে ডিওয়ার্মিং ট্যাবলেট গ্রহণ করুন",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_adolescent_package_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "ad_toaster_3",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "refer to UHC",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
@@ -243,12 +226,12 @@
           "মহিলা বন্ধ্যাকরণ"
         ],
         "openmrs_choice_ids": {
-          "বড়ি": "",
-          "কনডম": "",
-          "ইঞ্জেকশান": "",
-          "আই ইউ ডি": "",
-          "নরপ্লান্ট": "",
-          "মহিলা বন্ধ্যাকরণ ": ""
+          "বড়ি": "contraceptive_pill",
+          "কনডম": "condom",
+          "ইঞ্জেকশান": "injection",
+          "আই ইউ ডি": "iud",
+          "নরপ্লান্ট": "norplant",
+          "মহিলা বন্ধ্যাকরণ": "ligation"
         },
         "v_required": {
           "value": true,
