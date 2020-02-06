@@ -77,6 +77,10 @@
           "value": "true",
           "err": "Enter a valid Number"
         },
+        "v_regex": {
+          "value": "[0-9]*['.']?[0-9]*",
+          "err": "নাম্বার টাইপ হতে হবে"
+        },
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
