@@ -228,9 +228,10 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         MenuItem removeMember = menu.findItem(org.smartregister.chw.core.R.id.action_remove_member);
         MenuItem changeFamHead = menu.findItem(org.smartregister.chw.core.R.id.action_change_head);
         MenuItem changeCareGiver = menu.findItem(org.smartregister.chw.core.R.id.action_change_care_giver);
+        menu.findItem(R.id.action_remove_member).setTitle("খানা/সদস্য বাতিল করুন");
 
         if (removeMember != null) {
-            removeMember.setVisible(false);
+            removeMember.setVisible(true);
         }
 
         if (changeFamHead != null) {

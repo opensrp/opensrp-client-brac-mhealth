@@ -459,7 +459,7 @@
         "hint": "অন্যান্য সমস্যা ",
 
         "v_required": {
-          "value": true,
+          "value": false,
           "err": "প্রশ্নের উত্তর দিন"
         }
       },
@@ -523,7 +523,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "other_cause",
         "type": "edit_text",
-        "hint": "অন্যান্য সমস্যা",
+        "hint": "অন্যান্য কারণ",
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
@@ -593,7 +593,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "other_refer_reason",
         "type": "edit_text",
-        "hint": "অন্যান্য কারণ ",
+        "hint": "অন্যান্য কারণ",
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
@@ -701,7 +701,7 @@
         "type": "edit_text",
         "hint": "উপদেশ",
         "v_required": {
-          "value": true,
+          "value": false,
           "err": "প্রশ্নের উত্তর দিন"
         }
       }

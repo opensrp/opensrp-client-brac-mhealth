@@ -74,18 +74,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_identifier",
         "openmrs_entity_id": "opensrp_id",
-        "type": "barcode",
-        "barcode_type": "qrcode",
-        "hint": "Boresha Afya ID",
-        "scanButtonText": "Scan QR Code",
-        "v_numeric": {
-          "value": "true",
-          "err": "Please enter a valid ID"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "Please enter the UNIQUE ID"
-        }
+        "value": ""
       },
       {
         "key": "first_name",
@@ -98,7 +87,7 @@
         "expanded": false,
         "edit_type": "name",
         "v_required": {
-          "value": "true",
+          "value": false,
           "err": "নাম লিখুন"
         },
         "v_regex": {
@@ -120,7 +109,7 @@
         "min_date": "today-59m",
         "max_date": "today",
         "v_required": {
-          "value": "true",
+          "value": false,
           "err": "জন্ম তারিখ প্রবেশ করুন"
         }
       },
@@ -142,14 +131,14 @@
           "তৃতীয় লিঙ্গ": "O"
         },
         "v_required": {
-          "value": true,
+          "value": false,
           "err": "লিঙ্গ প্রবেশ করুন"
         }
       },
       {
         "key": "birth_weight_taken",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
+        "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "birth_weight_taken",
         "openmrs_data_type": "select one",
         "type": "spinner",
@@ -163,14 +152,14 @@
           "না": "No"
         },
         "v_required": {
-          "value": "true",
+          "value": false,
           "err": "Please select one option"
         }
       },
       {
         "key": "birth_weight",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
+        "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "birth_weight",
         "type": "edit_text",
         "hint": "ওজন(কেজি)",
@@ -179,14 +168,14 @@
           "err": "Enter a valid Number"
         },
         "v_required": {
-          "value": true,
+          "value": false,
           "err": "প্রশ্নের উত্তর দিন"
         }
       },
       {
         "key": "chlorohexadin",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
+        "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "chlorohexadin",
         "openmrs_data_type": "select one",
         "type": "spinner",
@@ -200,14 +189,14 @@
           "না": "No"
         },
         "v_required": {
-          "value": "true",
+          "value": false,
           "err": "Please select one option"
         }
       },
       {
         "key": "breastfeeding_time",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
+        "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "breastfeeding_time",
         "type": "edit_text",
         "hint": "প্রসবের কতক্ষন পর মায়ের দুধ খাওয়ানো হয়েছে?",
@@ -216,14 +205,14 @@
           "err": "Enter a valid Number"
         },
         "v_required": {
-          "value": true,
+          "value": false,
           "err": "প্রশ্নের উত্তর দিন"
         }
       },
       {
         "key": "head_body_covered",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
+        "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "head_body_covered",
         "openmrs_data_type": "select one",
         "type": "spinner",
@@ -237,14 +226,14 @@
           "না": "No"
         },
         "v_required": {
-          "value": "true",
+          "value": false,
           "err": "Please select one option"
         }
       },
       {
         "key": "physically_challenged",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
+        "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "physically_challenged",
         "openmrs_data_type": "select one",
         "type": "spinner",
@@ -258,18 +247,18 @@
           "না": "No"
         },
         "v_required": {
-          "value": "true",
+          "value": false,
           "err": "Please select one option"
         }
       },
       {
         "key": "breast_feeded",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
+        "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "breast_feeded",
         "openmrs_data_type": "select one",
         "type": "spinner",
-        "hint": "প্রসবের কতক্ষন পর মায়ের দুধ খাওয়ানো হয়েছে?",
+        "hint": "প্রসবের পর মায়ের দুধ খাওয়ানো হয়েছে?",
         "values": [
           "হ্যাঁ",
           "না"
@@ -279,7 +268,7 @@
           "না": "No"
         },
         "v_required": {
-          "value": "true",
+          "value": false,
           "err": "Please select one option"
         }
       }

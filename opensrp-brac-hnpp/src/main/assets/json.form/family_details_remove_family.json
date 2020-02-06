@@ -52,7 +52,7 @@
     }
   },
   "step1": {
-    "title": "Remove Family",
+    "title": "খানা বাতিল করুন",
     "fields": [
       {
         "key": "spacer",
@@ -102,61 +102,128 @@
         "openmrs_entity_id": "closure_reason_fam",
         "openmrs_data_type": "select one",
         "type": "spinner",
-        "hint": "Reason for closure",
-        "values": [
-          "Relocation",
-          "Other"
-        ],
+        "hint": "বাতিল করার কারণ",
         "v_required": {
           "value": "true",
-          "err": "Select the reason for removing the family's record."
+          "err": "খানা বাতিল করার কারণ নির্বাচন করুন"
         },
+        "values": [
+          "স্থানান্তর",
+          "অন্যান্য"
+        ],
         "openmrs_choice_ids": {
-          "Relocation": "160415AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "Other": "5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          "স্থানান্তর": "moved_away",
+          "অন্যান্য": "other"
         }
       },
       {
         "key": "closure_reason_other_fam",
-        "openmrs_entity_parent": "160417AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "closure_reason_other_fam",
         "openmrs_data_type": "text",
-        "type": "edit_text",
-        "hint": "Other reason",
+        "type": "spinner",
+        "hint": "অন্যান্য কারণে খানা বাদ",
         "v_required": {
-          "value": "true",
-          "err": "Enter reason of closure"
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "values": [
+          "ভুল তথ্য প্রদান করা হয়েছে",
+          "এই খানাটি অন্য খানার অংশ",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "ভুল তথ্য প্রদান করা হয়েছে": "incorrect_information_provided",
+          "এই খানাটি অন্য খানার অংশ": "registered_before_member",
+          "অন্যান্য": "other"
         },
         "relevance": {
           "step1:closure_reason_fam": {
             "type": "string",
-            "ex": "equalTo(., \"Other\")"
+            "ex": "equalTo(., \"অন্যান্য\")"
           }
         }
       },
       {
+        "key": "closure_reason_other_fam_detail",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "closure_reason_other_fam_detail",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "অন্যান্য কারণে খানা বাদ",
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "step1:closure_reason_other_fam": {
+            "type": "string",
+            "ex": "equalTo(., \"অন্যান্য\")"
+          }
+        }
+      },
+
+      {
         "key": "closure_reason_relocation_fam",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "closure_reason_relocation_fam",
         "openmrs_data_type": "select one",
         "type": "spinner",
-        "hint": "Household relocation",
-        "values": [
-          "Within the district",
-          "Outside the district"
-        ],
+        "hint": "কোথায় স্থান্তরিত হয়েছে জানা আছে কিনা ?",
         "v_required": {
           "value": "true",
-          "err": "Enter reason of closure"
+          "err": "সদস্য স্থান্তরিত করার কারণ নির্বাচন করুন"
+        },
+        "values": [
+          "দেশের মধ্যে",
+          "বিদেশ গমন",
+          "জানা নেই"
+        ],
+        "openmrs_choice_ids": {
+          "দেশের মধ্যে": "local_migration",
+          "বিদেশ গমন": "abroad_migration",
+          "জানা নেই": "unknown"
         },
         "relevance": {
           "step1:closure_reason_fam": {
             "type": "string",
-            "ex": "equalTo(., \"Relocation\")"
+            "ex": "equalTo(., \"স্থানান্তর\")"
           }
         }
+      },
+      {
+        "key": "jila",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "jila",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "জেলা",
+        "relevance": {
+          "step1:closure_reason_relocation_fam": {
+            "type": "string",
+            "ex": "equalTo(., \"দেশের মধ্যে\")"
+          }
+        }
+      },
+      {
+        "key": "upojila",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "upojila",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "উপজেলা/সিটি কর্পোরেশন",
+        "relevance": {
+          "step1:closure_reason_relocation_fam": {
+            "type": "string",
+            "ex": "equalTo(., \"দেশের মধ্যে\")"
+          }
+        }
+
       }
     ]
   }
