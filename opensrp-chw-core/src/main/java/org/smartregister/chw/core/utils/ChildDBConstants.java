@@ -16,13 +16,13 @@ public class ChildDBConstants {
         String query = " ((( julianday('now') - julianday(ec_family_member.dob))/365.25) >" + 10 + ")";
         String query2 = " ((( julianday('now') - julianday(ec_family_member.dob))/365.25) <" + 50 + ")";
         String married = " ec_family_member.marital_status = 'Married' and ec_family_member.gender = 'F'";
-        return query+" AND "+query2 +" AND "+married;
+        return query+" AND "+query2 +" AND "+married + " AND "+CoreConstants.TABLE_NAME.FAMILY_MEMBER+"."+DBConstants.KEY.BASE_ENTITY_ID+" NOT IN (select ec_anc_register.base_entity_id from ec_anc_register where ec_anc_register.is_closed = '0' group by ec_anc_register.base_entity_id)";
     }
     public static String elcoFilter(){
         String query = " ((( julianday('now') - julianday(dob))/365.25) >" + 10 + ")";
         String query2 = " ((( julianday('now') - julianday(dob))/365.25) <" + 50 + ")";
         String married = " marital_status = 'Married' and gender = 'F'";
-        return query+" AND "+query2 +" AND "+married;
+        return query+" AND "+query2 +" AND "+married + " AND "+CoreConstants.TABLE_NAME.FAMILY_MEMBER+"."+DBConstants.KEY.BASE_ENTITY_ID+" NOT IN (select ec_anc_register.base_entity_id from ec_anc_register where ec_anc_register.is_closed = '0' group by ec_anc_register.base_entity_id)";
     }
     private static String childAgeLimitFilter(String dateColumn, int age) {
         return " ((( julianday('now') - julianday(" + dateColumn + "))/365.25) <" + age + ")";

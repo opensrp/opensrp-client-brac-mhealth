@@ -128,10 +128,8 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
                         }
 
                     });
-
-//                    JSONObject formObject = getJsonApi().getmJSONObject();
-//                    System.out.print(formObject);
                 }
+
             }
         }
 
@@ -418,6 +416,7 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
             String label = viewList.get(i).label;
             if (label.equalsIgnoreCase("ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র")){
                 buttonView.setChecked(isChecked);
+                break;
             }
         }
     }
@@ -428,6 +427,7 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
             String label = viewList.get(i).label;
             if (label.equalsIgnoreCase("উপজেলা স্বাস্থ্য কমপ্লেক্স")){
                 buttonView.setChecked(isChecked);
+                break;
             }
         }
     }
