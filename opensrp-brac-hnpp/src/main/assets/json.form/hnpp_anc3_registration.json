@@ -155,6 +155,47 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        },
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_bmi_calculation_rule.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_1",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "অতিরিক্ত প্রোটিন শক্তি সমৃদ্ধ ডায়েট জন্য পরামর্শ",
+        "text_color": "#1199F9",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_2",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "সুষম খাদ্য জন্য পরামর্শ",
+        "text_color": "#1199F9",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
         }
       },
       {
@@ -175,6 +216,23 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "advice_toaster_3",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "জ্বররোধী ঔষধ পরামর্শ",
+        "text_color": "#1199F9",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
         }
       },
       {
@@ -597,6 +655,23 @@
         }
       },
       {
+        "key": "advice_toaster_4",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "আয়রণ ফলিক অ্যাসিড জন্য পরামর্শ",
+        "text_color": "#1199F9",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "albumin_test",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -615,6 +690,40 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "advice_toaster_5",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশ্রাম এবং লবণের সীমাবদ্ধতার ডায়েট সম্পূর্ণ করুন, পা উন্নত করুন এবং শুয়ে থাকুন",
+        "text_color": "#1199F9",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "albumin_toaster_3",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "প্রি-একলেম্পসিয়া",
+        "text_color": "#CF0800",
+        "toaster_type": "problem",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_risk_relevance.yml"
+            }
+          }
         }
       },
       {
