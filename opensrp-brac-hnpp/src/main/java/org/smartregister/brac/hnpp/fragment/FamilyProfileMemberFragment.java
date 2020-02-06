@@ -55,17 +55,13 @@ public class FamilyProfileMemberFragment extends CoreFamilyProfileMemberFragment
     }
 
     @Override
-    public void goToOtherMemberProfileActivity(CommonPersonObjectClient patient) {
-        super.goToOtherMemberProfileActivity(patient);
-    }
-
-    @Override
     public void goToChildProfileActivity(CommonPersonObjectClient patient) {
         String dobString = Utils.getDuration(Utils.getValue(patient.getColumnmaps(), DBConstants.KEY.DOB, false));
         Integer yearOfBirth = CoreChildUtils.dobStringToYear(dobString);
         Intent intent;
-        if (yearOfBirth != null && yearOfBirth > 5) {
-            intent = new Intent(getActivity(), getAboveFiveChildProfileActivityClass());
+        if (yearOfBirth != null && yearOfBirth >= 5) {
+           goToOtherMemberProfileActivity(patient);
+           return;
         } else {
             intent = new Intent(getActivity(), getChildProfileActivityClass());
         }
