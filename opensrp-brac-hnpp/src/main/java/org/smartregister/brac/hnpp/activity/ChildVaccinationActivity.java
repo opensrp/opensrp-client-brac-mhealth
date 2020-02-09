@@ -2,17 +2,15 @@ package org.smartregister.brac.hnpp.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
+
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.fragment.ChildImmunizationFragment;
+import org.smartregister.brac.hnpp.job.HomeVisitServiceJob;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.immunization.domain.ServiceWrapper;
 import org.smartregister.immunization.domain.VaccineWrapper;
@@ -108,6 +106,7 @@ public class ChildVaccinationActivity extends SecuredActivity implements Vaccina
     public void onBackPressed() {
 
         if(isActionTaken){
+            HomeVisitServiceJob.scheduleJobImmediately(HomeVisitServiceJob.TAG);
             Intent intent = getIntent();
             setResult(RESULT_OK, intent);
             finish();

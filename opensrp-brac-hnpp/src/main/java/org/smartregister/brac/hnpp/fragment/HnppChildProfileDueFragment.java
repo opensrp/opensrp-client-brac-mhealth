@@ -74,6 +74,9 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
     public void setCommonPersonObjectClient(CommonPersonObjectClient commonPersonObjectClient){
         this.commonPersonObjectClient = commonPersonObjectClient;
     }
+    public void setBaseEntityId(String baseEntityId){
+        this.baseEntityId = baseEntityId;
+    }
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -103,7 +106,6 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
     @Override
     protected void initializePresenter() {
         familyBaseEntityId = getArguments().getString(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID);
-        baseEntityId = getArguments().getString(Constants.INTENT_KEY.BASE_ENTITY_ID);
         familyName = getArguments().getString(Constants.INTENT_KEY.FAMILY_NAME);
         presenter = new HnppMemberProfileDuePresenter(this, new MemberProfileDueModel(), null, familyBaseEntityId);
         //TODO need to pass this value as this value using at homevisit rule

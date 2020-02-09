@@ -365,7 +365,6 @@ public class HnppConstants extends CoreConstants {
             .put("Member referral",R.mipmap.ic_refer)
             .put(EVENT_TYPE.HOME_VISIT_FAMILY, R.mipmap.ic_icon_home)
             .put(EventType.CHILD_HOME_VISIT, R.mipmap.ic_icon_home)
-            .put(EventType.CHILD_HOME_VISIT, R.mipmap.ic_icon_home)
             .put(EVENT_TYPE.VACCINATION, R.drawable.ic_muac)
             .put(EVENT_TYPE.SERVICES, R.mipmap.form_vitamin)
             .put(EVENT_TYPE.REFERREL_FOLLOWUP,R.mipmap.ic_refer)
