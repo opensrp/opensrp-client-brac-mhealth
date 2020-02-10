@@ -69,7 +69,7 @@ public class HnppChildProfilePresenter extends CoreChildProfilePresenter {
         String gender = org.smartregister.family.util.Utils.getValue(client.getColumnmaps(), DBConstants.KEY.GENDER, true);
         String getGender = HnppConstants.getGender(gender);
         getView().setAddress(address);
-        getView().setGender(getGender);
+        getView().setGender(getGender+", "+parentName);
 
         String uniqueId = Utils.getValue(client.getColumnmaps(), DBConstants.KEY.UNIQUE_ID, false);
         uniqueId = String.format(getView().getString(org.smartregister.family.R.string.unique_id_text), uniqueId);

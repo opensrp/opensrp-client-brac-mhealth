@@ -40,6 +40,9 @@ public class ChildHistoryFragment extends Fragment implements MemberHistoryContr
             presenter.fetchData(baseEntityId);
         }
     }
+    public void setBaseEntityId(String baseEntityId){
+        this.baseEntityId = baseEntityId;
+    }
 
     public static ChildHistoryFragment getInstance(Bundle bundle){
         ChildHistoryFragment memberHistoryFragment = new ChildHistoryFragment();
@@ -63,7 +66,6 @@ public class ChildHistoryFragment extends Fragment implements MemberHistoryContr
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        baseEntityId = getArguments().getString(Constants.INTENT_KEY.BASE_ENTITY_ID);
         initializePresenter();
     }
 

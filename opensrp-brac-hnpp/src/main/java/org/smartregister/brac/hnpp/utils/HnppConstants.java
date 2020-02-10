@@ -348,6 +348,8 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ANC_REGISTRATION,R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.UPDATE_ANC_REGISTRATION,R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.ELCO,R.drawable.ic_elco)
+            .put(EventType.REMOVE_FAMILY,R.drawable.ic_remove)
+            .put(EventType.REMOVE_MEMBER,R.drawable.ic_remove)
             .put(HnppConstants.EventType.FAMILY_REGISTRATION,R.drawable.ic_home)
             .put(HnppConstants.EventType.FAMILY_MEMBER_REGISTRATION,R.drawable.rowavatar_member)
             .put(HnppConstants.EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,R.drawable.rowavatar_member)
@@ -400,6 +402,8 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.PNC_CHILD_REGISTRATION,"প্রসবের ফলাফল-শিশু")
             .put(EVENT_TYPE.UPDATE_CHILD_REGISTRATION,"শিশু নিবন্ধন আপডেট")
             .put("Update Family Registration","খানা নিবন্ধন আপডেট")
+            .put(EventType.REMOVE_FAMILY,"খানা বাতিল")
+            .put(EventType.REMOVE_MEMBER,"সদস্যকে বাতিল")
             .build();
     //needed for dashboard
     public static final Map<String,String> eventTypeMapping = ImmutableMap.<String,String> builder()
@@ -430,6 +434,8 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.PNC_CHILD_REGISTRATION,"প্রসবের ফলাফল-শিশু")
             .put(EVENT_TYPE.UPDATE_CHILD_REGISTRATION,"শিশু নিবন্ধন আপডেট")
             .put("Update Family Registration","খানা নিবন্ধন আপডেট")
+            .put(EventType.REMOVE_FAMILY,"খানা বাতিল")
+            .put(EventType.REMOVE_MEMBER,"সদস্যকে বাতিল")
             .build();
     public static final Map<String,String> immunizationMapping = ImmutableMap.<String,String> builder()
             .put("PENTA 1","পেন্টা-১")

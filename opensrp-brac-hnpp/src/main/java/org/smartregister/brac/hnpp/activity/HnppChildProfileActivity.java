@@ -100,6 +100,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
 
     @Override
     public void setParentName(String parentName) {
+
         textViewGender.append(","+parentName);
     }
 
@@ -191,9 +192,11 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
 
         profileMemberFragment =(HnppChildProfileDueFragment) HnppChildProfileDueFragment.newInstance(this.getIntent().getExtras());
         profileMemberFragment.setCommonPersonObjectClient(commonPersonObject);
+        profileMemberFragment.setBaseEntityId(childBaseEntityId);
         adapter.addFragment(profileMemberFragment, this.getString(R.string.due).toUpperCase());
         memberOtherServiceFragment = new MemberOtherServiceFragment();
         memberHistoryFragment = ChildHistoryFragment.getInstance(this.getIntent().getExtras());
+        memberHistoryFragment.setBaseEntityId(childBaseEntityId);
         memberOtherServiceFragment.setCommonPersonObjectClient(commonPersonObject);
         adapter.addFragment(memberOtherServiceFragment, this.getString(R.string.other_service).toUpperCase());
         adapter.addFragment(memberHistoryFragment, this.getString(R.string.activity).toUpperCase());

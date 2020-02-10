@@ -68,7 +68,7 @@ public class HnppBaseAncRegisterInteractor extends BaseAncRegisterInteractor {
                         pncForm = JsonFormUtils.populatePNCForm(pncForm, fields, familyBaseEntityId);
                         HnppJsonFormUtils.processAttributesWithChoiceIDsForSave(fields);
 
-                        processChild(fields, allSharedPreferences, childBaseEntityId, familyBaseEntityId, motherBaseId);
+                       // processChild(fields, allSharedPreferences, childBaseEntityId, familyBaseEntityId, motherBaseId);
                         if (pncForm != null) {
                             saveRegistration(pncForm.toString(), EC_CHILD);
                             NCUtils.saveVaccineEvents(fields, childBaseEntityId);
@@ -123,6 +123,11 @@ public class HnppBaseAncRegisterInteractor extends BaseAncRegisterInteractor {
 
         NCUtils.addEvent(allSharedPreferences, baseEvent);
         NCUtils.startClientProcessing();
+    }
+
+    @Override
+    public void processPncChild(JSONArray fields, AllSharedPreferences allSharedPreferences, String entityId, String familyBaseEntityId, String motherBaseId) {
+        super.processPncChild(fields, allSharedPreferences, entityId, familyBaseEntityId, motherBaseId);
     }
 
     private void processChild(JSONArray fields, AllSharedPreferences allSharedPreferences, String entityId, String familyBaseEntityId, String motherBaseId) {

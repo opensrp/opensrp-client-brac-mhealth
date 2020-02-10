@@ -61,8 +61,8 @@
       {
         "key": "familyplanning_method_known",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "familyplanning_method_known",
         "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "পরিবার পরিকল্পনা পদ্ধতি ব্যবহার করছেন?",
@@ -82,8 +82,8 @@
       {
         "key": "familyplanning_method",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "familyplanning_method",
         "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "পরিবার পরিকল্পনা পদ্ধতি-",
@@ -119,8 +119,8 @@
       {
         "key": "reasons_for_not_using_the_family_planning_system",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "reasons_for_not_using_the_family_planning_system",
         "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "পরিবার পরিকল্পনা পদ্ধতি ব্যবহার না করার কারন",
@@ -152,8 +152,8 @@
       {
         "key": "distribution_location",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "distribution_location",
         "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "পদ্ধতিটি কোথা থেকে বিতরণ করা হয়েছিল",
@@ -181,8 +181,8 @@
       {
         "key": "complications_known",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "complications_known",
         "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "পদ্ধতি ব্যবহারের সময় কোন জটিলতা হয়েছিল?",
@@ -284,7 +284,7 @@
       {
         "key": "familyplanning_referral",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "familyplanning_referral",
         "openmrs_data_type": "text",
         "type": "spinner",
@@ -311,7 +311,7 @@
       {
         "key": "familyplanning_referral_location",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "familyplanning_referral_location",
         "openmrs_data_type": "text",
         "type": "spinner",
@@ -346,7 +346,7 @@
       {
         "key": "refer_place_visit",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "refer_place_visit",
         "openmrs_data_type": "text",
         "type": "spinner",
@@ -393,7 +393,7 @@
       {
         "key": "pregnancy_test_taken",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "pregnancy_test_taken",
         "openmrs_data_type": "text",
         "type": "spinner",
@@ -420,7 +420,7 @@
       {
         "key": "pregnancy_test_result",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "pregnancy_test_result",
         "openmrs_data_type": "text",
         "type": "spinner",
