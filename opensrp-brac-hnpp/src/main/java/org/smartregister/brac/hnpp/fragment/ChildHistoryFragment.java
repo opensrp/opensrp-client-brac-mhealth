@@ -22,6 +22,7 @@ import org.smartregister.brac.hnpp.adapter.MemberHistoryAdapter;
 import org.smartregister.brac.hnpp.contract.MemberHistoryContract;
 import org.smartregister.brac.hnpp.presenter.ChildHistoryPresenter;
 import org.smartregister.brac.hnpp.presenter.MemberHistoryPresenter;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.MemberHistoryData;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.JsonFormUtils;
@@ -112,6 +113,13 @@ public class ChildHistoryFragment extends Fragment implements MemberHistoryContr
     private MemberHistoryAdapter.OnClickAdapter onClickAdapter = new MemberHistoryAdapter.OnClickAdapter() {
         @Override
         public void onClick(int position, MemberHistoryData content) {
+            if(content.getEventType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.VACCINATION)
+            || content.getEventType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.SERVICES)){
+
+               // Toast.makeText(getActivity(),content.getVisitDetails(),Toast.LENGTH_SHORT).show();
+                return;
+
+            }
             startFormActivity(content);
         }
     };

@@ -325,6 +325,22 @@ public class HnppConstants extends CoreConstants {
 
 
     }
+    public static final Map<String,String> vaccineNameMapping = ImmutableMap.<String,String> builder()
+            .put("bcg","বিসিজি")
+            .put("opv_1","পোলিও-১")
+            .put("pcv_1","পিসিভি-১")
+            .put("penta_1","পেন্টা-১")
+            .put("opv_2","পোলিও-২")
+            .put("pcv_2","পিসিভি-২")
+            .put("penta_2","পেন্টা-২")
+            .put("opv_3","পোলিও-৩")
+            .put("ipv","আই পি ভি")
+            .put("pcv_3","পিসিভি-৩")
+            .put("penta_3","পেন্টা-৩")
+            .put("mr_1","MR-১")
+            .put("mr_2","MR-২")
+            .put("vitamin_a1","ভিটামিন")
+            .build();
     public static final Map<String,String> eventTypeFormNameMapping = ImmutableMap.<String,String> builder()
             .put(EVENT_TYPE.ANC1_REGISTRATION,JSON_FORMS.ANC1_FORM)
             .put(EVENT_TYPE.ANC2_REGISTRATION,JSON_FORMS.ANC2_FORM)
