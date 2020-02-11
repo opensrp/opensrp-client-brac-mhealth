@@ -535,6 +535,12 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "step1:blood_sugar_test_condition": {
+            "type": "string",
+            "ex": "equalTo(., \"ফাস্টিং\")"
+          }
         }
       },
       {
@@ -551,7 +557,13 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+        "step1:blood_sugar_test_condition": {
+          "type": "string",
+          "ex": "equalTo(., \"রেন্ডম\")"
         }
+      }
       },
       {
         "key": "spacer",

@@ -110,7 +110,7 @@
     <string name="ok">আচ্ছা</string>
     <string name="cancel">ফিরে যান</string>
     <string name="scan_again">আবার চেষ্টা করুন</string>
-    <string name="fail_result">ফলাফল পাওয়া যাই নি</string>
+    <string name="fail_result">কিউ-আর কোড ব্যবহার করে সিমপ্রিন্টস আইডি অ্যাপ-এ লগ-ইন করুন। অথবা আপনার সুপারভাইসর এর সাথে যোগাযোগ করুন।</string>
     <string name="done">সম্পন্ন</string>
     <string name="app_version_name">App version: %1$s</string>
     <string name="sync_failed_timeout_error">সিঙ্ক ফেইল্ড। সার্ভারের সাথে সংযোগ স্থাপন করা সম্ভব হচ্ছে না। দয়া করে ইন্টারনেট সংযোগ চেক করুন।</string>
