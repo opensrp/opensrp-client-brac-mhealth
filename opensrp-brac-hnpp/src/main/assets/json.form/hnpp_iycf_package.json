@@ -89,9 +89,17 @@
         "rules-engine": {
           "ex-rules": {
             "rules-file": "hnpp_iycf_package_calculation.yml"
+            }
           }
+        },
+        "v_min": {
+          "value": "1.5",
+          "err": "1.5 এর সমান বা 1.5 এর বেশি হতে হবে"
+        },
+        "v_max": {
+          "value": "25",
+          "err": "25 এর সমান বা 25 এর কম হওয়া উচিত"
         }
-      }
       },
       {
         "key": "weight_toaster_1",
