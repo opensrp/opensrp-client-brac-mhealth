@@ -345,13 +345,49 @@ public class ChwClientProcessor extends ClientProcessorForJava {
             Timber.e(e);
         }
     }
-
+    public static void processSubHomeVisit(EventClient baseEvent, String parentEventType) {
+        processHomeVisit(baseEvent, null, parentEventType);
+    }
     private void processVisitEvent(EventClient eventClient, String parentEventName) {
         try {
-            NCUtils.processSubHomeVisit(eventClient, parentEventName); // save locally
+            processSubHomeVisit(eventClient, parentEventName); // save locally
         } catch (Exception e) {
             String formID = (eventClient != null && eventClient.getEvent() != null) ? eventClient.getEvent().getFormSubmissionId() : "no form id";
             Timber.e("Form id " + formID + ". " + e.toString());
+        }
+    }
+    public static void processHomeVisit(EventClient baseEvent, SQLiteDatabase database, String parentEventType) {
+        try {
+            Visit visit = AncLibrary.getInstance().visitRepository().getVisitByFormSubmissionID(baseEvent.getEvent().getFormSubmissionId());
+            if (visit == null) {
+                visit = eventToVisit(baseEvent.getEvent());
+
+                if (StringUtils.isNotBlank(parentEventType) && !parentEventType.equalsIgnoreCase(visit.getVisitType())) {
+                    String parentVisitID = AncLibrary.getInstance().visitRepository().getParentVisitEventID(visit.getBaseEntityId(), parentEventType, visit.getDate());
+                    visit.setParentVisitID(parentVisitID);
+                }
+
+                if (database != null) {
+                    AncLibrary.getInstance().visitRepository().addVisit(visit, database);
+                } else {
+                    AncLibrary.getInstance().visitRepository().addVisit(visit);
+                }
+//                if (visit.getVisitDetails() != null) {
+//                    for (Map.Entry<String, List<VisitDetail>> entry : visit.getVisitDetails().entrySet()) {
+//                        if (entry.getValue() != null) {
+//                            for (VisitDetail detail : entry.getValue()) {
+//                                if (database != null) {
+////                                    AncLibrary.getInstance().visitDetailsRepository().addVisitDetails(detail, database);
+//                                } else {
+//                                    AncLibrary.getInstance().visitDetailsRepository().addVisitDetails(detail);
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+            }
+        } catch (JSONException e) {
+            Timber.e(e);
         }
     }
 
