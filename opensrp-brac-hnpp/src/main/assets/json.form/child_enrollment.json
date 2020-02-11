@@ -83,7 +83,7 @@
         "openmrs_entity_id": "first_name",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "নাম",
+        "hint": "শিশুর নাম",
         "expanded": false,
         "edit_type": "name",
         "v_required": {
