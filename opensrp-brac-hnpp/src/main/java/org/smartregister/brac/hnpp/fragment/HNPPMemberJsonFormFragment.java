@@ -112,7 +112,7 @@ public class HNPPMemberJsonFormFragment extends JsonWizardFormFragment {
                 while (iterator.hasNext()) {
                     View field_view = iterator.next();
                     if (field_view instanceof MaterialEditText) {
-                        if (((MaterialEditText) field_view).getFloatingLabelText()!=null&&((MaterialEditText) field_view).getFloatingLabelText().toString().trim().equalsIgnoreCase("নাম")) {
+                        if (((MaterialEditText) field_view).getFloatingLabelText()!=null&&((MaterialEditText) field_view).getFloatingLabelText().toString().trim().equalsIgnoreCase("সদস্যের নাম")) {
                             first_name_view = ((MaterialEditText) field_view);
                         }
                         else if (((MaterialEditText) field_view).getFloatingLabelText()!=null&&((MaterialEditText) field_view).getFloatingLabelText().toString().trim().equalsIgnoreCase("মোবাইল নম্বর")) {
