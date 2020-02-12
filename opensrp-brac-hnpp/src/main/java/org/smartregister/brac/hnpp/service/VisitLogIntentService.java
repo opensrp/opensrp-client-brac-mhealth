@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.service;
 import android.app.IntentService;
 import android.content.Intent;
 
+import net.sqlcipher.Cursor;
 import net.sqlcipher.database.SQLiteDatabase;
 
 import org.apache.commons.lang3.StringUtils;
@@ -15,6 +16,8 @@ import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.VisitLog;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
+import org.smartregister.chw.anc.util.NCUtils;
+import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.clientandeventmodel.Obs;
@@ -51,12 +54,34 @@ public class VisitLogIntentService extends IntentService {
         super("VisitLogService");
     }
 
+    public void getANCRegistrationVisitsFromEvent(List<Visit> v){
+        String query = "SELECT event.baseEntityId,event.eventId, event.json FROM event WHERE event.eventType = 'ANC Registration' AND event.eventId NOT IN (Select visits.visit_id from visits)";
+        Cursor cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        if(cursor !=null && cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                String baseEntityId = cursor.getString(0);
+                String eventId = cursor.getString(1);
+                String json = cursor.getString(2);
+                Event baseEvent = gson.fromJson(json, Event.class);
 
+                try {
+                    Visit visit = NCUtils.eventToVisit(baseEvent, eventId);
+                    v.add(visit);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                cursor.moveToNext();
+            }
+        }
+    }
     @Override
     protected void onHandleIntent(Intent intent) {
         ArrayList<String> visit_ids = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().getVisitIds();
         for (int i = 0; i < visit_ids.size(); i++) {
             List<Visit> v = AncLibrary.getInstance().visitRepository().getVisitsByVisitId(visit_ids.get(i));
+            getANCRegistrationVisitsFromEvent(v);
             for (Visit visit : v) {
                 String eventJson = visit.getJson();
                 if (!StringUtils.isEmpty(eventJson)) {
@@ -240,6 +265,9 @@ public class VisitLogIntentService extends IntentService {
         }
         else if (CHILD_FOLLOWUP.equalsIgnoreCase(encounter_type)) {
             form_name = HnppConstants.JSON_FORMS.CHILD_FOLLOWUP+".json";
+        }
+        else if (ANC_REGISTRATION.equalsIgnoreCase(encounter_type)) {
+            form_name = HnppConstants.JSON_FORMS.ANC_FORM+".json";
         }
         try {
             String jsonString = AssetHandler.readFileFromAssetsFolder("json.form/"+form_name, VisitLogIntentService.this);
