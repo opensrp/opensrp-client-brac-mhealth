@@ -261,6 +261,30 @@ public class HnppDBUtils extends CoreChildUtils {
         }
         return motherName;
     }
+    public static HouseHoldInfo getHouseHoldInfo(String familyBaseEntityId){
+        String query = "select first_name,unique_id,module_id,family_head,primary_caregiver from ec_family where base_entity_id = '"+familyBaseEntityId+"'";
+        Cursor cursor = null;
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                HouseHoldInfo houseHoldInfo = new HouseHoldInfo();
+                houseHoldInfo.setHouseHoldName( cursor.getString(0));
+                houseHoldInfo.setHouseHoldBaseEntityId(familyBaseEntityId);
+                houseHoldInfo.setHouseHoldUniqueId(cursor.getString(1));
+                houseHoldInfo.setModuleId(cursor.getString(2));
+                houseHoldInfo.setHouseHoldHeadId(cursor.getString(3));
+                houseHoldInfo.setPrimaryCaregiverId(cursor.getString(4));
+                return houseHoldInfo;
+            }
+        } catch (Exception e) {
+            Timber.e(e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return null;
+    }
     public static String getModuleId(String familyId){
         String query = "select module_id from ec_family where base_entity_id = '"+familyId+"'";
         Cursor cursor = null;
