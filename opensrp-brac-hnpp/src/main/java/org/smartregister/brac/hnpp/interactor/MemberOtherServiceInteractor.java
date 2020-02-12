@@ -44,13 +44,13 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
         otherServiceData3.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_NCD);
         otherServiceDataList.add(otherServiceData3);
 
-        if(FormApplicability.isWomenPackageApplicable(age,gender.equalsIgnoreCase("F"))){
-            OtherServiceData otherServiceData = new OtherServiceData();
-            otherServiceData.setImageSource(R.drawable.woman_placeholder);
-            otherServiceData.setTitle("নারী সেবা প্যাকেজ");
-            otherServiceData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_WOMEN_PACKAGE);
-            otherServiceDataList.add(otherServiceData);
-        }
+//        if(FormApplicability.isWomenPackageApplicable(age,gender.equalsIgnoreCase("F"))){
+//            OtherServiceData otherServiceData = new OtherServiceData();
+//            otherServiceData.setImageSource(R.drawable.woman_placeholder);
+//            otherServiceData.setTitle("নারী সেবা প্যাকেজ");
+//            otherServiceData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_WOMEN_PACKAGE);
+//            otherServiceDataList.add(otherServiceData);
+//        }
 
         if(FormApplicability.isAdolescentApplicable(age,gender.equalsIgnoreCase("F"))){
             OtherServiceData otherServiceData2 = new OtherServiceData();

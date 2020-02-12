@@ -157,6 +157,9 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(data == null){
+            finish();
+        }
         JSONObject form = null;
         if (resultCode == Activity.RESULT_OK && requestCode == Constants.REQUEST_CODE_GET_JSON) {
 //            process the form
