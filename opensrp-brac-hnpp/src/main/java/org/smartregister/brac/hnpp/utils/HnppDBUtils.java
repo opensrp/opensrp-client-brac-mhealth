@@ -34,7 +34,7 @@ public class HnppDBUtils extends CoreChildUtils {
 
     public static ArrayList<ProfileDueInfo> getDueListByFamilyId(String familyId){
         ArrayList<ProfileDueInfo> profileDueInfoArrayList = new ArrayList<>();
-        String query = "select base_entity_id,gender,marital_status,first_name,dob from ec_family_member where relational_id = '"+familyId+"'";
+        String query = "select base_entity_id,gender,marital_status,first_name,dob from ec_family_member where relational_id = '"+familyId+"' and date_removed is null";
         Cursor cursor = null;
         try {
             cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});

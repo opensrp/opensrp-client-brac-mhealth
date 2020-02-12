@@ -211,6 +211,20 @@
           }
         },
         {
+          "column_name": "homestead_land",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.homestead_land"
+          }
+        },
+        {
+          "column_name": "cultivable_land",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.cultivable_land"
+          }
+        },
+        {
           "column_name": "last_home_visit",
           "type": "Client",
           "json_mapping": {
