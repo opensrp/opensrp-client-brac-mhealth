@@ -156,9 +156,6 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
 
 
     }
-    public void updateImmunization(){
-        updateImmunizationData();
-    }
 
     @Override
     public void setServiceNameDue(String serviceName, String dueDate) {

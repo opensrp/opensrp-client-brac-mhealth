@@ -79,6 +79,13 @@ public class FormApplicability {
         }
         return false;
     }
+    public static boolean isImmunizationVisible(Date dob){
+        int dayPass = DateUtil.dayDifference(new LocalDate(dob),new LocalDate(System.currentTimeMillis()));
+        if(dayPass <= 1035){
+            return true;
+        }
+        return false;
+    }
 
     public static String getLmp(String baseEntityId){
         String lmp = "SELECT last_menstrual_period FROM ec_anc_register where base_entity_id = ? ";

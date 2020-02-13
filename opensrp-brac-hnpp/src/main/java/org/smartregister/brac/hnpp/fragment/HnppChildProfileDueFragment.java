@@ -92,10 +92,17 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             @Override
             public void run() {
                 addStaticView();
-                if(getActivity() instanceof HnppChildProfileActivity){
-                    HnppChildProfileActivity b = (HnppChildProfileActivity) getActivity();
-                    b.updateImmunizationData();
+                String dobString = Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOB, false);
+                Date dob = Utils.dobStringToDate(dobString);
+                boolean isImmunizationVisible = FormApplicability.isImmunizationVisible(dob);
+                if(isImmunizationVisible){
+                    if(getActivity() instanceof HnppChildProfileActivity){
+                        HnppChildProfileActivity b = (HnppChildProfileActivity) getActivity();
+                        b.updateImmunizationData();
+                    }
                 }
+
+
             }
         },500);
 
