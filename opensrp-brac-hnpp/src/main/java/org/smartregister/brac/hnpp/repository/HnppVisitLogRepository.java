@@ -66,8 +66,7 @@ public class HnppVisitLogRepository extends BaseRepository {
         try {
             SQLiteDatabase database = getWritableDatabase();
 
-            if (visitLog.getBaseEntityId() != null) {
-
+            if (visitLog.getBaseEntityId() != null && findUnique(database, visitLog) == null) {
                 database.insert(VISIT_LOG_TABLE_NAME, null, createValuesFor(visitLog));
             }
 
@@ -112,8 +111,8 @@ public class HnppVisitLogRepository extends BaseRepository {
             return null;
         }
         SQLiteDatabase database = (db == null) ? getReadableDatabase() : db;
-        String selection = BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE + " and " + VISIT_DATE + " = ? " + COLLATE_NOCASE+" and "+EVENT_TYPE+" = ?"+COLLATE_NOCASE;
-        String[] selectionArgs = new String[]{visitLog.getBaseEntityId(), visitLog.getVisitDate() + "",visitLog.getEventType()};
+        String selection = BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE + " and " + VISIT_ID + " = ? " + COLLATE_NOCASE+" and "+EVENT_TYPE+" = ?"+COLLATE_NOCASE;
+        String[] selectionArgs = new String[]{visitLog.getBaseEntityId(), visitLog.getVisitId() + "",visitLog.getEventType()};
         net.sqlcipher.Cursor cursor = database.query(VISIT_LOG_TABLE_NAME, TABLE_COLUMNS, selection, selectionArgs, null, null, null, null);
         List<VisitLog> homeVisitList = getAllVisitLog(cursor);
         if (homeVisitList.size() > 0) {
