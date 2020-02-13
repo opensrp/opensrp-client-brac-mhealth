@@ -294,7 +294,7 @@
         "openmrs_choice_ids": {
           "ডাক্তার": "doctor",
           "নার্স": "nurse",
-          "এফ ডাব্লিউ ভি": "fwd",
+          "এফ ডাব্লিউ ভি": "fwv",
           "সি এস বি এ / মিডওয়াইফ": "csba_midwife",
           "স্বাস্থ্য কর্মী": "health_worker",
           "অপ্রশিক্ষিত ধাত্রী": "untrained_midwife",
@@ -415,8 +415,8 @@
           "বিলম্বিত প্রসব": "delayed_delivery",
           "গর্ভফুল আটকে গিয়েছিল": "womb_was_stuck",
           "বাচ্চার মাথা ছাড়া অন্য অঙ্গ এসেছিল": "other_organ_came_out",
-          "জমজ প্রসব": "",
-          "অন্যান্য": ""
+          "জমজ প্রসব": "twin_born",
+          "অন্যান্য": "other"
         },
         "v_required": {
           "value": "true",
@@ -829,7 +829,7 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "breastfeeding_time",
         "type": "edit_text",
-        "hint": "প্রসবের কতক্ষন পর মায়ের দুধ খাওয়ানো হয়েছে?",
+        "hint": "প্রসবের কত ঘণ্টা পর মায়ের দুধ খাওয়ানো হয়েছে?",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"

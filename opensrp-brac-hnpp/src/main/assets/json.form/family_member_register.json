@@ -126,7 +126,7 @@
         "openmrs_entity": "person",
         "openmrs_entity_id": "first_name",
         "type": "edit_text",
-        "hint": "নাম",
+        "hint": "সদস্যের নাম",
         "edit_type": "name",
         "v_required": {
           "value": "true",
@@ -373,7 +373,7 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "age",
         "type": "edit_text",
-        "hint": "বয়স ৫ বা ৫ এর বেশি হতে হবে",
+        "hint": "সদস্যের বয়স",
         "v_numeric": {
           "value": "true",
           "err": "Number must begin with 0 and must be a total of 10 digits in length"

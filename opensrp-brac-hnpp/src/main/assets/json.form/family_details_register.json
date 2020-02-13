@@ -412,12 +412,12 @@
         "hint": "মেঝে কি দিয়ে তৈরি",
         "values": [
           "সিমেন্ট",
-          "বালি",
+          "বালি/কাদা",
           "অন্যান্য"
         ],
         "openmrs_choice_ids": {
           "সিমেন্ট": "cement",
-          "বালি":"sand",
+          "বালি/কাদা":"sand",
           "অন্যান্য": "other"
         },
         "v_required": {
@@ -435,11 +435,11 @@
         "hint": "দেয়াল কি দিয়ে তৈরি",
         "values": [
           "সিমেন্ট",
-          "বালি"
+          "বালি/কাদা"
         ],
         "openmrs_choice_ids": {
           "সিমেন্ট": "cement",
-          "বালি":"sand"
+          "বালি/কাদা":"sand"
         },
         "v_required": {
           "value": true,
@@ -456,15 +456,39 @@
         "hint": "ছাদ কি দিয়ে তৈরি",
         "values": [
           "সিমেন্ট",
-          "বালি"
+          "বালি/কাদা"
         ],
         "openmrs_choice_ids": {
           "সিমেন্ট": "cement",
-          "বালি":"sand"
+          "বালি/কাদা":"sand"
         },
         "v_required": {
           "value": true,
           "err": "ছাদ কি দিয়ে তৈরি নির্বাচন করুন"
+        }
+      },
+      {
+        "key": "homestead_land",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "homestead_land",
+        "type": "edit_text",
+        "hint": "বসত জমির পরিমাণ কত শতাংশ",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        }
+      },
+      {
+        "key": "cultivable_land",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "cultivable_land",
+        "type": "edit_text",
+        "hint": "চাষের যোগ্য জমির পরিমাণ কত শতাংশ",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
         }
       },
       {

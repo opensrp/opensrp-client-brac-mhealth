@@ -33,11 +33,14 @@ import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
 import org.smartregister.brac.hnpp.fragment.MemberOtherServiceFragment;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
+import org.smartregister.brac.hnpp.utils.ChildDBConstants;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
+import org.smartregister.brac.hnpp.utils.HouseHoldInfo;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.anc.domain.Visit;
+import org.smartregister.chw.anc.util.DBConstants;
 import org.smartregister.chw.core.activity.CoreChildHomeVisitActivity;
 import org.smartregister.chw.core.activity.CoreChildMedicalHistoryActivity;
 import org.smartregister.chw.core.activity.CoreUpcomingServicesActivity;
@@ -54,6 +57,7 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.domain.Task;
 import org.smartregister.family.adapter.ViewPagerAdapter;
 import org.smartregister.family.util.Constants;
+import org.smartregister.family.util.Utils;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
 
@@ -418,17 +422,19 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
 
     public void openFamilyDueTab() {
         Intent intent = new Intent(this,FamilyProfileActivity.class);
-        intent.putExtras(getIntent().getExtras());
+        String familyId = Utils.getValue(commonPersonObject, ChildDBConstants.KEY.RELATIONAL_ID, false);
+        HouseHoldInfo houseHoldInfo = HnppDBUtils.getHouseHoldInfo(familyId);
+        if(houseHoldInfo !=null){
+            intent.putExtra(Constants.INTENT_KEY.FAMILY_HEAD, houseHoldInfo.getHouseHoldHeadId());
+            intent.putExtra(Constants.INTENT_KEY.PRIMARY_CAREGIVER, houseHoldInfo.getPrimaryCaregiverId());
+            intent.putExtra(Constants.INTENT_KEY.FAMILY_NAME, houseHoldInfo.getHouseHoldName());
+            intent.putExtra(DBConstants.KEY.UNIQUE_ID, houseHoldInfo.getHouseHoldUniqueId());
+            intent.putExtra(HnppConstants.KEY.MODULE_ID, houseHoldInfo.getModuleId());
 
-//        intent.putExtra(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, familyBaseEntityId);
-//        intent.putExtra(Constants.INTENT_KEY.FAMILY_HEAD, familyHead);
-//        intent.putExtra(Constants.INTENT_KEY.PRIMARY_CAREGIVER, primaryCaregiver);
-//        intent.putExtra(Constants.INTENT_KEY.FAMILY_NAME, familyName);
-//        String moduleId = HnppChildUtils.getModuleId(familyHead);
-//        intent.putExtra(HnppConstants.KEY.MODULE_ID, moduleId);
-//        String villageTown = getIntent().getStringExtra(Constants.INTENT_KEY.VILLAGE_TOWN);
-//        intent.putExtra(Constants.INTENT_KEY.VILLAGE_TOWN,villageTown);
-//        intent.putExtra(DBConstants.KEY.UNIQUE_ID, getIntent().getStringExtra(DBConstants.KEY.UNIQUE_ID));
+        }
+        intent.putExtra(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, familyId);
+        intent.putExtra(Constants.INTENT_KEY.VILLAGE_TOWN, Utils.getValue(commonPersonObject, DBConstants.KEY.VILLAGE_TOWN, false));
+
         intent.putExtra(CoreConstants.INTENT_KEY.SERVICE_DUE, true);
         startActivity(intent);
     }

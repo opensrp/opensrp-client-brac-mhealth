@@ -42,8 +42,13 @@ public class FormApplicability {
         String lmp = getLmp(baseEntityId);
             if(!TextUtils.isEmpty(lmp)&&!isClosedPregnancyOutCome(baseEntityId)){
                 int dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(lmp), new DateTime()).getDays();
-                if(isDonePregnancyOutCome(baseEntityId)){
-                    return HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
+                int pncDay = getDayPassPregnancyOutcome(baseEntityId);
+                if(pncDay != -1){
+                    if(pncDay<=41){
+                        return HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
+                    }else{
+                        return HnppConstants.EVENT_TYPE.ELCO;
+                    }
                 }
                 if(dayPass > 1 && dayPass <= 84){
                     //first trimester
@@ -99,17 +104,17 @@ public class FormApplicability {
         }
         return false;
     }
-    public static boolean isDonePregnancyOutCome(String baseEntityId){
+    public static int getDayPassPregnancyOutcome(String baseEntityId){
+        int dayPass = -1;
         String DeliveryDateSql = "SELECT delivery_date FROM ec_pregnancy_outcome where base_entity_id = ? ";
 
         List<Map<String, String>> valus = AbstractDao.readData(DeliveryDateSql, new String[]{baseEntityId});
 
         if(valus.size() > 0&&valus.get(0).get("delivery_date")!=null){
-            int dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(valus.get(0).get("delivery_date")), new DateTime()).getDays();
-            if(dayPass<=41)
-                return true;
+            dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(valus.get(0).get("delivery_date")), new DateTime()).getDays();
+
         }
-        return false;
+        return dayPass;
     }
     public static int getDaysFromEDD(String edd){
         int dayPass = Days.daysBetween(new DateTime(),DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(edd)).getDays();
