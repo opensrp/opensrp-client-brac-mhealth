@@ -14,6 +14,7 @@ import com.vijay.jsonwizard.widgets.FingerPrintFactory;
 
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 
 import java.util.List;
 
@@ -41,8 +42,14 @@ public class HnppFingerPrintFactory extends FingerPrintFactory {
     public static void updateButton(String guid){
         if(!TextUtils.isEmpty(guid)){
             button.setVisibility(View.GONE);
-            if(imageView != null) imageView.setOnClickListener(null);
-        }else{
+            if(guid.equalsIgnoreCase(HnppConstants.TEST_GU_ID)){
+                imageView.setImageResource(R.drawable.fingerprint_option_select);
+            }else{
+                if(imageView != null) imageView.setOnClickListener(null);
+            }
+
+        }
+       else{
             imageView.setImageResource(R.drawable.fingerprint_not_found);
         }
     }
