@@ -310,10 +310,6 @@
           "স্ব-নিযুক্ত": "selfemployed",
           "বেকার":"unemployed",
           "অন্যান্য": "other"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
         }
       },
       {
@@ -323,10 +319,6 @@
         "openmrs_entity_id": "hh_occupation_other",
         "type": "edit_text",
         "hint": "লিখুন",
-        "v_required": {
-          "value": true,
-          "err": "খানা প্রধানের পেশা লিখুন"
-        },
         "relevance": {
           "step2:occupation": {
             "type": "string",
@@ -355,10 +347,6 @@
           "মাসিক আয় ৭০০১ - ১২০০০ টাকার মধ্যে": "7K_to_12K",
           "মাসিক আয় ১২০০০ টাকার ঊর্ধ্বে": "more_than_12K"
 
-        },
-        "v_required": {
-          "value": true,
-          "err": "Please answer the question"
         }
       },
       {
@@ -416,10 +404,6 @@
           "সিমেন্ট": "cement",
           "বালি/কাদা":"sand",
           "অন্যান্য": "other"
-        },
-        "v_required": {
-          "value": true,
-          "err": "মেঝে কি দিয়ে তৈরি নির্বাচন করুন"
         }
       },
       {
@@ -437,10 +421,6 @@
         "openmrs_choice_ids": {
           "সিমেন্ট": "cement",
           "বালি/কাদা":"sand"
-        },
-        "v_required": {
-          "value": true,
-          "err": "দেয়াল কি দিয়ে তৈরি নির্বাচন করুন"
         }
       },
       {
@@ -458,10 +438,6 @@
         "openmrs_choice_ids": {
           "সিমেন্ট": "cement",
           "বালি/কাদা":"sand"
-        },
-        "v_required": {
-          "value": true,
-          "err": "ছাদ কি দিয়ে তৈরি নির্বাচন করুন"
         }
       },
       {

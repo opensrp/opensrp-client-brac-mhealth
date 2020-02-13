@@ -196,6 +196,7 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
                 if(getActivity() instanceof HnppFamilyOtherMemberProfileActivity){
                     HnppFamilyOtherMemberProfileActivity aaa = (HnppFamilyOtherMemberProfileActivity) getActivity();
                     aaa.updatePregnancyOutcomeVisible(eventType);
+                    aaa.updateAncRegisterVisible(eventType);
                 }
             }
 

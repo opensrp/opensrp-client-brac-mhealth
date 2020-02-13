@@ -74,6 +74,7 @@ public class VisitLogIntentService extends IntentService {
 
                 cursor.moveToNext();
             }
+            cursor.close();
         }
     }
     @Override

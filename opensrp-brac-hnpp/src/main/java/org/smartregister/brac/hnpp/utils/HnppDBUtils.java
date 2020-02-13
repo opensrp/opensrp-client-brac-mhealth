@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.utils;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.text.TextUtils;
 
@@ -30,6 +31,15 @@ import java.util.Map;
 import timber.log.Timber;
 
 public class HnppDBUtils extends CoreChildUtils {
+
+    public static void updateANCClosed(String baseEntityId, boolean isClosed){
+        ContentValues values = new ContentValues();
+        values.put(org.smartregister.chw.anc.util.DBConstants.KEY.IS_CLOSED, isClosed?1:0);
+
+        CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.ANC_MEMBER, values,
+                org.smartregister.chw.anc.util.DBConstants.KEY.BASE_ENTITY_ID + " = ?  ",
+                new String[]{baseEntityId});
+    }
 
 
     public static ArrayList<ProfileDueInfo> getDueListByFamilyId(String familyId){

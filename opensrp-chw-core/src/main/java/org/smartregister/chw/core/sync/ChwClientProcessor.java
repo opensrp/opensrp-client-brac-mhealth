@@ -164,6 +164,20 @@ public class ChwClientProcessor extends ClientProcessorForJava {
                 }
                 processRemoveChild(eventClient.getClient().getBaseEntityId(), event.getEventDate().toDate());
                 break;
+            case CoreConstants.EventType.ANC_REGISTRATION:
+                if (eventClient.getClient() == null) {
+                    return;
+                }
+                processAncRegister(eventClient.getClient().getBaseEntityId(),true);
+                processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
+                break;
+            case CoreConstants.EventType.PREGNANCY_OUTCOME:
+                if (eventClient.getClient() == null) {
+                    return;
+                }
+                processAncRegister(eventClient.getClient().getBaseEntityId(),false);
+                processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
+                break;
 
 //            case CoreConstants.EventType.CHILD_REFERRAL:
 //            case CoreConstants.EventType.CLOSE_REFERRAL:
@@ -495,22 +509,14 @@ public class ChwClientProcessor extends ClientProcessorForJava {
 
         }
     }
+    private void processAncRegister(String baseEntityId, boolean isAnc){
 
-    private void processWashCheckEvent(EventClient eventClient) {
-        WashCheck washCheck = new WashCheck();
-        for (Obs obs : eventClient.getEvent().getObs()) {
+            ContentValues values = new ContentValues();
+            values.put(DBConstants.KEY.IS_CLOSED, isAnc?0:1);
 
-            if (obs.getFormSubmissionField().equalsIgnoreCase(CoreConstants.FORM_CONSTANTS.FORM_SUBMISSION_FIELD.FAMILY_ID)) {
-                washCheck.setFamilyBaseEntityId((String) obs.getValue());
-            }
-            if (obs.getFormSubmissionField().equalsIgnoreCase(CoreConstants.FORM_CONSTANTS.FORM_SUBMISSION_FIELD.WASH_CHECK_DETAILS)) {
-                washCheck.setDetailsJson((String) obs.getValue());
-            }
-            if (obs.getFormSubmissionField().equalsIgnoreCase(CoreConstants.FORM_CONSTANTS.FORM_SUBMISSION_FIELD.WASH_CHECK_LAST_VISIT)) {
-                washCheck.setLastVisit(Long.parseLong((String) obs.getValue()));
-            }
-        }
-        CoreChwApplication.getWashCheckRepository().add(washCheck);
+            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.ANC_MEMBER, values,
+                    DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseEntityId});
+
     }
 
     private ContentValues processCaseModel(EventClient eventClient, Table table) {

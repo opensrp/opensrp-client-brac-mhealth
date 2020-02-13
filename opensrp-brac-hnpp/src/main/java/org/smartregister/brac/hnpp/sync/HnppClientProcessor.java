@@ -30,6 +30,7 @@ public class HnppClientProcessor extends ChwClientProcessor {
             case HnppConstants.EVENT_TYPE.NCD_PACKAGE:
             case HnppConstants.EVENT_TYPE.IYCF_PACKAGE:
             case HnppConstants.EVENT_TYPE.PNC_REGISTRATION:
+            case HnppConstants.EVENT_TYPE.ENC_REGISTRATION:
             case Constants.EVENT_TYPE.PNC_HOME_VISIT:
                 if (eventClient.getEvent() == null) {
                     return;

@@ -484,4 +484,13 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             menu.findItem(R.id.action_pregnancy_out_come).setVisible(false);
         }
     }
+    public void updateAncRegisterVisible(String eventType){
+
+        if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ELCO) )
+        {
+            menu.findItem(R.id.action_anc_registration).setVisible(true);
+        }else{
+            menu.findItem(R.id.action_anc_registration).setVisible(false);
+        }
+    }
 }

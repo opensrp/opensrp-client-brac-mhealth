@@ -130,6 +130,8 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 return HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP;
             case  HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP:
                 return HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP;
+            case  HnppConstants.EVENT_TYPE.ENC_REGISTRATION:
+                return HnppConstants.EVENT_TYPE.ENC_REGISTRATION;
                 default:
                     return org.smartregister.chw.anc.util.Constants.EVENT_TYPE.ANC_HOME_VISIT;
         }

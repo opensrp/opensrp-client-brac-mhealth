@@ -105,6 +105,14 @@ android {
             jvmArgs '-noverify'
         }
     }
+    flavorDimensions 'baseDimension'
+    productFlavors {
+
+        fullservice{
+            dimension = 'baseDimension'
+            applicationIdSuffix ".fullservice"
+        }
+    }
 
 }
 

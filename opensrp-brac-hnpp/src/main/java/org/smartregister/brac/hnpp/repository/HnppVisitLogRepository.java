@@ -66,8 +66,9 @@ public class HnppVisitLogRepository extends BaseRepository {
         try {
             SQLiteDatabase database = getWritableDatabase();
 
-            if (visitLog.getBaseEntityId() != null && findUnique(database, visitLog) == null) {
-            database.insert(VISIT_LOG_TABLE_NAME, null, createValuesFor(visitLog));
+            if (visitLog.getBaseEntityId() != null) {
+
+                database.insert(VISIT_LOG_TABLE_NAME, null, createValuesFor(visitLog));
             }
 
 
