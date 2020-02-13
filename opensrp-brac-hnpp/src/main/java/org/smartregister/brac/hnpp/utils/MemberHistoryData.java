@@ -9,6 +9,15 @@ public class MemberHistoryData {
     private String visitDay;
     private String visitDetails;
     private String memberName;
+    private String baseEntityId;
+
+    public String getBaseEntityId() {
+        return baseEntityId;
+    }
+
+    public void setBaseEntityId(String baseEntityId) {
+        this.baseEntityId = baseEntityId;
+    }
 
     public void setMemberName(String memberName) {
         this.memberName = memberName;

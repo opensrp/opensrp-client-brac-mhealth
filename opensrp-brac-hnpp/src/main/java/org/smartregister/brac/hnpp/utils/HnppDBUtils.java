@@ -4,6 +4,8 @@ import android.database.Cursor;
 import android.text.TextUtils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.chw.core.application.CoreChwApplication;
@@ -17,12 +19,14 @@ import org.smartregister.clientandeventmodel.Obs;
 import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.util.DBConstants;
+import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
 import org.smartregister.repository.BaseRepository;
 import org.smartregister.sync.helper.ECSyncHelper;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +35,52 @@ import timber.log.Timber;
 
 public class HnppDBUtils extends CoreChildUtils {
 
+    public static void populatePNCChildDetails(String baseEntityId, JSONObject jsonForm){
+        String query = "select " +
+                "ec_child.first_name," +
+                "ec_child.dob," +
+                "ec_child.gender," +
+                "ec_child.birth_weight_taken," +
+                "ec_child.birth_weight," +
+                "ec_child.chlorohexadin," +
+                "ec_child.breastfeeding_time," +
+                "ec_child.head_body_covered," +
+                "ec_child.physically_challenged," +
+                "ec_child.breast_feeded" +
+                " from ec_child where ec_child.mother_entity_id = '"+baseEntityId+"' AND ec_child.entry_point = 'PNC'";
+        Cursor cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        HashMap<String,String> child_details = new HashMap<>();
+        if(cursor !=null && cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            child_details.put("first_name",cursor.getString(0));
+            child_details.put("dob",cursor.getString(0));
+            child_details.put("gender",cursor.getString(0));
+            child_details.put("birth_weight_taken",cursor.getString(0));
+            child_details.put("birth_weight",cursor.getString(0));
+            child_details.put("chlorohexadin",cursor.getString(0));
+            child_details.put("breastfeeding_time",cursor.getString(0));
+            child_details.put("head_body_covered",cursor.getString(0));
+            child_details.put("physically_challenged",cursor.getString(0));
+            child_details.put("breast_feeded",cursor.getString(0));
 
+            try {
+                JSONObject stepOne = jsonForm.getJSONObject(JsonFormUtils.STEP1);
+                JSONArray jsonArray = stepOne.getJSONArray(JsonFormUtils.FIELDS);
+                for(int i=0;i<jsonArray.length();i++){
+                    JSONObject fieldObject = jsonArray.getJSONObject(i);
+                    String key = fieldObject.getString(org.smartregister.util.JsonFormUtils.KEY);
+                    if(child_details.containsKey(key)){
+                        fieldObject.put(org.smartregister.util.JsonFormUtils.VALUE,child_details.get(key));
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        cursor.close();
+    }
     public static ArrayList<ProfileDueInfo> getDueListByFamilyId(String familyId){
         ArrayList<ProfileDueInfo> profileDueInfoArrayList = new ArrayList<>();
         String query = "select base_entity_id,gender,marital_status,first_name,dob from ec_family_member where relational_id = '"+familyId+"'";

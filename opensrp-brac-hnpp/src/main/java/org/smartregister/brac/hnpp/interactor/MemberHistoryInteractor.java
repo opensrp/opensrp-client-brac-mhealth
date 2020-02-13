@@ -42,6 +42,7 @@ public class MemberHistoryInteractor implements MemberHistoryContract.Interactor
         ArrayList<VisitLog> visitLogs = visitLogRepository.getAllVisitLog(baseEntityId);
         for(VisitLog visitLog : visitLogs){
             MemberHistoryData historyData = new MemberHistoryData();
+            historyData.setBaseEntityId(baseEntityId);
             String eventType = visitLog.getEventType();
             historyData.setEventType(eventType);
             historyData.setTitle(HnppConstants.visitEventTypeMapping.get(eventType));

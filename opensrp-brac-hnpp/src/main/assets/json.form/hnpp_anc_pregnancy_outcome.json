@@ -52,6 +52,15 @@
     "title": "প্রসবের ফলাফল",
     "fields": [
       {
+        "key": "form_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "Pregnancy Outcome",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": "hnpp_anc_pregnancy_outcome"
+      },
+      {
         "key": "relational_id",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
