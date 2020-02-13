@@ -44,6 +44,7 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.IYCF_PA
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.MEMBER_REFERRAL;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.NCD_PACKAGE;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.WOMEN_PACKAGE;
 import static org.smartregister.util.JsonFormUtils.gson;
@@ -55,7 +56,7 @@ public class VisitLogIntentService extends IntentService {
     }
 
     public void getANCRegistrationVisitsFromEvent(List<Visit> v){
-        String query = "SELECT event.baseEntityId,event.eventId, event.json FROM event WHERE event.eventType = 'ANC Registration' AND event.eventId NOT IN (Select visits.visit_id from visits)";
+        String query = "SELECT event.baseEntityId,event.eventId, event.json FROM event WHERE (event.eventType = 'ANC Registration' OR event.eventType = 'Pregnancy Outcome' OR event.eventType = 'Member Referral' OR event.eventType = 'Member Referral Followup') AND event.eventId NOT IN (Select visits.visit_id from visits)";
         Cursor cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         if(cursor !=null && cursor.getCount() > 0) {
             cursor.moveToFirst();
@@ -208,6 +209,8 @@ public class VisitLogIntentService extends IntentService {
                         }
                     }
 
+                }else if(jsonObject.getString("key").equalsIgnoreCase("preg_outcome")){
+                    jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,value);
                 }else{
                     JSONArray option_array = jsonObject.getJSONArray("options");
                     for (int i = 0; i < option_array.length(); i++) {
@@ -269,6 +272,8 @@ public class VisitLogIntentService extends IntentService {
         }
         else if (ANC_REGISTRATION.equalsIgnoreCase(encounter_type)) {
             form_name = HnppConstants.JSON_FORMS.ANC_FORM+".json";
+        }else if (PREGNANCY_OUTCOME.equalsIgnoreCase(encounter_type)) {
+            form_name = HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME+".json";
         }
         try {
             String jsonString = AssetHandler.readFileFromAssetsFolder("json.form/"+form_name, VisitLogIntentService.this);

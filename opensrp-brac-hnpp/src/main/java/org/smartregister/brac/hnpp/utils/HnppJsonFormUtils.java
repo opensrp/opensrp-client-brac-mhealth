@@ -97,7 +97,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             baseEvent.setFormSubmissionId(JsonFormUtils.generateRandomUUIDString());
             org.smartregister.chw.anc.util.JsonFormUtils.tagEvent(allSharedPreferences, baseEvent);
 
-            String visitID = JsonFormUtils.generateRandomUUIDString();
+            String visitID = baseEvent.getEventId();
 
             Visit visit = NCUtils.eventToVisit(baseEvent, visitID);
             visit.setPreProcessedJson(new Gson().toJson(baseEvent));

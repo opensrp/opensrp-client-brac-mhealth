@@ -50,9 +50,9 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         super.onCheckedChanged(buttonView, isChecked);
-       // setUHFWCReferCheckStatus();
-        //setCCFWCReferCheckStatus();
-        //referUHCCheckStatus(false);
+        setUHFWCReferCheckStatus();
+//        setCCFWCReferCheckStatus();
+//        referUHCCheckStatus(false);
     }
 
     @Override

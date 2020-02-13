@@ -270,4 +270,7 @@
     <string name="remove_warning_family">আপনি কি %s পরিবারের রেকর্ডটি সরানোর বিষয়ে নিশ্চিত? এটি আপনার ডিভাইস থেকে পরিবারের সম্পূর্ণ রেকর্ড এবং %s পরিবারের সদস্যদের সমস্তের স্বাস্থ্য রেকর্ডাকে সরিয়ে ফেলবে। এই ক্রিয়াটি পূর্বাবস্থায় ফেরানো যাবে না.</string>
     <string name="family">%s পরিবার</string>
     <string name="remove_this_person">সদস্য বাদ দিন</string>
+    <string name="remove_family_count">%s সদস্য এবং %s শিশু</string>
+    <string name="deceased_brackets">(মৃত)</string>
+
 </resources>

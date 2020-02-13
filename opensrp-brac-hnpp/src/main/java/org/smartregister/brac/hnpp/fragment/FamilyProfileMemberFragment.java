@@ -7,6 +7,7 @@ import org.smartregister.brac.hnpp.activity.AboveFiveChildProfileActivity;
 import org.smartregister.brac.hnpp.activity.HnppChildProfileActivity;
 import org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity;
 import org.smartregister.brac.hnpp.model.HNPPFamilyProfileMemberModel;
+import org.smartregister.brac.hnpp.presenter.HnppBaseFamilyProfileMemberPresenter;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.core.activity.CoreAboveFiveChildProfileActivity;
 import org.smartregister.chw.core.activity.CoreChildProfileActivity;
@@ -51,7 +52,7 @@ public class FamilyProfileMemberFragment extends CoreFamilyProfileMemberFragment
         String familyBaseEntityId = getArguments().getString(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID);
         String familyHead = getArguments().getString(Constants.INTENT_KEY.FAMILY_HEAD);
         String primaryCareGiver = getArguments().getString(Constants.INTENT_KEY.PRIMARY_CAREGIVER);
-        presenter = new BaseFamilyProfileMemberPresenter(this, new HNPPFamilyProfileMemberModel(), null, familyBaseEntityId, familyHead, primaryCareGiver);
+        presenter = new HnppBaseFamilyProfileMemberPresenter(this, new HNPPFamilyProfileMemberModel(), null, familyBaseEntityId, familyHead, primaryCareGiver);
     }
 
     @Override
