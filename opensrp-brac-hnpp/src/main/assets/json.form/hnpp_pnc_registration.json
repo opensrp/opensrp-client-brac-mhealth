@@ -149,14 +149,14 @@
         "options": [
           {
             "key": "unconscious_state",
-            "text": "অচেতন অবস্থা ",
+            "text": "অচেতন অবস্থা",
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "unconscious_state"
           },
           {
             "key": "dyspnoea_chest_pain",
-            "text": "শ্বাসকষ্ট/ বুকে ব্যথা ",
+            "text": "শ্বাসকষ্ট/ বুকে ব্যথা",
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "dyspnoea_chest_pain"
@@ -170,7 +170,7 @@
           },
           {
             "key": "over_sweating",
-            "text": "অতিরিক্ত ঘামানো ",
+            "text": "অতিরিক্ত ঘামানো",
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "over_sweating"
@@ -590,7 +590,7 @@
       {
         "key": "refer_reason",
         "type": "label",
-        "text":"রেফারেল এর কারণ: গর্ভবতী পরিচর্যা সংক্রান্ত সমস্যা",
+        "text":"রেফারেল এর কারণ: প্রসবোত্তর পরিচর্যা সংক্রান্ত সমস্যা",
         "has_bg": true,
         "left_padding": "20dp",
         "right_padding": "20dp",

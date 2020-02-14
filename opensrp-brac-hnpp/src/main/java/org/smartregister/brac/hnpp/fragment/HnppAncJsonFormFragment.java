@@ -50,8 +50,24 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         super.onCheckedChanged(buttonView, isChecked);
-        setUHFWCReferCheckStatus();
-//        setCCFWCReferCheckStatus();
+        String label = buttonView.getText().toString();
+        if (label.equalsIgnoreCase("অচেতন অবস্থা") ||
+                label.equalsIgnoreCase("শ্বাসকষ্ট/ বুকে ব্যথা") ||
+                label.equalsIgnoreCase("দাঁড়িয়ে থাকলে দুর্বল লাগে") ||
+                label.equalsIgnoreCase("অতিরিক্ত ঘামানো") ||
+                label.equalsIgnoreCase("ঠান্ডা সহ্য করতে না পারা") ||
+                label.equalsIgnoreCase("অতিরিক্ত ওজন বৃদ্ধি")
+        ){
+            setUHFWCReferCheckStatus();
+        }else if (label.equalsIgnoreCase("প্রস্রাবে জ্বালা") ||
+                label.equalsIgnoreCase("দূর্গন্ধযুক্ত স্রাব") ||
+                label.equalsIgnoreCase("যোনিপথে জ্বালা/ব্যথা") ||
+                label.equalsIgnoreCase("যৌনাঙ্গে অস্বাভাবিক পরিবর্তন") ||
+                label.equalsIgnoreCase("তলপেটে ব্যথা")
+        ){
+            setCCFWCReferCheckStatus();
+        }
+
 //        referUHCCheckStatus(false);
     }
 
@@ -109,6 +125,9 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
 //                    JSONObject formObject = getJsonApi().getmJSONObject();
 //                    System.out.print(formObject);
                 }
+                if (((MaterialEditText)v).getFloatingLabelText()!=null&&(((MaterialEditText)v).getFloatingLabelText().toString()).equals("নাড়ির গতি(প্রতি মিনিটে )")){
+                    ((MaterialEditText)v).addTextChangedListener(textWatcherpulserate);
+                }
             }
 
             if(v instanceof MaterialSpinner){
@@ -155,6 +174,31 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
             e.printStackTrace();
         }
     }
+    boolean pulserate = false;
+    TextWatcher textWatcherpulserate = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if(!StringUtils.isEmpty(s)){
+                try{
+                    pulserate = Double.valueOf(s.toString())>90d;
+                    referUHFWCCheckStatus(pulserate);
+
+                }catch (Exception e){
+
+                }
+            }
+        }
+    };
     boolean hemoglobin = false;
     TextWatcher textWatcherhemoglobin = new TextWatcher() {
         @Override
@@ -197,7 +241,7 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
             if(!StringUtils.isEmpty(s)){
                 try{
                     blood_pressure_systolic = Double.valueOf(s.toString())>140d;
-                    referUHCCheckStatus(blood_pressure_systolic);
+                    referUHFWCCheckStatus(blood_pressure_systolic);
 
                 }catch (Exception e){
 
@@ -222,7 +266,7 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
             if(!StringUtils.isEmpty(s)){
                 try{
                     blood_pressure_diastolic = Double.valueOf(s.toString())>90d;
-                    referUHCCheckStatus(blood_pressure_diastolic);
+                    referUHFWCCheckStatus(blood_pressure_systolic);
 
                 }catch (Exception e){
 
@@ -410,7 +454,7 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
     }
 
     public void referUHFWCCheckStatus(boolean isChecked) {
-        isChecked = isChecked||highTemperature||uterus_length||child_movement_in_last_24hr;
+        isChecked = isChecked||highTemperature||uterus_length||child_movement_in_last_24hr||pulserate||blood_pressure_diastolic||blood_pressure_systolic;
         for (int i = 0; i < viewList.size(); i++) {
             CompoundButton buttonView = viewList.get(i).view;
             String label = viewList.get(i).label;
@@ -421,7 +465,7 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
         }
     }
     public void referUHCCheckStatus(boolean isChecked) {
-        isChecked = isChecked||fastingSugar||randomSugar||blood_pressure_diastolic||blood_pressure_systolic||hemoglobin||bilirubin;
+        isChecked = isChecked||fastingSugar||randomSugar||hemoglobin||bilirubin;
         for (int i = 0; i < viewList.size(); i++) {
             CompoundButton buttonView = viewList.get(i).view;
             String label = viewList.get(i).label;

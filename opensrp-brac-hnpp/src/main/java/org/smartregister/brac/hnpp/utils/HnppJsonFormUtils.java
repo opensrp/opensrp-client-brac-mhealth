@@ -90,6 +90,8 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         if(encounterType.equalsIgnoreCase(org.smartregister.chw.anc.util.Constants.EVENT_TYPE.ANC_HOME_VISIT)){
             prepareEvent(baseEvent);
         }
+//        if (StringUtils.isBlank(parentEventType))
+//            prepareEvent(baseEvent);
 
         if (baseEvent != null) {
             baseEvent.setFormSubmissionId(JsonFormUtils.generateRandomUUIDString());
