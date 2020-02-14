@@ -57,7 +57,7 @@ public class VisitLogIntentService extends IntentService {
 
     public List<Visit>  getANCRegistrationVisitsFromEvent(){
         List<Visit> v = new ArrayList<>();
-        String query = "SELECT event.baseEntityId,event.eventId, event.json FROM event WHERE (event.eventType = 'ANC Registration' OR event.eventType = 'Pregnancy Outcome' OR event.eventType = 'Member Referral' OR event.eventType = 'Member Referral Followup') AND event.eventId NOT IN (Select visits.visit_id from visits)";
+        String query = "SELECT event.baseEntityId,event.eventId, event.json FROM event WHERE (event.eventType = 'ANC Registration' OR event.eventType = 'Pregnancy Outcome') AND event.eventId NOT IN (Select visits.visit_id from visits) AND event.json like '%form_name%'";
         Cursor cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         if(cursor !=null && cursor.getCount() > 0) {
             cursor.moveToFirst();
@@ -205,6 +205,7 @@ public class VisitLogIntentService extends IntentService {
                         log.setVisitDate(visit.getDate().getTime());
                         log.setEventType(encounter_type);
                         log.setVisitJson(form_object.toString());
+                        log.setFamilyId(HnppDBUtils.getFamilyIdFromBaseEntityId(base_entity_id));
                         HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
 
                     }
