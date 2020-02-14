@@ -21,8 +21,6 @@ import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.fragment.HnppAncRegisterFragment;
 import org.smartregister.brac.hnpp.interactor.HnppBaseAncRegisterInteractor;
 import org.smartregister.brac.hnpp.listener.HnppFamilyBottomNavListener;
-import org.smartregister.brac.hnpp.location.SSLocationHelper;
-import org.smartregister.brac.hnpp.presenter.HnppBaseAncRegisterPresenter;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.utils.ANCRegister;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -271,7 +269,6 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
             pncChild.addRelationship(Constants.RELATIONSHIP.FAMILY, familyBaseEntityId);
             pncChild.addRelationship(Constants.RELATIONSHIP.MOTHER, motherBaseId);
             JSONObject clientjson = new JSONObject(org.smartregister.chw.anc.util.JsonFormUtils.gson.toJson(pncChild));
-            pncChild.setAddresses(updateWithSSLocation(clientjson));
             EventClientRepository eventClientRepository = FamilyLibrary.getInstance().context().getEventClientRepository();
             SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
             JSONObject dsasd = eventClientRepository.getClient(db, familyBaseEntityId);
