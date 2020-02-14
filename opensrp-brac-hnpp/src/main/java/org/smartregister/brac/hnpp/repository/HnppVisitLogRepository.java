@@ -139,7 +139,8 @@ public class HnppVisitLogRepository extends BaseRepository {
     public  ArrayList<ReferralFollowUpModel> getAllReferrelFollowUp(String baseEntityId){
 
         ArrayList<ReferralFollowUpModel> list = new ArrayList<>();
-        String query = "select "+BASE_ENTITY_ID+","+REFER_REASON+","+REFER_PLACE+" from ec_visit_log  where base_entity_id= '"+baseEntityId+"' and event_type = '"+HnppConstants.EVENT_TYPE.MEMBER_REFERRAL+"' AND refer_reason != \"\" " +
+        String query = "select "+BASE_ENTITY_ID+","+REFER_REASON+","+REFER_PLACE+" from ec_visit_log  where base_entity_id= '"+baseEntityId+"' and (event_type = '"+HnppConstants.EVENT_TYPE.MEMBER_REFERRAL+"' or " +
+                " event_type = '"+HnppConstants.EVENT_TYPE.WOMEN_REFERRAL+"' or event_type = '"+HnppConstants.EVENT_TYPE.CHILD_REFERRAL+"') AND refer_reason != \"\" " +
             "and refer_reason NOT IN(select refer_reason from ec_visit_log where base_entity_id= '"+baseEntityId+"' and event_type = '"+HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP+"' and refer_reason is not null)";
 
         //String query = "select "+BASE_ENTITY_ID+","+REFER_REASON+","+REFER_PLACE+" from "+ VISIT_LOG_TABLE_NAME +" where base_entity_id ='"+baseEntityId+"' and "+EVENT_TYPE+" = '"+HnppConstants.EVENT_TYPE.MEMBER_REFERRAL+"'";

@@ -55,7 +55,8 @@ public class VisitLogIntentService extends IntentService {
         super("VisitLogService");
     }
 
-    public void getANCRegistrationVisitsFromEvent(List<Visit> v){
+    public List<Visit>  getANCRegistrationVisitsFromEvent(){
+        List<Visit> v = new ArrayList<>();
         String query = "SELECT event.baseEntityId,event.eventId, event.json FROM event WHERE (event.eventType = 'ANC Registration' OR event.eventType = 'Pregnancy Outcome' OR event.eventType = 'Member Referral' OR event.eventType = 'Member Referral Followup') AND event.eventId NOT IN (Select visits.visit_id from visits)";
         Cursor cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         if(cursor !=null && cursor.getCount() > 0) {
@@ -77,13 +78,14 @@ public class VisitLogIntentService extends IntentService {
             }
             cursor.close();
         }
+        return v;
     }
     @Override
     protected void onHandleIntent(Intent intent) {
         ArrayList<String> visit_ids = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().getVisitIds();
         for (int i = 0; i < visit_ids.size(); i++) {
             List<Visit> v = AncLibrary.getInstance().visitRepository().getVisitsByVisitId(visit_ids.get(i));
-            getANCRegistrationVisitsFromEvent(v);
+            //getANCRegistrationVisitsFromEvent(v);
             for (Visit visit : v) {
                 String eventJson = visit.getJson();
                 if (!StringUtils.isEmpty(eventJson)) {
@@ -107,26 +109,33 @@ public class VisitLogIntentService extends IntentService {
                             log.setVisitId(visit.getVisitId());
                             log.setVisitType(visit.getVisitType());
                             log.setBaseEntityId(base_entity_id);
-                            if(MEMBER_REFERRAL.equalsIgnoreCase(encounter_type)){
-                                String refer_reason = "";
-                                String place_of_refer = "";
-                                if(details.containsKey("cause_of_referral_woman")&&!StringUtils.isEmpty(details.get("cause_of_referral_woman"))){
-                                    refer_reason = details.get("cause_of_referral_woman");
-                                }else if(details.containsKey("cause_of_referral_all")&&!StringUtils.isEmpty(details.get("cause_of_referral_all"))){
-                                    refer_reason = details.get("cause_of_referral_all");
-
-                                }else if(details.containsKey("cause_of_referral_child")&&!StringUtils.isEmpty(details.get("cause_of_referral_child"))){
-                                    refer_reason = details.get("cause_of_referral_child");
+                            if( HnppConstants.EVENT_TYPE.CHILD_REFERRAL.equalsIgnoreCase(encounter_type)){
+                                if(details.containsKey("cause_of_referral_child")&&!StringUtils.isEmpty(details.get("cause_of_referral_child"))){
+                                    log.setReferReason(details.get("cause_of_referral_child"));
 
                                 }
-
-                                log.setReferReason(refer_reason);
-
                                 if(details.containsKey("place_of_referral")){
-                                    place_of_refer = details.get("place_of_referral");
+                                    log.setReferPlace( details.get("place_of_referral"));
                                 }
-                                log.setReferPlace(place_of_refer);
 
+                            }else if( HnppConstants.EVENT_TYPE.WOMEN_REFERRAL.equalsIgnoreCase(encounter_type)){
+                                if(details.containsKey("cause_of_referral_woman")&&!StringUtils.isEmpty(details.get("cause_of_referral_woman"))){
+                                    log.setReferReason(details.get("cause_of_referral_woman"));
+
+                                }
+                                if(details.containsKey("place_of_referral")){
+                                    log.setReferPlace( details.get("place_of_referral"));
+                                }
+
+                            }
+                            else if( HnppConstants.EVENT_TYPE.MEMBER_REFERRAL.equalsIgnoreCase(encounter_type)){
+                                if(details.containsKey("cause_of_referral_all")&&!StringUtils.isEmpty(details.get("cause_of_referral_all"))){
+                                    log.setReferReason(details.get("cause_of_referral_all"));
+
+                                }
+                                if(details.containsKey("place_of_referral")){
+                                    log.setReferPlace( details.get("place_of_referral"));
+                                }
 
                             }
                             if(REFERREL_FOLLOWUP.equalsIgnoreCase(encounter_type)){
@@ -162,6 +171,46 @@ public class VisitLogIntentService extends IntentService {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                }
+            }
+        }
+        processAncregistration();
+    }
+    private void processAncregistration(){
+        List<Visit> v = getANCRegistrationVisitsFromEvent();
+        for (Visit visit : v) {
+            String eventJson = visit.getJson();
+            if (!StringUtils.isEmpty(eventJson)) {
+                try {
+
+                    Event baseEvent = gson.fromJson(eventJson, Event.class);
+                    String base_entity_id = baseEvent.getBaseEntityId();
+                    HashMap<String,Object>form_details = getFormNamesFromEventObject(baseEvent);
+                    ArrayList<String> encounter_types = (ArrayList<String>) form_details.get("form_name");
+                    HashMap<String,String>details = (HashMap<String, String>) form_details.get("details");
+                    final CommonPersonObjectClient client = new CommonPersonObjectClient(base_entity_id, details, "");
+                    client.setColumnmaps(details);
+                    for (String encounter_type : encounter_types) {
+                        JSONObject form_object = loadFormFromAsset(encounter_type);
+                        JSONObject stepOne = form_object.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+                        JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+                        for (int k = 0; k < jsonArray.length(); k++) {
+                            populateValuesForFormObject(client, jsonArray.getJSONObject(k));
+                        }
+                        VisitLog log = new VisitLog();
+                        log.setVisitId(visit.getVisitId());
+                        log.setVisitType(visit.getVisitType());
+                        log.setBaseEntityId(base_entity_id);
+
+                        log.setVisitDate(visit.getDate().getTime());
+                        log.setEventType(encounter_type);
+                        log.setVisitJson(form_object.toString());
+                        HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         }
@@ -247,6 +296,10 @@ public class VisitLogIntentService extends IntentService {
             form_name = HnppConstants.JSON_FORMS.ANC3_FORM+".json";
         }else if (MEMBER_REFERRAL.equalsIgnoreCase(encounter_type)) {
             form_name = HnppConstants.JSON_FORMS.MEMBER_REFERRAL+".json";
+        }else if (HnppConstants.EVENT_TYPE.WOMEN_REFERRAL.equalsIgnoreCase(encounter_type)) {
+            form_name = HnppConstants.JSON_FORMS.WOMEN_REFERRAL+".json";
+        }else if (HnppConstants.EVENT_TYPE.CHILD_REFERRAL.equalsIgnoreCase(encounter_type)) {
+            form_name = HnppConstants.JSON_FORMS.CHILD_REFERRAL+".json";
         }else if (PNC_REGISTRATION.equalsIgnoreCase(encounter_type)) {
             form_name = HnppConstants.JSON_FORMS.PNC_FORM+".json";
         } else if (ELCO.equalsIgnoreCase(encounter_type)) {

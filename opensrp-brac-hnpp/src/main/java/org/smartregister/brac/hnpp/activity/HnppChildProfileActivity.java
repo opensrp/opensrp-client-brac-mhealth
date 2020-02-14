@@ -326,7 +326,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
         startAnyFormActivity(HnppConstants.JSON_FORMS.ENC_REGISTRATION,REQUEST_HOME_VISIT);
     }
     public void openRefereal() {
-        startAnyFormActivity(HnppConstants.JSON_FORMS.MEMBER_REFERRAL,REQUEST_HOME_VISIT);
+        startAnyFormActivity(HnppConstants.JSON_FORMS.CHILD_REFERRAL,REQUEST_HOME_VISIT);
     }
 
     public void openFollowUp() {
@@ -367,7 +367,6 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
             jsonForm.put(JsonFormUtils.ENTITY_ID, memberObject.getFamilyHead());
             Intent intent = new Intent(this, org.smartregister.family.util.Utils.metadata().familyMemberFormActivity);
             intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
-            HnppJsonFormUtils.addMemberTypeField(HnppConstants.JSON_FORMS.MEMBER_REFERRAL, jsonForm, "Child");
 
             Form form = new Form();
             form.setWizard(false);
