@@ -116,6 +116,10 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 return HnppConstants.EVENT_TYPE.ELCO;
             case HnppConstants.EVENT_TYPE.MEMBER_REFERRAL:
                 return HnppConstants.EVENT_TYPE.MEMBER_REFERRAL;
+            case HnppConstants.EVENT_TYPE.WOMEN_REFERRAL:
+                return HnppConstants.EVENT_TYPE.WOMEN_REFERRAL;
+            case HnppConstants.EVENT_TYPE.CHILD_REFERRAL:
+                return HnppConstants.EVENT_TYPE.CHILD_REFERRAL;
             case HnppConstants.EVENT_TYPE.GIRL_PACKAGE:
                 return HnppConstants.EVENT_TYPE.GIRL_PACKAGE;
             case HnppConstants.EVENT_TYPE.WOMEN_PACKAGE:
@@ -202,23 +206,6 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 e.printStackTrace();
             }
 
-    }
-    public static void addMemberTypeField(String formName,JSONObject jsonForm,String memberType){
-        if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.MEMBER_REFERRAL)){
-            JSONObject stepOne = null;
-            try {
-
-                stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
-                JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
-
-                updateFormField(jsonArray, "member_type", memberType);
-
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
     }
     public static JSONObject updateFormWithModuleId(JSONObject form,String moduleId, String familyBaseEntityId) throws JSONException {
         JSONArray field = fields(form, STEP1);

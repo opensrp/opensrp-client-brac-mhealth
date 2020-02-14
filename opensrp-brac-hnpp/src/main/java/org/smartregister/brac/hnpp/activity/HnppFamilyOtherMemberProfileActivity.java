@@ -219,13 +219,6 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
            HnppJsonFormUtils.addEDDField(formName,jsonForm,baseEntityId);
            jsonForm.put(JsonFormUtils.ENTITY_ID, baseEntityId);
            Intent intent;
-           if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.MEMBER_REFERRAL)){
-               if(gender.equalsIgnoreCase("F"))
-                   HnppJsonFormUtils.addMemberTypeField(HnppConstants.JSON_FORMS.MEMBER_REFERRAL,jsonForm,"Woman");
-               else
-                   HnppJsonFormUtils.addMemberTypeField(HnppConstants.JSON_FORMS.MEMBER_REFERRAL,jsonForm,"All");
-
-           }
            if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.GIRL_PACKAGE)){
                HnppJsonFormUtils.addMaritalStatus(jsonForm,maritalStatus);
            }
@@ -396,7 +389,12 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         startAnyFormActivity(formName,REQUEST_HOME_VISIT);
     }
     public void openRefereal() {
-        startAnyFormActivity(HnppConstants.JSON_FORMS.MEMBER_REFERRAL,REQUEST_HOME_VISIT);
+        if(gender.equalsIgnoreCase("F")){
+            startAnyFormActivity(HnppConstants.JSON_FORMS.WOMEN_REFERRAL,REQUEST_HOME_VISIT);
+        }else{
+            startAnyFormActivity(HnppConstants.JSON_FORMS.MEMBER_REFERRAL,REQUEST_HOME_VISIT);
+
+        }
     }
     public void openReferealFollowUp(ReferralFollowUpModel referralFollowUpModel) {
 

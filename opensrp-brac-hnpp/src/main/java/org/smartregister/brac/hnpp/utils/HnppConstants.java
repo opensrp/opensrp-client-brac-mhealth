@@ -283,6 +283,8 @@ public class HnppConstants extends CoreConstants {
         public static final String  PREGNANCY_HISTORY = "hnpp_anc_pregnancy_history";
         public static final String  PREGNANCY_OUTCOME = "hnpp_anc_pregnancy_outcome";
         public static final String  MEMBER_REFERRAL = "hnpp_member_referral";
+        public static final String  WOMEN_REFERRAL = "hnpp_women_referral";
+        public static final String  CHILD_REFERRAL = "hnpp_child_referral";
         public static final String  ELCO = "elco_register";
         public static final String  PNC_FORM = "hnpp_pnc_registration";
         public static final String  WOMEN_PACKAGE = "hnpp_women_package";
@@ -300,6 +302,8 @@ public class HnppConstants extends CoreConstants {
     public class EVENT_TYPE{
         public static final String ELCO = "ELCO Registration";
         public static final String MEMBER_REFERRAL = "Member Referral";
+        public static final String WOMEN_REFERRAL = "Women Referral";
+        public static final String CHILD_REFERRAL = "Child Referral";
         public static final String ANC_PREGNANCY_HISTORY = "ANC Pregnancy History";
         public static final String ANC_GENERAL_DISEASE = "ANC General Disease";
         public static final String ANC1_REGISTRATION = "ANC1 Registration";
@@ -369,6 +373,8 @@ public class HnppConstants extends CoreConstants {
             .put(HnppConstants.EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,R.drawable.rowavatar_member)
             .put(HnppConstants.EventType.CHILD_REGISTRATION,R.drawable.rowavatar_child)
             .put(EVENT_TYPE.MEMBER_REFERRAL,R.mipmap.ic_refer)
+            .put(EVENT_TYPE.WOMEN_REFERRAL,R.mipmap.ic_refer)
+            .put(EVENT_TYPE.CHILD_REFERRAL,R.mipmap.ic_refer)
             .put(EVENT_TYPE.WOMEN_PACKAGE,R.drawable.woman_placeholder)
             .put(EVENT_TYPE.GIRL_PACKAGE, R.drawable.woman_placeholder)
             .put(EVENT_TYPE.NCD_PACKAGE,R.drawable.ic_muac)
@@ -400,6 +406,8 @@ public class HnppConstants extends CoreConstants {
             .put(JSON_FORMS.ANC1_FORM,"গর্ভবতী পরিচর্যা")
             .put(JSON_FORMS.GENERAL_DISEASE,"শারীরিক সমস্যা")
             .put(EVENT_TYPE.MEMBER_REFERRAL,"রেফারেল")
+            .put(EVENT_TYPE.WOMEN_REFERRAL,"রেফারেল")
+            .put(EVENT_TYPE.CHILD_REFERRAL,"রেফারেল")
             .put("Member referral","রেফারেল")
             .put( JSON_FORMS.PREGNANCY_HISTORY,"পূর্বের গর্ভের ইতিহাস")
             .put( EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসবের ফলাফল")
@@ -428,6 +436,8 @@ public class HnppConstants extends CoreConstants {
             .put(HnppConstants.EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,"সদস্য আপডেট")
             .put(HnppConstants.EventType.CHILD_REGISTRATION,"শিশু নিবন্ধন")
             .put(HnppConstants.EVENT_TYPE.MEMBER_REFERRAL,"রেফারেল")
+            .put(EVENT_TYPE.WOMEN_REFERRAL,"রেফারেল")
+            .put(EVENT_TYPE.CHILD_REFERRAL,"রেফারেল")
             .put(EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসবের ফলাফল")
             .put("Member referral","রেফারেল")
             .put(EVENT_TYPE.ELCO,"সক্ষম দম্পতি নিবন্ধন")
@@ -466,6 +476,7 @@ public class HnppConstants extends CoreConstants {
             .put("BCG","বিসিজি")
             .build();
     public static final Map<String,String> referealResonMapping = ImmutableMap.<String,String> builder()
+            .put("child_problems","শিশু বিষয়ক সমস্যা")
             .put("pregnancy_problems","গর্ভাবস্থার সমস্যা")
             .put("delivery_problems","প্রসবে সমস্যা")
             .put("problems_eyes","চোখে সমস্যা")

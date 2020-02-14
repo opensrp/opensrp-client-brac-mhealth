@@ -143,6 +143,8 @@ public class HnppClientProcessor extends ClientProcessorForJava {
             case Constants.EVENT_TYPE.ANC_HOME_VISIT_NOT_DONE_UNDO:
             case HnppConstants.EVENT_TYPE.ELCO:
             case HnppConstants.EVENT_TYPE.MEMBER_REFERRAL:
+            case HnppConstants.EVENT_TYPE.WOMEN_REFERRAL:
+            case HnppConstants.EVENT_TYPE.CHILD_REFERRAL:
             case HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP:
             case HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP:
             case HnppConstants.EVENT_TYPE.GIRL_PACKAGE:
