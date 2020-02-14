@@ -358,6 +358,12 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     public void startAnyFormActivity(String formName, int requestCode) {
         try {
             JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
+            if("hnpp_iycf_package".equalsIgnoreCase(formName)){
+                JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+                JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+                String DOB = ((HnppChildProfilePresenter) presenter).getDateOfBirth();
+                updateFormField(jsonArray,"dob",DOB);
+            }
             jsonForm.put(JsonFormUtils.ENTITY_ID, memberObject.getFamilyHead());
             Intent intent = new Intent(this, org.smartregister.family.util.Utils.metadata().familyMemberFormActivity);
             intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());

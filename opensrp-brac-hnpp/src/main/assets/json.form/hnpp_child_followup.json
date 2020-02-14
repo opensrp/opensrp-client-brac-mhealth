@@ -268,7 +268,7 @@
       {
         "key": "refer_reason",
         "type": "label",
-        "text":"রেফারেল এর কারণ: গর্ভবতী পরিচর্যা সংক্রান্ত সমস্যা",
+        "text":"রেফারেল এর কারণ:শিশু সেবা সংক্রান্ত সমস্যা",
         "has_bg": true,
         "left_padding": "20dp",
         "right_padding": "20dp",
