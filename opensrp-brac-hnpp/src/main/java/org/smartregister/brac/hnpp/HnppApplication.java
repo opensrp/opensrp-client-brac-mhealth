@@ -59,6 +59,7 @@ import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.EventClientRepository;
 import org.smartregister.repository.Repository;
+import org.smartregister.sync.ClientProcessorForJava;
 import org.smartregister.util.Utils;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -117,6 +118,7 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
             Log.e("HnppApplication", Log.getStackTraceString(e));
         }
     }
+
     public static CommonFtsObject createCommonFtsObject() {
         return HNPPApplicationUtils.getCommonFtsObject(commonFtsObject);
     }

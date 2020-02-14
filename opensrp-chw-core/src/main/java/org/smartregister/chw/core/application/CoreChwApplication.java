@@ -137,10 +137,6 @@ public class CoreChwApplication extends DrishtiApplication implements CoreApplic
         return password;
     }
 
-    @Override
-    public ClientProcessorForJava getClientProcessor() {
-        return CoreChwApplication.getClientProcessor(CoreChwApplication.getInstance().getApplicationContext());
-    }
 
     public static ClientProcessorForJava getClientProcessor(android.content.Context context) {
         if (clientProcessor == null) {

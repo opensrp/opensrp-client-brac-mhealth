@@ -255,41 +255,41 @@ public class ReferralTaskViewActivity extends SecuredActivity {
     }
 
     private void saveCloseReferralEvent() {
-        try {
-            AllSharedPreferences sharedPreferences = Utils.getAllSharedPreferences();
-            ECSyncHelper syncHelper = FamilyLibrary.getInstance().getEcSyncHelper();
-            Event baseEvent = (Event) new Event()
-                    .withBaseEntityId(getBaseEntityId())
-                    .withEventDate(new Date())
-                    .withEventType(CoreConstants.EventType.CLOSE_REFERRAL)
-                    .withFormSubmissionId(JsonFormUtils.generateRandomUUIDString())
-                    .withEntityType(CoreConstants.TABLE_NAME.CLOSE_REFERRAL)
-                    .withProviderId(sharedPreferences.fetchRegisteredANM())
-                    .withLocationId(sharedPreferences.fetchDefaultLocalityId(sharedPreferences.fetchRegisteredANM()))
-                    .withTeamId(sharedPreferences.fetchDefaultTeamId(sharedPreferences.fetchRegisteredANM()))
-                    .withTeam(sharedPreferences.fetchDefaultTeam(sharedPreferences.fetchRegisteredANM()))
-                    .withClientDatabaseVersion(BuildConfig.DATABASE_VERSION)
-                    .withClientApplicationVersion(BuildConfig.VERSION_CODE)
-                    .withDateCreated(new Date());
-
-            baseEvent.addObs((new Obs()).withFormSubmissionField(CoreConstants.FORM_CONSTANTS.FORM_SUBMISSION_FIELD.REFERRAL_TASK).withValue(getTask().getIdentifier())
-                    .withFieldCode(CoreConstants.FORM_CONSTANTS.FORM_SUBMISSION_FIELD.REFERRAL_TASK).withFieldType("formsubmissionField").withFieldDataType("text").withParentCode("").withHumanReadableValues(new ArrayList<>()));
-            baseEvent.addObs((new Obs()).withFormSubmissionField(CoreConstants.FORM_CONSTANTS.FORM_SUBMISSION_FIELD.REFERRAL_TASK_PREVIOUS_STATUS).withValue(getTask().getStatus())
-                    .withFieldCode(CoreConstants.FORM_CONSTANTS.FORM_SUBMISSION_FIELD.REFERRAL_TASK_PREVIOUS_STATUS).withFieldType("formsubmissionField").withFieldDataType("text").withParentCode("").withHumanReadableValues(new ArrayList<>()));
-            baseEvent.addObs((new Obs()).withFormSubmissionField(CoreConstants.FORM_CONSTANTS.FORM_SUBMISSION_FIELD.REFERRAL_TASK_PREVIOUS_BUSINESS_STATUS).withValue(getTask().getBusinessStatus())
-                    .withFieldCode(CoreConstants.FORM_CONSTANTS.FORM_SUBMISSION_FIELD.REFERRAL_TASK_PREVIOUS_BUSINESS_STATUS).withFieldType("formsubmissionField").withFieldDataType("text").withParentCode("").withHumanReadableValues(new ArrayList<>()));
-
-            HnppJsonFormUtils.tagSyncMetadata(Utils.context().allSharedPreferences(), baseEvent);// tag docs
-
-            JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(baseEvent));
-            syncHelper.addEvent(getBaseEntityId(), eventJson);
-            long lastSyncTimeStamp = HnppApplication.getInstance().getContext().allSharedPreferences().fetchLastUpdatedAtDate(0);
-            Date lastSyncDate = new Date(lastSyncTimeStamp);
-            HnppApplication.getClientProcessor(HnppApplication.getInstance().getContext().applicationContext()).processClient(syncHelper.getEvents(lastSyncDate, BaseRepository.TYPE_Unprocessed));
-            HnppApplication.getInstance().getContext().allSharedPreferences().saveLastUpdatedAtDate(lastSyncDate.getTime());
-        } catch (Exception e) {
-            Timber.e(e, "ReferralTaskViewActivity --> saveCloseReferralEvent");
-        }
+//        try {
+//            AllSharedPreferences sharedPreferences = Utils.getAllSharedPreferences();
+//            ECSyncHelper syncHelper = FamilyLibrary.getInstance().getEcSyncHelper();
+//            Event baseEvent = (Event) new Event()
+//                    .withBaseEntityId(getBaseEntityId())
+//                    .withEventDate(new Date())
+//                    .withEventType(CoreConstants.EventType.CLOSE_REFERRAL)
+//                    .withFormSubmissionId(JsonFormUtils.generateRandomUUIDString())
+//                    .withEntityType(CoreConstants.TABLE_NAME.CLOSE_REFERRAL)
+//                    .withProviderId(sharedPreferences.fetchRegisteredANM())
+//                    .withLocationId(sharedPreferences.fetchDefaultLocalityId(sharedPreferences.fetchRegisteredANM()))
+//                    .withTeamId(sharedPreferences.fetchDefaultTeamId(sharedPreferences.fetchRegisteredANM()))
+//                    .withTeam(sharedPreferences.fetchDefaultTeam(sharedPreferences.fetchRegisteredANM()))
+//                    .withClientDatabaseVersion(BuildConfig.DATABASE_VERSION)
+//                    .withClientApplicationVersion(BuildConfig.VERSION_CODE)
+//                    .withDateCreated(new Date());
+//
+//            baseEvent.addObs((new Obs()).withFormSubmissionField(CoreConstants.FORM_CONSTANTS.FORM_SUBMISSION_FIELD.REFERRAL_TASK).withValue(getTask().getIdentifier())
+//                    .withFieldCode(CoreConstants.FORM_CONSTANTS.FORM_SUBMISSION_FIELD.REFERRAL_TASK).withFieldType("formsubmissionField").withFieldDataType("text").withParentCode("").withHumanReadableValues(new ArrayList<>()));
+//            baseEvent.addObs((new Obs()).withFormSubmissionField(CoreConstants.FORM_CONSTANTS.FORM_SUBMISSION_FIELD.REFERRAL_TASK_PREVIOUS_STATUS).withValue(getTask().getStatus())
+//                    .withFieldCode(CoreConstants.FORM_CONSTANTS.FORM_SUBMISSION_FIELD.REFERRAL_TASK_PREVIOUS_STATUS).withFieldType("formsubmissionField").withFieldDataType("text").withParentCode("").withHumanReadableValues(new ArrayList<>()));
+//            baseEvent.addObs((new Obs()).withFormSubmissionField(CoreConstants.FORM_CONSTANTS.FORM_SUBMISSION_FIELD.REFERRAL_TASK_PREVIOUS_BUSINESS_STATUS).withValue(getTask().getBusinessStatus())
+//                    .withFieldCode(CoreConstants.FORM_CONSTANTS.FORM_SUBMISSION_FIELD.REFERRAL_TASK_PREVIOUS_BUSINESS_STATUS).withFieldType("formsubmissionField").withFieldDataType("text").withParentCode("").withHumanReadableValues(new ArrayList<>()));
+//
+//            HnppJsonFormUtils.tagSyncMetadata(Utils.context().allSharedPreferences(), baseEvent);// tag docs
+//
+//            JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(baseEvent));
+//            syncHelper.addEvent(getBaseEntityId(), eventJson);
+//            long lastSyncTimeStamp = HnppApplication.getInstance().getContext().allSharedPreferences().fetchLastUpdatedAtDate(0);
+//            Date lastSyncDate = new Date(lastSyncTimeStamp);
+//            HnppApplication.getClientProcessor(HnppApplication.getInstance().getContext().applicationContext()).processClient(syncHelper.getEvents(lastSyncDate, BaseRepository.TYPE_Unprocessed));
+//            HnppApplication.getInstance().getContext().allSharedPreferences().saveLastUpdatedAtDate(lastSyncDate.getTime());
+//        } catch (Exception e) {
+//            Timber.e(e, "ReferralTaskViewActivity --> saveCloseReferralEvent");
+//        }
 
     }
 

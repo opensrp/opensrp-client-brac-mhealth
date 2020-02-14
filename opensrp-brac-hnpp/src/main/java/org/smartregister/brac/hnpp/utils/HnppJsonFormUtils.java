@@ -90,14 +90,16 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         if(encounterType.equalsIgnoreCase(org.smartregister.chw.anc.util.Constants.EVENT_TYPE.ANC_HOME_VISIT)){
             prepareEvent(baseEvent);
         }
-//        if (StringUtils.isBlank(parentEventType))
-//            prepareEvent(baseEvent);
 
         if (baseEvent != null) {
             baseEvent.setFormSubmissionId(JsonFormUtils.generateRandomUUIDString());
             org.smartregister.chw.anc.util.JsonFormUtils.tagEvent(allSharedPreferences, baseEvent);
-
-            String visitID = baseEvent.getEventId();
+            String visitID ="";
+            if(!TextUtils.isEmpty(baseEvent.getEventId())){
+                visitID = baseEvent.getEventId();
+            }else{
+                visitID = JsonFormUtils.generateRandomUUIDString();
+            }
 
             Visit visit = NCUtils.eventToVisit(baseEvent, visitID);
             visit.setPreProcessedJson(new Gson().toJson(baseEvent));
@@ -253,46 +255,6 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         return form;
     }
 
-    public static boolean saveVisitLogEvent(String jsonString, String baseEntityId) {
-        try {
-            Triple<Boolean, JSONObject, JSONArray> registrationFormParams = validateParameters(jsonString);
-            if (!registrationFormParams.getLeft()) {
-                return false;
-            }
-
-            JSONObject jsonForm = registrationFormParams.getMiddle();
-
-            JSONArray fields = registrationFormParams.getRight();
-            JSONObject metadata = getJSONObject(jsonForm, METADATA);
-            String entityId = getString(jsonForm, ENTITY_ID);
-            String encounterType = getString(jsonForm, ENCOUNTER_TYPE);
-            String entitytypeName = HnppVisitLogRepository.VISIT_LOG_TABLE_NAME;
-
-            FormTag formTag = new FormTag();
-            formTag.providerId = HnppApplication.getHNPPInstance().getContext().allSharedPreferences().fetchRegisteredANM();
-            formTag.appVersion = BuildConfig.VERSION_CODE;
-            formTag.databaseVersion = BuildConfig.DATABASE_VERSION;
-            Event baseEvent = org.smartregister.util.JsonFormUtils.createEvent(fields, metadata, formTag, entityId, encounterType, entitytypeName);
-            ECSyncHelper syncHelper = FamilyLibrary.getInstance().getEcSyncHelper();
-
-
-            tagSyncMetadata(org.smartregister.family.util.Utils.context().allSharedPreferences(), baseEvent);// tag docs
-
-            JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(baseEvent));
-            syncHelper.addEvent(baseEntityId, eventJson);
-            long lastSyncTimeStamp = HnppApplication.getInstance().getContext().allSharedPreferences().fetchLastUpdatedAtDate(0);
-            Date lastSyncDate = new Date(lastSyncTimeStamp);
-            HnppApplication.getClientProcessor(HnppApplication.getInstance().getContext().applicationContext()).processClient(syncHelper.getEvents(lastSyncDate, BaseRepository.TYPE_Unprocessed));
-            HnppApplication.getInstance().getContext().allSharedPreferences().saveLastUpdatedAtDate(lastSyncDate.getTime());
-//            HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(createNewVisitLog(baseEntityId,));
-            return true;
-            // }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
 
 
     public static JSONObject updateFormWithMemberId(JSONObject form,String houseHoldId, String familyBaseEntityId) throws JSONException {
