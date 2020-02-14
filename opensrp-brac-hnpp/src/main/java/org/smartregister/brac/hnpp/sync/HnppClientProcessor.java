@@ -179,27 +179,21 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                 }
                 processRemoveChild(eventClient.getClient().getBaseEntityId(), event.getEventDate().toDate());
                 break;
-            case CoreConstants.EventType.ANC_REGISTRATION:
-                if (eventClient.getClient() == null) {
-                    return;
-                }
-                processAncRegister(eventClient.getClient().getBaseEntityId(),true);
-                processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
-                break;
-            case CoreConstants.EventType.PREGNANCY_OUTCOME:
-                if (eventClient.getClient() == null) {
-                    return;
-                }
-                processAncRegister(eventClient.getClient().getBaseEntityId(),false);
-                processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
-                break;
-
-//            case CoreConstants.EventType.CHILD_REFERRAL:
-//            case CoreConstants.EventType.CLOSE_REFERRAL:
-//                if (eventClient.getClient() != null) {
-//                    processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
+//            case CoreConstants.EventType.ANC_REGISTRATION:
+//                if (eventClient.getClient() == null) {
+//                    return;
 //                }
+//                processAncRegister(eventClient.getClient().getBaseEntityId(),true);
+//                processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
 //                break;
+//            case CoreConstants.EventType.PREGNANCY_OUTCOME:
+//                if (eventClient.getClient() == null) {
+//                    return;
+//                }
+//                processAncRegister(eventClient.getClient().getBaseEntityId(),false);
+//                processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
+//                break;
+
             default:
                 if (eventClient.getClient() != null) {
                     if (eventType.equals(CoreConstants.EventType.UPDATE_FAMILY_RELATIONS) && event.getEntityType().equalsIgnoreCase(CoreConstants.TABLE_NAME.FAMILY_MEMBER)) {

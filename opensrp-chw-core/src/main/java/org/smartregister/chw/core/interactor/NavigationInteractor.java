@@ -84,7 +84,7 @@ public class NavigationInteractor implements NavigationContract.Interactor {
                             CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.RELATIONAL_ID) +
                     MessageFormat.format(" where {0}.{1} is null ", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED) +
                     MessageFormat.format(" and {0}.{1} is 0 ", CoreConstants.TABLE_NAME.ANC_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.IS_CLOSED);
-           // mainCondition = mainCondition+" AND ec_anc_register.base_entity_id NOT IN (SELECT ec_pregnancy_outcome.base_entity_id from ec_pregnancy_outcome where ec_pregnancy_outcome.is_closed = '0')";
+            mainCondition = mainCondition+" AND ec_anc_register.base_entity_id NOT IN (SELECT ec_pregnancy_outcome.base_entity_id from ec_pregnancy_outcome where ec_pregnancy_outcome.is_closed = '0')";
         } else if (tableName.equalsIgnoreCase(CoreConstants.TABLE_NAME.TASK)) {
             mainCondition =
                     MessageFormat.format(" where {0}.{1} is \''READY'\' AND {0}.{2} is \''Referral'\' ", CoreConstants.TABLE_NAME.CHILD_REFERRAL, ChwDBConstants.TASK_STATUS, ChwDBConstants.TASK_CODE);
