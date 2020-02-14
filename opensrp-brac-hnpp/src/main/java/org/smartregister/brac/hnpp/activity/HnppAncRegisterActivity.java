@@ -5,8 +5,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 
+import com.google.gson.Gson;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
+
+import net.sqlcipher.database.SQLiteDatabase;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
@@ -18,20 +21,37 @@ import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.fragment.HnppAncRegisterFragment;
 import org.smartregister.brac.hnpp.interactor.HnppBaseAncRegisterInteractor;
 import org.smartregister.brac.hnpp.listener.HnppFamilyBottomNavListener;
+import org.smartregister.brac.hnpp.location.SSLocationHelper;
+import org.smartregister.brac.hnpp.presenter.HnppBaseAncRegisterPresenter;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.utils.ANCRegister;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
+import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.model.BaseAncRegisterModel;
 import org.smartregister.chw.anc.presenter.BaseAncRegisterPresenter;
 import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.anc.util.DBConstants;
+import org.smartregister.chw.anc.util.NCUtils;
 import org.smartregister.chw.core.activity.CoreAncRegisterActivity;
 import org.smartregister.chw.core.utils.CoreConstants;
+import org.smartregister.clientandeventmodel.Address;
+import org.smartregister.clientandeventmodel.Client;
+import org.smartregister.clientandeventmodel.Event;
+import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
+import org.smartregister.immunization.ImmunizationLibrary;
+import org.smartregister.repository.AllSharedPreferences;
+import org.smartregister.repository.EventClientRepository;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import timber.log.Timber;
+
+import static org.smartregister.chw.anc.util.Constants.TABLES.EC_CHILD;
 
 
 public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
@@ -161,6 +181,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
             finish();
         }
         JSONObject form = null;
+        String encounter_type ="";
         if (resultCode == Activity.RESULT_OK && requestCode == Constants.REQUEST_CODE_GET_JSON) {
 //            process the form
 
@@ -169,7 +190,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
                 form = new JSONObject(jsonString);
                 JSONObject step1 = form.getJSONObject("step1");
                 String baseEnityId = form.optString(Constants.JSON_FORM_EXTRA.ENTITY_TYPE);
-                String encounter_type = form.optString(Constants.JSON_FORM_EXTRA.ENCOUNTER_TYPE);
+                encounter_type = form.optString(Constants.JSON_FORM_EXTRA.ENCOUNTER_TYPE);
                 if(encounter_type.equalsIgnoreCase("Pregnancy Outcome")){
                     JSONArray fields = step1.getJSONArray("fields");
                     updateUniqueId(fields);
@@ -183,16 +204,102 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
                     HnppPncRegisterActivity.startHnppPncRegisterActivity(HnppAncRegisterActivity.this, baseEnityId, "",
                             HnppConstants.JSON_FORMS.PNC_FORM, null, familyBaseEntityId, familyName);
                 }
-                // SyncServiceJob.scheduleJobImmediately(SyncServiceJob.TAG);
+
             } catch (Exception e) {
                 Timber.e(e);
             }
         }
         if(form!=null){
             data.putExtra(Constants.JSON_FORM_EXTRA.JSON,form.toString());
-            super.onActivityResult(requestCode, resultCode, data);
+            if (encounter_type.equalsIgnoreCase(Constants.EVENT_TYPE.PREGNANCY_OUTCOME)) {
+                try{
+                    saveRegistration(form.toString(), HnppConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME);
+
+                    String motherBaseId = form.optString(Constants.JSON_FORM_EXTRA.ENTITY_TYPE);
+                    JSONArray fields = org.smartregister.util.JsonFormUtils.fields(form);
+                    JSONObject deliveryDate = org.smartregister.util.JsonFormUtils.getFieldJSONObject(fields, DBConstants.KEY.DELIVERY_DATE);
+
+                    JSONObject uniqueID = org.smartregister.util.JsonFormUtils.getFieldJSONObject(fields, DBConstants.KEY.UNIQUE_ID);
+                    if (StringUtils.isNotBlank(uniqueID.optString(org.smartregister.chw.anc.util.JsonFormUtils.VALUE))) {
+                        String childBaseEntityId = org.smartregister.chw.anc.util.JsonFormUtils.generateRandomUUIDString();
+                        AllSharedPreferences allSharedPreferences = ImmunizationLibrary.getInstance().context().allSharedPreferences();
+                        JSONObject pncForm =getFormAsJson(Constants.FORMS.PNC_CHILD_REGISTRATION, childBaseEntityId, getLocationID());
+
+                        JSONObject familyIdObject = org.smartregister.util.JsonFormUtils.getFieldJSONObject(fields, DBConstants.KEY.RELATIONAL_ID);
+                        String familyBaseEntityId = familyIdObject.getString(org.smartregister.chw.anc.util.JsonFormUtils.VALUE);
+                        pncForm = org.smartregister.chw.anc.util.JsonFormUtils.populatePNCForm(pncForm, fields, familyBaseEntityId);
+                        HnppJsonFormUtils.processAttributesWithChoiceIDsForSave(fields);
+
+                        processChild(fields, allSharedPreferences, childBaseEntityId, familyBaseEntityId, motherBaseId);
+                        if (pncForm != null) {
+                            saveRegistration(pncForm.toString(), EC_CHILD);
+                            NCUtils.saveVaccineEvents(fields, childBaseEntityId);
+                        }
+                    }
+                }catch (Exception e){
+
+                }
+
+
+
+
+            }else {
+                super.onActivityResult(requestCode, resultCode, data);
+            }
+
         }
 
+
+
+    }
+    public JSONObject getFormAsJson(String formName, String entityId, String currentLocationId) throws Exception {
+        JSONObject jsonObject = org.smartregister.chw.anc.util.JsonFormUtils.getFormAsJson(formName);
+        org.smartregister.chw.anc.util.JsonFormUtils.getRegistrationForm(jsonObject, entityId, currentLocationId);
+
+        return jsonObject;
+    }
+    private void saveRegistration(final String jsonString, String table) throws Exception {
+        AllSharedPreferences allSharedPreferences = AncLibrary.getInstance().context().allSharedPreferences();
+        Event baseEvent = org.smartregister.chw.anc.util.JsonFormUtils.processJsonForm(allSharedPreferences, jsonString, table);
+
+        NCUtils.addEvent(allSharedPreferences, baseEvent);
+        NCUtils.startClientProcessing();
+    }
+    private void processChild(JSONArray fields, AllSharedPreferences allSharedPreferences, String entityId, String familyBaseEntityId, String motherBaseId) {
+        try {
+            Client pncChild = org.smartregister.util.JsonFormUtils.createBaseClient(fields, org.smartregister.chw.anc.util.JsonFormUtils.formTag(allSharedPreferences), entityId);
+            pncChild.addRelationship(Constants.RELATIONSHIP.FAMILY, familyBaseEntityId);
+            pncChild.addRelationship(Constants.RELATIONSHIP.MOTHER, motherBaseId);
+            JSONObject clientjson = new JSONObject(org.smartregister.chw.anc.util.JsonFormUtils.gson.toJson(pncChild));
+            pncChild.setAddresses(updateWithSSLocation(clientjson));
+            EventClientRepository eventClientRepository = FamilyLibrary.getInstance().context().getEventClientRepository();
+            SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+            JSONObject dsasd = eventClientRepository.getClient(db, familyBaseEntityId);
+            pncChild.setAddresses(updateWithSSLocation(dsasd));
+
+            AncLibrary.getInstance().getUniqueIdRepository().close(pncChild.getIdentifier(Constants.JSON_FORM_EXTRA.OPENSPR_ID));
+
+            NCUtils.getSyncHelper().addClient(pncChild.getBaseEntityId(), clientjson);
+
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+    }
+    private static List<Address> updateWithSSLocation(JSONObject clientjson){
+        try{
+            String addessJson = clientjson.getString("addresses");
+            JSONArray jsonArray = new JSONArray(addessJson);
+            List<Address> listAddress = new ArrayList<>();
+            for(int i = 0; i <jsonArray.length();i++){
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                Address address = new Gson().fromJson(jsonObject.toString(), Address.class);
+                listAddress.add(address);
+            }
+            return listAddress;
+        }catch (Exception e){
+
+        }
+        return new ArrayList<>();
 
     }
     @Override
