@@ -73,10 +73,13 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "preg_outcome",
-        "type": "native_radio",
+        "type": "check_box",
         "label": "প্রসবের ফলাফল",
         "label_text_style": "bold",
         "text_color": "#000000",
+        "exclusive": [
+          "miscarriage"
+        ],
         "options": [
           {
             "key": "born_alive",
@@ -114,9 +117,7 @@
         "v_required": {
           "value": "true",
           "err": "Please select pregnancy outcome"
-        },
-        "value":"born_alive"
-
+        }
       },
       {
         "key": "delivery_date",
@@ -133,8 +134,13 @@
         },
         "relevance": {
           "step1:preg_outcome": {
-            "type": "string",
-            "ex": "notEqualTo(., \"miscarriage\")"
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive","still_born","born_alive_died"
+                ]
+              }
+            ]
           }
         }
       },
@@ -152,8 +158,13 @@
         },
         "relevance": {
           "step1:preg_outcome": {
-            "type": "string",
-            "ex": "notEqualTo(., \"miscarriage\")"
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive","still_born","born_alive_died"
+                ]
+              }
+            ]
           }
         }
       },
@@ -163,25 +174,110 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "no_born_alive",
         "openmrs_data_type": "select one",
-        "type": "spinner",
+        "type": "edit_text",
         "hint": "জীবিত জন্ম সংখ্যা",
-        "values": [
-          "1",
-          "2+"
-        ],
-        "openmrs_choice_ids": {
-          "1": "1",
-          "2+": "2"
+        "v_numeric": {
+          "value": false,
+          "err": "Enter a valid Number"
         },
-        "v_required": {
-          "value": "true",
-          "err": "Please select one option"
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
         },
         "relevance": {
           "step1:preg_outcome": {
-            "type": "string",
-            "ex": "equalTo(., \"born_alive\")"
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive"
+                ]
+              }
+            ]
           }
+        }
+      },
+      {
+        "key": "no_still_born",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "no_still_born",
+        "openmrs_data_type": "select one",
+        "type": "edit_text",
+        "hint": "মৃত জন্ম সংখ্যা",
+        "v_numeric": {
+          "value": false,
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "still_born"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "key": "no_born_alive_died",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "no_born_alive_died",
+        "openmrs_data_type": "select one",
+        "type": "edit_text",
+        "hint": "মৃত নবজাতকের সংখ্যা",
+        "relevance": {
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive_died"
+                ]
+              }
+            ]
+          }
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        }
+      },
+      {
+        "key": "no_miscarriage",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "no_miscarriage",
+        "openmrs_data_type": "select one",
+        "type": "edit_text",
+        "hint": "গর্ভপাত সংখ্যা",
+        "relevance": {
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "miscarriage"
+                ]
+              }
+            ]
+          }
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
         }
       },
       {
@@ -215,10 +311,14 @@
           "err": "Please select one option"
         },
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_relevance.yml"
-            }
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive","still_born"
+                ]
+              }
+            ]
           }
         }
       },
@@ -232,7 +332,7 @@
         "edit_type": "name",
         "hint": "লিখুন",
         "v_required": {
-          "value": true,
+          "value": false,
           "err": "লিখুন"
         },
         "v_regex": {
@@ -305,10 +405,14 @@
           "err": "Please select one option"
         },
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_relevance.yml"
-            }
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive","still_born"
+                ]
+              }
+            ]
           }
         }
       },
@@ -357,10 +461,14 @@
           "err": "Please select one option"
         },
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_relevance.yml"
-            }
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive","still_born"
+                ]
+              }
+            ]
           }
         }
       },
@@ -371,7 +479,7 @@
         "openmrs_entity_id": "delivery_complication",
         "openmrs_data_type": "select one",
         "type": "spinner",
-        "hint": "প্রসব কালীন কোন জটিলতা হয়েছিল কিনা",
+        "hint": "প্রসবকালীন কোন জটিলতা হয়েছিল কিনা",
         "values": [
           "হ্যাঁ",
           "না"
@@ -385,10 +493,14 @@
           "err": "Please select one option"
         },
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
-            }
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive"
+                ]
+              }
+            ]
           }
         }
       },
@@ -399,7 +511,7 @@
         "openmrs_entity_id": "complications",
         "openmrs_data_type": "select one",
         "type": "spinner",
-        "hint": "প্রসব কালীন জটিলতা",
+        "hint": "প্রসবকালীন জটিলতা",
         "values": [
           "অতিরিক্ত রক্তক্ষরন",
           "খিচুনি",
@@ -453,87 +565,7 @@
           }
         }
       },
-      {
-        "key": "no_still_born",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "no_still_born",
-        "openmrs_data_type": "select one",
-        "type": "spinner",
-        "hint": "মৃত জন্ম সংখ্যা",
-        "values": [
-          "1",
-          "2+"
-        ],
-        "openmrs_choice_ids": {
-          "1": "1",
-          "2+": "2"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "Please select one option"
-        },
-        "relevance": {
-          "step1:preg_outcome": {
-            "type": "string",
-            "ex": "equalTo(., \"still_born\")"
-          }
-        }
-      },
-      {
-        "key": "no_born_alive_died",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "no_born_alive_died",
-        "openmrs_data_type": "select one",
-        "type": "spinner",
-        "hint": "মৃত নবজাতকের সংখ্যা",
-        "values": [
-          "1",
-          "2+"
-        ],
-        "openmrs_choice_ids": {
-          "1": "1",
-          "2+": "2"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "Please select one option"
-        },
-        "relevance": {
-          "step1:preg_outcome": {
-            "type": "string",
-            "ex": "equalTo(., \"born_alive_died\")"
-          }
-        }
-      },
-      {
-        "key": "no_miscarriage",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "no_miscarriage",
-        "openmrs_data_type": "select one",
-        "type": "spinner",
-        "hint": "গর্ভপাত সংখ্যা",
-        "values": [
-          "1",
-          "2+"
-        ],
-        "openmrs_choice_ids": {
-          "1": "1",
-          "2+": "2"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "Please select one option"
-        },
-        "relevance": {
-          "step1:preg_outcome": {
-            "type": "string",
-            "ex": "equalTo(., \"miscarriage\")"
-          }
-        }
-      },
+
       {
         "key": "type_miscarriage",
         "openmrs_entity_parent": "",
@@ -556,8 +588,13 @@
         },
         "relevance": {
           "step1:preg_outcome": {
-            "type": "string",
-            "ex": "equalTo(., \"miscarriage\")"
+            "ex-checkbox": [
+              {
+                "or": [
+                  "miscarriage"
+                ]
+              }
+            ]
           }
         }
       },
@@ -593,8 +630,13 @@
         },
         "relevance": {
           "step1:preg_outcome": {
-            "type": "string",
-            "ex": "equalTo(., \"born_alive_died\")"
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive_died"
+                ]
+              }
+            ]
           }
         }
       },
@@ -612,8 +654,13 @@
         "openmrs_entity_id": "",
         "relevance": {
           "step1:preg_outcome": {
-            "type": "string",
-            "ex": "equalTo(., \"born_alive\")"
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive"
+                ]
+              }
+            ]
           }
         }
       },
@@ -673,8 +720,13 @@
         },
         "relevance": {
           "step1:preg_outcome": {
-            "type": "string",
-            "ex": "equalTo(., \"born_alive\")"
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive"
+                ]
+              }
+            ]
           }
         }
       },
@@ -697,8 +749,13 @@
         },
         "relevance": {
           "step1:preg_outcome": {
-            "type": "string",
-            "ex": "equalTo(., \"born_alive\")"
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive"
+                ]
+              }
+            ]
           }
         }
       },
@@ -725,8 +782,13 @@
         },
         "relevance": {
           "step1:preg_outcome": {
-            "type": "string",
-            "ex": "equalTo(., \"born_alive\")"
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive"
+                ]
+              }
+            ]
           }
         }
       },
@@ -752,8 +814,13 @@
         },
         "relevance": {
           "step1:preg_outcome": {
-            "type": "string",
-            "ex": "equalTo(., \"born_alive\")"
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive"
+                ]
+              }
+            ]
           }
         }
       },
@@ -818,8 +885,13 @@
         },
         "relevance": {
           "step1:preg_outcome": {
-            "type": "string",
-            "ex": "equalTo(., \"born_alive\")"
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive"
+                ]
+              }
+            ]
           }
         }
       },
@@ -840,8 +912,13 @@
         },
         "relevance": {
           "step1:preg_outcome": {
-            "type": "string",
-            "ex": "equalTo(., \"born_alive\")"
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive"
+                ]
+              }
+            ]
           }
         }
       },
@@ -867,8 +944,13 @@
         },
         "relevance": {
           "step1:preg_outcome": {
-            "type": "string",
-            "ex": "equalTo(., \"born_alive\")"
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive"
+                ]
+              }
+            ]
           }
         }
       },
@@ -894,35 +976,13 @@
         },
         "relevance": {
           "step1:preg_outcome": {
-            "type": "string",
-            "ex": "equalTo(., \"born_alive\")"
-          }
-        }
-      },
-      {
-        "key": "breast_feeded",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "breast_feeded",
-        "openmrs_data_type": "select one",
-        "type": "spinner",
-        "hint": "প্রসবের পর মায়ের দুধ খাওয়ানো হয়েছে?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "Please select one option"
-        },
-        "relevance": {
-          "step1:preg_outcome": {
-            "type": "string",
-            "ex": "equalTo(., \"born_alive\")"
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive"
+                ]
+              }
+            ]
           }
         }
       }
