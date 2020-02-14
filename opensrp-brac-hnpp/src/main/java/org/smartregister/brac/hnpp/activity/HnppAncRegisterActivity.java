@@ -273,7 +273,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
             SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
             JSONObject dsasd = eventClientRepository.getClient(db, familyBaseEntityId);
             pncChild.setAddresses(updateWithSSLocation(dsasd));
-
+            clientjson.put("addresses",dsasd.getJSONArray("addresses"));
             AncLibrary.getInstance().getUniqueIdRepository().close(pncChild.getIdentifier(Constants.JSON_FORM_EXTRA.OPENSPR_ID));
 
             NCUtils.getSyncHelper().addClient(pncChild.getBaseEntityId(), clientjson);
