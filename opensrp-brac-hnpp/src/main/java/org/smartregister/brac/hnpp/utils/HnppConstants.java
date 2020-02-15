@@ -395,7 +395,7 @@ public class HnppConstants extends CoreConstants {
             .build();
     //need to show the title at row/option
     public static final Map<String,String> visitEventTypeMapping = ImmutableMap.<String,String> builder()
-            .put(EVENT_TYPE.ANC_REGISTRATION,"গর্ভবতী পরিচর্যা")
+            .put(EVENT_TYPE.ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন")
             .put(EVENT_TYPE.ANC1_REGISTRATION,"গর্ভবতী পরিচর্যা - ১ম ত্রিমাসিক")
             .put(EVENT_TYPE.ANC2_REGISTRATION,"গর্ভবতী পরিচর্যা - ২য় ত্রিমাসিক")
             .put(EVENT_TYPE.ANC3_REGISTRATION,"গর্ভবতী পরিচর্যা - ৩য় ত্রিমাসিক")

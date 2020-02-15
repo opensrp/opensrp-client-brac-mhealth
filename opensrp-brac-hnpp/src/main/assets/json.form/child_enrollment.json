@@ -96,44 +96,6 @@
       }
       },
       {
-        "key": "relation_with_household_head",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "Relation_with_HOH",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "খানা প্রধান এই সদস্যের কি হয়?",
-        "values": [
-          "মা/আম্মা",
-          "বাবা/আব্বা",
-          "দাদা",
-          "দাদি",
-          "নানা",
-          "নানী",
-          "অন্যান্য"
-        ],
-        "openmrs_choice_ids": {
-          "মা/আম্মা":"Mother",
-          "বাবা/আব্বা":"Father",
-          "দাদা":"Grandpa",
-          "দাদি":"Grandma",
-          "নানা":"Grandfather",
-          "নানী":"Grandmother",
-          "অন্যান্য": "Others"
-        },
-        "v_required": {
-          "value": true,
-          "err": "সম্পর্ক নির্বাচন করুন"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
-        }
-      },
-      {
         "key": "mother_name",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
@@ -190,6 +152,45 @@
         "v_required": {
           "value": "true",
           "err": "জন্ম তারিখ প্রবেশ করুন"
+        }
+      },
+
+      {
+        "key": "relation_with_household_head",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "Relation_with_HOH",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "খানা প্রধান এই সদস্যের কি হয়?",
+        "values": [
+          "মা/আম্মা",
+          "বাবা/আব্বা",
+          "দাদা",
+          "দাদি",
+          "নানা",
+          "নানী",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "মা/আম্মা":"Mother",
+          "বাবা/আব্বা":"Father",
+          "দাদা":"Grandpa",
+          "দাদি":"Grandma",
+          "নানা":"Grandfather",
+          "নানী":"Grandmother",
+          "অন্যান্য": "Others"
+        },
+        "v_required": {
+          "value": true,
+          "err": "সম্পর্ক নির্বাচন করুন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_default_baby.yml"
+            }
+          }
         }
       },
       {

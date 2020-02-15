@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
+import org.joda.time.Months;
 import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 import org.smartregister.brac.hnpp.HnppApplication;
@@ -80,11 +81,16 @@ public class FormApplicability {
         return false;
     }
     public static boolean isImmunizationVisible(Date dob){
-        int dayPass = DateUtil.dayDifference(new LocalDate(dob),new LocalDate(System.currentTimeMillis()));
-        if(dayPass <= 1035){
+        int monthsDifference = getMonthsDifference(new LocalDate(dob),new LocalDate(System.currentTimeMillis()));
+        if(monthsDifference <= 36){
             return true;
         }
         return false;
+    }
+    private static int getMonthsDifference(LocalDate date1, LocalDate date2) {
+        return Months.monthsBetween(
+                date1.withDayOfMonth(1),
+                date2.withDayOfMonth(1)).getMonths();
     }
 
     public static String getLmp(String baseEntityId){
