@@ -123,14 +123,15 @@ public class HnppDBUtils extends CoreChildUtils {
                             //}
 
 
-                        }else {
-                            Date dob = Utils.dobStringToDate(profileDueInfo.getDob());
-                            boolean isEnc = FormApplicability.isEncVisible(dob);
-                            if(isEnc){
-                                profileDueInfo.setEventType(HnppConstants.visitEventTypeMapping.get(HnppConstants.EVENT_TYPE.ENC_REGISTRATION));
-                                profileDueInfoArrayList.add(profileDueInfo);
-                            }
                         }
+//                        else {
+//                            Date dob = Utils.dobStringToDate(profileDueInfo.getDob());
+//                            boolean isEnc = FormApplicability.isEncVisible(dob);
+//                            if(isEnc){
+//                                profileDueInfo.setEventType(HnppConstants.visitEventTypeMapping.get(HnppConstants.EVENT_TYPE.ENC_REGISTRATION));
+//                                profileDueInfoArrayList.add(profileDueInfo);
+//                            }
+//                        }
                     }catch (Exception e){
 
                     }
