@@ -365,7 +365,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
                 updateFormField(jsonArray,"dob",DOB);
             }
             jsonForm.put(JsonFormUtils.ENTITY_ID, memberObject.getFamilyHead());
-            Intent intent = new Intent(this, org.smartregister.family.util.Utils.metadata().familyMemberFormActivity);
+            Intent intent = new Intent(this, HnppAncJsonFormActivity.class);
             intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
 
             Form form = new Form();

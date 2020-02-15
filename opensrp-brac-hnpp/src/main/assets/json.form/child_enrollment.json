@@ -276,7 +276,7 @@
         },
         "v_required": {
           "value": "true",
-          "err": "Please select one option"
+          "err": "প্রশ্নের উত্তর দিন"
         },
         "relevance": {
           "rules-engine": {
@@ -295,7 +295,7 @@
         "hint": "ওজন(কেজি)",
         "v_numeric": {
           "value": "true",
-          "err": "Enter a valid Number"
+          "err": "প্রশ্নের উত্তর দিন"
         },
         "v_required": {
           "value": true,
@@ -327,7 +327,7 @@
         },
         "v_required": {
           "value": "true",
-          "err": "Please select one option"
+          "err": "প্রশ্নের উত্তর দিন"
         },
         "relevance": {
           "rules-engine": {
@@ -346,7 +346,7 @@
         "hint": "প্রসবের কতক্ষন পর মায়ের দুধ খাওয়ানো হয়েছে?",
         "v_numeric": {
           "value": "true",
-          "err": "Enter a valid Number"
+          "err": "প্রশ্নের উত্তর দিন"
         },
         "v_required": {
           "value": true,
@@ -378,7 +378,7 @@
         },
         "v_required": {
           "value": "true",
-          "err": "Please select one option"
+          "err": "প্রশ্নের উত্তর দিন"
         },
         "relevance": {
           "rules-engine": {
@@ -406,7 +406,7 @@
         },
         "v_required": {
           "value": "true",
-          "err": "Please select one option"
+          "err": "প্রশ্নের উত্তর দিন"
         },
         "relevance": {
           "rules-engine": {
