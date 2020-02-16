@@ -491,6 +491,7 @@ public class HnppAncRegisterFragment extends AncRegisterFragment implements View
         joinTable = joinTableString;
         mainCondition = mainConditionString;
         filterandSortExecute(countBundle());
+
     }
 
     private String searchText() {
