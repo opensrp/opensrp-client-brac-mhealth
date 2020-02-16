@@ -41,10 +41,10 @@ public class FormApplicability {
 
     public static String getDueFormForMarriedWomen(String baseEntityId, int age){
         String lmp = getLmp(baseEntityId);
-            if(!TextUtils.isEmpty(lmp)&&!isClosedPregnancyOutCome(baseEntityId)){
+            if(!TextUtils.isEmpty(lmp)){
                 int dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(lmp), new DateTime()).getDays();
                 int pncDay = getDayPassPregnancyOutcome(baseEntityId);
-                if(pncDay != -1){
+                if(pncDay != -1&&!isClosedPregnancyOutCome(baseEntityId)){
                     if(pncDay<=41){
                         return HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
                     }else{

@@ -2,6 +2,7 @@ package org.smartregister.brac.hnpp.service;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.util.Log;
 
 import net.sqlcipher.Cursor;
 import net.sqlcipher.database.SQLiteDatabase;
@@ -57,7 +58,7 @@ public class VisitLogIntentService extends IntentService {
 
     public List<Visit>  getANCRegistrationVisitsFromEvent(){
         List<Visit> v = new ArrayList<>();
-        String query = "SELECT event.baseEntityId,event.eventId, event.json FROM event WHERE (event.eventType = 'ANC Registration' OR event.eventType = 'Pregnancy Outcome') AND event.eventId NOT IN (Select visits.visit_id from visits) AND event.json like '%form_name%'";
+        String query = "SELECT event.baseEntityId,event.eventId, event.json,event.eventType FROM event WHERE (event.eventType = 'ANC Registration' OR event.eventType = 'Pregnancy Outcome') AND event.eventId NOT IN (Select visits.visit_id from visits) AND event.json like '%form_name%'";
         Cursor cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         if(cursor !=null && cursor.getCount() > 0) {
             cursor.moveToFirst();
@@ -65,6 +66,7 @@ public class VisitLogIntentService extends IntentService {
                 String baseEntityId = cursor.getString(0);
                 String eventId = cursor.getString(1);
                 String json = cursor.getString(2);
+                String eventType = cursor.getString(3);
                 Event baseEvent = gson.fromJson(json, Event.class);
 
                 try {
@@ -79,6 +81,24 @@ public class VisitLogIntentService extends IntentService {
             cursor.close();
         }
         return v;
+    }
+    public synchronized void updateFamilyAncRegisterIsClosed(String base_entity_id,int isClosed){
+        try{
+            if(base_entity_id.equalsIgnoreCase("b01bc31e-4d1d-4aa2-9ad3-d23623ec1480")){
+                System.out.print(base_entity_id+":"+isClosed);
+            }
+            if(isClosed == 1){
+                SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+                String sql = "update ec_anc_register set is_closed = '1' where " +
+                        "ec_anc_register.base_entity_id = '"+base_entity_id+"' COLLATE NOCASE";
+                Log.v("PROCESS_EVENT","processAncRegister>>"+base_entity_id+":isanc:"+isClosed+":sql"+sql);
+                database.execSQL(sql);
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
     }
     @Override
     protected void onHandleIntent(Intent intent) {
