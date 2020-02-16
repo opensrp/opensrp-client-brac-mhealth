@@ -36,13 +36,23 @@ import timber.log.Timber;
 
 public class HnppDBUtils extends CoreChildUtils {
 
-    public static void updateANCClosed(String baseEntityId, boolean isClosed){
-        ContentValues values = new ContentValues();
-        values.put(org.smartregister.chw.anc.util.DBConstants.KEY.IS_CLOSED, isClosed?1:0);
+    public static String getBirthWeight(String baseEntityId){
+        String query = "select birth_weight from ec_child where base_entity_id = '"+baseEntityId+"'";
+        Cursor cursor = null;
+        String birthWeight="";
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                birthWeight = cursor.getString(0);
+                cursor.close();
+            }
 
-        CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.ANC_MEMBER, values,
-                org.smartregister.chw.anc.util.DBConstants.KEY.BASE_ENTITY_ID + " = ?  ",
-                new String[]{baseEntityId});
+            return birthWeight;
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return birthWeight;
     }
 
     public static void populatePNCChildDetails(String baseEntityId, JSONObject jsonForm){

@@ -1,7 +1,7 @@
 ---
-name: step1_weight
-description: Calculated weight
+name: step1_month_diff
+description: Calculated month difference
 priority: 1
-condition: "step1_dob != '' && helper.getDifferenceDays(step1_dob) / 365.25 <= 180"
+condition: "step1_dob != ''"
 actions:
-  - "calculation =  step1_weight * 10"
+  - "calculation =  helper.formatDate(step1_dob,'m')"

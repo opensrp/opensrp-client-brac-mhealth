@@ -135,113 +135,78 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
                 }
             }
 
-            if(v instanceof MaterialSpinner){
-                if (((MaterialSpinner) v).getHint() != null && (((MaterialSpinner) v).getHint().toString()).equals("বিলিরুবিন - প্রস্রাব পরিক্ষা *")) {
-                    ((MaterialSpinner) v).setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                            // your code here
-                            bilirubin = position == 0;
-                            referUHCCheckStatus(bilirubin);
 
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parentView) {
-                            // your code here
-                        }
-
-                    });
-                }
-                if (((MaterialSpinner) v).getHint() != null && (((MaterialSpinner) v).getHint().toString()).equals("অতিরিক্ত রক্তক্ষরণ *")) {
-                    ((MaterialSpinner) v).setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                            // your code here
-                            excesbleeding = position == 0;
-                            referUHCCheckStatus(excesbleeding);
-
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parentView) {
-                            // your code here
-                        }
-
-                    });
-                }
-                if (((MaterialSpinner) v).getHint() != null && (((MaterialSpinner) v).getHint().toString()).equals("খিচুনি *")) {
-                    ((MaterialSpinner) v).setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                            // your code here
-                            compulsion = position == 0;
-                            referUHCCheckStatus(compulsion);
-
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parentView) {
-                            // your code here
-                        }
-
-                    });
-                }
-
-
-//                //IYCF Spinners
-//
-//                if (((MaterialSpinner) v).getHint() != null && (
-//                                (((MaterialSpinner) v).getHint().toString()).equals("মাথার ভারসাম্য *")||
-//                                (((MaterialSpinner) v).getHint().toString()).equals("নিজে বসতে পারে *")||
-//                                (((MaterialSpinner) v).getHint().toString()).equals("বিভিন্ন শব্দ করতে পারে মুখ দিয়ে - বা, মা, দা ইত্যাদি *")||
-//                                (((MaterialSpinner) v).getHint().toString()).equals("হামাগুঁড়ি দিতে পারে? *")||
-//                                (((MaterialSpinner) v).getHint().toString()).equals("বাবা, মামা, দাদা  ইত্যাদি শব্দ করতে পারে কি না - *")||
-//                                (((MaterialSpinner) v).getHint().toString()).equals("কোন কিছু ধরে দাঁড়াতে পারে? *")||
-//                                (((MaterialSpinner) v).getHint().toString()).equals("একটি সম্পূর্ণ শব্দ উচ্চারণ করতে পারে? *")||
-//                                (((MaterialSpinner) v).getHint().toString()).equals("কোন কিছু ধরে হাটতে পারে কিনা ? *")||
-//                                (((MaterialSpinner) v).getHint().toString()).equals("দুইটি আলাদা শব্দ বলতে পারে কিনা? *")||
-//                                (((MaterialSpinner) v).getHint().toString()).equals("এক হাঁটতে পারে কিনা ? *")||
-//                                (((MaterialSpinner) v).getHint().toString()).equals("দৌড়াতে পারে? *")||
-//                                        (((MaterialSpinner) v).getHint().toString()).equals("কথা(সম্পূর্ণ বাক্য) বলতে পারে কিনা? *")
-//
-//                )) {
-//                    ((MaterialSpinner) v).setOnItemSelectedListener(iycf_listener);
-//                }
-            }
         }
 
         getEddDate();
 //        System.out.println(formDataViews);
     }
-//    Map<View,Boolean>iycfmap = new HashMap<View, Boolean>();
-//    public MaterialSpinner.OnItemSelectedListener iycf_listener = new MaterialSpinner.OnItemSelectedListener() {
-//        @Override
-//        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-//            // your code here
-//            iycf_refer = position == 1;
-//            iycfmap.put(parentView,position == 1);
-//            for (Map.Entry<View, Boolean> entry : iycfmap.entrySet()) {
-//                if(entry.getValue())
-//                    iycf_refer = entry.getValue();
-//                break;
-////                System.out.println(entry.getKey() + " = " + entry.getValue());
-//            }
-//
-//            referUHCCheckStatus(iycf_refer);
-//
-//        }
-//
-//        @Override
-//        public void onNothingSelected(AdapterView<?> parentView) {
-//            // your code here
-//        }
-//
-//    };
-//    boolean iycf_refer = false;
+
+    @Override
+    public void onItemSelected(AdapterView<?> v, View tt, int position, long id) {
+        super.onItemSelected(v, tt, position, id);
+        if(v instanceof MaterialSpinner){
+            if (((MaterialSpinner) v).getHint() != null && (((MaterialSpinner) v).getHint().toString()).equals("বিলিরুবিন - প্রস্রাব পরিক্ষা *")) {
+                    bilirubin = position == 0;
+                    referUHCCheckStatus(bilirubin);
+
+            }
+            else if (((MaterialSpinner) v).getHint() != null && (((MaterialSpinner) v).getHint().toString()).equals("অতিরিক্ত রক্তক্ষরণ *")) {
+                        excesbleeding = position == 0;
+                        referUHCCheckStatus(excesbleeding);
+            }
+            else if (((MaterialSpinner) v).getHint() != null && (((MaterialSpinner) v).getHint().toString()).equals("খিচুনি *")) {
+
+                        compulsion = position == 0;
+                        referUHCCheckStatus(compulsion);
+            }
+            else if (((MaterialSpinner) v).getHint() != null && (((MaterialSpinner) v).getHint().toString()).equals("অতিরিক্ত রক্তক্ষরণ *")) {
+
+                        excesbleeding = position == 0;
+                        referUHCCheckStatus(excesbleeding);
+            }
+            else if (((MaterialSpinner) v).getHint() != null && (((MaterialSpinner) v).getHint().toString()).equals("তলপেটে ব্যাথা আছে কিনা *")) {
+
+                        isTolPeteBetha = position == 0;
+                        referUHCCheckStatus(isTolPeteBetha);
+            }
+
+
+            else if (((MaterialSpinner) v).getHint() != null && (
+                    (((MaterialSpinner) v).getHint().toString()).equals("মাথার ভারসাম্য *")||
+                            (((MaterialSpinner) v).getHint().toString()).equals("নিজে বসতে পারে *")||
+                            (((MaterialSpinner) v).getHint().toString()).equals("বিভিন্ন শব্দ করতে পারে মুখ দিয়ে - বা, মা, দা ইত্যাদি *")||
+                            (((MaterialSpinner) v).getHint().toString()).equals("হামাগুঁড়ি দিতে পারে? *")||
+                            (((MaterialSpinner) v).getHint().toString()).equals("বাবা, মামা, দাদা  ইত্যাদি শব্দ করতে পারে কি না - *")||
+                            (((MaterialSpinner) v).getHint().toString()).equals("কোন কিছু ধরে দাঁড়াতে পারে? *")||
+                            (((MaterialSpinner) v).getHint().toString()).equals("একটি সম্পূর্ণ শব্দ উচ্চারণ করতে পারে? *")||
+                            (((MaterialSpinner) v).getHint().toString()).equals("কোন কিছু ধরে হাটতে পারে কিনা ? *")||
+                            (((MaterialSpinner) v).getHint().toString()).equals("দুইটি আলাদা শব্দ বলতে পারে কিনা? *")||
+                            (((MaterialSpinner) v).getHint().toString()).equals("এক হাঁটতে পারে কিনা ? *")||
+                            (((MaterialSpinner) v).getHint().toString()).equals("দৌড়াতে পারে? *")||
+                            (((MaterialSpinner) v).getHint().toString()).equals("কথা(সম্পূর্ণ বাক্য) বলতে পারে কিনা? *")
+
+            )) {
+
+                iycf_refer = position == 1;
+                iycfmap.put(v.getId(),position == 1);
+                for (Map.Entry<Integer, Boolean> entry : iycfmap.entrySet()) {
+                    if(entry.getValue())
+                        iycf_refer = entry.getValue();
+                    break;
+                }
+
+                referUHCCheckStatus(iycf_refer);
+            }
+        }
+    }
+
+    Map<Integer,Boolean>iycfmap = new HashMap<Integer, Boolean>();
+    boolean iycf_refer = false;
     boolean excesbleeding = false;
     boolean compulsion = false;
     boolean bilirubin = false;
+    boolean isTolPeteBetha = false;
     int uterusLengthCM = 0;
     String edd = null;
     public void getEddDate(){
@@ -576,7 +541,7 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
         }
     }
     public void referUHCCheckStatus(boolean isChecked) {
-        isChecked = isChecked||fastingSugar||randomSugar||hemoglobin||bilirubin||compulsion||excesbleeding;
+        isChecked = isChecked || iycf_refer || isTolPeteBetha||fastingSugar||randomSugar||hemoglobin||bilirubin||compulsion||excesbleeding;
         for (int i = 0; i < viewList.size(); i++) {
             CompoundButton buttonView = viewList.get(i).view;
             String label = viewList.get(i).label;

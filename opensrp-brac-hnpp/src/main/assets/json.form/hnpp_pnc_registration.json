@@ -348,7 +348,7 @@
         "openmrs_entity_id": "has_abdominal_pain",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "তলপেটে ব্যাথা আছে কিনা ",
+        "hint": "তলপেটে ব্যাথা আছে কিনা",
         "values": [
           "হ্যাঁ",
           "না"

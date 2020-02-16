@@ -63,8 +63,21 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
-        "openmrs_data_type": "text",
         "type": "hidden"
+      },
+      {
+        "key": "month_diff",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_iycf_package_calculation.yml"
+            }
+          }
+        }
       },
       {
         "key": "weight",
@@ -84,13 +97,6 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
-        },
-        "calculation": {
-        "rules-engine": {
-          "ex-rules": {
-            "rules-file": "hnpp_iycf_package_calculation.yml"
-            }
-          }
         },
         "v_min": {
           "value": "1.5",
@@ -141,9 +147,9 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "উপজেলা স্বাস্থ্য কমপ্লেক্স উল্লেখ করুন",
-        "text_color": "#CF0800",
-        "toaster_type": "problem",
+        "text": "উপজেলা স্বাস্থ্য কমপ্লেক্স এ রেফার করুন",
+        "text_color": "#f51b00",
+        "toaster_type": "info",
         "relevance": {
           "rules-engine": {
             "ex-rules": {

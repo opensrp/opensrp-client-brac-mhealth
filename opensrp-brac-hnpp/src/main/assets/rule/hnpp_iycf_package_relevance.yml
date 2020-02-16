@@ -1,69 +1,69 @@
 name: step1_weight_toaster_1
-description: if weight 2 to 7 and age 0 to 180 day show toast
-priority: 1
-condition: "(step1_weight > 2 && step1_weight < 7) && (helper.getDifferenceDays(step1_dob) <= 180) "
+description: if weight 2 to 7 and age 0 to 6m yellow zone
+priority: 2
+condition: "(step1_weight > 2 && step1_weight < 7 && step1_month_diff <= 6) "
 actions:
   - "isRelevant = true"
 ---
 name: step1_weight_toaster_2
-description: if weight 7 to 11 and age 210 to 720 day show toast
-priority: 1
-condition: "(step1_weight > 7 && step1_weight < 11) && (helper.getDifferenceDays(step1_dob) >= 210 && helper.getDifferenceDays(step1_dob) <= 720) "
+description: if weight 7 to 11 and age 7m to 24m dark yellow
+priority: 3
+condition: "(step1_weight > 7 && step1_weight < 11 && step1_month_diff >= 7 && step1_month_diff <= 24) "
 actions:
   - "isRelevant = true"
 ---
 name: step1_weight_toaster_3
-description: if weight 1 to 2.5 and age 210 to 720 day show toast
+description: if weight 1 to 2.5 and age 7m to 24m day red zone
 priority: 1
-condition: "(step1_weight > 1 && step1_weight < 2.5)"
+condition: "(step1_weight > 1 && step1_weight < 2.5 && step1_month_diff >= 7 && step1_month_diff <= 24)"
 actions:
   - "isRelevant = true"
 ---
 name: step1_head_balance
 description: if age 3 month 5 month
 priority: 1
-condition: "(helper.getDifferenceDays(step1_dob) >= 90) && (helper.getDifferenceDays(step1_dob) <= 150)"
+condition: "(step1_month_diff >= 3 && step1_month_diff <= 5)"
 actions:
   - "isRelevant = true"
 ---
 name: step1_can_sit
 description: if age 6 month 8 month
 priority: 1
-condition: "(helper.getDifferenceDays(step1_dob) >= 180 && helper.getDifferenceDays(step1_dob) <= 240)"
+condition: "(step1_month_diff>= 6 && step1_month_diff<= 8)"
 actions:
   - "isRelevant = true"
 ---
 name: step1_can_crap
 description: if age 9 month 10 month
 priority: 1
-condition: "(helper.getDifferenceDays(step1_dob) >= 270 && helper.getDifferenceDays(step1_dob) <= 300)"
+condition: "(step1_month_diff >= 9 && step1_month_diff <= 10)"
 actions:
   - "isRelevant = true"
 ---
 name: step1_can_catch
 description: if age >11 month
 priority: 1
-condition: "(helper.getDifferenceDays(step1_dob) >= 330)"
+condition: "(step1_month_diff > 11)"
 actions:
   - "isRelevant = true"
 ---
 name: step1_can_walk
 description: if age 12 to 17 month
 priority: 1
-condition: "(helper.getDifferenceDays(step1_dob) >= 360 && helper.getDifferenceDays(step1_dob) <= 510)"
+condition: "(step1_month_diff >= 12 && step1_month_diff <= 17)"
 actions:
   - "isRelevant = true"
 ---
 name: step1_can_one_walk
 description: if age 18 to 23 month
 priority: 1
-condition: "(helper.getDifferenceDays(step1_dob) >= 540 && helper.getDifferenceDays(step1_dob) <= 690)"
+condition: "(step1_month_diff >= 18 && step1_month_diff <= 23)"
 actions:
   - "isRelevant = true"
 ---
 name: step1_can_run
 description: if age >24 month
 priority: 1
-condition: "(helper.getDifferenceDays(step1_dob) >= 720)"
+condition: "(step1_month_diff > 24)"
 actions:
   - "isRelevant = true"
