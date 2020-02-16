@@ -28,6 +28,8 @@ import org.smartregister.brac.hnpp.utils.FormApplicability;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
@@ -120,6 +122,9 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
                 if (((MaterialEditText)v).getFloatingLabelText()!=null&&(((MaterialEditText)v).getFloatingLabelText().toString()).equals("হিমোগ্লোবিন(gm/dl)")){
                     ((MaterialEditText)v).addTextChangedListener(textWatcherhemoglobin);
                 }
+                if (((MaterialEditText)v).getFloatingLabelText()!=null&&(((MaterialEditText)v).getFloatingLabelText().toString()).equals("সেলাইয়েরই দৈর্ঘ্য (ইঞ্চি)")){
+                    ((MaterialEditText)v).addTextChangedListener(textWatcherstitchlength);
+                }
                 if (((MaterialEditText) v).getFloatingLabelText() != null && (((MaterialEditText) v).getFloatingLabelText().toString()).equals("বি.এম.আই")) {
                     ((MaterialEditText) v).setEnabled(false);
 //                    JSONObject formObject = getJsonApi().getmJSONObject();
@@ -148,13 +153,94 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
 
                     });
                 }
+                if (((MaterialSpinner) v).getHint() != null && (((MaterialSpinner) v).getHint().toString()).equals("অতিরিক্ত রক্তক্ষরণ *")) {
+                    ((MaterialSpinner) v).setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                            // your code here
+                            excesbleeding = position == 0;
+                            referUHCCheckStatus(excesbleeding);
 
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parentView) {
+                            // your code here
+                        }
+
+                    });
+                }
+                if (((MaterialSpinner) v).getHint() != null && (((MaterialSpinner) v).getHint().toString()).equals("খিচুনি *")) {
+                    ((MaterialSpinner) v).setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                            // your code here
+                            compulsion = position == 0;
+                            referUHCCheckStatus(compulsion);
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parentView) {
+                            // your code here
+                        }
+
+                    });
+                }
+
+
+//                //IYCF Spinners
+//
+//                if (((MaterialSpinner) v).getHint() != null && (
+//                                (((MaterialSpinner) v).getHint().toString()).equals("মাথার ভারসাম্য *")||
+//                                (((MaterialSpinner) v).getHint().toString()).equals("নিজে বসতে পারে *")||
+//                                (((MaterialSpinner) v).getHint().toString()).equals("বিভিন্ন শব্দ করতে পারে মুখ দিয়ে - বা, মা, দা ইত্যাদি *")||
+//                                (((MaterialSpinner) v).getHint().toString()).equals("হামাগুঁড়ি দিতে পারে? *")||
+//                                (((MaterialSpinner) v).getHint().toString()).equals("বাবা, মামা, দাদা  ইত্যাদি শব্দ করতে পারে কি না - *")||
+//                                (((MaterialSpinner) v).getHint().toString()).equals("কোন কিছু ধরে দাঁড়াতে পারে? *")||
+//                                (((MaterialSpinner) v).getHint().toString()).equals("একটি সম্পূর্ণ শব্দ উচ্চারণ করতে পারে? *")||
+//                                (((MaterialSpinner) v).getHint().toString()).equals("কোন কিছু ধরে হাটতে পারে কিনা ? *")||
+//                                (((MaterialSpinner) v).getHint().toString()).equals("দুইটি আলাদা শব্দ বলতে পারে কিনা? *")||
+//                                (((MaterialSpinner) v).getHint().toString()).equals("এক হাঁটতে পারে কিনা ? *")||
+//                                (((MaterialSpinner) v).getHint().toString()).equals("দৌড়াতে পারে? *")||
+//                                        (((MaterialSpinner) v).getHint().toString()).equals("কথা(সম্পূর্ণ বাক্য) বলতে পারে কিনা? *")
+//
+//                )) {
+//                    ((MaterialSpinner) v).setOnItemSelectedListener(iycf_listener);
+//                }
             }
         }
 
         getEddDate();
 //        System.out.println(formDataViews);
     }
+//    Map<View,Boolean>iycfmap = new HashMap<View, Boolean>();
+//    public MaterialSpinner.OnItemSelectedListener iycf_listener = new MaterialSpinner.OnItemSelectedListener() {
+//        @Override
+//        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+//            // your code here
+//            iycf_refer = position == 1;
+//            iycfmap.put(parentView,position == 1);
+//            for (Map.Entry<View, Boolean> entry : iycfmap.entrySet()) {
+//                if(entry.getValue())
+//                    iycf_refer = entry.getValue();
+//                break;
+////                System.out.println(entry.getKey() + " = " + entry.getValue());
+//            }
+//
+//            referUHCCheckStatus(iycf_refer);
+//
+//        }
+//
+//        @Override
+//        public void onNothingSelected(AdapterView<?> parentView) {
+//            // your code here
+//        }
+//
+//    };
+//    boolean iycf_refer = false;
+    boolean excesbleeding = false;
+    boolean compulsion = false;
     boolean bilirubin = false;
     int uterusLengthCM = 0;
     String edd = null;
@@ -192,6 +278,31 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
                 try{
                     pulserate = Double.valueOf(s.toString())>90d;
                     referUHFWCCheckStatus(pulserate);
+
+                }catch (Exception e){
+
+                }
+            }
+        }
+    };
+    boolean stitchlength = false;
+    TextWatcher textWatcherstitchlength = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if(!StringUtils.isEmpty(s)){
+                try{
+                    stitchlength = Double.valueOf(s.toString())>1d;
+                    referUHCCheckStatus(stitchlength);
 
                 }catch (Exception e){
 
@@ -240,7 +351,7 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
         public void afterTextChanged(Editable s) {
             if(!StringUtils.isEmpty(s)){
                 try{
-                    blood_pressure_systolic = Double.valueOf(s.toString())>140d;
+                    blood_pressure_systolic = Double.valueOf(s.toString())>=140d;
                     referUHFWCCheckStatus(blood_pressure_systolic);
 
                 }catch (Exception e){
@@ -265,7 +376,7 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
         public void afterTextChanged(Editable s) {
             if(!StringUtils.isEmpty(s)){
                 try{
-                    blood_pressure_diastolic = Double.valueOf(s.toString())>90d;
+                    blood_pressure_diastolic = Double.valueOf(s.toString())>=90d;
                     referUHFWCCheckStatus(blood_pressure_systolic);
 
                 }catch (Exception e){
@@ -465,7 +576,7 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
         }
     }
     public void referUHCCheckStatus(boolean isChecked) {
-        isChecked = isChecked||fastingSugar||randomSugar||hemoglobin||bilirubin;
+        isChecked = isChecked||fastingSugar||randomSugar||hemoglobin||bilirubin||compulsion||excesbleeding;
         for (int i = 0; i < viewList.size(); i++) {
             CompoundButton buttonView = viewList.get(i).view;
             String label = viewList.get(i).label;

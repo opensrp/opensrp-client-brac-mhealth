@@ -2,6 +2,7 @@ package org.smartregister.brac.hnpp.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -144,6 +145,9 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment imple
     private void updateDueView(){
         ArrayList<ProfileDueInfo> getAllMemberDueInfo = HnppDBUtils.getDueListByFamilyId(familyBaseEntityId);
         for(ProfileDueInfo profileDueInfo : getAllMemberDueInfo){
+            if(TextUtils.isEmpty(profileDueInfo.getEventType())){
+                continue;
+            }
             View homeVisitView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
             ImageView image1 = homeVisitView.findViewById(R.id.image_view);
             TextView name1 =  homeVisitView.findViewById(R.id.patient_name_age);

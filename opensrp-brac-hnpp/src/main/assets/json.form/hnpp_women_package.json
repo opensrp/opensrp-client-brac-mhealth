@@ -58,6 +58,116 @@
         "openmrs_data_type": "text",
         "type": "hidden",
         "value": "hnpp_women_package"
+      },
+      {
+        "key": "women_problems",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "women_problems",
+        "type": "check_box",
+        "label": "নিচের কোন সমস্যাটি আছে?",
+        "exclusive": [
+          "None"
+        ],
+        "options": [
+          {
+            "key": "Fistula",
+            "text": "ফিস্টুলা",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Fistula"
+          },
+          {
+            "key": "Prolapse",
+            "text": "প্রোল্যাপ্স",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Prolapse"
+          },
+          {
+            "key": "Excessive_vaginal_bleeding",
+            "text": "যোনিপথে অতিরিক্ত রক্তক্ষরণ",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Excessive_vaginal_bleeding"
+          },
+          {
+            "key": "Lower_abdominal_pain",
+            "text": "তলপেটে ব্যথা",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Lower_abdominal_pain"
+          },
+          {
+            "key": "Breast_lump_cancer",
+            "text": "স্টোন পিন্ড/দলা/ক্যান্সার",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Breast_lump_cancer"
+          },
+
+          {
+            "key": "other_option",
+            "text": "অন্যান্য",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "other_option"
+          }
+        ],
+        "v_required": {
+          "value": "true",
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "previously_referred",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "previously_referred",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "আগে কি রেফার করা হয়েছিল?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+
+      },
+      {
+        "key": "is_went_to_referred_place",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_went_to_referred_place",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "রেফারকৃত স্থানে কি গিয়েছিলেন?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "step1:previously_referred": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+
       }
     ]
   }

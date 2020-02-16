@@ -866,11 +866,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "other_refer_reason",
         "type": "edit_text",
-        "hint": "অন্যান্য কারণ ",
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
+        "hint": "অন্যান্য কারণ "
       },
       {
         "key": "place_of_referral",
@@ -960,11 +956,7 @@
             "openmrs_entity": "concept",
             "openmrs_entity_id": "other_option"
           }
-        ],
-        "v_required": {
-          "value": "true",
-          "err": "প্রশ্নের উত্তর দিন"
-        }
+        ]
       },
       {
         "key": "advice",
@@ -972,11 +964,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "advice",
         "type": "edit_text",
-        "hint": "উপদেশ",
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
+        "hint": "উপদেশ"
       }
     ]
   }
