@@ -172,11 +172,7 @@ public class HnppAllMemberRegisterFragment extends CoreChildRegisterFragment imp
     public void filter(String filterString, String joinTableString, String mainConditionString, boolean qrCode) {
         this.joinTables = new String[]{CoreConstants.TABLE_NAME.FAMILY};
         searchFilterString = filterString;
-//        mSelectedVillageName = "";
-//        mSelectedClasterName = "";
-//        if(clients_header_layout.getVisibility() == android.view.View.VISIBLE){
-//            clients_header_layout.setVisibility(android.view.View.GONE);
-//        }
+
         clientAdapter.setCurrentoffset(0);
         super.filter(searchFilterString, joinTableString, mainConditionString, qrCode);
 
