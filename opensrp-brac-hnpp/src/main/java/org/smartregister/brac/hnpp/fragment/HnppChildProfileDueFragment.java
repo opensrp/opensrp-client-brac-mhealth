@@ -217,7 +217,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         Date dob = Utils.dobStringToDate(dobString);
         boolean isEnc = FormApplicability.isEncVisible(dob);
         if(isEnc){
-            if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP)){
+            if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.ENC_REGISTRATION)){
                 View encView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
                 ImageView image1 = encView.findViewById(R.id.image_view);
                 TextView name1 =  encView.findViewById(R.id.patient_name_age);
