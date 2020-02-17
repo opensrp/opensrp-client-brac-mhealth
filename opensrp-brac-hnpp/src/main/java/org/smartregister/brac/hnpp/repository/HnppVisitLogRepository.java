@@ -2,8 +2,10 @@ package org.smartregister.brac.hnpp.repository;
 
 import android.content.ContentValues;
 import android.text.TextUtils;
+import android.util.Log;
 
 import net.sqlcipher.Cursor;
+import net.sqlcipher.SQLException;
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteException;
 
@@ -48,6 +50,7 @@ public class HnppVisitLogRepository extends BaseRepository {
 
        }
     }
+
     public void updateFamilyLastHomeVisit(String base_entity_id,String last_home_visit){
         try{
             SQLiteDatabase database = getWritableDatabase();

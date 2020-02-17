@@ -517,7 +517,7 @@
           }
         },
         "v_required": {
-          "value": "true",
+          "value": true,
           "err": "আঙুলের ছাপ পাওয়া যায়নি"
         }
       },

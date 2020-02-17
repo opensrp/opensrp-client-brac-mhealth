@@ -41,26 +41,33 @@ public class FormApplicability {
 
     public static String getDueFormForMarriedWomen(String baseEntityId, int age){
         String lmp = getLmp(baseEntityId);
-            if(!TextUtils.isEmpty(lmp)&&!isClosedPregnancyOutCome(baseEntityId)){
+            if(!TextUtils.isEmpty(lmp)){
                 int dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(lmp), new DateTime()).getDays();
                 int pncDay = getDayPassPregnancyOutcome(baseEntityId);
-                if(pncDay != -1){
+                if(pncDay != -1&&!isClosedPregnancyOutCome(baseEntityId)){
                     if(pncDay<=41){
                         return HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
                     }else{
                         return HnppConstants.EVENT_TYPE.ELCO;
                     }
                 }
-                if(dayPass > 1 && dayPass <= 84){
-                    //first trimester
-                    if(isFirstTimeAnc(baseEntityId)){
-                        return HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
+                if(isClosedANC(baseEntityId)){
+                    if(isElco(age)){
+                        return HnppConstants.EVENT_TYPE.ELCO;
                     }
-                    return HnppConstants.EVENT_TYPE.ANC1_REGISTRATION;
-                }else if(dayPass > 84 && dayPass <= 168){
-                    return HnppConstants.EVENT_TYPE.ANC2_REGISTRATION;
-                }else if(dayPass > 168){
-                    return HnppConstants.EVENT_TYPE.ANC3_REGISTRATION;
+                }
+                else{
+                    if(dayPass > 1 && dayPass <= 84){
+                        //first trimester
+                        if(isFirstTimeAnc(baseEntityId)){
+                            return HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
+                        }
+                        return HnppConstants.EVENT_TYPE.ANC1_REGISTRATION;
+                    }else if(dayPass > 84 && dayPass <= 168){
+                        return HnppConstants.EVENT_TYPE.ANC2_REGISTRATION;
+                    }else if(dayPass > 168){
+                        return HnppConstants.EVENT_TYPE.ANC3_REGISTRATION;
+                    }
                 }
                 return "";
             }
@@ -102,6 +109,20 @@ public class FormApplicability {
 
         return "";
 
+    }
+    public static boolean isClosedANC(String baseEntityId){
+        String DeliveryDateSql = "SELECT is_closed FROM ec_anc_register where base_entity_id = ? ";
+
+        List<Map<String, String>> valus = AbstractDao.readData(DeliveryDateSql, new String[]{baseEntityId});
+
+        if(valus.size() > 0){
+            if("1".equalsIgnoreCase(valus.get(0).get("is_closed"))){
+                return true;
+            }
+
+
+        }
+        return false;
     }
     public static boolean isClosedPregnancyOutCome(String baseEntityId){
         String DeliveryDateSql = "SELECT is_closed FROM ec_pregnancy_outcome where base_entity_id = ? ";

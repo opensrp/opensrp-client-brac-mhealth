@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 
+import com.evernote.android.job.JobManager;
 import com.google.gson.Gson;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
@@ -19,13 +20,14 @@ import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.fragment.HnppAncRegisterFragment;
-import org.smartregister.brac.hnpp.interactor.HnppBaseAncRegisterInteractor;
+import org.smartregister.brac.hnpp.job.HnppPncCloseJob;
 import org.smartregister.brac.hnpp.listener.HnppFamilyBottomNavListener;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.utils.ANCRegister;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.chw.anc.AncLibrary;
+import org.smartregister.chw.anc.interactor.BaseAncRegisterInteractor;
 import org.smartregister.chw.anc.model.BaseAncRegisterModel;
 import org.smartregister.chw.anc.presenter.BaseAncRegisterPresenter;
 import org.smartregister.chw.anc.util.Constants;
@@ -84,7 +86,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
     }
     @Override
     protected void initializePresenter() {
-        presenter = new BaseAncRegisterPresenter(this, new BaseAncRegisterModel(), new HnppBaseAncRegisterInteractor());
+        presenter = new BaseAncRegisterPresenter(this, new BaseAncRegisterModel(), new BaseAncRegisterInteractor());
     }
     @Override
     public void startFormActivity(JSONObject jsonForm) {
@@ -216,6 +218,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
                     String motherBaseId = form.optString(Constants.JSON_FORM_EXTRA.ENTITY_TYPE);
                     JSONArray fields = org.smartregister.util.JsonFormUtils.fields(form);
                     JSONObject deliveryDate = org.smartregister.util.JsonFormUtils.getFieldJSONObject(fields, DBConstants.KEY.DELIVERY_DATE);
+                    String pregOutcome = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"preg_outcome");
 
                     JSONObject uniqueID = org.smartregister.util.JsonFormUtils.getFieldJSONObject(fields, DBConstants.KEY.UNIQUE_ID);
                     if (StringUtils.isNotBlank(uniqueID.optString(org.smartregister.chw.anc.util.JsonFormUtils.VALUE))) {
@@ -227,18 +230,22 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
                         String familyBaseEntityId = familyIdObject.getString(org.smartregister.chw.anc.util.JsonFormUtils.VALUE);
                         pncForm = org.smartregister.chw.anc.util.JsonFormUtils.populatePNCForm(pncForm, fields, familyBaseEntityId);
                         HnppJsonFormUtils.processAttributesWithChoiceIDsForSave(fields);
-
-                        processChild(fields, allSharedPreferences, childBaseEntityId, familyBaseEntityId, motherBaseId);
-                        if (pncForm != null) {
-                            saveRegistration(pncForm.toString(), EC_CHILD);
-                            NCUtils.saveVaccineEvents(fields, childBaseEntityId);
+                        if(pregOutcome!=null&&pregOutcome.contains("born_alive")){
+                            processChild(fields, allSharedPreferences, childBaseEntityId, familyBaseEntityId, motherBaseId);
+                            if (pncForm != null) {
+                                saveRegistration(pncForm.toString(), EC_CHILD);
+                                NCUtils.saveVaccineEvents(fields, childBaseEntityId);
+                            }
                         }
+
                     }
                 }catch (Exception e){
 
                 }
 
-
+//                if(JobManager.instance().getAllJobRequestsForTag(HnppPncCloseJob.TAG).isEmpty()){
+                    HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
+//                }
 
 
             }else {

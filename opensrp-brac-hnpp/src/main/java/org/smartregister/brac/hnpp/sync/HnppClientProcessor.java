@@ -8,6 +8,7 @@ import net.sqlcipher.database.SQLiteDatabase;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
+import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.anc.AncLibrary;
@@ -179,20 +180,6 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                 }
                 processRemoveChild(eventClient.getClient().getBaseEntityId(), event.getEventDate().toDate());
                 break;
-//            case CoreConstants.EventType.ANC_REGISTRATION:
-//                if (eventClient.getClient() == null) {
-//                    return;
-//                }
-//                processAncRegister(eventClient.getClient().getBaseEntityId(),true);
-//                processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
-//                break;
-//            case CoreConstants.EventType.PREGNANCY_OUTCOME:
-//                if (eventClient.getClient() == null) {
-//                    return;
-//                }
-//                processAncRegister(eventClient.getClient().getBaseEntityId(),false);
-//                processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
-//                break;
 
             default:
                 if (eventClient.getClient() != null) {
@@ -519,15 +506,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
 
         }
     }
-    private void processAncRegister(String baseEntityId, boolean isAnc){
 
-            ContentValues values = new ContentValues();
-            values.put(DBConstants.KEY.IS_CLOSED, isAnc?0:1);
-
-            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.ANC_MEMBER, values,
-                    DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseEntityId});
-
-    }
 
     private ContentValues processCaseModel(EventClient eventClient, Table table) {
         try {
