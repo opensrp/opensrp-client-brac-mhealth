@@ -2,10 +2,14 @@ package org.smartregister.brac.hnpp.fragment;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.view.Gravity;
@@ -352,6 +356,11 @@ public class HnppElcoMemberRegisterFragment extends CoreChildRegisterFragment im
     @Override
     public void countExecute() {
         StringBuilder customFilter = new StringBuilder();
+        String query = "Select count(*) FROM ec_family_member LEFT JOIN ec_family ON  ec_family_member.relational_id = ec_family.id COLLATE NOCASE  WHERE  ec_family_member.date_removed is null AND  ((( julianday('now') - julianday(dob))/(365/12)) >120) AND  ((( julianday('now') - julianday(dob))/(365/12)) <600)" +
+                " AND  marital_status = 'Married' and gender = 'F' AND ec_family_member.base_entity_id  NOT IN  (select ec_anc_register.base_entity_id from ec_anc_register " +
+                "where ec_anc_register.is_closed = '0' group by ec_anc_register.base_entity_id)  and ec_family_member.base_entity_id  " +
+                "NOT IN (select ec_pregnancy_outcome.base_entity_id from ec_pregnancy_outcome where ec_pregnancy_outcome.is_closed = '0' group by ec_pregnancy_outcome.base_entity_id) "
+                ;
         if (StringUtils.isNotBlank(searchFilterString)) {
             customFilter.append(MessageFormat.format(" and ( {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.FIRST_NAME, searchFilterString));
             customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.LAST_NAME, searchFilterString));
@@ -369,26 +378,33 @@ public class HnppElcoMemberRegisterFragment extends CoreChildRegisterFragment im
         }else if(!StringUtils.isEmpty(mSelectedVillageName)){
             customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
         }
-        String query = "";
-        try {
+        if (StringUtils.isNotBlank(customFilter)) {
+            query = query + customFilter;
+        }
+        Cursor c = null;
 
-                String sql = "";
-                sql = mainSelect;
-                if (StringUtils.isNotBlank(customFilter)) {
-                    sql = sql + customFilter;
-                }
-                List<String> ids = commonRepository().findSearchIds(sql);
-                clientAdapter.setTotalcount(ids.size());
-
+        try{
+            c = commonRepository().rawCustomQueryForAdapter(query);
+            c.moveToFirst();
+            clientAdapter.setTotalcount(c.getInt(0));
+            Timber.v("total count here %s", clientAdapter.getTotalcount());
         } catch (Exception e) {
-            Log.v("TESTING",""+e);
             Timber.e(e);
+        } finally {
+            if (c != null) {
+                c.close();
+            }
         }
     }
 
     @Override
     protected boolean isValidFilterForFts(CommonRepository commonRepository) {
         return false;
+    }
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        super.onLoadFinished(loader, cursor);
+        setTotalPatients();
     }
 
     @Override
@@ -440,7 +456,26 @@ public class HnppElcoMemberRegisterFragment extends CoreChildRegisterFragment im
 
 
     }
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, final Bundle args) {
+        if (id == LOADER_ID) {
+            return new CursorLoader(getActivity()) {
+                @Override
+                public Cursor loadInBackground() {
+                    // Count query
+                    final String COUNT = "count_execute";
+                    if (args != null && args.getBoolean(COUNT)) {
+                        countExecute();
+                    }
+                    String query = filterandSortQuery();
+                    return commonRepository().rawCustomQueryForAdapter(query);
+                }
+            };
+        }
+        return super.onCreateLoader(id, args);
 
+
+    }
     @Override
     protected int getToolBarTitle() {
         return R.string.menu_elco_clients;

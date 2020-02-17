@@ -217,8 +217,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
 
                     String motherBaseId = form.optString(Constants.JSON_FORM_EXTRA.ENTITY_TYPE);
                     JSONArray fields = org.smartregister.util.JsonFormUtils.fields(form);
-                    JSONObject deliveryDate = org.smartregister.util.JsonFormUtils.getFieldJSONObject(fields, DBConstants.KEY.DELIVERY_DATE);
-                    String pregOutcome = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"preg_outcome");
+                    String firstName = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"first_name");
 
                     JSONObject uniqueID = org.smartregister.util.JsonFormUtils.getFieldJSONObject(fields, DBConstants.KEY.UNIQUE_ID);
                     if (StringUtils.isNotBlank(uniqueID.optString(org.smartregister.chw.anc.util.JsonFormUtils.VALUE))) {
@@ -230,7 +229,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
                         String familyBaseEntityId = familyIdObject.getString(org.smartregister.chw.anc.util.JsonFormUtils.VALUE);
                         pncForm = org.smartregister.chw.anc.util.JsonFormUtils.populatePNCForm(pncForm, fields, familyBaseEntityId);
                         HnppJsonFormUtils.processAttributesWithChoiceIDsForSave(fields);
-                        if(pregOutcome!=null&&pregOutcome.contains("born_alive")){
+                        if(!StringUtils.isEmpty(firstName)){
                             processChild(fields, allSharedPreferences, childBaseEntityId, familyBaseEntityId, motherBaseId);
                             if (pncForm != null) {
                                 saveRegistration(pncForm.toString(), EC_CHILD);
@@ -257,6 +256,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
 
 
     }
+
     public JSONObject getFormAsJson(String formName, String entityId, String currentLocationId) throws Exception {
         JSONObject jsonObject = org.smartregister.chw.anc.util.JsonFormUtils.getFormAsJson(formName);
         org.smartregister.chw.anc.util.JsonFormUtils.getRegistrationForm(jsonObject, entityId, currentLocationId);
