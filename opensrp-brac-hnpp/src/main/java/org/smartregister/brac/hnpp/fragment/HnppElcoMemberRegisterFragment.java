@@ -351,7 +351,6 @@ public class HnppElcoMemberRegisterFragment extends CoreChildRegisterFragment im
     }
     @Override
     public void countExecute() {
-        SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(mainSelect);
         StringBuilder customFilter = new StringBuilder();
         if (StringUtils.isNotBlank(searchFilterString)) {
             customFilter.append(MessageFormat.format(" and ( {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.FIRST_NAME, searchFilterString));
@@ -372,22 +371,7 @@ public class HnppElcoMemberRegisterFragment extends CoreChildRegisterFragment im
         }
         String query = "";
         try {
-            if (isValidFilterForFts(commonRepository())) {
-                String sql = "";
-                if(!StringUtils.isEmpty(filters)){
-                    sql = mainFilter(mainCondition, presenter().getMainCondition(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER)), filters, Sortqueries, clientAdapter.getCurrentlimit(), clientAdapter.getCurrentoffset());
-                    sql = sql.substring(0,sql.indexOf("ORDER BY"));
-                }else{
-                    sql = mainSelect;
-                    if (StringUtils.isNotBlank(customFilter)) {
-                        sql = sql + customFilter;
-                    }
-//                    sql = sql.replace("date_removed","ec_family_member.date_removed");
-                }
 
-                List<String> ids = commonRepository().findSearchIds(sql);
-                clientAdapter.setTotalcount(ids.size());
-            }else{
                 String sql = "";
                 sql = mainSelect;
                 if (StringUtils.isNotBlank(customFilter)) {
@@ -395,7 +379,7 @@ public class HnppElcoMemberRegisterFragment extends CoreChildRegisterFragment im
                 }
                 List<String> ids = commonRepository().findSearchIds(sql);
                 clientAdapter.setTotalcount(ids.size());
-            }
+
         } catch (Exception e) {
             Log.v("TESTING",""+e);
             Timber.e(e);
@@ -430,18 +414,12 @@ public class HnppElcoMemberRegisterFragment extends CoreChildRegisterFragment im
         }
         String query = "";
         try {
-            if (isValidFilterForFts(commonRepository())) {
-                String sql = mainFilter(mainCondition, presenter().getMainCondition(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER)), filters, Sortqueries, clientAdapter.getCurrentlimit(), clientAdapter.getCurrentoffset());
-                List<String> ids = commonRepository().findSearchIds(sql);
-                query = sqb.toStringFts(ids, tablename, CommonRepository.ID_COLUMN,
-                        Sortqueries);
-                query = sqb.Endquery(query);
-            } else {
+
                 sqb.addCondition(customFilter.toString());
                 query = sqb.orderbyCondition(Sortqueries);
                 query = sqb.Endquery(sqb.addlimitandOffset(query, clientAdapter.getCurrentlimit(), clientAdapter.getCurrentoffset()));
 
-            }
+
         } catch (Exception e) {
             Log.v("TESTING",""+e);
             Timber.e(e);
@@ -449,16 +427,7 @@ public class HnppElcoMemberRegisterFragment extends CoreChildRegisterFragment im
 
         return query;
     }
-    public static String mainFilter(String mainCondition, String mainMemberCondition, String filters, String sort, int limit, int offset) {
-        return "SELECT " + CommonFtsObject.idColumn + " FROM " + CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER) + " WHERE " + CommonFtsObject.idColumn + " IN " +
-                " ( SELECT " + CommonFtsObject.idColumn + " FROM " + CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER) + " WHERE  " + mainCondition + "  AND " + CommonFtsObject.phraseColumn + HnppDBUtils.matchPhrase(filters) +
-                " UNION " +
-                " SELECT " + tableColConcat(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER), CommonFtsObject.idColumn) + " FROM " + CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER) +
-                " JOIN " + CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY) + " on " + tableColConcat(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER), CommonFtsObject.relationalIdColumn) +
-                " = " + tableColConcat(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY), CommonFtsObject.idColumn) +
-                " WHERE  " + mainMemberCondition.trim() + " AND " + tableColConcat(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY), CommonFtsObject.phraseColumn + HnppDBUtils.matchPhrase(filters)) +
-                ")  " + orderByClause(sort) + limitClause(limit, offset);
-    }
+
     public void updateFilterView(){
         if(StringUtils.isEmpty(mSelectedVillageName) && StringUtils.isEmpty(mSelectedClasterName)){
             clients_header_layout.setVisibility(android.view.View.GONE);
