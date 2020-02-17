@@ -12,6 +12,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -217,6 +218,7 @@ public class HnppPncRegisterFragment extends BasePncRegisterFragment implements 
             HnppApplication.getHNPPInstance().forceLogout();
             return;
         }
+        this.view = view;
         HnppConstants.updateAppBackground((view.findViewById(R.id.register_nav_bar_container)));
         HnppConstants.updateAppBackground(view.findViewById(org.smartregister.R.id.register_toolbar));
         CustomFontTextView titleView = view.findViewById(org.smartregister.family.R.id.txt_title_label);
@@ -279,6 +281,15 @@ public class HnppPncRegisterFragment extends BasePncRegisterFragment implements 
 
 
     }
+
+    @Override
+    protected void onResumption() {
+        super.onResumption();
+        if(view!=null)
+        NavigationMenu.getInstance(getActivity(), null, view.findViewById(org.smartregister.R.id.register_toolbar));
+
+    }
+
     @Override
     public void onClick(android.view.View v) {
         super.onViewClicked(v);
