@@ -57,9 +57,6 @@ public class HnppConstants extends CoreConstants {
         public static final String CHILD = "ec_child";
         public static final String ANC_PREGNANCY_OUTCOME = "ec_pregnancy_outcome";
         public static final String ANC_MEMBER = "ec_anc_register";
-
-
-
     }
     public class OTHER_SERVICE_TYPE{
         public static final int TYPE_WOMEN_PACKAGE = 1;
