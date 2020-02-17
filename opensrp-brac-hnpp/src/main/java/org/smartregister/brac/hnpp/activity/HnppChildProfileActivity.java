@@ -38,10 +38,8 @@ import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.brac.hnpp.utils.HouseHoldInfo;
-import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.util.DBConstants;
-import org.smartregister.chw.core.activity.CoreChildHomeVisitActivity;
 import org.smartregister.chw.core.activity.CoreChildMedicalHistoryActivity;
 import org.smartregister.chw.core.activity.CoreUpcomingServicesActivity;
 import org.smartregister.chw.core.custom_views.CoreFamilyMemberFloatingMenu;
@@ -49,7 +47,6 @@ import org.smartregister.chw.core.fragment.FamilyCallDialogFragment;
 import org.smartregister.chw.core.listener.OnClickFloatingMenu;
 import org.smartregister.chw.core.model.CoreChildProfileModel;
 import org.smartregister.chw.core.presenter.CoreChildProfilePresenter;
-import org.smartregister.chw.core.utils.CoreChildUtils;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.presenter.HnppChildProfilePresenter;
@@ -358,11 +355,15 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     public void startAnyFormActivity(String formName, int requestCode) {
         try {
             JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
-            if("hnpp_iycf_package".equalsIgnoreCase(formName)){
+            if(HnppConstants.JSON_FORMS.IYCF_PACKAGE.equalsIgnoreCase(formName)){
                 JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
                 JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
                 String DOB = ((HnppChildProfilePresenter) presenter).getDateOfBirth();
-                updateFormField(jsonArray,"dob",DOB);
+                Date date = Utils.dobStringToDate(DOB);
+                String dobFormate = HnppConstants.DDMMYY.format(date);
+                updateFormField(jsonArray,"dob",dobFormate);
+                String birthWeight = HnppDBUtils.getBirthWeight(childBaseEntityId);
+                updateFormField(jsonArray,"weight",birthWeight);
             }
             jsonForm.put(JsonFormUtils.ENTITY_ID, memberObject.getFamilyHead());
             Intent intent = new Intent(this, HnppAncJsonFormActivity.class);
