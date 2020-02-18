@@ -133,6 +133,12 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
                 if (((MaterialEditText)v).getFloatingLabelText()!=null&&(((MaterialEditText)v).getFloatingLabelText().toString()).equals("নাড়ির গতি(প্রতি মিনিটে )")){
                     ((MaterialEditText)v).addTextChangedListener(textWatcherpulserate);
                 }
+                if (((MaterialEditText)v).getFloatingLabelText()!=null&&(((MaterialEditText)v).getFloatingLabelText().toString()).equals("শ্বাসের গতি (প্রতি মিনিটে )")){
+                    ((MaterialEditText)v).addTextChangedListener(textWatcherrespiratory_rate);
+                }
+                if (((MaterialEditText)v).getFloatingLabelText()!=null&&(((MaterialEditText)v).getFloatingLabelText().toString()).equals("অন্য জটিলতা থাকলে লিখুন")){
+                    ((MaterialEditText)v).addTextChangedListener(textWatcherothercomplication);
+                }
             }
 
 
@@ -170,8 +176,26 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
                         isTolPeteBetha = position == 0;
                         referUHCCheckStatus(isTolPeteBetha);
             }
+            else if (((MaterialSpinner) v).getHint() != null && (((MaterialSpinner) v).getHint().toString()).equals("নাভির অবস্থা")) {
 
+                navalCondition = position == 1;
+                referUHFWCCheckStatus(navalCondition);
+            }
+            else if (((MaterialSpinner) v).getHint() != null && (((MaterialSpinner) v).getHint().toString()).equals("চোখের অবস্থা")) {
 
+                eyeCondition = position == 1;
+                referUHFWCCheckStatus(eyeCondition);
+            }
+            else if (((MaterialSpinner) v).getHint() != null && (((MaterialSpinner) v).getHint().toString()).equals("ত্বক")) {
+
+                skinCondition = position == 1;
+                referUHCCheckStatus(skinCondition);
+            }
+            else if (((MaterialSpinner) v).getHint() != null && (((MaterialSpinner) v).getHint().toString()).equals("শারিরিক অবস্থা/ নড়াচড়া")) {
+
+                physicalCondition = position == 1;
+                referUHCCheckStatus(physicalCondition);
+            }
             else if (((MaterialSpinner) v).getHint() != null && (
                     (((MaterialSpinner) v).getHint().toString()).equals("মাথার ভারসাম্য *")||
                             (((MaterialSpinner) v).getHint().toString()).equals("নিজে বসতে পারে *")||
@@ -189,19 +213,23 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
             )) {
 
                 iycf_refer = position == 1;
-                iycfmap.put(v.getId(),position == 1);
-                for (Map.Entry<Integer, Boolean> entry : iycfmap.entrySet()) {
-                    if(entry.getValue())
+                iycfmap.put(((MaterialSpinner) v).getHint().toString(),iycf_refer);
+                for (Map.Entry<String, Boolean> entry : iycfmap.entrySet()) {
+                    if(entry.getValue()) {
                         iycf_refer = entry.getValue();
-                    break;
+                        break;
+                    }
                 }
 
                 referUHCCheckStatus(iycf_refer);
             }
         }
     }
-
-    Map<Integer,Boolean>iycfmap = new HashMap<Integer, Boolean>();
+    boolean physicalCondition = false;
+    boolean skinCondition = false;
+    boolean eyeCondition = false;
+    boolean navalCondition = false;
+    Map<String,Boolean>iycfmap = new HashMap<String, Boolean>();
     boolean iycf_refer = false;
     boolean excesbleeding = false;
     boolean compulsion = false;
@@ -239,15 +267,66 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
 
         @Override
         public void afterTextChanged(Editable s) {
+            pulserate = false;
             if(!StringUtils.isEmpty(s)){
                 try{
                     pulserate = Double.valueOf(s.toString())>90d;
-                    referUHFWCCheckStatus(pulserate);
 
                 }catch (Exception e){
 
                 }
             }
+            referUHFWCCheckStatus(pulserate);
+
+        }
+    };
+    boolean othercomplication = false;
+    TextWatcher textWatcherothercomplication = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            respiratory_rate = false;
+            if(!StringUtils.isEmpty(s)){
+                othercomplication = true;
+            }
+            referUHFWCCheckStatus(respiratory_rate);
+
+        }
+    };
+    boolean respiratory_rate = false;
+    TextWatcher textWatcherrespiratory_rate = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            respiratory_rate = false;
+            if(!StringUtils.isEmpty(s)){
+                try{
+                    respiratory_rate = Double.valueOf(s.toString())>60d;
+
+                }catch (Exception e){
+
+                }
+            }
+            referUHFWCCheckStatus(respiratory_rate);
+
         }
     };
     boolean stitchlength = false;
@@ -264,15 +343,17 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
 
         @Override
         public void afterTextChanged(Editable s) {
+            stitchlength = false;
             if(!StringUtils.isEmpty(s)){
                 try{
                     stitchlength = Double.valueOf(s.toString())>1d;
-                    referUHCCheckStatus(stitchlength);
 
                 }catch (Exception e){
 
                 }
             }
+            referUHCCheckStatus(stitchlength);
+
         }
     };
     boolean hemoglobin = false;
@@ -289,15 +370,17 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
 
         @Override
         public void afterTextChanged(Editable s) {
+            hemoglobin = false;
             if(!StringUtils.isEmpty(s)){
                 try{
                     hemoglobin = Double.valueOf(s.toString())<40d;
-                    referUHCCheckStatus(hemoglobin);
 
                 }catch (Exception e){
 
                 }
             }
+            referUHCCheckStatus(hemoglobin);
+
         }
     };
     boolean blood_pressure_systolic = false;
@@ -314,15 +397,17 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
 
         @Override
         public void afterTextChanged(Editable s) {
+            blood_pressure_systolic = false;
             if(!StringUtils.isEmpty(s)){
                 try{
                     blood_pressure_systolic = Double.valueOf(s.toString())>=140d;
-                    referUHFWCCheckStatus(blood_pressure_systolic);
 
                 }catch (Exception e){
 
                 }
             }
+            referUHFWCCheckStatus(blood_pressure_systolic);
+
         }
     };
     boolean blood_pressure_diastolic = false;
@@ -339,15 +424,17 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
 
         @Override
         public void afterTextChanged(Editable s) {
+            blood_pressure_diastolic = false;
             if(!StringUtils.isEmpty(s)){
                 try{
                     blood_pressure_diastolic = Double.valueOf(s.toString())>=90d;
-                    referUHFWCCheckStatus(blood_pressure_systolic);
 
                 }catch (Exception e){
 
                 }
             }
+            referUHFWCCheckStatus(blood_pressure_systolic);
+
         }
     };
 
@@ -365,15 +452,17 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
 
         @Override
         public void afterTextChanged(Editable s) {
+            child_movement_in_last_24hr = false;
             if(!StringUtils.isEmpty(s)){
                 try{
                     child_movement_in_last_24hr = Double.valueOf(s.toString())<6d;
-                    referUHFWCCheckStatus(child_movement_in_last_24hr);
 
                 }catch (Exception e){
 
                 }
             }
+            referUHFWCCheckStatus(child_movement_in_last_24hr);
+
         }
     };
     boolean highTemperature = false;
@@ -390,15 +479,17 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
 
         @Override
         public void afterTextChanged(Editable s) {
+            highTemperature = false;
             if(!StringUtils.isEmpty(s)){
                 try{
                     highTemperature = Double.valueOf(s.toString())>100d;
-                    referUHFWCCheckStatus(highTemperature);
 
                 }catch (Exception e){
 
                 }
             }
+            referUHFWCCheckStatus(highTemperature);
+
         }
     };
     boolean fastingSugar = false;
@@ -415,15 +506,17 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
 
         @Override
         public void afterTextChanged(Editable s) {
+            fastingSugar = false;
             if(!StringUtils.isEmpty(s)){
                 try{
-                    fastingSugar = Double.valueOf(s.toString())>7d;
-                    referUHCCheckStatus(fastingSugar);
+                    fastingSugar = Double.valueOf(s.toString())>=7d;
 
                 }catch (Exception e){
 
                 }
             }
+            referUHCCheckStatus(fastingSugar);
+
         }
     };
     boolean randomSugar = false;
@@ -440,15 +533,17 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
 
         @Override
         public void afterTextChanged(Editable s) {
+            randomSugar = false;
             if(!StringUtils.isEmpty(s)){
                 try{
-                    randomSugar = Double.valueOf(s.toString())>11.1d;
-                    referUHCCheckStatus(randomSugar);
+                    randomSugar = Double.valueOf(s.toString())>=11.1d;
 
                 }catch (Exception e){
 
                 }
             }
+            referUHCCheckStatus(randomSugar);
+
         }
     };
     boolean uterus_length = false;
@@ -465,12 +560,12 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
 
         @Override
         public void afterTextChanged(Editable s) {
+            uterus_length = false;
             if(!StringUtils.isEmpty(s)){
                 try{
                     if(edd!=null){
 
                         uterus_length = Double.valueOf(s.toString())<Double.valueOf(uterusLengthCM);
-                        referUHFWCCheckStatus(uterus_length);
                     }
 
 
@@ -478,6 +573,8 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
 
                 }
             }
+            referUHFWCCheckStatus(uterus_length);
+
         }
     };
 
@@ -530,7 +627,8 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
     }
 
     public void referUHFWCCheckStatus(boolean isChecked) {
-        isChecked = isChecked||highTemperature||uterus_length||child_movement_in_last_24hr||pulserate||blood_pressure_diastolic||blood_pressure_systolic;
+        isChecked = isChecked||highTemperature||uterus_length||child_movement_in_last_24hr||pulserate||blood_pressure_diastolic||blood_pressure_systolic
+        ||navalCondition||eyeCondition;
         for (int i = 0; i < viewList.size(); i++) {
             CompoundButton buttonView = viewList.get(i).view;
             String label = viewList.get(i).label;
@@ -541,7 +639,8 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
         }
     }
     public void referUHCCheckStatus(boolean isChecked) {
-        isChecked = isChecked || iycf_refer || isTolPeteBetha||fastingSugar||randomSugar||hemoglobin||bilirubin||compulsion||excesbleeding;
+        isChecked = isChecked || iycf_refer || isTolPeteBetha||fastingSugar||randomSugar||hemoglobin||bilirubin||
+                compulsion||excesbleeding||physicalCondition||skinCondition;
         for (int i = 0; i < viewList.size(); i++) {
             CompoundButton buttonView = viewList.get(i).view;
             String label = viewList.get(i).label;
