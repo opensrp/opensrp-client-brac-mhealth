@@ -78,7 +78,7 @@ public class FormApplicability {
         return "";
     }
     public static boolean isElco(int age){
-        return age > 10 && age < 50;
+        return age >= 10 && age < 50;
     }
     public static boolean isEncVisible(Date dob){
         int dayPass = DateUtil.dayDifference(new LocalDate(dob),new LocalDate(System.currentTimeMillis()));
