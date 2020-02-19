@@ -202,7 +202,7 @@
           {
             "type": "date",
             "ex": "greaterThanEqualTo(., step1:dob)",
-            "err": "Date moved away occur before date of birth"
+            "err": "জন্মের তারিখের আগেই তারিখ সরে যায়"
           }
         ],
         "relevance": {

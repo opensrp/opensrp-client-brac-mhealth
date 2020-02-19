@@ -65,6 +65,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import timber.log.Timber;
+
 import static org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity.REQUEST_HOME_VISIT;
 import static org.smartregister.chw.anc.util.JsonFormUtils.updateFormField;
 
@@ -250,18 +252,27 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
             case R.id.action_malaria_diagnosis:
                 displayShortToast(R.string.clicked_malaria_diagnosis);
                 return true;
+            case R.id.action_remove_member:
+                removeIndividualProfile();
+                return true;
+
             default:
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
-
+    protected void removeIndividualProfile() {
+        Timber.d("Remove member action is not required in HF");
+        IndividualProfileRemoveActivity.startIndividualProfileActivity(HnppChildProfileActivity.this,
+                commonPersonObject, "", "", "", FamilyRegisterActivity.class.getCanonicalName());
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         menu.findItem(R.id.action_anc_registration).setVisible(false);
         menu.findItem(R.id.action_malaria_registration).setVisible(false);
-        menu.findItem(R.id.action_remove_member).setVisible(false);
+        menu.findItem(R.id.action_remove_member).setVisible(true);
+        menu.findItem(R.id.action_remove_member).setTitle("সদস্য বাদ দিন / মাইগ্রেট / মৃত্যু");
         menu.findItem(R.id.action_sick_child_follow_up).setVisible(false);
         menu.findItem(R.id.action_malaria_diagnosis).setVisible(false);
         menu.findItem(R.id.action_pregnancy_out_come).setVisible(false);

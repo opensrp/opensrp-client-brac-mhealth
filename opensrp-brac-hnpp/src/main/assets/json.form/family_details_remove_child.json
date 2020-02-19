@@ -1,6 +1,6 @@
 {
   "count": "1",
-  "encounter_type": "Remove Child Under 5",
+  "encounter_type": "Remove Family Member",
   "entity_id": "",
   "relational_id": "",
   "metadata": {
@@ -52,7 +52,7 @@
     }
   },
   "step1": {
-    "title": "Remove Child Under 5",
+    "title": "শিশু সদস্যকে বাতিল করুন",
     "fields": [
       {
         "key": "spacer",
@@ -90,24 +90,269 @@
         "key": "remove_reason",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "160417AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "remove_reason",
         "openmrs_data_type": "select one",
         "type": "spinner",
-        "hint": "Reason",
-        "values": [
-          "Died",
-          "Moved away",
-          "Other"
-        ],
+        "hint": "সদস্য বাতিল করার কারণ",
         "v_required": {
           "value": "true",
-          "err": "Select the reason for removing the child's record."
+          "err": "সদস্য বাতিল করার কারণ নির্বাচন করুন"
         },
+        "values": [
+          "স্থানান্তর",
+          "মৃত্যু নিবন্ধন",
+          "অন্যান্য"
+        ],
         "openmrs_choice_ids": {
-          "Died": "160034AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "Moved away": "160415AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "Other": "5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          "স্থানান্তর": "moved_away",
+          "মৃত্যু নিবন্ধন": "died",
+          "অন্যান্য": "other"
         }
+      },
+      {
+        "key": "removed_other",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "removed_other",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "অন্যান্য কারণে খানা বাদ",
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "values": [
+          "ভুল তথ্য প্রদান করা হয়েছে",
+          "মেম্বারটি আগেই রেজিস্টারকৃত",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "ভুল তথ্য প্রদান করা হয়েছে": "incorrect_information_provided",
+          "মেম্বারটি আগেই রেজিস্টারকৃত": "registered_before_member",
+          "অন্যান্য": "other"
+        },
+        "relevance": {
+          "step1:remove_reason": {
+            "type": "string",
+            "ex": "equalTo(., \"অন্যান্য\")"
+          }
+        }
+      },
+      {
+        "key": "removed_other_reason",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "removed_other_reason",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "অন্যান্য",
+        "relevance": {
+          "step1:removed_other": {
+            "type": "string",
+            "ex": "equalTo(., \"অন্যান্য\")"
+          }
+        }
+      },
+      {
+        "key": "moved_away_place",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "moved_away_place",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "কোথায় স্থান্তরিত হয়েছে জানা আছে কিনা ?",
+        "v_required": {
+          "value": "true",
+          "err": "সদস্য স্থান্তরিত করার কারণ নির্বাচন করুন"
+        },
+        "values": [
+          "দেশের মধ্যে",
+          "বিদেশ গমন",
+          "জানা নেই"
+        ],
+        "openmrs_choice_ids": {
+          "দেশের মধ্যে": "local_migration",
+          "বিদেশ গমন": "abroad_migration",
+          "জানা নেই": "unknown"
+        },
+        "relevance": {
+          "step1:remove_reason": {
+            "type": "string",
+            "ex": "equalTo(., \"স্থানান্তর\")"
+          }
+        }
+      },
+      {
+        "key": "date_died",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "date_died",
+        "openmrs_data_type": "text",
+        "type": "date_picker",
+        "label": "মৃত্যু তারিখ",
+        "hint": "তারিখ",
+        "expanded": false,
+        "min_date": "",
+        "max_date": "today",
+        "v_required": {
+          "value": "true",
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "constraints": [
+          {
+            "type": "date",
+            "ex": "greaterThanEqualTo(., step1:dob)",
+            "err": "জন্মের তারিখের আগেই তারিখ সরে যায়"
+          }
+        ],
+        "relevance": {
+          "step1:remove_reason": {
+            "type": "string",
+            "ex": "equalTo(., \"মৃত্যু নিবন্ধন\")"
+          }
+        }
+      },
+      {
+        "key": "time_of_death",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "time_of_death",
+        "openmrs_data_type": "text",
+        "type": "time_picker",
+        "label": "মৃত্যু আনুমানিক সময়",
+        "hint": "আনুমানিক সময়",
+        "expanded": false,
+        "min_date": "",
+        "max_date": "today",
+        "v_required": {
+          "value": "true",
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "step1:remove_reason": {
+            "type": "string",
+            "ex": "equalTo(., \"মৃত্যু নিবন্ধন\")"
+          }
+        }
+      },
+      {
+        "key": "cause_of_death",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cause_of_death",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "মৃত্যর ধরণ",
+        "v_required": {
+          "value": "true",
+          "err": "মৃত্যর ধরণ নির্বাচন করুন"
+        },
+        "values": [
+          "বার্ধক্য জনিত",
+          "শিশু মৃত্যু",
+          "গর্ভকালীন মৃত্যু",
+          "প্রসবকালীন মৃত্যু",
+          "প্রসবোত্তর মৃত্যু",
+          "সড়ক দুর্ঘটনা",
+          "পানিতে ডুবে",
+          "অপঘাতে মৃত্যু",
+          "অন্যান্য"
+
+        ],
+        "openmrs_choice_ids": {
+          "বার্ধক্য জনিত": "old_age",
+          "শিশু মৃত্যু": "infant_death",
+          "গর্ভকালীন মৃত্যু": "preterm_death",
+          "প্রসবকালীন মৃত্যু": "childbirth_death",
+          "প্রসবোত্তর মৃত্যু": "postnatal_death",
+          "সড়ক দুর্ঘটনা": "road_accidents",
+          "পানিতে ডুবে": "submerged_in_water",
+          "অপঘাতে মৃত্যু": "accidental_death",
+          "অন্যান্য": "other"
+        },
+        "relevance": {
+          "step1:remove_reason": {
+            "type": "string",
+            "ex": "equalTo(., \"মৃত্যু নিবন্ধন\")"
+          }
+        }
+      },
+      {
+        "key": "death_history",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "death_history",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "বিবরণ",
+        "relevance": {
+          "step1:remove_reason": {
+            "type": "string",
+            "ex": "equalTo(., \"মৃত্যু নিবন্ধন\")"
+          }
+        }
+      },
+      {
+        "key": "place_of_death",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "place_of_death",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "মৃত্যর স্থান",
+        "v_required": {
+          "value": "true",
+          "err": "মৃত্যুর স্থান"
+        },
+        "values": [
+          "বাড়িতে",
+          "হাসপাতালে",
+          "রাস্তায়",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "বাড়িতে": "at_home",
+          "হাসপাতালে": "at_hospital",
+          "রাস্তায়": "at_road",
+          "অন্যান্য": "other"
+        },
+        "relevance": {
+          "step1:remove_reason": {
+            "type": "string",
+            "ex": "equalTo(., \"মৃত্যু নিবন্ধন\")"
+          }
+        }
+      },
+      {
+        "key": "jila",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "jila",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "জেলা",
+        "relevance": {
+          "step1:moved_away_place": {
+            "type": "string",
+            "ex": "equalTo(., \"দেশের মধ্যে\")"
+          }
+        }
+      },
+      {
+        "key": "upojila",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "upojila",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "উপজেলা/সিটি কর্পোরেশন",
+        "relevance": {
+          "step1:moved_away_place": {
+            "type": "string",
+            "ex": "equalTo(., \"দেশের মধ্যে\")"
+          }
+        }
+
       },
       {
         "key": "dob",
@@ -123,7 +368,7 @@
         "key": "date_moved",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "164133AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "date_moved",
         "openmrs_data_type": "text",
         "type": "date_picker",
         "label": "Date moved away",
@@ -139,7 +384,7 @@
           {
             "type": "date",
             "ex": "greaterThanEqualTo(., step1:dob)",
-            "err": "Moved away date cannot be before date of birth"
+            "err": "Date moved away occur before date of birth"
           }
         ],
         "relevance": {
@@ -149,36 +394,9 @@
           }
         }
       },
-      {
-        "key": "date_died",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "1543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-        "openmrs_data_type": "text",
-        "type": "date_picker",
-        "label": "Date of death",
-        "hint": "Date of death",
-        "expanded": false,
-        "min_date": "",
-        "max_date": "today",
-        "v_required": {
-          "value": "true",
-          "err": "Enter the date of death"
-        },
-        "constraints": [
-          {
-            "type": "date",
-            "ex": "greaterThanEqualTo(., step1:dob)",
-            "err": "Date of death can't occur before date of birth"
-          }
-        ],
-        "relevance": {
-          "step1:remove_reason": {
-            "type": "string",
-            "ex": "equalTo(., \"Died\")"
-          }
-        }
-      },
+
+
+
       {
         "key": "age_at_death",
         "openmrs_entity_parent": "",
@@ -189,15 +407,16 @@
         "type": "edit_text",
         "read_only": "true",
         "relevance": {
-          "step1:remove_reason": {
-            "type": "string",
-            "ex": "equalTo(., \"Died\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "family_remove_relevance.yml"
+            }
           }
         },
         "calculation": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "child_remove_calculation.yml"
+              "rules-file": "family_remove_calculation.yml"
             }
           }
         }

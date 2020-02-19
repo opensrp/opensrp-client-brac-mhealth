@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 
+import org.apache.commons.lang3.StringUtils;
 import org.smartregister.brac.hnpp.activity.AboveFiveChildProfileActivity;
 import org.smartregister.brac.hnpp.activity.HnppChildProfileActivity;
 import org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity;
@@ -14,6 +15,7 @@ import org.smartregister.chw.core.activity.CoreChildProfileActivity;
 import org.smartregister.chw.core.fragment.CoreFamilyProfileMemberFragment;
 import org.smartregister.chw.core.provider.CoreMemberRegisterProvider;
 import org.smartregister.brac.hnpp.provider.HNPPMemberRegisterProvider;
+import org.smartregister.chw.core.utils.ChildDBConstants;
 import org.smartregister.chw.core.utils.CoreChildUtils;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
@@ -24,6 +26,7 @@ import org.smartregister.family.presenter.BaseFamilyProfileMemberPresenter;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.Utils;
+import org.smartregister.util.StringUtil;
 
 import java.util.Set;
 
@@ -54,25 +57,58 @@ public class FamilyProfileMemberFragment extends CoreFamilyProfileMemberFragment
         String primaryCareGiver = getArguments().getString(Constants.INTENT_KEY.PRIMARY_CAREGIVER);
         presenter = new HnppBaseFamilyProfileMemberPresenter(this, new HNPPFamilyProfileMemberModel(), null, familyBaseEntityId, familyHead, primaryCareGiver);
     }
+    @Override
+    public void goToProfileActivity(android.view.View view) {
+        if (view.getTag() instanceof CommonPersonObjectClient) {
+            CommonPersonObjectClient commonPersonObjectClient = (CommonPersonObjectClient) view.getTag();
+            String DOD = Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOD, false);
+            if(StringUtils.isEmpty(DOD)){
+                String entityType = Utils.getValue(commonPersonObjectClient.getColumnmaps(), ChildDBConstants.KEY.ENTITY_TYPE, false);
+                if (CoreConstants.TABLE_NAME.FAMILY_MEMBER.equals(entityType)) {
+                    goToOtherMemberProfileActivity(commonPersonObjectClient);
+                } else {
+                    goToChildProfileActivity(commonPersonObjectClient);
+                }
+            }
 
+        }
+    }
+    @Override
+    public void goToOtherMemberProfileActivity(CommonPersonObjectClient patient) {
+        String DOD = Utils.getValue(patient.getColumnmaps(), DBConstants.KEY.DOD, false);
+        if(StringUtils.isEmpty(DOD)){
+            Intent intent = new Intent(getActivity(), getFamilyOtherMemberProfileActivityClass());
+            intent.putExtras(getArguments());
+            intent.putExtra(Constants.INTENT_KEY.BASE_ENTITY_ID, patient.getCaseId());
+            intent.putExtra(CoreConstants.INTENT_KEY.CHILD_COMMON_PERSON, patient);
+            intent.putExtra(Constants.INTENT_KEY.FAMILY_HEAD, ((BaseFamilyProfileMemberPresenter) presenter).getFamilyHead());
+            intent.putExtra(Constants.INTENT_KEY.PRIMARY_CAREGIVER, ((BaseFamilyProfileMemberPresenter) presenter).getPrimaryCaregiver());
+            startActivity(intent);
+        }
+
+    }
     @Override
     public void goToChildProfileActivity(CommonPersonObjectClient patient) {
-        String dobString = Utils.getDuration(Utils.getValue(patient.getColumnmaps(), DBConstants.KEY.DOB, false));
-        Integer yearOfBirth = CoreChildUtils.dobStringToYear(dobString);
-        Intent intent;
-        if (yearOfBirth != null && yearOfBirth >= 5) {
-           goToOtherMemberProfileActivity(patient);
-           return;
-        } else {
-            intent = new Intent(getActivity(), getChildProfileActivityClass());
+        String DOD = Utils.getValue(patient.getColumnmaps(), DBConstants.KEY.DOD, false);
+        if(StringUtils.isEmpty(DOD)){
+            String dobString = Utils.getDuration(Utils.getValue(patient.getColumnmaps(), DBConstants.KEY.DOB, false));
+            Integer yearOfBirth = CoreChildUtils.dobStringToYear(dobString);
+            Intent intent;
+            if (yearOfBirth != null && yearOfBirth >= 5) {
+                goToOtherMemberProfileActivity(patient);
+                return;
+            } else {
+                intent = new Intent(getActivity(), getChildProfileActivityClass());
+            }
+            if (getArguments() != null) {
+                intent.putExtras(getArguments());
+            }
+            intent.putExtra(CoreConstants.INTENT_KEY.IS_COMES_FROM_FAMILY, true);
+            intent.putExtra(Constants.INTENT_KEY.BASE_ENTITY_ID, patient.getCaseId());
+            intent.putExtra(org.smartregister.chw.anc.util.Constants.ANC_MEMBER_OBJECTS.MEMBER_PROFILE_OBJECT, new MemberObject(patient));
+            startActivity(intent);
         }
-        if (getArguments() != null) {
-            intent.putExtras(getArguments());
-        }
-        intent.putExtra(CoreConstants.INTENT_KEY.IS_COMES_FROM_FAMILY, true);
-        intent.putExtra(Constants.INTENT_KEY.BASE_ENTITY_ID, patient.getCaseId());
-        intent.putExtra(org.smartregister.chw.anc.util.Constants.ANC_MEMBER_OBJECTS.MEMBER_PROFILE_OBJECT, new MemberObject(patient));
-        startActivity(intent);
+
     }
 
     @Override

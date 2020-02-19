@@ -79,7 +79,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         MenuItem changeCareGiver = menu.findItem(org.smartregister.chw.core.R.id.action_change_care_giver);
 
         if (removeMember != null) {
-            removeMember.setVisible(false);
+            removeMember.setVisible(true);
         }
 
         if (changeFamHead != null) {
