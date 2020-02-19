@@ -196,6 +196,20 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
                 physicalCondition = position == 1;
                 referUHCCheckStatus(physicalCondition);
             }
+            //
+            else if (((MaterialSpinner) v).getHint() != null && (((MaterialSpinner) v).getHint().toString()).equals("ইডিমা *")) {
+
+                has_edema = position == 0;
+                refer_albumin();
+            }
+            else if (((MaterialSpinner) v).getHint() != null && (((MaterialSpinner) v).getHint().toString()).equals("এলবুমিন - প্রস্রাব পরিক্ষা *")) {
+
+                has_albumin = position == 0;
+                refer_albumin();
+
+            }
+
+            //
             else if (((MaterialSpinner) v).getHint() != null && (
                     (((MaterialSpinner) v).getHint().toString()).equals("মাথার ভারসাম্য *")||
                             (((MaterialSpinner) v).getHint().toString()).equals("নিজে বসতে পারে *")||
@@ -224,6 +238,14 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
                 referUHCCheckStatus(iycf_refer);
             }
         }
+    }
+
+    boolean has_edema = false;
+    boolean has_albumin = false;
+    boolean refer_albumin = false;
+    public void refer_albumin(){
+        refer_albumin = has_albumin&&has_edema&&((blood_pressure_systolic_count>120d)||(blood_pressure_diastolic_count>80d));
+        referUHFWCCheckStatus(refer_albumin);
     }
     boolean physicalCondition = false;
     boolean skinCondition = false;
@@ -270,7 +292,7 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
             pulserate = false;
             if(!StringUtils.isEmpty(s)){
                 try{
-                    pulserate = Double.valueOf(s.toString())>90d;
+                    pulserate = (Double.valueOf(s.toString())>90d || Double.valueOf(s.toString())<60d)&&conditions;
 
                 }catch (Exception e){
 
@@ -373,7 +395,7 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
             hemoglobin = false;
             if(!StringUtils.isEmpty(s)){
                 try{
-                    hemoglobin = Double.valueOf(s.toString())<40d;
+                    hemoglobin = Double.valueOf(s.toString())<8d;
 
                 }catch (Exception e){
 
@@ -383,6 +405,7 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
 
         }
     };
+    double blood_pressure_systolic_count = 0d;
     boolean blood_pressure_systolic = false;
     TextWatcher textWatcherblood_pressure_systolic = new TextWatcher() {
         @Override
@@ -398,18 +421,21 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
         @Override
         public void afterTextChanged(Editable s) {
             blood_pressure_systolic = false;
+            blood_pressure_systolic_count = 0d;
             if(!StringUtils.isEmpty(s)){
                 try{
+                    blood_pressure_systolic_count = Double.valueOf(s.toString());
                     blood_pressure_systolic = Double.valueOf(s.toString())>=140d;
-
                 }catch (Exception e){
 
                 }
             }
             referUHFWCCheckStatus(blood_pressure_systolic);
+            refer_albumin();
 
         }
     };
+    double blood_pressure_diastolic_count = 0d;
     boolean blood_pressure_diastolic = false;
     TextWatcher textWatcherblood_pressure_diastolic = new TextWatcher() {
         @Override
@@ -425,8 +451,10 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
         @Override
         public void afterTextChanged(Editable s) {
             blood_pressure_diastolic = false;
+            blood_pressure_diastolic_count = 0d;
             if(!StringUtils.isEmpty(s)){
                 try{
+                    blood_pressure_diastolic_count = Double.valueOf(s.toString());
                     blood_pressure_diastolic = Double.valueOf(s.toString())>=90d;
 
                 }catch (Exception e){
@@ -434,6 +462,7 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
                 }
             }
             referUHFWCCheckStatus(blood_pressure_systolic);
+            refer_albumin();
 
         }
     };
@@ -577,9 +606,9 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
 
         }
     };
-
+    boolean conditions = false;
     public void setUHFWCReferCheckStatus() {
-        boolean isChecked = false;
+        conditions = false;
         for (int i = 0; i < viewList.size(); i++) {
             CompoundButton buttonView = viewList.get(i).view;
             String label = buttonView.getText().toString();
@@ -591,14 +620,14 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
                     label.equalsIgnoreCase("অতিরিক্ত ওজন বৃদ্ধি")
             ) {
                 if (buttonView.isChecked()) {
-                    isChecked = true;
+                    conditions = true;
                     break;
                 }
 
             }
         }
         //check refer viewList
-        referUHFWCCheckStatus(isChecked);
+        referUHFWCCheckStatus(conditions);
 
 
     }
@@ -628,7 +657,7 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
 
     public void referUHFWCCheckStatus(boolean isChecked) {
         isChecked = isChecked||highTemperature||uterus_length||child_movement_in_last_24hr||pulserate||blood_pressure_diastolic||blood_pressure_systolic
-        ||navalCondition||eyeCondition;
+        ||navalCondition||eyeCondition||refer_albumin||conditions;
         for (int i = 0; i < viewList.size(); i++) {
             CompoundButton buttonView = viewList.get(i).view;
             String label = viewList.get(i).label;

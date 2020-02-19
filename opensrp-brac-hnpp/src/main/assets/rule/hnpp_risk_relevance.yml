@@ -12,13 +12,6 @@ condition: "(helper.getDifferenceDays(step1_dob) / 365.25 >= 720)"
 actions:
   - "isRelevant = true"
 ---
-name: step1_albumin_toaster_3
-description: albumin_toaster_3
-priority: 1
-condition: "step1_no_prev_preg > 4"
-actions:
-  - "isRelevant = true"
----
 name: step1_risk_toaster_1
 description: risk_toaster_1
 priority: 1
