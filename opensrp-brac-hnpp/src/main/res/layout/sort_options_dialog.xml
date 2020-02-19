@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:gravity="center"
+    android:background="@color/light_gray"
+    android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="সর্ট করুন"
+                android:layout_margin="10dp"
+                android:textColor="@color/black"
+                android:textSize="18sp"/>
+                <TextView
+                    android:id="@+id/household_no_sort_btn"
+                    android:layout_width="350dp"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/white"
+                    android:drawableTint="@color/white"
+
+                    android:textSize="20sp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:drawablePadding="5dp"
+                    android:background="@drawable/login_button_bg"
+                    android:drawableLeft="@drawable/ic_home"
+                    android:text="খানা নম্বর অনুযায়ী"/>
+
+                <TextView
+                    android:id="@+id/last_visit_sort_btn"
+                    android:layout_width="350dp"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="10dp"
+                    android:textSize="20sp"
+                    android:drawableTint="@color/white"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:drawablePadding="5dp"
+                    android:background="@drawable/login_button_bg"
+                    android:drawableLeft="@drawable/childrow_history"
+                    android:text="শেষ পরিদর্শন তারিখ অনুযায়ী"/>
+
+
+
+
+
+</LinearLayout>
