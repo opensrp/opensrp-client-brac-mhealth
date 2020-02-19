@@ -235,8 +235,30 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_iycf_package_relevance.yml"
+            }
+          }
         }
-
+      },
+      {
+        "key": "advice_toaster_1",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "মাকে সন্তানের সাথে বেশি করে খেলার এবং কথা বলার পরামর্শ দিন",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:can_sound": {
+            "type": "string",
+            "ex": "equalTo(., \"না\")"
+          }
+        }
       },
       {
         "key": "can_crap",
@@ -286,8 +308,30 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_iycf_package_relevance.yml"
+            }
+          }
         }
-
+      },
+      {
+        "key": "advice_toaster_2",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "মাকে সন্তানের সাথে বেশি করে খেলার এবং কথা বলার পরামর্শ দিন",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:can_sound_baba_maa": {
+            "type": "string",
+            "ex": "equalTo(., \"না\")"
+          }
+        }
       },
       {
         "key": "can_catch",
@@ -337,8 +381,30 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_iycf_package_relevance.yml"
+            }
+          }
         }
-
+      },
+      {
+        "key": "advice_toaster_3",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "মাকে সন্তানের সাথে বেশি করে খেলার এবং কথা বলার পরামর্শ দিন",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:can_make_word": {
+            "type": "string",
+            "ex": "equalTo(., \"না\")"
+          }
+        }
       },
       {
         "key": "can_walk",
@@ -388,8 +454,30 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_iycf_package_relevance.yml"
+            }
+          }
         }
-
+      },
+      {
+        "key": "advice_toaster_4",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "মাকে সন্তানের সাথে বেশি করে খেলার এবং কথা বলার পরামর্শ দিন",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:can_two_sound": {
+            "type": "string",
+            "ex": "equalTo(., \"না\")"
+          }
+        }
       },
       {
         "key": "can_one_walk",
@@ -467,8 +555,30 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_iycf_package_relevance.yml"
+            }
+          }
         }
-
+      },
+      {
+        "key": "advice_toaster_5",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "মাকে সন্তানের সাথে বেশি করে খেলার এবং কথা বলার পরামর্শ দিন",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:can_make_sentance": {
+            "type": "string",
+            "ex": "equalTo(., \"না\")"
+          }
+        }
       },
       {
         "key": "refer_reason",

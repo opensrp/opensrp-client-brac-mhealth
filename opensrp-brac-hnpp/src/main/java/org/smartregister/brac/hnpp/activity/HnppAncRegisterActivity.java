@@ -100,7 +100,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
             Form form = new Form();
             form.setActionBarBackground(org.smartregister.chw.core.R.color.family_actionbar);
             form.setWizard(false);
-            Intent intent = new Intent(this, Utils.metadata().familyMemberFormActivity);
+            Intent intent = new Intent(this, HnppAncJsonFormActivity.class);
 
             JSONObject stepOne = jsonForm.getJSONObject(JsonFormUtils.STEP1);
             JSONArray jsonArray = stepOne.getJSONArray(JsonFormUtils.FIELDS);
