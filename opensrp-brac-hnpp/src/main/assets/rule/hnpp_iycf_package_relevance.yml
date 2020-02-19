@@ -20,50 +20,85 @@ actions:
   - "isRelevant = true"
 ---
 name: step1_head_balance
-description: if age 3 month 5 month
+description: if age 3 month less than 6 month
 priority: 1
-condition: "(step1_month_diff >= 3 && step1_month_diff <= 5)"
+condition: "(step1_month_diff >= 90 && step1_month_diff < 180)"
 actions:
   - "isRelevant = true"
 ---
 name: step1_can_sit
-description: if age 6 month 8 month
+description: if age 6 month less than 8 month
 priority: 1
-condition: "(step1_month_diff>= 6 && step1_month_diff<= 8)"
+condition: "(step1_month_diff >= 180 && step1_month_diff<240)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_can_sound
+description: if age 6 month less than 8 month
+priority: 1
+condition: "(step1_month_diff >= 180 && step1_month_diff<240)"
 actions:
   - "isRelevant = true"
 ---
 name: step1_can_crap
 description: if age 9 month 10 month
 priority: 1
-condition: "(step1_month_diff >= 9 && step1_month_diff <= 10)"
+condition: "(step1_month_diff >= 270 && step1_month_diff < 300)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_can_sound_baba_maa
+description: if age 9 month 12 month
+priority: 1
+condition: "(step1_month_diff >= 270 && step1_month_diff < 360)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_can_make_word
+description: 12<Age<18 months
+priority: 1
+condition: "(step1_month_diff >= 360 && step1_month_diff < 540)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_can_two_sound
+description: 18<Age<23 months
+priority: 1
+condition: "(step1_month_diff >= 540 && step1_month_diff < 690)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_can_make_sentance
+description: 2<Age<3 years
+priority: 1
+condition: "(step1_month_diff >= 720 && step1_month_diff < 1080)"
 actions:
   - "isRelevant = true"
 ---
 name: step1_can_catch
-description: if age >11 month
+description: 11<age<12 motnhs
 priority: 1
-condition: "(step1_month_diff > 11)"
+condition: "(step1_month_diff >= 330 && step1_month_diff < 360)"
 actions:
   - "isRelevant = true"
 ---
 name: step1_can_walk
 description: if age 12 to 17 month
 priority: 1
-condition: "(step1_month_diff >= 12 && step1_month_diff <= 17)"
+condition: "(step1_month_diff >= 360 && step1_month_diff < 510)"
 actions:
   - "isRelevant = true"
 ---
 name: step1_can_one_walk
 description: if age 18 to 23 month
 priority: 1
-condition: "(step1_month_diff >= 18 && step1_month_diff <= 23)"
+condition: "(step1_month_diff >= 540 && step1_month_diff < 690)"
 actions:
   - "isRelevant = true"
 ---
 name: step1_can_run
-description: if age >24 month
+description: if age 24 month
 priority: 1
-condition: "(step1_month_diff > 24)"
+condition: "(step1_month_diff >= 720)"
 actions:
   - "isRelevant = true"

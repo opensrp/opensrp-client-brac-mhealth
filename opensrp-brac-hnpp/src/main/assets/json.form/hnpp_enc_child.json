@@ -69,10 +69,6 @@
           "value": "true",
           "err": "Enter a valid Number"
         },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
         "v_min": {
           "value": "90",
           "err": "90 এর সমান বা 90 এর বেশি হতে হবে"
@@ -92,10 +88,6 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
         },
         "v_min": {
           "value": "1.5",
@@ -120,11 +112,7 @@
         "v_regex": {
           "value": "[0-9]*",
           "err": "দশমিক অনুমোদিত নয়"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
+        }
         "v_min": {
           "value": "90",
           "err": "90 এর সমান বা 90 এর বেশি হতে হবে"
@@ -148,10 +136,6 @@
         "v_regex": {
           "value": "[0-9]*",
           "err": "দশমিক অনুমোদিত নয়"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
         },
         "v_min": {
           "value": "30",
@@ -177,10 +161,6 @@
         "openmrs_choice_ids": {
           "স্বাভাবিক": "normal",
           "অস্বাভাবিক (পুঁজ/ক্ষরণ)": "not-normal"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
         }
       },
       {
@@ -198,10 +178,6 @@
         "openmrs_choice_ids": {
           "স্বাভাবিক": "normal",
           "অস্বাভাবিক (পুঁজ)": "not-normal"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
         }
       },
       {
@@ -219,10 +195,6 @@
         "openmrs_choice_ids": {
           "স্বাভাবিক": "normal",
           "অস্বাভাবিক (ফুস্কুরী/ রেশ/ হলদে-নীল বর্ন )": "not-normal"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
         }
       },
       {
@@ -240,10 +212,6 @@
         "openmrs_choice_ids": {
           "স্বাভাবিক": "normal",
           "অস্বাভাবিক (নড়াচড়া কম )": "not-normal"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
         }
       },
       {
@@ -252,12 +220,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "other_condition",
         "type": "edit_text",
-        "hint": "অন্য জটিলতা থাকলে লিখুন ",
-
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
+        "hint": "অন্য জটিলতা থাকলে লিখুন "
       },
       {
         "key": "refer_reason",

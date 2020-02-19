@@ -4,4 +4,4 @@ description: Calculated month difference
 priority: 1
 condition: "step1_dob != ''"
 actions:
-  - "calculation =  helper.formatDate(step1_dob,'m')"
+  - "calculation =  helper.formatDate(step1_dob,'d')"
