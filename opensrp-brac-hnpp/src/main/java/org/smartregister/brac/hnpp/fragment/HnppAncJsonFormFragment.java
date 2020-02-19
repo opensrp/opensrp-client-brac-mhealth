@@ -139,6 +139,9 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
                 if (((MaterialEditText)v).getFloatingLabelText()!=null&&(((MaterialEditText)v).getFloatingLabelText().toString()).equals("অন্য জটিলতা থাকলে লিখুন")){
                     ((MaterialEditText)v).addTextChangedListener(textWatcherothercomplication);
                 }
+                if (((MaterialEditText)v).getFloatingLabelText()!=null&&(((MaterialEditText)v).getFloatingLabelText().toString()).equals("জন্মকালীন ওজন(কেজি)")){
+                    ((MaterialEditText)v).addTextChangedListener(textWatcherbirth_weight);
+                }
             }
 
 
@@ -208,7 +211,13 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
                 refer_albumin();
 
             }
+            else if (((MaterialSpinner) v).getHint() != null && (((MaterialSpinner) v).getHint().toString()).equals("শিশুর জন্ম গত ক্রুটি আছে কিনা? *")) {
 
+                birth_defect = position == 0;
+                referUHCCheckStatus(birth_defect);
+
+
+            }
             //
             else if (((MaterialSpinner) v).getHint() != null && (
                     (((MaterialSpinner) v).getHint().toString()).equals("মাথার ভারসাম্য *")||
@@ -239,7 +248,8 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
             }
         }
     }
-
+    boolean birth_defect = false;
+    boolean birth_weight = false;
     boolean has_edema = false;
     boolean has_albumin = false;
     boolean refer_albumin = false;
@@ -275,6 +285,32 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
             e.printStackTrace();
         }
     }
+    TextWatcher textWatcherbirth_weight = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            birth_weight = false;
+            if(!StringUtils.isEmpty(s)){
+                try{
+                    birth_weight = Double.valueOf(s.toString())<1.5d;
+
+                }catch (Exception e){
+
+                }
+            }
+            referUHCCheckStatus(birth_weight);
+
+        }
+    };
     boolean pulserate = false;
     TextWatcher textWatcherpulserate = new TextWatcher() {
         @Override
@@ -669,7 +705,7 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
     }
     public void referUHCCheckStatus(boolean isChecked) {
         isChecked = isChecked || iycf_refer || isTolPeteBetha||fastingSugar||randomSugar||hemoglobin||bilirubin||
-                compulsion||excesbleeding||physicalCondition||skinCondition;
+                compulsion||excesbleeding||physicalCondition||skinCondition||birth_defect||birth_weight;
         for (int i = 0; i < viewList.size(); i++) {
             CompoundButton buttonView = viewList.get(i).view;
             String label = viewList.get(i).label;
