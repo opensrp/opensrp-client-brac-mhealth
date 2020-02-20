@@ -265,7 +265,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
     }
     public static JSONObject updateFormWithSimPrintsEnable(JSONObject form) throws Exception{
 
-        boolean simPrintsEnable = true;
+        boolean simPrintsEnable = false;
         ArrayList<SSModel> ssLocationForms = SSLocationHelper.getInstance().getSsModels();
         if(ssLocationForms.size() > 0){
             simPrintsEnable = ssLocationForms.get(0).simprints_enable;
