@@ -62,7 +62,7 @@
                 android:shadowDy="1"
                 android:shadowRadius="0.5"
                 android:textStyle="bold"
-                android:text="ফিল্টার"
+                android:text="@string/filter"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
