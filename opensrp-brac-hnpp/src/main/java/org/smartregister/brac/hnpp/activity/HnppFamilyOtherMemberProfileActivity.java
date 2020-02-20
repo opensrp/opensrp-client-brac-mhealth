@@ -170,6 +170,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         textViewDetails3 = findViewById(R.id.textview_detail_three);
         textViewAge = findViewById(R.id.textview_age);
         textViewName = findViewById(R.id.textview_name);
+        familyFloatingMenu.hideFab();
 
     }
 

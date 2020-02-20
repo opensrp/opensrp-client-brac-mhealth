@@ -3,8 +3,8 @@ package org.smartregister.chw.core.interactor;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.VisibleForTesting;
+import android.text.TextUtils;
 
-import org.apache.commons.lang3.StringUtils;
 import org.smartregister.chw.core.R;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.contract.FamilyCallDialogContract;
@@ -77,32 +77,27 @@ public class FamilyCallDialogInteractor implements FamilyCallDialogContract.Inte
         if (primaryCaregiverID.equalsIgnoreCase(familyHeadID) && !isHead) {
             return null;
         }
-
+        String tableName =Utils.metadata().familyMemberRegister.tableName;
+        String role = context.getString(R.string.head_of_family);
         String baseID = getHouseHoldHeadIdByFamilyId(familyHeadID);//(isHead && StringUtils.isNotBlank(familyHeadID)) ? familyHeadID : primaryCaregiverID;
-
-
-        final CommonPersonObject personObject = getCommonRepository(Utils.metadata().familyMemberRegister.tableName).findByBaseEntityId(baseID);
-        if(personObject == null){
-            return null;
+        if(TextUtils.isEmpty(baseID)){
+            baseID = familyHeadID;
+            tableName = Utils.metadata().familyRegister.tableName;
+            role = "পারিবারিক নাম্বার";
         }
-        final CommonPersonObjectClient client = new CommonPersonObjectClient(personObject.getCaseId(), personObject.getDetails(), "");
-        client.setColumnmaps(personObject.getColumnmaps());
-
-        String phoneNumber = Utils.getValue(client.getColumnmaps(), DBConstants.KEY.PHONE_NUMBER, false);
-        String firstName = Utils.getValue(client.getColumnmaps(), DBConstants.KEY.FIRST_NAME, false);
-        String lastName = Utils.getValue(client.getColumnmaps(), DBConstants.KEY.LAST_NAME, false);
-        String middleName = Utils.getValue(client.getColumnmaps(), DBConstants.KEY.MIDDLE_NAME, false);
+        String[] namePhone = getNameMobile(baseID,tableName);
+        String phNo = namePhone[1];
+        if(TextUtils.isEmpty(phNo) || phNo.equalsIgnoreCase("0")){
+            phNo = getNameMobile(familyHeadID,Utils.metadata().familyRegister.tableName)[1];
+        }
 
         FamilyCallDialogModel model = new FamilyCallDialogModel();
-        model.setPhoneNumber(phoneNumber);
+        model.setPhoneNumber(phNo);
         model.setName(
-                String.format("%s %s",
-                        String.format("%s %s", firstName, middleName).trim(),
-                        lastName
-                )
+                String.format("%s",namePhone[0])
         );
 
-        model.setRole(context.getString(R.string.head_of_family));
+        model.setRole(role);
 
         return model;
     }
@@ -128,6 +123,23 @@ public class FamilyCallDialogInteractor implements FamilyCallDialogContract.Inte
                 cursor.close();
         }
         return entityId;
+    }
+    public static String[] getNameMobile(String familyID,String tableName){
+        String query = "select first_name,phone_number from "+tableName+" where base_entity_id = '"+familyID+"'";
+        Cursor cursor = null;
+        String[] nameNumber = new String[2];
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor.moveToFirst();
+            nameNumber[0] = cursor.getString(0);
+            nameNumber[1] = cursor.getString(1);
+        } catch (Exception e) {
+            Timber.e(e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return nameNumber;
     }
 
 }

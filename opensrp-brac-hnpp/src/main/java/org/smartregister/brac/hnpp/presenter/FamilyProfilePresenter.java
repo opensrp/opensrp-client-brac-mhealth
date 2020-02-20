@@ -38,6 +38,10 @@ public class FamilyProfilePresenter extends CoreFamilyProfilePresenter {
         verifyHasPhone();
     }
 
+    @Override
+    public void verifyHasPhone() {
+        ((HnppFamilyProfileInteractor)interactor).verifyHasPhone(familyBaseEntityId,this);
+    }
 
     @Override
     public void startFormForEdit(CommonPersonObjectClient client) {
