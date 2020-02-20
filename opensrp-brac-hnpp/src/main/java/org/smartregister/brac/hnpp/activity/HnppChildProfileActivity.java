@@ -149,6 +149,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
         addContentView(familyFloatingMenu, linearLayoutParams);
         prepareFab();
         fetchProfileData();
+        familyFloatingMenu.hideFab();
         //presenter().fetchTasks();
 
 

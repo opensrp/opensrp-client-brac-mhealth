@@ -120,6 +120,11 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
         sortByView.setOnClickListener(registerActionHandler);
         TextView filterTextView = sortAndFilterView.findViewById(R.id.filter_text_view);
         sortView.setText(getString(R.string.sort));
+        if(HnppConstants.isSortByLastVisit){
+            sortByView.setImageResource(R.drawable.childrow_history);
+        }else{
+            sortByView.setImageResource(R.drawable.ic_home);
+        }
         filterTextView.setText(getString(R.string.filter));
         View searchBarLayout = view.findViewById(org.smartregister.family.R.id.search_bar_layout);
         searchBarLayout.setBackgroundResource(org.smartregister.family.R.color.customAppThemeBlue);
@@ -289,7 +294,7 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
                 @Override
                 public void onClick(View v) {
 
-                    ((HnppFamilyRegisterFragmentPresenter) presenter).isSortByLastVisit = false;
+                    HnppConstants.isSortByLastVisit = false;
                     updateSortView(false);
                     dialog.dismiss();
                 }
@@ -297,7 +302,7 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
             dialog.findViewById(R.id.last_visit_sort_btn).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((HnppFamilyRegisterFragmentPresenter) presenter).isSortByLastVisit = true;
+                    HnppConstants.isSortByLastVisit = true;
                     updateSortView(true);
                     dialog.dismiss();
                 }
