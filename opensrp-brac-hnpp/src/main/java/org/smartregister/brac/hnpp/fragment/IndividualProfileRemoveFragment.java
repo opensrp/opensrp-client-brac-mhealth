@@ -13,6 +13,7 @@ import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.AncRegisterActivity;
 import org.smartregister.brac.hnpp.activity.FamilyRegisterActivity;
 import org.smartregister.brac.hnpp.activity.IndividualProfileRemoveActivity;
+import org.smartregister.brac.hnpp.activity.IndividualProfileRemoveJsonFormActivity;
 import org.smartregister.brac.hnpp.model.FamilyRemoveMemberModel;
 import org.smartregister.brac.hnpp.presenter.FamilyRemoveMemberPresenter;
 import org.smartregister.brac.hnpp.provider.FamilyRemoveMemberProvider;
@@ -73,7 +74,7 @@ public class IndividualProfileRemoveFragment extends CoreIndividualProfileRemove
     @Override
     public void startJsonActivity(JSONObject jsonObject) {
         // Intent intent = new Intent(getContext(), Utils.metadata().familyMemberFormActivity);
-        Intent intent = new Intent(getActivity(), Utils.metadata().familyMemberFormActivity);
+        Intent intent = new Intent(getActivity(), IndividualProfileRemoveJsonFormActivity.class);
         intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonObject.toString());
 
         Form form = new Form();

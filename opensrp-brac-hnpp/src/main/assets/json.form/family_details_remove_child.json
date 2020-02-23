@@ -141,7 +141,7 @@
       {
         "key": "removed_other_reason",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "removed_other_reason",
         "openmrs_data_type": "text",
         "type": "edit_text",
@@ -280,7 +280,7 @@
       {
         "key": "death_history",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "death_history",
         "openmrs_data_type": "text",
         "type": "edit_text",
@@ -326,10 +326,10 @@
       {
         "key": "jila",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "jila",
         "openmrs_data_type": "text",
-        "type": "edit_text",
+        "type": "spinner",
         "hint": "জেলা",
         "relevance": {
           "step1:moved_away_place": {
@@ -341,23 +341,29 @@
       {
         "key": "upojila",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "upojila",
         "openmrs_data_type": "text",
-        "type": "edit_text",
+        "type": "spinner",
         "hint": "উপজেলা/সিটি কর্পোরেশন",
         "relevance": {
           "step1:moved_away_place": {
             "type": "string",
             "ex": "equalTo(., \"দেশের মধ্যে\")"
           }
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_family_member_remove_relevance.yml"
+            }
+          }
         }
-
       },
       {
         "key": "dob",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "",
         "type": "spacer",
         "expanded": false,
@@ -400,7 +406,7 @@
       {
         "key": "age_at_death",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "",
         "label": "Age at death",
         "hint": "Age at death",

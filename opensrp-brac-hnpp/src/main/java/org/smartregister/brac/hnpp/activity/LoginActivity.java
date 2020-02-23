@@ -32,6 +32,7 @@ import com.vijay.jsonwizard.utils.PermissionUtils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
 import org.smartregister.AllConstants;
 import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.BuildConfig;
@@ -39,11 +40,13 @@ import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
 import org.smartregister.brac.hnpp.job.SSLocationFetchJob;
+import org.smartregister.brac.hnpp.location.SaveDistrictTask;
 import org.smartregister.brac.hnpp.presenter.LoginPresenter;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.domain.Response;
 import org.smartregister.exception.NoHttpResponseException;
 import org.smartregister.family.util.Constants;
+import org.smartregister.service.HTTPAgent;
 import org.smartregister.task.SaveTeamLocationsTask;
 import org.smartregister.util.Utils;
 import org.smartregister.view.activity.BaseLoginActivity;
@@ -227,12 +230,15 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
     public void goToHome(boolean remote) {
         if (remote) {
             Utils.startAsyncTask(new SaveTeamLocationsTask(), null);
+
+            Utils.startAsyncTask(new SaveDistrictTask(), null);
+
         }
 
         getToFamilyList(remote);
-
         finish();
     }
+
     public void isDeviceVerifyiedCheck() {
         if(HnppConstants.isDeviceVerified()){
             return;
