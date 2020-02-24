@@ -73,15 +73,15 @@ public class HnppDBUtils extends CoreChildUtils {
         if(cursor !=null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             child_details.put("first_name",cursor.getString(0));
-            child_details.put("dob",cursor.getString(0));
-            child_details.put("gender",cursor.getString(0));
-            child_details.put("birth_weight_taken",cursor.getString(0));
-            child_details.put("birth_weight",cursor.getString(0));
-            child_details.put("chlorohexadin",cursor.getString(0));
-            child_details.put("breastfeeding_time",cursor.getString(0));
-            child_details.put("head_body_covered",cursor.getString(0));
-            child_details.put("physically_challenged",cursor.getString(0));
-            child_details.put("breast_feeded",cursor.getString(0));
+            child_details.put("dob",cursor.getString(1));
+            child_details.put("gender",translateValues(cursor.getString(2)));
+            child_details.put("birth_weight_taken",translateValues(cursor.getString(3)));
+            child_details.put("birth_weight",translateValues(cursor.getString(4)));
+            child_details.put("chlorohexadin",translateValues(cursor.getString(5)));
+            child_details.put("breastfeeding_time",cursor.getString(6));
+            child_details.put("head_body_covered",translateValues(cursor.getString(7)));
+            child_details.put("physically_challenged",translateValues(cursor.getString(8)));
+            child_details.put("breast_feeded",translateValues(cursor.getString(9)));
 
             try {
                 JSONObject stepOne = jsonForm.getJSONObject(JsonFormUtils.STEP1);
@@ -100,6 +100,25 @@ public class HnppDBUtils extends CoreChildUtils {
         }
 
        if(cursor !=null) cursor.close();
+    }
+    public static String translateValues(String value){
+        if(value==null)return "";
+        if(value.equalsIgnoreCase("Yes")){
+            return "হ্যাঁ";
+        }
+        if(value.equalsIgnoreCase("No")){
+            return "না";
+        }
+        if(value.equalsIgnoreCase("M")){
+            return "পুরুষ";
+        }
+        if(value.equalsIgnoreCase("F")){
+            return "নারী";
+        }
+        if(value.equalsIgnoreCase("O")){
+            return "তৃতীয় লিঙ্গ";
+        }
+        return value;
     }
     public static ArrayList<ProfileDueInfo> getDueListByFamilyId(String familyId){
         ArrayList<ProfileDueInfo> profileDueInfoArrayList = new ArrayList<>();
