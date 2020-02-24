@@ -13,6 +13,7 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
@@ -107,6 +108,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
            String[] str = fullName.split(",");
            this.textViewName.setText(str[0]);
            this.textViewAge.setText(getString(R.string.age,str[1]));
+
        }catch (Exception e){
 
        }
@@ -120,7 +122,20 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     @Override
     public void setProfileDetailOne(String detailOne) {
         ((TextView)findViewById(R.id.textview_detail_one)).setText(HnppConstants.getGender(detailOne));
+
     }
+
+    @Override
+    public void setProfileImage(String baseEntityId, String entityType) {
+        super.setProfileImage(baseEntityId, entityType);
+        String dobString = org.smartregister.family.util.Utils.getDuration(org.smartregister.family.util.Utils.getValue(commonPersonObject.getColumnmaps(), DBConstants.KEY.DOB, false));
+
+        String yearSub =  dobString.contains("y") ? dobString.substring(0, dobString.indexOf("y")) : "0";
+        if(!TextUtils.isEmpty(yearSub) && Integer.parseInt(yearSub) >=5){
+            ((ImageView)findViewById(R.id.imageview_profile)).setImageResource(R.mipmap.ic_member);
+        }
+    }
+
     Menu menu;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -183,6 +198,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             detailThree = detailThree.substring(detailThree.length() - MEMBER_ID_SUFFIX);
             textViewDetails3.setText("ID: " + detailThree);
         }
+
     }
     MemberOtherServiceFragment memberOtherServiceFragment;
     MemberHistoryFragment memberHistoryFragment;
