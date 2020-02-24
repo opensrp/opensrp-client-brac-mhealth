@@ -97,15 +97,21 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
         String dob = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.DOB, false);
         String guId = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(),  HnppConstants.KEY.GU_ID, false);
         String dobString = org.smartregister.family.util.Utils.getDuration(dob);
+        String yearSub =  dobString.contains("y") ? dobString.substring(0, dobString.indexOf("y")) : "0";
+
         dobString = dobString.contains("y") ? dobString.substring(0, dobString.indexOf("y")) : dobString;
         String dod = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.DOD, false);
+
+        if(!TextUtils.isEmpty(yearSub) && Integer.parseInt(yearSub) >=5){
+            entityType ="";
+        }
         if (StringUtils.isNotBlank(dod)) {
             dobString = org.smartregister.family.util.Utils.getDuration(dod, dob);
-            dobString = dobString.contains("y") ? dobString.substring(0, dobString.indexOf("y")) : dobString;
             patientName = patientName + "\n" + org.smartregister.family.util.Utils.getTranslatedDate(dobString, this.context) + " " + this.context.getString(org.smartregister.family.R.string.deceased_brackets);
             viewHolder.patientNameAge.setFontVariant(FontVariant.REGULAR);
             viewHolder.patientNameAge.setTextColor(-7829368);
             viewHolder.patientNameAge.setTypeface(viewHolder.patientNameAge.getTypeface(), Typeface.ITALIC);
+
             viewHolder.profile.setImageResource(org.smartregister.family.util.Utils.getMemberProfileImageResourceIDentifier(entityType));
             viewHolder.nextArrow.setVisibility(View.GONE);
         } else {
