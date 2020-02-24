@@ -69,7 +69,6 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
     private int ssIndex = -1;
     private int villageIndex = -1;
     private boolean isManuallyPressed = false;
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -96,6 +95,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
                     processHouseHoldId(position);
                 }
             }
+
           //  hideKeyBoard();
         }
 

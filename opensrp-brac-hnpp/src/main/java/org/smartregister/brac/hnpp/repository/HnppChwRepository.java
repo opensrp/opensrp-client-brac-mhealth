@@ -54,12 +54,12 @@ public class HnppChwRepository extends CoreChwRepository {
         VaccineRepository.createTable(database);
         VaccineNameRepository.createTable(database);
         VaccineTypeRepository.createTable(database);
-
         RecurringServiceTypeRepository.createTable(database);
         RecurringServiceRecordRepository.createTable(database);
         RecurringServiceTypeRepository recurringServiceTypeRepository = ImmunizationLibrary.getInstance().recurringServiceTypeRepository();
         IMDatabaseUtils.populateRecurringServices(context, database, recurringServiceTypeRepository);
         upgradeToVersion18(context,database);
+        upgradeToVersion19(context,database);
 
     }
 
@@ -98,11 +98,19 @@ public class HnppChwRepository extends CoreChwRepository {
                 case 18:
                     upgradeToVersion18(context, db);
                     break;
+                case 19:
+                    upgradeToVersion19(context, db);
+                    break;
                 default:
                     break;
             }
             upgradeTo++;
         }
+    }
+
+    private void upgradeToVersion19(Context context, SQLiteDatabase db) {
+        DistrictListRepository.createTable(db);
+
     }
 
     private void upgradeToVersion18(Context context, SQLiteDatabase db) {

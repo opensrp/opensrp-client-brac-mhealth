@@ -1,0 +1,7 @@
+---
+name: step1_upojila
+description: after ss name select
+priority: 1
+condition: "!step1_jila.contains('জেলা')&&step1_closure_reason_relocation_fam.equalsIgnoreCase('দেশের মধ্যে')"
+actions:
+  - "isRelevant = true"

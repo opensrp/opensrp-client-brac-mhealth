@@ -162,12 +162,17 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
                 viewHolder.patientColumn.performClick();
             }
         });
-        if (StringUtils.isBlank(dod)) {
+//        if (StringUtils.isBlank(dod)) {
             android.view.View patient = viewHolder.patientColumn;
-           attachPatientOnclickListener(patient, client);
+            attachPatientOnclickListener(patient, client);
             android.view.View nextArrow = viewHolder.nextArrow;
             attachNextArrowOnclickListener(nextArrow, client);
-        }
+//        }else{
+//            android.view.View patient = viewHolder.patientColumn;
+//            patient.setClickable(false);
+//            android.view.View nextArrow = viewHolder.nextArrow;
+//            nextArrow.setClickable(false);
+//        }
 
     }
     private void attachNextArrowOnclickListener(android.view.View view, SmartRegisterClient client) {

@@ -477,7 +477,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         menu.findItem(R.id.action_malaria_diagnosis).setTitle("PNC রেজিস্ট্রেশন");
         menu.findItem(R.id.action_pregnancy_out_come).setTitle("প্রসবের ফলাফল");
         menu.findItem(R.id.action_pregnancy_out_come).setVisible(false);
-        menu.findItem(R.id.action_remove_member).setVisible(false);
+        menu.findItem(R.id.action_remove_member).setVisible(true);
 
         if (FormApplicability.isWomanOfReproductiveAge(commonPersonObject)) {
             menu.findItem(R.id.action_anc_registration).setVisible(true);

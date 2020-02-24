@@ -8,6 +8,7 @@ import com.vijay.jsonwizard.domain.Form;
 
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.activity.FamilyRegisterActivity;
+import org.smartregister.brac.hnpp.activity.IndividualProfileRemoveJsonFormActivity;
 import org.smartregister.brac.hnpp.model.FamilyRemoveMemberModel;
 import org.smartregister.chw.core.activity.CoreFamilyRegisterActivity;
 import org.smartregister.chw.core.fragment.CoreFamilyProfileChangeDialog;
@@ -40,7 +41,7 @@ public class FamilyRemoveMemberFragment extends CoreFamilyRemoveMemberFragment {
     @Override
     public void startJsonActivity(JSONObject jsonObject) {
         // Intent intent = new Intent(getContext(), Utils.metadata().familyMemberFormActivity);
-        Intent intent = new Intent(getActivity(), Utils.metadata().familyMemberFormActivity);
+        Intent intent = new Intent(getActivity(), IndividualProfileRemoveJsonFormActivity.class);
         intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonObject.toString());
 
         Form form = new Form();

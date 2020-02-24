@@ -197,10 +197,10 @@
       {
         "key": "jila",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "jila",
         "openmrs_data_type": "text",
-        "type": "edit_text",
+        "type": "spinner",
         "hint": "জেলা",
         "relevance": {
           "step1:closure_reason_relocation_fam": {
@@ -212,18 +212,18 @@
       {
         "key": "upojila",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "upojila",
         "openmrs_data_type": "text",
-        "type": "edit_text",
+        "type": "spinner",
         "hint": "উপজেলা/সিটি কর্পোরেশন",
         "relevance": {
-          "step1:closure_reason_relocation_fam": {
-            "type": "string",
-            "ex": "equalTo(., \"দেশের মধ্যে\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_family_remove_relevance.yml"
+            }
           }
         }
-
       }
     ]
   }
