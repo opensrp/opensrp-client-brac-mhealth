@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -98,7 +99,7 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
         intent.putExtra(HnppConstants.KEY.MODULE_ID, Utils.getValue(patient.getColumnmaps(), HnppConstants.KEY.MODULE_ID, false));
         startActivity(intent);
     }
-
+    ImageView sortByView;
     @Override
     public void setupViews(View view) {
        try{
@@ -109,17 +110,31 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
        }
         HnppConstants.updateAppBackground((view.findViewById(R.id.register_nav_bar_container)));
         HnppConstants.updateAppBackground(view.findViewById(org.smartregister.R.id.register_toolbar));
-
-        ((TextView) view.findViewById(org.smartregister.chw.core.R.id.filter_text_view)).setText("");
-        view.findViewById(org.smartregister.chw.core.R.id.filter_sort_layout).setVisibility(View.VISIBLE);
+        RelativeLayout sortAndFilterView = view.findViewById(org.smartregister.chw.core.R.id.filter_sort_layout);
+        sortAndFilterView.setVisibility(android.view.View.VISIBLE);
+        TextView sortView = sortAndFilterView.findViewById(R.id.sort_text_view);
+        sortView.setVisibility(View.VISIBLE);
+        sortByView = sortAndFilterView.findViewById(R.id.sort_by_image);
+        sortByView.setVisibility(View.VISIBLE);
+        sortView.setOnClickListener(registerActionHandler);
+        sortByView.setOnClickListener(registerActionHandler);
+        TextView filterTextView = sortAndFilterView.findViewById(R.id.filter_text_view);
+        sortView.setText(getString(R.string.sort));
+        if(HnppConstants.isSortByLastVisit){
+            sortByView.setImageResource(R.drawable.childrow_history);
+        }else{
+            sortByView.setImageResource(R.drawable.ic_home);
+        }
+        filterTextView.setText(getString(R.string.filter));
         View searchBarLayout = view.findViewById(org.smartregister.family.R.id.search_bar_layout);
         searchBarLayout.setBackgroundResource(org.smartregister.family.R.color.customAppThemeBlue);
         if (getSearchView() != null) {
             getSearchView().setBackgroundResource(org.smartregister.family.R.color.white);
             getSearchView().setCompoundDrawablesWithIntrinsicBounds(org.smartregister.family.R.drawable.ic_action_search, 0, 0, 0);
         }
+
         dueOnlyLayout.setVisibility(View.GONE);
-        view.findViewById(org.smartregister.chw.core.R.id.filter_sort_layout).setOnClickListener(registerActionHandler);
+        filterTextView.setOnClickListener(registerActionHandler);
         clients_header_layout = view.findViewById(org.smartregister.chw.core.R.id.clients_header_layout);
         View filterView = inflate(getContext(), R.layout.filter_top_view, clients_header_layout);
         textViewVillageNameFilter = filterView.findViewById(R.id.village_name_filter);
@@ -210,17 +225,6 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
         }
         String query = "";
         try {
-            if (isValidFilterForFts(commonRepository())) {
-
-                String myquery = HnppQueryBuilder.getQuery(joinTables, mainCondition,
-                        tablename, filters, clientAdapter, Sortqueries);
-                myquery = myquery.substring(0,myquery.indexOf("ORDER BY"));
-                List<String> ids = commonRepository().findSearchIds(myquery);
-//                query = sqb.toStringFts(ids, tablename, CommonRepository.ID_COLUMN,
-//                        Sortqueries);
-//                query = sqb.Endquery(query);
-                clientAdapter.setTotalcount(ids.size());
-            }else{
                 String sql = "";
                 sql = mainSelect;
                 if (StringUtils.isNotBlank(customFilter)) {
@@ -228,13 +232,14 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
                 }
                 List<String> ids = commonRepository().findSearchIds(sql);
                 clientAdapter.setTotalcount(ids.size());
-            }
+
         } catch (Exception e) {
             Timber.e(e);
         }
     }
     @Override
     protected String defaultFilterAndSortQuery() {
+        Sortqueries = getDefaultSortQuery();
         SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(mainSelect);
         StringBuilder customFilter = new StringBuilder();
         if (StringUtils.isNotBlank(searchFilterString)) {
@@ -255,30 +260,56 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
         }
         String query = "";
         try {
-            if (isValidFilterForFts(commonRepository())) {
 
-                String myquery = HnppQueryBuilder.getQuery(joinTables, mainCondition, tablename, filters, clientAdapter, Sortqueries);
-                List<String> ids = commonRepository().findSearchIds(myquery);
-                query = sqb.toStringFts(ids, tablename, CommonRepository.ID_COLUMN,
-                        Sortqueries);
-                query = sqb.Endquery(query);
-            } else {
                 sqb.addCondition(customFilter.toString());
                 query = sqb.orderbyCondition(Sortqueries);
                 query = sqb.Endquery(sqb.addlimitandOffset(query, clientAdapter.getCurrentlimit(), clientAdapter.getCurrentoffset()));
 
-            }
+
         } catch (Exception e) {
             Timber.e(e);
         }
 
         return query;
     }
+    private void updateSortView(boolean isVisitWise){
+        if(isVisitWise){
+            sortByView.setImageResource(R.drawable.childrow_history);
+        }else{
+            sortByView.setImageResource(R.drawable.ic_home);
+        }
+        filter(searchFilterString, "", DEFAULT_MAIN_CONDITION,false);
+
+    }
 
     @Override
     public void onViewClicked(View view) {
         super.onViewClicked(view);
-        if (view.getId() == R.id.filter_sort_layout) {
+        if(view.getId() == R.id.sort_text_view || view.getId() == R.id.sort_by_image){
+            Dialog dialog = new Dialog(getActivity(), android.R.style.Theme_NoTitleBar_Fullscreen);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(org.smartregister.family.R.color.customAppThemeBlue)));
+            dialog.setContentView(R.layout.sort_options_dialog);
+            dialog.findViewById(R.id.household_no_sort_btn).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    HnppConstants.isSortByLastVisit = false;
+                    updateSortView(false);
+                    dialog.dismiss();
+                }
+            });
+            dialog.findViewById(R.id.last_visit_sort_btn).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    HnppConstants.isSortByLastVisit = true;
+                    updateSortView(true);
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+        }
+        else if (view.getId() == R.id.filter_text_view) {
             ArrayList<String> ssSpinnerArray = new ArrayList<>();
 
             ArrayList<String> villageSpinnerArray = new ArrayList<>();

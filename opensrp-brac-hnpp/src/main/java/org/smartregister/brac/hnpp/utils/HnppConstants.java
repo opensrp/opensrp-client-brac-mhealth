@@ -21,6 +21,7 @@ import org.smartregister.brac.hnpp.R;
 import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.Utils;
+import org.smartregister.family.util.DBConstants;
 import org.smartregister.repository.AllSharedPreferences;
 
 import java.io.File;
@@ -39,6 +40,7 @@ public class HnppConstants extends CoreConstants {
     public static final String IS_RELEASE = "is_release_build";
     public static final String IS_DEVICE_VERIFY = "is_device_verify";
     public static final String DEVICE_IMEI = "device_imei";
+    public static boolean isSortByLastVisit = false;
 
     public static SimpleDateFormat DDMMYY = new SimpleDateFormat("dd-MM-yyyy",Locale.getDefault());
     public enum VisitType {DUE, OVERDUE, LESS_TWENTY_FOUR, VISIT_THIS_MONTH, NOT_VISIT_THIS_MONTH, EXPIRY, VISIT_DONE}
@@ -415,7 +417,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.GIRL_PACKAGE, "কিশোরী সেবা প্যাকেজ")
             .put(EVENT_TYPE.NCD_PACKAGE, "ব্যাধি সেবা প্যাকেজ (এন সি ডি)")
             .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)")
-            .put(EVENT_TYPE.ENC_REGISTRATION, "ENC")
+            .put(EVENT_TYPE.ENC_REGISTRATION, "নবজাতক সেবা")
             .put(EVENT_TYPE.HOME_VISIT_FAMILY, "খানা পরিদর্শন")
             .put(EVENT_TYPE.VACCINATION, "ভ্যাকসিনেশন")
             .put(EVENT_TYPE.SERVICES, "ভিটামিন সার্ভিস")
@@ -448,7 +450,7 @@ public class HnppConstants extends CoreConstants {
             .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,"গর্ভবতী পরিচর্যা ভিজিট")
             .put(Constants.EVENT_TYPE.PNC_HOME_VISIT,"প্রসবোত্তর পরিচর্যা ভিজিট")
             .put(EVENT_TYPE.PNC_REGISTRATION,"প্রসবোত্তর পরিচর্যা")
-            .put(EVENT_TYPE.ENC_REGISTRATION, "ENC")
+            .put(EVENT_TYPE.ENC_REGISTRATION, "নবজাতক সেবা")
             .put(EVENT_TYPE.HOME_VISIT_FAMILY, "খানা পরিদর্শন")
             .put(EventType.CHILD_HOME_VISIT, "শিশু হোম ভিজিট")
             .put(EVENT_TYPE.VACCINATION, "ভ্যাকসিনেশন")

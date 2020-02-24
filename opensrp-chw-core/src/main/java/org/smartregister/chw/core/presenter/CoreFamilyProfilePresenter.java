@@ -120,7 +120,7 @@ public abstract class CoreFamilyProfilePresenter extends BaseFamilyProfilePresen
 
     @Override
     public void verifyHasPhone() {
-        //((CoreFamilyProfileInteractor) interactor).verifyHasPhone(familyBaseEntityId, this);
+
     }
 
     @Override

@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -152,8 +153,12 @@ public class HnppChildRegisterFragment extends CoreChildRegisterFragment impleme
         HnppConstants.updateAppBackground((view.findViewById(R.id.register_nav_bar_container)));
         HnppConstants.updateAppBackground(view.findViewById(org.smartregister.R.id.register_toolbar));
 
-        ((TextView) view.findViewById(org.smartregister.chw.core.R.id.filter_text_view)).setText("");
-        view.findViewById(org.smartregister.chw.core.R.id.filter_sort_layout).setVisibility(android.view.View.VISIBLE);
+        RelativeLayout sortAndFilterView = view.findViewById(org.smartregister.chw.core.R.id.filter_sort_layout);
+        sortAndFilterView.setVisibility(android.view.View.VISIBLE);
+        TextView sortView = sortAndFilterView.findViewById(R.id.sort_text_view);
+        TextView filterTextView = sortAndFilterView.findViewById(R.id.filter_text_view);
+        sortView.setText(getString(R.string.sort));
+        filterTextView.setText(getString(R.string.filter));
         android.view.View searchBarLayout = view.findViewById(org.smartregister.family.R.id.search_bar_layout);
         searchBarLayout.setBackgroundResource(org.smartregister.family.R.color.customAppThemeBlue);
         if (getSearchView() != null) {
@@ -162,7 +167,7 @@ public class HnppChildRegisterFragment extends CoreChildRegisterFragment impleme
         }
 
         dueOnlyLayout.setVisibility(android.view.View.GONE);
-        view.findViewById(org.smartregister.chw.core.R.id.filter_sort_layout).setOnClickListener(registerActionHandler);
+        filterTextView.setOnClickListener(registerActionHandler);
         clients_header_layout = view.findViewById(org.smartregister.chw.core.R.id.clients_header_layout);
         android.view.View filterView = inflate(getContext(), R.layout.filter_top_view, clients_header_layout);
         textViewVillageNameFilter = filterView.findViewById(R.id.village_name_filter);
@@ -295,7 +300,7 @@ public class HnppChildRegisterFragment extends CoreChildRegisterFragment impleme
             if (StringUtils.isNotBlank(baseEntityId)) {
                 CoreChildHomeVisitActivity.startMe(getActivity(), new MemberObject(client), false);
             }
-        } else if (view.getId() == R.id.filter_sort_layout) {
+        } else if (view.getId() == R.id.filter_text_view) {
 
             ArrayList<String> ssSpinnerArray = new ArrayList<>();
 

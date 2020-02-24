@@ -21,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -97,7 +98,7 @@ public class HnppAncRegisterFragment extends AncRegisterFragment implements View
     @Override
     public void onViewClicked(android.view.View view) {
         super.onViewClicked(view);
-        if (view.getId() == R.id.filter_sort_layout) {
+        if (view.getId() == R.id.filter_text_view) {
 
 
             ArrayList<String> ssSpinnerArray = new ArrayList<>();
@@ -254,8 +255,12 @@ public class HnppAncRegisterFragment extends AncRegisterFragment implements View
             titleView.setFontVariant(FontVariant.REGULAR);
             titleView.setPadding(0, titleView.getTop(), titleView.getPaddingRight(), titleView.getPaddingBottom());
         }
-        ((TextView) view.findViewById(org.smartregister.chw.core.R.id.filter_text_view)).setText("");
-        view.findViewById(org.smartregister.chw.core.R.id.filter_sort_layout).setVisibility(android.view.View.VISIBLE);
+        RelativeLayout sortAndFilterView = view.findViewById(org.smartregister.chw.core.R.id.filter_sort_layout);
+        sortAndFilterView.setVisibility(android.view.View.VISIBLE);
+        TextView sortView = sortAndFilterView.findViewById(R.id.sort_text_view);
+        TextView filterTextView = sortAndFilterView.findViewById(R.id.filter_text_view);
+        sortView.setText(getString(R.string.sort));
+        filterTextView.setText(getString(R.string.filter));
         android.view.View searchBarLayout = view.findViewById(org.smartregister.family.R.id.search_bar_layout);
         searchBarLayout.setBackgroundResource(org.smartregister.family.R.color.customAppThemeBlue);
         if (getSearchView() != null) {
@@ -264,7 +269,7 @@ public class HnppAncRegisterFragment extends AncRegisterFragment implements View
             getSearchView().setCompoundDrawablesWithIntrinsicBounds(org.smartregister.family.R.drawable.ic_action_search, 0, 0, 0);
         }
         view.findViewById(org.smartregister.chw.core.R.id.due_only_layout).setVisibility(android.view.View.GONE);
-        view.findViewById(org.smartregister.chw.core.R.id.filter_sort_layout).setOnClickListener(registerActionHandler);
+        filterTextView.setOnClickListener(registerActionHandler);
         clients_header_layout = view.findViewById(org.smartregister.chw.core.R.id.clients_header_layout);
         android.view.View filterView = inflate(getContext(), R.layout.filter_top_view, clients_header_layout);
         textViewVillageNameFilter = filterView.findViewById(R.id.village_name_filter);
