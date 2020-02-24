@@ -272,5 +272,9 @@
     <string name="remove_this_person">সদস্য বাদ দিন</string>
     <string name="remove_family_count">%s সদস্য এবং %s শিশু</string>
     <string name="deceased_brackets">(মৃত)</string>
+    <string name="filter">ফিল্টার</string>
+    <string name="sort">সর্ট বাই</string>
+    <string name="call">কল</string>
+    <string name="call_no_number_provided">(কোনো নাম্বার দেওয়া হয়নি)</string>
 
 </resources>

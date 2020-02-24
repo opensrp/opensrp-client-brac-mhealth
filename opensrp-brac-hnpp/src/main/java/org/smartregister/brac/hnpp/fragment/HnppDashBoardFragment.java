@@ -13,7 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
+import org.joda.time.LocalDate;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.adapter.DashBoardAdapter;
 import org.smartregister.brac.hnpp.contract.DashBoardContract;
@@ -135,6 +137,16 @@ public class HnppDashBoardFragment extends Fragment implements View.OnClickListe
         if (TextUtils.isEmpty(textViewFromDate.getText().toString())) {
             fromDate = currentDate;
             textViewFromDate.setText(fromDate+"");
+        }
+        LocalDate tolocalDate = new LocalDate(toDate);
+        LocalDate fromLocalDate = new LocalDate(fromDate);
+
+        long t = tolocalDate.toDate().getTime();
+        long f = fromLocalDate.toDate().getTime();
+
+        if(f>t){
+            Toast.makeText(getActivity(),"সঠিক তারিখ নির্বাচন করুন !!!",Toast.LENGTH_SHORT).show();
+            return;
         }
 
         if (!TextUtils.isEmpty(textViewFromDate.getText().toString())

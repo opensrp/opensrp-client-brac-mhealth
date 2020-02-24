@@ -143,6 +143,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                 JSONObject form = new JSONObject(jsonString);
                 if (form.getString(JsonFormUtils.ENCOUNTER_TYPE).equals(Utils.metadata().familyRegister.updateEventType)) {
                     presenter().updateFamilyRegister(jsonString);
+                    presenter().verifyHasPhone();
                 }else {
                     super.onActivityResult(requestCode, resultCode, data);
                 }

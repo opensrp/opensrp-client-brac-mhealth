@@ -220,7 +220,10 @@ public class HnppDBUtils extends CoreChildUtils {
         return entityId;
     }
     public static String[] getNameMobileFromFamily(String familyID){
-        String query = "select first_name,phone_number from ec_family where base_entity_id = '"+familyID+"'";
+        return getNameMobile(familyID,"ec_family");
+    }
+    public static String[] getNameMobile(String familyID,String tableName){
+        String query = "select first_name,phone_number from "+tableName+" where base_entity_id = '"+familyID+"'";
         Cursor cursor = null;
         String[] nameNumber = new String[2];
         try {

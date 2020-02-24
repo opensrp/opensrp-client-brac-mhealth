@@ -66,6 +66,11 @@ public class HnppAllMemberRegisterProvider extends CoreChildRegisterProvider {
         fillValue(viewHolder.textViewParentName, WordUtils.capitalize(childName) + " " + context.getResources().getString(org.smartregister.chw.core.R.string.age, WordUtils.capitalize(Utils.getTranslatedDate(dobString, context))));
         setAddressAndGender(pc, viewHolder);
         String entityType = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.ENTITY_TYPE, false);
+
+        String yearSub =  dobString.contains("y") ? dobString.substring(0, dobString.indexOf("y")) : "0";
+        if(!TextUtils.isEmpty(yearSub) && Integer.parseInt(yearSub) >=5){
+            entityType ="";
+        }
         viewHolder.profileImage.setVisibility(View.VISIBLE);
         viewHolder.profileImage.setImageResource(org.smartregister.family.util.Utils.getMemberProfileImageResourceIDentifier(entityType));
         viewHolder.textViewAddressGender.setTextColor(ContextCompat.getColor(context, android.R.color.black));
