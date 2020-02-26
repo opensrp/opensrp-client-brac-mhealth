@@ -1,12 +1,17 @@
 package org.smartregister.brac.hnpp;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.evernote.android.job.JobManager;
+import com.evernote.android.job.JobRequest;
+
 import org.jetbrains.annotations.NotNull;
 import org.smartregister.AllConstants;
 import org.smartregister.Context;
@@ -18,6 +23,7 @@ import org.smartregister.brac.hnpp.activity.HnppAncRegisterActivity;
 import org.smartregister.brac.hnpp.activity.HnppElcoMemberRegisterActivity;
 import org.smartregister.brac.hnpp.activity.HnppPncRegisterActivity;
 import org.smartregister.brac.hnpp.custom_view.HnppNavigationTopView;
+import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.listener.HnppNavigationListener;
 import org.smartregister.brac.hnpp.presenter.HnppNavigationPresenter;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
@@ -54,6 +60,7 @@ import org.smartregister.immunization.domain.VaccineSchedule;
 import org.smartregister.immunization.domain.jsonmapping.Vaccine;
 import org.smartregister.immunization.domain.jsonmapping.VaccineGroup;
 import org.smartregister.immunization.util.VaccinatorUtils;
+import org.smartregister.job.SyncServiceJob;
 import org.smartregister.location.helper.LocationHelper;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.repository.AllSharedPreferences;
@@ -172,6 +179,7 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
 
     }
     public void forceLogoutForRemoteLogin() {
+        JobManager.instance().cancelAll();
         SSLocationHelper.clearLocation();
         Intent intent = new Intent(this,org.smartregister.brac.hnpp.activity.LoginActivity.class);
         intent.addCategory(Intent.CATEGORY_HOME);
@@ -180,8 +188,8 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
         context.userService().forceRemoteLogin();
         context.userService().logoutSession();
         startActivity(intent);
-
     }
+
     public void appSwitch() {
         Runtime.getRuntime().exit(0);
         //System.exit(0);
