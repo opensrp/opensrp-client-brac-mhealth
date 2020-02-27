@@ -41,6 +41,7 @@ public class HnppConstants extends CoreConstants {
     public static final String IS_DEVICE_VERIFY = "is_device_verify";
     public static final String DEVICE_IMEI = "device_imei";
     public static boolean isSortByLastVisit = false;
+    public static boolean isViewRefresh = false;
 
     public static SimpleDateFormat DDMMYY = new SimpleDateFormat("dd-MM-yyyy",Locale.getDefault());
     public enum VisitType {DUE, OVERDUE, LESS_TWENTY_FOUR, VISIT_THIS_MONTH, NOT_VISIT_THIS_MONTH, EXPIRY, VISIT_DONE}

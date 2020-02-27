@@ -7,6 +7,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.Menu;
@@ -83,6 +84,14 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
         onClickFloatingMenu = getOnClickFloatingMenu(this, (HnppChildProfilePresenter) presenter);
         setupViews();
         setUpToolbar();
+        HnppConstants.isViewRefresh = false;
+        Toolbar toolbar = (Toolbar)this.findViewById(R.id.collapsing_toolbar);
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
     @Override
     protected void updateTopBar() {
@@ -396,6 +405,10 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK){
+            HnppConstants.isViewRefresh = true;
+
+        }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
 
             VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);

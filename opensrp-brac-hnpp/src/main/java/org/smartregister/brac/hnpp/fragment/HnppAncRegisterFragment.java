@@ -68,7 +68,15 @@ import timber.log.Timber;
 import static android.view.View.inflate;
 
 public class HnppAncRegisterFragment extends AncRegisterFragment implements View.OnClickListener{
+    @Override
+    protected void onResumption() {
 
+        if(HnppConstants.isViewRefresh){
+            super.onResumption();
+        }
+
+
+    }
     @Override
     protected void openProfile(CommonPersonObjectClient client) {
 

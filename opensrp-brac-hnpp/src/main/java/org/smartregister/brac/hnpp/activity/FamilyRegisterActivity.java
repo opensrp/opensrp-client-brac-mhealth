@@ -106,6 +106,8 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
         if (action != null && action.equals(CoreConstants.ACTION.START_REGISTRATION)) {
             startRegistration();
         }
+        HnppConstants.isViewRefresh = false;
+
     }
 
     @Override
@@ -149,6 +151,8 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
             } catch (Exception e) {
                 Timber.e(e);
             }
+            HnppConstants.isViewRefresh = true;
+
         }
 
     }

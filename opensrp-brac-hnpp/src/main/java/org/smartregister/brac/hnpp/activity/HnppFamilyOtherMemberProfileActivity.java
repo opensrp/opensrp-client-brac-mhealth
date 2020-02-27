@@ -77,6 +77,10 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     private TextView textViewAge,textViewName;
 
     @Override
+    public void onBackPressed() {
+        finish();
+    }
+    @Override
     protected void onCreation() {
         setContentView(R.layout.activity_other_member_profile);
 
@@ -97,6 +101,8 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         initializePresenter();
 
         setupViews();
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        HnppConstants.isViewRefresh = false;
     }
     public void updateDueCount(final int dueCount) {
         Handler handler = new Handler(Looper.getMainLooper());
@@ -298,6 +304,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         if(resultCode == Activity.RESULT_OK){
             //TODO: Need to check request code
             VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+            HnppConstants.isViewRefresh = true;
 
         }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
@@ -334,6 +341,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             }
 
         }
+
 
         super.onActivityResult(requestCode, resultCode, data);
 
