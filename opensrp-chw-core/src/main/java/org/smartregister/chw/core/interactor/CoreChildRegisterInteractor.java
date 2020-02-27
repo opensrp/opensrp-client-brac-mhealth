@@ -89,7 +89,7 @@ public class CoreChildRegisterInteractor implements CoreChildRegisterContract.In
     private void saveRegistration(Pair<Client, Event> pair, String jsonString, boolean isEditMode) {
 
         try {
-
+            Thread.sleep(2000);
             Client baseClient = pair.first;
             Event baseEvent = pair.second;
 
