@@ -67,7 +67,15 @@ public class HnppChildRegisterFragment extends CoreChildRegisterFragment impleme
     private TextView textViewVillageNameFilter, textViewClasterNameFilter;
     private ImageView imageViewVillageNameFilter, imageViewClasterNameFilter;
     private ViewGroup clients_header_layout;
+    @Override
+    protected void onResumption() {
 
+        if(HnppConstants.isViewRefresh){
+            super.onResumption();
+        }
+
+
+    }
     public static String childMainFilter(String mainCondition, String mainMemberCondition, String filters, String sort, int limit, int offset) {
         return "SELECT " + CommonFtsObject.idColumn + " FROM " + CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.CHILD) + " WHERE " + CommonFtsObject.idColumn + " IN " +
                 " ( SELECT " + CommonFtsObject.idColumn + " FROM " + CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.CHILD) + " WHERE  " + mainCondition + "  AND " + CommonFtsObject.phraseColumn + HnppDBUtils.matchPhrase(filters) +

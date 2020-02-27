@@ -16,6 +16,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -80,9 +81,23 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
     }
 
     @Override
+    protected void onCreation() {
+        super.onCreation();
+        Toolbar toolbar = (Toolbar)this.findViewById(R.id.family_toolbar);
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        HnppConstants.isViewRefresh = false;
+
+    }
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+    @Override
     protected void refreshPresenter() {
         presenter = new FamilyProfilePresenter(this, new HnppFamilyProfileModel(familyName,moduleId,houseHoldId,familyBaseEntityId),houseHoldId, familyBaseEntityId, familyHead, primaryCaregiver, familyName);
     }
+
+
 
     @Override
     protected void refreshList(Fragment fragment) {
@@ -150,7 +165,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
             } catch (Exception e) {
                 Timber.e(e);
             }
-
+            HnppConstants.isViewRefresh = true;
         }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
             VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
@@ -178,6 +193,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                     }
                 },1000);
             }
+            HnppConstants.isViewRefresh = true;
 
         }
         //super.onActivityResult(requestCode, resultCode, data);

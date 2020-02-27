@@ -154,6 +154,16 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
     }
 
     @Override
+    protected void onResumption() {
+
+        if(HnppConstants.isViewRefresh){
+            super.onResumption();
+        }
+
+
+    }
+
+    @Override
     public void setTotalPatients() {
         if (headerTextDisplay != null) {
             headerTextDisplay.setText(
@@ -460,7 +470,7 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
             HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
         }
 
-
+        HnppConstants.isViewRefresh = true;
     }
 
     @Override

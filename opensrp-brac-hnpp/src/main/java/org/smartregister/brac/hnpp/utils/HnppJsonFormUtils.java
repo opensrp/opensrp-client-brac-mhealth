@@ -358,6 +358,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
         JSONArray jsonArray = hh_visit_members.getJSONArray("options");
         for(String name : motherNameList){
+            if(StringUtils.isEmpty(name))continue;
             JSONObject item = new JSONObject();
             item.put("key",name.replace(" ","_"));
             item.put("text",name);

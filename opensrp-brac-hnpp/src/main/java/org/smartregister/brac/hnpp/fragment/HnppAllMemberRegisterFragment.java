@@ -80,7 +80,15 @@ public class HnppAllMemberRegisterFragment extends CoreChildRegisterFragment imp
         presenter = new HnppAllMemberRegisterFragmentPresenter(this, new HnppAllMemberRegisterFragmentModel(), viewConfigurationIdentifier);
 
     }
+    @Override
+    protected void onResumption() {
 
+        if(HnppConstants.isViewRefresh){
+            super.onResumption();
+        }
+
+
+    }
     @Override
     public void goToChildDetailActivity(CommonPersonObjectClient patient, boolean launchDialog) {
         String familyId = Utils.getValue(patient.getColumnmaps(), ChildDBConstants.KEY.RELATIONAL_ID, false);

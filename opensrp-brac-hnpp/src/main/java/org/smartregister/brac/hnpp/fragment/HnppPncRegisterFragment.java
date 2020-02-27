@@ -277,9 +277,11 @@ public class HnppPncRegisterFragment extends BasePncRegisterFragment implements 
 
     @Override
     protected void onResumption() {
-        super.onResumption();
         if(view!=null)
         NavigationMenu.getInstance(getActivity(), null, view.findViewById(org.smartregister.R.id.register_toolbar));
+        if(HnppConstants.isViewRefresh){
+            super.onResumption();
+        }
 
     }
 
