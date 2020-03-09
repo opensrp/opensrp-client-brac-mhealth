@@ -30,6 +30,27 @@ actions:
 name: step1_advice_toaster_5
 description: advice_toaster_5
 priority: 1
-condition: "step1_albumin_test.equalsIgnoreCase('হ্যাঁ')"
+condition: "step1_albumin_test.equalsIgnoreCase('হ্যাঁ') && step1_has_edema.equalsIgnoreCase('হ্যাঁ') && (step1_blood_pressure_systolic >=120 || step1_blood_pressure_diastolic>=80)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_smelly_discharge
+description: advice_smelly_discharge
+priority: 1
+condition: "step1_has_smelly_discharge.equalsIgnoreCase('হ্যাঁ')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_excess_bleeding
+description: advice_excess_bleeding
+priority: 1
+condition: "step1_excess_bleeding.equalsIgnoreCase('হ্যাঁ')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_obsessive_compulsive
+description: advice_excess_bleeding
+priority: 1
+condition: "step1_obsessive_compulsive_disorder.equalsIgnoreCase('হ্যাঁ')"
 actions:
   - "isRelevant = true"

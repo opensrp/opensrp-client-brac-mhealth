@@ -186,7 +186,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "অতিরিক্ত প্রোটিন শক্তি সমৃদ্ধ ডায়েট জন্য পরামর্শ",
+        "text": "নিয়মিত সুষম খাদ্য সহ বাড়তি আমিষ জাতীয় খাদ্য গ্রহণ করা প্রয়োজন",
         "text_color": "#1199F9",
         "toaster_type": "info",
         "relevance": {
@@ -203,7 +203,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "সুষম খাদ্য জন্য পরামর্শ",
+        "text": "নিয়মিত সুষম খাদ্য গ্রহণ করা প্রয়োজন",
         "text_color": "#1199F9",
         "toaster_type": "info",
         "relevance": {
@@ -244,7 +244,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "জ্বররোধী ঔষধ পরামর্শ",
+        "text": "এন্টিপায়রেটিক এর পরামর্শ দিন",
         "text_color": "#1199F9",
         "toaster_type": "info",
         "relevance": {
@@ -684,7 +684,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "hemoglobin_test",
         "type": "edit_text",
-        "hint": "হিমোগ্লোবিন(gm/dl) - রক্ত পরীক্ষা ",
+        "hint": "হিমোগ্লোবিন(gm/dl) - রক্ত পরীক্ষা",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
@@ -700,7 +700,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "আয়রণ ফলিক অ্যাসিড জন্য পরামর্শ",
+        "text": "প্রতিদিন আয়রন ফলিক এসিড এবং আয়রনযুক্ত খাদ্য গ্রহণ করবেন",
         "text_color": "#1199F9",
         "toaster_type": "info",
         "relevance": {
@@ -738,7 +738,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বিশ্রাম এবং লবণের সীমাবদ্ধতার ডায়েট সম্পূর্ণ করুন, পা উন্নত করুন এবং শুয়ে থাকুন",
+        "text": "সম্পূর্ণ বিশ্রামে থাকবেন, লবন খাবেন না এবং পা উপর করে শুয়ে থাকবেন",
         "text_color": "#1199F9",
         "toaster_type": "info",
         "relevance": {

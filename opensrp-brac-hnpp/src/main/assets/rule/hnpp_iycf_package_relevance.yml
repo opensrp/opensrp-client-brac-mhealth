@@ -99,6 +99,6 @@ actions:
 name: step1_can_run
 description: if age 24 month
 priority: 1
-condition: "(step1_month_diff >= 720)"
+condition: "(step1_month_diff = 720)"
 actions:
   - "isRelevant = true"

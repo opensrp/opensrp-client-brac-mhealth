@@ -9,7 +9,7 @@ actions:
 name: step1_birth_weight
 description: birth_weight
 priority: 1
-condition: "helper.formatDate(step1_dob,'d') <= 41"
+condition: "helper.formatDate(step1_dob,'d') <= 41 && step1_birth_weight_taken.equalsIgnoreCase('হ্যাঁ')"
 actions:
   - "isRelevant = true"
 ---

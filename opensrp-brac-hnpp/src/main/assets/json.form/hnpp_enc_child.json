@@ -99,6 +99,23 @@
         }
       },
       {
+        "key": "ad_toaster_1",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "1.5-2.4 = ক্যাঙ্গারু মায়ের যত্ন",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_enc_relevance.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "pulse_rate",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -112,7 +129,7 @@
         "v_regex": {
           "value": "[0-9]*",
           "err": "দশমিক অনুমোদিত নয়"
-        }
+        },
         "v_min": {
           "value": "90",
           "err": "90 এর সমান বা 90 এর বেশি হতে হবে"

@@ -105,7 +105,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "জ্বররোধী ঔষধ পরামর্শ",
+        "text": "এন্টিপায়রেটিক এর পরামর্শ দিন",
         "text_color": "#1199F9",
         "toaster_type": "info",
         "relevance": {
@@ -342,6 +342,23 @@
         }
       },
       {
+        "key": "advice_smelly_discharge",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "স্যানিটারি ন্যাপকিন ব্যবহার করুন, পরিষ্কার কাপড় ব্যবহার করুন এবং নিয়মিত গোসল করুন",
+        "text_color": "#1199F9",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "has_abdominal_pain",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -404,6 +421,23 @@
           "err": "প্রশ্নের উত্তর দিন"
         }
       },
+      {
+        "key": "advice_excess_bleeding",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "রোগীকে দুইটি প্যাড দিয়ে ভালোভাবে রক্ত বের হওয়া বন্ধ করুন। প্রচুর তরল জাতীয় খাদ্য গ্রহণের পরামর্শ দিন এবং পা আছে করে শুয়ে থাকতে বলুন",
+        "text_color": "#1199F9",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
+        }
+      },
 
       {
         "key": "obsessive_compulsive_disorder",
@@ -424,6 +458,23 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "advice_obsessive_compulsive",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "মাকে বামদিকে কাত হয়ে শুতে বলুন। মুখের থুথু ফেলতে বলুন। একটি চামচ কাপড়ে মুড়িয়ে মুখে দিয়ে রাখুন।",
+        "text_color": "#1199F9",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
         }
       },
       {

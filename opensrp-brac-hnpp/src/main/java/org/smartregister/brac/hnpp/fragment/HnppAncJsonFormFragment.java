@@ -119,7 +119,7 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
                 if (((MaterialEditText)v).getFloatingLabelText()!=null&&(((MaterialEditText)v).getFloatingLabelText().toString()).equals("ডায়াস্টোলিক")){
                     ((MaterialEditText)v).addTextChangedListener(textWatcherblood_pressure_diastolic);
                 }
-                if (((MaterialEditText)v).getFloatingLabelText()!=null&&(((MaterialEditText)v).getFloatingLabelText().toString()).equals("হিমোগ্লোবিন(gm/dl)")){
+                if (((MaterialEditText)v).getFloatingLabelText()!=null&&(((MaterialEditText)v).getFloatingLabelText().toString()).equals("হিমোগ্লোবিন(gm/dl) - রক্ত পরীক্ষা")){
                     ((MaterialEditText)v).addTextChangedListener(textWatcherhemoglobin);
                 }
                 if (((MaterialEditText)v).getFloatingLabelText()!=null&&(((MaterialEditText)v).getFloatingLabelText().toString()).equals("সেলাইয়েরই দৈর্ঘ্য (ইঞ্চি)")){
