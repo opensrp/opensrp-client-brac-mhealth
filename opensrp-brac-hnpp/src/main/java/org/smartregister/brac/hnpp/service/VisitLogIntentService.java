@@ -82,24 +82,6 @@ public class VisitLogIntentService extends IntentService {
         }
         return v;
     }
-    public synchronized void updateFamilyAncRegisterIsClosed(String base_entity_id,int isClosed){
-        try{
-            if(base_entity_id.equalsIgnoreCase("b01bc31e-4d1d-4aa2-9ad3-d23623ec1480")){
-                System.out.print(base_entity_id+":"+isClosed);
-            }
-            if(isClosed == 1){
-                SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
-                String sql = "update ec_anc_register set is_closed = '1' where " +
-                        "ec_anc_register.base_entity_id = '"+base_entity_id+"' COLLATE NOCASE";
-                Log.v("PROCESS_EVENT","processAncRegister>>"+base_entity_id+":isanc:"+isClosed+":sql"+sql);
-                database.execSQL(sql);
-            }
-
-        }catch(Exception e){
-            e.printStackTrace();
-
-        }
-    }
     @Override
     protected void onHandleIntent(Intent intent) {
         ArrayList<String> visit_ids = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().getVisitIds();
