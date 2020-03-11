@@ -57,23 +57,26 @@ public class FormApplicability {
                     }
                 }
                 else{
-                    if(dayPass > 1 && dayPass <= 84){
-                        //first trimester
-                        if(isFirstTimeAnc(baseEntityId)){
-                            return HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
-                        }
-                        return HnppConstants.EVENT_TYPE.ANC1_REGISTRATION;
-                    }else if(dayPass > 84 && dayPass <= 168){
-                        return HnppConstants.EVENT_TYPE.ANC2_REGISTRATION;
-                    }else if(dayPass > 168){
-                        return HnppConstants.EVENT_TYPE.ANC3_REGISTRATION;
-                    }
+                    return getANCEvent(dayPass);
                 }
                 return "";
             }
 
         if(isElco(age)){
             return HnppConstants.EVENT_TYPE.ELCO;
+        }
+        return "";
+    }
+    public static String getANCEvent(int dayPass){
+        if(dayPass > 1 && dayPass <= 84){
+            //first trimester
+            return HnppConstants.EVENT_TYPE.ANC1_REGISTRATION;
+        }else if(dayPass > 84 && dayPass <= 168){
+
+            return HnppConstants.EVENT_TYPE.ANC2_REGISTRATION;
+        }else if(dayPass > 168){
+
+            return HnppConstants.EVENT_TYPE.ANC3_REGISTRATION;
         }
         return "";
     }

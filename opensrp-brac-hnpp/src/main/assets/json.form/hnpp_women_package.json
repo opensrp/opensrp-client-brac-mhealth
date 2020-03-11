@@ -100,7 +100,7 @@
           },
           {
             "key": "Breast_lump_cancer",
-            "text": "স্টোন পিন্ড/দলা/ক্যান্সার",
+            "text": "স্তন পিন্ড/দলা/ক্যান্সার",
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "Breast_lump_cancer"
@@ -112,6 +112,13 @@
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "other_option"
+          },
+          {
+            "key": "no_problem",
+            "text": "কোন সমস্যা নেই",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "no_problem"
           }
         ],
         "v_required": {
@@ -168,6 +175,19 @@
           }
         }
 
+      }
+    ,
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "section",
+        "type": "section_label",
+        "section_background": "#3797ca",
+        "text_color": "#FFFFFF",
+        "text_size": "22px",
+        "label_text_style": "bold",
+        "name": "সব তথ্য পূরণ করা হলে জমা দিন"
       }
     ]
   }

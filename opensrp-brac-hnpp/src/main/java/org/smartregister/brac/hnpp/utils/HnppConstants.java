@@ -257,6 +257,8 @@ public class HnppConstants extends CoreConstants {
                 "  \"মেয়ে\": \"Daughter\"," +
                 "  \"স্ত্রী\": \"Wife\"," +
                 "  \"স্বামী\": \"Husband\"," +
+                "  \"ভাই\": \"Brother\"," +
+                "  \"বোন\": \"Brother\"," +
                 "  \"নাতি\": \"Grandson\"," +
                 "  \"নাতনী\": \"GrandDaughter\"," +
                 "  \"ছেলের বউ\": \"SonsWife\"," +
@@ -402,9 +404,11 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ANC3_REGISTRATION,"গর্ভবতী পরিচর্যা - ৩য় ত্রিমাসিক")
             .put(EVENT_TYPE.ANC_GENERAL_DISEASE,"শারীরিক সমস্যা")
             .put(EVENT_TYPE.ANC_PREGNANCY_HISTORY,"পূর্বের গর্ভের ইতিহাস")
-            .put(EVENT_TYPE.ELCO,"সক্ষম দম্পতি নিবন্ধন")
+            .put(EVENT_TYPE.ELCO,"সক্ষম দম্পতি পরিদর্শন")
             .put(JSON_FORMS.ANC_FORM,"গর্ভবতী পরিচর্যা")
-            .put(JSON_FORMS.ANC1_FORM,"গর্ভবতী পরিচর্যা")
+            .put(JSON_FORMS.ANC1_FORM,"গর্ভবতী পরিচর্যা - ১ম ত্রিমাসিক")
+            .put(JSON_FORMS.ANC2_FORM,"গর্ভবতী পরিচর্যা - ২য় ত্রিমাসিক")
+            .put(JSON_FORMS.ANC3_FORM,"গর্ভবতী পরিচর্যা - ৩য় ত্রিমাসিক")
             .put(JSON_FORMS.GENERAL_DISEASE,"শারীরিক সমস্যা")
             .put(EVENT_TYPE.MEMBER_REFERRAL,"রেফারেল")
             .put(EVENT_TYPE.WOMEN_REFERRAL,"রেফারেল")
@@ -416,7 +420,7 @@ public class HnppConstants extends CoreConstants {
             .put( EVENT_TYPE.PNC_REGISTRATION,"প্রসবোত্তর পরিচর্যা")
             .put(EVENT_TYPE.WOMEN_PACKAGE,"নারী সেবা প্যাকেজ")
             .put(EVENT_TYPE.GIRL_PACKAGE, "কিশোরী সেবা প্যাকেজ")
-            .put(EVENT_TYPE.NCD_PACKAGE, "ব্যাধি সেবা প্যাকেজ (এন সি ডি)")
+            .put(EVENT_TYPE.NCD_PACKAGE, "অসংক্রামক রোগের সেবা")
             .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)")
             .put(EVENT_TYPE.ENC_REGISTRATION, "নবজাতক সেবা")
             .put(EVENT_TYPE.HOME_VISIT_FAMILY, "খানা পরিদর্শন")
@@ -441,12 +445,12 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.CHILD_REFERRAL,"রেফারেল")
             .put(EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসবের ফলাফল")
             .put("Member referral","রেফারেল")
-            .put(EVENT_TYPE.ELCO,"সক্ষম দম্পতি নিবন্ধন")
+            .put(EVENT_TYPE.ELCO,"সক্ষম দম্পতি পরিদর্শন")
             .put(EVENT_TYPE.ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন")
             .put(EVENT_TYPE.UPDATE_ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন আপডেট")
             .put(EVENT_TYPE.WOMEN_PACKAGE,"নারী সেবা প্যাকেজ")
             .put(EVENT_TYPE.GIRL_PACKAGE, "কিশোরী সেবা প্যাকেজ")
-            .put(EVENT_TYPE.NCD_PACKAGE, "ব্যাধি সেবা প্যাকেজ (এন সি ডি)")
+            .put(EVENT_TYPE.NCD_PACKAGE, "অসংক্রামক রোগের সেবা")
             .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)")
             .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,"গর্ভবতী পরিচর্যা ভিজিট")
             .put(Constants.EVENT_TYPE.PNC_HOME_VISIT,"প্রসবোত্তর পরিচর্যা ভিজিট")

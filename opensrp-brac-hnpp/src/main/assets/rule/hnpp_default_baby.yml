@@ -61,3 +61,10 @@ priority: 1
 condition: "helper.formatDate(step1_dob,'d') > 41"
 actions:
   - "isRelevant = true"
+---
+name: step1_birth_id
+description: birth_id
+priority: 1
+condition: "helper.formatDate(step1_dob,'d') > 41"
+actions:
+  - "isRelevant = true"

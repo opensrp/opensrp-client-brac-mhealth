@@ -47,7 +47,7 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "ENC পরিচর্যা",
+    "title": "নবজাতকের সেবা",
     "fields": [
       {
         "key": "form_name",
@@ -112,7 +112,7 @@
         "v_regex": {
           "value": "[0-9]*",
           "err": "দশমিক অনুমোদিত নয়"
-        }
+        },
         "v_min": {
           "value": "90",
           "err": "90 এর সমান বা 90 এর বেশি হতে হবে"
@@ -340,6 +340,19 @@
         "openmrs_entity_id": "advice",
         "type": "edit_text",
         "hint": "উপদেশ"
+      }
+    ,
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "section",
+        "type": "section_label",
+        "section_background": "#3797ca",
+        "text_color": "#FFFFFF",
+        "text_size": "22px",
+        "label_text_style": "bold",
+        "name": "সব তথ্য পূরণ করা হলে জমা দিন"
       }
     ]
   }

@@ -2,12 +2,16 @@ package org.smartregister.brac.hnpp.interactor;
 
 import android.content.Context;
 
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.format.DateTimeFormat;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.utils.ANCRegister;
+import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppHomeVisitActionHelper;
 import org.smartregister.chw.anc.contract.BaseAncHomeVisitContract;
@@ -15,6 +19,8 @@ import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.anc.interactor.BaseAncHomeVisitInteractor;
 import org.smartregister.chw.anc.model.BaseAncHomeVisitAction;
 import java.util.LinkedHashMap;
+
+import static org.smartregister.brac.hnpp.utils.FormApplicability.getLmp;
 
 public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
 
@@ -29,23 +35,25 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
             final LinkedHashMap<String, BaseAncHomeVisitAction> actionList = new LinkedHashMap<>();
 
             try {
-                HnppVisitLogRepository visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
 
                 Context context = view.getContext();
-
-                String title1 = HnppConstants.visitEventTypeMapping.get(HnppConstants.JSON_FORMS.ANC1_FORM);
+                String lmp = getLmp(memberObject.getBaseEntityId());
+                int dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(lmp), new DateTime()).getDays();
+                String eventType = FormApplicability.getANCEvent(dayPass);
+                String formName = HnppConstants.eventTypeFormNameMapping.get(eventType);
+                String title1 = HnppConstants.visitEventTypeMapping.get(formName);
                 String title2 = HnppConstants.visitEventTypeMapping.get(HnppConstants.JSON_FORMS.GENERAL_DISEASE);
                 String title3 = HnppConstants.visitEventTypeMapping.get(HnppConstants.JSON_FORMS.PREGNANCY_HISTORY);
                 ANC1_FORMHelper = new HnppHomeVisitActionHelper();
                 BaseAncHomeVisitAction ANC1_FORM = new BaseAncHomeVisitAction.Builder(context,title1 )
                         .withOptional(false)
-                        .withFormName(HnppConstants.JSON_FORMS.ANC1_FORM)
+                        .withFormName(formName)
                         .withHelper(ANC1_FORMHelper)
                         .build();
                 try {
                     JSONObject jsonPayload = new JSONObject(ANC1_FORM.getJsonPayload());
-                    addEDDField(memberObject.getBaseEntityId(),HnppConstants.JSON_FORMS.ANC1_FORM,jsonPayload);
-                    addHeightField(memberObject.getBaseEntityId(),HnppConstants.JSON_FORMS.ANC1_FORM,jsonPayload);
+                    addEDDField(memberObject.getBaseEntityId(),formName,jsonPayload);
+                    addHeightField(memberObject.getBaseEntityId(),formName,jsonPayload);
                     ANC1_FORM.setJsonPayload(jsonPayload.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();

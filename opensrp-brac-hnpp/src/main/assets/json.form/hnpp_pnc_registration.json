@@ -461,6 +461,12 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "step1:perineum_sewing": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
         }
       },
       {
@@ -499,6 +505,42 @@
 
       },
       {
+        "key": "family_planning",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "family_planning",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "পরিবার পরিকল্পনা পদ্ধতি কোনটি ব্যবহার করছেন?",
+        "values": [
+          "বড়ি",
+          "কনডম",
+          "ইঞ্জেকশান",
+          "আই ইউ ডি",
+          "নরপ্লান্ট",
+          "মহিলা বন্ধ্যাকরণ"
+        ],
+        "openmrs_choice_ids": {
+          "বড়ি": "contraceptive_pill",
+          "কনডম": "condom",
+          "ইঞ্জেকশান": "injection",
+          "আই ইউ ডি": "iud",
+          "নরপ্লান্ট": "norplant",
+          "মহিলা বন্ধ্যাকরণ": "ligation"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "step2:has_family_planning_method": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+
+      },
+      {
         "key": "cause_of_referral",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -523,10 +565,6 @@
           "ডায়বেটিস": "",
           "উচ্চ রক্তচাপ": "",
           "অন্যান্য": ""
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
         }
 
       },
@@ -705,6 +743,19 @@
         "openmrs_entity_id": "advice",
         "type": "edit_text",
         "hint": "উপদেশ"
+      }
+    ,
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "section",
+        "type": "section_label",
+        "section_background": "#3797ca",
+        "text_color": "#FFFFFF",
+        "text_size": "22px",
+        "label_text_style": "bold",
+        "name": "সব তথ্য পূরণ করা হলে জমা দিন"
       }
     ]
   }

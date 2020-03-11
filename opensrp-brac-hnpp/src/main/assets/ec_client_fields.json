@@ -532,6 +532,13 @@
           }
         },
         {
+          "column_name": "birth_id",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.birthRegistrationID"
+          }
+        },
+        {
           "column_name": "Mother_Guardian_First_Name_english",
           "type": "Client",
           "json_mapping": {

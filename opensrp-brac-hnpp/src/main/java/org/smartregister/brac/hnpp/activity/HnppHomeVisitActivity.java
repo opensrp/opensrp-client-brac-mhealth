@@ -13,6 +13,7 @@ import com.vijay.jsonwizard.domain.Form;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.interactor.HnppAncHomeVisitInteractor;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.anc.activity.BaseAncHomeVisitActivity;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.anc.model.BaseAncHomeVisitAction;
@@ -58,7 +59,13 @@ public class HnppHomeVisitActivity extends BaseAncHomeVisitActivity {
         intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
         Form form = new Form();
         form.setWizard(false);
-        form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+        if(!HnppConstants.isReleaseBuild()){
+            form.setActionBarBackground(R.color.test_app_color);
+
+        }else{
+            form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+
+        }
 
         intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
 

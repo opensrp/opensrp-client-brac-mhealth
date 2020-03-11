@@ -47,7 +47,7 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "সক্ষম দম্পতি নিবন্ধন",
+    "title": "সক্ষম দম্পতি পরিদর্শন",
     "fields": [
       {
         "key": "form_name",
@@ -156,14 +156,14 @@
         "openmrs_entity_id": "distribution_location",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "পদ্ধতিটি কোথা থেকে বিতরণ করা হয়েছিল",
+        "hint": "পদ্ধতিটি কোথা থেকে গ্রহণ করা হয়েছিল",
         "values": [
-          "ব্র্যাক স্বাস্থ্য কর্মী",
+          "ব্র্যাক স্বাস্থ্য সেবিকা",
           "সরকারী",
           "অন্যান্য"
         ],
         "openmrs_choice_ids": {
-          "ব্র্যাক স্বাস্থ্য কর্মী":"brac_health_worker",
+          "ব্র্যাক স্বাস্থ্য সেবিকা":"brac_health_worker",
           "সরকারী": "official",
           "অন্যান্য": "other"
         },
@@ -272,6 +272,13 @@
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "dyspnoea"
+          },
+          {
+            "key": "other_option",
+            "text": "অন্যান্য",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "other_option"
           }
         ],
         "relevance": {
@@ -443,6 +450,19 @@
             "ex": "equalTo(., \"হ্যাঁ\")"
           }
         }
+      }
+    ,
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "section",
+        "type": "section_label",
+        "section_background": "#3797ca",
+        "text_color": "#FFFFFF",
+        "text_size": "22px",
+        "label_text_style": "bold",
+        "name": "সব তথ্য পূরণ করা হলে জমা দিন"
       }
     ]
   }

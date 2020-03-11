@@ -643,7 +643,7 @@
       {
         "key": "baby_label",
         "type": "label",
-        "text": "BABY DETAILS",
+        "text": "নবজাতকের তথ্য",
         "has_bg": true,
         "left_padding": "20dp",
         "right_padding": "20dp",
@@ -735,27 +735,12 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person",
         "openmrs_entity_id": "birthdate",
-        "type": "date_picker",
-        "hint": "জন্ম তারিখ",
-        "expanded": false,
-        "duration": {
-          "label": "Age"
-        },
-        "min_date": "today-59m",
-        "max_date": "today",
-        "v_required": {
-          "value": "true",
-          "err": "জন্ম তারিখ প্রবেশ করুন"
-        },
-        "relevance": {
-          "step1:preg_outcome": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "born_alive"
-                ]
-              }
-            ]
+        "type": "hidden",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_outcome_calculation.yml"
+            }
           }
         }
       },
@@ -1105,6 +1090,19 @@
         "openmrs_entity_id": "advice",
         "type": "edit_text",
         "hint": "উপদেশ"
+      }
+    ,
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "section",
+        "type": "section_label",
+        "section_background": "#3797ca",
+        "text_color": "#FFFFFF",
+        "text_size": "22px",
+        "label_text_style": "bold",
+        "name": "সব তথ্য পূরণ করা হলে জমা দিন"
       }
     ]
   }
