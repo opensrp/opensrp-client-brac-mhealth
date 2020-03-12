@@ -91,6 +91,8 @@
           "মেয়ে",
           "স্ত্রী",
           "স্বামী",
+          "ভাই",
+          "বোন",
           "নাতি",
           "নাতনী",
           "ছেলের বউ",
@@ -107,6 +109,8 @@
           "মেয়ে": "Daughter",
           "স্ত্রী": "Wife",
           "স্বামী": "Husband",
+          "ভাই" : "Brother",
+          "বোন" : "Sister",
           "নাতি": "Grandson",
           "নাতনী": "GrandDaughter",
           "ছেলের বউ": "SonsWife",
@@ -319,7 +323,7 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "DOB_known",
         "type": "spinner",
-        "hint": "আপনার জন্মতারিখ কি জানা আছে?",
+        "hint": "সদস্য এর জন্মতারিখ কি জানা আছে?",
         "values": [
           "হ্যাঁ",
           "না"

@@ -40,7 +40,7 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
 
         OtherServiceData otherServiceData3 = new OtherServiceData();
         otherServiceData3.setImageSource(R.drawable.ic_muac);
-        otherServiceData3.setTitle("ব্যাধি সেবা প্যাকেজ (এন সি ডি)");
+        otherServiceData3.setTitle("অসংক্রামক রোগের সেবা`");
         otherServiceData3.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_NCD);
         otherServiceDataList.add(otherServiceData3);
 

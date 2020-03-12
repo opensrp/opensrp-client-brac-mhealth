@@ -101,7 +101,7 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "mother_name",
         "type": "spinner",
-        "hint": "মাতার নাম",
+        "hint": "শিশুর মাতার নাম",
         "values": [
           "মাতা রেজিস্টার্ড নয়"
         ],
@@ -120,7 +120,7 @@
         "openmrs_data_type": "text",
         "type": "edit_text",
         "edit_type": "name",
-        "hint": "মাতার নাম (ইংরেজীতে)",
+        "hint": "শিশুর মাতার নাম (ইংরেজীতে)",
         "v_required": {
           "value": true,
           "err": "মা / অভিভাবকের প্রথম নাম লিখুন"
@@ -184,6 +184,29 @@
         "v_required": {
           "value": true,
           "err": "সম্পর্ক নির্বাচন করুন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_default_baby.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "birth_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "birthRegistrationID",
+        "type": "edit_text",
+        "hint": "জন্ম নিবন্ধন সনদ",
+        "v_numeric": {
+          "value": "true",
+          "err": "মোট 17 সংখ্যা হওয়া আবশ্যক"
+        },
+        "v_regex": {
+          "value": "([0-9]{16})|([0-9]{17})|\\s*",
+          "err": "মোট 16/17 সংখ্যা হওয়া আবশ্যক"
         },
         "relevance": {
           "rules-engine": {

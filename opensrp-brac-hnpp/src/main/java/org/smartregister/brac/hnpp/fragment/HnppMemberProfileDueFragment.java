@@ -59,7 +59,6 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
     private String baseEntityId;
     private LinearLayout otherServiceView;
     private CommonPersonObjectClient commonPersonObjectClient;
-    private boolean isFirstAnc = false;
     private Handler handler;
     private boolean isStart = true;
 
@@ -181,13 +180,7 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
                 anc1View.setOnClickListener(this);
                 eventType = FormApplicability.getDueFormForMarriedWomen(baseEntityId,FormApplicability.getAge(commonPersonObjectClient));
                 if(FormApplicability.isDueAnyForm(baseEntityId,eventType) && !TextUtils.isEmpty(eventType)){
-                    if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY)) {
-                        isFirstAnc = true;
-                        nameanc1View.setText(HnppConstants.visitEventTypeMapping.get(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION));
-                    }else{
-                        isFirstAnc = false;
-                        nameanc1View.setText(HnppConstants.visitEventTypeMapping.get(eventType));
-                    }
+                    nameanc1View.setText(HnppConstants.visitEventTypeMapping.get(eventType));
                     imageanc1View.setImageResource(HnppConstants.iconMapping.get(eventType));
                     anc1View.setTag(org.smartregister.family.R.id.VIEW_ID,eventType);
 
@@ -282,7 +275,7 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
                     if (getActivity() != null && getActivity() instanceof HnppFamilyOtherMemberProfileActivity) {
                         HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) getActivity();
                         String eventType = (String) v.getTag(org.smartregister.family.R.id.VIEW_ID);
-                        if(isFirstAnc){
+                        if(FormApplicability.isFirstTimeAnc(baseEntityId)){
                             activity.openHomeVisitForm();
                         }else {
                             activity.openHomeVisitSingleForm(eventTypeFormNameMapping.get(eventType));

@@ -2,6 +2,6 @@
 name: step1_bmi
 description: Calculated bmi
 priority: 1
-condition: "step1_weight != '' && step1_height != ''"
+condition: "step1_weight != '' && step1_height != '' && step1_weight!= 0"
 actions:
-  - "calculation =  step1_weight / ((step1_height/100)*(step1_height/100))"
+  - "calculation =  (step1_weight*10000)/(step1_height*step1_height) "
