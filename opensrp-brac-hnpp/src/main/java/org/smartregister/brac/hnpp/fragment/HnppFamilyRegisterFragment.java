@@ -466,9 +466,10 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
         if(JobManager.instance().getAllJobRequestsForTag(VisitLogServiceJob.TAG).isEmpty()){
             VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
         }
-        if(JobManager.instance().getAllJobRequestsForTag(HnppPncCloseJob.TAG).isEmpty()){
-            HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
-        }
+        //if we open this it'll cause the issue to remove from anc list
+//        if(JobManager.instance().getAllJobRequestsForTag(HnppPncCloseJob.TAG).isEmpty()){
+//            HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
+//        }
 
         HnppConstants.isViewRefresh = true;
     }

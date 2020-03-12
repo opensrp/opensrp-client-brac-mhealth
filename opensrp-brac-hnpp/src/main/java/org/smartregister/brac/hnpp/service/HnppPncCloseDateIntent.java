@@ -26,7 +26,7 @@ public class HnppPncCloseDateIntent extends CoreChwPncCloseDateIntent {
                     "(select ec_pregnancy_outcome.base_entity_id from ec_pregnancy_outcome where ec_pregnancy_outcome.is_closed = 0) ";
             database.execSQL(sql);
         } catch (Exception e) {
-            Timber.e(e);
+            e.printStackTrace();
         }
         super.onHandleIntent(intent);
     }
