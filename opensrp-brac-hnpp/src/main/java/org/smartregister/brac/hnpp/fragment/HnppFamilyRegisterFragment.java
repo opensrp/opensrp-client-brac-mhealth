@@ -475,6 +475,12 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
 
     @Override
     public void onResume() {
-        super.onResume();
+        try{
+            super.onResume();
+        }catch (Exception e){
+            e.printStackTrace();
+            HnppApplication.getHNPPInstance().forceLogout();
+            return;
+        }
     }
 }

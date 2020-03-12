@@ -55,7 +55,7 @@ public class HnppVisitLogRepository extends BaseRepository {
         try{
             SQLiteDatabase database = getWritableDatabase();
             String sql = "update ec_family set last_home_visit = '"+last_home_visit+"' where " +
-                    "base_entity_id = '"+base_entity_id+"'";
+                    "base_entity_id = '"+base_entity_id+"' and (last_home_visit < '"+last_home_visit+"' or last_home_visit is null);";
             database.execSQL(sql);
         }catch(Exception e){
             e.printStackTrace();

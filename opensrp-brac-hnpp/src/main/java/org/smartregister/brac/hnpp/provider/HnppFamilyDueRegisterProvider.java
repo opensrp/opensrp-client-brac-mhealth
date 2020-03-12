@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
@@ -107,6 +108,12 @@ public class HnppFamilyDueRegisterProvider implements RecyclerViewProvider<HnppF
 
         String dob = org.smartregister.chw.core.utils.Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.DOB, false);
         String dobString = Utils.getDuration(dob);
+        String yearSub =  dobString.contains("y") ? dobString.substring(0, dobString.indexOf("y")) : "0";
+        if(!TextUtils.isEmpty(yearSub) && Integer.parseInt(yearSub) >=3){
+            viewHolder.dueBtn.setText("শিশু ফলোআপ");
+        }else{
+            viewHolder.dueBtn.setText("ভ্যাকসিনেশন");
+        }
         fillValue(viewHolder.patientNameAge, patientName);
         viewHolder.lastVisit.setVisibility(View.VISIBLE);
         viewHolder.lastVisit.setText(context.getString(R.string.age,dobString) );
@@ -114,6 +121,8 @@ public class HnppFamilyDueRegisterProvider implements RecyclerViewProvider<HnppF
         viewHolder.patientNameAge.setTextSize(TypedValue.COMPLEX_UNIT_PX, context.getResources().getDimensionPixelSize(R.dimen.member_due_list_title_size));
 
         viewHolder.nextArrow.setVisibility(View.GONE);
+        viewHolder.dueButtonLayout.setVisibility(View.VISIBLE);
+
 
 //        String lastVisit = org.smartregister.chw.core.utils.Utils.getValue(pc.getColumnmaps(), ChildDBConstants.KEY.LAST_HOME_VISIT, false);
 //        if (StringUtils.isNotBlank(lastVisit)) {
@@ -290,6 +299,8 @@ public class HnppFamilyDueRegisterProvider implements RecyclerViewProvider<HnppF
         public View statusColumn;
         public View registerColumns;
         public View lineView;
+        public LinearLayout dueButtonLayout;
+        public Button dueBtn;
         public DueViewHolder(View itemView) {
             super(itemView);
 
@@ -297,6 +308,8 @@ public class HnppFamilyDueRegisterProvider implements RecyclerViewProvider<HnppF
 
             patientNameAge = itemView.findViewById(org.smartregister.family.R.id.patient_name_age);
             lastVisit = itemView.findViewById(org.smartregister.family.R.id.last_visit);
+            dueButtonLayout = itemView.findViewById(org.smartregister.family.R.id.due_button_wrapper);
+            dueBtn = itemView.findViewById(org.smartregister.family.R.id.due_button);
 
             nextArrow = itemView.findViewById(org.smartregister.family.R.id.next_arrow);
             lineView = itemView.findViewById(R.id.line_view);

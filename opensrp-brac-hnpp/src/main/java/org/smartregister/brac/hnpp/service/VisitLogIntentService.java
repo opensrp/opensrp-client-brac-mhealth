@@ -82,24 +82,6 @@ public class VisitLogIntentService extends IntentService {
         }
         return v;
     }
-    public synchronized void updateFamilyAncRegisterIsClosed(String base_entity_id,int isClosed){
-        try{
-            if(base_entity_id.equalsIgnoreCase("b01bc31e-4d1d-4aa2-9ad3-d23623ec1480")){
-                System.out.print(base_entity_id+":"+isClosed);
-            }
-            if(isClosed == 1){
-                SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
-                String sql = "update ec_anc_register set is_closed = '1' where " +
-                        "ec_anc_register.base_entity_id = '"+base_entity_id+"' COLLATE NOCASE";
-                Log.v("PROCESS_EVENT","processAncRegister>>"+base_entity_id+":isanc:"+isClosed+":sql"+sql);
-                database.execSQL(sql);
-            }
-
-        }catch(Exception e){
-            e.printStackTrace();
-
-        }
-    }
     @Override
     protected void onHandleIntent(Intent intent) {
         ArrayList<String> visit_ids = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().getVisitIds();
@@ -280,14 +262,20 @@ public class VisitLogIntentService extends IntentService {
                     }
 
                 }
-//                else if(jsonObject.getString("key").equalsIgnoreCase("preg_outcome")){
-//                    jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,value);
-//                }
+
                 else{
                     JSONArray option_array = jsonObject.getJSONArray("options");
                     for (int i = 0; i < option_array.length(); i++) {
                         JSONObject option = option_array.getJSONObject(i);
-                        if (value.contains(option.optString("key"))) {
+                        if(jsonObject.getString("key").equalsIgnoreCase("preg_outcome")){
+                            String[] strs = value.split(",");
+                            for(String name : strs){
+                                if (name.equalsIgnoreCase(option.optString("key"))) {
+                                    option.put("value", "true");
+                                }
+                            }
+                        }
+                        else if (value.contains(option.optString("key"))) {
                             option.put("value", "true");
                         }
                     }
