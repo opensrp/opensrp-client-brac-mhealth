@@ -248,7 +248,15 @@
         "text_color": "#FFFFFF",
         "text_size": "22px",
         "label_text_style": "bold",
-        "name": "সব তথ্য পূরণ করা হলে জমা দিন"
+        "name": "                    সব তথ্য পূরণ করা হলে জমা দিন"
+      },
+      {
+        "key": "spacer",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "spacer",
+        "type": "spacer",
+        "spacer_height": "20dp"
       }
     ]
   }
