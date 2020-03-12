@@ -9,6 +9,6 @@ actions:
 name: step1_pnc_received
 description: pnc_received
 priority: 1
-condition: "(helper.getDifferenceDays(helper.getDateToday(),step1_delivery_date)) > 2"
+condition: "(helper.getDifferenceDays(helper.getDateToday(),step1_delivery_date)) >= 2"
 actions:
   - "isRelevant = true"

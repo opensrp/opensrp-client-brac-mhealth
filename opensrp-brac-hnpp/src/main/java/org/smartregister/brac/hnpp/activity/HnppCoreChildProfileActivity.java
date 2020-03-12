@@ -74,7 +74,7 @@ public class HnppCoreChildProfileActivity extends CoreChildProfileActivity {
         menu.findItem(org.smartregister.chw.core.R.id.action_malaria_followup_visit).setVisible(false);
         menu.findItem(org.smartregister.chw.core.R.id.action_sick_child_follow_up).setVisible(false);
         menu.findItem(org.smartregister.chw.core.R.id.action_malaria_diagnosis).setVisible(false);
-        menu.findItem(org.smartregister.chw.core.R.id.action_remove_member).setVisible(true);
+        menu.findItem(org.smartregister.chw.core.R.id.action_remove_member).setVisible(false);
         return true;
     }
 

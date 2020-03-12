@@ -162,7 +162,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "hemoglobin",
         "type": "edit_text",
-        "hint": "হিমোগ্লোবিন(gm/dl)",
+        "hint": "হিমোগ্লোবিন(gm/dl) - রক্ত পরীক্ষা",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"

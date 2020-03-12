@@ -1,0 +1,7 @@
+---
+name: step1_ad_toaster_1
+description: weight 1.5-2.5
+priority: 1
+condition: "step1_weight>=1.5 && step1_weight<= 2.4"
+actions:
+  - "isRelevant = true"
