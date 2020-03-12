@@ -262,14 +262,20 @@ public class VisitLogIntentService extends IntentService {
                     }
 
                 }
-//                else if(jsonObject.getString("key").equalsIgnoreCase("preg_outcome")){
-//                    jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,value);
-//                }
+
                 else{
                     JSONArray option_array = jsonObject.getJSONArray("options");
                     for (int i = 0; i < option_array.length(); i++) {
                         JSONObject option = option_array.getJSONObject(i);
-                        if (value.contains(option.optString("key"))) {
+                        if(jsonObject.getString("key").equalsIgnoreCase("preg_outcome")){
+                            String[] strs = value.split(",");
+                            for(String name : strs){
+                                if (name.equalsIgnoreCase(option.optString("key"))) {
+                                    option.put("value", "true");
+                                }
+                            }
+                        }
+                        else if (value.contains(option.optString("key"))) {
                             option.put("value", "true");
                         }
                     }
