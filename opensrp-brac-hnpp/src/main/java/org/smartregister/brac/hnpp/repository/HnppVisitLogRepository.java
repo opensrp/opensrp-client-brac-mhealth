@@ -156,18 +156,23 @@ public class HnppVisitLogRepository extends BaseRepository {
                     ReferralFollowUpModel referralFollowUpModel = new ReferralFollowUpModel();
                     referralFollowUpModel.setBaseEntityId(cursor.getString(0));
                     referralFollowUpModel.setReferralReason(HnppConstants.referealResonMapping.get(cursor.getString(1)));
-                    String[] refPlace = cursor.getString(2).split(",");
-                    String placeAtBangla="";
-                    for (String str : refPlace){
-                        if(TextUtils.isEmpty(placeAtBangla)){
-                            placeAtBangla = HnppConstants.referealPlaceMapping.get(str);
-                        }else{
-                            placeAtBangla = HnppConstants.referealPlaceMapping.get(str)+","+placeAtBangla;
-                        }
+                    try{
+                        String[] refPlace = cursor.getString(2).split(",");
+                        String placeAtBangla="";
+                        for (String str : refPlace){
+                            if(TextUtils.isEmpty(placeAtBangla)){
+                                placeAtBangla = HnppConstants.referealPlaceMapping.get(str);
+                            }else{
+                                placeAtBangla = HnppConstants.referealPlaceMapping.get(str)+","+placeAtBangla;
+                            }
 
+
+                        }
+                        referralFollowUpModel.setReferralPlace(placeAtBangla);
+                    }catch (Exception e){
 
                     }
-                    referralFollowUpModel.setReferralPlace(placeAtBangla);
+
                     list.add(referralFollowUpModel);
                     cursor.moveToNext();
 

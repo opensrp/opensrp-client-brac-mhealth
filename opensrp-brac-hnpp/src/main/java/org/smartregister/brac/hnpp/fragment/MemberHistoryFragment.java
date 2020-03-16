@@ -20,6 +20,7 @@ import org.smartregister.brac.hnpp.activity.HnppFormViewActivity;
 import org.smartregister.brac.hnpp.adapter.MemberHistoryAdapter;
 import org.smartregister.brac.hnpp.contract.MemberHistoryContract;
 import org.smartregister.brac.hnpp.presenter.MemberHistoryPresenter;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.MemberHistoryData;
 import org.smartregister.chw.core.application.CoreChwApplication;
@@ -129,7 +130,13 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
 
             Form form = new Form();
             form.setWizard(false);
-            form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+            if(!HnppConstants.isReleaseBuild()){
+                form.setActionBarBackground(R.color.test_app_color);
+
+            }else{
+                form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+
+            }
             form.setHideSaveLabel(true);
             form.setSaveLabel("");
             intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);

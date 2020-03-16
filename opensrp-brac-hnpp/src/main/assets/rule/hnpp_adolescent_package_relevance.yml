@@ -8,7 +8,7 @@ actions:
 name: step1_ad_toaster_2
 description: if hemoglobin 40 to 70
 priority: 1
-condition: "step1_hemoglobin >= 40 && step1_hemoglobin <= 70"
+condition: "step1_hemoglobin >= 6.4 && step1_hemoglobin <= 11.2"
 actions:
   - "isRelevant = true"
 ---
