@@ -592,12 +592,35 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
                 String entity_id = baseClient.getBaseEntityId();
                 updateFormSubmissionID(encounterType,entity_id,baseEvent);
+
+                updateHouseholdFirstName(baseClient,familyId);
                 return new FamilyEventClient(baseClient, baseEvent);
             }
         } catch (Exception var10) {
             Timber.e(var10);
             return null;
         }
+    }
+
+    public static void updateHouseholdFirstName(Client baseClient, String family_id){
+        String first_name = baseClient.getFirstName();
+        String relation = (String)baseClient.getAttribute("Relation_with_HOH");
+        if(relation!=null&&"Household Head".equalsIgnoreCase(relation)){
+            SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+            db.execSQL("update ec_family set first_name = '"+first_name+"' where ec_family.base_entity_id='"+family_id+"'");
+            Context context = HnppApplication.getInstance().getContext().applicationContext();
+            HnppChwRepository pathRepository = new HnppChwRepository(context, HnppApplication.getInstance().getContext());
+            EventClientRepository eventClientRepository = new EventClientRepository(pathRepository);
+            JSONObject clientjson = eventClientRepository.getClient(db, family_id);
+            try {
+                clientjson.put("firstName",first_name);
+                eventClientRepository.addorUpdateClient(family_id,clientjson);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
     }
 
     public static FamilyEventClient processPregnancyOutcomeForm(AllSharedPreferences allSharedPreferences, String jsonString, String familyBaseEntityId, String encounterType) {
