@@ -378,7 +378,14 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
 
             Form form = new Form();
             form.setWizard(false);
-            form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+            if(!HnppConstants.isReleaseBuild()){
+                form.setActionBarBackground(R.color.test_app_color);
+
+            }else{
+                form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+
+            }
+
 
             intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
             intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
@@ -400,8 +407,13 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
 
             Form form = new Form();
             form.setWizard(false);
-            form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+            if(!HnppConstants.isReleaseBuild()){
+                form.setActionBarBackground(R.color.test_app_color);
 
+            }else{
+                form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+
+            }
             intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
             intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
             if (this != null) {

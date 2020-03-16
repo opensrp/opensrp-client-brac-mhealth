@@ -275,7 +275,8 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
                     if (getActivity() != null && getActivity() instanceof HnppFamilyOtherMemberProfileActivity) {
                         HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) getActivity();
                         String eventType = (String) v.getTag(org.smartregister.family.R.id.VIEW_ID);
-                        if(FormApplicability.isFirstTimeAnc(baseEntityId)){
+                        if(eventType!=HnppConstants.EVENT_TYPE.ELCO && eventType!=HnppConstants.EVENT_TYPE.PNC_REGISTRATION
+                                && FormApplicability.isFirstTimeAnc(baseEntityId)){
                             activity.openHomeVisitForm();
                         }else {
                             activity.openHomeVisitSingleForm(eventTypeFormNameMapping.get(eventType));

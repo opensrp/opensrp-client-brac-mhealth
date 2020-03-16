@@ -67,7 +67,7 @@
         "type": "check_box",
         "label": "নিচের কোন সমস্যাটি আছে?",
         "exclusive": [
-          "None"
+          "no_problem"
         ],
         "options": [
           {

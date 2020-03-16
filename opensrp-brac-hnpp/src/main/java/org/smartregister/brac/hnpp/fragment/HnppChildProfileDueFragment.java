@@ -223,7 +223,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                 TextView name1 =  encView.findViewById(R.id.patient_name_age);
                 encView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
                 image1.setImageResource(R.mipmap.ic_child);
-                name1.setText("ENC ");
+                name1.setText("নবজাতকের সেবা");
                 encView.setTag(TAG_ENC);
                 encView.setOnClickListener(this);
                 otherServiceView.addView(encView);
@@ -263,24 +263,25 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                 followupView.setOnClickListener(this);
                 otherServiceView.addView(followupView);
             }
-            ArrayList<ReferralFollowUpModel> getList = FormApplicability.getReferralFollowUp(baseEntityId);
 
-            for(ReferralFollowUpModel referralFollowUpModel : getList){
+        }
+        ArrayList<ReferralFollowUpModel> getList = FormApplicability.getReferralFollowUp(baseEntityId);
 
-                View referrelFollowUp = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
-                ImageView imgFollowup = referrelFollowUp.findViewById(R.id.image_view);
-                TextView nReferel =  referrelFollowUp.findViewById(R.id.patient_name_age);
-                TextView lastVisitRow = referrelFollowUp.findViewById(R.id.last_visit);
-                lastVisitRow.setVisibility(View.VISIBLE);
-                referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-                imgFollowup.setImageResource(iconMapping.get(HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP));
-                nReferel.setText(eventTypeMapping.get(HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP));
-                lastVisitRow.setText(referralFollowUpModel.getReferralReason());
-                referrelFollowUp.setTag(referralFollowUpModel);
-                referrelFollowUp.setOnClickListener(this);
-                otherServiceView.addView(referrelFollowUp);
+        for(ReferralFollowUpModel referralFollowUpModel : getList){
 
-            }
+            View referrelFollowUp = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+            ImageView imgFollowup = referrelFollowUp.findViewById(R.id.image_view);
+            TextView nReferel =  referrelFollowUp.findViewById(R.id.patient_name_age);
+            TextView lastVisitRow = referrelFollowUp.findViewById(R.id.last_visit);
+            lastVisitRow.setVisibility(View.VISIBLE);
+            referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+            imgFollowup.setImageResource(iconMapping.get(HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP));
+            nReferel.setText(eventTypeMapping.get(HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP));
+            lastVisitRow.setText(referralFollowUpModel.getReferralReason());
+            referrelFollowUp.setTag(referralFollowUpModel);
+            referrelFollowUp.setOnClickListener(this);
+            otherServiceView.addView(referrelFollowUp);
+
         }
 
 
