@@ -11,6 +11,7 @@ import android.view.View;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.fragment.ChildImmunizationFragment;
 import org.smartregister.brac.hnpp.job.HomeVisitServiceJob;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.immunization.domain.ServiceWrapper;
 import org.smartregister.immunization.domain.VaccineWrapper;
@@ -47,6 +48,13 @@ public class ChildVaccinationActivity extends SecuredActivity implements Vaccina
         initializeFragment();
     }
     private void setUpToolbar(){
+        if(!HnppConstants.isReleaseBuild()){
+            findViewById(R.id.action_bar).setBackgroundResource(R.color.test_app_color);
+
+        }else{
+            findViewById(R.id.action_bar).setBackgroundResource(org.smartregister.family.R.color.customAppThemeBlue);
+
+        }
         findViewById(R.id.backBtn).setOnClickListener(v -> onBackPressed());
 
     }

@@ -133,13 +133,26 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                     form.setActionBarBackground(R.color.test_app_color);
 
                 }else{
-                    form.setActionBarBackground(org.smartregister.family.R.color.family_actionbar);
+                    form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
-                }                form.setWizard(false);
+                }
+                form.setWizard(false);
                 intent.putExtra("form", form);
                 this.startActivityForResult(intent, JsonFormUtils.REQUEST_CODE_GET_JSON);
             }else{
-                super.startFormActivity(jsonForm);
+                Intent intent = new Intent(this, Utils.metadata().familyMemberFormActivity);
+                intent.putExtra("json", jsonForm.toString());
+                Form form = new Form();
+                if(!HnppConstants.isReleaseBuild()){
+                    form.setActionBarBackground(R.color.test_app_color);
+
+                }else{
+                    form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+
+                }
+                form.setWizard(false);
+                intent.putExtra("form", form);
+                this.startActivityForResult(intent, 2244);
             }
         }catch (Exception e){
 
