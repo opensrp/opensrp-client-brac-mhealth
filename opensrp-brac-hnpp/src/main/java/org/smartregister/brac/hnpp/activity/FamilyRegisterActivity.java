@@ -12,7 +12,11 @@ import android.widget.Toast;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONString;
+import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.model.HnppFamilyRegisterModel;
@@ -27,6 +31,9 @@ import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.fragment.HnppFamilyRegisterFragment;
 import org.smartregister.brac.hnpp.listener.HfFamilyBottomNavListener;
+import org.smartregister.clientandeventmodel.Event;
+import org.smartregister.domain.tag.FormTag;
+import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.contract.FamilyRegisterContract;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.JsonFormUtils;
@@ -36,6 +43,9 @@ import org.smartregister.view.fragment.BaseRegisterFragment;
 
 
 import timber.log.Timber;
+
+import static org.smartregister.chw.anc.util.JsonFormUtils.formTag;
+import static org.smartregister.util.JsonFormUtils.FIELDS;
 
 public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
 
@@ -143,10 +153,52 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
                 JSONObject form = new JSONObject(jsonString);
                 if (form.getString(JsonFormUtils.ENCOUNTER_TYPE).equals(Utils.metadata().familyRegister.registerEventType)) {
                     presenter().saveForm(jsonString, false);
+                }else if (form.getString(JsonFormUtils.ENCOUNTER_TYPE).equals("COVID19")) {
+                    saveRegistration(jsonString);
                 }
             } catch (Exception e) {
                 Timber.e(e);
             }
+
+        }
+
+    }
+    private static JSONArray processAttributesWithChoiceIDsForSave(JSONArray fields) {
+        for (int i = 0; i < fields.length(); i++) {
+            try {
+                JSONObject fieldObject = fields.getJSONObject(i);
+                if (fieldObject.has("openmrs_choice_ids")&&fieldObject.getJSONObject("openmrs_choice_ids").length()>0) {
+                    if (fieldObject.has("value")) {
+                        String valueEntered = fieldObject.getString("value");
+                        fieldObject.put("value", fieldObject.getJSONObject("openmrs_choice_ids").get(valueEntered));
+                    }
+                }
+
+            } catch (JSONException e) {
+
+                e.printStackTrace();
+            }
+        }
+        return fields;
+    }
+    public static final String ENCOUNTER_TYPE = "encounter_type";
+
+    public void saveRegistration(String jsonString){
+        try{
+            JSONObject jsonForm = new JSONObject(jsonString);
+            JSONObject step1 = jsonForm.getJSONObject("step1");
+            JSONArray field = step1.getJSONArray(FIELDS);
+            processAttributesWithChoiceIDsForSave(field);
+            String entityId =JsonFormUtils.generateRandomUUIDString();
+            FormTag formTag = formTag(CoreLibrary.getInstance().context().allSharedPreferences());
+            formTag.appVersionName = BuildConfig.VERSION_NAME;
+            Event baseEvent = org.smartregister.util.JsonFormUtils.createEvent(
+                    field, JsonFormUtils.getJSONObject(jsonForm, JsonFormUtils.METADATA),
+                    formTag, entityId, JsonFormUtils.getString(jsonForm, ENCOUNTER_TYPE), CoreConstants.TABLE_NAME.CHILD);
+            JSONObject eventJson = null;
+            eventJson = new JSONObject(JsonFormUtils.gson.toJson(baseEvent));
+            FamilyLibrary.getInstance().getEcSyncHelper().addEvent(baseEvent.getBaseEntityId(), eventJson);
+        }catch(Exception e){
 
         }
 

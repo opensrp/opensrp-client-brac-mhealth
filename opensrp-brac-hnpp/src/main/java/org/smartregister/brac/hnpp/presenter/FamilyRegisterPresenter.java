@@ -37,6 +37,7 @@ public class FamilyRegisterPresenter extends BaseFamilyRegisterPresenter  {
             Timber.e(e);
         }
     }
+
     private FamilyRegisterContract.View getView() {
         if (viewReference != null)
             return viewReference.get();

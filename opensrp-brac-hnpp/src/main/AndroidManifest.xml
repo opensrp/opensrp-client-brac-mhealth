@@ -135,6 +135,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/FamilyTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+        <activity android:name=".activity.COVIDJsonFormActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/FamilyTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
         <activity android:name=".activity.HNPPMemberJsonFormActivity" android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/FamilyTheme.NoActionBar"
@@ -146,6 +151,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity android:name=".activity.HnppSettingsActivity" />
+
 
         <service android:name="org.smartregister.immunization.service.intent.VaccineIntentService" />
         <service android:name="org.smartregister.immunization.service.intent.RecurringIntentService" />
