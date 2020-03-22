@@ -35,6 +35,7 @@ import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.fragment.HnppFamilyRegisterFragment;
 import org.smartregister.brac.hnpp.listener.HfFamilyBottomNavListener;
+import org.smartregister.clientandeventmodel.Address;
 import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.domain.db.EventClient;
@@ -50,6 +51,7 @@ import org.smartregister.view.fragment.BaseRegisterFragment;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import timber.log.Timber;
@@ -216,11 +218,13 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
             eventClientRepository.addEvent(entityId,eventJson);
             List<EventClient>eventClientList = new ArrayList<>();
             Client baseClient = new Client(entityId);
-
+            baseClient.setBirthdate(new Date());
+            baseClient.setFirstName("MrW");
+            baseClient.setAddresses(new ArrayList<Address>());
             clientJson = new JSONObject(JsonFormUtils.gson.toJson(baseClient));
             org.smartregister.domain.db.Event domainEvent = JsonFormUtils.gson.fromJson(eventJson.toString(), org.smartregister.domain.db.Event.class);
             org.smartregister.domain.db.Client domainClient = JsonFormUtils.gson.fromJson(clientJson.toString(), org.smartregister.domain.db.Client.class);
-//            eventClientList.add(new EventClient(domainEvent,domainClient));
+            eventClientList.add(new EventClient(domainEvent,domainClient));
             FamilyLibrary.getInstance().getEcSyncHelper().addClient(baseClient.getBaseEntityId(), clientJson);
             FamilyLibrary.getInstance().getEcSyncHelper().addEvent(baseEvent.getBaseEntityId(), eventJson);
 
