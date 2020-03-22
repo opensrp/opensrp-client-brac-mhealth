@@ -2,6 +2,7 @@ package org.smartregister.brac.hnpp.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,8 @@ import android.widget.Toast;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
+
+import net.sqlcipher.database.SQLiteDatabase;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,6 +25,7 @@ import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.model.HnppFamilyRegisterModel;
 import org.smartregister.brac.hnpp.presenter.FamilyRegisterPresenter;
 import org.smartregister.brac.hnpp.presenter.HnppNavigationPresenter;
+import org.smartregister.brac.hnpp.repository.HnppChwRepository;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.core.activity.CoreFamilyRegisterActivity;
 import org.smartregister.chw.core.custom_views.NavigationMenu;
@@ -39,6 +43,7 @@ import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
 import org.smartregister.helper.BottomNavigationHelper;
+import org.smartregister.repository.EventClientRepository;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 
 
@@ -195,9 +200,16 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
             Event baseEvent = org.smartregister.util.JsonFormUtils.createEvent(
                     field, JsonFormUtils.getJSONObject(jsonForm, JsonFormUtils.METADATA),
                     formTag, entityId, JsonFormUtils.getString(jsonForm, ENCOUNTER_TYPE), CoreConstants.TABLE_NAME.CHILD);
+            baseEvent.setFormSubmissionId(JsonFormUtils.generateRandomUUIDString());
+
             JSONObject eventJson = null;
             eventJson = new JSONObject(JsonFormUtils.gson.toJson(baseEvent));
-            FamilyLibrary.getInstance().getEcSyncHelper().addEvent(baseEvent.getBaseEntityId(), eventJson);
+            SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+            Context context = HnppApplication.getInstance().getContext().applicationContext();
+            HnppChwRepository pathRepository = new HnppChwRepository(context, HnppApplication.getInstance().getContext());
+            EventClientRepository eventClientRepository = new EventClientRepository(pathRepository);
+            eventClientRepository.addEvent(entityId,eventJson);
+            //FamilyLibrary.getInstance().getEcSyncHelper().addEvent(baseEvent.getBaseEntityId(), eventJson);
         }catch(Exception e){
 
         }
