@@ -35,7 +35,9 @@ import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.fragment.HnppFamilyRegisterFragment;
 import org.smartregister.brac.hnpp.listener.HfFamilyBottomNavListener;
+import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.clientandeventmodel.Event;
+import org.smartregister.domain.db.EventClient;
 import org.smartregister.domain.tag.FormTag;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.contract.FamilyRegisterContract;
@@ -46,6 +48,9 @@ import org.smartregister.helper.BottomNavigationHelper;
 import org.smartregister.repository.EventClientRepository;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 
+
+import java.util.ArrayList;
+import java.util.List;
 
 import timber.log.Timber;
 
@@ -201,7 +206,7 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
                     field, JsonFormUtils.getJSONObject(jsonForm, JsonFormUtils.METADATA),
                     formTag, entityId, JsonFormUtils.getString(jsonForm, ENCOUNTER_TYPE), CoreConstants.TABLE_NAME.CHILD);
             baseEvent.setFormSubmissionId(JsonFormUtils.generateRandomUUIDString());
-
+            JSONObject clientJson = null;
             JSONObject eventJson = null;
             eventJson = new JSONObject(JsonFormUtils.gson.toJson(baseEvent));
             SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
@@ -209,7 +214,20 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
             HnppChwRepository pathRepository = new HnppChwRepository(context, HnppApplication.getInstance().getContext());
             EventClientRepository eventClientRepository = new EventClientRepository(pathRepository);
             eventClientRepository.addEvent(entityId,eventJson);
-            //FamilyLibrary.getInstance().getEcSyncHelper().addEvent(baseEvent.getBaseEntityId(), eventJson);
+            List<EventClient>eventClientList = new ArrayList<>();
+            Client baseClient = new Client(entityId);
+
+            clientJson = new JSONObject(JsonFormUtils.gson.toJson(baseClient));
+            org.smartregister.domain.db.Event domainEvent = JsonFormUtils.gson.fromJson(eventJson.toString(), org.smartregister.domain.db.Event.class);
+            org.smartregister.domain.db.Client domainClient = JsonFormUtils.gson.fromJson(clientJson.toString(), org.smartregister.domain.db.Client.class);
+//            eventClientList.add(new EventClient(domainEvent,domainClient));
+            FamilyLibrary.getInstance().getEcSyncHelper().addClient(baseClient.getBaseEntityId(), clientJson);
+            FamilyLibrary.getInstance().getEcSyncHelper().addEvent(baseEvent.getBaseEntityId(), eventJson);
+            try {
+                FamilyLibrary.getInstance().getClientProcessorForJava().processClient(eventClientList);
+            } catch (Exception e) {
+                Timber.e(e);
+            }
         }catch(Exception e){
 
         }
