@@ -55,7 +55,7 @@ public class HnppNavigationPresenter extends NavigationPresenter {
 
 //            JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
 //            JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
-            HnppJsonFormUtils.updateFormWithSSName(jsonForm, SSLocationHelper.getInstance().getSsModels());
+            HnppJsonFormUtils.updateFormWithSSNameAndSelf(jsonForm, SSLocationHelper.getInstance().getSsModels());
             intent = new Intent(activity, COVIDJsonFormActivity.class);
 
             intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());

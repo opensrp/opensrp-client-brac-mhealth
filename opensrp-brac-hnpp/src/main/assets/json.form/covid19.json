@@ -92,6 +92,14 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        },
+        "v_min": {
+          "value": "0",
+          "err": "40 এর সমান বা 40 এর কম হওয়া উচিত"
+        },
+        "v_max": {
+          "value": "40",
+          "err": "40 এর সমান বা 40 এর কম হওয়া উচিত"
         }
       },
       {
@@ -112,6 +120,14 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        },
+        "v_min": {
+          "value": "0",
+          "err": "100 এর সমান বা 100 এর কম হওয়া উচিত"
+        },
+        "v_max": {
+          "value": "100",
+          "err": "100 এর সমান বা 100 এর কম হওয়া উচিত"
         }
       },
       {
@@ -132,26 +148,14 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
-        }
-      },
-      {
-        "key": "contact_person_from_abroad_with_symptoms",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "contact_person_from_abroad_with_symptoms",
-        "type": "spinner",
-        "hint": "কোন উপসর্গ (জ্বর বা সর্দি বা কাশি) আছে এবং বিদেশ ফেরত বা করোনা আক্রান্ত রোগীর সংস্পর্শে ছিল এমন কোন মানুষ পাওয়া গেছে কিনা:",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "YES",
-          "না":"NO"
         },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
+        "v_min": {
+          "value": "0",
+          "err": "100 এর সমান বা 100 এর কম হওয়া উচিত"
+        },
+        "v_max": {
+          "value": "100",
+          "err": "100 এর সমান বা 100 এর কম হওয়া উচিত"
         }
       },
       {
@@ -175,16 +179,32 @@
         }
       },
       {
+        "key": "ad_toaster_1",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "৫ জনের তথ্য এই ফর্মে দিন, বাকিদের জন্য আরেকটি ফর্ম পূরণ করুন।",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:number_of_person_contacted_with_symptoms": {
+            "type": "string",
+            "ex": "greaterThanEqualTo(., \"6\")"
+          }
+        }
+      },
+      {
         "key": "add_more",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "add_more",
         "type": "label",
-        "text":"৫ জনের তথ্য এই ফর্মে দিন, বাকিদের জন্য আরেকটি ফর্ম পূরণ করুন। ",
+        "text":"উপরোক্ত ব্যক্তিদের বিবরণ",
         "relevance": {
           "step1:number_of_person_contacted_with_symptoms": {
             "type": "string",
-            "ex": "greaterThanEqualTo(., \"6\")"
+            "ex": "greaterThanEqualTo(., \"1\")"
           }
         }
       },

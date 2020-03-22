@@ -223,13 +223,14 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
 //            eventClientList.add(new EventClient(domainEvent,domainClient));
             FamilyLibrary.getInstance().getEcSyncHelper().addClient(baseClient.getBaseEntityId(), clientJson);
             FamilyLibrary.getInstance().getEcSyncHelper().addEvent(baseEvent.getBaseEntityId(), eventJson);
+
             try {
                 FamilyLibrary.getInstance().getClientProcessorForJava().processClient(eventClientList);
             } catch (Exception e) {
-                Timber.e(e);
+                e.printStackTrace();
             }
         }catch(Exception e){
-
+            e.printStackTrace();
         }
 
     }
