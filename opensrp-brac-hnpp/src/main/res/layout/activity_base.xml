@@ -122,8 +122,12 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif"
                             android:text="COVID-19"
+                            android:paddingStart="15dp"
+                            android:paddingLeft="15dp"
+                            android:drawablePadding="5dp"
+                            android:drawableLeft="@drawable/ic_cov"
                             android:textColor="@color/white"
-                            android:textSize="14sp" />
+                            android:textSize="20sp" />
                         <RelativeLayout
                             android:id="@+id/rlIconLang"
                             android:visibility="gone"
