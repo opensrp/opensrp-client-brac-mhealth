@@ -65,6 +65,8 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     private NavigationAdapter navigationAdapter;
     private RecyclerView recyclerView;
     private TextView tvLogout;
+    private TextView tvCovid19;
+    private TextView tvCovid19Details;
     private View rootView = null;
     private ImageView ivSync;
     private ProgressBar syncProgressBar;
@@ -176,6 +178,8 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         recyclerView = rootView.findViewById(R.id.rvOptions);
         // NavigationView navigationView = rootView.findViewById(R.id.nav_view);
         tvLogout = rootView.findViewById(R.id.tvLogout);
+        tvCovid19 = rootView.findViewById(R.id.covid19);
+        tvCovid19Details = rootView.findViewById(R.id.covid19_details);
         recyclerView = rootView.findViewById(R.id.rvOptions);
         ivSync = rootView.findViewById(R.id.ivSyncIcon);
         syncProgressBar = rootView.findViewById(R.id.pbSync);
@@ -198,12 +202,15 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         registerLogout(activity);
         registerSync(activity);
         registerLanguageSwitcher(activity);
-
+        registerCovid19(activity);
+        registerCovid19Details(activity);
         registerDeviceToDeviceSync(activity);
         // update all actions
         mPresenter.refreshLastSync();
         mPresenter.refreshNavigationCount(activity);
     }
+
+
 
     @Override
     public void refreshLastSync(Date lastSync) {
@@ -231,6 +238,14 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         Toast.makeText(activity.getApplicationContext(), activity.getResources().getText(R.string.action_log_out), Toast.LENGTH_SHORT).show();
         application.forceLogout();
     }
+
+    public void covid19(Activity activity) {
+
+    }
+    public void covid19Details(Activity activity) {
+
+    }
+
 
     @Override
     public void refreshCount() {
@@ -276,7 +291,14 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         mPresenter.displayCurrentUser();
         tvLogout.setOnClickListener(v -> logout(parentActivity));
     }
-
+    private void registerCovid19(final Activity parentActivity) {
+        mPresenter.displayCurrentUser();
+        tvCovid19.setOnClickListener(v -> covid19(parentActivity));
+    }
+    private void registerCovid19Details(Activity parentActivity) {
+        mPresenter.displayCurrentUser();
+        tvCovid19Details.setOnClickListener(v -> covid19Details(parentActivity));
+    }
     private void registerSync(final Activity parentActivity) {
 
         TextView tvSync = rootView.findViewById(R.id.tvSync);
