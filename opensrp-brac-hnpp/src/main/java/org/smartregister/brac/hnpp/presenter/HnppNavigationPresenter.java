@@ -1,14 +1,24 @@
 package org.smartregister.brac.hnpp.presenter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.vijay.jsonwizard.constants.JsonFormConstants;
+import com.vijay.jsonwizard.domain.Form;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
+import org.smartregister.brac.hnpp.activity.COVIDJsonFormActivity;
 import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
+import org.smartregister.brac.hnpp.location.SSLocationHelper;
+import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
+import org.smartregister.chw.anc.util.JsonFormUtils;
 import org.smartregister.chw.core.contract.CoreApplication;
 import org.smartregister.chw.core.contract.NavigationContract;
 import org.smartregister.chw.core.model.NavigationModel;
@@ -18,6 +28,7 @@ import org.smartregister.domain.Response;
 import org.smartregister.exception.NoHttpResponseException;
 import org.smartregister.job.PullUniqueIdsServiceJob;
 import org.smartregister.job.SyncServiceJob;
+import org.smartregister.util.FormUtils;
 
 public class HnppNavigationPresenter extends NavigationPresenter {
     public HnppNavigationPresenter(CoreApplication application, NavigationContract.View view, NavigationModel.Flavor modelFlavor) {
@@ -30,6 +41,38 @@ public class HnppNavigationPresenter extends NavigationPresenter {
         tableMap.put(CoreConstants.DrawerMenu.ALL_MEMBER, CoreConstants.TABLE_NAME.FAMILY_MEMBER);
     }
 
+    @Override
+    public void covid19(Activity activity) {
+        startAnyFormActivity(activity);
+    }
+    public void startAnyFormActivity(Activity activity) {
+        try {
+            String baseEntityId = JsonFormUtils.generateRandomUUIDString();
+            JSONObject jsonForm = FormUtils.getInstance(activity.getApplicationContext()).getFormJson("covid19");
+
+            jsonForm.put(JsonFormUtils.ENTITY_ID, baseEntityId);
+            Intent intent;
+
+//            JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+//            JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+            HnppJsonFormUtils.updateFormWithSSNameAndSelf(jsonForm, SSLocationHelper.getInstance().getSsModels());
+            intent = new Intent(activity, COVIDJsonFormActivity.class);
+
+            intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+
+            Form form = new Form();
+            form.setWizard(false);
+            form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+
+            intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+            intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
+            if (activity != null) {
+                activity.startActivityForResult(intent, org.smartregister.family.util.JsonFormUtils.REQUEST_CODE_GET_JSON);
+            }
+        }catch (Exception e){
+
+        }
+    }
     @Override
     public void sync(Activity activity) {
       userStatusCheck(activity);
