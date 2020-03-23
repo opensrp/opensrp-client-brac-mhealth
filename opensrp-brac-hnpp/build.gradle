@@ -69,7 +69,7 @@ android {
             buildConfigField "int", "OPENMRS_UNIQUE_ID_BATCH_SIZE", '100'
             buildConfigField "int", "OPENMRS_UNIQUE_ID_SOURCE", '1'
             buildConfigField "boolean", "TIME_CHECK", "true"
-            buildConfigField "int", "DATA_SYNC_DURATION_MINUTES", '15'
+            buildConfigField "int", "DATA_SYNC_DURATION_MINUTES", '90'
             buildConfigField "int", "VACCINE_SYNC_PROCESSING_MINUTES", '30'
             buildConfigField "int", "IMAGE_UPLOAD_MINUTES", '180'
             buildConfigField "int", "PULL_UNIQUE_IDS_MINUTES", '180'
