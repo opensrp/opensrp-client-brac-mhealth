@@ -46,6 +46,7 @@ import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
 import org.smartregister.helper.BottomNavigationHelper;
+import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.EventClientRepository;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 
@@ -202,8 +203,9 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
             JSONArray field = step1.getJSONArray(FIELDS);
             processAttributesWithChoiceIDsForSave(field);
             String entityId =JsonFormUtils.generateRandomUUIDString();
-            FormTag formTag = formTag(CoreLibrary.getInstance().context().allSharedPreferences());
+            FormTag formTag = new FormTag();
             formTag.appVersionName = BuildConfig.VERSION_NAME;
+            formTag.appVersion = BuildConfig.VERSION_CODE;
             Event baseEvent = org.smartregister.util.JsonFormUtils.createEvent(
                     field, JsonFormUtils.getJSONObject(jsonForm, JsonFormUtils.METADATA),
                     formTag, entityId, JsonFormUtils.getString(jsonForm, ENCOUNTER_TYPE), CoreConstants.TABLE_NAME.CHILD);
@@ -211,28 +213,26 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
             JSONObject clientJson = null;
             JSONObject eventJson = null;
             eventJson = new JSONObject(JsonFormUtils.gson.toJson(baseEvent));
-            SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
             Context context = HnppApplication.getInstance().getContext().applicationContext();
             HnppChwRepository pathRepository = new HnppChwRepository(context, HnppApplication.getInstance().getContext());
             EventClientRepository eventClientRepository = new EventClientRepository(pathRepository);
             eventClientRepository.addEvent(entityId,eventJson);
-            List<EventClient>eventClientList = new ArrayList<>();
-            Client baseClient = new Client(entityId);
-            baseClient.setBirthdate(new Date());
-            baseClient.setFirstName("MrW");
-            baseClient.setAddresses(new ArrayList<Address>());
-            clientJson = new JSONObject(JsonFormUtils.gson.toJson(baseClient));
-            org.smartregister.domain.db.Event domainEvent = JsonFormUtils.gson.fromJson(eventJson.toString(), org.smartregister.domain.db.Event.class);
-            org.smartregister.domain.db.Client domainClient = JsonFormUtils.gson.fromJson(clientJson.toString(), org.smartregister.domain.db.Client.class);
-            eventClientList.add(new EventClient(domainEvent,domainClient));
-            FamilyLibrary.getInstance().getEcSyncHelper().addClient(baseClient.getBaseEntityId(), clientJson);
-            FamilyLibrary.getInstance().getEcSyncHelper().addEvent(baseEvent.getBaseEntityId(), eventJson);
+//            List<EventClient>eventClientList = new ArrayList<>();
+//            Client baseClient = new Client(entityId);
+//            baseClient.setBirthdate(new Date());
+//            baseClient.setFirstName("COV");
+//            baseClient.setAddresses(new ArrayList<Address>());
+//            clientJson = new JSONObject(JsonFormUtils.gson.toJson(baseClient));
+//            org.smartregister.domain.db.Event domainEvent = JsonFormUtils.gson.fromJson(eventJson.toString(), org.smartregister.domain.db.Event.class);
+//            org.smartregister.domain.db.Client domainClient = JsonFormUtils.gson.fromJson(clientJson.toString(), org.smartregister.domain.db.Client.class);
+//            eventClientList.add(new EventClient(domainEvent,domainClient));
+//            FamilyLibrary.getInstance().getEcSyncHelper().addClient(baseClient.getBaseEntityId(), clientJson);
 
-            try {
-                FamilyLibrary.getInstance().getClientProcessorForJava().processClient(eventClientList);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+//            try {
+//                FamilyLibrary.getInstance().getClientProcessorForJava().processClient(eventClientList);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
         }catch(Exception e){
             e.printStackTrace();
         }
