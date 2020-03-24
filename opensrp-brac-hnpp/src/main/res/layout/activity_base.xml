@@ -121,7 +121,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif"
-                            android:text="COVID-19"
+                            android:text="করোনা ভাইরাস সংক্রান্ত জরিপ"
                             android:paddingStart="15dp"
                             android:paddingLeft="15dp"
                             android:drawablePadding="5dp"

@@ -52,7 +52,7 @@
     }
   },
   "step1": {
-    "title": "COVID19 নিবন্ধন",
+    "title": "করোনা ভাইরাস সংক্রান্ত জরিপ",
     "fields": [
       {
         "key": "ss_name",
@@ -80,7 +80,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "visit_number_today",
         "type": "edit_text",
-        "hint": "আজকের দিনে স্বাস্থ্য সেবিকার খানা ভিজিটর সংখ্যা",
+        "hint": "আজকের দিনে স্বাস্থ্য সেবিকার খানা ভিজিটের সংখ্যা",
         "v_numeric": {
           "value": true,
           "err": "একটি বৈধ সংখ্যা লিখুন"
@@ -108,7 +108,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "number_of_symptoms_found",
         "type": "edit_text",
-        "hint": "কোন উপসর্গ (জ্বর বা সর্দি বা কাশি) পাওয়া গেছে এমন মানুষের সংখ্যা:",
+        "hint": "কোন উপসর্গ যেমন জ্বর বা কাশি বা শ্বাস কষ্ট (যে কোন একটি উপসর্গ) পাওয়া গেছে এমন মানুষের সংখ্যা: ",
         "v_numeric": {
           "value": true,
           "err": "একটি বৈধ সংখ্যা লিখুন"
@@ -136,7 +136,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "number_of_contact_person_from_abroad",
         "type": "edit_text",
-        "hint": "বিদেশ ফেরত বা করোনা আক্রান্ত রোগীর সংস্পর্শে ছিল এমন ইতিহাস পাওয়া গেছে এমন মানুষের সংখ্যা:",
+        "hint": "বিদেশ ফেরত অথবা করোনা আক্রান্ত এলাকায় ভ্রমণ করেছিল এমন ইতিহাস পাওয়া গেছে এমন মানুষের সংখ্যা:",
         "v_numeric": {
           "value": true,
           "err": "একটি বৈধ সংখ্যা লিখুন"
@@ -188,9 +188,10 @@
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
-          "step1:number_of_person_contacted_with_symptoms": {
-            "type": "string",
-            "ex": "greaterThanEqualTo(., \"6\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "covid_relevance.yml"
+            }
           }
         }
       },
@@ -202,9 +203,10 @@
         "type": "label",
         "text":"উপরোক্ত ব্যক্তিদের বিবরণ",
         "relevance": {
-          "step1:number_of_person_contacted_with_symptoms": {
-            "type": "string",
-            "ex": "greaterThanEqualTo(., \"1\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "covid_relevance.yml"
+            }
           }
         }
       },
@@ -215,15 +217,16 @@
         "has_bg": true,
         "left_padding": "20dp",
         "right_padding": "20dp",
-        "text_size": "5sp",
+        "text_size": "15sp",
         "text_color": "#000000",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "relevance": {
-          "step1:number_of_person_contacted_with_symptoms": {
-            "type": "string",
-            "ex": "greaterThanEqualTo(., \"1\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "covid_relevance.yml"
+            }
           }
         }
       },
@@ -244,9 +247,10 @@
           "err": "একটি বৈধ নাম লিখুন"
         },
         "relevance": {
-          "step1:number_of_person_contacted_with_symptoms": {
-            "type": "string",
-            "ex": "greaterThanEqualTo(., \"1\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "covid_relevance.yml"
+            }
           }
         }
       },
@@ -257,7 +261,7 @@
         "openmrs_entity_id": "contact_phone_number_1",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "মোবাইল নম্বর",
+        "hint": "ফোনঃ",
         "v_required": {
           "value": true,
           "err": "11 ডিজিটের মোবাইল নম্বর লিখুন"
@@ -280,9 +284,10 @@
           "err": "11 ডিজিটের মোবাইল নম্বর লিখুন"
         },
         "relevance": {
-          "step1:number_of_person_contacted_with_symptoms": {
-            "type": "string",
-            "ex": "greaterThanEqualTo(., \"1\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "covid_relevance.yml"
+            }
           }
         }
       },
@@ -296,22 +301,23 @@
         "values": [
           "পুরুষ",
           "নারী",
-          "তৃতীয় লিঙ্গ"
+          "অন্যান্য"
 
         ],
         "openmrs_choice_ids": {
           "পুরুষ": "M",
           "নারী":"F",
-          "তৃতীয় লিঙ্গ": "O"
+          "অন্যান্য": "O"
         },
         "v_required": {
           "value": true,
           "err": "লিঙ্গ নির্বাচন করুন"
         },
         "relevance": {
-          "step1:number_of_person_contacted_with_symptoms": {
-            "type": "string",
-            "ex": "greaterThanEqualTo(., \"1\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "covid_relevance.yml"
+            }
           }
         }
       },
@@ -321,7 +327,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "symptoms_1",
         "type": "check_box",
-        "label": "নিচের কনটি আছেঃ",
+        "label": "নিচের কোন লক্ষণগুলি  বিদ্যমান ",
         "label_text_style": "normal",
         "text_color": "#C0C0C0",
         "options": [
@@ -361,10 +367,15 @@
             "openmrs_entity_id": "travel_1"
           }
         ],
+        "v_required": {
+          "value": true,
+          "err": " নির্বাচন করুন"
+        },
         "relevance": {
-          "step1:number_of_person_contacted_with_symptoms": {
-            "type": "string",
-            "ex": "greaterThanEqualTo(., \"1\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "covid_relevance.yml"
+            }
           }
         }
       }
@@ -378,22 +389,23 @@
         "has_bg": true,
         "left_padding": "20dp",
         "right_padding": "20dp",
-        "text_size": "5sp",
+        "text_size": "15sp",
         "text_color": "#000000",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "relevance": {
-          "step1:number_of_person_contacted_with_symptoms": {
-            "type": "string",
-            "ex": "greaterThanEqualTo(., \"2\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "covid_relevance.yml"
+            }
           }
         }
       },
       {
         "key": "firstName_2",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "first_name_2",
         "type": "edit_text",
         "hint": "নাম",
@@ -407,9 +419,10 @@
           "err": "একটি বৈধ নাম লিখুন"
         },
         "relevance": {
-          "step1:number_of_person_contacted_with_symptoms": {
-            "type": "string",
-            "ex": "greaterThanEqualTo(., \"2\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "covid_relevance.yml"
+            }
           }
         }
       },
@@ -420,7 +433,7 @@
         "openmrs_entity_id": "contact_phone_number_2",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "মোবাইল নম্বর",
+        "hint": "ফোনঃ",
         "v_required": {
           "value": true,
           "err": "11 ডিজিটের মোবাইল নম্বর লিখুন"
@@ -443,9 +456,10 @@
           "err": "11 ডিজিটের মোবাইল নম্বর লিখুন"
         },
         "relevance": {
-          "step1:number_of_person_contacted_with_symptoms": {
-            "type": "string",
-            "ex": "greaterThanEqualTo(., \"2\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "covid_relevance.yml"
+            }
           }
         }
       },
@@ -459,22 +473,23 @@
         "values": [
           "পুরুষ",
           "নারী",
-          "তৃতীয় লিঙ্গ"
+          "অন্যান্য"
 
         ],
         "openmrs_choice_ids": {
           "পুরুষ": "M",
           "নারী":"F",
-          "তৃতীয় লিঙ্গ": "O"
+          "অন্যান্য": "O"
         },
         "v_required": {
           "value": true,
           "err": "লিঙ্গ নির্বাচন করুন"
         },
         "relevance": {
-          "step1:number_of_person_contacted_with_symptoms": {
-            "type": "string",
-            "ex": "greaterThanEqualTo(., \"2\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "covid_relevance.yml"
+            }
           }
         }
       },
@@ -484,7 +499,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "symptoms_2",
         "type": "check_box",
-        "label": "নিচের কনটি আছেঃ",
+        "label": "নিচের কোন লক্ষণগুলি  বিদ্যমান ",
         "label_text_style": "normal",
         "text_color": "#C0C0C0",
         "options": [
@@ -525,10 +540,15 @@
           }
         ],
         "relevance": {
-          "step1:number_of_person_contacted_with_symptoms": {
-            "type": "string",
-            "ex": "greaterThanEqualTo(., \"2\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "covid_relevance.yml"
+            }
           }
+        },
+        "v_required": {
+          "value": true,
+          "err": " নির্বাচন করুন"
         }
       }
 
@@ -541,22 +561,23 @@
         "has_bg": true,
         "left_padding": "20dp",
         "right_padding": "20dp",
-        "text_size": "5sp",
+        "text_size": "15sp",
         "text_color": "#000000",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "relevance": {
-          "step1:number_of_person_contacted_with_symptoms": {
-            "type": "string",
-            "ex": "greaterThanEqualTo(., \"3\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "covid_relevance.yml"
+            }
           }
         }
       },
       {
         "key": "firstName_3",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "first_name_3",
         "type": "edit_text",
         "hint": "নাম",
@@ -570,9 +591,10 @@
           "err": "একটি বৈধ নাম লিখুন"
         },
         "relevance": {
-          "step1:number_of_person_contacted_with_symptoms": {
-            "type": "string",
-            "ex": "greaterThanEqualTo(., \"3\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "covid_relevance.yml"
+            }
           }
         }
       },
@@ -583,7 +605,7 @@
         "openmrs_entity_id": "contact_phone_number_3",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "মোবাইল নম্বর",
+        "hint": "ফোনঃ",
         "v_required": {
           "value": true,
           "err": "11 ডিজিটের মোবাইল নম্বর লিখুন"
@@ -606,9 +628,10 @@
           "err": "11 ডিজিটের মোবাইল নম্বর লিখুন"
         },
         "relevance": {
-          "step1:number_of_person_contacted_with_symptoms": {
-            "type": "string",
-            "ex": "greaterThanEqualTo(., \"3\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "covid_relevance.yml"
+            }
           }
         }
       },
@@ -622,22 +645,23 @@
         "values": [
           "পুরুষ",
           "নারী",
-          "তৃতীয় লিঙ্গ"
+          "অন্যান্য"
 
         ],
         "openmrs_choice_ids": {
           "পুরুষ": "M",
           "নারী":"F",
-          "তৃতীয় লিঙ্গ": "O"
+          "অন্যান্য": "O"
         },
         "v_required": {
           "value": true,
           "err": "লিঙ্গ নির্বাচন করুন"
         },
         "relevance": {
-          "step1:number_of_person_contacted_with_symptoms": {
-            "type": "string",
-            "ex": "greaterThanEqualTo(., \"3\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "covid_relevance.yml"
+            }
           }
         }
       },
@@ -647,7 +671,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "symptoms_3",
         "type": "check_box",
-        "label": "নিচের কনটি আছেঃ",
+        "label": "নিচের কোন লক্ষণগুলি  বিদ্যমান ",
         "label_text_style": "normal",
         "text_color": "#C0C0C0",
         "options": [
@@ -688,10 +712,15 @@
           }
         ],
         "relevance": {
-          "step1:number_of_person_contacted_with_symptoms": {
-            "type": "string",
-            "ex": "greaterThanEqualTo(., \"3\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "covid_relevance.yml"
+            }
           }
+        },
+        "v_required": {
+          "value": true,
+          "err": " নির্বাচন করুন"
         }
       }
 
@@ -704,22 +733,23 @@
         "has_bg": true,
         "left_padding": "20dp",
         "right_padding": "20dp",
-        "text_size": "5sp",
+        "text_size": "15sp",
         "text_color": "#000000",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "relevance": {
-          "step1:number_of_person_contacted_with_symptoms": {
-            "type": "string",
-            "ex": "greaterThanEqualTo(., \"4\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "covid_relevance.yml"
+            }
           }
         }
       },
       {
         "key": "firstName_4",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "first_name_4",
         "type": "edit_text",
         "hint": "নাম",
@@ -733,9 +763,10 @@
           "err": "একটি বৈধ নাম লিখুন"
         },
         "relevance": {
-          "step1:number_of_person_contacted_with_symptoms": {
-            "type": "string",
-            "ex": "greaterThanEqualTo(., \"4\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "covid_relevance.yml"
+            }
           }
         }
       },
@@ -746,7 +777,7 @@
         "openmrs_entity_id": "contact_phone_number_4",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "মোবাইল নম্বর",
+        "hint": "ফোনঃ",
         "v_required": {
           "value": true,
           "err": "11 ডিজিটের মোবাইল নম্বর লিখুন"
@@ -769,9 +800,10 @@
           "err": "11 ডিজিটের মোবাইল নম্বর লিখুন"
         },
         "relevance": {
-          "step1:number_of_person_contacted_with_symptoms": {
-            "type": "string",
-            "ex": "greaterThanEqualTo(., \"4\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "covid_relevance.yml"
+            }
           }
         }
       },
@@ -785,22 +817,23 @@
         "values": [
           "পুরুষ",
           "নারী",
-          "তৃতীয় লিঙ্গ"
+          "অন্যান্য"
 
         ],
         "openmrs_choice_ids": {
           "পুরুষ": "M",
           "নারী":"F",
-          "তৃতীয় লিঙ্গ": "O"
+          "অন্যান্য": "O"
         },
         "v_required": {
           "value": true,
           "err": "লিঙ্গ নির্বাচন করুন"
         },
         "relevance": {
-          "step1:number_of_person_contacted_with_symptoms": {
-            "type": "string",
-            "ex": "greaterThanEqualTo(., \"4\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "covid_relevance.yml"
+            }
           }
         }
       },
@@ -810,7 +843,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "symptoms_4",
         "type": "check_box",
-        "label": "নিচের কনটি আছেঃ",
+        "label": "নিচের কোন লক্ষণগুলি  বিদ্যমান ",
         "label_text_style": "normal",
         "text_color": "#C0C0C0",
         "options": [
@@ -851,10 +884,15 @@
           }
         ],
         "relevance": {
-          "step1:number_of_person_contacted_with_symptoms": {
-            "type": "string",
-            "ex": "greaterThanEqualTo(., \"4\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "covid_relevance.yml"
+            }
           }
+        },
+        "v_required": {
+          "value": true,
+          "err": " নির্বাচন করুন"
         }
       }
 
@@ -867,22 +905,23 @@
         "has_bg": true,
         "left_padding": "20dp",
         "right_padding": "20dp",
-        "text_size": "5sp",
+        "text_size": "15sp",
         "text_color": "#000000",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "relevance": {
-          "step1:number_of_person_contacted_with_symptoms": {
-            "type": "string",
-            "ex": "greaterThanEqualTo(., \"5\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "covid_relevance.yml"
+            }
           }
         }
       },
       {
         "key": "firstName_5",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "first_name_5",
         "type": "edit_text",
         "hint": "নাম",
@@ -896,9 +935,10 @@
           "err": "একটি বৈধ নাম লিখুন"
         },
         "relevance": {
-          "step1:number_of_person_contacted_with_symptoms": {
-            "type": "string",
-            "ex": "greaterThanEqualTo(., \"5\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "covid_relevance.yml"
+            }
           }
         }
       },
@@ -909,7 +949,7 @@
         "openmrs_entity_id": "contact_phone_number_5",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "মোবাইল নম্বর",
+        "hint": "ফোনঃ",
         "v_required": {
           "value": true,
           "err": "11 ডিজিটের মোবাইল নম্বর লিখুন"
@@ -932,9 +972,10 @@
           "err": "11 ডিজিটের মোবাইল নম্বর লিখুন"
         },
         "relevance": {
-          "step1:number_of_person_contacted_with_symptoms": {
-            "type": "string",
-            "ex": "greaterThanEqualTo(., \"5\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "covid_relevance.yml"
+            }
           }
         }
       },
@@ -948,22 +989,23 @@
         "values": [
           "পুরুষ",
           "নারী",
-          "তৃতীয় লিঙ্গ"
+          "অন্যান্য"
 
         ],
         "openmrs_choice_ids": {
           "পুরুষ": "M",
           "নারী":"F",
-          "তৃতীয় লিঙ্গ": "O"
+          "অন্যান্য": "O"
         },
         "v_required": {
           "value": true,
           "err": "লিঙ্গ নির্বাচন করুন"
         },
         "relevance": {
-          "step1:number_of_person_contacted_with_symptoms": {
-            "type": "string",
-            "ex": "greaterThanEqualTo(., \"5\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "covid_relevance.yml"
+            }
           }
         }
       },
@@ -973,7 +1015,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "symptoms_5",
         "type": "check_box",
-        "label": "নিচের কনটি আছেঃ",
+        "label": "নিচের কোন লক্ষণগুলি  বিদ্যমান ",
         "label_text_style": "normal",
         "text_color": "#C0C0C0",
         "options": [
@@ -1013,10 +1055,15 @@
             "openmrs_entity_id": "travel_5"
           }
         ],
+        "v_required": {
+          "value": true,
+          "err": " নির্বাচন করুন"
+        },
         "relevance": {
-          "step1:number_of_person_contacted_with_symptoms": {
-            "type": "string",
-            "ex": "greaterThanEqualTo(., \"5\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "covid_relevance.yml"
+            }
           }
         }
       }

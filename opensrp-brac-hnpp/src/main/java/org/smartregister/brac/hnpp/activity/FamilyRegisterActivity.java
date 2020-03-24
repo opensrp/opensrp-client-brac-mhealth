@@ -204,6 +204,11 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
             processAttributesWithChoiceIDsForSave(field);
             String entityId =JsonFormUtils.generateRandomUUIDString();
             FormTag formTag = new FormTag();
+            try{
+                formTag.providerId = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             formTag.appVersionName = BuildConfig.VERSION_NAME;
             formTag.appVersion = BuildConfig.VERSION_CODE;
             Event baseEvent = org.smartregister.util.JsonFormUtils.createEvent(

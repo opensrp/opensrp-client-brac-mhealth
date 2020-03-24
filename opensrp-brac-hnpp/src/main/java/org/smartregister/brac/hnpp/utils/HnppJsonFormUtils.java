@@ -152,8 +152,9 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         JSONArray jsonArray = new JSONArray();
         for(SSModel ssLocationForm : ssLocationForms){
             jsonArray.put(ssLocationForm.username);
-            jsonArray.put("স্বাস্থ্যকর্মী নিজে");
+
         }
+        jsonArray.put("স্বাস্থ্যকর্মী নিজে");
         JSONArray field = fields(form, STEP1);
         JSONObject spinner = getFieldJSONObject(field, SS_NAME);
 

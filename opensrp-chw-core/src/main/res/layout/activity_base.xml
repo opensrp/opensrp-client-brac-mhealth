@@ -204,7 +204,7 @@
                                     android:layout_alignParentRight="true"
                                     android:layout_centerVertical="true"
                                     android:fontFamily="sans-serif"
-                                    android:text="COVID-19"
+                                    android:text="করোনা ভাইরাস সংক্রান্ত জরিপ"
                                     android:textColor="@color/white"
                                     android:textSize="14sp" />
                                 <TextView

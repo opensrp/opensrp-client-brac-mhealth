@@ -1,0 +1,189 @@
+---
+name: step1_ad_toaster_1
+description: delivery_method relevance
+priority: 1
+condition: "step1_number_of_person_contacted_with_symptoms >5"
+actions:
+  - "isRelevant = true"
+---
+name: step1_add_more
+description: delivery_method relevance
+priority: 1
+condition: "step1_number_of_person_contacted_with_symptoms >=1"
+actions:
+  - "isRelevant = true"
+---
+name: step1_loop_1
+description: delivery_method relevance
+priority: 1
+condition: "step1_number_of_person_contacted_with_symptoms >=1"
+actions:
+  - "isRelevant = true"
+---
+name: step1_firstName_1
+description: delivery_method relevance
+priority: 1
+condition: "step1_number_of_person_contacted_with_symptoms >=1"
+actions:
+  - "isRelevant = true"
+---
+name: step1_contact_phone_number_1
+description: delivery_method relevance
+priority: 1
+condition: "step1_number_of_person_contacted_with_symptoms >=1"
+actions:
+  - "isRelevant = true"
+---
+name: step1_gender_1
+description: delivery_method relevance
+priority: 1
+condition: "step1_number_of_person_contacted_with_symptoms >=1"
+actions:
+  - "isRelevant = true"
+---
+name: step1_symptoms_1
+description: delivery_method relevance
+priority: 1
+condition: "step1_number_of_person_contacted_with_symptoms >=1"
+actions:
+  - "isRelevant = true"
+---
+name: step1_loop_2
+description: delivery_method relevance
+priority: 1
+condition: "step1_number_of_person_contacted_with_symptoms >=2"
+actions:
+  - "isRelevant = true"
+---
+name: step1_firstName_2
+description: delivery_method relevance
+priority: 1
+condition: "step1_number_of_person_contacted_with_symptoms >=2"
+actions:
+  - "isRelevant = true"
+---
+name: step1_contact_phone_number_2
+description: delivery_method relevance
+priority: 1
+condition: "step1_number_of_person_contacted_with_symptoms >=2"
+actions:
+  - "isRelevant = true"
+---
+name: step1_gender_2
+description: delivery_method relevance
+priority: 1
+condition: "step1_number_of_person_contacted_with_symptoms >=2"
+actions:
+  - "isRelevant = true"
+---
+name: step1_symptoms_2
+description: delivery_method relevance
+priority: 1
+condition: "step1_number_of_person_contacted_with_symptoms >=2"
+actions:
+  - "isRelevant = true"
+---
+name: step1_loop_3
+description: delivery_method relevance
+priority: 1
+condition: "step1_number_of_person_contacted_with_symptoms >=3"
+actions:
+  - "isRelevant = true"
+---
+name: step1_firstName_3
+description: delivery_method relevance
+priority: 1
+condition: "step1_number_of_person_contacted_with_symptoms >=3"
+actions:
+  - "isRelevant = true"
+---
+name: step1_contact_phone_number_3
+description: delivery_method relevance
+priority: 1
+condition: "step1_number_of_person_contacted_with_symptoms >=3"
+actions:
+  - "isRelevant = true"
+---
+name: step1_gender_3
+description: delivery_method relevance
+priority: 1
+condition: "step1_number_of_person_contacted_with_symptoms >=3"
+actions:
+  - "isRelevant = true"
+---
+name: step1_symptoms_3
+description: delivery_method relevance
+priority: 1
+condition: "step1_number_of_person_contacted_with_symptoms >=3"
+actions:
+  - "isRelevant = true"
+---
+name: step1_loop_4
+description: delivery_method relevance
+priority: 1
+condition: "step1_number_of_person_contacted_with_symptoms >=4"
+actions:
+  - "isRelevant = true"
+---
+name: step1_firstName_4
+description: delivery_method relevance
+priority: 1
+condition: "step1_number_of_person_contacted_with_symptoms >=4"
+actions:
+  - "isRelevant = true"
+---
+name: step1_contact_phone_number_4
+description: delivery_method relevance
+priority: 1
+condition: "step1_number_of_person_contacted_with_symptoms >=4"
+actions:
+  - "isRelevant = true"
+---
+name: step1_gender_4
+description: delivery_method relevance
+priority: 1
+condition: "step1_number_of_person_contacted_with_symptoms >=4"
+actions:
+  - "isRelevant = true"
+---
+name: step1_symptoms_4
+description: delivery_method relevance
+priority: 1
+condition: "step1_number_of_person_contacted_with_symptoms >=4"
+actions:
+  - "isRelevant = true"
+---
+name: step1_loop_5
+description: delivery_method relevance
+priority: 1
+condition: "step1_number_of_person_contacted_with_symptoms >=5"
+actions:
+  - "isRelevant = true"
+---
+name: step1_firstName_5
+description: delivery_method relevance
+priority: 1
+condition: "step1_number_of_person_contacted_with_symptoms >=5"
+actions:
+  - "isRelevant = true"
+---
+name: step1_contact_phone_number_5
+description: delivery_method relevance
+priority: 1
+condition: "step1_number_of_person_contacted_with_symptoms >=5"
+actions:
+  - "isRelevant = true"
+---
+name: step1_gender_5
+description: delivery_method relevance
+priority: 1
+condition: "step1_number_of_person_contacted_with_symptoms >=5"
+actions:
+  - "isRelevant = true"
+---
+name: step1_symptoms_5
+description: delivery_method relevance
+priority: 1
+condition: "step1_number_of_person_contacted_with_symptoms >=5"
+actions:
+  - "isRelevant = true"
