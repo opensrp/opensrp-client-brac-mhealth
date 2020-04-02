@@ -207,13 +207,6 @@
         "v_regex": {
           "value": "([0-9]{16})|([0-9]{17})|\\s*",
           "err": "মোট 16/17 সংখ্যা হওয়া আবশ্যক"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
         }
       },
       {
