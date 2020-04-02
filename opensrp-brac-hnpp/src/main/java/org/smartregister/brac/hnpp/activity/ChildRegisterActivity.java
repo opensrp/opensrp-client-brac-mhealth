@@ -41,7 +41,7 @@ public class ChildRegisterActivity extends CoreChildRegisterActivity {
             form.setActionBarBackground(R.color.test_app_color);
 
         }else{
-            form.setActionBarBackground(org.smartregister.family.R.color.family_actionbar);
+            form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
         }
         form.setNavigationBackground(org.smartregister.family.R.color.family_navigation);

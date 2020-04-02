@@ -14,6 +14,7 @@ import com.github.ybq.android.spinkit.style.FadingCircle;
 
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.fragment.HnppDashBoardFragment;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.view.activity.SecuredActivity;
 
 public class DashBoardActivity extends SecuredActivity {
@@ -42,6 +43,14 @@ public class DashBoardActivity extends SecuredActivity {
         refreshIndicatorsProgressBar = findViewById(R.id.refreshIndicatorsPB);
         // Initial view until we determined by the refresh function
         refreshIndicatorsProgressBar.setVisibility(View.GONE);
+
+        if(!HnppConstants.isReleaseBuild()){
+            findViewById(R.id.toolbar).setBackgroundResource(R.color.test_app_color);
+
+        }else{
+            findViewById(R.id.toolbar).setBackgroundResource(org.smartregister.family.R.color.customAppThemeBlue);
+
+        }
 
         refreshIndicatorsIcon.setOnClickListener(view -> {
             refreshIndicatorsIcon.setVisibility(View.GONE);

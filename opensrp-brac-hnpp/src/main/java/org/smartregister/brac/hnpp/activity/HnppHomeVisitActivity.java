@@ -32,6 +32,20 @@ public class HnppHomeVisitActivity extends BaseAncHomeVisitActivity {
         intent.putExtra(Constants.ANC_MEMBER_OBJECTS.EDIT_MODE, isEditMode);
         activity.startActivityForResult(intent, Constants.REQUEST_CODE_HOME_VISIT);
     }
+
+    @Override
+    public void setUpView() {
+        super.setUpView();
+        if(!HnppConstants.isReleaseBuild()){
+            findViewById(R.id.app_bar).setBackgroundResource(R.color.test_app_color);
+
+        }else{
+            findViewById(R.id.app_bar).setBackgroundResource(org.smartregister.family.R.color.customAppThemeBlue);
+
+        }
+
+    }
+
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this).setMessage(R.string.form_back_confirm_dialog_message)
