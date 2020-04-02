@@ -486,7 +486,7 @@
         "openmrs_entity_id": "can_one_walk",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "এক হাঁটতে পারে কিনা?",
+        "hint": "একা হাঁটতে পারে কিনা?",
         "values": [
           "হ্যাঁ",
           "না"

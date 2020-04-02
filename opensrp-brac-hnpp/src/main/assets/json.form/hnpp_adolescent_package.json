@@ -286,7 +286,7 @@
         "type": "check_box",
         "label": "অন্য কোন শারীরিক সমস্যা?",
         "exclusive": [
-          "None"
+          "no_problem"
         ],
         "options": [
           {

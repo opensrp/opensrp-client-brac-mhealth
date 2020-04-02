@@ -440,34 +440,6 @@
           }
         }
       },
-      {
-        "key": "breast_feeded",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "breast_feeded",
-        "openmrs_data_type": "select one",
-        "type": "spinner",
-        "hint": "প্রসবের পর মায়ের দুধ খাওয়ানো হয়েছে?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "Please select one option"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
-        }
-      },
 
       {
         "openmrs_entity_parent": "",

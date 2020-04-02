@@ -228,7 +228,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "নিয়মিত ব্যায়াম এবং স্বাস্থ্যকর কাবার খেয়ে ওজন কমাতে হবে।  যেমন- তৈলাক্ত ও শর্করা জাতীয় খাবার - ভাত, আলু ইত্যাদি খাওয়া কমাতে হবে এবং  শাক-সবজি বেশি বেশি খেতে হবে",
+        "text": "নিয়মিত ব্যায়াম এবং স্বাস্থ্যকর খাবার খেয়ে ওজন কমাতে হবে।  যেমন- তৈলাক্ত ও শর্করা জাতীয় খাবার - ভাত, আলু ইত্যাদি খাওয়া কমাতে হবে এবং  শাক-সবজি বেশি বেশি খেতে হবে",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
@@ -258,7 +258,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "blood_pressure_systolic",
         "type": "edit_text",
-        "hint": "সিস্টোলিক",
+        "hint": "সিস্টোলিক (mmHg)",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
@@ -291,7 +291,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "blood_pressure_diastolic",
         "type": "edit_text",
-        "hint": "ডায়াস্টোলিক",
+        "hint": "ডায়াস্টোলিক (mmHg)",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"

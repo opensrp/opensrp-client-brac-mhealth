@@ -119,6 +119,12 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
                 if (((MaterialEditText)v).getFloatingLabelText()!=null&&(((MaterialEditText)v).getFloatingLabelText().toString()).equals("ডায়াস্টোলিক")){
                     ((MaterialEditText)v).addTextChangedListener(textWatcherblood_pressure_diastolic);
                 }
+                if (((MaterialEditText)v).getFloatingLabelText()!=null&&(((MaterialEditText)v).getFloatingLabelText().toString()).equals("সিস্টোলিক (mmHg)")){
+                    ((MaterialEditText)v).addTextChangedListener(ncd_textWatcherblood_pressure_systolic);
+                }
+                if (((MaterialEditText)v).getFloatingLabelText()!=null&&(((MaterialEditText)v).getFloatingLabelText().toString()).equals("ডায়াস্টোলিক (mmHg)")){
+                    ((MaterialEditText)v).addTextChangedListener(ncd_textWatcherblood_pressure_diastolic);
+                }
                 if (((MaterialEditText)v).getFloatingLabelText()!=null&&(((MaterialEditText)v).getFloatingLabelText().toString()).equals("হিমোগ্লোবিন(gm/dl) - রক্ত পরীক্ষা")){
                     ((MaterialEditText)v).addTextChangedListener(textWatcherhemoglobin);
                 }
@@ -441,6 +447,67 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
 
         }
     };
+    //ncd
+    double ncd_blood_pressure_systolic_count = 0d;
+    boolean ncd_blood_pressure_systolic = false;
+    TextWatcher ncd_textWatcherblood_pressure_systolic = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            ncd_blood_pressure_systolic = false;
+            ncd_blood_pressure_systolic_count = 0d;
+            if(!StringUtils.isEmpty(s)){
+                try{
+                    ncd_blood_pressure_systolic_count = Double.valueOf(s.toString());
+                    ncd_blood_pressure_systolic = Double.valueOf(s.toString())>=140d;
+                }catch (Exception e){
+
+                }
+            }
+            referUHCCheckStatus(ncd_blood_pressure_systolic);
+
+        }
+    };
+    double ncd_blood_pressure_diastolic_count = 0d;
+    boolean ncd_blood_pressure_diastolic = false;
+    TextWatcher ncd_textWatcherblood_pressure_diastolic = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            ncd_blood_pressure_diastolic = false;
+            ncd_blood_pressure_diastolic_count = 0d;
+            if(!StringUtils.isEmpty(s)){
+                try{
+                    ncd_blood_pressure_diastolic_count = Double.valueOf(s.toString());
+                    ncd_blood_pressure_diastolic = Double.valueOf(s.toString())>=90d;
+
+                }catch (Exception e){
+
+                }
+            }
+            referUHCCheckStatus(ncd_blood_pressure_diastolic);
+
+        }
+    };
+    //
     double blood_pressure_systolic_count = 0d;
     boolean blood_pressure_systolic = false;
     TextWatcher textWatcherblood_pressure_systolic = new TextWatcher() {
@@ -497,7 +564,7 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
 
                 }
             }
-            referUHFWCCheckStatus(blood_pressure_systolic);
+            referUHFWCCheckStatus(blood_pressure_diastolic);
             refer_albumin();
 
         }
