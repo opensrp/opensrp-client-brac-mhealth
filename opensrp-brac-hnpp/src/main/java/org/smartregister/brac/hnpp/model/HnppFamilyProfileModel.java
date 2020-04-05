@@ -26,6 +26,10 @@ public class HnppFamilyProfileModel extends CoreFamilyProfileModel {
         this.houseHoldId = houseHoldId;
         this.familyBaseEntityId = familyBaseEntityId;
     }
+    public void updateHouseIdAndModuleId(String houseHoldId, String moduleId){
+        this.houseHoldId = houseHoldId;
+        this.moduleId = moduleId;
+    }
 
     @Override
     public JSONObject getFormAsJson(String formName, String entityId, String currentLocationId) throws Exception {
