@@ -37,6 +37,9 @@ public class FamilyProfilePresenter extends CoreFamilyProfilePresenter {
         getChildRegisterModel();
         verifyHasPhone();
     }
+    public void updateHouseIdAndModuleId(String houseHoldId){
+        this.houseHoldId = houseHoldId;
+    }
 
     @Override
     public void verifyHasPhone() {

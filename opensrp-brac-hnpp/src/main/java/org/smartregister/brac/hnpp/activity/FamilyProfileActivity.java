@@ -170,6 +170,11 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
 
                 JSONObject form = new JSONObject(jsonString);
                 if (form.getString(JsonFormUtils.ENCOUNTER_TYPE).equals(Utils.metadata().familyRegister.updateEventType)) {
+                    String[] sss =  HnppJsonFormUtils.getHouseholdIdModuleIdFromForm(form);
+                    houseHoldId = sss[0];
+                    moduleId = sss[1];
+                    ((FamilyProfilePresenter)presenter).updateHouseIdAndModuleId(houseHoldId);
+                    model.updateHouseIdAndModuleId(houseHoldId,moduleId );
                     presenter().updateFamilyRegister(jsonString);
                     presenter().verifyHasPhone();
                 }else {
@@ -221,13 +226,15 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
     protected Class<? extends CoreFamilyProfileMenuActivity> getFamilyProfileMenuClass() {
         return FamilyProfileMenuActivity.class;
     }
+    HnppFamilyProfileModel model;
 
     @Override
     protected void initializePresenter() {
         super.initializePresenter();
         moduleId = getIntent().getStringExtra(HnppConstants.KEY.MODULE_ID);
         houseHoldId = getIntent().getStringExtra(DBConstants.KEY.UNIQUE_ID);
-        presenter = new FamilyProfilePresenter(this, new HnppFamilyProfileModel(familyName,moduleId,houseHoldId,familyBaseEntityId),houseHoldId, familyBaseEntityId, familyHead, primaryCaregiver, familyName);
+        model = new HnppFamilyProfileModel(familyName,moduleId,houseHoldId,familyBaseEntityId);
+        presenter = new FamilyProfilePresenter(this, model,houseHoldId, familyBaseEntityId, familyHead, primaryCaregiver, familyName);
     }
     private FamilyHistoryFragment familyHistoryFragment;
     private FamilyProfileMemberFragment familyProfileMemberFragment;
