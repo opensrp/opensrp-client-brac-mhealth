@@ -124,19 +124,29 @@ public class HNPPMemberJsonFormFragment extends JsonWizardFormFragment {
 
                 if(first_name_view!=null){
 
-                        if(position == 0){
-                            first_name_view.setText(family_name);
-                        }else if(first_name_view.getText().toString().equalsIgnoreCase(family_name)){
-                            first_name_view.setText("");
-                        }
+                    if(position == 0){
+                        first_name_view.setText(family_name);
+                        first_name_view.setEnabled(false);
+                    }else{
+                        first_name_view.setEnabled(true);
+                    }
+
+//                        else if(first_name_view.getText().toString().equalsIgnoreCase(family_name)){
+//                            first_name_view.setText("");
+//                        }
                 }
                 if(phone_number_view!=null){
 
                     if(position == 0){
                         phone_number_view.setText(phone_no);
-                    }else if(!phone_no.equals("0")&& phone_number_view.getText().toString().equalsIgnoreCase(phone_no)){
-                        phone_number_view.setText("");
+                        phone_number_view.setEnabled(false);
+                    }else{
+                        phone_number_view.setEnabled(true);
                     }
+
+//                        if(!phone_no.equals("0")&& phone_number_view.getText().toString().equalsIgnoreCase(phone_no)){
+//                        phone_number_view.setText("");
+//                    }
                 }
 
             }

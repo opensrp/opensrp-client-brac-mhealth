@@ -601,6 +601,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
                 String entity_id = baseClient.getBaseEntityId();
                 updateFormSubmissionID(encounterType,entity_id,baseEvent);
+
                 return new FamilyEventClient(baseClient, baseEvent);
             }
         } catch (Exception var10) {
@@ -608,6 +609,8 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             return null;
         }
     }
+
+
 
     public static FamilyEventClient processPregnancyOutcomeForm(AllSharedPreferences allSharedPreferences, String jsonString, String familyBaseEntityId, String encounterType) {
         try {
