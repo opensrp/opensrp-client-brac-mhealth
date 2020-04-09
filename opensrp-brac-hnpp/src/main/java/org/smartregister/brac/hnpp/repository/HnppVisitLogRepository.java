@@ -87,7 +87,7 @@ public class HnppVisitLogRepository extends BaseRepository {
             cursor.moveToFirst();
             return cursor.getString(0);
         }
-        return "1";
+        return "";
     }
     public ArrayList<String> getVisitIds(){
         ArrayList<String>visit_ids = new ArrayList<String>();

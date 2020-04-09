@@ -1,6 +1,7 @@
 package org.smartregister.brac.hnpp.interactor;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
@@ -105,14 +106,18 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
     public void addHeightField(String baseEntityId, String formName, JSONObject jsonForm) {
         if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM)||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM)||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM)) {
             HnppVisitLogRepository visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
-            JSONObject stepOne = null;
-            try {
-                stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
-                JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
-                updateFormField(jsonArray,"height",visitLogRepository.getHeight(baseEntityId));
-            } catch (JSONException e) {
-                e.printStackTrace();
+            String heightValue = visitLogRepository.getHeight(baseEntityId);
+            if(!TextUtils.isEmpty(heightValue)){
+                JSONObject stepOne = null;
+                try {
+                    stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+                    JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+                    updateFormField(jsonArray,"height",heightValue);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
+
 
         }
     }
