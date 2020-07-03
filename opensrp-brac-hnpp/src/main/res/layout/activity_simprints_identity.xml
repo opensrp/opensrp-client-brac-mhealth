@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/selection_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:gravity="center"
+        android:background="@color/light_gray"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="স্বাস্থ্য সেবিকার নাম"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
+
+        <Spinner
+            android:id="@+id/ss_filter_spinner"
+            android:layout_marginBottom="20dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+        </Spinner>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="গ্রামের নামঃ"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
+
+        <Spinner
+            android:id="@+id/village_filter_spinner"
+            android:layout_marginBottom="20dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+        </Spinner>
+
+        <Button
+            android:id="@+id/filter_apply_button"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/login_button_bg"
+            android:ems="10"
+            android:shadowColor="#ffffff"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="0.5"
+            android:textStyle="bold"
+            android:text="@string/filter"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/not_found_panel"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="এই ব্যাক্তিটি আঙুলের ছাপ দ্বারা রেজিস্টার নয় "
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
+        <Button
+            android:id="@+id/back_btn"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/login_button_bg"
+            android:ems="10"
+            android:shadowColor="#ffffff"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="0.5"
+            android:textStyle="bold"
+            android:text="ফিরে যাই"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/another_catchment_panel"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/rowavatar_member"/>
+        <TextView
+            android:id="@+id/guid"
+            android:text="GuId:"
+            android:gravity="center"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="এই ব্যাক্তিটির আঙুলের ছাপ,এই SK এর ক্যাচমেন্ট এরিয়াতে পাওয়া যাই নি। "
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
+        <Button
+            android:id="@+id/back_bn"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/login_button_bg"
+            android:ems="10"
+            android:shadowColor="#ffffff"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="0.5"
+            android:textStyle="bold"
+            android:text="ফিরে যাই"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/found_panel"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/rowavatar_member"/>
+        <TextView
+            android:id="@+id/name"
+            android:text="Name:"
+            android:gravity="center"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ফিঙ্গার প্রিন্ট দ্বারা আইডেন্টিফায়েড"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
+        <LinearLayout
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/confirm_btn"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/login_button_bg"
+                android:ems="10"
+                android:shadowColor="#ffffff"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="0.5"
+                android:textStyle="bold"
+                android:text="নিশ্চিত"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+            <Button
+                android:id="@+id/not_found_btn"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/red_round"
+                android:ems="10"
+                android:shadowColor="#ffffff"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="0.5"
+                android:textStyle="bold"
+                android:text="পাওয়া যায়নি"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

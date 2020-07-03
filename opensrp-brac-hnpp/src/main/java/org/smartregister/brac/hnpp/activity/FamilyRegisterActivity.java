@@ -13,6 +13,7 @@ import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
 import org.json.JSONObject;
+import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.listener.HnppBottomNavigationListener;
@@ -35,6 +36,7 @@ import org.smartregister.family.util.Utils;
 import org.smartregister.helper.BottomNavigationHelper;
 import org.smartregister.immunization.service.intent.RecurringIntentService;
 import org.smartregister.immunization.service.intent.VaccineIntentService;
+import org.smartregister.simprint.SimPrintsLibrary;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 
 
@@ -107,6 +109,8 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
             startRegistration();
         }
         HnppConstants.isViewRefresh = false;
+        SimPrintsLibrary.init(FamilyRegisterActivity.this, HnppConstants.getSimPrintsProjectId(), CoreLibrary.getInstance().context().allSharedPreferences().fetchRegisteredANM());
+
 
     }
 

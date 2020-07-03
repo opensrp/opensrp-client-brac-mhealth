@@ -171,7 +171,9 @@
         <activity android:name=".activity.DashBoardActivity" android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
-
+        <activity android:name=".activity.SimprintsIdentityActivity" android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
         <activity android:name=".activity.HnppSettingsActivity" />
         <activity android:name=".activity.HnppPncRegisterActivity"
             android:screenOrientation="portrait"

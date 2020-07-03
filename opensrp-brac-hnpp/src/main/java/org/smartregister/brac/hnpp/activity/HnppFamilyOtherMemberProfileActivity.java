@@ -1,7 +1,9 @@
 package org.smartregister.brac.hnpp.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
@@ -9,12 +11,14 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
@@ -54,6 +58,9 @@ import org.smartregister.family.model.BaseFamilyOtherMemberProfileActivityModel;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.helper.ImageRenderHelper;
+import org.smartregister.simprint.SimPrintsConstantHelper;
+import org.smartregister.simprint.SimPrintsRegistration;
+import org.smartregister.simprint.SimPrintsVerifyActivity;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
 import org.smartregister.view.contract.BaseProfileContract;
@@ -69,12 +76,32 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.MEMBER_ID_SUFFIX;
 
 public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberProfileActivity {
     public static final int REQUEST_HOME_VISIT = 5555;
+    public static final int REQUEST_SIMPRINTS_VERIFY = 1222;
+    public static final String IS_COMES_IDENTITY = "is_comes";
     private static final int REQUEST_CODE_PREGNANCY_OUTCOME = 5556;
 
     private CustomFontTextView textViewDetails3;
     private String familyBaseEntityId;
 
     private TextView textViewAge,textViewName;
+    private boolean isComesFromIdentity;
+    private boolean isVerified;
+
+    public boolean isComesFromIdentity() {
+        return isComesFromIdentity;
+    }
+
+    public void setComesFromIdentity(boolean comesFromIdentity) {
+        isComesFromIdentity = comesFromIdentity;
+    }
+
+    public boolean isVerified() {
+        return isVerified;
+    }
+
+    public void setVerified(boolean verified) {
+        isVerified = verified;
+    }
 
     @Override
     public void onBackPressed() {
@@ -104,6 +131,22 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
         HnppConstants.isViewRefresh = false;
     }
+    private void updateFingerPrintIcon(){
+        boolean isComesFromIdentity = getIntent().getBooleanExtra(IS_COMES_IDENTITY,false);
+        setComesFromIdentity(isComesFromIdentity);
+        String moduleId = getIntent().getStringExtra(HnppConstants.KEY.HOUSE_HOLD_ID);
+        String guid = HnppDBUtils.getGuid(baseEntityId);
+        if(!TextUtils.isEmpty(guid) && !guid.equalsIgnoreCase(HnppConstants.TEST_GU_ID)){
+            findViewById(R.id.finger_print).setVisibility(View.VISIBLE);
+            findViewById(R.id.finger_print).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SimPrintsVerifyActivity.startSimprintsVerifyActivity(HnppFamilyOtherMemberProfileActivity.this,moduleId,guid,REQUEST_SIMPRINTS_VERIFY);
+                    }
+                });
+        }
+
+    }
     public void updateDueCount(final int dueCount) {
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(() -> adapter.updateCount(Pair.create(1, dueCount)));
@@ -118,6 +161,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
        }catch (Exception e){
 
        }
+        updateFingerPrintIcon();
 
     }
     @Override
@@ -307,9 +351,35 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             Timber.e(e);
         }
     }
+    private void showAlertDialog(String message){
+        new AlertDialog.Builder(this).setMessage(message)
+                .setTitle("ফিঙ্গার প্রিন্ট ভেরিফিকেশন রেজাল্ট").setCancelable(false)
+                .setNegativeButton("ফিরে যান", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+            }
+        }).show();
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUEST_SIMPRINTS_VERIFY ){
+            if(resultCode == Activity.RESULT_OK){
+                SimPrintsRegistration verifyResults = (SimPrintsRegistration) data.getSerializableExtra(SimPrintsConstantHelper.INTENT_DATA);
+                String guId = verifyResults.getGuid();
+                Log.v("SIMPRINTS_IDENTITY","verify:"+guId);
+                if(!TextUtils.isEmpty(guId)){
+                    setVerified(true);
+                    showAlertDialog("ফিঙ্গার প্রিন্ট দ্বারা ভেরিফাইড");
+                }else{
+                    setVerified(false);
+                    showAlertDialog("ভেরিফিকেশন ফেইল");
+                }
+            }else{
+                Toast.makeText(this,"SIMPRINTS_BIOMETRICS_COMPLETE_CHECK false",Toast.LENGTH_LONG).show();
+            }
+
+            return;
+        }
         if(resultCode == Activity.RESULT_OK){
             //TODO: Need to check request code
             VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);

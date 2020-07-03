@@ -36,6 +36,45 @@ import timber.log.Timber;
 
 public class HnppDBUtils extends CoreChildUtils {
 
+    public static String getGuid(String baseEntityId){
+        String query = "select gu_id from ec_child where base_entity_id = '"+baseEntityId+"'";
+        Cursor cursor = null;
+        String birthWeight="";
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                birthWeight = cursor.getString(0);
+                cursor.close();
+            }
+
+            return birthWeight;
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return birthWeight;
+    }
+
+    public static String[] getBaseEntityByGuId(String guid){
+        String query = "select base_entity_id,first_name from ec_family_member where gu_id = '"+guid+"'";
+        Cursor cursor = null;
+        String[] strings = new String[2];
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                strings[0] = cursor.getString(0);
+                strings[1] = cursor.getString(1);
+                cursor.close();
+            }
+
+            return strings;
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return strings;
+    }
+
     public static String getBirthWeight(String baseEntityId){
         String query = "select birth_weight from ec_child where base_entity_id = '"+baseEntityId+"'";
         Cursor cursor = null;

@@ -66,6 +66,8 @@
                         android:layout_height="@dimen/client_profile_pic_height"
                         app:civ_border_color="#FFFFFFFF"
                         app:civ_border_width="0dp" />
+
+
                     <LinearLayout
                         android:id="@+id/profile_name_layout"
                         android:layout_width="match_parent"
@@ -75,19 +77,30 @@
                         app:layout_collapseMode="parallax"
                         app:layout_collapseParallaxMultiplier="1.5">
 
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <org.smartregister.view.customcontrols.CustomFontTextView
+                                android:id="@+id/textview_name"
+                                style="@style/CustomFontTextViewStyle.ClientList.Medium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:paddingLeft="0dp"
+                                android:text="Charity Otala"
+                                android:textStyle="bold"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/activity_title_size" />
+                            <ImageView
+                                android:id="@+id/finger_print"
+                                android:src="@drawable/finger_print"
+                                android:visibility="gone"
+                                android:layout_toRightOf="@+id/textview_name"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"/>
+                        </RelativeLayout>
 
 
-                        <org.smartregister.view.customcontrols.CustomFontTextView
-                            android:id="@+id/textview_name"
-                            style="@style/CustomFontTextViewStyle.ClientList.Medium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:paddingLeft="0dp"
-                            android:text="Charity Otala"
-                            android:textStyle="bold"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/activity_title_size" />
                         <org.smartregister.view.customcontrols.CustomFontTextView
                             android:id="@+id/textview_detail_three"
                             style="@style/CustomFontTextViewStyle.ClientList.Light"
@@ -186,6 +199,7 @@
                             android:textSize="@dimen/register_list_desc_size" />
 
                     </LinearLayout>
+
                 </RelativeLayout>
 
 
