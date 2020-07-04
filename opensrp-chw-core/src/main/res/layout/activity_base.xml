@@ -260,6 +260,38 @@
                             android:text="@string/app_version"
                             android:textColor="@color/white"
                             android:textSize="14sp" />
+                        <RelativeLayout
+                            android:id="@+id/force_sync"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:paddingStart="15dp"
+                            android:paddingLeft="15dp"
+                            android:paddingBottom="15dp">
+
+                            <ImageView
+                                android:id="@+id/ivForceSync"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:scaleType="centerInside"
+                                app:srcCompat="@drawable/ic_icon_settings" />
+
+                            <TextView
+                                android:id="@+id/tvForceSync"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_toEndOf="@+id/ivForceSync"
+                                android:layout_toRightOf="@+id/ivForceSync"
+                                android:fontFamily="sans-serif"
+                                android:text="ট্রাবলশুট"
+                                android:textColor="@color/white"
+                                android:textSize="20sp" />
+
+                        </RelativeLayout>
 
                     </LinearLayout>
 

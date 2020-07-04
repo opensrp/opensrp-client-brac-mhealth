@@ -36,8 +36,8 @@ android {
         applicationId "org.smartregister.brac.hnpp"
         minSdkVersion 18
         targetSdkVersion 28
-        versionCode 21
-        versionName "1.2.5"
+        versionCode 22
+        versionName "1.2.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         buildConfigField "String", 'opensrp_url_live', '"https://mhealth.brac.net/opensrp/"'
@@ -79,7 +79,7 @@ android {
         }
 
         debug {
-             buildConfigField "String", 'opensrp_url_training', '"http://192.168.19.146:8080/opensrp/"'
+             buildConfigField "String", 'opensrp_url_training', '"http://hnpptest.mpower-social.com:8080/opensrp/"'
             buildConfigField "int", "OPENMRS_UNIQUE_ID_INITIAL_BATCH_SIZE", '250'
             buildConfigField "int", "OPENMRS_UNIQUE_ID_BATCH_SIZE", '15'
             buildConfigField "int", "OPENMRS_UNIQUE_ID_SOURCE", '2'

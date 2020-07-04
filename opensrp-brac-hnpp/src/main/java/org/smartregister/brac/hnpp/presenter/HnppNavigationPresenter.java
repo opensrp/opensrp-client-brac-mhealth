@@ -15,6 +15,7 @@ import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.activity.COVIDJsonFormActivity;
+import org.smartregister.brac.hnpp.activity.ForceSyncActivity;
 import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
@@ -73,6 +74,13 @@ public class HnppNavigationPresenter extends NavigationPresenter {
 
         }
     }
+
+    @Override
+    public void forceSync(Activity activity) {
+        activity.startActivity(new Intent(activity, ForceSyncActivity.class));
+
+    }
+
     @Override
     public void sync(Activity activity) {
       userStatusCheck(activity);
