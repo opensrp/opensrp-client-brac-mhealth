@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.github.ybq.android.spinkit.style.FadingCircle;
 import com.simprints.libsimprints.Constants;
+import com.simprints.libsimprints.Identification;
 
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.fragment.HnppDashBoardFragment;
@@ -120,18 +121,25 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
                 intent.putExtra(HnppFamilyOtherMemberProfileActivity.IS_COMES_IDENTITY,true);
                 intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_NAME, houseHoldHead);
                 startActivity(intent);
+                finish();
                 break;
             case R.id.not_found_btn:
                 showNotFoundDialog();
                 break;
         }
     }
-    String checkedItem;
+    String checkedItem = "";
+    private void addCheckedText(String text){
+        if(TextUtils.isEmpty(checkedItem)){
+            checkedItem = text;
+        }else{
+            checkedItem = checkedItem+","+text;
+        }
+    }
 
     private void showNotFoundDialog(){
         Dialog dialog = new Dialog(this, android.R.style.Theme_NoTitleBar_Fullscreen);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(org.smartregister.family.R.color.customAppThemeBlue)));
         dialog.setContentView(R.layout.view_not_found);
         Button close_btn = dialog.findViewById(R.id.close_btn);
         Button retry_btn = dialog.findViewById(R.id.retry_btn);
@@ -142,27 +150,27 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
         CheckBox checkBox5 = dialog.findViewById(R.id.check_box_5);
         checkBox1.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked){
-                checkedItem = checkedItem +","+checkBox1.getText().toString();
+                addCheckedText(checkBox1.getText().toString());
             }
         });
         checkBox2.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked){
-                checkedItem = checkedItem +","+checkBox2.getText().toString();
+                addCheckedText(checkBox2.getText().toString());
             }
         });
         checkBox3.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked){
-                checkedItem = checkedItem +","+checkBox3.getText().toString();
+                addCheckedText(checkBox3.getText().toString());
             }
         });
         checkBox4.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked){
-                checkedItem = checkedItem +","+checkBox4.getText().toString();
+                addCheckedText(checkBox4.getText().toString());
             }
         });
         checkBox5.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked){
-                checkedItem = checkedItem +","+checkBox5.getText().toString();
+                addCheckedText(checkBox5.getText().toString());
             }
         });
         close_btn.setOnClickListener(new View.OnClickListener() {
@@ -325,9 +333,12 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
                         showProgressDialog();
                         appExecutors.diskIO().execute(() -> {
                             try {
+
+
                                 ArrayList<SimPrintsIdentification> identifications = (ArrayList<SimPrintsIdentification>) data.getSerializableExtra(SimPrintsConstantHelper.INTENT_DATA);
 
-                                for (SimPrintsIdentification identification : identifications){
+                                if(identifications.size()>0){
+                                    SimPrintsIdentification identification = identifications.get(0);
                                     guId = identification.getGuid();
                                     Log.v("SIMPRINTS_IDENTITY","guid:"+guId);
                                     String[] ourPut = HnppDBUtils.getBaseEntityByGuId(guId);
@@ -335,9 +346,19 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
                                     Log.v("SIMPRINTS_IDENTITY","guid:"+guId+":baseEntityId:"+baseEntityId);
                                     if(!TextUtils.isEmpty(baseEntityId)){
                                         name = ourPut[1];
-                                        break;
                                     }
                                 }
+//                                for (SimPrintsIdentification identification : identifications){
+//                                    guId = identification.getGuid();
+//                                    Log.v("SIMPRINTS_IDENTITY","guid:"+guId);
+//                                    String[] ourPut = HnppDBUtils.getBaseEntityByGuId(guId);
+//                                    baseEntityId = ourPut[0];
+//                                    Log.v("SIMPRINTS_IDENTITY","guid:"+guId+":baseEntityId:"+baseEntityId);
+//                                    if(!TextUtils.isEmpty(baseEntityId)){
+//                                        name = ourPut[1];
+//                                        break;
+//                                    }
+//                                }
 
                                 appExecutors.mainThread().execute(() -> {
                                     hideProgressDialog();

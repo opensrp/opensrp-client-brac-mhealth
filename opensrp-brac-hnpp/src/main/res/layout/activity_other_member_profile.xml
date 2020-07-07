@@ -58,21 +58,37 @@
                     android:gravity="center_horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/imageview_profile"
+                    <RelativeLayout
+                        android:id="@+id/image_panel"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
-                        android:layout_width="@dimen/client_profile_pic_width"
-                        android:layout_height="@dimen/client_profile_pic_height"
-                        app:civ_border_color="#FFFFFFFF"
-                        app:civ_border_width="0dp" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/imageview_profile"
+                           android:src="@drawable/rowavatar_member"
+                            android:layout_width="@dimen/client_profile_pic_width"
+                            android:layout_height="@dimen/client_profile_pic_height"
+                            app:civ_border_color="#FFFFFFFF"
+                            app:civ_border_width="0dp" />
+                        <ImageView
+                            android:id="@+id/finger_print"
+                            android:layout_alignRight="@+id/imageview_profile"
+                            android:layout_alignTop="@+id/imageview_profile"
+                            android:src="@drawable/finger_print"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"/>
+
+                    </RelativeLayout>
+
 
 
                     <LinearLayout
                         android:id="@+id/profile_name_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/imageview_profile"
+                        android:layout_toRightOf="@+id/image_panel"
                         android:orientation="vertical"
                         app:layout_collapseMode="parallax"
                         app:layout_collapseParallaxMultiplier="1.5">
@@ -91,13 +107,7 @@
                                 android:textStyle="bold"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/activity_title_size" />
-                            <ImageView
-                                android:id="@+id/finger_print"
-                                android:src="@drawable/finger_print"
-                                android:visibility="gone"
-                                android:layout_toRightOf="@+id/textview_name"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"/>
+
                         </RelativeLayout>
 
 

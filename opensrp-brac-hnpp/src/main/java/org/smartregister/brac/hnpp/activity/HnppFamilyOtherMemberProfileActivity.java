@@ -2,6 +2,7 @@ package org.smartregister.brac.hnpp.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +17,9 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,7 +63,7 @@ import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.helper.ImageRenderHelper;
 import org.smartregister.simprint.SimPrintsConstantHelper;
-import org.smartregister.simprint.SimPrintsRegistration;
+import org.smartregister.simprint.SimPrintsVerification;
 import org.smartregister.simprint.SimPrintsVerifyActivity;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
@@ -84,23 +88,12 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     private String familyBaseEntityId;
 
     private TextView textViewAge,textViewName;
-    private boolean isComesFromIdentity;
-    private boolean isVerified;
+    private boolean isVerified,verificationNeeded;
+    private String guId;
 
-    public boolean isComesFromIdentity() {
-        return isComesFromIdentity;
-    }
 
-    public void setComesFromIdentity(boolean comesFromIdentity) {
-        isComesFromIdentity = comesFromIdentity;
-    }
-
-    public boolean isVerified() {
-        return isVerified;
-    }
-
-    public void setVerified(boolean verified) {
-        isVerified = verified;
+    public boolean isNeedToVerify() {
+        return verificationNeeded && !isVerified;
     }
 
     @Override
@@ -133,17 +126,17 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     }
     private void updateFingerPrintIcon(){
         boolean isComesFromIdentity = getIntent().getBooleanExtra(IS_COMES_IDENTITY,false);
-        setComesFromIdentity(isComesFromIdentity);
-        String moduleId = getIntent().getStringExtra(HnppConstants.KEY.HOUSE_HOLD_ID);
-        String guid = HnppDBUtils.getGuid(baseEntityId);
-        if(!TextUtils.isEmpty(guid) && !guid.equalsIgnoreCase(HnppConstants.TEST_GU_ID)){
+        if(isComesFromIdentity){
+            isVerified = true;
+            verificationNeeded = true;
+        }
+       String moduleId = HnppDBUtils.getModuleId(familyHead);
+        guId = commonPersonObject.getColumnmaps().get("gu_id");
+        Log.v("VERIFY_SIMPRINT","moduleId:"+moduleId+":guid:"+guId);
+        if(!TextUtils.isEmpty(guId) && !guId.equalsIgnoreCase(HnppConstants.TEST_GU_ID)){
             findViewById(R.id.finger_print).setVisibility(View.VISIBLE);
-            findViewById(R.id.finger_print).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        SimPrintsVerifyActivity.startSimprintsVerifyActivity(HnppFamilyOtherMemberProfileActivity.this,moduleId,guid,REQUEST_SIMPRINTS_VERIFY);
-                    }
-                });
+            verificationNeeded = true;
+
         }
 
     }
@@ -161,7 +154,6 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
        }catch (Exception e){
 
        }
-        updateFingerPrintIcon();
 
     }
     @Override
@@ -259,6 +251,8 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     @Override
     protected ViewPager setupViewPager(ViewPager viewPager) {
         this.mViewPager = viewPager;
+
+        updateFingerPrintIcon();
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         List<Map<String,String>> genderMaritalStatus = HnppDBUtils.getGenderMaritalStatus(baseEntityId);
         if(genderMaritalStatus != null && genderMaritalStatus.size()>0) {
@@ -279,8 +273,18 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         viewPager.setAdapter(adapter);
         return viewPager;
     }
+    String requestedFormName;
+    int requestedRequestCode;
 
     public void startAnyFormActivity(String formName, int requestCode) {
+        requestedFormName = formName;
+        requestedRequestCode = requestCode;
+        if(!ignoreSimprintCheck && isNeedToVerify()){
+            startSimprintVerify();
+            return;
+
+        }
+
        try {
            JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
            HnppJsonFormUtils.addEDDField(formName,jsonForm,baseEntityId);
@@ -318,9 +322,11 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
            if (this != null) {
                this.startActivityForResult(intent, requestCode);
            }
+
        }catch (Exception e){
            
        }
+
     }
 
 
@@ -351,31 +357,127 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             Timber.e(e);
         }
     }
-    private void showAlertDialog(String message){
+    private void showFailAlertDialog(String message){
         new AlertDialog.Builder(this).setMessage(message)
                 .setTitle("ফিঙ্গার প্রিন্ট ভেরিফিকেশন রেজাল্ট").setCancelable(false)
-                .setNegativeButton("ফিরে যান", new DialogInterface.OnClickListener() {
+                .setPositiveButton("আরেকবার চেষ্টা করি", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        startSimprintVerify();
+                    }
+                })
+                .setNegativeButton("বাদ দেয়", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
+                dialog.dismiss();
+                showNotFoundDialog();
             }
         }).show();
+    }
+    private void showSuccessAlertDialog(String message){
+        new AlertDialog.Builder(this).setMessage(message)
+                .setTitle("ফিঙ্গার প্রিন্ট ভেরিফিকেশন রেজাল্ট").setCancelable(false)
+                .setNegativeButton("Processed", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                        dialog.dismiss();
+                        openServiceForm();
+
+                    }
+                }).show();
+    }
+    private void openServiceForm(){
+        if(referralFollowUpModel!=null){
+            openReferealFollowUp(referralFollowUpModel);
+        }else if(needToStartHomeVisit){
+            HnppHomeVisitActivity.startMe(this, new MemberObject(commonPersonObject), false);
+            needToStartHomeVisit = false;
+        }
+        else{
+            startAnyFormActivity(requestedFormName,requestedRequestCode);
+        }
+    }
+    String checkedItem = "";
+    private void addCheckedText(String text){
+        if(TextUtils.isEmpty(checkedItem)){
+            checkedItem = text;
+        }else{
+            checkedItem = checkedItem+","+text;
+        }
+    }
+
+    private void showNotFoundDialog(){
+        Dialog dialog = new Dialog(this, android.R.style.Theme_NoTitleBar_Fullscreen);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.view_not_verified);
+        Button service_btn = dialog.findViewById(R.id.service_btn);
+        Button retry_btn = dialog.findViewById(R.id.retry_btn);
+        CheckBox checkBox1 = dialog.findViewById(R.id.check_box_1);
+        CheckBox checkBox2 = dialog.findViewById(R.id.check_box_2);
+        CheckBox checkBox5 = dialog.findViewById(R.id.check_box_5);
+        checkBox1.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked){
+                addCheckedText(checkBox1.getText().toString());
+            }
+        });
+        checkBox2.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked){
+                addCheckedText(checkBox2.getText().toString());
+            }
+        });
+
+        checkBox5.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked){
+                addCheckedText(checkBox5.getText().toString());
+            }
+        });
+        service_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                ignoreSimprintCheck = true;
+                Log.v("VERIFY","checkedItem>>"+checkedItem);
+                openServiceForm();
+            }
+        });
+        retry_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                startSimprintVerify();
+            }
+        });
+        dialog.show();
+
+    }
+    public void startSimprintVerify(){
+        if(!TextUtils.isEmpty(moduleId)){
+            SimPrintsVerifyActivity.startSimprintsVerifyActivity(HnppFamilyOtherMemberProfileActivity.this,moduleId,guId,REQUEST_SIMPRINTS_VERIFY);
+
+        }else{
+            Toast.makeText(HnppFamilyOtherMemberProfileActivity.this,"Please select module id",Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        ignoreSimprintCheck = false;
         if(requestCode == REQUEST_SIMPRINTS_VERIFY ){
             if(resultCode == Activity.RESULT_OK){
-                SimPrintsRegistration verifyResults = (SimPrintsRegistration) data.getSerializableExtra(SimPrintsConstantHelper.INTENT_DATA);
+                SimPrintsVerification verifyResults = (SimPrintsVerification) data.getSerializableExtra(SimPrintsConstantHelper.INTENT_DATA);
                 String guId = verifyResults.getGuid();
                 Log.v("SIMPRINTS_IDENTITY","verify:"+guId);
                 if(!TextUtils.isEmpty(guId)){
-                    setVerified(true);
-                    showAlertDialog("ফিঙ্গার প্রিন্ট দ্বারা ভেরিফাইড");
+                    isVerified = true;
+                    showSuccessAlertDialog("ফিঙ্গার প্রিন্ট দ্বারা ভেরিফাইড \n নাম : "+textViewName.getText().toString());
                 }else{
-                    setVerified(false);
-                    showAlertDialog("ভেরিফিকেশন ফেইল");
+                    isVerified = false;
+                    showFailAlertDialog("আঙুলের ছাপ মিলেনি ");
                 }
             }else{
                 Toast.makeText(this,"SIMPRINTS_BIOMETRICS_COMPLETE_CHECK false",Toast.LENGTH_LONG).show();
+                isVerified = false;
+                showFailAlertDialog("আঙুলের ছাপ মিলেনি ");
             }
 
             return;
@@ -401,7 +503,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             // persist to database
 
 
-                visit = HnppJsonFormUtils.saveVisit(false, baseEntityId, type, jsonStrings, "");
+                visit = HnppJsonFormUtils.saveVisit(verificationNeeded, isVerified,checkedItem, baseEntityId, type, jsonStrings, "");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -500,7 +602,14 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 
         }
     }
+    private ReferralFollowUpModel referralFollowUpModel;
+    private boolean ignoreSimprintCheck = false;
     public void openReferealFollowUp(ReferralFollowUpModel referralFollowUpModel) {
+        this.referralFollowUpModel = referralFollowUpModel;
+        if(!ignoreSimprintCheck && isNeedToVerify()){
+            startSimprintVerify();
+            return;
+        }
 
         try {
             JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(HnppConstants.JSON_FORMS.REFERREL_FOLLOWUP);
@@ -523,19 +632,29 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
             intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
             if (this != null) {
+                this.referralFollowUpModel = null;
                 this.startActivityForResult(intent, REQUEST_HOME_VISIT);
             }
         }catch (Exception e){
 
         }
+
     }
 
     public void openHomeVisitSingleForm(String formName){
         startAnyFormActivity(formName,REQUEST_HOME_VISIT);
     }
+    private boolean needToStartHomeVisit = false;
 
     public void openHomeVisitForm(){
+        needToStartHomeVisit = true;
+        if(isNeedToVerify()){
+            startSimprintVerify();
+            return;
+        }
+        needToStartHomeVisit = false;
         HnppHomeVisitActivity.startMe(this, new MemberObject(commonPersonObject), false);
+
     }
 
     @Override

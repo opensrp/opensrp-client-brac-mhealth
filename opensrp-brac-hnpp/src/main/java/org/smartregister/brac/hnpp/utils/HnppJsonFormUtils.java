@@ -79,7 +79,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
     private static VisitRepository visitRepository() {
         return AncLibrary.getInstance().visitRepository();
     }
-    public static Visit saveVisit(boolean editMode, String memberID, String encounterType,
+    public static Visit saveVisit(boolean needVerified,boolean isVerified, String notVerifyCause,String memberID, String encounterType,
                             final Map<String, String> jsonString,
                             String parentEventType) throws Exception {
 
@@ -89,6 +89,9 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         Event baseEvent = org.smartregister.chw.anc.util.JsonFormUtils.processVisitJsonForm(allSharedPreferences, memberID, derivedEncounterType, jsonString, getTableName());
         if(encounterType.equalsIgnoreCase(org.smartregister.chw.anc.util.Constants.EVENT_TYPE.ANC_HOME_VISIT)){
             prepareEvent(baseEvent);
+        }
+        if(needVerified){
+            prepareIsVerified(baseEvent,isVerified,notVerifyCause);
         }
 //        if (StringUtils.isBlank(parentEventType))
 //            prepareEvent(baseEvent);
@@ -156,6 +159,25 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             list.add(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date()));
             baseEvent.addObs(new Obs("concept", "text", "anc_visit_date", "",
                     list, new ArrayList<>(), null, "anc_visit_date"));
+        }
+    }
+    private static void prepareIsVerified(Event baseEvent, boolean isVerified , String notVerifyCause) {
+        if (baseEvent != null) {
+            // add anc date obs and last
+            List<Object> list = new ArrayList<>();
+            list.add(isVerified);
+
+
+            baseEvent.addObs(new Obs("concept", "text", "is_verified", "",
+                    list, new ArrayList<>(), null, "is_verified"));
+
+           if(!isVerified){
+               List<Object> list2 = new ArrayList<>();
+               list2.add(notVerifyCause);
+               baseEvent.addObs(new Obs("concept", "text", "not_verify_cause", "",
+                       list2, new ArrayList<>(), null, "not_verify_cause"));
+           }
+
         }
     }
     public static void addEDDField(String formName,JSONObject jsonForm,String baseEntityId){

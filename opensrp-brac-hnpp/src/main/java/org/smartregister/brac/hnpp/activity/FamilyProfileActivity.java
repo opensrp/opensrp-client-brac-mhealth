@@ -197,7 +197,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                 String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
                 type = HnppJsonFormUtils.getEncounterType(type);
 
-                visit = HnppJsonFormUtils.saveVisit(false, familyBaseEntityId, type, jsonStrings, "");
+                visit = HnppJsonFormUtils.saveVisit(false,false,"", familyBaseEntityId, type, jsonStrings, "");
             } catch (Exception e) {
                 e.printStackTrace();
             }

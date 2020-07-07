@@ -29,20 +29,7 @@
         android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <CheckBox
-        android:id="@+id/check_box_3"
-        android:text=" আঙুলের ছাপ সঠিক নিয়মে দেওয়া হয়নি "
-        android:textColor="@color/black"
-        android:layout_margin="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <CheckBox
-        android:id="@+id/check_box_4"
-        android:text=" ভুল এলাকা নির্ধারণ করা হয়েছে  "
-        android:textColor="@color/black"
-        android:layout_margin="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+
     <CheckBox
         android:id="@+id/check_box_5"
         android:text=" জানা নেই  "
@@ -82,12 +69,14 @@
             android:textColor="@color/white"
             android:textSize="18sp" />
         <Button
-            android:id="@+id/close_btn"
-            android:layout_width="150dp"
+            android:id="@+id/service_btn"
+            android:layout_width="200dp"
             android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="10dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:background="@drawable/red_round"
             android:ems="10"
             android:shadowColor="#ffffff"
@@ -95,7 +84,7 @@
             android:shadowDy="1"
             android:shadowRadius="0.5"
             android:textStyle="bold"
-            android:text="বাদ দিন"
+            android:text="অমিল অবস্থায় সেবা দিন"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="18sp" />
