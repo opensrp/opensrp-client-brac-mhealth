@@ -90,6 +90,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     private TextView textViewAge,textViewName;
     private boolean isVerified,verificationNeeded;
     private String guId;
+    private String moduleId;
 
 
     public boolean isNeedToVerify() {
@@ -130,9 +131,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             isVerified = true;
             verificationNeeded = true;
         }
-       String moduleId = HnppDBUtils.getModuleId(familyHead);
-        guId = commonPersonObject.getColumnmaps().get("gu_id");
-        Log.v("VERIFY_SIMPRINT","moduleId:"+moduleId+":guid:"+guId);
+       moduleId = HnppDBUtils.getModuleId(familyHead);
+        guId = HnppDBUtils.getGuid(baseEntityId);
+        Log.v("VERIFY_SIMPRINT","moduleId:"+moduleId+":guid:"+guId+":baseEntityId:"+baseEntityId);
         if(!TextUtils.isEmpty(guId) && !guId.equalsIgnoreCase(HnppConstants.TEST_GU_ID)){
             findViewById(R.id.finger_print).setVisibility(View.VISIBLE);
             verificationNeeded = true;

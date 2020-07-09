@@ -32,6 +32,7 @@ import android.widget.Toast;
 import com.github.ybq.android.spinkit.style.FadingCircle;
 import com.simprints.libsimprints.Constants;
 import com.simprints.libsimprints.Identification;
+import com.simprints.libsimprints.Tier;
 
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.fragment.HnppDashBoardFragment;
@@ -337,28 +338,16 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
 
                                 ArrayList<SimPrintsIdentification> identifications = (ArrayList<SimPrintsIdentification>) data.getSerializableExtra(SimPrintsConstantHelper.INTENT_DATA);
 
-                                if(identifications.size()>0){
-                                    SimPrintsIdentification identification = identifications.get(0);
+                                for(int i= 0; i< identifications.size();i++){
+                                    SimPrintsIdentification identification = identifications.get(i);
                                     guId = identification.getGuid();
-                                    Log.v("SIMPRINTS_IDENTITY","guid:"+guId);
-                                    String[] ourPut = HnppDBUtils.getBaseEntityByGuId(guId);
-                                    baseEntityId = ourPut[0];
-                                    Log.v("SIMPRINTS_IDENTITY","guid:"+guId+":baseEntityId:"+baseEntityId);
-                                    if(!TextUtils.isEmpty(baseEntityId)){
-                                        name = ourPut[1];
+                                    Log.v("SIMPRINTS_IDENTITY","guid:"+guId+"tier:"+identification.getTier()
+                                            +":confidence:"+identification.getConfidence());
+                                    if(isFound(identification.getTier(),guId)){
+                                        break;
                                     }
+
                                 }
-//                                for (SimPrintsIdentification identification : identifications){
-//                                    guId = identification.getGuid();
-//                                    Log.v("SIMPRINTS_IDENTITY","guid:"+guId);
-//                                    String[] ourPut = HnppDBUtils.getBaseEntityByGuId(guId);
-//                                    baseEntityId = ourPut[0];
-//                                    Log.v("SIMPRINTS_IDENTITY","guid:"+guId+":baseEntityId:"+baseEntityId);
-//                                    if(!TextUtils.isEmpty(baseEntityId)){
-//                                        name = ourPut[1];
-//                                        break;
-//                                    }
-//                                }
 
                                 appExecutors.mainThread().execute(() -> {
                                     hideProgressDialog();
@@ -379,5 +368,22 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
 
             }
         }
+
+    }
+    private boolean isFound(Tier tier, String guId){
+        switch (tier){
+            case TIER_1:
+            case TIER_2:
+                String[] ourPut = HnppDBUtils.getBaseEntityByGuId(guId);
+                baseEntityId = ourPut[0];
+                Log.v("SIMPRINTS_IDENTITY", "guid:" + guId + ":baseEntityId:" + baseEntityId);
+                if (!TextUtils.isEmpty(baseEntityId)) {
+                    name = ourPut[1];
+                    return true;
+                }
+                break;
+
+        }
+        return false;
     }
 }

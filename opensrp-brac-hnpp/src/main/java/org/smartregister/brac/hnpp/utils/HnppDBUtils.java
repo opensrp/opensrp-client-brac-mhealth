@@ -37,7 +37,7 @@ import timber.log.Timber;
 public class HnppDBUtils extends CoreChildUtils {
 
     public static String getGuid(String baseEntityId){
-        String query = "select gu_id from ec_child where base_entity_id = '"+baseEntityId+"'";
+        String query = "select gu_id from ec_family_member where base_entity_id = '"+baseEntityId+"'";
         Cursor cursor = null;
         String birthWeight="";
         try {
@@ -434,6 +434,7 @@ public class HnppDBUtils extends CoreChildUtils {
         }
         return "";
     }
+
 
     public static String matchPhrase(String phrase) {
         String stringPhrase = phrase;
