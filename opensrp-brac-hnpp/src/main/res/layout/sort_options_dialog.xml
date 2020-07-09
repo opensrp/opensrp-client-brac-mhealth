@@ -27,7 +27,7 @@
                     android:drawablePadding="5dp"
                     android:background="@drawable/login_button_bg"
                     android:drawableLeft="@drawable/ic_home"
-                    android:text="খানা নম্বর অনুযায়ী"/>
+                    android:text="সর্বশেষ নিবন্ধিত খানা"/>
 
                 <TextView
                     android:id="@+id/last_visit_sort_btn"

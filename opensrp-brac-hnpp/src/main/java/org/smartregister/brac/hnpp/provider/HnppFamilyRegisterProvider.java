@@ -212,6 +212,7 @@ public class HnppFamilyRegisterProvider extends CoreRegisterProvider  {
             setText(viewHolder.registeredMember,context.getString(R.string.registered_count,totalMember,memberCount+""));
        // }
         if (ancWomanCount > 0) {
+            viewHolder.ancView.setVisibility(View.VISIBLE);
             viewHolder.memberIcon.setVisibility(View.VISIBLE);
             viewHolder.womenImage.setVisibility(View.VISIBLE);
             viewHolder.womenCount.setVisibility(View.VISIBLE);
@@ -250,6 +251,7 @@ public class HnppFamilyRegisterProvider extends CoreRegisterProvider  {
                 viewHolder.femaleView.setVisibility(View.GONE);
             }
         }else{
+            if(ancWomanCount==0)
             viewHolder.memberIcon.setVisibility(View.GONE);
         }
 

@@ -113,9 +113,9 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
         RelativeLayout sortAndFilterView = view.findViewById(org.smartregister.chw.core.R.id.filter_sort_layout);
         sortAndFilterView.setVisibility(android.view.View.VISIBLE);
         TextView sortView = sortAndFilterView.findViewById(R.id.sort_text_view);
-        sortView.setVisibility(View.GONE);
+        sortView.setVisibility(View.VISIBLE);
         sortByView = sortAndFilterView.findViewById(R.id.sort_by_image);
-        sortByView.setVisibility(View.GONE);
+        sortByView.setVisibility(View.VISIBLE);
         sortView.setOnClickListener(registerActionHandler);
         sortByView.setOnClickListener(registerActionHandler);
         TextView filterTextView = sortAndFilterView.findViewById(R.id.filter_text_view);

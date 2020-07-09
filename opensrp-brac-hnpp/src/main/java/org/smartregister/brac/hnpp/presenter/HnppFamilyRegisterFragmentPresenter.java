@@ -23,7 +23,7 @@ public class HnppFamilyRegisterFragmentPresenter extends FamilyRegisterFragmentP
 
     @Override
     public String getDefaultSortQuery() {
-        return isSortByLastVisit? HnppConstants.KEY.LAST_HOME_VISIT+" DESC ":DBConstants.KEY.UNIQUE_ID + " DESC ";
+        return isSortByLastVisit? HnppConstants.KEY.LAST_HOME_VISIT+" DESC ":DBConstants.KEY.LAST_INTERACTED_WITH + " DESC ";
     }
 
 }

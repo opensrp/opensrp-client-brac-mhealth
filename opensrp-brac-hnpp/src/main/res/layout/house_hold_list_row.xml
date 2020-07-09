@@ -144,7 +144,7 @@
             android:visibility="gone"
             android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="50dp">
             <ImageView
                 android:id="@+id/male_member_image"
                 android:layout_width="wrap_content"
@@ -166,7 +166,7 @@
             android:visibility="gone"
             android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="50dp">
             <ImageView
                 android:id="@+id/female_member_image"
                 android:layout_width="wrap_content"
@@ -188,7 +188,7 @@
             android:orientation="horizontal"
             android:visibility="gone"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="50dp">
             <ImageView
                 android:id="@+id/women_member_image"
                 android:layout_width="wrap_content"
