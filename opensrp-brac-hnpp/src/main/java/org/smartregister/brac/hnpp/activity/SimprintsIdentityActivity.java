@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -35,12 +36,14 @@ import com.simprints.libsimprints.Identification;
 import com.simprints.libsimprints.Tier;
 
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.adapter.IdentityAdapter;
 import org.smartregister.brac.hnpp.fragment.HnppDashBoardFragment;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSLocations;
 import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
+import org.smartregister.brac.hnpp.utils.IdentityModel;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
@@ -56,24 +59,30 @@ import org.smartregister.view.activity.SecuredActivity;
 
 import java.util.ArrayList;
 
+import static com.simprints.libsimprints.Tier.TIER_1;
+import static com.simprints.libsimprints.Tier.TIER_2;
+import static com.simprints.libsimprints.Tier.TIER_3;
+import static com.simprints.libsimprints.Tier.TIER_4;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.MEMBER_ID_SUFFIX;
+
 public class SimprintsIdentityActivity extends SecuredActivity implements View.OnClickListener {
 
     private static final int REQUEST_CODE_IDENTIFY = 1445;
-    private ImageView refreshIndicatorsIcon;
-    private LinearLayout selectionBar,notFoundPanel,anotherCatchment;
+    private LinearLayout selectionBar,notFoundPanel;
     private String moduleId = "";
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_simprints_identity);
         selectionBar = findViewById(R.id.selection_bar);
         notFoundPanel = findViewById(R.id.not_found_panel);
-        anotherCatchment = findViewById(R.id.another_catchment_panel);
+        recyclerView = findViewById(R.id.recycler_view);
         findViewById(R.id.filter_apply_button).setOnClickListener(this);
         findViewById(R.id.back_btn).setOnClickListener(this);
         findViewById(R.id.back_bn).setOnClickListener(this);
         findViewById(R.id.not_found_btn).setOnClickListener(this);
-        findViewById(R.id.confirm_btn).setOnClickListener(this);
+
         loadSSLocation();
     }
 
@@ -86,6 +95,7 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.filter_apply_button:
+                Log.v("SIMPRINTS_IDENTITY","module_id:"+moduleId);
                 if(!TextUtils.isEmpty(moduleId)){
                     SimPrintsIdentifyActivity.startSimprintsIdentifyActivity(this, moduleId, REQUEST_CODE_IDENTIFY);
 
@@ -94,34 +104,8 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
                 }
 
                 break;
-            case R.id.back_bn:
             case R.id.back_btn:
-                finish();
-                break;
-            case R.id.confirm_btn:
-                CommonRepository commonRepository = Utils.context().commonrepository("ec_family_member");
-
-                final CommonPersonObject personObject = commonRepository.findByBaseEntityId(baseEntityId);
-                final CommonPersonObjectClient patient =
-                        new CommonPersonObjectClient(personObject.getCaseId(), personObject.getDetails(), "");
-                patient.setColumnmaps(personObject.getColumnmaps());
-                String houseHoldHead = org.smartregister.family.util.Utils.getValue(patient.getColumnmaps(), HnppConstants.KEY.HOUSE_HOLD_NAME, true);
-                String address = org.smartregister.family.util.Utils.getValue(patient.getColumnmaps(), HnppConstants.KEY.VILLAGE_NAME, true);
-                String houseHoldId = org.smartregister.family.util.Utils.getValue(patient.getColumnmaps(), HnppConstants.KEY.HOUSE_HOLD_ID, true);
-                String moduleId = org.smartregister.family.util.Utils.getValue(patient.getColumnmaps(), HnppConstants.KEY.MODULE_ID, true);
-                String familyId = org.smartregister.family.util.Utils.getValue(patient.getColumnmaps(),"relational_id",true);
-                Intent intent = new Intent(this, HnppFamilyOtherMemberProfileActivity.class);
-                intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.BASE_ENTITY_ID, patient.getCaseId());
-                intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, familyId);
-                intent.putExtra(CoreConstants.INTENT_KEY.CHILD_COMMON_PERSON, patient);
-                intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_HEAD, familyId);
-                intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.PRIMARY_CAREGIVER, familyId);
-                intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.VILLAGE_TOWN, address);
-                intent.putExtra(DBConstants.KEY.UNIQUE_ID,houseHoldId);
-                intent.putExtra(HnppConstants.KEY.HOUSE_HOLD_ID,moduleId);
-                intent.putExtra(HnppFamilyOtherMemberProfileActivity.IS_COMES_IDENTITY,true);
-                intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_NAME, houseHoldHead);
-                startActivity(intent);
+            case R.id.back_bn:
                 finish();
                 break;
             case R.id.not_found_btn:
@@ -195,21 +179,31 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
         dialog.show();
 
     }
-    private void openProfile(String baseEntityId,String guId){
-        if(TextUtils.isEmpty(guId)){
-            notFoundPanel.setVisibility(View.VISIBLE);
-            selectionBar.setVisibility(View.GONE);
-            return;
+    private void openProfile(String baseEntityId){
+        CommonRepository commonRepository = Utils.context().commonrepository("ec_family_member");
 
-        }
-        if(TextUtils.isEmpty(baseEntityId) && !TextUtils.isEmpty(guId)){
-            anotherCatchment.setVisibility(View.VISIBLE);
-            selectionBar.setVisibility(View.GONE);
-            return;
-        }
-        selectionBar.setVisibility(View.GONE);
-        findViewById(R.id.found_panel).setVisibility(View.VISIBLE);
-        ((TextView)findViewById(R.id.name)).setText("নাম : "+name);
+        final CommonPersonObject personObject = commonRepository.findByBaseEntityId(baseEntityId);
+        final CommonPersonObjectClient patient =
+                new CommonPersonObjectClient(personObject.getCaseId(), personObject.getDetails(), "");
+        patient.setColumnmaps(personObject.getColumnmaps());
+        String houseHoldHead = org.smartregister.family.util.Utils.getValue(patient.getColumnmaps(), HnppConstants.KEY.HOUSE_HOLD_NAME, true);
+        String address = org.smartregister.family.util.Utils.getValue(patient.getColumnmaps(), HnppConstants.KEY.VILLAGE_NAME, true);
+        String houseHoldId = org.smartregister.family.util.Utils.getValue(patient.getColumnmaps(), HnppConstants.KEY.HOUSE_HOLD_ID, true);
+        String moduleId = org.smartregister.family.util.Utils.getValue(patient.getColumnmaps(), HnppConstants.KEY.MODULE_ID, true);
+        String familyId = org.smartregister.family.util.Utils.getValue(patient.getColumnmaps(),"relational_id",true);
+        Intent intent = new Intent(this, HnppFamilyOtherMemberProfileActivity.class);
+        intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.BASE_ENTITY_ID, patient.getCaseId());
+        intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, familyId);
+        intent.putExtra(CoreConstants.INTENT_KEY.CHILD_COMMON_PERSON, patient);
+        intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_HEAD, familyId);
+        intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.PRIMARY_CAREGIVER, familyId);
+        intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.VILLAGE_TOWN, address);
+        intent.putExtra(DBConstants.KEY.UNIQUE_ID,houseHoldId);
+        intent.putExtra(HnppConstants.KEY.HOUSE_HOLD_ID,moduleId);
+        intent.putExtra(HnppFamilyOtherMemberProfileActivity.IS_COMES_IDENTITY,true);
+        intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_NAME, houseHoldHead);
+        startActivity(intent);
+        finish();
 
     }
     ArrayAdapter<String> villageSpinnerArrayAdapter;
@@ -321,7 +315,7 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
         }
     }
     private AppExecutors appExecutors = new AppExecutors();
-    String baseEntityId = null,name,guId;
+    ArrayList<IdentityModel> identityModelList = new ArrayList<>();
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -337,21 +331,43 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
 
 
                                 ArrayList<SimPrintsIdentification> identifications = (ArrayList<SimPrintsIdentification>) data.getSerializableExtra(SimPrintsConstantHelper.INTENT_DATA);
-
+                                identityModelList.clear();
                                 for(int i= 0; i< identifications.size();i++){
                                     SimPrintsIdentification identification = identifications.get(i);
-                                    guId = identification.getGuid();
-                                    Log.v("SIMPRINTS_IDENTITY","guid:"+guId+"tier:"+identification.getTier()
-                                            +":confidence:"+identification.getConfidence());
-                                    if(isFound(identification.getTier(),guId)){
-                                        break;
+                                    Log.v("SIMPRINTS_IDENTITY","tier:"+identification.getTier()+":guid:"+identification.getGuid());
+                                    switch (identification.getTier()){
+                                        case TIER_1:
+                                        case TIER_2:
+                                        case TIER_3:
+                                        case TIER_4:
+                                            IdentityModel identityModel = new IdentityModel();
+                                            String[] ourPut = HnppDBUtils.getBaseEntityByGuId(identification.getGuid());
+                                            if(ourPut!=null && !TextUtils.isEmpty(ourPut[1])){
+                                                Log.v("SIMPRINTS_IDENTITY","baseid:"+ourPut[0]+":identification.getGuid()"+identification.getGuid());
+                                                identityModel.setBaseEntityId(ourPut[0]);
+                                                identityModel.setName(ourPut[1]);
+                                                identityModel.setTier(identification.getTier().toString().replace("_"," "));
+                                                if(!TextUtils.isEmpty(ourPut[2])) {
+                                                   String id = ourPut[2].replace(org.smartregister.family.util.Constants.IDENTIFIER.FAMILY_SUFFIX,"")
+                                                            .replace(HnppConstants.IDENTIFIER.FAMILY_TEXT,"");
+                                                    id = id.substring(id.length() - MEMBER_ID_SUFFIX);
+                                                    identityModel.setGuid("ID: " + id);
+                                                }
+                                                if(identityModelList.size()!=3){
+                                                    identityModelList.add(identityModel);
+                                                }
+
+                                            }
+
+                                            break;
+
                                     }
 
                                 }
 
                                 appExecutors.mainThread().execute(() -> {
                                     hideProgressDialog();
-                                    openProfile(baseEntityId,guId);
+                                    updateAdapter();
                                 } );
                             } catch (final Exception e) {
                                 appExecutors.mainThread().execute(() -> {
@@ -370,20 +386,28 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
         }
 
     }
-    private boolean isFound(Tier tier, String guId){
-        switch (tier){
-            case TIER_1:
-            case TIER_2:
-                String[] ourPut = HnppDBUtils.getBaseEntityByGuId(guId);
-                baseEntityId = ourPut[0];
-                Log.v("SIMPRINTS_IDENTITY", "guid:" + guId + ":baseEntityId:" + baseEntityId);
-                if (!TextUtils.isEmpty(baseEntityId)) {
-                    name = ourPut[1];
-                    return true;
-                }
-                break;
 
+    private void updateAdapter() {
+        if(identityModelList.size()>0){
+            selectionBar.setVisibility(View.GONE);
+            ((TextView)findViewById(R.id.count_tv)).setText(identityModelList.size()+" "+" টি রেজাল্ট পাওয়া গিয়েছে");
+            findViewById(R.id.found_panel).setVisibility(View.VISIBLE);
+            IdentityAdapter adapter = new IdentityAdapter( new IdentityAdapter.OnClickAdapter() {
+                @Override
+                public void onClick(int position, IdentityModel content) {
+                    if(!content.getBaseEntityId().isEmpty()){
+                        openProfile(content.getBaseEntityId());
+                    }else {
+                        Toast.makeText(SimprintsIdentityActivity.this,getString(R.string.not_match),Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            adapter.setData(identityModelList);
+            recyclerView.setAdapter(adapter);
+
+        }else{
+            notFoundPanel.setVisibility(View.VISIBLE);
+            selectionBar.setVisibility(View.GONE);
         }
-        return false;
     }
 }

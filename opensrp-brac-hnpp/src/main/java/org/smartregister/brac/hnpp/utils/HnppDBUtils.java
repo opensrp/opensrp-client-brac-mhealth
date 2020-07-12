@@ -56,15 +56,16 @@ public class HnppDBUtils extends CoreChildUtils {
     }
 
     public static String[] getBaseEntityByGuId(String guid){
-        String query = "select base_entity_id,first_name from ec_family_member where gu_id = '"+guid+"'";
+        String query = "select base_entity_id,first_name,unique_id from ec_family_member where gu_id = '"+guid+"'";
         Cursor cursor = null;
-        String[] strings = new String[2];
+        String[] strings = new String[3];
         try {
             cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 strings[0] = cursor.getString(0);
                 strings[1] = cursor.getString(1);
+                strings[2] = cursor.getString(2);
                 cursor.close();
             }
 

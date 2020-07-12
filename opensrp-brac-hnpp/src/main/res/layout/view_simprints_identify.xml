@@ -4,14 +4,69 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/count_tv"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:textSize="@dimen/px_20_to_sp"
+        android:textColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
+        android:layout_below="@+id/count_tv"
+        android:layout_above="@+id/bottom_panel"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         android:padding="10dp"
         android:scrollbars="vertical"
         android:visibility="visible" />
+    <LinearLayout
+        android:id="@+id/bottom_panel"
+        android:padding="10dp"
+        android:gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/back_bn"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/login_button_bg"
+            android:ems="10"
+            android:shadowColor="#ffffff"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="0.5"
+            android:textStyle="bold"
+            android:text="বাদ দিন"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+        <Button
+            android:id="@+id/not_found_btn"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/red_round"
+            android:ems="10"
+            android:shadowColor="#ffffff"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="0.5"
+            android:textStyle="bold"
+            android:text="পাওয়া যায়নি"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+    </LinearLayout>
 
 
 </RelativeLayout>

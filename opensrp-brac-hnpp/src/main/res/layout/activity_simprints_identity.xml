@@ -72,58 +72,12 @@
          <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+             android:gravity="center_horizontal"
             android:text="আঙুলের ছাপ দ্বারা রেজিস্টার কাউকে পাওয়া যাই নি"
             android:textColor="@color/black"
             android:textSize="18sp"/>
         <Button
             android:id="@+id/back_btn"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/login_button_bg"
-            android:ems="10"
-            android:shadowColor="#ffffff"
-            android:shadowDx="0"
-            android:shadowDy="1"
-            android:shadowRadius="0.5"
-            android:textStyle="bold"
-            android:text="ফিরে যাই"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/another_catchment_panel"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:visibility="gone"
-        android:layout_gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/rowavatar_member"/>
-        <TextView
-            android:id="@+id/guid"
-            android:text="GuId:"
-            android:gravity="center"
-            android:padding="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:padding="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="এই ব্যাক্তিটির আঙুলের ছাপ,এই SK এর ক্যাচমেন্ট এরিয়াতে পাওয়া যাই নি। "
-            android:textColor="@color/black"
-            android:textSize="18sp"/>
-        <Button
-            android:id="@+id/back_bn"
             android:layout_width="200dp"
             android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
@@ -148,68 +102,8 @@
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/rowavatar_member"/>
-        <TextView
-            android:id="@+id/name"
-            android:text="Name:"
-            android:gravity="center"
-            android:padding="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+      <include layout="@layout/view_simprints_identify"/>
 
-        <TextView
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:padding="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ফিঙ্গার প্রিন্ট দ্বারা আইডেন্টিফায়েড"
-            android:textColor="@color/black"
-            android:textSize="18sp"/>
-        <LinearLayout
-            android:padding="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <Button
-                android:id="@+id/confirm_btn"
-                android:layout_width="200dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/login_button_bg"
-                android:ems="10"
-                android:shadowColor="#ffffff"
-                android:shadowDx="0"
-                android:shadowDy="1"
-                android:shadowRadius="0.5"
-                android:textStyle="bold"
-                android:text="নিশ্চিত"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-            <Button
-                android:id="@+id/not_found_btn"
-                android:layout_width="150dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/red_round"
-                android:ems="10"
-                android:shadowColor="#ffffff"
-                android:shadowDx="0"
-                android:shadowDy="1"
-                android:shadowRadius="0.5"
-                android:textStyle="bold"
-                android:text="পাওয়া যায়নি"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-        </LinearLayout>
 
     </LinearLayout>
 
