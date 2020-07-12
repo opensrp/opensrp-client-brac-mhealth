@@ -276,5 +276,6 @@
     <string name="sort">সর্ট বাই</string>
     <string name="call">কল</string>
     <string name="call_no_number_provided">(কোনো নাম্বার দেওয়া হয়নি)</string>
+    <string name="not_match">এই ব্যক্তিটির তথ্য পাওয়া যাই নি </string>
 
 </resources>

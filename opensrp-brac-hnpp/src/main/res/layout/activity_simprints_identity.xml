@@ -72,7 +72,7 @@
          <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="এই ব্যাক্তিটি আঙুলের ছাপ দ্বারা রেজিস্টার নয় "
+            android:text="আঙুলের ছাপ দ্বারা রেজিস্টার কাউকে পাওয়া যাই নি"
             android:textColor="@color/black"
             android:textSize="18sp"/>
         <Button
