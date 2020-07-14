@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.simprints.libsimprints.Tier;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
@@ -467,7 +468,8 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             if(resultCode == Activity.RESULT_OK){
                 SimPrintsVerification verifyResults = (SimPrintsVerification) data.getSerializableExtra(SimPrintsConstantHelper.INTENT_DATA);
                 String guId = verifyResults.getGuid();
-                Log.v("SIMPRINTS_IDENTITY","verify:"+guId);
+                Tier tier = verifyResults.getTier();
+                Log.v("VERIFY_SIMPRINT","verify:"+guId+":tier:"+tier);
                 if(!TextUtils.isEmpty(guId)){
                     isVerified = true;
                     showSuccessAlertDialog("ফিঙ্গার প্রিন্ট দ্বারা ভেরিফাইড \n নাম : "+textViewName.getText().toString());
