@@ -295,7 +295,7 @@
         "openmrs_entity_id": "familyplanning_referral",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "পরিবার পরিকল্পনা পদ্ধতির জন্য রেফার করা হয়েছিলো?",
+        "hint": "পরিবার পরিকল্পনা পদ্ধতি গ্রহণের কারণে জটিলতার জন্য রেফার করা হয়েছিলো?",
         "values": [
           "হ্যাঁ",
           "না"
@@ -309,9 +309,10 @@
           "err": "প্রশ্নের উত্তর দিন"
         },
         "relevance": {
-          "step1:familyplanning_method_known": {
-            "type": "string",
-            "ex": "equalTo(., \"হ্যাঁ\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_elco_relevance.yml"
+            }
           }
         }
       },
@@ -378,6 +379,62 @@
         }
       },
       {
+        "key": "child_count",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "child_count",
+        "type": "edit_text",
+        "hint": "আপনার সন্তান কয়টি?",
+        "v_numeric": {
+          "value": "true",
+          "err": "সংখ্যাটি অবশ্যই পূর্ণসংখ্যা হওয়া আবশ্যক"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        }
+      },
+      {
+        "key": "age_small_child",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "age_small_child",
+        "type": "edit_text",
+        "hint": "সবচেয়ে ছোট সন্তানের বয়স কত?",
+        "v_numeric": {
+          "value": "true",
+          "err": "সংখ্যাটি অবশ্যই পূর্ণসংখ্যা হওয়া আবশ্যক"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        }
+      },
+      {
+        "key": "permanent_process",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "permanent_process",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "স্থায়ী পদ্ধতি-আইইউডি,ইমপ্ল্যান্ট ভ্যাসেকটমি ,টিউবেকটমি, পদ্ধতির এবং রেফার করা হয়েছিল কিনা? ",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_elco_relevance.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "last_lmp_weeks",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -421,6 +478,22 @@
           "step1:last_lmp_weeks": {
             "type": "numeric",
             "ex": "greaterThanEqualTo(., \"6\")"
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_1",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "আপনি গর্ভবতী কিনা তা জানা প্রয়োজন, এ ক্ষেত্রে আপনি ব্রাকের স্বাস্থ্য সেবিকার সহায়তা নিতে পারেন।",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:pregnancy_test_taken": {
+            "type": "string",
+            "ex": "equalTo(., \"না\")"
           }
         }
       },
