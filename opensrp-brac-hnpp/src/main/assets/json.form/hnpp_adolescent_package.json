@@ -83,8 +83,8 @@
           "err": "প্রশ্নের উত্তর দিন"
         },
         "v_min": {
-          "value": "30",
-          "err": "30 এর সমান বা 30 এর বেশি হতে হবে"
+          "value": "15",
+          "err": "15 এর সমান বা 15 এর বেশি হতে হবে"
         },
         "v_max": {
           "value": "120",
@@ -107,8 +107,8 @@
           "err": "প্রশ্নের উত্তর দিন"
         },
         "v_min": {
-          "value": "140",
-          "err": "140 এর সমান বা 140 এর বেশি হতে হবে"
+          "value": "120",
+          "err": "120 এর সমান বা 120 এর বেশি হতে হবে"
         },
         "v_max": {
           "value": "180",
@@ -186,8 +186,25 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "আয়রন সমৃদ্ধ ডায়েটের জন্য যেমন মাছ, মাংস, লিভার, সবুজ শাক এবং রঙিন ফল এবং শাকসব্জির পরামর্শ, আয়রন ফলিক অ্যাসিড পরিপূরক গ্রহণ করুন, স্যান্ডেল ব্যবহার করুন, প্রতি 6 মাসের ব্যবধানে ডিওয়ার্মিং ট্যাবলেট গ্রহণ করুন",
+        "text": "আয়রনসমৃদ্ধ ডায়েটের জন্য যেমন মাছ-মাংস,লিভার, সবুজ শাক  এবং রঙ্গীন ফল এবং শাকসবজি খান, আয়রন ফলিক এসিড গ্রহণ করুন এবং স্যান্ডেল ব্যবহার করুন ",
         "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_adolescent_package_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_hemoglobin_test",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
         "toaster_type": "info",
         "relevance": {
           "rules-engine": {
@@ -218,6 +235,22 @@
           "err": "প্রশ্নের উত্তর দিন"
         }
 
+      },
+      {
+        "key": "iron_folic_acid_no",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "মাসিককালীন রক্তস্বল্পতা দূরীকরণে মাসে কমপক্ষে ৮টি আয়রন ট্যাবলেট খাওয়া প্রয়োজন",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:iron_folic_acid": {
+            "type": "string",
+            "ex": "equalTo(., \"না\")"
+          }
+        }
       },
       {
         "key": "Vermicompost",
@@ -344,6 +377,23 @@
             "openmrs_entity_id": "no_problem"
           }
         ]
+      },
+      {
+        "key": "advice_toaster_problem",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_adolescent_package_relevance.yml"
+            }
+          }
+        }
       },
       {
         "key": "refer_reason",

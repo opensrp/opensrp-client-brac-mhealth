@@ -38,11 +38,14 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
 
         ArrayList<OtherServiceData> otherServiceDataList = new ArrayList<>();
 
-        OtherServiceData otherServiceData3 = new OtherServiceData();
-        otherServiceData3.setImageSource(R.drawable.ic_muac);
-        otherServiceData3.setTitle("অসংক্রামক রোগের সেবা");
-        otherServiceData3.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_NCD);
-        otherServiceDataList.add(otherServiceData3);
+
+        if(FormApplicability.isNcdApplicable(age)){
+            OtherServiceData otherServiceData3 = new OtherServiceData();
+            otherServiceData3.setImageSource(R.drawable.ic_muac);
+            otherServiceData3.setTitle("অসংক্রামক রোগের সেবা");
+            otherServiceData3.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_NCD);
+            otherServiceDataList.add(otherServiceData3);
+        }
 
         if(FormApplicability.isWomenPackageApplicable(age,gender.equalsIgnoreCase("F"))){
             OtherServiceData otherServiceData = new OtherServiceData();

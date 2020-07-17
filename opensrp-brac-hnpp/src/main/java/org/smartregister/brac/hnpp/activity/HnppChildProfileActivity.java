@@ -392,6 +392,14 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
                 String birthWeight = HnppDBUtils.getBirthWeight(childBaseEntityId);
                 updateFormField(jsonArray,"weight",birthWeight);
             }
+            else if(HnppConstants.JSON_FORMS.CHILD_FOLLOWUP.equalsIgnoreCase(formName)){
+                JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+                JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+                String DOB = ((HnppChildProfilePresenter) presenter).getDateOfBirth();
+                Date date = Utils.dobStringToDate(DOB);
+                String dobFormate = HnppConstants.DDMMYY.format(date);
+                updateFormField(jsonArray,"dob",dobFormate);
+            }
             jsonForm.put(JsonFormUtils.ENTITY_ID, memberObject.getFamilyHead());
             Intent intent = new Intent(this, HnppAncJsonFormActivity.class);
             intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());

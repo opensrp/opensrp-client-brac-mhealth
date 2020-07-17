@@ -29,35 +29,35 @@ actions:
 name: step1_can_sit
 description: if age 6 month less than 8 month
 priority: 1
-condition: "(step1_month_diff >= 183 && step1_month_diff<244)"
+condition: "(step1_month_diff >= 183 && step1_month_diff<245)"
 actions:
   - "isRelevant = true"
 ---
 name: step1_can_sound
 description: if age 6 month less than 8 month
 priority: 1
-condition: "(step1_month_diff >= 183 && step1_month_diff<244)"
+condition: "(step1_month_diff >= 183 && step1_month_diff<245)"
 actions:
   - "isRelevant = true"
 ---
 name: step1_can_crap
 description: if age 9 month 10 month
 priority: 1
-condition: "(step1_month_diff >= 274 && step1_month_diff < 304)"
+condition: "(step1_month_diff >= 274 && step1_month_diff < 306)"
 actions:
   - "isRelevant = true"
 ---
 name: step1_can_sound_baba_maa
 description: if age 9 month 12 month
 priority: 1
-condition: "(step1_month_diff >= 274 && step1_month_diff < 365)"
+condition: "(step1_month_diff >= 274 && step1_month_diff < 367)"
 actions:
   - "isRelevant = true"
 ---
 name: step1_can_make_word
 description: 12<Age<18 months
 priority: 1
-condition: "(step1_month_diff >= 365 && step1_month_diff < 548)"
+condition: "(step1_month_diff >= 365 && step1_month_diff < 549)"
 actions:
   - "isRelevant = true"
 ---
@@ -92,13 +92,13 @@ actions:
 name: step1_can_one_walk
 description: if age 18 to 23 month
 priority: 1
-condition: "(step1_month_diff >= 548 && step1_month_diff < 700)"
+condition: "(step1_month_diff >= 548 && step1_month_diff < 702)"
 actions:
   - "isRelevant = true"
 ---
 name: step1_can_run
 description: if age 24 month
 priority: 1
-condition: "(step1_month_diff >= 730 && step1_month_diff < 760)"
+condition: "(step1_month_diff >= 732 && step1_month_diff < 760)"
 actions:
   - "isRelevant = true"

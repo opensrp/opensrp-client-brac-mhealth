@@ -20,10 +20,108 @@ condition: "step1_body_temperature > 99"
 actions:
   - "isRelevant = true"
 ---
+name: step1_advice_toaster_95
+description: advice_toaster_95
+priority: 1
+condition: "step1_body_temperature < 95"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_systolic
+description: advice_toaster_systolic
+priority: 1
+condition: "step1_blood_pressure_systolic > 139"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_sewing_length
+description: advice_sewing_length
+priority: 1
+condition: "step1_sewing_length < 1"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_sewing_length
+description: advice_toaster_sewing_length
+priority: 1
+condition: "step1_sewing_length > 1"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_diastolic
+description: advice_toaster_diastolic
+priority: 1
+condition: "step1_blood_pressure_diastolic > 89"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_has_edema
+description: advice_toaster_has_edema
+priority: 1
+condition: "step1_has_edema.equals('হ্যাঁ')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_has_edema_has_obsessive
+description: advice_toaster_has_edema_has_obsessive
+priority: 1
+condition: "step1_has_edema.equals('হ্যাঁ') && step1_obsessive_compulsive_disorder.equals('হ্যাঁ')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_pulse
+description: advice_toaster_pulse
+priority: 1
+condition: "step1_pulse_rate >100 || step1_pulse_rate < 60"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_fasting
+description: advice_toaster_fasting
+priority: 1
+condition: "step1_fasting_blood_sugar >6.9 || step1_fasting_blood_sugar < 5.1"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_random
+description: advice_toaster_random
+priority: 1
+condition: "step1_random_blood_sugar >11 || step1_random_blood_sugar < 5.8"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_hemoglobin_test
+description: advice_toaster_hemoglobin_test
+priority: 1
+condition: "step1_hemoglobin_test < 8"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_problem
+description: advice_toaster_problem
+priority: 1
+condition: "!step1_pregnancy_symptoms.isEmpty() && !step1_pregnancy_symptoms.contains('chk_none')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_24hr_8
+description: advice_toaster_24hr_8
+priority: 1
+condition: "step1_child_movement_in_last_24hr_no >7 && step1_child_movement_in_last_24hr_no < 11"
+actions:
+  - "isRelevant = true"
+---
 name: step1_advice_toaster_4
 description: advice_toaster_4
 priority: 1
 condition: "step1_hemoglobin_test >= 8 && step1_hemoglobin_test <= 10"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_pregnancy_symptoms
+description: advice_toaster_pregnancy_symptoms
+priority: 1
+condition: "!step1_pregnancy_symptoms.isEmpty() && !step1_pregnancy_symptoms.contains('chk_none') "
 actions:
   - "isRelevant = true"
 ---

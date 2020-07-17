@@ -141,7 +141,7 @@
     <string name="last_visit_prefix">শেষ পরিদর্শন %1$s আগে</string>
     <string name="due">বাকি </string>
     <string name="other_service">অন্যান্য সেবা</string>
-    <string name="activity">ইতিহাস</string>
+    <string name="activity">পূর্বের তথ্য</string>
     <string name="profile_activity_not_visited">Marked not visited on %s</string>
     <string name="profile_activity_completed">Completed on %s</string>
     <string name="last_visit_date">শেষ পরিদর্শনের তারিখ : %s</string>
@@ -151,7 +151,7 @@
     <string name="next">পরবর্তী</string>
     <string name="pnc_visit">প্রসবোত্তর পরিচর্যা</string>
     <string name="anc_visit">গর্ভবতী পরিচর্যা</string>
-    <string name="submit">জমাদান</string>
+    <string name="submit">জমাদিন</string>
     <string name="boyos">বয়স</string>
     <string name="gps_searching">জিপিএস ডেটা অনুসন্ধান করা হচ্ছে</string>
     <string name="date_given">দেয়া হয়েছে</string>

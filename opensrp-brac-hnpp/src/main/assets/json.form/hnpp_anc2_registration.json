@@ -64,8 +64,8 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "edd",
         "type": "edit_text",
-        "hint": "সম্ভাব্য প্রসবের তারিখ",
-        "read_only": true
+        "read_only": true,
+        "hint": "সম্ভাব্য প্রসবের তারিখ"
       },
       {
         "key": "number_of_anc",
@@ -107,7 +107,7 @@
         "openmrs_entity_id": "height",
         "type": "edit_text",
         "hint": "মায়ের উচ্চতা (সে.মি.)",
-        "read_only": true,
+        "read_only": "true",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
@@ -132,13 +132,20 @@
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
         },
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_bmi_calculation_rule.yml"
+            }
+          }
+        },
         "v_min": {
-          "value": "35",
-          "err": "35 এর সমান বা 35 এর বেশি হতে হবে"
+          "value": "45",
+          "err": "45 এর সমান বা 45 এর বেশি হতে হবে"
         },
         "v_max": {
-          "value": "130",
-          "err": "130 এর সমান বা 130 এর কম হওয়া উচিত"
+          "value": "140",
+          "err": "140 এর সমান বা 140 এর কম হওয়া উচিত"
         }
       },
       {
@@ -165,8 +172,8 @@
           }
         },
         "v_min": {
-          "value": "15",
-          "err": "15 এর সমান বা 15 এর বেশি হতে হবে"
+          "value": "20",
+          "err": "20 এর সমান বা 20 এর বেশি হতে হবে"
         },
         "v_max": {
           "value": "50",
@@ -237,8 +244,25 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "এন্টিপায়রেটিক এর পরামর্শ দিন",
+        "text": "ভরা পেটে প্যারাসিটামল গ্রহণ করুন এবং বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#1199F9",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_95",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
         "toaster_type": "info",
         "relevance": {
           "rules-engine": {
@@ -268,12 +292,29 @@
           "err": "প্রশ্নের উত্তর দিন"
         },
         "v_min": {
-          "value": "30",
-          "err": "30 এর সমান বা 30 এর বেশি হতে হবে"
+          "value": "60",
+          "err": "60 এর সমান বা 60 এর বেশি হতে হবে"
         },
         "v_max": {
-          "value": "150",
-          "err": "150 এর সমান বা 150 এর কম হওয়া উচিত"
+          "value": "100",
+          "err": "100 এর সমান বা 100 এর কম হওয়া উচিত"
+        }
+      },
+      {
+        "key": "advice_toaster_pulse",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
         }
       },
       {
@@ -339,6 +380,23 @@
         ]
       },
       {
+        "key": "advice_toaster_problem",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "enabled_label",
         "type": "label",
         "text":"রক্তচাপ",
@@ -371,12 +429,29 @@
           "err": "প্রশ্নের উত্তর দিন"
         },
         "v_min": {
-          "value": "50",
-          "err": "50 এর সমান বা 50 এর বেশি হতে হবে"
+          "value": "60",
+          "err": "60 এর সমান বা 60 এর বেশি হতে হবে"
         },
         "v_max": {
-          "value": "230",
-          "err": "230 এর সমান বা 230 এর কম হওয়া উচিত"
+          "value": "240",
+          "err": "240 এর সমান বা 240 এর কম হওয়া উচিত"
+        }
+      },
+      {
+        "key": "advice_toaster_systolic",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
         }
       },
       {
@@ -399,12 +474,29 @@
           "err": "প্রশ্নের উত্তর দিন"
         },
         "v_min": {
-          "value": "20",
-          "err": "20 এর সমান বা 20 এর বেশি হতে হবে"
+          "value": "30",
+          "err": "30 এর সমান বা 30 এর বেশি হতে হবে"
         },
         "v_max": {
-          "value": "120",
-          "err": "120 এর সমান বা 120 এর কম হওয়া উচিত"
+          "value": "130",
+          "err": "130 এর সমান বা 130 এর কম হওয়া উচিত"
+        }
+      },
+      {
+        "key": "advice_toaster_diastolic",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
         }
       },
       {
@@ -414,34 +506,6 @@
         "openmrs_entity_id": "spacer",
         "type": "spacer",
         "spacer_height": "15sp"
-      },
-      {
-        "key": "uterus_length",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "uterus_length",
-        "type": "edit_text",
-        "hint": "জরায়ুর ঊচচতা",
-        "v_numeric": {
-          "value": "true",
-          "err": "Enter a valid Number"
-        },
-        "v_regex": {
-          "value": "[0-9]*",
-          "err": "দশমিক অনুমোদিত নয়"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "v_min": {
-          "value": "0",
-          "err": "100 এর কম হতে হবে"
-        },
-        "v_max": {
-          "value": "99",
-          "err": "100 এর কম হতে হবে"
-        }
       },
       {
         "key": "has_edema",
@@ -464,6 +528,24 @@
           "err": "প্রশ্নের উত্তর দিন"
         }
       },
+      {
+        "key": "advice_toaster_has_edema",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
+        }
+      },
+
       {
         "key": "has_child_movement",
         "openmrs_entity_parent": "",
@@ -490,8 +572,29 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "child_movement_in_last_24hr",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "বাচ্চা কি দিনে ১০ থেকে ১২ বার নড়াচড়া? ",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "child_movement_in_last_24hr_no",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "child_movement_in_last_24hr_no",
         "type": "edit_text",
-        "hint": "গত ২৪ ঘন্টায় বাচ্চা কতবার নাড়াচাড়া করেছে?  ",
+        "hint": "গত ২৪ ঘন্টায় বাচ্চা কতবার নাড়াচাড়া করেছে?",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
@@ -503,6 +606,46 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "step1:child_movement_in_last_24hr": {
+            "type": "string",
+            "ex": "equalTo(., \"না\")"
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_24hr_6",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_24hr_8",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "মা-বাম কাঁধে শুয়ে থাকবে, শরবত খাবে এবং বিশ্রাম নেবে",
+        "text_color": "#1199F9",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
         }
       },
       {
@@ -579,7 +722,6 @@
           "টিটি-২",
           "টিটি-৩",
           "টিটি-৪",
-          "টিটি-৫",
           "একটিও না ",
           "জানা নেই "
         ],
@@ -588,13 +730,34 @@
           "টিটি-২": "tt2",
           "টিটি-৩": "tt3",
           "টিটি-৪": "tt4",
-          "টিটি-৫": "tt5",
           "একটিও না": "none",
           "জানা নেই ": "unknown"
         },
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "step1:vaccination_tt_dose_completed": {
+            "type": "string",
+            "ex": "equalTo(., \"না\")"
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_tt",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "নিকটবর্তী ইপিআই সেন্টার থেকে টিটি টিকা সম্পন্ন করুন",
+        "text_color": "#1199F9",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:vaccination_tt_dose_completed": {
+            "type": "string",
+            "ex": "equalTo(., \"না\")"
+          }
         }
       },
       {
@@ -645,15 +808,32 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-        "step1:blood_sugar_test_condition": {
-          "type": "string",
-          "ex": "equalTo(., \"ফাস্টিং\")"
         }
-      }
+        ,
+        "relevance": {
+          "step1:blood_sugar_test_condition": {
+            "type": "string",
+            "ex": "equalTo(., \"ফাস্টিং\")"
+          }
+        }
       },
-
+      {
+        "key": "advice_toaster_fasting",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
+        }
+      },
       {
         "key": "random_blood_sugar",
         "openmrs_entity_parent": "",
@@ -670,9 +850,26 @@
           "err": "প্রশ্নের উত্তর দিন"
         },
         "relevance": {
-          "step1:blood_sugar_test_condition": {
-            "type": "string",
-            "ex": "equalTo(., \"রেন্ডম\")"
+        "step1:blood_sugar_test_condition": {
+          "type": "string",
+          "ex": "equalTo(., \"রেন্ডম\")"
+        }
+      }
+      },
+      {
+        "key": "advice_toaster_random",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
           }
         }
       },
@@ -706,8 +903,25 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "প্রতিদিন আয়রন ফলিক এসিড এবং আয়রনযুক্ত খাদ্য গ্রহণ করবেন",
+        "text": "আয়রনসমৃদ্ধ ডায়েটের জন্য যেমন মাছ-মাংস,লিভার, সবুজ শাক  এবং রঙ্গীন ফল এবং শাকসবজি খান, আয়রন ফলিক এসিড গ্রহণ করুন এবং স্যান্ডেল ব্যবহার করুন ",
         "text_color": "#1199F9",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_hemoglobin_test",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
         "toaster_type": "info",
         "relevance": {
           "rules-engine": {
@@ -736,6 +950,22 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "advice_toaster_albumin_test",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:albumin_test": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
         }
       },
       {
@@ -794,6 +1024,43 @@
         }
       },
       {
+        "key": "advice_toaster_bilirubin_test",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:bilirubin_test": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "has_sold_safety_delivery_kit",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "has_sold_safety_delivery_kit",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "নিরাপদ ডেলিভারি কিট ক্রয় করেছেন কিনা? ",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
         "key": "has_other_complication",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -808,10 +1075,6 @@
         "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
         }
       },
       {
@@ -831,6 +1094,16 @@
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
         }
+      },
+      {
+        "key": "corona_note",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "label",
+        "text": "করোনা কালীন গর্ভবতী পরিচর্যা সংক্রান্ত তথ্য জানতে এখানে চাপ দিন",
+        "label_info_title": "করোনা কালীন গর্ভবতী পরিচর্যা সংক্রান্ত তথ্য",
+        "label_info_text": " -> গর্ভবতী ও প্রসূতি মা প্রয়োজন না হলে ঘর থেকে বের হবেন না। একান্ত প্রয়োজন না হলে লোক সমাগম বেশী এমন স্থান যেমন মার্কেট,বাজার ইত্যাদি এড়িয়ে চলবেন।\n -> বাহির হতে ঘরে ফেরার পর গর্ভবতীসহ বাড়ির সবাইকে বারবার যেকোন সাবান দিয়ে ভালো করে (২০ সেকেন্ড যাবত) হাত ধুতে হবে।\n -> পরিহিত কাপড় প্রতিদিন ধুয়ে ফেলতে হবে।\n -> গর্ভবতী ও প্রসূতি মা বাড়িতে গবাদি পশু ( গরু, ছাগল, ভেড়া ইত্যাদি)ও হাসঁ-মুরগীর  যতœ করলে অবশ্যই  যেকোন সাবান দিয়ে ভালো করে (২০ সেকেন্ড যাবত) হাত ধুতে হবে।\n -> হাঁচি-কাশির শিষ্টাচার মেনে চলবেন। টিস্যু, রুমাল  ব্যবহার করবেন অথবা কনুই এর ভাঁজে হাঁচি-কাশি দিবেন। ব্যবহৃত টিস্যু ঢাকনাযুক্ত ডাস্টবিনে ফেলুন এবং ব্যবহৃত রুমাল বা কাপড় সাবান দিয়ে ধুয়ে ফেলবেন।\n -> জ্বর, হাঁচি -কাশিতে আক্রান্ত ব্যক্তির সংষ্পর্শ এড়িয়ে চলুন। এমনকি পরিবারের কেউ সর্দি জ্বরে আক্রান্ত হলে গর্ভবতী মা তার সংষ্পর্শে আসবেন না।\n -> নিয়মিত আয়রণ ও ক্যালসিয়াম ট্যাবলেট খাবেন।\n-> খাবার বিশেষ করে মাছ, মাংস ও ডিম ভালোভাবে সিদ্ধ করে খেতে হবে এবং কাঁচা দুধ খাওয়া যাবেনা।\n -> খাওয়ার পূর্বে ফলমূল এবং রান্নার পূর্বে শাক-সব্জি ভালোভাবে ধুয়ে খেতে হবে। এসময় প্রচুর পানি পান করবেন ও ভিটামিন  ’সি’ সমৃদ্ধ খাবার যেমন: লেবু,আমলকি, পেয়ারা,কাঁচামরিচ,আমড়া ইত্যাদি বেশী খাবেন ।\n -> করোনা পজিটিভ মা অবশ্যই নবজাতক ও শিশুকে নিচের নিয়ম মেনে বুকের দুধ খাওয়াতে পারবেন:\n  -> নবজাতক ও শিশুর সংষ্পর্শে আসার আগে ও পরে স্বাস্থ্যবিধি অনুসারে হাত ধুয়ে নিতে হবে\n  -> বুকের দুধ খাওয়ানোর আগে ও পরে স\u200C্বাস্থ্যবিধিমতে হাত ধুয়ে নিতে হবে ও অবশ্যই মাস্ক ব্যবহার করতে হবে।\n  -> করোনা ভাইরাস পজিটিভ মা যদি বেশী অসুস্থ হয় তবে সেক্ষেত্রে স\u200C্বাস্থ্যবিধিমতে হাত ধুয়ে বুকের দুধ চেপে বের করে নবজাতক ও শিশুকে খাওয়াতে পারবেন।\n"
       },
       {
         "key": "refer_reason",

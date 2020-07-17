@@ -175,6 +175,63 @@
           }
         }
 
+      },
+      {
+        "key": "get_proper_treatment",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "get_proper_treatment",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "যথাযথ সেবা পেয়েছে কি?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "step1:is_went_to_referred_place": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+
+      },
+      {
+        "key": "present_condition",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "present_condition",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "বর্তমান শারীরিক অবস্থা কি?",
+        "values": [
+          "সুস্থ",
+          "অসুস্থ"
+        ],
+        "openmrs_choice_ids": {
+          "সুস্থ": "well",
+          "অসুস্থ": "sick"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_women_relevance.yml"
+            }
+          }
+        }
+
       }
     ,
       {

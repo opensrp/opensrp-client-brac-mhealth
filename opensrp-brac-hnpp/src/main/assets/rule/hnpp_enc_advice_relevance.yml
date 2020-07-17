@@ -1,0 +1,56 @@
+---
+name: step1_advice_respiratory_rate
+description: advice_respiratory_rate
+priority: 1
+condition: "step1_respiratory_rate > 60 || step1_respiratory_rate < 30"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_pulse_rate
+description: advice_pulse_rate
+priority: 1
+condition: "step1_pulse_rate > 160 || step1_pulse_rate < 120"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_body_temperature
+description: advice_body_temperature
+priority: 1
+condition: "step1_body_temperature > 99"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_body_temperature
+description: advice_toaster_body_temperature
+priority: 1
+condition: "step1_body_temperature < 97"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_eye_condition
+description: advice_eye_condition
+priority: 1
+condition: "step1_eye_condition.equals('অস্বাভাবিক (পুঁজ)')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_skin_condition
+description: advice_skin_condition
+priority: 1
+condition: "step1_skin_condition.equals('অস্বাভাবিক (ফুস্কুরী/ রেশ/ হলদে-নীল বর্ন )')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_health_condition
+description: advice_health_condition
+priority: 1
+condition: "step1_health_condition.equals('অস্বাভাবিক (নড়াচড়া কম )')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_navel_condition
+description: navel_condition
+priority: 1
+condition: "step1_navel_condition.equals('অস্বাভাবিক (পুঁজ/ক্ষরণ)')"
+actions:
+  - "isRelevant = true"

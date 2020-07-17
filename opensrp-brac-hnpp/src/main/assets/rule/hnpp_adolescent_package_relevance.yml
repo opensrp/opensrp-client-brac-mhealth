@@ -6,9 +6,23 @@ actions:
   - "isRelevant = true"
 ---
 name: step1_ad_toaster_2
-description: if hemoglobin 40 to 70
+description: if hemoglobin 8 to 10
 priority: 1
-condition: "step1_hemoglobin >= 6.4 && step1_hemoglobin <= 11.2"
+condition: "step1_hemoglobin >= 8 && step1_hemoglobin <= 10"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_hemoglobin_test
+description: advice_toaster_hemoglobin_test
+priority: 1
+condition: "step1_hemoglobin_test < 8"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_problem
+description: advice_toaster_problem
+priority: 1
+condition: "!step1_other_problem.isEmpty() && !step1_other_problem.contains('no_problem')"
 actions:
   - "isRelevant = true"
 ---

@@ -1,0 +1,7 @@
+---
+name: step1_present_condition
+description: present_condition
+priority: 1
+condition: "step1_women_problems.contains('women_problems') &&  step1_is_went_to_referred_place.equals('হ্যাঁ') "
+actions:
+  - "isRelevant = true"

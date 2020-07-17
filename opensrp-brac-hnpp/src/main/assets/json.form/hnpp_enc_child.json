@@ -79,6 +79,40 @@
         }
       },
       {
+        "key": "advice_toaster_body_temperature",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "গরম কাপড় দিয়ে মোড়ায়ে  রাখুন এবং বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_enc_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "advice_body_temperature",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_enc_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "weight",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -140,6 +174,23 @@
         }
       },
       {
+        "key": "advice_pulse_rate",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_enc_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "respiratory_rate",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -164,6 +215,23 @@
         }
       },
       {
+        "key": "advice_respiratory_rate",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_enc_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "navel_condition",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -178,6 +246,23 @@
         "openmrs_choice_ids": {
           "স্বাভাবিক": "normal",
           "অস্বাভাবিক (পুঁজ/ক্ষরণ)": "not-normal"
+        }
+      },
+      {
+        "key": "advice_navel_condition",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_enc_advice_relevance.yml"
+            }
+          }
         }
       },
       {
@@ -198,6 +283,23 @@
         }
       },
       {
+        "key": "advice_eye_condition",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_enc_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "skin_condition",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -215,6 +317,23 @@
         }
       },
       {
+        "key": "advice_skin_condition",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_enc_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "health_condition",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -229,6 +348,23 @@
         "openmrs_choice_ids": {
           "স্বাভাবিক": "normal",
           "অস্বাভাবিক (নড়াচড়া কম )": "not-normal"
+        }
+      },
+      {
+        "key": "advice_health_condition",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_enc_advice_relevance.yml"
+            }
+          }
         }
       },
       {

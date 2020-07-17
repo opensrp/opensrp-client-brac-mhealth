@@ -441,7 +441,7 @@
         }
       },
       {
-        "key": "delivery_method",
+        "key": "delivery_method_general",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "delivery_method",
@@ -449,11 +449,35 @@
         "type": "spinner",
         "hint": "প্রসবের পদ্ধতি",
         "values": [
-          "স্বাভাবিক",
+          "স্বাভাবিক"
+        ],
+        "openmrs_choice_ids": {
+          "স্বাভাবিক": "normal"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Please select one option"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "delivery_method_c_section",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "delivery_method",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "প্রসবের পদ্ধতি",
+        "values": [
           "সিজারিয়ান"
         ],
         "openmrs_choice_ids": {
-          "স্বাভাবিক": "normal",
           "সিজারিয়ান": "c_section"
         },
         "v_required": {
@@ -461,17 +485,14 @@
           "err": "Please select one option"
         },
         "relevance": {
-          "step1:preg_outcome": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "born_alive","still_born"
-                ]
-              }
-            ]
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
+            }
           }
         }
       },
+
       {
         "key": "delivery_complication",
         "openmrs_entity_parent": "",

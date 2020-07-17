@@ -6,6 +6,20 @@ condition: "step1_birth_weight>=1.5 && step1_birth_weight<= 2.4"
 actions:
   - "isRelevant = true"
 ---
+name: step1_delivery_method_general
+description: miscarriage_date
+priority: 1
+condition: "step1_delivery_place.equels('বাড়ি') || step1_delivery_place.contains('ব্র্যাক ম্যাটারনিটি সেন্টার')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_delivery_method_c_section
+description: miscarriage_date
+priority: 1
+condition: "!step1_delivery_place.equels('বাড়ি') || !step1_delivery_place.contains('ব্র্যাক ম্যাটারনিটি সেন্টার')"
+actions:
+  - "isRelevant = true"
+---
 name: step1_pnc_received
 description: pnc_received
 priority: 1

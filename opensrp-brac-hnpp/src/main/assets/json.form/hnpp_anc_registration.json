@@ -108,12 +108,16 @@
           "value": "true",
           "err": "সংখ্যাটি 0 এর চেয়ে সমান বা বড় হতে হবে"
         },
+        "v_regex": {
+          "value": "([1-9]|10)\\s*",
+          "err": "গর্ভের সংখ্যা লিমিট হবে ১-১০"
+        },
         "v_numeric": {
           "value": "true",
           "err": "সংখ্যাটি 0 এর চেয়ে সমান বা বড় হতে হবে"
         },
         "v_min": {
-          "value": "0",
+          "value": "1",
           "err": "সংখ্যাটি 0 এর চেয়ে সমান বা বড় হতে হবে"
         }
       },
@@ -123,8 +127,9 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ পরামর্শ নিন ",
-        "text_color": "#CF0800",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_size": "22px",
+        "text_color": "#FF0000",
         "toaster_type": "problem",
         "relevance": {
           "rules-engine": {
@@ -184,8 +189,9 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ পরামর্শ নিন ",
-        "text_color": "#CF0800",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন ",
+        "text_size": "22px",
+        "text_color": "#FF0000",
         "toaster_type": "problem",
         "relevance": {
           "rules-engine": {

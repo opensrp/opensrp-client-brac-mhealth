@@ -59,6 +59,27 @@
         "value": "hnpp_child_followup"
       },
       {
+        "key": "dob",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden"
+      },
+      {
+        "key": "month_diff",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_iycf_package_calculation.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "breast_feed_in_24hr",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -77,6 +98,13 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_enc_relevance.yml"
+            }
+          }
         }
       },
 
@@ -99,6 +127,13 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_enc_relevance.yml"
+            }
+          }
         }
       },
       {
@@ -233,7 +268,7 @@
           "err": "প্রশ্নের উত্তর দিন"
         },
         "relevance": {
-        "step1:had_diarrhea": {
+        "step1:eaten_saline": {
           "type": "string",
           "ex": "equalTo(., \"হ্যাঁ\")"
         }

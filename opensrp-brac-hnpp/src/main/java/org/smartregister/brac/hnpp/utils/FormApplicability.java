@@ -221,5 +221,8 @@ public class FormApplicability {
     public static boolean isWomenPackageApplicable(int age, boolean isWomen){
         return isWomen && age >=11;
     }
+    public static boolean isNcdApplicable(int age){
+        return age >=30;
+    }
 
 }

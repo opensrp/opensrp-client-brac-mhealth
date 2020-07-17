@@ -159,6 +159,60 @@
         }
       },
       {
+        "key": "child_eaten_pustikona",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "child_eaten_pustikona",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "শিশু পুষ্টিকণা খায় কিনা?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+
+      },
+      {
+        "key": "child_eaten_toaster_yes",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "১.পুষ্টিকনা পূর্ণ ছয় মাস থেকে পাঁচ বছর বয়সী শিশুদের পারিবারিক খাবারের পুষ্টিমান বাড়ায়।     \n২. পুষ্টিকনা শিশুর খাওয়ার রুচি বাড়ায়। \n৩. পুষ্টিকনা রক্তস্বল্পতা থেকে শিশুকে রক্ষা করে। \n৪. পুষ্টিকনা শিশুকে সুস্থ রাখতে সাহায্য করে.",
+        "text_color": "#f51b00",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:child_eaten_pustikona": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "child_eaten_toaster_no",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "পুষ্টিকণা না খাওয়ার কারণে:'\n১. শিশু পুষ্টিহীনতায় ভোগে\n২. স্বাস্থ্য ক্ষীণকায় হয়\n৩. শিশু রক্তস্বল্পতায় ভোগে\n৪. শিশুর বাড়ন্ত অনুযায়ী মেধার বিকাশ বাধাগ্রস্ত হবে।\n৫.খাওয়ার রুচি কমবে ",
+        "text_color": "#f51b00",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:child_eaten_pustikona": {
+            "type": "string",
+            "ex": "equalTo(., \"না\")"
+          }
+        }
+      },
+      {
         "key": "head_balance",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -188,6 +242,22 @@
 
       },
       {
+        "key": "head_balance_no",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "সুষম ও পুষ্টিকর খাবার দিন ,বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#f51b00",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:head_balance": {
+            "type": "string",
+            "ex": "equalTo(., \"না\")"
+          }
+        }
+      },
+      {
         "key": "can_sit",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -215,6 +285,22 @@
           }
         }
 
+      },
+      {
+        "key": "can_sit_no",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "সুষম ও পুষ্টিকর খাবার দিন ,বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#f51b00",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:can_sit": {
+            "type": "string",
+            "ex": "equalTo(., \"না\")"
+          }
+        }
       },
       {
         "key": "can_sound",
@@ -290,6 +376,22 @@
 
       },
       {
+        "key": "can_crap_no",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "সুষম ও পুষ্টিকর খাবার দিন ,বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#f51b00",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:can_crap": {
+            "type": "string",
+            "ex": "equalTo(., \"না\")"
+          }
+        }
+      },
+      {
         "key": "can_sound_baba_maa",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -361,6 +463,22 @@
         }
       }
 
+      },
+      {
+        "key": "can_catch_no",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "সুষম ও পুষ্টিকর খাবার দিন কোন কিছু ধরে দাঁড়ানোর চেষ্টা করান, বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#f51b00",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:can_catch": {
+            "type": "string",
+            "ex": "equalTo(., \"না\")"
+          }
+        }
       },
       {
         "key": "can_make_word",
@@ -486,7 +604,7 @@
         "openmrs_entity_id": "can_one_walk",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "একা হাঁটতে পারে কিনা?",
+        "hint": "একা একা হাঁটতে পারে কিনা?",
         "values": [
           "হ্যাঁ",
           "না"
@@ -507,6 +625,22 @@
         }
       }
 
+      },
+      {
+        "key": "can_one_walk_no",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "সুষম ও পুষ্টিকর খাবার দিন, বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন, শিশুকে হাঁটানোর চেষ্টা করতে হবে",
+        "text_color": "#f51b00",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:can_one_walk": {
+            "type": "string",
+            "ex": "equalTo(., \"না\")"
+          }
+        }
       },
       {
         "key": "can_run",

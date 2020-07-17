@@ -5,3 +5,17 @@ priority: 1
 condition: "step1_weight>=1.5 && step1_weight<= 2.4"
 actions:
   - "isRelevant = true"
+---
+name: step1_breast_feed_in_24hr
+description: if age 0 month less than 6 month
+priority: 1
+condition: "(step1_month_diff >= 0 && step1_month_diff < 183)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_extra_food_in_24hr
+description: if age 0 month less than 6 month
+priority: 1
+condition: "(step1_month_diff >= 0 && step1_month_diff < 183)"
+actions:
+  - "isRelevant = true"
