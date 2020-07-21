@@ -38,6 +38,9 @@ public class FormApplicability {
     public static ArrayList<ReferralFollowUpModel> getReferralFollowUp(String baseEntityId){
         return HnppApplication.getHNPPInstance().getHnppVisitLogRepository().getAllReferrelFollowUp(baseEntityId);
     }
+    public static boolean isPregnant(String baseEntityId){
+        return HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isPregnantFromElco(baseEntityId);
+    }
 
     public static String getDueFormForMarriedWomen(String baseEntityId, int age){
         String lmp = getLmp(baseEntityId);

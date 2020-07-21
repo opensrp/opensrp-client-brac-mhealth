@@ -157,20 +157,14 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     }
 
     @Override
-    protected void startAncRegister() {
+    public void startAncRegister() {
         HnppAncRegisterActivity.startHnppAncRegisterActivity(HnppFamilyOtherMemberProfileActivity.this, baseEntityId, PhoneNumber,
                 HnppConstants.JSON_FORMS.ANC_FORM, null, familyBaseEntityId, familyName);
     }
 
     @Override
     public void startMalariaRegister() {
-//        startAnyFormActivity(HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME,REQUEST_CODE_PREGNANCY_OUTCOME);
-        //TODO implement start anc malaria for HF
-//        HnppHomeVisitActivity.startMe(this, new MemberObject(commonPersonObject), false);
-//        startPregnancyFormActivity(HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME, org.smartregister.family.util.JsonFormUtils.REQUEST_CODE_GET_JSON);
-//        HnppPncRegisterActivity.startHnppPncRegisterActivity(HnppFamilyOtherMemberProfileActivity.this, baseEntityId, PhoneNumber,
-//                HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME, HnppJsonFormUtils.getUniqueMemberId(familyBaseEntityId), familyBaseEntityId, familyName);
-        HnppAncRegisterActivity.startHnppAncRegisterActivity(HnppFamilyOtherMemberProfileActivity.this, baseEntityId, PhoneNumber,
+     HnppAncRegisterActivity.startHnppAncRegisterActivity(HnppFamilyOtherMemberProfileActivity.this, baseEntityId, PhoneNumber,
                 HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME, HnppJsonFormUtils.getUniqueMemberId(familyBaseEntityId), familyBaseEntityId, familyName);
     }
 
@@ -244,6 +238,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
            Intent intent;
            if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.GIRL_PACKAGE)){
                HnppJsonFormUtils.addMaritalStatus(jsonForm,maritalStatus);
+           }
+           else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM) || formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM)){
+               HnppJsonFormUtils.addLastAnc(jsonForm,baseEntityId);
            }
 
 //           if(formName.contains("anc"))
@@ -321,16 +318,21 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 //            String type = StringUtils.isBlank(parentEventType) ? getEncounterType() : getEncounterType();
            // String type = HnppJsonFormUtils.getEncounterType();
             String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
-            Map<String, String> jsonStrings = new HashMap<>();
-            jsonStrings.put("First",jsonString);
+
             Visit visit = null;
             try {
             JSONObject form = new JSONObject(jsonString);
             String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
                 type = HnppJsonFormUtils.getEncounterType(type);
+                if(type.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION) ||
+                        type.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION) ||
+                        type.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
+                    HnppJsonFormUtils.updateLastBracAnc(form,baseEntityId);
+                }
             // persist to database
 
-
+                Map<String, String> jsonStrings = new HashMap<>();
+                jsonStrings.put("First",form.toString());
                 visit = HnppJsonFormUtils.saveVisit(false, baseEntityId, type, jsonStrings, "");
             } catch (Exception e) {
                 e.printStackTrace();

@@ -63,6 +63,11 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.My
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         NavigationOption model = navigationOptionList.get(position);
         holder.tvName.setText(context.getResources().getText(model.getTitleID()));
+        if(model.getRegisterCount()>=0){
+            holder.tvCount.setVisibility(View.VISIBLE);
+        }else{
+            holder.tvCount.setVisibility(View.INVISIBLE);
+        }
         holder.tvCount.setText(String.format(Locale.getDefault(), "%d", model.getRegisterCount()));
         holder.ivIcon.setImageResource(model.getResourceID());
 

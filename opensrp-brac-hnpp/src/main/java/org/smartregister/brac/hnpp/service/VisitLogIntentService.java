@@ -2,6 +2,7 @@ package org.smartregister.brac.hnpp.service;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 
 import net.sqlcipher.Cursor;
@@ -23,6 +24,7 @@ import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.clientandeventmodel.Obs;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
+import org.smartregister.family.FamilyLibrary;
 import org.smartregister.util.AssetHandler;
 
 import java.util.ArrayList;
@@ -36,7 +38,6 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_GEN
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP;
-import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ELCO;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ELCO;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ENC_REGISTRATION;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.GIRL_PACKAGE;
@@ -154,6 +155,29 @@ public class VisitLogIntentService extends IntentService {
                                 }
                                 log.setReferPlace(place_of_refer);
 
+
+                            }
+                            if(ELCO.equalsIgnoreCase(encounter_type)){
+                                if(details.containsKey("pregnancy_test_result")&&!StringUtils.isEmpty(details.get("pregnancy_test_result"))){
+                                    log.setPregnantStatus(details.get("pregnancy_test_result"));
+                                }
+                            }
+                            if(ANC1_REGISTRATION.equalsIgnoreCase(encounter_type) || ANC2_REGISTRATION.equalsIgnoreCase(encounter_type)
+                                || ANC3_REGISTRATION.equalsIgnoreCase(encounter_type)){
+                                if(details.containsKey("brac_anc") && !StringUtils.isEmpty(details.get("brac_anc"))){
+                                    String ancValue = details.get("brac_anc");
+                                    String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(base_entity_id+"_BRAC_ANC");
+                                    if(!TextUtils.isEmpty(prevalue)){
+                                        int lastValue = Integer.parseInt(prevalue);
+                                        int ancValueInt = Integer.parseInt(ancValue);
+                                        if(ancValueInt > lastValue){
+                                            FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",ancValueInt+"");
+                                        }
+                                    }
+                                }
+                            }
+                            if(ANC_REGISTRATION.equalsIgnoreCase(encounter_type)){
+                                FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",0+"");
 
                             }
                             if(HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)){

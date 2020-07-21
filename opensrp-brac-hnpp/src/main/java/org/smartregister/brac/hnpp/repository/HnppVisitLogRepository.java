@@ -34,10 +34,11 @@ public class HnppVisitLogRepository extends BaseRepository {
     public static final String VISIT_JSON = "visit_json";
     public static final String REFER_REASON = "refer_reason";
     public static final String REFER_PLACE = "refer_place";
+    public static final String PREGNANT_STATUS = "pregnant_status";
 
 
-    public static final String[] TABLE_COLUMNS = {VISIT_ID, VISIT_TYPE,FAMILY_ID, BASE_ENTITY_ID, VISIT_DATE,EVENT_TYPE,VISIT_JSON};
-    private static final String VISIT_LOG_SQL = "CREATE TABLE ec_visit_log (visit_id VARCHAR,visit_type VARCHAR,base_entity_id VARCHAR NOT NULL,family_id VARCHAR NOT NULL,visit_date VARCHAR,event_type VARCHAR,visit_json TEXT)";
+    public static final String[] TABLE_COLUMNS = {VISIT_ID, VISIT_TYPE,FAMILY_ID, BASE_ENTITY_ID, VISIT_DATE,EVENT_TYPE,VISIT_JSON,PREGNANT_STATUS};
+    private static final String VISIT_LOG_SQL = "CREATE TABLE ec_visit_log (visit_id VARCHAR,visit_type VARCHAR,base_entity_id VARCHAR NOT NULL,family_id VARCHAR NOT NULL,visit_date VARCHAR,event_type VARCHAR,visit_json TEXT,pregnant_status VARCHAR)";
 
     public HnppVisitLogRepository(Repository repository) {
         super(repository);
@@ -135,7 +136,7 @@ public class HnppVisitLogRepository extends BaseRepository {
         values.put(VISIT_JSON, visitLog.getVisitJson());
         values.put(REFER_PLACE, visitLog.getReferPlace());
         values.put(REFER_REASON, visitLog.getReferReason());
-
+        values.put(PREGNANT_STATUS, visitLog.getPregnantStatus());
 
         return values;
     }
@@ -197,6 +198,7 @@ public class HnppVisitLogRepository extends BaseRepository {
                     visitLog.setVisitDate(Long.parseLong(cursor.getString(cursor.getColumnIndex(VISIT_DATE))));
                     visitLog.setVisitJson(cursor.getString(cursor.getColumnIndex(VISIT_JSON)));
                     visitLog.setVisitType(cursor.getString(cursor.getColumnIndex(VISIT_TYPE)));
+                    visitLog.setPregnantStatus(cursor.getString(cursor.getColumnIndex(PREGNANT_STATUS)));
                     visitLogs.add(visitLog);
                     cursor.moveToNext();
                 }
@@ -249,6 +251,22 @@ public class HnppVisitLogRepository extends BaseRepository {
         ArrayList<VisitLog> visits = getAllVisitLog(cursor);
 
         return  visits!=null && visits.size() == 0;
+    }
+    public boolean isPregnantFromElco(String baseEntityId){
+        SQLiteDatabase database = getReadableDatabase();
+        String selection = BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE+" and "+EVENT_TYPE+" = ?"+COLLATE_NOCASE;
+        String[] selectionArgs = new String[]{baseEntityId, HnppConstants.EVENT_TYPE.ELCO};
+        net.sqlcipher.Cursor cursor = database.query(VISIT_LOG_TABLE_NAME, TABLE_COLUMNS, selection, selectionArgs, null, null, VISIT_DATE + " DESC",1+"");
+        ArrayList<VisitLog> visits = getAllVisitLog(cursor);
+        if(visits!=null && visits.size()>0){
+            String pregnantStatus = visits.get(0).pregnantStatus;
+            if(pregnantStatus.equalsIgnoreCase("গর্ভবতী")){
+                return true;
+            }
+
+        }
+
+        return  false;
     }
     public boolean isDoneWihinTwentyFourHours(String baseEntityId, String eventTpe) {
         if(TextUtils.isEmpty(eventTpe)) return true;

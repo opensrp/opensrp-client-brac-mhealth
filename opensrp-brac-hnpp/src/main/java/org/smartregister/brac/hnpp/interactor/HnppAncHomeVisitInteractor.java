@@ -15,6 +15,7 @@ import org.smartregister.brac.hnpp.utils.ANCRegister;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppHomeVisitActionHelper;
+import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.chw.anc.contract.BaseAncHomeVisitContract;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.anc.interactor.BaseAncHomeVisitInteractor;
@@ -55,6 +56,7 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
                     JSONObject jsonPayload = new JSONObject(ANC1_FORM.getJsonPayload());
                     addEDDField(memberObject.getBaseEntityId(),formName,jsonPayload);
                     addHeightField(memberObject.getBaseEntityId(),formName,jsonPayload);
+                    HnppJsonFormUtils.addLastAnc(jsonPayload,memberObject.getBaseEntityId());
                     ANC1_FORM.setJsonPayload(jsonPayload.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();

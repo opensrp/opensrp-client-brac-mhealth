@@ -1,0 +1,21 @@
+---
+name: step1_other_anc_no_1
+description: Q2+1
+priority: 1
+condition: "step1_brac_anc != ''"
+actions:
+  - "calculation =  step1_brac_anc+1 "
+---
+name: step1_other_anc_no_2
+description: Q2+2
+priority: 1
+condition: "step1_brac_anc != ''"
+actions:
+  - "calculation =  step1_brac_anc+2 "
+---
+name: step1_other_anc_no_3
+description: Q2+3
+priority: 1
+condition: "step1_brac_anc != ''"
+actions:
+  - "calculation =  step1_brac_anc+3 "

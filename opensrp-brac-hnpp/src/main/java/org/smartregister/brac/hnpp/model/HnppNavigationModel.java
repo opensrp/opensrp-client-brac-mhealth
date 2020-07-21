@@ -20,6 +20,7 @@ public class HnppNavigationModel implements org.smartregister.chw.core.model.Nav
             navigationOptions.add(new NavigationOption(R.mipmap.sidemenu_anc, R.mipmap.sidemenu_anc_active, R.string.menu_anc_clients, CoreConstants.DrawerMenu.ANC, 0));
             navigationOptions.add(new NavigationOption(R.mipmap.sidemenu_pnc, R.mipmap.sidemenu_pnc_active, R.string.menu_pnc_clients, CoreConstants.DrawerMenu.PNC, 0));
             navigationOptions.add(new NavigationOption(R.mipmap.sidemenu_children, R.mipmap.sidemenu_children_active, R.string.menu_child_clients, CoreConstants.DrawerMenu.CHILD_CLIENTS, 0));
+            navigationOptions.add(new NavigationOption(R.drawable.ic_icon_settings, R.drawable.ic_icon_settings, R.string.menu_forum, CoreConstants.DrawerMenu.FORUM, -1));
         }
 
         return navigationOptions;

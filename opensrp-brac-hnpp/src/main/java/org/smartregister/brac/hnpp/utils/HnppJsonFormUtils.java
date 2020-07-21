@@ -193,6 +193,40 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 e.printStackTrace();
             }
     }
+    public static void addLastAnc(JSONObject jsonForm,String baseEntityId){
+        JSONObject stepOne = null;
+        try {
+
+            stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+            JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+            String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(baseEntityId+"_BRAC_ANC");
+
+            updateFormField(jsonArray, "brac_anc", TextUtils.isEmpty(prevalue)?"0":prevalue);
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public static void updateLastBracAnc(JSONObject jsonForm,String baseEntityId){
+        JSONObject stepOne = null;
+        try {
+
+            stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+            JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+            String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(baseEntityId+"_BRAC_ANC");
+            int preValInt = TextUtils.isEmpty(prevalue)?0:Integer.parseInt(prevalue);
+            updateFormField(jsonArray, "brac_anc",(preValInt+1)+"");
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
     public static void addMaritalStatus(JSONObject jsonForm,String maritalStatus){
             JSONObject stepOne = null;
             try {

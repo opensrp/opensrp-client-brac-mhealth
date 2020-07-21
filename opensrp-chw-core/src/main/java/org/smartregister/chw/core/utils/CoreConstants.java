@@ -446,6 +446,7 @@ public class CoreConstants {
         public static final String FAMILY_PLANNING = "Family Planning";
         public static final String MALARIA = "Malaria";
         public static final String REFERRALS = "Referrals";
+        public static final String FORUM = "FORUM";
     }
 
     public static final class RULE_FILE {
@@ -625,6 +626,7 @@ public class CoreConstants {
         public static final String PNC_REGISTER_ACTIVITY = "PNC_REGISTER_ACTIVITY";
         public static final String REFERRALS_REGISTER_ACTIVITY = "REFERRALS_REGISTER_ACTIVITY";
         public static final String MALARIA_REGISTER_ACTIVITY = "MALARIA_REGISTER_ACTIVITY";
+        public static final String FORUM_ACTIVITY = "FORUM_ACTIVITY";
     }
 
     public static final class BUSINESS_STATUS {

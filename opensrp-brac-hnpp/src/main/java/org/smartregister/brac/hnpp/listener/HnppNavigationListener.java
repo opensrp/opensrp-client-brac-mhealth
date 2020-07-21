@@ -21,6 +21,10 @@ public class HnppNavigationListener extends NavigationListener {
             }else if(CoreConstants.DrawerMenu.ELCO_CLIENT.equals(tag)){
                 startRegisterActivity(getActivity(CoreConstants.REGISTERED_ACTIVITIES.ELCO_REGISTER_ACTIVITY));
             }
+            else if(CoreConstants.DrawerMenu.FORUM.equals(tag)){
+
+                startRegisterActivityWithOutFinish(getActivity(CoreConstants.REGISTERED_ACTIVITIES.FORUM_ACTIVITY));
+            }
         }
 
     }

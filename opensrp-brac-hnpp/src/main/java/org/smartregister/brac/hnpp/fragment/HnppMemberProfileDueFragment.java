@@ -49,7 +49,7 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
     private static final int TAG_OPEN_REFEREAL = 222;
     private static final int TAG_ENC= 333;
     private static final int TAG_CHILD_DUE= 444;
-
+    private static final int TAG_OPEN_ANC_REGISTRATION= 555;
 
     private int dueCount = 0;
     private View emptyView;
@@ -194,6 +194,16 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
             }
 
 
+        {View ancRegistration = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+        ImageView image = ancRegistration.findViewById(R.id.image_view);
+        TextView name =  ancRegistration.findViewById(R.id.patient_name_age);
+        ancRegistration.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+        image.setImageResource(R.drawable.childrow_family);
+        name.setText("গর্ভবতী রেজিস্ট্রেশন");
+        ancRegistration.setTag(TAG_OPEN_ANC_REGISTRATION);
+        ancRegistration.setOnClickListener(this);
+        otherServiceView.addView(ancRegistration);}
+
         View familyView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
         ImageView image = familyView.findViewById(R.id.image_view);
         TextView name =  familyView.findViewById(R.id.patient_name_age);
@@ -259,6 +269,12 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
         Integer tag = (Integer) v.getTag();
         if (tag != null) {
             switch (tag) {
+                case TAG_OPEN_ANC_REGISTRATION:
+                    if (getActivity() != null && getActivity() instanceof HnppFamilyOtherMemberProfileActivity) {
+                        HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) getActivity();
+                        activity.startAncRegister();
+                    }
+                    break;
                 case TAG_OPEN_FAMILY:
                     if (getActivity() != null && getActivity() instanceof HnppFamilyOtherMemberProfileActivity) {
                         HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) getActivity();
