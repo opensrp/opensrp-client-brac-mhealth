@@ -372,7 +372,7 @@
           "err": "প্রশ্নের উত্তর দিন"
         },
         "relevance": {
-          "step1:familyplanning_method_known": {
+          "step1:familyplanning_referral": {
             "type": "string",
             "ex": "equalTo(., \"হ্যাঁ\")"
           }

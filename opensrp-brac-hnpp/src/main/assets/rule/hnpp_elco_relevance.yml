@@ -10,6 +10,6 @@ actions:
 name: step1_familyplanning_referral
 description: familyplanning_referral
 priority: 1
-condition: "!step1_complications_known.equalsIgnoreCase('হ্যাঁ')  && step1_familyplanning_method_known.equalsIgnoreCase('হ্যাঁ')"
+condition: "step1_complications_known.equalsIgnoreCase('হ্যাঁ')  && step1_familyplanning_method_known.equalsIgnoreCase('হ্যাঁ')"
 actions:
   - "isRelevant = true"

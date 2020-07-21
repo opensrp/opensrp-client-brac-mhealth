@@ -191,18 +191,21 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
                     aaa.updatePregnancyOutcomeVisible(eventType);
                     aaa.updateAncRegisterVisible(eventType);
                 }
+                if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ELCO) && FormApplicability.isPregnant(baseEntityId)){
+                   View ancRegistration = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+                        ImageView image = ancRegistration.findViewById(R.id.image_view);
+                        TextView name =  ancRegistration.findViewById(R.id.patient_name_age);
+                        ancRegistration.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+                        image.setImageResource(R.drawable.childrow_family);
+                        name.setText("গর্ভবতী রেজিস্ট্রেশন");
+                        ancRegistration.setTag(TAG_OPEN_ANC_REGISTRATION);
+                        ancRegistration.setOnClickListener(this);
+                        otherServiceView.addView(ancRegistration);
+                }
             }
 
 
-        {View ancRegistration = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
-        ImageView image = ancRegistration.findViewById(R.id.image_view);
-        TextView name =  ancRegistration.findViewById(R.id.patient_name_age);
-        ancRegistration.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-        image.setImageResource(R.drawable.childrow_family);
-        name.setText("গর্ভবতী রেজিস্ট্রেশন");
-        ancRegistration.setTag(TAG_OPEN_ANC_REGISTRATION);
-        ancRegistration.setOnClickListener(this);
-        otherServiceView.addView(ancRegistration);}
+
 
         View familyView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
         ImageView image = familyView.findViewById(R.id.image_view);

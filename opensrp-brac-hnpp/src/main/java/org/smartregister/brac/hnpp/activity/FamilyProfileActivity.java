@@ -268,7 +268,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         menu.findItem(R.id.action_remove_member).setTitle("খানা/সদস্য বাতিল করুন");
 
         if (removeMember != null) {
-            removeMember.setVisible(false);
+            removeMember.setVisible(true);
         }
 
         if (changeFamHead != null) {
