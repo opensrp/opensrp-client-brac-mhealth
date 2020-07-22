@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.view.ViewPager;
@@ -469,18 +470,19 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                 SimPrintsVerification verifyResults = (SimPrintsVerification) data.getSerializableExtra(SimPrintsConstantHelper.INTENT_DATA);
                 String guId = verifyResults.getGuid();
                 Tier tier = verifyResults.getTier();
-                Log.v("VERIFY_SIMPRINT","verify:"+guId+":tier:"+tier);
-                if(!TextUtils.isEmpty(guId)){
+                float confidence = verifyResults.getConfidence();
+                Log.v("VERIFY_SIMPRINT","verify:"+guId+":tier:"+tier+":confidence:"+confidence);
+                if(!TextUtils.isEmpty(guId) && guId.equalsIgnoreCase(this.guId) && confidence >= HnppConstants.VERIFY_THRESHOLD){
                     isVerified = true;
                     showSuccessAlertDialog("ফিঙ্গার প্রিন্ট দ্বারা ভেরিফাইড \n নাম : "+textViewName.getText().toString());
                 }else{
                     isVerified = false;
-                    showFailAlertDialog("আঙুলের ছাপ মিলেনি ");
+                    showFailAlertDialog("আঙুলের ছাপ মেলে নি");
                 }
             }else{
                 Toast.makeText(this,"SIMPRINTS_BIOMETRICS_COMPLETE_CHECK false",Toast.LENGTH_LONG).show();
                 isVerified = false;
-                showFailAlertDialog("আঙুলের ছাপ মিলেনি ");
+                showFailAlertDialog("আঙুলের ছাপ মেলে নি");
             }
 
             return;
@@ -572,16 +574,6 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     public void openFamilyDueTab() {
         Intent intent = new Intent(this, getFamilyProfileActivity());
         intent.putExtras(getIntent().getExtras());
-
-//        intent.putExtra(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, familyBaseEntityId);
-//        intent.putExtra(Constants.INTENT_KEY.FAMILY_HEAD, familyHead);
-//        intent.putExtra(Constants.INTENT_KEY.PRIMARY_CAREGIVER, primaryCaregiver);
-//        intent.putExtra(Constants.INTENT_KEY.FAMILY_NAME, familyName);
-//        String moduleId = HnppChildUtils.getModuleId(familyHead);
-//        intent.putExtra(HnppConstants.KEY.MODULE_ID, moduleId);
-//        String villageTown = getIntent().getStringExtra(Constants.INTENT_KEY.VILLAGE_TOWN);
-//        intent.putExtra(Constants.INTENT_KEY.VILLAGE_TOWN,villageTown);
-//        intent.putExtra(DBConstants.KEY.UNIQUE_ID, getIntent().getStringExtra(DBConstants.KEY.UNIQUE_ID));
         intent.putExtra(CoreConstants.INTENT_KEY.SERVICE_DUE, true);
         startActivity(intent);
     }

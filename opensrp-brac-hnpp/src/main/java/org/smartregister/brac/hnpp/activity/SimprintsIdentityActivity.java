@@ -44,6 +44,7 @@ import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.IdentityModel;
+import org.smartregister.chw.core.utils.ChildDBConstants;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
@@ -180,17 +181,14 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
 
     }
     private void openProfile(String baseEntityId){
-        CommonRepository commonRepository = Utils.context().commonrepository("ec_family_member");
 
-        final CommonPersonObject personObject = commonRepository.findByBaseEntityId(baseEntityId);
-        final CommonPersonObjectClient patient =
-                new CommonPersonObjectClient(personObject.getCaseId(), personObject.getDetails(), "");
-        patient.setColumnmaps(personObject.getColumnmaps());
+        CommonPersonObjectClient patient = HnppDBUtils.createFromBaseEntity(baseEntityId);
+        String familyId = org.smartregister.util.Utils.getValue(patient.getColumnmaps(), ChildDBConstants.KEY.RELATIONAL_ID, false);
+        patient.getColumnmaps().put(org.smartregister.family.util.Constants.INTENT_KEY.BASE_ENTITY_ID, patient.getCaseId());
         String houseHoldHead = org.smartregister.family.util.Utils.getValue(patient.getColumnmaps(), HnppConstants.KEY.HOUSE_HOLD_NAME, true);
         String address = org.smartregister.family.util.Utils.getValue(patient.getColumnmaps(), HnppConstants.KEY.VILLAGE_NAME, true);
         String houseHoldId = org.smartregister.family.util.Utils.getValue(patient.getColumnmaps(), HnppConstants.KEY.HOUSE_HOLD_ID, true);
         String moduleId = org.smartregister.family.util.Utils.getValue(patient.getColumnmaps(), HnppConstants.KEY.MODULE_ID, true);
-        String familyId = org.smartregister.family.util.Utils.getValue(patient.getColumnmaps(),"relational_id",true);
         Intent intent = new Intent(this, HnppFamilyOtherMemberProfileActivity.class);
         intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.BASE_ENTITY_ID, patient.getCaseId());
         intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, familyId);
@@ -200,8 +198,8 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
         intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.VILLAGE_TOWN, address);
         intent.putExtra(DBConstants.KEY.UNIQUE_ID,houseHoldId);
         intent.putExtra(HnppConstants.KEY.HOUSE_HOLD_ID,moduleId);
-        intent.putExtra(HnppFamilyOtherMemberProfileActivity.IS_COMES_IDENTITY,true);
         intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_NAME, houseHoldHead);
+        intent.putExtra(HnppFamilyOtherMemberProfileActivity.IS_COMES_IDENTITY,true);
         startActivity(intent);
         finish();
 

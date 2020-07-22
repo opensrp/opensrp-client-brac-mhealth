@@ -95,7 +95,7 @@
             android:shadowDy="1"
             android:shadowRadius="0.5"
             android:textStyle="bold"
-            android:text="বাদ দিন"
+            android:text="বাদ দেই"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="18sp" />

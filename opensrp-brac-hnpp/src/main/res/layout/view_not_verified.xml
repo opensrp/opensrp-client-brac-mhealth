@@ -12,7 +12,7 @@
         android:padding="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="নিচের কোন কারণে সঠিক সদস্য পাওয়া যায়নি ?"
+        android:text="নিচের কোন কারনে আঙুলের ছাপ মেলে নি?"
         android:textColor="@color/black"
         android:textSize="18sp"/>
     <CheckBox
@@ -84,7 +84,7 @@
             android:shadowDy="1"
             android:shadowRadius="0.5"
             android:textStyle="bold"
-            android:text="অমিল অবস্থায় সেবা দিন"
+            android:text="অমিল অবস্থায় সেবা দেই"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="18sp" />

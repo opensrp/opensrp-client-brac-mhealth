@@ -67,17 +67,18 @@
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/imageview_profile"
-                           android:src="@drawable/rowavatar_member"
+                           android:layout_toRightOf="@+id/finger_print"
+                            android:src="@drawable/rowavatar_member"
                             android:layout_width="@dimen/client_profile_pic_width"
                             android:layout_height="@dimen/client_profile_pic_height"
+                            android:layout_marginLeft="-20dp"
                             app:civ_border_color="#FFFFFFFF"
                             app:civ_border_width="0dp" />
+
                         <ImageView
                             android:id="@+id/finger_print"
                             android:visibility="gone"
-                            android:layout_alignRight="@+id/imageview_profile"
-                            android:layout_alignTop="@+id/imageview_profile"
-                            android:src="@drawable/finger_print"
+                            android:src="@drawable/ic_finger"
                             android:layout_width="40dp"
                             android:layout_height="40dp"/>
 
@@ -108,8 +109,7 @@
                                 android:textStyle="bold"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/activity_title_size" />
-
-                        </RelativeLayout>
+                               </RelativeLayout>
 
 
                         <org.smartregister.view.customcontrols.CustomFontTextView

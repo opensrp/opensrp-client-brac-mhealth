@@ -30,6 +30,8 @@ import org.smartregister.util.StringUtil;
 
 import java.util.Set;
 
+import static org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity.IS_COMES_IDENTITY;
+
 public class FamilyProfileMemberFragment extends CoreFamilyProfileMemberFragment {
 
     public static BaseFamilyProfileMemberFragment newInstance(Bundle bundle) {
@@ -79,6 +81,7 @@ public class FamilyProfileMemberFragment extends CoreFamilyProfileMemberFragment
         if(StringUtils.isEmpty(DOD)){
             Intent intent = new Intent(getActivity(), getFamilyOtherMemberProfileActivityClass());
             intent.putExtras(getArguments());
+            intent.putExtra(IS_COMES_IDENTITY,false);
             intent.putExtra(Constants.INTENT_KEY.BASE_ENTITY_ID, patient.getCaseId());
             intent.putExtra(CoreConstants.INTENT_KEY.CHILD_COMMON_PERSON, patient);
             intent.putExtra(Constants.INTENT_KEY.FAMILY_HEAD, ((BaseFamilyProfileMemberPresenter) presenter).getFamilyHead());

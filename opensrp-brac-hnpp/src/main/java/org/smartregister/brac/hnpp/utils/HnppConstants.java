@@ -34,6 +34,7 @@ import java.util.Map;
 
 public class HnppConstants extends CoreConstants {
     public static final String TEST_GU_ID = "test";
+    public static final float VERIFY_THRESHOLD = 18;
     public static final String MODULE_ID_TRAINING = "TRAINING";
     public static final int MEMBER_ID_SUFFIX = 11;
     public static final int HOUSE_HOLD_ID_SUFFIX = 9;

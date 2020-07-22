@@ -25,7 +25,8 @@
     <LinearLayout
         android:id="@+id/bottom_panel"
         android:padding="10dp"
-        android:gravity="bottom"
+        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         android:layout_width="match_parent"
@@ -44,7 +45,7 @@
             android:shadowDy="1"
             android:shadowRadius="0.5"
             android:textStyle="bold"
-            android:text="বাদ দিন"
+            android:text="বাদ দেই"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="18sp" />
