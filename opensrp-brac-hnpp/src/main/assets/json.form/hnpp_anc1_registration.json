@@ -75,7 +75,17 @@
         "openmrs_entity_id": "brac_anc",
         "type": "edit_text",
         "read_only": true,
-        "hint": "এই গর্ভে ব্র্যাক হতে নেয়া পূর্ববর্তী এ.এন.সি. সেবা কয় নম্বর এ.এন.সি. ছিল?"
+
+        "edit_type": "number",
+        "hint": "এই গর্ভে ব্র্যাক হতে নেয়া পূর্ববর্তী এ.এন.সি. সেবা কয় নম্বর এ.এন.সি. ছিল?",
+        "v_numeric": {
+          "value": "true",
+          "err": "Equal or greater than 0"
+        },
+        "v_min": {
+          "value": "0",
+          "err": "Number must be equal or greater than 0"
+        }
       },
       {
         "key": "number_of_anc",
@@ -111,6 +121,20 @@
         }
       },
       {
+        "key": "diff",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_anc_calculation_rule.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "other_label_1",
         "type": "label",
         "text": "অন্য উৎস থেকে নেয়া এ.এন.সি. সেবা",
@@ -123,10 +147,9 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_anc_relevance.yml"
-            }
+          "step1:diff": {
+            "type": "numeric",
+            "ex": "greaterThanEqualTo(., \"2\")"
           }
         }
       },
@@ -136,6 +159,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "other_anc_no_1",
         "type": "edit_text",
+        "edit_type": "number",
         "read_only": true,
         "hint": "এটি কয় নম্বর এ.এন.সি. সেবা?",
         "calculation": {
@@ -146,10 +170,9 @@
           }
         },
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_anc_relevance.yml"
-            }
+          "step1:diff": {
+            "type": "numeric",
+            "ex": "greaterThanEqualTo(., \"2\")"
           }
         }
       },
@@ -174,10 +197,9 @@
           "err": "প্রশ্নের উত্তর দিন"
         },
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_anc_relevance.yml"
-            }
+          "step1:diff": {
+            "type": "numeric",
+            "ex": "greaterThanEqualTo(., \"2\")"
           }
         }
       },
@@ -194,10 +216,9 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_anc_relevance.yml"
-            }
+          "step1:diff": {
+            "type": "numeric",
+            "ex": "greaterThanEqualTo(., \"3\")"
           }
         }
       },
@@ -207,20 +228,16 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "other_anc_no_2",
         "type": "edit_text",
-        "read_only": true,
+        "edit_type": "number",
         "hint": "এটি কয় নম্বর এ.এন.সি. সেবা?",
-        "calculation": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_anc_calculation_rule.yml"
-            }
-          }
+        "v_regex": {
+          "value": "([2-6])\\s*",
+          "err": "২ থেকে ৬ পর্যন্ত"
         },
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_anc_relevance.yml"
-            }
+          "step1:diff": {
+            "type": "numeric",
+            "ex": "greaterThanEqualTo(., \"3\")"
           }
         }
       },
@@ -245,30 +262,9 @@
           "err": "প্রশ্নের উত্তর দিন"
         },
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_anc_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "other_label_3",
-        "type": "label",
-        "text": "অন্য উৎস থেকে নেয়া এ.এন.সি. সেবা",
-        "has_bg": true,
-        "left_padding": "20dp",
-        "right_padding": "20dp",
-        "text_size": "25sp",
-        "text_color": "#000000",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_anc_relevance.yml"
-            }
+          "step1:diff": {
+            "type": "numeric",
+            "ex": "greaterThanEqualTo(., \"3\")"
           }
         }
       },
@@ -278,20 +274,16 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "other_anc_no_3",
         "type": "edit_text",
-        "read_only": true,
+        "edit_type": "number",
         "hint": "এটি কয় নম্বর এ.এন.সি. সেবা?",
-        "calculation": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_anc_calculation_rule.yml"
-            }
-          }
+        "v_regex": {
+          "value": "([3-6])\\s*",
+          "err": "৩ থেকে ৬ পর্যন্ত"
         },
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_anc_relevance.yml"
-            }
+          "step1:diff": {
+            "type": "numeric",
+            "ex": "greaterThanEqualTo(., \"4\")"
           }
         }
       },
@@ -316,13 +308,13 @@
           "err": "প্রশ্নের উত্তর দিন"
         },
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_anc_relevance.yml"
-            }
+          "step1:diff": {
+            "type": "numeric",
+            "ex": "greaterThanEqualTo(., \"4\")"
           }
         }
       },
+
       {
         "key": "height",
         "openmrs_entity_parent": "",
@@ -486,7 +478,8 @@
         "type": "toaster_notes",
         "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
-        "toaster_type": "info",
+        "text_size": "20sp",
+        "toaster_type": "problem",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -530,8 +523,9 @@
         "openmrs_entity_id": "",
         "type": "toaster_notes",
         "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_size": "20sp",
         "text_color": "#FF0000",
-        "toaster_type": "info",
+        "toaster_type": "problem",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -610,7 +604,8 @@
         "type": "toaster_notes",
         "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
-        "toaster_type": "info",
+        "text_size": "20sp",
+        "toaster_type": "problem",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -668,7 +663,8 @@
         "type": "toaster_notes",
         "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
-        "toaster_type": "info",
+        "text_size": "20sp",
+        "toaster_type": "problem",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -713,7 +709,8 @@
         "type": "toaster_notes",
         "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
-        "toaster_type": "info",
+        "text_size": "20sp",
+        "toaster_type": "problem",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -759,110 +756,8 @@
         "type": "toaster_notes",
         "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_advice_relevance.yml"
-            }
-          }
-        }
-      },
-
-      {
-        "key": "has_child_movement",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "has_child_movement",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "বাচ্চার নড়াচড়া আছে কিনা ",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
-      },
-      {
-        "key": "child_movement_in_last_24hr",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "child_movement_in_last_24hr",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "বাচ্চা কি দিনে ১০ থেকে ১২ বার নড়াচড়া? ",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
-      },
-      {
-        "key": "child_movement_in_last_24hr_no",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "child_movement_in_last_24hr_no",
-        "type": "edit_text",
-        "hint": "গত ২৪ ঘন্টায় বাচ্চা কতবার নাড়াচাড়া করেছে?",
-        "v_numeric": {
-          "value": "true",
-          "err": "Enter a valid Number"
-        },
-        "v_regex": {
-          "value": "[0-9]*",
-          "err": "দশমিক অনুমোদিত নয়"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "step1:child_movement_in_last_24hr": {
-            "type": "string",
-            "ex": "equalTo(., \"না\")"
-          }
-        }
-      },
-      {
-        "key": "advice_toaster_24hr_6",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
-        "text_color": "#FF0000",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "advice_toaster_24hr_8",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "মা-বাম কাঁধে শুয়ে থাকবে, শরবত খাবে এবং বিশ্রাম নেবে",
-        "text_color": "#1199F9",
-        "toaster_type": "info",
+        "text_size": "20sp",
+        "toaster_type": "problem",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -1048,7 +943,8 @@
         "type": "toaster_notes",
         "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
-        "toaster_type": "info",
+        "text_size": "20sp",
+        "toaster_type": "problem",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -1087,7 +983,8 @@
         "type": "toaster_notes",
         "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
-        "toaster_type": "info",
+        "text_size": "20sp",
+        "toaster_type": "problem",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -1145,7 +1042,8 @@
         "type": "toaster_notes",
         "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
-        "toaster_type": "info",
+        "text_size": "20sp",
+        "toaster_type": "problem",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -1183,7 +1081,8 @@
         "type": "toaster_notes",
         "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
-        "toaster_type": "info",
+        "text_size": "20sp",
+        "toaster_type": "problem",
         "relevance": {
           "step1:albumin_test": {
             "type": "string",
@@ -1254,7 +1153,8 @@
         "type": "toaster_notes",
         "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
-        "toaster_type": "info",
+        "text_size": "20sp",
+        "toaster_type": "problem",
         "relevance": {
           "step1:bilirubin_test": {
             "type": "string",

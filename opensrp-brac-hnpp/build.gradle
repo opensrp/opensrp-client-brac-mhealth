@@ -89,7 +89,7 @@ android {
             buildConfigField "int", "PULL_SSLOCATION", '180'
             buildConfigField "int", "REPORT_INDICATOR_GENERATION_MINUTES", '15'
             buildConfigField "int", "HOME_VISIT_MINUTES", '10'
-            buildConfigField "String", 'opensrp_url_training', '"http://192.168.19.146:8080/opensrp/"'
+            buildConfigField "String", 'opensrp_url_training', '"http://hnpptest.mpower-social.com:8080/opensrp/"'
 
             testCoverageEnabled true
         }

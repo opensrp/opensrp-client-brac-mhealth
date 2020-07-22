@@ -227,6 +227,25 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         }
 
     }
+    public static void addLastPnc(JSONObject jsonForm,String baseEntityId){
+        JSONObject stepOne = null;
+        try {
+
+            stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+            JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+            String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(baseEntityId+"_BRAC_PNC");
+            String preCountvalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(baseEntityId+"_TOTAL_ANC");
+
+            updateFormField(jsonArray, "brac_pnc", TextUtils.isEmpty(prevalue)?"0":prevalue);
+            updateFormField(jsonArray, "anc_count", TextUtils.isEmpty(preCountvalue)?"0":prevalue);
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
     public static void addMaritalStatus(JSONObject jsonForm,String maritalStatus){
             JSONObject stepOne = null;
             try {

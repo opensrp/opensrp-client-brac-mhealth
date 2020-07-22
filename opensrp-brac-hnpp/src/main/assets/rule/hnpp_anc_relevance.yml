@@ -1,63 +1,21 @@
 ---
 name: step1_other_label_1
-description: q3-q2>1
-priority: 1
-condition: "step1_number_of_anc - step1_brac_anc>1"
+description: q3-q2 grater 1
+priority: 3
+condition: "(step1_number_of_anc - step1_brac_anc)>1"
 actions:
   - "isRelevant = true"
 ---
 name: step1_other_anc_no_1
-description: q3-q2>1
-priority: 1
-condition: "step1_number_of_anc - step1_brac_anc>1"
+description: q3-q2grater1
+priority: 3
+condition: "(step1_number_of_anc - step1_brac_anc)>1"
 actions:
   - "isRelevant = true"
 ---
 name: step1_other_source_anc_1
-description: q3-q2>1
-priority: 1
-condition: "step1_number_of_anc - step1_brac_anc>1"
-actions:
-  - "isRelevant = true"
----
-name: step1_other_label_2
-description: q3-q2>2
-priority: 1
-condition: "step1_number_of_anc - step1_brac_anc>2"
-actions:
-  - "isRelevant = true"
----
-name: step1_other_anc_no_2
-description: q3-q2>2
-priority: 1
-condition: "step1_number_of_anc - step1_brac_anc>2"
-actions:
-  - "isRelevant = true"
----
-name: step1_other_source_anc_2
-description: q3-q2>2
-priority: 1
-condition: "step1_number_of_anc - step1_brac_anc>2"
-actions:
-  - "isRelevant = true"
----
-name: step1_other_label_3
-description: q3-q2>3
-priority: 1
-condition: "step1_number_of_anc - step1_brac_anc>3"
-actions:
-  - "isRelevant = true"
----
-name: step1_other_anc_no_3
-description: q3-q2>3
-priority: 1
-condition: "step1_number_of_anc - step1_brac_anc>3"
-actions:
-  - "isRelevant = true"
----
-name: step1_other_source_anc_3
-description: q3-q2>3
-priority: 1
-condition: "step1_number_of_anc - step1_brac_anc>3"
+description: q3-q2grater1
+priority: 3
+condition: "(step1_number_of_anc - step1_brac_anc)>1"
 actions:
   - "isRelevant = true"

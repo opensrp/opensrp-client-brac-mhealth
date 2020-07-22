@@ -85,8 +85,9 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ পরামর্শ নিন ",
-        "text_color": "#CF0800",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "text_size": "20sp",
         "toaster_type": "problem",
         "relevance": {
           "step1:high_blood_pressure": {
@@ -122,8 +123,9 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ পরামর্শ নিন ",
-        "text_color": "#CF0800",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "text_size": "20sp",
         "toaster_type": "problem",
         "relevance": {
           "step1:diabetes": {
@@ -159,8 +161,9 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ পরামর্শ নিন ",
-        "text_color": "#CF0800",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "text_size": "20sp",
         "toaster_type": "problem",
         "relevance": {
           "step1:heart_disease": {
@@ -197,8 +200,9 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ পরামর্শ নিন ",
-        "text_color": "#CF0800",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "text_size": "20sp",
         "toaster_type": "problem",
         "relevance": {
           "step1:asthma": {
@@ -234,8 +238,9 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ পরামর্শ নিন ",
-        "text_color": "#CF0800",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "text_size": "20sp",
         "toaster_type": "problem",
         "relevance": {
           "step1:kidney_disease": {
@@ -271,8 +276,9 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ পরামর্শ নিন ",
-        "text_color": "#CF0800",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "text_size": "20sp",
         "toaster_type": "problem",
         "relevance": {
           "step1:tuberculosis": {

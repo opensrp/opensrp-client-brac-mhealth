@@ -103,7 +103,8 @@
         "type": "toaster_notes",
         "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
-        "toaster_type": "info",
+        "text_size": "20sp",
+        "toaster_type": "problem",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -181,7 +182,8 @@
         "type": "toaster_notes",
         "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
-        "toaster_type": "info",
+        "text_size": "20sp",
+        "toaster_type": "problem",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -222,7 +224,8 @@
         "type": "toaster_notes",
         "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
-        "toaster_type": "info",
+        "text_size": "20sp",
+        "toaster_type": "problem",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -256,7 +259,8 @@
         "type": "toaster_notes",
         "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
-        "toaster_type": "info",
+        "text_size": "20sp",
+        "toaster_type": "problem",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -290,7 +294,8 @@
         "type": "toaster_notes",
         "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
-        "toaster_type": "info",
+        "text_size": "20sp",
+        "toaster_type": "problem",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -324,7 +329,8 @@
         "type": "toaster_notes",
         "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
-        "toaster_type": "info",
+        "text_size": "20sp",
+        "toaster_type": "problem",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -358,7 +364,8 @@
         "type": "toaster_notes",
         "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
-        "toaster_type": "info",
+        "text_size": "20sp",
+        "toaster_type": "problem",
         "relevance": {
           "rules-engine": {
             "ex-rules": {

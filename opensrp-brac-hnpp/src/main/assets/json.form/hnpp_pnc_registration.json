@@ -59,6 +59,25 @@
         "value": "hnpp_pnc_registration"
       },
       {
+        "key": "anc_count",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden"
+      },
+      {
+        "key": "brac_pnc",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "brac_pnc",
+        "type": "edit_text",
+        "read_only": true,
+
+        "edit_type": "number",
+        "hint": "ব্র্যাক হতে নেয়া পূর্ববর্তী পি.এন.সি. সেবা কয় নম্বর পি.এন.সি. ছিল? "
+
+      },
+      {
         "key": "number_of_pnc",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -81,6 +100,249 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "diff",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_pnc_calculation_rule.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "other_label_1",
+        "type": "label",
+        "text": "অন্য উৎস থেকে নেয়া পি.এন.সি. সেবা",
+        "has_bg": true,
+        "left_padding": "20dp",
+        "right_padding": "20dp",
+        "text_size": "25sp",
+        "text_color": "#000000",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "relevance": {
+          "step1:diff": {
+            "type": "numeric",
+            "ex": "greaterThanEqualTo(., \"2\")"
+          }
+        }
+      },
+      {
+        "key": "other_pnc_no_1",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "other_pnc_no_1",
+        "type": "edit_text",
+        "edit_type": "number",
+        "read_only": true,
+        "hint": "এটি কয় নম্বর পি.এন.সি. সেবা?",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_pnc_calculation_rule.yml"
+            }
+          }
+        },
+        "relevance": {
+          "step1:diff": {
+            "type": "numeric",
+            "ex": "greaterThanEqualTo(., \"2\")"
+          }
+        }
+      },
+      {
+        "key": "other_source_pnc_1",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "other_source_pnc_1",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "উৎস",
+        "values": [
+          "সরকারি",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "সরকারি": "Govt",
+          "অন্যান্য": "other"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "step1:diff": {
+            "type": "numeric",
+            "ex": "greaterThanEqualTo(., \"2\")"
+          }
+        }
+      },
+      {
+        "key": "other_label_2",
+        "type": "label",
+        "text": "অন্য উৎস থেকে নেয়া পি.এন.সি. সেবা",
+        "has_bg": true,
+        "left_padding": "20dp",
+        "right_padding": "20dp",
+        "text_size": "25sp",
+        "text_color": "#000000",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "relevance": {
+          "step1:diff": {
+            "type": "numeric",
+            "ex": "greaterThanEqualTo(., \"3\")"
+          }
+        }
+      },
+      {
+        "key": "other_pnc_no_2",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "other_pnc_no_2",
+        "type": "edit_text",
+        "edit_type": "number",
+        "read_only": true,
+        "hint": "এটি কয় নম্বর পি.এন.সি. সেবা?",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_pnc_calculation_rule.yml"
+            }
+          }
+        },
+        "relevance": {
+          "step1:diff": {
+            "type": "numeric",
+            "ex": "greaterThanEqualTo(., \"3\")"
+          }
+        }
+      },
+      {
+        "key": "other_source_pnc_2",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "other_source_pnc_2",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "উৎস",
+        "values": [
+          "সরকারি",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "সরকারি": "Govt",
+          "অন্যান্য": "other"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "step1:diff": {
+            "type": "numeric",
+            "ex": "greaterThanEqualTo(., \"3\")"
+          }
+        }
+      },
+      {
+        "key": "other_label_3",
+        "type": "label",
+        "text": "অন্য উৎস থেকে নেয়া পি.এন.সি. সেবা",
+        "has_bg": true,
+        "left_padding": "20dp",
+        "right_padding": "20dp",
+        "text_size": "25sp",
+        "text_color": "#000000",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "relevance": {
+          "step1:diff": {
+            "type": "numeric",
+            "ex": "greaterThanEqualTo(., \"4\")"
+          }
+        }
+      },
+      {
+        "key": "other_pnc_no_3",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "other_pnc_no_3",
+        "type": "edit_text",
+        "edit_type": "number",
+        "read_only": true,
+        "hint": "এটি কয় নম্বর পি.এন.সি. সেবা?",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_pnc_calculation_rule.yml"
+            }
+          }
+        },
+        "relevance": {
+          "step1:diff": {
+            "type": "numeric",
+            "ex": "greaterThanEqualTo(., \"4\")"
+          }
+        }
+      },
+      {
+        "key": "other_source_pnc_3",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "other_source_pnc_3",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "উৎস",
+        "values": [
+          "সরকারি",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "সরকারি": "Govt",
+          "অন্যান্য": "other"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "step1:diff": {
+            "type": "numeric",
+            "ex": "greaterThanEqualTo(., \"4\")"
+          }
+        }
+      },
+      {
+        "key": "total_anc",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "total_anc",
+        "type": "edit_text",
+        "hint": "গর্ভবতী অবস্থায় মোট কয়টি এ.এন .সি. সেবা নিয়েছে?",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "step1:anc_count": {
+            "type": "numeric",
+            "ex": "equalTo(., \"0\")"
+          }
         }
       },
       {
@@ -206,7 +468,8 @@
         "type": "toaster_notes",
         "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
-        "toaster_type": "info",
+        "text_size": "20sp",
+        "toaster_type": "problem",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -256,7 +519,8 @@
         "type": "toaster_notes",
         "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
-        "toaster_type": "info",
+        "text_size": "20sp",
+        "toaster_type": "problem",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -293,7 +557,8 @@
         "type": "toaster_notes",
         "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
-        "toaster_type": "info",
+        "text_size": "20sp",
+        "toaster_type": "problem",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -498,7 +763,8 @@
         "type": "toaster_notes",
         "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
-        "toaster_type": "info",
+        "text_size": "20sp",
+        "toaster_type": "problem",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -554,7 +820,8 @@
         "type": "toaster_notes",
         "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
-        "toaster_type": "info",
+        "text_size": "20sp",
+        "toaster_type": "problem",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -631,7 +898,8 @@
         "type": "toaster_notes",
         "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
-        "toaster_type": "info",
+        "text_size": "20sp",
+        "toaster_type": "problem",
         "relevance": {
           "rules-engine": {
             "ex-rules": {

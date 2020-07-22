@@ -9,10 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.smartregister.brac.hnpp.R;
-import org.smartregister.brac.hnpp.holder.DashBoardViewHolder;
 import org.smartregister.brac.hnpp.holder.SearchViewHolder;
 import org.smartregister.brac.hnpp.model.HHMemberProperty;
-import org.smartregister.brac.hnpp.utils.DashBoardData;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 
 import java.util.ArrayList;
@@ -51,9 +49,9 @@ public class SearchHHMemberAdapter extends RecyclerView.Adapter<SearchViewHolder
         }else{
             viewHolder.checkBox.setVisibility(View.VISIBLE);
             if(selectedId.contains(content.getId())){
-                viewHolder.checkBox.setImageResource(R.drawable.ic_checked);
+                viewHolder.checkBox.setImageResource(R.drawable.ic_checked_f);
             }else{
-                viewHolder.checkBox.setImageResource(R.drawable.ic_unchecked);
+                viewHolder.checkBox.setImageResource(R.drawable.ic_unchecked_f);
             }
         }
 

@@ -84,8 +84,9 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ পরামর্শ নিন ",
-        "text_color": "#CF0800",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "text_size": "20sp",
         "toaster_type": "problem",
         "relevance": {
           "step1:abortion_mr": {
@@ -120,8 +121,9 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ পরামর্শ নিন ",
-        "text_color": "#CF0800",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "text_size": "20sp",
         "toaster_type": "problem",
         "relevance": {
           "step1:still_birth": {
@@ -156,8 +158,9 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ পরামর্শ নিন ",
-        "text_color": "#CF0800",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "text_size": "20sp",
         "toaster_type": "problem",
         "relevance": {
           "step1:c_section": {
@@ -192,8 +195,9 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ পরামর্শ নিন ",
-        "text_color": "#CF0800",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "text_size": "20sp",
         "toaster_type": "problem",
         "relevance": {
           "step1:obsessive_compulsive_disorder": {
@@ -228,8 +232,9 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ পরামর্শ নিন ",
-        "text_color": "#CF0800",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "text_size": "20sp",
         "toaster_type": "problem",
         "relevance": {
           "step1:postnatal_bleeding": {

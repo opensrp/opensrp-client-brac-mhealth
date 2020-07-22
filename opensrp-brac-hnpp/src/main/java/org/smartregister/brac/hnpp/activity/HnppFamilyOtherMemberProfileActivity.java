@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -239,8 +240,10 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
            if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.GIRL_PACKAGE)){
                HnppJsonFormUtils.addMaritalStatus(jsonForm,maritalStatus);
            }
-           else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM) || formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM)){
+           else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM) || formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM) || formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM)){
                HnppJsonFormUtils.addLastAnc(jsonForm,baseEntityId);
+           } else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM)){
+               HnppJsonFormUtils.addLastPnc(jsonForm,baseEntityId);
            }
 
 //           if(formName.contains("anc"))
@@ -324,11 +327,12 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             JSONObject form = new JSONObject(jsonString);
             String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
                 type = HnppJsonFormUtils.getEncounterType(type);
-                if(type.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION) ||
-                        type.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION) ||
-                        type.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
-                    HnppJsonFormUtils.updateLastBracAnc(form,baseEntityId);
-                }
+                Log.v("BRAC_","type:"+type);
+//                if(type.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION) ||
+//                        type.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION) ||
+//                        type.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
+//                    HnppJsonFormUtils.updateLastBracAnc(form,baseEntityId);
+//                }
             // persist to database
 
                 Map<String, String> jsonStrings = new HashMap<>();

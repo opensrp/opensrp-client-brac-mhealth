@@ -166,18 +166,49 @@ public class VisitLogIntentService extends IntentService {
                                 || ANC3_REGISTRATION.equalsIgnoreCase(encounter_type)){
                                 if(details.containsKey("brac_anc") && !StringUtils.isEmpty(details.get("brac_anc"))){
                                     String ancValue = details.get("brac_anc");
+                                    Log.v("BRAC_ANC","ancValue:"+ancValue);
                                     String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(base_entity_id+"_BRAC_ANC");
+                                    Log.v("BRAC_ANC","prevalue:"+prevalue);
                                     if(!TextUtils.isEmpty(prevalue)){
                                         int lastValue = Integer.parseInt(prevalue);
                                         int ancValueInt = Integer.parseInt(ancValue);
-                                        if(ancValueInt > lastValue){
-                                            FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",ancValueInt+"");
+                                        Log.v("BRAC_ANC","lastValue:"+lastValue+":ancValueInt:"+ancValueInt);
+                                        if(ancValueInt >= lastValue){
+                                            Log.v("BRAC_ANC","updated ancValueInt:"+ancValueInt);
+
+                                            FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",(ancValueInt+1)+"");
                                         }
+                                    }else{
+                                        FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",1+"");
+                                    }
+                                }
+                            }
+                            if(PNC_REGISTRATION.equalsIgnoreCase(encounter_type)){
+                                if(details.containsKey("brac_pnc") && !StringUtils.isEmpty(details.get(""))){
+                                    String ancValue = details.get("brac_pnc");
+                                    String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(base_entity_id+"_BRAC_PNC");
+                                    if(!TextUtils.isEmpty(prevalue)){
+                                        int lastValue = Integer.parseInt(prevalue);
+                                        int ancValueInt = Integer.parseInt(ancValue);
+                                        if(ancValueInt >= lastValue){
+                                            FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_PNC",(ancValueInt+1)+"");
+                                        }
+                                    }else{
+                                        FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_PNC",1+"");
+                                    }
+                                }
+                                if(details.containsKey("total_anc") && !StringUtils.isEmpty(details.get(""))){
+                                    String ancValue = details.get("total_anc");
+                                    if(!TextUtils.isEmpty(ancValue)){
+                                        int count = Integer.parseInt(ancValue);
+                                        FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_TOTAL_ANC",count+"");
+
                                     }
                                 }
                             }
                             if(ANC_REGISTRATION.equalsIgnoreCase(encounter_type)){
                                 FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",0+"");
+                                FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_PNC",0+"");
 
                             }
                             if(HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)){

@@ -260,7 +260,7 @@ public class HnppVisitLogRepository extends BaseRepository {
         ArrayList<VisitLog> visits = getAllVisitLog(cursor);
         if(visits!=null && visits.size()>0){
             String pregnantStatus = visits.get(0).pregnantStatus;
-            if(pregnantStatus.equalsIgnoreCase("গর্ভবতী")){
+            if(pregnantStatus.equalsIgnoreCase("pregnant")){
                 return true;
             }
 
