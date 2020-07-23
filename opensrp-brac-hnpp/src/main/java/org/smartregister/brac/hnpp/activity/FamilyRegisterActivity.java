@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.bottomnavigation.LabelVisibilityMode;
 import android.support.design.widget.BottomNavigationView;
+import android.view.View;
 import android.widget.Toast;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
@@ -17,6 +18,7 @@ import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.listener.HnppBottomNavigationListener;
+import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.model.HnppFamilyRegisterModel;
 import org.smartregister.brac.hnpp.model.HnppNavigationModel;
 import org.smartregister.brac.hnpp.presenter.FamilyRegisterPresenter;
@@ -39,6 +41,8 @@ import org.smartregister.immunization.service.intent.VaccineIntentService;
 import org.smartregister.simprint.SimPrintsLibrary;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 
+
+import java.util.ArrayList;
 
 import timber.log.Timber;
 
@@ -81,7 +85,6 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
         if (!BuildConfig.SUPPORT_QR) {
             bottomNavigationView.getMenu().removeItem(org.smartregister.family.R.id.action_scan_qr);
         }
-
         bottomNavigationView.setOnNavigationItemSelectedListener(new HnppFamilyBottomNavListener(this, bottomNavigationView));
     }
     NavigationMenu navigationMenu;
@@ -103,6 +106,25 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
                 HnppApplication.getHNPPInstance().getHnppNavigationModel());
 
         HnppApplication.getHNPPInstance().setupNavigation(hnppNavigationPresenter);
+        ArrayList<SSModel> ssLocationForms = SSLocationHelper.getInstance().getSsModels();
+        if(ssLocationForms.size() > 0){
+           boolean simPrintsEnable = ssLocationForms.get(0).simprints_enable;
+           if(simPrintsEnable){
+               findViewById(R.id.simprints_identity).setVisibility(View.VISIBLE);
+               findViewById(R.id.simprints_identity).setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View v) {
+                       Intent intent = new Intent(FamilyRegisterActivity.this, SimprintsIdentityActivity.class);
+                       intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                       startActivity(intent);
+                       overridePendingTransition(org.smartregister.chw.core.R.anim.slide_in_up, org.smartregister.chw.core.R.anim.slide_out_up);
+                   }
+               });
+           }else{
+               findViewById(R.id.simprints_identity).setVisibility(View.GONE);
+           }
+        }
+
         //HnppApplication.getInstance().notifyAppContextChange(); // initialize the language (bug in translation)
         action = getIntent().getStringExtra(CoreConstants.ACTIVITY_PAYLOAD.ACTION);
         if (action != null && action.equals(CoreConstants.ACTION.START_REGISTRATION)) {

@@ -156,7 +156,11 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
         });
         checkBox5.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked){
-                addCheckedText(checkBox5.getText().toString());
+                checkBox1.setChecked(false);
+                checkBox2.setChecked(false);
+                checkBox3.setChecked(false);
+                checkBox4.setChecked(false);
+                checkedItem = checkBox5.getText().toString();
             }
         });
         close_btn.setOnClickListener(new View.OnClickListener() {

@@ -39,6 +39,8 @@ import org.smartregister.brac.hnpp.fragment.HnppMemberProfileDueFragment;
 import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
 import org.smartregister.brac.hnpp.fragment.MemberOtherServiceFragment;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
+import org.smartregister.brac.hnpp.location.SSLocationHelper;
+import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.utils.ANCRegister;
@@ -72,6 +74,7 @@ import org.smartregister.util.JsonFormUtils;
 import org.smartregister.view.contract.BaseProfileContract;
 import org.smartregister.view.customcontrols.CustomFontTextView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -135,10 +138,19 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         }
        moduleId = HnppDBUtils.getModuleId(familyHead);
         guId = HnppDBUtils.getGuid(baseEntityId);
+
         Log.v("VERIFY_SIMPRINT","moduleId:"+moduleId+":guid:"+guId+":baseEntityId:"+baseEntityId);
         if(!TextUtils.isEmpty(guId) && !guId.equalsIgnoreCase(HnppConstants.TEST_GU_ID)){
-            findViewById(R.id.finger_print).setVisibility(View.VISIBLE);
-            verificationNeeded = true;
+            ArrayList<SSModel> ssLocationForms = SSLocationHelper.getInstance().getSsModels();
+            boolean simPrintsEnable = false;
+            if(ssLocationForms.size() > 0){
+                simPrintsEnable = ssLocationForms.get(0).simprints_enable;
+            }
+            if(simPrintsEnable){
+                findViewById(R.id.finger_print).setVisibility(View.GONE);
+                verificationNeeded = true;
+            }
+
 
         }
 
@@ -283,7 +295,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         requestedFormName = formName;
         requestedRequestCode = requestCode;
         if(!ignoreSimprintCheck && isNeedToVerify()){
-            startSimprintVerify();
+            showVerifyDialog();
             return;
 
         }
@@ -360,8 +372,8 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             Timber.e(e);
         }
     }
-    private void showFailAlertDialog(String message){
-        new AlertDialog.Builder(this).setMessage(message)
+    private void showFailAlertDialog(String message, String threshold){
+        new AlertDialog.Builder(this).setMessage(message+"\n threshold value: "+threshold)
                 .setTitle("ফিঙ্গার প্রিন্ট ভেরিফিকেশন রেজাল্ট").setCancelable(false)
                 .setPositiveButton("আরেকবার চেষ্টা করি", new DialogInterface.OnClickListener() {
                     @Override
@@ -377,10 +389,10 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             }
         }).show();
     }
-    private void showSuccessAlertDialog(String message){
-        new AlertDialog.Builder(this).setMessage(message)
+    private void showSuccessAlertDialog(String message, String threshold){
+        new AlertDialog.Builder(this).setMessage(message+"\n threshold value: "+threshold)
                 .setTitle("ফিঙ্গার প্রিন্ট ভেরিফিকেশন রেজাল্ট").setCancelable(false)
-                .setNegativeButton("Processed", new DialogInterface.OnClickListener() {
+                .setNegativeButton("প্রক্রিয়াজাত", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
 
                         dialog.dismiss();
@@ -431,7 +443,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 
         checkBox5.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked){
-                addCheckedText(checkBox5.getText().toString());
+                checkBox1.setChecked(false);
+                checkBox2.setChecked(false);
+                checkedItem = checkBox5.getText().toString();
             }
         });
         service_btn.setOnClickListener(new View.OnClickListener() {
@@ -453,6 +467,30 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         dialog.show();
 
     }
+    private void showVerifyDialog(){
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_before_verify);
+        Button verify_btn = dialog.findViewById(R.id.verify_btn);
+        verify_btn.setText(textViewName.getText().toString()+" কে যাচাই করি");
+        ImageView imageView = dialog.findViewById(R.id.finger_print);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                startSimprintVerify();
+            }
+        });
+        verify_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                startSimprintVerify();
+            }
+        });
+        dialog.show();
+
+    }
     public void startSimprintVerify(){
         if(!TextUtils.isEmpty(moduleId)){
             SimPrintsVerifyActivity.startSimprintsVerifyActivity(HnppFamilyOtherMemberProfileActivity.this,moduleId,guId,REQUEST_SIMPRINTS_VERIFY);
@@ -464,7 +502,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        ignoreSimprintCheck = false;
+        //ignoreSimprintCheck = false;
         if(requestCode == REQUEST_SIMPRINTS_VERIFY ){
             if(resultCode == Activity.RESULT_OK){
                 SimPrintsVerification verifyResults = (SimPrintsVerification) data.getSerializableExtra(SimPrintsConstantHelper.INTENT_DATA);
@@ -474,15 +512,15 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                 Log.v("VERIFY_SIMPRINT","verify:"+guId+":tier:"+tier+":confidence:"+confidence);
                 if(!TextUtils.isEmpty(guId) && guId.equalsIgnoreCase(this.guId) && confidence >= HnppConstants.VERIFY_THRESHOLD){
                     isVerified = true;
-                    showSuccessAlertDialog("ফিঙ্গার প্রিন্ট দ্বারা ভেরিফাইড \n নাম : "+textViewName.getText().toString());
+                    showSuccessAlertDialog("ফিঙ্গার প্রিন্ট দ্বারা ভেরিফাইড \n নাম : "+textViewName.getText().toString(),confidence+"");
                 }else{
                     isVerified = false;
-                    showFailAlertDialog("আঙুলের ছাপ মেলে নি");
+                    showFailAlertDialog("আঙুলের ছাপ মেলে নি",confidence+"");
                 }
             }else{
                 Toast.makeText(this,"SIMPRINTS_BIOMETRICS_COMPLETE_CHECK false",Toast.LENGTH_LONG).show();
                 isVerified = false;
-                showFailAlertDialog("আঙুলের ছাপ মেলে নি");
+                showFailAlertDialog("আঙুলের ছাপ মেলে নি","not found");
             }
 
             return;
@@ -601,8 +639,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     private boolean ignoreSimprintCheck = false;
     public void openReferealFollowUp(ReferralFollowUpModel referralFollowUpModel) {
         this.referralFollowUpModel = referralFollowUpModel;
+
         if(!ignoreSimprintCheck && isNeedToVerify()){
-            startSimprintVerify();
+            showVerifyDialog();
             return;
         }
 
@@ -643,8 +682,8 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 
     public void openHomeVisitForm(){
         needToStartHomeVisit = true;
-        if(isNeedToVerify()){
-            startSimprintVerify();
+        if(!ignoreSimprintCheck && isNeedToVerify()){
+            showVerifyDialog();
             return;
         }
         needToStartHomeVisit = false;
