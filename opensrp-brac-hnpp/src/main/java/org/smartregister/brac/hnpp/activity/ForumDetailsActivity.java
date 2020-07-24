@@ -25,6 +25,7 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
     private CustomFontTextView textViewForumName,textViewKhanaName;
     private String fromType;
     private RecyclerView recyclerView;
+    private
 
     public static void startDetailsActivity(Activity activity, String comesFrom, String title){
         Intent intent  = new Intent(activity,ForumDetailsActivity.class);
@@ -63,12 +64,13 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
                 SearchHHMemberActivity.startSearchActivity(this, HnppConstants.SEARCH_TYPE.HH.toString(),new ArrayList<>(),RESULT_CODE_HH);
                 break;
             case R.id.add_member_btn:
-                SearchHHMemberActivity.startSearchActivity(this,fromType,new ArrayList<>(),RESULT_CODE_MEMBER);
+                SearchHHMemberActivity.startSearchActivity(this,fromType,hhMemberPropertyArrayList,RESULT_CODE_MEMBER);
 
                 break;
         }
 
     }
+    ArrayList<HHMemberProperty> hhMemberPropertyArrayList = new ArrayList<>();
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -81,7 +83,7 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
 
             }
         }else if(resultCode == RESULT_OK && requestCode == RESULT_CODE_MEMBER){
-            ArrayList<HHMemberProperty> hhMemberPropertyArrayList = (ArrayList<HHMemberProperty>) data.getSerializableExtra(EXTRA_INTENT_DATA);
+            hhMemberPropertyArrayList = (ArrayList<HHMemberProperty>) data.getSerializableExtra(EXTRA_INTENT_DATA);
             SearchHHMemberAdapter adapter = new SearchHHMemberAdapter(this, new SearchHHMemberAdapter.OnClickAdapter() {
                 @Override
                 public void onClick(int position, HHMemberProperty content) {
@@ -93,7 +95,7 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
 
                 }
             },"");
-            adapter.setData(hhMemberPropertyArrayList);
+            adapter.setData(hhMemberPropertyArrayList,new ArrayList<>());
             recyclerView.setAdapter(adapter);
 
         }

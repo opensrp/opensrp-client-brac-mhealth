@@ -29,9 +29,14 @@ public class SearchHHMemberAdapter extends RecyclerView.Adapter<SearchViewHolder
         contentList = new ArrayList<>();
     }
 
-    public void setData(ArrayList<HHMemberProperty> contentList) {
+    public void setData(ArrayList<HHMemberProperty> contentList,ArrayList<HHMemberProperty> previousList) {
         this.contentList.clear();
         this.contentList.addAll(contentList);
+        for(HHMemberProperty pre:previousList){
+            if(!selectedId.contains(pre.getId())){
+                selectedId.add(pre.getId());
+            }
+        }
     }
 
     @NonNull

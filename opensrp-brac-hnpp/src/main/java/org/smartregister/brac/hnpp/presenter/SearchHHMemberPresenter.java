@@ -17,6 +17,9 @@ public class SearchHHMemberPresenter implements SearchHHMemberContract.Presenter
     public ArrayList<HHMemberProperty> getSelectedList() {
         return selectedList;
     }
+    public void updatePreviousSelectedList(ArrayList<HHMemberProperty> previousList){
+        selectedList  = previousList;
+    }
 
     public SearchHHMemberPresenter(SearchHHMemberContract.View view){
         this.view = view;
@@ -111,14 +114,16 @@ public class SearchHHMemberPresenter implements SearchHHMemberContract.Presenter
     public void updateList(HHMemberProperty hhMemberProperty){
         if(selectedList.size() == 0){
             selectedList.add(hhMemberProperty);
-        }
-        for (Iterator<HHMemberProperty> it = selectedList.iterator(); it.hasNext();){
-            HHMemberProperty prev = it.next();
-            if (prev.getBaseEntityId().equals(hhMemberProperty.getBaseEntityId())){
-                it.remove();
-            }else{
-                selectedList.add(hhMemberProperty);
+        }else{
+            for (Iterator<HHMemberProperty> it = selectedList.iterator(); it.hasNext();){
+                HHMemberProperty prev = it.next();
+                if (prev.getBaseEntityId().equals(hhMemberProperty.getBaseEntityId())){
+                    it.remove();
+                }else{
+                    selectedList.add(hhMemberProperty);
+                }
             }
         }
+
     }
 }

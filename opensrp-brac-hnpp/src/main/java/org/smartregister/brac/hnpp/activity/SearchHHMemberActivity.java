@@ -35,6 +35,7 @@ public class SearchHHMemberActivity extends SecuredActivity implements View.OnCl
     SearchHHMemberPresenter presenter;
     private RecyclerView recyclerView;
     SearchHHMemberAdapter searchHHMemberAdapter;
+    ArrayList<HHMemberProperty> previousList = new ArrayList<>();
     public static void startSearchActivity(Activity activity, String searchType, ArrayList<HHMemberProperty> memberPropertyArrayList, int resultCode){
         Intent intent = new Intent(activity,SearchHHMemberActivity.class);
         intent.putExtra(EXTRA_TYPE_FOR,searchType);
@@ -57,12 +58,17 @@ public class SearchHHMemberActivity extends SecuredActivity implements View.OnCl
         findViewById(R.id.backBtn).setOnClickListener(this);
         findViewById(R.id.add_btn).setOnClickListener(this);
         searchType = getIntent().getStringExtra(EXTRA_TYPE_FOR);
+        previousList = (ArrayList<HHMemberProperty> )getIntent().getSerializableExtra(EXTRA_INTENT_DATA);
         if(searchType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.HH.toString())){
             title.setText("খানা খুজুন");
         }else{
             title.setText("সদস্য খুজুন");
         }
+
         presenter = new SearchHHMemberPresenter(this);
+        if(previousList.size() > 0){
+            presenter.updatePreviousSelectedList(previousList);
+        }
         showFilterDialog();
 
     }
@@ -140,7 +146,7 @@ public class SearchHHMemberActivity extends SecuredActivity implements View.OnCl
                 sendData();
             }
         },searchType);
-        searchHHMemberAdapter.setData(list);
+        searchHHMemberAdapter.setData(list,previousList);
         recyclerView.setAdapter(searchHHMemberAdapter);
 
     }
