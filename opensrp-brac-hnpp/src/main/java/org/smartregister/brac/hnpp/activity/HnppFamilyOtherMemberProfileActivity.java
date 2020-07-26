@@ -130,8 +130,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
         HnppConstants.isViewRefresh = false;
     }
+    boolean isComesFromIdentity;
     private void updateFingerPrintIcon(){
-        boolean isComesFromIdentity = getIntent().getBooleanExtra(IS_COMES_IDENTITY,false);
+        isComesFromIdentity = getIntent().getBooleanExtra(IS_COMES_IDENTITY,false);
         if(isComesFromIdentity){
             isVerified = true;
             verificationNeeded = true;
@@ -546,7 +547,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             // persist to database
 
 
-                visit = HnppJsonFormUtils.saveVisit(verificationNeeded, isVerified,checkedItem, baseEntityId, type, jsonStrings, "");
+                visit = HnppJsonFormUtils.saveVisit(isComesFromIdentity,verificationNeeded, isVerified,checkedItem, baseEntityId, type, jsonStrings, "");
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -79,7 +79,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
     private static VisitRepository visitRepository() {
         return AncLibrary.getInstance().visitRepository();
     }
-    public static Visit saveVisit(boolean needVerified,boolean isVerified, String notVerifyCause,String memberID, String encounterType,
+    public static Visit saveVisit(boolean isComesFromIdentity,boolean needVerified,boolean isVerified, String notVerifyCause,String memberID, String encounterType,
                             final Map<String, String> jsonString,
                             String parentEventType) throws Exception {
 
@@ -90,9 +90,13 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         if(encounterType.equalsIgnoreCase(org.smartregister.chw.anc.util.Constants.EVENT_TYPE.ANC_HOME_VISIT)){
             prepareEvent(baseEvent);
         }
-        if(needVerified){
-            prepareIsVerified(baseEvent,isVerified,notVerifyCause);
+        if(isComesFromIdentity){
+            prepareIsIdentified(baseEvent);
+        }else if(needVerified){
+                prepareIsVerified(baseEvent,isVerified,notVerifyCause);
+
         }
+
 //        if (StringUtils.isBlank(parentEventType))
 //            prepareEvent(baseEvent);
 
@@ -177,6 +181,19 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                baseEvent.addObs(new Obs("concept", "text", "not_verify_cause", "",
                        list2, new ArrayList<>(), null, "not_verify_cause"));
            }
+
+        }
+    }
+    private static void prepareIsIdentified(Event baseEvent) {
+        if (baseEvent != null) {
+            // add anc date obs and last
+            List<Object> list = new ArrayList<>();
+            list.add(true);
+
+
+            baseEvent.addObs(new Obs("concept", "text", "is_identified", "",
+                    list, new ArrayList<>(), null, "is_identified"));
+
 
         }
     }
