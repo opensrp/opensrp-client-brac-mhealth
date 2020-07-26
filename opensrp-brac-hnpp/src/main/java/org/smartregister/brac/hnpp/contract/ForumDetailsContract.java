@@ -26,6 +26,9 @@ public interface ForumDetailsContract {
 
         void hideProgressBar();
 
+        void showSuccessMessage(String message);
+
+        void  showFailedMessage(String message);
 
         Context getContext();
 

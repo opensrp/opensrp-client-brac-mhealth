@@ -1,6 +1,7 @@
 package org.smartregister.brac.hnpp.utils;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Pair;
 
@@ -22,6 +23,7 @@ import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSLocations;
 import org.smartregister.brac.hnpp.location.SSModel;
+import org.smartregister.brac.hnpp.model.ForumDetails;
 import org.smartregister.brac.hnpp.repository.HnppChwRepository;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.chw.anc.AncLibrary;
@@ -79,6 +81,93 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
     private static VisitRepository visitRepository() {
         return AncLibrary.getInstance().visitRepository();
     }
+
+    public static Visit processAndSaveForum(String eventType, ForumDetails forumDetails) throws Exception{
+        Event baseEvent = processCustomEvent(eventType,forumDetails);
+        if (baseEvent != null) {
+            baseEvent.setFormSubmissionId(JsonFormUtils.generateRandomUUIDString());
+            org.smartregister.chw.anc.util.JsonFormUtils.tagEvent(Utils.getAllSharedPreferences(), baseEvent);
+            String visitID ="";
+            if(!TextUtils.isEmpty(baseEvent.getEventId())){
+                visitID = baseEvent.getEventId();
+            }else{
+                visitID = JsonFormUtils.generateRandomUUIDString();
+            }
+
+            Visit visit = NCUtils.eventToVisit(baseEvent, visitID);
+            visit.setPreProcessedJson(new Gson().toJson(baseEvent));
+            visit.setParentVisitID(visitRepository().getParentVisitEventID(visit.getBaseEntityId(), eventType, visit.getDate()));
+
+            visitRepository().addVisit(visit);
+            return visit;
+        }
+        return null;
+
+
+    }
+    private static Event processCustomEvent(String eventType, ForumDetails forumDetails){
+        Event event = getEvent(generateRandomUUIDString(), eventType, new Date(), "visits");
+        final String FORM_SUBMISSION_FIELD = "formsubmissionField";
+        final String DATA_TYPE = "text";
+
+        String formSubmissionField = "forum_type";
+        List<Object> vall = new ArrayList<>();
+        vall.add(forumDetails.forumType);
+        event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
+                formSubmissionField));
+
+        formSubmissionField = "forum_name";
+        vall = new ArrayList<>();
+        vall.add(forumDetails.forumName);
+        event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
+                formSubmissionField));
+
+        formSubmissionField = "place";
+        vall = new ArrayList<>();
+        vall.add(forumDetails.place);
+        event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
+                formSubmissionField));
+
+        formSubmissionField = "no_of_participant";
+        vall = new ArrayList<>();
+        vall.add(forumDetails.noOfParticipant);
+        event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
+                formSubmissionField));
+
+        formSubmissionField = "participants";
+        vall = new ArrayList<>();
+        vall.add(forumDetails.participants);
+        event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
+                formSubmissionField));
+        return event;
+
+    }
+    private static Event getEvent(String entityId, String
+            encounterType, Date encounterDate, String childType) {
+        Event event = (Event) new Event().withBaseEntityId(entityId) //should be different for main and subform
+                .withEventDate(encounterDate).withEventType(encounterType)
+                .withEntityType(childType)
+                .withFormSubmissionId(generateRandomUUIDString()).withDateCreated(new Date());
+
+        tagSyncMetadata(event);
+
+        return event;
+    }
+    protected static Event tagSyncMetadata(@NonNull Event event) {
+        AllSharedPreferences allSharedPreferences = Utils.getAllSharedPreferences();
+        String providerId = allSharedPreferences.fetchRegisteredANM();
+        event.setProviderId(providerId);
+        event.setLocationId(locationId(allSharedPreferences));
+
+
+        event.setTeam(allSharedPreferences.fetchDefaultTeam(providerId));
+        event.setTeamId(allSharedPreferences.fetchDefaultTeamId(providerId));
+
+        event.setClientDatabaseVersion(FamilyLibrary.getInstance().getDatabaseVersion());
+        event.setClientApplicationVersion(FamilyLibrary.getInstance().getApplicationVersion());
+        return event;
+    }
+
     public static Visit saveVisit(boolean editMode, String memberID, String encounterType,
                             final Map<String, String> jsonString,
                             String parentEventType) throws Exception {

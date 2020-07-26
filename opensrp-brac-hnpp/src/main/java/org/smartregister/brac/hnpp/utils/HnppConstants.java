@@ -329,6 +329,10 @@ public class HnppConstants extends CoreConstants {
         public static final String CHILD_FOLLOWUP = "Child Followup";
         public static final String PNC_CHILD_REGISTRATION = "PNC Child Registration";
         public static final String UPDATE_CHILD_REGISTRATION = "Update Child Registration";
+        public static final String FORUM_CHILD = "Child Forum";
+        public static final String FORUM_ADO = "Adolescent Forum";
+        public static final String FORUM_WOMEN = "WOMEN Forum";
+        public static final String FORUM_NCD = "NCD Forum";
     }
     public static final Map<String,String> vaccineNameMapping = ImmutableMap.<String,String> builder()
             .put("bcg","বিসিজি")
