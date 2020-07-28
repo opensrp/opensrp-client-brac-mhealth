@@ -11,10 +11,10 @@ public interface ForumDetailsContract {
 
     public interface Presenter{
 
-         void fetchAdo(String village, String claster);
-         void fetchWomen(String village, String claster);
+         void processAdoForum(ForumDetails forumDetails);
+         void processWomenForum(ForumDetails forumDetails);
          void processChildForumEvent(ForumDetails forumDetails);
-         void fetchNcd(String village, String claster);
+         void processNcdForum(ForumDetails forumDetails);
          void searchHH(String name);
 
          View getView();

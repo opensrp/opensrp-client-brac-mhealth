@@ -39,6 +39,7 @@ import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.clientandeventmodel.Obs;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
+import org.smartregister.domain.db.EventClient;
 import org.smartregister.domain.tag.FormTag;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.domain.FamilyEventClient;
@@ -67,6 +68,8 @@ import timber.log.Timber;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.smartregister.chw.anc.util.JsonFormUtils.updateFormField;
+import static org.smartregister.chw.anc.util.NCUtils.getClientProcessorForJava;
+import static org.smartregister.chw.anc.util.NCUtils.getSyncHelper;
 
 /**
  * Created by keyman on 13/11/2018.
@@ -83,7 +86,29 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
     }
 
     public static Visit processAndSaveForum(String eventType, ForumDetails forumDetails) throws Exception{
-        Event baseEvent = processCustomEvent(eventType,forumDetails);
+
+        FormTag formTag = formTag(Utils.getAllSharedPreferences());
+        formTag.appVersionName = BuildConfig.VERSION_NAME;
+        String baseEntityId = generateRandomUUIDString();
+        Client baseClient = org.smartregister.util.JsonFormUtils.createBaseClient(new JSONArray(), formTag, baseEntityId);
+        baseClient.setFirstName(eventType);
+        baseClient.setLastName("Forum");
+        baseClient.setBirthdate(new Date(0L));
+        baseClient.setGender("M");
+        baseClient.addAttribute("forumDate",forumDetails.forumDate);
+        baseClient.addAttribute("forumType",forumDetails.forumType);
+        baseClient.addIdentifier("opensrp_id",generateRandomUUIDString());
+
+        SSLocations ss = SSLocationHelper.getInstance().getSsModels().get(forumDetails.sIndex).locations.get(forumDetails.vIndex);
+        List<Address> listAddress = new ArrayList<>();
+        listAddress.add(SSLocationHelper.getInstance().getSSAddress(ss));
+        baseClient.setAddresses(listAddress);
+        JSONObject clientJson = new JSONObject(JsonFormUtils.gson.toJson(baseClient));
+        getSyncHelper().addClient(baseClient.getBaseEntityId(), clientJson);
+
+
+
+        Event baseEvent = processCustomEvent(baseEntityId,eventType,forumDetails);
         if (baseEvent != null) {
             baseEvent.setFormSubmissionId(JsonFormUtils.generateRandomUUIDString());
             org.smartregister.chw.anc.util.JsonFormUtils.tagEvent(Utils.getAllSharedPreferences(), baseEvent);
@@ -96,27 +121,42 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
             Visit visit = NCUtils.eventToVisit(baseEvent, visitID);
             visit.setPreProcessedJson(new Gson().toJson(baseEvent));
-            visit.setParentVisitID(visitRepository().getParentVisitEventID(visit.getBaseEntityId(), eventType, visit.getDate()));
+           try{
+               visit.setParentVisitID(visitRepository().getParentVisitEventID(visit.getBaseEntityId(), eventType, visit.getDate()));
+           }catch (Exception e){
+
+           }
 
             visitRepository().addVisit(visit);
+            JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(baseEvent));
+            getSyncHelper().addEvent(baseClient.getBaseEntityId(), eventJson);
+            List<EventClient> eventClientList = new ArrayList();
+            org.smartregister.domain.db.Event domainEvent = org.smartregister.family.util.JsonFormUtils.gson.fromJson(eventJson.toString(), org.smartregister.domain.db.Event.class);
+            org.smartregister.domain.db.Client domainClient = org.smartregister.family.util.JsonFormUtils.gson.fromJson(clientJson.toString(), org.smartregister.domain.db.Client.class);
+            eventClientList.add(new EventClient(domainEvent, domainClient));
+
+            long lastSyncTimeStamp = Utils.getAllSharedPreferences().fetchLastUpdatedAtDate(0);
+            Date lastSyncDate = new Date(lastSyncTimeStamp);
+            getClientProcessorForJava().processClient(eventClientList);
+            Utils.getAllSharedPreferences().saveLastUpdatedAtDate(lastSyncDate.getTime());
             return visit;
         }
         return null;
 
 
     }
-    private static Event processCustomEvent(String eventType, ForumDetails forumDetails){
-        Event event = getEvent(generateRandomUUIDString(), eventType, new Date(), "visits");
+    private static Event processCustomEvent(String baseEntityId, String eventType, ForumDetails forumDetails){
+        Event event = getEvent(baseEntityId, eventType, new Date(), "visits");
         final String FORM_SUBMISSION_FIELD = "formsubmissionField";
         final String DATA_TYPE = "text";
 
-        String formSubmissionField = "forum_type";
+        String formSubmissionField = "forumType";
         List<Object> vall = new ArrayList<>();
         vall.add(forumDetails.forumType);
         event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
                 formSubmissionField));
 
-        formSubmissionField = "forum_name";
+        formSubmissionField = "forumName";
         vall = new ArrayList<>();
         vall.add(forumDetails.forumName);
         event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
@@ -128,7 +168,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
                 formSubmissionField));
 
-        formSubmissionField = "no_of_participant";
+        formSubmissionField = "noOfParticipant";
         vall = new ArrayList<>();
         vall.add(forumDetails.noOfParticipant);
         event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
@@ -137,6 +177,56 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         formSubmissionField = "participants";
         vall = new ArrayList<>();
         vall.add(forumDetails.participants);
+        event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
+                formSubmissionField));
+
+        formSubmissionField = "forumDate";
+        vall = new ArrayList<>();
+        vall.add(forumDetails.forumDate);
+        event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
+                formSubmissionField));
+
+        formSubmissionField = "ssName";
+        vall = new ArrayList<>();
+        vall.add(forumDetails.ssName);
+        event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
+                formSubmissionField));
+
+        formSubmissionField = "villageName";
+        vall = new ArrayList<>();
+        vall.add(forumDetails.villageName);
+        event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
+                formSubmissionField));
+        formSubmissionField = "clusterName";
+        vall = new ArrayList<>();
+        vall.add(forumDetails.clusterName);
+        event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
+                formSubmissionField));
+        if(!TextUtils.isEmpty(forumDetails.noOfAdoTakeFiveFood)){
+            formSubmissionField = "clusterName";
+            vall = new ArrayList<>();
+            vall.add(forumDetails.clusterName);
+            event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
+                    formSubmissionField));
+        }
+        formSubmissionField = "noOfServiceTaken";
+        vall = new ArrayList<>();
+        vall.add(forumDetails.noOfServiceTaken);
+        event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
+                formSubmissionField));
+        formSubmissionField = "sIndex";
+        vall = new ArrayList<>();
+        vall.add(forumDetails.sIndex);
+        event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
+                formSubmissionField));
+        formSubmissionField = "vIndex";
+        vall = new ArrayList<>();
+        vall.add(forumDetails.vIndex);
+        event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
+                formSubmissionField));
+        formSubmissionField = "cIndex";
+        vall = new ArrayList<>();
+        vall.add(forumDetails.cIndex);
         event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
                 formSubmissionField));
         return event;

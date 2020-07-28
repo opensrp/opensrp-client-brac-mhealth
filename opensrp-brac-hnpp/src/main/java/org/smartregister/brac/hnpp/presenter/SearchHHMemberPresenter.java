@@ -6,6 +6,7 @@ import org.smartregister.brac.hnpp.model.SearchHHMemberModel;
 import org.smartregister.family.util.AppExecutors;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 
 public class SearchHHMemberPresenter implements SearchHHMemberContract.Presenter {
@@ -100,7 +101,23 @@ public class SearchHHMemberPresenter implements SearchHHMemberContract.Presenter
 
     @Override
     public void searchHH(String name) {
-        view.updateAdapter(model.searchByName(name));
+        view.updateAdapter(model.searchHH(name));
+
+    }
+    public void searchAdo(String name) {
+        view.updateAdapter(model.searchAdo(name));
+
+    }
+    public void searchWomen(String name) {
+        view.updateAdapter(model.searchWomen(name));
+
+    }
+    public void searchChild(String name) {
+        view.updateAdapter(model.searchChild(name));
+
+    }
+    public void searchNcd(String name) {
+        view.updateAdapter(model.searchNcd(name));
 
     }
 
@@ -115,13 +132,20 @@ public class SearchHHMemberPresenter implements SearchHHMemberContract.Presenter
         if(selectedList.size() == 0){
             selectedList.add(hhMemberProperty);
         }else{
-            for (Iterator<HHMemberProperty> it = selectedList.iterator(); it.hasNext();){
-                HHMemberProperty prev = it.next();
-                if (prev.getBaseEntityId().equals(hhMemberProperty.getBaseEntityId())){
-                    it.remove();
-                }else{
-                    selectedList.add(hhMemberProperty);
-                }
+            Iterator<HHMemberProperty> it = selectedList.iterator();
+            while (it.hasNext()){
+               try{
+                   HHMemberProperty prev = it.next();
+                   if (prev.getBaseEntityId().equals(hhMemberProperty.getBaseEntityId())){
+                       it.remove();
+                   }else{
+                       selectedList.add(hhMemberProperty);
+                   }
+               }catch (ConcurrentModificationException e){
+                   e.printStackTrace();
+                   break;
+               }
+
             }
         }
 

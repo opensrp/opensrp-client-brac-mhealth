@@ -38,10 +38,50 @@ public class SearchHHMemberModel {
         return ncdArrayList;
     }
 
-    public ArrayList<HHMemberProperty> searchByName(String name){
+    public ArrayList<HHMemberProperty> searchHH(String name){
         if(TextUtils.isEmpty(name)) return hhList;
         ArrayList<HHMemberProperty> tempList = new ArrayList<>();
         for(HHMemberProperty hhMemberProperty : hhList){
+            if(hhMemberProperty.name.contains(name)){
+                tempList.add(hhMemberProperty);
+            }
+        }
+        return tempList;
+    }
+    public ArrayList<HHMemberProperty> searchAdo(String name){
+        if(TextUtils.isEmpty(name)) return adoArrayList;
+        ArrayList<HHMemberProperty> tempList = new ArrayList<>();
+        for(HHMemberProperty hhMemberProperty : adoArrayList){
+            if(hhMemberProperty.name.contains(name)){
+                tempList.add(hhMemberProperty);
+            }
+        }
+        return tempList;
+    }
+    public ArrayList<HHMemberProperty> searchWomen(String name){
+        if(TextUtils.isEmpty(name)) return womenArrayList;
+        ArrayList<HHMemberProperty> tempList = new ArrayList<>();
+        for(HHMemberProperty hhMemberProperty : womenArrayList){
+            if(hhMemberProperty.name.contains(name)){
+                tempList.add(hhMemberProperty);
+            }
+        }
+        return tempList;
+    }
+    public ArrayList<HHMemberProperty> searchChild(String name){
+        if(TextUtils.isEmpty(name)) return childArrayList;
+        ArrayList<HHMemberProperty> tempList = new ArrayList<>();
+        for(HHMemberProperty hhMemberProperty : childArrayList){
+            if(hhMemberProperty.name.contains(name)){
+                tempList.add(hhMemberProperty);
+            }
+        }
+        return tempList;
+    }
+    public ArrayList<HHMemberProperty> searchNcd(String name){
+        if(TextUtils.isEmpty(name)) return ncdArrayList;
+        ArrayList<HHMemberProperty> tempList = new ArrayList<>();
+        for(HHMemberProperty hhMemberProperty : ncdArrayList){
             if(hhMemberProperty.name.contains(name)){
                 tempList.add(hhMemberProperty);
             }
@@ -142,7 +182,7 @@ public class SearchHHMemberModel {
         String query = "Select ec_family_member.first_name,ec_family_member.base_entity_id,ec_family_member.unique_id,ec_family_member.dob FROM ec_family_member LEFT JOIN ec_family ON  ec_family_member.relational_id = ec_family.id COLLATE NOCASE  WHERE  ec_family_member.date_removed is null AND  ((( julianday('now') - julianday(dob))/365) >29)" +
                 " and ec_family.village_town = '"+village+"' and ec_family.claster = '"+claster+"'";
         Cursor cursor = null;
-        womenArrayList.clear();
+        ncdArrayList.clear();
         cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         if(cursor !=null && cursor.getCount() > 0) {
             cursor.moveToFirst();
@@ -154,11 +194,11 @@ public class SearchHHMemberModel {
                 hhMemberProperty.setBaseEntityId(cursor.getString(cursor.getColumnIndex("base_entity_id")));
                 String dobString = Utils.getDuration(cursor.getString(cursor.getColumnIndex("dob")));
                 hhMemberProperty.setAge(dobString);
-                womenArrayList.add(hhMemberProperty);
+                ncdArrayList.add(hhMemberProperty);
                 cursor.moveToNext();
             }
             cursor.close();
         }
-        return womenArrayList;
+        return ncdArrayList;
     }
 }

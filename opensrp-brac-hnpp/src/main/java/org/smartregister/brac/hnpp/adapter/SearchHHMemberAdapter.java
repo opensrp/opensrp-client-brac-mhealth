@@ -49,7 +49,11 @@ public class SearchHHMemberAdapter extends RecyclerView.Adapter<SearchViewHolder
     @Override
     public void onBindViewHolder(@NonNull final SearchViewHolder viewHolder, int position) {
         final HHMemberProperty content = contentList.get(position);
-        if(TextUtils.isEmpty(searchType) || searchType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.HH.toString())){
+        if(TextUtils.isEmpty(searchType)){
+            viewHolder.checkBox.setVisibility(View.VISIBLE);
+            viewHolder.checkBox.setImageResource(R.drawable.ic_cross);
+        }
+        else if( searchType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.HH.toString())){
             viewHolder.checkBox.setVisibility(View.INVISIBLE);
         }else{
             viewHolder.checkBox.setVisibility(View.VISIBLE);
@@ -69,6 +73,14 @@ public class SearchHHMemberAdapter extends RecyclerView.Adapter<SearchViewHolder
             viewHolder.textViewAge.setVisibility(View.VISIBLE);
             viewHolder.textViewAge.setText(context.getString(R.string.age,content.getAge()));
         }
+        viewHolder.checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(TextUtils.isEmpty(searchType)){
+                    onClickAdapter.onRemove(position,content);
+                }
+            }
+        });
         viewHolder.itemView.setOnClickListener(v -> {
             if(TextUtils.isEmpty(searchType)){
                 return;
@@ -96,5 +108,6 @@ public class SearchHHMemberAdapter extends RecyclerView.Adapter<SearchViewHolder
     public interface OnClickAdapter {
         void onClick(int position, HHMemberProperty content);
         void onClickHH(int position, HHMemberProperty content);
+        void onRemove(int position, HHMemberProperty content);
     }
 }

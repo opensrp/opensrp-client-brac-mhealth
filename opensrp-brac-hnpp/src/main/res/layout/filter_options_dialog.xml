@@ -16,8 +16,10 @@
             <Spinner
                 android:id="@+id/ss_filter_spinner"
                 android:layout_marginBottom="20dp"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:background="@drawable/spinner_resource"
+                android:layout_margin="5dp"
+                android:layout_height="50dp">
             </Spinner>
 
             <TextView
@@ -30,8 +32,10 @@
             <Spinner
                 android:id="@+id/village_filter_spinner"
                 android:layout_marginBottom="20dp"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:background="@drawable/spinner_resource"
+                android:layout_margin="5dp"
+                android:layout_height="50dp">
 
             </Spinner>
 
@@ -44,8 +48,10 @@
             <Spinner
                 android:id="@+id/klaster_filter_spinner"
                 android:layout_marginBottom="20dp"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:background="@drawable/spinner_resource"
+                android:layout_margin="5dp"
+                android:layout_height="50dp">
 
             </Spinner>
 

@@ -5,8 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -25,20 +29,25 @@ import java.util.ArrayList;
 public class SearchHHMemberActivity extends SecuredActivity implements View.OnClickListener, SearchHHMemberContract.View {
 
     private static String EXTRA_TYPE_FOR = "extra_type";
+    private static String EXTRA_VILLAGE_NAME= "extra_village";
+    private static String EXTRA_CLUSTER_NAME= "extra_cluster";
     public static String EXTRA_INTENT_DATA = "extra_data";
 
     private EditText editTextSearch;
     private TextView villageNameTxt,clusterNameTxt;
     private ProgressBar progressBar;
 
-    private String searchType;
+    private String searchType,villageName,clusterName;
     SearchHHMemberPresenter presenter;
     private RecyclerView recyclerView;
     SearchHHMemberAdapter searchHHMemberAdapter;
     ArrayList<HHMemberProperty> previousList = new ArrayList<>();
-    public static void startSearchActivity(Activity activity, String searchType, ArrayList<HHMemberProperty> memberPropertyArrayList, int resultCode){
+    ImageView crossBtn;
+    public static void startSearchActivity(Activity activity,String villageName, String clusterName, String searchType, ArrayList<HHMemberProperty> memberPropertyArrayList, int resultCode){
         Intent intent = new Intent(activity,SearchHHMemberActivity.class);
         intent.putExtra(EXTRA_TYPE_FOR,searchType);
+        intent.putExtra(EXTRA_VILLAGE_NAME,villageName);
+        intent.putExtra(EXTRA_CLUSTER_NAME,clusterName);
         intent.putExtra(EXTRA_INTENT_DATA,memberPropertyArrayList);
         activity.startActivityForResult(intent,resultCode);
     }
@@ -54,13 +63,17 @@ public class SearchHHMemberActivity extends SecuredActivity implements View.OnCl
         recyclerView = findViewById(R.id.recycler_view);
         CustomFontTextView title = findViewById(R.id.textview_detail_two);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        findViewById(R.id.filter_btn).setOnClickListener(this);
+        crossBtn = findViewById(R.id.cross_btn);
+        crossBtn.setOnClickListener(this);
         findViewById(R.id.backBtn).setOnClickListener(this);
         findViewById(R.id.add_btn).setOnClickListener(this);
         searchType = getIntent().getStringExtra(EXTRA_TYPE_FOR);
         previousList = (ArrayList<HHMemberProperty> )getIntent().getSerializableExtra(EXTRA_INTENT_DATA);
+        villageName = getIntent().getStringExtra(EXTRA_VILLAGE_NAME);
+        clusterName = getIntent().getStringExtra(EXTRA_CLUSTER_NAME);
         if(searchType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.HH.toString())){
             title.setText("খানা খুজুন");
+            findViewById(R.id.add_btn).setVisibility(View.GONE);
         }else{
             title.setText("সদস্য খুজুন");
         }
@@ -69,7 +82,42 @@ public class SearchHHMemberActivity extends SecuredActivity implements View.OnCl
         if(previousList.size() > 0){
             presenter.updatePreviousSelectedList(previousList);
         }
-        showFilterDialog();
+        editTextSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(!TextUtils.isEmpty(s.toString())){
+                    crossBtn.setVisibility(View.VISIBLE);
+                }else{
+                    crossBtn.setVisibility(View.GONE);
+                }
+                if(searchType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.HH.toString())){
+                    presenter.searchHH(s.toString());
+                }else if(searchType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.ADO.toString())){
+                    presenter.searchAdo(s.toString());
+                }
+                else if(searchType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.WOMEN.toString())){
+                    presenter.searchWomen(s.toString());
+                }
+                else if(searchType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.CHILD.toString())){
+                    presenter.searchChild(s.toString());
+                }
+                else if(searchType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.NCD.toString())){
+                    presenter.searchNcd(s.toString());
+                }
+
+            }
+        });
+        showFilterData();
 
     }
 
@@ -80,6 +128,9 @@ public class SearchHHMemberActivity extends SecuredActivity implements View.OnCl
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.cross_btn:
+                editTextSearch.setText("");
+                break;
             case R.id.add_btn:
                 sendData();
                 break;
@@ -96,27 +147,28 @@ public class SearchHHMemberActivity extends SecuredActivity implements View.OnCl
         setResult(RESULT_OK, intent);
         finish();
     }
-    private void showFilterDialog(){
-        new FilterDialog().showDialog(this, new FilterDialog.OnFilterDialogFilter() {
-            @Override
-            public void onDialogPress(String ssName, String villageName, String cluster, String gender) {
+    private void showFilterData(){
+//
+//        new FilterDialog().showDialog(this, new FilterDialog.OnFilterDialogFilter() {
+//            @Override
+//            public void onDialogPress(String ssName, String villageName, String cluster, String gender) {
                 villageNameTxt.setText(villageName);
-                clusterNameTxt.setText(cluster);
+                clusterNameTxt.setText(HnppConstants.getClusterNameFromValue(clusterName));
                 if(searchType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.HH.toString())){
-                    presenter.fetchHH(villageName,cluster);
+                    presenter.fetchHH(villageName,clusterName);
                 }else if(searchType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.ADO.toString())){
-                    presenter.fetchAdo(villageName,cluster);
+                    presenter.fetchAdo(villageName,clusterName);
                 }else if(searchType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.WOMEN.toString())){
-                    presenter.fetchWomen(villageName,cluster);
+                    presenter.fetchWomen(villageName,clusterName);
                 }else if(searchType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.CHILD.toString())){
-                    presenter.fetchChild(villageName,cluster);
+                    presenter.fetchChild(villageName,clusterName);
                 }else if(searchType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.NCD.toString())){
-                    presenter.fetchNcd(villageName,cluster);
+                    presenter.fetchNcd(villageName,clusterName);
                 }
 
-
-            }
-        }, !searchType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.HH.toString()));
+//
+//            }
+//        }, !searchType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.HH.toString()));
     }
 
     @Override
@@ -144,6 +196,11 @@ public class SearchHHMemberActivity extends SecuredActivity implements View.OnCl
             public void onClickHH(int position, HHMemberProperty content) {
                 presenter.updateHH(content);
                 sendData();
+            }
+
+            @Override
+            public void onRemove(int position, HHMemberProperty content) {
+
             }
         },searchType);
         searchHHMemberAdapter.setData(list,previousList);

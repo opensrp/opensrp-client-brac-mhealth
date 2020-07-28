@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:background="@color/grey"
+    android:layout_width="match_parent"
+    android:layout_height="50dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <org.smartregister.view.customcontrols.CustomFontTextView
+                android:id="@+id/forum_date"
+                android:text="তারিখ"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_margin="1dp"
+                android:textColor="@color/black"
+                android:background="@color/white"
+                android:layout_gravity="center_vertical"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"/>
+            <org.smartregister.view.customcontrols.CustomFontTextView
+                android:id="@+id/forum_name"
+                android:text="ফোরামের নাম "
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_margin="1dp"
+                android:textColor="@color/black"
+                android:layout_gravity="center_vertical"
+                android:background="@color/white"
+                android:layout_width="150dp"
+                android:layout_height="match_parent"/>
+            <org.smartregister.view.customcontrols.CustomFontTextView
+                android:id="@+id/no_of_perticipant"
+                android:text="অংশগ্রহণকারী সংখ্যা"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_margin="1dp"
+                android:textColor="@color/black"
+                android:layout_gravity="center_vertical"
+                android:background="@color/white"
+                android:layout_width="150dp"
+                android:layout_height="match_parent"/>
+
+            <LinearLayout
+                android:id="@+id/details"
+                android:padding="10dp"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:layout_gravity="center_vertical"
+                android:background="@color/white"
+                android:layout_margin="1dp"
+                android:layout_width="wrap_content"
+                android:minWidth="100dp"
+                android:orientation="horizontal"
+                android:layout_height="match_parent">
+                <org.smartregister.view.customcontrols.CustomFontTextView
+
+                    android:text="বিস্তারিত"
+                    android:textSize="20sp"
+                    android:gravity="center"
+                    android:textColor="@color/customAppThemeBlue"
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+</LinearLayout>

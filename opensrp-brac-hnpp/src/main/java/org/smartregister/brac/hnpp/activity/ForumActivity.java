@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.activity;
 
+import android.content.Intent;
 import android.view.View;
 
 import org.smartregister.brac.hnpp.R;
@@ -42,6 +43,7 @@ public class ForumActivity extends SecuredActivity implements View.OnClickListen
 
                 break;
             case R.id.history_forum:
+                startActivity(new Intent(this,ForumHistoryActivity.class));
                 break;
             case R.id.backBtn:
                 finish();

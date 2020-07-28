@@ -3,16 +3,27 @@ package org.smartregister.brac.hnpp.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.adapter.SearchHHMemberAdapter;
 import org.smartregister.brac.hnpp.contract.ForumDetailsContract;
+import org.smartregister.brac.hnpp.location.SSLocationHelper;
+import org.smartregister.brac.hnpp.location.SSLocations;
+import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.model.ForumDetails;
 import org.smartregister.brac.hnpp.model.HHMemberProperty;
 import org.smartregister.brac.hnpp.model.SearchHHMemberModel;
@@ -22,6 +33,7 @@ import org.smartregister.view.activity.SecuredActivity;
 import org.smartregister.view.customcontrols.CustomFontTextView;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import static org.smartregister.brac.hnpp.activity.SearchHHMemberActivity.EXTRA_INTENT_DATA;
 
@@ -31,12 +43,18 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
     private static String EXTRA_COMES_FROM = "comes_from";
     private static String EXTRA_TITLE = "extra_title";
 
-    private CustomFontTextView textViewForumName,textViewKhanaName;
-    private EditText editTextNoOfParticipants;
+    protected CustomFontTextView textViewForumName,textViewKhanaName;
+    protected EditText editTextNoOfParticipants,editTextNoOfService,editTextAdoFood;
     private String fromType;
-    private RecyclerView recyclerView;
+    protected RecyclerView recyclerView;
     private ForumDetailsPresenter presenter;
     private ProgressBar progressBar;
+    protected Spinner village_spinner;
+    protected Spinner cluster_spinner,ss_spinner;
+    protected int ssIndex,vIndex,cIndex;
+    private ArrayAdapter<String> villageSpinnerArrayAdapter;
+    private String mSelectedVillageName,ssName;
+    private String mSelectedClasterName;
 
     public static void startDetailsActivity(Activity activity, String comesFrom, String title){
         Intent intent  = new Intent(activity,ForumDetailsActivity.class);
@@ -44,9 +62,6 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
         intent.putExtra(EXTRA_TITLE,title);
         activity.startActivity(intent);
     }
-
-
-
 
     @Override
     protected void onCreation() {
@@ -61,8 +76,131 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
         findViewById(R.id.backBtn).setOnClickListener(this);
         findViewById(R.id.submit_btn).setOnClickListener(this);
         recyclerView = findViewById(R.id.recycler_view);
+        editTextNoOfService = findViewById(R.id.no_of_service_taken);
+        editTextAdoFood = findViewById(R.id.no_of_ado_taken);
         progressBar = findViewById(R.id.progress_bar);
         presenter = new ForumDetailsPresenter(this);
+        village_spinner = findViewById(R.id.village_filter_spinner);
+        cluster_spinner = findViewById(R.id.klaster_filter_spinner);
+        ss_spinner = findViewById(R.id.ss_filter_spinner);
+        onIntentDataSet();
+    }
+    protected void onIntentDataSet(){
+        if(!TextUtils.isEmpty(fromType) && fromType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.ADO.toString())){
+            findViewById(R.id.noOfAdoPanel).setVisibility(View.VISIBLE);
+        }
+        generateSpinner();
+    }
+    private void generateSpinner(){
+        ArrayList<String> ssSpinnerArray = new ArrayList<>();
+
+        ArrayList<String> villageSpinnerArray = new ArrayList<>();
+
+        ArrayList<SSModel> ssLocationForms = SSLocationHelper.getInstance().getSsModels();
+        for (SSModel ssModel : ssLocationForms) {
+            ssSpinnerArray.add(ssModel.username);
+        }
+
+        ArrayAdapter<String> ssSpinnerArrayAdapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_spinner_item,
+                        ssSpinnerArray){
+            @Override
+            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                convertView = super.getDropDownView(position, convertView,
+                        parent);
+
+                AppCompatTextView appCompatTextView = (AppCompatTextView)convertView;
+                appCompatTextView.setGravity(Gravity.CENTER_VERTICAL);
+                appCompatTextView.setHeight(100);
+
+                return convertView;
+            }
+        };
+
+        villageSpinnerArrayAdapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_spinner_item,
+                        villageSpinnerArray){
+            @Override
+            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                convertView = super.getDropDownView(position, convertView,
+                        parent);
+                AppCompatTextView appCompatTextView = (AppCompatTextView)convertView;
+                appCompatTextView.setGravity(Gravity.CENTER_VERTICAL);
+                appCompatTextView.setHeight(100);
+                return convertView;
+            }
+        };
+
+        ArrayAdapter<String> clusterSpinnerArrayAdapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_spinner_item,
+                        HnppConstants.getClasterSpinnerArray()){
+            @Override
+            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                convertView = super.getDropDownView(position, convertView,
+                        parent);
+                AppCompatTextView appCompatTextView = (AppCompatTextView)convertView;
+                appCompatTextView.setGravity(Gravity.CENTER_VERTICAL);
+                appCompatTextView.setHeight(100);
+
+                return convertView;
+            }
+        };
+        village_spinner.setAdapter(villageSpinnerArrayAdapter);
+        cluster_spinner.setAdapter(clusterSpinnerArrayAdapter);
+        ss_spinner.setAdapter(ssSpinnerArrayAdapter);
+        ss_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position != -1) {
+                    ssIndex = position;
+                    ssName = ssSpinnerArray.get(position);
+                    villageSpinnerArray.clear();
+                    ArrayList<SSLocations> ssLocations = SSLocationHelper.getInstance().getSsModels().get(position).locations;
+                    for (SSLocations ssLocations1 : ssLocations) {
+                        villageSpinnerArray.add(ssLocations1.village.name.trim());
+                    }
+                    villageSpinnerArrayAdapter = new ArrayAdapter<String>
+                            (ForumDetailsActivity.this, android.R.layout.simple_spinner_item,
+                                    villageSpinnerArray);
+                    village_spinner.setAdapter(villageSpinnerArrayAdapter);
+                    //villageSpinnerArrayAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        village_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position != -1) {
+                    vIndex = position;
+                    mSelectedVillageName = villageSpinnerArray.get(position);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        cluster_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position != -1) {
+                    cIndex = position;
+                    mSelectedClasterName = HnppConstants.getClasterNames().get(HnppConstants.getClasterSpinnerArray().get(position));
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
     }
 
     @Override
@@ -75,7 +213,16 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
             case R.id.submit_btn:
                 ForumDetails forumDetails = getForumDetails();
                 if(forumDetails !=null){
-                    presenter.processChildForumEvent(forumDetails);
+                    if(fromType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.CHILD.toString())){
+                        presenter.processChildForumEvent(forumDetails);
+                    }else if(fromType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.WOMEN.toString())){
+                        presenter.processWomenForum(forumDetails);
+                    }else if(fromType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.ADO.toString())){
+                        presenter.processAdoForum(forumDetails);
+                    }else if(fromType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.NCD.toString())){
+                        presenter.processNcdForum(forumDetails);
+                    }
+
                 }
 
                 break;
@@ -84,10 +231,10 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
                 finish();
                 break;
             case R.id.search_khana:
-                SearchHHMemberActivity.startSearchActivity(this, HnppConstants.SEARCH_TYPE.HH.toString(),new ArrayList<>(),RESULT_CODE_HH);
+                SearchHHMemberActivity.startSearchActivity(this,mSelectedVillageName,mSelectedClasterName, HnppConstants.SEARCH_TYPE.HH.toString(),new ArrayList<>(),RESULT_CODE_HH);
                 break;
             case R.id.add_member_btn:
-                SearchHHMemberActivity.startSearchActivity(this,fromType,hhMemberPropertyArrayList,RESULT_CODE_MEMBER);
+                SearchHHMemberActivity.startSearchActivity(this,mSelectedVillageName,mSelectedClasterName,fromType,hhMemberPropertyArrayList,RESULT_CODE_MEMBER);
 
                 break;
         }
@@ -107,21 +254,58 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
             return null;
         }
         int participant = Integer.parseInt(editTextNoOfParticipants.getText().toString());
-        if(participant!=hhMemberPropertyArrayList.size()){
-            Toast.makeText(this,"অংশগ্রহণকারীর সংখ্যার সাথে মিলেনাই",Toast.LENGTH_SHORT).show();
+        if(participant<hhMemberPropertyArrayList.size()){
+            Toast.makeText(this,"সদস্য সংখ্যা অংশগ্রহণকারীর সংখ্যা থেকে বেশী হতে হবে ",Toast.LENGTH_SHORT).show();
+            return null;
+        }
+        if(TextUtils.isEmpty(editTextNoOfService.getText().toString())){
+            editTextNoOfService.setError("কতজন সেবা নিয়েছে?");
+            return null;
+        }
+        if(fromType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.ADO.toString()) &&
+                TextUtils.isEmpty(editTextAdoFood.getText().toString())){
+            editTextAdoFood.setError("কত জন কিশোরী খাবার খেয়েছে?");
             return null;
         }
         ForumDetails forumDetails = new ForumDetails();
         forumDetails.forumName = textViewForumName.getText().toString();
-        forumDetails.forumType = fromType;
+        forumDetails.forumType = getForumType();
         forumDetails.noOfParticipant = editTextNoOfParticipants.getText().toString();
         forumDetails.participants = hhMemberPropertyArrayList;
         forumDetails.place = hhMemberProperty;
+        forumDetails.villageName = mSelectedVillageName;
+        forumDetails.ssName = ssName;
+        forumDetails.clusterName = mSelectedClasterName;
+        forumDetails.sIndex = ssIndex;
+        forumDetails.cIndex = cIndex;
+        forumDetails.forumDate = new Date().toString();
+        forumDetails.noOfServiceTaken = editTextNoOfService.getText().toString();
+        if(!TextUtils.isEmpty(editTextAdoFood.getText().toString())){
+            forumDetails.noOfAdoTakeFiveFood =  editTextAdoFood.getText().toString();
+        }
 
         return forumDetails;
     }
+
+    private String getForumType() {
+        if(fromType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.CHILD.toString())){
+            return HnppConstants.EVENT_TYPE.FORUM_CHILD;
+        }
+        if(fromType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.ADO.toString())){
+            return HnppConstants.EVENT_TYPE.FORUM_ADO;
+        }
+        if(fromType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.WOMEN.toString())){
+            return HnppConstants.EVENT_TYPE.FORUM_WOMEN;
+        }
+        if(fromType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.NCD.toString())){
+            return HnppConstants.EVENT_TYPE.FORUM_NCD;
+        }
+        return "";
+    }
+
     ArrayList<HHMemberProperty> hhMemberPropertyArrayList = new ArrayList<>();
     HHMemberProperty hhMemberProperty;
+    SearchHHMemberAdapter adapter;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -135,8 +319,9 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
 
             }
         }else if(resultCode == RESULT_OK && requestCode == RESULT_CODE_MEMBER){
+            hhMemberPropertyArrayList.clear();
             hhMemberPropertyArrayList = (ArrayList<HHMemberProperty>) data.getSerializableExtra(EXTRA_INTENT_DATA);
-            SearchHHMemberAdapter adapter = new SearchHHMemberAdapter(this, new SearchHHMemberAdapter.OnClickAdapter() {
+             adapter= new SearchHHMemberAdapter(this, new SearchHHMemberAdapter.OnClickAdapter() {
                 @Override
                 public void onClick(int position, HHMemberProperty content) {
 
@@ -145,6 +330,13 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
                 @Override
                 public void onClickHH(int position, HHMemberProperty content) {
 
+                }
+
+                @Override
+                public void onRemove(int position, HHMemberProperty content) {
+                    hhMemberPropertyArrayList.remove(position);
+                    adapter.setData(hhMemberPropertyArrayList,new ArrayList<>());
+                    adapter.notifyDataSetChanged();
                 }
             },"");
             adapter.setData(hhMemberPropertyArrayList,new ArrayList<>());
@@ -174,11 +366,11 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
 
     @Override
     public void showFailedMessage(String message) {
-
+        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public Context getContext() {
-        return null;
+        return this;
     }
 }

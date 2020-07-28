@@ -13,6 +13,7 @@ import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
+import org.smartregister.chw.anc.domain.VisitDetail;
 import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.anc.util.DBConstants;
 import org.smartregister.chw.core.application.CoreChwApplication;
@@ -44,6 +45,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import timber.log.Timber;
 
@@ -81,6 +83,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                 }
 
                 String eventType = event.getEventType();
+                Log.v("PROCESS_CLIENT","processClient1>>"+eventType);
                 if (eventType == null) {
                     continue;
                 }
@@ -115,7 +118,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
     }
 
     protected void processEvents(ClientClassification clientClassification, Table vaccineTable, Table serviceTable, EventClient eventClient, Event event, String eventType) throws Exception {
-        Log.v("PROCESS_EVENT","processEvents1>>"+eventType);
+        Log.v("PROCESS_EVENT","processEvents2>>"+eventType);
         switch (eventType) {
             case VaccineIntentService.EVENT_TYPE:
             case VaccineIntentService.EVENT_TYPE_OUT_OF_CATCHMENT:
@@ -156,6 +159,11 @@ public class HnppClientProcessor extends ClientProcessorForJava {
             case HnppConstants.EVENT_TYPE.ENC_REGISTRATION:
             case HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY:
             case Constants.EVENT_TYPE.PNC_HOME_VISIT:
+            case HnppConstants.EVENT_TYPE.FORUM_CHILD:
+            case HnppConstants.EVENT_TYPE.FORUM_WOMEN:
+            case HnppConstants.EVENT_TYPE.FORUM_ADO:
+            case HnppConstants.EVENT_TYPE.FORUM_NCD:
+
                 if (eventClient.getEvent() == null) {
                     return;
                 }
@@ -328,7 +336,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
     protected void processVisitEvent(EventClient eventClient) {
         try {
             processAncHomeVisit(eventClient, null, null); // save locally
-            Log.v("PROCESS_EVENT","processVisitEvent>>"+eventClient.getEvent());
+            Log.v("PROCESS_CLIENT","processVisitEvent>>"+eventClient.getEvent());
         } catch (Exception e) {
             String formID = (eventClient != null && eventClient.getEvent() != null) ? eventClient.getEvent().getFormSubmissionId() : "no form id";
             Timber.e("Form id " + formID + ". " + e.toString());
@@ -351,11 +359,15 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                     AncLibrary.getInstance().visitRepository().addVisit(visit);
                 }
 
+
             }
         } catch (JSONException e) {
             Timber.e(e);
         }
     }
+
+
+
     public static void processSubHomeVisit(EventClient baseEvent, String parentEventType) {
         processHomeVisit(baseEvent, null, parentEventType);
     }
@@ -383,19 +395,8 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                 } else {
                     AncLibrary.getInstance().visitRepository().addVisit(visit);
                 }
-//                if (visit.getVisitDetails() != null) {
-//                    for (Map.Entry<String, List<VisitDetail>> entry : visit.getVisitDetails().entrySet()) {
-//                        if (entry.getValue() != null) {
-//                            for (VisitDetail detail : entry.getValue()) {
-//                                if (database != null) {
-////                                    AncLibrary.getInstance().visitDetailsRepository().addVisitDetails(detail, database);
-//                                } else {
-//                                    AncLibrary.getInstance().visitDetailsRepository().addVisitDetails(detail);
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
+                //saveForumData(visit);
+
             }
         } catch (JSONException e) {
             Timber.e(e);

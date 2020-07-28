@@ -71,11 +71,14 @@ public class HnppVisitLogRepository extends BaseRepository {
             SQLiteDatabase database = getWritableDatabase();
 
             if (visitLog.getBaseEntityId() != null && findUnique(database, visitLog) == null) {
-                database.insert(VISIT_LOG_TABLE_NAME, null, createValuesFor(visitLog));
+               long row = database.insert(VISIT_LOG_TABLE_NAME, null, createValuesFor(visitLog));
+                Log.v("PROCESS_CLIENT","row insert:"+row+":"+visitLog.getEventType());
+
             }
 
 
         } catch (Exception e) {
+            Log.v("PROCESS_CLIENT","exception database:"+visitLog.getEventType());
             e.printStackTrace();
         }
 
@@ -111,6 +114,7 @@ public class HnppVisitLogRepository extends BaseRepository {
         return visit_ids;
     }
     public VisitLog findUnique(SQLiteDatabase db, VisitLog visitLog) {
+        Log.v("PROCESS_CLIENT","findUnique");
         if (visitLog == null || TextUtils.isEmpty(visitLog.getBaseEntityId())) {
             return null;
         }
@@ -120,6 +124,7 @@ public class HnppVisitLogRepository extends BaseRepository {
         net.sqlcipher.Cursor cursor = database.query(VISIT_LOG_TABLE_NAME, TABLE_COLUMNS, selection, selectionArgs, null, null, null, null);
         List<VisitLog> homeVisitList = getAllVisitLog(cursor);
         if (homeVisitList.size() > 0) {
+            Log.v("PROCESS_CLIENT","not uniq:"+visitLog.getEventType());
             return homeVisitList.get(0);
         }
         return null;
@@ -260,7 +265,7 @@ public class HnppVisitLogRepository extends BaseRepository {
         ArrayList<VisitLog> visits = getAllVisitLog(cursor);
         if(visits!=null && visits.size()>0){
             String pregnantStatus = visits.get(0).pregnantStatus;
-            if(pregnantStatus.equalsIgnoreCase("pregnant")){
+            if(!TextUtils.isEmpty(pregnantStatus) && pregnantStatus.equalsIgnoreCase("pregnant")){
                 return true;
             }
 
