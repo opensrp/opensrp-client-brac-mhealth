@@ -477,7 +477,7 @@
         "relevance": {
           "step1:last_lmp_weeks": {
             "type": "numeric",
-            "ex": "greaterThanEqualTo(., \"6\")"
+            "ex": "greaterThanEqualTo(., \"7\")"
           }
         }
       },

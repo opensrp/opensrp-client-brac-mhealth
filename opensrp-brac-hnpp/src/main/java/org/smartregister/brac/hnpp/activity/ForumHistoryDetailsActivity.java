@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
+import android.widget.Toast;
 
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.adapter.SearchHHMemberAdapter;
@@ -34,14 +35,39 @@ public class ForumHistoryDetailsActivity extends ForumDetailsActivity {
             String id = hhMemberProperty.getId();
             textViewKhanaName.setText("খানা : "+name +" \n"+"আইডি: "+id);
             editTextNoOfParticipants.setText(forumDetails.noOfParticipant);
-            if(forumDetails.forumType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.ADO.toString())){
+            if(forumDetails.forumType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_ADO)){
                 editTextAdoFood.setVisibility(View.VISIBLE);
+                editTextAdoFood.setEnabled(false);
                 editTextAdoFood.setText(forumDetails.noOfAdoTakeFiveFood);
             }
+//            String adapterSS = null;
+//
+//            try{
+//                adapterSS= ss_spinner.getItemAtPosition(forumDetails.sIndex)!=null?ss_spinner.getItemAtPosition(forumDetails.sIndex).toString():null;
+//            }catch (Exception e){
+//
+//            }
+            //if(adapterSS==null || !adapterSS.equalsIgnoreCase(forumDetails.ssName)){
+                ss_spinner.setVisibility(View.GONE);
+                village_spinner.setVisibility(View.GONE);
+                cluster_spinner.setVisibility(View.GONE);
+                textViewEmptySSName.setVisibility(View.VISIBLE);
+                textViewEmptySSName.setEnabled(false);
+                textViewEmptyVillage.setVisibility(View.VISIBLE);
+                textViewEmptyVillage.setEnabled(false);
+                textViewEmptyClaster.setVisibility(View.VISIBLE);
+                textViewEmptyClaster.setEnabled(false);
+                textViewEmptySSName.setText(forumDetails.ssName);
+                textViewEmptyVillage.setText(forumDetails.villageName);
+                textViewEmptyClaster.setText(forumDetails.clusterName);
+//            }
+//            else {
+//                ss_spinner.setSelection(forumDetails.sIndex);
+//                village_spinner.setSelection(forumDetails.vIndex);
+//                cluster_spinner.setSelection(forumDetails.cIndex);
+//            }
             editTextNoOfService.setText(forumDetails.noOfServiceTaken);
-            ss_spinner.setSelection(forumDetails.sIndex);
-            village_spinner.setSelection(forumDetails.vIndex);
-            cluster_spinner.setSelection(forumDetails.cIndex);
+
             ss_spinner.setEnabled(false);
             village_spinner.setEnabled(false);
             cluster_spinner.setEnabled(false);
@@ -61,17 +87,23 @@ public class ForumHistoryDetailsActivity extends ForumDetailsActivity {
                 public void onRemove(int position, HHMemberProperty content) {
 
                 }
-            },"");
+            },"-1");
             adapter.setData(hhMemberPropertyArrayList,new ArrayList<>());
             recyclerView.setAdapter(adapter);
 
 
         }
     }
+
+    @Override
+    protected void resetHHAndMember() {
+
+    }
+
     private void viewDisable(){
-        findViewById(R.id.search_khana).setEnabled(false);
-        findViewById(R.id.add_member_btn).setEnabled(false);
-        findViewById(R.id.submit_btn).setEnabled(false);
+        findViewById(R.id.search_khana).setVisibility(View.GONE);
+        findViewById(R.id.add_member_btn).setVisibility(View.GONE);
+        findViewById(R.id.submit_btn).setVisibility(View.GONE);
         editTextNoOfParticipants.setEnabled(false);
         editTextNoOfService.setEnabled(false);
         editTextAdoFood.setEnabled(false);

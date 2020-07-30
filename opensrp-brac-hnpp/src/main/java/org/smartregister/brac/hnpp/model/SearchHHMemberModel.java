@@ -110,7 +110,7 @@ public class SearchHHMemberModel {
         return hhList;
     }
     public ArrayList<HHMemberProperty> fetchAdo(String village, String claster){
-        String query = "Select ec_family_member.first_name,ec_family_member.base_entity_id,ec_family_member.unique_id,ec_family_member.dob FROM ec_family_member LEFT JOIN ec_family ON  ec_family_member.relational_id = ec_family.id COLLATE NOCASE  WHERE  ec_family_member.date_removed is null AND  ((( julianday('now') - julianday(dob))/365) >9) AND  ((( julianday('now') - julianday(dob))/365) <20)" +
+        String query = "Select ec_family_member.first_name,ec_family_member.base_entity_id,ec_family_member.unique_id,ec_family_member.dob FROM ec_family_member LEFT JOIN ec_family ON  ec_family_member.relational_id = ec_family.id COLLATE NOCASE  WHERE  ec_family_member.date_removed is null AND  ((( julianday('now') - julianday(dob))/365) >=11) AND  ((( julianday('now') - julianday(dob))/365) <20)" +
                 " AND gender = 'F' and ec_family.village_town = '"+village+"' and ec_family.claster = '"+claster+"'";
         Cursor cursor = null;
         adoArrayList.clear();
@@ -133,7 +133,7 @@ public class SearchHHMemberModel {
         return adoArrayList;
     }
     public ArrayList<HHMemberProperty> fetchWomen(String village, String claster){
-        String query = "Select ec_family_member.first_name,ec_family_member.base_entity_id,ec_family_member.unique_id,ec_family_member.dob FROM ec_family_member LEFT JOIN ec_family ON  ec_family_member.relational_id = ec_family.id COLLATE NOCASE  WHERE  ec_family_member.date_removed is null AND  ((( julianday('now') - julianday(dob))/365) >9)" +
+        String query = "Select ec_family_member.first_name,ec_family_member.base_entity_id,ec_family_member.unique_id,ec_family_member.dob FROM ec_family_member LEFT JOIN ec_family ON  ec_family_member.relational_id = ec_family.id COLLATE NOCASE  WHERE  ec_family_member.date_removed is null AND  ((( julianday('now') - julianday(dob))/365) >14)" +
                 " AND gender = 'F' and ec_family.village_town = '"+village+"' and ec_family.claster = '"+claster+"'";
         Cursor cursor = null;
         womenArrayList.clear();
@@ -156,7 +156,7 @@ public class SearchHHMemberModel {
         return womenArrayList;
     }
     public ArrayList<HHMemberProperty> fetchChild(String village, String claster){
-        String query = "Select ec_child.first_name,ec_child.base_entity_id,ec_child.unique_id,ec_child.dob FROM ec_child LEFT JOIN ec_family ON  ec_child.relational_id = ec_family.id COLLATE NOCASE  WHERE  ec_child.date_removed is null " +
+        String query = "Select ec_child.first_name,ec_child.base_entity_id,ec_child.unique_id,ec_child.dob FROM ec_child LEFT JOIN ec_family ON  ec_child.relational_id = ec_family.id COLLATE NOCASE  WHERE  ec_child.date_removed is null AND  ((( julianday('now') - julianday(dob))/(365*12)) >=6) AND  ((( julianday('now') - julianday(dob))/(365*12)) < 60)" +
                 " AND ec_family.village_town = '"+village+"' and ec_family.claster = '"+claster+"'";
         Cursor cursor = null;
         childArrayList.clear();
@@ -179,7 +179,7 @@ public class SearchHHMemberModel {
         return childArrayList;
     }
     public ArrayList<HHMemberProperty> fetchNcd(String village, String claster){
-        String query = "Select ec_family_member.first_name,ec_family_member.base_entity_id,ec_family_member.unique_id,ec_family_member.dob FROM ec_family_member LEFT JOIN ec_family ON  ec_family_member.relational_id = ec_family.id COLLATE NOCASE  WHERE  ec_family_member.date_removed is null AND  ((( julianday('now') - julianday(dob))/365) >29)" +
+        String query = "Select ec_family_member.first_name,ec_family_member.base_entity_id,ec_family_member.unique_id,ec_family_member.dob FROM ec_family_member LEFT JOIN ec_family ON  ec_family_member.relational_id = ec_family.id COLLATE NOCASE  WHERE  ec_family_member.date_removed is null AND  ((( julianday('now') - julianday(dob))/365) >31)" +
                 " and ec_family.village_town = '"+village+"' and ec_family.claster = '"+claster+"'";
         Cursor cursor = null;
         ncdArrayList.clear();

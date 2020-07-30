@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.smartregister.brac.hnpp.R;
@@ -55,6 +56,7 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
     private ArrayAdapter<String> villageSpinnerArrayAdapter;
     private String mSelectedVillageName,ssName;
     private String mSelectedClasterName;
+    protected TextView textViewEmptySSName,textViewEmptyVillage,textViewEmptyClaster;
 
     public static void startDetailsActivity(Activity activity, String comesFrom, String title){
         Intent intent  = new Intent(activity,ForumDetailsActivity.class);
@@ -66,8 +68,12 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_forum_details);
+        HnppConstants.updateAppBackground(findViewById(R.id.action_bar));
         textViewForumName = findViewById(R.id.forum_name);
         textViewKhanaName = findViewById(R.id.khana_name);
+        textViewEmptySSName = findViewById(R.id.ss_empty);
+        textViewEmptyVillage = findViewById(R.id.village_empty);
+        textViewEmptyClaster = findViewById(R.id.claster_empty);
         editTextNoOfParticipants = findViewById(R.id.no_of_perticipant);
         fromType = getIntent().getStringExtra(EXTRA_COMES_FROM);
         textViewForumName.setText(getIntent().getStringExtra(EXTRA_TITLE));
@@ -84,6 +90,20 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
         cluster_spinner = findViewById(R.id.klaster_filter_spinner);
         ss_spinner = findViewById(R.id.ss_filter_spinner);
         onIntentDataSet();
+    }
+    protected void resetHHAndMember(){
+        if(hhMemberProperty!=null){
+            hhMemberProperty = new HHMemberProperty();
+            textViewKhanaName.setText("");
+        }
+        if(hhMemberPropertyArrayList.size()>0){
+            hhMemberPropertyArrayList.clear();
+            if(adapter!=null){
+                adapter.setData(hhMemberPropertyArrayList,new ArrayList<>());
+                adapter.notifyDataSetChanged();
+            }
+
+        }
     }
     protected void onIntentDataSet(){
         if(!TextUtils.isEmpty(fromType) && fromType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.ADO.toString())){
@@ -163,6 +183,7 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
                             (ForumDetailsActivity.this, android.R.layout.simple_spinner_item,
                                     villageSpinnerArray);
                     village_spinner.setAdapter(villageSpinnerArrayAdapter);
+                    resetHHAndMember();
                     //villageSpinnerArrayAdapter.notifyDataSetChanged();
                 }
             }
@@ -178,6 +199,7 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
                 if (position != -1) {
                     vIndex = position;
                     mSelectedVillageName = villageSpinnerArray.get(position);
+                    resetHHAndMember();
                 }
             }
 
@@ -192,6 +214,7 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
                 if (position != -1) {
                     cIndex = position;
                     mSelectedClasterName = HnppConstants.getClasterNames().get(HnppConstants.getClasterSpinnerArray().get(position));
+                resetHHAndMember();
                 }
             }
 
@@ -219,7 +242,10 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
                         presenter.processWomenForum(forumDetails);
                     }else if(fromType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.ADO.toString())){
                         presenter.processAdoForum(forumDetails);
-                    }else if(fromType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.NCD.toString())){
+                    }else if(fromType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.NCD.toString()) || fromType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.ADULT.toString())){
+                        presenter.processNcdForum(forumDetails);
+                    }
+                    else if(fromType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.NCD.toString())){
                         presenter.processNcdForum(forumDetails);
                     }
 
@@ -255,7 +281,7 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
         }
         int participant = Integer.parseInt(editTextNoOfParticipants.getText().toString());
         if(participant<hhMemberPropertyArrayList.size()){
-            Toast.makeText(this,"সদস্য সংখ্যা অংশগ্রহণকারীর সংখ্যা থেকে বেশী হতে হবে ",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"সদস্য সংখ্যা অংশগ্রহণকারীর সংখ্যা থেকে কম হতে হবে ",Toast.LENGTH_SHORT).show();
             return null;
         }
         if(TextUtils.isEmpty(editTextNoOfService.getText().toString())){
@@ -299,6 +325,9 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
         }
         if(fromType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.NCD.toString())){
             return HnppConstants.EVENT_TYPE.FORUM_NCD;
+        }
+        if(fromType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.ADULT.toString())){
+            return HnppConstants.EVENT_TYPE.FORUM_ADULT;
         }
         return "";
     }

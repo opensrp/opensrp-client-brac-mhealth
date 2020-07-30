@@ -15,6 +15,7 @@ public interface ForumDetailsContract {
          void processWomenForum(ForumDetails forumDetails);
          void processChildForumEvent(ForumDetails forumDetails);
          void processNcdForum(ForumDetails forumDetails);
+        void processAdultForum(ForumDetails forumDetails);
          void searchHH(String name);
 
          View getView();

@@ -53,7 +53,7 @@ public class SearchHHMemberAdapter extends RecyclerView.Adapter<SearchViewHolder
             viewHolder.checkBox.setVisibility(View.VISIBLE);
             viewHolder.checkBox.setImageResource(R.drawable.ic_cross);
         }
-        else if( searchType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.HH.toString())){
+        else if( searchType.equalsIgnoreCase("-1") || searchType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.HH.toString())){
             viewHolder.checkBox.setVisibility(View.INVISIBLE);
         }else{
             viewHolder.checkBox.setVisibility(View.VISIBLE);
@@ -82,7 +82,7 @@ public class SearchHHMemberAdapter extends RecyclerView.Adapter<SearchViewHolder
             }
         });
         viewHolder.itemView.setOnClickListener(v -> {
-            if(TextUtils.isEmpty(searchType)){
+            if(TextUtils.isEmpty(searchType) || searchType.equalsIgnoreCase("-1")){
                 return;
             }
             if(searchType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.HH.toString())){

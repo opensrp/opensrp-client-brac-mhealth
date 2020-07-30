@@ -6,6 +6,7 @@ import android.view.View;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.adapter.ForumHistoryAdapter;
 import org.smartregister.brac.hnpp.model.ForumDetails;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.view.activity.SecuredActivity;
 
@@ -16,6 +17,7 @@ public class ForumHistoryActivity extends SecuredActivity {
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_forum_history);
+        HnppConstants.updateAppBackground(findViewById(R.id.action_bar));
         recyclerView = findViewById(R.id.recycler_view);
         findViewById(R.id.backBtn).setOnClickListener(new View.OnClickListener() {
             @Override

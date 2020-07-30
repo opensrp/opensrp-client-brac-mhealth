@@ -19,7 +19,8 @@ public class SearchHHMemberPresenter implements SearchHHMemberContract.Presenter
         return selectedList;
     }
     public void updatePreviousSelectedList(ArrayList<HHMemberProperty> previousList){
-        selectedList  = previousList;
+        selectedList.clear();
+        selectedList.addAll(previousList);
     }
 
     public SearchHHMemberPresenter(SearchHHMemberContract.View view){
@@ -59,6 +60,20 @@ public class SearchHHMemberPresenter implements SearchHHMemberContract.Presenter
 
     @Override
     public void fetchNcd(String village, String claster) {
+        view.showProgressBar();
+        Runnable runnable = () -> {
+            model.fetchNcd(village,claster);
+            appExecutors.mainThread().execute(() ->{
+                view.hideProgressBar();
+                view.updateAdapter(model.getNcdArrayList());
+            });
+
+        };
+        appExecutors.diskIO().execute(runnable);
+    }
+
+    @Override
+    public void fetchAdult(String village, String claster) {
         view.showProgressBar();
         Runnable runnable = () -> {
             model.fetchNcd(village,claster);

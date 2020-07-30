@@ -42,7 +42,7 @@ public class HnppDBUtils extends CoreChildUtils {
 
     public static ArrayList<ForumDetails> getPreviousForum(){
         String query = "select * from ec_visit_log where event_type ='"+HnppConstants.EVENT_TYPE.FORUM_CHILD+"' OR event_type = '"+HnppConstants.EVENT_TYPE.FORUM_ADO+"'" +
-                " OR event_type ='"+HnppConstants.EVENT_TYPE.FORUM_NCD+"' OR event_type = '"+HnppConstants.EVENT_TYPE.FORUM_WOMEN+"' order by visit_date desc";
+                " OR event_type ='"+HnppConstants.EVENT_TYPE.FORUM_NCD+"' OR event_type = '"+HnppConstants.EVENT_TYPE.FORUM_WOMEN+"' OR event_type ='"+HnppConstants.EVENT_TYPE.FORUM_ADULT+"' order by visit_date desc";
 
         List<Map<String, String>> valus = AbstractDao.readData(query, null);
         ArrayList<ForumDetails> visitIds = new ArrayList<>();

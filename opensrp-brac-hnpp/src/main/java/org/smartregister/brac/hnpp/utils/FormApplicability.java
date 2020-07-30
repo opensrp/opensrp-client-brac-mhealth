@@ -211,12 +211,20 @@ public class FormApplicability {
         }
         return -1;
     }
+    public static int getMonth(CommonPersonObjectClient commonPersonObject){
+        String dobString = org.smartregister.util.Utils.getValue(commonPersonObject.getColumnmaps(), "dob", false);
+        if(!TextUtils.isEmpty(dobString) ){
+            Period period = new Period(new DateTime(dobString), new DateTime());
+            return period.getMonths();
+        }
+        return -1;
+    }
     public static String getGender(CommonPersonObjectClient commonPersonObject){
         return org.smartregister.util.Utils.getValue(commonPersonObject.getColumnmaps(), "gender", false);
     }
     //other service and package
-    public static boolean isIycfApplicable(int age){
-        return age <=5;
+    public static boolean isIycfApplicable(int month){
+        return month >=6 && month <=60;
     }
     public static boolean isAdolescentApplicable(int age, boolean isWomen){
         return isWomen && age>=10 && age <=19;

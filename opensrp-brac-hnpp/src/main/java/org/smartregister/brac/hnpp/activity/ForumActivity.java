@@ -15,8 +15,10 @@ public class ForumActivity extends SecuredActivity implements View.OnClickListen
         findViewById(R.id.child_forum).setOnClickListener(this);
         findViewById(R.id.nari_forum).setOnClickListener(this);
         findViewById(R.id.ncd_forum).setOnClickListener(this);
+        findViewById(R.id.adult_forum).setOnClickListener(this);
         findViewById(R.id.history_forum).setOnClickListener(this);
         findViewById(R.id.backBtn).setOnClickListener(this);
+        HnppConstants.updateAppBackground(findViewById(R.id.action_bar));
 
     }
 
@@ -40,6 +42,10 @@ public class ForumActivity extends SecuredActivity implements View.OnClickListen
                 break;
             case R.id.ncd_forum:
                 ForumDetailsActivity.startDetailsActivity(this, HnppConstants.SEARCH_TYPE.NCD.toString(),getString(R.string.title_ncd));
+
+                break;
+            case R.id.adult_forum:
+                ForumDetailsActivity.startDetailsActivity(this, HnppConstants.SEARCH_TYPE.ADULT.toString(),getString(R.string.title_adult));
 
                 break;
             case R.id.history_forum:

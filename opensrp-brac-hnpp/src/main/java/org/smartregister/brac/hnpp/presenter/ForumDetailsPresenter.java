@@ -46,6 +46,11 @@ public class ForumDetailsPresenter implements ForumDetailsContract.Presenter {
         processForum(HnppConstants.EVENT_TYPE.FORUM_NCD,forumDetails);
     }
 
+    @Override
+    public void processAdultForum(ForumDetails forumDetails) {
+        processForum(HnppConstants.EVENT_TYPE.FORUM_ADULT,forumDetails);
+    }
+
     private void processForum(String eventType, ForumDetails forumDetails){
         view.showProgressBar();
         Runnable runnable = () -> {

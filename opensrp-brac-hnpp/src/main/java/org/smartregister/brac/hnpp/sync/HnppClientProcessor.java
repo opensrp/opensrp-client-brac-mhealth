@@ -163,7 +163,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
             case HnppConstants.EVENT_TYPE.FORUM_WOMEN:
             case HnppConstants.EVENT_TYPE.FORUM_ADO:
             case HnppConstants.EVENT_TYPE.FORUM_NCD:
-
+            case HnppConstants.EVENT_TYPE.FORUM_ADULT:
                 if (eventClient.getEvent() == null) {
                     return;
                 }

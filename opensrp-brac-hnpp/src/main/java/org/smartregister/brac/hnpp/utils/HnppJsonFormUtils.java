@@ -203,7 +203,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
                 formSubmissionField));
         if(!TextUtils.isEmpty(forumDetails.noOfAdoTakeFiveFood)){
-            formSubmissionField = "clusterName";
+            formSubmissionField = "noOfAdoTakeFiveFood";
             vall = new ArrayList<>();
             vall.add(forumDetails.clusterName);
             event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
@@ -252,6 +252,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
         event.setTeam(allSharedPreferences.fetchDefaultTeam(providerId));
         event.setTeamId(allSharedPreferences.fetchDefaultTeamId(providerId));
+
 
         event.setClientDatabaseVersion(FamilyLibrary.getInstance().getDatabaseVersion());
         event.setClientApplicationVersion(FamilyLibrary.getInstance().getApplicationVersion());
@@ -454,6 +455,21 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             updateFormField(jsonArray, "brac_pnc", TextUtils.isEmpty(prevalue)?"0":prevalue);
             updateFormField(jsonArray, "anc_count", TextUtils.isEmpty(preCountvalue)?"0":prevalue);
 
+            int initVal = TextUtils.isEmpty(prevalue)?0:Integer.parseInt(prevalue);
+            JSONArray jsonArray2 = new JSONArray();
+            for(int i = initVal+1; i<=4;i++ ){
+                jsonArray2.put(i);
+            }
+            JSONArray field = fields(jsonForm, STEP1);
+            JSONObject spinner1 = getFieldJSONObject(field, "number_of_pnc");
+            JSONObject spinner2 = getFieldJSONObject(field, "other_pnc_no_1");
+            JSONObject spinner3 = getFieldJSONObject(field, "other_pnc_no_2");
+            JSONObject spinner4 = getFieldJSONObject(field, "other_pnc_no_3");
+
+            spinner1.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray2);
+            spinner2.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray2);
+            spinner3.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray2);
+            spinner4.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray2);
 
 
         } catch (JSONException e) {

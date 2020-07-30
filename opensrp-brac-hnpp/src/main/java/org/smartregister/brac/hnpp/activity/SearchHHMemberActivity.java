@@ -56,6 +56,7 @@ public class SearchHHMemberActivity extends SecuredActivity implements View.OnCl
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_search_hh);
+        HnppConstants.updateAppBackground(findViewById(R.id.action_bar));
         editTextSearch = findViewById(R.id.search_edit_text);
         editTextSearch.setVisibility(View.GONE);
         villageNameTxt = findViewById(R.id.village_name_filter);
@@ -165,6 +166,8 @@ public class SearchHHMemberActivity extends SecuredActivity implements View.OnCl
                     presenter.fetchChild(villageName,clusterName);
                 }else if(searchType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.NCD.toString())){
                     presenter.fetchNcd(villageName,clusterName);
+                }else if(searchType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.ADULT.toString())){
+                    presenter.fetchAdult(villageName,clusterName);
                 }
 
 //

@@ -256,6 +256,7 @@ public class VisitLogIntentService extends IntentService {
             case HnppConstants.EVENT_TYPE.FORUM_WOMEN:
             case HnppConstants.EVENT_TYPE.FORUM_ADO:
             case HnppConstants.EVENT_TYPE.FORUM_NCD:
+            case HnppConstants.EVENT_TYPE.FORUM_ADULT:
                 return true;
             default:
                 return false;
@@ -263,23 +264,20 @@ public class VisitLogIntentService extends IntentService {
 
     }
     private static synchronized void saveForumData(Visit visit) {
-        Log.v("PROCESS_CLIENT","saveForumData visit event:"+visit.getVisitType());
         switch (visit.getVisitType()){
             case HnppConstants.EVENT_TYPE.FORUM_CHILD:
             case HnppConstants.EVENT_TYPE.FORUM_WOMEN:
             case HnppConstants.EVENT_TYPE.FORUM_ADO:
             case HnppConstants.EVENT_TYPE.FORUM_NCD:
+            case HnppConstants.EVENT_TYPE.FORUM_ADULT:
                 if (visit.getJson() != null) {
-                    Log.v("PROCESS_CLIENT","processing>>>>"+visit.getVisitType());
                     Event baseEvent = gson.fromJson(visit.getJson(), Event.class);
                     List<Obs> obsList = baseEvent.getObs();
                     ForumDetails forumDetails = new ForumDetails();
                     for(Obs obs:obsList){
                         try{
-                            Log.v("PROCESS_CLIENT","loop>>>>"+baseEvent.getEventType());
                             String key = obs.getFormSubmissionField();
 
-                            Log.v("PROCESS_CLIENT","loop>>>>key:"+key);
                             if(key.equalsIgnoreCase("forumType")){
                                 forumDetails.forumType = (String) obs.getValue();
                             }

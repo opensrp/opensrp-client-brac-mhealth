@@ -16,6 +16,7 @@ public interface SearchHHMemberContract {
          void fetchWomen(String village, String claster);
          void fetchChild(String village, String claster);
          void fetchNcd(String village, String claster);
+        void fetchAdult(String village, String claster);
          void searchHH( String name);
 
          View getView();

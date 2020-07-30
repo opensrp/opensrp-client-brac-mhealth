@@ -34,6 +34,7 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
     private ArrayList<OtherServiceData> getOtherService(CommonPersonObjectClient commonPersonObjectClient){
 
         int age = FormApplicability.getAge(commonPersonObjectClient);
+        int month = FormApplicability.getMonth(commonPersonObjectClient);
         String gender = FormApplicability.getGender(commonPersonObjectClient);
 
         ArrayList<OtherServiceData> otherServiceDataList = new ArrayList<>();
@@ -63,7 +64,7 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
             otherServiceDataList.add(otherServiceData2);
         }
 
-        if(FormApplicability.isIycfApplicable(age) && FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.IYCF_PACKAGE)){
+        if(FormApplicability.isIycfApplicable(month) && FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.IYCF_PACKAGE)){
             OtherServiceData otherServiceData4 = new OtherServiceData();
             otherServiceData4.setImageSource(R.drawable.child_girl_infant);
             otherServiceData4.setTitle("শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)");
