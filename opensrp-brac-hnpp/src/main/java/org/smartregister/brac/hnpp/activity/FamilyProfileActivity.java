@@ -197,7 +197,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                 String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
                 type = HnppJsonFormUtils.getEncounterType(type);
 
-                visit = HnppJsonFormUtils.saveVisit(false, familyBaseEntityId, type, jsonStrings, "");
+                visit = HnppJsonFormUtils.saveVisit(false,false,false,"", familyBaseEntityId, type, jsonStrings, "");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -244,10 +244,10 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
     protected ViewPager setupViewPager(ViewPager viewPager) {
         this.mViewPager = viewPager;
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        familyProfileMemberFragment = (FamilyProfileMemberFragment)FamilyProfileMemberFragment.newInstance(this.getIntent().getExtras());
+        familyProfileMemberFragment = (FamilyProfileMemberFragment)FamilyProfileMemberFragment.newInstance(getIntent().getExtras());
         adapter.addFragment(familyProfileMemberFragment,this.getString(R.string.member));
-        FamilyProfileDueFragment familyProfileDueFragment =(FamilyProfileDueFragment) FamilyProfileDueFragment.newInstance(this.getIntent().getExtras());
-        familyHistoryFragment = FamilyHistoryFragment.getInstance(this.getIntent().getExtras());
+        FamilyProfileDueFragment familyProfileDueFragment =(FamilyProfileDueFragment) FamilyProfileDueFragment.newInstance(getIntent().getExtras());
+        familyHistoryFragment = FamilyHistoryFragment.getInstance(getIntent().getExtras());
         adapter.addFragment(familyProfileDueFragment,this.getString(R.string.due));
         adapter.addFragment(familyHistoryFragment, this.getString(R.string.activity).toUpperCase());
         viewPager.setOffscreenPageLimit(3);

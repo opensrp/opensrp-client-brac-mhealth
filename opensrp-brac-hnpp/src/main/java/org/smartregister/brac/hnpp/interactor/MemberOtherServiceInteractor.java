@@ -39,7 +39,7 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
         ArrayList<OtherServiceData> otherServiceDataList = new ArrayList<>();
 
 
-        if(FormApplicability.isNcdApplicable(age)){
+        if(FormApplicability.isNcdApplicable(age) && FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.NCD_PACKAGE)){
             OtherServiceData otherServiceData3 = new OtherServiceData();
             otherServiceData3.setImageSource(R.drawable.ic_muac);
             otherServiceData3.setTitle("অসংক্রামক রোগের সেবা");
@@ -47,7 +47,7 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
             otherServiceDataList.add(otherServiceData3);
         }
 
-        if(FormApplicability.isWomenPackageApplicable(age,gender.equalsIgnoreCase("F"))){
+        if(FormApplicability.isWomenPackageApplicable(age,gender.equalsIgnoreCase("F"))&& FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.WOMEN_PACKAGE)){
             OtherServiceData otherServiceData = new OtherServiceData();
             otherServiceData.setImageSource(R.drawable.woman_placeholder);
             otherServiceData.setTitle("নারী সেবা প্যাকেজ");
@@ -55,7 +55,7 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
             otherServiceDataList.add(otherServiceData);
         }
 
-        if(FormApplicability.isAdolescentApplicable(age,gender.equalsIgnoreCase("F"))){
+        if(FormApplicability.isAdolescentApplicable(age,gender.equalsIgnoreCase("F"))&& FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.GIRL_PACKAGE)){
             OtherServiceData otherServiceData2 = new OtherServiceData();
             otherServiceData2.setImageSource(R.drawable.woman_placeholder);
             otherServiceData2.setTitle("কিশোরী সেবা প্যাকেজ");
@@ -63,7 +63,7 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
             otherServiceDataList.add(otherServiceData2);
         }
 
-        if(FormApplicability.isIycfApplicable(age)){
+        if(FormApplicability.isIycfApplicable(age) && FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.IYCF_PACKAGE)){
             OtherServiceData otherServiceData4 = new OtherServiceData();
             otherServiceData4.setImageSource(R.drawable.child_girl_infant);
             otherServiceData4.setTitle("শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)");

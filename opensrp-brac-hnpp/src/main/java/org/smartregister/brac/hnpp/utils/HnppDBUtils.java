@@ -18,6 +18,9 @@ import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.CoreJsonFormUtils;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.clientandeventmodel.Obs;
+import org.smartregister.commonregistry.CommonPersonObject;
+import org.smartregister.commonregistry.CommonPersonObjectClient;
+import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.util.DBConstants;
@@ -49,6 +52,70 @@ public class HnppDBUtils extends CoreChildUtils {
         }
         return visitIds;
 
+    }
+
+    public static CommonPersonObjectClient createFromBaseEntity(String baseEntityId){
+        CommonPersonObjectClient pClient = null;
+        String query = "Select ec_family_member.id as _id , ec_family_member.first_name , ec_family_member.last_name , ec_family_member.middle_name , ec_family_member.phone_number , ec_family_member.relational_id as relationalid , ec_family_member.entity_type , ec_family.village_town as village_name , ec_family_member.unique_id , ec_family_member.gender , ec_family_member.dob , ec_family.unique_id as house_hold_id , ec_family.first_name as house_hold_name , ec_family.module_id FROM ec_family_member LEFT JOIN ec_family ON  ec_family_member.relational_id = ec_family.id COLLATE NOCASE  WHERE  ec_family_member.date_removed is null and ec_family_member.base_entity_id ='"+baseEntityId+"'";
+        CommonRepository commonRepository = Utils.context().commonrepository("ec_family_member");
+        Cursor cursor = null;
+        try {
+           cursor = commonRepository.rawCustomQueryForAdapter(query);
+            if (cursor != null && cursor.moveToFirst()) {
+                CommonPersonObject personObject = commonRepository.readAllcommonforCursorAdapter(cursor);
+                pClient = new CommonPersonObjectClient(personObject.getCaseId(),
+                        personObject.getDetails(), "");
+                pClient.setColumnmaps(personObject.getColumnmaps());
+            }
+        } catch (Exception ex) {
+            Timber.e(ex, "CoreChildProfileInteractor --> updateChildCommonPerson");
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return pClient;
+
+    }
+
+    public static String getGuid(String baseEntityId){
+        String query = "select gu_id from ec_family_member where base_entity_id = '"+baseEntityId+"'";
+        Cursor cursor = null;
+        String birthWeight="";
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                birthWeight = cursor.getString(0);
+                cursor.close();
+            }
+
+            return birthWeight;
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return birthWeight;
+    }
+
+    public static String[] getBaseEntityByGuId(String guid){
+        String query = "select base_entity_id,first_name,unique_id from ec_family_member where gu_id = '"+guid+"'";
+        Cursor cursor = null;
+        String[] strings = new String[3];
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                strings[0] = cursor.getString(0);
+                strings[1] = cursor.getString(1);
+                strings[2] = cursor.getString(2);
+                cursor.close();
+            }
+
+            return strings;
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return strings;
     }
 
     public static String getBirthWeight(String baseEntityId){
@@ -410,6 +477,7 @@ public class HnppDBUtils extends CoreChildUtils {
         }
         return "";
     }
+
 
     public static String matchPhrase(String phrase) {
         String stringPhrase = phrase;

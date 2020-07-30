@@ -258,7 +258,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         return event;
     }
 
-    public static Visit saveVisit(boolean editMode, String memberID, String encounterType,
+    public static Visit saveVisit(boolean isComesFromIdentity,boolean needVerified,boolean isVerified, String notVerifyCause,String memberID, String encounterType,
                             final Map<String, String> jsonString,
                             String parentEventType) throws Exception {
 
@@ -269,6 +269,13 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         if(encounterType.equalsIgnoreCase(org.smartregister.chw.anc.util.Constants.EVENT_TYPE.ANC_HOME_VISIT)){
             prepareEvent(baseEvent);
         }
+        if(isComesFromIdentity){
+            prepareIsIdentified(baseEvent);
+        }else if(needVerified){
+                prepareIsVerified(baseEvent,isVerified,notVerifyCause);
+
+        }
+
 //        if (StringUtils.isBlank(parentEventType))
 //            prepareEvent(baseEvent);
 
@@ -337,6 +344,38 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                     list, new ArrayList<>(), null, "anc_visit_date"));
         }
     }
+    private static void prepareIsVerified(Event baseEvent, boolean isVerified , String notVerifyCause) {
+        if (baseEvent != null) {
+            // add anc date obs and last
+            List<Object> list = new ArrayList<>();
+            list.add(isVerified);
+
+
+            baseEvent.addObs(new Obs("concept", "text", "is_verified", "",
+                    list, new ArrayList<>(), null, "is_verified"));
+
+           if(!isVerified){
+               List<Object> list2 = new ArrayList<>();
+               list2.add(notVerifyCause);
+               baseEvent.addObs(new Obs("concept", "text", "not_verify_cause", "",
+                       list2, new ArrayList<>(), null, "not_verify_cause"));
+           }
+
+        }
+    }
+    private static void prepareIsIdentified(Event baseEvent) {
+        if (baseEvent != null) {
+            // add anc date obs and last
+            List<Object> list = new ArrayList<>();
+            list.add(true);
+
+
+            baseEvent.addObs(new Obs("concept", "text", "is_identified", "",
+                    list, new ArrayList<>(), null, "is_identified"));
+
+
+        }
+    }
     public static void addEDDField(String formName,JSONObject jsonForm,String baseEntityId){
         if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM)||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM)||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM)){
             JSONObject stepOne = null;
@@ -382,24 +421,21 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
             updateFormField(jsonArray, "brac_anc", TextUtils.isEmpty(prevalue)?"0":prevalue);
 
+            int initVal = TextUtils.isEmpty(prevalue)?0:Integer.parseInt(prevalue);
+            JSONArray jsonArray2 = new JSONArray();
+            for(int i = initVal+1; i<=8;i++ ){
+                jsonArray2.put(i);
+            }
+            JSONArray field = fields(jsonForm, STEP1);
+            JSONObject spinner1 = getFieldJSONObject(field, "number_of_anc");
+            JSONObject spinner2 = getFieldJSONObject(field, "other_anc_no_1");
+            JSONObject spinner3 = getFieldJSONObject(field, "other_anc_no_2");
+            JSONObject spinner4 = getFieldJSONObject(field, "other_anc_no_3");
 
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
-    public static void updateLastBracAnc(JSONObject jsonForm,String baseEntityId){
-        JSONObject stepOne = null;
-        try {
-
-            stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
-            JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
-            String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(baseEntityId+"_BRAC_ANC");
-            int preValInt = TextUtils.isEmpty(prevalue)?0:Integer.parseInt(prevalue);
-            updateFormField(jsonArray, "brac_anc",(preValInt+1)+"");
-
-
+            spinner1.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray2);
+            spinner2.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray2);
+            spinner3.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray2);
+            spinner4.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray2);
 
         } catch (JSONException e) {
             e.printStackTrace();

@@ -16,7 +16,7 @@ actions:
 name: step1_advice_body_temperature
 description: advice_body_temperature
 priority: 1
-condition: "step1_body_temperature > 99"
+condition: "step1_body_temperature > 99.99"
 actions:
   - "isRelevant = true"
 ---

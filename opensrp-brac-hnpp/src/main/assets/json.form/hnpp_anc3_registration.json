@@ -95,27 +95,13 @@
         "type": "spinner",
         "hint": "কত নম্বর গর্ভবতী পরিচর্যা সেবা (এ.এন.সি.)?",
         "values": [
-          "1",
-          "2",
-          "3",
-          "4",
-          "5",
-          "6",
-          "7",
-          "8"
+
         ],
         "openmrs_choice_ids": {
-          "1": "1",
-          "2": "2",
-          "3": "3",
-          "4": "4",
-          "5": "5",
-          "6": "6",
-          "7": "7",
-          "8": "8"
+
         },
         "v_required": {
-          "value": false,
+          "value": true,
           "err": "প্রশ্নের উত্তর দিন"
         }
       },
@@ -157,16 +143,18 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "other_anc_no_1",
-        "type": "edit_text",
-        "edit_type": "number",
-        "read_only": true,
+        "openmrs_data_type": "",
+        "type": "spinner",
         "hint": "এটি কয় নম্বর এ.এন.সি. সেবা?",
-        "calculation": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_anc_calculation_rule.yml"
-            }
-          }
+        "values": [
+
+        ],
+        "openmrs_choice_ids": {
+
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
         },
         "relevance": {
           "step1:diff": {
@@ -175,6 +163,47 @@
           }
         }
       },
+      {
+        "key": "greter_anc_1",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "label",
+        "has_bg": true,
+        "left_padding": "20dp",
+        "right_padding": "20dp",
+        "text_size": "25sp",
+        "text_color": "#FF0000",
+        "text": "* এবারে নেয়া এ.এন.সি. নম্বর থেকে কম হবে.",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "match_anc_1",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "label",
+        "has_bg": true,
+        "left_padding": "20dp",
+        "right_padding": "20dp",
+        "text_size": "25sp",
+        "text_color": "#FF0000",
+        "text": "* এ.এন.সি. নম্বর গুলো আলাদা হবে ",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
+        }
+      },
+
       {
         "key": "other_source_anc_1",
         "openmrs_entity_parent": "",
@@ -221,22 +250,69 @@
           }
         }
       },
+
       {
         "key": "other_anc_no_2",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "other_anc_no_2",
-        "type": "edit_text",
-        "edit_type": "number",
+        "openmrs_data_type": "",
+        "type": "spinner",
         "hint": "এটি কয় নম্বর এ.এন.সি. সেবা?",
-        "v_regex": {
-          "value": "([2-6])\\s*",
-          "err": "২ থেকে ৬ পর্যন্ত"
+        "values": [
+
+        ],
+        "openmrs_choice_ids": {
+
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
         },
         "relevance": {
           "step1:diff": {
             "type": "numeric",
             "ex": "greaterThanEqualTo(., \"3\")"
+          }
+        }
+      },
+      {
+        "key": "greter_anc_2",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "label",
+        "has_bg": true,
+        "left_padding": "20dp",
+        "right_padding": "20dp",
+        "text_size": "25sp",
+        "text_color": "#FF0000",
+        "text": "* এবারে নেয়া এ.এন.সি. নম্বর থেকে কম হবে.",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "match_anc_2",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "label",
+        "has_bg": true,
+        "left_padding": "20dp",
+        "right_padding": "20dp",
+        "text_size": "25sp",
+        "text_color": "#FF0000",
+        "text": "* এ.এন.সি. নম্বর গুলো আলাদা হবে",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
           }
         }
       },
@@ -272,17 +348,63 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "other_anc_no_3",
-        "type": "edit_text",
-        "edit_type": "number",
+        "openmrs_data_type": "",
+        "type": "spinner",
         "hint": "এটি কয় নম্বর এ.এন.সি. সেবা?",
-        "v_regex": {
-          "value": "([3-6])\\s*",
-          "err": "৩ থেকে ৬ পর্যন্ত"
+        "values": [
+
+        ],
+        "openmrs_choice_ids": {
+
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
         },
         "relevance": {
           "step1:diff": {
             "type": "numeric",
             "ex": "greaterThanEqualTo(., \"4\")"
+          }
+        }
+      },
+      {
+        "key": "greter_anc_3",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "label",
+        "has_bg": true,
+        "left_padding": "20dp",
+        "right_padding": "20dp",
+        "text_size": "25sp",
+        "text_color": "#FF0000",
+        "text": "* এবারে নেয়া এ.এন.সি. নম্বর থেকে কম হবে.",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "match_anc_3",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "label",
+        "has_bg": true,
+        "left_padding": "20dp",
+        "right_padding": "20dp",
+        "text_size": "25sp",
+        "text_color": "#FF0000",
+        "text": "* এ.এন.সি. নম্বর গুলো আলাদা হবে",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
           }
         }
       },
@@ -1356,7 +1478,7 @@
         "type": "label",
         "text": "করোনা কালীন গর্ভবতী পরিচর্যা সংক্রান্ত তথ্য জানতে এখানে চাপ দিন",
         "label_info_title": "করোনা কালীন গর্ভবতী পরিচর্যা সংক্রান্ত তথ্য",
-        "label_info_text": " -> গর্ভবতী ও প্রসূতি মা প্রয়োজন না হলে ঘর থেকে বের হবেন না। একান্ত প্রয়োজন না হলে লোক সমাগম বেশী এমন স্থান যেমন মার্কেট,বাজার ইত্যাদি এড়িয়ে চলবেন।\n -> বাহির হতে ঘরে ফেরার পর গর্ভবতীসহ বাড়ির সবাইকে বারবার যেকোন সাবান দিয়ে ভালো করে (২০ সেকেন্ড যাবত) হাত ধুতে হবে।\n -> পরিহিত কাপড় প্রতিদিন ধুয়ে ফেলতে হবে।\n -> গর্ভবতী ও প্রসূতি মা বাড়িতে গবাদি পশু ( গরু, ছাগল, ভেড়া ইত্যাদি)ও হাসঁ-মুরগীর  যতœ করলে অবশ্যই  যেকোন সাবান দিয়ে ভালো করে (২০ সেকেন্ড যাবত) হাত ধুতে হবে।\n -> হাঁচি-কাশির শিষ্টাচার মেনে চলবেন। টিস্যু, রুমাল  ব্যবহার করবেন অথবা কনুই এর ভাঁজে হাঁচি-কাশি দিবেন। ব্যবহৃত টিস্যু ঢাকনাযুক্ত ডাস্টবিনে ফেলুন এবং ব্যবহৃত রুমাল বা কাপড় সাবান দিয়ে ধুয়ে ফেলবেন।\n -> জ্বর, হাঁচি -কাশিতে আক্রান্ত ব্যক্তির সংষ্পর্শ এড়িয়ে চলুন। এমনকি পরিবারের কেউ সর্দি জ্বরে আক্রান্ত হলে গর্ভবতী মা তার সংষ্পর্শে আসবেন না।\n -> নিয়মিত আয়রণ ও ক্যালসিয়াম ট্যাবলেট খাবেন।\n-> খাবার বিশেষ করে মাছ, মাংস ও ডিম ভালোভাবে সিদ্ধ করে খেতে হবে এবং কাঁচা দুধ খাওয়া যাবেনা।\n -> খাওয়ার পূর্বে ফলমূল এবং রান্নার পূর্বে শাক-সব্জি ভালোভাবে ধুয়ে খেতে হবে। এসময় প্রচুর পানি পান করবেন ও ভিটামিন  ’সি’ সমৃদ্ধ খাবার যেমন: লেবু,আমলকি, পেয়ারা,কাঁচামরিচ,আমড়া ইত্যাদি বেশী খাবেন ।\n -> করোনা পজিটিভ মা অবশ্যই নবজাতক ও শিশুকে নিচের নিয়ম মেনে বুকের দুধ খাওয়াতে পারবেন:\n  -> নবজাতক ও শিশুর সংষ্পর্শে আসার আগে ও পরে স্বাস্থ্যবিধি অনুসারে হাত ধুয়ে নিতে হবে\n  -> বুকের দুধ খাওয়ানোর আগে ও পরে স\u200C্বাস্থ্যবিধিমতে হাত ধুয়ে নিতে হবে ও অবশ্যই মাস্ক ব্যবহার করতে হবে।\n  -> করোনা ভাইরাস পজিটিভ মা যদি বেশী অসুস্থ হয় তবে সেক্ষেত্রে স\u200C্বাস্থ্যবিধিমতে হাত ধুয়ে বুকের দুধ চেপে বের করে নবজাতক ও শিশুকে খাওয়াতে পারবেন।\n"
+        "label_info_text": " -> গর্ভবতী ও প্রসূতি মা প্রয়োজন না হলে ঘর থেকে বের হবেন না। একান্ত প্রয়োজন না হলে লোক সমাগম বেশী এমন স্থান যেমন মার্কেট,বাজার ইত্যাদি এড়িয়ে চলবেন।\n -> বাহির হতে ঘরে ফেরার পর গর্ভবতীসহ বাড়ির সবাইকে বারবার যেকোন সাবান দিয়ে ভালো করে (২০ সেকেন্ড যাবত) হাত ধুতে হবে।\n -> পরিহিত কাপড় প্রতিদিন ধুয়ে ফেলতে হবে।\n -> গর্ভবতী ও প্রসূতি মা বাড়িতে গবাদি পশু ( গরু, ছাগল, ভেড়া ইত্যাদি)ও হাসঁ-মুরগীর  যতœ করলে অবশ্যই  যেকোন সাবান দিয়ে ভালো করে (২০ সেকেন্ড যাবত) হাত ধুতে হবে।\n -> হাঁচি-কাশির শিষ্টাচার মেনে চলবেন। টিস্যু, রুমাল  ব্যবহার করবেন অথবা কনুই এর ভাঁজে হাঁচি-কাশি দিবেন। ব্যবহৃত টিস্যু ঢাকনাযুক্ত ডাস্টবিনে ফেলুন এবং ব্যবহৃত রুমাল বা কাপড় সাবান দিয়ে ধুয়ে ফেলবেন।\n -> জ্বর, হাঁচি -কাশিতে আক্রান্ত ব্যক্তির সংষ্পর্শ এড়িয়ে চলুন। এমনকি পরিবারের কেউ সর্দি জ্বরে আক্রান্ত হলে গর্ভবতী মা তার সংষ্পর্শে আসবেন না।\n -> নিয়মিত আয়রণ ও ক্যালসিয়াম ট্যাবলেট খাবেন।\n-> খাবার বিশেষ করে মাছ, মাংস ও ডিম ভালোভাবে সিদ্ধ করে খেতে হবে এবং কাঁচা দুধ খাওয়া যাবেনা।\n -> খাওয়ার পূর্বে ফলমূল এবং রান্নার পূর্বে শাক-সব্জি ভালোভাবে ধুয়ে খেতে হবে। এসময় প্রচুর পানি পান করবেন ও ভিটামিন  ’সি’ সমৃদ্ধ খাবার যেমন: লেবু,আমলকি, পেয়ারা,কাঁচামরিচ,আমড়া ইত্যাদি বেশী খাবেন ।\n -> করোনা পজিটিভ মা অবশ্যই নবজাতক ও শিশুকে নিচের নিয়ম মেনে বুকের দুধ খাওয়াতে পারবেন:\n\t * নবজাতক ও শিশুর সংষ্পর্শে আসার আগে ও পরে স্বাস্থ্যবিধি অনুসারে হাত ধুয়ে নিতে হবে\n\t * বুকের দুধ খাওয়ানোর আগে ও পরে স\u200C্বাস্থ্যবিধিমতে হাত ধুয়ে নিতে হবে ও অবশ্যই মাস্ক ব্যবহার করতে হবে।\n\t * করোনা ভাইরাস পজিটিভ মা যদি বেশী অসুস্থ হয় তবে সেক্ষেত্রে স\u200C্বাস্থ্যবিধিমতে হাত ধুয়ে বুকের দুধ চেপে বের করে নবজাতক ও শিশুকে খাওয়াতে পারবেন।\n"
       },
       {
         "key": "refer_reason",

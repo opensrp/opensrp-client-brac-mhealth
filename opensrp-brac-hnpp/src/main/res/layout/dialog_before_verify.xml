@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="300dp">
+    <ImageView
+       android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:id="@+id/finger_print"
+        android:src="@drawable/ic_finger"
+        android:layout_width="100dp"
+        android:layout_height="100dp"/>
+
+        <Button
+            android:layout_below="@+id/finger_print"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:id="@+id/verify_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:background="@drawable/round_btn"
+            android:ems="10"
+            android:shadowColor="#ffffff"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="0.5"
+            android:textStyle="bold"
+            android:text="অমিল অবস্থায় সেবা দেই"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+</RelativeLayout>

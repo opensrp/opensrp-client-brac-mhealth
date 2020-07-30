@@ -153,44 +153,44 @@ condition: "step1_obsessive_compulsive_disorder.equalsIgnoreCase('হ্যা�
 actions:
   - "isRelevant = true"
 ---
-name: step1_greter_anc_1
-description: greter_anc_1
+name: step1_greter_pnc_1
+description: greter_pnc_1
 priority: 3
-condition: "step1_other_anc_no_1!='' && step1_number_of_anc !='' && (step1_other_anc_no_1 > step1_number_of_anc)"
+condition: "step1_other_pnc_no_1!='' && step1_number_of_pnc !='' && (step1_other_pnc_no_1 > step1_number_of_anc)"
 actions:
   - "isRelevant = true"
 ---
 name: step1_greter_anc_2
 description: greter_anc_2
 priority: 2
-condition: "step1_other_anc_no_2!='' && step1_number_of_anc !='' && (step1_other_anc_no_2 > step1_number_of_anc)"
+condition: "step1_other_pnc_no_2!='' && step1_number_of_pnc !='' && (step1_other_pnc_no_2 > step1_number_of_pnc)"
 actions:
   - "isRelevant = true"
 ---
-name: step1_greter_anc_3
-description: greter_anc_3
+name: step1_greter_pnc_3
+description: greter_pnc_3
 priority: 1
-condition: "step1_other_anc_no_3!='' && step1_number_of_anc !='' && (step1_other_anc_no_3 > step1_number_of_anc)"
+condition: "step1_other_pnc_no_3!='' && step1_number_of_pnc !='' && (step1_other_pnc_no_3 > step1_number_of_pnc)"
 actions:
   - "isRelevant = true"
 ---
-name: step1_match_anc_1
-description: match_anc_1
+name: step1_match_pnc_1
+description: match_pnc_1
 priority: 3
-condition: "step1_other_anc_no_1!='' && ((step1_other_anc_no_1 == step1_number_of_anc) ||(step1_other_anc_no_1 == step1_other_anc_no_2) ||(step1_other_anc_no_1 == step1_other_anc_no_3))"
+condition: "step1_other_pnc_no_1!='' && ((step1_other_pnc_no_1 == step1_number_of_pnc) ||(step1_other_pnc_no_1 == step1_other_pnc_no_2) ||(step1_other_pnc_no_1 == step1_other_pnc_no_3))"
 actions:
   - "isRelevant = true"
 ---
-name: step1_match_anc_2
-description: match_anc_2
+name: step1_match_pnc_2
+description: match_pnc_2
 priority: 2
-condition: "step1_other_anc_no_2!='' && ((step1_other_anc_no_2 == step1_number_of_anc) ||(step1_other_anc_no_2 == step1_other_anc_no_1) ||(step1_other_anc_no_2 == step1_other_anc_no_3))"
+condition: "step1_other_pnc_no_2!='' && ((step1_other_pnc_no_2 == step1_number_of_pnc) ||(step1_other_pnc_no_2 == step1_other_pnc_no_1) ||(step1_other_pnc_no_2 == step1_other_pnc_no_3))"
 actions:
   - "isRelevant = true"
 ---
-name: step1_match_anc_3
-description: match_anc_3
+name: step1_match_pnc_3
+description: match_pnc_3
 priority: 1
-condition: "step1_other_anc_no_3!='' && ((step1_other_anc_no_3 == step1_number_of_anc) ||(step1_other_anc_no_3 == step1_other_anc_no_1) ||(step1_other_anc_no_3 == step1_other_anc_no_2))"
+condition: "step1_other_pnc_no_3!='' && ((step1_other_pnc_no_3 == step1_number_of_pnc) ||(step1_other_pnc_no_3 == step1_other_pnc_no_1) ||(step1_other_pnc_no_3 == step1_other_pnc_no_2))"
 actions:
   - "isRelevant = true"

@@ -443,7 +443,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
                 // persist to database
 
 
-                visit = HnppJsonFormUtils.saveVisit(false, childBaseEntityId, type, jsonStrings, "");
+                visit = HnppJsonFormUtils.saveVisit(false,false,false,"", childBaseEntityId, type, jsonStrings, "");
             } catch (Exception e) {
                 e.printStackTrace();
             }

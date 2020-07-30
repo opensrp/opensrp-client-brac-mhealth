@@ -15,7 +15,7 @@ actions:
 name: step1_advice_toaster_hemoglobin_test
 description: advice_toaster_hemoglobin_test
 priority: 1
-condition: "step1_hemoglobin_test < 8"
+condition: "step1_hemoglobin < 8"
 actions:
   - "isRelevant = true"
 ---

@@ -57,6 +57,7 @@ public class SearchHHMemberActivity extends SecuredActivity implements View.OnCl
     protected void onCreation() {
         setContentView(R.layout.activity_search_hh);
         editTextSearch = findViewById(R.id.search_edit_text);
+        editTextSearch.setVisibility(View.GONE);
         villageNameTxt = findViewById(R.id.village_name_filter);
         clusterNameTxt = findViewById(R.id.cluster_filter);
         progressBar = findViewById(R.id.progress_bar);

@@ -1,6 +1,5 @@
 package org.smartregister.brac.hnpp.model;
 
-import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.core.model.NavigationOption;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.brac.hnpp.R;

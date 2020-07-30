@@ -202,7 +202,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "পুষ্টিকণা না খাওয়ার কারণে:'\n১. শিশু পুষ্টিহীনতায় ভোগে\n২. স্বাস্থ্য ক্ষীণকায় হয়\n৩. শিশু রক্তস্বল্পতায় ভোগে\n৪. শিশুর বাড়ন্ত অনুযায়ী মেধার বিকাশ বাধাগ্রস্ত হবে।\n৫.খাওয়ার রুচি কমবে ",
+        "text": "পুষ্টিকণা না খাওয়ার কারণে:\n১. শিশু পুষ্টিহীনতায় ভোগে\n২. স্বাস্থ্য ক্ষীণকায় হয়\n৩. শিশু রক্তস্বল্পতায় ভোগে\n৪. শিশুর বাড়ন্ত অনুযায়ী মেধার বিকাশ বাধাগ্রস্ত হবে।\n৫.খাওয়ার রুচি কমবে ",
         "text_color": "#f51b00",
         "toaster_type": "info",
         "relevance": {
@@ -247,7 +247,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "সুষম ও পুষ্টিকর খাবার দিন ,বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text": "সুষম ও পুষ্টিকর খাবার দিন, বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#f51b00",
         "toaster_type": "info",
         "relevance": {
@@ -292,7 +292,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "সুষম ও পুষ্টিকর খাবার দিন ,বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text": "সুষম ও পুষ্টিকর খাবার দিন, বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#f51b00",
         "toaster_type": "info",
         "relevance": {
@@ -381,7 +381,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "সুষম ও পুষ্টিকর খাবার দিন ,বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text": "সুষম ও পুষ্টিকর খাবার দিন, বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#f51b00",
         "toaster_type": "info",
         "relevance": {
@@ -470,7 +470,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "সুষম ও পুষ্টিকর খাবার দিন কোন কিছু ধরে দাঁড়ানোর চেষ্টা করান, বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text": "সুষম ও পুষ্টিকর খাবার দিন, কোন কিছু ধরে দাঁড়ানোর চেষ্টা করান, বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#f51b00",
         "toaster_type": "info",
         "relevance": {
@@ -552,6 +552,22 @@
         }
       }
 
+      },
+      {
+        "key": "can_walk_no",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "সুষম ও পুষ্টিকর খাবার দিন, বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#f51b00",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:can_walk": {
+            "type": "string",
+            "ex": "equalTo(., \"না\")"
+          }
+        }
       },
       {
         "key": "can_two_sound",

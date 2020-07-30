@@ -18,6 +18,7 @@
     <string name="menu_child_clients">শিশু তালিকা</string>
     <string name="menu_all_member">সব সদস্য তালিকা</string>
     <string name="menu_forum">ফোরাম</string>
+    <string name="menu_simprints">আঙুলের ছাপ দ্বারা সদস্য খুঁজি</string>
     <string name="unique_id_form_field">খানা নাম্বার</string>
     <string name="ss_name_form_field">স্বাস্থ্য সেবিকার নামঃ</string>
     <string name="village_name_form_field">গ্রামের নামঃ</string>
@@ -286,5 +287,6 @@
     <string name="sort">সর্ট বাই</string>
     <string name="call">কল</string>
     <string name="call_no_number_provided">(কোনো নাম্বার দেওয়া হয়নি)</string>
+    <string name="not_match">এই ব্যক্তিটির তথ্য পাওয়া যাই নি </string>
 
 </resources>

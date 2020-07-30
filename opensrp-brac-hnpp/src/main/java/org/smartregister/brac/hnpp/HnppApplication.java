@@ -23,6 +23,7 @@ import org.smartregister.brac.hnpp.activity.HnppAllMemberRegisterActivity;
 import org.smartregister.brac.hnpp.activity.HnppAncRegisterActivity;
 import org.smartregister.brac.hnpp.activity.HnppElcoMemberRegisterActivity;
 import org.smartregister.brac.hnpp.activity.HnppPncRegisterActivity;
+import org.smartregister.brac.hnpp.activity.SimprintsIdentityActivity;
 import org.smartregister.brac.hnpp.custom_view.HnppNavigationTopView;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.listener.HnppNavigationListener;
@@ -223,6 +224,8 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.REFERRALS_REGISTER_ACTIVITY, ReferralRegisterActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.MALARIA_REGISTER_ACTIVITY, FamilyRegisterActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.FORUM_ACTIVITY, ForumActivity.class);
+
+        registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.SIMPRINTS_REGISTER_ACTIVITY, SimprintsIdentityActivity.class);
 
         return registeredActivities;
     }
