@@ -352,7 +352,7 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
             hhMemberPropertyArrayList = (ArrayList<HHMemberProperty>) data.getSerializableExtra(EXTRA_INTENT_DATA);
              adapter= new SearchHHMemberAdapter(this, new SearchHHMemberAdapter.OnClickAdapter() {
                 @Override
-                public void onClick(int position, HHMemberProperty content) {
+                public void onClick(int position, HHMemberProperty content, boolean isAd) {
 
                 }
 

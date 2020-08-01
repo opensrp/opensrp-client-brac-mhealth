@@ -23,8 +23,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.ybq.android.spinkit.style.FadingCircle;
+import com.vijay.jsonwizard.constants.JsonFormConstants;
+import com.vijay.jsonwizard.domain.Form;
 
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.smartregister.chw.core.R;
 import org.smartregister.chw.core.activity.ChwP2pModeSelectActivity;
 import org.smartregister.chw.core.adapter.NavigationAdapter;
@@ -37,6 +41,8 @@ import org.smartregister.chw.core.presenter.NavigationPresenter;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.domain.FetchStatus;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
+import org.smartregister.util.FormUtils;
+import org.smartregister.util.JsonFormUtils;
 import org.smartregister.util.LangUtils;
 import org.smartregister.util.PermissionUtils;
 
@@ -65,6 +71,9 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     private NavigationAdapter navigationAdapter;
     private RecyclerView recyclerView;
     private TextView tvLogout;
+    private TextView tvCovid19;
+    private TextView tvForceSync;
+
     private View rootView = null;
     private ImageView ivSync;
     private ProgressBar syncProgressBar;
@@ -176,6 +185,9 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         recyclerView = rootView.findViewById(R.id.rvOptions);
         // NavigationView navigationView = rootView.findViewById(R.id.nav_view);
         tvLogout = rootView.findViewById(R.id.tvLogout);
+        tvCovid19 = rootView.findViewById(R.id.covid19);
+        tvForceSync = rootView.findViewById(R.id.tvForceSync);
+
         recyclerView = rootView.findViewById(R.id.rvOptions);
         ivSync = rootView.findViewById(R.id.ivSyncIcon);
         syncProgressBar = rootView.findViewById(R.id.pbSync);
@@ -198,12 +210,17 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         registerLogout(activity);
         registerSync(activity);
         registerLanguageSwitcher(activity);
+        registerCovid19(activity);
+        registerForceSync(activity);
+
 
         registerDeviceToDeviceSync(activity);
         // update all actions
         mPresenter.refreshLastSync();
         mPresenter.refreshNavigationCount(activity);
     }
+
+
 
     @Override
     public void refreshLastSync(Date lastSync) {
@@ -231,6 +248,19 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         Toast.makeText(activity.getApplicationContext(), activity.getResources().getText(R.string.action_log_out), Toast.LENGTH_SHORT).show();
         application.forceLogout();
     }
+
+    public void covid19(Activity activity) {
+        if(mPresenter!=null){
+            mPresenter.covid19(activity);
+        }
+
+    }
+    public void forceSync(Activity activity) {
+        if(mPresenter!=null){
+            mPresenter.forceSync(activity);
+        }
+    }
+
 
     @Override
     public void refreshCount() {
@@ -275,6 +305,14 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     private void registerLogout(final Activity parentActivity) {
         mPresenter.displayCurrentUser();
         tvLogout.setOnClickListener(v -> logout(parentActivity));
+    }
+    private void registerCovid19(final Activity parentActivity) {
+        mPresenter.displayCurrentUser();
+        tvCovid19.setOnClickListener(v -> covid19(parentActivity));
+    }
+    private void registerForceSync(final Activity parentActivity){
+        mPresenter.displayCurrentUser();
+        tvForceSync.setOnClickListener(v -> forceSync(parentActivity));
     }
 
     private void registerSync(final Activity parentActivity) {

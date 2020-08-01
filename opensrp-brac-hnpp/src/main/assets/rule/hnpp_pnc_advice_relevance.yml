@@ -156,7 +156,7 @@ actions:
 name: step1_greter_pnc_1
 description: greter_pnc_1
 priority: 3
-condition: "step1_other_pnc_no_1!='' && step1_number_of_pnc !='' && (step1_other_pnc_no_1 > step1_number_of_anc)"
+condition: "step1_other_pnc_no_1!='' && step1_number_of_pnc !='' && (step1_other_pnc_no_1 > step1_number_of_pnc)"
 actions:
   - "isRelevant = true"
 ---

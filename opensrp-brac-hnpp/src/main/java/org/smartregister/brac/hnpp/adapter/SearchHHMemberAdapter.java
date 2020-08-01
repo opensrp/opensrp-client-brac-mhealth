@@ -90,10 +90,12 @@ public class SearchHHMemberAdapter extends RecyclerView.Adapter<SearchViewHolder
             }else{
                 if(selectedId.contains(content.getId())){
                     selectedId.remove(content.getId());
+                    onClickAdapter.onClick(viewHolder.getAdapterPosition(), content,false);
                 }else{
                     selectedId.add(content.getId());
+                    onClickAdapter.onClick(viewHolder.getAdapterPosition(), content,true);
                 }
-                onClickAdapter.onClick(viewHolder.getAdapterPosition(), content);
+
             }
 
         });
@@ -106,7 +108,7 @@ public class SearchHHMemberAdapter extends RecyclerView.Adapter<SearchViewHolder
     }
 
     public interface OnClickAdapter {
-        void onClick(int position, HHMemberProperty content);
+        void onClick(int position, HHMemberProperty content, boolean isNeedToAd);
         void onClickHH(int position, HHMemberProperty content);
         void onRemove(int position, HHMemberProperty content);
     }

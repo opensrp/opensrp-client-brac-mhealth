@@ -143,26 +143,38 @@ public class SearchHHMemberPresenter implements SearchHHMemberContract.Presenter
     public void updateHH(HHMemberProperty hhMemberProperty){
         selectedList.add(hhMemberProperty);
     }
-    public void updateList(HHMemberProperty hhMemberProperty){
+    public void updateList(HHMemberProperty hhMemberProperty, boolean isAdd){
         if(selectedList.size() == 0){
             selectedList.add(hhMemberProperty);
         }else{
-            Iterator<HHMemberProperty> it = selectedList.iterator();
-            while (it.hasNext()){
-               try{
-                   HHMemberProperty prev = it.next();
-                   if (prev.getBaseEntityId().equals(hhMemberProperty.getBaseEntityId())){
-                       it.remove();
-                   }else{
-                       selectedList.add(hhMemberProperty);
-                   }
-               }catch (ConcurrentModificationException e){
-                   e.printStackTrace();
-                   break;
-               }
-
+            if(isAdd){
+                selectedList.add(hhMemberProperty);
+            }else{
+                for(HHMemberProperty hh: new ArrayList<HHMemberProperty>(selectedList)){
+                    if(hh.getBaseEntityId().equalsIgnoreCase(hhMemberProperty.getBaseEntityId())){
+                        selectedList.remove(hh);
+                    }
+                }
             }
         }
+
+//        else{
+//            Iterator<HHMemberProperty> it = selectedList.iterator();
+//            while (it.hasNext()){
+//               try{
+//                   HHMemberProperty prev = it.next();
+//                   if (prev.getBaseEntityId().equals(hhMemberProperty.getBaseEntityId())){
+//                       it.remove();
+//                   }else{
+//                       selectedList.add(hhMemberProperty);
+//                   }
+//               }catch (ConcurrentModificationException e){
+//                   e.printStackTrace();
+//                   break;
+//               }
+//
+//            }
+//        }
 
     }
 }

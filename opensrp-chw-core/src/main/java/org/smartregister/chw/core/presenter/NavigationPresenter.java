@@ -123,6 +123,16 @@ public class NavigationPresenter implements NavigationContract.Presenter {
     }
 
     @Override
+    public void covid19(Activity activity) {
+
+    }
+
+    @Override
+    public void forceSync(Activity activity) {
+
+    }
+
+    @Override
     public List<NavigationOption> getOptions() {
         return mModel.getNavigationItems();
     }

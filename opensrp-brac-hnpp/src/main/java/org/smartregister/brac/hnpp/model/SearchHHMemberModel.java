@@ -2,6 +2,7 @@ package org.smartregister.brac.hnpp.model;
 
 import android.database.Cursor;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.TextView;
 
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -156,8 +157,10 @@ public class SearchHHMemberModel {
         return womenArrayList;
     }
     public ArrayList<HHMemberProperty> fetchChild(String village, String claster){
-        String query = "Select ec_child.first_name,ec_child.base_entity_id,ec_child.unique_id,ec_child.dob FROM ec_child LEFT JOIN ec_family ON  ec_child.relational_id = ec_family.id COLLATE NOCASE  WHERE  ec_child.date_removed is null AND  ((( julianday('now') - julianday(dob))/(365*12)) >=6) AND  ((( julianday('now') - julianday(dob))/(365*12)) < 60)" +
+        String query = "Select ec_child.first_name,ec_child.base_entity_id,ec_child.unique_id,ec_child.dob FROM ec_child LEFT JOIN ec_family ON  ec_child.relational_id = ec_family.id COLLATE NOCASE  WHERE  ec_child.date_removed is null AND  (( julianday('now') - julianday(dob)) >=183) AND  (( julianday('now') - julianday(dob)) <= 1830)" +
                 " AND ec_family.village_town = '"+village+"' and ec_family.claster = '"+claster+"'";
+        Log.v("CHILD_QUERY","query:"+query);
+
         Cursor cursor = null;
         childArrayList.clear();
         cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});

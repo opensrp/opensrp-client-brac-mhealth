@@ -596,6 +596,22 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
 
     }
+    public static JSONObject updateFormWithSSNameAndSelf(JSONObject form, ArrayList<SSModel> ssLocationForms) throws Exception{
+
+        JSONArray jsonArray = new JSONArray();
+        for(SSModel ssLocationForm : ssLocationForms){
+            jsonArray.put(ssLocationForm.username);
+
+        }
+        jsonArray.put("স্বাস্থ্যকর্মী নিজে");
+        JSONArray field = fields(form, STEP1);
+        JSONObject spinner = getFieldJSONObject(field, SS_NAME);
+
+        spinner.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);
+        return form;
+
+
+    }
     public static JSONObject updateFormWithVillageName(JSONObject form, String ssName , String villageName) throws Exception{
 
         JSONArray jsonArray = new JSONArray();

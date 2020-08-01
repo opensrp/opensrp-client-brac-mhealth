@@ -21,7 +21,8 @@ public interface NavigationContract {
         void displayCurrentUser();
 
         void sync(Activity activity);
-
+        void covid19(Activity activity);
+        void forceSync(Activity activity);
         List<NavigationOption> getOptions();
     }
 

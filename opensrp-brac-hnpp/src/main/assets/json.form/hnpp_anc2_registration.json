@@ -615,6 +615,7 @@
         "openmrs_entity_id": "pulse_rate",
         "type": "edit_text",
         "hint": "নাড়ির গতি(প্রতি মিনিটে )",
+        "label_info_text": "নাড়ির গতি রেঞ্জ ৬০ থেকে ১০০ থাকবে",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
@@ -626,14 +627,6 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
-        },
-        "v_min": {
-          "value": "60",
-          "err": "60 এর সমান বা 60 এর বেশি হতে হবে"
-        },
-        "v_max": {
-          "value": "100",
-          "err": "100 এর সমান বা 100 এর কম হওয়া উচিত"
         }
       },
       {
@@ -853,7 +846,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "uterus_length",
         "type": "edit_text",
-        "hint": "জরায়ুর ঊচচতা(সে.মি.)",
+        "hint": "জরায়ুর উচ্চতা(সে.মি.)",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"

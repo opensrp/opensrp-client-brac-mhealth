@@ -8,15 +8,15 @@ actions:
 ---
 name: step1_delivery_method_general
 description: miscarriage_date
-priority: 1
-condition: "step1_delivery_place.equels('বাড়ি') || step1_delivery_place.contains('ব্র্যাক ম্যাটারনিটি সেন্টার')"
+priority: 3
+condition: "(step1_preg_outcome.contains('born_alive')|| step1_preg_outcome.contains('still_born')) && (step1_delivery_place.equalsIgnoreCase('বাড়ি') || step1_delivery_place.contains('ব্র্যাক ম্যাটারনিটি সেন্টার'))"
 actions:
   - "isRelevant = true"
 ---
 name: step1_delivery_method_c_section
 description: miscarriage_date
 priority: 1
-condition: "!step1_delivery_place.equels('বাড়ি') || !step1_delivery_place.contains('ব্র্যাক ম্যাটারনিটি সেন্টার')"
+condition: "(step1_preg_outcome.contains('born_alive')|| step1_preg_outcome.contains('still_born')) && (!step1_delivery_place.equalsIgnoreCase('বাড়ি') && !step1_delivery_place.contains('ব্র্যাক ম্যাটারনিটি সেন্টার'))"
 actions:
   - "isRelevant = true"
 ---

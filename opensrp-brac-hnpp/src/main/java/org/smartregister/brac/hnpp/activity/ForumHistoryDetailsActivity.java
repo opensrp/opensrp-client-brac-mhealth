@@ -74,7 +74,7 @@ public class ForumHistoryDetailsActivity extends ForumDetailsActivity {
             hhMemberPropertyArrayList = forumDetails.participants;
             SearchHHMemberAdapter adapter = new SearchHHMemberAdapter(this, new SearchHHMemberAdapter.OnClickAdapter() {
                 @Override
-                public void onClick(int position, HHMemberProperty content) {
+                public void onClick(int position, HHMemberProperty content, boolean sdf) {
 
                 }
 

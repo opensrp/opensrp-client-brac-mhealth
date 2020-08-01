@@ -71,7 +71,7 @@ actions:
 ---
 name: step1_advice_toaster_pulse
 description: advice_toaster_pulse
-priority: 1
+priority: 3
 condition: "step1_pulse_rate >100 || step1_pulse_rate < 60"
 actions:
   - "isRelevant = true"
@@ -101,6 +101,13 @@ name: step1_advice_toaster_problem
 description: advice_toaster_problem
 priority: 1
 condition: "!step1_pregnancy_symptoms.isEmpty() && !step1_pregnancy_symptoms.contains('chk_none')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_24hr_6
+description: advice_toaster_24hr_6
+priority: 1
+condition: "step1_child_movement_in_last_24hr_no <6"
 actions:
   - "isRelevant = true"
 ---

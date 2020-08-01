@@ -191,8 +191,8 @@ public class SearchHHMemberActivity extends SecuredActivity implements View.OnCl
 
         searchHHMemberAdapter = new SearchHHMemberAdapter(this, new SearchHHMemberAdapter.OnClickAdapter() {
             @Override
-            public void onClick(int position, HHMemberProperty content) {
-                presenter.updateList(content);
+            public void onClick(int position, HHMemberProperty content,boolean isNeedToAd) {
+                presenter.updateList(content,isNeedToAd);
                 searchHHMemberAdapter.notifyDataSetChanged();
             }
 
