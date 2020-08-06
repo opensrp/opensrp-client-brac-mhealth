@@ -631,6 +631,31 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         }
 
     }
+    public void openCoronaIndividualForm(){
+       Intent intent = new Intent(this, HnppAncJsonFormActivity.class);
+       try{
+           JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(HnppConstants.JSON_FORMS.CORONA_INDIVIDUAL);
+           intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+
+           Form form = new Form();
+           form.setWizard(false);
+           if(!HnppConstants.isReleaseBuild()){
+               form.setActionBarBackground(R.color.test_app_color);
+
+           }else{
+               form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+
+           }
+           intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+           intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
+           this.startActivityForResult(intent, REQUEST_HOME_VISIT);
+
+       }catch (Exception e){
+
+       }
+
+
+    }
     public void openServiceForms(String formName){
         startAnyFormActivity(formName,REQUEST_HOME_VISIT);
     }

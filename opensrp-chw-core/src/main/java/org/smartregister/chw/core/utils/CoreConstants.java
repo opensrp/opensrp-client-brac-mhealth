@@ -447,6 +447,7 @@ public class CoreConstants {
         public static final String MALARIA = "Malaria";
         public static final String REFERRALS = "Referrals";
         public static final String FORUM = "FORUM";
+        public static final String SS_INFO = "SS_INFO";
         public static final String SIMPRINTS_IDENTITY = "Simprints Identity";
     }
 
@@ -628,6 +629,7 @@ public class CoreConstants {
         public static final String REFERRALS_REGISTER_ACTIVITY = "REFERRALS_REGISTER_ACTIVITY";
         public static final String MALARIA_REGISTER_ACTIVITY = "MALARIA_REGISTER_ACTIVITY";
         public static final String FORUM_ACTIVITY = "FORUM_ACTIVITY";
+        public static final String SS_INFO_ACTIVITY = "SS_INFO_ACTIVITY";
         public static final String SIMPRINTS_REGISTER_ACTIVITY = "SIMPRINTS_REGISTER_ACTIVITY";
     }
 

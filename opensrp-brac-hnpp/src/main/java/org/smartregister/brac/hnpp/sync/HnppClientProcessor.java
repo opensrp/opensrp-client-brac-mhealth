@@ -164,6 +164,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
             case HnppConstants.EVENT_TYPE.FORUM_ADO:
             case HnppConstants.EVENT_TYPE.FORUM_NCD:
             case HnppConstants.EVENT_TYPE.FORUM_ADULT:
+            case HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL:
                 if (eventClient.getEvent() == null) {
                     return;
                 }

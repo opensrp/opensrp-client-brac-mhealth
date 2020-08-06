@@ -20,6 +20,7 @@ import org.smartregister.brac.hnpp.model.ForumDetails;
 import org.smartregister.brac.hnpp.model.HHMemberProperty;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
+import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.brac.hnpp.utils.VisitLog;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
@@ -45,6 +46,7 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_GEN
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ELCO;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ENC_REGISTRATION;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.GIRL_PACKAGE;
@@ -55,6 +57,7 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.NCD_PAC
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.SS_INFO;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.WOMEN_PACKAGE;
 import static org.smartregister.chw.anc.util.NCUtils.eventToVisit;
 import static org.smartregister.util.JsonFormUtils.gson;
@@ -102,7 +105,10 @@ public class VisitLogIntentService extends IntentService {
                 if(isForumEvent(visit.getVisitType())){
                    saveForumData(visit);
 
-                }else{
+                }else if(visit.getVisitType().equalsIgnoreCase(SS_INFO)){
+                    saveSSFormData(visit);
+                }
+                else{
 
                     String eventJson = visit.getJson();
                     if (!StringUtils.isEmpty(eventJson)) {
@@ -197,6 +203,20 @@ public class VisitLogIntentService extends IntentService {
                                         }
                                     }
                                 }
+                                if(HnppConstants.EVENT_TYPE.SS_INFO.equalsIgnoreCase(encounter_type)){
+                                    String monthValue = "", yearValue = "";
+                                    if(details.containsKey("month") && !StringUtils.isEmpty(details.get("month"))){
+                                        monthValue = details.get("month");
+
+                                    }
+                                    if(details.containsKey("year") && !StringUtils.isEmpty(details.get("year"))){
+                                        yearValue = details.get("year");
+
+                                    }
+                                    if(HnppJsonFormUtils.isCurrentMonth(monthValue,yearValue)){
+                                        FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(HnppConstants.KEY_IS_SAME_MONTH,"true");
+                                    }
+                                }
                                 if(PNC_REGISTRATION.equalsIgnoreCase(encounter_type)){
                                     if(details.containsKey("brac_pnc") && !StringUtils.isEmpty(details.get(""))){
                                         String ancValue = details.get("brac_pnc");
@@ -237,6 +257,9 @@ public class VisitLogIntentService extends IntentService {
                                 if (HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)){
                                     HnppApplication.getHNPPInstance().getHnppVisitLogRepository().updateFamilyLastHomeVisit(base_entity_id,String.valueOf(visit.getDate().getTime()));
                                 }
+                                if(HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL.equalsIgnoreCase(encounter_type)){
+                                    HnppDBUtils.updateCoronaFamilyMember(base_entity_id,"false");
+                                }
                             }
 
                         } catch (JSONException e) {
@@ -261,6 +284,45 @@ public class VisitLogIntentService extends IntentService {
             default:
                 return false;
         }
+
+    }
+    private  void saveSSFormData(Visit visit)
+    {
+        try{
+            JSONObject form_object = new JSONObject(AssetHandler.readFileFromAssetsFolder("json.form/"+HnppConstants.JSON_FORMS.SS_FORM+".json",VisitLogIntentService.this));
+            Event baseEvent = gson.fromJson(visit.getJson(), Event.class);
+            String base_entity_id = baseEvent.getBaseEntityId();
+            HashMap<String,Object>form_details = getFormNamesFromEventObject(baseEvent);
+            HashMap<String,String>details = (HashMap<String, String>) form_details.get("details");
+
+            final CommonPersonObjectClient client = new CommonPersonObjectClient(base_entity_id, details, "");
+            client.setColumnmaps(details);
+
+           try{
+               for(int i= 1;i<8;i++){
+                   JSONObject steps = form_object.getJSONObject("step"+i);
+                   JSONArray jsonArray = steps.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+
+                   for (int k = 0; k < jsonArray.length(); k++) {
+                       populateValuesForFormObject(client, jsonArray.getJSONObject(k));
+                   }
+               }
+           }catch (Exception e){
+               e.printStackTrace();
+           }
+            VisitLog log = new VisitLog();
+            log.setVisitId(visit.getVisitId());
+            log.setVisitType(visit.getVisitType());
+            log.setBaseEntityId(base_entity_id);
+            log.setFamilyId(HnppDBUtils.getFamilyIdFromBaseEntityId(base_entity_id));
+            log.setVisitDate(visit.getDate().getTime());
+            log.setEventType(visit.getVisitType());
+            log.setVisitJson(form_object.toString());
+            HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
 
     }
     private static synchronized void saveForumData(Visit visit) {
@@ -439,6 +501,26 @@ public class VisitLogIntentService extends IntentService {
                     }
 
                 }
+                if(jsonObject.getString("key").equalsIgnoreCase("corona_affected_members")){
+                    JSONArray option_array = jsonObject.getJSONArray("options");
+                    String[] strs = value.split(",");
+                    if(strs.length == 0){
+
+                    }else{
+                        for(String name : strs){
+                            String[] nameIds = name.split("#");
+                            JSONObject item = new JSONObject();
+                                item.put("key",nameIds[0].replace(" ","_")+"#"+nameIds[1]);
+                                item.put("text",nameIds[0]);
+                                item.put("value",true);
+                                item.put("openmrs_entity","concept");
+                                item.put("openmrs_entity_id",nameIds[0].replace(" ","_")+"#"+nameIds[1]);
+                                option_array.put(item);
+                                HnppDBUtils.updateCoronaFamilyMember(nameIds[1],"true");
+                        }
+                    }
+
+                }
 
                 else{
                     JSONArray option_array = jsonObject.getJSONArray("options");
@@ -515,6 +597,10 @@ public class VisitLogIntentService extends IntentService {
             form_name = HnppConstants.JSON_FORMS.ANC_FORM+".json";
         }else if (PREGNANCY_OUTCOME.equalsIgnoreCase(encounter_type)) {
             form_name = HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME+".json";
+        }else if (SS_INFO.equalsIgnoreCase(encounter_type)) {
+            form_name = HnppConstants.JSON_FORMS.SS_FORM+".json";
+        }else if (CORONA_INDIVIDUAL.equalsIgnoreCase(encounter_type)) {
+            form_name = HnppConstants.JSON_FORMS.CORONA_INDIVIDUAL+".json";
         }
         try {
             String jsonString = AssetHandler.readFileFromAssetsFolder("json.form/"+form_name, VisitLogIntentService.this);

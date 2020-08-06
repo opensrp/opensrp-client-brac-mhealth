@@ -133,6 +133,11 @@ public class NavigationPresenter implements NavigationContract.Presenter {
     }
 
     @Override
+    public void browseSSInfo(Activity activity) {
+
+    }
+
+    @Override
     public List<NavigationOption> getOptions() {
         return mModel.getNavigationItems();
     }

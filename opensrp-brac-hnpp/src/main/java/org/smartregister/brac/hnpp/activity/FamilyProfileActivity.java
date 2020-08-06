@@ -357,7 +357,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                 hideProgressDialog();
                 try{
                     JSONObject jsonForm = FormUtils.getInstance(getApplicationContext()).getFormJson(HnppConstants.JSON_FORMS.HOME_VISIT_FAMILY);
-                    ArrayList<String> memberList = HnppDBUtils.getAllMembersInHouseHold(familyBaseEntityId);
+                    ArrayList<String[]> memberList = HnppDBUtils.getAllMembersInHouseHold(familyBaseEntityId);
                     HnppJsonFormUtils.updateFormWithAllMemberName(jsonForm,memberList);
                     HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
                     startHHFormActivity(jsonForm,REQUEST_HOME_VISIT);

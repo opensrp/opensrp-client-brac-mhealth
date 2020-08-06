@@ -3,6 +3,9 @@ package org.smartregister.brac.hnpp.utils;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.text.TextUtils;
+import android.util.Log;
+
+import net.sqlcipher.database.SQLiteDatabase;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
@@ -40,6 +43,18 @@ import timber.log.Timber;
 
 public class HnppDBUtils extends CoreChildUtils {
 
+    public static void updateCoronaFamilyMember(String base_entity_id, String value){
+        try{
+            SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+            String sql = "update ec_family_member set is_corona = '"+value+"' where " +
+                    "base_entity_id = '"+base_entity_id+"' ;";
+            database.execSQL(sql);
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
+    }
+
     public static ArrayList<ForumDetails> getPreviousForum(){
         String query = "select * from ec_visit_log where event_type ='"+HnppConstants.EVENT_TYPE.FORUM_CHILD+"' OR event_type = '"+HnppConstants.EVENT_TYPE.FORUM_ADO+"'" +
                 " OR event_type ='"+HnppConstants.EVENT_TYPE.FORUM_NCD+"' OR event_type = '"+HnppConstants.EVENT_TYPE.FORUM_WOMEN+"' OR event_type ='"+HnppConstants.EVENT_TYPE.FORUM_ADULT+"' order by visit_date desc";
@@ -76,6 +91,26 @@ public class HnppDBUtils extends CoreChildUtils {
         }
         return pClient;
 
+    }
+    public static String getIsCorona(String baseEntityId){
+        String query = "select ec_family_member.is_corona from ec_family_member LEFT JOIN ec_family ON  ec_family_member.relational_id = ec_family.id where ec_family_member.base_entity_id = '"+baseEntityId+"'" +
+                " and (strftime('%d',datetime('now')) - strftime('%d',datetime(last_home_visit/1000,'unixepoch','localtime'))) <= 7";
+        Log.v("IS_CORONA","query:"+query);
+        Cursor cursor = null;
+        String isCorona="";
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                isCorona = cursor.getString(0);
+                cursor.close();
+            }
+
+            return isCorona;
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return isCorona;
     }
 
     public static String getGuid(String baseEntityId){
@@ -230,11 +265,22 @@ public class HnppDBUtils extends CoreChildUtils {
                                 }else{
                                     profileDueInfo.setEventType(HnppConstants.visitEventTypeMapping.get(eventType));
                                 }
+                                if(FormApplicability.isDueCoronaForm(profileDueInfo.getBaseEntityId())){
+                                    profileDueInfo.setEventType(HnppConstants.visitEventTypeMapping.get(HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL));
+
+                                }
                                 profileDueInfoArrayList.add(profileDueInfo);
                             //}
 
 
+                        }else{
+                            if(FormApplicability.isDueCoronaForm(profileDueInfo.getBaseEntityId())){
+                                profileDueInfo.setEventType(HnppConstants.visitEventTypeMapping.get(HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL));
+
+                            }
+                            profileDueInfoArrayList.add(profileDueInfo);
                         }
+
 //                        else {
 //                            Date dob = Utils.dobStringToDate(profileDueInfo.getDob());
 //                            boolean isEnc = FormApplicability.isEncVisible(dob);
@@ -341,16 +387,18 @@ public class HnppDBUtils extends CoreChildUtils {
         }
         return womenList;
     }
-    public static ArrayList<String> getAllMembersInHouseHold(String familyID){
-        String query = "select first_name from ec_family_member where relational_id = '"+familyID+"'";
+    public static ArrayList<String[]> getAllMembersInHouseHold(String familyID){
+        String query = "select first_name,base_entity_id from ec_family_member where relational_id = '"+familyID+"'";
         Cursor cursor = null;
-        ArrayList<String> memberList = new ArrayList<>();
+        ArrayList<String[]> memberList = new ArrayList<>();
         try {
             cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
-                String name = cursor.getString(0);
-                memberList.add(name);
+                String[] strs = new String[2];
+                strs[0] = cursor.getString(0);
+                strs[1] = cursor.getString(1);
+                memberList.add(strs);
                 cursor.moveToNext();
             }
         } catch (Exception e) {

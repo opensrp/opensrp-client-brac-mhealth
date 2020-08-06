@@ -39,6 +39,14 @@ public class SSLocationHelper {
             setSsLocationForms();
         }
     }
+    public SSLocations getSSLocationBySSName(String ssName){
+        for(SSModel ssModel : ssModels){
+            if(ssModel.username.equalsIgnoreCase(ssName)){
+                return ssModel.locations.get(0);
+            }
+        }
+        return null;
+    }
 
     public String generateHouseHoldId(SSLocations ssLocations,String lastFourDigit){
         return  ssLocations.division.code+""+ssLocations.district.code+""+ssLocations.city_corporation_upazila.code+""

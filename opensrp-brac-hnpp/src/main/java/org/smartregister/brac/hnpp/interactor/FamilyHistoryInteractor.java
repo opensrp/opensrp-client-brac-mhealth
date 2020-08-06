@@ -1,6 +1,7 @@
 package org.smartregister.brac.hnpp.interactor;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.contract.MemberHistoryContract;
@@ -41,6 +42,7 @@ public class FamilyHistoryInteractor implements MemberHistoryContract.Interactor
         for(VisitLog visitLog : visitLogs){
             MemberHistoryData historyData = new MemberHistoryData();
             String eventType = visitLog.getEventType();
+            Log.v("EVENT_TYPE","history:"+eventType);
             historyData.setEventType(eventType);
             historyData.setMemberName(HnppDBUtils.getNameBaseEntityId(visitLog.getBaseEntityId()));
             historyData.setTitle(HnppConstants.visitEventTypeMapping.get(eventType));

@@ -23,6 +23,7 @@ public interface NavigationContract {
         void sync(Activity activity);
         void covid19(Activity activity);
         void forceSync(Activity activity);
+        void browseSSInfo(Activity activity);
         List<NavigationOption> getOptions();
     }
 

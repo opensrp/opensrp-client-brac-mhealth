@@ -41,6 +41,17 @@ public class FormApplicability {
     public static boolean isPregnant(String baseEntityId){
         return HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isPregnantFromElco(baseEntityId);
     }
+    public static boolean isDueCoronaForm(String baseEntityId){
+        //boolean isDoneToday =  HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneWihinTwentyFourHours(baseEntityId, HnppConstants.JSON_FORMS.CORONA_INDIVIDUAL);
+        //if(!isDoneToday){
+            String coronaValue = HnppDBUtils.getIsCorona(baseEntityId);
+           if(!TextUtils.isEmpty(coronaValue) && coronaValue.equalsIgnoreCase("true")){
+               return true;
+           }
+           return false;
+//        }
+//        return isDoneToday;
+    }
 
     public static String getDueFormForMarriedWomen(String baseEntityId, int age){
         String lmp = getLmp(baseEntityId);

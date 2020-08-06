@@ -43,6 +43,7 @@ public class HnppConstants extends CoreConstants {
     public static final String DEVICE_IMEI = "device_imei";
     public static boolean isSortByLastVisit = false;
     public static boolean isViewRefresh = false;
+    public static final String KEY_IS_SAME_MONTH = "is_same_month";
 
     public static SimpleDateFormat DDMMYY = new SimpleDateFormat("dd-MM-yyyy",Locale.getDefault());
     public enum VisitType {DUE, OVERDUE, LESS_TWENTY_FOUR, VISIT_THIS_MONTH, NOT_VISIT_THIS_MONTH, EXPIRY, VISIT_DONE}
@@ -301,6 +302,8 @@ public class HnppConstants extends CoreConstants {
 
         public static final String REFERREL_FOLLOWUP = "hnpp_member_referral_followup";
         public static final String CHILD_FOLLOWUP = "hnpp_child_followup";
+        public static final String CORONA_INDIVIDUAL = "corona_individual";
+        public static final String SS_FORM = "ss_form";
 
     }
 
@@ -335,6 +338,8 @@ public class HnppConstants extends CoreConstants {
         public static final String FORUM_WOMEN = "WOMEN Forum";
         public static final String FORUM_NCD = "NCD Forum";
         public static final String FORUM_ADULT = "ADULT Forum";
+        public static final String CORONA_INDIVIDUAL = "corona individual";
+        public static final String SS_INFO = "SS Form";
     }
     public static final Map<String,String> vaccineNameMapping = ImmutableMap.<String,String> builder()
             .put("bcg","বিসিজি")
@@ -402,6 +407,12 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.PNC_CHILD_REGISTRATION,R.drawable.rowavatar_child)
             .put(EVENT_TYPE.UPDATE_CHILD_REGISTRATION,R.drawable.rowavatar_child)
             .put("Update Family Registration",R.mipmap.ic_icon_home)
+            .put(EVENT_TYPE.CORONA_INDIVIDUAL,R.drawable.ic_virus)
+            .put(EVENT_TYPE.FORUM_ADULT,R.drawable.ic_familiar)
+            .put(EVENT_TYPE.FORUM_WOMEN,R.drawable.ic_women)
+            .put(EVENT_TYPE.FORUM_ADO,R.drawable.ic_adolescent)
+            .put(EVENT_TYPE.FORUM_CHILD,R.drawable.ic_child)
+            .put(EVENT_TYPE.FORUM_NCD,R.drawable.ic_sugar_blood_level)
             .build();
     //need to show the title at row/option
     public static final Map<String,String> visitEventTypeMapping = ImmutableMap.<String,String> builder()
@@ -440,6 +451,13 @@ public class HnppConstants extends CoreConstants {
             .put("Update Family Registration","খানা নিবন্ধন আপডেট")
             .put(EventType.REMOVE_FAMILY,"খানা বাতিল")
             .put(EventType.REMOVE_MEMBER,"সদস্যকে বাতিল")
+            .put(EVENT_TYPE.CORONA_INDIVIDUAL,"করোনা তথ্য")
+            .put(EVENT_TYPE.SS_INFO,"স্বাস্থ্য সেবিকা তথ্য")
+            .put(EVENT_TYPE.FORUM_ADO,"কিশোরী ফোরাম")
+            .put(EVENT_TYPE.FORUM_WOMEN,"নারী ফোরাম")
+            .put(EVENT_TYPE.FORUM_CHILD,"শিশু ফোরাম")
+            .put(EVENT_TYPE.FORUM_NCD,"অসংক্রামক রোগের ফোরাম")
+            .put(EVENT_TYPE.FORUM_ADULT,"অ্যাডাল্ট ফোরাম")
             .build();
     //needed for dashboard
     public static final Map<String,String> eventTypeMapping = ImmutableMap.<String,String> builder()
@@ -474,6 +492,7 @@ public class HnppConstants extends CoreConstants {
             .put("Update Family Registration","খানা নিবন্ধন আপডেট")
             .put(EventType.REMOVE_FAMILY,"খানা বাতিল")
             .put(EventType.REMOVE_MEMBER,"সদস্যকে বাতিল")
+            .put(EVENT_TYPE.CORONA_INDIVIDUAL,"করোনা তথ্য")
             .build();
     public static final Map<String,String> immunizationMapping = ImmutableMap.<String,String> builder()
             .put("PENTA 1","পেন্টা-১")

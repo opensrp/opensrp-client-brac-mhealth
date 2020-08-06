@@ -97,6 +97,63 @@
         ]
       },
       {
+        "key": "is_affected_member",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_affected_member",
+        "type": "spinner",
+        "hint": "খানায় কেউ কি করোনা আক্রান্ত/উপসর্গ আছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "corona_affected_members",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "corona_affected_members",
+        "type": "check_box",
+        "label": "করোনা আক্রান্ত/উপসর্গ আছে এমন সদস্য নির্বাচন করুন:",
+        "label_text_style": "normal",
+        "text_color": "#C0C0C0",
+        "exclusive": [
+          "chk_nobody"
+        ],
+        "options": [
+
+        ],
+        "relevance": {
+          "step1:is_affected_member": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "corona_affected_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "corona_affected_id",
+        "hint": "আক্রান্ত সদস্য",
+        "type": "check_box",
+        "hidden": true,
+        "exclusive": [
+          "chk_nobody"
+        ],
+        "options": [
+
+        ]
+      },
+      {
         "key": "latitude",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",

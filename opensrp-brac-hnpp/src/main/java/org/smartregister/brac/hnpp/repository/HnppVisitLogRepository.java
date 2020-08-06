@@ -113,6 +113,15 @@ public class HnppVisitLogRepository extends BaseRepository {
         }
         return visit_ids;
     }
+    public ArrayList<VisitLog> getAllSSFormVisit(){
+        SQLiteDatabase database = getWritableDatabase();
+
+        String selection = EVENT_TYPE+" = ?"+COLLATE_NOCASE;
+        String[] selectionArgs = new String[]{HnppConstants.EVENT_TYPE.SS_INFO};
+        net.sqlcipher.Cursor cursor = database.query(VISIT_LOG_TABLE_NAME, TABLE_COLUMNS, selection, selectionArgs, null, null, VISIT_DATE + " DESC", null);
+        ArrayList<VisitLog> homeVisitList = getAllVisitLog(cursor);
+        return homeVisitList;
+    }
     public VisitLog findUnique(SQLiteDatabase db, VisitLog visitLog) {
         Log.v("PROCESS_CLIENT","findUnique");
         if (visitLog == null || TextUtils.isEmpty(visitLog.getBaseEntityId())) {

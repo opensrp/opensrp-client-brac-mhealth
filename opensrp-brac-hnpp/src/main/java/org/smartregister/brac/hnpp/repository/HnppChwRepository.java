@@ -61,6 +61,8 @@ public class HnppChwRepository extends CoreChwRepository {
         upgradeToVersion18(context,database);
         upgradeToVersion19(context,database);
         upgradeToVersion20(context,database);
+        upgradeToVersion21(context,database);
+        upgradeToVersion22(context,database);
 
     }
 
@@ -108,6 +110,9 @@ public class HnppChwRepository extends CoreChwRepository {
                 case 21:
                     upgradeToVersion21(context,db);
                     break;
+                case 22:
+                    upgradeToVersion22(context,db);
+                    break;
                 default:
                     break;
             }
@@ -125,6 +130,15 @@ public class HnppChwRepository extends CoreChwRepository {
     private void upgradeToVersion21(Context context, SQLiteDatabase db) {
         try {
             db.execSQL("ALTER TABLE ec_visit_log ADD COLUMN pregnant_status VARCHAR;");
+
+        } catch (Exception e) {
+
+        }
+    }
+    private void upgradeToVersion22(Context context, SQLiteDatabase db) {
+        try {
+            db.execSQL("ALTER TABLE ec_family_member ADD COLUMN is_risk VARCHAR;");
+            db.execSQL("ALTER TABLE ec_family_member ADD COLUMN is_corona VARCHAR;");
 
         } catch (Exception e) {
 

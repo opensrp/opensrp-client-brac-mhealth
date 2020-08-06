@@ -73,6 +73,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     private TextView tvLogout;
     private TextView tvCovid19;
     private TextView tvForceSync;
+    private RelativeLayout ss_info_browse;
 
     private View rootView = null;
     private ImageView ivSync;
@@ -187,6 +188,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         tvLogout = rootView.findViewById(R.id.tvLogout);
         tvCovid19 = rootView.findViewById(R.id.covid19);
         tvForceSync = rootView.findViewById(R.id.tvForceSync);
+        ss_info_browse = rootView.findViewById(R.id.ss_info_browse);
 
         recyclerView = rootView.findViewById(R.id.rvOptions);
         ivSync = rootView.findViewById(R.id.ivSyncIcon);
@@ -212,7 +214,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         registerLanguageSwitcher(activity);
         registerCovid19(activity);
         registerForceSync(activity);
-
+        registerBrowseSSInfo(activity);
 
         registerDeviceToDeviceSync(activity);
         // update all actions
@@ -258,6 +260,11 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     public void forceSync(Activity activity) {
         if(mPresenter!=null){
             mPresenter.forceSync(activity);
+        }
+    }
+    public void browseSSInfo(Activity activity) {
+        if(mPresenter!=null){
+            mPresenter.browseSSInfo(activity);
         }
     }
 
@@ -313,6 +320,10 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     private void registerForceSync(final Activity parentActivity){
         mPresenter.displayCurrentUser();
         tvForceSync.setOnClickListener(v -> forceSync(parentActivity));
+    }
+    private void registerBrowseSSInfo(final Activity parentActivity){
+        mPresenter.displayCurrentUser();
+        ss_info_browse.setOnClickListener(v -> browseSSInfo(parentActivity));
     }
 
     private void registerSync(final Activity parentActivity) {

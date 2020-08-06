@@ -1,0 +1,42 @@
+---
+name: step1_symptoms
+description: symptoms
+priority: 1
+condition: "step1_corona_test_result.equals('করোনা পজিটিভ') || step1_corona_test_result.equals('করোনা নেগেটিভ')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_corona_test_result
+description: corona_test_result
+priority: 1
+condition: "step1_corona_test.equals('হ্যাঁ')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_isolation_category
+description: isolation_category
+priority: 1
+condition: "step1_isolation.equals('হ্যাঁ')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_isolation_day
+description: isolation_day
+priority: 1
+condition: "step1_isolation.equals('হ্যাঁ')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_isolation_rule
+description: isolation_rule
+priority: 1
+condition: "step1_isolation.equals('হ্যাঁ')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_physical_condition
+description: physical_condition
+priority: 1
+condition: "step1_corona_test_result.equals('করোনা পজিটিভ') || step1_corona_test_result.equals('করোনা নেগেটিভ')"
+actions:
+  - "isRelevant = true"
