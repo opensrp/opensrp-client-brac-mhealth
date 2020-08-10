@@ -242,11 +242,11 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
                         presenter.processWomenForum(forumDetails);
                     }else if(fromType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.ADO.toString())){
                         presenter.processAdoForum(forumDetails);
-                    }else if(fromType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.NCD.toString()) || fromType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.ADULT.toString())){
+                    }else if(fromType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.NCD.toString())){
                         presenter.processNcdForum(forumDetails);
                     }
-                    else if(fromType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.NCD.toString())){
-                        presenter.processNcdForum(forumDetails);
+                    else if(fromType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.ADULT.toString())){
+                        presenter.processAdultForum(forumDetails);
                     }
 
                 }
@@ -276,16 +276,20 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
             return null;
         }
         if(hhMemberPropertyArrayList.size()==0){
-            Toast.makeText(this,"অংশগ্রহণকারী সিলেক্ট করুন",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"সদস্য যোগ করুন",Toast.LENGTH_SHORT).show();
             return null;
         }
         int participant = Integer.parseInt(editTextNoOfParticipants.getText().toString());
         if(participant<hhMemberPropertyArrayList.size()){
-            Toast.makeText(this,"সদস্য সংখ্যা অংশগ্রহণকারীর সংখ্যা থেকে কম হতে হবে ",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"ফোরামে অংশগ্রহণকারীর সংখ্যা সেবা গ্রহণকারীর চেয়ে বেশি হবে",Toast.LENGTH_SHORT).show();
             return null;
         }
         if(TextUtils.isEmpty(editTextNoOfService.getText().toString())){
             editTextNoOfService.setError("কতজন সেবা নিয়েছে?");
+            return null;
+        }
+        if(Integer.parseInt(editTextNoOfService.getText().toString())>Integer.parseInt(editTextNoOfParticipants.getText().toString())){
+            editTextNoOfService.setError("অংশগ্রহণকারীর সংখ্যা থেকে কম হবে");
             return null;
         }
         if(fromType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.ADO.toString()) &&

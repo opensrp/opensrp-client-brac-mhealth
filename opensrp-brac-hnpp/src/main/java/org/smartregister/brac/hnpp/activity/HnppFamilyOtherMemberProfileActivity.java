@@ -304,9 +304,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                HnppJsonFormUtils.addMaritalStatus(jsonForm,maritalStatus);
            }
            else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM) || formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM) || formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM)){
-               HnppJsonFormUtils.addLastAnc(jsonForm,baseEntityId);
+               HnppJsonFormUtils.addLastAnc(jsonForm,baseEntityId,false);
            } else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM)){
-               HnppJsonFormUtils.addLastPnc(jsonForm,baseEntityId);
+               HnppJsonFormUtils.addLastPnc(jsonForm,baseEntityId,false);
            }
 
 //           if(formName.contains("anc"))
@@ -392,7 +392,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     private void showSuccessAlertDialog(String message, String threshold){
         new AlertDialog.Builder(this).setMessage(message+"\n threshold value: "+threshold)
                 .setTitle("ফিঙ্গার প্রিন্ট ভেরিফিকেশন রেজাল্ট").setCancelable(false)
-                .setNegativeButton("প্রক্রিয়াজাত", new DialogInterface.OnClickListener() {
+                .setNegativeButton("ঠিক আছে", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
 
                         dialog.dismiss();
@@ -427,6 +427,12 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         dialog.setContentView(R.layout.view_not_verified);
         Button service_btn = dialog.findViewById(R.id.service_btn);
         Button retry_btn = dialog.findViewById(R.id.retry_btn);
+        dialog.findViewById(R.id.cross_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
         CheckBox checkBox1 = dialog.findViewById(R.id.check_box_1);
         CheckBox checkBox2 = dialog.findViewById(R.id.check_box_2);
         CheckBox checkBox5 = dialog.findViewById(R.id.check_box_5);
@@ -565,6 +571,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                         mViewPager.setCurrentItem(2,true);
                         if(profileMemberFragment !=null){
                             profileMemberFragment.updateStaticView();
+                        }
+                        if(memberOtherServiceFragment !=null){
+                            memberOtherServiceFragment.updateStaticView();
                         }
 
                     }

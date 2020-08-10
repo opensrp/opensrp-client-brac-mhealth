@@ -400,7 +400,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "age_small_child",
         "type": "edit_text",
-        "hint": "সবচেয়ে ছোট সন্তানের বয়স কত?",
+        "hint": "সবচেয়ে ছোট সন্তানের বয়স কত?(বছর )",
         "v_numeric": {
           "value": "true",
           "err": "সংখ্যাটি অবশ্যই পূর্ণসংখ্যা হওয়া আবশ্যক"

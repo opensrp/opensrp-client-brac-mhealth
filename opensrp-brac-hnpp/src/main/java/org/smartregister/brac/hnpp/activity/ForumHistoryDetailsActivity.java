@@ -10,6 +10,7 @@ import org.smartregister.brac.hnpp.adapter.SearchHHMemberAdapter;
 import org.smartregister.brac.hnpp.model.ForumDetails;
 import org.smartregister.brac.hnpp.model.HHMemberProperty;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 
 import java.util.ArrayList;
 
@@ -36,6 +37,7 @@ public class ForumHistoryDetailsActivity extends ForumDetailsActivity {
             textViewKhanaName.setText("খানা : "+name +" \n"+"আইডি: "+id);
             editTextNoOfParticipants.setText(forumDetails.noOfParticipant);
             if(forumDetails.forumType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_ADO)){
+                findViewById(R.id.noOfAdoPanel).setVisibility(View.VISIBLE);
                 editTextAdoFood.setVisibility(View.VISIBLE);
                 editTextAdoFood.setEnabled(false);
                 editTextAdoFood.setText(forumDetails.noOfAdoTakeFiveFood);
@@ -59,7 +61,7 @@ public class ForumHistoryDetailsActivity extends ForumDetailsActivity {
                 textViewEmptyClaster.setEnabled(false);
                 textViewEmptySSName.setText(forumDetails.ssName);
                 textViewEmptyVillage.setText(forumDetails.villageName);
-                textViewEmptyClaster.setText(forumDetails.clusterName);
+                textViewEmptyClaster.setText(HnppConstants.getClusterNameFromValue(forumDetails.clusterName));
 //            }
 //            else {
 //                ss_spinner.setSelection(forumDetails.sIndex);

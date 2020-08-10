@@ -77,6 +77,10 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
                 .setTitle(getString(R.string.exit_app_title)).setCancelable(false)
                 .setPositiveButton(R.string.yes_button_label, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
+                        Intent a = new Intent(Intent.ACTION_MAIN);
+                        a.addCategory(Intent.CATEGORY_HOME);
+                        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(a);
                         finish();
                     }
                 }).setNegativeButton(R.string.no_button_label, new DialogInterface.OnClickListener() {

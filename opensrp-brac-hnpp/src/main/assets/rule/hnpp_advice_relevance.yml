@@ -30,7 +30,14 @@ actions:
 name: step1_advice_toaster_systolic
 description: advice_toaster_systolic
 priority: 1
-condition: "step1_blood_pressure_systolic > 139"
+condition: "step1_blood_pressure_systolic > 140"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_systolic_less
+description: advice_toaster_systolic
+priority: 1
+condition: "step1_blood_pressure_systolic < 90"
 actions:
   - "isRelevant = true"
 ---
@@ -51,7 +58,14 @@ actions:
 name: step1_advice_toaster_diastolic
 description: advice_toaster_diastolic
 priority: 1
-condition: "step1_blood_pressure_diastolic > 89"
+condition: "step1_blood_pressure_diastolic > 90"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_diastolic_less
+description: advice_toaster_diastolic
+priority: 1
+condition: "step1_blood_pressure_diastolic < 60"
 actions:
   - "isRelevant = true"
 ---

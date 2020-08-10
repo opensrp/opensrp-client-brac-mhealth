@@ -32,6 +32,7 @@ import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.clientandeventmodel.Obs;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.FamilyLibrary;
+import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.util.AssetHandler;
 
 import java.util.ArrayList;
@@ -203,22 +204,9 @@ public class VisitLogIntentService extends IntentService {
                                         }
                                     }
                                 }
-                                if(HnppConstants.EVENT_TYPE.SS_INFO.equalsIgnoreCase(encounter_type)){
-                                    String monthValue = "", yearValue = "";
-                                    if(details.containsKey("month") && !StringUtils.isEmpty(details.get("month"))){
-                                        monthValue = details.get("month");
 
-                                    }
-                                    if(details.containsKey("year") && !StringUtils.isEmpty(details.get("year"))){
-                                        yearValue = details.get("year");
-
-                                    }
-                                    if(HnppJsonFormUtils.isCurrentMonth(monthValue,yearValue)){
-                                        FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(HnppConstants.KEY_IS_SAME_MONTH,"true");
-                                    }
-                                }
-                                if(PNC_REGISTRATION.equalsIgnoreCase(encounter_type)){
-                                    if(details.containsKey("brac_pnc") && !StringUtils.isEmpty(details.get(""))){
+                                if(PNC_REGISTRATION.equalsIgnoreCase(encounter_type)|| encounter_type.equalsIgnoreCase(CoreConstants.EventType.PNC_HOME_VISIT)){
+                                    if(details.containsKey("brac_pnc") && !StringUtils.isEmpty(details.get("brac_pnc"))){
                                         String ancValue = details.get("brac_pnc");
                                         String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(base_entity_id+"_BRAC_PNC");
                                         if(!TextUtils.isEmpty(prevalue)){
@@ -231,7 +219,7 @@ public class VisitLogIntentService extends IntentService {
                                             FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_PNC",1+"");
                                         }
                                     }
-                                    if(details.containsKey("total_anc") && !StringUtils.isEmpty(details.get(""))){
+                                    if(details.containsKey("total_anc") && !StringUtils.isEmpty(details.get("brac_pnc"))){
                                         String ancValue = details.get("total_anc");
                                         if(!TextUtils.isEmpty(ancValue)){
                                             int count = Integer.parseInt(ancValue);
@@ -306,6 +294,18 @@ public class VisitLogIntentService extends IntentService {
                    for (int k = 0; k < jsonArray.length(); k++) {
                        populateValuesForFormObject(client, jsonArray.getJSONObject(k));
                    }
+               }
+               String monthValue = "", yearValue = "";
+               if(details.containsKey("month") && !StringUtils.isEmpty(details.get("month"))){
+                   monthValue = details.get("month");
+
+               }
+               if(details.containsKey("year") && !StringUtils.isEmpty(details.get("year"))){
+                   yearValue = details.get("year");
+
+               }
+               if(HnppJsonFormUtils.isCurrentMonth(monthValue,yearValue)){
+                   FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(HnppConstants.KEY_IS_SAME_MONTH,"true");
                }
            }catch (Exception e){
                e.printStackTrace();
@@ -462,15 +462,27 @@ public class VisitLogIntentService extends IntentService {
         try {
             String value = org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(),jsonObject.getString(org.smartregister.family.util.JsonFormUtils.KEY),false);
             //spinner
+//            if(jsonObject.getString("key").equalsIgnoreCase("number_of_pnc")){
+//
+//                jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUES,value);
+//            }
+
             if (jsonObject.has("openmrs_choice_ids")) {
                 JSONObject choiceObject = jsonObject.getJSONObject("openmrs_choice_ids");
-
-                for (int i = 0; i < choiceObject.names().length(); i++) {
-                    if (value.equalsIgnoreCase(choiceObject.getString(choiceObject.names().getString(i)))) {
-                        value = choiceObject.names().getString(i);
+                try{
+                    for (int i = 0; i < choiceObject.names().length(); i++) {
+                        if (value.equalsIgnoreCase(choiceObject.getString(choiceObject.names().getString(i)))) {
+                            value = choiceObject.names().getString(i);
+                        }
                     }
+                }catch ( Exception e){
+
                 }
-                jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,value);
+
+                if(!TextUtils.isEmpty(value)){
+                    jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,value);
+                }
+
             }else if (jsonObject.has("options")) {
                 if(jsonObject.getString("key").equalsIgnoreCase("hh_visit_members")){
                     JSONArray option_array = jsonObject.getJSONArray("options");
@@ -624,7 +636,16 @@ public class VisitLogIntentService extends IntentService {
             if(details.containsKey(o.getFormSubmissionField())) {
                 details.put(o.getFormSubmissionField(),details.get(o.getFormSubmissionField())+","+o.getValue());
             } else {
-                details.put(o.getFormSubmissionField(),o.getValue());
+
+                    if(o.getValue() == null){
+                       String value =(String)o.getHumanReadableValues().get(0);
+                        details.put(o.getFormSubmissionField(),value);
+                    }else{
+                        details.put(o.getFormSubmissionField(),o.getValue());
+                    }
+
+
+
             }
         }
         HashMap<String,Object>form_details = new HashMap<>();

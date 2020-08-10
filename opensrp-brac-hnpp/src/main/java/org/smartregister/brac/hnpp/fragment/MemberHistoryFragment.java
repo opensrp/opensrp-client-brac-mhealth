@@ -22,8 +22,10 @@ import org.smartregister.brac.hnpp.contract.MemberHistoryContract;
 import org.smartregister.brac.hnpp.presenter.MemberHistoryPresenter;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
+import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.brac.hnpp.utils.MemberHistoryData;
 import org.smartregister.chw.core.application.CoreChwApplication;
+import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.JsonFormUtils;
 
@@ -120,8 +122,17 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
     private void startFormActivity(MemberHistoryData content){
         try {
             JSONObject jsonForm = new JSONObject(content.getVisitDetails());
-            if(content.getEventType().equalsIgnoreCase("Pregnancy Outcome")){
+            String eventType = content.getEventType();
+            if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME)){
                 HnppDBUtils.populatePNCChildDetails(content.getBaseEntityId(),jsonForm);
+            }
+            if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION) ||
+                    eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION)
+                    || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
+                HnppJsonFormUtils.addLastAnc(jsonForm,baseEntityId,true);
+            } else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION) ||
+                    eventType.equalsIgnoreCase(CoreConstants.EventType.PNC_HOME_VISIT)){
+                HnppJsonFormUtils.addLastPnc(jsonForm,baseEntityId,true);
             }
             makeReadOnlyFields(jsonForm);
 

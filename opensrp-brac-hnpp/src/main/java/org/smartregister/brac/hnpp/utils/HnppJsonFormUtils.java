@@ -312,7 +312,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         if(!TextUtils.isEmpty(forumDetails.noOfAdoTakeFiveFood)){
             formSubmissionField = "noOfAdoTakeFiveFood";
             vall = new ArrayList<>();
-            vall.add(forumDetails.clusterName);
+            vall.add(forumDetails.noOfAdoTakeFiveFood);
             event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
                     formSubmissionField));
         }
@@ -531,7 +531,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         JSONObject ss_name = getFieldJSONObject(field, "ss_id");
         return ss_name.optString(VALUE);
     }
-    public static void addLastAnc(JSONObject jsonForm,String baseEntityId){
+    public static void addLastAnc(JSONObject jsonForm,String baseEntityId,boolean isReadOnlyView){
         JSONObject stepOne = null;
         try {
 
@@ -539,9 +539,12 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
             String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(baseEntityId+"_BRAC_ANC");
 
-            updateFormField(jsonArray, "brac_anc", TextUtils.isEmpty(prevalue)?"0":prevalue);
+            if(!isReadOnlyView)updateFormField(jsonArray, "brac_anc", TextUtils.isEmpty(prevalue)?"0":prevalue);
 
             int initVal = TextUtils.isEmpty(prevalue)?0:Integer.parseInt(prevalue);
+            if(isReadOnlyView){
+                initVal = 0;
+            }
             JSONArray jsonArray2 = new JSONArray();
             for(int i = initVal+1; i<=8;i++ ){
                 jsonArray2.put(i);
@@ -562,7 +565,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         }
 
     }
-    public static void addLastPnc(JSONObject jsonForm,String baseEntityId){
+    public static void addLastPnc(JSONObject jsonForm,String baseEntityId,boolean isReadOnlyView){
         JSONObject stepOne = null;
         try {
 
@@ -571,10 +574,13 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(baseEntityId+"_BRAC_PNC");
             String preCountvalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(baseEntityId+"_TOTAL_ANC");
 
-            updateFormField(jsonArray, "brac_pnc", TextUtils.isEmpty(prevalue)?"0":prevalue);
+            if(!isReadOnlyView) updateFormField(jsonArray, "brac_pnc", TextUtils.isEmpty(prevalue)?"0":prevalue);
             updateFormField(jsonArray, "anc_count", TextUtils.isEmpty(preCountvalue)?"0":prevalue);
 
             int initVal = TextUtils.isEmpty(prevalue)?0:Integer.parseInt(prevalue);
+            if(isReadOnlyView){
+                initVal = 0;
+            }
             JSONArray jsonArray2 = new JSONArray();
             for(int i = initVal+1; i<=4;i++ ){
                 jsonArray2.put(i);
@@ -1084,73 +1090,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
 
 
-    public static FamilyEventClient processPregnancyOutcomeForm(AllSharedPreferences allSharedPreferences, String jsonString, String familyBaseEntityId, String encounterType) {
-        try {
-            Triple<Boolean, JSONObject, JSONArray> registrationFormParams = validateParameters(jsonString);
-            if (!(Boolean)registrationFormParams.getLeft()) {
-                return null;
-            } else {
-                JSONObject jsonForm = (JSONObject)registrationFormParams.getMiddle();
-                JSONArray fields = (JSONArray)registrationFormParams.getRight();
-                String familyId = getString(jsonForm, "relational_id");
-                String entityId = getString(jsonForm, "entity_id");
-                if (StringUtils.isBlank(entityId)) {
-                    entityId = generateRandomUUIDString();
-                }
 
-                lastInteractedWith(fields);
-                dobEstimatedUpdateFromAge(fields);
-                String motherEntityId = updateMotherName(fields,familyId);
-
-                FormTag formTag = formTag(allSharedPreferences);
-                formTag.appVersionName = BuildConfig.VERSION_NAME;
-                Client baseClient = org.smartregister.util.JsonFormUtils.createBaseClient(fields, formTag, entityId);
-                if (baseClient != null && !baseClient.getBaseEntityId().equals(familyBaseEntityId)) {
-                    baseClient.addRelationship(Utils.metadata().familyMemberRegister.familyRelationKey, familyBaseEntityId);
-                }
-
-                Context context = HnppApplication.getInstance().getContext().applicationContext();
-                addRelationship(context, motherEntityId,familyId, baseClient);
-                Event baseEvent = org.smartregister.util.JsonFormUtils.createEvent(fields, getJSONObject(jsonForm, "metadata"), formTag, entityId, encounterType, Utils.metadata().familyMemberRegister.tableName);
-                tagSyncMetadata(allSharedPreferences, baseEvent);
-
-                String entity_id = baseClient.getBaseEntityId();
-                updateFormSubmissionID(encounterType,entity_id,baseEvent);
-                return new FamilyEventClient(baseClient, baseEvent);
-            }
-        } catch (Exception var10) {
-            Timber.e(var10);
-            return null;
-        }
-    }
-//    public static FamilyEventClient processFamilyUpdateForm(AllSharedPreferences allSharedPreferences, String jsonString) {
-//        try {
-//            Triple<Boolean, JSONObject, JSONArray> registrationFormParams = validateParameters(jsonString);
-//            if (!(Boolean)registrationFormParams.getLeft()) {
-//                return null;
-//            } else {
-//                JSONObject jsonForm = (JSONObject)registrationFormParams.getMiddle();
-//                JSONArray fields = (JSONArray)registrationFormParams.getRight();
-//                String entityId = getString(jsonForm, "entity_id");
-//                if (StringUtils.isBlank(entityId)) {
-//                    entityId = generateRandomUUIDString();
-//                }
-//
-//                lastInteractedWith(fields);
-//                processAttributesWithChoiceIDsForSave(fields);
-//                Client baseClient = org.smartregister.util.JsonFormUtils.createBaseClient(fields, formTag(allSharedPreferences), entityId);
-//                baseClient.setLastName("Family");
-//                baseClient.setBirthdate(new Date(0L));
-//                baseClient.setGender("Male");
-//                Event baseEvent = org.smartregister.util.JsonFormUtils.createEvent(fields, getJSONObject(jsonForm, "metadata"), formTag(allSharedPreferences), entityId, Utils.metadata().familyRegister.registerEventType, Utils.metadata().familyRegister.tableName);
-//                tagSyncMetadata(allSharedPreferences, baseEvent);
-//                return new FamilyEventClient(baseClient, baseEvent);
-//            }
-//        } catch (Exception var8) {
-//            Timber.e(var8);
-//            return null;
-//        }
-//    }
     protected static void dobEstimatedUpdateFromAge(JSONArray fields) {
         try {
             JSONObject dobUnknownObject = getFieldJSONObject(fields, "is_birthday_known");
@@ -1172,7 +1112,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         Calendar cal = Calendar.getInstance();
         if (age > 0)
             cal.add(Calendar.YEAR, -age);
-        return DatePickerFactory.DATE_FORMAT.format(cal.getTime());
+        return DatePickerFactory.DATE_FORMAT_LOCALE_INDEPENDENT.format(cal.getTime());
 
     }
     public static JSONArray processAttributesWithChoiceIDsForSave(JSONArray fields) {

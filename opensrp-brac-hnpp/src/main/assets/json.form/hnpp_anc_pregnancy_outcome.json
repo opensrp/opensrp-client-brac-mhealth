@@ -475,9 +475,11 @@
         "type": "spinner",
         "hint": "প্রসবের পদ্ধতি",
         "values": [
+          "স্বাভাবিক",
           "সিজারিয়ান"
         ],
         "openmrs_choice_ids": {
+          "স্বাভাবিক": "normal",
           "সিজারিয়ান": "c_section"
         },
         "v_required": {

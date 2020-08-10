@@ -41,6 +41,9 @@ public class MemberOtherServiceFragment extends Fragment implements OtherService
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         presenter = new MemberOtherServicePresenter(this);
+        updateStaticView();
+    }
+    public void updateStaticView(){
         presenter.fetchData(commonPersonObjectClient);
     }
 
