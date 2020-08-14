@@ -73,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
              android:gravity="center_horizontal"
-            android:text="আঙুলের ছাপ দ্বারা রেজিস্টার কাউকে পাওয়া যাই নি"
+            android:text="এই ব্যক্তিটি আঙুলের ছাপ দ্বারা রেজিস্টারকৃত নয়"
             android:textColor="@color/black"
             android:textSize="18sp"/>
         <Button

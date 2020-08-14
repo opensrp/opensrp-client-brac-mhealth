@@ -13,8 +13,8 @@
     <string name="menu_all_clients">সকল ক্লায়েন্ট</string>
     <string name="menu_all_families">খানার তালিকা</string>
     <string name="menu_elco_clients">সক্ষম দম্পতি</string>
-    <string name="menu_anc_clients">এএনসি ক্লায়েন্ট</string>
-    <string name="menu_pnc_clients">পিএনসি ক্লায়েন্ট</string>
+    <string name="menu_anc_clients">গর্ভবতী মায়ের তালিকা</string>
+    <string name="menu_pnc_clients">প্রসূতি মায়ের তালিকা</string>
     <string name="menu_child_clients">শিশু তালিকা</string>
     <string name="menu_all_member">সব সদস্য তালিকা</string>
     <string name="menu_troubleshoot" translatable="false">ট্রাবলশুট</string>
@@ -168,7 +168,7 @@
     <string name="previous">পূর্ববর্তী</string>
     <string name="pnc_visit">প্রসবোত্তর পরিচর্যা</string>
     <string name="anc_visit">গর্ভবতী পরিচর্যা</string>
-    <string name="submit">জমাদিন</string>
+    <string name="submit">জমা দিন</string>
     <string name="boyos">বয়স</string>
     <string name="gps_searching">জিপিএস ডেটা অনুসন্ধান করা হচ্ছে</string>
     <string name="date_given">দেয়া হয়েছে</string>
@@ -280,8 +280,8 @@
 
     <string name="remove_member_title">সদস্যকে সরান</string>
     <string name="remove_member_prompt">আপনি কোন সদস্যটিকে সরাতে চান??</string>
-    <string name="confirm_remove_text">আপনি কি %sর রেকর্ডটি সরানোর বিষয়ে নিশ্চিত? এটি আপনার ডিভাইস থেকে তাদের সম্পূর্ণ স্বাস্থ্য রেকর্ড সরিয়ে ফেলবে। এই ক্রিয়াটি পূর্বাবস্থায় ফেরানো যাবে না.</string>
-    <string name="remove">সরান</string>
+    <string name="confirm_remove_text">আপনি %s ব্যক্তির মৃত্যু সংক্রান্ত যে তথ্য দিয়েছেন , তা সঠিক? সঠিক হলে, হ্যা চাপুন। এর প্রেক্ষিতে এই ব্যক্তির ভবিষ্যতের সকল সেবা বন্ধ হয়ে যাবে।</string>
+    <string name="remove">হ্যা</string>
     <string name="remove_entire_family">পুরো পরিবার সরিয়ে ফেলা হচ্ছে</string>
     <string name="remove_warning_family">আপনি কি %s পরিবারের রেকর্ডটি সরানোর বিষয়ে নিশ্চিত? এটি আপনার ডিভাইস থেকে পরিবারের সম্পূর্ণ রেকর্ড এবং %s পরিবারের সদস্যদের সমস্তের স্বাস্থ্য রেকর্ডাকে সরিয়ে ফেলবে। এই ক্রিয়াটি পূর্বাবস্থায় ফেরানো যাবে না.</string>
     <string name="family">%s পরিবার</string>

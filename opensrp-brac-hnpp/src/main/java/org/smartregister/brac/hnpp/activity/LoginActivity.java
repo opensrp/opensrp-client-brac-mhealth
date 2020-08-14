@@ -42,6 +42,7 @@ import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
 import org.smartregister.brac.hnpp.job.SSLocationFetchJob;
 import org.smartregister.brac.hnpp.location.SaveDistrictTask;
 import org.smartregister.brac.hnpp.presenter.LoginPresenter;
+import org.smartregister.brac.hnpp.repository.DistrictListRepository;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.domain.Response;
 import org.smartregister.exception.NoHttpResponseException;
@@ -361,6 +362,11 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
     }
 
     private void getToFamilyList(boolean remote) {
+        boolean isExist = new DistrictListRepository(HnppApplication.getInstance().getRepository()).isExistData();
+        if(!isExist){
+            Utils.startAsyncTask(new SaveDistrictTask(), null);
+
+        }
         Intent intent = new Intent(this, FamilyRegisterActivity.class);
         intent.putExtra(Constants.INTENT_KEY.IS_REMOTE_LOGIN, remote);
         startActivity(intent);

@@ -13,3 +13,10 @@ priority: 1
 condition: "step1_complications_known.equalsIgnoreCase('হ্যাঁ')  && step1_familyplanning_method_known.equalsIgnoreCase('হ্যাঁ')"
 actions:
   - "isRelevant = true"
+---
+name: step1_last_lmp_weeks
+description: last_lmp_weeks
+priority: 1
+condition: "step1_reasons_for_not_using_the_family_planning_system.equalsIgnoreCase('স্বামী বিদেশ') || step1_reasons_for_not_using_the_family_planning_system.equalsIgnoreCase('জটিলতা হয়েছিল') || step1_reasons_for_not_using_the_family_planning_system.equalsIgnoreCase('অন্যান্য') "
+actions:
+  - "isRelevant = true"

@@ -373,7 +373,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         }
     }
     private void showFailAlertDialog(String message, String threshold){
-        new AlertDialog.Builder(this).setMessage(message+"\n threshold value: "+threshold)
+        new AlertDialog.Builder(this).setMessage(message)
                 .setTitle("ফিঙ্গার প্রিন্ট ভেরিফিকেশন রেজাল্ট").setCancelable(false)
                 .setPositiveButton("আরেকবার চেষ্টা করি", new DialogInterface.OnClickListener() {
                     @Override
@@ -382,7 +382,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                         startSimprintVerify();
                     }
                 })
-                .setNegativeButton("বাদ দেয়", new DialogInterface.OnClickListener() {
+                .setNegativeButton("বাদ দেই", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 dialog.dismiss();
                 showNotFoundDialog();
@@ -390,7 +390,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         }).show();
     }
     private void showSuccessAlertDialog(String message, String threshold){
-        new AlertDialog.Builder(this).setMessage(message+"\n threshold value: "+threshold)
+        new AlertDialog.Builder(this).setMessage(message)
                 .setTitle("ফিঙ্গার প্রিন্ট ভেরিফিকেশন রেজাল্ট").setCancelable(false)
                 .setNegativeButton("ঠিক আছে", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
@@ -438,12 +438,16 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         CheckBox checkBox5 = dialog.findViewById(R.id.check_box_5);
         checkBox1.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked){
-                addCheckedText(checkBox1.getText().toString());
+                    checkBox5.setChecked(false);
+                    checkedItem = checkedItem.replace("জানা নেই","");
+                    addCheckedText(checkBox1.getText().toString());
             }
         });
         checkBox2.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked){
-                addCheckedText(checkBox2.getText().toString());
+                checkBox5.setChecked(false);
+                    checkedItem = checkedItem.replace("জানা নেই","");
+                    addCheckedText(checkBox2.getText().toString());
             }
         });
 
@@ -513,6 +517,11 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             if(resultCode == Activity.RESULT_OK){
                 SimPrintsVerification verifyResults = (SimPrintsVerification) data.getSerializableExtra(SimPrintsConstantHelper.INTENT_DATA);
                 String guId = verifyResults.getGuid();
+                if(TextUtils.isEmpty(guId)){
+                    isVerified = false;
+                    showNotFoundDialog();
+                    return;
+                }
                 Tier tier = verifyResults.getTier();
                 float confidence = verifyResults.getConfidence();
                 Log.v("VERIFY_SIMPRINT","verify:"+guId+":tier:"+tier+":confidence:"+confidence);

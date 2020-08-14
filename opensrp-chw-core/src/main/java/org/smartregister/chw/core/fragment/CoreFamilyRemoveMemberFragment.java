@@ -216,9 +216,7 @@ public abstract class CoreFamilyRemoveMemberFragment extends BaseFamilyProfileMe
                     v.getTag(R.id.VIEW_ID) == BaseFamilyProfileMemberFragment.CLICK_VIEW_NORMAL) {
                 final CommonPersonObjectClient pc = (CommonPersonObjectClient) v.getTag();
 
-                memberName = String.format("%s %s %s", pc.getColumnmaps().get(DBConstants.KEY.FIRST_NAME),
-                        pc.getColumnmaps().get(DBConstants.KEY.MIDDLE_NAME),
-                        pc.getColumnmaps().get(DBConstants.KEY.LAST_NAME));
+                memberName = String.format("%s", pc.getColumnmaps().get(DBConstants.KEY.FIRST_NAME));
 
                 String dod = pc.getColumnmaps().get(DBConstants.KEY.DOD);
 

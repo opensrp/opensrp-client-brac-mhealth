@@ -27,6 +27,13 @@ condition: "step1_body_temperature < 97"
 actions:
   - "isRelevant = true"
 ---
+name: step1_advice_navel_condition
+description: advice_navel_condition
+priority: 1
+condition: "step1_navel_condition.equals('অস্বাভাবিক (পুঁজ/ক্ষরণ)')"
+actions:
+  - "isRelevant = true"
+---
 name: step1_advice_eye_condition
 description: advice_eye_condition
 priority: 1

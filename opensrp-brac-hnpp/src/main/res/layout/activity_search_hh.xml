@@ -83,11 +83,12 @@
             android:layout_weight="1"
             android:text="villge name"
             android:textColor="@color/white"
-            android:gravity="center_vertical"
+            android:gravity="center_vertical|center"
             android:layout_height="match_parent"/>
         <View
             android:layout_width="2dp"
             android:layout_gravity="center_vertical"
+            android:visibility="gone"
             android:background="@color/white"
             android:layout_height="wrap_content"/>
         <org.smartregister.view.customcontrols.CustomFontTextView
@@ -95,6 +96,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:text="villge name"
+            android:visibility="gone"
 
             android:layout_marginLeft="10dp"
             android:textColor="@color/white"

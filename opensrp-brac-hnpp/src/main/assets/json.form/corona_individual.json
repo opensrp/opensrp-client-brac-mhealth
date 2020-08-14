@@ -118,7 +118,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "symptoms",
         "type": "check_box",
-        "label": "নিচের কোন লক্ষণগুলি  বিদ্যমান ",
+        "label": "করোনার কি কি উপসর্গ আছে? ",
         "label_text_style": "normal",
         "text_color": "#C0C0C0",
         "options": [
@@ -245,6 +245,20 @@
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "kidny_problem"
+          },
+          {
+            "key": "cancer_problem",
+            "text": "ক্যান্সার",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "cancer_problem"
+          },
+          {
+            "key": "other_serious_problem",
+            "text": "অন্য গুরুতর শারীরিক সমস্যা আছে",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "other_serious_problem"
           }
         ],
         "v_required": {
@@ -279,6 +293,13 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "corona_individual_relevance.yml"
+            }
+          }
         }
       },
       {

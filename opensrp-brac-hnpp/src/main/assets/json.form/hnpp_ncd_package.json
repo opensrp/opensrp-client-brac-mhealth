@@ -66,7 +66,7 @@
         "type": "check_box",
         "label": "নিচের কোন কোন সমস্যা আছে?",
         "exclusive": [
-          "None"
+          "no_problem"
         ],
         "options": [
           {
@@ -145,6 +145,13 @@
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "other_option"
+          },
+          {
+            "key": "no_problem",
+            "text": "সমস্যা নাই",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "no_problem"
           }
         ],
         "v_required": {

@@ -20,7 +20,7 @@
         android:padding="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="নিচের কোন কারনে আঙুলের ছাপ মেলে নি?"
+        android:text="নিচের কোন কারণে সদস্যকে যাচাই করা যায় নি?"
         android:textColor="@color/black"
         android:textSize="18sp"/>
     <CheckBox
@@ -40,7 +40,7 @@
 
     <CheckBox
         android:id="@+id/check_box_5"
-        android:text=" জানা নেই  "
+        android:text="জানা নেই"
         android:textColor="@color/black"
         android:layout_margin="10dp"
         android:layout_width="match_parent"

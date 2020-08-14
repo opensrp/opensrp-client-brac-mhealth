@@ -136,21 +136,29 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
         CheckBox checkBox5 = dialog.findViewById(R.id.check_box_5);
         checkBox1.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked){
+                checkBox5.setChecked(false);
+                checkedItem = checkedItem.replace("জানা নেই","");
                 addCheckedText(checkBox1.getText().toString());
             }
         });
         checkBox2.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked){
+                checkBox5.setChecked(false);
+                checkedItem = checkedItem.replace("জানা নেই","");
                 addCheckedText(checkBox2.getText().toString());
             }
         });
         checkBox3.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked){
+                checkBox5.setChecked(false);
+                checkedItem = checkedItem.replace("জানা নেই","");
                 addCheckedText(checkBox3.getText().toString());
             }
         });
         checkBox4.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked){
+                checkBox5.setChecked(false);
+                checkedItem = checkedItem.replace("জানা নেই","");
                 addCheckedText(checkBox4.getText().toString());
             }
         });

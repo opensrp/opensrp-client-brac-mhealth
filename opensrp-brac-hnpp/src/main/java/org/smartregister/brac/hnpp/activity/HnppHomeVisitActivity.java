@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.TypedValue;
 import android.view.View;
+import android.widget.TextView;
 
 import com.vijay.jsonwizard.activities.JsonFormActivity;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
@@ -36,6 +38,8 @@ public class HnppHomeVisitActivity extends BaseAncHomeVisitActivity {
     @Override
     public void setUpView() {
         super.setUpView();
+        TextView textView = findViewById(R.id.customFontTextViewSubmit);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,25);
         if(!HnppConstants.isReleaseBuild()){
             findViewById(R.id.app_bar).setBackgroundResource(R.color.test_app_color);
 

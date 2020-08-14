@@ -54,6 +54,31 @@ public class DistrictListRepository extends BaseRepository {
     protected String getLocationTableName() {
         return LOCATION_TABLE;
     }
+    public boolean isExistData(){
+        String sql = "select count(*) from district_list";
+        Cursor cursor = null;
+        boolean isExist = false;
+
+        try {
+            cursor = getReadableDatabase().rawQuery(sql, null);
+            if(cursor!=null&&cursor.getCount()>0){
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    if(cursor.getInt(0) >0){
+                        isExist = true;
+                    }
+                    cursor.moveToNext();
+                }
+
+            }
+        } catch (Exception e) {
+            Log.e(LocationRepository.class.getCanonicalName(), e.getMessage(), e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return isExist;
+    }
     public ArrayList<String> getDistrictNames(){
         String sql = "select name from district_list group by name";
         Cursor cursor = null;
@@ -77,7 +102,7 @@ public class DistrictListRepository extends BaseRepository {
 
     }
     public ArrayList<String> getUpazilaFromDistrict(String district){
-        String sql = "select upazila from district_list where name = '"+district+"'";
+        String sql = "select upazila from district_list where name = '"+district+"' group by upazila";
         Cursor cursor = null;
         ArrayList<String> locations = new ArrayList<>();
         try {
@@ -106,15 +131,6 @@ public class DistrictListRepository extends BaseRepository {
         getWritableDatabase().execSQL("delete from "+getLocationTableName());
     }
 
-    public void addOrUpdate(DistrictModel DistrictModel) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(name, DistrictModel.name.trim());
-        contentValues.put(upazila, DistrictModel.upazila);
-        long inserted = getWritableDatabase().replace(getLocationTableName(), null, contentValues);
-         Log.v("LOCATION_FETCH","addOrUpdate>>inserted:"+inserted);
-
-
-    }
 
     public ArrayList<DistrictModel> getAllLocations() {
         Cursor cursor = null;
@@ -159,6 +175,7 @@ public class DistrictListRepository extends BaseRepository {
         }
         VALUES = VALUES.substring(0,VALUES.length()-1);
         sql = sql + VALUES;
+        Log.v("LOCATION_FETCH","batchInsert>>sql:"+sql);
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(sql);
     }

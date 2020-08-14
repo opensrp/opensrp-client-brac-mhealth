@@ -91,7 +91,7 @@ public class SearchHHMemberModel {
     }
 
     public ArrayList<HHMemberProperty> fetchHH(String village, String claster){
-        String query = "Select first_name,base_entity_id,unique_id from ec_family where claster ='"+claster+"' and village_town = '"+village+"' and date_removed is null";
+        String query = "Select first_name,base_entity_id,unique_id from ec_family where village_town = '"+village+"' and date_removed is null";
         Cursor cursor = null;
         hhList.clear();
         cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
@@ -112,7 +112,7 @@ public class SearchHHMemberModel {
     }
     public ArrayList<HHMemberProperty> fetchAdo(String village, String claster){
         String query = "Select ec_family_member.first_name,ec_family_member.base_entity_id,ec_family_member.unique_id,ec_family_member.dob FROM ec_family_member LEFT JOIN ec_family ON  ec_family_member.relational_id = ec_family.id COLLATE NOCASE  WHERE  ec_family_member.date_removed is null AND  ((( julianday('now') - julianday(dob))/365) >=11) AND  ((( julianday('now') - julianday(dob))/365) <20)" +
-                " AND gender = 'F' and ec_family.village_town = '"+village+"' and ec_family.claster = '"+claster+"'";
+                " AND gender = 'F' and ec_family.village_town = '"+village+"'";
         Cursor cursor = null;
         adoArrayList.clear();
         cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
@@ -135,7 +135,7 @@ public class SearchHHMemberModel {
     }
     public ArrayList<HHMemberProperty> fetchWomen(String village, String claster){
         String query = "Select ec_family_member.first_name,ec_family_member.base_entity_id,ec_family_member.unique_id,ec_family_member.dob FROM ec_family_member LEFT JOIN ec_family ON  ec_family_member.relational_id = ec_family.id COLLATE NOCASE  WHERE  ec_family_member.date_removed is null AND  ((( julianday('now') - julianday(dob))/365) >14)" +
-                " AND gender = 'F' and ec_family.village_town = '"+village+"' and ec_family.claster = '"+claster+"'";
+                " AND gender = 'F' and ec_family.village_town = '"+village+"' ";
         Cursor cursor = null;
         womenArrayList.clear();
         cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
@@ -158,7 +158,7 @@ public class SearchHHMemberModel {
     }
     public ArrayList<HHMemberProperty> fetchChild(String village, String claster){
         String query = "Select ec_child.first_name,ec_child.base_entity_id,ec_child.unique_id,ec_child.dob FROM ec_child LEFT JOIN ec_family ON  ec_child.relational_id = ec_family.id COLLATE NOCASE  WHERE  ec_child.date_removed is null AND  (( julianday('now') - julianday(dob)) >=183) AND  (( julianday('now') - julianday(dob)) <= 1830)" +
-                " AND ec_family.village_town = '"+village+"' and ec_family.claster = '"+claster+"'";
+                " AND ec_family.village_town = '"+village+"'";
         Log.v("CHILD_QUERY","query:"+query);
 
         Cursor cursor = null;
@@ -182,8 +182,8 @@ public class SearchHHMemberModel {
         return childArrayList;
     }
     public ArrayList<HHMemberProperty> fetchNcd(String village, String claster){
-        String query = "Select ec_family_member.first_name,ec_family_member.base_entity_id,ec_family_member.unique_id,ec_family_member.dob FROM ec_family_member LEFT JOIN ec_family ON  ec_family_member.relational_id = ec_family.id COLLATE NOCASE  WHERE  ec_family_member.date_removed is null AND  ((( julianday('now') - julianday(dob))/365) >31)" +
-                " and ec_family.village_town = '"+village+"' and ec_family.claster = '"+claster+"'";
+        String query = "Select ec_family_member.first_name,ec_family_member.base_entity_id,ec_family_member.unique_id,ec_family_member.dob FROM ec_family_member LEFT JOIN ec_family ON  ec_family_member.relational_id = ec_family.id COLLATE NOCASE  WHERE  ec_family_member.date_removed is null AND  ((( julianday('now') - julianday(dob))/365) >=18)" +
+                " and ec_family.village_town = '"+village+"'";
         Cursor cursor = null;
         ncdArrayList.clear();
         cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
@@ -204,4 +204,5 @@ public class SearchHHMemberModel {
         }
         return ncdArrayList;
     }
+
 }

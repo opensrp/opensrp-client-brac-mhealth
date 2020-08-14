@@ -13,6 +13,7 @@
         android:src="@drawable/rowavatar_member"/>
     <TextView
         android:id="@+id/tier_count"
+        android:visibility="invisible"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:text="tier_1"

@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
@@ -88,8 +89,13 @@ public class HnppNavigationPresenter extends NavigationPresenter {
     public void browseSSInfo(Activity activity) {
        String providerId =  HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
         String url = "http://hnppdfs.brac.net/SkTabLogIn?id="+providerId+"&key=62fa0f87-0710-4932-8119-8d4fe4c083e3";
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-        activity.startActivity(browserIntent);
+        try{
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            activity.startActivity(browserIntent);
+
+        }catch (Exception e){
+            Toast.makeText(activity,"আপনার ব্রাউজার চালু রাখুন",Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override

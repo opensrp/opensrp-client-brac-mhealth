@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
 
 import com.evernote.android.job.JobManager;
 import com.google.gson.Gson;
@@ -22,6 +24,8 @@ import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.fragment.HnppAncRegisterFragment;
 import org.smartregister.brac.hnpp.job.HnppPncCloseJob;
 import org.smartregister.brac.hnpp.listener.HnppFamilyBottomNavListener;
+import org.smartregister.brac.hnpp.location.SSLocationHelper;
+import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.utils.ANCRegister;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -77,12 +81,38 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
                 .setTitle(getString(R.string.exit_app_title)).setCancelable(false)
                 .setPositiveButton(R.string.yes_button_label, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
+                        Intent a = new Intent(Intent.ACTION_MAIN);
+                        a.addCategory(Intent.CATEGORY_HOME);
+                        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(a);
                         finish();
                     }
                 }).setNegativeButton(R.string.no_button_label, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
             }
         }).show();
+    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ArrayList<SSModel> ssLocationForms = SSLocationHelper.getInstance().getSsModels();
+        if(ssLocationForms.size() > 0){
+            boolean simPrintsEnable = ssLocationForms.get(0).simprints_enable;
+            if(simPrintsEnable){
+                findViewById(R.id.simprints_identity).setVisibility(View.VISIBLE);
+                findViewById(R.id.simprints_identity).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(HnppAncRegisterActivity.this, SimprintsIdentityActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        overridePendingTransition(org.smartregister.chw.core.R.anim.slide_in_up, org.smartregister.chw.core.R.anim.slide_out_up);
+                    }
+                });
+            }else{
+                findViewById(R.id.simprints_identity).setVisibility(View.GONE);
+            }
+        }
     }
     @Override
     protected void initializePresenter() {

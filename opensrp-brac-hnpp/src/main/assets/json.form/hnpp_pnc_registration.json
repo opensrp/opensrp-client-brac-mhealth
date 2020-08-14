@@ -113,7 +113,7 @@
       {
         "key": "other_label_1",
         "type": "label",
-        "text": "অন্য উৎস থেকে নেয়া পি.এন.সি. সেবা",
+        "text": "পূর্বের পি.এন.সি. সেবার তথ্য",
         "has_bg": true,
         "left_padding": "20dp",
         "right_padding": "20dp",
@@ -136,7 +136,7 @@
         "openmrs_entity_id": "other_pnc_no_1",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "এটি কয় নম্বর পি.এন.সি. সেবা?",
+        "hint": "পূর্বের পি.এন.সি. সেবার সিরিয়াল নম্বর",
         "values": [
 
         ],
@@ -165,7 +165,7 @@
         "right_padding": "20dp",
         "text_size": "25sp",
         "text_color": "#FF0000",
-        "text": "* এবারে নেয়া এ.এন.সি. নম্বর থেকে কম হবে.",
+        "text": "* এবারে নেয়া পি.এন.সি. নম্বর থেকে কম হবে.",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -185,7 +185,7 @@
         "right_padding": "20dp",
         "text_size": "25sp",
         "text_color": "#FF0000",
-        "text": "* এ.এন.সি. নম্বর গুলো আলাদা হবে ",
+        "text": "* পি.এন.সি. নম্বর গুলো আলাদা হবে ",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -205,10 +205,12 @@
         "hint": "উৎস",
         "values": [
           "সরকারি",
+          "ব্র্যাক",
           "অন্যান্য"
         ],
         "openmrs_choice_ids": {
           "সরকারি": "Govt",
+          "ব্র্যাক": "brac",
           "অন্যান্য": "other"
         },
         "v_required": {
@@ -225,7 +227,7 @@
       {
         "key": "other_label_2",
         "type": "label",
-        "text": "অন্য উৎস থেকে নেয়া এ.এন.সি. সেবা",
+        "text": "পূর্বের পি.এন.সি. সেবার তথ্য",
         "has_bg": true,
         "left_padding": "20dp",
         "right_padding": "20dp",
@@ -249,7 +251,7 @@
         "openmrs_entity_id": "other_pnc_no_2",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "এটি কয় নম্বর এ.এন.সি. সেবা?",
+        "hint": "পূর্বের পি.এন.সি. সেবার সিরিয়াল নম্বর",
         "values": [
 
         ],
@@ -278,7 +280,7 @@
         "right_padding": "20dp",
         "text_size": "25sp",
         "text_color": "#FF0000",
-        "text": "* এবারে নেয়া এ.এন.সি. নম্বর থেকে কম হবে.",
+        "text": "* এবারে নেয়া পি.এন.সি. নম্বর থেকে কম হবে.",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -298,7 +300,7 @@
         "right_padding": "20dp",
         "text_size": "25sp",
         "text_color": "#FF0000",
-        "text": "* এ.এন.সি. নম্বর গুলো আলাদা হবে",
+        "text": "* পি.এন.সি. নম্বর গুলো আলাদা হবে",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -317,10 +319,12 @@
         "hint": "উৎস",
         "values": [
           "সরকারি",
+          "ব্র্যাক",
           "অন্যান্য"
         ],
         "openmrs_choice_ids": {
           "সরকারি": "Govt",
+          "ব্র্যাক": "brac",
           "অন্যান্য": "other"
         },
         "v_required": {
@@ -335,13 +339,32 @@
         }
       },
       {
+        "key": "other_label_3",
+        "type": "label",
+        "text": "পূর্বের পি.এন.সি. সেবার তথ্য",
+        "has_bg": true,
+        "left_padding": "20dp",
+        "right_padding": "20dp",
+        "text_size": "25sp",
+        "text_color": "#000000",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "relevance": {
+          "step1:diff": {
+            "type": "numeric",
+            "ex": "greaterThanEqualTo(., \"4\")"
+          }
+        }
+      },
+      {
         "key": "other_pnc_no_3",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "other_pnc_no_3",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "এটি কয় নম্বর এ.এন.সি. সেবা?",
+        "hint": "পূর্বের পি.এন.সি. সেবার সিরিয়াল নম্বর",
         "values": [
 
         ],
@@ -370,7 +393,7 @@
         "right_padding": "20dp",
         "text_size": "25sp",
         "text_color": "#FF0000",
-        "text": "* এবারে নেয়া এ.এন.সি. নম্বর থেকে কম হবে.",
+        "text": "* এবারে নেয়া পি.এন.সি. নম্বর থেকে কম হবে.",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -390,7 +413,7 @@
         "right_padding": "20dp",
         "text_size": "25sp",
         "text_color": "#FF0000",
-        "text": "* এ.এন.সি. নম্বর গুলো আলাদা হবে",
+        "text": "* পি.এন.সি. নম্বর গুলো আলাদা হবে",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -409,10 +432,12 @@
         "hint": "উৎস",
         "values": [
           "সরকারি",
+          "ব্র্যাক",
           "অন্যান্য"
         ],
         "openmrs_choice_ids": {
           "সরকারি": "Govt",
+          "ব্র্যাক": "brac",
           "অন্যান্য": "other"
         },
         "v_required": {
@@ -940,7 +965,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "মাকে বামদিকে কাত হয়ে শুতে বলুন। মুখের থুথু ফেলতে বলুন। একটি চামচ কাপড়ে মুড়িয়ে মুখে দিয়ে রাখুন।",
+        "text": "মাকে বামদিকে কাত হয়ে শুতে বলুন। মুখের থুথু ফেলতে বলুন। একটি চামচ কাপড়ে মুড়িয়ে মুখে দিয়ে রাখুন। খুব দ্রুত হাসপাতালে নিতে বলুন",
         "text_color": "#1199F9",
         "toaster_type": "info",
         "relevance": {
@@ -1141,6 +1166,7 @@
         "openmrs_entity_id": "cause_of_referral",
         "openmrs_data_type": "",
         "type": "spinner",
+        "type": "hidden",
         "hint": "রেফারেল এর কারণ",
         "values": [
           "গর্ভাবস্থার সমস্যা",
@@ -1187,6 +1213,7 @@
         "openmrs_entity_id": "has_other_complication",
         "openmrs_data_type": "",
         "type": "spinner",
+        "type": "hidden",
         "hint": "অন্যান্য উপসর্গ / অসুবিধা / জটিলতা আছে কিনা ?",
         "values": [
           "হ্যাঁ",
@@ -1207,6 +1234,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "other_complication",
         "type": "edit_text",
+        "type": "hidden",
         "hint": "লিখুন ",
         "relevance": {
           "step1:has_other_complication": {
@@ -1241,7 +1269,8 @@
         "text_color": "#000000",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
-        "openmrs_entity_id": ""
+        "openmrs_entity_id": "",
+        "type": "hidden"
       },
       {
         "key": "other_refer_reason",
@@ -1249,7 +1278,8 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "other_refer_reason",
         "type": "edit_text",
-        "hint": "অন্যান্য কারণ"
+        "hint": "অন্যান্য কারণ",
+        "type": "hidden"
       },
       {
         "key": "place_of_referral",

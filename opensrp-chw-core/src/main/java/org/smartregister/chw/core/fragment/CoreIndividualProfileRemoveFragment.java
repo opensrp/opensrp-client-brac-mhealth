@@ -76,9 +76,7 @@ public abstract class CoreIndividualProfileRemoveFragment extends BaseFamilyProf
     protected abstract void setPresenter(String familyHead, String primaryCareGiver);
 
     private void openDeleteDialog() {
-        memberName = String.format("%s %s %s", pc.getColumnmaps().get(DBConstants.KEY.FIRST_NAME),
-                pc.getColumnmaps().get(DBConstants.KEY.MIDDLE_NAME) == null ? "" : pc.getColumnmaps().get(DBConstants.KEY.MIDDLE_NAME),
-                pc.getColumnmaps().get(DBConstants.KEY.LAST_NAME) == null ? "" : pc.getColumnmaps().get(DBConstants.KEY.LAST_NAME));
+        memberName = String.format("%s", pc.getColumnmaps().get(DBConstants.KEY.FIRST_NAME));
 
         String dod = pc.getColumnmaps().get(DBConstants.KEY.DOD);
         if (StringUtils.isBlank(dod)) {

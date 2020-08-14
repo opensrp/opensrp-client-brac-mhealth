@@ -94,7 +94,7 @@
           "আই ইউ ডি",
           "নরপ্লান্ট",
           "মহিলা বন্ধ্যাকরণ",
-          "পুরুষ বনধ্যাকরণ"
+          "পুরুষ বন্ধ্যাকরণ"
         ],
         "openmrs_choice_ids": {
           "বড়ি": "contraceptive_pill",
@@ -103,7 +103,7 @@
           "আই ইউ ডি": "iud",
           "নরপ্লান্ট": "norplant",
           "মহিলা বন্ধ্যাকরণ": "ligation",
-          "পুরুষ বনধ্যাকরণ": "vasectomy"
+          "পুরুষ বন্ধ্যাকরণ": "vasectomy"
         },
         "v_required": {
           "value": true,
@@ -395,12 +395,25 @@
         }
       },
       {
+        "key": "enabled_label",
+        "type": "label",
+        "text": "সবচেয়ে ছোট সন্তানের বয়স কত?",
+        "has_bg": true,
+        "left_padding": "20dp",
+        "right_padding": "20dp",
+        "text_size": "25sp",
+        "text_color": "#000000",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": ""
+      },
+      {
         "key": "age_small_child",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "age_small_child",
         "type": "edit_text",
-        "hint": "সবচেয়ে ছোট সন্তানের বয়স কত?(বছর )",
+        "hint": "বছর",
         "v_numeric": {
           "value": "true",
           "err": "সংখ্যাটি অবশ্যই পূর্ণসংখ্যা হওয়া আবশ্যক"
@@ -408,8 +421,33 @@
         "v_regex": {
           "value": "[0-9]*",
           "err": "দশমিক অনুমোদিত নয়"
+        },
+        "v_max": {
+          "value": "49",
+          "err": "বছর 49 এর সমান বা 49 এর কম হওয়া উচিত"
         }
       },
+      {
+        "key": "month_small_child",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "month_small_child",
+        "type": "edit_text",
+        "hint": "মাস",
+        "v_numeric": {
+          "value": "true",
+          "err": "সংখ্যাটি অবশ্যই পূর্ণসংখ্যা হওয়া আবশ্যক"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "v_max": {
+          "value": "11",
+          "err": "মাস 11 এর সমান বা 11 এর কম হওয়া উচিত"
+        }
+      },
+
       {
         "key": "permanent_process",
         "openmrs_entity_parent": "",
@@ -452,6 +490,13 @@
         "v_required": {
           "value": "true",
           "err": "LMP required"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_elco_relevance.yml"
+            }
+          }
         }
       },
       {

@@ -128,7 +128,7 @@ actions:
 name: step1_advice_toaster_24hr_8
 description: advice_toaster_24hr_8
 priority: 1
-condition: "step1_child_movement_in_last_24hr_no >7 && step1_child_movement_in_last_24hr_no < 11"
+condition: "step1_child_movement_in_last_24hr_no >6 && step1_child_movement_in_last_24hr_no < 10"
 actions:
   - "isRelevant = true"
 ---

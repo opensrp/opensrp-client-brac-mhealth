@@ -453,6 +453,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
                     public void run() {
 //                        memberHistoryFragment.onActivityResult(0,0,null);
                         mViewPager.setCurrentItem(2,true);
+                        if(memberOtherServiceFragment !=null){
+                            memberOtherServiceFragment.updateStaticView();
+                        }
 
                     }
                 },1000);

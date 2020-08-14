@@ -159,12 +159,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="ক্লাস্টারঃ"
+                        android:visibility="gone"
                         android:textSize="25sp"
                         android:layout_marginLeft="10dp"
                         android:layout_gravity="top"/>
                     <Spinner
                         android:id="@+id/klaster_filter_spinner"
                         android:layout_marginBottom="20dp"
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:background="@drawable/spinner_resource"
                         android:layout_margin="5dp"

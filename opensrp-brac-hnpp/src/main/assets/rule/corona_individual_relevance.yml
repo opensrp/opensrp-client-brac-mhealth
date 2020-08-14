@@ -2,7 +2,21 @@
 name: step1_symptoms
 description: symptoms
 priority: 1
-condition: "step1_corona_test_result.equals('করোনা পজিটিভ') || step1_corona_test_result.equals('করোনা নেগেটিভ')"
+condition: "step1_corona_test_result.equals('রেজাল্ট পাই নি') || step1_corona_test_result.equals('করোনা নেগেটিভ')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_corona_patient_exist
+description: corona_patient_exist
+priority: 1
+condition: "step1_corona_test_result.equals('রেজাল্ট পাই নি') || step1_corona_test_result.equals('করোনা নেগেটিভ')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_physical_condition
+description: physical_condition
+priority: 1
+condition: "step1_corona_test_result.equals('রেজাল্ট পাই নি') || step1_corona_test_result.equals('করোনা নেগেটিভ')"
 actions:
   - "isRelevant = true"
 ---
@@ -31,12 +45,5 @@ name: step1_isolation_rule
 description: isolation_rule
 priority: 1
 condition: "step1_isolation.equals('হ্যাঁ')"
-actions:
-  - "isRelevant = true"
----
-name: step1_physical_condition
-description: physical_condition
-priority: 1
-condition: "step1_corona_test_result.equals('করোনা পজিটিভ') || step1_corona_test_result.equals('করোনা নেগেটিভ')"
 actions:
   - "isRelevant = true"

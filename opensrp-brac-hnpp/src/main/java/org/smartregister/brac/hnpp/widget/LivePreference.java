@@ -137,7 +137,7 @@ public class LivePreference extends Preference  {
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
-                if(BuildConfig.DEBUG || !serverPassword.trim().isEmpty() && serverPassword.equalsIgnoreCase(inputedPassword)){
+                if(!serverPassword.trim().isEmpty() && serverPassword.equalsIgnoreCase(inputedPassword)){
                     if(appMode.equalsIgnoreCase("T")){
                         String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
                         if(TextUtils.isEmpty(userName)){

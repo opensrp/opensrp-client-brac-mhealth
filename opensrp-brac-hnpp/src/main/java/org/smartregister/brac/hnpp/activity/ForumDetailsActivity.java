@@ -7,7 +7,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -112,6 +114,25 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
         generateSpinner();
     }
     private void generateSpinner(){
+        editTextNoOfParticipants.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(!TextUtils.isEmpty(s.toString()) && Integer.parseInt(s.toString())>50){
+                    editTextNoOfParticipants.setError("ফোরামে অংশ গ্রহনকারীর সংখ্যা ৫০ জন এর বেশি হবে না");
+                }
+
+            }
+        });
         ArrayList<String> ssSpinnerArray = new ArrayList<>();
 
         ArrayList<String> villageSpinnerArray = new ArrayList<>();
@@ -269,6 +290,11 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
     private ForumDetails getForumDetails(){
         if(TextUtils.isEmpty(editTextNoOfParticipants.getText().toString())){
             editTextNoOfParticipants.setError("অংশগ্রহণকারী কত জন ছিল?");
+            return null;
+        }
+        if(!TextUtils.isEmpty(editTextNoOfParticipants.getText().toString()) &&
+                Integer.parseInt(editTextNoOfParticipants.getText().toString())>50){
+            editTextNoOfParticipants.setError("ফোরামে অংশ গ্রহনকারীর সংখ্যা ৫০ জন এর বেশি হবে না");
             return null;
         }
         if(hhMemberProperty == null){

@@ -138,19 +138,20 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
            boolean simPrintsEnable = ssLocationForms.get(0).simprints_enable;
            if(simPrintsEnable){
                findViewById(R.id.simprints_identity).setVisibility(View.VISIBLE);
-               findViewById(R.id.simprints_identity).setOnClickListener(new View.OnClickListener() {
-                   @Override
-                   public void onClick(View v) {
-                       Intent intent = new Intent(FamilyRegisterActivity.this, SimprintsIdentityActivity.class);
-                       intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                       startActivity(intent);
-                       overridePendingTransition(org.smartregister.chw.core.R.anim.slide_in_up, org.smartregister.chw.core.R.anim.slide_out_up);
-                   }
-               });
+
            }else{
                findViewById(R.id.simprints_identity).setVisibility(View.GONE);
            }
         }
+        findViewById(R.id.simprints_identity).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(FamilyRegisterActivity.this, SimprintsIdentityActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                overridePendingTransition(org.smartregister.chw.core.R.anim.slide_in_up, org.smartregister.chw.core.R.anim.slide_out_up);
+            }
+        });
 
         //HnppApplication.getInstance().notifyAppContextChange(); // initialize the language (bug in translation)
         action = getIntent().getStringExtra(CoreConstants.ACTIVITY_PAYLOAD.ACTION);

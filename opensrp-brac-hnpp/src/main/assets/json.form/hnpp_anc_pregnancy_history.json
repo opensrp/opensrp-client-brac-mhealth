@@ -64,7 +64,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "abortion_mr",
         "type": "spinner",
-        "hint": "গর্ভপাত/এম আর (টিক চিহ্ন)",
+        "hint": "গর্ভপাত/এম আর",
         "values": [
           "হ্যাঁ",
           "না"
@@ -101,7 +101,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "still_birth",
         "type": "spinner",
-        "hint": "মৃত প্রসব (টিক চিহ্ন) ",
+        "hint": "মৃত প্রসব",
         "values": [
           "হ্যাঁ",
           "না"
@@ -138,7 +138,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "c_section",
         "type": "spinner",
-        "hint": "সিজারিয়ান অপারেশন (টিক চিহ্ন)",
+        "hint": "সিজারিয়ান অপারেশন",
         "values": [
           "হ্যাঁ",
           "না"

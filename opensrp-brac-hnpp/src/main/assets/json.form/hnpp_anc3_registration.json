@@ -122,7 +122,7 @@
       {
         "key": "other_label_1",
         "type": "label",
-        "text": "অন্য উৎস থেকে নেয়া এ.এন.সি. সেবা",
+        "text": "পূর্বের এ এন সি সেবার তথ্য",
         "has_bg": true,
         "left_padding": "20dp",
         "right_padding": "20dp",
@@ -145,7 +145,7 @@
         "openmrs_entity_id": "other_anc_no_1",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "এটি কয় নম্বর এ.এন.সি. সেবা?",
+        "hint": "পূর্বের এ এন সি সেবার সিরিয়াল নম্বর",
         "values": [
 
         ],
@@ -214,10 +214,12 @@
         "hint": "উৎস",
         "values": [
           "সরকারি",
+          "ব্র্যাক",
           "অন্যান্য"
         ],
         "openmrs_choice_ids": {
           "সরকারি": "Govt",
+          "ব্র্যাক": "brac",
           "অন্যান্য": "other"
         },
         "v_required": {
@@ -234,7 +236,7 @@
       {
         "key": "other_label_2",
         "type": "label",
-        "text": "অন্য উৎস থেকে নেয়া এ.এন.সি. সেবা",
+        "text": "পূর্বের এ এন সি সেবার তথ্য",
         "has_bg": true,
         "left_padding": "20dp",
         "right_padding": "20dp",
@@ -258,7 +260,7 @@
         "openmrs_entity_id": "other_anc_no_2",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "এটি কয় নম্বর এ.এন.সি. সেবা?",
+        "hint": "পূর্বের এ এন সি সেবার সিরিয়াল নম্বর",
         "values": [
 
         ],
@@ -326,10 +328,12 @@
         "hint": "উৎস",
         "values": [
           "সরকারি",
+          "ব্র্যাক",
           "অন্যান্য"
         ],
         "openmrs_choice_ids": {
           "সরকারি": "Govt",
+          "ব্র্যাক": "brac",
           "অন্যান্য": "other"
         },
         "v_required": {
@@ -344,13 +348,32 @@
         }
       },
       {
+        "key": "other_label_3",
+        "type": "label",
+        "text": "পূর্বের এ এন সি সেবার তথ্য",
+        "has_bg": true,
+        "left_padding": "20dp",
+        "right_padding": "20dp",
+        "text_size": "25sp",
+        "text_color": "#000000",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "relevance": {
+          "step1:diff": {
+            "type": "numeric",
+            "ex": "greaterThanEqualTo(., \"4\")"
+          }
+        }
+      },
+      {
         "key": "other_anc_no_3",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "other_anc_no_3",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "এটি কয় নম্বর এ.এন.সি. সেবা?",
+        "hint": "পূর্বের এ এন সি সেবার সিরিয়াল নম্বর",
         "values": [
 
         ],
@@ -418,10 +441,12 @@
         "hint": "উৎস",
         "values": [
           "সরকারি",
+          "ব্র্যাক",
           "অন্যান্য"
         ],
         "openmrs_choice_ids": {
           "সরকারি": "Govt",
+          "ব্র্যাক": "brac",
           "অন্যান্য": "other"
         },
         "v_required": {
@@ -943,28 +968,6 @@
           }
         }
       },
-
-      {
-        "key": "has_child_movement",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "has_child_movement",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "বাচ্চার নড়াচড়া আছে কিনা ",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
-      },
       {
         "key": "child_movement_in_last_24hr",
         "openmrs_entity_parent": "",
@@ -972,7 +975,7 @@
         "openmrs_entity_id": "child_movement_in_last_24hr",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "বাচ্চা কি দিনে ১০ থেকে ১২ বার নড়াচড়া? ",
+        "hint": "বাচ্চা কি দিনে ১০ থেকে ১২ বার নড়াচড়া করে?",
         "values": [
           "হ্যাঁ",
           "না"

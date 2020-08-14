@@ -12,8 +12,8 @@ import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.chw.core.dao.AbstractDao;
-import org.smartregister.chw.core.utils.Utils;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
+import org.smartregister.family.util.Utils;
 import org.smartregister.util.DateUtil;
 
 import java.text.DateFormat;
@@ -222,11 +222,13 @@ public class FormApplicability {
         }
         return -1;
     }
-    public static int getMonth(CommonPersonObjectClient commonPersonObject){
+
+    public static int getDay(CommonPersonObjectClient commonPersonObject){
         String dobString = org.smartregister.util.Utils.getValue(commonPersonObject.getColumnmaps(), "dob", false);
         if(!TextUtils.isEmpty(dobString) ){
-            Period period = new Period(new DateTime(dobString), new DateTime());
-            return period.getMonths();
+            Date date = Utils.dobStringToDate(dobString);
+           int day =  getDayDifference(new LocalDate(date),new LocalDate());
+           return day;
         }
         return -1;
     }
@@ -234,8 +236,8 @@ public class FormApplicability {
         return org.smartregister.util.Utils.getValue(commonPersonObject.getColumnmaps(), "gender", false);
     }
     //other service and package
-    public static boolean isIycfApplicable(int month){
-        return month >=6 && month <=60;
+    public static boolean isIycfApplicable(int day){
+        return day >=181 && day <=730;
     }
     public static boolean isAdolescentApplicable(int age, boolean isWomen){
         return isWomen && age>=10 && age <=19;
@@ -244,7 +246,13 @@ public class FormApplicability {
         return isWomen && age >=11;
     }
     public static boolean isNcdApplicable(int age){
-        return age >=30;
+        return age >=18;
+    }
+
+    private static int getDayDifference(LocalDate date1, LocalDate date2) {
+        return Days.daysBetween(
+                date1.withDayOfMonth(1),
+                date2.withDayOfMonth(1)).getDays();
     }
 
 }

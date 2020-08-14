@@ -71,7 +71,6 @@ public class SSLocationRepository extends BaseRepository {
         contentValues.put(IS_SIMPRINT_ENABLE, ssModel.simprints_enable);
         contentValues.put(GEOJSON, gson.toJson(ssModel.locations));
         long inserted = getWritableDatabase().replace(getLocationTableName(), null, contentValues);
-         Log.v("LOCATION_FETCH","addOrUpdate>>inserted:"+inserted);
 
 
     }
