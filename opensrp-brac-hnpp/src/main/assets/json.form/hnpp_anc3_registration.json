@@ -1323,7 +1323,7 @@
         "openmrs_entity_id": "albumin_test",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "এলবুমিন - প্রস্রাব পরিক্ষা",
+        "hint": "প্রস্রাব পরীক্ষায় অ্যালবুমিন আছে কিনা",
         "values": [
           "হ্যাঁ",
           "না"
@@ -1395,7 +1395,7 @@
         "openmrs_entity_id": "bilirubin_test",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "বিলিরুবিন - প্রস্রাব পরিক্ষা",
+        "hint": "প্রস্রাব পরীক্ষায় বিলিরুবিন আছে কি না",
         "values": [
           "হ্যাঁ",
           "না"

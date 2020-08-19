@@ -129,6 +129,7 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
         dialog.setContentView(R.layout.view_not_found);
         Button close_btn = dialog.findViewById(R.id.close_btn);
         Button retry_btn = dialog.findViewById(R.id.retry_btn);
+        CheckBox checkBox0 = dialog.findViewById(R.id.check_box_0);
         CheckBox checkBox1 = dialog.findViewById(R.id.check_box_1);
         CheckBox checkBox2 = dialog.findViewById(R.id.check_box_2);
         CheckBox checkBox3 = dialog.findViewById(R.id.check_box_3);
@@ -139,6 +140,13 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
                 checkBox5.setChecked(false);
                 checkedItem = checkedItem.replace("জানা নেই","");
                 addCheckedText(checkBox1.getText().toString());
+            }
+        });
+        checkBox0.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked){
+                checkBox5.setChecked(false);
+                checkedItem = checkedItem.replace("জানা নেই","");
+                addCheckedText(checkBox0.getText().toString());
             }
         });
         checkBox2.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -164,6 +172,7 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
         });
         checkBox5.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked){
+                checkBox0.setChecked(false);
                 checkBox1.setChecked(false);
                 checkBox2.setChecked(false);
                 checkBox3.setChecked(false);
