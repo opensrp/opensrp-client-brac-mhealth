@@ -5,6 +5,7 @@ public class IdentityModel {
     String baseEntityId="";
     String name;
     String tier;
+    String familyHead;
 
     public void setTier(String tier) {
         this.tier = tier;
@@ -36,5 +37,13 @@ public class IdentityModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setFamilyHead(String familyHead) {
+        this.familyHead = familyHead;
+    }
+
+    public String getFamilyHead() {
+        return familyHead;
     }
 }

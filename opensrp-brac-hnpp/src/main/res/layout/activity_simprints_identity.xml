@@ -73,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
              android:gravity="center_horizontal"
-            android:text="এই ব্যক্তিটি আঙুলের ছাপ দ্বারা রেজিস্টারকৃত নয়"
+            android:text="এই ব্যক্তি ফিঙ্গারপ্রিন্ট দ্বারা রেজিস্টার্ড নয়"
             android:textColor="@color/black"
             android:textSize="18sp"/>
         <Button
@@ -89,7 +89,7 @@
             android:shadowDy="1"
             android:shadowRadius="0.5"
             android:textStyle="bold"
-            android:text="ফিরে যাই"
+            android:text="মেনু-তে ফিরে যাই"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="18sp" />

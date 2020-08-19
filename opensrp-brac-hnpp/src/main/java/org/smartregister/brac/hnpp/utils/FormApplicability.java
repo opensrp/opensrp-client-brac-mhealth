@@ -243,7 +243,7 @@ public class FormApplicability {
         return isWomen && age>=10 && age <=19;
     }
     public static boolean isWomenPackageApplicable(int age, boolean isWomen){
-        return isWomen && age >=11;
+        return isWomen && age >=14;
     }
     public static boolean isNcdApplicable(int age){
         return age >=18;

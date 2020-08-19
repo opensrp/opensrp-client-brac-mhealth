@@ -382,7 +382,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                         startSimprintVerify();
                     }
                 })
-                .setNegativeButton("বাদ দেই", new DialogInterface.OnClickListener() {
+                .setNegativeButton("আঙ্গুলের ছাপ মেলেনি", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 dialog.dismiss();
                 showNotFoundDialog();
@@ -419,6 +419,41 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         }else{
             checkedItem = checkedItem+","+text;
         }
+    }
+    private void disagreeDialog(){
+        Dialog dialog = new Dialog(this, android.R.style.Theme_NoTitleBar_Fullscreen);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.not_verified_disagree);
+        TextView textViewNotFound = dialog.findViewById(R.id.not_found_txt);
+        textViewNotFound.setText(textViewName.getText().toString()+" কে যাচাই করা যায় নি");
+        Button service_btn = dialog.findViewById(R.id.service_btn);
+        Button retry_btn = dialog.findViewById(R.id.retry_btn);
+        dialog.findViewById(R.id.cross_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        service_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                ignoreSimprintCheck = true;
+                checkedItem = "disagree";
+                Log.v("VERIFY","checkedItem>>"+checkedItem);
+                openServiceForm();
+            }
+        });
+        retry_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                startSimprintVerify();
+            }
+        });
+        dialog.show();
+
     }
 
     private void showNotFoundDialog(){
@@ -519,7 +554,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                 String guId = verifyResults.getGuid();
                 if(TextUtils.isEmpty(guId)){
                     isVerified = false;
-                    showNotFoundDialog();
+                    disagreeDialog();
                     return;
                 }
                 Tier tier = verifyResults.getTier();
@@ -530,12 +565,12 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                     showSuccessAlertDialog("ফিঙ্গার প্রিন্ট দ্বারা ভেরিফাইড \n নাম : "+textViewName.getText().toString(),confidence+"");
                 }else{
                     isVerified = false;
-                    showFailAlertDialog("আঙুলের ছাপ মেলে নি",confidence+"");
+                    showFailAlertDialog("সামনের ব্যক্তি "+textViewName.getText().toString()+" না",confidence+"");
                 }
             }else{
                 Toast.makeText(this,"SIMPRINTS_BIOMETRICS_COMPLETE_CHECK false",Toast.LENGTH_LONG).show();
                 isVerified = false;
-                showFailAlertDialog("আঙুলের ছাপ মেলে নি","not found");
+                showFailAlertDialog("সামনের ব্যক্তি "+textViewName.getText().toString()+" না","not found");
             }
 
             return;

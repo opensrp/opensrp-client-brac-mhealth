@@ -357,6 +357,7 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
                                                 identityModel.setBaseEntityId(ourPut[0]);
                                                 identityModel.setName(ourPut[1]);
                                                 identityModel.setTier(identification.getTier().toString().replace("_"," "));
+                                                identityModel.setFamilyHead(ourPut[3]);
                                                 if(!TextUtils.isEmpty(ourPut[2])) {
                                                    String id = ourPut[2].replace(org.smartregister.family.util.Constants.IDENTIFIER.FAMILY_SUFFIX,"")
                                                             .replace(HnppConstants.IDENTIFIER.FAMILY_TEXT,"");

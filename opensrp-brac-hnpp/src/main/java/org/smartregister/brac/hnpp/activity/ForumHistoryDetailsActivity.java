@@ -57,11 +57,11 @@ public class ForumHistoryDetailsActivity extends ForumDetailsActivity {
                 textViewEmptySSName.setEnabled(false);
                 textViewEmptyVillage.setVisibility(View.VISIBLE);
                 textViewEmptyVillage.setEnabled(false);
-                textViewEmptyClaster.setVisibility(View.VISIBLE);
+                textViewEmptyClaster.setVisibility(View.GONE);
                 textViewEmptyClaster.setEnabled(false);
                 textViewEmptySSName.setText(forumDetails.ssName);
                 textViewEmptyVillage.setText(forumDetails.villageName);
-                textViewEmptyClaster.setText(HnppConstants.getClusterNameFromValue(forumDetails.clusterName));
+               // textViewEmptyClaster.setText(HnppConstants.getClusterNameFromValue(forumDetails.clusterName));
 //            }
 //            else {
 //                ss_spinner.setSelection(forumDetails.sIndex);

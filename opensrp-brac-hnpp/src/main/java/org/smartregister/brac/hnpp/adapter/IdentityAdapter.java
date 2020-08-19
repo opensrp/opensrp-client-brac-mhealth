@@ -1,19 +1,14 @@
 package org.smartregister.brac.hnpp.adapter;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.smartregister.brac.hnpp.R;
-import org.smartregister.brac.hnpp.holder.MemberDueViewHolder;
 import org.smartregister.brac.hnpp.utils.IdentityModel;
-import org.smartregister.brac.hnpp.utils.OtherServiceData;
 import org.smartregister.view.customcontrols.CustomFontTextView;
 
 import java.util.ArrayList;
@@ -45,6 +40,7 @@ public class IdentityAdapter extends RecyclerView.Adapter<IdentityAdapter.Identi
         viewHolder.textViewName.setText(content.getName());
         viewHolder.textViewGuid.setText(content.getGuid());
         viewHolder.textViewTier.setText(content.getTier());
+        viewHolder.textViewFamilyName.setText("খানা প্রধান: "+content.getFamilyHead());
         viewHolder.itemView.setOnClickListener(v -> onClickAdapter.onClick(viewHolder.getAdapterPosition(), content));
     }
 
@@ -59,6 +55,7 @@ public class IdentityAdapter extends RecyclerView.Adapter<IdentityAdapter.Identi
     }
     public class IdentityViewHolder extends RecyclerView.ViewHolder {
         public CustomFontTextView textViewName;
+        public CustomFontTextView textViewFamilyName;
         public CustomFontTextView textViewGuid;
         public TextView textViewTier;
 
@@ -67,6 +64,7 @@ public class IdentityAdapter extends RecyclerView.Adapter<IdentityAdapter.Identi
             textViewName = itemView.findViewById(R.id.name_tv);
             textViewGuid = itemView.findViewById(R.id.gu_id);
             textViewTier = itemView.findViewById(R.id.tier_count);
+            textViewFamilyName = itemView.findViewById(R.id.family_name_tv);
         }
     }
 }
