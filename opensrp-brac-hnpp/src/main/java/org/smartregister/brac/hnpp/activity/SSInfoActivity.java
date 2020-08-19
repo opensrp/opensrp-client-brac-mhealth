@@ -75,11 +75,11 @@ public class SSInfoActivity extends SecuredActivity {
     }
 
     private void startSSForm() {
-        Intent intent = new Intent(this, JsonWizardFormActivity.class);
+        Intent intent = new Intent(this, HNPPJsonWizardFormActivity.class);
         try{
             JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(HnppConstants.JSON_FORMS.SS_FORM);
             HnppJsonFormUtils.updateFormWithSSName(jsonForm, SSLocationHelper.getInstance().getSsModels());
-
+            HnppJsonFormUtils.addYear(jsonForm);
             intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
             Form form = new Form();
             form.setName(getString(R.string.menu_ss_info));

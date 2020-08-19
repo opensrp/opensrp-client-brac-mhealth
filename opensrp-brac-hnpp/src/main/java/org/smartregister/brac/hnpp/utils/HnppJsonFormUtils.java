@@ -83,7 +83,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
     public static final String VILLAGE_NAME = "village_name";
     public static final String ENCOUNTER_TYPE = "encounter_type";
 
-    private static String[] monthStr = {"january","february","march","april","may","june","july","august","september","october","november","december"};
+    public static String[] monthStr = {"January","February","March","April","May","June","July","August","September","October","November","December"};
 
     public static boolean isCurrentMonth(String month, String year){
         if(TextUtils.isEmpty(month) || TextUtils.isEmpty(year)){
@@ -103,6 +103,24 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             return true;
         }
         return false;
+    }
+    public static boolean isCurrentYear(String year){
+        if(TextUtils.isEmpty(year)){
+            return false;
+        }
+        LocalDate localDate = new LocalDate(System.currentTimeMillis());
+        int cYear = localDate.getYear();
+
+        int iYear = Integer.parseInt(year);
+        if( cYear == iYear){
+            return true;
+        }
+        return false;
+    }
+    public static int getCurrentMonth(){
+        LocalDate localDate = new LocalDate(System.currentTimeMillis());
+        int cMonth = localDate.getMonthOfYear();
+        return cMonth;
     }
     public static Visit processAndSaveSSForm(String jsonString) throws Exception{
 
@@ -530,6 +548,21 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         JSONArray field = fields(jsonForm, STEP1);
         JSONObject ss_name = getFieldJSONObject(field, "ss_id");
         return ss_name.optString(VALUE);
+    }
+    public static void addYear(JSONObject jsonForm){
+        try{
+            JSONArray field = fields(jsonForm, STEP1);
+            JSONObject spinner1 = getFieldJSONObject(field, "year");
+            LocalDate localDate = new LocalDate(System.currentTimeMillis());
+            int cyear = localDate.getYear();
+            JSONArray jsonArray2 = new JSONArray();
+            for(int i= 0; i<=5;i++){
+                jsonArray2.put(cyear - i);
+            }
+            spinner1.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray2);
+        }catch (Exception e){
+
+        }
     }
     public static void addLastAnc(JSONObject jsonForm,String baseEntityId,boolean isReadOnlyView){
         JSONObject stepOne = null;
