@@ -16,6 +16,14 @@
         android:textColor="@color/black"
         android:textSize="18sp"/>
     <CheckBox
+        android:id="@+id/check_box_0"
+        android:text=" এই ব্যক্তি ফিঙ্গারপ্রিন্ট দ্বারা রেজিস্টার্ড নয়"
+        android:textColor="@color/black"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <CheckBox
         android:id="@+id/check_box_1"
         android:text=" রেজিস্ট্রেশন এ ভুল আঙুলের ছাপ দেওয়া হয়েছে "
         android:textColor="@color/black"
@@ -61,6 +69,8 @@
         android:textSize="18sp"/>
     <LinearLayout
         android:padding="10dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -95,7 +105,7 @@
             android:shadowDy="1"
             android:shadowRadius="0.5"
             android:textStyle="bold"
-            android:text="বাদ দেই"
+            android:text="জমা দেই"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="18sp" />

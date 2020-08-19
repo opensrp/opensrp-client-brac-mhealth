@@ -73,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
              android:gravity="center_horizontal"
-            android:text="এই ব্যক্তি ফিঙ্গারপ্রিন্ট দ্বারা রেজিস্টার্ড নয়"
+            android:text="ফিঙ্গারপ্রিন্ট পাওয়া যায় নি"
             android:textColor="@color/black"
             android:textSize="18sp"/>
         <Button

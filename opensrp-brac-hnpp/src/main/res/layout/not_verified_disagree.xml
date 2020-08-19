@@ -11,10 +11,9 @@
         android:id="@+id/cross_btn"
         android:src="@drawable/ic_cross"
         android:layout_gravity="right"
-        android:padding="10dp"
         android:tint="@color/customAppThemeBlue"
-        android:layout_width="50dp"
-        android:layout_height="50dp"/>
+        android:layout_width="40dp"
+        android:layout_height="40dp"/>
 
     <TextView
         android:id="@+id/not_found_txt"
@@ -29,6 +28,8 @@
 
     <LinearLayout
         android:padding="10dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -40,6 +41,7 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/login_button_bg"
             android:ems="10"
+            android:gravity="center"
             android:shadowColor="#ffffff"
             android:shadowDx="0"
             android:shadowDy="1"
@@ -58,6 +60,7 @@
             android:layout_marginLeft="10dp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
+            android:gravity="center"
             android:background="@drawable/red_round"
             android:ems="10"
             android:shadowColor="#ffffff"

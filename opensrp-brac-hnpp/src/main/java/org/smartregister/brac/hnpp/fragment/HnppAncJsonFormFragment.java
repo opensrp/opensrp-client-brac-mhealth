@@ -161,7 +161,7 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
     public void onItemSelected(AdapterView<?> v, View tt, int position, long id) {
         super.onItemSelected(v, tt, position, id);
         if(v instanceof MaterialSpinner){
-            if (((MaterialSpinner) v).getHint() != null && (((MaterialSpinner) v).getHint().toString()).equals("বিলিরুবিন - প্রস্রাব পরিক্ষা *")) {
+            if (((MaterialSpinner) v).getHint() != null && (((MaterialSpinner) v).getHint().toString()).equals("প্রস্রাব পরীক্ষায় বিলিরুবিন আছে কি না *")) {
                     bilirubin = position == 0;
                     referUHCCheckStatus(bilirubin);
 
@@ -211,7 +211,7 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
                 has_edema = position == 0;
                 refer_albumin();
             }
-            else if (((MaterialSpinner) v).getHint() != null && (((MaterialSpinner) v).getHint().toString()).equals("এলবুমিন - প্রস্রাব পরিক্ষা *")) {
+            else if (((MaterialSpinner) v).getHint() != null && (((MaterialSpinner) v).getHint().toString()).equals("প্রস্রাব পরীক্ষায় অ্যালবুমিন আছে কিনা *")) {
 
                 has_albumin = position == 0;
                 refer_albumin();
