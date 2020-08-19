@@ -172,9 +172,38 @@
           "err": "পদ্ধতি কোথা থেকে সংগ্রহ করেছেন নির্বাচন করুন"
         },
         "relevance": {
-          "step1:familyplanning_method_known": {
-            "type": "string",
-            "ex": "equalTo(., \"হ্যাঁ\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_elco_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "distribution_location_other",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "distribution_location",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "পদ্ধতিটি কোথা থেকে গ্রহণ করা হয়েছিল",
+        "values": [
+          "সরকারী",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "সরকারী": "official",
+          "অন্যান্য": "other"
+        },
+        "v_required": {
+          "value": true,
+          "err": "পদ্ধতি কোথা থেকে সংগ্রহ করেছেন নির্বাচন করুন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_elco_relevance.yml"
+            }
           }
         }
       },

@@ -503,12 +503,8 @@
           }
         },
         "v_min": {
-          "value": "45",
-          "err": "45 এর সমান বা 45 এর বেশি হতে হবে"
-        },
-        "v_max": {
-          "value": "140",
-          "err": "140 এর সমান বা 140 এর কম হওয়া উচিত"
+          "value": "31",
+          "err": "31 এর সমান বা 31 এর বেশি হতে হবে"
         }
       },
       {
@@ -786,14 +782,6 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
-        },
-        "v_min": {
-          "value": "60",
-          "err": "60 এর সমান বা 60 এর বেশি হতে হবে"
-        },
-        "v_max": {
-          "value": "240",
-          "err": "240 এর সমান বা 240 এর কম হওয়া উচিত"
         }
       },
       {
@@ -820,7 +808,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text": "বেশি বেশি সুষম খাবার গ্রহণ করুন এবং ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
         "text_size": "20sp",
         "toaster_type": "problem",
@@ -850,14 +838,6 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
-        },
-        "v_min": {
-          "value": "30",
-          "err": "30 এর সমান বা 30 এর বেশি হতে হবে"
-        },
-        "v_max": {
-          "value": "130",
-          "err": "130 এর সমান বা 130 এর কম হওয়া উচিত"
         }
       },
       {
@@ -884,7 +864,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text": "বেশি বেশি সুষম খাবার গ্রহণ করুন এবং ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
         "text_size": "20sp",
         "toaster_type": "problem",
@@ -1337,27 +1317,6 @@
             "type": "string",
             "ex": "equalTo(., \"হ্যাঁ\")"
           }
-        }
-      },
-      {
-        "key": "has_sold_safety_delivery_kit",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "has_sold_safety_delivery_kit",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "নিরাপদ ডেলিভারি কিট ক্রয় করেছেন কিনা? ",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
         }
       },
       {

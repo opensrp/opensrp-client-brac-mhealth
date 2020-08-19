@@ -20,3 +20,17 @@ priority: 1
 condition: "step1_reasons_for_not_using_the_family_planning_system.equalsIgnoreCase('স্বামী বিদেশ') || step1_reasons_for_not_using_the_family_planning_system.equalsIgnoreCase('জটিলতা হয়েছিল') || step1_reasons_for_not_using_the_family_planning_system.equalsIgnoreCase('অন্যান্য') "
 actions:
   - "isRelevant = true"
+---
+name: step1_distribution_location
+description: distribution_location
+priority: 1
+condition: "step1_familyplanning_method_known.equalsIgnoreCase('হ্যাঁ') && !step1_familyplanning_method.equalsIgnoreCase('মহিলা বন্ধ্যাকরণ') && !step1_familyplanning_method.equalsIgnoreCase('পুরুষ বন্ধ্যাকরণ') "
+actions:
+  - "isRelevant = true"
+---
+name: step1_distribution_location_other
+description: distribution_location_other
+priority: 1
+condition: "step1_familyplanning_method_known.equalsIgnoreCase('হ্যাঁ') && (step1_familyplanning_method.equalsIgnoreCase('মহিলা বন্ধ্যাকরণ') || step1_familyplanning_method.equalsIgnoreCase('পুরুষ বন্ধ্যাকরণ')) "
+actions:
+  - "isRelevant = true"
