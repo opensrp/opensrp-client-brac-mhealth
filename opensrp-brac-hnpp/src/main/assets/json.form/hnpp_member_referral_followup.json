@@ -132,10 +132,23 @@
         "openmrs_entity_id": "place_of_referral",
         "type": "check_box",
         "label": "কোথায় গিয়েছিলো?",
+        "relevance": {
+          "step1:went_to_referred_place": {
+            "type": "string",
+            "ex": "equalTo(., \"না\")"
+          }
+        },
         "exclusive": [
-          "None"
+          "not_going"
         ],
         "options": [
+          {
+            "key": "not_going",
+            "text": "কোথাও যায় নি",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "not_going"
+          },
           {
             "key": "brac_maternity_center",
             "text": "ব্র্যাক ম্যাটারনিটি সেন্টার",

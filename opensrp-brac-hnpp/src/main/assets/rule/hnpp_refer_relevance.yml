@@ -5,3 +5,52 @@ priority: 1
 condition: "step1_cause_of_referral_woman.equalsIgnoreCase('অন্যান্য') || step1_cause_of_referral_child.equalsIgnoreCase('অন্যান্য') || step1_cause_of_referral_all.equalsIgnoreCase('অন্যান্য')"
 actions:
   - "isRelevant = true"
+---
+name: step1_advice_toaster_eye
+description: advice_toaster_eye
+priority: 1
+condition: "step1_cause_of_referral_all.contains('problems_eyes') || step1_cause_of_referral_woman.contains('problems_eyes') || step1_cause_of_referral_child.contains('problems_eyes')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_pressure
+description: advice_toaster_pressure
+priority: 1
+condition: "step1_cause_of_referral_all.contains('high_blood_pressure') || step1_cause_of_referral_woman.contains('high_blood_pressure') || step1_cause_of_referral_child.contains('high_blood_pressure')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_birth_control
+description: advice_toaster_birth_control
+priority: 1
+condition: "step1_cause_of_referral_all.contains('problems_with_birth_control') || step1_cause_of_referral_woman.contains('problems_with_birth_control')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_diabetis
+description: advice_toaster_diabetis
+priority: 1
+condition: "step1_cause_of_referral_all.contains('diabetes') || step1_cause_of_referral_woman.contains('diabetes') || step1_cause_of_referral_child.contains('diabetes')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_delivery_problems
+description: advice_toaster_delivery_problems
+priority: 1
+condition: "step1_cause_of_referral_woman.contains('delivery_problems')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_pnc_problem
+description: advice_toaster_pnc_problem
+priority: 1
+condition: "step1_cause_of_referral_woman.contains('pnc_problem')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_pregnancy_problems
+description: advice_toaster_pregnancy_problems
+priority: 1
+condition: "step1_cause_of_referral_woman.contains('pregnancy_problems')"
+actions:
+  - "isRelevant = true"

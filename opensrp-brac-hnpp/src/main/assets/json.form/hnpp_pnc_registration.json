@@ -495,8 +495,8 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "এন্টিপায়রেটিক এর পরামর্শ দিন",
-        "text_color": "#1199F9",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
         "toaster_type": "info",
         "relevance": {
           "rules-engine": {
@@ -506,6 +506,24 @@
           }
         }
       },
+      {
+        "key": "step1_advice_toaster_95",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_pnc_advice_relevance.yml"
+            }
+          }
+        }
+      },
+
       {
         "key": "pulse_rate",
         "openmrs_entity_parent": "",
@@ -524,6 +542,23 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "step1_step1_advice_pulse_60_90",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_pnc_advice_relevance.yml"
+            }
+          }
         }
       },
       {
@@ -1001,7 +1036,7 @@
         "openmrs_entity_id": "perineum_sewing",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "পেরিনিয়াম সেলাই",
+        "hint": "পেরিনিয়াম ছেড়া/ টিয়ার",
         "values": [
           "হ্যাঁ",
           "না"
@@ -1021,7 +1056,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "sewing_length",
         "type": "edit_text",
-        "hint": "সেলাইয়েরই দৈর্ঘ্য (ইঞ্চি)",
+        "hint": "ছেড়ার দৈর্ঘ্য (ইঞ্চি)",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
@@ -1043,7 +1078,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "গরম পানিতে সেক দিন",
+        "text": "প্রতিদিন কুসুম গরম পানিতে বসতে হবে",
         "text_color": "#1199F9",
         "toaster_type": "info",
         "relevance": {

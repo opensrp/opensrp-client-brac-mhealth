@@ -375,6 +375,23 @@
         }
       },
       {
+        "key": "newborn_toilet",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "newborn_toilet",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "গত ২৪ ঘণ্টায় নবজাতক পায়খানা প্রস্রাব করেছে কিনা",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        }
+      },
+      {
         "key": "other_condition",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",

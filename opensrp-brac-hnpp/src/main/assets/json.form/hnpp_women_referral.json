@@ -69,6 +69,7 @@
         "values": [
           "গর্ভাবস্থার সমস্যা",
           "প্রসবে সমস্যা",
+          "প্রসব পরবর্তী সমস্যা",
           "চোখে সমস্যা",
           "ডায়বেটিস",
           "উচ্চ রক্তচাপ",
@@ -78,6 +79,7 @@
         "openmrs_choice_ids": {
           "গর্ভাবস্থার সমস্যা": "pregnancy_problems",
           "প্রসবে সমস্যা": "delivery_problems",
+          "প্রসব পরবর্তী সমস্যা": "pnc_problem",
           "চোখে সমস্যা": "problems_eyes",
           "ডায়বেটিস": "diabetes",
           "উচ্চ রক্তচাপ": "high_blood_pressure",
@@ -96,6 +98,125 @@
         "openmrs_entity_id": "other_refer_reason",
         "type": "edit_text",
         "hint": "অন্যান্য কারণ ",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_refer_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_pregnancy_problems",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "গর্ভাবস্থার সমস্যা   : \n ১.প্রতিবেলায় একটু বেশি খাবার খেতে হবে কমপক্ষে 8 থেকে 10 গ্লাস পানি খাবে\n ২.ভারী কাজ করা যাবেনা ঢিলেঢালা পোশাক পরতে হবে\n",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_refer_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_delivery_problems",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "প্রসবে সমস্যা   : \n ১.42 দিন ভারি কাজ করা যাবে না\n ২.7 থেকে 10 দিন পূর্ণ বিশ্রামে থাকবে\n৩. সেনেটারী ন্যাপকিন ব্যবহার করতে হবে\n৪.প্রসবের ছয় সপ্তাহ পর্যন্ত স্বামী সহবাস করা যাবে না\n৫। প্রতিদিন গোসল করতে হবে স্তন পরিষ্কার রাখতে হবে\n",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_refer_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_pnc_problem",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "প্রসব পরবর্তী সমস্যা  : \n ১.42 দিন ভারি কাজ করা যাবে না\n ২.7 থেকে 10 দিন পূর্ণ বিশ্রামে থাকবে\n৩. সেনেটারী ন্যাপকিন ব্যবহার করতে হবে\n৪.প্রসবের ছয় সপ্তাহ পর্যন্ত স্বামী সহবাস করা যাবে না\n৫। প্রতিদিন গোসল করতে হবে স্তন পরিষ্কার রাখতে হবে\n",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_refer_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_eye",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "চোখে সমস্যা  : \n ১.দিনে দুই থেকে তিনবার নিরাপদ পানি দিয়ে চোখ পরিষ্কার করা\n ২.চোখে আঘাত লাগতে পারে এমন কাজে চশমা ব্যবহার করা\n৩.বিরতিহীন ভাবে চোখের কাজ না করা ও কাছ থেকে টিভি না দেখা\n৪.সবুজ শাকসবজি হলুদ ফলমূল নিয়মিত খাওয়া\n",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_refer_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_diabetis",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "ডায়বেটিস   : \n ১.সর্বপ্রকার মিষ্টি জাতীয় খাবার বর্জন করা\n ২.শর্করা জাতীয় খাবার ও মাটির নিচের সবজি কম খাওয়া\n৩.আশ জাতীয় খাবার ও টক জাতীয় খাবার বেশি খাওয়া\n৪.আলগা লবণ খাওয়া যাবে না\n৫.মদপান ধূমপান তামাক পরিহার করা\n",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_refer_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_pressure",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "উচ্চ রক্তচাপ   : \n ১.পাতে আলগা লবণ খাওয়া যাবেনা\n২.লবণাক্ত খাবার এড়িয়ে চলা\n৩.30 মিনিট করে সপ্তাহে অন্তত 5 দিন হাটা\n৪.ওজন নিয়ন্ত্রণে রাখা\n৫.ধূমপান মদপান তামাক সেবন বর্জন করা\n৬.তেল চর্বি জাতীয় খাবার কম খাওয়া\n",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_refer_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_birth_control",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "জন্মবিরতিকরণ পদ্ধতি সংক্রান্ত সমস্যা: \n ১.অস্থায়ী পদ্ধতির ক্ষেত্রে ডাক্তারের পরামর্শ  নেয়া ছাড়া আপাতত এই পদ্ধতি বন্ধ রাখা।\n",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
         "relevance": {
           "rules-engine": {
             "ex-rules": {

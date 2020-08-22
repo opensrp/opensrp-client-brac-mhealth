@@ -65,7 +65,7 @@
         "openmrs_entity_id": "high_blood_pressure",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "উচ্চ রক্তচাপ",
+        "hint": "উচ্চ রক্তচাপ আছে কিনা?",
         "values": [
           "হ্যাঁ",
           "না"
@@ -103,7 +103,7 @@
         "openmrs_entity_id": "diabetes",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "ডায়বেটিস",
+        "hint": "ডায়বেটিস আছে কিনা?",
         "values": [
           "হ্যাঁ",
           "না"
@@ -141,7 +141,7 @@
         "openmrs_entity_id": "heart_disease",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "হৃদরোগ",
+        "hint": "হৃদরোগ আছে কিনা?",
         "values": [
           "হ্যাঁ",
           "না"
@@ -179,7 +179,7 @@
         "openmrs_entity_id": "asthma",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "হাপানি",
+        "hint": "হাপানি আছে কিনা?",
         "values": [
           "হ্যাঁ",
           "না"
@@ -218,7 +218,7 @@
         "openmrs_entity_id": "kidney_disease",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "কিডনী রোগ ",
+        "hint": "কিডনী সমস্যা আছে কিনা?",
         "values": [
           "হ্যাঁ",
           "না"
@@ -256,7 +256,7 @@
         "openmrs_entity_id": "tuberculosis",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "যক্ষা",
+        "hint": "যক্ষা আছে কিনা?",
         "values": [
           "হ্যাঁ",
           "না"
@@ -293,7 +293,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "other_disease",
         "type": "edit_text",
-        "hint": "অন্যান্য সমস্যা",
+        "hint": "অন্যান্য সমস্যা আছে কিনা?",
         "v_required": {
           "value": false,
           "err": "প্রশ্নের উত্তর দিন"
