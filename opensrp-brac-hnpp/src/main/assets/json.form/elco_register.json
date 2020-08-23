@@ -434,7 +434,13 @@
         "text_color": "#000000",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
-        "openmrs_entity_id": ""
+        "openmrs_entity_id": "",
+        "relevance": {
+          "step1:child_count": {
+            "type": "numeric",
+            "ex": "greaterThanEqualTo(., \"1\")"
+          }
+        }
       },
       {
         "key": "age_small_child",
@@ -454,6 +460,12 @@
         "v_max": {
           "value": "49",
           "err": "বছর 49 এর সমান বা 49 এর কম হওয়া উচিত"
+        },
+        "relevance": {
+          "step1:child_count": {
+            "type": "numeric",
+            "ex": "greaterThanEqualTo(., \"1\")"
+          }
         }
       },
       {
@@ -474,6 +486,12 @@
         "v_max": {
           "value": "11",
           "err": "মাস 11 এর সমান বা 11 এর কম হওয়া উচিত"
+        },
+        "relevance": {
+          "step1:child_count": {
+            "type": "numeric",
+            "ex": "greaterThanEqualTo(., \"1\")"
+          }
         }
       },
 

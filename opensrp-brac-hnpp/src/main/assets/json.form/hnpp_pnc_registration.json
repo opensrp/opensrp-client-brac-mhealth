@@ -490,7 +490,7 @@
         }
       },
       {
-        "key": "advice_toaster_3",
+        "key": "advice_toaster_greater",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
@@ -507,7 +507,7 @@
         }
       },
       {
-        "key": "step1_advice_toaster_95",
+        "key": "advice_toaster_less",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
@@ -545,7 +545,7 @@
         }
       },
       {
-        "key": "step1_step1_advice_pulse_60_90",
+        "key": "advice_pulse_60_90",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
@@ -562,7 +562,7 @@
         }
       },
       {
-        "key": "step1_advice_toaster_pulse",
+        "key": "advice_toaster_pulse",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",

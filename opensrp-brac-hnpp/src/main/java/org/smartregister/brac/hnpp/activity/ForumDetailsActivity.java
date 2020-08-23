@@ -315,7 +315,7 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
             return null;
         }
         if(Integer.parseInt(editTextNoOfService.getText().toString())>Integer.parseInt(editTextNoOfParticipants.getText().toString())){
-            editTextNoOfService.setError("অংশগ্রহণকারীর সংখ্যা থেকে কম হবে");
+            editTextNoOfService.setError("অংশগ্রহণকারীর সংখ্যার সমান অথবা কম হবে ");
             return null;
         }
         if(fromType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.ADO.toString()) &&

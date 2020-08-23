@@ -327,7 +327,7 @@
             "key": "Irritation_in_urine",
             "text": "প্রস্রাবে জ্বালা",
             "value": false,
-            "openmrs_entity": "",
+            "openmrs_entity": "concept",
             "openmrs_entity_id": "Irritation_in_urine",
             "openmrs_entity_parent": ""
           },
@@ -335,7 +335,7 @@
             "key": "Smelly_discharge",
             "text": "দূর্গন্ধযুক্ত স্রাব",
             "value": false,
-            "openmrs_entity": "",
+            "openmrs_entity": "concept",
             "openmrs_entity_id": "Smelly_discharge",
             "openmrs_entity_parent": ""
           },
@@ -343,7 +343,7 @@
             "key": "Vaginal_irritation",
             "text": "যোনিপথে জ্বালা/ব্যথা",
             "value": false,
-            "openmrs_entity": "",
+            "openmrs_entity": "concept",
             "openmrs_entity_id": "Vaginal_irritation",
             "openmrs_entity_parent": ""
           },
@@ -351,7 +351,7 @@
             "key": "Abnormal_changes_in_genitalia",
             "text": "যৌনাঙ্গে অস্বাভাবিক পরিবর্তন",
             "value": false,
-            "openmrs_entity": "",
+            "openmrs_entity": "concept",
             "openmrs_entity_id": "Abnormal_changes_in_genitalia",
             "openmrs_entity_parent": ""
           },
@@ -359,7 +359,7 @@
             "key": "Pain_in_the_abdomen",
             "text": "তলপেটে ব্যথা",
             "value": false,
-            "openmrs_entity": "",
+            "openmrs_entity": "concept",
             "openmrs_entity_id": "Pain_in_the_abdomen",
             "openmrs_entity_parent": ""
           },

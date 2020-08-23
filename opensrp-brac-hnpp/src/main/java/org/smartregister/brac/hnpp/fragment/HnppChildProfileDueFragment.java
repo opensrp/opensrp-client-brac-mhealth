@@ -47,7 +47,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
     private static final int TAG_CHILD_FOLLOWUP = 3330;
     private static final int TAG_ENC= 333;
     private static final int TAG_CHILD_DUE= 444;
-
+    private static final int TAG_OPEN_CORONA = 88888;
 
     private int dueCount = 0;
     private View emptyView;
@@ -242,15 +242,17 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         familyView.setOnClickListener(this);
         otherServiceView.addView(familyView);
 
-        View referelView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
-        ImageView imageReferel = referelView.findViewById(R.id.image_view);
-        TextView nameReferel =  referelView.findViewById(R.id.patient_name_age);
-        referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-        imageReferel.setImageResource(R.mipmap.ic_refer);
-        nameReferel.setText("রেফেরেল");
-        referelView.setTag(TAG_OPEN_REFEREAL);
-        referelView.setOnClickListener(this);
-        otherServiceView.addView(referelView);
+        {
+            View referelView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+            ImageView imageReferel = referelView.findViewById(R.id.image_view);
+            TextView nameReferel =  referelView.findViewById(R.id.patient_name_age);
+            referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+            imageReferel.setImageResource(R.mipmap.ic_refer);
+            nameReferel.setText("রেফেরেল");
+            referelView.setTag(TAG_OPEN_REFEREAL);
+            referelView.setOnClickListener(this);
+            otherServiceView.addView(referelView);
+        }
         if(!isEnc){
             if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP)){
                 View followupView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
@@ -274,7 +276,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             TextView nReferel =  referrelFollowUp.findViewById(R.id.patient_name_age);
             TextView lastVisitRow = referrelFollowUp.findViewById(R.id.last_visit);
             lastVisitRow.setVisibility(View.VISIBLE);
-            referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+            referrelFollowUp.findViewById(R.id.status).setVisibility(View.INVISIBLE);
             imgFollowup.setImageResource(iconMapping.get(HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP));
             nReferel.setText(eventTypeMapping.get(HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP));
             lastVisitRow.setText(referralFollowUpModel.getReferralReason());
@@ -283,6 +285,18 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             otherServiceView.addView(referrelFollowUp);
 
         }
+
+            if (FormApplicability.isDueCoronaForm(baseEntityId)) {
+                View referelView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due, null);
+                ImageView imageReferel = referelView.findViewById(R.id.image_view);
+                TextView nameReferel = referelView.findViewById(R.id.patient_name_age);
+                referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+                imageReferel.setImageResource(R.drawable.ic_virus);
+                nameReferel.setText("করোনা তথ্য");
+                referelView.setTag(TAG_OPEN_CORONA);
+                referelView.setOnClickListener(this);
+                otherServiceView.addView(referelView);
+            }
 
 
 
@@ -342,6 +356,12 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                     if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
                         activity.openFollowUp();
+                    }
+                    break;
+                case TAG_OPEN_CORONA:
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                        activity.openCoronaIndividualForm();
                     }
                     break;
             }

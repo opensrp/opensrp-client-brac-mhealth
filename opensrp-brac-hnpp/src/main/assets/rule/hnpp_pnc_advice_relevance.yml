@@ -13,16 +13,16 @@ condition: "!step1_weight.isEmpty() && step1_bmi >= 18.5"
 actions:
   - "isRelevant = true"
 ---
-name: step1_advice_toaster_3
-description: advice_toaster_3
-priority: 1
+name: step1_advice_toaster_greater
+description: greater
+priority: 3
 condition: "step1_body_temperature >= 100"
 actions:
   - "isRelevant = true"
 ---
-name: step1_advice_toaster_95
-description: advice_toaster_95
-priority: 1
+name: step1_advice_toaster_less
+description: less
+priority: 3
 condition: "step1_body_temperature < 95"
 actions:
   - "isRelevant = true"
@@ -44,7 +44,7 @@ actions:
 name: step1_advice_sewing_length
 description: advice_sewing_length
 priority: 1
-condition: "step1_sewing_length == 1"
+condition: "step1_sewing_length < 2"
 actions:
   - "isRelevant = true"
 ---
@@ -85,14 +85,14 @@ actions:
 ---
 name: step1_advice_toaster_pulse
 description: advice_toaster_pulse
-priority: 1
+priority: 3
 condition: "step1_pulse_rate >90"
 actions:
   - "isRelevant = true"
 ---
-name: step1_step1_advice_pulse_60_90
+name: step1_advice_pulse_60_90
 description: step1_advice_pulse_60_90
-priority: 1
+priority: 3
 condition: "step1_pulse_rate < 60"
 actions:
   - "isRelevant = true"

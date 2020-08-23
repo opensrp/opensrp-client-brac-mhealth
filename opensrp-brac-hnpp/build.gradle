@@ -36,8 +36,8 @@ android {
         applicationId "org.smartregister.brac.hnpp"
         minSdkVersion 18
         targetSdkVersion 28
-        versionCode 33
-        versionName "2.1.5"
+        versionCode 34
+        versionName "2.1.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         buildConfigField "String", 'opensrp_url_live', '"https://mhealth.brac.net/opensrp/"'
@@ -73,7 +73,7 @@ android {
             buildConfigField "int", "PULL_UNIQUE_IDS_MINUTES", '180'
             buildConfigField "int", "PULL_SSLOCATION", '180'
             buildConfigField "int", "REPORT_INDICATOR_GENERATION_MINUTES", '15'
-            buildConfigField "int", "HOINUTES", '60'
+            buildConfigField "int", "HOME_VISIT_MINUTES", '60'
             buildConfigField "String", 'opensrp_url_training', '"http://mhealthtest.brac.net:8080/opensrp/"'
         }
 
