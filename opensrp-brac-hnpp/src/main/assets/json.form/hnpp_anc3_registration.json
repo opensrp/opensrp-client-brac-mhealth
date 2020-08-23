@@ -500,8 +500,8 @@
           }
         },
         "v_min": {
-          "value": "31",
-          "err": "31 এর সমান বা 31 এর বেশি হতে হবে"
+          "value": "30",
+          "err": "30 এর সমান বা 30 এর বেশি হতে হবে"
         }
       },
       {
@@ -843,7 +843,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বেশি বেশি সুষম খাবার গ্রহণ করুন এবং ডাক্তারের পরামর্শ নিন",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
         "text_size": "20sp",
         "toaster_type": "problem",
@@ -861,7 +861,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text": "বেশি বেশি সুষম খাবার গ্রহণ করুন এবং ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
         "text_size": "20sp",
         "toaster_type": "problem",

@@ -532,6 +532,8 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
                 updateFormField(jsonArray, "caused_referred", reason);
                 updateFormField(jsonArray, "place_referred", place);
+                JSONObject caused_referred = getFieldJSONObject(jsonArray, "caused_referred");
+                caused_referred.put(org.smartregister.family.util.JsonFormUtils.READ_ONLY, true);
 
 
 

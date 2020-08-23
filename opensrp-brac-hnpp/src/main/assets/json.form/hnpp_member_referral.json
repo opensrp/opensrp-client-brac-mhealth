@@ -101,7 +101,7 @@
         }
       },
       {
-        "key": "advice_toaster_eye",
+        "key": "advice_toaster_eye_all",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
@@ -118,7 +118,7 @@
         }
       },
       {
-        "key": "advice_toaster_diabetis",
+        "key": "advice_toaster_diabetis_all",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
@@ -135,7 +135,7 @@
         }
       },
       {
-        "key": "advice_toaster_pressure",
+        "key": "advice_toaster_pressure_all",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
@@ -152,7 +152,7 @@
         }
       },
       {
-        "key": "advice_toaster_birth_control",
+        "key": "advice_toaster_birth_control_all",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",

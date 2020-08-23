@@ -6,51 +6,100 @@ condition: "step1_cause_of_referral_woman.equalsIgnoreCase('অন্যান�
 actions:
   - "isRelevant = true"
 ---
-name: step1_advice_toaster_eye
+name: step1_advice_toaster_eye_child
 description: advice_toaster_eye
 priority: 1
-condition: "step1_cause_of_referral_all.contains('problems_eyes') || step1_cause_of_referral_woman.contains('problems_eyes') || step1_cause_of_referral_child.contains('problems_eyes')"
+condition: "step1_cause_of_referral_child.equals('চোখে সমস্যা')"
 actions:
   - "isRelevant = true"
 ---
-name: step1_advice_toaster_pressure
+name: step1_advice_toaster_eye_all
+description: advice_toaster_eye
+priority: 1
+condition: "step1_cause_of_referral_all.equals('চোখে সমস্যা')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_eye_woman
+description: advice_toaster_eye
+priority: 1
+condition: "step1_cause_of_referral_woman.equals('চোখে সমস্যা')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_pressure_child
+description: advice_toaster_eye
+priority: 1
+condition: "step1_cause_of_referral_child.equals('উচ্চ রক্তচাপ')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_diabetis_child
+description: advice_toaster_eye
+priority: 1
+condition: "step1_cause_of_referral_child.equals('ডায়বেটিস')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_pressure_all
 description: advice_toaster_pressure
 priority: 1
-condition: "step1_cause_of_referral_all.contains('high_blood_pressure') || step1_cause_of_referral_woman.contains('high_blood_pressure') || step1_cause_of_referral_child.contains('high_blood_pressure')"
+condition: "step1_cause_of_referral_all.equals('উচ্চ রক্তচাপ')"
 actions:
   - "isRelevant = true"
 ---
-name: step1_advice_toaster_birth_control
+name: step1_advice_toaster_pressure_woman
+description: advice_toaster_pressure
+priority: 1
+condition: "step1_cause_of_referral_woman.equals('উচ্চ রক্তচাপ')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_birth_control_all
 description: advice_toaster_birth_control
 priority: 1
-condition: "step1_cause_of_referral_all.contains('problems_with_birth_control') || step1_cause_of_referral_woman.contains('problems_with_birth_control')"
+condition: "step1_cause_of_referral_all.equals('জন্মবিরতিকরণ পদ্ধতি সংক্রান্ত সমস্যা') || step1_cause_of_referral_woman.equals('জন্মবিরতিকরণ পদ্ধতি সংক্রান্ত সমস্যা')"
 actions:
   - "isRelevant = true"
 ---
-name: step1_advice_toaster_diabetis
+name: step1_advice_toaster_birth_control_woman
+description: advice_toaster_birth_control
+priority: 1
+condition: "step1_cause_of_referral_woman.equals('জন্মবিরতিকরণ পদ্ধতি সংক্রান্ত সমস্যা')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_diabetis_all
 description: advice_toaster_diabetis
 priority: 1
-condition: "step1_cause_of_referral_all.contains('diabetes') || step1_cause_of_referral_woman.contains('diabetes') || step1_cause_of_referral_child.contains('diabetes')"
+condition: "step1_cause_of_referral_all.equals('ডায়বেটিস')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_diabetis_woman
+description: advice_toaster_diabetis
+priority: 1
+condition: "step1_cause_of_referral_woman.equals('ডায়বেটিস')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_advice_toaster_delivery_problems
 description: advice_toaster_delivery_problems
 priority: 1
-condition: "step1_cause_of_referral_woman.contains('delivery_problems')"
+condition: "step1_cause_of_referral_woman.equals('প্রসবে সমস্যা')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_advice_toaster_pnc_problem
 description: advice_toaster_pnc_problem
 priority: 1
-condition: "step1_cause_of_referral_woman.contains('pnc_problem')"
+condition: "step1_cause_of_referral_woman.equals('প্রসব পরবর্তী সমস্যা')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_advice_toaster_pregnancy_problems
 description: advice_toaster_pregnancy_problems
 priority: 1
-condition: "step1_cause_of_referral_woman.contains('pregnancy_problems')"
+condition: "step1_cause_of_referral_woman.equals('গর্ভাবস্থার সমস্যা')"
 actions:
   - "isRelevant = true"

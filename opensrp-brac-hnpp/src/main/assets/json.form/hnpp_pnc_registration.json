@@ -562,6 +562,23 @@
         }
       },
       {
+        "key": "step1_advice_toaster_pulse",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_pnc_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "pregnancy_symptoms",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -1000,7 +1017,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "মাকে বামদিকে কাত হয়ে শুতে বলুন। মুখের থুথু ফেলতে বলুন। একটি চামচ কাপড়ে মুড়িয়ে মুখে দিয়ে রাখুন। খুব দ্রুত হাসপাতালে নিতে বলুন",
+        "text": "মাকে বাম দিকে কাত হয়ে শুতে বলুন। মুখের থুথু ফেলতে বলুন। একটি চামচ পরিষ্কার কাপড়ে মুড়িয়ে মুখে দিয়ে রাখুন। খুব দ্রুত হাসপাতালে নিতে বলুন",
         "text_color": "#1199F9",
         "toaster_type": "info",
         "relevance": {
