@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.model;
 
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.core.model.CoreAncRegisterFragmentModel;
 import org.smartregister.chw.core.utils.ChildDBConstants;
 import org.smartregister.chw.core.utils.ChwDBConstants;
@@ -22,6 +23,8 @@ public class AncRegisterFragmentModel extends CoreAncRegisterFragmentModel {
         columnList.add(tableName + "." + org.smartregister.chw.anc.util.DBConstants.KEY.LAST_HOME_VISIT);
         columnList.add(tableName + "." + org.smartregister.chw.anc.util.DBConstants.KEY.PHONE_NUMBER);
         columnList.add(tableName + "." + ChwDBConstants.VISIT_NOT_DONE);
+        columnList.add(CoreConstants.TABLE_NAME.FAMILY+ "." + HnppConstants.KEY.SS_NAME);
+        columnList.add(CoreConstants.TABLE_NAME.FAMILY + "." + HnppConstants.KEY.SERIAL_NO);
         columnList.add(CoreConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.RELATIONAL_ID + " as " + ChildDBConstants.KEY.RELATIONAL_ID);
         columnList.add(tableName + "." + org.smartregister.chw.anc.util.DBConstants.KEY.LAST_MENSTRUAL_PERIOD);
         columnList.add(CoreConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.FIRST_NAME);

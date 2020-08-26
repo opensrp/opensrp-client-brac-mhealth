@@ -61,15 +61,17 @@ import static org.smartregister.chw.anc.util.Constants.TABLES.EC_CHILD;
 public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
 
     private HnppVisitLogRepository visitLogRepository;
+    private static String motherName;
 
     public static void startHnppAncRegisterActivity(Activity activity, String memberBaseEntityID, String phoneNumber, String formName,
-                                                    String uniqueId, String familyBaseID, String family_name) {
+                                                    String uniqueId, String familyBaseID, String family_name, String moName) {
         Intent intent = new Intent(activity, org.smartregister.brac.hnpp.activity.HnppAncRegisterActivity.class);
         intent.putExtra(org.smartregister.chw.anc.util.Constants.ACTIVITY_PAYLOAD.BASE_ENTITY_ID, memberBaseEntityID);
         phone_number = phoneNumber;
         familyBaseEntityId = familyBaseID;
         form_name = formName;
         familyName = family_name;
+        motherName = moName;
         unique_id = uniqueId;
         intent.putExtra(org.smartregister.chw.anc.util.Constants.ACTIVITY_PAYLOAD.ACTION, org.smartregister.chw.anc.util.Constants.ACTIVITY_PAYLOAD_TYPE.REGISTRATION);
         intent.putExtra(Constants.ACTIVITY_PAYLOAD.TABLE_NAME, getFormTable());
@@ -142,6 +144,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
             JSONArray jsonArray = stepOne.getJSONArray(JsonFormUtils.FIELDS);
             updateFormField(jsonArray, DBConstants.KEY.UNIQUE_ID, unique_id);
             updateFormField(jsonArray, DBConstants.KEY.TEMP_UNIQUE_ID, unique_id);
+            updateFormField(jsonArray, "temp_name", motherName+" এর বাবু");
             updateFormField(jsonArray, CoreConstants.JsonAssets.FAM_NAME, familyName);
             updateFormField(jsonArray, CoreConstants.JsonAssets.FAMILY_MEMBER.PHONE_NUMBER, phone_number);
             updateFormField(jsonArray, org.smartregister.family.util.DBConstants.KEY.RELATIONAL_ID, familyBaseEntityId);
@@ -244,7 +247,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
 
                     String motherBaseId = form.optString(Constants.JSON_FORM_EXTRA.ENTITY_TYPE);
                     JSONArray fields = org.smartregister.util.JsonFormUtils.fields(form);
-                    String firstName = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"first_name");
+                    String gender = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"gender");
 
                     JSONObject uniqueID = org.smartregister.util.JsonFormUtils.getFieldJSONObject(fields, DBConstants.KEY.UNIQUE_ID);
                     if (StringUtils.isNotBlank(uniqueID.optString(org.smartregister.chw.anc.util.JsonFormUtils.VALUE))) {
@@ -256,7 +259,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
                         String familyBaseEntityId = familyIdObject.getString(org.smartregister.chw.anc.util.JsonFormUtils.VALUE);
                         pncForm = org.smartregister.chw.anc.util.JsonFormUtils.populatePNCForm(pncForm, fields, familyBaseEntityId);
                         HnppJsonFormUtils.processAttributesWithChoiceIDsForSave(fields);
-                        if(!StringUtils.isEmpty(firstName)){
+                        if(!StringUtils.isEmpty(gender)){
                             processChild(fields, allSharedPreferences, childBaseEntityId, familyBaseEntityId, motherBaseId);
                             if (pncForm != null) {
                                 saveRegistration(pncForm.toString(), EC_CHILD);

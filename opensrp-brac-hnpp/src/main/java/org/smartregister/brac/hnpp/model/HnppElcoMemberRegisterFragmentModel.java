@@ -41,6 +41,8 @@ public class HnppElcoMemberRegisterFragmentModel extends CoreChildRegisterFragme
         columnList.add(familyTable + "." + DBConstants.KEY.FIRST_NAME + " as " + HnppConstants.KEY.HOUSE_HOLD_NAME);
         columnList.add(familyTable+ "." + HnppConstants.KEY.MODULE_ID);
         columnList.add(familyTable+ "." + HnppConstants.KEY.LAST_HOME_VISIT);
+        columnList.add(familyTable+ "." + HnppConstants.KEY.SS_NAME);
+        columnList.add(familyTable+ "." + HnppConstants.KEY.SERIAL_NO);
         return columnList.toArray(new String[columnList.size()]);
     }
 }

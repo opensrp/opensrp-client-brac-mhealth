@@ -4,6 +4,7 @@ import org.smartregister.brac.hnpp.utils.ChildDBConstants;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBConstants;
 import org.smartregister.chw.anc.model.BaseAncRegisterFragmentModel;
+import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
 import org.smartregister.family.util.DBConstants;
 
@@ -29,6 +30,8 @@ public class HnppPncRegisterFragmentModel extends BaseAncRegisterFragmentModel {
 
         columnList.add(tableName + "." + HnppDBConstants.DELIVERY_DATE);
         columnList.add(tableName + "." + DBConstants.KEY.BASE_ENTITY_ID);
+        columnList.add(CoreConstants.TABLE_NAME.FAMILY+ "." + HnppConstants.KEY.SS_NAME);
+        columnList.add(CoreConstants.TABLE_NAME.FAMILY + "." + HnppConstants.KEY.SERIAL_NO);
         columnList.add(HnppConstants.TABLE_NAME.ANC_MEMBER + "." + org.smartregister.chw.anc.util.DBConstants.KEY.PHONE_NUMBER);
         columnList.add(HnppConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.RELATIONAL_ID + " as " + ChildDBConstants.KEY.RELATIONAL_ID);
         columnList.add(HnppConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.FIRST_NAME);

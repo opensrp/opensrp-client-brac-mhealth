@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.provider;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import org.apache.commons.lang3.StringUtils;
@@ -44,8 +45,18 @@ public class HnppPncRegisterProvider extends PncRegisterProvider {
     public void getView(Cursor cursor, SmartRegisterClient client, RegisterViewHolder viewHolder) {
         super.getView(cursor, client, viewHolder);
 
-        viewHolder.dueButton.setVisibility(View.GONE);
         CommonPersonObjectClient pc = (CommonPersonObjectClient) client;
+        String serialNo = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.SERIAL_NO, true);
+        if(serialNo.isEmpty() || serialNo.equalsIgnoreCase("H")){
+            serialNo="";
+        }
+        if(!TextUtils.isEmpty(serialNo)){
+            viewHolder.patientNameAndAge.setText(viewHolder.patientNameAndAge.getText()+", "+context.getString(R.string.serial_no,serialNo));
+
+        }
+        String ssName = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.SS_NAME, true);
+        if (!TextUtils.isEmpty(ssName))viewHolder.pncDay.append(context.getString(R.string.ss_name,ssName));
+        viewHolder.dueButton.setVisibility(View.GONE);
         viewHolder.dueButton.setOnClickListener(null);
         Utils.startAsyncTask(new UpdateAsyncTask(context, viewHolder, pc), null);
     }

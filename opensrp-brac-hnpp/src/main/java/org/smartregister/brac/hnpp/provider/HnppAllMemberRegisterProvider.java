@@ -61,9 +61,23 @@ public class HnppAllMemberRegisterProvider extends CoreChildRegisterProvider {
         //fillValue(viewHolder.textViewChildName, WordUtils.capitalize(childName));
         String houseHoldHead = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.HOUSE_HOLD_NAME, true);
         viewHolder.textViewChildName.setText(context.getString(R.string.house_hold_head_name,houseHoldHead));
+        String serialNo = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.SERIAL_NO, true);
+        if(serialNo.isEmpty() || serialNo.equalsIgnoreCase("H")){
+            serialNo="";
+        }
+        if(!TextUtils.isEmpty(serialNo)){
+            viewHolder.textViewChildName.setText(viewHolder.textViewChildName.getText()+", "+context.getString(R.string.serial_no,serialNo));
+
+        }
         String dobString = Utils.getDuration(Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.DOB, false));
         //dobString = dobString.contains("y") ? dobString.substring(0, dobString.indexOf("y")) : dobString;
         fillValue(viewHolder.textViewParentName, WordUtils.capitalize(childName) + " " + context.getResources().getString(org.smartregister.chw.core.R.string.age, WordUtils.capitalize(Utils.getTranslatedDate(dobString, context))));
+        String ssName = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.SS_NAME, true);
+        if(!TextUtils.isEmpty(ssName)){
+            viewHolder.textViewParentName.setText(viewHolder.textViewParentName.getText()+", "+context.getString(R.string.ss_name,ssName));
+
+        }
+
         setAddressAndGender(pc, viewHolder);
         String entityType = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.ENTITY_TYPE, false);
 

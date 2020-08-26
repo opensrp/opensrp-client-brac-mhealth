@@ -1,6 +1,7 @@
 package org.smartregister.brac.hnpp.provider;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 import org.joda.time.Years;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.anc.fragment.BaseAncRegisterFragment;
 import org.smartregister.chw.anc.provider.AncRegisterProvider;
 import org.smartregister.chw.anc.util.DBConstants;
@@ -59,7 +61,18 @@ public class HnppAncRegisterProvider extends ChwAncRegisterProvider {
             String patientNameAge = MessageFormat.format("{0},{1}: {2}", patientName,context.getString(R.string.boyos), age);
             viewHolder.patientName.setText(patientNameAge);
             viewHolder.patientAge.setText(gaLocation);
+
         }
+        String serialNo = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.SERIAL_NO, true);
+        if(serialNo.isEmpty() || serialNo.equalsIgnoreCase("H")){
+            serialNo="";
+        }
+        if(!TextUtils.isEmpty(serialNo)){
+            viewHolder.patientName.setText(viewHolder.patientName.getText()+", "+context.getString(R.string.serial_no,serialNo));
+
+        }
+        String ssName = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.SS_NAME, true);
+        if (!TextUtils.isEmpty(ssName))viewHolder.patientAge.append(context.getString(R.string.ss_name,ssName));
         viewHolder.villageTown.setText(Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.VILLAGE_TOWN, true));
 
         // add patient listener
