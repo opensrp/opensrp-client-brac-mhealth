@@ -131,6 +131,24 @@ public class HnppDBUtils extends CoreChildUtils {
         }
         return birthWeight;
     }
+    public static int getCoutByFingerPrint(){
+        String query = "select count(*) from ec_family_member where gu_id IS NOT NULL and gu_id !='test'";
+        Cursor cursor = null;
+        int count=0;
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                count = cursor.getInt(0);
+                cursor.close();
+            }
+
+            return count;
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return count;
+    }
 
     public static String[] getBaseEntityByGuId(String guid){
         String query = "select ec_family_member.base_entity_id,ec_family_member.first_name,ec_family_member.unique_id,ec_family.first_name from ec_family_member LEFT JOIN ec_family ON  ec_family_member.relational_id = ec_family.id COLLATE NOCASE  where ec_family_member.gu_id = '"+guid+"'";

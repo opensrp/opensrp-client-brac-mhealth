@@ -2,6 +2,9 @@ package org.smartregister.brac.hnpp.interactor;
 
 import android.content.Context;
 
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.format.DateTimeFormat;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.contract.OtherServiceContract;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
@@ -48,7 +51,7 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
             otherServiceDataList.add(otherServiceData3);
         }
 
-        if(FormApplicability.isWomenPackageApplicable(age,gender.equalsIgnoreCase("F"))&& FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.WOMEN_PACKAGE)){
+        if(FormApplicability.isWomenPackageApplicable(commonPersonObjectClient.getCaseId(),age,gender.equalsIgnoreCase("F"))&& FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.WOMEN_PACKAGE)){
             OtherServiceData otherServiceData = new OtherServiceData();
             otherServiceData.setImageSource(R.drawable.ic_women);
             otherServiceData.setTitle("নারী সেবা প্যাকেজ");

@@ -8,6 +8,7 @@ import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.contract.DashBoardContract;
 import org.smartregister.brac.hnpp.utils.DashBoardData;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.chw.core.application.CoreChwApplication;
 
 import java.util.ArrayList;
@@ -59,13 +60,17 @@ public class DashBoardModel implements DashBoardContract.Model {
                 cursor.close();
 
             }
+            int countSimprints = HnppDBUtils.getCoutByFingerPrint();
+            if(countSimprints>0){
+                DashBoardData dashBoardData1 = new DashBoardData();
+                dashBoardData1.setCount(countSimprints);
+                dashBoardData1.setTitle("ফিঙ্গার প্রিন্ট দ্বারা নিবন্ধিত");
+                dashBoardData1.setImageSource(R.drawable.ic_fingerprint_id);
 
-//        } catch (Exception e) {
-//            Timber.e(e);
-//        } finally {
-//            if (cursor != null)
-//                cursor.close();
-//        }
+                dashBoardDataArrayList.add(dashBoardData1);
+            }
+
+
         return dashBoardDataArrayList;
     }
 

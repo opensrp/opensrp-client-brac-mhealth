@@ -242,9 +242,20 @@ public class FormApplicability {
     public static boolean isAdolescentApplicable(int age, boolean isWomen){
         return isWomen && age>=10 && age <=19;
     }
-    public static boolean isWomenPackageApplicable(int age, boolean isWomen){
-        return isWomen && age >=14;
+    public static boolean isWomenPackageApplicable(String baseEntityId , int age, boolean isWomen){
+        return isWomen && age >=14 && !isPragnent(baseEntityId,age);
     }
+
+    private static boolean isPragnent(String baseEntityId, int age) {
+        String eventType = getDueFormForMarriedWomen(baseEntityId,age);
+        if(!TextUtils.isEmpty(eventType) && eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION)
+                || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
+            return true;
+        }
+        return false;
+
+    }
+
     public static boolean isNcdApplicable(int age){
         return age >=18;
     }

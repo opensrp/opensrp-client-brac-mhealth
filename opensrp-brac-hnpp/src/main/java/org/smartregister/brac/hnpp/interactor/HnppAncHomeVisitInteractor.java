@@ -29,7 +29,15 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
     HnppHomeVisitActionHelper ANC1_FORMHelper;
     HnppHomeVisitActionHelper GENERAL_DISEASEHelper;
     HnppHomeVisitActionHelper PREGNANCY_HISTORYHelper;
+    private boolean sIsIdentify,sNeedVerified,sIsVerify;
+    private  String sNotVerifyText;
 
+    public HnppAncHomeVisitInteractor(boolean isIdentify,boolean needVerified,boolean isVerify, String notVerifyText){
+        sIsIdentify = isIdentify;
+        sNeedVerified = needVerified;
+        sIsVerify = isVerify;
+        sNotVerifyText = notVerifyText;
+    }
 
     @Override
     public void calculateActions(final BaseAncHomeVisitContract.View view, final MemberObject memberObject, final BaseAncHomeVisitContract.InteractorCallBack callBack) {
@@ -56,6 +64,7 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
                     JSONObject jsonPayload = new JSONObject(ANC1_FORM.getJsonPayload());
                     addEDDField(memberObject.getBaseEntityId(),formName,jsonPayload);
                     addHeightField(memberObject.getBaseEntityId(),formName,jsonPayload);
+                    HnppJsonFormUtils.addVerifyIdentify(jsonPayload,sIsIdentify,sNeedVerified,sIsVerify,sNotVerifyText);
                     HnppJsonFormUtils.addLastAnc(jsonPayload,memberObject.getBaseEntityId(),false);
                     ANC1_FORM.setJsonPayload(jsonPayload.toString());
                 } catch (JSONException e) {

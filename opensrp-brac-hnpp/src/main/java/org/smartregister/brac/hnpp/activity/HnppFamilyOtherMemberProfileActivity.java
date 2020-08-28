@@ -405,7 +405,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         if(referralFollowUpModel!=null){
             openReferealFollowUp(referralFollowUpModel);
         }else if(needToStartHomeVisit){
-            HnppHomeVisitActivity.startMe(this, new MemberObject(commonPersonObject), false);
+            HnppHomeVisitActivity.startMe(this, new MemberObject(commonPersonObject), false,isComesFromIdentity,verificationNeeded,isVerified,checkedItem);
             needToStartHomeVisit = false;
         }
         else{
@@ -772,7 +772,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             return;
         }
         needToStartHomeVisit = false;
-        HnppHomeVisitActivity.startMe(this, new MemberObject(commonPersonObject), false);
+        HnppHomeVisitActivity.startMe(this, new MemberObject(commonPersonObject), false,isComesFromIdentity,verificationNeeded,isVerified,checkedItem);
 
     }
 

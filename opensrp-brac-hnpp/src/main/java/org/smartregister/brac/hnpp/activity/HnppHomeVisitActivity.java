@@ -27,11 +27,24 @@ import java.util.Map;
 import static org.smartregister.chw.anc.util.Constants.ANC_MEMBER_OBJECTS.MEMBER_PROFILE_OBJECT;
 
 public class HnppHomeVisitActivity extends BaseAncHomeVisitActivity {
-
-    public static void startMe(Activity activity, MemberObject memberObject, Boolean isEditMode) {
+    private static boolean sIsIdentify,sNeedVerified,sIsVerify;
+    private static String sNotVerifyText;
+    public static void startMe(Activity activity, MemberObject memberObject, Boolean isEditMode ) {
         Intent intent = new Intent(activity, HnppHomeVisitActivity.class);
         intent.putExtra(MEMBER_PROFILE_OBJECT, memberObject);
         intent.putExtra(Constants.ANC_MEMBER_OBJECTS.EDIT_MODE, isEditMode);
+        activity.startActivityForResult(intent, Constants.REQUEST_CODE_HOME_VISIT);
+    }
+
+    public static void startMe(Activity activity, MemberObject memberObject, Boolean isEditMode,boolean isIdentify,boolean needVerified,
+                               boolean isVerify, String notVerifyText ) {
+        Intent intent = new Intent(activity, HnppHomeVisitActivity.class);
+        intent.putExtra(MEMBER_PROFILE_OBJECT, memberObject);
+        intent.putExtra(Constants.ANC_MEMBER_OBJECTS.EDIT_MODE, isEditMode);
+        sIsIdentify = isIdentify;
+        sNeedVerified = needVerified;
+        sIsVerify = isVerify;
+        sNotVerifyText = notVerifyText;
         activity.startActivityForResult(intent, Constants.REQUEST_CODE_HOME_VISIT);
     }
 
@@ -91,7 +104,7 @@ public class HnppHomeVisitActivity extends BaseAncHomeVisitActivity {
     }
     @Override
     protected void registerPresenter() {
-        presenter = new BaseAncHomeVisitPresenter(memberObject, this, new HnppAncHomeVisitInteractor());
+        presenter = new BaseAncHomeVisitPresenter(memberObject, this, new HnppAncHomeVisitInteractor(sIsIdentify,sNeedVerified,sIsVerify,sNotVerifyText));
     }
 
     @Override
