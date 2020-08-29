@@ -83,6 +83,7 @@ public class HnppChwRepository extends CoreChwRepository {
         VaccineTypeRepository.createTable(db);
         RecurringServiceTypeRepository.createTable(db);
         RecurringServiceRecordRepository.createTable(db);
+        DistrictListRepository.createTable(db);
         RecurringServiceTypeRepository recurringServiceTypeRepository = ImmunizationLibrary.getInstance().recurringServiceTypeRepository();
         IMDatabaseUtils.populateRecurringServices(context, db, recurringServiceTypeRepository);
 
