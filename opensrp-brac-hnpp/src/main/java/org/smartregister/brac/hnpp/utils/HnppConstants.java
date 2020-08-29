@@ -167,6 +167,9 @@ public class HnppConstants extends CoreConstants {
     }
 
     public static boolean isReleaseBuild() {
+        if(BuildConfig.IS_TRAINING){
+            return false;
+        }
         AllSharedPreferences preferences = Utils.getAllSharedPreferences();
         String isReleaseBuild = preferences.getPreference(IS_RELEASE);
         if (TextUtils.isEmpty(isReleaseBuild) || isReleaseBuild.equalsIgnoreCase("L")) {

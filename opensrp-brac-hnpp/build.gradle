@@ -108,9 +108,15 @@ android {
     flavorDimensions 'baseDimension'
     productFlavors {
 
-        fullservice{
+        training{
             dimension = 'baseDimension'
-            applicationIdSuffix ".fullservice"
+            applicationIdSuffix ".training"
+            buildConfigField "boolean", 'IS_TRAINING', '"true"'
+            buildConfigField "String", 'opensrp_url_training', '"http://mhealthtest.brac.net:8080/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"http://mhealthtest.brac.net:8080/opensrp/"'
+        }
+        normal{
+            dimension = 'baseDimension'
         }
     }
 
