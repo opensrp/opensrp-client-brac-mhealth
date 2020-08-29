@@ -566,6 +566,45 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
         }
     }
+    public static void addVerifyIdentify(JSONObject jsonForm,boolean isIdentify,boolean needVerified, boolean isVerify, String notVerifyText){
+        try{
+            JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+            JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+            if(isIdentify){
+                JSONObject item = new JSONObject();
+                item.put("key","is_identified");
+                item.put("hidden",true);
+                item.put("value",true);
+                item.put("openmrs_entity","concept");
+                item.put("openmrs_entity_id","is_identified");
+                jsonArray.put(item);
+
+
+
+            }else if(needVerified){
+                JSONObject item1 = new JSONObject();
+                item1.put("key","is_verified");
+                item1.put("hidden",true);
+                item1.put("value",isVerify);
+                item1.put("openmrs_entity","concept");
+                item1.put("openmrs_entity_id","is_verified");
+                jsonArray.put(item1);
+                if(!isVerify){
+                    JSONObject item2 = new JSONObject();
+                    item2.put("key","not_verify_cause");
+                    item2.put("hidden",true);
+                    item2.put("value",notVerifyText);
+                    item2.put("openmrs_entity","concept");
+                    item2.put("openmrs_entity_id","not_verify_cause");
+                    jsonArray.put(item2);
+                }
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
     public static void addLastAnc(JSONObject jsonForm,String baseEntityId,boolean isReadOnlyView){
         JSONObject stepOne = null;
         try {
