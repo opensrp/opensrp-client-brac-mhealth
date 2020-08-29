@@ -12,10 +12,11 @@
             android:dialogMessage="Enter Base Server Url"
             android:persistent="true" />
 
-        <org.smartregister.brac.hnpp.widget.LivePreference
-            android:title="Operation"
-            android:key="change_pin"
-            android:layout="@layout/preference_textview"/>
+<!--        <org.smartregister.brac.hnpp.widget.LivePreference-->
+<!--            android:title="Operation"-->
+<!--            android:key="change_pin"-->
+<!--            android:enabled="false"-->
+<!--            android:layout="@layout/preference_textview"/>-->
         <EditTextPreference
             android:key="APP_VERSION"
             android:title="App Version"

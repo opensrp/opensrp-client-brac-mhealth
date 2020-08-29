@@ -170,12 +170,16 @@ public class HnppConstants extends CoreConstants {
         if(BuildConfig.IS_TRAINING){
             return false;
         }
-        AllSharedPreferences preferences = Utils.getAllSharedPreferences();
-        String isReleaseBuild = preferences.getPreference(IS_RELEASE);
-        if (TextUtils.isEmpty(isReleaseBuild) || isReleaseBuild.equalsIgnoreCase("L")) {
-            return true;
+        if(BuildConfig.DEBUG){
+            return false;
         }
-        return false;
+        return true;
+//        AllSharedPreferences preferences = Utils.getAllSharedPreferences();
+//        String isReleaseBuild = preferences.getPreference(IS_RELEASE);
+//        if (TextUtils.isEmpty(isReleaseBuild) || isReleaseBuild.equalsIgnoreCase("L")) {
+//            return true;
+//        }
+//        return false;
     }
 
     public static String getDeviceId(TelephonyManager mTelephonyManager, Context context,boolean fromSettings) {

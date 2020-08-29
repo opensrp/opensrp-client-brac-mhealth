@@ -1,6 +1,7 @@
 package org.smartregister.brac.hnpp.repository;
 
 import android.content.Context;
+import android.util.Log;
 
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteException;
@@ -50,28 +51,42 @@ public class HnppChwRepository extends CoreChwRepository {
         HouseholdIdRepository.createTable(database);
         VisitRepository.createTable(database);
         VisitDetailsRepository.createTable(database);
-        HnppVisitLogRepository.createTable(database);
-        VaccineRepository.createTable(database);
-        VaccineNameRepository.createTable(database);
-        VaccineTypeRepository.createTable(database);
-        RecurringServiceTypeRepository.createTable(database);
-        RecurringServiceRecordRepository.createTable(database);
-        RecurringServiceTypeRepository recurringServiceTypeRepository = ImmunizationLibrary.getInstance().recurringServiceTypeRepository();
-        IMDatabaseUtils.populateRecurringServices(context, database, recurringServiceTypeRepository);
-        upgradeToVersion9(context,database);
+//        HnppVisitLogRepository.createTable(database);
+//        VaccineRepository.createTable(database);
+//        VaccineNameRepository.createTable(database);
+//        VaccineTypeRepository.createTable(database);
+//        RecurringServiceTypeRepository.createTable(database);
+//        RecurringServiceRecordRepository.createTable(database);
+//        RecurringServiceTypeRepository recurringServiceTypeRepository = ImmunizationLibrary.getInstance().recurringServiceTypeRepository();
+//        IMDatabaseUtils.populateRecurringServices(context, database, recurringServiceTypeRepository);
+//
+        upgradeToVersion11(context,database);
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Timber.w(HnppChwRepository.class.getName(),
+        Log.v("DB_UPGRADE",
                 "Upgrading database from version " + oldVersion + " to "
                         + newVersion + ", which will destroy all old data");
         int upgradeTo = oldVersion + 1;
         while (upgradeTo <= newVersion) {
             switch (upgradeTo) {
-                case 9:
-                    upgradeToVersion9(context, db);
+                case 12:
+                    //try{
+                        HnppVisitLogRepository.createTable(db);
+                        VaccineRepository.createTable(db);
+                        VaccineNameRepository.createTable(db);
+                        RecurringServiceTypeRepository.createTable(db);
+                        RecurringServiceTypeRepository recurringServiceTypeRepository = ImmunizationLibrary.getInstance().recurringServiceTypeRepository();
+                        IMDatabaseUtils.populateRecurringServices(context, db, recurringServiceTypeRepository);
+
+//                    }catch (Exception e){
+//                        Log.v("DB_UPGRADE","exception_1");
+//                        e.printStackTrace();
+//
+//                    }
+                    upgradeToVersion11(context, db);
                     break;
                 default:
                     break;
@@ -80,8 +95,8 @@ public class HnppChwRepository extends CoreChwRepository {
         }
     }
 
-    private void upgradeToVersion9(Context context, SQLiteDatabase db) {
-        try {
+    private void upgradeToVersion11(Context context, SQLiteDatabase db) {
+        //try {
             db.execSQL("ALTER TABLE ec_child ADD COLUMN birth_weight_taken VARCHAR;");
             db.execSQL("ALTER TABLE ec_child ADD COLUMN birth_weight VARCHAR;");
             db.execSQL("ALTER TABLE ec_child ADD COLUMN chlorohexadin VARCHAR;");
@@ -109,7 +124,7 @@ public class HnppChwRepository extends CoreChwRepository {
             db.execSQL("ALTER TABLE ec_visit_log ADD COLUMN refer_place VARCHAR;");
             db.execSQL("ALTER TABLE ec_visit_log ADD COLUMN refer_reason VARCHAR;");
             db.execSQL("ALTER TABLE ec_visit_log ADD COLUMN pregnant_status VARCHAR;");
-            try{
+           // try{
                 db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_EVENT_ID_COL);
                 db.execSQL(VaccineRepository.EVENT_ID_INDEX);
                 db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_FORMSUBMISSION_ID_COL);
@@ -117,24 +132,30 @@ public class HnppChwRepository extends CoreChwRepository {
                 db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL);
                 db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL_INDEX);
                 db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_HIA2_STATUS_COL);
-                IMDatabaseUtils.accessAssetsAndFillDataBaseForVaccineTypes(context, db);
-                db.execSQL(VaccineRepository.ALTER_ADD_CREATED_AT_COLUMN);
-                VaccineRepository.migrateCreatedAt(db);
-                db.execSQL(RecurringServiceRecordRepository.ALTER_ADD_CREATED_AT_COLUMN);
-                RecurringServiceRecordRepository.migrateCreatedAt(db);
                 db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_TEAM_COL);
                 db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_TEAM_ID_COL);
+                db.execSQL(VaccineRepository.ALTER_ADD_CREATED_AT_COLUMN);
+                db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_CHILD_LOCATION_ID_COL);
+                IMDatabaseUtils.accessAssetsAndFillDataBaseForVaccineTypes(context, db);
+
+                VaccineRepository.migrateCreatedAt(db);
+                db.execSQL(RecurringServiceRecordRepository.ALTER_ADD_CREATED_AT_COLUMN);
                 db.execSQL(RecurringServiceRecordRepository.UPDATE_TABLE_ADD_TEAM_COL);
                 db.execSQL(RecurringServiceRecordRepository.UPDATE_TABLE_ADD_TEAM_ID_COL);
-                db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_CHILD_LOCATION_ID_COL);
+
                 db.execSQL(RecurringServiceRecordRepository.UPDATE_TABLE_ADD_CHILD_LOCATION_ID_COL);
+                RecurringServiceRecordRepository.migrateCreatedAt(db);
+
+
                 db.execSQL(AlertRepository.ALTER_ADD_OFFLINE_COLUMN);
                 db.execSQL(AlertRepository.OFFLINE_INDEX);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        } catch (Exception e) {
-                e.printStackTrace();
-        }
+//            }catch (Exception e){
+//                Log.v("DB_UPGRADE","exception_2");
+//                e.printStackTrace();
+//            }
+//        } catch (Exception e) {
+//            Log.v("DB_UPGRADE","exception_3");
+//                e.printStackTrace();
+//        }
     }
 }
