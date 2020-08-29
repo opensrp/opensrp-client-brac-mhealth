@@ -130,6 +130,8 @@ public class HnppChwRepository extends CoreChwRepository {
 
         db.execSQL(AlertRepository.ALTER_ADD_OFFLINE_COLUMN);
         db.execSQL(AlertRepository.OFFLINE_INDEX);
+        db.execSQL("ALTER TABLE ec_family ADD COLUMN homestead_land VARCHAR;");
+        db.execSQL("ALTER TABLE ec_family ADD COLUMN cultivable_land VARCHAR;");
 
     }
 
