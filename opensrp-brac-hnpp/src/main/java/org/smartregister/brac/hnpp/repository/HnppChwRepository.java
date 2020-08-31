@@ -113,6 +113,9 @@ public class HnppChwRepository extends CoreChwRepository {
                 case 22:
                     upgradeToVersion22(context,db);
                     break;
+                case 23:
+                    upgradeToVersion23(context,db);
+                    break;
                 default:
                     break;
             }
@@ -144,7 +147,15 @@ public class HnppChwRepository extends CoreChwRepository {
 
         }
     }
+    private void upgradeToVersion23(Context context, SQLiteDatabase db) {
+        try {
+            db.execSQL("ALTER TABLE ec_family ADD COLUMN homestead_land VARCHAR;");
+            db.execSQL("ALTER TABLE ec_family ADD COLUMN cultivable_land VARCHAR;");
 
+        } catch (Exception e) {
+
+        }
+    }
     private void upgradeToVersion19(Context context, SQLiteDatabase db) {
         DistrictListRepository.createTable(db);
 
