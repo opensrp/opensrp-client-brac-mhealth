@@ -600,8 +600,10 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             if(isIdentify){
                 JSONObject item = new JSONObject();
                 item.put("key","is_identified");
-                item.put("hidden",true);
-                item.put("value",true);
+                item.put("value","true");
+                item.put("openmrs_data_type","text");
+                item.put("type","hidden");
+                item.put("openmrs_entity_parent","");
                 item.put("openmrs_entity","concept");
                 item.put("openmrs_entity_id","is_identified");
                 jsonArray.put(item);
@@ -611,16 +613,20 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             }else if(needVerified){
                 JSONObject item1 = new JSONObject();
                 item1.put("key","is_verified");
-                item1.put("hidden",true);
-                item1.put("value",isVerify);
+                item1.put("value",isVerify?"true":"false");
+                item1.put("openmrs_entity_parent","");
                 item1.put("openmrs_entity","concept");
+                item1.put("openmrs_data_type","text");
+                item1.put("type","hidden");
                 item1.put("openmrs_entity_id","is_verified");
                 jsonArray.put(item1);
                 if(!isVerify){
                     JSONObject item2 = new JSONObject();
                     item2.put("key","not_verify_cause");
-                    item2.put("hidden",true);
                     item2.put("value",notVerifyText);
+                    item2.put("openmrs_data_type","text");
+                    item2.put("type","hidden");
+                    item2.put("openmrs_entity_parent","");
                     item2.put("openmrs_entity","concept");
                     item2.put("openmrs_entity_id","not_verify_cause");
                     jsonArray.put(item2);
