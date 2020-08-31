@@ -1095,7 +1095,7 @@
             "text": "মুগুর পা",
             "value": false,
             "openmrs_entity": "concept",
-            "openmrs_entity_id": "born_alive_died",
+            "openmrs_entity_id": "mugur_paa",
             "openmrs_entity_parent": ""
           },
           {
