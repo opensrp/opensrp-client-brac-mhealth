@@ -548,8 +548,35 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
     }
     public static String getSSIdFromForm(JSONObject jsonForm){
         JSONArray field = fields(jsonForm, STEP1);
-        JSONObject ss_name = getFieldJSONObject(field, "ss_id");
-        return ss_name.optString(VALUE);
+        try{
+            JSONObject ss_name = getFieldJSONObject(field, "ss_id");
+            return ss_name.optString(VALUE);
+        }catch (Exception e){
+
+        }
+        return "";
+
+    }
+    public static void getYearMonthFromForm(JSONObject jsonForm){
+        try{
+            JSONArray field = fields(jsonForm, STEP1);
+            JSONObject ss_name = getFieldJSONObject(field, "year");
+            String year =  ss_name.optString(VALUE);
+            JSONArray jsonArray2 = new JSONArray();
+            jsonArray2.put(year);
+
+            ss_name.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray2);
+
+            JSONObject monthObj = getFieldJSONObject(field, "month");
+            String monStr =  monthObj.optString(VALUE);
+            JSONArray jsonArray3 = new JSONArray();
+            jsonArray3.put(monStr);
+            monthObj.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray3);
+        }catch (Exception e){
+
+        }
+
+
     }
     public static void addYear(JSONObject jsonForm){
         try{

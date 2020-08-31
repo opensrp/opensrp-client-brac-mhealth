@@ -241,6 +241,10 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
+        },
+        "v_max": {
+          "value": "19",
+          "err": "19 এর সমান বা 19 এর কম হতে হবে"
         }
       },
       {
@@ -265,6 +269,25 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
+        }
+
+      },
+      {
+        "key": "error_presbiophea_count",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "চক্ষু পরীক্ষার সংখ্যা থেকে কম হতে হবে",
+        "text_color": "#FF0000",
+        "text_size": "20sp",
+        "toaster_type": "problem",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_ss_relevance.yml"
+            }
+          }
         }
       }
     ]
@@ -299,6 +322,24 @@
         }
       },
       {
+        "key": "error_new_patient_count",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "মোট ডায়াবেটিস পরীক্ষা থেকে কম হতে হবে",
+        "text_color": "#FF0000",
+        "text_size": "20sp",
+        "toaster_type": "problem",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_ss_relevance.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "refer_diabetis",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -308,6 +349,24 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
+        }
+      },
+      {
+        "key": "error_refer_diabetis",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "মোট ডায়াবেটিস পরীক্ষা থেকে কম হতে হবে",
+        "text_color": "#FF0000",
+        "text_size": "20sp",
+        "toaster_type": "problem",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_ss_relevance.yml"
+            }
+          }
         }
       },
       {
@@ -365,6 +424,24 @@
         }
       },
       {
+        "key": "error_new_appro_patient",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "মোট রক্তচাপ পরীক্ষা থেকে কম হতে হবে",
+        "text_color": "#FF0000",
+        "text_size": "20sp",
+        "toaster_type": "problem",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_ss_relevance.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "refer_blood_pressure",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -374,6 +451,24 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
+        }
+      },
+      {
+        "key": "error_refer_blood_pressure",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "মোট রক্তচাপ পরীক্ষা থেকে কম হতে হবে",
+        "text_color": "#FF0000",
+        "text_size": "20sp",
+        "toaster_type": "problem",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_ss_relevance.yml"
+            }
+          }
         }
       },
       {

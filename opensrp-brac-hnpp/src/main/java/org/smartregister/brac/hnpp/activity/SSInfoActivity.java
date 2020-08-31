@@ -196,12 +196,9 @@ public class SSInfoActivity extends SecuredActivity {
         try {
             JSONObject jsonForm = new JSONObject(content.getVisitDetails());
             HnppJsonFormUtils.makeReadOnlyFields(jsonForm);
-            String ssId = "";
-            try{
-                ssId= HnppJsonFormUtils.getSSIdFromForm(jsonForm);
-            }catch (Exception e){
+            String ssId= HnppJsonFormUtils.getSSIdFromForm(jsonForm);
+             HnppJsonFormUtils.getYearMonthFromForm(jsonForm);
 
-            }
             HnppJsonFormUtils.updateFormWithSSName(jsonForm,SSLocationHelper.getInstance().getSsModels(),ssId);
 
             Intent intent = new Intent(this, HnppFormViewActivity.class);

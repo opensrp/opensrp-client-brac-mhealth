@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.text.SpannableString;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.vijay.jsonwizard.customviews.MaterialSpinner;
 import com.vijay.jsonwizard.fragments.JsonWizardFormFragment;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
@@ -100,6 +102,31 @@ public class HnppJsonWizardFormFragment extends JsonWizardFormFragment {
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), com.vijay.jsonwizard.R.layout.native_form_simple_list_item_1, monthList);
                     spinner.setAdapter(adapter);
                     spinner.setSelection(0, true);
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            if (position != -1 && parent instanceof MaterialSpinner) {
+                                if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.ss_month))) {
+                                    try {
+                                        String value = (String)((MaterialSpinner) parent).getItemAtPosition(position);
+                                        JSONObject villageNames = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "month");
+                                        villageNames.put(org.smartregister.family.util.JsonFormUtils.VALUE,value);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+
+                                }
+                            }
+
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
 
                     break;
                 }

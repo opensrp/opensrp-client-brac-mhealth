@@ -94,7 +94,7 @@ public class HnppDBUtils extends CoreChildUtils {
     }
     public static String getIsCorona(String baseEntityId){
         String query = "select ec_family_member.is_corona from ec_family_member LEFT JOIN ec_family ON  ec_family_member.relational_id = ec_family.id where ec_family_member.base_entity_id = '"+baseEntityId+"'" +
-                " and (strftime('%d',datetime('now')) - strftime('%d',datetime(last_home_visit/1000,'unixepoch','localtime'))) <= 7";
+                " and (strftime('%d',datetime('now')) - strftime('%d',datetime(last_home_visit/1000,'unixepoch','localtime'))) <= 14";
         Log.v("IS_CORONA","query:"+query);
         Cursor cursor = null;
         String isCorona="";

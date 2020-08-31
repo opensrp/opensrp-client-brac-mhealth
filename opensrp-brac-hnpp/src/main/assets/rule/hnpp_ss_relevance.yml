@@ -1,0 +1,35 @@
+
+name: step5_error_presbiophea_count
+description: less count eye test
+priority: 1
+condition: "step5_presbiophea_count!='' && step5_eye_exam_count !='' && step5_presbiophea_count >= step5_eye_exam_count"
+actions:
+  - "isRelevant = true"
+---
+name: step7_error_refer_blood_pressure
+description: less
+priority: 1
+condition: "step7_refer_blood_pressure !='' && step7_total_blood_presser !='' && step7_refer_blood_pressure >= step7_total_blood_presser"
+actions:
+  - "isRelevant = true"
+---
+name: step7_error_new_appro_patient
+description: less
+priority: 1
+condition: "step7_new_appro_patient !='' && step7_total_blood_presser !='' && step7_new_appro_patient >= step7_total_blood_presser"
+actions:
+  - "isRelevant = true"
+---
+name: step6_error_refer_diabetis
+description: less
+priority: 1
+condition: "step6_refer_diabetis !='' && step6_diabetics_exap_count !='' && step6_refer_diabetis >= step6_diabetics_exap_count"
+actions:
+  - "isRelevant = true"
+---
+name: step6_error_new_patient_count
+description: less
+priority: 1
+condition: "step6_new_patient_count !='' && step6_diabetics_exap_count !='' && step6_new_patient_count >= step6_diabetics_exap_count"
+actions:
+  - "isRelevant = true"
