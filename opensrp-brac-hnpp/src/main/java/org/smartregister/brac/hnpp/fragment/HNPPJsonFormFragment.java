@@ -197,6 +197,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
                 }else{
                     moduleId = HnppConstants.MODULE_ID_TRAINING;
                 }
+                Log.v("MODULE_ID","module id:"+moduleId);
 
                 HouseholdIdRepository householdIdRepo = HnppApplication.getHNPPInstance().getHouseholdIdRepository();
                 village_id = String.valueOf(ssLocations.village.id);
