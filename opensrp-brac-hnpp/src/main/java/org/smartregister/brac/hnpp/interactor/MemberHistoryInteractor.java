@@ -2,6 +2,7 @@ package org.smartregister.brac.hnpp.interactor;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.text.TextUtils;
 
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
@@ -11,6 +12,8 @@ import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.MemberHistoryData;
 import org.smartregister.brac.hnpp.utils.VisitLog;
 import org.smartregister.chw.core.application.CoreChwApplication;
+import org.smartregister.chw.core.utils.CoreConstants;
+import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.util.AppExecutors;
 
 import java.util.ArrayList;
@@ -50,6 +53,12 @@ public class MemberHistoryInteractor implements MemberHistoryContract.Interactor
                 historyData.setImageSource(HnppConstants.iconMapping.get(eventType));
             }catch(NullPointerException e){
 
+            }
+            if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION) || eventType.equalsIgnoreCase(CoreConstants.EventType.PNC_HOME_VISIT)){
+                String isDelay = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(baseEntityId+"_IS_DELAY");
+                if(!TextUtils.isEmpty(isDelay)){
+                    historyData.setDelay(isDelay.equalsIgnoreCase("true"));
+                }
             }
             historyData.setVisitDetails(visitLog.getVisitJson());
             historyData.setVisitDate(visitLog.getVisitDate());

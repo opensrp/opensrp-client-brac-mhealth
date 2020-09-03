@@ -1,6 +1,7 @@
 package org.smartregister.chw.core.interactor;
 
 import android.database.Cursor;
+import android.util.Log;
 
 import org.smartregister.chw.core.contract.CoreApplication;
 import org.smartregister.chw.core.contract.NavigationContract;
@@ -126,7 +127,7 @@ public class NavigationInteractor implements NavigationContract.Interactor {
             SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder();
             String query = MessageFormat.format("select count(*) from {0} {1}", tableName, mainCondition);
             query = sqb.Endquery(query);
-            Timber.i("2%s", query);
+            Log.v("DB_UPGRADE","2%s"+query);
 
             cursor = commonRepository(tableName).rawCustomQueryForAdapter(query);
             count = cursor != null && cursor.moveToFirst() ? cursor.getInt(0) : 0;

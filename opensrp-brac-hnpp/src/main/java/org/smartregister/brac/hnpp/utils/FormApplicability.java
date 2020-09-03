@@ -1,6 +1,7 @@
 package org.smartregister.brac.hnpp.utils;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
@@ -246,10 +247,12 @@ public class FormApplicability {
         return isWomen && age >=14 && !isPragnent(baseEntityId,age);
     }
 
-    private static boolean isPragnent(String baseEntityId, int age) {
+    public static boolean isPragnent(String baseEntityId, int age) {
         String eventType = getDueFormForMarriedWomen(baseEntityId,age);
-        if(!TextUtils.isEmpty(eventType) && eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION)
-                || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
+        Log.v("PragnentStatus","PragnentStatus:"+eventType);
+        if(!TextUtils.isEmpty(eventType) && (eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)
+                || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION)
+                || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION))){
             return true;
         }
         return false;

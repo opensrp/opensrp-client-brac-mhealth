@@ -10,6 +10,15 @@ public class MemberHistoryData {
     private String visitDetails;
     private String memberName;
     private String baseEntityId;
+    private boolean isDelay;
+
+    public void setDelay(boolean delay) {
+        isDelay = delay;
+    }
+
+    public boolean isDelay() {
+        return isDelay;
+    }
 
     public String getBaseEntityId() {
         return baseEntityId;

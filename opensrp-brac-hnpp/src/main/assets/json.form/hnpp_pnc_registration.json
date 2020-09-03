@@ -59,6 +59,14 @@
         "value": "hnpp_pnc_registration"
       },
       {
+        "key": "is_delay",
+        "openmrs_entity_parent": "",
+        "openmrs_data_type": "text",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_delay",
+        "type": "hidden"
+      },
+      {
         "key": "anc_count",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",

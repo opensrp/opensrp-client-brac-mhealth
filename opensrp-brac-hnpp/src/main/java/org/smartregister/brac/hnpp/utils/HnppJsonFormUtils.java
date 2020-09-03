@@ -670,6 +670,10 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             spinner3.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray2);
             spinner4.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray2);
 
+            int pncDay = FormApplicability.getDayPassPregnancyOutcome(baseEntityId);
+            if(pncDay>=2){
+                updateFormField(jsonArray, "is_delay","true");
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();

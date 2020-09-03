@@ -60,6 +60,12 @@ public class MemberHistoryAdapter extends RecyclerView.Adapter<MemberDueViewHold
             viewHolder.textViewLastVisit.setText("তারিখ: "+HnppConstants.DDMMYY.format(content.getVisitDate()));
 
         }
+        if(content.isDelay()){
+            viewHolder.statusImage.setVisibility(View.VISIBLE);
+            viewHolder.statusImage.setImageResource(R.color.alert_urgent_red);
+        }else{
+            viewHolder.statusImage.setVisibility(View.INVISIBLE);
+        }
         viewHolder.itemView.setOnClickListener(v -> onClickAdapter.onClick(position, content));
     }
 
