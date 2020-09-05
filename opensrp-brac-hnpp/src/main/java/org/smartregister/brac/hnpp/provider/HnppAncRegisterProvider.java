@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 import org.joda.time.Years;
@@ -50,15 +51,16 @@ public class HnppAncRegisterProvider extends ChwAncRegisterProvider {
         String dobString = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.DOB, false);
         String lmpString = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.LAST_MENSTRUAL_PERIOD, false);
         if (StringUtils.isNotBlank(dobString) && StringUtils.isNotBlank(lmpString)) {
-            int age = Years.yearsBetween(new DateTime(dobString), new DateTime()).getYears();
+            //int age = Years.yearsBetween(new DateTime(dobString), new DateTime()).getYears();
 
             String gaLocation = MessageFormat.format("{0}: {1} {2} {3}",
                     context.getString(R.string.gestation_age_initial),
                     NCUtils.gestationAgeString(lmpString, context, false),
                     context.getString(R.string.abbrv_weeks),
                     context.getString(R.string.interpunct));
+            String ageStr = WordUtils.capitalize(org.smartregister.family.util.Utils.getTranslatedDate(dobString, context));
 
-            String patientNameAge = MessageFormat.format("{0},{1}: {2}", patientName,context.getString(R.string.boyos), age);
+            String patientNameAge = MessageFormat.format("{0},{1}: {2}", patientName,context.getString(R.string.boyos), ageStr);
             viewHolder.patientName.setText(patientNameAge);
             viewHolder.patientAge.setText(gaLocation);
 

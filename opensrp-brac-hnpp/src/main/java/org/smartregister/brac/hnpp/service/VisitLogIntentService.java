@@ -226,8 +226,12 @@ public class VisitLogIntentService extends IntentService {
                                     if(details.containsKey("is_delay") && !StringUtils.isEmpty(details.get("is_delay"))){
                                         String is_delay = details.get("is_delay");
                                         if(!TextUtils.isEmpty(is_delay)){
+                                            String isDelay = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(base_entity_id+"_IS_DELAY");
+                                            if(TextUtils.isEmpty(isDelay)){
+                                                FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_IS_DELAY",is_delay);
+                                                FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(visit.getVisitId()+"_IS_DELAY",is_delay);
 
-                                            FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_IS_DELAY",is_delay);
+                                            }
 
                                         }
                                     }

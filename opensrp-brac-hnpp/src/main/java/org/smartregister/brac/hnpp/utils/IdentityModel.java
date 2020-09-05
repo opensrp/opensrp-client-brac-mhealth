@@ -6,6 +6,24 @@ public class IdentityModel {
     String name;
     String tier;
     String familyHead;
+    String age;
+    String husband;
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public String getHusband() {
+        return husband;
+    }
+
+    public void setHusband(String husband) {
+        this.husband = husband;
+    }
 
     public void setTier(String tier) {
         this.tier = tier;

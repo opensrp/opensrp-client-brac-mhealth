@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
 
+import org.apache.commons.lang3.text.WordUtils;
+import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.family.util.Utils;
@@ -125,7 +127,9 @@ public class SearchHHMemberModel {
                 hhMemberProperty.setId(id.length() > HnppConstants.MEMBER_ID_SUFFIX?id.substring(id.length() - HnppConstants.MEMBER_ID_SUFFIX):id);
                 hhMemberProperty.setBaseEntityId(cursor.getString(cursor.getColumnIndex("base_entity_id")));
                 String dobString = Utils.getDuration(cursor.getString(cursor.getColumnIndex("dob")));
-                hhMemberProperty.setAge(dobString);
+                String ageStr = WordUtils.capitalize(org.smartregister.family.util.Utils.getTranslatedDate(dobString, HnppApplication.getHNPPInstance()));
+
+                hhMemberProperty.setAge(ageStr);
                 adoArrayList.add(hhMemberProperty);
                 cursor.moveToNext();
             }

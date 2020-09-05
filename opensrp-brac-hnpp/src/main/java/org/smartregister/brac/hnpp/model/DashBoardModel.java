@@ -46,7 +46,15 @@ public class DashBoardModel implements DashBoardContract.Model {
                     DashBoardData dashBoardData1 = new DashBoardData();
                     dashBoardData1.setCount(cursor.getInt(1));
                     dashBoardData1.setEventType(cursor.getString(0));
-                    dashBoardData1.setTitle(HnppConstants.eventTypeMapping.get(dashBoardData1.getEventType()));
+                    if(dashBoardData1.getEventType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.MEMBER_REFERRAL)){
+                        dashBoardData1.setTitle("সদস্য রেফারেল");
+                    }else if(dashBoardData1.getEventType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.WOMEN_REFERRAL)){
+                        dashBoardData1.setTitle("নারী রেফারেল");
+                    }else if(dashBoardData1.getEventType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_REFERRAL)){
+                        dashBoardData1.setTitle("শিশু রেফারেল");
+                    }else{
+                        dashBoardData1.setTitle(HnppConstants.eventTypeMapping.get(dashBoardData1.getEventType()));
+                    }
                     try{
                         dashBoardData1.setImageSource((int)HnppConstants.iconMapping.get(dashBoardData1.getEventType()));
                     }catch (Exception e){

@@ -207,6 +207,7 @@ public class HnppVisitLogRepository extends BaseRepository {
             if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
                 while (!cursor.isAfterLast()) {
                     VisitLog visitLog = new VisitLog();
+                    visitLog.setVisitId(cursor.getString(cursor.getColumnIndex(VISIT_ID)));
                     visitLog.setBaseEntityId(cursor.getString(cursor.getColumnIndex(BASE_ENTITY_ID)));
                     visitLog.setEventType(cursor.getString(cursor.getColumnIndex(EVENT_TYPE)));
                     visitLog.setVisitDate(Long.parseLong(cursor.getString(cursor.getColumnIndex(VISIT_DATE))));

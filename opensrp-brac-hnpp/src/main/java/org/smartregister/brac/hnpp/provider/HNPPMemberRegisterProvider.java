@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.HnppApplication;
@@ -43,6 +44,7 @@ import org.smartregister.view.customcontrols.FontVariant;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Executor;
 
 public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
     private final LayoutInflater inflater;
@@ -97,7 +99,7 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
 //        }
     }
     private void populatePatientColumn(CommonPersonObjectClient pc, SmartRegisterClient client, final FamilyMemberRegisterProvider.RegisterViewHolder viewHolder) {
-        String baseEntityId = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.BASE_ENTITY_ID, true);
+        String baseEntityId = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.BASE_ENTITY_ID, false);
         String firstName = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.FIRST_NAME, true);
         String middleName = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.MIDDLE_NAME, true);
         String lastName = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.LAST_NAME, true);
@@ -126,7 +128,9 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
             viewHolder.profile.setImageResource(org.smartregister.family.util.Utils.getMemberProfileImageResourceIDentifier(entityType));
             viewHolder.nextArrow.setVisibility(View.GONE);
         } else {
-//            patientName = patientName + "\n" + org.smartregister.family.util.Utils.getTranslatedDate(dobString, this.context);
+            String ageStr = WordUtils.capitalize(org.smartregister.family.util.Utils.getTranslatedDate(dob, context));
+
+            patientName = patientName + "\n" + ageStr;
 
             viewHolder.patientNameAge.setFontVariant(FontVariant.REGULAR);
             viewHolder.patientNameAge.setTextColor(-16777216);
@@ -187,7 +191,7 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
        if(gender_key.equalsIgnoreCase("F")){
            int age = FormApplicability.getAge(pc);
            if (updateAsyncTask == null) {
-               Utils.startAsyncTask(new UpdateAsyncTask(context, viewHolder, baseEntityId,age), null);
+               new UpdateAsyncTask(viewHolder).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,baseEntityId,age+"");
            }
 
        }
@@ -228,23 +232,16 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
         }
 
     }
-    private class UpdateAsyncTask extends AsyncTask<Void, Boolean, Boolean> {
-        private final Context context;
+    private class UpdateAsyncTask extends AsyncTask<String, Boolean, Boolean> {
         private final FamilyMemberRegisterProvider.RegisterViewHolder viewHolder;
-        private final String memberBaseEntityId;
-        private int age;
 
-        private UpdateAsyncTask(Context context, FamilyMemberRegisterProvider.RegisterViewHolder viewHolder, String memberBaseEntityId ,int age) {
-            this.context = context;
+        private UpdateAsyncTask(FamilyMemberRegisterProvider.RegisterViewHolder viewHolder) {
             this.viewHolder = viewHolder;
-            this.memberBaseEntityId = memberBaseEntityId;
-            this.age = age;
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
-            boolean isPragnent = FormApplicability.isPragnent(memberBaseEntityId,age);
-            Log.v("PragnentStatus","isPragnent:"+isPragnent);
+        protected Boolean doInBackground(String... params) {
+            boolean isPragnent = FormApplicability.isPragnent(params[0],Integer.parseInt(params[1]));
 
             return isPragnent;
         }

@@ -671,7 +671,9 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             spinner4.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray2);
 
             int pncDay = FormApplicability.getDayPassPregnancyOutcome(baseEntityId);
-            if(pncDay>=2){
+            String isDelay = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(baseEntityId+"_IS_DELAY");
+
+            if(pncDay>=2 && TextUtils.isEmpty(isDelay)){
                 updateFormField(jsonArray, "is_delay","true");
             }
 
@@ -750,13 +752,13 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                     .replace(HnppConstants.IDENTIFIER.FAMILY_TEXT,"");
         }
 
-        int memberCount = HnppApplication.ancRegisterRepository().getMemberCount(familyBaseEntityId);
+        int memberCount = HnppApplication.ancRegisterRepository().getMemberCountWithoutRemove(familyBaseEntityId);
         memberId.put(org.smartregister.family.util.JsonFormUtils.VALUE, houseHoldId+memberCountWithZero(memberCount+1));
         return form;
     }
     public static String getUniqueMemberId(String familyBaseEntityId) {
         String houseHoldId = HnppApplication.ancRegisterRepository().getHouseholdId(familyBaseEntityId);
-        int memberCount = HnppApplication.ancRegisterRepository().getMemberCount(familyBaseEntityId);
+        int memberCount = HnppApplication.ancRegisterRepository().getMemberCountWithoutRemove(familyBaseEntityId);
         return houseHoldId+memberCountWithZero(memberCount+1);
     }
     public static JSONObject updateFormWithSimPrintsEnable(JSONObject form) throws Exception{

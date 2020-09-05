@@ -30,6 +30,7 @@ import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,6 +49,7 @@ import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
+import org.smartregister.brac.hnpp.utils.HouseHoldInfo;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.core.activity.CoreFamilyOtherMemberProfileActivity;
@@ -165,7 +167,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
        try{
            String[] str = fullName.split(",");
            this.textViewName.setText(str[0]);
-           this.textViewAge.setText(getString(R.string.age,str[1]));
+           String dobString = org.smartregister.family.util.Utils.getDuration(org.smartregister.family.util.Utils.getValue(commonPersonObject.getColumnmaps(), DBConstants.KEY.DOB, false));
+           String ageStr = WordUtils.capitalize(org.smartregister.family.util.Utils.getTranslatedDate(dobString, this));
+           this.textViewAge.setText(getString(R.string.age,ageStr));
 
        }catch (Exception e){
 
@@ -455,6 +459,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         dialog.show();
 
     }
+    int selectedCount = 0;
 
     private void showNotFoundDialog(){
         Dialog dialog = new Dialog(this, android.R.style.Theme_NoTitleBar_Fullscreen);
@@ -476,6 +481,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                     checkBox5.setChecked(false);
                     checkedItem = checkedItem.replace("জানা নেই","");
                     addCheckedText(checkBox1.getText().toString());
+                selectedCount++;
+            }else{
+                selectedCount --;
             }
         });
         checkBox2.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -483,6 +491,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                 checkBox5.setChecked(false);
                     checkedItem = checkedItem.replace("জানা নেই","");
                     addCheckedText(checkBox2.getText().toString());
+                selectedCount++;
+            }else{
+                selectedCount --;
             }
         });
 
@@ -491,11 +502,18 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                 checkBox1.setChecked(false);
                 checkBox2.setChecked(false);
                 checkedItem = checkBox5.getText().toString();
+                selectedCount++;
+            }else{
+                selectedCount --;
             }
         });
         service_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(selectedCount == 0){
+                    Toast.makeText(HnppFamilyOtherMemberProfileActivity.this,"যে কোন একটি কারণ সিলেক্ট করুন",Toast.LENGTH_LONG).show();
+                    return;
+                }
                 dialog.dismiss();
                 ignoreSimprintCheck = true;
                 Log.v("VERIFY","checkedItem>>"+checkedItem);
@@ -562,7 +580,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                 Log.v("VERIFY_SIMPRINT","verify:"+guId+":tier:"+tier+":confidence:"+confidence);
                 if(!TextUtils.isEmpty(guId) && guId.equalsIgnoreCase(this.guId) && confidence >= HnppConstants.VERIFY_THRESHOLD){
                     isVerified = true;
-                    showSuccessAlertDialog("ফিঙ্গার প্রিন্ট দ্বারা ভেরিফাইড \n নাম : "+textViewName.getText().toString(),confidence+"");
+                    showSuccessAlertDialog("আঙ্গুলের ছাপ মিলেছে \n নাম : "+textViewName.getText().toString(),confidence+"");
                 }else{
                     isVerified = false;
                     showFailAlertDialog("সামনের ব্যক্তি "+textViewName.getText().toString()+" না",confidence+"");
@@ -672,6 +690,15 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     public void openFamilyDueTab() {
         Intent intent = new Intent(this, getFamilyProfileActivity());
         intent.putExtras(getIntent().getExtras());
+        HouseHoldInfo houseHoldInfo = HnppDBUtils.getHouseHoldInfo(familyBaseEntityId);
+        if(houseHoldInfo !=null){
+            intent.putExtra(Constants.INTENT_KEY.FAMILY_HEAD, houseHoldInfo.getHouseHoldHeadId());
+            intent.putExtra(Constants.INTENT_KEY.PRIMARY_CAREGIVER, houseHoldInfo.getPrimaryCaregiverId());
+            intent.putExtra(Constants.INTENT_KEY.FAMILY_NAME, houseHoldInfo.getHouseHoldName());
+            intent.putExtra(DBConstants.KEY.UNIQUE_ID, houseHoldInfo.getHouseHoldUniqueId());
+            intent.putExtra(HnppConstants.KEY.MODULE_ID, houseHoldInfo.getModuleId());
+
+        }
         intent.putExtra(CoreConstants.INTENT_KEY.SERVICE_DUE, true);
         startActivity(intent);
     }

@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
 import org.jeasy.rules.api.Rules;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
@@ -21,6 +22,8 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.util.Utils;
 import org.smartregister.view.contract.SmartRegisterClient;
+
+import java.text.MessageFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -46,6 +49,16 @@ public class HnppPncRegisterProvider extends PncRegisterProvider {
         super.getView(cursor, client, viewHolder);
 
         CommonPersonObjectClient pc = (CommonPersonObjectClient) client;
+        String patientName = Utils.getValue(pc.getColumnmaps(), "first_name", true);
+
+        // calculate LMP
+        String dobString = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.DOB, false);
+        if(StringUtils.isNotBlank(dobString)){
+            String ageStr = WordUtils.capitalize(org.smartregister.family.util.Utils.getTranslatedDate(dobString, context));
+
+            String patientNameAge = MessageFormat.format("{0},{1}: {2}", patientName,context.getString(R.string.boyos), ageStr);
+            viewHolder.patientNameAndAge.setText(patientNameAge);
+        }
         String serialNo = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.SERIAL_NO, true);
         if(serialNo.isEmpty() || serialNo.equalsIgnoreCase("H")){
             serialNo="";

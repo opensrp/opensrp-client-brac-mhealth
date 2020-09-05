@@ -81,6 +81,7 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
         recyclerView = findViewById(R.id.recycler_view);
         findViewById(R.id.filter_apply_button).setOnClickListener(this);
         findViewById(R.id.back_btn).setOnClickListener(this);
+        findViewById(R.id.again_btn).setOnClickListener(this);
         findViewById(R.id.back_bn).setOnClickListener(this);
         findViewById(R.id.not_found_btn).setOnClickListener(this);
 
@@ -109,6 +110,14 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
             case R.id.back_bn:
                 finish();
                 break;
+            case R.id.again_btn:
+                if(!TextUtils.isEmpty(moduleId)){
+                    SimPrintsIdentifyActivity.startSimprintsIdentifyActivity(this, moduleId, REQUEST_CODE_IDENTIFY);
+
+                }else{
+                    Toast.makeText(this,"Please select module id",Toast.LENGTH_LONG).show();
+                }
+                break;
             case R.id.not_found_btn:
                 showNotFoundDialog();
                 break;
@@ -122,8 +131,9 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
             checkedItem = checkedItem+","+text;
         }
     }
-
+    int selectedCount = 0;
     private void showNotFoundDialog(){
+
         Dialog dialog = new Dialog(this, android.R.style.Theme_NoTitleBar_Fullscreen);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.view_not_found);
@@ -140,6 +150,9 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
                 checkBox5.setChecked(false);
                 checkedItem = checkedItem.replace("জানা নেই","");
                 addCheckedText(checkBox1.getText().toString());
+                selectedCount++;
+            }else{
+                selectedCount--;
             }
         });
         checkBox0.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -147,6 +160,9 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
                 checkBox5.setChecked(false);
                 checkedItem = checkedItem.replace("জানা নেই","");
                 addCheckedText(checkBox0.getText().toString());
+                selectedCount++;
+            }else{
+                selectedCount--;
             }
         });
         checkBox2.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -154,6 +170,9 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
                 checkBox5.setChecked(false);
                 checkedItem = checkedItem.replace("জানা নেই","");
                 addCheckedText(checkBox2.getText().toString());
+                selectedCount++;
+            }else{
+                selectedCount--;
             }
         });
         checkBox3.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -161,6 +180,9 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
                 checkBox5.setChecked(false);
                 checkedItem = checkedItem.replace("জানা নেই","");
                 addCheckedText(checkBox3.getText().toString());
+                selectedCount++;
+            }else{
+                selectedCount--;
             }
         });
         checkBox4.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -168,6 +190,9 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
                 checkBox5.setChecked(false);
                 checkedItem = checkedItem.replace("জানা নেই","");
                 addCheckedText(checkBox4.getText().toString());
+                selectedCount++;
+            }else{
+                selectedCount--;
             }
         });
         checkBox5.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -178,17 +203,25 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
                 checkBox3.setChecked(false);
                 checkBox4.setChecked(false);
                 checkedItem = checkBox5.getText().toString();
+                selectedCount++;
+            }else{
+                selectedCount--;
             }
         });
         close_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(selectedCount == 0){
+                    Toast.makeText(SimprintsIdentityActivity.this,"যে কোন একটি কারণ সিলেক্ট করুন",Toast.LENGTH_LONG).show();
+                    return;
+                }
                 finish();
             }
         });
         retry_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 dialog.dismiss();
                 if(!TextUtils.isEmpty(moduleId)){
                     SimPrintsIdentifyActivity.startSimprintsIdentifyActivity(SimprintsIdentityActivity.this, moduleId, REQUEST_CODE_IDENTIFY);
@@ -367,6 +400,7 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
                                                 identityModel.setName(ourPut[1]);
                                                 identityModel.setTier(identification.getTier().toString().replace("_"," "));
                                                 identityModel.setFamilyHead(ourPut[3]);
+                                                identityModel.setAge(ourPut[4]);
                                                 if(!TextUtils.isEmpty(ourPut[2])) {
                                                    String id = ourPut[2].replace(org.smartregister.family.util.Constants.IDENTIFIER.FAMILY_SUFFIX,"")
                                                             .replace(HnppConstants.IDENTIFIER.FAMILY_TEXT,"");
