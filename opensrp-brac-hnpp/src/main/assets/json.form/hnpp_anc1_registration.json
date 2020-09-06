@@ -92,7 +92,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "number_of_anc",
-        "openmrs_data_type": "",
+        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "কত নম্বর গর্ভবতী পরিচর্যা সেবা (এ.এন.সি.)?",
         "values": [
@@ -144,7 +144,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "other_anc_no_1",
-        "openmrs_data_type": "",
+        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "পূর্বের এ এন সি সেবার সিরিয়াল নম্বর",
         "values": [
@@ -259,7 +259,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "other_anc_no_2",
-        "openmrs_data_type": "",
+        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "পূর্বের এ এন সি সেবার সিরিয়াল নম্বর",
         "values": [
@@ -372,7 +372,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "other_anc_no_3",
-        "openmrs_data_type": "",
+        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "পূর্বের এ এন সি সেবার সিরিয়াল নম্বর",
         "values": [
@@ -437,7 +437,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "other_source_anc_3",
-        "openmrs_data_type": "",
+        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "উৎস",
         "values": [
