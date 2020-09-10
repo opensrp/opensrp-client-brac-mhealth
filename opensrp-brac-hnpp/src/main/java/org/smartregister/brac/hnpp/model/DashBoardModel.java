@@ -8,6 +8,7 @@ import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.contract.DashBoardContract;
 import org.smartregister.brac.hnpp.utils.DashBoardData;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.chw.core.application.CoreChwApplication;
 
 import java.util.ArrayList;
@@ -45,7 +46,15 @@ public class DashBoardModel implements DashBoardContract.Model {
                     DashBoardData dashBoardData1 = new DashBoardData();
                     dashBoardData1.setCount(cursor.getInt(1));
                     dashBoardData1.setEventType(cursor.getString(0));
-                    dashBoardData1.setTitle(HnppConstants.eventTypeMapping.get(dashBoardData1.getEventType()));
+                    if(dashBoardData1.getEventType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.MEMBER_REFERRAL)){
+                        dashBoardData1.setTitle("সদস্য রেফারেল");
+                    }else if(dashBoardData1.getEventType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.WOMEN_REFERRAL)){
+                        dashBoardData1.setTitle("নারী রেফারেল");
+                    }else if(dashBoardData1.getEventType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_REFERRAL)){
+                        dashBoardData1.setTitle("শিশু রেফারেল");
+                    }else{
+                        dashBoardData1.setTitle(HnppConstants.eventTypeMapping.get(dashBoardData1.getEventType()));
+                    }
                     try{
                         dashBoardData1.setImageSource((int)HnppConstants.iconMapping.get(dashBoardData1.getEventType()));
                     }catch (Exception e){
@@ -59,13 +68,17 @@ public class DashBoardModel implements DashBoardContract.Model {
                 cursor.close();
 
             }
+            int countSimprints = HnppDBUtils.getCoutByFingerPrint();
+            if(countSimprints>0){
+                DashBoardData dashBoardData1 = new DashBoardData();
+                dashBoardData1.setCount(countSimprints);
+                dashBoardData1.setTitle("ফিঙ্গার প্রিন্ট দ্বারা নিবন্ধিত");
+                dashBoardData1.setImageSource(R.drawable.ic_fingerprint_id);
 
-//        } catch (Exception e) {
-//            Timber.e(e);
-//        } finally {
-//            if (cursor != null)
-//                cursor.close();
-//        }
+                dashBoardDataArrayList.add(dashBoardData1);
+            }
+
+
         return dashBoardDataArrayList;
     }
 

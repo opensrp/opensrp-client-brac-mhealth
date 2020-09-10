@@ -184,13 +184,6 @@
         "v_required": {
           "value": true,
           "err": "সম্পর্ক নির্বাচন করুন"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
         }
       },
       {

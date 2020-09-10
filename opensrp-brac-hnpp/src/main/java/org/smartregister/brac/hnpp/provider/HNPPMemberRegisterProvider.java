@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.Spannable;
@@ -11,6 +12,7 @@ import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,25 +20,31 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.core.provider.CoreMemberRegisterProvider;
 import org.smartregister.chw.core.utils.ChildDBConstants;
 import org.smartregister.chw.core.utils.CoreConstants;
-import org.smartregister.chw.core.utils.Utils;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.family.fragment.BaseFamilyRegisterFragment;
 import org.smartregister.family.provider.FamilyMemberRegisterProvider;
 import org.smartregister.family.util.DBConstants;
+import org.smartregister.family.util.Utils;
 import org.smartregister.helper.ImageRenderHelper;
 import org.smartregister.util.AssetHandler;
 import org.smartregister.view.contract.SmartRegisterClient;
 import org.smartregister.view.customcontrols.FontVariant;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Executor;
 
 public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
     private final LayoutInflater inflater;
@@ -49,6 +57,7 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
     private Context context;
     private CommonRepository commonRepository;
     private ImageRenderHelper imageRenderHelper;
+    protected AsyncTask<Void, Void, Void> updateAsyncTask;
 
     public HNPPMemberRegisterProvider(Context context, CommonRepository commonRepository, Set visibleColumns, View.OnClickListener onClickListener, View.OnClickListener paginationClickListener, String familyHead, String primaryCaregiver) {
         super(context, commonRepository, visibleColumns, onClickListener, paginationClickListener, familyHead, primaryCaregiver);
@@ -80,6 +89,9 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
 
         viewHolder.statusLayout.setVisibility(View.GONE);
         viewHolder.status.setVisibility(View.GONE);
+        if (updateAsyncTask != null) {
+            Utils.startAsyncTask(updateAsyncTask, null);
+        }
 
        // String entityType = Utils.getValue(pc.getColumnmaps(), ChildDBConstants.KEY.ENTITY_TYPE, false);
 //        if (CoreConstants.TABLE_NAME.CHILD.equals(entityType)) {
@@ -87,6 +99,7 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
 //        }
     }
     private void populatePatientColumn(CommonPersonObjectClient pc, SmartRegisterClient client, final FamilyMemberRegisterProvider.RegisterViewHolder viewHolder) {
+        String baseEntityId = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.BASE_ENTITY_ID, false);
         String firstName = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.FIRST_NAME, true);
         String middleName = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.MIDDLE_NAME, true);
         String lastName = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.LAST_NAME, true);
@@ -115,11 +128,13 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
             viewHolder.profile.setImageResource(org.smartregister.family.util.Utils.getMemberProfileImageResourceIDentifier(entityType));
             viewHolder.nextArrow.setVisibility(View.GONE);
         } else {
-//            patientName = patientName + "\n" + org.smartregister.family.util.Utils.getTranslatedDate(dobString, this.context);
+            String ageStr = WordUtils.capitalize(org.smartregister.family.util.Utils.getTranslatedDate(dob, context));
+
+            patientName = patientName + "\n" + ageStr;
 
             viewHolder.patientNameAge.setFontVariant(FontVariant.REGULAR);
             viewHolder.patientNameAge.setTextColor(-16777216);
-            viewHolder.patientNameAge.setTypeface(viewHolder.patientNameAge.getTypeface(), View.VISIBLE);
+            viewHolder.patientNameAge.setTypeface(viewHolder.patientNameAge.getTypeface(), Typeface.NORMAL);
             this.imageRenderHelper.refreshProfileImage(pc.getCaseId(), viewHolder.profile, org.smartregister.family.util.Utils.getMemberProfileImageResourceIDentifier(entityType));
             viewHolder.nextArrow.setVisibility(View.VISIBLE);
         }
@@ -173,6 +188,14 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
 //            android.view.View nextArrow = viewHolder.nextArrow;
 //            nextArrow.setClickable(false);
 //        }
+       if(gender_key.equalsIgnoreCase("F")){
+           int age = FormApplicability.getAge(pc);
+           if (updateAsyncTask == null) {
+               new UpdateAsyncTask(viewHolder).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,baseEntityId,age+"");
+           }
+
+       }
+
 
     }
     private void attachNextArrowOnclickListener(android.view.View view, SmartRegisterClient client) {
@@ -208,6 +231,34 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
             }
         }
 
+    }
+    private class UpdateAsyncTask extends AsyncTask<String, Boolean, Boolean> {
+        private final FamilyMemberRegisterProvider.RegisterViewHolder viewHolder;
+
+        private UpdateAsyncTask(FamilyMemberRegisterProvider.RegisterViewHolder viewHolder) {
+            this.viewHolder = viewHolder;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            boolean isPragnent = FormApplicability.isPragnent(params[0],Integer.parseInt(params[1]));
+
+            return isPragnent;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean param) {
+            updatePragnencyIcons(viewHolder, param);
+        }
+    }
+
+    private void updatePragnencyIcons(RegisterViewHolder viewHolder, Boolean param) {
+        if(param!=null && param.booleanValue() == true){
+            viewHolder.nextArrow.setVisibility(View.VISIBLE);
+            viewHolder.nextArrow.setImageResource(R.mipmap.ic_anc_pink);
+        }else{
+            viewHolder.nextArrow.setVisibility(View.GONE);
+        }
     }
 
 }

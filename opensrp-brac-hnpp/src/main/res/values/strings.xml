@@ -60,6 +60,7 @@
     <string name="saving">সংরক্ষণ হচ্ছে ...</string>
     <string name="phone_no">মোবাইল নম্বর : %s</string>
     <string name="ss_name"><br>সেবিকা :</br> %s</string>
+    <string name="serial_no"><br>খানা সিরিয়াল :</br> %s</string>
     <string name="name"><br>নাম :</br> %s</string>
     <string name="search_name_or_id">নাম বা আইডি দ্বারা অনুসন্ধান করুন</string>
     <string name="home">হোম</string>

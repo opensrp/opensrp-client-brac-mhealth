@@ -71,9 +71,26 @@ public class HnppChildRegisterProvider extends CoreChildRegisterProvider {
         }else{
             fillValue(viewHolder.textViewChildName, WordUtils.capitalize(parentName));
         }
+
         String dobString = Utils.getDuration(Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.DOB, false));
         //dobString = dobString.contains("y") ? dobString.substring(0, dobString.indexOf("y")) : dobString;
         fillValue(viewHolder.textViewParentName, WordUtils.capitalize(childName) + " " + context.getResources().getString(org.smartregister.chw.core.R.string.age, WordUtils.capitalize(Utils.getTranslatedDate(dobString, context))));
+        String serialNo = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.SERIAL_NO, true);
+//        if(!TextUtils.isEmpty(serialNo) && serialNo.length() > 2){
+//            serialNo = serialNo.substring(0,1)+"-"+serialNo.substring(1);
+//        }else
+        if(serialNo.isEmpty() || serialNo.equalsIgnoreCase("H")){
+            serialNo="";
+        }
+        if(!TextUtils.isEmpty(serialNo)){
+            viewHolder.textViewParentName.setText(viewHolder.textViewParentName.getText()+", "+context.getString(R.string.serial_no,serialNo));
+
+        }
+        String ssName = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.SS_NAME, true);
+        if(!TextUtils.isEmpty(ssName)){
+            viewHolder.textViewChildName.setText(viewHolder.textViewChildName.getText()+", "+context.getString(R.string.ss_name,ssName));
+
+        }
         viewHolder.profileImage.setVisibility(View.VISIBLE);
         viewHolder.profileImage.setImageResource(org.smartregister.family.R.mipmap.ic_child);
         viewHolder.textViewAddressGender.setTextColor(ContextCompat.getColor(context, android.R.color.black));

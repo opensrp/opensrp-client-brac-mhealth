@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
 import org.jeasy.rules.api.Rules;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
@@ -116,7 +117,9 @@ public class HnppFamilyDueRegisterProvider implements RecyclerViewProvider<HnppF
         }
         fillValue(viewHolder.patientNameAge, patientName);
         viewHolder.lastVisit.setVisibility(View.VISIBLE);
-        viewHolder.lastVisit.setText(context.getString(R.string.age,dobString) );
+        String ageStr = WordUtils.capitalize(org.smartregister.family.util.Utils.getTranslatedDate(dob, context));
+
+        viewHolder.lastVisit.setText(context.getString(R.string.age,ageStr) );
         // Update UI cutoffs
         viewHolder.patientNameAge.setTextSize(TypedValue.COMPLEX_UNIT_PX, context.getResources().getDimensionPixelSize(R.dimen.member_due_list_title_size));
 

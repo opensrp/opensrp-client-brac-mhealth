@@ -61,6 +61,7 @@
       {
         "key": "is_delay",
         "openmrs_entity_parent": "",
+        "openmrs_data_type": "text",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "is_delay",
         "type": "hidden"

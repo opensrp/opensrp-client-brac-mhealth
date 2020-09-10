@@ -187,15 +187,11 @@ public class VisitLogIntentService extends IntentService {
                                         || ANC3_REGISTRATION.equalsIgnoreCase(encounter_type)){
                                     if(details.containsKey("brac_anc") && !StringUtils.isEmpty(details.get("brac_anc"))){
                                         String ancValue = details.get("brac_anc");
-                                        Log.v("BRAC_ANC","ancValue:"+ancValue);
                                         String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(base_entity_id+"_BRAC_ANC");
-                                        Log.v("BRAC_ANC","prevalue:"+prevalue);
                                         if(!TextUtils.isEmpty(prevalue)){
                                             int lastValue = Integer.parseInt(prevalue);
                                             int ancValueInt = Integer.parseInt(ancValue);
-                                            Log.v("BRAC_ANC","lastValue:"+lastValue+":ancValueInt:"+ancValueInt);
                                             if(ancValueInt >= lastValue){
-                                                Log.v("BRAC_ANC","updated ancValueInt:"+ancValueInt);
 
                                                 FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",(ancValueInt+1)+"");
                                             }
@@ -224,6 +220,18 @@ public class VisitLogIntentService extends IntentService {
                                         if(!TextUtils.isEmpty(ancValue)){
                                             int count = Integer.parseInt(ancValue);
                                             FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_TOTAL_ANC",count+"");
+
+                                        }
+                                    }
+                                    if(details.containsKey("is_delay") && !StringUtils.isEmpty(details.get("is_delay"))){
+                                        String is_delay = details.get("is_delay");
+                                        if(!TextUtils.isEmpty(is_delay)){
+                                            String isDelay = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(base_entity_id+"_IS_DELAY");
+                                            if(TextUtils.isEmpty(isDelay)){
+                                                FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_IS_DELAY",is_delay);
+                                                FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(visit.getVisitId()+"_IS_DELAY",is_delay);
+
+                                            }
 
                                         }
                                     }

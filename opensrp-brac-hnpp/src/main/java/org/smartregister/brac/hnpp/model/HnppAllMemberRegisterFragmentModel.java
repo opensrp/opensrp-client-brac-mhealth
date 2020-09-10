@@ -34,6 +34,8 @@ public class HnppAllMemberRegisterFragmentModel extends CoreChildRegisterFragmen
         columnList.add(familyMemberTable + "." + DBConstants.KEY.UNIQUE_ID);
         columnList.add(familyMemberTable + "." + DBConstants.KEY.GENDER);
         columnList.add(familyMemberTable + "." + DBConstants.KEY.DOB);
+        columnList.add(familyTable+ "." + HnppConstants.KEY.SS_NAME);
+        columnList.add(familyTable + "." + HnppConstants.KEY.SERIAL_NO);
         columnList.add(familyTable + "." + DBConstants.KEY.UNIQUE_ID + " as " + HnppConstants.KEY.HOUSE_HOLD_ID);
         columnList.add(familyTable + "." + DBConstants.KEY.FIRST_NAME + " as " + HnppConstants.KEY.HOUSE_HOLD_NAME);
         columnList.add(familyTable+ "." + HnppConstants.KEY.MODULE_ID);
