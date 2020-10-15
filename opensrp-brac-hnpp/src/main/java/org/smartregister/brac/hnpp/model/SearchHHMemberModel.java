@@ -127,9 +127,8 @@ public class SearchHHMemberModel {
                 hhMemberProperty.setId(id.length() > HnppConstants.MEMBER_ID_SUFFIX?id.substring(id.length() - HnppConstants.MEMBER_ID_SUFFIX):id);
                 hhMemberProperty.setBaseEntityId(cursor.getString(cursor.getColumnIndex("base_entity_id")));
                 String dobString = Utils.getDuration(cursor.getString(cursor.getColumnIndex("dob")));
-                String ageStr = WordUtils.capitalize(org.smartregister.family.util.Utils.getTranslatedDate(dobString, HnppApplication.getHNPPInstance()));
 
-                hhMemberProperty.setAge(ageStr);
+                hhMemberProperty.setAge(dobString);
                 adoArrayList.add(hhMemberProperty);
                 cursor.moveToNext();
             }

@@ -131,8 +131,8 @@ public class HnppDBUtils extends CoreChildUtils {
         }
         return birthWeight;
     }
-    public static int getCoutByFingerPrint(){
-        String query = "select count(*) from ec_family_member where gu_id IS NOT NULL and gu_id !='test'";
+    public static int getCoutByFingerPrint(String startTime, String endTime){
+        String query = "select count(*) from ec_family_member where gu_id IS NOT NULL and gu_id !='test' and strftime('%Y-%m-%d', datetime((last_interacted_with)/1000,'unixepoch') ) BETWEEN '"+startTime+"' AND '"+endTime+"'";
         Cursor cursor = null;
         int count=0;
         try {
@@ -151,7 +151,7 @@ public class HnppDBUtils extends CoreChildUtils {
     }
 
     public static String[] getBaseEntityByGuId(String guid){
-        String query = "select ec_family_member.base_entity_id,ec_family_member.first_name,ec_family_member.unique_id,ec_family.first_name,ec_family_member.dob,ec_family_member. from ec_family_member LEFT JOIN ec_family ON  ec_family_member.relational_id = ec_family.id COLLATE NOCASE  where ec_family_member.gu_id = '"+guid+"'";
+        String query = "select ec_family_member.base_entity_id,ec_family_member.first_name,ec_family_member.unique_id,ec_family.first_name,ec_family_member.dob from ec_family_member LEFT JOIN ec_family ON  ec_family_member.relational_id = ec_family.id COLLATE NOCASE  where ec_family_member.gu_id = '"+guid+"'";
         Cursor cursor = null;
         String[] strings = new String[5];
         try {

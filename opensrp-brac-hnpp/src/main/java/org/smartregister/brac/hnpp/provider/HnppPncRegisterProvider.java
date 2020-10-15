@@ -51,14 +51,7 @@ public class HnppPncRegisterProvider extends PncRegisterProvider {
         CommonPersonObjectClient pc = (CommonPersonObjectClient) client;
         String patientName = Utils.getValue(pc.getColumnmaps(), "first_name", true);
 
-        // calculate LMP
-        String dobString = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.DOB, false);
-        if(StringUtils.isNotBlank(dobString)){
-            String ageStr = WordUtils.capitalize(org.smartregister.family.util.Utils.getTranslatedDate(dobString, context));
 
-            String patientNameAge = MessageFormat.format("{0},{1}: {2}", patientName,context.getString(R.string.boyos), ageStr);
-            viewHolder.patientNameAndAge.setText(patientNameAge);
-        }
         String serialNo = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.SERIAL_NO, true);
         if(serialNo.isEmpty() || serialNo.equalsIgnoreCase("H")){
             serialNo="";

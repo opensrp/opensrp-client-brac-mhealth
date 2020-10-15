@@ -117,9 +117,8 @@ public class HnppFamilyDueRegisterProvider implements RecyclerViewProvider<HnppF
         }
         fillValue(viewHolder.patientNameAge, patientName);
         viewHolder.lastVisit.setVisibility(View.VISIBLE);
-        String ageStr = WordUtils.capitalize(org.smartregister.family.util.Utils.getTranslatedDate(dob, context));
 
-        viewHolder.lastVisit.setText(context.getString(R.string.age,ageStr) );
+        viewHolder.lastVisit.setText(context.getString(R.string.age,dobString) );
         // Update UI cutoffs
         viewHolder.patientNameAge.setTextSize(TypedValue.COMPLEX_UNIT_PX, context.getResources().getDimensionPixelSize(R.dimen.member_due_list_title_size));
 

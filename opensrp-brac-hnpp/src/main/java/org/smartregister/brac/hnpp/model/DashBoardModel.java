@@ -68,7 +68,7 @@ public class DashBoardModel implements DashBoardContract.Model {
                 cursor.close();
 
             }
-            int countSimprints = HnppDBUtils.getCoutByFingerPrint();
+            int countSimprints = HnppDBUtils.getCoutByFingerPrint(fromDate,todate);
             if(countSimprints>0){
                 DashBoardData dashBoardData1 = new DashBoardData();
                 dashBoardData1.setCount(countSimprints);

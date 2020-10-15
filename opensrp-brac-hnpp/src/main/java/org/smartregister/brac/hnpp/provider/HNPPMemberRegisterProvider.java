@@ -128,9 +128,6 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
             viewHolder.profile.setImageResource(org.smartregister.family.util.Utils.getMemberProfileImageResourceIDentifier(entityType));
             viewHolder.nextArrow.setVisibility(View.GONE);
         } else {
-            String ageStr = WordUtils.capitalize(org.smartregister.family.util.Utils.getTranslatedDate(dob, context));
-
-            patientName = patientName + "\n" + ageStr;
 
             viewHolder.patientNameAge.setFontVariant(FontVariant.REGULAR);
             viewHolder.patientNameAge.setTextColor(-16777216);

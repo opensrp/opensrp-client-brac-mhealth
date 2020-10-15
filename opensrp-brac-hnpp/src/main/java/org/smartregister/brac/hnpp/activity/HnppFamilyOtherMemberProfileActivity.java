@@ -167,9 +167,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
        try{
            String[] str = fullName.split(",");
            this.textViewName.setText(str[0]);
-           String dobString = org.smartregister.family.util.Utils.getDuration(org.smartregister.family.util.Utils.getValue(commonPersonObject.getColumnmaps(), DBConstants.KEY.DOB, false));
-           String ageStr = WordUtils.capitalize(org.smartregister.family.util.Utils.getTranslatedDate(dobString, this));
-           this.textViewAge.setText(getString(R.string.age,ageStr));
+           this.textViewAge.setText(getString(R.string.age,str[1]));
 
        }catch (Exception e){
 
