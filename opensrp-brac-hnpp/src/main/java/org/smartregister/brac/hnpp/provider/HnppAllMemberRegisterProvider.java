@@ -9,6 +9,7 @@ import android.view.View;
 import org.apache.commons.lang3.text.WordUtils;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.chw.core.holders.RegisterViewHolder;
 import org.smartregister.chw.core.provider.CoreChildRegisterProvider;
 import org.smartregister.chw.core.task.UpdateLastAsyncTask;
@@ -89,6 +90,12 @@ public class HnppAllMemberRegisterProvider extends CoreChildRegisterProvider {
         viewHolder.profileImage.setImageResource(org.smartregister.family.util.Utils.getMemberProfileImageResourceIDentifier(entityType));
         viewHolder.textViewAddressGender.setTextColor(ContextCompat.getColor(context, android.R.color.black));
         addButtonClickListeners(client, viewHolder);
+        String baseEntityId = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.BASE_ENTITY_ID, false);
+        if(HnppDBUtils.isRiskAll(baseEntityId)){
+            viewHolder.riskView.setVisibility(View.VISIBLE);
+        }else{
+            viewHolder.riskView.setVisibility(View.GONE);
+        }
 
     }
 

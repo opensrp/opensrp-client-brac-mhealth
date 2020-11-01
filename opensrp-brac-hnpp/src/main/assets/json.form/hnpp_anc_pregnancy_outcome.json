@@ -749,10 +749,6 @@
           "value": "true",
           "err": "নাম লিখুন"
         },
-        "v_regex": {
-          "value": "^[\\.\\- ]*",
-          "err": "একটি বৈধ নাম লিখুন"
-        },
         "calculation": {
           "rules-engine": {
             "ex-rules": {

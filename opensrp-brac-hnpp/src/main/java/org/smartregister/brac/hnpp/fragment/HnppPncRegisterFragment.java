@@ -369,7 +369,7 @@ public class HnppPncRegisterFragment extends BasePncRegisterFragment implements 
         }
     }
 
-    private String getCondition() {
+    protected String getCondition() {
         return " " + HnppConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.DATE_REMOVED + " is null " +
                 "AND " + HnppConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME + "." + DBConstants.KEY.IS_CLOSED + " is 0 " +
                 "AND " + HnppConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.IS_CLOSED + " = '0' ";

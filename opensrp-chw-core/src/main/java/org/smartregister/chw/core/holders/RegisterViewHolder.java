@@ -19,6 +19,7 @@ public class RegisterViewHolder extends RecyclerView.ViewHolder {
     public ImageView goToProfileImage;
     public ImageView profileImage;
     public View goToProfileLayout;
+    public TextView riskView;
 
     public RegisterViewHolder(View itemView) {
         super(itemView);
@@ -33,5 +34,6 @@ public class RegisterViewHolder extends RecyclerView.ViewHolder {
         profileImage = itemView.findViewById(R.id.profile_img);
         profileImage.setVisibility(View.GONE);
         childColumn = itemView.findViewById(R.id.child_column);
+        riskView = itemView.findViewById(R.id.risk_view);
     }
 }

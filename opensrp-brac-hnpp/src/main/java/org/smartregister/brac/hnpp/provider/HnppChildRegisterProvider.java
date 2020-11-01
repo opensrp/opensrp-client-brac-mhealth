@@ -8,6 +8,7 @@ import android.view.View;
 
 import org.apache.commons.lang3.text.WordUtils;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.utils.HnppDBConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.core.holders.RegisterViewHolder;
@@ -98,6 +99,13 @@ public class HnppChildRegisterProvider extends CoreChildRegisterProvider {
         setAddressAndGender(pc, viewHolder);
 
         addButtonClickListeners(client, viewHolder);
+        String baseEntityId = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.BASE_ENTITY_ID, false);
+
+        if(HnppDBUtils.childRisk(baseEntityId)){
+            viewHolder.riskView.setVisibility(View.VISIBLE);
+        }else{
+            viewHolder.riskView.setVisibility(View.GONE);
+        }
 
     }
 

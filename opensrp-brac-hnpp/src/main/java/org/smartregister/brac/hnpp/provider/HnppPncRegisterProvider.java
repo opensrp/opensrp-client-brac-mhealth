@@ -4,14 +4,19 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.jeasy.rules.api.Rules;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.util.DBConstants;
@@ -45,11 +50,19 @@ public class HnppPncRegisterProvider extends PncRegisterProvider {
     }
 
     @Override
-    public void getView(Cursor cursor, SmartRegisterClient client, RegisterViewHolder viewHolder) {
-        super.getView(cursor, client, viewHolder);
+    public RegisterViewHolder createViewHolder(ViewGroup parent) {
+        View view = LayoutInflater.from(context).inflate(R.layout.pnc_register_list_row, parent, false);
+        return new HnppPncRegisterViewHolder(view);
+    }
+
+    @Override
+    public void getView(Cursor cursor, SmartRegisterClient client, RegisterViewHolder viewHolder1) {
+        super.getView(cursor, client, new HnppPncRegisterViewHolder(viewHolder1.itemView));
+        HnppPncRegisterViewHolder viewHolder = (HnppPncRegisterViewHolder) viewHolder1;
 
         CommonPersonObjectClient pc = (CommonPersonObjectClient) client;
-        String patientName = Utils.getValue(pc.getColumnmaps(), "first_name", true);
+        String baseEntityId = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.BASE_ENTITY_ID, false);
+
 
 
         String serialNo = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.SERIAL_NO, true);
@@ -65,6 +78,19 @@ public class HnppPncRegisterProvider extends PncRegisterProvider {
         viewHolder.dueButton.setVisibility(View.GONE);
         viewHolder.dueButton.setOnClickListener(null);
         Utils.startAsyncTask(new UpdateAsyncTask(context, viewHolder, pc), null);
+        if(HnppDBUtils.isRisk(baseEntityId, HnppConstants.EVENT_TYPE.PNC_REGISTRATION)){
+            viewHolder.riskView.setVisibility(View.VISIBLE);
+        }else{
+            viewHolder.riskView.setVisibility(View.GONE);
+        }
+    }
+    public class HnppPncRegisterViewHolder extends PncRegisterProvider.RegisterViewHolder{
+        public TextView riskView,eddView;
+        public HnppPncRegisterViewHolder(View itemView) {
+            super(itemView);
+            riskView = itemView.findViewById(R.id.risk_view);
+            eddView = itemView.findViewById(R.id.edd_view);
+        }
     }
 
     private void updateDueColumn(Context context, RegisterViewHolder viewHolder, PncVisitAlertRule pncVisitAlertRule) {

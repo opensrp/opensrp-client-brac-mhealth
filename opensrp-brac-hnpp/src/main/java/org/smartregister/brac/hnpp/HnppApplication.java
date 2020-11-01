@@ -21,8 +21,12 @@ import org.smartregister.brac.hnpp.activity.HNPPJsonFormActivity;
 import org.smartregister.brac.hnpp.activity.HNPPMemberJsonFormActivity;
 import org.smartregister.brac.hnpp.activity.HnppAllMemberRegisterActivity;
 import org.smartregister.brac.hnpp.activity.HnppAncRegisterActivity;
+import org.smartregister.brac.hnpp.activity.HnppAncRiskRegisterActivity;
+import org.smartregister.brac.hnpp.activity.HnppChildRiskRegisterActivity;
 import org.smartregister.brac.hnpp.activity.HnppElcoMemberRegisterActivity;
+import org.smartregister.brac.hnpp.activity.HnppElcoRiskRegisterActivity;
 import org.smartregister.brac.hnpp.activity.HnppPncRegisterActivity;
+import org.smartregister.brac.hnpp.activity.HnppPncRiskRegisterActivity;
 import org.smartregister.brac.hnpp.activity.SSInfoActivity;
 import org.smartregister.brac.hnpp.activity.SimprintsIdentityActivity;
 import org.smartregister.brac.hnpp.custom_view.HnppNavigationTopView;
@@ -33,6 +37,7 @@ import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.presenter.HnppNavigationPresenter;
 import org.smartregister.brac.hnpp.repository.HnppChwRepository;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
+import org.smartregister.brac.hnpp.repository.RiskDetailsRepository;
 import org.smartregister.brac.hnpp.repository.SSLocationRepository;
 import org.smartregister.brac.hnpp.repository.HouseholdIdRepository;
 import org.smartregister.brac.hnpp.sync.HnppClientProcessor;
@@ -83,6 +88,7 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
     private HouseholdIdRepository householdIdRepository;
     private HnppVisitLogRepository hnppVisitLogRepository;
     private static SSLocationRepository locationRepository;
+    private static RiskDetailsRepository riskDetailsRepository;
     private static CommonFtsObject commonFtsObject = null;
     private EventClientRepository eventClientRepository;
     @Override
@@ -225,7 +231,10 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.REFERRALS_REGISTER_ACTIVITY, ReferralRegisterActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.MALARIA_REGISTER_ACTIVITY, FamilyRegisterActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.FORUM_ACTIVITY, ForumActivity.class);
-
+        registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.ANC_RISK_REGISTER_ACTIVITY, HnppAncRiskRegisterActivity.class);
+        registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.PNC_RISK_REGISTER_ACTIVITY, HnppPncRiskRegisterActivity.class);
+        registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.ELCO_RISK_REGISTER_ACTIVITY, HnppElcoRiskRegisterActivity.class);
+        registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.CHILD_RISK_REGISTER_ACTIVITY, HnppChildRiskRegisterActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.SS_INFO_ACTIVITY, SSInfoActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.SIMPRINTS_REGISTER_ACTIVITY, SimprintsIdentityActivity.class);
 
@@ -264,7 +273,12 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
         }
         return locationRepository;
     }
-
+    public static RiskDetailsRepository getRiskDetailsRepository() {
+        if ( riskDetailsRepository == null) {
+            riskDetailsRepository = new RiskDetailsRepository(getInstance().getRepository());
+        }
+        return riskDetailsRepository;
+    }
     public void setOpenSRPUrl() {
         AllSharedPreferences preferences = Utils.getAllSharedPreferences();
         boolean isRelease = HnppConstants.isReleaseBuild();

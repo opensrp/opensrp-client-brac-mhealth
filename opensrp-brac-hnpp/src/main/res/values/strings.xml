@@ -14,6 +14,7 @@
     <string name="menu_all_families">খানার তালিকা</string>
     <string name="menu_elco_clients">সক্ষম দম্পতি</string>
     <string name="menu_anc_clients">গর্ভবতী মায়ের তালিকা</string>
+   <string name="menu_anc_risk_clients">ঝুঁকিপূর্ণ ও জরুরী</string>
     <string name="menu_pnc_clients">প্রসূতি মায়ের তালিকা</string>
     <string name="menu_child_clients">শিশু তালিকা</string>
     <string name="menu_all_member">সব সদস্য তালিকা</string>
@@ -88,7 +89,7 @@
     <string name="care_giver_initials">মায়ের নাম :  %s</string>
     <string name="age">বয়স :  %s</string>
     <string name="house_hold_head_name">খানা প্রধানের নাম :  %s</string>
-    <string name="child_register_title">শিশু ক্লায়েন্ট</string>
+    <string name="child_register_title">শিশু তালিকা</string>
     <string name="edit_child_form_title">এডিট ৫ বছরের কম বয়সী শিশু</string>
     <string name="log_out_as">লগ আউট : </string>
     <string name="nav_sync">সিঙ্ক</string>

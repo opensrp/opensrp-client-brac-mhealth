@@ -119,6 +119,22 @@
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
+            android:name="org.smartregister.brac.hnpp.activity.HnppAncRiskRegisterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar" />
+        <activity
+            android:name="org.smartregister.brac.hnpp.activity.HnppElcoRiskRegisterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar" />
+        <activity
+            android:name="org.smartregister.brac.hnpp.activity.HnppChildRiskRegisterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar" />
+        <activity
+            android:name="org.smartregister.brac.hnpp.activity.HnppPncRiskRegisterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar" />
+        <activity
             android:name="org.smartregister.brac.hnpp.activity.AncMemberProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />

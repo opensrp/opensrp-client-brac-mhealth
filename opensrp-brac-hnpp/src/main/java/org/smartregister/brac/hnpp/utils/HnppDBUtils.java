@@ -54,6 +54,28 @@ public class HnppDBUtils extends CoreChildUtils {
 
         }
     }
+    public static void updateIsRiskFamilyMember(String base_entity_id, String value, String eventType){
+        try{
+            SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+            String sql = "update ec_family_member set is_risk = '"+value+"', risk_event_type ='"+eventType+"' where " +
+                    "base_entity_id = '"+base_entity_id+"' ;";
+            database.execSQL(sql);
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
+    }
+    public static void updateIsRiskChild(String base_entity_id, String value){
+        try{
+            SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+            String sql = "update ec_child set is_risk = '"+value+"' where " +
+                    "base_entity_id = '"+base_entity_id+"' ;";
+            database.execSQL(sql);
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
+    }
 
     public static ArrayList<ForumDetails> getPreviousForum(){
         String query = "select * from ec_visit_log where event_type ='"+HnppConstants.EVENT_TYPE.FORUM_CHILD+"' OR event_type = '"+HnppConstants.EVENT_TYPE.FORUM_ADO+"'" +
@@ -130,6 +152,81 @@ public class HnppDBUtils extends CoreChildUtils {
             Timber.e(e);
         }
         return birthWeight;
+    }
+    public static boolean isRisk(String baseEntityId, String eventType){
+
+        String query = "select count(*) from ec_family_member where base_entity_id = '"+baseEntityId+"' and is_risk ='true' and risk_event_type ='"+ eventType+"'";
+        Cursor cursor = null;
+        int count=0;
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                count = cursor.getInt(0);
+                cursor.close();
+            }
+
+            return count>0;
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return count>0;
+    }
+    public static boolean isRiskAll(String baseEntityId){
+
+        String query = "select count(*) from ec_family_member where base_entity_id = '"+baseEntityId+"' and is_risk ='true'";
+        Cursor cursor = null;
+        int count=0;
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                count = cursor.getInt(0);
+                cursor.close();
+            }
+
+            return count>0;
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return count>0;
+    }
+    public static boolean childRisk(String baseEntityId){
+
+        String query = "select count(*) from ec_child where base_entity_id = '"+baseEntityId+"' and is_risk ='true'";
+        Cursor cursor = null;
+        int count=0;
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                count = cursor.getInt(0);
+                cursor.close();
+            }
+
+            return count>0;
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return count>0;
+    }
+    public static boolean isAncRisk(String baseEntityId){
+        String query = "select count(*) from ec_family_member where base_entity_id = '"+baseEntityId+"' and is_risk ='true' and (risk_event_type ='"+ HnppConstants.EVENT_TYPE.ANC_REGISTRATION +"' OR risk_event_type ='"+ HnppConstants.EVENT_TYPE.ANC1_REGISTRATION +"' OR risk_event_type ='"+ HnppConstants.EVENT_TYPE.ANC2_REGISTRATION +"' OR risk_event_type ='"+ HnppConstants.EVENT_TYPE.ANC3_REGISTRATION +"' OR risk_event_type ='"+ HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY +"' OR risk_event_type ='"+ HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE +"')";
+        Cursor cursor = null;
+        int count=0;
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                count = cursor.getInt(0);
+                cursor.close();
+            }
+
+            return count>0;
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return count>0;
     }
     public static int getCoutByFingerPrint(String startTime, String endTime){
         String query = "select count(*) from ec_family_member where gu_id IS NOT NULL and gu_id !='test' and strftime('%Y-%m-%d', datetime((last_interacted_with)/1000,'unixepoch') ) BETWEEN '"+startTime+"' AND '"+endTime+"'";

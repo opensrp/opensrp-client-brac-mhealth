@@ -9,7 +9,7 @@ import org.smartregister.chw.core.R;
 import org.smartregister.chw.core.adapter.NavigationAdapter;
 import org.smartregister.chw.core.utils.CoreConstants;
 
-public class NavigationListener implements View.OnClickListener {
+public class NavigationListener implements View.OnClickListener,NavigationSubMenu {
 
     private Activity activity;
     private NavigationAdapter navigationAdapter;
@@ -18,6 +18,11 @@ public class NavigationListener implements View.OnClickListener {
 
         this.navigationAdapter = adapter;
         this.activity = activity;
+    }
+
+    @Override
+    public void onClickSubMenu(String v) {
+
     }
 
     @Override

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.smartregister.chw.core.R;
@@ -24,7 +25,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.My
 
     private List<NavigationOption> navigationOptionList;
     private String selectedView = CoreConstants.DrawerMenu.ALL_FAMILIES;
-    private View.OnClickListener onClickListener;
+    private NavigationListener onClickListener;
     private Context context;
     private Map<String, Class> registeredActivities;
 
@@ -83,6 +84,36 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.My
             holder.tvName.setTextColor(Color.WHITE);
             holder.ivIcon.setImageResource(model.getResourceID());
         }
+        if(model.isNeedToExpand()){
+            holder.expandIcon.setVisibility(View.VISIBLE);
+            holder.sTvName.setText(model.getNavigationSubModel().getSubTitle());
+            holder.sTvCount.setText(model.getNavigationSubModel().getSubCount()+"");
+            boolean expanded = model.isExpanded();
+
+            holder.subLayout.setVisibility(expanded ? View.VISIBLE : View.GONE);
+            holder.expandIcon.setImageResource(expanded? R.drawable.ic_less : R.drawable.ic_more);
+            holder.expandIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    boolean expanded = model.isExpanded();
+                    model.setExpanded(!expanded);
+                    notifyItemChanged(holder.getAdapterPosition());
+
+                }
+            });
+            holder.subLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClickListener.onClickSubMenu(model.getNavigationSubModel().getType());
+                }
+            });
+
+        }else{
+            holder.expandIcon.setVisibility(View.INVISIBLE);
+            holder.subLayout.setVisibility(View.GONE);
+        }
+
+
     }
 
     @Override
@@ -95,22 +126,25 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.My
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvName, tvCount;
-        public ImageView ivIcon;
+        public TextView tvName, tvCount,sTvName, sTvCount;
+        public RelativeLayout subLayout;
+        public ImageView ivIcon,expandIcon;
 
         private View myView;
 
         private MyViewHolder(View view) {
             super(view);
+            subLayout = view.findViewById(R.id.sub_item_panel);
             tvName = view.findViewById(R.id.tvName);
             tvCount = view.findViewById(R.id.tvCount);
             ivIcon = view.findViewById(R.id.ivIcon);
-
-            if (onClickListener != null) {
-                view.setOnClickListener(onClickListener);
-            }
-
+            expandIcon = view.findViewById(R.id.expandBtn);
+            sTvName = view.findViewById(R.id.stvName);
+            sTvCount = view.findViewById(R.id.stvCount);
             myView = view;
+            if (onClickListener != null) {
+                myView.setOnClickListener(onClickListener);
+            }
         }
 
         public View getView() {
