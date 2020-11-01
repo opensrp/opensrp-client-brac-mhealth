@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
@@ -12,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 import org.joda.time.Years;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.chw.anc.fragment.BaseAncRegisterFragment;
 import org.smartregister.chw.anc.provider.AncRegisterProvider;
 import org.smartregister.chw.anc.util.DBConstants;
@@ -39,7 +41,8 @@ public class HnppAncRegisterProvider extends ChwAncRegisterProvider {
     }
 
     @Override
-    protected void populatePatientColumn(@NotNull CommonPersonObjectClient pc, SmartRegisterClient client, @NotNull final AncRegisterProvider.RegisterViewHolder viewHolder) {
+    protected void populatePatientColumn(@NotNull CommonPersonObjectClient pc, SmartRegisterClient client, @NotNull final AncRegisterProvider.RegisterViewHolder viewHolder1) {
+        HnppAncRegisterViewHolder viewHolder = (HnppAncRegisterViewHolder)viewHolder1;
         String fname = Utils.getName(
                 Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.FIRST_NAME, true),
                 Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.MIDDLE_NAME, true)
@@ -89,11 +92,30 @@ public class HnppAncRegisterProvider extends ChwAncRegisterProvider {
 
         viewHolder.registerColumns.setOnClickListener(v -> viewHolder.patientColumn.performClick());
         viewHolder.dueWrapper.setOnClickListener(v -> viewHolder.dueButton.performClick());
+        String baseEntityId = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.BASE_ENTITY_ID, false);
+        if(HnppDBUtils.isAncRisk(baseEntityId)){
+            viewHolder.riskView.setVisibility(View.VISIBLE);
+        }else{
+            viewHolder.riskView.setVisibility(View.GONE);
+        }
+        if(HnppConstants.isEddImportant(lmpString)){
+            viewHolder.eddView.setVisibility(View.VISIBLE);
+        }else{
+            viewHolder.eddView.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public AncRegisterProvider.RegisterViewHolder createViewHolder(ViewGroup parent) {
         View view = inflater.inflate(R.layout.anc_register_list_row, parent, false);
-        return new AncRegisterProvider.RegisterViewHolder(view);
+        return new HnppAncRegisterViewHolder(view);
+    }
+    public class HnppAncRegisterViewHolder extends AncRegisterProvider.RegisterViewHolder{
+        public TextView riskView,eddView;
+        public HnppAncRegisterViewHolder(View itemView) {
+            super(itemView);
+            riskView = itemView.findViewById(R.id.risk_view);
+            eddView = itemView.findViewById(R.id.edd_view);
+        }
     }
 }

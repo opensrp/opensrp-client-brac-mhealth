@@ -1,6 +1,7 @@
 package org.smartregister.brac.hnpp.model;
 
 import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.HnppDBConstants;
 import org.smartregister.chw.core.model.CoreChildRegisterFragmentModel;
 import org.smartregister.chw.core.utils.ChildDBConstants;
 import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
@@ -29,6 +30,7 @@ public class HnppChildRegisterFragmentModel extends CoreChildRegisterFragmentMod
         columnList.add(tableName + "." + DBConstants.KEY.BASE_ENTITY_ID);
         columnList.add(tableName + "." + DBConstants.KEY.FIRST_NAME);
         columnList.add(tableName + "." + DBConstants.KEY.MIDDLE_NAME);
+        columnList.add(familyMemberTable + "." + HnppConstants.KEY.IS_RISK);
         columnList.add(familyMemberTable + "." + DBConstants.KEY.FIRST_NAME + " as " + ChildDBConstants.KEY.FAMILY_FIRST_NAME);
         columnList.add(familyMemberTable + "." + DBConstants.KEY.LAST_NAME + " as " + ChildDBConstants.KEY.FAMILY_LAST_NAME);
         columnList.add(familyMemberTable + "." + DBConstants.KEY.MIDDLE_NAME + " as " + ChildDBConstants.KEY.FAMILY_MIDDLE_NAME);

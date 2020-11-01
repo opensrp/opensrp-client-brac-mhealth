@@ -12,8 +12,10 @@ import android.view.View;
 import com.google.common.collect.ImmutableMap;
 
 import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import org.joda.time.Months;
+import org.joda.time.format.DateTimeFormat;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.BuildConfig;
@@ -27,6 +29,7 @@ import org.smartregister.repository.AllSharedPreferences;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
@@ -69,6 +72,14 @@ public class HnppConstants extends CoreConstants {
         public static final int TYPE_GIRL_PACKAGE = 2;
         public static final int TYPE_NCD = 3;
         public static final int TYPE_IYCF = 4;
+    }
+    public static boolean isEddImportant(String lmp){
+        DateTime lmpDate = DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(lmp);
+
+        LocalDate lastMenstrualPeriod = new LocalDate(lmpDate);
+        LocalDate expectedDeliveryDate = lastMenstrualPeriod.plusDays(280);
+        int dayDiff = Days.daysBetween(lastMenstrualPeriod, expectedDeliveryDate).getDays();
+        return dayDiff <=30;
     }
 
     public static String getHomeVisitStatus(long lastHomeVisit , String dateCreatedStr){
@@ -239,6 +250,7 @@ public class HnppConstants extends CoreConstants {
         public static final String HOUSE_HOLD_ID = "house_hold_id";
         public static final String HOUSE_HOLD_NAME = "house_hold_name";
         public static final String SS_NAME = "ss_name";
+        public static final String IS_RISK = "is_risk";
         public static final String SERIAL_NO = "serial_no";
         public static final String CHILD_MOTHER_NAME_REGISTERED = "mother_name";
         public static final String CHILD_MOTHER_NAME = "Mother_Guardian_First_Name_english";

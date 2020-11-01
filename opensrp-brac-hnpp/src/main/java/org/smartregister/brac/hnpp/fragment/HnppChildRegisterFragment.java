@@ -76,14 +76,10 @@ public class HnppChildRegisterFragment extends CoreChildRegisterFragment impleme
 
 
     }
-    public static String childMainFilter(String mainCondition, String mainMemberCondition, String filters, String sort, int limit, int offset) {
-        return "SELECT " + CommonFtsObject.idColumn + " FROM " + CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.CHILD) + " WHERE " + CommonFtsObject.idColumn + " IN " +
-                " ( SELECT " + CommonFtsObject.idColumn + " FROM " + CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.CHILD) + " WHERE  " + mainCondition + "  AND " + CommonFtsObject.phraseColumn + HnppDBUtils.matchPhrase(filters) +
-                " UNION " +
-                " SELECT " + tableColConcat(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.CHILD), CommonFtsObject.idColumn) + " FROM " + CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.CHILD) +
-                " JOIN " + CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY) + " on " + tableColConcat(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.CHILD), CommonFtsObject.relationalIdColumn) + " = " + tableColConcat(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY), CommonFtsObject.idColumn) +
-                " WHERE  " + mainMemberCondition + " AND " + tableColConcat(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY), CommonFtsObject.phraseColumn + HnppDBUtils.matchPhrase(filters)) +
-                ")  " + orderByClause(sort) + limitClause(limit, offset);
+
+    @Override
+    protected int getToolBarTitle() {
+        return R.string.menu_child_clients;
     }
 
     @Override

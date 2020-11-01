@@ -21,6 +21,7 @@ import org.smartregister.brac.hnpp.model.HHMemberProperty;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
+import org.smartregister.brac.hnpp.utils.RiskyModel;
 import org.smartregister.brac.hnpp.utils.VisitLog;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
@@ -182,6 +183,7 @@ public class VisitLogIntentService extends IntentService {
                                     if(details.containsKey("pregnancy_test_result")&&!StringUtils.isEmpty(details.get("pregnancy_test_result"))){
                                         log.setPregnantStatus(details.get("pregnancy_test_result"));
                                     }
+                                    updateElcoRisk(base_entity_id,details);
                                 }
                                 if(ANC1_REGISTRATION.equalsIgnoreCase(encounter_type) || ANC2_REGISTRATION.equalsIgnoreCase(encounter_type)
                                         || ANC3_REGISTRATION.equalsIgnoreCase(encounter_type)){
@@ -199,6 +201,7 @@ public class VisitLogIntentService extends IntentService {
                                             FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",1+"");
                                         }
                                     }
+                                    updateAncHomeVisitRisk(encounter_type,base_entity_id,details);
                                 }
 
                                 if(PNC_REGISTRATION.equalsIgnoreCase(encounter_type)|| encounter_type.equalsIgnoreCase(CoreConstants.EventType.PNC_HOME_VISIT)){
@@ -235,11 +238,15 @@ public class VisitLogIntentService extends IntentService {
 
                                         }
                                     }
+                                    updatePncRisk(base_entity_id,details);
                                 }
                                 if(ANC_REGISTRATION.equalsIgnoreCase(encounter_type)){
                                     FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",0+"");
                                     FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_PNC",0+"");
-
+                                    updateAncRegistrationRisk(base_entity_id,details);
+                                }
+                                if(IYCF_PACKAGE.equalsIgnoreCase(encounter_type)){
+                                   updateIYCFRisk(base_entity_id,details);
                                 }
                                 if(HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)){
                                     log.setFamilyId(base_entity_id);
@@ -268,6 +275,315 @@ public class VisitLogIntentService extends IntentService {
             }
         }
         processAncregistration();
+    }
+    private void updateAncRegistrationRisk(String baseEntityId,HashMap<String,String>details){
+        if(details.containsKey("no_prev_preg") && !StringUtils.isEmpty(details.get("no_prev_preg"))){
+            String ancValue = details.get("no_prev_preg");
+            if(!TextUtils.isEmpty(ancValue)){
+                int nP = Integer.parseInt(ancValue);
+                if (nP>4){
+                    RiskyModel riskyModel = new RiskyModel();
+                    riskyModel.riskyValue = ancValue;
+                    riskyModel.riskyKey = "no_prev_preg";
+                    riskyModel.eventType = ANC_REGISTRATION;
+                    riskyModel.baseEntityId = baseEntityId;
+                    HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+                    HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",ANC_REGISTRATION);
+                    return;
+                }
+
+            }
+        }
+        if(details.containsKey("height") && !StringUtils.isEmpty(details.get("height"))){
+            String hight = details.get("height");
+            if(!TextUtils.isEmpty(hight)){
+                int h = Integer.parseInt(hight);
+                if (h<145){
+                    RiskyModel riskyModel = new RiskyModel();
+                    riskyModel.riskyValue = hight;
+                    riskyModel.riskyKey = "height";
+                    riskyModel.eventType = ANC_REGISTRATION;
+                    riskyModel.baseEntityId = baseEntityId;
+                    HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+                    HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",ANC_REGISTRATION);
+                    return;
+                }
+
+            }
+        }
+
+    }
+    private void updateAncHomeVisitRisk(String eventType , String baseEntityId,HashMap<String,String>details){
+        if(details.containsKey("blood_pressure_systolic") && !StringUtils.isEmpty(details.get("blood_pressure_systolic"))){
+            String bps = details.get("blood_pressure_systolic");
+            if(!TextUtils.isEmpty(bps)){
+                int nBPS = Integer.parseInt(bps);
+                if(details.containsKey("blood_pressure_diastolic") && !StringUtils.isEmpty(details.get("blood_pressure_diastolic"))){
+                    String bpd = details.get("blood_pressure_diastolic");
+                    if(!TextUtils.isEmpty(bpd)) {
+                        int nBPD = Integer.parseInt(bpd);
+                        if(details.containsKey("has_edema") && !StringUtils.isEmpty(details.get("has_edema"))){
+                            String edema = details.get("has_edema");
+                            if(!TextUtils.isEmpty(edema)) {
+                                if(details.containsKey("albumin_test") && !StringUtils.isEmpty(details.get("albumin_test"))){
+                                    String albumin = details.get("albumin_test");
+                                    if(!TextUtils.isEmpty(albumin))
+                                    {
+                                        if(edema.equalsIgnoreCase("yes") && (nBPS >=120 || nBPD >= 80) && albumin.equalsIgnoreCase("yes")){
+
+                                        HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",eventType);
+
+                                        RiskyModel riskynBPSModel = new RiskyModel();
+                                        riskynBPSModel.riskyValue = bps;
+                                        riskynBPSModel.riskyKey = "blood_pressure_systolic";
+                                        riskynBPSModel.eventType = eventType;
+                                        riskynBPSModel.baseEntityId = baseEntityId;
+                                        HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
+                                        RiskyModel riskynBPDModel = new RiskyModel();
+                                        riskynBPDModel.riskyValue = bpd;
+                                        riskynBPDModel.riskyKey = "blood_pressure_diastolic";
+                                        riskynBPDModel.eventType = eventType;
+                                        riskynBPDModel.baseEntityId = baseEntityId;
+                                        HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPDModel);
+                                        RiskyModel riskyedemaModel = new RiskyModel();
+                                        riskyedemaModel.riskyValue = edema;
+                                        riskyedemaModel.riskyKey = "has_edema";
+                                        riskyedemaModel.eventType = eventType;
+                                        riskyedemaModel.baseEntityId = baseEntityId;
+                                        HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyedemaModel);
+
+                                        RiskyModel riskyalbuminModel = new RiskyModel();
+                                        riskyalbuminModel.riskyValue = albumin;
+                                        riskyalbuminModel.riskyKey = "albumin";
+                                        riskyalbuminModel.eventType = eventType;
+                                        riskyalbuminModel.baseEntityId = baseEntityId;
+                                        HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyalbuminModel);
+
+                                        }
+
+                                    }
+
+                                    }
+
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+    private void updatePncRisk(String baseEntityId,HashMap<String,String>details){
+        if(details.containsKey("excess_bleeding") && !StringUtils.isEmpty(details.get("excess_bleeding"))){
+            String eb = details.get("excess_bleeding");
+            if(!TextUtils.isEmpty(eb) && eb.equalsIgnoreCase("yes")){
+                    RiskyModel riskyModel = new RiskyModel();
+                    riskyModel.riskyValue = eb;
+                    riskyModel.riskyKey = "excess_bleeding";
+                    riskyModel.eventType = PNC_REGISTRATION;
+                    riskyModel.baseEntityId = baseEntityId;
+                    HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+                    HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",PNC_REGISTRATION);
+                    return;
+
+
+            }
+        }
+        if(details.containsKey("obsessive_compulsive_disorder") && !StringUtils.isEmpty(details.get("obsessive_compulsive_disorder"))){
+            String obs = details.get("obsessive_compulsive_disorder");
+            if(!TextUtils.isEmpty(obs) && obs.equalsIgnoreCase("yes")){
+                    RiskyModel riskyModel = new RiskyModel();
+                    riskyModel.riskyValue = obs;
+                    riskyModel.riskyKey = "obsessive_compulsive_disorder";
+                    riskyModel.eventType = PNC_REGISTRATION;
+                    riskyModel.baseEntityId = baseEntityId;
+                    HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+                    HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",PNC_REGISTRATION);
+                    return;
+
+
+            }
+        }
+
+    }
+
+    private void updateElcoRisk(String baseEntityId,HashMap<String,String>details){
+        if(details.containsKey("complications_known") && !StringUtils.isEmpty(details.get("complications_known"))){
+            String pck = details.get("complications_known");
+            if(!TextUtils.isEmpty(pck) && pck.equalsIgnoreCase("yes")){
+                RiskyModel riskyModel = new RiskyModel();
+                riskyModel.riskyValue = pck;
+                riskyModel.riskyKey = "complications_known";
+                riskyModel.eventType = ELCO;
+                riskyModel.baseEntityId = baseEntityId;
+                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",ELCO);
+                return;
+
+
+            }
+        }
+
+    }
+    private void updateIYCFRisk(String baseEntityId,HashMap<String,String>details){
+        if(details.containsKey("head_balance") && !StringUtils.isEmpty(details.get("head_balance"))){
+            String head_balance = details.get("head_balance");
+            if(!TextUtils.isEmpty(head_balance) && head_balance.equalsIgnoreCase("no")){
+                RiskyModel riskyModel = new RiskyModel();
+                riskyModel.riskyValue = head_balance;
+                riskyModel.riskyKey = "head_balance";
+                riskyModel.eventType = IYCF_PACKAGE;
+                riskyModel.baseEntityId = baseEntityId;
+                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+                HnppDBUtils.updateIsRiskChild(baseEntityId,"true");
+
+            }
+        }
+        if(details.containsKey("can_sit") && !StringUtils.isEmpty(details.get("can_sit"))){
+            String can_sit = details.get("can_sit");
+            if(!TextUtils.isEmpty(can_sit) && can_sit.equalsIgnoreCase("no")){
+                RiskyModel riskyModel = new RiskyModel();
+                riskyModel.riskyValue = can_sit;
+                riskyModel.riskyKey = "can_sit";
+                riskyModel.eventType = IYCF_PACKAGE;
+                riskyModel.baseEntityId = baseEntityId;
+                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+                HnppDBUtils.updateIsRiskChild(baseEntityId,"true");
+
+            }
+        }
+        if(details.containsKey("can_sound") && !StringUtils.isEmpty(details.get("can_sound"))){
+            String can_sound = details.get("can_sound");
+            if(!TextUtils.isEmpty(can_sound) && can_sound.equalsIgnoreCase("no")){
+                RiskyModel riskyModel = new RiskyModel();
+                riskyModel.riskyValue = can_sound;
+                riskyModel.riskyKey = "can_sound";
+                riskyModel.eventType = IYCF_PACKAGE;
+                riskyModel.baseEntityId = baseEntityId;
+                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+                HnppDBUtils.updateIsRiskChild(baseEntityId,"true");
+
+            }
+        }
+        if(details.containsKey("can_crap") && !StringUtils.isEmpty(details.get("can_crap"))){
+            String can_crap = details.get("can_crap");
+            if(!TextUtils.isEmpty(can_crap) && can_crap.equalsIgnoreCase("no")){
+                RiskyModel riskyModel = new RiskyModel();
+                riskyModel.riskyValue = can_crap;
+                riskyModel.riskyKey = "can_crap";
+                riskyModel.eventType = IYCF_PACKAGE;
+                riskyModel.baseEntityId = baseEntityId;
+                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+                HnppDBUtils.updateIsRiskChild(baseEntityId,"true");
+
+            }
+        }
+        if(details.containsKey("can_sound_baba_maa") && !StringUtils.isEmpty(details.get("can_sound_baba_maa"))){
+            String can_sound_baba_maa = details.get("can_sound_baba_maa");
+            if(!TextUtils.isEmpty(can_sound_baba_maa) && can_sound_baba_maa.equalsIgnoreCase("no")){
+                RiskyModel riskyModel = new RiskyModel();
+                riskyModel.riskyValue = can_sound_baba_maa;
+                riskyModel.riskyKey = "can_sound_baba_maa";
+                riskyModel.eventType = IYCF_PACKAGE;
+                riskyModel.baseEntityId = baseEntityId;
+                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+                HnppDBUtils.updateIsRiskChild(baseEntityId,"true");
+
+            }
+        }
+        if(details.containsKey("can_catch") && !StringUtils.isEmpty(details.get("can_catch"))){
+            String can_catch = details.get("can_catch");
+            if(!TextUtils.isEmpty(can_catch) && can_catch.equalsIgnoreCase("no")){
+                RiskyModel riskyModel = new RiskyModel();
+                riskyModel.riskyValue = can_catch;
+                riskyModel.riskyKey = "can_catch";
+                riskyModel.eventType = IYCF_PACKAGE;
+                riskyModel.baseEntityId = baseEntityId;
+                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+                HnppDBUtils.updateIsRiskChild(baseEntityId,"true");
+
+            }
+        }
+        if(details.containsKey("can_make_word") && !StringUtils.isEmpty(details.get("can_make_word"))){
+            String can_make_word = details.get("can_make_word");
+            if(!TextUtils.isEmpty(can_make_word) && can_make_word.equalsIgnoreCase("no")){
+                RiskyModel riskyModel = new RiskyModel();
+                riskyModel.riskyValue = can_make_word;
+                riskyModel.riskyKey = "can_make_word";
+                riskyModel.eventType = IYCF_PACKAGE;
+                riskyModel.baseEntityId = baseEntityId;
+                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+                HnppDBUtils.updateIsRiskChild(baseEntityId,"true");
+
+            }
+        }
+        if(details.containsKey("can_walk") && !StringUtils.isEmpty(details.get("can_walk"))){
+            String can_walk = details.get("can_walk");
+            if(!TextUtils.isEmpty(can_walk) && can_walk.equalsIgnoreCase("no")){
+                RiskyModel riskyModel = new RiskyModel();
+                riskyModel.riskyValue = can_walk;
+                riskyModel.riskyKey = "can_walk";
+                riskyModel.eventType = IYCF_PACKAGE;
+                riskyModel.baseEntityId = baseEntityId;
+                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+                HnppDBUtils.updateIsRiskChild(baseEntityId,"true");
+
+            }
+        }
+        if(details.containsKey("can_two_sound") && !StringUtils.isEmpty(details.get("can_two_sound"))){
+            String can_two_sound = details.get("can_two_sound");
+            if(!TextUtils.isEmpty(can_two_sound) && can_two_sound.equalsIgnoreCase("no")){
+                RiskyModel riskyModel = new RiskyModel();
+                riskyModel.riskyValue = can_two_sound;
+                riskyModel.riskyKey = "can_two_sound";
+                riskyModel.eventType = IYCF_PACKAGE;
+                riskyModel.baseEntityId = baseEntityId;
+                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+                HnppDBUtils.updateIsRiskChild(baseEntityId,"true");
+
+            }
+        }
+        if(details.containsKey("can_one_walk") && !StringUtils.isEmpty(details.get("can_one_walk"))){
+            String can_one_walk = details.get("can_one_walk");
+            if(!TextUtils.isEmpty(can_one_walk) && can_one_walk.equalsIgnoreCase("no")){
+                RiskyModel riskyModel = new RiskyModel();
+                riskyModel.riskyValue = can_one_walk;
+                riskyModel.riskyKey = "can_one_walk";
+                riskyModel.eventType = IYCF_PACKAGE;
+                riskyModel.baseEntityId = baseEntityId;
+                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+                HnppDBUtils.updateIsRiskChild(baseEntityId,"true");
+
+            }
+        }
+        if(details.containsKey("can_run") && !StringUtils.isEmpty(details.get("can_run"))){
+            String can_run = details.get("can_run");
+            if(!TextUtils.isEmpty(can_run) && can_run.equalsIgnoreCase("no")){
+                RiskyModel riskyModel = new RiskyModel();
+                riskyModel.riskyValue = can_run;
+                riskyModel.riskyKey = "can_run";
+                riskyModel.eventType = IYCF_PACKAGE;
+                riskyModel.baseEntityId = baseEntityId;
+                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+                HnppDBUtils.updateIsRiskChild(baseEntityId,"true");
+
+            }
+        }
+        if(details.containsKey("can_make_sentance") && !StringUtils.isEmpty(details.get("can_make_sentance"))){
+            String can_make_sentance = details.get("can_make_sentance");
+            if(!TextUtils.isEmpty(can_make_sentance) && can_make_sentance.equalsIgnoreCase("no")){
+                RiskyModel riskyModel = new RiskyModel();
+                riskyModel.riskyValue = can_make_sentance;
+                riskyModel.riskyKey = "can_make_sentance";
+                riskyModel.eventType = IYCF_PACKAGE;
+                riskyModel.baseEntityId = baseEntityId;
+                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+                HnppDBUtils.updateIsRiskChild(baseEntityId,"true");
+
+            }
+        }
+
     }
     private boolean isForumEvent(String eventType){
         switch (eventType) {

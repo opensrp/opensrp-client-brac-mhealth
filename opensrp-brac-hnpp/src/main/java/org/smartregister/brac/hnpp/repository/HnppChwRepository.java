@@ -64,6 +64,7 @@ public class HnppChwRepository extends CoreChwRepository {
         upgradeToVersion20(context,database);
         upgradeToVersion21(context,database);
         upgradeToVersion22(context,database);
+        upgradeToVersion25(context,database);
 
     }
 
@@ -116,6 +117,9 @@ public class HnppChwRepository extends CoreChwRepository {
                 case 23:
                     upgradeToVersion23(context,db);
                     break;
+                case 25:
+                    upgradeToVersion25(context,db);
+                    break;
                 default:
                     break;
             }
@@ -160,7 +164,12 @@ public class HnppChwRepository extends CoreChwRepository {
         DistrictListRepository.createTable(db);
 
     }
+    private void upgradeToVersion25(Context context, SQLiteDatabase db) {
+        db.execSQL("ALTER TABLE ec_family_member ADD COLUMN risk_event_type VARCHAR;");
+        db.execSQL("ALTER TABLE ec_child ADD COLUMN is_risk VARCHAR;");
+        RiskDetailsRepository.createTable(db);
 
+    }
 
     private void upgradeToVersion18(Context context, SQLiteDatabase db) {
         db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_EVENT_ID_COL);

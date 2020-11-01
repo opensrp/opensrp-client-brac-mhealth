@@ -61,19 +61,32 @@ public class NavigationInteractor implements NavigationContract.Interactor {
         int count;
         Cursor cursor = null;
         String mainCondition;
-        if(tableName.equalsIgnoreCase("test")){
-            tableName = "ec_family_member";
-            mainCondition = String.format(" where %s is null AND %s", DBConstants.KEY.DATE_REMOVED, ChildDBConstants.elcoFilterWithTableName());
+        if(tableName.equalsIgnoreCase("test") ||  tableName.equalsIgnoreCase("elco_risk")){
 
+            if(tableName.equalsIgnoreCase("elco_risk")){
+                mainCondition = String.format(" where %s is null AND %s", DBConstants.KEY.DATE_REMOVED, ChildDBConstants.riskElcoFilterWithTableName());
+
+            }else{
+                mainCondition = String.format(" where %s is null AND %s", DBConstants.KEY.DATE_REMOVED, ChildDBConstants.elcoFilterWithTableName());
+
+            }
+            tableName = "ec_family_member";
         }
-        else if (tableName.equalsIgnoreCase(CoreConstants.TABLE_NAME.CHILD)) {
-            mainCondition = String.format(" where %s is null AND %s", DBConstants.KEY.DATE_REMOVED, ChildDBConstants.childAgeLimitFilter());
+        else if (tableName.equalsIgnoreCase(CoreConstants.TABLE_NAME.CHILD) ||  tableName.equalsIgnoreCase("child_risk")) {
+            if(tableName.equalsIgnoreCase("child_risk")){
+                mainCondition = String.format(" where %s is null AND %s", DBConstants.KEY.DATE_REMOVED, ChildDBConstants.riskChildAgeLimitFilter());
+
+            }else{
+                mainCondition = String.format(" where %s is null AND %s", DBConstants.KEY.DATE_REMOVED, ChildDBConstants.childAgeLimitFilter());
+            }
+            tableName = CoreConstants.TABLE_NAME.CHILD;
+
         }else if (tableName.equalsIgnoreCase(CoreConstants.TABLE_NAME.FAMILY_MEMBER)) {
             mainCondition = String.format(" where %s is null", DBConstants.KEY.DATE_REMOVED);
         }
         else if (tableName.equalsIgnoreCase(CoreConstants.TABLE_NAME.FAMILY)) {
             mainCondition = String.format(" where %s is null ", DBConstants.KEY.DATE_REMOVED);
-        } else if (tableName.equalsIgnoreCase(CoreConstants.TABLE_NAME.ANC_MEMBER)) {
+        } else if (tableName.equalsIgnoreCase(CoreConstants.TABLE_NAME.ANC_MEMBER) || tableName.equalsIgnoreCase("anc_risk")) {
             mainCondition = MessageFormat.format(" inner join {0} ", CoreConstants.TABLE_NAME.FAMILY_MEMBER) +
                     MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.BASE_ENTITY_ID,
                             CoreConstants.TABLE_NAME.ANC_MEMBER, DBConstants.KEY.BASE_ENTITY_ID) +
@@ -86,10 +99,14 @@ public class NavigationInteractor implements NavigationContract.Interactor {
                     MessageFormat.format(" where {0}.{1} is null ", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED) +
                     MessageFormat.format(" and {0}.{1} is 0 ", CoreConstants.TABLE_NAME.ANC_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.IS_CLOSED);
 //            mainCondition = mainCondition+" AND ec_anc_register.base_entity_id NOT IN (SELECT ec_pregnancy_outcome.base_entity_id from ec_pregnancy_outcome where ec_pregnancy_outcome.is_closed = '0')";
+            if(tableName.equalsIgnoreCase("anc_risk")){
+                tableName  = CoreConstants.TABLE_NAME.ANC_MEMBER;
+                mainCondition = mainCondition + " "+ChildDBConstants.riskAncPatient();
+            }
         } else if (tableName.equalsIgnoreCase(CoreConstants.TABLE_NAME.TASK)) {
             mainCondition =
                     MessageFormat.format(" where {0}.{1} is \''READY'\' AND {0}.{2} is \''Referral'\' ", CoreConstants.TABLE_NAME.CHILD_REFERRAL, ChwDBConstants.TASK_STATUS, ChwDBConstants.TASK_CODE);
-        } else if (tableName.equalsIgnoreCase(CoreConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME)) {
+        } else if (tableName.equalsIgnoreCase(CoreConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME) || tableName.equalsIgnoreCase("pnc_risk")) {
             StringBuilder build = new StringBuilder();
             build.append(MessageFormat.format(" inner join {0} ", CoreConstants.TABLE_NAME.FAMILY_MEMBER));
             build.append(MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.BASE_ENTITY_ID,
@@ -104,6 +121,11 @@ public class NavigationInteractor implements NavigationContract.Interactor {
             build.append(MessageFormat.format(" and {0}.{1} is null ", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED));
 
             mainCondition = build.toString();
+            if(tableName.equalsIgnoreCase("pnc_risk")){
+                tableName  = CoreConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME;
+                mainCondition = mainCondition + " "+ChildDBConstants.riskAncPatient();
+                Log.v("NAVIGATION_QUERY","query pnc_risk:"+mainCondition);
+            }
         } else if (tableName.equalsIgnoreCase(CoreConstants.TABLE_NAME.MALARIA_CONFIRMATION)) {
             StringBuilder stb = new StringBuilder();
 
@@ -127,7 +149,7 @@ public class NavigationInteractor implements NavigationContract.Interactor {
             SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder();
             String query = MessageFormat.format("select count(*) from {0} {1}", tableName, mainCondition);
             query = sqb.Endquery(query);
-            Log.v("DB_UPGRADE","2%s"+query);
+            Log.v("NAVIGATION_QUERY","final:"+query);
 
             cursor = commonRepository(tableName).rawCustomQueryForAdapter(query);
             count = cursor != null && cursor.moveToFirst() ? cursor.getInt(0) : 0;

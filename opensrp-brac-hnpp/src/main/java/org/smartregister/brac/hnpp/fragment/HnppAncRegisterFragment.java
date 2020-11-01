@@ -519,7 +519,7 @@ public class HnppAncRegisterFragment extends AncRegisterFragment implements View
     protected int getToolBarTitle() {
         return R.string.menu_anc_clients;
     }
-    private String getCondition() {
+    protected String getCondition() {
         return " " + HnppConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.DATE_REMOVED + " is null " +
                 "AND " + HnppConstants.TABLE_NAME.ANC_MEMBER + "." + DBConstants.KEY.IS_CLOSED + " = '0' " +
                 "AND " + HnppConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.IS_CLOSED + " = '0' " ;

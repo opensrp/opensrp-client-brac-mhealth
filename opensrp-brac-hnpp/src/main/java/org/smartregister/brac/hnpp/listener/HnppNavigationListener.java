@@ -34,4 +34,21 @@ public class HnppNavigationListener extends NavigationListener {
         }
 
     }
+
+    @Override
+    public void onClickSubMenu(String type) {
+        super.onClickSubMenu(type);
+            if (CoreConstants.DrawerMenu.ANC_RISK.equals(type)) {
+                startRegisterActivity(getActivity(CoreConstants.REGISTERED_ACTIVITIES.ANC_RISK_REGISTER_ACTIVITY));
+
+            }else if (CoreConstants.DrawerMenu.PNC_RISK.equals(type)) {
+                startRegisterActivity(getActivity(CoreConstants.REGISTERED_ACTIVITIES.PNC_RISK_REGISTER_ACTIVITY));
+            }
+            else if (CoreConstants.DrawerMenu.ELCO_RISK.equals(type)) {
+                startRegisterActivity(getActivity(CoreConstants.REGISTERED_ACTIVITIES.ELCO_RISK_REGISTER_ACTIVITY));
+            }
+            else if (CoreConstants.DrawerMenu.CHILD_RISK.equals(type)) {
+                startRegisterActivity(getActivity(CoreConstants.REGISTERED_ACTIVITIES.CHILD_RISK_REGISTER_ACTIVITY));
+            }
+    }
 }

@@ -7,6 +7,9 @@ public class NavigationOption {
     private int TitleID;
     private String MenuTitle;
     private long RegisterCount;
+    private boolean expanded;
+    private boolean isNeedToExpand = false;
+    private NavigationSubModel navigationSubModel;
 
     public NavigationOption(int resourceID, int resourceActiveID, int titleID, String menuTitle, long registerCount) {
         ResourceID = resourceID;
@@ -14,6 +17,30 @@ public class NavigationOption {
         TitleID = titleID;
         MenuTitle = menuTitle;
         RegisterCount = registerCount;
+    }
+
+    public void setNavigationSubModel(NavigationSubModel navigationSubModel) {
+        this.navigationSubModel = navigationSubModel;
+    }
+
+    public NavigationSubModel getNavigationSubModel() {
+        return navigationSubModel;
+    }
+
+    public void setExpanded(boolean expanded) {
+        this.expanded = expanded;
+    }
+
+    public boolean isExpanded() {
+        return expanded;
+    }
+
+    public void setNeedToExpand(boolean needToExpand) {
+        isNeedToExpand = needToExpand;
+    }
+
+    public boolean isNeedToExpand() {
+        return isNeedToExpand;
     }
 
     public int getResourceID() {

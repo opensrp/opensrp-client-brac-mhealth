@@ -10,6 +10,7 @@ import org.smartregister.chw.core.job.HomeVisitServiceJob;
 import org.smartregister.chw.core.job.VaccineRecurringServiceJob;
 import org.smartregister.chw.core.model.NavigationModel;
 import org.smartregister.chw.core.model.NavigationOption;
+import org.smartregister.chw.core.model.NavigationSubModel;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.job.ImageUploadServiceJob;
 import org.smartregister.job.PullUniqueIdsServiceJob;
@@ -49,6 +50,10 @@ public class NavigationPresenter implements NavigationContract.Presenter {
         tableMap.put(CoreConstants.DrawerMenu.CHILD_CLIENTS, CoreConstants.TABLE_NAME.CHILD);
         tableMap.put(CoreConstants.DrawerMenu.ANC_CLIENTS, CoreConstants.TABLE_NAME.ANC_MEMBER);
         tableMap.put(CoreConstants.DrawerMenu.ANC, CoreConstants.TABLE_NAME.ANC_MEMBER);
+        tableMap.put(CoreConstants.DrawerMenu.ANC_RISK, "anc_risk");
+        tableMap.put(CoreConstants.DrawerMenu.PNC_RISK, "pnc_risk");
+        tableMap.put(CoreConstants.DrawerMenu.ELCO_RISK, "elco_risk");
+        tableMap.put(CoreConstants.DrawerMenu.CHILD_RISK, "child_risk");
         tableMap.put(CoreConstants.DrawerMenu.PNC, CoreConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME);
         tableMap.put(CoreConstants.DrawerMenu.REFERRALS, CoreConstants.TABLE_NAME.TASK);
         tableMap.put(CoreConstants.DrawerMenu.MALARIA, CoreConstants.TABLE_NAME.MALARIA_CONFIRMATION);
@@ -73,8 +78,24 @@ public class NavigationPresenter implements NavigationContract.Presenter {
 
         int x = 0;
         while (x < mModel.getNavigationItems().size()) {
+
             final int finalX = x;
-            mInteractor.getRegisterCount(tableMap.get(mModel.getNavigationItems().get(x).getMenuTitle()), new NavigationContract.InteractorCallback<Integer>() {
+            NavigationOption option = mModel.getNavigationItems().get(x);
+            if(option.isNeedToExpand()){
+                mInteractor.getRegisterCount(tableMap.get(option.getNavigationSubModel().getType()), new NavigationContract.InteractorCallback<Integer>() {
+                    @Override
+                    public void onResult(Integer result) {
+                        mModel.getNavigationItems().get(finalX).getNavigationSubModel().setSubCount(result);
+                        getNavigationView().refreshCount();
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+
+                    }
+                });
+            }
+            mInteractor.getRegisterCount(tableMap.get(option.getMenuTitle()), new NavigationContract.InteractorCallback<Integer>() {
                 @Override
                 public void onResult(Integer result) {
                     mModel.getNavigationItems().get(finalX).setRegisterCount(result);

@@ -435,12 +435,16 @@ public class CoreConstants {
         public static final String ALL_CLIENTS = "All Clients";
         public static final String ALL_MEMBER = "All Member";
         public static final String ELCO_CLIENT = "Elco Clients";
+        public static final String ELCO_RISK = "Elco risk";
         public static final String ALL_FAMILIES = "All Families";
         public static final String ANC_CLIENTS = "ANC Clients";
         public static final String CHILD_CLIENTS = "Child Clients";
         public static final String CHILD = "Child";
         public static final String HIV_CLIENTS = "Hiv Clients";
         public static final String ANC = "ANC";
+        public static final String ANC_RISK = "ANC Risk";
+        public static final String PNC_RISK = "PNC Risk";
+        public static final String CHILD_RISK = "Child Risk";
         public static final String LD = "L&D";
         public static final String PNC = "PNC";
         public static final String FAMILY_PLANNING = "Family Planning";
@@ -625,6 +629,10 @@ public class CoreConstants {
         public static final String ELCO_REGISTER_ACTIVITY = "ELCO_REGISTER_ACTIVITY";
         public static final String FAMILY_REGISTER_ACTIVITY = "FAMILY_REGISTER_ACTIVITY";
         public static final String ANC_REGISTER_ACTIVITY = "ANC_REGISTER_ACTIVITY";
+        public static final String ANC_RISK_REGISTER_ACTIVITY = "ANC_RISK_MEMBER_REGISTER_ACTIVITY";
+        public static final String PNC_RISK_REGISTER_ACTIVITY = "PNC_RISK_MEMBER_REGISTER_ACTIVITY";
+        public static final String ELCO_RISK_REGISTER_ACTIVITY = "ELCO_RISK_MEMBER_REGISTER_ACTIVITY";
+        public static final String CHILD_RISK_REGISTER_ACTIVITY = "CHILD_RISK_MEMBER_REGISTER_ACTIVITY";
         public static final String PNC_REGISTER_ACTIVITY = "PNC_REGISTER_ACTIVITY";
         public static final String REFERRALS_REGISTER_ACTIVITY = "REFERRALS_REGISTER_ACTIVITY";
         public static final String MALARIA_REGISTER_ACTIVITY = "MALARIA_REGISTER_ACTIVITY";
