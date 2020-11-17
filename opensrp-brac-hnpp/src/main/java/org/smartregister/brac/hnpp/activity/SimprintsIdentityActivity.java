@@ -4,12 +4,8 @@ package org.smartregister.brac.hnpp.activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -22,22 +18,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.ybq.android.spinkit.style.FadingCircle;
 import com.simprints.libsimprints.Constants;
-import com.simprints.libsimprints.Identification;
-import com.simprints.libsimprints.Tier;
 
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.adapter.IdentityAdapter;
-import org.smartregister.brac.hnpp.fragment.HnppDashBoardFragment;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSLocations;
 import org.smartregister.brac.hnpp.location.SSModel;
@@ -46,24 +35,16 @@ import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.IdentityModel;
 import org.smartregister.chw.core.utils.ChildDBConstants;
 import org.smartregister.chw.core.utils.CoreConstants;
-import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
-import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.family.util.AppExecutors;
 import org.smartregister.family.util.DBConstants;
-import org.smartregister.family.util.Utils;
 import org.smartregister.simprint.SimPrintsConstantHelper;
 import org.smartregister.simprint.SimPrintsIdentification;
 import org.smartregister.simprint.SimPrintsIdentifyActivity;
-import org.smartregister.simprint.SimPrintsRegistration;
 import org.smartregister.view.activity.SecuredActivity;
 
 import java.util.ArrayList;
 
-import static com.simprints.libsimprints.Tier.TIER_1;
-import static com.simprints.libsimprints.Tier.TIER_2;
-import static com.simprints.libsimprints.Tier.TIER_3;
-import static com.simprints.libsimprints.Tier.TIER_4;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.MEMBER_ID_SUFFIX;
 
 public class SimprintsIdentityActivity extends SecuredActivity implements View.OnClickListener {

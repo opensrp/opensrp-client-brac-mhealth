@@ -40,6 +40,7 @@ import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.repository.RiskDetailsRepository;
 import org.smartregister.brac.hnpp.repository.SSLocationRepository;
 import org.smartregister.brac.hnpp.repository.HouseholdIdRepository;
+import org.smartregister.brac.hnpp.repository.TargetVsAchievementRepository;
 import org.smartregister.brac.hnpp.sync.HnppClientProcessor;
 import org.smartregister.brac.hnpp.sync.HnppSyncConfiguration;
 import org.smartregister.brac.hnpp.utils.HNPPApplicationUtils;
@@ -89,6 +90,7 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
     private HnppVisitLogRepository hnppVisitLogRepository;
     private static SSLocationRepository locationRepository;
     private static RiskDetailsRepository riskDetailsRepository;
+    private static TargetVsAchievementRepository targetVsAchievementRepository;
     private static CommonFtsObject commonFtsObject = null;
     private EventClientRepository eventClientRepository;
     @Override
@@ -278,6 +280,12 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
             riskDetailsRepository = new RiskDetailsRepository(getInstance().getRepository());
         }
         return riskDetailsRepository;
+    }
+    public static TargetVsAchievementRepository getTargetRepository() {
+        if ( targetVsAchievementRepository == null) {
+            targetVsAchievementRepository = new TargetVsAchievementRepository(getInstance().getRepository());
+        }
+        return targetVsAchievementRepository;
     }
     public void setOpenSRPUrl() {
         AllSharedPreferences preferences = Utils.getAllSharedPreferences();

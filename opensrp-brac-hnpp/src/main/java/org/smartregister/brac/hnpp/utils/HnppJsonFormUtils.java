@@ -85,6 +85,8 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
     public static String[] monthStr = {"January","February","March","April","May","June","July","August","September","October","November","December"};
 
+    public static String[] monthBanglaStr = {"জানুয়ারী","ফেব্রুয়ারী","মার্চ","এপ্রিল","মে","জুন","জুলাই","আগস্ট","সেপ্টেম্বর","অক্টোবর","নভেম্বর","ডিসেম্বর"};
+
     public static boolean isCurrentMonth(String month, String year){
         if(TextUtils.isEmpty(month) || TextUtils.isEmpty(year)){
             return false;

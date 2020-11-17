@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_bg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <org.smartregister.view.customcontrols.CustomFontTextView
+        android:id="@+id/title_tv"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"/>
+
+    <ProgressBar
+        android:layout_below="@+id/title_tv"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/progress_bar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:indeterminate="false"
+        android:max="100"
+        android:padding="5dp"
+        android:background="@drawable/progress_bar_background"
+        android:progressDrawable="@drawable/curved_progress_bar"
+        />
+    <TextView
+        android:id="@+id/count_tv"
+        android:layout_centerHorizontal="true"
+        android:layout_alignTop="@+id/progress_bar"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="22dp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        />
+</RelativeLayout>

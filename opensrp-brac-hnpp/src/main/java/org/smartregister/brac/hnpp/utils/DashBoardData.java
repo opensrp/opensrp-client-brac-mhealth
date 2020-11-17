@@ -1,11 +1,30 @@
 package org.smartregister.brac.hnpp.utils;
 
 public class DashBoardData {
+
     private int imageSource;
     private String title;
     private int count;
     private String date;
     private String eventType;
+    private String month;
+    private String ssName;
+
+    public void setMonth(String month) {
+        this.month = month;
+    }
+
+    public void setSsName(String ssName) {
+        this.ssName = ssName;
+    }
+
+    public String getMonth() {
+        return month;
+    }
+
+    public String getSsName() {
+        return ssName;
+    }
 
     public String getDate() {
         return date;

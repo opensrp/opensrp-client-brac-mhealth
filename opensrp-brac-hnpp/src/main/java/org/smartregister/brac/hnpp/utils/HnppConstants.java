@@ -359,6 +359,20 @@ public class HnppConstants extends CoreConstants {
         public static final String FORUM_ADULT = "ADULT Forum";
         public static final String CORONA_INDIVIDUAL = "corona individual";
         public static final String SS_INFO = "SS Form";
+        //for target
+        public static final String METHOD_USER = "Methods Users";
+        public static final String ADO_METHOD_USER = "Adolescent Methods Users";
+        public static final String PREGNANCY_IDENTIFIED = "Pregnancy Identified";
+        public static final String INSTITUTIONALIZES_DELIVERY = "Institutionalized Delivery";
+        public static final String PREGNANCY_VISIT= "Pregnant Visit";
+        public static final String CHILD_VISIT_0_6= "Child Visit (0-6 months)";
+        public static final String CHILD_VISIT_7_24= "Child Visit (7-24 months)";
+        public static final String CHILD_VISIT_18_36= "Child Visit(18-36 months)";
+        public static final String AVG_ATTEND_ADO_FORUM= "Avg. Attendance (Adolescent Forum)";
+        public static final String AVG_ATTEND_NCD_FORUM= "Avg. Attendance (NCD Forum)";
+        public static final String AVG_ATTEND_ADULT_FORUM= "Avg Attendance (Adult Forum)";
+        public static final String AVG_ATTEND_IYCF_FORUM= "Avg Attendance (IYCF Forum)";
+        public static final String AVG_ATTEND_WOMEN_FORUM= "Avg Attendance (Women Forum)";
     }
     public static final Map<String,String> vaccineNameMapping = ImmutableMap.<String,String> builder()
             .put("bcg","বিসিজি")
@@ -520,6 +534,11 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.FORUM_CHILD,"শিশু ফোরাম")
             .put(EVENT_TYPE.FORUM_NCD,"অসংক্রামক রোগের ফোরাম")
             .put(EVENT_TYPE.FORUM_ADULT,"অ্যাডাল্ট ফোরাম")
+            .put(EVENT_TYPE.METHOD_USER,"পদ্ধতি ব্যবহারকারী")
+            .put(EVENT_TYPE.ADO_METHOD_USER,"পদ্ধতি ব্যবহারকারী (কিশোরী)")
+            .put(EVENT_TYPE.PREGNANCY_IDENTIFIED,"গর্ভবতী চিহ্নিত")
+            .put(EVENT_TYPE.INSTITUTIONALIZES_DELIVERY,"প্রাতিষ্ঠানিক প্রসব সংখ্যা")
+            .put(EVENT_TYPE.PREGNANCY_VISIT,"গর্ভবতী পরিদর্শন")
             .build();
     public static final Map<String,String> immunizationMapping = ImmutableMap.<String,String> builder()
             .put("PENTA 1","পেন্টা-১")
