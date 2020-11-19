@@ -43,6 +43,27 @@ import timber.log.Timber;
 
 public class HnppDBUtils extends CoreChildUtils {
 
+    public static String getChildFollowUpFormName(String baseEntityId){
+        String query = "select ((( julianday('now') - julianday(dob))/365) *12) as age from ec_family_member where base_entity_id ='"+baseEntityId+"'";
+        Cursor cursor = null;
+        int month = 0;
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                month = cursor.getInt(0);
+                cursor.close();
+            }
+
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        if(month>= 18 && month <= 36) return HnppConstants.EVENT_TYPE.CHILD_VISIT_18_36;
+        if(month>= 7 && month <= 24) return HnppConstants.EVENT_TYPE.CHILD_VISIT_7_24;
+        if(month>= 0 && month <= 6) return HnppConstants.EVENT_TYPE.CHILD_VISIT_0_6;
+        return "";
+
+    }
     public static String getSSName(String baseEntityId){
         String query = "select ec_family.ss_name from ec_family inner join ec_family_member on ec_family.base_entity_id = ec_family_member.relational_id where ec_family_member.base_entity_id = '"+baseEntityId+"'";
         Cursor cursor = null;

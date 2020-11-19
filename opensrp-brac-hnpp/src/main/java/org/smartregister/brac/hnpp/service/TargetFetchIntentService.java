@@ -47,6 +47,7 @@ public class TargetFetchIntentService extends IntentService {
                     if(ssModel != null){
                         HnppApplication.getTargetRepository().addOrUpdate(ssModel);
                         timestamp = ssModel.getTimestamp();
+                        Log.v("TARGET_FETCH","lasttime:"+timestamp);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

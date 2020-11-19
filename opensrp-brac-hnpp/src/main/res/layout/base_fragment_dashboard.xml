@@ -7,7 +7,7 @@
     <include layout="@layout/view_date_range" android:visibility="gone"/>
     <include android:id="@+id/topbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         layout="@layout/dashboard_view_filter"/>
 
     <android.support.v7.widget.RecyclerView

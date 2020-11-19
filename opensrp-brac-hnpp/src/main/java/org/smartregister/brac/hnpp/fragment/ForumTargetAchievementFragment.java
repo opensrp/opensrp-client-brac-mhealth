@@ -7,10 +7,11 @@ import org.smartregister.brac.hnpp.adapter.TargetAchievementAdapter;
 import org.smartregister.brac.hnpp.presenter.ForumTargetAchievementPresenter;
 import org.smartregister.brac.hnpp.presenter.ServiceTargetAchievmentPresenter;
 
+import java.util.Calendar;
+
 public class ForumTargetAchievementFragment extends BaseDashBoardFragment {
 
     private ForumTargetAchievementPresenter presenter;
-    private int day,month,year;
     private ForumTargetAchievementAdapter adapter;
 
     @Override
@@ -18,19 +19,12 @@ public class ForumTargetAchievementFragment extends BaseDashBoardFragment {
         presenter = new ForumTargetAchievementPresenter(this);
     }
 
-    public void setDayWise(int day, int month, int year){
-        this.day = day;
-        this.month = month;
-        this.year = year;
-    }
-    public void setMonthWise(int month, int year){
-        this.day = 0;
-        this.month = month;
-        this.year = year;
-    }
-
     @Override
     void fetchData() {
+        Calendar calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH)+1;
+        day = 0;
         presenter.fetchDashBoardData(day,month,year,ssName);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
@@ -38,6 +32,7 @@ public class ForumTargetAchievementFragment extends BaseDashBoardFragment {
 
     @Override
     void filterData() {
+        day = 0;
         presenter.filterData(ssName,day,month,year);
     }
 

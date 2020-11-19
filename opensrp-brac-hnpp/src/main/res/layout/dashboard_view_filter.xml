@@ -30,6 +30,7 @@
 
     <LinearLayout
         android:id="@+id/month_view"
+        android:layout_alignWithParentIfMissing="true"
         android:gravity="center_vertical"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/ss_name_view"
@@ -56,6 +57,7 @@
         android:id="@+id/date_view"
         android:gravity="center_vertical"
         android:layout_centerVertical="true"
+        android:layout_alignWithParentIfMissing="true"
         android:layout_toRightOf="@+id/month_view"
         android:layout_toLeftOf="@+id/filterBtn"
         android:orientation="horizontal"

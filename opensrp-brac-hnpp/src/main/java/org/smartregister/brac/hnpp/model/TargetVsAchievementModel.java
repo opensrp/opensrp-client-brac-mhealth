@@ -103,19 +103,19 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
     }
 
     public TargetVsAchievementData getAvgAdoTarget(int day, int month, int year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADO_FORUM,day,month,year,ssName);
+        return getAvgTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADO_FORUM,day,month,year,ssName);
     }
     public TargetVsAchievementData getAvgNcdTarget(int day, int month, int year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.AVG_ATTEND_NCD_FORUM,day,month,year,ssName);
+        return getAvgTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.AVG_ATTEND_NCD_FORUM,day,month,year,ssName);
     }
     public TargetVsAchievementData getAvgAdultTarget(int day, int month, int year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADULT_FORUM,day,month,year,ssName);
+        return getAvgTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADULT_FORUM,day,month,year,ssName);
     }
     public TargetVsAchievementData getAvgChildTarget(int day, int month, int year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.AVG_ATTEND_IYCF_FORUM,day,month,year,ssName);
+        return getAvgTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.AVG_ATTEND_IYCF_FORUM,day,month,year,ssName);
     }
     public TargetVsAchievementData getAvgWomenTarget(int day, int month, int year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.AVG_ATTEND_WOMEN_FORUM,day,month,year,ssName);
+        return getAvgTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.AVG_ATTEND_WOMEN_FORUM,day,month,year,ssName);
     }
     public TargetVsAchievementData getTargetVsAchievmentByVisitType(String visitType,int day, int month, int year, String ssName){
         TargetVsAchievementData dashBoardData1 = new TargetVsAchievementData();
@@ -130,20 +130,42 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
                 dashBoardData1.setTargetCount(cursor.getInt(cursor.getColumnIndex(TargetVsAchievementRepository.TARGET_COUNT)));
                 dashBoardData1.setAchievementCount(cursor.getInt(cursor.getColumnIndex(TargetVsAchievementRepository.ACHIEVEMNT_COUNT)));
                 //test
-                dashBoardData1.setAchievementCount(3);
+                //dashBoardData1.setAchievementCount(3);
                 if(dashBoardData1.getTargetCount() != 0){
                     int percentage = (int) ((dashBoardData1.getAchievementCount() * 100)/dashBoardData1.getTargetCount());
                     dashBoardData1.setAchievementPercentage(percentage);
                 }
 
-                dashBoardData1.setEventType(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY);
-                dashBoardData1.setTitle(HnppConstants.eventTypeMapping.get(dashBoardData1.getEventType()));
+                dashBoardData1.setEventType(visitType);
+                dashBoardData1.setTitle(HnppConstants.targetTypeMapping.get(dashBoardData1.getEventType()));
 
-                try{
-                    dashBoardData1.setImageSource((int)HnppConstants.iconMapping.get(dashBoardData1.getEventType()));
-                }catch (Exception e){
+                cursor.moveToNext();
+            }
+            cursor.close();
 
-                }
+        }
+
+
+        return dashBoardData1;
+    }
+    public TargetVsAchievementData getAvgTargetVsAchievmentByVisitType(String visitType,int day, int month, int year, String ssName){
+        TargetVsAchievementData dashBoardData1 = new TargetVsAchievementData();
+        String query = "select sum(target_count) as target_count, sum(achievemnt_count) as achievemnt_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
+        Log.v("TARGET_QUERY","avg query:"+query);
+        Cursor cursor = null;
+        // try {
+        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        if(cursor !=null && cursor.getCount() > 0){
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                dashBoardData1.setAvgTargetCount(cursor.getInt(cursor.getColumnIndex(TargetVsAchievementRepository.TARGET_COUNT)));
+                int achCount = cursor.getInt(cursor.getColumnIndex(TargetVsAchievementRepository.ACHIEVEMNT_COUNT));
+                dashBoardData1.setAvgAchievmentCount(achCount);
+
+
+                dashBoardData1.setEventType(visitType);
+                dashBoardData1.setTitle(HnppConstants.targetTypeMapping.get(dashBoardData1.getEventType()));
+
                 cursor.moveToNext();
             }
             cursor.close();

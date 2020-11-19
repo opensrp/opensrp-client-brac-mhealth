@@ -12,6 +12,7 @@ import net.sqlcipher.database.SQLiteDatabase;
 
 import org.joda.time.DateTime;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.RiskyModel;
 import org.smartregister.brac.hnpp.utils.TargetVsAchievementData;
 import org.smartregister.chw.core.utils.CoreConstants;
@@ -77,9 +78,9 @@ public class TargetVsAchievementRepository extends BaseRepository {
     }
     public  void updateValue(String targetName, String day, String month, String year, String ssName, String baseEntityId, int count){
         ContentValues contentValues = new ContentValues();
-        targetName = getTargetName(targetName);
-        contentValues.put(BASE_ENTITY_ID, targetName);
-        contentValues.put(TARGET_NAME, getTargetName(targetName));
+        targetName = getTargetName(targetName,baseEntityId);
+        contentValues.put(BASE_ENTITY_ID, baseEntityId);
+        contentValues.put(TARGET_NAME, targetName);
         contentValues.put(ACHIEVEMNT_COUNT, count);
         contentValues.put(YEAR, year);
         contentValues.put(MONTH, month);
@@ -107,7 +108,7 @@ public class TargetVsAchievementRepository extends BaseRepository {
         return true;
     }
 
-    private String getTargetName(String targetName) {
+    private String getTargetName(String targetName, String baseEntityId) {
         if(!TextUtils.isEmpty(targetName)){
             if(targetName.equalsIgnoreCase(HnppConstants.EventType.ANC_HOME_VISIT)
                     || targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)
@@ -119,6 +120,9 @@ public class TargetVsAchievementRepository extends BaseRepository {
                 targetName = HnppConstants.EVENT_TYPE.PNC_SERVICE;
             } else if(targetName.equalsIgnoreCase(HnppConstants.EventType.ANC_REGISTRATION)){
                 targetName = HnppConstants.EVENT_TYPE.PREGNANCY_IDENTIFIED;
+            } else if(targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP)){
+                targetName = HnppDBUtils.getChildFollowUpFormName(baseEntityId);
+                if(TextUtils.isEmpty(targetName)) targetName = HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP;
             }
 
         }
@@ -126,18 +130,49 @@ public class TargetVsAchievementRepository extends BaseRepository {
     }
 
     public void addOrUpdate(TargetVsAchievementData targetVsAchievementData) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(TARGET_ID, targetVsAchievementData.getTargetId());
-        contentValues.put(TARGET_COUNT, targetVsAchievementData.getTargetCount());
-        contentValues.put(TARGET_NAME, targetVsAchievementData.getTargetName());
-        contentValues.put(ACHIEVEMNT_COUNT, targetVsAchievementData.getAchievementCount());
-        contentValues.put(YEAR, targetVsAchievementData.getYear());
-        contentValues.put(MONTH, targetVsAchievementData.getMonth());
-        contentValues.put(DAY, targetVsAchievementData.getDay());
-        contentValues.put(START_DATE, targetVsAchievementData.getStartDate());
-        contentValues.put(END_DATE, targetVsAchievementData.getEndDate());
-        long inserted = getWritableDatabase().insert(getLocationTableName(), null, contentValues);
+        if(!isExistData(targetVsAchievementData.getTargetId())){
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(TARGET_ID, targetVsAchievementData.getTargetId());
+            contentValues.put(TARGET_COUNT, targetVsAchievementData.getTargetCount());
+            contentValues.put(TARGET_NAME, targetVsAchievementData.getTargetName());
+            contentValues.put(ACHIEVEMNT_COUNT, targetVsAchievementData.getAchievementCount());
+            contentValues.put(YEAR, targetVsAchievementData.getYear());
+            contentValues.put(MONTH, targetVsAchievementData.getMonth());
+            contentValues.put(DAY, targetVsAchievementData.getDay());
+            contentValues.put(START_DATE, targetVsAchievementData.getStartDate());
+            contentValues.put(END_DATE, targetVsAchievementData.getEndDate());
+            long inserted = getWritableDatabase().insert(getLocationTableName(), null, contentValues);
+            Log.v("TARGET_FETCH","inserterd:"+inserted);
+        }else{
+            Log.v("TARGET_FETCH","exists!!!!!!!!!");
+        }
 
+
+    }
+    public boolean isExistData(int targetId){
+        String sql = "select count(*) from "+getLocationTableName()+" where "+TARGET_ID+" = "+targetId;
+        Cursor cursor = null;
+        boolean isExist = false;
+
+        try {
+            cursor = getReadableDatabase().rawQuery(sql, null);
+            if(cursor!=null&&cursor.getCount()>0){
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    if(cursor.getInt(0) >0){
+                        isExist = true;
+                    }
+                    cursor.moveToNext();
+                }
+
+            }
+        } catch (Exception e) {
+            Log.e(LocationRepository.class.getCanonicalName(), e.getMessage(), e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return isExist;
     }
     public TargetVsAchievementData getTargetDetailsByName(String targetName) {
         Cursor cursor = null;

@@ -8,7 +8,7 @@ public class DailyTargetAchievementFragment extends TargetAchievementFragment{
     @Override
     void initilizePresenter() {
         super.initilizePresenter();
-        monthView.setVisibility(View.INVISIBLE);
+        monthView.setVisibility(View.GONE);
         dateView.setVisibility(View.VISIBLE);
     }
 
@@ -20,6 +20,12 @@ public class DailyTargetAchievementFragment extends TargetAchievementFragment{
         day = calendar.get(Calendar.DAY_OF_MONTH);
         super.fetchData();
     }
+
+    @Override
+    void filterData() {
+        super.filterData();
+    }
+
     @Override
     void updateTitle() {
         super.updateTitle("দৈনিক পরিদর্শন");

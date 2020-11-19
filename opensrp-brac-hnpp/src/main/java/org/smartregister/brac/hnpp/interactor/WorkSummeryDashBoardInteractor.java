@@ -45,6 +45,24 @@ public class WorkSummeryDashBoardInteractor implements DashBoardContract.Interac
         if(month.equalsIgnoreCase("-1")) month = "";
         addToDashBoardList(model.getHHCount(ssName,month));
         addToDashBoardList(model.getMemberCount(ssName,month));
+        addToDashBoardList(model.getANCRegisterCount(ssName,month));
+        addToDashBoardList(model.getAnc1Count(ssName,month));
+        addToDashBoardList(model.getAnc2Count(ssName,month));
+        addToDashBoardList(model.getAnc3Count(ssName,month));
+        addToDashBoardList(model.getAncCount(ssName,month));
+        addToDashBoardList(model.getDeliveryCount(ssName,month));
+        addToDashBoardList(model.getPncCount(ssName,month));
+        addToDashBoardList(model.getEncCount(ssName,month));
+        addToDashBoardList(model.getChildFollowUpCount(ssName,month));
+        addToDashBoardList(model.getNcdForumCount(ssName,month));
+        addToDashBoardList(model.getNcdServiceCount(ssName,month));
+        addToDashBoardList(model.getWomenForumCount(ssName,month));
+        addToDashBoardList(model.getWomenServiceCount(ssName,month));
+        addToDashBoardList(model.getAdoForumCount(ssName,month));
+        addToDashBoardList(model.getAdoServiceCount(ssName,month));
+        addToDashBoardList(model.getChildForumCount(ssName,month));
+        addToDashBoardList(model.getChildServiceCount(ssName,month));
+        addToDashBoardList(model.getAdultForumCount(ssName,month));
 
     }
 

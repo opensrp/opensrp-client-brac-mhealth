@@ -259,7 +259,7 @@ public class VisitLogIntentService extends IntentService {
                                 log.setEventType(encounter_type);
                                 log.setVisitJson(form_object.toString());
                                 HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
-                                LocalDate localDate = new LocalDate(visit.getDate());
+                                LocalDate localDate = new LocalDate(visit.getDate().getTime());
                                 String ssName = HnppDBUtils.getSSName(base_entity_id);
                                 HnppApplication.getTargetRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id);
 
@@ -736,7 +736,7 @@ public class VisitLogIntentService extends IntentService {
                         log.setFamilyId(forumDetails.place.getBaseEntityId());
                         Log.v("PROCESS_CLIENT","add to visitlog>>>>"+visit.getVisitType());
                         HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
-                        LocalDate localDate = new LocalDate(visit.getDate());
+                        LocalDate localDate = new LocalDate(visit.getDate().getTime());
                         String ssName = HnppDBUtils.getSSName(visit.getBaseEntityId());
                         HnppApplication.getTargetRepository().updateValue(visit.getVisitType(),localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId());
                         if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_CHILD)){

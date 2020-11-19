@@ -10,7 +10,6 @@ import org.smartregister.brac.hnpp.presenter.WorkSummeryDashBoardPresenter;
 public class TargetAchievementFragment extends BaseDashBoardFragment {
 
     private TargetAchievmentPresenter presenter;
-    protected int day,month,year;
     private TargetAchievementAdapter adapter;
 
     @Override

@@ -37,7 +37,8 @@ public class ServiceTargetAchievmentPresenter implements DashBoardContract.Targe
 
     @Override
     public void filterData(String ssName, int day, int month, int year) {
-
+        getView().showProgressBar();
+        interactor.filterData(ssName,day,month,year,this);
     }
 
     @Override

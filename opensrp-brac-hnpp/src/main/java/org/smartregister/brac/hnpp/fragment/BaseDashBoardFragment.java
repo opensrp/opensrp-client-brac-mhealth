@@ -2,6 +2,7 @@ package org.smartregister.brac.hnpp.fragment;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.NewDashBoardActivity;
@@ -39,7 +41,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
 
     private Button dateBtn;
     protected RecyclerView recyclerView;
-    protected int date, month, year;
+    protected int day, month, year;
     private String fromDate, toDate, currentDate;
     private Runnable runnable;
     protected Spinner ssSpinner,monthSpinner;
@@ -81,8 +83,8 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
         Calendar calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH)+1;
-        date = calendar.get(Calendar.DAY_OF_MONTH);
-        currentDate   = year+"-"+addZeroForMonth(month+"")+"-"+addZeroForMonth(date+"");
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+        currentDate   = year+"-"+addZeroForMonth(month+"")+"-"+addZeroForMonth(day+"");
         fromDate = currentDate;
         toDate = currentDate;
         dateBtn.setText(currentDate);
@@ -108,7 +110,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
                     @Override
                     public void onDateSet(DatePicker view, int yr, int mnt, int dayOfMonth) {
 
-                        date = dayOfMonth;
+                        day = dayOfMonth;
                         month = mnt +1;
                         year = yr;
 
@@ -117,8 +119,8 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
                         dateBtn.setText(fromDate);
                         updateFilter();
                     }
-                },year,month,date);
-                fromDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                },year,(month-1),day);
+                //fromDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
                 fromDialog.show();
                 break;
             case R.id.filterBtn:
@@ -143,8 +145,8 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
 
                 AppCompatTextView appCompatTextView = (AppCompatTextView)convertView;
                 appCompatTextView.setGravity(Gravity.CENTER_VERTICAL);
-                appCompatTextView.setHeight(100);
-
+                appCompatTextView.setHeight(50);
+                //appCompatTextView.setTextColor(Color.WHITE);
                 return convertView;
             }
         };
@@ -152,6 +154,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
         ssSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
+                ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
                 if (position != -1) {
                     if(position == 0) ssName = "";
                     else ssName = ssSpinner.getSelectedItem().toString();
@@ -178,7 +181,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
 
                 AppCompatTextView appCompatTextView = (AppCompatTextView)convertView;
                 appCompatTextView.setGravity(Gravity.CENTER_VERTICAL);
-                appCompatTextView.setHeight(100);
+                appCompatTextView.setHeight(50);
 
                 return convertView;
             }
@@ -188,6 +191,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
         monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
+                ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
                 if (position != -1) {
                     if(position == 0) month = -1;
                     else month = position;

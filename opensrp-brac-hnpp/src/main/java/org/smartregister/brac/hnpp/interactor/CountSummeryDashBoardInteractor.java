@@ -43,6 +43,20 @@ public class CountSummeryDashBoardInteractor implements DashBoardContract.Intera
     private void fetchHHData(String ssName) {
         addToDashBoardList(model.getHHCount(ssName));
         addToDashBoardList(model.getMemberCount(ssName));
+        addToDashBoardList(model.getBoyChildUnder5(ssName));
+        addToDashBoardList(model.getGirlChildUnder5(ssName));
+        addToDashBoardList(model.getBoyChild5To9(ssName));
+        addToDashBoardList(model.getGirlChild5To9(ssName));
+        addToDashBoardList(model.getBoyChild10To19(ssName));
+        addToDashBoardList(model.getGirlChild10To19(ssName));
+        addToDashBoardList(model.getBoyChild20To50(ssName));
+        addToDashBoardList(model.getGirlChild20To50(ssName));
+        addToDashBoardList(model.getMenUp50(ssName));
+        addToDashBoardList(model.getWoMenUp50(ssName));
+        addToDashBoardList(model.getAdoGirl(ssName));
+        addToDashBoardList(model.getAdoBoy(ssName));
+        addToDashBoardList(model.getAdoElco(ssName));
+
 
     }
 
