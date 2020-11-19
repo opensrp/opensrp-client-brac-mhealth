@@ -36,7 +36,8 @@ public class CountSummeryDashBoardPresenter implements DashBoardContract.Present
     }
 
     @Override
-    public void filterData(String ssName, String month, String date) {
+    public void filterData(String ssName, String month) {
+        interactor.filterData(ssName,month,this);
 
     }
 

@@ -2,20 +2,18 @@ package org.smartregister.brac.hnpp.interactor;
 
 import org.smartregister.brac.hnpp.contract.DashBoardContract;
 import org.smartregister.brac.hnpp.model.TargetVsAchievementModel;
-import org.smartregister.brac.hnpp.model.WorkSummeryDashBoardModel;
-import org.smartregister.brac.hnpp.utils.DashBoardData;
 import org.smartregister.brac.hnpp.utils.TargetVsAchievementData;
 import org.smartregister.family.util.AppExecutors;
 
 import java.util.ArrayList;
 
-public class TargetAchievementInteractor implements DashBoardContract.TargetInteractor {
+public class ServiceTargetAchievementInteractor implements DashBoardContract.TargetInteractor {
 
     private AppExecutors appExecutors;
     private ArrayList<TargetVsAchievementData> dashBoardDataArrayList;
     private TargetVsAchievementModel model;
 
-    public TargetAchievementInteractor(AppExecutors appExecutors, TargetVsAchievementModel model){
+    public ServiceTargetAchievementInteractor(AppExecutors appExecutors, TargetVsAchievementModel model){
         this.appExecutors = appExecutors;
         dashBoardDataArrayList = new ArrayList<>();
         this.model = model;
@@ -25,6 +23,7 @@ public class TargetAchievementInteractor implements DashBoardContract.TargetInte
     public ArrayList<TargetVsAchievementData> getTargetListData() {
         return dashBoardDataArrayList;
     }
+
     public void setData(TargetVsAchievementData targetVsAchievementData){
         if(targetVsAchievementData !=null) dashBoardDataArrayList.add(targetVsAchievementData);
     }
@@ -42,17 +41,12 @@ public class TargetAchievementInteractor implements DashBoardContract.TargetInte
     }
 
     private void fetchData( int day, int month, int year, String ssName) {
-        setData(model.getHHVisitTarget(day,month,year,ssName));
-        setData(model.getElcoTarget(day,month,year,ssName));
-        setData(model.getMethodUserTarget(day,month,year,ssName));
-        setData(model.getAdoMethodUserTarget(day,month,year,ssName));
-        setData(model.getPregnencyIdentiTarget(day,month,year,ssName));
-        setData(model.getDeliveryTarget(day,month,year,ssName));
-        setData(model.getInstitutionDeliveryTarget(day,month,year,ssName));
-        setData(model.get0to6ChildVisitTarget(day,month,year,ssName));
-        setData(model.get7to24ChildVisitTarget(day,month,year,ssName));
-        setData(model.get18to36ChildVisitTarget(day,month,year,ssName));
-        setData(model.get0to59ChildImmunizationTarget(day,month,year,ssName));
+        setData(model.getAncServiceTarget(day,month,year,ssName));
+        setData(model.getPncServiceTarget(day,month,year,ssName));
+        setData(model.getNcdTarget(day,month,year,ssName));
+        setData(model.getIYCFTarget(day,month,year,ssName));
+        setData(model.getWomenTarget(day,month,year,ssName));
+        setData(model.getAdoTarget(day,month,year,ssName));
     }
 
     @Override

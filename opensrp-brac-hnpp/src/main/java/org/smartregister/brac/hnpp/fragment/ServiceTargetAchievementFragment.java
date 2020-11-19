@@ -2,27 +2,27 @@ package org.smartregister.brac.hnpp.fragment;
 
 import android.support.v7.widget.LinearLayoutManager;
 
-import org.smartregister.brac.hnpp.adapter.DashBoardAdapter;
+import org.smartregister.brac.hnpp.adapter.ServiceTargetAchievementAdapter;
 import org.smartregister.brac.hnpp.adapter.TargetAchievementAdapter;
+import org.smartregister.brac.hnpp.presenter.ServiceTargetAchievmentPresenter;
 import org.smartregister.brac.hnpp.presenter.TargetAchievmentPresenter;
-import org.smartregister.brac.hnpp.presenter.WorkSummeryDashBoardPresenter;
 
-public class TargetAchievementFragment extends BaseDashBoardFragment {
+public class ServiceTargetAchievementFragment extends BaseDashBoardFragment {
 
-    private TargetAchievmentPresenter presenter;
+    private ServiceTargetAchievmentPresenter presenter;
     protected int day,month,year;
-    private TargetAchievementAdapter adapter;
+    private ServiceTargetAchievementAdapter adapter;
 
     @Override
     void initilizePresenter() {
-        presenter = new TargetAchievmentPresenter(this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        presenter = new ServiceTargetAchievmentPresenter(this);
     }
+
 
     @Override
     void fetchData() {
         presenter.fetchDashBoardData(day,month,year,ssName);
-
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
 
@@ -35,7 +35,7 @@ public class TargetAchievementFragment extends BaseDashBoardFragment {
     public void updateAdapter() {
         super.updateAdapter();
         if(adapter == null){
-            adapter = new TargetAchievementAdapter(getActivity(), (position, content) -> {
+            adapter = new ServiceTargetAchievementAdapter(getActivity(), (position, content) -> {
 
             });
             adapter.setData(presenter.getDashBoardData());

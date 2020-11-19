@@ -12,6 +12,7 @@ import net.sqlcipher.Cursor;
 import net.sqlcipher.database.SQLiteDatabase;
 
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.LocalDate;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,6 +20,7 @@ import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.model.ForumDetails;
 import org.smartregister.brac.hnpp.model.HHMemberProperty;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.HnppDBConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.brac.hnpp.utils.RiskyModel;
@@ -257,6 +259,10 @@ public class VisitLogIntentService extends IntentService {
                                 log.setEventType(encounter_type);
                                 log.setVisitJson(form_object.toString());
                                 HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
+                                LocalDate localDate = new LocalDate(visit.getDate());
+                                String ssName = HnppDBUtils.getSSName(base_entity_id);
+                                HnppApplication.getTargetRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id);
+
                                 if (HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)){
                                     HnppApplication.getHNPPInstance().getHnppVisitLogRepository().updateFamilyLastHomeVisit(base_entity_id,String.valueOf(visit.getDate().getTime()));
                                 }
@@ -730,6 +736,25 @@ public class VisitLogIntentService extends IntentService {
                         log.setFamilyId(forumDetails.place.getBaseEntityId());
                         Log.v("PROCESS_CLIENT","add to visitlog>>>>"+visit.getVisitType());
                         HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
+                        LocalDate localDate = new LocalDate(visit.getDate());
+                        String ssName = HnppDBUtils.getSSName(visit.getBaseEntityId());
+                        HnppApplication.getTargetRepository().updateValue(visit.getVisitType(),localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId());
+                        if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_CHILD)){
+                            HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_IYCF_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
+
+                        }else if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_WOMEN)){
+                            HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_WOMEN_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
+
+                        }else if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_ADO)){
+                            HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADO_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
+
+                        }else if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_NCD)){
+                            HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_NCD_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
+
+                        }else if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_ADULT)){
+                            HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADULT_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
+
+                        }
                     }
 
                 }

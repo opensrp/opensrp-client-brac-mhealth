@@ -1,24 +1,23 @@
 package org.smartregister.brac.hnpp.presenter;
 
+import org.smartregister.brac.hnpp.activity.ForumHistoryDetailsActivity;
 import org.smartregister.brac.hnpp.contract.DashBoardContract;
-import org.smartregister.brac.hnpp.interactor.TargetAchievementInteractor;
-import org.smartregister.brac.hnpp.interactor.WorkSummeryDashBoardInteractor;
+import org.smartregister.brac.hnpp.interactor.ForumTargetAchievementInteractor;
+import org.smartregister.brac.hnpp.interactor.ServiceTargetAchievementInteractor;
 import org.smartregister.brac.hnpp.model.TargetVsAchievementModel;
-import org.smartregister.brac.hnpp.model.WorkSummeryDashBoardModel;
-import org.smartregister.brac.hnpp.utils.DashBoardData;
 import org.smartregister.brac.hnpp.utils.TargetVsAchievementData;
 import org.smartregister.family.util.AppExecutors;
 
 import java.util.ArrayList;
 
-public class TargetAchievmentPresenter implements DashBoardContract.TargetPresenter,DashBoardContract.InteractorCallBack {
+public class ForumTargetAchievementPresenter implements DashBoardContract.TargetPresenter,DashBoardContract.InteractorCallBack {
 
     private DashBoardContract.View view;
-    private TargetAchievementInteractor interactor;
+    private ForumTargetAchievementInteractor interactor;
 
-    public TargetAchievmentPresenter(DashBoardContract.View view){
+    public ForumTargetAchievementPresenter(DashBoardContract.View view){
         this.view = view;
-        interactor = new TargetAchievementInteractor(new AppExecutors(),new TargetVsAchievementModel(view.getContext()));
+        interactor = new ForumTargetAchievementInteractor(new AppExecutors(),new TargetVsAchievementModel(view.getContext()));
 
     }
     public ArrayList<TargetVsAchievementData> getDashBoardData(){

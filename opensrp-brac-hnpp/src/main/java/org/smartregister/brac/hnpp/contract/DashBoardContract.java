@@ -22,7 +22,7 @@ public interface DashBoardContract {
 
         void fetchAllData(DashBoardContract.InteractorCallBack callBack);
 
-        void filterData(String ssName, String month, String date,DashBoardContract.InteractorCallBack callBack);
+        void filterData(String ssName, String month , DashBoardContract.InteractorCallBack callBack);
 
 
     }
@@ -30,9 +30,9 @@ public interface DashBoardContract {
 
         ArrayList<TargetVsAchievementData> getTargetListData();
 
-        void fetchAllData(DashBoardContract.InteractorCallBack callBack, int day, int month, int year);
+        void fetchAllData(DashBoardContract.InteractorCallBack callBack, int day, int month, int year, String ssName);
 
-        void filterData(String ssName, int day, int month, int year, String date,DashBoardContract.InteractorCallBack callBack);
+        void filterData(String ssName, int day, int month, int year, DashBoardContract.InteractorCallBack callBack);
 
 
     }
@@ -47,16 +47,16 @@ public interface DashBoardContract {
 
          void fetchDashBoardData();
 
-         void filterData(String ssName, String month, String date);
+         void filterData(String ssName, String month);
 
          View getView();
 
     }
     public interface TargetPresenter{
 
-        void fetchDashBoardData(int day, int month, int year);
+        void fetchDashBoardData(int day, int month, int year, String ssName);
 
-        void filterData(String ssName, String month, String date);
+        void filterData(String ssName, int day, int month, int year);
 
         View getView();
 

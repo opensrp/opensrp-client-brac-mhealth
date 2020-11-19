@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
@@ -38,13 +39,14 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
 
     private Button dateBtn;
     protected RecyclerView recyclerView;
-    private int date, month, year;
+    protected int date, month, year;
     private String fromDate, toDate, currentDate;
     private Runnable runnable;
     protected Spinner ssSpinner,monthSpinner;
     protected ProgressBar progressBar;
     protected String ssName;
     private ImageView filterBtn;
+    protected LinearLayout monthView,dateView;
     abstract void filterData();
     abstract void updateTitle();
     abstract void fetchData();
@@ -68,6 +70,8 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
         ssSpinner = view.findViewById(R.id.ss_filter_spinner);
+        monthView = view.findViewById(R.id.month_view);
+        dateView = view.findViewById(R.id.date_view);
         monthSpinner = view.findViewById(R.id.month_filter_spinner);
         progressBar = view.findViewById(R.id.progress_bar);
         filterBtn = view.findViewById(R.id.filterBtn);
@@ -92,6 +96,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
         updateFilter();
         loadSSList();
         loadMonthList();
+        updateTitle();
         fetchData();
     }
 
@@ -101,8 +106,13 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
             case R.id.date_btn:
                 DatePickerDialog fromDialog = new DatePickerDialog(getActivity(), R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        fromDate = year + "-" + addZeroForMonth((month+1)+"")+"-"+addZeroForMonth(dayOfMonth+"");
+                    public void onDateSet(DatePicker view, int yr, int mnt, int dayOfMonth) {
+
+                        date = dayOfMonth;
+                        month = mnt +1;
+                        year = yr;
+
+                        fromDate = year + "-" + addZeroForMonth((mnt+1)+"")+"-"+addZeroForMonth(dayOfMonth+"");
 
                         dateBtn.setText(fromDate);
                         updateFilter();
@@ -174,6 +184,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
             }
         };
         monthSpinner.setAdapter(monthSpinnerArrayAdapter);
+        monthSpinner.setSelection(month);
         monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {

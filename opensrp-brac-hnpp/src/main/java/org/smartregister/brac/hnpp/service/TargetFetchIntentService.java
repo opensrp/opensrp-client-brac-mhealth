@@ -72,6 +72,9 @@ public class TargetFetchIntentService extends IntentService {
                 return null;
             }
             String lastSynTime = CoreLibrary.getInstance().context().allSharedPreferences().getPreference(LAST_SYNC_TIME);
+            if(TextUtils.isEmpty(lastSynTime)){
+                lastSynTime ="0";
+            }
             //testing
             String url = baseUrl + LOCATION_FETCH + "username=" + userName+"&timestamp="+lastSynTime;
             Log.v("TARGET_FETCH","getLocationList>>url:"+url);

@@ -1,5 +1,7 @@
 package org.smartregister.brac.hnpp.fragment;
 
+import android.view.View;
+
 import org.smartregister.brac.hnpp.adapter.DashBoardAdapter;
 import org.smartregister.brac.hnpp.presenter.CountSummeryDashBoardPresenter;
 
@@ -10,6 +12,8 @@ public class CountSummeryDashBoardFragment extends BaseDashBoardFragment {
     @Override
     void initilizePresenter() {
         presenter = new CountSummeryDashBoardPresenter(this);
+        monthView.setVisibility(View.INVISIBLE);
+        dateView.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -20,7 +24,7 @@ public class CountSummeryDashBoardFragment extends BaseDashBoardFragment {
 
     @Override
     void filterData() {
-
+        presenter.filterData(ssName,"");
     }
 
     @Override
@@ -40,7 +44,7 @@ public class CountSummeryDashBoardFragment extends BaseDashBoardFragment {
 
     @Override
     void updateTitle() {
-        super.updateTitle("মাসিক পরিদর্শন ড্যাশবোর্ড");
+        super.updateTitle("পরিদর্শন ড্যাশবোর্ড");
 
     }
 }

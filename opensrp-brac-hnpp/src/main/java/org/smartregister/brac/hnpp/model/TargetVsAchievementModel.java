@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.model;
 import android.content.Context;
 import android.database.Cursor;
 import android.text.TextUtils;
+import android.util.Log;
 
 import org.smartregister.brac.hnpp.contract.DashBoardContract;
 import org.smartregister.brac.hnpp.repository.TargetVsAchievementRepository;
@@ -19,73 +20,122 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
     public TargetVsAchievementModel(Context context){
         this.context = context;
     }
-    private String getFilter(int day, int month, int year){
-        if(day==0) return  " and month ="+month+" and year ="+year+"";
-        return  " and day ="+day+" and month ="+month+" and year ="+year+"";
+    private String getFilter(int day, int month, int year, String ssName){
+        if(day==0) {
+            if(TextUtils.isEmpty(ssName))return  " and month ="+month+" and year ="+year+"";
+            else return  " and month ="+month+" and year ="+year+" and ss_name = '"+ssName+"'";
+            
+        }else{
+            if(TextUtils.isEmpty(ssName))return  " and day ="+day+" and month ="+month+" and year ="+year+"";
+            else return  " and day ="+day+" and month ="+month+" and year ="+year+" and ss_name ='"+ssName+"'";
+        }
+        
     }
-    public ArrayList<TargetVsAchievementData> getHHVisitTarget(int day, int month, int year){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY,day,month,year);
+    public TargetVsAchievementData getHHVisitTarget(int day, int month, int year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY,day,month,year,ssName);
     }
-    public ArrayList<TargetVsAchievementData> getElcoTarget(int day, int month, int year){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ELCO,day,month,year);
+    public TargetVsAchievementData getElcoTarget(int day, int month, int year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ELCO,day,month,year,ssName);
     }
-    public ArrayList<TargetVsAchievementData> getMethodUserTarget(int day, int month, int year){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.METHOD_USER,day,month,year);
+    public TargetVsAchievementData getMethodUserTarget(int day, int month, int year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.METHOD_USER,day,month,year,ssName);
     }
-    public ArrayList<TargetVsAchievementData> getAdoMethodUserTarget(int day, int month, int year){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ADO_METHOD_USER,day,month,year);
+    public TargetVsAchievementData getAdoMethodUserTarget(int day, int month, int year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ADO_METHOD_USER,day,month,year,ssName);
     }
-    public ArrayList<TargetVsAchievementData> getPregnencyIdentiTarget(int day, int month, int year){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.PREGNANCY_IDENTIFIED,day,month,year);
+    public TargetVsAchievementData getPregnencyIdentiTarget(int day, int month, int year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.PREGNANCY_IDENTIFIED,day,month,year,ssName);
     }
-    public ArrayList<TargetVsAchievementData> getDeliveryTarget(int day, int month, int year){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME,day,month,year);
+    public TargetVsAchievementData getDeliveryTarget(int day, int month, int year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME,day,month,year,ssName);
     }
-    public ArrayList<TargetVsAchievementData> getInstitutionDeliveryTarget(int day, int month, int year){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.INSTITUTIONALIZES_DELIVERY,day,month,year);
+    public TargetVsAchievementData getInstitutionDeliveryTarget(int day, int month, int year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.INSTITUTIONALIZES_DELIVERY,day,month,year,ssName);
     }
-    public ArrayList<TargetVsAchievementData> getPregnancyVisitTarget(int day, int month, int year){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.PREGNANCY_VISIT,day,month,year);
+    public TargetVsAchievementData get0to6ChildVisitTarget(int day, int month, int year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CHILD_VISIT_0_6,day,month,year,ssName);
     }
-    public ArrayList<TargetVsAchievementData> getAncRegistrationTarget(int day, int month, int year){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ANC_REGISTRATION,day,month,year);
+    public TargetVsAchievementData get7to24ChildVisitTarget(int day, int month, int year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CHILD_VISIT_7_24,day,month,year,ssName);
     }
-    public ArrayList<TargetVsAchievementData> getPncRegistrationTarget(int day, int month, int year){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.PNC_REGISTRATION,day,month,year);
+    public TargetVsAchievementData get18to36ChildVisitTarget(int day, int month, int year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CHILD_VISIT_18_36,day,month,year,ssName);
     }
-    public ArrayList<TargetVsAchievementData> getNcdTarget(int day, int month, int year){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.NCD_PACKAGE,day,month,year);
+    public TargetVsAchievementData get0to59ChildImmunizationTarget(int day, int month, int year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CHILD_IMMUNIZATION_0_59,day,month,year,ssName);
     }
-    public ArrayList<TargetVsAchievementData> getIYCFTarget(int day, int month, int year){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.IYCF_PACKAGE,day,month,year);
+
+    // service
+
+    public TargetVsAchievementData getAncServiceTarget(int day, int month, int year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ANC_SERVICE,day,month,year,ssName);
     }
-    public ArrayList<TargetVsAchievementData> getWomenTarget(int day, int month, int year){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.WOMEN_PACKAGE,day,month,year);
+    public TargetVsAchievementData getPncServiceTarget(int day, int month, int year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.PNC_SERVICE,day,month,year,ssName);
     }
-    public ArrayList<TargetVsAchievementData> getAvgAdoTarget(int day, int month, int year){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADO_FORUM,day,month,year);
+    public TargetVsAchievementData getNcdTarget(int day, int month, int year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.NCD_PACKAGE,day,month,year,ssName);
     }
-    public ArrayList<TargetVsAchievementData> getAvgNcdTarget(int day, int month, int year){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.AVG_ATTEND_NCD_FORUM,day,month,year);
+    public TargetVsAchievementData getIYCFTarget(int day, int month, int year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.IYCF_PACKAGE,day,month,year,ssName);
     }
-    public ArrayList<TargetVsAchievementData> getAvgAdultTarget(int day, int month, int year){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADULT_FORUM,day,month,year);
+    public TargetVsAchievementData getWomenTarget(int day, int month, int year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.WOMEN_PACKAGE,day,month,year,ssName);
     }
-    public ArrayList<TargetVsAchievementData> getAvgIycfTarget(int day, int month, int year){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.AVG_ATTEND_IYCF_FORUM,day,month,year);
+    public TargetVsAchievementData getAdoTarget(int day, int month, int year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.GIRL_PACKAGE,day,month,year,ssName);
     }
-    public ArrayList<TargetVsAchievementData> getTargetVsAchievmentByVisitType(String visitType,int day, int month, int year){
-        ArrayList<TargetVsAchievementData> dashBoardDataArrayList = new ArrayList<>();
-        String query = "select * from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year);
+    //forum
+    public TargetVsAchievementData getAdoForumTarget(int day, int month, int year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.FORUM_ADO,day,month,year,ssName);
+    }
+    public TargetVsAchievementData getNcdForumTarget(int day, int month, int year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.FORUM_NCD,day,month,year,ssName);
+    }
+    public TargetVsAchievementData getChildForumTarget(int day, int month, int year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.FORUM_CHILD,day,month,year,ssName);
+    }
+    public TargetVsAchievementData getWomenForumTarget(int day, int month, int year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.FORUM_WOMEN,day,month,year,ssName);
+    }
+    public TargetVsAchievementData getAdultForumTarget(int day, int month, int year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.FORUM_ADULT,day,month,year,ssName);
+    }
+
+    public TargetVsAchievementData getAvgAdoTarget(int day, int month, int year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADO_FORUM,day,month,year,ssName);
+    }
+    public TargetVsAchievementData getAvgNcdTarget(int day, int month, int year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.AVG_ATTEND_NCD_FORUM,day,month,year,ssName);
+    }
+    public TargetVsAchievementData getAvgAdultTarget(int day, int month, int year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADULT_FORUM,day,month,year,ssName);
+    }
+    public TargetVsAchievementData getAvgChildTarget(int day, int month, int year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.AVG_ATTEND_IYCF_FORUM,day,month,year,ssName);
+    }
+    public TargetVsAchievementData getAvgWomenTarget(int day, int month, int year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.AVG_ATTEND_WOMEN_FORUM,day,month,year,ssName);
+    }
+    public TargetVsAchievementData getTargetVsAchievmentByVisitType(String visitType,int day, int month, int year, String ssName){
+        TargetVsAchievementData dashBoardData1 = new TargetVsAchievementData();
+        String query = "select sum(target_count) as target_count, sum(achievemnt_count) as achievemnt_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
+        Log.v("TARGET_QUERY","query:"+query);
         Cursor cursor = null;
         // try {
         cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         if(cursor !=null && cursor.getCount() > 0){
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
-                TargetVsAchievementData dashBoardData1 = new TargetVsAchievementData();
                 dashBoardData1.setTargetCount(cursor.getInt(cursor.getColumnIndex(TargetVsAchievementRepository.TARGET_COUNT)));
                 dashBoardData1.setAchievementCount(cursor.getInt(cursor.getColumnIndex(TargetVsAchievementRepository.ACHIEVEMNT_COUNT)));
+                //test
+                dashBoardData1.setAchievementCount(3);
+                if(dashBoardData1.getTargetCount() != 0){
+                    int percentage = (int) ((dashBoardData1.getAchievementCount() * 100)/dashBoardData1.getTargetCount());
+                    dashBoardData1.setAchievementPercentage(percentage);
+                }
+
                 dashBoardData1.setEventType(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY);
                 dashBoardData1.setTitle(HnppConstants.eventTypeMapping.get(dashBoardData1.getEventType()));
 
@@ -94,9 +144,6 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
                 }catch (Exception e){
 
                 }
-                if(!TextUtils.isEmpty(dashBoardData1.getEventType())){
-                    dashBoardDataArrayList.add(dashBoardData1);
-                }
                 cursor.moveToNext();
             }
             cursor.close();
@@ -104,7 +151,7 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
         }
 
 
-        return dashBoardDataArrayList;
+        return dashBoardData1;
     }
 
     @Override

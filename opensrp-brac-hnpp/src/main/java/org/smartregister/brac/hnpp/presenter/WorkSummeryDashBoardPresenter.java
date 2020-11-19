@@ -38,7 +38,9 @@ public class WorkSummeryDashBoardPresenter implements DashBoardContract.Presente
     }
 
     @Override
-    public void filterData(String ssName, String month, String date) {
+    public void filterData(String ssName, String month) {
+        getView().showProgressBar();
+        interactor.filterData(ssName,month,this);
 
     }
 

@@ -40,6 +40,7 @@ import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
 import org.smartregister.brac.hnpp.job.SSLocationFetchJob;
+import org.smartregister.brac.hnpp.job.TargetFetchJob;
 import org.smartregister.brac.hnpp.location.SaveDistrictTask;
 import org.smartregister.brac.hnpp.presenter.LoginPresenter;
 import org.smartregister.brac.hnpp.repository.DistrictListRepository;
@@ -377,6 +378,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         try{
             PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
             SSLocationFetchJob.scheduleJobImmediately(SSLocationFetchJob.TAG);
+            TargetFetchJob.scheduleJobImmediately(TargetFetchJob.TAG);
         }catch (Exception e){
 
         }

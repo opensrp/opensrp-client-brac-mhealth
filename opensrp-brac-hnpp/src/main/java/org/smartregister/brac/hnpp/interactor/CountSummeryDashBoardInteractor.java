@@ -25,25 +25,37 @@ public class CountSummeryDashBoardInteractor implements DashBoardContract.Intera
         return dashBoardDataArrayList;
     }
 
+    private void addToDashBoardList(DashBoardData dashBoardData){
+        if(dashBoardData !=null) dashBoardDataArrayList.add(dashBoardData);
+    }
+
     @Override
     public void fetchAllData(DashBoardContract.InteractorCallBack callBack) {
         Runnable runnable = () -> {
-            fetchHHData();
+            fetchHHData("");
 
             appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
         };
         appExecutors.diskIO().execute(runnable);
 
     }
-
-    private void fetchHHData() {
-        model.getHHCount();
-        model.getMemberCount();
+    // need to maintain serial to display
+    private void fetchHHData(String ssName) {
+        addToDashBoardList(model.getHHCount(ssName));
+        addToDashBoardList(model.getMemberCount(ssName));
 
     }
 
     @Override
-    public void filterData(String ssName, String month, String date,DashBoardContract.InteractorCallBack callBack) {
+    public void filterData(String ssName, String month , DashBoardContract.InteractorCallBack callBack) {
+        dashBoardDataArrayList.clear();
+        Runnable runnable = () -> {
+            fetchHHData(ssName);
+
+            appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
+        };
+        appExecutors.diskIO().execute(runnable);
+
 
     }
 }

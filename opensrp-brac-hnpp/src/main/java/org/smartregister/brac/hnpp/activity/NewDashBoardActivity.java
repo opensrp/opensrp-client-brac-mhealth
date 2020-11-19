@@ -14,12 +14,16 @@ import com.github.ybq.android.spinkit.style.FadingCircle;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.fragment.BaseDashBoardFragment;
 import org.smartregister.brac.hnpp.fragment.CountSummeryDashBoardFragment;
+import org.smartregister.brac.hnpp.fragment.DailyServiceTargetAchievementFragment;
+import org.smartregister.brac.hnpp.fragment.DailyTargetAchievementFragment;
+import org.smartregister.brac.hnpp.fragment.ForumTargetAchievementFragment;
+import org.smartregister.brac.hnpp.fragment.MonthlyServiceTargetAchievementFragment;
+import org.smartregister.brac.hnpp.fragment.MonthlyTargetAchievementFragment;
 import org.smartregister.brac.hnpp.fragment.WorkSummeryDashBoardFragment;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.view.activity.SecuredActivity;
 
 public class NewDashBoardActivity extends SecuredActivity {
-    private CountSummeryDashBoardFragment countSummeryDashBoardFragment;
     private ImageView refreshIndicatorsIcon;
     private ProgressBar refreshIndicatorsProgressBar;
     private TextView titleText;
@@ -34,17 +38,34 @@ public class NewDashBoardActivity extends SecuredActivity {
 
     }
     private void loadCountSummeryFragment(int position){
-        if(position == 0){
-            dashBoardFragment = new CountSummeryDashBoardFragment();
-        }
-        else if(position == 1){
-            dashBoardFragment = new WorkSummeryDashBoardFragment();
+        switch (position){
+            case 0:
+                dashBoardFragment = new CountSummeryDashBoardFragment();
+                break;
+            case 1:
+                dashBoardFragment = new WorkSummeryDashBoardFragment();
+                break;
+            case 2:
+                dashBoardFragment = new DailyTargetAchievementFragment();
+                break;
+            case 3:
+                dashBoardFragment = new MonthlyTargetAchievementFragment();
+                break;
+            case 4:
+                dashBoardFragment = new DailyServiceTargetAchievementFragment();
+                break;
+            case 5:
+                dashBoardFragment = new MonthlyServiceTargetAchievementFragment();
+                break;
+            case 6:
+                dashBoardFragment = new ForumTargetAchievementFragment();
+                break;
         }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction =
                 fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.container, dashBoardFragment);
+        fragmentTransaction.replace(R.id.container, dashBoardFragment);
         fragmentTransaction.commit();
     }
     private void setUpView() {
@@ -81,18 +102,12 @@ public class NewDashBoardActivity extends SecuredActivity {
         tabs.addTab(tabs.newTab().setText("দৈনিক সেবা"));
         tabs.addTab(tabs.newTab().setText("মাসিক সেবা"));
         tabs.addTab(tabs.newTab().setText("ফোরাম"));
-        tabs.addTab(tabs.newTab().setText("স্টক"));
+        //tabs.addTab(tabs.newTab().setText("স্টক"));
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if(tabs.getSelectedTabPosition() == 0){
-                    loadCountSummeryFragment(0);
-                }else if(tabs.getSelectedTabPosition() == 1){
-                    loadCountSummeryFragment(1);
-                }else if(tabs.getSelectedTabPosition() == 2){
-                }else if(tabs.getSelectedTabPosition() == 3){
-                }else if(tabs.getSelectedTabPosition() == 4){
-                }
+                loadCountSummeryFragment(tabs.getSelectedTabPosition());
+
             }
 
             @Override

@@ -43,6 +43,25 @@ import timber.log.Timber;
 
 public class HnppDBUtils extends CoreChildUtils {
 
+    public static String getSSName(String baseEntityId){
+        String query = "select ec_family.ss_name from ec_family inner join ec_family_member on ec_family.base_entity_id = ec_family_member.relational_id where ec_family_member.base_entity_id = '"+baseEntityId+"'";
+        Cursor cursor = null;
+        String birthWeight="";
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                birthWeight = cursor.getString(0);
+                cursor.close();
+            }
+
+            return birthWeight;
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return birthWeight;
+    }
+
     public static void updateCoronaFamilyMember(String base_entity_id, String value){
         try{
             SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
@@ -134,6 +153,7 @@ public class HnppDBUtils extends CoreChildUtils {
         }
         return isCorona;
     }
+
 
     public static String getGuid(String baseEntityId){
         String query = "select gu_id from ec_family_member where base_entity_id = '"+baseEntityId+"'";

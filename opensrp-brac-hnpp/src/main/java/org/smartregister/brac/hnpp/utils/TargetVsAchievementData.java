@@ -11,7 +11,43 @@ public class TargetVsAchievementData extends DashBoardData {
     private String startDate;
     private String endDate;
     private int achievementCount;
+    private int achievementPercentage;
     private long timestamp;
+    private int avgTargetCount;
+    private int avgAchievmentCount;
+    private int avgAchievementPercentage;
+
+    public int getAchievementPercentage() {
+        return achievementPercentage;
+    }
+
+    public void setAchievementPercentage(int achievementPercentage) {
+        this.achievementPercentage = achievementPercentage;
+    }
+
+    public int getAvgAchievementPercentage() {
+        return avgAchievementPercentage;
+    }
+
+    public void setAvgAchievementPercentage(int avgAchievementPercentage) {
+        this.avgAchievementPercentage = avgAchievementPercentage;
+    }
+
+    public int getAvgTargetCount() {
+        return avgTargetCount;
+    }
+
+    public void setAvgTargetCount(int avgTargetCount) {
+        this.avgTargetCount = avgTargetCount;
+    }
+
+    public int getAvgAchievmentCount() {
+        return avgAchievmentCount;
+    }
+
+    public void setAvgAchievmentCount(int avgAchievmentCount) {
+        this.avgAchievmentCount = avgAchievmentCount;
+    }
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;

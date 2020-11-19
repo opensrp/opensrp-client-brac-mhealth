@@ -368,11 +368,16 @@ public class HnppConstants extends CoreConstants {
         public static final String CHILD_VISIT_0_6= "Child Visit (0-6 months)";
         public static final String CHILD_VISIT_7_24= "Child Visit (7-24 months)";
         public static final String CHILD_VISIT_18_36= "Child Visit(18-36 months)";
+        public static final String CHILD_IMMUNIZATION_0_59= "Immunization(0-59 months)";
         public static final String AVG_ATTEND_ADO_FORUM= "Avg. Attendance (Adolescent Forum)";
         public static final String AVG_ATTEND_NCD_FORUM= "Avg. Attendance (NCD Forum)";
         public static final String AVG_ATTEND_ADULT_FORUM= "Avg Attendance (Adult Forum)";
         public static final String AVG_ATTEND_IYCF_FORUM= "Avg Attendance (IYCF Forum)";
         public static final String AVG_ATTEND_WOMEN_FORUM= "Avg Attendance (Women Forum)";
+        //service
+        public static final String ANC_SERVICE = "ANC Service";
+        public static final String PNC_SERVICE = "PNC Service";
+        public static final String DELIVERY_SERVICE = "Delivery Service";
     }
     public static final Map<String,String> vaccineNameMapping = ImmutableMap.<String,String> builder()
             .put("bcg","বিসিজি")

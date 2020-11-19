@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.model;
 import android.content.Context;
 import android.database.Cursor;
 import android.text.TextUtils;
+import android.util.Log;
 
 import org.smartregister.brac.hnpp.contract.DashBoardContract;
 import org.smartregister.brac.hnpp.utils.DashBoardData;
@@ -23,16 +24,30 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
         this.context = context;
     }
 
-    public ArrayList<DashBoardData> getHHCount(){
-        ArrayList<DashBoardData> dashBoardDataArrayList = new ArrayList<>();
-        String query = "select count(*) as count from ec_family where date_removed is null ";
+    public DashBoardData getHHCount(String ssName, String month){
+        String query;
+
+        DashBoardData dashBoardData1 = null;
+        if(TextUtils.isEmpty(ssName) && TextUtils.isEmpty(month)){
+            query = "select count(*) as count from ec_family where date_removed is null ";
+        }else if(!TextUtils.isEmpty(ssName) && !TextUtils.isEmpty(month)){
+            query = "select count(*) as count from ec_family where ss_name = '"+ssName+"' and strftime('%m', datetime("+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime')) = '"+month+"' and date_removed is null ";
+
+        }
+        else if(!TextUtils.isEmpty(ssName)){
+            query = "select count(*) as count from ec_family where ss_name = '"+ssName+"' and date_removed is null ";
+        }else {
+            query = "select count(*) as count from ec_family where strftime('%m', datetime("+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime')) = '"+month+"' and date_removed is null ";
+        }
+
+        Log.v("WORD_QUERY","log:"+query);
         Cursor cursor = null;
         // try {
         cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         if(cursor !=null && cursor.getCount() > 0){
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
-                DashBoardData dashBoardData1 = new DashBoardData();
+                dashBoardData1 = new DashBoardData();
                 dashBoardData1.setCount(cursor.getInt(0));
                 dashBoardData1.setEventType(HnppConstants.EventType.FAMILY_REGISTRATION);
                 dashBoardData1.setTitle(HnppConstants.eventTypeMapping.get(dashBoardData1.getEventType()));
@@ -42,9 +57,6 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
                 }catch (Exception e){
 
                 }
-                if(!TextUtils.isEmpty(dashBoardData1.getEventType())){
-                    dashBoardDataArrayList.add(dashBoardData1);
-                }
                 cursor.moveToNext();
             }
             cursor.close();
@@ -52,18 +64,26 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
         }
 
 
-        return dashBoardDataArrayList;
+        return dashBoardData1;
     }
-    public ArrayList<DashBoardData> getMemberCount(){
-        ArrayList<DashBoardData> dashBoardDataArrayList = new ArrayList<>();
-        String query = "select count(*) as count from ec_family_member where date_removed is null";
+    public DashBoardData getMemberCount(String ssName, String month){
+        DashBoardData dashBoardData1 = null;
+
+        String query;
+        if(TextUtils.isEmpty(ssName) && TextUtils.isEmpty(month)){
+            query = "select count(*) as count from ec_family_member where date_removed is null";
+        }else {
+            query = MessageFormat.format("select count(*) as count from {0} {1}", "ec_family_member", getFilterCondition(ssName,month));
+
+        }
+        Log.v("WORK_QUERY","member:"+query);
         Cursor cursor = null;
         // try {
         cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         if(cursor !=null && cursor.getCount() > 0){
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
-                DashBoardData dashBoardData1 = new DashBoardData();
+                dashBoardData1 = new DashBoardData();
                 dashBoardData1.setCount(cursor.getInt(0));
                 dashBoardData1.setEventType(HnppConstants.EventType.FAMILY_MEMBER_REGISTRATION);
                 dashBoardData1.setTitle(HnppConstants.eventTypeMapping.get(dashBoardData1.getEventType()));
@@ -73,9 +93,6 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
                 }catch (Exception e){
 
                 }
-                if(!TextUtils.isEmpty(dashBoardData1.getEventType())){
-                    dashBoardDataArrayList.add(dashBoardData1);
-                }
                 cursor.moveToNext();
             }
             cursor.close();
@@ -83,7 +100,28 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
         }
 
 
-        return dashBoardDataArrayList;
+        return dashBoardData1;
+    }
+    public String getFilterCondition(String ssName, String month){
+        StringBuilder build = new StringBuilder();
+        build.append(MessageFormat.format(" inner join {0} ", CoreConstants.TABLE_NAME.FAMILY));
+        build.append(MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.FAMILY, DBConstants.KEY.BASE_ENTITY_ID,
+                CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.RELATIONAL_ID));
+        if(!TextUtils.isEmpty(ssName) && !TextUtils.isEmpty(month)){
+            build.append(MessageFormat.format(" where {0}.{1} is null and {2} = {3}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED, HnppConstants.KEY.SS_NAME,"'"+ssName+"'"));
+            build.append(MessageFormat.format(" and {0}.{1} is null and {2}  = {3}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED,"strftime('%m', datetime("+CoreConstants.TABLE_NAME.FAMILY_MEMBER+"."+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime'))" ,"'"+month+"'"));
+
+        }
+        else if(!TextUtils.isEmpty(month)){
+            build.append(MessageFormat.format(" where {0}.{1} is null and {2}  = {3}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED,"strftime('%m', datetime("+CoreConstants.TABLE_NAME.FAMILY_MEMBER+"."+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime'))" ,"'"+month+"'"));
+
+        }
+        else if(!TextUtils.isEmpty(ssName)){
+            build.append(MessageFormat.format(" where {0}.{1} is null and {2} = {3}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED, HnppConstants.KEY.SS_NAME,"'"+ssName+"'"));
+
+        }
+
+        return build.toString();
     }
     public ArrayList<DashBoardData> getANCRegisterCount(){
         ArrayList<DashBoardData> dashBoardDataArrayList = new ArrayList<>();
