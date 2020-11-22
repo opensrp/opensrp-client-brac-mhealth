@@ -40,6 +40,7 @@ import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
 import org.smartregister.brac.hnpp.job.SSLocationFetchJob;
+import org.smartregister.brac.hnpp.job.TargetFetchJob;
 import org.smartregister.brac.hnpp.location.SaveDistrictTask;
 import org.smartregister.brac.hnpp.presenter.LoginPresenter;
 import org.smartregister.brac.hnpp.repository.DistrictListRepository;
@@ -73,10 +74,10 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         passwordText = findViewById(R.id.login_password_edit_text);
         userNameView = findViewById(R.id.login_user_name_view);
         passwordView = findViewById(R.id.login_password_view);
-        if(BuildConfig.DEBUG){
-            userNameText.setText("testsk");
-            passwordText.setText("brac2019");
-        }
+//        if(BuildConfig.DEBUG){
+//            userNameText.setText("testsk");
+//            passwordText.setText("brac2019");
+//        }
 
         userNameText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -377,6 +378,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         try{
             PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
             SSLocationFetchJob.scheduleJobImmediately(SSLocationFetchJob.TAG);
+            TargetFetchJob.scheduleJobImmediately(TargetFetchJob.TAG);
         }catch (Exception e){
 
         }

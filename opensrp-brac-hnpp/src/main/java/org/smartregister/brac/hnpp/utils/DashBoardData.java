@@ -1,19 +1,23 @@
 package org.smartregister.brac.hnpp.utils;
 
 public class DashBoardData {
+
     private int imageSource;
     private String title;
     private int count;
-    private String date;
     private String eventType;
+    private String ssName;
 
-    public String getDate() {
-        return date;
+
+    public void setSsName(String ssName) {
+        this.ssName = ssName;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+
+    public String getSsName() {
+        return ssName;
     }
+
 
     public String getEventType() {
         return eventType;

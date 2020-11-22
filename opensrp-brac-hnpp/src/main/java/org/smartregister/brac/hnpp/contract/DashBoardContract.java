@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.contract;
 import android.content.Context;
 
 import org.smartregister.brac.hnpp.utils.DashBoardData;
+import org.smartregister.brac.hnpp.utils.TargetVsAchievementData;
 
 import java.util.ArrayList;
 
@@ -10,12 +11,29 @@ public interface DashBoardContract {
 
     public interface InteractorCallBack{
 
-        void updateList(ArrayList<DashBoardData> dashBoardData);
+
+
+        void fetchedSuccessfully();
 
     }
     public interface Interactor{
 
-        void fetchDashBoardData(String toDate, String fromDate, InteractorCallBack interactorCallBack);
+        ArrayList<DashBoardData> getListData();
+
+        void fetchAllData(DashBoardContract.InteractorCallBack callBack);
+
+        void filterData(String ssName, String month , DashBoardContract.InteractorCallBack callBack);
+
+
+    }
+    public interface TargetInteractor {
+
+        ArrayList<TargetVsAchievementData> getTargetListData();
+
+        void fetchAllData(DashBoardContract.InteractorCallBack callBack, int day, int month, int year, String ssName);
+
+        void filterData(String ssName, int day, int month, int year, DashBoardContract.InteractorCallBack callBack);
+
 
     }
     public interface Model{
@@ -27,9 +45,20 @@ public interface DashBoardContract {
     }
     public interface Presenter{
 
-         void fetchDashBoardData(String toDate, String fromDate);
+         void fetchDashBoardData();
+
+         void filterData(String ssName, String month);
 
          View getView();
+
+    }
+    public interface TargetPresenter{
+
+        void fetchDashBoardData(int day, int month, int year, String ssName);
+
+        void filterData(String ssName, int day, int month, int year);
+
+        View getView();
 
     }
     public interface View{

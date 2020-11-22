@@ -359,6 +359,25 @@ public class HnppConstants extends CoreConstants {
         public static final String FORUM_ADULT = "ADULT Forum";
         public static final String CORONA_INDIVIDUAL = "corona individual";
         public static final String SS_INFO = "SS Form";
+        //for target
+        public static final String METHOD_USER = "Methods Users";
+        public static final String ADO_METHOD_USER = "Adolescent Methods Users";
+        public static final String PREGNANCY_IDENTIFIED = "Pregnancy Identified";
+        public static final String INSTITUTIONALIZES_DELIVERY = "Institutionalized Delivery";
+        public static final String PREGNANCY_VISIT= "Pregnant Visit";
+        public static final String CHILD_VISIT_0_6= "Child Visit(0-6 months)";
+        public static final String CHILD_VISIT_7_24= "Child Visit(7-24 months)";
+        public static final String CHILD_VISIT_18_36= "Child Visit(18-36 months)";
+        public static final String CHILD_IMMUNIZATION_0_59= "Immunization(0-59 months)";
+        public static final String AVG_ATTEND_ADO_FORUM= "Avg. Attendance (Adolescent Forum)";
+        public static final String AVG_ATTEND_NCD_FORUM= "Avg. Attendance (NCD Forum)";
+        public static final String AVG_ATTEND_ADULT_FORUM= "Avg Attendance (Adult Forum)";
+        public static final String AVG_ATTEND_IYCF_FORUM= "Avg Attendance (IYCF Forum)";
+        public static final String AVG_ATTEND_WOMEN_FORUM= "Avg Attendance (Women Forum)";
+        //service
+        public static final String ANC_SERVICE = "ANC Service";
+        public static final String PNC_SERVICE = "PNC Service";
+        public static final String DELIVERY_SERVICE = "Delivery Service";
     }
     public static final Map<String,String> vaccineNameMapping = ImmutableMap.<String,String> builder()
             .put("bcg","বিসিজি")
@@ -432,6 +451,8 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.FORUM_ADO,R.drawable.ic_adolescent)
             .put(EVENT_TYPE.FORUM_CHILD,R.drawable.ic_child)
             .put(EVENT_TYPE.FORUM_NCD,R.drawable.ic_sugar_blood_level)
+            .put("ANC",R.mipmap.ic_anc_pink)
+            .put("pnc",R.drawable.sidemenu_pnc)
             .build();
     //need to show the title at row/option
     public static final Map<String,String> visitEventTypeMapping = ImmutableMap.<String,String> builder()
@@ -479,7 +500,76 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.FORUM_NCD,"অসংক্রামক রোগের ফোরাম")
             .put(EVENT_TYPE.FORUM_ADULT,"অ্যাডাল্ট ফোরাম")
             .build();
-    //needed for dashboard
+
+    //for dashboard poridorshon
+    public static final Map<String,String> targetTypeMapping = ImmutableMap.<String,String> builder()
+
+            .put(EVENT_TYPE.HOME_VISIT_FAMILY,"খানা পরিদর্শন")
+            .put(EVENT_TYPE.ELCO,"সক্ষম দম্পতি পরিদর্শন")
+            .put(EVENT_TYPE.METHOD_USER,"পদ্ধতি ব্যবহারকারী")
+            .put(EVENT_TYPE.ADO_METHOD_USER,"পদ্ধতি ব্যবহারকারী (কিশোরী)")
+            .put(EVENT_TYPE.PREGNANCY_IDENTIFIED,"গর্ভবতী চিহ্নিত")
+            .put(EVENT_TYPE.INSTITUTIONALIZES_DELIVERY,"প্রাতিষ্ঠানিক প্রসব সংখ্যা")
+            .put(EVENT_TYPE.CHILD_VISIT_0_6,"০-৬ মাস বয়সী শিশু পরিদর্শন")
+            .put(EVENT_TYPE.CHILD_VISIT_7_24,"৭-২৪ মাস বয়সী শিশু প্রদর্শন")
+            .put(EVENT_TYPE.CHILD_VISIT_18_36,"১৮-৩৬ মাস বয়সী শিশু পরিদর্শন")
+            .put(EVENT_TYPE.CHILD_IMMUNIZATION_0_59,"০-৫৯ মাস বয়সী শিশুর টিকা")
+            .put(EVENT_TYPE.FORUM_ADO,"কিশোরী ফোরাম")
+            .put(EVENT_TYPE.FORUM_WOMEN,"নারী ফোরাম")
+            .put(EVENT_TYPE.FORUM_CHILD,"শিশু ফোরাম")
+            .put(EVENT_TYPE.FORUM_NCD,"অসংক্রামক রোগের ফোরাম")
+            .put(EVENT_TYPE.FORUM_ADULT,"অ্যাডাল্ট ফোরাম")
+            .put(EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসব")
+            .put(EVENT_TYPE.GIRL_PACKAGE,"কিশোরী সেবা")
+            .put(EVENT_TYPE.WOMEN_PACKAGE,"নারী সেবা")
+            .put(EVENT_TYPE.IYCF_PACKAGE,"শিশু সেবা")
+            .put(EVENT_TYPE.NCD_PACKAGE,"অসংক্রামক রোগের সেবা")
+            .put(EVENT_TYPE.ANC_SERVICE,"গর্ভবতী সেবা")
+            .put(EVENT_TYPE.PNC_SERVICE,"প্রসব-পরবর্তী সেবা")
+            .build();
+    //for dashboard workSummery
+    public static final Map<String,String> workSummeryTypeMapping = ImmutableMap.<String,String> builder()
+
+            .put(HnppConstants.EventType.FAMILY_REGISTRATION,"খানা রেজিস্ট্রেশন")
+            .put(HnppConstants.EventType.FAMILY_MEMBER_REGISTRATION,"সদস্য রেজিস্ট্রেশন")
+            .put(HnppConstants.EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,"সদস্য রেজিস্ট্রেশন")
+            .put(EVENT_TYPE.ANC1_REGISTRATION,"গর্ভবতী পরিচর্যা - ১ম ত্রিমাসিক")
+            .put(EVENT_TYPE.ANC2_REGISTRATION,"গর্ভবতী পরিচর্যা - ২য় ত্রিমাসিক")
+            .put(EVENT_TYPE.ANC3_REGISTRATION,"গর্ভবতী পরিচর্যা - ৩য় ত্রিমাসিক")
+            .put("ANC","গর্ভবতী পরিচর্যা(এএনসি)")
+            .put("pnc","প্রসবোত্তর পরিচর্যা(পিএনসি)")
+            .put(HnppConstants.EventType.CHILD_REGISTRATION,"শিশু রেজিস্ট্রেশন")
+            .put(EVENT_TYPE.ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন")
+            .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,"গর্ভবতী পরিচর্যা ভিজিট(এএনসি)")
+            .put(Constants.EVENT_TYPE.PNC_HOME_VISIT,"প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি)")
+            .put(EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসব")
+            .put(EVENT_TYPE.ENC_REGISTRATION, "নবজাতকের সেবা")
+            .put(EVENT_TYPE.CHILD_FOLLOWUP,"শিশু ফলোআপ")
+            .put(EVENT_TYPE.FORUM_ADO,"কিশোরী ফোরাম")
+            .put(EVENT_TYPE.FORUM_WOMEN,"নারী ফোরাম")
+            .put(EVENT_TYPE.FORUM_CHILD,"শিশু ফোরাম")
+            .put(EVENT_TYPE.FORUM_NCD,"অসংক্রামক রোগের ফোরাম")
+            .put(EVENT_TYPE.FORUM_ADULT,"অ্যাডাল্ট ফোরাম")
+            .put(EVENT_TYPE.WOMEN_PACKAGE,"নারী সেবা প্যাকেজ")
+            .put(EVENT_TYPE.GIRL_PACKAGE, "কিশোরী সেবা প্যাকেজ")
+            .put(EVENT_TYPE.NCD_PACKAGE, "অসংক্রামক রোগের সেবা")
+            .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)")
+            .build();
+    //for dashboard countSummery
+    public static final Map<String,String> countSummeryTypeMapping = ImmutableMap.<String,String> builder()
+
+            .put(HnppConstants.EventType.FAMILY_REGISTRATION,"খানা সংখ্যা")
+            .put(HnppConstants.EventType.FAMILY_MEMBER_REGISTRATION,"সদস্য সংখ্যা")
+            .put(HnppConstants.EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,"সদস্য সংখ্যা")
+            .put(HnppConstants.EventType.CHILD_REGISTRATION,"শিশু সংখ্যা")
+            .put(EVENT_TYPE.ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন")
+            .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,"গর্ভবতী পরিচর্যা ভিজিট(এএনসি)")
+            .put(Constants.EVENT_TYPE.PNC_HOME_VISIT,"প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি)")
+            .put(EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসব")
+            .build();
+
+
+
     public static final Map<String,String> eventTypeMapping = ImmutableMap.<String,String> builder()
             .put(HnppConstants.EventType.FAMILY_REGISTRATION,"খানা নিবন্ধন")
             .put(HnppConstants.EventType.FAMILY_MEMBER_REGISTRATION,"সদস্য নিবন্ধন")
@@ -488,7 +578,7 @@ public class HnppConstants extends CoreConstants {
             .put(HnppConstants.EVENT_TYPE.MEMBER_REFERRAL,"রেফারেল")
             .put(EVENT_TYPE.WOMEN_REFERRAL,"রেফারেল")
             .put(EVENT_TYPE.CHILD_REFERRAL,"রেফারেল")
-            .put(EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসবের ফলাফল")
+            .put(EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসব")
             .put("Member referral","রেফারেল")
             .put(EVENT_TYPE.ELCO,"সক্ষম দম্পতি পরিদর্শন")
             .put(EVENT_TYPE.ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন")
@@ -515,11 +605,13 @@ public class HnppConstants extends CoreConstants {
             .put(EventType.REMOVE_CHILD,"শিশু বাতিল")
             .put(EVENT_TYPE.CORONA_INDIVIDUAL,"করোনা তথ্য")
             .put(EVENT_TYPE.SS_INFO,"স্বাস্থ্য সেবিকা তথ্য")
-            .put(EVENT_TYPE.FORUM_ADO,"কিশোরী ফোরাম")
-            .put(EVENT_TYPE.FORUM_WOMEN,"নারী ফোরাম")
-            .put(EVENT_TYPE.FORUM_CHILD,"শিশু ফোরাম")
+            .put(EVENT_TYPE.FORUM_ADO,"কিশোরী সেবা")
+            .put(EVENT_TYPE.FORUM_WOMEN,"নারী সেবা")
+            .put(EVENT_TYPE.FORUM_CHILD,"শিশু সেবা")
             .put(EVENT_TYPE.FORUM_NCD,"অসংক্রামক রোগের ফোরাম")
             .put(EVENT_TYPE.FORUM_ADULT,"অ্যাডাল্ট ফোরাম")
+            .put(EVENT_TYPE.ANC_SERVICE,"গর্ভবতী সেবা")
+            .put(EVENT_TYPE.PNC_SERVICE,"প্রসব-পরবর্তী সেবা")
             .build();
     public static final Map<String,String> immunizationMapping = ImmutableMap.<String,String> builder()
             .put("PENTA 1","পেন্টা-১")

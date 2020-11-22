@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.view.MenuItem;
 
-import org.smartregister.brac.hnpp.activity.DashBoardActivity;
+import org.smartregister.brac.hnpp.activity.NewDashBoardActivity;
 import org.smartregister.view.activity.BaseRegisterActivity;
 
 public class HnppFamilyBottomNavListener extends org.smartregister.family.listener.FamilyBottomNavigationListener {
@@ -30,7 +30,7 @@ public class HnppFamilyBottomNavListener extends org.smartregister.family.listen
 
         }else if (item.getItemId() == org.smartregister.family.R.id.action_job_aids) {
             bottomNavigationView.setSelectedItemId(org.smartregister.family.R.id.action_family);
-            Intent intent = new Intent(baseRegisterActivity, DashBoardActivity.class);
+            Intent intent = new Intent(baseRegisterActivity, NewDashBoardActivity.class);
             baseRegisterActivity.startActivity(intent);
             return false;
         }

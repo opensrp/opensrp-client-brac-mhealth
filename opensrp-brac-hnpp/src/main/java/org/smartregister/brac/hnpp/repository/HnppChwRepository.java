@@ -65,6 +65,7 @@ public class HnppChwRepository extends CoreChwRepository {
         upgradeToVersion21(context,database);
         upgradeToVersion22(context,database);
         upgradeToVersion25(context,database);
+        upgradeToVersion26(context,database);
 
     }
 
@@ -120,6 +121,9 @@ public class HnppChwRepository extends CoreChwRepository {
                 case 25:
                     upgradeToVersion25(context,db);
                     break;
+                case 26:
+                    upgradeToVersion26(context,db);
+                    break;
                 default:
                     break;
             }
@@ -168,6 +172,10 @@ public class HnppChwRepository extends CoreChwRepository {
         db.execSQL("ALTER TABLE ec_family_member ADD COLUMN risk_event_type VARCHAR;");
         db.execSQL("ALTER TABLE ec_child ADD COLUMN is_risk VARCHAR;");
         RiskDetailsRepository.createTable(db);
+
+    }
+    private void upgradeToVersion26(Context context, SQLiteDatabase db) {
+        TargetVsAchievementRepository.createTable(db);
 
     }
 

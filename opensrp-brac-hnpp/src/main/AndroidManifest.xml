@@ -208,7 +208,7 @@
             android:name=".activity.ForceSyncActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
-        <activity android:name=".activity.DashBoardActivity" android:screenOrientation="portrait"
+        <activity android:name=".activity.NewDashBoardActivity" android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
         <activity android:name=".activity.SimprintsIdentityActivity" android:screenOrientation="portrait"
@@ -248,6 +248,7 @@
         <service android:name="org.smartregister.sync.intent.PlanIntentService" />
         <service android:name="org.smartregister.brac.hnpp.sync.intent.PullHouseholdIdIntentService"/>
         <service android:name=".service.SSLocationFetchIntentService" />
+        <service android:name=".service.TargetFetchIntentService" />
         <service android:name=".service.HomeVisitIntentService" />
         <service android:name=".service.VisitLogIntentService" />
         <service android:name=".service.HnppPncCloseDateIntent" />

@@ -3,12 +3,15 @@
     android:id="@+id/item_bg"
     android:layout_width="match_parent"
     android:padding="10dp"
-    android:background="@color/hnpp_accent"
+    android:layout_margin="10dp"
+    android:background="@drawable/dashboard_background"
     android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/image_view"
         android:src="@drawable/ic_home"
+        android:padding="5dp"
+        android:layout_centerVertical="true"
         android:layout_width="40dp"
         android:layout_height="40dp"/>
     <org.smartregister.view.customcontrols.CustomFontTextView
