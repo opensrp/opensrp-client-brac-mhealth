@@ -52,7 +52,11 @@ public class NotificationActivity extends SecuredActivity implements View.OnClic
 
     @Override
     public void onClick(View view) {
-
+        switch (view.getId()){
+            case R.id.backBtn:
+                finish();
+                break;
+        }
     }
 
     @Override
