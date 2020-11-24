@@ -4,18 +4,38 @@
     package="org.smartregister.brac.hnpp">
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
-        android:name="org.smartregister.brac.hnpp.HnppApplication"
+        android:name=".HnppApplication"
         android:allowBackup="false"
-        tools:replace="android:allowBackup"
         android:icon="@drawable/ic_app_icon"
         android:label="@string/app_name"
-        android:usesCleartextTraffic="true"
         android:supportsRtl="true"
-        android:theme="@style/HNPPTheme">
-
+        android:theme="@style/HNPPTheme"
+        android:usesCleartextTraffic="true"
+        tools:replace="android:allowBackup">
+        <activity android:name=".activity.NotificationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+        </activity>
         <activity
-            android:name="org.smartregister.brac.hnpp.activity.LoginActivity"
+            android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.Login"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
@@ -30,7 +50,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-
         <activity
             android:name="org.smartregister.family.activity.FamilyWizardFormActivity"
             android:screenOrientation="portrait"
@@ -41,61 +60,56 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-
         <activity
-            android:name="org.smartregister.brac.hnpp.activity.FamilyRegisterActivity"
+            android:name=".activity.FamilyRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name="org.smartregister.brac.hnpp.activity.FamilyProfileActivity"
+            android:name=".activity.FamilyProfileActivity"
             android:label="@string/title_family_detail"
-            android:parentActivityName="org.smartregister.brac.hnpp.activity.FamilyRegisterActivity"
+            android:parentActivityName=".activity.FamilyRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.smartregister.brac.hnpp.activity.FamilyRegisterActivity" />
         </activity>
-
         <activity
-            android:name="org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity"
+            android:name=".activity.HnppFamilyOtherMemberProfileActivity"
             android:label="@string/title_family_detail"
+            android:parentActivityName=".activity.FamilyRegisterActivity"
             android:screenOrientation="portrait"
-            android:parentActivityName="org.smartregister.brac.hnpp.activity.FamilyRegisterActivity"
             android:theme="@style/FamilyTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.smartregister.brac.hnpp.activity.FamilyProfileActivity" />
         </activity>
-
         <activity
-            android:name="org.smartregister.brac.hnpp.activity.ChildRegisterActivity"
+            android:name=".activity.ChildRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name="org.smartregister.brac.hnpp.activity.AncMedicalHistoryActivity"
+            android:name=".activity.AncMedicalHistoryActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name="org.smartregister.brac.hnpp.activity.IndividualProfileRemoveActivity"
+            android:name=".activity.IndividualProfileRemoveActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name="org.smartregister.brac.hnpp.activity.HnppHomeVisitActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/HNPPTheme.NoActionBar"  />
-        <activity
-            android:name="org.smartregister.brac.hnpp.activity.HnppChildProfileActivity"
+            android:name=".activity.HnppHomeVisitActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
-
         <activity
-            android:name="org.smartregister.brac.hnpp.activity.FamilyRemoveMemberActivity"
+            android:name=".activity.HnppChildProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
-
         <activity
-            android:name="org.smartregister.brac.hnpp.activity.FamilyProfileMenuActivity"
+            android:name=".activity.FamilyRemoveMemberActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar" />
+        <activity
+            android:name=".activity.FamilyProfileMenuActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
@@ -103,42 +117,41 @@
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name="org.smartregister.brac.hnpp.activity.ReferralRegisterActivity"
+            android:name=".activity.ReferralRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name="org.smartregister.brac.hnpp.activity.ReferralTaskViewActivity"
+            android:name=".activity.ReferralTaskViewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name="org.smartregister.brac.hnpp.activity.AncRegisterActivity"
+            android:name=".activity.AncRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name="org.smartregister.brac.hnpp.activity.HnppAncRegisterActivity"
+            android:name=".activity.HnppAncRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name="org.smartregister.brac.hnpp.activity.HnppAncRiskRegisterActivity"
+            android:name=".activity.HnppAncRiskRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name="org.smartregister.brac.hnpp.activity.HnppElcoRiskRegisterActivity"
+            android:name=".activity.HnppElcoRiskRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name="org.smartregister.brac.hnpp.activity.HnppChildRiskRegisterActivity"
+            android:name=".activity.HnppChildRiskRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name="org.smartregister.brac.hnpp.activity.HnppPncRiskRegisterActivity"
+            android:name=".activity.HnppPncRiskRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name="org.smartregister.brac.hnpp.activity.AncMemberProfileActivity"
+            android:name=".activity.AncMemberProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
-
         <activity
             android:name="org.smartregister.chw.core.activity.CoreAncMemberProfileActivity"
             android:screenOrientation="portrait"
@@ -147,6 +160,7 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="3f94f9c3caeff331b3a2bd8c2182b663ad6a955a" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -158,47 +172,53 @@
         </provider>
 
         <activity
-            android:name="org.smartregister.brac.hnpp.activity.AboveFiveChildProfileActivity"
+            android:name=".activity.AboveFiveChildProfileActivity"
             android:label="@string/child_details"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
-
-
         <activity android:name="org.smartregister.chw.core.activity.ChwP2pModeSelectActivity" />
-        <activity android:name=".activity.HNPPJsonFormActivity"
+        <activity
+            android:name=".activity.HNPPJsonFormActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/FamilyTheme.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
-        <activity android:name=".activity.HNPPJsonWizardFormActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".activity.HNPPJsonWizardFormActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/FamilyTheme.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
-        <activity android:name=".activity.IndividualProfileRemoveJsonFormActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".activity.IndividualProfileRemoveJsonFormActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/FamilyTheme.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
-        <activity android:name=".activity.HnppAncJsonFormActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".activity.HnppAncJsonFormActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/FamilyTheme.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
-        <activity android:name=".activity.HnppFormViewActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".activity.HnppFormViewActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/FamilyTheme.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
-        <activity android:name=".activity.COVIDJsonFormActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".activity.COVIDJsonFormActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/FamilyTheme.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
-        <activity android:name=".activity.HNPPMemberJsonFormActivity" android:launchMode="singleTask"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".activity.HNPPMemberJsonFormActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/FamilyTheme.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity android:name=".activity.HnppCoreChildProfileActivity" />
         <activity
             android:name=".activity.HnppAllMemberRegisterActivity"
@@ -208,32 +228,53 @@
             android:name=".activity.ForceSyncActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
-        <activity android:name=".activity.NewDashBoardActivity" android:screenOrientation="portrait"
+        <activity
+            android:name=".activity.NewDashBoardActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
-        <activity android:name=".activity.SimprintsIdentityActivity" android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".activity.SimprintsIdentityActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity android:name=".activity.HnppSettingsActivity" />
-        <activity android:name=".activity.HnppPncRegisterActivity"
+        <activity
+            android:name=".activity.HnppPncRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
-        <activity android:name=".activity.HnppElcoMemberRegisterActivity" android:screenOrientation="portrait"
+        <activity
+            android:name=".activity.HnppElcoMemberRegisterActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
-        <activity android:name=".activity.ChildVaccinationActivity" android:screenOrientation="portrait"
-            android:theme="@style/HNPPTheme.NoActionBar"/>
-        <activity android:name=".activity.ForumActivity"  android:screenOrientation="portrait"
+        <activity
+            android:name=".activity.ChildVaccinationActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
-        <activity android:name=".activity.ForumDetailsActivity" android:screenOrientation="portrait"
+        <activity
+            android:name=".activity.ForumActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
-        <activity android:name=".activity.SearchHHMemberActivity" android:screenOrientation="portrait"
-            android:theme="@style/HNPPTheme.NoActionBar"/>
-        <activity android:name=".activity.ForumHistoryActivity" android:screenOrientation="portrait"
-            android:theme="@style/HNPPTheme.NoActionBar"/>
-        <activity android:name=".activity.ForumHistoryDetailsActivity" android:screenOrientation="portrait"
-            android:theme="@style/HNPPTheme.NoActionBar"/>
-        <activity android:name=".activity.SSInfoActivity" android:screenOrientation="portrait"
-            android:theme="@style/HNPPTheme.NoActionBar"/>
+        <activity
+            android:name=".activity.ForumDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar" />
+        <activity
+            android:name=".activity.SearchHHMemberActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar" />
+        <activity
+            android:name=".activity.ForumHistoryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar" />
+        <activity
+            android:name=".activity.ForumHistoryDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar" />
+        <activity
+            android:name=".activity.SSInfoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar" />
 
         <service android:name="org.smartregister.immunization.service.intent.VaccineIntentService" />
         <service android:name="org.smartregister.immunization.service.intent.RecurringIntentService" />
@@ -244,9 +285,9 @@
         <service android:name="org.smartregister.service.ImageUploadSyncService" />
         <service android:name="org.smartregister.chw.anc.intent.HomeVisitIntent" />
         <service android:name="org.smartregister.sync.intent.LocationIntentService" />
-        <service android:name="org.smartregister.brac.hnpp.sync.intent.HfSyncTaskIntentService" />
+        <service android:name=".sync.intent.HfSyncTaskIntentService" />
         <service android:name="org.smartregister.sync.intent.PlanIntentService" />
-        <service android:name="org.smartregister.brac.hnpp.sync.intent.PullHouseholdIdIntentService"/>
+        <service android:name=".sync.intent.PullHouseholdIdIntentService" />
         <service android:name=".service.SSLocationFetchIntentService" />
         <service android:name=".service.TargetFetchIntentService" />
         <service android:name=".service.HomeVisitIntentService" />
@@ -256,23 +297,6 @@
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
-
     </application>
-
-    <uses-feature android:name="android.hardware.camera" />
-
-    <uses-feature android:name="android.hardware.camera.autofocus" />
-
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
 </manifest>

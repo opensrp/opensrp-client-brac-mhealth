@@ -16,6 +16,7 @@ import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
+import org.smartregister.brac.hnpp.activity.NotificationActivity;
 import org.smartregister.brac.hnpp.job.HomeVisitServiceJob;
 import org.smartregister.brac.hnpp.activity.COVIDJsonFormActivity;
 import org.smartregister.brac.hnpp.activity.ForceSyncActivity;
@@ -87,7 +88,7 @@ public class HnppNavigationPresenter extends NavigationPresenter {
 
     @Override
     public void browseSSInfo(Activity activity) {
-       String providerId =  HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
+       /*String providerId =  HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
         String url = "http://hnppdfs.brac.net/SkTabLogIn?id="+providerId+"&key=62fa0f87-0710-4932-8119-8d4fe4c083e3";
         try{
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
@@ -95,7 +96,9 @@ public class HnppNavigationPresenter extends NavigationPresenter {
 
         }catch (Exception e){
             Toast.makeText(activity,"আপনার ব্রাউজার চালু রাখুন",Toast.LENGTH_LONG).show();
-        }
+        }*/
+        activity.startActivity(new Intent(activity, NotificationActivity.class));
+
     }
 
     @Override

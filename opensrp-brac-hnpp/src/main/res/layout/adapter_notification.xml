@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        app:cardCornerRadius="5dp"
+        android:elevation="2dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <org.smartregister.view.customcontrols.CustomFontTextView
+                android:id="@+id/date_tv"
+                android:layout_width="120dp"
+                android:layout_height="23dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="226dp"
+                android:text="09/06/2020"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <org.smartregister.view.customcontrols.CustomFontTextView
+                android:id="@+id/title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/date_tv"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:text="hsghdhksdjkgdjjdhfhdfkdgcvvvvvvvvvvvvvvvvvvhdmdhdf"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <org.smartregister.view.customcontrols.CustomFontTextView
+                android:id="@+id/min_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="5dp"
+                android:text="20"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <org.smartregister.view.customcontrols.CustomFontTextView
+                android:id="@+id/sign_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="19dp"
+                android:layout_toStartOf="@+id/min_tv"
+                android:text=":"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <org.smartregister.view.customcontrols.CustomFontTextView
+                android:id="@+id/hour_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="22dp"
+                android:layout_toLeftOf="@+id/sign_tv"
+                android:text="11"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+
+</RelativeLayout>
