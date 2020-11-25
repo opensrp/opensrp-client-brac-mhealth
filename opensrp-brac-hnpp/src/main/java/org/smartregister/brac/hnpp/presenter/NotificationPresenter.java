@@ -24,8 +24,6 @@ public class NotificationPresenter implements NotificationContract.Presenter {
     AppExecutors appExecutors;
     NotificationContract.View view;
     ArrayList<Notification> notificationArrayList;
-    Notification notification;
-    //String NOTIFICATION_URL = "/get_web_notification?";
 
 
     public NotificationPresenter(NotificationContract.View view){
@@ -62,7 +60,10 @@ public class NotificationPresenter implements NotificationContract.Presenter {
                         e.printStackTrace();
                     }
                 }
-                CoreLibrary.getInstance().context().allSharedPreferences().savePreference(LAST_NOTIFICATION_TIME,timestamp+"");
+                if(jsonArray.length()>0){
+                    CoreLibrary.getInstance().context().allSharedPreferences().savePreference(LAST_NOTIFICATION_TIME,timestamp+"");
+                }
+
 
 
               /*  Notification notification = new Notification("23/45/3048","jshdgvksdcuhdsfgjdf","22:40");
@@ -70,7 +71,7 @@ public class NotificationPresenter implements NotificationContract.Presenter {
 */
                 appExecutors.mainThread().execute(() ->{
                     view.hideProgressBar();
-                   view.updateAdapter();
+                    view.updateAdapter();
                 });
             } catch (Exception e) {
                 e.printStackTrace();
@@ -83,7 +84,6 @@ public class NotificationPresenter implements NotificationContract.Presenter {
 
         };
         appExecutors.diskIO().execute(runnable);
-
     }
 
     public void fetchNotification(){
