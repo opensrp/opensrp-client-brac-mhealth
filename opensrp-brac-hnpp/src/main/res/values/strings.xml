@@ -14,7 +14,7 @@
     <string name="menu_all_families">খানার তালিকা</string>
     <string name="menu_elco_clients">সক্ষম দম্পতি</string>
     <string name="menu_anc_clients">গর্ভবতী মায়ের তালিকা</string>
-   <string name="menu_anc_risk_clients">ঝুঁকিপূর্ণ ও জরুরী</string>
+    <string name="menu_anc_risk_clients">ঝুঁকিপূর্ণ ও জরুরী</string>
     <string name="menu_pnc_clients">প্রসূতি মায়ের তালিকা</string>
     <string name="menu_child_clients">শিশু তালিকা</string>
     <string name="menu_all_member">সব সদস্য তালিকা</string>
@@ -22,13 +22,14 @@
     <string name="force_sync_text" translatable="false">আপনার ডাটা সিঙ্ক হতে প্রব্লেম হলে সার্ভার অ্যাডমিন এর অনুমতি ক্রমে নিচের "ফোর্স সিঙ্ক " বাটন এ ছাপ দিন।
  \n * আপনার অনুমতি না থাকলে এটা কাজ করবে না</string>
     <string name="menu_forum">ফোরাম</string>
-   <string name="menu_ss_info">স্বাস্থ্য সেবিকা তথ্য</string>
+    <string name="menu_notification">নোটিফিকেশন</string>
+    <string name="menu_ss_info">স্বাস্থ্য সেবিকা তথ্য</string>
     <string name="menu_simprints">আঙুলের ছাপ দ্বারা সদস্য খুঁজি</string>
     <string name="unique_id_form_field">খানা নাম্বার</string>
     <string name="ss_name_form_field">স্বাস্থ্য সেবিকার নামঃ</string>
-   <string name="ss_year">বছর নির্বাচন করুন</string>
- <string name="ss_month">মাস নির্বাচন করুন</string>
- <string name="village_name_form_field">গ্রামের নামঃ</string>
+    <string name="ss_year">বছর নির্বাচন করুন</string>
+    <string name="ss_month">মাস নির্বাচন করুন</string>
+    <string name="village_name_form_field">গ্রামের নামঃ</string>
 
     <string name="title_kishori">কিশোরী ফোরাম</string>
     <string name="title_nari">নারী ফোরাম</string>
@@ -100,8 +101,8 @@
     <string name="no_button_label">না</string>
     <string name="exit_app_message">আপনি কি অ্যাপটি থেকে বেরিয়ে আসতে চান?</string>
     <string name="exit_app_title">অ্যাপটি বন্ধ করতে চান</string>
-    <string name="json_form_error_msg" >ফর্মটিতে ত্রুটি পাওয়া গেছে. জমা দেওয়ার জন্য দয়া করে এগুলি সংশোধন করুন</string>
-    <string name="json_form_on_next_error_msg" >ফর্মটিতে ত্রুটি পাওয়া গেছে. জমা দেওয়ার জন্য দয়া করে এগুলি সংশোধন করুন</string>
+    <string name="json_form_error_msg">ফর্মটিতে ত্রুটি পাওয়া গেছে. জমা দেওয়ার জন্য দয়া করে এগুলি সংশোধন করুন</string>
+    <string name="json_form_on_next_error_msg">ফর্মটিতে ত্রুটি পাওয়া গেছে. জমা দেওয়ার জন্য দয়া করে এগুলি সংশোধন করুন</string>
 
     <string name="return_to_all_families">পরিবারের তালিকা</string>
     <string name="family_details">পারিবারিক তথ্য</string>
@@ -298,7 +299,7 @@
     <string name="call_no_number_provided">(কোনো নাম্বার দেওয়া হয়নি)</string>
     <string name="not_match">এই ব্যক্তিটির তথ্য পাওয়া যাই নি </string>
     <string name="month_bangla">মাস</string>
-   <string name="ss_name_bangla">সেবিকা</string>
-   <string name="date_bangla">তারিখ</string>
+    <string name="ss_name_bangla">সেবিকা</string>
+    <string name="date_bangla">তারিখ</string>
 
 </resources>

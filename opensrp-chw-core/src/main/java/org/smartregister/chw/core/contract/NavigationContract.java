@@ -24,6 +24,7 @@ public interface NavigationContract {
         void covid19(Activity activity);
         void forceSync(Activity activity);
         void browseSSInfo(Activity activity);
+        void browseNotification(Activity activity);
         List<NavigationOption> getOptions();
     }
 
