@@ -14,7 +14,6 @@ import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.utils.StockData;
-import org.smartregister.brac.hnpp.utils.TargetVsAchievementData;
 import org.smartregister.domain.Response;
 import org.smartregister.service.HTTPAgent;
 

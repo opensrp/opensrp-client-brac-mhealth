@@ -67,6 +67,7 @@ public class HnppChwRepository extends CoreChwRepository {
         upgradeToVersion25(context,database);
         upgradeToVersion26(context,database);
         upgradeToVersion27(context,database);
+        upgradeToVersion28(context,database);
 
     }
 
@@ -128,6 +129,9 @@ public class HnppChwRepository extends CoreChwRepository {
                 case 27:
                     upgradeToVersion27(context,db);
                     break;
+                case 28:
+                    upgradeToVersion28(context,db);
+                    break;
                 default:
                     break;
             }
@@ -184,6 +188,10 @@ public class HnppChwRepository extends CoreChwRepository {
     }
     private void upgradeToVersion27(Context context, SQLiteDatabase db) {
         NotificationRepository.createTable(db);
+
+    }
+    private void upgradeToVersion28(Context context, SQLiteDatabase db) {
+        StockRepository.createTable(db);
 
     }
 

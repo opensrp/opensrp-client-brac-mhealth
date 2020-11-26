@@ -202,7 +202,7 @@ public class StockRepository extends BaseRepository {
         }
         return locations;
     }
-    public ArrayList<StockData> getStockList() {
+    public ArrayList<StockData> getAllStock() {
         Cursor cursor = null;
         ArrayList<StockData> locations = new ArrayList<>();
         try {
