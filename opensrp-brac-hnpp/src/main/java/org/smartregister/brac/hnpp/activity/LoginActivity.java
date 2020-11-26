@@ -168,8 +168,10 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getTitle().toString().equalsIgnoreCase("Settings")) {
             startActivity(new Intent(this, HnppSettingsActivity.class));
+            //startActivity(new Intent(this, NotificationActivity.class));
             return true;
         }
+        //startActivity(new Intent(this, NotificationActivity.class));
         return super.onOptionsItemSelected(item);
     }
 

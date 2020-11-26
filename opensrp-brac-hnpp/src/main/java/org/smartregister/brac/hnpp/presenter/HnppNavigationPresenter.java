@@ -16,6 +16,7 @@ import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
+import org.smartregister.brac.hnpp.activity.NotificationActivity;
 import org.smartregister.brac.hnpp.job.HomeVisitServiceJob;
 import org.smartregister.brac.hnpp.activity.COVIDJsonFormActivity;
 import org.smartregister.brac.hnpp.activity.ForceSyncActivity;
@@ -96,6 +97,11 @@ public class HnppNavigationPresenter extends NavigationPresenter {
         }catch (Exception e){
             Toast.makeText(activity,"আপনার ব্রাউজার চালু রাখুন",Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void browseNotification(Activity activity) {
+        activity.startActivity(new Intent(activity, NotificationActivity.class));
     }
 
     @Override

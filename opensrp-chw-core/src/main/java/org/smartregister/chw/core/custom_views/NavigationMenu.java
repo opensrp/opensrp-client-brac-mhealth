@@ -74,6 +74,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     private TextView tvCovid19;
     private TextView tvForceSync;
     private RelativeLayout ss_info_browse;
+    private RelativeLayout notification_layout;
 
     private View rootView = null;
     private ImageView ivSync;
@@ -189,6 +190,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         tvCovid19 = rootView.findViewById(R.id.covid19);
         tvForceSync = rootView.findViewById(R.id.tvForceSync);
         ss_info_browse = rootView.findViewById(R.id.ss_info_browse);
+        notification_layout = rootView.findViewById(R.id.notification_view);
 
         recyclerView = rootView.findViewById(R.id.rvOptions);
         ivSync = rootView.findViewById(R.id.ivSyncIcon);
@@ -215,6 +217,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         registerCovid19(activity);
         registerForceSync(activity);
         registerBrowseSSInfo(activity);
+        registerNotification(activity);
 
         registerDeviceToDeviceSync(activity);
         // update all actions
@@ -267,7 +270,11 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
             mPresenter.browseSSInfo(activity);
         }
     }
-
+    public void browseNotification(Activity activity) {
+        if(mPresenter!=null){
+            mPresenter.browseNotification(activity);
+        }
+    }
 
     @Override
     public void refreshCount() {
@@ -325,6 +332,11 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         mPresenter.displayCurrentUser();
         ss_info_browse.setOnClickListener(v -> browseSSInfo(parentActivity));
     }
+    private void registerNotification(final Activity parentActivity){
+        mPresenter.displayCurrentUser();
+        notification_layout.setOnClickListener(v -> browseNotification(parentActivity));
+    }
+
 
     private void registerSync(final Activity parentActivity) {
 
