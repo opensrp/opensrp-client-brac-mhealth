@@ -268,7 +268,6 @@ public class StockDashBoardModel implements DashBoardContract.Model {
 
         }
 
-
         return dashBoardData1;
     }
 

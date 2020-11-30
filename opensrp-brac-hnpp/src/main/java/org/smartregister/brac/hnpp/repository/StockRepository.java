@@ -15,6 +15,7 @@ import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.StockData;
 import org.smartregister.brac.hnpp.utils.TargetVsAchievementData;
+import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.repository.BaseRepository;
 import org.smartregister.repository.LocationRepository;
 import org.smartregister.repository.Repository;
@@ -39,13 +40,18 @@ public class StockRepository extends BaseRepository {
     protected static final String STOCK_RECEIVE_DATE = "receive_date";
     protected static final String YEAR = "year";
     protected static final String MONTH = "month";
+    protected static final String ACHIEVEMNT_DAY = "achievement_day";
+    public static final String ACHIEVEMNT_COUNT = "achievemnt_count";
+    public static final String SS_NAME = "ss_name";
+    public static final String BASE_ENTITY_ID = "base_entity_id";
+
 
 
     private static final String CREATE_STOCK_TABLE=
             "CREATE TABLE " + STOCK_TABLE + " (" +
                     ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                    STOCK_ID + " INTEGER , " +STOCK_PRODUCT_ID + " INTEGER , " +STOCK_PRODUCT_NAME + " VARCHAR , " + STOCK_QUANTITY+ " INTEGER,"+
-                    YEAR + " VARCHAR, " + MONTH+ " VARCHAR, "+STOCK_TIMESTAMP+" VARCHAR, "+STOCK_EXPIREY_DATE+" VARCHAR, "+STOCK_RECEIVE_DATE+" VARCHAR ) ";
+                    STOCK_ID + " INTEGER , " +STOCK_PRODUCT_ID + " INTEGER , " +BASE_ENTITY_ID + " INTEGER , " +ACHIEVEMNT_COUNT + " INTEGER , " +STOCK_PRODUCT_NAME + " VARCHAR , " + STOCK_QUANTITY+ " INTEGER,"+
+                    YEAR + " VARCHAR, " +MONTH + " VARCHAR, " + ACHIEVEMNT_DAY+ " VARCHAR, "+STOCK_TIMESTAMP+" VARCHAR, "+SS_NAME+" VARCHAR, "+STOCK_EXPIREY_DATE+" VARCHAR, "+STOCK_RECEIVE_DATE+" VARCHAR ) ";
 
 
 
@@ -64,23 +70,23 @@ public class StockRepository extends BaseRepository {
     public void dropTable(){
         getWritableDatabase().execSQL("delete from "+getLocationTableName());
     }
-   /* public  void updateValue(String targetName, String day, String month, String year, String ssName, String baseEntityId){
+   public  void updateValue(String targetName, String day, String month, String year, String ssName, String baseEntityId){
         updateValue(targetName,day,month,year,ssName,baseEntityId,1);
 
 //        getWritableDatabase().execSQL("update "+getLocationTableName()+" set achievemnt_count = achievemnt_count +1,"+DAY+" = "+day+" , "+MONTH+" = "+month+" , "+YEAR+" = "+year+" where "+TARGET_NAME+" = '"+targetName+"'");
     }
-    public  void updateValue(String targetName, String day, String month, String year, String ssName, String baseEntityId, int count){
+    public  void updateValue(String productName, String day, String month, String year, String ssName, String baseEntityId, int count){
         ContentValues contentValues = new ContentValues();
-        targetName = getTargetName(targetName,baseEntityId);
+        productName = getTargetName(productName,baseEntityId);
         contentValues.put(BASE_ENTITY_ID, baseEntityId);
-        contentValues.put(TARGET_NAME, targetName);
+        contentValues.put(ACHIEVEMNT_DAY, day);
+        contentValues.put(STOCK_PRODUCT_NAME, productName);
         contentValues.put(ACHIEVEMNT_COUNT, count);
         contentValues.put(YEAR, year);
         contentValues.put(MONTH, month);
-        contentValues.put(DAY, day);
         contentValues.put(SS_NAME, ssName);
         SQLiteDatabase database = getWritableDatabase();
-        if(findUnique(database,targetName,day,month,year,ssName,baseEntityId)){
+        if(findUnique(database,productName,day,month,year,ssName,baseEntityId)){
             Log.v("TARGET_INSERTED","update value:"+contentValues);
             long inserted = database.insert(getLocationTableName(), null, contentValues);
         }
@@ -88,10 +94,8 @@ public class StockRepository extends BaseRepository {
 //        getWritableDatabase().execSQL("update "+getLocationTableName()+" set achievemnt_count = achievemnt_count +1,"+DAY+" = "+day+" , "+MONTH+" = "+month+" , "+YEAR+" = "+year+" where "+TARGET_NAME+" = '"+targetName+"'");
     }
     public boolean findUnique(SQLiteDatabase db, String targetName, String day, String month, String year, String ssName, String baseEntityId) {
-
-
         SQLiteDatabase database = (db == null) ? getReadableDatabase() : db;
-        String selection = BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE + " and " + TARGET_NAME + " = ? " + COLLATE_NOCASE+" and "+DAY+" = ?"+COLLATE_NOCASE+" and "+MONTH+" = ?"+COLLATE_NOCASE+" and "+YEAR+" = ?"+COLLATE_NOCASE+" and "+SS_NAME+" = ?"+COLLATE_NOCASE;
+        String selection = BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE + " and " + STOCK_PRODUCT_NAME + " = ? " + COLLATE_NOCASE+" and "+ACHIEVEMNT_DAY+" = ?"+COLLATE_NOCASE+" and "+MONTH+" = ?"+COLLATE_NOCASE+" and "+YEAR+" = ?"+COLLATE_NOCASE+" and "+SS_NAME+" = ?"+COLLATE_NOCASE;
         String[] selectionArgs = new String[]{baseEntityId, targetName,day,month,year,ssName};
         net.sqlcipher.Cursor cursor = database.query(getLocationTableName(), null, selection, selectionArgs, null, null, null, null);
         if(cursor!=null && cursor.getCount() > 0){
@@ -101,26 +105,21 @@ public class StockRepository extends BaseRepository {
         return true;
     }
 
-    private String getTargetName(String targetName, String baseEntityId) {
+     private String getTargetName(String targetName, String baseEntityId) {
         if(!TextUtils.isEmpty(targetName)){
             if(targetName.equalsIgnoreCase(HnppConstants.EventType.ANC_HOME_VISIT)
                     || targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)
                     || targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION)
                     || targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
-                targetName = HnppConstants.EVENT_TYPE.ANC_SERVICE;
+                targetName = CoreConstants.EventType.ANC_HOME_VISIT;
             }else if(targetName.equalsIgnoreCase(HnppConstants.EventType.PNC_HOME_VISIT)
                     || targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION)){
-                targetName = HnppConstants.EVENT_TYPE.PNC_SERVICE;
-            } else if(targetName.equalsIgnoreCase(HnppConstants.EventType.ANC_REGISTRATION)){
-                targetName = HnppConstants.EVENT_TYPE.PREGNANCY_IDENTIFIED;
-            } else if(targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP)){
-                targetName = HnppDBUtils.getChildFollowUpFormName(baseEntityId);
-                if(TextUtils.isEmpty(targetName)) targetName = HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP;
+                targetName = CoreConstants.EventType.PNC_HOME_VISIT;
             }
 
         }
         return targetName;
-    }*/
+    }
 
     public void addOrUpdate(StockData stockData) {
         if(!isExistData(stockData.getStockId())){

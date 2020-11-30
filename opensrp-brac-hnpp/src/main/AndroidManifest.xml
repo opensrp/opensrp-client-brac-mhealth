@@ -28,7 +28,7 @@
         android:supportsRtl="true"
         android:theme="@style/HNPPTheme"
         android:usesCleartextTraffic="true"
-        tools:replace="android:allowBackup">
+        tools:replace="android:allowBackup,android:icon">
         <activity android:name=".activity.NotificationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"

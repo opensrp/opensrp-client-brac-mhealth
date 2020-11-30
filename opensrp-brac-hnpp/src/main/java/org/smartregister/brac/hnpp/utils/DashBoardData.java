@@ -1,6 +1,8 @@
 package org.smartregister.brac.hnpp.utils;
 
-public class DashBoardData {
+import java.io.Serializable;
+
+public class DashBoardData implements Serializable {
 
     private int imageSource;
     private String title;

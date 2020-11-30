@@ -24,9 +24,6 @@ import org.smartregister.brac.hnpp.presenter.NotificationPresenter;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.view.activity.SecuredActivity;
 
-import java.util.ArrayList;
-
-import static org.smartregister.brac.hnpp.activity.SearchHHMemberActivity.EXTRA_INTENT_DATA;
 
 public class NotificationActivity extends SecuredActivity implements View.OnClickListener, NotificationContract.View {
 
@@ -48,8 +45,6 @@ public class NotificationActivity extends SecuredActivity implements View.OnClic
         presenter = new NotificationPresenter(this);
         presenter.fetchNotification();
     }
-
-
 
     @Override
     public void onClick(View view) {
