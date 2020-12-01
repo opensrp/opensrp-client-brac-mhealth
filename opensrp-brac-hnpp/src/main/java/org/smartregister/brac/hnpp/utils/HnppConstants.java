@@ -41,6 +41,7 @@ public class HnppConstants extends CoreConstants {
     public static final String MODULE_ID_TRAINING = "TRAINING";
     public static final int MEMBER_ID_SUFFIX = 11;
     public static final int HOUSE_HOLD_ID_SUFFIX = 9;
+    public static final int GUEST_MEMBER_ID_SUFFIX = 5;
     public static final String IS_RELEASE = "is_release_build";
     public static final String IS_DEVICE_VERIFY = "is_device_verify";
     public static final String DEVICE_IMEI = "device_imei";
@@ -291,6 +292,7 @@ public class HnppConstants extends CoreConstants {
                 "  \"দাদি\": \"Grandma\"," +
                 "  \"নানা\": \"Grandfather\"," +
                 "  \"নানী\": \"Grandmother\"," +
+                "  \"অতিথি\": \"Guest\"," +
                 "  \"অন্যান্য\": \"Others\"" +
                 "}";
         return getKeyByValue(relationshipObject,value);
@@ -302,16 +304,21 @@ public class HnppConstants extends CoreConstants {
 
         public static final String  ANC_FORM = "hnpp_anc_registration";
         public static final String  ANC1_FORM = "hnpp_anc1_registration";
+        public static final String  ANC1_FORM_OOC = "hnpp_anc1_registration_ooc";
         public static final String  ANC2_FORM = "hnpp_anc2_registration";
+        public static final String  ANC2_FORM_OOC = "hnpp_anc2_registration_ooc";
         public static final String  ANC3_FORM = "hnpp_anc3_registration";
+        public static final String  ANC3_FORM_OOC = "hnpp_anc3_registration_ooc";
         public static final String  GENERAL_DISEASE = "hnpp_anc_general_disease";
         public static final String  PREGNANCY_HISTORY = "hnpp_anc_pregnancy_history";
         public static final String  PREGNANCY_OUTCOME = "hnpp_anc_pregnancy_outcome";
+        public static final String  PREGNANCY_OUTCOME_OOC = "hnpp_anc_pregnancy_outcome_ooc";
         public static final String  MEMBER_REFERRAL = "hnpp_member_referral";
         public static final String  WOMEN_REFERRAL = "hnpp_women_referral";
         public static final String  CHILD_REFERRAL = "hnpp_child_referral";
         public static final String  ELCO = "elco_register";
         public static final String  PNC_FORM = "hnpp_pnc_registration";
+        public static final String  PNC_FORM_OOC = "hnpp_pnc_registration_ooc";
         public static final String  WOMEN_PACKAGE = "hnpp_women_package";
         public static final String  GIRL_PACKAGE = "hnpp_adolescent_package";
         public static final String  NCD_PACKAGE = "hnpp_ncd_package";
@@ -323,6 +330,7 @@ public class HnppConstants extends CoreConstants {
         public static final String CHILD_FOLLOWUP = "hnpp_child_followup";
         public static final String CORONA_INDIVIDUAL = "corona_individual";
         public static final String SS_FORM = "ss_form";
+        public static final String GUEST_MEMBER_FORM = "guest_member_register";
 
     }
 
@@ -334,11 +342,15 @@ public class HnppConstants extends CoreConstants {
         public static final String ANC_PREGNANCY_HISTORY = "ANC Pregnancy History";
         public static final String ANC_GENERAL_DISEASE = "ANC General Disease";
         public static final String ANC1_REGISTRATION = "ANC1 Registration";
+        public static final String ANC1_REGISTRATION_OOC = "ANC1 Registration OOC";
         public static final String ANC2_REGISTRATION = "ANC2 Registration";
+        public static final String ANC2_REGISTRATION_OOC = "ANC2 Registration OOC";
         public static final String ANC3_REGISTRATION = "ANC3 Registration";
+        public static final String ANC3_REGISTRATION_OOC = "ANC3 Registration OOC";
         public static final String ANC_REGISTRATION = "ANC Registration";
         public static final String UPDATE_ANC_REGISTRATION = "Update ANC Registration";
         public static final String PNC_REGISTRATION = "PNC Registration";
+        public static final String PNC_REGISTRATION_OOC = "PNC Registration OOC";
         public static final String WOMEN_PACKAGE = "Women package";
         public static final String GIRL_PACKAGE = "Adolescent package";
         public static final String NCD_PACKAGE = "NCD package";
@@ -348,6 +360,7 @@ public class HnppConstants extends CoreConstants {
         public static final String VACCINATION = "Vaccination";
         public static final String SERVICES = "Recurring Service";
         public static final String PREGNANCY_OUTCOME = "Pregnancy Outcome";
+        public static final String PREGNANCY_OUTCOME_OOC = "OOC Pregnancy Outcome";
         public static final String REFERREL_FOLLOWUP = "Member Referral Followup";
         public static final String CHILD_FOLLOWUP = "Child Followup";
         public static final String PNC_CHILD_REGISTRATION = "PNC Child Registration";
@@ -377,7 +390,7 @@ public class HnppConstants extends CoreConstants {
         //service
         public static final String ANC_SERVICE = "ANC Service";
         public static final String PNC_SERVICE = "PNC Service";
-        public static final String DELIVERY_SERVICE = "Delivery Service";
+        public static final String GUEST_MEMBER_REGISTRATION = "OOC Member Registration";
     }
     public static final Map<String,String> vaccineNameMapping = ImmutableMap.<String,String> builder()
             .put("bcg","বিসিজি")
@@ -402,6 +415,13 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ANC3_REGISTRATION,JSON_FORMS.ANC3_FORM)
             .put(EVENT_TYPE.ELCO,JSON_FORMS.ELCO)
             .put(EVENT_TYPE.PNC_REGISTRATION,JSON_FORMS.PNC_FORM)
+            .build();
+    public static final Map<String,String> guestEventTypeFormNameMapping = ImmutableMap.<String,String> builder()
+            .put(EVENT_TYPE.ANC_REGISTRATION,JSON_FORMS.ANC_FORM)
+            .put(EVENT_TYPE.ANC1_REGISTRATION,JSON_FORMS.ANC1_FORM_OOC)
+            .put(EVENT_TYPE.ANC2_REGISTRATION,JSON_FORMS.ANC2_FORM_OOC)
+            .put(EVENT_TYPE.ANC3_REGISTRATION,JSON_FORMS.ANC3_FORM_OOC)
+            .put(EVENT_TYPE.PNC_REGISTRATION,JSON_FORMS.PNC_FORM_OOC)
             .build();
     public static final Map<String,Integer> iconMapping = ImmutableMap.<String,Integer> builder()
             .put("গর্ভবতী পরিচর্যা-১ম ত্রিমাসিক",R.mipmap.ic_anc_pink)
@@ -474,6 +494,7 @@ public class HnppConstants extends CoreConstants {
             .put("Member referral","রেফারেল")
             .put( JSON_FORMS.PREGNANCY_HISTORY,"পূর্বের গর্ভের ইতিহাস")
             .put( EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসবের ফলাফল")
+            .put( EVENT_TYPE.PREGNANCY_OUTCOME_OOC,"প্রসবের ফলাফল")
             .put( JSON_FORMS.PNC_FORM,"প্রসবোত্তর পরিচর্যা")
             .put( EVENT_TYPE.PNC_REGISTRATION,"প্রসবোত্তর পরিচর্যা")
             .put(EVENT_TYPE.WOMEN_PACKAGE,"নারী সেবা প্যাকেজ")

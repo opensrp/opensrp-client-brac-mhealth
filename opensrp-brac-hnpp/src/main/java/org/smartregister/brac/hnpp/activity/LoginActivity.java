@@ -38,6 +38,7 @@ import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.job.PullGuestMemberIdServiceJob;
 import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
 import org.smartregister.brac.hnpp.job.SSLocationFetchJob;
 import org.smartregister.brac.hnpp.job.TargetFetchJob;
@@ -238,6 +239,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             Utils.startAsyncTask(new SaveTeamLocationsTask(), null);
 
             Utils.startAsyncTask(new SaveDistrictTask(), null);
+            PullGuestMemberIdServiceJob.scheduleJobImmediately(PullGuestMemberIdServiceJob.TAG);
 
         }
 

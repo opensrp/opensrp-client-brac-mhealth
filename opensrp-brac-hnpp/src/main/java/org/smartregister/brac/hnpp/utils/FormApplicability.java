@@ -82,6 +82,34 @@ public class FormApplicability {
         }
         return "";
     }
+    public static String getGuestMemberDueFormForWomen(String baseEntityId, int age){
+        String lmp = getLmp(baseEntityId);
+        if(!TextUtils.isEmpty(lmp)){
+            int dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(lmp), new DateTime()).getDays();
+            int pncDay = getDayPassPregnancyOutcome(baseEntityId);
+            if(pncDay != -1&&!isClosedPregnancyOutCome(baseEntityId)){
+                if(pncDay<=41){
+                    return HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
+                }else{
+                    return HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
+                }
+            }
+            if(isClosedANC(baseEntityId)){
+                if(isElco(age)){
+                    return HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
+                }
+            }
+            else{
+                return getANCEvent(dayPass);
+            }
+            return "";
+        }
+
+        if(isElco(age)){
+            return HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
+        }
+        return "";
+    }
     public static String getANCEvent(int dayPass){
         if(dayPass > 1 && dayPass <= 84){
             //first trimester
@@ -230,6 +258,14 @@ public class FormApplicability {
             Date date = Utils.dobStringToDate(dobString);
            int day =  getDayDifference(new LocalDate(date),new LocalDate());
            return day;
+        }
+        return -1;
+    }
+    public static int getDay(String dobString){
+        if(!TextUtils.isEmpty(dobString) ){
+            Date date = Utils.dobStringToDate(dobString);
+            int day =  getDayDifference(new LocalDate(date),new LocalDate());
+            return day;
         }
         return -1;
     }

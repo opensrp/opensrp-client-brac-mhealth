@@ -66,6 +66,7 @@ public class HnppChwRepository extends CoreChwRepository {
         upgradeToVersion22(context,database);
         upgradeToVersion25(context,database);
         upgradeToVersion26(context,database);
+        upgradeToVersion28(context,database);
 
     }
 
@@ -124,6 +125,9 @@ public class HnppChwRepository extends CoreChwRepository {
                 case 26:
                     upgradeToVersion26(context,db);
                     break;
+                case 28:
+                    upgradeToVersion28(context,db);
+                    break;
                 default:
                     break;
             }
@@ -176,6 +180,10 @@ public class HnppChwRepository extends CoreChwRepository {
     }
     private void upgradeToVersion26(Context context, SQLiteDatabase db) {
         TargetVsAchievementRepository.createTable(db);
+
+    }
+    private void upgradeToVersion28(Context context, SQLiteDatabase db) {
+        GuestMemberIdRepository.createTable(db);
 
     }
 

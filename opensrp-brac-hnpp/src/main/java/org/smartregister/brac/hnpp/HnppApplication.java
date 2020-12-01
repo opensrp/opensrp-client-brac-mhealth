@@ -17,6 +17,7 @@ import org.smartregister.AllConstants;
 import org.smartregister.Context;
 import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.activity.ForumActivity;
+import org.smartregister.brac.hnpp.activity.GuestMemberActivity;
 import org.smartregister.brac.hnpp.activity.HNPPJsonFormActivity;
 import org.smartregister.brac.hnpp.activity.HNPPMemberJsonFormActivity;
 import org.smartregister.brac.hnpp.activity.HnppAllMemberRegisterActivity;
@@ -35,6 +36,7 @@ import org.smartregister.brac.hnpp.listener.HnppNavigationListener;
 import org.smartregister.brac.hnpp.presenter.HnppNavigationPresenter;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.presenter.HnppNavigationPresenter;
+import org.smartregister.brac.hnpp.repository.GuestMemberIdRepository;
 import org.smartregister.brac.hnpp.repository.HnppChwRepository;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.repository.RiskDetailsRepository;
@@ -87,6 +89,7 @@ import timber.log.Timber;
 public class HnppApplication extends CoreChwApplication implements CoreApplication {
 
     private HouseholdIdRepository householdIdRepository;
+    private GuestMemberIdRepository guestMemberIdRepository;
     private HnppVisitLogRepository hnppVisitLogRepository;
     private static SSLocationRepository locationRepository;
     private static RiskDetailsRepository riskDetailsRepository;
@@ -233,6 +236,7 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.REFERRALS_REGISTER_ACTIVITY, ReferralRegisterActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.MALARIA_REGISTER_ACTIVITY, FamilyRegisterActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.FORUM_ACTIVITY, ForumActivity.class);
+        registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.GUEST_MEMBER_ACTIVITY, GuestMemberActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.ANC_RISK_REGISTER_ACTIVITY, HnppAncRiskRegisterActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.PNC_RISK_REGISTER_ACTIVITY, HnppPncRiskRegisterActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.ELCO_RISK_REGISTER_ACTIVITY, HnppElcoRiskRegisterActivity.class);
@@ -267,6 +271,12 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
             householdIdRepository = new HouseholdIdRepository(getInstance().getRepository());
         }
         return householdIdRepository;
+    }
+    public GuestMemberIdRepository getGuestMemberIdRepository() {
+        if (guestMemberIdRepository == null) {
+            guestMemberIdRepository = new GuestMemberIdRepository(getInstance().getRepository());
+        }
+        return guestMemberIdRepository;
     }
 
     public static SSLocationRepository getSSLocationRepository() {

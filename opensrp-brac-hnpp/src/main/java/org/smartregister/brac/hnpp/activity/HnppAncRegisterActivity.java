@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.evernote.android.job.JobManager;
@@ -31,6 +33,7 @@ import org.smartregister.brac.hnpp.utils.ANCRegister;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.chw.anc.AncLibrary;
+import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.interactor.BaseAncRegisterInteractor;
 import org.smartregister.chw.anc.model.BaseAncRegisterModel;
 import org.smartregister.chw.anc.presenter.BaseAncRegisterPresenter;
@@ -222,8 +225,11 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
                 String baseEnityId = form.optString(Constants.JSON_FORM_EXTRA.ENTITY_TYPE);
                 encounter_type = form.optString(Constants.JSON_FORM_EXTRA.ENCOUNTER_TYPE);
                 if(encounter_type.equalsIgnoreCase("Pregnancy Outcome")){
-                    JSONArray fields = step1.getJSONArray("fields");
-                    updateUniqueId(fields);
+                    if(!familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){
+                        JSONArray fields = step1.getJSONArray("fields");
+                        updateUniqueId(fields);
+                    }
+
                 }
 
                 if (encounter_type.equalsIgnoreCase(CoreConstants.EventType.PNC_HOME_VISIT)) {
@@ -231,8 +237,11 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
                 } else if (encounter_type.equalsIgnoreCase(CoreConstants.EventType.ANC_HOME_VISIT)) {
                     //ChwScheduleTaskExecutor.getInstance().execute(baseEnityId, CoreConstants.EventType.ANC_HOME_VISIT, new Date());
                 } else if(encounter_type.equalsIgnoreCase(CoreConstants.EventType.PREGNANCY_OUTCOME)){
-                    HnppPncRegisterActivity.startHnppPncRegisterActivity(HnppAncRegisterActivity.this, baseEnityId, "",
-                            HnppConstants.JSON_FORMS.PNC_FORM, null, familyBaseEntityId, familyName);
+                    if(!familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){
+                        HnppPncRegisterActivity.startHnppPncRegisterActivity(HnppAncRegisterActivity.this, baseEnityId, "",
+                                HnppConstants.JSON_FORMS.PNC_FORM, null, familyBaseEntityId, familyName);
+                    }
+
                 }
 
             } catch (Exception e) {
@@ -260,10 +269,18 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
                         pncForm = org.smartregister.chw.anc.util.JsonFormUtils.populatePNCForm(pncForm, fields, familyBaseEntityId);
                         HnppJsonFormUtils.processAttributesWithChoiceIDsForSave(fields);
                         if(!StringUtils.isEmpty(gender)){
-                            processChild(fields, allSharedPreferences, childBaseEntityId, familyBaseEntityId, motherBaseId);
                             if (pncForm != null) {
-                                saveRegistration(pncForm.toString(), EC_CHILD);
-                                NCUtils.saveVaccineEvents(fields, childBaseEntityId);
+                                if(familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){
+                                    processChild(fields, allSharedPreferences, childBaseEntityId, motherBaseId, motherBaseId);
+
+                                    saveRegistration(pncForm.toString(), "ec_guest_member");
+                                }else{
+                                    processChild(fields, allSharedPreferences, childBaseEntityId, familyBaseEntityId, motherBaseId);
+
+                                    saveRegistration(pncForm.toString(), EC_CHILD);
+                                    NCUtils.saveVaccineEvents(fields, childBaseEntityId);
+                                }
+
                             }
                         }
 
@@ -278,7 +295,20 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
 
 
             }else {
-                super.onActivityResult(requestCode, resultCode, data);
+                if (encounter_type.equalsIgnoreCase(Constants.EVENT_TYPE.ANC_REGISTRATION)) {
+                    try{
+                        saveRegistration(form.toString(), HnppConstants.TABLE_NAME.ANC_MEMBER);
+                    }catch (Exception e){
+
+                    }
+                }
+                //super.onActivityResult(requestCode, resultCode, data);
+            }
+            if(familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){
+                Intent intent = new Intent();
+                intent.putExtra("event_type",HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION);
+                setResult(RESULT_OK, intent);
+                finish();
             }
 
         }
@@ -299,10 +329,29 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
 
         NCUtils.addEvent(allSharedPreferences, baseEvent);
         NCUtils.startClientProcessing();
+        String visitID ="";
+        if(!TextUtils.isEmpty(baseEvent.getEventId())){
+            visitID = baseEvent.getEventId();
+        }else{
+            visitID = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
+        }
+        Log.v("ANC_HISTORY","visitId:"+visitID);
+
+        Visit visit = NCUtils.eventToVisit(baseEvent, visitID);
+        visit.setPreProcessedJson(new Gson().toJson(baseEvent));
+        try{
+           // visit.setParentVisitID(visitRepository().getParentVisitEventID(visit.getBaseEntityId(), HnppConstants.EVENT_TYPE.SS_INFO, visit.getDate()));
+            AncLibrary.getInstance().visitRepository().addVisit(visit);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
     private void processChild(JSONArray fields, AllSharedPreferences allSharedPreferences, String entityId, String familyBaseEntityId, String motherBaseId) {
         try {
             Client pncChild = org.smartregister.util.JsonFormUtils.createBaseClient(fields, org.smartregister.chw.anc.util.JsonFormUtils.formTag(allSharedPreferences), entityId);
+            if(familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){
+                pncChild.setLastName(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION);
+            }
             pncChild.addRelationship(Constants.RELATIONSHIP.FAMILY, familyBaseEntityId);
             pncChild.addRelationship(Constants.RELATIONSHIP.MOTHER, motherBaseId);
             JSONObject clientjson = new JSONObject(org.smartregister.chw.anc.util.JsonFormUtils.gson.toJson(pncChild));

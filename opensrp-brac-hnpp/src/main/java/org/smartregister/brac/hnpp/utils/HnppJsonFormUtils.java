@@ -31,7 +31,6 @@ import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.repository.VisitRepository;
 import org.smartregister.chw.anc.util.NCUtils;
-import org.smartregister.chw.core.repository.WashCheckRepository;
 import org.smartregister.chw.core.utils.ChildDBConstants;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.CoreJsonFormUtils;
@@ -87,6 +86,22 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
     public static String[] monthBanglaStr = {"জানুয়ারী","ফেব্রুয়ারী","মার্চ","এপ্রিল","মে","জুন","জুলাই","আগস্ট","সেপ্টেম্বর","অক্টোবর","নভেম্বর","ডিসেম্বর"};
 
+    public static void addRelationalIdAsGuest(JSONObject jsonForm){
+        JSONObject stepOne = null;
+        try {
+
+            stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+            JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+
+            updateFormField(jsonArray, "relational_id", HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION);
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
     public static boolean isCurrentMonth(String month, String year){
         if(TextUtils.isEmpty(month) || TextUtils.isEmpty(year)){
             return false;
@@ -507,7 +522,12 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         }
     }
     public static void addEDDField(String formName,JSONObject jsonForm,String baseEntityId){
-        if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM)||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM)||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM)){
+        if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM)
+                ||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM_OOC)
+                ||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM)
+                ||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM_OOC)
+                ||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM_OOC)
+                ||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM)){
             JSONObject stepOne = null;
             try {
                 HnppVisitLogRepository visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
@@ -638,6 +658,53 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+    public static void addHeight(JSONObject jsonForm, String height){
+        try {
+            JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+            JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+            updateFormField(jsonArray,"height",height);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public static void addNoOfAnc(JSONObject jsonForm){
+        try {
+
+
+            JSONArray jsonArray2 = new JSONArray();
+            for(int i = 1; i<=8;i++ ){
+                jsonArray2.put(i);
+            }
+            JSONArray field = fields(jsonForm, STEP1);
+            JSONObject spinner1 = getFieldJSONObject(field, "number_of_anc");
+
+            spinner1.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray2);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public static void addNoOfPnc(JSONObject jsonForm){
+        try {
+
+
+            JSONArray jsonArray2 = new JSONArray();
+            for(int i = 1; i<=4;i++ ){
+                jsonArray2.put(i);
+            }
+            JSONArray field = fields(jsonForm, STEP1);
+            JSONObject spinner1 = getFieldJSONObject(field, "number_of_pnc");
+
+            spinner1.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray2);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
     public static void addLastAnc(JSONObject jsonForm,String baseEntityId,boolean isReadOnlyView){
         JSONObject stepOne = null;
@@ -795,6 +862,10 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         int memberCount = HnppApplication.ancRegisterRepository().getMemberCountWithoutRemove(familyBaseEntityId);
         return houseHoldId+memberCountWithZero(memberCount+1);
     }
+//    public static String getUniqueGuestMemberId(String villageId) {
+//        HouseholdId houseHoldId = HnppApplication.getHNPPInstance().getGuestMemberIdRepository().getNextHouseholdId(villageId);
+//        return houseHoldId.getOpenmrsId();
+//    }
     public static JSONObject updateFormWithSimPrintsEnable(JSONObject form) throws Exception{
 
         boolean simPrintsEnable = false;
@@ -1205,7 +1276,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
 
 
-    protected static void dobEstimatedUpdateFromAge(JSONArray fields) {
+    public static void dobEstimatedUpdateFromAge(JSONArray fields) {
         try {
             JSONObject dobUnknownObject = getFieldJSONObject(fields, "is_birthday_known");
             String dobUnKnownString = dobUnknownObject != null ? dobUnknownObject.getString("value") : null;

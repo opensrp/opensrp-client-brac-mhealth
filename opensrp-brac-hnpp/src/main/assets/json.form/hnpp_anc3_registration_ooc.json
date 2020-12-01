@@ -1,6 +1,6 @@
 {
   "count": "1",
-  "encounter_type": "PNC Registration",
+  "encounter_type": "ANC3 Registration",
   "entity_id": "",
   "metadata": {
     "start": {
@@ -47,16 +47,16 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "প্রসবোত্তর পরিচর্যা",
+    "title": "গর্ভবতী পরিচর্যা - ৩য় ত্রিমাসিক",
     "fields": [
       {
         "key": "form_name",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "PNC Registration",
+        "openmrs_entity_id": "ANC3 Registration OOC",
         "openmrs_data_type": "text",
         "type": "hidden",
-        "value": "hnpp_pnc_registration"
+        "value": "hnpp_anc3_registration_ooc"
       },
       {
         "key": "relational_id",
@@ -66,40 +66,22 @@
         "type": "hidden"
       },
       {
-        "key": "is_delay",
-        "openmrs_entity_parent": "",
-        "openmrs_data_type": "text",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "is_delay",
-        "type": "hidden"
-      },
-      {
-        "key": "anc_count",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "hidden"
-      },
-      {
-        "key": "brac_pnc",
+        "key": "edd",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "brac_pnc",
+        "openmrs_entity_id": "edd",
         "type": "edit_text",
         "read_only": true,
-
-        "edit_type": "number",
-        "hint": "ব্র্যাক হতে নেয়া পূর্ববর্তী পি.এন.সি. সেবা কয় নম্বর পি.এন.সি. ছিল? "
-
+        "hint": "সম্ভাব্য প্রসবের তারিখ"
       },
       {
-        "key": "number_of_pnc",
+        "key": "number_of_anc",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "number_of_pnc",
+        "openmrs_entity_id": "number_of_anc",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "কত নম্বর গর্ভপরবর্তী সেবা (পি.এন.সি.)?",
+        "hint": "কত নম্বর গর্ভবতী পরিচর্যা সেবা (এ.এন.সি.)?",
         "values": [
 
         ],
@@ -111,368 +93,31 @@
           "err": "প্রশ্নের উত্তর দিন"
         }
       },
+
       {
-        "key": "diff",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "hidden",
-        "calculation": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_pnc_calculation_rule.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "other_label_1",
-        "type": "label",
-        "text": "পূর্বের পি.এন.সি. সেবার তথ্য",
-        "has_bg": true,
-        "left_padding": "20dp",
-        "right_padding": "20dp",
-        "text_size": "25sp",
-        "text_color": "#000000",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "relevance": {
-          "step1:diff": {
-            "type": "numeric",
-            "ex": "greaterThanEqualTo(., \"2\")"
-          }
-        }
-      },
-      {
-        "key": "other_pnc_no_1",
+        "key": "height",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "other_pnc_no_1",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "পূর্বের পি.এন.সি. সেবার সিরিয়াল নম্বর",
-        "values": [
-
-        ],
-        "openmrs_choice_ids": {
-
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "step1:diff": {
-            "type": "numeric",
-            "ex": "greaterThanEqualTo(., \"2\")"
-          }
-        }
-      },
-      {
-        "key": "greter_pnc_1",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "label",
-        "has_bg": true,
-        "left_padding": "20dp",
-        "right_padding": "20dp",
-        "text_size": "25sp",
-        "text_color": "#FF0000",
-        "text": "* এবারে নেয়া পি.এন.সি. নম্বর থেকে কম হবে.",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_pnc_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "match_pnc_1",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "label",
-        "has_bg": true,
-        "left_padding": "20dp",
-        "right_padding": "20dp",
-        "text_size": "25sp",
-        "text_color": "#FF0000",
-        "text": "* পি.এন.সি. নম্বর গুলো আলাদা হবে ",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_pnc_advice_relevance.yml"
-            }
-          }
-        }
-      },
-
-      {
-        "key": "other_source_pnc_1",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "other_source_anc_1",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "উৎস",
-        "values": [
-          "সরকারি",
-          "ব্র্যাক",
-          "অন্যান্য"
-        ],
-        "openmrs_choice_ids": {
-          "সরকারি": "Govt",
-          "ব্র্যাক": "brac",
-          "অন্যান্য": "other"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "step1:diff": {
-            "type": "numeric",
-            "ex": "greaterThanEqualTo(., \"2\")"
-          }
-        }
-      },
-      {
-        "key": "other_label_2",
-        "type": "label",
-        "text": "পূর্বের পি.এন.সি. সেবার তথ্য",
-        "has_bg": true,
-        "left_padding": "20dp",
-        "right_padding": "20dp",
-        "text_size": "25sp",
-        "text_color": "#000000",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "relevance": {
-          "step1:diff": {
-            "type": "numeric",
-            "ex": "greaterThanEqualTo(., \"3\")"
-          }
-        }
-      },
-
-      {
-        "key": "other_pnc_no_2",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "other_pnc_no_2",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "পূর্বের পি.এন.সি. সেবার সিরিয়াল নম্বর",
-        "values": [
-
-        ],
-        "openmrs_choice_ids": {
-
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "step1:diff": {
-            "type": "numeric",
-            "ex": "greaterThanEqualTo(., \"3\")"
-          }
-        }
-      },
-      {
-        "key": "greter_pnc_2",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "label",
-        "has_bg": true,
-        "left_padding": "20dp",
-        "right_padding": "20dp",
-        "text_size": "25sp",
-        "text_color": "#FF0000",
-        "text": "* এবারে নেয়া পি.এন.সি. নম্বর থেকে কম হবে.",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_pnc_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "match_pnc_2",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "label",
-        "has_bg": true,
-        "left_padding": "20dp",
-        "right_padding": "20dp",
-        "text_size": "25sp",
-        "text_color": "#FF0000",
-        "text": "* পি.এন.সি. নম্বর গুলো আলাদা হবে",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_pnc_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "other_source_pnc_2",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "other_source_pnc_2",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "উৎস",
-        "values": [
-          "সরকারি",
-          "ব্র্যাক",
-          "অন্যান্য"
-        ],
-        "openmrs_choice_ids": {
-          "সরকারি": "Govt",
-          "ব্র্যাক": "brac",
-          "অন্যান্য": "other"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "step1:diff": {
-            "type": "numeric",
-            "ex": "greaterThanEqualTo(., \"3\")"
-          }
-        }
-      },
-      {
-        "key": "other_label_3",
-        "type": "label",
-        "text": "পূর্বের পি.এন.সি. সেবার তথ্য",
-        "has_bg": true,
-        "left_padding": "20dp",
-        "right_padding": "20dp",
-        "text_size": "25sp",
-        "text_color": "#000000",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "relevance": {
-          "step1:diff": {
-            "type": "numeric",
-            "ex": "greaterThanEqualTo(., \"4\")"
-          }
-        }
-      },
-      {
-        "key": "other_pnc_no_3",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "other_pnc_no_3",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "পূর্বের পি.এন.সি. সেবার সিরিয়াল নম্বর",
-        "values": [
-
-        ],
-        "openmrs_choice_ids": {
-
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "step1:diff": {
-            "type": "numeric",
-            "ex": "greaterThanEqualTo(., \"4\")"
-          }
-        }
-      },
-      {
-        "key": "greter_pnc_3",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "label",
-        "has_bg": true,
-        "left_padding": "20dp",
-        "right_padding": "20dp",
-        "text_size": "25sp",
-        "text_color": "#FF0000",
-        "text": "* এবারে নেয়া পি.এন.সি. নম্বর থেকে কম হবে.",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_pnc_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "match_pnc_3",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "label",
-        "has_bg": true,
-        "left_padding": "20dp",
-        "right_padding": "20dp",
-        "text_size": "25sp",
-        "text_color": "#FF0000",
-        "text": "* পি.এন.সি. নম্বর গুলো আলাদা হবে",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_pnc_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "other_source_pnc_3",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "other_source_pnc_3",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "উৎস",
-        "values": [
-          "সরকারি",
-          "ব্র্যাক",
-          "অন্যান্য"
-        ],
-        "openmrs_choice_ids": {
-          "সরকারি": "Govt",
-          "ব্র্যাক": "brac",
-          "অন্যান্য": "other"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "step1:diff": {
-            "type": "numeric",
-            "ex": "greaterThanEqualTo(., \"4\")"
-          }
-        }
-      },
-      {
-        "key": "total_anc",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "total_anc",
+        "openmrs_entity_id": "height",
         "type": "edit_text",
-        "hint": "গর্ভবতী অবস্থায় মোট কয়টি এ.এন .সি. সেবা নিয়েছে?",
+        "hint": "মায়ের উচ্চতা (সে.মি.)",
+        "read_only": "true",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "weight",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "weight",
+        "type": "edit_text",
+        "hint": "ওজন(কেজি)",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
@@ -481,10 +126,81 @@
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
         },
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_bmi_calculation_rule.yml"
+            }
+          }
+        },
+        "v_min": {
+          "value": "30",
+          "err": "30 এর সমান বা 30 এর বেশি হতে হবে"
+        }
+      },
+      {
+        "key": "bmi",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "bmi",
+        "type": "edit_text",
+        "hint": "বি.এম.আই",
+        "editable": false,
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_bmi_calculation_rule.yml"
+            }
+          }
+        },
+        "v_min": {
+          "value": "20",
+          "err": "20 এর সমান বা 20 এর বেশি হতে হবে"
+        },
+        "v_max": {
+          "value": "50",
+          "err": "50 এর সমান বা 50 এর কম হওয়া উচিত"
+        }
+      },
+      {
+        "key": "advice_toaster_1",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "নিয়মিত সুষম খাদ্য সহ বাড়তি আমিষ জাতীয় খাদ্য গ্রহণ করা প্রয়োজন",
+        "text_color": "#1199F9",
+        "toaster_type": "info",
         "relevance": {
-          "step1:anc_count": {
-            "type": "numeric",
-            "ex": "equalTo(., \"0\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_2",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "নিয়মিত সুষম খাদ্য গ্রহণ করা প্রয়োজন",
+        "text_color": "#1199F9",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
           }
         }
       },
@@ -502,43 +218,51 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        },
+        "v_min": {
+          "value": "90",
+          "err": "90 এর সমান বা 90 এর বেশি হতে হবে"
+        },
+        "v_max": {
+          "value": "110",
+          "err": "110 এর সমান বা 110 এর কম হওয়া উচিত"
         }
       },
       {
-        "key": "advice_toaster_greater",
+        "key": "advice_toaster_3",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "ভরা পেটে প্যারাসিটামল গ্রহণ করুন এবং বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#1199F9",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_95",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
         "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
-        "toaster_type": "info",
+        "text_size": "20sp",
+        "toaster_type": "problem",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_pnc_advice_relevance.yml"
+              "rules-file": "hnpp_advice_relevance.yml"
             }
           }
         }
       },
-      {
-        "key": "advice_toaster_less",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
-        "text_color": "#FF0000",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_pnc_advice_relevance.yml"
-            }
-          }
-        }
-      },
-
       {
         "key": "pulse_rate",
         "openmrs_entity_parent": "",
@@ -546,6 +270,7 @@
         "openmrs_entity_id": "pulse_rate",
         "type": "edit_text",
         "hint": "নাড়ির গতি(প্রতি মিনিটে )",
+        "label_info_text": "নাড়ির গতি রেঞ্জ ৬০ থেকে ১০০ থাকবে",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
@@ -560,23 +285,6 @@
         }
       },
       {
-        "key": "advice_pulse_60_90",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
-        "text_color": "#FF0000",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_pnc_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
         "key": "advice_toaster_pulse",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
@@ -584,11 +292,12 @@
         "type": "toaster_notes",
         "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
-        "toaster_type": "info",
+        "text_size": "20sp",
+        "toaster_type": "problem",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_pnc_advice_relevance.yml"
+              "rules-file": "hnpp_advice_relevance.yml"
             }
           }
         }
@@ -656,7 +365,7 @@
         ]
       },
       {
-        "key": "advice_toaster_pregnancy_symptoms",
+        "key": "advice_toaster_problem",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
@@ -668,7 +377,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_pnc_advice_relevance.yml"
+              "rules-file": "hnpp_advice_relevance.yml"
             }
           }
         }
@@ -676,7 +385,7 @@
       {
         "key": "enabled_label",
         "type": "label",
-        "text": "রক্তচাপ",
+        "text":"রক্তচাপ",
         "has_bg": true,
         "left_padding": "20dp",
         "right_padding": "20dp",
@@ -719,7 +428,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_pnc_advice_relevance.yml"
+              "rules-file": "hnpp_advice_relevance.yml"
             }
           }
         }
@@ -730,14 +439,14 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text": "বেশি বেশি সুষম খাবার গ্রহণ করুন এবং ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
         "text_size": "20sp",
         "toaster_type": "problem",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_pnc_advice_relevance.yml"
+              "rules-file": "hnpp_advice_relevance.yml"
             }
           }
         }
@@ -775,7 +484,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_pnc_advice_relevance.yml"
+              "rules-file": "hnpp_advice_relevance.yml"
             }
           }
         }
@@ -786,14 +495,14 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text": "বেশি বেশি সুষম খাবার গ্রহণ করুন এবং ডাক্তারের পরামর্শ নিন",
         "text_color": "#FF0000",
         "text_size": "20sp",
         "toaster_type": "problem",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_pnc_advice_relevance.yml"
+              "rules-file": "hnpp_advice_relevance.yml"
             }
           }
         }
@@ -807,13 +516,41 @@
         "spacer_height": "15sp"
       },
       {
-        "key": "has_given_vitA",
+        "key": "uterus_length",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "has_given_vitA",
+        "openmrs_entity_id": "uterus_length",
+        "type": "edit_text",
+        "hint": "জরায়ুর উচ্চতা(সে.মি.)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "v_min": {
+          "value": "0",
+          "err": "100 এর কম হতে হবে"
+        },
+        "v_max": {
+          "value": "99",
+          "err": "100 এর কম হতে হবে"
+        }
+      },
+      {
+        "key": "has_edema",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "has_edema",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "ভিটামিন এ-ক্যাপসুল দেয়া হয়েছে কিনা? ",
+        "hint": "ইডিমা",
         "values": [
           "হ্যাঁ",
           "না"
@@ -825,6 +562,106 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "advice_toaster_has_edema",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "text_size": "20sp",
+        "toaster_type": "problem",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "child_movement_in_last_24hr",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "child_movement_in_last_24hr",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "বাচ্চা কি দিনে ১০ থেকে ১২ বার নড়াচড়া করে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "child_movement_in_last_24hr_no",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "child_movement_in_last_24hr_no",
+        "type": "edit_text",
+        "hint": "গত ২৪ ঘন্টায় বাচ্চা কতবার নাড়াচাড়া করেছে?",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "step1:child_movement_in_last_24hr": {
+            "type": "string",
+            "ex": "equalTo(., \"না\")"
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_24hr_6",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "text_size": "20sp",
+        "toaster_type": "problem",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_24hr_8",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "মা-বাম কাঁধে শুয়ে থাকবে, শরবত খাবে এবং বিশ্রাম নেবে",
+        "text_color": "#1199F9",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
         }
       },
       {
@@ -868,13 +705,13 @@
         }
       },
       {
-        "key": "has_abdominal_pain",
+        "key": "vaccination_tt_dose_completed",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "has_abdominal_pain",
+        "openmrs_entity_id": "vaccination_tt_dose_completed",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "তলপেটে ব্যাথা আছে কিনা",
+        "hint": "আপনার কি টিটি টিকা ডোজ সম্পূর্ণ করা আছে? ",
         "values": [
           "হ্যাঁ",
           "না"
@@ -889,97 +726,84 @@
         }
       },
       {
-        "key": "has_smelly_discharge",
+        "key": "last_tt_vaccination_given",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "has_smelly_discharge",
+        "openmrs_entity_id": "last_tt_vaccination_given",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "দূর্গন্ধ যুক্ত স্রাব আছে কিনা ?",
+        "hint": "সর্বশেষ টিটি টিকা কোনটি দেয়া হয়েছে?",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "টিটি-১",
+          "টিটি-২",
+          "টিটি-৩",
+          "টিটি-৪",
+          "একটিও না ",
+          "জানা নেই "
         ],
         "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+          "টিটি-১": "tt1",
+          "টিটি-২": "tt2",
+          "টিটি-৩": "tt3",
+          "টিটি-৪": "tt4",
+          "একটিও না": "none",
+          "জানা নেই ": "unknown"
         },
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "step1:vaccination_tt_dose_completed": {
+            "type": "string",
+            "ex": "equalTo(., \"না\")"
+          }
         }
       },
       {
-        "key": "advice_smelly_discharge",
+        "key": "advice_toaster_tt",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "স্যানিটারি ন্যাপকিন ব্যবহার করুন, পরিষ্কার কাপড় ব্যবহার করুন এবং নিয়মিত গোসল করুন",
+        "text": "নিকটবর্তী ইপিআই সেন্টার থেকে টিটি টিকা সম্পন্ন করুন",
         "text_color": "#1199F9",
         "toaster_type": "info",
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_pnc_advice_relevance.yml"
-            }
+          "step1:vaccination_tt_dose_completed": {
+            "type": "string",
+            "ex": "equalTo(., \"না\")"
           }
         }
       },
       {
-        "key": "excess_bleeding",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "excess_bleeding",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "অতিরিক্ত রক্তক্ষরণ",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
-      },
-
-      {
-        "key": "advice_excess_bleeding",
+        "key": "enabled_label",
+        "type": "label",
+        "text":"গ্লুকোজ(mmol/l) - রক্ত পরীক্ষা ",
+        "has_bg": true,
+        "left_padding": "20dp",
+        "right_padding": "20dp",
+        "text_size": "25sp",
+        "text_color": "#000000",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "দুইটি প্যাড দিয়ে ভালোভাবে রক্ত বের হওয়া বন্ধ করুন । প্রচুর তরল জাতীয় খাদ্য গ্রহণের পরামর্শ দিন এবং পা ভাঁজ করে শুয়ে থাকতে বলুন ",
-        "text_color": "#1199F9",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_pnc_advice_relevance.yml"
-            }
-          }
-        }
+        "openmrs_entity_id": ""
       },
       {
-        "key": "has_edema",
+        "key": "blood_sugar_test_condition",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "has_edema",
+        "openmrs_entity_id": "blood_sugar_test_condition",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "ইডিমা",
+        "hint": "কোন অবস্থায় পরীক্ষা করছেন?",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "ফাস্টিং",
+          "রেন্ডম"
         ],
         "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+          "ফাস্টিং": "fasting",
+          "রেন্ডম": "random"
         },
         "v_required": {
           "value": true,
@@ -987,108 +811,53 @@
         }
       },
       {
-        "key": "advice_toaster_has_edema",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
-        "text_color": "#FF0000",
-        "text_size": "20sp",
-        "toaster_type": "problem",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_pnc_advice_relevance.yml"
-            }
-          }
-        }
-      },
-
-      {
-        "key": "obsessive_compulsive_disorder",
+        "key": "fasting_blood_sugar",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "obsessive_compulsive_disorder",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "খিচুনি",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
-      },
-      {
-        "key": "advice_obsessive_compulsive",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "মাকে বাম দিকে কাত হয়ে শুতে বলুন। মুখের থুথু ফেলতে বলুন। একটি চামচ পরিষ্কার কাপড়ে মুড়িয়ে মুখে দিয়ে রাখুন। খুব দ্রুত হাসপাতালে নিতে বলুন",
-        "text_color": "#1199F9",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_pnc_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "advice_toaster_has_edema_has_obsessive",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
-        "text_color": "#FF0000",
-        "text_size": "20sp",
-        "toaster_type": "problem",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_pnc_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "perineum_sewing",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "perineum_sewing",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "পেরিনিয়াম ছেড়া/ টিয়ার",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
-      },
-      {
-        "key": "sewing_length",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "sewing_length",
+        "openmrs_entity_id": "fasting_blood_sugar",
         "type": "edit_text",
-        "hint": "ছেড়ার দৈর্ঘ্য (ইঞ্চি)",
+        "hint": "ফাস্টিং",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+        ,
+        "relevance": {
+          "step1:blood_sugar_test_condition": {
+            "type": "string",
+            "ex": "equalTo(., \"ফাস্টিং\")"
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_fasting",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "text_size": "20sp",
+        "toaster_type": "problem",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "random_blood_sugar",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "random_blood_sugar",
+        "type": "edit_text",
+        "hint": "রেন্ডম",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
@@ -1098,31 +867,14 @@
           "err": "প্রশ্নের উত্তর দিন"
         },
         "relevance": {
-          "step1:perineum_sewing": {
-            "type": "string",
-            "ex": "equalTo(., \"হ্যাঁ\")"
-          }
+        "step1:blood_sugar_test_condition": {
+          "type": "string",
+          "ex": "equalTo(., \"রেন্ডম\")"
         }
+      }
       },
       {
-        "key": "advice_sewing_length",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "প্রতিদিন কুসুম গরম পানিতে বসতে হবে",
-        "text_color": "#1199F9",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_pnc_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "advice_toaster_sewing_length",
+        "key": "advice_toaster_random",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
@@ -1134,32 +886,78 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_pnc_advice_relevance.yml"
+              "rules-file": "hnpp_advice_relevance.yml"
             }
           }
         }
       },
       {
-        "key": "other_conditions",
+        "key": "spacer",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "other_conditions",
+        "openmrs_entity_id": "spacer",
+        "type": "spacer",
+        "spacer_height": "15sp"
+      },
+      {
+        "key": "hemoglobin_test",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "hemoglobin_test",
         "type": "edit_text",
-        "hint": "অন্যান্য সমস্যা ",
-
+        "hint": "হিমোগ্লোবিন(gm/dl) - রক্ত পরীক্ষা",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
         "v_required": {
-          "value": false,
+          "value": true,
           "err": "প্রশ্নের উত্তর দিন"
         }
       },
       {
-        "key": "has_family_planning_method",
+        "key": "advice_toaster_4",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "আয়রনসমৃদ্ধ ডায়েটের জন্য যেমন মাছ-মাংস,লিভার, সবুজ শাক  এবং রঙ্গীন ফল এবং শাকসবজি খান, আয়রন ফলিক এসিড গ্রহণ করুন এবং স্যান্ডেল ব্যবহার করুন ",
+        "text_color": "#1199F9",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_hemoglobin_test",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "text_size": "20sp",
+        "toaster_type": "problem",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "albumin_test",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "has_family_planning_method",
+        "openmrs_entity_id": "albumin_test",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "কোনো পরিবার পরিকল্পনা পদ্ধতি ব্যবহার করছেন কিনা?",
+        "hint": "প্রস্রাব পরীক্ষায় অ্যালবুমিন আছে কিনা",
         "values": [
           "হ্যাঁ",
           "না"
@@ -1172,105 +970,115 @@
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
         }
-
       },
       {
-        "key": "advice_family_planning",
+        "key": "advice_toaster_albumin_test",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "পরিবার পরিকল্পনা পদ্ধতি সম্পর্কে পরামর্শ দিন",
-        "text_color": "#1199F9",
-        "toaster_type": "info",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "text_size": "20sp",
+        "toaster_type": "problem",
         "relevance": {
-          "step1:has_family_planning_method": {
-            "type": "string",
-            "ex": "equalTo(., \"না\")"
-          }
-        }
-      },
-      {
-        "key": "family_planning",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "family_planning",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "পরিবার পরিকল্পনা পদ্ধতি কোনটি ব্যবহার করছেন?",
-        "values": [
-          "বড়ি",
-          "কনডম",
-          "ইঞ্জেকশান",
-          "আই ইউ ডি",
-          "নরপ্লান্ট",
-          "মহিলা বন্ধ্যাকরণ"
-        ],
-        "openmrs_choice_ids": {
-          "বড়ি": "contraceptive_pill",
-          "কনডম": "condom",
-          "ইঞ্জেকশান": "injection",
-          "আই ইউ ডি": "iud",
-          "নরপ্লান্ট": "norplant",
-          "মহিলা বন্ধ্যাকরণ": "ligation"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "step1:has_family_planning_method": {
+          "step1:albumin_test": {
             "type": "string",
             "ex": "equalTo(., \"হ্যাঁ\")"
           }
         }
-
       },
       {
-        "key": "cause_of_referral",
+        "key": "advice_toaster_5",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "সম্পূর্ণ বিশ্রামে থাকবেন, লবন খাবেন না এবং পা উপর করে শুয়ে থাকবেন",
+        "text_color": "#1199F9",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "albumin_toaster_3",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "প্রি-একলেম্পসিয়া",
+        "text_color": "#CF0800",
+        "toaster_type": "problem",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_risk_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "bilirubin_test",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "cause_of_referral",
+        "openmrs_entity_id": "bilirubin_test",
         "openmrs_data_type": "",
         "type": "spinner",
-        "type": "hidden",
-        "hint": "রেফারেল এর কারণ",
+        "hint": "প্রস্রাব পরীক্ষায় বিলিরুবিন আছে কি না",
         "values": [
-          "গর্ভাবস্থার সমস্যা",
-          "প্রসবে সমস্যা",
-          "শিশু বিষয়ক সমস্যা",
-          "চোখে সমস্যা",
-          "ডায়বেটিস",
-          "উচ্চ রক্তচাপ",
-          "অন্যান্য"
+          "হ্যাঁ",
+          "না"
         ],
         "openmrs_choice_ids": {
-          "গর্ভাবস্থার সমস্যা": "",
-          "প্রসবে সমস্যা": "",
-          "শিশু বিষয়ক সমস্যা": "",
-          "চোখে সমস্যা": "",
-          "ডায়বেটিস": "",
-          "উচ্চ রক্তচাপ": "",
-          "অন্যান্য": ""
-        }
-
-      },
-      {
-        "key": "other_cause",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "other_cause",
-        "type": "edit_text",
-        "hint": "অন্যান্য কারণ",
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
-        },
+        }
+      },
+      {
+        "key": "advice_toaster_bilirubin_test",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "text_size": "20sp",
+        "toaster_type": "problem",
         "relevance": {
-          "step1:cause_of_referral": {
+          "step1:bilirubin_test": {
             "type": "string",
-            "ex": "equalTo(., \"অন্যান্য\")"
+            "ex": "equalTo(., \"হ্যাঁ\")"
           }
+        }
+      },
+      {
+        "key": "has_sold_safety_delivery_kit",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "has_sold_safety_delivery_kit",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "নিরাপদ ডেলিভারি কিট ক্রয় করেছেন কিনা? ",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
         }
       },
       {
@@ -1280,7 +1088,6 @@
         "openmrs_entity_id": "has_other_complication",
         "openmrs_data_type": "",
         "type": "spinner",
-        "type": "hidden",
         "hint": "অন্যান্য উপসর্গ / অসুবিধা / জটিলতা আছে কিনা ?",
         "values": [
           "হ্যাঁ",
@@ -1289,10 +1096,6 @@
         "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
         }
       },
       {
@@ -1301,7 +1104,6 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "other_complication",
         "type": "edit_text",
-        "type": "hidden",
         "hint": "লিখুন ",
         "relevance": {
           "step1:has_other_complication": {
@@ -1328,7 +1130,7 @@
       {
         "key": "refer_reason",
         "type": "label",
-        "text":"রেফারেল এর কারণ: প্রসবোত্তর পরিচর্যা সংক্রান্ত সমস্যা",
+        "text":"রেফারেল এর কারণ: গর্ভবতী পরিচর্যা সংক্রান্ত সমস্যা",
         "has_bg": true,
         "left_padding": "20dp",
         "right_padding": "20dp",
@@ -1336,8 +1138,7 @@
         "text_color": "#000000",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "hidden"
+        "openmrs_entity_id": ""
       },
       {
         "key": "other_refer_reason",
@@ -1345,8 +1146,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "other_refer_reason",
         "type": "edit_text",
-        "hint": "অন্যান্য কারণ",
-        "type": "hidden"
+        "hint": "অন্যান্য কারণ "
       },
       {
         "key": "place_of_referral",

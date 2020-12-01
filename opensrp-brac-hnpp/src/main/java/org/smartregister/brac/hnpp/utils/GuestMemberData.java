@@ -3,9 +3,45 @@ package org.smartregister.brac.hnpp.utils;
 public class GuestMemberData {
     private String name;
     private String baseEntityId;
+    private String memberId;
     private String dob;
     private String gender;
+    private String village;
+    private String villageId;
     private long lastSubmissionDate;
+    private String phoneNo;
+
+    public void setVillageId(String villageId) {
+        this.villageId = villageId;
+    }
+
+    public String getVillageId() {
+        return villageId;
+    }
+
+    public void setPhoneNo(String phoneNo) {
+        this.phoneNo = phoneNo;
+    }
+
+    public String getPhoneNo() {
+        return phoneNo;
+    }
+
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
+    }
+
+    public void setVillage(String village) {
+        this.village = village;
+    }
+
+    public String getVillage() {
+        return village;
+    }
+
+    public String getMemberId() {
+        return memberId;
+    }
 
     public String getName() {
         return name;
