@@ -242,7 +242,7 @@ public class StockDashBoardModel implements DashBoardContract.Model {
             query = MessageFormat.format("select count(*) as count from {0} {1}", "visits", getVisitFilterCondition(ssName,month,mainCondition));
 
         }*/
-        String query = "select sum("+ StockRepository.STOCK_QUANTITY+") as count from "+StockRepository.STOCK_TABLE+" where "+StockRepository.STOCK_PRODUCT_NAME+" = '"+visitType+"'";
+        String query = "select sum("+ StockRepository.STOCK_QUANTITY+") as count, sum("+StockRepository.ACHIEVEMNT_COUNT+") as acount from "+StockRepository.STOCK_TABLE+" where "+StockRepository.STOCK_PRODUCT_NAME+" = '"+visitType+"'";
 
         Log.v("STOCK","visit_type:"+query);
 
@@ -253,7 +253,9 @@ public class StockDashBoardModel implements DashBoardContract.Model {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
 
-                dashBoardData1.setCount(cursor.getInt(0));
+                int quantity = cursor.getInt(0);
+                int achievement = cursor.getInt(1);
+                dashBoardData1.setCount(quantity-achievement);
                 dashBoardData1.setEventType(visitType);
                 dashBoardData1.setTitle(HnppConstants.workSummeryTypeMapping.get(dashBoardData1.getEventType()));
 

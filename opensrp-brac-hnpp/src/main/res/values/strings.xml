@@ -23,6 +23,7 @@
  \n * আপনার অনুমতি না থাকলে এটা কাজ করবে না</string>
     <string name="menu_forum">ফোরাম</string>
     <string name="menu_notification">নোটিফিকেশন</string>
+    <string name="menu_stock_details">লেনদেনের সারসংক্ষেপ</string>
     <string name="menu_ss_info">স্বাস্থ্য সেবিকা তথ্য</string>
     <string name="menu_simprints">আঙুলের ছাপ দ্বারা সদস্য খুঁজি</string>
     <string name="unique_id_form_field">খানা নাম্বার</string>

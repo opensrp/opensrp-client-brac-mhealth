@@ -5,14 +5,39 @@
     android:padding="10dp"
     android:orientation="vertical"
     android:layout_height="wrap_content">
-    <ImageView
-        android:id="@+id/cross_btn"
-        android:layout_width="48dp"
-        android:layout_height="40dp"
-        android:layout_gravity="right"
-        android:src="@drawable/ic_cross"
-        android:tint="@color/customAppThemeBlue" />
+    <RelativeLayout
+        android:id="@+id/action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/customAppThemeBlue">
+        <org.smartregister.view.customcontrols.CustomFontTextView
+            android:id="@+id/textview_detail_two"
+            style="@style/CustomFontTextViewStyle.ClientList.Light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingStart="0dp"
+            android:paddingLeft="0dp"
+            android:text="@string/menu_stock_details"
+            android:textColor="@color/white"
+            android:textSize="25sp" />
+
+        <ImageView
+            android:id="@+id/cross_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_cross"
+            android:tint="@color/white" />
+
+    </RelativeLayout>
+
     <LinearLayout
+        android:layout_marginTop="5dp"
         android:id="@+id/monthDatePicker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,7 +49,7 @@
             android:id="@+id/month_text"
             android:text="সেপ্টেম্বর"
            android:gravity="center"
-            android:textSize="30sp"
+            android:textSize="25sp"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:layout_width="wrap_content"
@@ -34,7 +59,7 @@
             android:id="@+id/year_text"
             android:text="২০১৭"
             android:gravity="start"
-            android:textSize="30sp"
+            android:textSize="25sp"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:layout_width="wrap_content"
@@ -43,10 +68,10 @@
 
     <org.smartregister.view.customcontrols.CustomFontTextView
         android:padding="10dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
         android:id="@+id/title_text"
         android:text="প্রসব পরবর্তী প্যাকেজ"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:layout_centerVertical="true"
         android:textColor="@color/white"
         android:gravity="center"
@@ -55,7 +80,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <LinearLayout
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"

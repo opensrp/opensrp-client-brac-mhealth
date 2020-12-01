@@ -1,7 +1,6 @@
 package org.smartregister.brac.hnpp.repository;
 
 import android.content.ContentValues;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
