@@ -58,6 +58,8 @@ public class HnppJobCreator implements JobCreator {
                 return new HnppPncCloseJob();
             case TargetFetchJob.TAG:
                 return new TargetFetchJob();
+            case StockFetchJob.TAG:
+                return new StockFetchJob();
             default:
                 Timber.d("Please create job and specify the right job tag");
                 return null;

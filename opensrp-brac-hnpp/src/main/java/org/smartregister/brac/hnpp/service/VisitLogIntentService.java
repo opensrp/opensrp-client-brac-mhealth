@@ -5,11 +5,10 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import net.sqlcipher.Cursor;
-import net.sqlcipher.database.SQLiteDatabase;
+
 
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
@@ -263,6 +262,9 @@ public class VisitLogIntentService extends IntentService {
                                 String ssName = HnppDBUtils.getSSName(base_entity_id);
                                 HnppApplication.getTargetRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id);
 
+                                if(CoreConstants.EventType.ANC_HOME_VISIT.equalsIgnoreCase(encounter_type)|CoreConstants.EventType.PNC_HOME_VISIT.equalsIgnoreCase(encounter_type)| GIRL_PACKAGE.equalsIgnoreCase(encounter_type)| IYCF_PACKAGE.equalsIgnoreCase(encounter_type)| NCD_PACKAGE.equalsIgnoreCase(encounter_type)|WOMEN_PACKAGE.equalsIgnoreCase(encounter_type)){
+                                    HnppApplication.getStockRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id);
+                                }
                                 if (HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)){
                                     HnppApplication.getHNPPInstance().getHnppVisitLogRepository().updateFamilyLastHomeVisit(base_entity_id,String.valueOf(visit.getDate().getTime()));
                                 }

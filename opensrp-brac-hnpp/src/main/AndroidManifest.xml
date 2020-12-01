@@ -28,7 +28,7 @@
         android:supportsRtl="true"
         android:theme="@style/HNPPTheme"
         android:usesCleartextTraffic="true"
-        tools:replace="android:allowBackup">
+        tools:replace="android:allowBackup,android:icon">
         <activity android:name=".activity.NotificationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
@@ -290,6 +290,7 @@
         <service android:name=".sync.intent.PullHouseholdIdIntentService" />
         <service android:name=".service.SSLocationFetchIntentService" />
         <service android:name=".service.TargetFetchIntentService" />
+        <service android:name=".service.StockFetchIntentService" />
         <service android:name=".service.HomeVisitIntentService" />
         <service android:name=".service.VisitLogIntentService" />
         <service android:name=".service.HnppPncCloseDateIntent" />
