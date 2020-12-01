@@ -38,9 +38,9 @@ public class StockRepository extends BaseRepository {
     public static final String STOCK_TIMESTAMP = "stock_timestamp";
     protected static final String STOCK_EXPIREY_DATE = "expirey_date";
     protected static final String STOCK_RECEIVE_DATE = "receive_date";
-    protected static final String YEAR = "year";
-    protected static final String MONTH = "month";
-    protected static final String ACHIEVEMNT_DAY = "achievement_day";
+    public static final String YEAR = "year";
+    public static final String MONTH = "month";
+    public static final String ACHIEVEMNT_DAY = "achievement_day";
     public static final String ACHIEVEMNT_COUNT = "achievemnt_count";
     public static final String SS_NAME = "ss_name";
     public static final String BASE_ENTITY_ID = "base_entity_id";

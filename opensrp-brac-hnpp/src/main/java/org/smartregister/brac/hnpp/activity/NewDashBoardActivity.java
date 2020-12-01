@@ -24,7 +24,7 @@ import org.smartregister.brac.hnpp.fragment.WorkSummeryDashBoardFragment;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.view.activity.SecuredActivity;
 
-public class NewDashBoardActivity extends SecuredActivity {
+public class NewDashBoardActivity extends SecuredActivity implements View.OnClickListener{
     private ImageView refreshIndicatorsIcon;
     private ProgressBar refreshIndicatorsProgressBar;
     private TextView titleText;
@@ -75,6 +75,7 @@ public class NewDashBoardActivity extends SecuredActivity {
     private void setUpView() {
         refreshIndicatorsIcon = findViewById(R.id.refreshIndicatorsIcon);
         refreshIndicatorsProgressBar = findViewById(R.id.refreshIndicatorsPB);
+        findViewById(R.id.backBtn).setOnClickListener(this);
         // Initial view until we determined by the refresh function
         refreshIndicatorsProgressBar.setVisibility(View.GONE);
         titleText = findViewById(R.id.textview_detail_two);
@@ -137,4 +138,12 @@ public class NewDashBoardActivity extends SecuredActivity {
         titleText.setText(title);
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.backBtn:
+                finish();
+                break;
+        }
+    }
 }

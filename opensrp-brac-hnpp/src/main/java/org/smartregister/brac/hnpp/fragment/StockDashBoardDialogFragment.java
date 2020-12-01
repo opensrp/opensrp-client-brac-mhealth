@@ -118,7 +118,8 @@ public class StockDashBoardDialogFragment extends DialogFragment implements Stoc
         yearTV.setText(year);
     }
     private void filterData(){
-        presenter.filterData(content.getEventType(),month,year);
+        int months = Integer.parseInt(month)+1;
+        presenter.filterData(content.getEventType(),Integer.toString(months),year);
 
     }
 
@@ -147,6 +148,7 @@ public class StockDashBoardDialogFragment extends DialogFragment implements Stoc
         ArrayList<StockDetailsData> stockDetailsDataList =  presenter.getStockDetailsData();
         if(stockDetailsDataList.size()>0){
             StockDetailsData stockDetailsData = stockDetailsDataList.get(0);
+            monthStartBalanceTV.setText(stockDetailsData.getMonthStartBalance()+"");
             newPackageTV.setText(stockDetailsData.getNewPackage()+"");
             sellTV.setText(stockDetailsData.getSell()+"");
             endBalanceTV.setText(stockDetailsData.getEndBalance()+"");
