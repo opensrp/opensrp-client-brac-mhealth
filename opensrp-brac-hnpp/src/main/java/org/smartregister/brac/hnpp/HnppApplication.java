@@ -39,9 +39,11 @@ import org.smartregister.brac.hnpp.presenter.HnppNavigationPresenter;
 import org.smartregister.brac.hnpp.repository.GuestMemberIdRepository;
 import org.smartregister.brac.hnpp.repository.HnppChwRepository;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
+import org.smartregister.brac.hnpp.repository.NotificationRepository;
 import org.smartregister.brac.hnpp.repository.RiskDetailsRepository;
 import org.smartregister.brac.hnpp.repository.SSLocationRepository;
 import org.smartregister.brac.hnpp.repository.HouseholdIdRepository;
+import org.smartregister.brac.hnpp.repository.StockRepository;
 import org.smartregister.brac.hnpp.repository.TargetVsAchievementRepository;
 import org.smartregister.brac.hnpp.sync.HnppClientProcessor;
 import org.smartregister.brac.hnpp.sync.HnppSyncConfiguration;
@@ -94,6 +96,8 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
     private static SSLocationRepository locationRepository;
     private static RiskDetailsRepository riskDetailsRepository;
     private static TargetVsAchievementRepository targetVsAchievementRepository;
+    private static NotificationRepository notificationRepository;
+    private static StockRepository stockRepository;
     private static CommonFtsObject commonFtsObject = null;
     private EventClientRepository eventClientRepository;
     @Override
@@ -296,6 +300,18 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
             targetVsAchievementRepository = new TargetVsAchievementRepository(getInstance().getRepository());
         }
         return targetVsAchievementRepository;
+    }
+    public static NotificationRepository getNotificationRepository() {
+        if ( notificationRepository == null) {
+            notificationRepository = new NotificationRepository(getInstance().getRepository());
+        }
+        return notificationRepository;
+    }
+    public static StockRepository getStockRepository() {
+        if ( stockRepository == null) {
+            stockRepository = new StockRepository(getInstance().getRepository());
+        }
+        return stockRepository;
     }
     public void setOpenSRPUrl() {
         AllSharedPreferences preferences = Utils.getAllSharedPreferences();

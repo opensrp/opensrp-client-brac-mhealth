@@ -66,6 +66,7 @@ public class HnppChwRepository extends CoreChwRepository {
         upgradeToVersion22(context,database);
         upgradeToVersion25(context,database);
         upgradeToVersion26(context,database);
+        upgradeToVersion27(context,database);
         upgradeToVersion28(context,database);
 
     }
@@ -125,6 +126,9 @@ public class HnppChwRepository extends CoreChwRepository {
                 case 26:
                     upgradeToVersion26(context,db);
                     break;
+                case 27:
+                    upgradeToVersion27(context,db);
+                    break;
                 case 28:
                     upgradeToVersion28(context,db);
                     break;
@@ -182,7 +186,12 @@ public class HnppChwRepository extends CoreChwRepository {
         TargetVsAchievementRepository.createTable(db);
 
     }
+    private void upgradeToVersion27(Context context, SQLiteDatabase db) {
+        NotificationRepository.createTable(db);
+
+    }
     private void upgradeToVersion28(Context context, SQLiteDatabase db) {
+        StockRepository.createTable(db);
         GuestMemberIdRepository.createTable(db);
         try {
             db.execSQL("ALTER TABLE ec_visit_log ADD COLUMN ss_name VARCHAR;");

@@ -53,6 +53,11 @@ public class HnppConstants extends CoreConstants {
     public enum VisitType {DUE, OVERDUE, LESS_TWENTY_FOUR, VISIT_THIS_MONTH, NOT_VISIT_THIS_MONTH, EXPIRY, VISIT_DONE}
     public enum HomeVisitType {GREEN, YELLOW, RED, BROWN}
     public enum SEARCH_TYPE {HH, ADO, WOMEN, CHILD,NCD,ADULT}
+
+    public static String addZeroForMonth(String month){
+        if(month.length()==1) return "0"+month;
+        return month;
+    }
     public class ANC_REGISTER_COLUMNS {
         public static final String LAST_MENSTRUAL_PERIOD = "last_menstrual_period";
         public static final String EDD = "edd";

@@ -77,14 +77,15 @@
         android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="70dp">
+
         <org.smartregister.view.customcontrols.CustomFontTextView
             android:id="@+id/village_name_filter"
             android:layout_width="0dp"
+            android:layout_height="53dp"
             android:layout_weight="1"
-            android:text="villge name"
-            android:textColor="@color/white"
             android:gravity="center_vertical|center"
-            android:layout_height="match_parent"/>
+            android:text="villge name"
+            android:textColor="@color/white" />
         <View
             android:layout_width="2dp"
             android:layout_gravity="center_vertical"

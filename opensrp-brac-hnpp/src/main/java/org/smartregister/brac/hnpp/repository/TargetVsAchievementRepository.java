@@ -174,23 +174,6 @@ public class TargetVsAchievementRepository extends BaseRepository {
         }
         return isExist;
     }
-    public TargetVsAchievementData getTargetDetailsByName(String targetName) {
-        Cursor cursor = null;
-        TargetVsAchievementData targetVsAchievementData = new TargetVsAchievementData();
-        try {
-            cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getLocationTableName()+" where "+TARGET_NAME+" = '"+targetName+"", null);
-            while (cursor.moveToNext()) {
-                targetVsAchievementData = readCursor(cursor);
-            }
-            cursor.close();
-        } catch (Exception e) {
-            Log.e(LocationRepository.class.getCanonicalName(), e.getMessage(), e);
-        } finally {
-            if (cursor != null)
-                cursor.close();
-        }
-        return targetVsAchievementData;
-    }
 
     public ArrayList<TargetVsAchievementData> getTargetDetailsById(String targetId) {
         Cursor cursor = null;

@@ -29,8 +29,11 @@ public class DashBoardAdapter extends RecyclerView.Adapter<DashBoardViewHolder> 
     @NonNull
     @Override
     public DashBoardViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new DashBoardViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.view_dashboard_item, null));
+        return new DashBoardViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(getAdapterLayout(), null));
 
+    }
+    public int getAdapterLayout(){
+        return R.layout.view_dashboard_item;
     }
 
     @Override
