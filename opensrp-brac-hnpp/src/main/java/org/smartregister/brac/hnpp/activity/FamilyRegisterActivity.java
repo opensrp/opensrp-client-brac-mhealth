@@ -2,13 +2,18 @@ package org.smartregister.brac.hnpp.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.bottomnavigation.LabelVisibilityMode;
 import android.support.design.widget.BottomNavigationView;
 import android.view.View;
+import android.view.Window;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
@@ -42,6 +47,7 @@ import org.smartregister.brac.hnpp.listener.HnppFamilyBottomNavListener;
 import org.smartregister.clientandeventmodel.Address;
 import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.clientandeventmodel.Event;
+import org.smartregister.domain.FetchStatus;
 import org.smartregister.domain.db.EventClient;
 import org.smartregister.domain.tag.FormTag;
 import org.smartregister.family.FamilyLibrary;
@@ -52,6 +58,7 @@ import org.smartregister.family.util.Utils;
 import org.smartregister.helper.BottomNavigationHelper;
 import org.smartregister.immunization.service.intent.RecurringIntentService;
 import org.smartregister.immunization.service.intent.VaccineIntentService;
+import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.simprint.SimPrintsLibrary;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.EventClientRepository;
@@ -69,8 +76,8 @@ import timber.log.Timber;
 import static org.smartregister.chw.anc.util.JsonFormUtils.formTag;
 import static org.smartregister.util.JsonFormUtils.FIELDS;
 
-public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
-
+public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
+    private BroadcastReceiver notificationBroadcastReceiver;
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this).setMessage(getString(R.string.exit_app_message))
@@ -123,7 +130,7 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         navigationMenu = NavigationMenu.getInstance(this, null, null);
-
+        notificationBroadcastReceiver = new NotificationBroadcastReceiver();
         hnppNavigationPresenter = new HnppNavigationPresenter(
 
                 HnppApplication.getHNPPInstance(),
@@ -131,7 +138,6 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
                 navigationMenu,
 
                 HnppApplication.getHNPPInstance().getHnppNavigationModel());
-
         HnppApplication.getHNPPInstance().setupNavigation(hnppNavigationPresenter);
         ArrayList<SSModel> ssLocationForms = SSLocationHelper.getInstance().getSsModels();
         if(ssLocationForms.size() > 0){
@@ -163,7 +169,12 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
 
 
     }
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        IntentFilter intentFilter = new IntentFilter("STOCK_ACTION");
+        registerReceiver(notificationBroadcastReceiver, intentFilter);
+    }
     @Override
     public void startFormActivity(JSONObject jsonForm) {
         if(SSLocationHelper.getInstance().getSsModels().size() == 0){
@@ -189,7 +200,6 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
 
         startActivityForResult(intent, JsonFormUtils.REQUEST_CODE_GET_JSON);
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -291,4 +301,34 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
     protected BaseRegisterFragment getRegisterFragment() {
         return new HnppFamilyRegisterFragment();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(notificationBroadcastReceiver);
+    }
+
+    private class NotificationBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //Show popup
+            String name, count;
+            Bundle extras = intent.getExtras();
+            name = extras.getString("name_count");
+            //count = extras.getString("count");
+            Dialog dialog = new Dialog(getContext(), android.R.style.Theme_NoTitleBar_Fullscreen);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.new_stock_view);
+            TextView textViewTitle = dialog.findViewById(R.id.stock_new_text);
+            textViewTitle.setText(name);
+            dialog.findViewById(R.id.cross_btn).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+        }
+    }
+
 }
