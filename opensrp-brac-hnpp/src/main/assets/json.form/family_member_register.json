@@ -99,6 +99,7 @@
           "মেয়ের স্বামী",
           "শ্বশুর",
           "শাশুড়ি",
+          "অতিথি",
           "অন্যান্য"
         ],
         "openmrs_choice_ids": {
@@ -117,6 +118,7 @@
           "মেয়ের স্বামী": "DaughtersHusband",
           "শ্বশুর": "Father in law",
           "শাশুড়ি": "Mother in law",
+          "অতিথি" : "Guest",
           "অন্যান্য": "Others"
         },
         "v_required": {

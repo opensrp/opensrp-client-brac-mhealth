@@ -27,7 +27,11 @@ public class HnppNavigationListener extends NavigationListener {
             else if(CoreConstants.DrawerMenu.FORUM.equals(tag)){
 
                 startRegisterActivityWithOutFinish(getActivity(CoreConstants.REGISTERED_ACTIVITIES.FORUM_ACTIVITY));
-            }else if(CoreConstants.DrawerMenu.SS_INFO.equals(tag)){
+            }else if(CoreConstants.DrawerMenu.GUEST_MEMBER.equals(tag)){
+
+                startRegisterActivityWithOutFinish(getActivity(CoreConstants.REGISTERED_ACTIVITIES.GUEST_MEMBER_ACTIVITY));
+            }
+            else if(CoreConstants.DrawerMenu.SS_INFO.equals(tag)){
 
                 startRegisterActivityWithOutFinish(getActivity(CoreConstants.REGISTERED_ACTIVITIES.SS_INFO_ACTIVITY));
             }

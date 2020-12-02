@@ -27,6 +27,41 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
         this.context = context;
     }
 
+    public DashBoardData getOOCCount(String ssName){
+        String query;
+
+        DashBoardData dashBoardData1 = new DashBoardData();
+        if(TextUtils.isEmpty(ssName)){
+            query = "select count(*) as count from ec_guest_member where date_removed is null ";
+        }
+        else{
+            query = "select count(*) as count from ec_guest_member where ss_name = '"+ssName+"' and date_removed is null ";
+        }
+        Cursor cursor = null;
+        // try {
+        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        if(cursor !=null && cursor.getCount() > 0){
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                dashBoardData1 = new DashBoardData();
+                dashBoardData1.setCount(cursor.getInt(0));
+                dashBoardData1.setEventType(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION);
+                dashBoardData1.setTitle(context.getString(R.string.guest_member));
+
+                try{
+                    dashBoardData1.setImageSource(R.drawable.rowavatar_member);
+                }catch (Exception e){
+
+                }
+                cursor.moveToNext();
+            }
+            cursor.close();
+
+        }
+
+
+        return dashBoardData1;
+    }
     public DashBoardData getHHCount(String ssName){
         String query;
 

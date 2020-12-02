@@ -170,6 +170,7 @@
           "দাদি",
           "নানা",
           "নানী",
+          "অতিথি",
           "অন্যান্য"
         ],
         "openmrs_choice_ids": {
@@ -179,6 +180,7 @@
           "দাদি":"Grandma",
           "নানা":"Grandfather",
           "নানী":"Grandmother",
+          "অতিথি" : "Guest",
           "অন্যান্য": "Others"
         },
         "v_required": {

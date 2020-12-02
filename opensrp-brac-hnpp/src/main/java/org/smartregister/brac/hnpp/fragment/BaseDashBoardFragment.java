@@ -31,7 +31,6 @@ import org.smartregister.brac.hnpp.adapter.DashBoardAdapter;
 import org.smartregister.brac.hnpp.contract.DashBoardContract;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSModel;
-import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 
 import java.util.ArrayList;
@@ -85,7 +84,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH)+1;
         day = calendar.get(Calendar.DAY_OF_MONTH);
-        currentDate   = year+"-"+ HnppConstants.addZeroForMonth(month+"")+"-"+HnppConstants.addZeroForMonth(day+"");
+        currentDate   = year+"-"+addZeroForMonth(month+"")+"-"+addZeroForMonth(day+"");
         fromDate = currentDate;
         toDate = currentDate;
         dateBtn.setText(currentDate);
@@ -115,7 +114,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
                         month = mnt +1;
                         year = yr;
 
-                        fromDate = year + "-" + HnppConstants.addZeroForMonth((mnt+1)+"")+"-"+HnppConstants.addZeroForMonth(dayOfMonth+"");
+                        fromDate = year + "-" + addZeroForMonth((mnt+1)+"")+"-"+addZeroForMonth(dayOfMonth+"");
 
                         dateBtn.setText(fromDate);
                         updateFilter();
@@ -243,5 +242,8 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
         }
     }
 
-
+    public String addZeroForMonth(String month){
+        if(month.length()==1) return "0"+month;
+        return month;
+    }
 }

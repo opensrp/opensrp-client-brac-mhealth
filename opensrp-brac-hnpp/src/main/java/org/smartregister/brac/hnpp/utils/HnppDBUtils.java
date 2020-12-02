@@ -11,26 +11,18 @@ import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.model.ForumDetails;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.dao.AbstractDao;
 import org.smartregister.chw.core.utils.ChildDBConstants;
 import org.smartregister.chw.core.utils.CoreChildUtils;
-import org.smartregister.chw.core.utils.CoreConstants;
-import org.smartregister.chw.core.utils.CoreJsonFormUtils;
-import org.smartregister.clientandeventmodel.Event;
-import org.smartregister.clientandeventmodel.Obs;
 import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
-import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
-import org.smartregister.repository.BaseRepository;
-import org.smartregister.sync.helper.ECSyncHelper;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,6 +35,37 @@ import timber.log.Timber;
 
 public class HnppDBUtils extends CoreChildUtils {
 
+
+    public static GuestMemberData getGuestMemberById(String baseEntityId){
+        String query = "Select base_entity_id,village_name,unique_id,first_name,dob,gender,phone_number,village_id FROM ec_guest_member WHERE  date_removed is null and base_entity_id ='"+baseEntityId+"'";
+        GuestMemberData guestMemberData = null;
+        Cursor cursor = null;
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                guestMemberData = new GuestMemberData();
+                cursor.moveToFirst();
+                guestMemberData.setBaseEntityId(cursor.getString(0));
+                guestMemberData.setVillage(cursor.getString(1));
+                guestMemberData.setMemberId(cursor.getString(2));
+                guestMemberData.setName(cursor.getString(3));
+                guestMemberData.setDob(cursor.getString(4));
+                guestMemberData.setGender(cursor.getString(5));
+                guestMemberData.setPhoneNo(cursor.getString(6));
+                guestMemberData.setVillageId(cursor.getString(7));
+                cursor.close();
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return guestMemberData;
+
+    }
     public static String getChildFollowUpFormName(String baseEntityId){
         String query = "select ((( julianday('now') - julianday(dob))/365) *12) as age from ec_family_member where base_entity_id ='"+baseEntityId+"'";
         Cursor cursor = null;
@@ -73,16 +96,41 @@ public class HnppDBUtils extends CoreChildUtils {
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 birthWeight = cursor.getString(0);
-                cursor.close();
+            }
+
+        } catch (Exception e) {
+            Timber.e(e);
+
+        }
+        finally {
+            if(cursor !=null)cursor.close();
+        }
+        if(TextUtils.isEmpty(birthWeight)){
+            birthWeight = getSSNameFromGuestTable(baseEntityId);
+        }
+        return birthWeight;
+    }
+    public static String getSSNameFromGuestTable(String baseEntityId){
+        String query = "select ss_name from ec_guest_member where base_entity_id = '"+baseEntityId+"'";
+        Cursor cursor = null;
+        String birthWeight="";
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                birthWeight = cursor.getString(0);
             }
 
             return birthWeight;
         } catch (Exception e) {
             Timber.e(e);
+
+        }
+        finally {
+            if(cursor !=null)cursor.close();
         }
         return birthWeight;
     }
-
     public static void updateCoronaFamilyMember(String base_entity_id, String value){
         try{
             SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
@@ -615,12 +663,15 @@ public class HnppDBUtils extends CoreChildUtils {
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 motherName = cursor.getString(0);
-                cursor.close();
             }
 
             return motherName;
         } catch (Exception e) {
             Timber.e(e);
+
+        }
+        finally {
+            if(cursor !=null) cursor.close();
         }
         return motherName;
     }

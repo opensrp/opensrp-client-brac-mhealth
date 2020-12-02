@@ -15,24 +15,17 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
-
-import net.sqlcipher.database.SQLiteDatabase;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONString;
-import org.smartregister.CoreLibrary;
 import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.listener.HnppBottomNavigationListener;
 import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.model.HnppFamilyRegisterModel;
-import org.smartregister.brac.hnpp.model.HnppNavigationModel;
 import org.smartregister.brac.hnpp.presenter.FamilyRegisterPresenter;
 import org.smartregister.brac.hnpp.presenter.HnppNavigationPresenter;
 import org.smartregister.brac.hnpp.repository.HnppChwRepository;
@@ -44,36 +37,22 @@ import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.fragment.HnppFamilyRegisterFragment;
 import org.smartregister.brac.hnpp.listener.HnppFamilyBottomNavListener;
-import org.smartregister.clientandeventmodel.Address;
-import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.clientandeventmodel.Event;
-import org.smartregister.domain.FetchStatus;
-import org.smartregister.domain.db.EventClient;
 import org.smartregister.domain.tag.FormTag;
-import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.contract.FamilyRegisterContract;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
 import org.smartregister.helper.BottomNavigationHelper;
-import org.smartregister.immunization.service.intent.RecurringIntentService;
-import org.smartregister.immunization.service.intent.VaccineIntentService;
-import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.simprint.SimPrintsLibrary;
-import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.EventClientRepository;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 
 
 import java.util.ArrayList;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import timber.log.Timber;
 
-import static org.smartregister.chw.anc.util.JsonFormUtils.formTag;
 import static org.smartregister.util.JsonFormUtils.FIELDS;
 
 public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{

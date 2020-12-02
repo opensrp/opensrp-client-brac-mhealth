@@ -83,7 +83,7 @@ public class StockDashBoardDialogFragment extends DialogFragment implements Stoc
                         .setMinYear(1990)
                         .setActivatedYear(calendar.get(Calendar.YEAR))
                         .setMaxYear(calendar.get(Calendar.YEAR))
-                        .setTitle("Select month")
+                        .setTitle("মাস সিলেক্ট করুন")
                         .setOnMonthChangedListener(new MonthPickerDialog.OnMonthChangedListener() {
                             @Override
                             public void onMonthChanged(int selectedMonth) {

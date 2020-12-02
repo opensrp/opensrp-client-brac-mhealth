@@ -59,6 +59,13 @@
         "value": "hnpp_pnc_registration"
       },
       {
+        "key": "relational_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "relational_id",
+        "type": "hidden"
+      },
+      {
         "key": "is_delay",
         "openmrs_entity_parent": "",
         "openmrs_data_type": "text",
@@ -1212,7 +1219,7 @@
           "err": "প্রশ্নের উত্তর দিন"
         },
         "relevance": {
-          "step2:has_family_planning_method": {
+          "step1:has_family_planning_method": {
             "type": "string",
             "ex": "equalTo(., \"হ্যাঁ\")"
           }

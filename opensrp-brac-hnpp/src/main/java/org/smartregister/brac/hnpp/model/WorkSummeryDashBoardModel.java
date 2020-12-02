@@ -103,49 +103,50 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
     }
 
     public DashBoardData getANCRegisterCount(String ssName, String month){
-        DashBoardData dashBoardData1 = new DashBoardData();
-        String mainCondition = MessageFormat.format(" inner join {0} ", CoreConstants.TABLE_NAME.FAMILY_MEMBER) +
-                MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.BASE_ENTITY_ID,
-                        CoreConstants.TABLE_NAME.ANC_MEMBER, DBConstants.KEY.BASE_ENTITY_ID) +
-                MessageFormat.format(" inner join {0} ", "ec_anc_log") +
-                MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.ANC_MEMBER, DBConstants.KEY.BASE_ENTITY_ID,
-                        "ec_anc_log", DBConstants.KEY.BASE_ENTITY_ID) +
-                MessageFormat.format(" inner join {0} ", CoreConstants.TABLE_NAME.FAMILY) +
-                MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.FAMILY, DBConstants.KEY.BASE_ENTITY_ID,
-                        CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.RELATIONAL_ID) +
-                MessageFormat.format(" where {0}.{1} is null ", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED) +
-                MessageFormat.format(" and {0}.{1} is 0 ", CoreConstants.TABLE_NAME.ANC_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.IS_CLOSED);
-        String query;
-        if(TextUtils.isEmpty(ssName) && TextUtils.isEmpty(month)){
-            query = MessageFormat.format("select count(*) as count from {0} {1}", "ec_anc_register", mainCondition);
-
-        }else{
-            query = MessageFormat.format("select count(*) as count from {0} {1} {2}", "ec_anc_register", mainCondition,getAncFilterCondition(ssName,month));
-        }
-        Cursor cursor = null;
-        // try {
-        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
-        if(cursor !=null && cursor.getCount() > 0){
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-
-                dashBoardData1.setCount(cursor.getInt(0));
-                dashBoardData1.setEventType(HnppConstants.EventType.ANC_REGISTRATION);
-                dashBoardData1.setTitle(HnppConstants.workSummeryTypeMapping.get(dashBoardData1.getEventType()));
-
-                try{
-                    dashBoardData1.setImageSource((int)HnppConstants.iconMapping.get(dashBoardData1.getEventType()));
-                }catch (Exception e){
-
-                }
-                cursor.moveToNext();
-            }
-            cursor.close();
-
-        }
-
-
-        return dashBoardData1;
+        return getVisitTypeCount(HnppConstants.EVENT_TYPE.ANC_REGISTRATION,ssName,month);
+//        DashBoardData dashBoardData1 = new DashBoardData();
+//        String mainCondition = MessageFormat.format(" inner join {0} ", CoreConstants.TABLE_NAME.FAMILY_MEMBER) +
+//                MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.BASE_ENTITY_ID,
+//                        CoreConstants.TABLE_NAME.ANC_MEMBER, DBConstants.KEY.BASE_ENTITY_ID) +
+//                MessageFormat.format(" inner join {0} ", "ec_anc_log") +
+//                MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.ANC_MEMBER, DBConstants.KEY.BASE_ENTITY_ID,
+//                        "ec_anc_log", DBConstants.KEY.BASE_ENTITY_ID) +
+//                MessageFormat.format(" inner join {0} ", CoreConstants.TABLE_NAME.FAMILY) +
+//                MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.FAMILY, DBConstants.KEY.BASE_ENTITY_ID,
+//                        CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.RELATIONAL_ID) +
+//                MessageFormat.format(" where {0}.{1} is null ", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED) +
+//                MessageFormat.format(" and {0}.{1} is 0 ", CoreConstants.TABLE_NAME.ANC_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.IS_CLOSED);
+//        String query;
+//        if(TextUtils.isEmpty(ssName) && TextUtils.isEmpty(month)){
+//            query = MessageFormat.format("select count(*) as count from {0} {1}", "ec_anc_register", mainCondition);
+//
+//        }else{
+//            query = MessageFormat.format("select count(*) as count from {0} {1} {2}", "ec_anc_register", mainCondition,getAncFilterCondition(ssName,month));
+//        }
+//        Cursor cursor = null;
+//        // try {
+//        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+//        if(cursor !=null && cursor.getCount() > 0){
+//            cursor.moveToFirst();
+//            while (!cursor.isAfterLast()) {
+//
+//                dashBoardData1.setCount(cursor.getInt(0));
+//                dashBoardData1.setEventType(HnppConstants.EventType.ANC_REGISTRATION);
+//                dashBoardData1.setTitle(HnppConstants.workSummeryTypeMapping.get(dashBoardData1.getEventType()));
+//
+//                try{
+//                    dashBoardData1.setImageSource((int)HnppConstants.iconMapping.get(dashBoardData1.getEventType()));
+//                }catch (Exception e){
+//
+//                }
+//                cursor.moveToNext();
+//            }
+//            cursor.close();
+//
+//        }
+//
+//
+//        return dashBoardData1;
     }
 
     public DashBoardData getAnc1Count(String ssName, String month){
@@ -161,52 +162,53 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
         return getVisitTypeCount("ANC",ssName,month);
     }
     public DashBoardData getDeliveryCount(String ssName, String month){
-        DashBoardData dashBoardData1 = new DashBoardData();
-        StringBuilder build = new StringBuilder();
-        build.append(MessageFormat.format(" inner join {0} ", CoreConstants.TABLE_NAME.FAMILY_MEMBER));
-        build.append(MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.BASE_ENTITY_ID,
-                CoreConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME, DBConstants.KEY.BASE_ENTITY_ID));
-
-        build.append(MessageFormat.format(" inner join {0} ", CoreConstants.TABLE_NAME.FAMILY));
-
-        build.append(MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.FAMILY, DBConstants.KEY.BASE_ENTITY_ID,
-                CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.RELATIONAL_ID));
-
-        build.append(MessageFormat.format(" where {0}.{1} is not null AND {0}.{2} is 0 ", CoreConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME, ChwDBConstants.DELIVERY_DATE, ChwDBConstants.IS_CLOSED));
-        build.append(MessageFormat.format(" and {0}.{1} is null ", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED));
-
-        String mainCondition = build.toString();
-        String query;
-        if(TextUtils.isEmpty(ssName) && TextUtils.isEmpty(month)){
-            query = MessageFormat.format("select count(*) as count from {0} {1}", CoreConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME, mainCondition);
-
-        }else{
-            query = MessageFormat.format("select count(*) as count from {0} {1} {2}", CoreConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME, mainCondition,getDeliveryFilterCondition(ssName,month));
-        }
-        Cursor cursor = null;
-        // try {
-        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
-        if(cursor !=null && cursor.getCount() > 0){
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-
-                dashBoardData1.setCount(cursor.getInt(0));
-                dashBoardData1.setEventType(HnppConstants.EventType.PREGNANCY_OUTCOME);
-                dashBoardData1.setTitle(HnppConstants.workSummeryTypeMapping.get(dashBoardData1.getEventType()));
-
-                try{
-                    dashBoardData1.setImageSource((int)HnppConstants.iconMapping.get(dashBoardData1.getEventType()));
-                }catch (Exception e){
-
-                }
-                cursor.moveToNext();
-            }
-            cursor.close();
-
-        }
-
-
-        return dashBoardData1;
+        return getVisitTypeCount(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME,ssName,month);
+//        DashBoardData dashBoardData1 = new DashBoardData();
+//        StringBuilder build = new StringBuilder();
+//        build.append(MessageFormat.format(" inner join {0} ", CoreConstants.TABLE_NAME.FAMILY_MEMBER));
+//        build.append(MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.BASE_ENTITY_ID,
+//                CoreConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME, DBConstants.KEY.BASE_ENTITY_ID));
+//
+//        build.append(MessageFormat.format(" inner join {0} ", CoreConstants.TABLE_NAME.FAMILY));
+//
+//        build.append(MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.FAMILY, DBConstants.KEY.BASE_ENTITY_ID,
+//                CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.RELATIONAL_ID));
+//
+//        build.append(MessageFormat.format(" where {0}.{1} is not null AND {0}.{2} is 0 ", CoreConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME, ChwDBConstants.DELIVERY_DATE, ChwDBConstants.IS_CLOSED));
+//        build.append(MessageFormat.format(" and {0}.{1} is null ", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED));
+//
+//        String mainCondition = build.toString();
+//        String query;
+//        if(TextUtils.isEmpty(ssName) && TextUtils.isEmpty(month)){
+//            query = MessageFormat.format("select count(*) as count from {0} {1}", CoreConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME, mainCondition);
+//
+//        }else{
+//            query = MessageFormat.format("select count(*) as count from {0} {1} {2}", CoreConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME, mainCondition,getDeliveryFilterCondition(ssName,month));
+//        }
+//        Cursor cursor = null;
+//        // try {
+//        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+//        if(cursor !=null && cursor.getCount() > 0){
+//            cursor.moveToFirst();
+//            while (!cursor.isAfterLast()) {
+//
+//                dashBoardData1.setCount(cursor.getInt(0));
+//                dashBoardData1.setEventType(HnppConstants.EventType.PREGNANCY_OUTCOME);
+//                dashBoardData1.setTitle(HnppConstants.workSummeryTypeMapping.get(dashBoardData1.getEventType()));
+//
+//                try{
+//                    dashBoardData1.setImageSource((int)HnppConstants.iconMapping.get(dashBoardData1.getEventType()));
+//                }catch (Exception e){
+//
+//                }
+//                cursor.moveToNext();
+//            }
+//            cursor.close();
+//
+//        }
+//
+//
+//        return dashBoardData1;
     }
     public DashBoardData getPncCount(String ssName, String month){
         return getVisitTypeCount("pnc",ssName,month);
@@ -259,9 +261,9 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
         }
         String query;
         if(TextUtils.isEmpty(ssName) && TextUtils.isEmpty(month)){
-            query = MessageFormat.format("select count(*) as count from {0} {1}", "visits", mainCondition);
+            query = MessageFormat.format("select count(*) as count from {0} {1}", "ec_visit_log", mainCondition);
         }else{
-            query = MessageFormat.format("select count(*) as count from {0} {1}", "visits", getVisitFilterCondition(ssName,month,mainCondition));
+            query = MessageFormat.format("select count(*) as count from {0} {1}", "ec_visit_log", getVisitFilterCondition(ssName,month,mainCondition));
 
         }
         Log.v("WORK_SUMMERY","visit_type:"+query);
@@ -352,23 +354,23 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
     }
     public String getVisitFilterCondition(String ssName, String month,String mainCondition){
         StringBuilder build = new StringBuilder();
-        if(!TextUtils.isEmpty(ssName)){
-            build.append(MessageFormat.format(" inner join {0} ", CoreConstants.TABLE_NAME.FAMILY_MEMBER));
-            build.append(MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.BASE_ENTITY_ID,
-                    "visits", DBConstants.KEY.BASE_ENTITY_ID));
-            build.append(MessageFormat.format(" inner join {0} ", CoreConstants.TABLE_NAME.FAMILY));
-            build.append(MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.FAMILY, DBConstants.KEY.BASE_ENTITY_ID,
-                    CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.RELATIONAL_ID));
-        }
+//        if(!TextUtils.isEmpty(ssName)){
+//            build.append(MessageFormat.format(" inner join {0} ", CoreConstants.TABLE_NAME.FAMILY_MEMBER));
+//            build.append(MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.BASE_ENTITY_ID,
+//                    "visits", DBConstants.KEY.BASE_ENTITY_ID));
+//            build.append(MessageFormat.format(" inner join {0} ", CoreConstants.TABLE_NAME.FAMILY));
+//            build.append(MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.FAMILY, DBConstants.KEY.BASE_ENTITY_ID,
+//                    CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.RELATIONAL_ID));
+//        }
 
         build.append(mainCondition);
         if(!TextUtils.isEmpty(ssName) && !TextUtils.isEmpty(month)){
             build.append(MessageFormat.format(" and {0} = {1} ", HnppConstants.KEY.SS_NAME,"'"+ssName+"'"));
-            build.append(MessageFormat.format(" and {0} = {1} ", "strftime('%m', datetime(visits.visit_date/1000,'unixepoch','localtime'))" ,"'"+month+"'"));
+            build.append(MessageFormat.format(" and {0} = {1} ", "strftime('%m', datetime(ec_visit_log.visit_date/1000,'unixepoch','localtime'))" ,"'"+month+"'"));
 
         }
         else if(!TextUtils.isEmpty(month)){
-            build.append(MessageFormat.format(" and {0} = {1} ", "strftime('%m', datetime(visits.visit_date/1000,'unixepoch','localtime'))" ,"'"+month+"'"));
+            build.append(MessageFormat.format(" and {0} = {1} ", "strftime('%m', datetime(ec_visit_log.visit_date/1000,'unixepoch','localtime'))" ,"'"+month+"'"));
 
         }
         else if(!TextUtils.isEmpty(ssName)){

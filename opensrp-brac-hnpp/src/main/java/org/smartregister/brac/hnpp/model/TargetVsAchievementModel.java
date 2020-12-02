@@ -122,6 +122,7 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
         String query = "select sum(target_count) as target_count, sum(achievemnt_count) as achievemnt_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
         Log.v("TARGET_QUERY","query:"+query);
         Cursor cursor = null;
+        try{
         // try {
         cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         if(cursor !=null && cursor.getCount() > 0){
@@ -141,8 +142,12 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
 
                 cursor.moveToNext();
             }
-            cursor.close();
 
+        }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            if(cursor!=null) cursor.close();
         }
 
 
@@ -153,24 +158,28 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
         String query = "select sum(target_count) as target_count, sum(achievemnt_count) as achievemnt_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
         Log.v("TARGET_QUERY","avg query:"+query);
         Cursor cursor = null;
-        // try {
-        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
-        if(cursor !=null && cursor.getCount() > 0){
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-                dashBoardData1.setAvgTargetCount(cursor.getInt(cursor.getColumnIndex(TargetVsAchievementRepository.TARGET_COUNT)));
-                int achCount = cursor.getInt(cursor.getColumnIndex(TargetVsAchievementRepository.ACHIEVEMNT_COUNT));
-                dashBoardData1.setAvgAchievmentCount(achCount);
+         try {
+             cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+             if (cursor != null && cursor.getCount() > 0) {
+                 cursor.moveToFirst();
+                 while (!cursor.isAfterLast()) {
+                     dashBoardData1.setAvgTargetCount(cursor.getInt(cursor.getColumnIndex(TargetVsAchievementRepository.TARGET_COUNT)));
+                     int achCount = cursor.getInt(cursor.getColumnIndex(TargetVsAchievementRepository.ACHIEVEMNT_COUNT));
+                     dashBoardData1.setAvgAchievmentCount(achCount);
 
 
-                dashBoardData1.setEventType(visitType);
-                dashBoardData1.setTitle(HnppConstants.targetTypeMapping.get(dashBoardData1.getEventType()));
+                     dashBoardData1.setEventType(visitType);
+                     dashBoardData1.setTitle(HnppConstants.targetTypeMapping.get(dashBoardData1.getEventType()));
 
-                cursor.moveToNext();
-            }
-            cursor.close();
+                     cursor.moveToNext();
+                 }
 
-        }
+             }
+         }catch (Exception e){
+             e.printStackTrace();
+         }finally {
+             if(cursor !=null) cursor.close();
+         }
 
 
         return dashBoardData1;

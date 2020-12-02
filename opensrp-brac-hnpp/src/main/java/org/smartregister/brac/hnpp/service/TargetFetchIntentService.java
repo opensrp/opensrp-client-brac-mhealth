@@ -53,7 +53,10 @@ public class TargetFetchIntentService extends IntentService {
                     e.printStackTrace();
                 }
             }
-            CoreLibrary.getInstance().context().allSharedPreferences().savePreference(LAST_SYNC_TIME,timestamp+"");
+            if(jsonObjectLocation.length() > 0){
+                CoreLibrary.getInstance().context().allSharedPreferences().savePreference(LAST_SYNC_TIME,timestamp+"");
+            }
+
 
         }
 

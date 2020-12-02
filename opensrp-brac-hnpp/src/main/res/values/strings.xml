@@ -26,12 +26,15 @@
     <string name="menu_stock_details">লেনদেনের সারসংক্ষেপ</string>
     <string name="menu_new_stock">নতুন স্টক আসছে</string>
     <string name="menu_ss_info">স্বাস্থ্য সেবিকা তথ্য</string>
+   <string name="menu_guest_member">বহিরাগত সেবা</string>
+ <string name="guest_member">বহিরাগত সদস্য</string>
     <string name="menu_simprints">আঙুলের ছাপ দ্বারা সদস্য খুঁজি</string>
     <string name="unique_id_form_field">খানা নাম্বার</string>
     <string name="ss_name_form_field">স্বাস্থ্য সেবিকার নামঃ</string>
-    <string name="ss_year">বছর নির্বাচন করুন</string>
-    <string name="ss_month">মাস নির্বাচন করুন</string>
-    <string name="village_name_form_field">গ্রামের নামঃ</string>
+   <string name="ss_year">বছর নির্বাচন করুন</string>
+ <string name="ss_month">মাস নির্বাচন করুন</string>
+ <string name="village_name_form_field">গ্রামের নামঃ</string>
+    <string name="last_submission_date">সেবা গ্রহণের তারিখ: %s</string>
 
     <string name="title_kishori">কিশোরী ফোরাম</string>
     <string name="title_nari">নারী ফোরাম</string>
@@ -110,6 +113,7 @@
     <string name="family_details">পারিবারিক তথ্য</string>
     <string name="member">সদস্য</string>
     <string name="return_to_family_name">%1$s পরিবার</string>
+    <string name="return_to_guest_member">বহিরাগত সদস্য তালিকা</string>
     <string name="return_to_all_children">শিশু তালিকা</string>
     <string name="login_text">Log In ></string>
     <string name="login_text_title">Log in</string>
@@ -222,6 +226,7 @@
     <string name="units">ইউনিট</string>
     <string name="edit">এডিট</string>
     <string name="undo">আনডু </string>
+    <string name="gender_postfix">লিঙ্গ: %s</string>
 
     <string name="record_all">সমস্ত রেকর্ড</string>
     <string name="record_">রেকর্ড %1$s</string>
