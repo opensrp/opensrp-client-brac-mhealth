@@ -12,6 +12,15 @@ public class VisitLog {
     public String referPlace;
     public String referReason;
     public String pregnantStatus;
+    public String ssName;
+
+    public void setSsName(String ssName) {
+        this.ssName = ssName;
+    }
+
+    public String getSsName() {
+        return ssName;
+    }
 
     public void setPregnantStatus(String pregnantStatus) {
         this.pregnantStatus = pregnantStatus;

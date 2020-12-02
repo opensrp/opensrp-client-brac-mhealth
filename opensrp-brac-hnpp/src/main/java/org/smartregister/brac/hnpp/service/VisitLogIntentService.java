@@ -79,32 +79,7 @@ public class VisitLogIntentService extends IntentService {
         super("VisitLogService");
     }
 
-//    public List<Visit>  getANCRegistrationVisitsFromEvent(){
-//        List<Visit> v = new ArrayList<>();
-//        String query = "SELECT event.baseEntityId,event.eventId, event.json,event.eventType FROM event WHERE (event.eventType = 'ANC Registration' OR event.eventType = 'Pregnancy Outcome') AND event.eventId NOT IN (Select visits.visit_id from visits) AND event.json like '%form_name%'";
-//        Cursor cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
-//        if(cursor !=null && cursor.getCount() > 0) {
-//            cursor.moveToFirst();
-//            while (!cursor.isAfterLast()) {
-//                String baseEntityId = cursor.getString(0);
-//                String eventId = cursor.getString(1);
-//                String json = cursor.getString(2);
-//                String eventType = cursor.getString(3);
-//                Event baseEvent = gson.fromJson(json, Event.class);
-//
-//                try {
-//                    Visit visit = NCUtils.eventToVisit(baseEvent, eventId);
-//                    v.add(visit);
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                cursor.moveToNext();
-//            }
-//            cursor.close();
-//        }
-//        return v;
-//    }
+
     @Override
     protected void onHandleIntent(Intent intent) {
         ArrayList<String> visit_ids = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().getVisitIds();
@@ -280,9 +255,11 @@ public class VisitLogIntentService extends IntentService {
                                 log.setVisitDate(visit.getDate().getTime());
                                 log.setEventType(encounter_type);
                                 log.setVisitJson(form_object.toString());
+                                String ssName = HnppDBUtils.getSSName(base_entity_id);
+                                log.setSsName(ssName);
+
                                 HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
                                 LocalDate localDate = new LocalDate(visit.getDate().getTime());
-                                String ssName = HnppDBUtils.getSSName(base_entity_id);
                                 HnppApplication.getTargetRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id);
 
                                 if (HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)){
@@ -302,7 +279,7 @@ public class VisitLogIntentService extends IntentService {
 
             }
         }
-        //processAncregistration();
+       // processAncregistration();
     }
     private void updateAncRegistrationRisk(String baseEntityId,HashMap<String,String>details){
         if(details.containsKey("no_prev_preg") && !StringUtils.isEmpty(details.get("no_prev_preg"))){
@@ -756,10 +733,12 @@ public class VisitLogIntentService extends IntentService {
                         log.setEventType(visit.getVisitType());
                         log.setVisitJson(gson.toJson(forumDetails));
                         log.setFamilyId(forumDetails.place.getBaseEntityId());
+
+                        String ssName = HnppDBUtils.getSSName(visit.getBaseEntityId());
+                        log.setSsName(ssName);
                         Log.v("PROCESS_CLIENT","add to visitlog>>>>"+visit.getVisitType());
                         HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
                         LocalDate localDate = new LocalDate(visit.getDate().getTime());
-                        String ssName = HnppDBUtils.getSSName(visit.getBaseEntityId());
                         HnppApplication.getTargetRepository().updateValue(visit.getVisitType(),localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId());
                         if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_CHILD)){
                             HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_IYCF_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
@@ -788,47 +767,72 @@ public class VisitLogIntentService extends IntentService {
         }
 
     }
-//    private void processAncregistration(){
-//        List<Visit> v = getANCRegistrationVisitsFromEvent();
-//        for (Visit visit : v) {
-//            String eventJson = visit.getJson();
-//            if (!StringUtils.isEmpty(eventJson)) {
-//                try {
-//
-//                    Event baseEvent = gson.fromJson(eventJson, Event.class);
-//                    String base_entity_id = baseEvent.getBaseEntityId();
-//                    HashMap<String,Object>form_details = getFormNamesFromEventObject(baseEvent);
-//                    ArrayList<String> encounter_types = (ArrayList<String>) form_details.get("form_name");
-//                    HashMap<String,String>details = (HashMap<String, String>) form_details.get("details");
-//                    final CommonPersonObjectClient client = new CommonPersonObjectClient(base_entity_id, details, "");
-//                    client.setColumnmaps(details);
-//                    for (String encounter_type : encounter_types) {
-//                        JSONObject form_object = loadFormFromAsset(encounter_type);
-//                        JSONObject stepOne = form_object.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
-//                        JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
-//                        for (int k = 0; k < jsonArray.length(); k++) {
-//                            populateValuesForFormObject(client, jsonArray.getJSONObject(k));
-//                        }
-//                        VisitLog log = new VisitLog();
-//                        log.setVisitId(visit.getVisitId());
-//                        log.setVisitType(visit.getVisitType());
-//                        log.setBaseEntityId(base_entity_id);
-//
-//                        log.setVisitDate(visit.getDate().getTime());
-//                        log.setEventType(encounter_type);
-//                        log.setVisitJson(form_object.toString());
-//                        log.setFamilyId(HnppDBUtils.getFamilyIdFromBaseEntityId(base_entity_id));
-//                        HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
-//
-//                    }
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//    }
+    private void processAncregistration(){
+        List<Visit> v = getANCRegistrationVisitsFromEvent();
+        for (Visit visit : v) {
+            String eventJson = visit.getJson();
+            if (!StringUtils.isEmpty(eventJson)) {
+                try {
 
+                    Event baseEvent = gson.fromJson(eventJson, Event.class);
+                    String base_entity_id = baseEvent.getBaseEntityId();
+                    HashMap<String,Object>form_details = getFormNamesFromEventObject(baseEvent);
+                    ArrayList<String> encounter_types = (ArrayList<String>) form_details.get("form_name");
+                    HashMap<String,String>details = (HashMap<String, String>) form_details.get("details");
+                    final CommonPersonObjectClient client = new CommonPersonObjectClient(base_entity_id, details, "");
+                    client.setColumnmaps(details);
+                    for (String encounter_type : encounter_types) {
+                        JSONObject form_object = loadFormFromAsset(encounter_type);
+                        JSONObject stepOne = form_object.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+                        JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+                        for (int k = 0; k < jsonArray.length(); k++) {
+                            populateValuesForFormObject(client, jsonArray.getJSONObject(k));
+                        }
+                        VisitLog log = new VisitLog();
+                        log.setVisitId(visit.getVisitId());
+                        log.setVisitType(visit.getVisitType());
+                        log.setBaseEntityId(base_entity_id);
+
+                        log.setVisitDate(visit.getDate().getTime());
+                        log.setEventType(encounter_type);
+                        log.setVisitJson(form_object.toString());
+                        log.setFamilyId(HnppDBUtils.getFamilyIdFromBaseEntityId(base_entity_id));
+                        HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+        public List<Visit>  getANCRegistrationVisitsFromEvent(){
+        List<Visit> v = new ArrayList<>();
+        String query = "SELECT event.baseEntityId,event.eventId, event.json,event.eventType FROM event WHERE (event.eventType = 'ANC Registration' OR event.eventType = 'Pregnancy Outcome') AND event.eventId NOT IN (Select visits.visit_id from visits) AND event.json like '%form_name%'";
+        Cursor cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        if(cursor !=null && cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                String baseEntityId = cursor.getString(0);
+                String eventId = cursor.getString(1);
+                String json = cursor.getString(2);
+                String eventType = cursor.getString(3);
+                Event baseEvent = gson.fromJson(json, Event.class);
+
+                try {
+                    Visit visit = NCUtils.eventToVisit(baseEvent, eventId);
+                    v.add(visit);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        return v;
+    }
     private static void populateValuesForFormObject(CommonPersonObjectClient client, JSONObject jsonObject) {
         try {
             String value = org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(),jsonObject.getString(org.smartregister.family.util.JsonFormUtils.KEY),false);

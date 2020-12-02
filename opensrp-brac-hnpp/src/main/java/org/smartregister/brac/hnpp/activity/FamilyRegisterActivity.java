@@ -291,4 +291,5 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
     protected BaseRegisterFragment getRegisterFragment() {
         return new HnppFamilyRegisterFragment();
     }
+
 }

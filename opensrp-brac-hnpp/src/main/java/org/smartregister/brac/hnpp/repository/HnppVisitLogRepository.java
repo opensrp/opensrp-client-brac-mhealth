@@ -35,9 +35,10 @@ public class HnppVisitLogRepository extends BaseRepository {
     public static final String REFER_REASON = "refer_reason";
     public static final String REFER_PLACE = "refer_place";
     public static final String PREGNANT_STATUS = "pregnant_status";
+    public static final String SS_NAME = "ss_name";
 
 
-    public static final String[] TABLE_COLUMNS = {VISIT_ID, VISIT_TYPE,FAMILY_ID, BASE_ENTITY_ID, VISIT_DATE,EVENT_TYPE,VISIT_JSON,PREGNANT_STATUS};
+    public static final String[] TABLE_COLUMNS = {VISIT_ID, VISIT_TYPE,FAMILY_ID, BASE_ENTITY_ID, VISIT_DATE,EVENT_TYPE,VISIT_JSON,PREGNANT_STATUS,SS_NAME};
     private static final String VISIT_LOG_SQL = "CREATE TABLE ec_visit_log (visit_id VARCHAR,visit_type VARCHAR,base_entity_id VARCHAR NOT NULL,family_id VARCHAR NOT NULL,visit_date VARCHAR,event_type VARCHAR,visit_json TEXT,pregnant_status VARCHAR)";
 
     public HnppVisitLogRepository(Repository repository) {
@@ -151,7 +152,7 @@ public class HnppVisitLogRepository extends BaseRepository {
         values.put(REFER_PLACE, visitLog.getReferPlace());
         values.put(REFER_REASON, visitLog.getReferReason());
         values.put(PREGNANT_STATUS, visitLog.getPregnantStatus());
-
+        values.put(SS_NAME, visitLog.getSsName());
         return values;
     }
     public  ArrayList<ReferralFollowUpModel> getAllReferrelFollowUp(String baseEntityId){
@@ -214,6 +215,7 @@ public class HnppVisitLogRepository extends BaseRepository {
                     visitLog.setVisitJson(cursor.getString(cursor.getColumnIndex(VISIT_JSON)));
                     visitLog.setVisitType(cursor.getString(cursor.getColumnIndex(VISIT_TYPE)));
                     visitLog.setPregnantStatus(cursor.getString(cursor.getColumnIndex(PREGNANT_STATUS)));
+                    visitLog.setSsName(cursor.getString(cursor.getColumnIndex(SS_NAME)));
                     visitLogs.add(visitLog);
                     cursor.moveToNext();
                 }

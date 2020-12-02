@@ -46,7 +46,7 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
                 dashBoardData1 = new DashBoardData();
                 dashBoardData1.setCount(cursor.getInt(0));
                 dashBoardData1.setEventType(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION);
-                dashBoardData1.setTitle(context.getString(R.string.menu_guest_member));
+                dashBoardData1.setTitle(context.getString(R.string.guest_member));
 
                 try{
                     dashBoardData1.setImageSource(R.drawable.rowavatar_member);

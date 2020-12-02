@@ -231,9 +231,17 @@ public class GuestMemberProfileActivity extends SecuredActivity {
             if(data!=null) {
                 String eventType = data.getStringExtra("event_type");
                 if (!TextUtils.isEmpty(eventType) && eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)) {
-                    mViewPager.setCurrentItem(1,true);
-                    if (memberDueFragment != null) {
-                        memberDueFragment.updateStaticView();
+                    if(memberHistoryFragment !=null){
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                mViewPager.setCurrentItem(1,true);
+                                if(memberDueFragment !=null){
+                                    memberDueFragment.updateStaticView();
+                                }
+
+                            }
+                        },2000);
                     }
                 }
             }

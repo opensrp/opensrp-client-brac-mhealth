@@ -327,8 +327,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
         AllSharedPreferences allSharedPreferences = AncLibrary.getInstance().context().allSharedPreferences();
         Event baseEvent = org.smartregister.chw.anc.util.JsonFormUtils.processJsonForm(allSharedPreferences, jsonString, table);
 
-        NCUtils.addEvent(allSharedPreferences, baseEvent);
-        NCUtils.startClientProcessing();
+
         String visitID ="";
         if(!TextUtils.isEmpty(baseEvent.getEventId())){
             visitID = baseEvent.getEventId();
@@ -345,6 +344,8 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
+        NCUtils.addEvent(allSharedPreferences, baseEvent);
+        NCUtils.startClientProcessing();
     }
     private void processChild(JSONArray fields, AllSharedPreferences allSharedPreferences, String entityId, String familyBaseEntityId, String motherBaseId) {
         try {
