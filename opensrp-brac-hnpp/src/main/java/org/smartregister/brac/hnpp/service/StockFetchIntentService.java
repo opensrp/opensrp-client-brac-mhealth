@@ -1,9 +1,13 @@
 package org.smartregister.brac.hnpp.service;
 
+import android.app.Dialog;
 import android.app.IntentService;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -13,9 +17,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.HnppApplication;
+import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.model.Notification;
 import org.smartregister.brac.hnpp.utils.StockData;
 import org.smartregister.domain.Response;
+import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.service.HTTPAgent;
+
+import java.io.Serializable;
 
 public class StockFetchIntentService extends IntentService {
 
@@ -35,6 +44,7 @@ public class StockFetchIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent( Intent intent) {
+        StringBuilder nameCount = new StringBuilder();
         JSONArray jsonObjectLocation = getStockList();
         if(jsonObjectLocation!=null){
             long timestamp = 0;
@@ -45,20 +55,31 @@ public class StockFetchIntentService extends IntentService {
                     if(stockData != null){
                         HnppApplication.getStockRepository().addOrUpdate(stockData);
                         timestamp = stockData.getTimestamp();
+                        nameCount.append("স্টক নামঃ"+stockData.getProductName()+"\n");
+                        nameCount.append("স্টক সংখ্যাঃ"+stockData.getQuantity()+"\n");
                         Log.v("TARGET_FETCH","lasttime:"+timestamp);
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
             if(jsonObjectLocation.length()>0){
+                if(nameCount != null){
+                    intent = new Intent("STOCK_ACTION");
+                    intent.putExtra("name_count", nameCount.toString());
+                    sendBroadcast(intent);
+
+                }
                 CoreLibrary.getInstance().context().allSharedPreferences().savePreference(LAST_SYNC_TIME,timestamp+"");
+
             }
 
 
         }
 
     }
+
 
     private JSONArray getStockList(){
         try{
