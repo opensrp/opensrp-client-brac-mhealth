@@ -4,6 +4,7 @@ import org.smartregister.brac.hnpp.contract.DashBoardContract;
 import org.smartregister.brac.hnpp.model.CountSummeryDashBoardModel;
 import org.smartregister.brac.hnpp.model.WorkSummeryDashBoardModel;
 import org.smartregister.brac.hnpp.utils.DashBoardData;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.family.util.AppExecutors;
 
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ public class WorkSummeryDashBoardInteractor implements DashBoardContract.Interac
     // need to maintain serial to display
     private void fetchHHData(String ssName, String month) {
         if(month.equalsIgnoreCase("-1")) month = "";
+        month = HnppConstants.addZeroForMonth(month);
         addToDashBoardList(model.getHHCount(ssName,month));
         addToDashBoardList(model.getMemberCount(ssName,month));
         addToDashBoardList(model.getANCRegisterCount(ssName,month));

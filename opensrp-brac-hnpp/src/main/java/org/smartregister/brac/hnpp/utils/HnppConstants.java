@@ -55,6 +55,7 @@ public class HnppConstants extends CoreConstants {
     public enum SEARCH_TYPE {HH, ADO, WOMEN, CHILD,NCD,ADULT}
 
     public static String addZeroForMonth(String month){
+        if(TextUtils.isEmpty(month)) return "";
         if(month.length()==1) return "0"+month;
         return month;
     }

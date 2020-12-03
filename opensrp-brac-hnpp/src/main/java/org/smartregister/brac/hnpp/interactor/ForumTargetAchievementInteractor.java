@@ -1,7 +1,10 @@
 package org.smartregister.brac.hnpp.interactor;
 
+import android.text.TextUtils;
+
 import org.smartregister.brac.hnpp.contract.DashBoardContract;
 import org.smartregister.brac.hnpp.model.TargetVsAchievementModel;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.TargetVsAchievementData;
 import org.smartregister.family.util.AppExecutors;
 
@@ -41,6 +44,10 @@ public class ForumTargetAchievementInteractor implements DashBoardContract.Targe
     }
 
     private void fetchData( int day, int month, int year, String ssName) {
+        String m = HnppConstants.addZeroForMonth(month+"");
+        if(!TextUtils.isEmpty(m)){
+            month = Integer.parseInt(m);
+        }
 
         TargetVsAchievementData adoForum = model.getAdoForumTarget(day,month,year,ssName);
         TargetVsAchievementData avgAdoForum = model.getAvgAdoTarget(day,month,year,ssName);

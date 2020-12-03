@@ -22,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Triple;
 import org.joda.time.DateTime;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.domain.Alert;
 import org.smartregister.immunization.ImmunizationLibrary;
@@ -542,6 +543,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
             updateVaccineGroupViews(view, pair.first, pair.second);
 
             updateVaccineGroupsUsingAlerts(affectedVaccines, vaccineList, alertList);
+            VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
         }
 
         @Override
@@ -899,6 +901,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
         @Override
         protected void onPostExecute(Triple<ArrayList<ServiceWrapper>, List<ServiceRecord>, List<Alert>> triple) {
             RecurringServiceUtils.updateServiceGroupViews(view, triple.getLeft(), triple.getMiddle(), triple.getRight());
+
         }
 
         @Override

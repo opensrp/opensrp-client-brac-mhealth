@@ -97,6 +97,37 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
 
         return dashBoardData1;
     }
+
+    public DashBoardData getSimprintsCount(String ssName){
+        DashBoardData  dashBoardData1 = new DashBoardData();
+
+        String query;
+        if(TextUtils.isEmpty(ssName)){
+            query = "select count(*) as count from ec_family_member where gu_id IS NOT NULL and gu_id !='test'";
+        }else {
+            query = MessageFormat.format("select count(*) as count from {0} {1} {2}", "ec_family_member", getFilterCondition(ssName),"and gu_id IS NOT NULL and gu_id !='test'");
+
+        }
+        Cursor cursor = null;
+        // try {
+        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        if(cursor !=null && cursor.getCount() > 0){
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                dashBoardData1 = new DashBoardData();
+                dashBoardData1.setCount(cursor.getInt(0));
+                dashBoardData1.setEventType(HnppConstants.EventType.FAMILY_MEMBER_REGISTRATION);
+                dashBoardData1.setTitle("ফিঙ্গার প্রিন্ট দ্বারা নিবন্ধিত");
+                dashBoardData1.setImageSource(R.drawable.ic_fingerprint_id);
+                cursor.moveToNext();
+            }
+            cursor.close();
+
+        }
+
+
+        return dashBoardData1;
+    }
     public DashBoardData getMemberCount(String ssName){
         DashBoardData  dashBoardData1 = new DashBoardData();
 

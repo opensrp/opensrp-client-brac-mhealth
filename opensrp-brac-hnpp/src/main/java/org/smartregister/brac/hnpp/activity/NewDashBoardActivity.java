@@ -21,6 +21,7 @@ import org.smartregister.brac.hnpp.fragment.MonthlyServiceTargetAchievementFragm
 import org.smartregister.brac.hnpp.fragment.MonthlyTargetAchievementFragment;
 import org.smartregister.brac.hnpp.fragment.StockDashBoardFragment;
 import org.smartregister.brac.hnpp.fragment.WorkSummeryDashBoardFragment;
+import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.view.activity.SecuredActivity;
 
@@ -38,6 +39,13 @@ public class NewDashBoardActivity extends SecuredActivity implements View.OnClic
         loadCountSummeryFragment(0);
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+    }
+
     private void loadCountSummeryFragment(int position){
         switch (position){
             case 0:
@@ -74,6 +82,7 @@ public class NewDashBoardActivity extends SecuredActivity implements View.OnClic
     }
     private void setUpView() {
         refreshIndicatorsIcon = findViewById(R.id.refreshIndicatorsIcon);
+        refreshIndicatorsIcon.setVisibility(View.GONE);
         refreshIndicatorsProgressBar = findViewById(R.id.refreshIndicatorsPB);
         findViewById(R.id.backBtn).setOnClickListener(this);
         // Initial view until we determined by the refresh function

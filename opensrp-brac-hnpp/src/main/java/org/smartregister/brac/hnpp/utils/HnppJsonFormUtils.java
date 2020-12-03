@@ -434,7 +434,11 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
             Visit visit = NCUtils.eventToVisit(baseEvent, visitID);
             visit.setPreProcessedJson(new Gson().toJson(baseEvent));
-            visit.setParentVisitID(visitRepository().getParentVisitEventID(visit.getBaseEntityId(), parentEventType, visit.getDate()));
+            try{
+                visit.setParentVisitID(visitRepository().getParentVisitEventID(visit.getBaseEntityId(), parentEventType, visit.getDate()));
+            }catch (Exception e){
+
+            }
 
             visitRepository().addVisit(visit);
             return visit;
