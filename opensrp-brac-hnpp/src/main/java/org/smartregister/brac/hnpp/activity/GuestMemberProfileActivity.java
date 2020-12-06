@@ -115,7 +115,10 @@ public class GuestMemberProfileActivity extends SecuredActivity {
 
     private ViewPager setupViewPager(ViewPager viewPager) {
         mViewPager = viewPager;
-        memberHistoryFragment = MemberHistoryFragment.getInstance(this.getIntent().getExtras());
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(MemberHistoryFragment.IS_GUEST_USER,true);
+        bundle.putString(BASE_ENTITY_ID,baseEntityId);
+        memberHistoryFragment = MemberHistoryFragment.getInstance(bundle);
         memberDueFragment = GuestMemberDueFragment.getInstance();
         memberDueFragment.setGuestMemberData(guestMemberData);
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -177,7 +180,7 @@ public class GuestMemberProfileActivity extends SecuredActivity {
              if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM_OOC) || formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM_OOC) || formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM_OOC)){
                 HnppJsonFormUtils.addNoOfAnc(jsonForm);
             }
-            else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM)){
+            else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM_OOC)){
                 HnppJsonFormUtils.addNoOfPnc(jsonForm);
             }
 //            if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.GIRL_PACKAGE)){
@@ -281,7 +284,7 @@ public class GuestMemberProfileActivity extends SecuredActivity {
         Event baseEvent = org.smartregister.chw.anc.util.JsonFormUtils.processJsonForm(allSharedPreferences, jsonString, table);
 
         NCUtils.addEvent(allSharedPreferences, baseEvent);
-        NCUtils.startClientProcessing();
+       // NCUtils.startClientProcessing();
         String visitID ="";
         if(!TextUtils.isEmpty(baseEvent.getEventId())){
             visitID = baseEvent.getEventId();

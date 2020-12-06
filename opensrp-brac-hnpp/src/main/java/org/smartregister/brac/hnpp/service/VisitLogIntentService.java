@@ -263,10 +263,8 @@ public class VisitLogIntentService extends IntentService {
                                     if(ELCO.equalsIgnoreCase(encounter_type)){
                                         updateFamilyPlanning(log,details);
                                     }
+                                    HnppApplication.getStockRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id);
 
-                                    if(CoreConstants.EventType.ANC_HOME_VISIT.equalsIgnoreCase(encounter_type)|CoreConstants.EventType.PNC_HOME_VISIT.equalsIgnoreCase(encounter_type)| GIRL_PACKAGE.equalsIgnoreCase(encounter_type)| IYCF_PACKAGE.equalsIgnoreCase(encounter_type)| NCD_PACKAGE.equalsIgnoreCase(encounter_type)|WOMEN_PACKAGE.equalsIgnoreCase(encounter_type)){
-                                        HnppApplication.getStockRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id);
-                                    }
                                 }
 
                                 if (HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)){

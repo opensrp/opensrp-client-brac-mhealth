@@ -4,6 +4,7 @@ import org.smartregister.brac.hnpp.contract.DashBoardContract;
 import org.smartregister.brac.hnpp.interactor.StockDashBoardInteractor;
 import org.smartregister.brac.hnpp.interactor.WorkSummeryDashBoardInteractor;
 import org.smartregister.brac.hnpp.model.StockDashBoardModel;
+import org.smartregister.brac.hnpp.model.StockDetailsModel;
 import org.smartregister.brac.hnpp.model.WorkSummeryDashBoardModel;
 import org.smartregister.brac.hnpp.utils.DashBoardData;
 import org.smartregister.family.util.AppExecutors;
@@ -17,7 +18,7 @@ public class StockDashBoardPresenter implements DashBoardContract.Presenter,Dash
 
     public StockDashBoardPresenter(DashBoardContract.View view){
         this.view = view;
-        interactor = new StockDashBoardInteractor(new AppExecutors(),new StockDashBoardModel(view.getContext()));
+        interactor = new StockDashBoardInteractor(new AppExecutors(),new StockDetailsModel(view.getContext()));
 
     }
     public ArrayList<DashBoardData> getDashBoardData(){

@@ -83,6 +83,15 @@ public class StockDetailsModel implements StockDetailsContract.Model{
                 int endBalance = (startBalance + stockDetailsData.getNewPackage()) - stockDetailsData.getSell();
                 //stockDetailsData.setMonthStartBalance(stockData.getQuantity()-stockDetailsData.getSell());
                 stockDetailsData.setEndBalance(endBalance);
+                stockDetailsData.setCount(endBalance);
+                stockDetailsData.setEventType(visitType);
+                stockDetailsData.setTitle(HnppConstants.workSummeryTypeMapping.get(stockDetailsData.getEventType()));
+
+                try{
+                    stockDetailsData.setImageSource((int)HnppConstants.iconMapping.get(stockDetailsData.getEventType()));
+                }catch (Exception e){
+
+                }
 
                 cursor.moveToNext();
             }
