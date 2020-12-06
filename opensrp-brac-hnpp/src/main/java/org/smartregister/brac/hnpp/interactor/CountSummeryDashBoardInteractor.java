@@ -44,6 +44,7 @@ public class CountSummeryDashBoardInteractor implements DashBoardContract.Intera
         addToDashBoardList(model.getHHCount(ssName));
         addToDashBoardList(model.getMemberCount(ssName));
         addToDashBoardList(model.getOOCCount(ssName));
+        addToDashBoardList(model.getSimprintsCount(ssName));
         addToDashBoardList(model.getBoyChildUnder5(ssName));
         addToDashBoardList(model.getGirlChildUnder5(ssName));
         addToDashBoardList(model.getBoyChild5To9(ssName));

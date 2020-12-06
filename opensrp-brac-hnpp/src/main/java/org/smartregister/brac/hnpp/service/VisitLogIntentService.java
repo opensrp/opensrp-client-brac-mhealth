@@ -86,7 +86,6 @@ public class VisitLogIntentService extends IntentService {
             List<Visit> v = AncLibrary.getInstance().visitRepository().getVisitsByVisitId(visit_ids.get(i));
             //getANCRegistrationVisitsFromEvent(v);
             for (Visit visit : v) {
-                Log.v("PROCESS_CLIENT","start>>>>"+visit.getVisitType());
                 if(isForumEvent(visit.getVisitType())){
                    saveForumData(visit);
 
@@ -257,13 +256,19 @@ public class VisitLogIntentService extends IntentService {
                                 String ssName = HnppDBUtils.getSSName(base_entity_id);
                                 log.setSsName(ssName);
 
-                                HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
-                                LocalDate localDate = new LocalDate(visit.getDate().getTime());
-                                HnppApplication.getTargetRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id);
+                                long isInserted = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
+                                if(isInserted!=-1){
+                                    LocalDate localDate = new LocalDate(visit.getDate().getTime());
+                                    HnppApplication.getTargetRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id);
+                                    if(ELCO.equalsIgnoreCase(encounter_type)){
+                                        updateFamilyPlanning(log,details);
+                                    }
 
-                                if(CoreConstants.EventType.ANC_HOME_VISIT.equalsIgnoreCase(encounter_type)|CoreConstants.EventType.PNC_HOME_VISIT.equalsIgnoreCase(encounter_type)| GIRL_PACKAGE.equalsIgnoreCase(encounter_type)| IYCF_PACKAGE.equalsIgnoreCase(encounter_type)| NCD_PACKAGE.equalsIgnoreCase(encounter_type)|WOMEN_PACKAGE.equalsIgnoreCase(encounter_type)){
-                                    HnppApplication.getStockRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id);
+                                    if(CoreConstants.EventType.ANC_HOME_VISIT.equalsIgnoreCase(encounter_type)|CoreConstants.EventType.PNC_HOME_VISIT.equalsIgnoreCase(encounter_type)| GIRL_PACKAGE.equalsIgnoreCase(encounter_type)| IYCF_PACKAGE.equalsIgnoreCase(encounter_type)| NCD_PACKAGE.equalsIgnoreCase(encounter_type)|WOMEN_PACKAGE.equalsIgnoreCase(encounter_type)){
+                                        HnppApplication.getStockRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id);
+                                    }
                                 }
+
                                 if (HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)){
                                     HnppApplication.getHNPPInstance().getHnppVisitLogRepository().updateFamilyLastHomeVisit(base_entity_id,String.valueOf(visit.getDate().getTime()));
                                 }
@@ -281,7 +286,24 @@ public class VisitLogIntentService extends IntentService {
 
             }
         }
-       // processAncregistration();
+        processImmunization();
+    }
+    private void updateFamilyPlanning(VisitLog visit,HashMap<String,String>details){
+        if(details!=null){
+            if(details.containsKey("familyplanning_method_known") && !StringUtils.isEmpty(details.get("familyplanning_method_known"))) {
+                String known = details.get("familyplanning_method_known");
+                Log.v("IMMUNIZATION_ADD","update ado:"+known);
+                if(!TextUtils.isEmpty(known) && known.equalsIgnoreCase("yes")){
+                    LocalDate localDate = new LocalDate(visit.getVisitDate());
+                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.METHOD_USER,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                    if(HnppDBUtils.isAdolescent(visit.getBaseEntityId())){
+                        HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ADO_METHOD_USER,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+
+                    }
+                }
+            }
+        }
+
     }
     private void updateAncRegistrationRisk(String baseEntityId,HashMap<String,String>details){
         if(details.containsKey("no_prev_preg") && !StringUtils.isEmpty(details.get("no_prev_preg"))){
@@ -720,12 +742,10 @@ public class VisitLogIntentService extends IntentService {
                                 forumDetails.cIndex =  (int) d;
                             }
                         }catch (Exception e){
-                            Log.v("PROCESS_CLIENT","json exception>>>"+visit.getVisitType());
                             e.printStackTrace();
                         }
 
                     }
-                    Log.v("PROCESS_CLIENT","done>>>>"+visit.getVisitType());
                     if(!TextUtils.isEmpty(forumDetails.forumName)){
                         VisitLog log = new VisitLog();
                         log.setVisitId(visit.getVisitId());
@@ -738,26 +758,28 @@ public class VisitLogIntentService extends IntentService {
 
                         String ssName = HnppDBUtils.getSSName(visit.getBaseEntityId());
                         log.setSsName(ssName);
-                        Log.v("PROCESS_CLIENT","add to visitlog>>>>"+visit.getVisitType());
-                        HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
-                        LocalDate localDate = new LocalDate(visit.getDate().getTime());
-                        HnppApplication.getTargetRepository().updateValue(visit.getVisitType(),localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId());
-                        if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_CHILD)){
-                            HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_IYCF_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
+                        long inserted = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
+                        if(inserted != -1){
+                            LocalDate localDate = new LocalDate(visit.getDate().getTime());
+                            HnppApplication.getTargetRepository().updateValue(visit.getVisitType(),localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId());
+                            if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_CHILD)){
+                                HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_IYCF_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
 
-                        }else if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_WOMEN)){
-                            HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_WOMEN_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
+                            }else if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_WOMEN)){
+                                HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_WOMEN_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
 
-                        }else if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_ADO)){
-                            HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADO_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
+                            }else if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_ADO)){
+                                HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADO_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
 
-                        }else if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_NCD)){
-                            HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_NCD_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
+                            }else if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_NCD)){
+                                HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_NCD_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
 
-                        }else if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_ADULT)){
-                            HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADULT_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
+                            }else if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_ADULT)){
+                                HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADULT_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
 
+                            }
                         }
+
                     }
 
                 }
@@ -769,6 +791,76 @@ public class VisitLogIntentService extends IntentService {
         }
 
     }
+    private void processImmunization(){
+        List<Visit> v = getImmunizationVisitsFromEvent();
+        for(Visit visit : v){
+            String eventJson = visit.getJson();
+            if(!StringUtils.isEmpty(eventJson)){
+                try{
+                    Event baseEvent = gson.fromJson(eventJson, Event.class);
+                    String base_entity_id = baseEvent.getBaseEntityId();
+                    VisitLog log = new VisitLog();
+                    log.setVisitId(visit.getVisitId());
+                    log.setVisitType(visit.getVisitType());
+                    log.setBaseEntityId(base_entity_id);
+
+                    log.setVisitDate(visit.getDate().getTime());
+                    log.setEventType(visit.getVisitType());
+                    log.setVisitJson(eventJson);
+                    String ssName = HnppDBUtils.getSSName(base_entity_id);
+                    Log.v("IMMUNIZATION_ADD","ssname:"+ssName);
+                    log.setSsName(ssName);
+                    log.setFamilyId(HnppDBUtils.getFamilyIdFromBaseEntityId(base_entity_id));
+                    long rowId = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
+                    if(rowId != -1){
+                        LocalDate localDate = new LocalDate(log.getVisitDate());
+                        Log.v("IMMUNIZATION_ADD","update:"+ssName);
+                        HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.CHILD_IMMUNIZATION_0_59,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId());
+
+                    }
+
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private List<Visit> getImmunizationVisitsFromEvent() {
+        List<Visit> v = new ArrayList<>();
+        String query = "SELECT event.baseEntityId,event.eventId, event.json,event.eventType FROM event WHERE (event.eventType = 'Vaccination' OR event.eventType = 'Recurring Service') AND event.eventId NOT IN (Select ec_visit_log.visit_id from ec_visit_log)";
+        Cursor cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        try{
+            if(cursor !=null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    String baseEntityId = cursor.getString(0);
+                    String eventId = cursor.getString(1);
+                    String json = cursor.getString(2);
+                    String eventType = cursor.getString(3);
+                    Event baseEvent = gson.fromJson(json, Event.class);
+
+                    try {
+                        Visit visit = NCUtils.eventToVisit(baseEvent, eventId);
+                        v.add(visit);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    cursor.moveToNext();
+                }
+                cursor.close();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            if(cursor !=null) cursor.close();
+        }
+
+        return v;
+    }
+
     private void processAncregistration(){
         List<Visit> v = getANCRegistrationVisitsFromEvent();
         for (Visit visit : v) {

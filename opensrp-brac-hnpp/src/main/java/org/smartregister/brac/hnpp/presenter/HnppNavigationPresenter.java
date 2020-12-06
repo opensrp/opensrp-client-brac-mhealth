@@ -20,6 +20,8 @@ import org.smartregister.brac.hnpp.job.HomeVisitServiceJob;
 import org.smartregister.brac.hnpp.activity.COVIDJsonFormActivity;
 import org.smartregister.brac.hnpp.activity.ForceSyncActivity;
 import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
+import org.smartregister.brac.hnpp.job.StockFetchJob;
+import org.smartregister.brac.hnpp.job.TargetFetchJob;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
@@ -181,6 +183,8 @@ public class HnppNavigationPresenter extends NavigationPresenter {
             PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
             PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
             VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+            TargetFetchJob.scheduleJobImmediately(TargetFetchJob.TAG);
+            StockFetchJob.scheduleJobImmediately(StockFetchJob.TAG);
         }
     }
 }

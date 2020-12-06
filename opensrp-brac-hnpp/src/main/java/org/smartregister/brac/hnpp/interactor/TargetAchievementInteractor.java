@@ -1,9 +1,12 @@
 package org.smartregister.brac.hnpp.interactor;
 
+import android.text.TextUtils;
+
 import org.smartregister.brac.hnpp.contract.DashBoardContract;
 import org.smartregister.brac.hnpp.model.TargetVsAchievementModel;
 import org.smartregister.brac.hnpp.model.WorkSummeryDashBoardModel;
 import org.smartregister.brac.hnpp.utils.DashBoardData;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.TargetVsAchievementData;
 import org.smartregister.family.util.AppExecutors;
 
@@ -42,6 +45,10 @@ public class TargetAchievementInteractor implements DashBoardContract.TargetInte
     }
 
     private void fetchData( int day, int month, int year, String ssName) {
+        String m = HnppConstants.addZeroForMonth(month+"");
+        if(!TextUtils.isEmpty(m)){
+            month = Integer.parseInt(m);
+        }
         setData(model.getHHVisitTarget(day,month,year,ssName));
         setData(model.getElcoTarget(day,month,year,ssName));
         setData(model.getMethodUserTarget(day,month,year,ssName));

@@ -11,6 +11,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,12 +26,15 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.whiteelephant.monthpicker.MonthPickerDialog;
+
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.NewDashBoardActivity;
 import org.smartregister.brac.hnpp.adapter.DashBoardAdapter;
 import org.smartregister.brac.hnpp.contract.DashBoardContract;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSModel;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 
 import java.util.ArrayList;
@@ -44,17 +48,19 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
     protected int day, month, year;
     private String fromDate, toDate, currentDate;
     private Runnable runnable;
-    protected Spinner ssSpinner,monthSpinner;
+    protected Spinner ssSpinner;
     protected ProgressBar progressBar;
     protected String ssName;
     private ImageView filterBtn;
-    protected LinearLayout monthView,dateView;
+    private  TextView monthTV,yearTV;
+    protected LinearLayout monthView,dateView,monthPicker;
     abstract void filterData();
     abstract void updateTitle();
     abstract void fetchData();
     abstract void initilizePresenter();
     protected NewDashBoardActivity mActivity;
     protected DashBoardAdapter adapter;
+    Calendar calendar;
 
     @Override
     public void onAttach(Context context) {
@@ -73,18 +79,20 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
         ssSpinner = view.findViewById(R.id.ss_filter_spinner);
         monthView = view.findViewById(R.id.month_view);
+        monthTV = view.findViewById(R.id.month_text);
+        yearTV  = view.findViewById(R.id.year_text);
+        monthPicker = view.findViewById(R.id.monthDatePicker);
         dateView = view.findViewById(R.id.date_view);
-        monthSpinner = view.findViewById(R.id.month_filter_spinner);
         progressBar = view.findViewById(R.id.progress_bar);
         filterBtn = view.findViewById(R.id.filterBtn);
         dateBtn = view.findViewById(R.id.date_btn);
         dateBtn.setOnClickListener(this);
         filterBtn.setOnClickListener(this);
-        Calendar calendar = Calendar.getInstance();
+        calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH)+1;
         day = calendar.get(Calendar.DAY_OF_MONTH);
-        currentDate   = year+"-"+addZeroForMonth(month+"")+"-"+addZeroForMonth(day+"");
+        currentDate   = year+"-"+ HnppConstants.addZeroForMonth(month+"")+"-"+HnppConstants.addZeroForMonth(day+"");
         fromDate = currentDate;
         toDate = currentDate;
         dateBtn.setText(currentDate);
@@ -114,10 +122,11 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
                         month = mnt +1;
                         year = yr;
 
-                        fromDate = year + "-" + addZeroForMonth((mnt+1)+"")+"-"+addZeroForMonth(dayOfMonth+"");
+                        fromDate = year + "-" + HnppConstants.addZeroForMonth((mnt+1)+"")+"-"+HnppConstants.addZeroForMonth(dayOfMonth+"");
 
                         dateBtn.setText(fromDate);
                         updateFilter();
+                        filterData();
                     }
                 },year,(month-1),day);
                 //fromDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
@@ -158,6 +167,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
                 if (position != -1) {
                     if(position == 0) ssName = "";
                     else ssName = ssSpinner.getSelectedItem().toString();
+                    filterData();
                 }
             }
 
@@ -168,42 +178,81 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
         });
     }
     public void loadMonthList(){
-        ArrayList<String> monthSpinnerArray = new ArrayList<>();
-        monthSpinnerArray.add("সিলেক্ট করুন");
-        monthSpinnerArray.addAll(Arrays.asList(HnppJsonFormUtils.monthBanglaStr));
-        ArrayAdapter<String> monthSpinnerArrayAdapter = new ArrayAdapter<String>
-                (getActivity(), android.R.layout.simple_spinner_item,
-                        monthSpinnerArray){
+        monthPicker.setOnClickListener(new View.OnClickListener() {
             @Override
-            public android.view.View getDropDownView(int position, @Nullable android.view.View convertView, @NonNull ViewGroup parent) {
-                convertView = super.getDropDownView(position, convertView,
-                        parent);
+            public void onClick(View view) {
+                MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(getContext(), new MonthPickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(int selectedMonth, int selectedYear) {
+                        month = selectedMonth+1;
+                        year = selectedYear;
+                        updateDatePicker();
+                        filterData();
+                    }
+                }, year, month-1);
+                builder.setActivatedMonth(month-1)
+                        .setMinYear(2010)
+                        .setActivatedYear(year)
+                        .setMaxYear(calendar.get(Calendar.YEAR))
+                        .setTitle("মাস সিলেক্ট করুন")
+                        .setOnMonthChangedListener(new MonthPickerDialog.OnMonthChangedListener() {
+                            @Override
+                            public void onMonthChanged(int selectedMonth) {
 
-                AppCompatTextView appCompatTextView = (AppCompatTextView)convertView;
-                appCompatTextView.setGravity(Gravity.CENTER_VERTICAL);
-                appCompatTextView.setHeight(50);
+                            }
+                        })
+                        .setOnYearChangedListener(new MonthPickerDialog.OnYearChangedListener() {
+                            @Override
+                            public void onYearChanged(int selectedYear) {
 
-                return convertView;
-            }
-        };
-        monthSpinner.setAdapter(monthSpinnerArrayAdapter);
-        monthSpinner.setSelection(month);
-        monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
-                ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
-                if (position != -1) {
-                    if(position == 0) month = -1;
-                    else month = position;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+                            }
+                        })
+                        .build()
+                        .show();
             }
         });
-
+        updateDatePicker();
+//        ArrayList<String> monthSpinnerArray = new ArrayList<>();
+//        monthSpinnerArray.add("সিলেক্ট করুন");
+//        monthSpinnerArray.addAll(Arrays.asList(HnppJsonFormUtils.monthBanglaStr));
+//        ArrayAdapter<String> monthSpinnerArrayAdapter = new ArrayAdapter<String>
+//                (getActivity(), android.R.layout.simple_spinner_item,
+//                        monthSpinnerArray){
+//            @Override
+//            public android.view.View getDropDownView(int position, @Nullable android.view.View convertView, @NonNull ViewGroup parent) {
+//                convertView = super.getDropDownView(position, convertView,
+//                        parent);
+//
+//                AppCompatTextView appCompatTextView = (AppCompatTextView)convertView;
+//                appCompatTextView.setGravity(Gravity.CENTER_VERTICAL);
+//                appCompatTextView.setHeight(50);
+//
+//                return convertView;
+//            }
+//        };
+//        monthSpinner.setAdapter(monthSpinnerArrayAdapter);
+//        monthSpinner.setSelection(month);
+//        monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
+//                ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
+//                if (position != -1) {
+//                    if(position == 0) month = -1;
+//                    else month = position;
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
+//
+    }
+    private void updateDatePicker() {
+        Log.v("MONTH_PICKER","month:"+month+":year:"+year);
+        monthTV.setText(HnppJsonFormUtils.monthBanglaStr[month-1]);
+        yearTV.setText(year+"");
     }
     public void refreshData(Runnable runnable){
         this.runnable = runnable;
@@ -242,8 +291,5 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
         }
     }
 
-    public String addZeroForMonth(String month){
-        if(month.length()==1) return "0"+month;
-        return month;
-    }
+
 }

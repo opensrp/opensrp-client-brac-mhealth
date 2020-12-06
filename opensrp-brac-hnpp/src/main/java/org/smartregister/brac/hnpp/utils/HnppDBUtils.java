@@ -35,6 +35,31 @@ import timber.log.Timber;
 
 public class HnppDBUtils extends CoreChildUtils {
 
+    public static boolean isAdolescent(String baseEntityId){
+        String query = "select base_entity_id from ec_family_member where base_entity_id ='"+baseEntityId+"' and gender ='F' and (( julianday('now') - julianday(dob))/365) >=10 and (( julianday('now') - julianday(dob))/365) <=19";
+        Cursor cursor = null;
+        boolean isAdo = false;
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                String d  = cursor.getString(0);
+                if(!TextUtils.isEmpty(d)){
+                    isAdo = true;
+                }
+
+            }
+
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        finally {
+            if(cursor !=null) cursor.close();
+        }
+        return isAdo;
+
+    }
+
 
     public static GuestMemberData getGuestMemberById(String baseEntityId){
         String query = "Select base_entity_id,village_name,unique_id,first_name,dob,gender,phone_number,village_id FROM ec_guest_member WHERE  date_removed is null and base_entity_id ='"+baseEntityId+"'";

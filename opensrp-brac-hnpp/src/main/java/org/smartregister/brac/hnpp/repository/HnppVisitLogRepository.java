@@ -64,16 +64,18 @@ public class HnppVisitLogRepository extends BaseRepository {
 
         }
     }
-    public void add(VisitLog visitLog) {
+    public long add(VisitLog visitLog) {
+        long rowId = -1;
         if (visitLog == null) {
-            return;
+            return rowId;
         }
         try {
             SQLiteDatabase database = getWritableDatabase();
 
             if (visitLog.getBaseEntityId() != null && findUnique(database, visitLog) == null) {
-               long row = database.insert(VISIT_LOG_TABLE_NAME, null, createValuesFor(visitLog));
-                Log.v("PROCESS_CLIENT","row insert:"+row+":"+visitLog.getEventType());
+                rowId = database.insert(VISIT_LOG_TABLE_NAME, null, createValuesFor(visitLog));
+                Log.v("PROCESS_CLIENT","row insert:"+rowId+":"+visitLog.getEventType());
+                return rowId;
 
             }
 
@@ -82,6 +84,7 @@ public class HnppVisitLogRepository extends BaseRepository {
             Log.v("PROCESS_CLIENT","exception database:"+visitLog.getEventType());
             e.printStackTrace();
         }
+        return rowId;
 
     }
 
