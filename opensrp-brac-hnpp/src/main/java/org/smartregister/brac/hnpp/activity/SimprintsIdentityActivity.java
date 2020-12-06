@@ -41,6 +41,7 @@ import org.smartregister.brac.hnpp.fragment.HnppDashBoardFragment;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSLocations;
 import org.smartregister.brac.hnpp.location.SSModel;
+import org.smartregister.brac.hnpp.task.ConfirmIdentificationTask;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.IdentityModel;
@@ -120,6 +121,10 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
                 break;
             case R.id.not_found_btn:
                 showNotFoundDialog();
+                if(!sessionId.isEmpty()){
+                    org.smartregister.chw.core.utils.Utils.startAsyncTask(new ConfirmIdentificationTask(sessionId,""),null);
+
+                }
                 break;
         }
     }
@@ -234,7 +239,7 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
         dialog.show();
 
     }
-    private void openProfile(String baseEntityId){
+    private void openProfile(String baseEntityId, String selectedGuId){
 
         CommonPersonObjectClient patient = HnppDBUtils.createFromBaseEntity(baseEntityId);
         String familyId = org.smartregister.util.Utils.getValue(patient.getColumnmaps(), ChildDBConstants.KEY.RELATIONAL_ID, false);
@@ -254,6 +259,8 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
         intent.putExtra(HnppConstants.KEY.HOUSE_HOLD_ID,moduleId);
         intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_NAME, houseHoldHead);
         intent.putExtra(HnppFamilyOtherMemberProfileActivity.IS_COMES_IDENTITY,true);
+        intent.putExtra(HnppFamilyOtherMemberProfileActivity.SESSION_ID,sessionId);
+        intent.putExtra(HnppFamilyOtherMemberProfileActivity.SELECTED_GU_ID,selectedGuId);
         startActivity(intent);
         finish();
 
@@ -368,6 +375,7 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
     }
     private AppExecutors appExecutors = new AppExecutors();
     ArrayList<IdentityModel> identityModelList = new ArrayList<>();
+    String sessionId = "";
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -378,6 +386,8 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
                     Boolean check = data.getBooleanExtra(Constants.SIMPRINTS_BIOMETRICS_COMPLETE_CHECK,true);
                     if(check){
                         showProgressDialog();
+                        sessionId = data.getStringExtra(Constants.SIMPRINTS_SESSION_ID);
+                        Log.v("SIMPRINTS_IDENTITY","sessionId:"+sessionId);
                         appExecutors.diskIO().execute(() -> {
                             try {
 
@@ -401,6 +411,7 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
                                                 identityModel.setTier(identification.getTier().toString().replace("_"," "));
                                                 identityModel.setFamilyHead(ourPut[3]);
                                                 identityModel.setAge(ourPut[4]);
+                                                identityModel.setOriginalGuId(identification.getGuid());
                                                 if(!TextUtils.isEmpty(ourPut[2])) {
                                                    String id = ourPut[2].replace(org.smartregister.family.util.Constants.IDENTIFIER.FAMILY_SUFFIX,"")
                                                             .replace(HnppConstants.IDENTIFIER.FAMILY_TEXT,"");
@@ -450,7 +461,7 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
                 @Override
                 public void onClick(int position, IdentityModel content) {
                     if(!content.getBaseEntityId().isEmpty()){
-                        openProfile(content.getBaseEntityId());
+                        openProfile(content.getBaseEntityId(),content.getOriginalGuId());
                     }else {
                         Toast.makeText(SimprintsIdentityActivity.this,getString(R.string.not_match),Toast.LENGTH_SHORT).show();
                     }

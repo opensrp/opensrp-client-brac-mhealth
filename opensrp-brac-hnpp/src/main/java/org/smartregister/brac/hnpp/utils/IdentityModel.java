@@ -8,6 +8,15 @@ public class IdentityModel {
     String familyHead;
     String age;
     String husband;
+    String originalGuId;
+
+    public void setOriginalGuId(String originalGuId) {
+        this.originalGuId = originalGuId;
+    }
+
+    public String getOriginalGuId() {
+        return originalGuId;
+    }
 
     public String getAge() {
         return age;

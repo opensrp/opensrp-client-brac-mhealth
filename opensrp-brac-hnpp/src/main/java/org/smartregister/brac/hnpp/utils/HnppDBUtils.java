@@ -529,6 +529,7 @@ public class HnppDBUtils extends CoreChildUtils {
         return null;
     }
     public static String getModuleId(String familyId){
+        if(!HnppConstants.isReleaseBuild()) return HnppConstants.MODULE_ID_TRAINING;
         String query = "select module_id from ec_family where base_entity_id = '"+familyId+"'";
         Cursor cursor = null;
         try {
