@@ -98,6 +98,9 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
         if (!BuildConfig.SUPPORT_QR) {
             bottomNavigationView.getMenu().removeItem(org.smartregister.family.R.id.action_scan_qr);
         }
+        if (HnppConstants.isPALogin()) {
+            bottomNavigationView.getMenu().removeItem(org.smartregister.family.R.id.action_family);
+        }
         bottomNavigationView.setOnNavigationItemSelectedListener(new HnppFamilyBottomNavListener(this, bottomNavigationView));
     }
     NavigationMenu navigationMenu;

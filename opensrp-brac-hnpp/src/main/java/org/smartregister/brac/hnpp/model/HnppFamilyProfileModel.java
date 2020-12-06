@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.chw.core.model.CoreFamilyProfileModel;
 import org.smartregister.clientandeventmodel.Address;
@@ -15,6 +16,8 @@ import org.smartregister.repository.EventClientRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.smartregister.brac.hnpp.utils.HnppJsonFormUtils.makeReadOnlyFields;
 
 public class HnppFamilyProfileModel extends CoreFamilyProfileModel {
     private String moduleId;
@@ -40,6 +43,9 @@ public class HnppFamilyProfileModel extends CoreFamilyProfileModel {
         HnppJsonFormUtils.updateFormWithMemberId(form,houseHoldId,familyBaseEntityId);
         HnppJsonFormUtils.updateFormWithModuleId(form,moduleId,familyBaseEntityId);
         HnppJsonFormUtils.updateFormWithSimPrintsEnable(form);
+        if(HnppConstants.isPALogin()){
+            makeReadOnlyFields(form);
+        }
 
         return form;
     }

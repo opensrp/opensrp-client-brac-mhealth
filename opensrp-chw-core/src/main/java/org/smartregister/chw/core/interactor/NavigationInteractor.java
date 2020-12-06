@@ -72,6 +72,17 @@ public class NavigationInteractor implements NavigationContract.Interactor {
             }
             tableName = "ec_family_member";
         }
+        else if(tableName.equalsIgnoreCase("adult") ||  tableName.equalsIgnoreCase("adult_risk")){
+
+            if(tableName.equalsIgnoreCase("adult_risk")){
+                mainCondition = String.format(" where %s is null AND %s", DBConstants.KEY.DATE_REMOVED, ChildDBConstants.riskAdultFilterWithTableName());
+
+            }else{
+                mainCondition = String.format(" where %s is null AND %s", DBConstants.KEY.DATE_REMOVED, ChildDBConstants.AdultFilterWithTableName());
+
+            }
+            tableName = "ec_family_member";
+        }
         else if (tableName.equalsIgnoreCase(CoreConstants.TABLE_NAME.CHILD) ||  tableName.equalsIgnoreCase("child_risk")) {
             if(tableName.equalsIgnoreCase("child_risk")){
                 mainCondition = String.format(" where %s is null AND %s", DBConstants.KEY.DATE_REMOVED, ChildDBConstants.riskChildAgeLimitFilter());

@@ -103,6 +103,18 @@ public class MemberOtherServiceFragment extends Fragment implements OtherService
                     activity.openServiceForms(HnppConstants.JSON_FORMS.WOMEN_PACKAGE);
                 }
                 break;
+            case HnppConstants.OTHER_SERVICE_TYPE.TYPE_BLOOD:
+                if (getActivity() != null && getActivity() instanceof HnppFamilyOtherMemberProfileActivity) {
+                    HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) getActivity();
+                    activity.openServiceForms(HnppConstants.JSON_FORMS.BLOOD_TEST);
+                }
+                break;
+            case HnppConstants.OTHER_SERVICE_TYPE.TYPE_EYE:
+                if (getActivity() != null && getActivity() instanceof HnppFamilyOtherMemberProfileActivity) {
+                    HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) getActivity();
+                    activity.openServiceForms(HnppConstants.JSON_FORMS.EYE_TEST);
+                }
+                break;
         }
     }
 }

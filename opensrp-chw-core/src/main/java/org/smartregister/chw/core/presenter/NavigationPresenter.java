@@ -46,6 +46,7 @@ public class NavigationPresenter implements NavigationContract.Presenter {
         tableMap.put(CoreConstants.DrawerMenu.ALL_FAMILIES, CoreConstants.TABLE_NAME.FAMILY);
         tableMap.put(CoreConstants.DrawerMenu.ALL_MEMBER,  CoreConstants.TABLE_NAME.FAMILY_MEMBER);
         tableMap.put(CoreConstants.DrawerMenu.ELCO_CLIENT,"test");
+        tableMap.put(CoreConstants.DrawerMenu.ADULT,"adult");
         tableMap.put(CoreConstants.DrawerMenu.FORUM,"");
         tableMap.put(CoreConstants.DrawerMenu.GUEST_MEMBER,"");
         tableMap.put(CoreConstants.DrawerMenu.CHILD_CLIENTS, CoreConstants.TABLE_NAME.CHILD);
@@ -55,6 +56,7 @@ public class NavigationPresenter implements NavigationContract.Presenter {
         tableMap.put(CoreConstants.DrawerMenu.PNC_RISK, "pnc_risk");
         tableMap.put(CoreConstants.DrawerMenu.ELCO_RISK, "elco_risk");
         tableMap.put(CoreConstants.DrawerMenu.CHILD_RISK, "child_risk");
+        tableMap.put(CoreConstants.DrawerMenu.ADULT_RISK, "adult_risk");
         tableMap.put(CoreConstants.DrawerMenu.PNC, CoreConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME);
         tableMap.put(CoreConstants.DrawerMenu.REFERRALS, CoreConstants.TABLE_NAME.TASK);
         tableMap.put(CoreConstants.DrawerMenu.MALARIA, CoreConstants.TABLE_NAME.MALARIA_CONFIRMATION);

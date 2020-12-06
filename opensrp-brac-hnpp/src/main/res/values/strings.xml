@@ -12,6 +12,8 @@
 
     <string name="menu_all_clients">সকল ক্লায়েন্ট</string>
     <string name="menu_all_families">খানার তালিকা</string>
+   <string name="menu_adult">প্রাপ্তবয়স্ক তালিকা</string>
+   <string name="menu_adult_risk">ঝুঁকিপূর্ণ ও জরুরী</string>
     <string name="menu_elco_clients">সক্ষম দম্পতি</string>
     <string name="menu_anc_clients">গর্ভবতী মায়ের তালিকা</string>
     <string name="menu_anc_risk_clients">ঝুঁকিপূর্ণ ও জরুরী</string>

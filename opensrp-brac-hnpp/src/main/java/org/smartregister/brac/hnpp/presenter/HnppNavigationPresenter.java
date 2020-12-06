@@ -158,8 +158,6 @@ public class HnppNavigationPresenter extends NavigationPresenter {
     }
     private void showDialog(String status,Activity activity){
 
-
-        Log.v("USER_STATUS","showDialog:"+status);
         if(!TextUtils.isEmpty(status) && status.equalsIgnoreCase("false")){
             activity.runOnUiThread(new Runnable() {
                 @Override

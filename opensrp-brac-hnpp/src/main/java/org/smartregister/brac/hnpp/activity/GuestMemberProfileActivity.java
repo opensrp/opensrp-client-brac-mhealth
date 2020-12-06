@@ -177,7 +177,7 @@ public class GuestMemberProfileActivity extends SecuredActivity {
              if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM_OOC) || formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM_OOC) || formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM_OOC)){
                 HnppJsonFormUtils.addNoOfAnc(jsonForm);
             }
-            else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM)){
+            else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM_OOC)){
                 HnppJsonFormUtils.addNoOfPnc(jsonForm);
             }
 //            if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.GIRL_PACKAGE)){
@@ -251,6 +251,7 @@ public class GuestMemberProfileActivity extends SecuredActivity {
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
             String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
 
+
             try {
                 saveRegistration(jsonString,"visits");
             } catch (Exception e) {
@@ -279,7 +280,10 @@ public class GuestMemberProfileActivity extends SecuredActivity {
     private void saveRegistration(final String jsonString, String table) throws Exception {
         AllSharedPreferences allSharedPreferences = AncLibrary.getInstance().context().allSharedPreferences();
         Event baseEvent = org.smartregister.chw.anc.util.JsonFormUtils.processJsonForm(allSharedPreferences, jsonString, table);
-
+        JSONObject form = new JSONObject(jsonString);
+        String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
+        type = HnppJsonFormUtils.getEncounterType(type);
+        baseEvent.setEntityType(type);
         NCUtils.addEvent(allSharedPreferences, baseEvent);
         NCUtils.startClientProcessing();
         String visitID ="";

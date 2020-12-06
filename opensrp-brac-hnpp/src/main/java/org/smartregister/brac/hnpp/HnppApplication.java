@@ -16,6 +16,8 @@ import org.jetbrains.annotations.NotNull;
 import org.smartregister.AllConstants;
 import org.smartregister.Context;
 import org.smartregister.CoreLibrary;
+import org.smartregister.brac.hnpp.activity.AdultMemberRegisterActivity;
+import org.smartregister.brac.hnpp.activity.AdultRiskRegisterActivity;
 import org.smartregister.brac.hnpp.activity.ForumActivity;
 import org.smartregister.brac.hnpp.activity.GuestMemberActivity;
 import org.smartregister.brac.hnpp.activity.HNPPJsonFormActivity;
@@ -247,7 +249,8 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.CHILD_RISK_REGISTER_ACTIVITY, HnppChildRiskRegisterActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.SS_INFO_ACTIVITY, SSInfoActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.SIMPRINTS_REGISTER_ACTIVITY, SimprintsIdentityActivity.class);
-
+        registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.ADULT_RISK_REGISTER_ACTIVITY, AdultRiskRegisterActivity.class);
+        registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.ADULT_REGISTER_ACTIVITY, AdultMemberRegisterActivity.class);
         return registeredActivities;
     }
 

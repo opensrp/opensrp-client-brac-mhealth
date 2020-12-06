@@ -79,6 +79,8 @@ public class HnppConstants extends CoreConstants {
         public static final int TYPE_GIRL_PACKAGE = 2;
         public static final int TYPE_NCD = 3;
         public static final int TYPE_IYCF = 4;
+        public static final int TYPE_EYE = 5;
+        public static final int TYPE_BLOOD = 6;
     }
     public static boolean isEddImportant(String lmp){
         DateTime lmpDate = DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(lmp);
@@ -182,6 +184,13 @@ public class HnppConstants extends CoreConstants {
             number_to_return += bn_numbers[Integer.valueOf(ch) % Integer.valueOf('0')];
         }
         return number_to_return;
+    }
+    public static boolean isPALogin(){
+        String role = org.smartregister.Context.getInstance().allSharedPreferences().fetchRegisteredRole();
+        if(TextUtils.isEmpty(role)) return false;
+        if(role.equalsIgnoreCase("PA")) return true;
+        return false;
+
     }
 
     public static boolean isReleaseBuild() {
@@ -326,6 +335,8 @@ public class HnppConstants extends CoreConstants {
         public static final String  PNC_FORM = "hnpp_pnc_registration";
         public static final String  PNC_FORM_OOC = "hnpp_pnc_registration_ooc";
         public static final String  WOMEN_PACKAGE = "hnpp_women_package";
+        public static final String  EYE_TEST = "eye_test";
+        public static final String  BLOOD_TEST = "blood_test";
         public static final String  GIRL_PACKAGE = "hnpp_adolescent_package";
         public static final String  NCD_PACKAGE = "hnpp_ncd_package";
         public static final String  IYCF_PACKAGE = "hnpp_iycf_package";
@@ -360,6 +371,8 @@ public class HnppConstants extends CoreConstants {
         public static final String WOMEN_PACKAGE = "Women package";
         public static final String GIRL_PACKAGE = "Adolescent package";
         public static final String NCD_PACKAGE = "NCD package";
+        public static final String EYE_TEST = "Eye test";
+        public static final String BLOOD_GROUP = "Blood group";
         public static final String IYCF_PACKAGE = "IYCF package";
         public static final String ENC_REGISTRATION = "ENC Registration";
         public static final String HOME_VISIT_FAMILY = "HH visit";
@@ -457,6 +470,8 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.WOMEN_PACKAGE,R.drawable.ic_women)
             .put(EVENT_TYPE.GIRL_PACKAGE, R.drawable.ic_adolescent)
             .put(EVENT_TYPE.NCD_PACKAGE,R.drawable.ic_muac)
+            .put(EVENT_TYPE.BLOOD_GROUP,R.drawable.ic_blood)
+            .put(EVENT_TYPE.EYE_TEST,R.drawable.ic_eye)
             .put(EVENT_TYPE.IYCF_PACKAGE, R.drawable.child_girl_infant)
             .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,R.mipmap.ic_anc_pink)
             .put(Constants.EVENT_TYPE.PNC_HOME_VISIT,R.drawable.sidemenu_pnc)
@@ -506,6 +521,8 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.WOMEN_PACKAGE,"নারী সেবা প্যাকেজ")
             .put(EVENT_TYPE.GIRL_PACKAGE, "কিশোরী সেবা প্যাকেজ")
             .put(EVENT_TYPE.NCD_PACKAGE, "অসংক্রামক রোগের সেবা")
+            .put(EVENT_TYPE.BLOOD_GROUP,"রক্ত পরীক্ষা")
+            .put(EVENT_TYPE.EYE_TEST,"চক্ষু পরীক্ষা")
             .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)")
             .put(EVENT_TYPE.ENC_REGISTRATION, "নবজাতকের সেবা")
             .put(EVENT_TYPE.HOME_VISIT_FAMILY, "খানা পরিদর্শন")
@@ -613,6 +630,8 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.WOMEN_PACKAGE,"নারী সেবা প্যাকেজ")
             .put(EVENT_TYPE.GIRL_PACKAGE, "কিশোরী সেবা প্যাকেজ")
             .put(EVENT_TYPE.NCD_PACKAGE, "অসংক্রামক রোগের সেবা")
+            .put(EVENT_TYPE.BLOOD_GROUP,"রক্ত পরীক্ষা")
+            .put(EVENT_TYPE.EYE_TEST,"চক্ষু পরীক্ষা")
             .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)")
             .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,"গর্ভবতী পরিচর্যা ভিজিট(এএনসি)")
             .put(Constants.EVENT_TYPE.PNC_HOME_VISIT,"প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি)")

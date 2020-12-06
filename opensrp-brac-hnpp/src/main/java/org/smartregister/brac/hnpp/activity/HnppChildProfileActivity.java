@@ -199,18 +199,23 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
         commonPersonObject = ((HnppChildProfilePresenter)presenter()).commonPersonObjectClient;
         this.mViewPager = viewPager;
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        if(HnppConstants.isPALogin()){
+            adapter.addFragment(memberHistoryFragment, this.getString(R.string.activity).toUpperCase());
+            viewPager.setOffscreenPageLimit(1);
+        }else{
+            profileMemberFragment =(HnppChildProfileDueFragment) HnppChildProfileDueFragment.newInstance(this.getIntent().getExtras());
+            profileMemberFragment.setCommonPersonObjectClient(commonPersonObject);
+            profileMemberFragment.setBaseEntityId(childBaseEntityId);
+            adapter.addFragment(profileMemberFragment, this.getString(R.string.due).toUpperCase());
+            memberOtherServiceFragment = new MemberOtherServiceFragment();
+            memberHistoryFragment = ChildHistoryFragment.getInstance(this.getIntent().getExtras());
+            memberHistoryFragment.setBaseEntityId(childBaseEntityId);
+            memberOtherServiceFragment.setCommonPersonObjectClient(commonPersonObject);
+            adapter.addFragment(memberOtherServiceFragment, this.getString(R.string.other_service).toUpperCase());
+            adapter.addFragment(memberHistoryFragment, this.getString(R.string.activity).toUpperCase());
+            viewPager.setOffscreenPageLimit(3);
+        }
 
-        profileMemberFragment =(HnppChildProfileDueFragment) HnppChildProfileDueFragment.newInstance(this.getIntent().getExtras());
-        profileMemberFragment.setCommonPersonObjectClient(commonPersonObject);
-        profileMemberFragment.setBaseEntityId(childBaseEntityId);
-        adapter.addFragment(profileMemberFragment, this.getString(R.string.due).toUpperCase());
-        memberOtherServiceFragment = new MemberOtherServiceFragment();
-        memberHistoryFragment = ChildHistoryFragment.getInstance(this.getIntent().getExtras());
-        memberHistoryFragment.setBaseEntityId(childBaseEntityId);
-        memberOtherServiceFragment.setCommonPersonObjectClient(commonPersonObject);
-        adapter.addFragment(memberOtherServiceFragment, this.getString(R.string.other_service).toUpperCase());
-        adapter.addFragment(memberHistoryFragment, this.getString(R.string.activity).toUpperCase());
-        viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(adapter);
         return viewPager;
     }

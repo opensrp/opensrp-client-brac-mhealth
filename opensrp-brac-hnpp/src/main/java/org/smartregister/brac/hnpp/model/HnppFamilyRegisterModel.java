@@ -10,6 +10,7 @@ import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSLocations;
 import org.smartregister.brac.hnpp.repository.HouseholdIdRepository;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.clientandeventmodel.Address;
 import org.smartregister.clientandeventmodel.Client;
@@ -22,6 +23,7 @@ import java.util.List;
 
 import timber.log.Timber;
 
+import static org.smartregister.brac.hnpp.utils.HnppJsonFormUtils.makeReadOnlyFields;
 import static org.smartregister.util.JsonFormUtils.FIELDS;
 import static org.smartregister.util.JsonFormUtils.VALUE;
 import static org.smartregister.util.JsonFormUtils.getFieldJSONObject;
@@ -34,6 +36,9 @@ public class HnppFamilyRegisterModel extends BaseFamilyRegisterModel {
         JSONObject form = getFormUtils().getFormJson(formName);
         if (form == null) {
             return null;
+        }
+        if(HnppConstants.isPALogin()){
+            makeReadOnlyFields(form);
         }
         HnppJsonFormUtils.updateFormWithSSName(form,SSLocationHelper.getInstance().getSsModels());
         return HnppJsonFormUtils.getFormAsJson(form, formName, entityId, currentLocationId);

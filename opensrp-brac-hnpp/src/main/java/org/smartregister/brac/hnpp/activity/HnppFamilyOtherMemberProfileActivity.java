@@ -273,15 +273,22 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             commonPersonObject.getColumnmaps().put("gender", gender);
             commonPersonObject.getColumnmaps().put("marital_status", maritalStatus);
         }
-        profileMemberFragment =(HnppMemberProfileDueFragment) HnppMemberProfileDueFragment.newInstance(this.getIntent().getExtras());
-        profileMemberFragment.setCommonPersonObjectClient(commonPersonObject);
-        adapter.addFragment(profileMemberFragment, this.getString(R.string.due).toUpperCase());
+        if(!HnppConstants.isPALogin()){
+            profileMemberFragment =(HnppMemberProfileDueFragment) HnppMemberProfileDueFragment.newInstance(this.getIntent().getExtras());
+            profileMemberFragment.setCommonPersonObjectClient(commonPersonObject);
+            adapter.addFragment(profileMemberFragment, this.getString(R.string.due).toUpperCase());
+        }
+
         memberOtherServiceFragment = new MemberOtherServiceFragment();
         memberHistoryFragment = MemberHistoryFragment.getInstance(this.getIntent().getExtras());
         memberOtherServiceFragment.setCommonPersonObjectClient(commonPersonObject);
         adapter.addFragment(memberOtherServiceFragment, this.getString(R.string.other_service).toUpperCase());
         adapter.addFragment(memberHistoryFragment, this.getString(R.string.activity).toUpperCase());
-        viewPager.setOffscreenPageLimit(3);
+        if(!HnppConstants.isPALogin()){
+            viewPager.setOffscreenPageLimit(3);
+        }else{
+            viewPager.setOffscreenPageLimit(2);
+        }
         viewPager.setAdapter(adapter);
         return viewPager;
     }
@@ -628,13 +635,21 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                     @Override
                     public void run() {
 //                        memberHistoryFragment.onActivityResult(0,0,null);
-                        mViewPager.setCurrentItem(2,true);
-                        if(profileMemberFragment !=null){
-                            profileMemberFragment.updateStaticView();
+                        if(!HnppConstants.isPALogin()){
+                            mViewPager.setCurrentItem(2,true);
+                            if(profileMemberFragment !=null){
+                                profileMemberFragment.updateStaticView();
+                            }
+                            if(memberOtherServiceFragment !=null){
+                                memberOtherServiceFragment.updateStaticView();
+                            }
+                        }else{
+                            mViewPager.setCurrentItem(1,true);
+                            if(memberOtherServiceFragment !=null){
+                                memberOtherServiceFragment.updateStaticView();
+                            }
                         }
-                        if(memberOtherServiceFragment !=null){
-                            memberOtherServiceFragment.updateStaticView();
-                        }
+
 
                     }
                 },1000);
@@ -825,6 +840,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     }
 
     private void setupMenuOptions(Menu menu) {
+
         menu.findItem(R.id.action_remove_member).setTitle("সদস্য বাদ দিন / মাইগ্রেট / মৃত্যু");
         menu.findItem(R.id.action_anc_registration).setTitle("গর্ভবতী রেজিস্ট্রেশন");
         menu.findItem(R.id.action_malaria_registration).setVisible(false);
@@ -833,16 +849,19 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         menu.findItem(R.id.action_malaria_diagnosis).setTitle("PNC রেজিস্ট্রেশন");
         menu.findItem(R.id.action_pregnancy_out_come).setTitle("প্রসবের ফলাফল");
         menu.findItem(R.id.action_pregnancy_out_come).setVisible(false);
-        menu.findItem(R.id.action_remove_member).setVisible(true);
 
-        if (FormApplicability.isWomanOfReproductiveAge(commonPersonObject)) {
-            menu.findItem(R.id.action_anc_registration).setVisible(true);
-//            menu.findItem(R.id.action_pregnancy_out_come).setVisible(true);
-        } else {
-            menu.findItem(R.id.action_anc_registration).setVisible(false);
-//            menu.findItem(R.id.action_pregnancy_out_come).setVisible(false);
+        if(HnppConstants.isPALogin()){
+            menu.findItem(R.id.action_remove_member).setVisible(false);
+            menu.findItem(R.id.action_malaria_diagnosis).setVisible(false);
+        }else{
+            menu.findItem(R.id.action_remove_member).setVisible(true);
+            if (FormApplicability.isWomanOfReproductiveAge(commonPersonObject)) {
+                menu.findItem(R.id.action_anc_registration).setVisible(true);
+            } else {
+                menu.findItem(R.id.action_anc_registration).setVisible(false);
+            }
+            menu.findItem(R.id.action_malaria_diagnosis).setVisible(false);
         }
-        menu.findItem(R.id.action_malaria_diagnosis).setVisible(false);
 
 
     }

@@ -2,9 +2,6 @@ package org.smartregister.brac.hnpp.interactor;
 
 import android.content.Context;
 
-import org.joda.time.DateTime;
-import org.joda.time.Days;
-import org.joda.time.format.DateTimeFormat;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.contract.OtherServiceContract;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
@@ -28,11 +25,48 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
     public void fetchData(CommonPersonObjectClient commonPersonObjectClient, Context context, OtherServiceContract.InteractorCallBack callBack) {
 
         Runnable runnable = () -> {
-            ArrayList<OtherServiceData> otherServiceData = getOtherService(commonPersonObjectClient);
+            ArrayList<OtherServiceData> otherServiceData;
+                    if(HnppConstants.isPALogin()){
+                        otherServiceData =  getPAService(commonPersonObjectClient);
+                    }else{
+                        otherServiceData = getOtherService(commonPersonObjectClient);
+                    }
             appExecutors.mainThread().execute(() -> callBack.onUpdateList(otherServiceData));
         };
         appExecutors.diskIO().execute(runnable);
 
+    }
+    private ArrayList<OtherServiceData> getPAService(CommonPersonObjectClient commonPersonObjectClient){
+
+        int age = FormApplicability.getAge(commonPersonObjectClient);
+
+        ArrayList<OtherServiceData> otherServiceDataList = new ArrayList<>();
+
+
+        if(FormApplicability.isNcdApplicable(age) && FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.NCD_PACKAGE)){
+            OtherServiceData otherServiceData3 = new OtherServiceData();
+            otherServiceData3.setImageSource(R.drawable.ic_sugar_blood_level);
+            otherServiceData3.setTitle("অসংক্রামক রোগের সেবা");
+            otherServiceData3.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_NCD);
+            otherServiceDataList.add(otherServiceData3);
+        }
+
+        if(FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.EYE_TEST)){
+            OtherServiceData otherServiceData = new OtherServiceData();
+            otherServiceData.setImageSource(R.drawable.ic_eye);
+            otherServiceData.setTitle("চক্ষু পরীক্ষা");
+            otherServiceData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_EYE);
+            otherServiceDataList.add(otherServiceData);
+        }
+        if( FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.BLOOD_GROUP)){
+            OtherServiceData otherServiceData = new OtherServiceData();
+            otherServiceData.setImageSource(R.drawable.ic_blood);
+            otherServiceData.setTitle("রক্ত পরীক্ষা");
+            otherServiceData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_BLOOD);
+            otherServiceDataList.add(otherServiceData);
+        }
+
+        return otherServiceDataList;
     }
     private ArrayList<OtherServiceData> getOtherService(CommonPersonObjectClient commonPersonObjectClient){
 

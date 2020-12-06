@@ -31,6 +31,10 @@ public class HnppNavigationListener extends NavigationListener {
 
                 startRegisterActivityWithOutFinish(getActivity(CoreConstants.REGISTERED_ACTIVITIES.GUEST_MEMBER_ACTIVITY));
             }
+            else if(CoreConstants.DrawerMenu.ADULT.equals(tag)){
+
+                startRegisterActivityWithOutFinish(getActivity(CoreConstants.REGISTERED_ACTIVITIES.ADULT_REGISTER_ACTIVITY));
+            }
             else if(CoreConstants.DrawerMenu.SS_INFO.equals(tag)){
 
                 startRegisterActivityWithOutFinish(getActivity(CoreConstants.REGISTERED_ACTIVITIES.SS_INFO_ACTIVITY));
@@ -50,6 +54,9 @@ public class HnppNavigationListener extends NavigationListener {
             }
             else if (CoreConstants.DrawerMenu.ELCO_RISK.equals(type)) {
                 startRegisterActivity(getActivity(CoreConstants.REGISTERED_ACTIVITIES.ELCO_RISK_REGISTER_ACTIVITY));
+            }
+            else if (CoreConstants.DrawerMenu.ADULT_RISK.equals(type)) {
+                startRegisterActivity(getActivity(CoreConstants.REGISTERED_ACTIVITIES.ADULT_RISK_REGISTER_ACTIVITY));
             }
             else if (CoreConstants.DrawerMenu.CHILD_RISK.equals(type)) {
                 startRegisterActivity(getActivity(CoreConstants.REGISTERED_ACTIVITIES.CHILD_RISK_REGISTER_ACTIVITY));
