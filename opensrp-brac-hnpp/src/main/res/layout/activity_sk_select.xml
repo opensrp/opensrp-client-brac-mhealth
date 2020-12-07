@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:gravity="center"
+    android:background="@color/light_gray"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="নতুন হাউসহোল্ড এবং মেম্বার আনার জন্য নিচের তথ্য দিয়ে আপডেট করুন"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="স্বাস্থ্য কর্মীর নাম"
+        android:textColor="@color/black"
+        android:textSize="18sp"/>
+
+    <Spinner
+        android:id="@+id/sk_filter_spinner"
+        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent"
+        android:background="@drawable/spinner_resource"
+        android:layout_margin="5dp"
+        android:layout_height="50dp">
+    </Spinner>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="স্বাস্থ্য সেবিকার নাম"
+        android:textColor="@color/black"
+        android:textSize="18sp"/>
+
+    <Spinner
+        android:id="@+id/ss_filter_spinner"
+        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent"
+        android:background="@drawable/spinner_resource"
+        android:layout_margin="5dp"
+        android:layout_height="50dp">
+
+    </Spinner>
+
+    <Button
+        android:id="@+id/filter_apply_button"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/login_button_bg"
+        android:ems="10"
+        android:shadowColor="#ffffff"
+        android:shadowDx="0"
+        android:shadowDy="1"
+        android:shadowRadius="0.5"
+        android:textStyle="bold"
+        android:text="@string/filter"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+
+
+</LinearLayout>
