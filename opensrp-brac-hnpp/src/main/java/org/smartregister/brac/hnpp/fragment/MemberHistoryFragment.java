@@ -33,10 +33,13 @@ import java.util.HashMap;
 
 public class MemberHistoryFragment extends Fragment implements MemberHistoryContract.View {
 
+    public static final String IS_GUEST_USER = "IS_GUEST_USER";
+
     private MemberHistoryPresenter presenter;
     private RecyclerView clientsView;
     private String baseEntityId;
     private boolean isStart = true;
+    private boolean isGuestUser = false;
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -69,6 +72,7 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         baseEntityId = getArguments().getString(Constants.INTENT_KEY.BASE_ENTITY_ID);
+        isGuestUser = getArguments().getBoolean(IS_GUEST_USER,false);
         initializePresenter();
     }
 
@@ -129,10 +133,20 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
             if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION) ||
                     eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION)
                     || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
-                HnppJsonFormUtils.addLastAnc(jsonForm,baseEntityId,true);
+                if(isGuestUser){
+                    HnppJsonFormUtils.addNoOfAnc(jsonForm);
+                }else{
+                    HnppJsonFormUtils.addLastAnc(jsonForm,baseEntityId,true);
+                }
+
             } else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION) ||
                     eventType.equalsIgnoreCase(CoreConstants.EventType.PNC_HOME_VISIT)){
-                HnppJsonFormUtils.addLastPnc(jsonForm,baseEntityId,true);
+                if(isGuestUser){
+                    HnppJsonFormUtils.addNoOfPnc(jsonForm);
+                }else{
+                    HnppJsonFormUtils.addLastPnc(jsonForm,baseEntityId,true);
+                }
+
             }
             makeReadOnlyFields(jsonForm);
 

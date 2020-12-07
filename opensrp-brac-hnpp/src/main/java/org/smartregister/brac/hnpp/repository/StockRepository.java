@@ -78,6 +78,7 @@ public class StockRepository extends BaseRepository {
     public  void updateValue(String productName, String day, String month, String year, String ssName, String baseEntityId, int count){
         ContentValues contentValues = new ContentValues();
         productName = getTargetName(productName,baseEntityId);
+        if(TextUtils.isEmpty(productName)) return;
         contentValues.put(BASE_ENTITY_ID, baseEntityId);
         contentValues.put(ACHIEVEMNT_DAY, day);
         contentValues.put(STOCK_PRODUCT_NAME, productName);
@@ -111,14 +112,20 @@ public class StockRepository extends BaseRepository {
                     || targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)
                     || targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION)
                     || targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
-                targetName = CoreConstants.EventType.ANC_HOME_VISIT;
+                return CoreConstants.EventType.ANC_HOME_VISIT;
             }else if(targetName.equalsIgnoreCase(HnppConstants.EventType.PNC_HOME_VISIT)
                     || targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION)){
-                targetName = CoreConstants.EventType.PNC_HOME_VISIT;
+                return CoreConstants.EventType.PNC_HOME_VISIT;
+            }else if(targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GIRL_PACKAGE)
+                    || targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.IYCF_PACKAGE)
+                    || targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.NCD_PACKAGE)
+                    || targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.WOMEN_PACKAGE)){
+                return targetName;
+
             }
 
         }
-        return targetName;
+        return "";
     }
 
     public void addOrUpdate(StockData stockData) {

@@ -115,7 +115,10 @@ public class GuestMemberProfileActivity extends SecuredActivity {
 
     private ViewPager setupViewPager(ViewPager viewPager) {
         mViewPager = viewPager;
-        memberHistoryFragment = MemberHistoryFragment.getInstance(this.getIntent().getExtras());
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(MemberHistoryFragment.IS_GUEST_USER,true);
+        bundle.putString(BASE_ENTITY_ID,baseEntityId);
+        memberHistoryFragment = MemberHistoryFragment.getInstance(bundle);
         memberDueFragment = GuestMemberDueFragment.getInstance();
         memberDueFragment.setGuestMemberData(guestMemberData);
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -285,7 +288,7 @@ public class GuestMemberProfileActivity extends SecuredActivity {
         type = HnppJsonFormUtils.getEncounterType(type);
         baseEvent.setEntityType(type);
         NCUtils.addEvent(allSharedPreferences, baseEvent);
-        NCUtils.startClientProcessing();
+       // NCUtils.startClientProcessing();
         String visitID ="";
         if(!TextUtils.isEmpty(baseEvent.getEventId())){
             visitID = baseEvent.getEventId();
