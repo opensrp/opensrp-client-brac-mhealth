@@ -13,7 +13,6 @@ import org.smartregister.job.ImageUploadServiceJob;
 import org.smartregister.job.LocationStructureServiceJob;
 import org.smartregister.job.PlanIntentServiceJob;
 import org.smartregister.job.PullUniqueIdsServiceJob;
-import org.smartregister.job.SyncServiceJob;
 import org.smartregister.job.SyncTaskServiceJob;
 import org.smartregister.job.ValidateSyncDataServiceJob;
 import org.smartregister.sync.intent.SyncIntentService;
@@ -30,8 +29,8 @@ public class HnppJobCreator implements JobCreator {
         switch (tag) {
             case SSLocationFetchJob.TAG:
                 return new SSLocationFetchJob();
-            case SyncServiceJob.TAG:
-                return new SyncServiceJob(SyncIntentService.class);
+            case HnppSyncIntentServiceJob.TAG:
+                return new HnppSyncIntentServiceJob();
             case HomeVisitServiceJob.TAG:
                 return new HomeVisitServiceJob();
             case ExtendedSyncServiceJob.TAG:

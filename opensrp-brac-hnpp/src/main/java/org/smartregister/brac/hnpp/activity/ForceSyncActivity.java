@@ -10,6 +10,7 @@ import net.sqlcipher.database.SQLiteDatabase;
 
 import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
 import org.smartregister.brac.hnpp.repository.HnppChwRepository;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.domain.FetchStatus;
@@ -73,7 +74,7 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
                             SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(ForceSyncActivity.this);
 
                             showProgressDialog("আপনার ডাটাগুলো সার্ভার এর সাথে সিঙ্ক করা হচ্ছে ");
-                            SyncServiceJob.scheduleJobImmediately(SyncServiceJob.TAG);
+                            HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
                         }
                     }else{
                         Toast.makeText(ForceSyncActivity.this,"আপনার অনুমতি নেই",Toast.LENGTH_LONG).show();

@@ -1,5 +1,7 @@
 package org.smartregister.brac.hnpp.location;
 
+import android.util.Log;
+
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.clientandeventmodel.Address;
 
@@ -29,15 +31,30 @@ public class SSLocationHelper {
         }
         return ssModels;
     }
+    public ArrayList<SSModel> getAllData() {
+       return HnppApplication.getSSLocationRepository().getAllLocations();
+    }
 
     private void setSsLocationForms(){
             ssModels.clear();
-            ssModels =  HnppApplication.getSSLocationRepository().getAllLocations();
+            ssModels =  HnppApplication.getSSLocationRepository().getAllSelectedLocations();
     }
     public void updateModel(){
         if(ssModels !=null){
             setSsLocationForms();
         }
+    }
+    public ArrayList<String> getSelectedVillageId(){
+        ArrayList<String> villageids = new ArrayList<>();
+        if(ssModels !=null && ssModels.size()>0){
+            for(SSModel ssModel : ssModels){
+                for (SSLocations ssLocations : ssModel.locations){
+                    villageids.add(ssLocations.village.id+"");
+                }
+            }
+        }
+        Log.v("SSLocationHelper","getSelectedVillageId: villageIds:"+villageids);
+        return villageids;
     }
     public SSLocations getSSLocationBySSName(String ssName){
         for(SSModel ssModel : ssModels){
