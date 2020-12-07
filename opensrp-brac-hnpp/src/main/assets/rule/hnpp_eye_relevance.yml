@@ -1,0 +1,7 @@
+---
+name: step1_power
+description: present_condition
+priority: 1
+condition: "(step1_glasses_type.equalsIgnoreCase('সিঙ্গেল ভিশন') || step1_glasses_type.equalsIgnoreCase('বাই -ফোকাল'))"
+actions:
+  - "isRelevant = true"

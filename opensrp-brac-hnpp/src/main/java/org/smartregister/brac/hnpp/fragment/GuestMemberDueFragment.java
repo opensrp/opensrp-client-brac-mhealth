@@ -76,37 +76,40 @@ public class GuestMemberDueFragment extends Fragment implements View.OnClickList
             otherServiceView.removeAllViews();
         }
         otherServiceView.setVisibility(View.VISIBLE);
-        if(guestMemberData.getGender().equalsIgnoreCase("F")){
-            View anc1View = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
-            ImageView imageanc1View = anc1View.findViewById(R.id.image_view);
-            TextView nameanc1View =  anc1View.findViewById(R.id.patient_name_age);
-            anc1View.setTag(TAG_OPEN_ANC1);
-            anc1View.setOnClickListener(this);
-            int age =  FormApplicability.getAge(guestMemberData.getDob());
-            if(FormApplicability.isElco(age)){
-                String eventType = FormApplicability.getGuestMemberDueFormForWomen(guestMemberData.getBaseEntityId(),age);
-                if(FormApplicability.isDueAnyForm(guestMemberData.getBaseEntityId(),eventType) && !TextUtils.isEmpty(eventType)){
-                    nameanc1View.setText(HnppConstants.visitEventTypeMapping.get(eventType));
-                    imageanc1View.setImageResource(HnppConstants.iconMapping.get(eventType));
-                    anc1View.setTag(org.smartregister.family.R.id.VIEW_ID,eventType);
+        if(!HnppConstants.isPALogin()){
+            if(guestMemberData.getGender().equalsIgnoreCase("F")){
+                View anc1View = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+                ImageView imageanc1View = anc1View.findViewById(R.id.image_view);
+                TextView nameanc1View =  anc1View.findViewById(R.id.patient_name_age);
+                anc1View.setTag(TAG_OPEN_ANC1);
+                anc1View.setOnClickListener(this);
+                int age =  FormApplicability.getAge(guestMemberData.getDob());
+                if(FormApplicability.isElco(age)){
+                    String eventType = FormApplicability.getGuestMemberDueFormForWomen(guestMemberData.getBaseEntityId(),age);
+                    if(FormApplicability.isDueAnyForm(guestMemberData.getBaseEntityId(),eventType) && !TextUtils.isEmpty(eventType)){
+                        nameanc1View.setText(HnppConstants.visitEventTypeMapping.get(eventType));
+                        imageanc1View.setImageResource(HnppConstants.iconMapping.get(eventType));
+                        anc1View.setTag(org.smartregister.family.R.id.VIEW_ID,eventType);
 
-                    otherServiceView.addView(anc1View);
+                        otherServiceView.addView(anc1View);
+                    }
+                    if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)
+                            || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
+                        View ancRegistration = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+                        ImageView image = ancRegistration.findViewById(R.id.image_view);
+                        TextView name =  ancRegistration.findViewById(R.id.patient_name_age);
+                        ancRegistration.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+                        image.setImageResource(HnppConstants.iconMapping.get(eventType));
+                        name.setText(HnppConstants.visitEventTypeMapping.get(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME));
+                        ancRegistration.setTag(TAG_OPEN_DELIVERY);
+                        ancRegistration.setOnClickListener(this);
+                        otherServiceView.addView(ancRegistration);
+                    }
                 }
-                if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)
-                        || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
-                    View ancRegistration = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
-                    ImageView image = ancRegistration.findViewById(R.id.image_view);
-                    TextView name =  ancRegistration.findViewById(R.id.patient_name_age);
-                    ancRegistration.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-                    image.setImageResource(HnppConstants.iconMapping.get(eventType));
-                    name.setText(HnppConstants.visitEventTypeMapping.get(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME));
-                    ancRegistration.setTag(TAG_OPEN_DELIVERY);
-                    ancRegistration.setOnClickListener(this);
-                    otherServiceView.addView(ancRegistration);
-                }
+
             }
-
         }
+
         updateServiceForm();
 
 
@@ -147,6 +150,22 @@ public class GuestMemberDueFragment extends Fragment implements View.OnClickList
             otherServiceData4.setTitle("শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)");
             otherServiceData4.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_IYCF);
             otherServiceDataList.add(otherServiceData4);
+        }
+        if(HnppConstants.isPALogin()){
+            if(FormApplicability.isDueAnyForm(guestMemberData.getBaseEntityId(),HnppConstants.EVENT_TYPE.EYE_TEST)){
+                OtherServiceData otherServiceData = new OtherServiceData();
+                otherServiceData.setImageSource(R.drawable.ic_eye);
+                otherServiceData.setTitle("চক্ষু পরীক্ষা");
+                otherServiceData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_EYE);
+                otherServiceDataList.add(otherServiceData);
+            }
+            if( FormApplicability.isDueAnyForm(guestMemberData.getBaseEntityId(),HnppConstants.EVENT_TYPE.BLOOD_GROUP)){
+                OtherServiceData otherServiceData = new OtherServiceData();
+                otherServiceData.setImageSource(R.drawable.ic_blood);
+                otherServiceData.setTitle("রক্ত পরীক্ষা");
+                otherServiceData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_BLOOD);
+                otherServiceDataList.add(otherServiceData);
+            }
         }
         if(otherServiceDataList.size()>0){
             for(OtherServiceData otherServiceData : otherServiceDataList){
@@ -220,6 +239,18 @@ public class GuestMemberDueFragment extends Fragment implements View.OnClickList
                     if (getActivity() != null && getActivity() instanceof GuestMemberProfileActivity) {
                         GuestMemberProfileActivity activity = (GuestMemberProfileActivity) getActivity();
                         activity.openHomeVisitSingleForm(HnppConstants.JSON_FORMS.WOMEN_PACKAGE);
+                    }
+                    break;
+                case HnppConstants.OTHER_SERVICE_TYPE.TYPE_BLOOD:
+                    if (getActivity() != null && getActivity() instanceof GuestMemberProfileActivity) {
+                        GuestMemberProfileActivity activity = (GuestMemberProfileActivity) getActivity();
+                        activity.openHomeVisitSingleForm(HnppConstants.JSON_FORMS.BLOOD_TEST);
+                    }
+                    break;
+                case HnppConstants.OTHER_SERVICE_TYPE.TYPE_EYE:
+                    if (getActivity() != null && getActivity() instanceof GuestMemberProfileActivity) {
+                        GuestMemberProfileActivity activity = (GuestMemberProfileActivity) getActivity();
+                        activity.openHomeVisitSingleForm(HnppConstants.JSON_FORMS.EYE_TEST);
                     }
                     break;
             }

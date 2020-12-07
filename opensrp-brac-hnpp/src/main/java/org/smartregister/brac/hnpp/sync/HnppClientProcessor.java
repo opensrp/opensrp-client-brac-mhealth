@@ -168,6 +168,8 @@ public class HnppClientProcessor extends ClientProcessorForJava {
             case HnppConstants.EVENT_TYPE.SS_INFO:
             case HnppConstants.EVENT_TYPE.ANC_REGISTRATION:
                 case HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME:
+            case HnppConstants.EVENT_TYPE.EYE_TEST:
+            case HnppConstants.EVENT_TYPE.BLOOD_GROUP:
                 if (eventClient.getEvent() == null) {
                     return;
                 }

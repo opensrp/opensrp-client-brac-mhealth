@@ -274,12 +274,15 @@ public class FormApplicability {
     }
     //other service and package
     public static boolean isIycfApplicable(int day){
+        if(HnppConstants.isPALogin()) return false;
         return day >=181 && day <=730;
     }
     public static boolean isAdolescentApplicable(int age, boolean isWomen){
+        if(HnppConstants.isPALogin()) return false;
         return isWomen && age>=10 && age <=19;
     }
     public static boolean isWomenPackageApplicable(String baseEntityId , int age, boolean isWomen){
+        if(HnppConstants.isPALogin()) return false;
         return isWomen && age >=14 && !isPragnent(baseEntityId,age);
     }
 

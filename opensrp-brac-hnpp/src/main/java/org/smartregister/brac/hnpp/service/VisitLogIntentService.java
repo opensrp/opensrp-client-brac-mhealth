@@ -51,11 +51,13 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC3_RE
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.BLOOD_GROUP;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_REFERRAL;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ELCO;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ENC_REGISTRATION;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.EYE_TEST;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.GIRL_PACKAGE;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
@@ -1113,6 +1115,12 @@ public class VisitLogIntentService extends IntentService {
                 break;
             case CORONA_INDIVIDUAL:
                 form_name = HnppConstants.JSON_FORMS.CORONA_INDIVIDUAL + ".json";
+                break;
+            case EYE_TEST:
+                form_name = HnppConstants.JSON_FORMS.EYE_TEST + ".json";
+                break;
+            case BLOOD_GROUP:
+                form_name = HnppConstants.JSON_FORMS.BLOOD_TEST + ".json";
                 break;
                 default:
                     break;
