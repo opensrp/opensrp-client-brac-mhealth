@@ -35,6 +35,7 @@ import com.simprints.libsimprints.Constants;
 import com.simprints.libsimprints.Identification;
 import com.simprints.libsimprints.Tier;
 
+import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.adapter.IdentityAdapter;
 import org.smartregister.brac.hnpp.fragment.HnppDashBoardFragment;
@@ -229,7 +230,7 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
 
                 dialog.dismiss();
                 if(!TextUtils.isEmpty(moduleId)){
-                    SimPrintsIdentifyActivity.startSimprintsIdentifyActivity(SimprintsIdentityActivity.this, moduleId, REQUEST_CODE_IDENTIFY);
+                    SimPrintsIdentifyActivity.startSimprintsIdentifyActivity(SimprintsIdentityActivity.this, moduleId, CoreLibrary.getInstance().context().allSharedPreferences().fetchRegisteredANM(), REQUEST_CODE_IDENTIFY);
 
                 }else{
                     Toast.makeText(SimprintsIdentityActivity.this,"Please select module id",Toast.LENGTH_LONG).show();
@@ -402,6 +403,7 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
                                         case TIER_2:
                                         case TIER_3:
                                         case TIER_4:
+                                        case TIER_5:
                                             IdentityModel identityModel = new IdentityModel();
                                             String[] ourPut = HnppDBUtils.getBaseEntityByGuId(identification.getGuid());
                                             if(ourPut!=null && !TextUtils.isEmpty(ourPut[1])){

@@ -164,12 +164,14 @@ public class HnppDBUtils extends CoreChildUtils {
                 strings[3] = cursor.getString(3);
                 String dobString = Utils.getDuration(cursor.getString(4));
                 strings[4] = dobString;
-                cursor.close();
             }
 
             return strings;
         } catch (Exception e) {
-            Timber.e(e);
+            e.printStackTrace();
+        }
+        finally {
+            if(cursor!=null) cursor.close();
         }
         return strings;
     }
