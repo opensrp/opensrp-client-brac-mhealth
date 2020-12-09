@@ -7,6 +7,7 @@ import org.smartregister.brac.hnpp.interactor.StockDetailsInteractor;
 import org.smartregister.brac.hnpp.model.StockDashBoardModel;
 import org.smartregister.brac.hnpp.model.StockDetailsModel;
 import org.smartregister.brac.hnpp.utils.DashBoardData;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.StockDetailsData;
 import org.smartregister.family.util.AppExecutors;
 
@@ -36,6 +37,9 @@ public class StockDetailsPresenter implements StockDetailsContract.Presenter,Sto
     @Override
     public void filterData(String productName, String month, String year) {
         getView().showProgressBar();
+        if(month.equalsIgnoreCase("-1")) month ="";
+        if(year.equalsIgnoreCase("-1")) year ="";
+        month = HnppConstants.addZeroForMonth(month);
         interactor.filterData(productName,month,year,this);
     }
 

@@ -25,7 +25,7 @@ public class ForumTargetAchievementFragment extends BaseDashBoardFragment {
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH)+1;
         day = 0;
-        presenter.fetchDashBoardData(day,month,year,ssName);
+        presenter.fetchDashBoardData(day+"",month+"",year+"",ssName);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
@@ -33,7 +33,7 @@ public class ForumTargetAchievementFragment extends BaseDashBoardFragment {
     @Override
     void filterData() {
         day = 0;
-        presenter.filterData(ssName,day,month,year);
+        presenter.filterData(ssName,day+"",month+"",year+"");
     }
 
     @Override

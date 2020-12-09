@@ -6,6 +6,7 @@ import org.smartregister.brac.hnpp.interactor.WorkSummeryDashBoardInteractor;
 import org.smartregister.brac.hnpp.model.CountSummeryDashBoardModel;
 import org.smartregister.brac.hnpp.model.WorkSummeryDashBoardModel;
 import org.smartregister.brac.hnpp.utils.DashBoardData;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.family.util.AppExecutors;
 
 import java.util.ArrayList;
@@ -38,9 +39,12 @@ public class WorkSummeryDashBoardPresenter implements DashBoardContract.Presente
     }
 
     @Override
-    public void filterData(String ssName, String month) {
+    public void filterData(String ssName, String month, String year) {
         getView().showProgressBar();
-        interactor.filterData(ssName,month,this);
+        if(month.equalsIgnoreCase("-1")) month ="";
+        if(year.equalsIgnoreCase("-1")) year ="";
+        month = HnppConstants.addZeroForMonth(month);
+        interactor.filterData(ssName,month,year,this);
 
     }
 

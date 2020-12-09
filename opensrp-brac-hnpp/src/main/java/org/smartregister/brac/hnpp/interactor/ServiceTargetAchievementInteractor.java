@@ -32,7 +32,7 @@ public class ServiceTargetAchievementInteractor implements DashBoardContract.Tar
     }
 
     @Override
-    public void fetchAllData(DashBoardContract.InteractorCallBack callBack, int day, int month, int year, String ssName) {
+    public void fetchAllData(DashBoardContract.InteractorCallBack callBack, String day, String month, String year, String ssName) {
 
         Runnable runnable = () -> {
             fetchData(day,month,year,ssName);
@@ -43,11 +43,8 @@ public class ServiceTargetAchievementInteractor implements DashBoardContract.Tar
 
     }
 
-    private void fetchData( int day, int month, int year, String ssName) {
-        String m = HnppConstants.addZeroForMonth(month+"");
-        if(!TextUtils.isEmpty(m)){
-            month = Integer.parseInt(m);
-        }
+    private void fetchData( String day, String month, String year, String ssName) {
+
         setData(model.getAncServiceTarget(day,month,year,ssName));
         setData(model.getPncServiceTarget(day,month,year,ssName));
         setData(model.getNcdTarget(day,month,year,ssName));
@@ -57,7 +54,7 @@ public class ServiceTargetAchievementInteractor implements DashBoardContract.Tar
     }
 
     @Override
-    public void filterData(String ssName, int day, int month, int year,DashBoardContract.InteractorCallBack callBack) {
+    public void filterData(String ssName, String day, String month, String year,DashBoardContract.InteractorCallBack callBack) {
         dashBoardDataArrayList.clear();
         Runnable runnable = () -> {
             fetchData(day,month,year,ssName);

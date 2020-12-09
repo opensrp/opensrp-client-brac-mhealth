@@ -33,7 +33,7 @@ public class TargetAchievementInteractor implements DashBoardContract.TargetInte
     }
 
     @Override
-    public void fetchAllData(DashBoardContract.InteractorCallBack callBack, int day, int month, int year, String ssName) {
+    public void fetchAllData(DashBoardContract.InteractorCallBack callBack, String day, String month, String year, String ssName) {
 
         Runnable runnable = () -> {
             fetchData(day,month,year,ssName);
@@ -44,11 +44,8 @@ public class TargetAchievementInteractor implements DashBoardContract.TargetInte
 
     }
 
-    private void fetchData( int day, int month, int year, String ssName) {
-        String m = HnppConstants.addZeroForMonth(month+"");
-        if(!TextUtils.isEmpty(m)){
-            month = Integer.parseInt(m);
-        }
+    private void fetchData( String day, String month, String year, String ssName) {
+
         setData(model.getHHVisitTarget(day,month,year,ssName));
         setData(model.getElcoTarget(day,month,year,ssName));
         setData(model.getMethodUserTarget(day,month,year,ssName));
@@ -63,7 +60,7 @@ public class TargetAchievementInteractor implements DashBoardContract.TargetInte
     }
 
     @Override
-    public void filterData(String ssName, int day, int month, int year,DashBoardContract.InteractorCallBack callBack) {
+    public void filterData(String ssName, String day, String month, String year,DashBoardContract.InteractorCallBack callBack) {
         dashBoardDataArrayList.clear();
         Runnable runnable = () -> {
             fetchData(day,month,year,ssName);

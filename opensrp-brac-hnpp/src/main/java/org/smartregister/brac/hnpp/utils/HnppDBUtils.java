@@ -16,6 +16,7 @@ import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.dao.AbstractDao;
 import org.smartregister.chw.core.utils.ChildDBConstants;
 import org.smartregister.chw.core.utils.CoreChildUtils;
+import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.commonregistry.CommonRepository;
@@ -325,7 +326,7 @@ public class HnppDBUtils extends CoreChildUtils {
         return count>0;
     }
     public static boolean isAncRisk(String baseEntityId){
-        String query = "select count(*) from ec_family_member where base_entity_id = '"+baseEntityId+"' and is_risk ='true' and (risk_event_type ='"+ HnppConstants.EVENT_TYPE.ANC_REGISTRATION +"' OR risk_event_type ='"+ HnppConstants.EVENT_TYPE.ANC1_REGISTRATION +"' OR risk_event_type ='"+ HnppConstants.EVENT_TYPE.ANC2_REGISTRATION +"' OR risk_event_type ='"+ HnppConstants.EVENT_TYPE.ANC3_REGISTRATION +"' OR risk_event_type ='"+ HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY +"' OR risk_event_type ='"+ HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE +"')";
+        String query = "select count(*) from ec_family_member where base_entity_id = '"+baseEntityId+"' and is_risk ='true' and (risk_event_type ='"+ HnppConstants.EVENT_TYPE.ANC_REGISTRATION +"' OR risk_event_type ='"+ HnppConstants.EventType.ANC_HOME_VISIT +"' OR risk_event_type ='"+ HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY +"' OR risk_event_type ='"+ HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE +"')";
         Cursor cursor = null;
         int count=0;
         try {

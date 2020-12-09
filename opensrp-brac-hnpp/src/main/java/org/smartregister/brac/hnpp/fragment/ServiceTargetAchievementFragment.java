@@ -20,14 +20,14 @@ public class ServiceTargetAchievementFragment extends BaseDashBoardFragment {
 
     @Override
     void fetchData() {
-        presenter.fetchDashBoardData(day,month,year,ssName);
+        presenter.fetchDashBoardData(day+"",month+"",year+"",ssName);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
 
     @Override
     void filterData() {
-        presenter.filterData(ssName,day,month,year);
+        presenter.filterData(ssName,day+"",month+"",year+"");
     }
 
     @Override
