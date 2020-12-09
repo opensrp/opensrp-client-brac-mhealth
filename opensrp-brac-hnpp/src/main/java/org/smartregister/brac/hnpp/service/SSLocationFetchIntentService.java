@@ -15,6 +15,7 @@ import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSModel;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.domain.Response;
 import org.smartregister.service.HTTPAgent;
 
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 public class SSLocationFetchIntentService extends IntentService {
 
     private static final String LOCATION_FETCH = "/provider/location-tree?";
+    private static final String PA_LOCATION_FETCH = "/pa-provider/location-tree?";
     private static final String TAG = "SSLocation";
 
     public SSLocationFetchIntentService() { super(TAG); }
@@ -71,7 +73,9 @@ public class SSLocationFetchIntentService extends IntentService {
                 return null;
             }
             //testing
-            String url = baseUrl + LOCATION_FETCH + "username=" + userName;
+            String url;
+           if(HnppConstants.isPALogin()) url = baseUrl + PA_LOCATION_FETCH + "username=" + userName;
+           else url = baseUrl + LOCATION_FETCH + "username=" + userName;
             Log.v("LOCATION_FETCH","getLocationList>>url:"+url);
             Response resp = httpAgent.fetch(url);
             if (resp.isFailure()) {

@@ -84,6 +84,7 @@ import java.util.Map;
 import timber.log.Timber;
 
 import static org.smartregister.brac.hnpp.utils.HnppConstants.MEMBER_ID_SUFFIX;
+import static org.smartregister.brac.hnpp.utils.HnppJsonFormUtils.makeReadOnlyFields;
 
 public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberProfileActivity {
     public static final int REQUEST_HOME_VISIT = 5555;
@@ -376,6 +377,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             String moduleId = HnppDBUtils.getModuleId(familyHead);
             HnppJsonFormUtils.updateFormWithModuleId(form,moduleId,familyBaseEntityId);
             HnppJsonFormUtils.updateFormWithSimPrintsEnable(form);
+            if(HnppConstants.isPALogin()){
+                makeReadOnlyFields(form);
+            }
             startFormActivity(form);
         } catch (Exception e) {
             Timber.e(e);
@@ -853,6 +857,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         if(HnppConstants.isPALogin()){
             menu.findItem(R.id.action_remove_member).setVisible(false);
             menu.findItem(R.id.action_malaria_diagnosis).setVisible(false);
+            menu.findItem(R.id.action_anc_registration).setVisible(false);
         }else{
             menu.findItem(R.id.action_remove_member).setVisible(true);
             if (FormApplicability.isWomanOfReproductiveAge(commonPersonObject)) {

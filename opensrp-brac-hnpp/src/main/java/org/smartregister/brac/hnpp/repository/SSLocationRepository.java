@@ -81,23 +81,39 @@ public class SSLocationRepository extends BaseRepository {
 
 
     }
-    public void updateSelection(boolean isSelected, String ssId){
+    public int updateSelection(boolean isSelected, String ssId){
         ContentValues contentValues = new ContentValues();
         contentValues.put(IS_SELECTED,isSelected?"1":"0");
         int isUpdated = getWritableDatabase().update(getLocationTableName(), contentValues,
                 SS_ID + " = ?  ", new String[]{ssId});
         Log.v("IS_UPDATED","updateSelection:SS_ID:"+ssId+":isUpdated:"+isUpdated);
+        return isUpdated;
     }
 
-    public ArrayList<SSModel> getAllLocations() {
+    public ArrayList<SSModel> getAllSks() {
         Cursor cursor = null;
         ArrayList<SSModel> locations = new ArrayList<>();
         try {
-            cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getLocationTableName(), null);
+            cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getLocationTableName()+" group by "+SK_USER_NAME, null);
             while (cursor.moveToNext()) {
                 locations.add(readCursor(cursor));
             }
-            cursor.close();
+        } catch (Exception e) {
+            Log.e(LocationRepository.class.getCanonicalName(), e.getMessage(), e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return locations;
+    }
+    public ArrayList<SSModel> getAllSS(String userName) {
+        Cursor cursor = null;
+        ArrayList<SSModel> locations = new ArrayList<>();
+        try {
+            cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getLocationTableName()+" where "+SK_USER_NAME+" = '"+userName+"'", null);
+            while (cursor.moveToNext()) {
+                locations.add(readCursor(cursor));
+            }
         } catch (Exception e) {
             Log.e(LocationRepository.class.getCanonicalName(), e.getMessage(), e);
         } finally {
@@ -114,7 +130,6 @@ public class SSLocationRepository extends BaseRepository {
             while (cursor.moveToNext()) {
                 locations.add(readCursor(cursor));
             }
-            cursor.close();
         } catch (Exception e) {
             Log.e(LocationRepository.class.getCanonicalName(), e.getMessage(), e);
         } finally {
@@ -131,7 +146,6 @@ public class SSLocationRepository extends BaseRepository {
             while (cursor.moveToNext()) {
                 locationIds.add(cursor.getString(0));
             }
-            cursor.close();
         } catch (Exception e) {
             Log.e(LocationRepository.class.getCanonicalName(), e.getMessage(), e);
         } finally {

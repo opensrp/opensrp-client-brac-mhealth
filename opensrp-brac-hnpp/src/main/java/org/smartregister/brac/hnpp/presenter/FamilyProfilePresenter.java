@@ -27,6 +27,8 @@ import java.util.List;
 
 import timber.log.Timber;
 
+import static org.smartregister.brac.hnpp.utils.HnppJsonFormUtils.makeReadOnlyFields;
+
 public class FamilyProfilePresenter extends CoreFamilyProfilePresenter {
     String houseHoldId = "";
     HnppChildRegisterModel childProfileModel;
@@ -54,6 +56,7 @@ public class FamilyProfilePresenter extends CoreFamilyProfilePresenter {
             String villageName = org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(), DBConstants.KEY.VILLAGE_TOWN, false);
             HnppJsonFormUtils.updateFormWithSSName(form, SSLocationHelper.getInstance().getSsModels());
             HnppJsonFormUtils.updateFormWithVillageName(form,ssName,villageName);
+            if(HnppConstants.isPALogin())makeReadOnlyFields(form);
             getView().startFormActivity(form);
         } catch (Exception e) {
             e.printStackTrace();

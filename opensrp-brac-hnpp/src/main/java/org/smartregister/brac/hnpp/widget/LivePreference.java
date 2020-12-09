@@ -17,9 +17,9 @@ import org.smartregister.AllConstants;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.core.utils.Utils;
-import org.smartregister.job.SyncServiceJob;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -143,7 +143,7 @@ public class LivePreference extends Preference  {
                         if(TextUtils.isEmpty(userName)){
                             updateAppData(false);
                         }else{
-                            SyncServiceJob.scheduleJobImmediately(SyncServiceJob.TAG);
+                            HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
                         }
 
                     }else {

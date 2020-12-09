@@ -68,6 +68,7 @@ public class HnppChwRepository extends CoreChwRepository {
         upgradeToVersion26(context,database);
         upgradeToVersion27(context,database);
         upgradeToVersion28(context,database);
+        upgradeToVersion29(context,database);
 
     }
 
@@ -132,6 +133,9 @@ public class HnppChwRepository extends CoreChwRepository {
                 case 28:
                     upgradeToVersion28(context,db);
                     break;
+                case 29:
+                    upgradeToVersion29(context,db);
+                    break;
                 default:
                     break;
             }
@@ -195,6 +199,18 @@ public class HnppChwRepository extends CoreChwRepository {
         GuestMemberIdRepository.createTable(db);
         try {
             db.execSQL("ALTER TABLE ec_visit_log ADD COLUMN ss_name VARCHAR;");
+
+        } catch (Exception e) {
+
+        }
+
+    }
+    private void upgradeToVersion29(Context context, SQLiteDatabase db) {
+        try {
+            db.execSQL("ALTER TABLE ss_location ADD COLUMN sk_name VARCHAR;");
+            db.execSQL("ALTER TABLE ss_location ADD COLUMN sk_user_name VARCHAR;");
+            db.execSQL("ALTER TABLE ss_location ADD COLUMN is_selected VARCHAR;");
+            db.execSQL("ALTER TABLE ss_location ADD COLUMN ss_id VARCHAR;");
 
         } catch (Exception e) {
 

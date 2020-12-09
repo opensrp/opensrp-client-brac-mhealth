@@ -10,6 +10,7 @@ import org.smartregister.brac.hnpp.fragment.HnppAllMemberRegisterFragment;
 import org.smartregister.brac.hnpp.listener.HnppFamilyBottomNavListener;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSModel;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.core.activity.CoreChildRegisterActivity;
 import org.smartregister.chw.core.custom_views.NavigationMenu;
 import org.smartregister.chw.core.utils.CoreConstants;
@@ -21,24 +22,41 @@ public class HnppAllMemberRegisterActivity extends CoreChildRegisterActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ArrayList<SSModel> ssLocationForms = SSLocationHelper.getInstance().getSsModels();
-        if(ssLocationForms.size() > 0){
-            boolean simPrintsEnable = ssLocationForms.get(0).simprints_enable;
-            if(simPrintsEnable){
-                findViewById(R.id.simprints_identity).setVisibility(View.VISIBLE);
-                findViewById(R.id.simprints_identity).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(HnppAllMemberRegisterActivity.this, SimprintsIdentityActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                        overridePendingTransition(org.smartregister.chw.core.R.anim.slide_in_up, org.smartregister.chw.core.R.anim.slide_out_up);
-                    }
-                });
-            }else{
-                findViewById(R.id.simprints_identity).setVisibility(View.GONE);
+        if(!HnppConstants.isPALogin()){
+            ArrayList<SSModel> ssLocationForms = SSLocationHelper.getInstance().getSsModels();
+            if(ssLocationForms.size() > 0){
+                boolean simPrintsEnable = ssLocationForms.get(0).simprints_enable;
+                if(simPrintsEnable){
+                    findViewById(R.id.simprints_identity).setVisibility(View.VISIBLE);
+                    findViewById(R.id.simprints_identity).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(HnppAllMemberRegisterActivity.this, SimprintsIdentityActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                            overridePendingTransition(org.smartregister.chw.core.R.anim.slide_in_up, org.smartregister.chw.core.R.anim.slide_out_up);
+                        }
+                    });
+                }else{
+                    findViewById(R.id.simprints_identity).setVisibility(View.GONE);
+                }
             }
+        }else{
+            findViewById(R.id.simprints_identity).setVisibility(View.GONE);
+            findViewById(R.id.ss_info_browse).setVisibility(View.GONE);
+            findViewById(R.id.sk_change).setVisibility(View.VISIBLE);
+            findViewById(R.id.sk_change).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(HnppAllMemberRegisterActivity.this, SkSelectionActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra(SkSelectionActivity.IS_COMES_FROM_UPDATE,true);
+                    startActivity(intent);
+                    overridePendingTransition(org.smartregister.chw.core.R.anim.slide_in_up, org.smartregister.chw.core.R.anim.slide_out_up);
+                }
+            });
         }
+
     }
     @Override
     protected BaseRegisterFragment getRegisterFragment() {

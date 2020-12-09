@@ -20,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
@@ -78,6 +79,9 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
     protected void setupViews() {
         super.setupViews();
         HnppConstants.updateAppBackground(findViewById(R.id.family_toolbar));
+        if(HnppConstants.isPALogin()){
+            familyFloatingMenu.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -248,9 +252,15 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         adapter.addFragment(familyProfileMemberFragment,this.getString(R.string.member));
         FamilyProfileDueFragment familyProfileDueFragment =(FamilyProfileDueFragment) FamilyProfileDueFragment.newInstance(getIntent().getExtras());
         familyHistoryFragment = FamilyHistoryFragment.getInstance(getIntent().getExtras());
-        adapter.addFragment(familyProfileDueFragment,this.getString(R.string.due));
+        if(!HnppConstants.isPALogin()){
+            adapter.addFragment(familyProfileDueFragment,this.getString(R.string.due));
+        }
         adapter.addFragment(familyHistoryFragment, this.getString(R.string.activity).toUpperCase());
-        viewPager.setOffscreenPageLimit(3);
+        if(HnppConstants.isPALogin()){
+            viewPager.setOffscreenPageLimit(2);
+        }else{
+            viewPager.setOffscreenPageLimit(3);
+        }
         viewPager.setAdapter(adapter);
         if (getIntent().getBooleanExtra(CoreConstants.INTENT_KEY.SERVICE_DUE, false) ||
                 getIntent().getBooleanExtra(Constants.INTENT_KEY.GO_TO_DUE_PAGE, false)) {
@@ -277,6 +287,19 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
 
         if (changeCareGiver != null) {
             changeCareGiver.setVisible(false);
+        }
+        if(HnppConstants.isPALogin()){
+            if (removeMember != null) {
+                removeMember.setVisible(false);
+            }
+
+            if (changeFamHead != null) {
+                changeFamHead.setVisible(false);
+            }
+
+            if (changeCareGiver != null) {
+                changeCareGiver.setVisible(false);
+            }
         }
     }
     public void openHomeVisitFamily() {

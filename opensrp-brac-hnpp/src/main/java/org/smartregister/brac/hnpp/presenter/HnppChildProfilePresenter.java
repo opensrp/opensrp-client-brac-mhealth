@@ -26,6 +26,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static org.smartregister.brac.hnpp.utils.HnppJsonFormUtils.makeReadOnlyFields;
+
 public class HnppChildProfilePresenter extends CoreChildProfilePresenter {
     String houseHoldId = "";
     public CommonPersonObjectClient commonPersonObjectClient;
@@ -106,6 +108,7 @@ public class HnppChildProfilePresenter extends CoreChildProfilePresenter {
                 lookup.put("entity_id", "family");
                 lookup.put("value", client.getColumnmaps().get(ChildDBConstants.KEY.RELATIONAL_ID));
             }
+            if(HnppConstants.isPALogin()) makeReadOnlyFields(form);
             getView().startFormActivity(form);
         } catch (Exception e) {
             e.printStackTrace();

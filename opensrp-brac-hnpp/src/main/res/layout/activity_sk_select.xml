@@ -11,7 +11,7 @@
         android:id="@+id/appbar"
         android:background="@color/customAppThemeBlue"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="?attr/actionBarSize">
 
             <ImageView
                 android:id="@+id/backBtn"
@@ -40,8 +40,10 @@
 
                 <ImageView
                     android:id="@+id/refreshIndicatorsIcon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:padding="5dp"
+                    android:layout_centerInParent="true"
                     android:layout_alignParentRight="true"
                     android:clickable="true"
                     android:contentDescription="Refresh indicators"

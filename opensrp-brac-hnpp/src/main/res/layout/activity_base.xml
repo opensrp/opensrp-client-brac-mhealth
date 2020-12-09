@@ -261,6 +261,39 @@
 
                         </RelativeLayout>
                         <RelativeLayout
+                            android:id="@+id/sk_change"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:paddingStart="15dp"
+                            android:visibility="gone"
+                            android:paddingLeft="15dp"
+                            android:paddingBottom="15dp">
+
+                            <ImageView
+                                android:id="@+id/ivskcng"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:scaleType="centerInside"
+                                android:src="@drawable/ic_icon_synchronize" />
+
+                            <TextView
+                                android:id="@+id/tvSkChange"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_toEndOf="@+id/ivskcng"
+                                android:layout_toRightOf="@+id/ivskcng"
+                                android:fontFamily="sans-serif"
+                                android:text="আপডেট ডাটা"
+                                android:textColor="@color/white"
+                                android:textSize="20sp" />
+
+                        </RelativeLayout>
+                        <RelativeLayout
                             android:id="@+id/ss_info_browse"
                             android:layout_width="match_parent"
                             android:layout_height="60dp"

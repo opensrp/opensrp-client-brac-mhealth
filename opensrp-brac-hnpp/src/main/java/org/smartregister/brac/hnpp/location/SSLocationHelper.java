@@ -31,8 +31,18 @@ public class SSLocationHelper {
         }
         return ssModels;
     }
-    public ArrayList<SSModel> getAllData() {
-       return HnppApplication.getSSLocationRepository().getAllLocations();
+    public ArrayList<SSModel> getAllSks() {
+       return HnppApplication.getSSLocationRepository().getAllSks();
+    }
+    public ArrayList<SSModel> getAllSS(String skUserName) {
+        return HnppApplication.getSSLocationRepository().getAllSS(skUserName);
+    }
+    public boolean isUpdated(ArrayList<SSModel> selectedSSId){
+        boolean isUpdated = false;
+        for (SSModel ssInfo: selectedSSId){
+            isUpdated = HnppApplication.getSSLocationRepository().updateSelection(true, ssInfo.ss_id) > 0;
+        }
+        return isUpdated;
     }
 
     private void setSsLocationForms(){
@@ -46,6 +56,7 @@ public class SSLocationHelper {
     }
     public ArrayList<String> getSelectedVillageId(){
         ArrayList<String> villageids = new ArrayList<>();
+        getSsModels();
         if(ssModels !=null && ssModels.size()>0){
             for(SSModel ssModel : ssModels){
                 for (SSLocations ssLocations : ssModel.locations){
