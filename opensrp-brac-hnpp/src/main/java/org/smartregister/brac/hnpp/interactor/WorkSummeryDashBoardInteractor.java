@@ -34,7 +34,7 @@ public class WorkSummeryDashBoardInteractor implements DashBoardContract.Interac
     public void fetchAllData(DashBoardContract.InteractorCallBack callBack) {
 
         Runnable runnable = () -> {
-            fetchHHData("","");
+            fetchHHData("","","");
 
             appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
         };
@@ -42,37 +42,37 @@ public class WorkSummeryDashBoardInteractor implements DashBoardContract.Interac
 
     }
     // need to maintain serial to display
-    private void fetchHHData(String ssName, String month) {
-        if(month.equalsIgnoreCase("-1")) month = "";
-        month = HnppConstants.addZeroForMonth(month);
-        addToDashBoardList(model.getHHCount(ssName,month));
-        addToDashBoardList(model.getMemberCount(ssName,month));
-        addToDashBoardList(model.getANCRegisterCount(ssName,month));
-        addToDashBoardList(model.getAnc1Count(ssName,month));
-        addToDashBoardList(model.getAnc2Count(ssName,month));
-        addToDashBoardList(model.getAnc3Count(ssName,month));
-        addToDashBoardList(model.getAncCount(ssName,month));
-        addToDashBoardList(model.getDeliveryCount(ssName,month));
-        addToDashBoardList(model.getPncCount(ssName,month));
-        addToDashBoardList(model.getEncCount(ssName,month));
-        addToDashBoardList(model.getChildFollowUpCount(ssName,month));
-        addToDashBoardList(model.getNcdForumCount(ssName,month));
-        addToDashBoardList(model.getNcdServiceCount(ssName,month));
-        addToDashBoardList(model.getWomenForumCount(ssName,month));
-        addToDashBoardList(model.getWomenServiceCount(ssName,month));
-        addToDashBoardList(model.getAdoForumCount(ssName,month));
-        addToDashBoardList(model.getAdoServiceCount(ssName,month));
-        addToDashBoardList(model.getChildForumCount(ssName,month));
-        addToDashBoardList(model.getChildServiceCount(ssName,month));
-        addToDashBoardList(model.getAdultForumCount(ssName,month));
+    private void fetchHHData(String ssName, String month, String year) {
+
+        addToDashBoardList(model.getHHCount(ssName,month,year));
+        addToDashBoardList(model.getMemberCount(ssName,month,year));
+        addToDashBoardList(model.getElcoCount(ssName,month,year));
+        addToDashBoardList(model.getANCRegisterCount(ssName,month,year));
+        addToDashBoardList(model.getAnc1Count(ssName,month,year));
+        addToDashBoardList(model.getAnc2Count(ssName,month,year));
+        addToDashBoardList(model.getAnc3Count(ssName,month,year));
+        addToDashBoardList(model.getAncCount(ssName,month,year));
+        addToDashBoardList(model.getDeliveryCount(ssName,month,year));
+        addToDashBoardList(model.getPncCount(ssName,month,year));
+        addToDashBoardList(model.getEncCount(ssName,month,year));
+        addToDashBoardList(model.getChildFollowUpCount(ssName,month,year));
+        addToDashBoardList(model.getNcdForumCount(ssName,month,year));
+        addToDashBoardList(model.getNcdServiceCount(ssName,month,year));
+        addToDashBoardList(model.getWomenForumCount(ssName,month,year));
+        addToDashBoardList(model.getWomenServiceCount(ssName,month,year));
+        addToDashBoardList(model.getAdoForumCount(ssName,month,year));
+        addToDashBoardList(model.getAdoServiceCount(ssName,month,year));
+        addToDashBoardList(model.getChildForumCount(ssName,month,year));
+        addToDashBoardList(model.getChildServiceCount(ssName,month,year));
+        addToDashBoardList(model.getAdultForumCount(ssName,month,year));
 
     }
 
     @Override
-    public void filterData(String ssName, String month , DashBoardContract.InteractorCallBack callBack) {
+    public void filterData(String ssName, String month , String year, DashBoardContract.InteractorCallBack callBack) {
         dashBoardDataArrayList.clear();
         Runnable runnable = () -> {
-            fetchHHData(ssName,month);
+            fetchHHData(ssName,month,year);
 
             appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
         };

@@ -4,6 +4,7 @@ import org.smartregister.brac.hnpp.contract.DashBoardContract;
 import org.smartregister.brac.hnpp.interactor.ServiceTargetAchievementInteractor;
 import org.smartregister.brac.hnpp.interactor.TargetAchievementInteractor;
 import org.smartregister.brac.hnpp.model.TargetVsAchievementModel;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.TargetVsAchievementData;
 import org.smartregister.family.util.AppExecutors;
 
@@ -30,14 +31,20 @@ public class ServiceTargetAchievmentPresenter implements DashBoardContract.Targe
     }
 
     @Override
-    public void fetchDashBoardData(int day, int month, int year, String ssName) {
+    public void fetchDashBoardData(String day, String month, String year, String ssName) {
         getView().showProgressBar();
+        if(month.equalsIgnoreCase("-1")) month ="";
+        if(year.equalsIgnoreCase("-1")) year ="";
+        month = HnppConstants.addZeroForMonth(month);
         interactor.fetchAllData(this,day,month,year,ssName);
     }
 
     @Override
-    public void filterData(String ssName, int day, int month, int year) {
+    public void filterData(String ssName, String day, String month, String year) {
         getView().showProgressBar();
+        if(month.equalsIgnoreCase("-1")) month ="";
+        if(year.equalsIgnoreCase("-1")) year ="";
+        month = HnppConstants.addZeroForMonth(month);
         interactor.filterData(ssName,day,month,year,this);
     }
 

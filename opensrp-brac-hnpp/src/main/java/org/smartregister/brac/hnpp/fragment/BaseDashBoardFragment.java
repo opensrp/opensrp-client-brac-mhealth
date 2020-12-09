@@ -23,6 +23,7 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -53,7 +54,8 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
     protected String ssName;
     private ImageView filterBtn;
     private  TextView monthTV,yearTV;
-    protected LinearLayout monthView,dateView,monthPicker;
+    protected LinearLayout monthView,dateView;
+    protected RelativeLayout monthPicker;
     abstract void filterData();
     abstract void updateTitle();
     abstract void fetchData();
@@ -86,6 +88,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
         progressBar = view.findViewById(R.id.progress_bar);
         filterBtn = view.findViewById(R.id.filterBtn);
         dateBtn = view.findViewById(R.id.date_btn);
+        view.findViewById(R.id.clear_filter).setOnClickListener(this);
         dateBtn.setOnClickListener(this);
         filterBtn.setOnClickListener(this);
         calendar = Calendar.getInstance();
@@ -114,6 +117,9 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.date_btn:
+                if(month == -1) month = calendar.get(Calendar.MONTH)+1;
+                if(year == -1) year = calendar.get(Calendar.YEAR);
+
                 DatePickerDialog fromDialog = new DatePickerDialog(getActivity(), R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int yr, int mnt, int dayOfMonth) {
@@ -133,6 +139,13 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
                 fromDialog.show();
                 break;
             case R.id.filterBtn:
+                filterData();
+                break;
+            case R.id.clear_filter:
+                monthTV.setText("");
+                yearTV.setText("সিলেক্ট করুন");
+                month = -1;
+                year = -1;
                 filterData();
                 break;
         }
@@ -181,6 +194,8 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
         monthPicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(month == -1) month = calendar.get(Calendar.MONTH)+1;
+                if(year == -1) year = calendar.get(Calendar.YEAR);
                 MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(getContext(), new MonthPickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(int selectedMonth, int selectedYear) {

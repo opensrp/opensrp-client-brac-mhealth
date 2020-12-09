@@ -32,7 +32,7 @@ public class ForumTargetAchievementInteractor implements DashBoardContract.Targe
     }
 
     @Override
-    public void fetchAllData(DashBoardContract.InteractorCallBack callBack, int day, int month, int year, String ssName) {
+    public void fetchAllData(DashBoardContract.InteractorCallBack callBack, String day, String month, String year, String ssName) {
 
         Runnable runnable = () -> {
             fetchData(day,month,year,ssName);
@@ -43,11 +43,7 @@ public class ForumTargetAchievementInteractor implements DashBoardContract.Targe
 
     }
 
-    private void fetchData( int day, int month, int year, String ssName) {
-        String m = HnppConstants.addZeroForMonth(month+"");
-        if(!TextUtils.isEmpty(m)){
-            month = Integer.parseInt(m);
-        }
+    private void fetchData( String day, String month, String year, String ssName) {
 
         TargetVsAchievementData adoForum = model.getAdoForumTarget(day,month,year,ssName);
         TargetVsAchievementData avgAdoForum = model.getAvgAdoTarget(day,month,year,ssName);
@@ -121,7 +117,7 @@ public class ForumTargetAchievementInteractor implements DashBoardContract.Targe
     }
 
     @Override
-    public void filterData(String ssName, int day, int month, int year,DashBoardContract.InteractorCallBack callBack) {
+    public void filterData(String ssName, String day, String month, String year,DashBoardContract.InteractorCallBack callBack) {
         dashBoardDataArrayList.clear();
         Runnable runnable = () -> {
             fetchData(day,month,year,ssName);

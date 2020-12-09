@@ -18,13 +18,13 @@ public class WorkSummeryDashBoardFragment extends BaseDashBoardFragment {
 
     @Override
     void fetchData() {
-        presenter.filterData(ssName,month+"");
+        presenter.filterData(ssName,month+"",year+"");
 
     }
 
     @Override
     void filterData() {
-        presenter.filterData(ssName,month+"");
+        presenter.filterData(ssName,month+"",year+"");
     }
 
     @Override

@@ -60,7 +60,7 @@ public class StockDashBoardInteractor implements DashBoardContract.Interactor {
     }
 
     @Override
-    public void filterData(String ssName, String month , DashBoardContract.InteractorCallBack callBack) {
+    public void filterData(String ssName, String month , String year, DashBoardContract.InteractorCallBack callBack) {
         dashBoardDataArrayList.clear();
         Runnable runnable = () -> {
             fetchHHData(ssName,month);

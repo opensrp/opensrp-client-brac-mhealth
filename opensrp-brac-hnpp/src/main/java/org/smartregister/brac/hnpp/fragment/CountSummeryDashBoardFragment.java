@@ -24,7 +24,7 @@ public class CountSummeryDashBoardFragment extends BaseDashBoardFragment {
 
     @Override
     void filterData() {
-        presenter.filterData(ssName,"");
+        presenter.filterData(ssName,"","");
     }
 
     @Override

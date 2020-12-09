@@ -112,7 +112,7 @@ public class StockDashBoardDialogFragment extends DialogFragment implements Stoc
     }
 
     private void updateDatePicker() {
-        month = HnppConstants.addZeroForMonth(calendar.get(Calendar.MONTH)+"");
+        month = calendar.get(Calendar.MONTH)+"";
         year = calendar.get(Calendar.YEAR)+"";
         monthTV.setText(HnppJsonFormUtils.monthBanglaStr[calendar.get(Calendar.MONTH)]);
         yearTV.setText(year);
