@@ -117,6 +117,50 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     }
 
     @Override
+    public void startFormActivity(JSONObject jsonForm) {
+        if(HnppConstants.isPALogin()){
+            openAsReadOnlyMode(jsonForm);
+            return;
+        }
+        Intent intent = new Intent(this, Utils.metadata().familyMemberFormActivity);
+        intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+
+        Form form = new Form();
+        if(!HnppConstants.isReleaseBuild()){
+            form.setActionBarBackground(R.color.test_app_color);
+
+        }else{
+            form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+
+        }
+        form.setWizard(false);
+
+        intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+        startActivityForResult(intent, org.smartregister.family.util.JsonFormUtils.REQUEST_CODE_GET_JSON);
+    }
+    private void openAsReadOnlyMode(JSONObject jsonForm){
+        Intent intent = new Intent(this, HnppFormViewActivity.class);
+        intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+
+        Form form = new Form();
+        form.setWizard(false);
+        if(!HnppConstants.isReleaseBuild()){
+            form.setActionBarBackground(R.color.test_app_color);
+
+        }else{
+            form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+
+        }
+        form.setHideSaveLabel(true);
+        form.setSaveLabel("");
+        intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+        intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, false);
+        if (this != null) {
+            this.startActivity(intent);
+        }
+    }
+
+    @Override
     public void setAge(String age) {
         textViewChildName.setText(age);
     }
@@ -199,22 +243,25 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
         commonPersonObject = ((HnppChildProfilePresenter)presenter()).commonPersonObjectClient;
         this.mViewPager = viewPager;
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        if(HnppConstants.isPALogin()){
-            adapter.addFragment(memberHistoryFragment, this.getString(R.string.activity).toUpperCase());
-            viewPager.setOffscreenPageLimit(1);
-        }else{
+        if(!HnppConstants.isPALogin()){
             profileMemberFragment =(HnppChildProfileDueFragment) HnppChildProfileDueFragment.newInstance(this.getIntent().getExtras());
             profileMemberFragment.setCommonPersonObjectClient(commonPersonObject);
             profileMemberFragment.setBaseEntityId(childBaseEntityId);
             adapter.addFragment(profileMemberFragment, this.getString(R.string.due).toUpperCase());
+        }
+
             memberOtherServiceFragment = new MemberOtherServiceFragment();
             memberHistoryFragment = ChildHistoryFragment.getInstance(this.getIntent().getExtras());
             memberHistoryFragment.setBaseEntityId(childBaseEntityId);
             memberOtherServiceFragment.setCommonPersonObjectClient(commonPersonObject);
             adapter.addFragment(memberOtherServiceFragment, this.getString(R.string.other_service).toUpperCase());
             adapter.addFragment(memberHistoryFragment, this.getString(R.string.activity).toUpperCase());
-            viewPager.setOffscreenPageLimit(3);
-        }
+            if(HnppConstants.isPALogin()){
+                viewPager.setOffscreenPageLimit(2);
+            }else{
+                viewPager.setOffscreenPageLimit(3);
+            }
+
 
         viewPager.setAdapter(adapter);
         return viewPager;
@@ -437,6 +484,11 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
                 String dobFormate = HnppConstants.DDMMYY.format(date);
                 updateFormField(jsonArray,"dob",dobFormate);
             }
+            if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.BLOOD_TEST)){
+                if(gender.equalsIgnoreCase("F")){
+                    HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_women","true");
+                }
+            }
             jsonForm.put(JsonFormUtils.ENTITY_ID, memberObject.getFamilyHead());
             Intent intent = new Intent(this, HnppAncJsonFormActivity.class);
             intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
@@ -449,10 +501,6 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
             }else{
                 form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
-            }
-            if(HnppConstants.isPALogin()){
-                form.setHideSaveLabel(true);
-                form.setSaveLabel("");
             }
             intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
             intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);

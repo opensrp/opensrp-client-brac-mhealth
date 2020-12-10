@@ -273,8 +273,8 @@ public class SkSelectionActivity extends SecuredActivity implements View.OnClick
     @Override
     public void onSyncComplete(FetchStatus fetchStatus) {
         hideProgressDialog();
+        HnppApplication.getHNPPInstance().clearSharePreference();
         HnppApplication.getHNPPInstance().clearDatabase();
-        HnppApplication.getInstance().getContext().allSharedPreferences().saveForceRemoteLogin(true);
         HnppApplication.getHNPPInstance().appSwitch();
 //        SSLocationFetchJob.scheduleJobImmediately(SSLocationFetchJob.TAG);
 //        showProgressDialog("আপডেটেড লোকেশন নেওয়া হচ্ছে");

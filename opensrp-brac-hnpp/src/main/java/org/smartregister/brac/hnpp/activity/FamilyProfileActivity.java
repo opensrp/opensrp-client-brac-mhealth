@@ -130,6 +130,10 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         }
         try{
             if(jsonForm.getString(JsonFormUtils.ENCOUNTER_TYPE).equals(Utils.metadata().familyRegister.updateEventType)){
+                if(HnppConstants.isPALogin()){
+                    openAsReadOnlyMode(jsonForm);
+                    return;
+                }
                 Intent intent = new Intent(this, Utils.metadata().familyFormActivity);
                 intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
                 Form form = new Form();
@@ -141,13 +145,14 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
 
                 }
                 form.setWizard(false);
-                if(HnppConstants.isPALogin()){
-                    form.setSaveLabel("");
-                    form.setHideSaveLabel(true);
-                }
+
                 intent.putExtra("form", form);
                 this.startActivityForResult(intent, JsonFormUtils.REQUEST_CODE_GET_JSON);
             }else{
+                if(HnppConstants.isPALogin()){
+                    openAsReadOnlyMode(jsonForm);
+                    return;
+                }
                 Intent intent = new Intent(this, Utils.metadata().familyMemberFormActivity);
                 intent.putExtra("json", jsonForm.toString());
                 Form form = new Form();
@@ -158,10 +163,6 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                     form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
                 }
-                if(HnppConstants.isPALogin()){
-                    form.setSaveLabel("");
-                    form.setHideSaveLabel(true);
-                }
                 form.setWizard(false);
                 intent.putExtra("form", form);
                 this.startActivityForResult(intent, 2244);
@@ -171,6 +172,27 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         }
 
 
+    }
+    private void openAsReadOnlyMode(JSONObject jsonForm){
+        Intent intent = new Intent(this, HnppFormViewActivity.class);
+        intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+
+        Form form = new Form();
+        form.setWizard(false);
+        if(!HnppConstants.isReleaseBuild()){
+            form.setActionBarBackground(R.color.test_app_color);
+
+        }else{
+            form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+
+        }
+        form.setHideSaveLabel(true);
+        form.setSaveLabel("");
+        intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+        intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, false);
+        if (this != null) {
+            this.startActivity(intent);
+        }
     }
 
     @Override

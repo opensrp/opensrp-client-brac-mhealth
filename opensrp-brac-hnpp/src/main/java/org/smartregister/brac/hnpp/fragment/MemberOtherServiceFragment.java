@@ -107,11 +107,17 @@ public class MemberOtherServiceFragment extends Fragment implements OtherService
                 if (getActivity() != null && getActivity() instanceof HnppFamilyOtherMemberProfileActivity) {
                     HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) getActivity();
                     activity.openServiceForms(HnppConstants.JSON_FORMS.BLOOD_TEST);
+                }else if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                    HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                    activity.openServiceForms(HnppConstants.JSON_FORMS.BLOOD_TEST);
                 }
                 break;
             case HnppConstants.OTHER_SERVICE_TYPE.TYPE_EYE:
                 if (getActivity() != null && getActivity() instanceof HnppFamilyOtherMemberProfileActivity) {
                     HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) getActivity();
+                    activity.openServiceForms(HnppConstants.JSON_FORMS.EYE_TEST);
+                }else if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                    HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
                     activity.openServiceForms(HnppConstants.JSON_FORMS.EYE_TEST);
                 }
                 break;

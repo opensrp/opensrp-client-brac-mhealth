@@ -163,6 +163,52 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(() -> adapter.updateCount(Pair.create(1, dueCount)));
     }
+
+    @Override
+    public void startFormActivity(JSONObject jsonForm) {
+        if(HnppConstants.isPALogin()){
+            openAsReadOnlyMode(jsonForm);
+            return;
+        }
+        Intent intent = new Intent(this, org.smartregister.family.util.Utils.metadata().familyMemberFormActivity);
+        intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+
+
+        Form form = new Form();
+        if(!HnppConstants.isReleaseBuild()){
+            form.setActionBarBackground(R.color.test_app_color);
+
+        }else{
+            form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+
+        }
+        form.setWizard(false);
+        intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+
+        startActivityForResult(intent, org.smartregister.family.util.JsonFormUtils.REQUEST_CODE_GET_JSON);
+    }
+    private void openAsReadOnlyMode(JSONObject jsonForm){
+        Intent intent = new Intent(this, HnppFormViewActivity.class);
+        intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+
+        Form form = new Form();
+        form.setWizard(false);
+        if(!HnppConstants.isReleaseBuild()){
+            form.setActionBarBackground(R.color.test_app_color);
+
+        }else{
+            form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+
+        }
+        form.setHideSaveLabel(true);
+        form.setSaveLabel("");
+        intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+        intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, false);
+        if (this != null) {
+            this.startActivity(intent);
+        }
+    }
+
     @Override
     public void setProfileName(String fullName) {
        try{
