@@ -197,6 +197,10 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
         form.setNavigationBackground(org.smartregister.family.R.color.family_navigation);
         form.setHomeAsUpIndicator(org.smartregister.family.R.mipmap.ic_cross_white);
         intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+        if(HnppConstants.isPALogin()){
+            form.setHideSaveLabel(true);
+            form.setSaveLabel("");
+        }
 
         startActivityForResult(intent, JsonFormUtils.REQUEST_CODE_GET_JSON);
     }

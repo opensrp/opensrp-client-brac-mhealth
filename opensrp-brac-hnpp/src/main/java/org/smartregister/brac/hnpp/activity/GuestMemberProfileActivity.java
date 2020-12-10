@@ -183,6 +183,11 @@ public class GuestMemberProfileActivity extends SecuredActivity {
             else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM_OOC)){
                 HnppJsonFormUtils.addNoOfPnc(jsonForm);
             }
+            if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.BLOOD_TEST)){
+                if (guestMemberData.getGender().equalsIgnoreCase("F")) {
+                    HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_women","true");
+                }
+            }
 //            if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.GIRL_PACKAGE)){
 //                //HnppJsonFormUtils.addMaritalStatus(jsonForm,maritalStatus);
 //            }

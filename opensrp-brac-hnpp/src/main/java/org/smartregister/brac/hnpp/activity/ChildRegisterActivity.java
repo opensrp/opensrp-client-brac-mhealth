@@ -73,6 +73,10 @@ public class ChildRegisterActivity extends CoreChildRegisterActivity {
             form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
         }
+        if(HnppConstants.isPALogin()){
+            form.setHideSaveLabel(true);
+            form.setSaveLabel("");
+        }
         form.setNavigationBackground(org.smartregister.family.R.color.family_navigation);
         form.setHomeAsUpIndicator(org.smartregister.family.R.mipmap.ic_cross_white);
         intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);

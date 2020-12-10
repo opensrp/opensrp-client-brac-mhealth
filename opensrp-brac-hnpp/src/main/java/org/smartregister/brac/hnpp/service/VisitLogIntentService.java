@@ -184,6 +184,15 @@ public class VisitLogIntentService extends IntentService {
                                     }
                                     updateElcoRisk(base_entity_id,details);
                                 }
+                                if(BLOOD_GROUP.equalsIgnoreCase(encounter_type)){
+                                    if(details.containsKey("blood_group_name")&&!StringUtils.isEmpty(details.get("blood_group_name"))){
+                                       String bloodGroup = details.get("blood_group_name");
+                                       if(!TextUtils.isEmpty(bloodGroup)){
+                                           HnppDBUtils.updateBloodGroup(base_entity_id,bloodGroup);
+                                       }
+                                    }
+
+                                }
                                 if(ANC1_REGISTRATION.equalsIgnoreCase(encounter_type) || ANC2_REGISTRATION.equalsIgnoreCase(encounter_type)
                                         || ANC3_REGISTRATION.equalsIgnoreCase(encounter_type) || CoreConstants.EventType.ANC_HOME_VISIT.equalsIgnoreCase(encounter_type)){
                                     if(details.containsKey("brac_anc") && !StringUtils.isEmpty(details.get("brac_anc"))){
@@ -642,7 +651,6 @@ public class VisitLogIntentService extends IntentService {
 
     }
     private void updateIYCFRisk(String baseEntityId,HashMap<String,String>details){
-        boolean isIycfRisk = false;
         if(details.containsKey("head_balance") && !StringUtils.isEmpty(details.get("head_balance"))){
             String head_balance = details.get("head_balance");
             if(!TextUtils.isEmpty(head_balance) && head_balance.equalsIgnoreCase("no")){

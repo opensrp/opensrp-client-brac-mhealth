@@ -141,6 +141,10 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
 
                 }
                 form.setWizard(false);
+                if(HnppConstants.isPALogin()){
+                    form.setSaveLabel("");
+                    form.setHideSaveLabel(true);
+                }
                 intent.putExtra("form", form);
                 this.startActivityForResult(intent, JsonFormUtils.REQUEST_CODE_GET_JSON);
             }else{
@@ -153,6 +157,10 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                 }else{
                     form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
+                }
+                if(HnppConstants.isPALogin()){
+                    form.setSaveLabel("");
+                    form.setHideSaveLabel(true);
                 }
                 form.setWizard(false);
                 intent.putExtra("form", form);
@@ -428,7 +436,10 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                 form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
             }
-
+            if(HnppConstants.isPALogin()){
+                form.setHideSaveLabel(true);
+                form.setSaveLabel("");
+            }
 
             intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
             intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
@@ -456,6 +467,10 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
             }else{
                 form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
+            }
+            if(HnppConstants.isPALogin()){
+                form.setHideSaveLabel(true);
+                form.setSaveLabel("");
             }
             intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
             intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);

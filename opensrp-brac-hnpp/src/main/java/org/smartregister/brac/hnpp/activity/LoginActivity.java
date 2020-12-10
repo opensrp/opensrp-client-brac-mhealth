@@ -156,10 +156,10 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         mActivity = this;
         HnppConstants.updateAppBackgroundOnResume(findViewById(R.id.login_layout));
         if(!BuildConfig.DEBUG)isDeviceVerifyiedCheck();
-        if(BuildConfig.DEBUG){
-            userNameText.setText("01223445667");
-            passwordText.setText("5667");
-        }
+//        if(BuildConfig.DEBUG){
+//            userNameText.setText("01967889005");
+//            passwordText.setText("123456");
+//        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

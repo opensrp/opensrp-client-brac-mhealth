@@ -140,7 +140,8 @@ public class ChildHistoryFragment extends Fragment implements MemberHistoryContr
             }else{
                 form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
-            }            form.setHideSaveLabel(true);
+            }
+            form.setHideSaveLabel(true);
             form.setSaveLabel("");
             intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
             intent.putExtra(Constants.WizardFormActivity.EnableOnCloseDialog, false);

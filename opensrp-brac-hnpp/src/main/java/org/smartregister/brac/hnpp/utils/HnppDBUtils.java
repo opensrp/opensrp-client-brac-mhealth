@@ -35,6 +35,17 @@ import java.util.Map;
 import timber.log.Timber;
 
 public class HnppDBUtils extends CoreChildUtils {
+    public static void updateBloodGroup(String base_entity_id, String value){
+        try{
+            SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+            String sql = "update ec_family_member set blood_group = '"+value+"' where " +
+                    "base_entity_id = '"+base_entity_id+"' ;";
+            database.execSQL(sql);
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
+    }
 
     public static boolean isAdolescent(String baseEntityId){
         String query = "select base_entity_id from ec_family_member where base_entity_id ='"+baseEntityId+"' and gender ='F' and (( julianday('now') - julianday(dob))/365) >=10 and (( julianday('now') - julianday(dob))/365) <=19";

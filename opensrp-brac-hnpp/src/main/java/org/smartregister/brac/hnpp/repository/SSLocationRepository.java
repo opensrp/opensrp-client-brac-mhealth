@@ -66,7 +66,11 @@ public class SSLocationRepository extends BaseRepository {
         database.execSQL(CREATE_LOCATION_NAME_INDEX);
     }
     public void dropTable(){
-        getWritableDatabase().execSQL("delete from "+getLocationTableName());
+       try{
+           getWritableDatabase().execSQL("delete from "+getLocationTableName());
+       }catch (Exception e){
+           e.printStackTrace();
+       }
     }
 
     public void addOrUpdate(SSModel ssModel) {

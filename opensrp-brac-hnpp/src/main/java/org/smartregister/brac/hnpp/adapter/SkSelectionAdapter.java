@@ -49,8 +49,8 @@ public class SkSelectionAdapter extends RecyclerView.Adapter<SearchViewHolder> {
 
         viewHolder.checkBox.setVisibility(View.VISIBLE);
         viewHolder.checkBox.setImageResource(R.drawable.ic_delete);
-        viewHolder.textViewName.setText(content.username);
-        viewHolder.textViewId.setText(content.ss_id);
+        viewHolder.textViewName.setText("স্বাস্থ্য সেবিকার নাম :"+content.username+" স্বাস্থ্য কর্মীর নাম : "+content.skName);
+        viewHolder.textViewId.setText("স্বাস্থ্য সেবিকার আইডি :"+content.ss_id);
         viewHolder.textViewAge.setVisibility(View.GONE);
 
         viewHolder.checkBox.setOnClickListener(new View.OnClickListener() {

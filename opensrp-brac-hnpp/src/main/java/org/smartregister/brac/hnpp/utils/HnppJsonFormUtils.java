@@ -475,6 +475,10 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 return HnppConstants.EVENT_TYPE.ENC_REGISTRATION;
             case  HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL:
                 return HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL;
+            case  HnppConstants.EVENT_TYPE.EYE_TEST:
+                return HnppConstants.EVENT_TYPE.EYE_TEST;
+            case  HnppConstants.EVENT_TYPE.BLOOD_GROUP:
+                return HnppConstants.EVENT_TYPE.BLOOD_GROUP;
                 default:
                     return org.smartregister.chw.anc.util.Constants.EVENT_TYPE.ANC_HOME_VISIT;
         }
@@ -668,6 +672,17 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
             JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
             updateFormField(jsonArray,"height",height);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public static void addValueAtJsonForm(JSONObject jsonForm, String key, String value){
+        try {
+            JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+            JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+            updateFormField(jsonArray,key,value);
 
         } catch (JSONException e) {
             e.printStackTrace();

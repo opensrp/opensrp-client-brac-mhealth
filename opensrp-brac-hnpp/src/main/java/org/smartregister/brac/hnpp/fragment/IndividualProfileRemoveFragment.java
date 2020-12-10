@@ -17,6 +17,7 @@ import org.smartregister.brac.hnpp.activity.IndividualProfileRemoveJsonFormActiv
 import org.smartregister.brac.hnpp.model.FamilyRemoveMemberModel;
 import org.smartregister.brac.hnpp.presenter.FamilyRemoveMemberPresenter;
 import org.smartregister.brac.hnpp.provider.FamilyRemoveMemberProvider;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.core.activity.CoreAncRegisterActivity;
 import org.smartregister.chw.core.activity.CoreFamilyRegisterActivity;
 import org.smartregister.chw.core.fragment.CoreFamilyProfileChangeDialog;
@@ -78,7 +79,7 @@ public class IndividualProfileRemoveFragment extends CoreIndividualProfileRemove
         intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonObject.toString());
 
         Form form = new Form();
-        form.setActionBarBackground(org.smartregister.family.R.color.family_actionbar);
+        form.setActionBarBackground( HnppConstants.isReleaseBuild()?R.color.customAppThemeBlue:R.color.alert_urgent_red);
         form.setWizard(false);
         form.setSaveLabel("জমা দিন");
         intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);

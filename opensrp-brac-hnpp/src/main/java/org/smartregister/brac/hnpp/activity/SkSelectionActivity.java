@@ -207,6 +207,7 @@ public class SkSelectionActivity extends SecuredActivity implements View.OnClick
                     selectedSSList.add(selectedSS);
                 }else{
                     Toast.makeText(SkSelectionActivity.this,"অলরেডি অ্যাড করা হয়েছে",Toast.LENGTH_SHORT).show();
+                    return;
                 }
                 if(adapter ==null){
                     adapter = new SkSelectionAdapter(this, new SkSelectionAdapter.OnClickAdapter() {
@@ -273,16 +274,18 @@ public class SkSelectionActivity extends SecuredActivity implements View.OnClick
     public void onSyncComplete(FetchStatus fetchStatus) {
         hideProgressDialog();
         HnppApplication.getHNPPInstance().clearDatabase();
-        SSLocationFetchJob.scheduleJobImmediately(SSLocationFetchJob.TAG);
-        showProgressDialog("আপডেটেড লোকেশন নেওয়া হচ্ছে");
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                hideProgressDialog();
-                updateSpinner();
-
-            }
-        },5000);
+        HnppApplication.getInstance().getContext().allSharedPreferences().saveForceRemoteLogin(true);
+        HnppApplication.getHNPPInstance().appSwitch();
+//        SSLocationFetchJob.scheduleJobImmediately(SSLocationFetchJob.TAG);
+//        showProgressDialog("আপডেটেড লোকেশন নেওয়া হচ্ছে");
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                hideProgressDialog();
+//                updateSpinner();
+//
+//            }
+//        },5000);
     }
 
 }

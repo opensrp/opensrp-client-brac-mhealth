@@ -318,6 +318,11 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
            } else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM)){
                HnppJsonFormUtils.addLastPnc(jsonForm,baseEntityId,false);
            }
+           if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.BLOOD_TEST)){
+               if(gender.equalsIgnoreCase("F")){
+                   HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_women","true");
+               }
+           }
 
 //           if(formName.contains("anc"))
            HnppVisitLogRepository visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();

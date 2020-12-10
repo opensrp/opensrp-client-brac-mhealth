@@ -372,6 +372,10 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
             }
             intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
             intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
+            if(HnppConstants.isPALogin()){
+                form.setHideSaveLabel(true);
+                form.setSaveLabel("");
+            }
             this.startActivityForResult(intent, REQUEST_HOME_VISIT);
 
         }catch (Exception e){
@@ -399,7 +403,10 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
                 form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
             }
-
+            if(HnppConstants.isPALogin()){
+                form.setHideSaveLabel(true);
+                form.setSaveLabel("");
+            }
             intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
             intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
             if (this != null) {
@@ -443,7 +450,10 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
                 form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
             }
-
+            if(HnppConstants.isPALogin()){
+                form.setHideSaveLabel(true);
+                form.setSaveLabel("");
+            }
             intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
             intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
             if (this != null) {
