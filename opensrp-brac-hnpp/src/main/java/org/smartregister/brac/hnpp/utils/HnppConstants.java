@@ -489,7 +489,7 @@ public class HnppConstants extends CoreConstants {
         public static final String AVG_ATTEND_WOMEN_FORUM= "Avg Attendance (Women Forum)";
 
         //for PA target
-        public static final String ADULT_FORUM_ATTENDANCE = "Adult Forum Attendance";
+        public static final String ADULT_FORUM_ATTENDANCE = "Avg Attendance (Adult Forum";
         public static final String ADULT_FORUM_SERVICE_TAKEN = "Adult Forum Service Taken";
         public static final String MARKED_PRESBYOPIA = "Marked as presbyopia";
         public static final String PRESBYOPIA_CORRECTION = "Presbyopia correction";
@@ -499,7 +499,7 @@ public class HnppConstants extends CoreConstants {
         public static final String CATARACT_SURGERY = "Cataract surgery";
 
         //PA stock
-        public static final String ADULT_PACKAGE = "Adult package";
+        public static final String ADULT_PACKAGE = "NCD package";
         public static final String GLASS = "glass";
         public static final String SUN_GLASS = "Sun glass";
         public static final String SV_1 = "Sv 1";
