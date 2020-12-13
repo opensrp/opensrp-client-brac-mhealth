@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
+import org.smartregister.brac.hnpp.activity.MigrationActivity;
 import org.smartregister.brac.hnpp.activity.NotificationActivity;
 import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
 import org.smartregister.brac.hnpp.job.HomeVisitServiceJob;
@@ -104,6 +105,11 @@ public class HnppNavigationPresenter extends NavigationPresenter {
     @Override
     public void browseNotification(Activity activity) {
         activity.startActivity(new Intent(activity, NotificationActivity.class));
+    }
+
+    @Override
+    public void browseMigration(Activity activity) {
+        activity.startActivity(new Intent(activity, MigrationActivity.class));
     }
 
     @Override

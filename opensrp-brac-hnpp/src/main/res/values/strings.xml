@@ -12,8 +12,9 @@
 
     <string name="menu_all_clients">সকল ক্লায়েন্ট</string>
     <string name="menu_all_families">খানার তালিকা</string>
-   <string name="menu_adult">প্রাপ্তবয়স্ক তালিকা</string>
-   <string name="menu_adult_risk">ঝুঁকিপূর্ণ ও জরুরী</string>
+    <string name="menu_adult">প্রাপ্তবয়স্ক তালিকা</string>
+    <string name="menu_migration">স্থানান্তর</string>
+    <string name="menu_adult_risk">ঝুঁকিপূর্ণ ও জরুরী</string>
     <string name="menu_elco_clients">সক্ষম দম্পতি</string>
     <string name="menu_anc_clients">গর্ভবতী মায়ের তালিকা</string>
     <string name="menu_anc_risk_clients">ঝুঁকিপূর্ণ ও জরুরী</string>
@@ -27,18 +28,18 @@
     <string name="menu_notification">নোটিফিকেশন</string>
     <string name="menu_stock_details">লেনদেনের সারসংক্ষেপ</string>
     <string name="menu_new_stock">নতুন স্টক আসছে</string>
-   <string name="menu_end_stock">যে সব স্টক শেষ হয়ে যাচ্ছে</string>
-   <string name="menu_edd_this_month">এই মাসে ইডিডি যাদের</string>
+    <string name="menu_end_stock">যে সব স্টক শেষ হয়ে যাচ্ছে</string>
+    <string name="menu_edd_this_month">এই মাসে ইডিডি যাদের</string>
 
     <string name="menu_ss_info">স্বাস্থ্য সেবিকা তথ্য</string>
-   <string name="menu_guest_member">বহিরাগত সেবা</string>
- <string name="guest_member">বহিরাগত সদস্য</string>
+    <string name="menu_guest_member">বহিরাগত সেবা</string>
+    <string name="guest_member">বহিরাগত সদস্য</string>
     <string name="menu_simprints">আঙুলের ছাপ দ্বারা সদস্য খুঁজি</string>
     <string name="unique_id_form_field">খানা নাম্বার</string>
     <string name="ss_name_form_field">স্বাস্থ্য সেবিকার নামঃ</string>
-   <string name="ss_year">বছর নির্বাচন করুন</string>
- <string name="ss_month">মাস নির্বাচন করুন</string>
- <string name="village_name_form_field">গ্রামের নামঃ</string>
+    <string name="ss_year">বছর নির্বাচন করুন</string>
+    <string name="ss_month">মাস নির্বাচন করুন</string>
+    <string name="village_name_form_field">গ্রামের নামঃ</string>
     <string name="last_submission_date">সেবা গ্রহণের তারিখ: %s</string>
 
     <string name="title_kishori">কিশোরী ফোরাম</string>
