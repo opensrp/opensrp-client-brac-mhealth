@@ -6,6 +6,27 @@
     android:gravity="center"
     android:background="@color/light_gray"
     android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/sk_filter_view"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="স্বাস্থ্য কর্মীর নাম"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
+
+        <Spinner
+            android:id="@+id/sk_filter_spinner"
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:background="@drawable/spinner_resource"
+            android:layout_margin="5dp"
+            android:layout_height="50dp">
+        </Spinner>
+    </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

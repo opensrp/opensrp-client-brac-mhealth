@@ -11,6 +11,12 @@ public class ForumActivity extends SecuredActivity implements View.OnClickListen
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_forum);
+        if(HnppConstants.isPALogin()){
+            findViewById(R.id.kishori_forum).setVisibility(View.GONE);
+            findViewById(R.id.child_forum).setVisibility(View.GONE);
+            findViewById(R.id.nari_forum).setVisibility(View.GONE);
+            findViewById(R.id.ncd_forum).setVisibility(View.GONE);
+        }
         findViewById(R.id.kishori_forum).setOnClickListener(this);
         findViewById(R.id.child_forum).setOnClickListener(this);
         findViewById(R.id.nari_forum).setOnClickListener(this);

@@ -38,6 +38,7 @@ import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.job.NotificationGeneratorJob;
 import org.smartregister.brac.hnpp.job.PullGuestMemberIdServiceJob;
 import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
 import org.smartregister.brac.hnpp.job.SSLocationFetchJob;
@@ -389,6 +390,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             }
             TargetFetchJob.scheduleJobImmediately(TargetFetchJob.TAG);
             StockFetchJob.scheduleJobImmediately(StockFetchJob.TAG);
+
         }catch (Exception e){
 
         }

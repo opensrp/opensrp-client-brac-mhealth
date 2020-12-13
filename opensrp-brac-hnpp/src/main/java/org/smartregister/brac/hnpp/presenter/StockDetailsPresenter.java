@@ -1,12 +1,8 @@
 package org.smartregister.brac.hnpp.presenter;
 
-import org.smartregister.brac.hnpp.contract.DashBoardContract;
 import org.smartregister.brac.hnpp.contract.StockDetailsContract;
-import org.smartregister.brac.hnpp.interactor.StockDashBoardInteractor;
 import org.smartregister.brac.hnpp.interactor.StockDetailsInteractor;
-import org.smartregister.brac.hnpp.model.StockDashBoardModel;
 import org.smartregister.brac.hnpp.model.StockDetailsModel;
-import org.smartregister.brac.hnpp.utils.DashBoardData;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.StockDetailsData;
 import org.smartregister.family.util.AppExecutors;

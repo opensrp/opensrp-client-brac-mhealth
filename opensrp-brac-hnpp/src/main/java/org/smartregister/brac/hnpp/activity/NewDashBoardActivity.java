@@ -47,32 +47,57 @@ public class NewDashBoardActivity extends SecuredActivity implements View.OnClic
     }
 
     private void loadCountSummeryFragment(int position){
-        switch (position){
-            case 0:
-                dashBoardFragment = new CountSummeryDashBoardFragment();
-                break;
-            case 1:
-                dashBoardFragment = new WorkSummeryDashBoardFragment();
-                break;
-            case 2:
-                dashBoardFragment = new DailyTargetAchievementFragment();
-                break;
-            case 3:
-                dashBoardFragment = new MonthlyTargetAchievementFragment();
-                break;
-            case 4:
-                dashBoardFragment = new DailyServiceTargetAchievementFragment();
-                break;
-            case 5:
-                dashBoardFragment = new MonthlyServiceTargetAchievementFragment();
-                break;
-            case 6:
-                dashBoardFragment = new ForumTargetAchievementFragment();
-                break;
-            case 7:
-                dashBoardFragment = new StockDashBoardFragment();
-                break;
+        if(HnppConstants.isPALogin()){
+            switch (position){
+                case 0:
+                    dashBoardFragment = new CountSummeryDashBoardFragment();
+                    break;
+                case 1:
+                    dashBoardFragment = new WorkSummeryDashBoardFragment();
+                    break;
+                case 2:
+                    dashBoardFragment = new DailyTargetAchievementFragment();
+                    break;
+                case 3:
+                    dashBoardFragment = new MonthlyTargetAchievementFragment();
+                    break;
+
+                case 4:
+                    dashBoardFragment = new ForumTargetAchievementFragment();
+                    break;
+                case 5:
+                    dashBoardFragment = new StockDashBoardFragment();
+                    break;
+            }
+        }else {
+            switch (position){
+                case 0:
+                    dashBoardFragment = new CountSummeryDashBoardFragment();
+                    break;
+                case 1:
+                    dashBoardFragment = new WorkSummeryDashBoardFragment();
+                    break;
+                case 2:
+                    dashBoardFragment = new DailyTargetAchievementFragment();
+                    break;
+                case 3:
+                    dashBoardFragment = new MonthlyTargetAchievementFragment();
+                    break;
+                case 4:
+                    dashBoardFragment = new DailyServiceTargetAchievementFragment();
+                    break;
+                case 5:
+                    dashBoardFragment = new MonthlyServiceTargetAchievementFragment();
+                    break;
+                case 6:
+                    dashBoardFragment = new ForumTargetAchievementFragment();
+                    break;
+                case 7:
+                    dashBoardFragment = new StockDashBoardFragment();
+                    break;
+            }
         }
+
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction =
@@ -113,8 +138,11 @@ public class NewDashBoardActivity extends SecuredActivity implements View.OnClic
         tabs.addTab(tabs.newTab().setText("কার্যক্রম সারসংক্ষেপ"));
         tabs.addTab(tabs.newTab().setText("দৈনিক পরিদর্শন"));
         tabs.addTab(tabs.newTab().setText("মাসিক পরিদর্শন"));
-        tabs.addTab(tabs.newTab().setText("দৈনিক সেবা"));
-        tabs.addTab(tabs.newTab().setText("মাসিক সেবা"));
+        if(!HnppConstants.isPALogin()){
+            tabs.addTab(tabs.newTab().setText("দৈনিক সেবা"));
+            tabs.addTab(tabs.newTab().setText("মাসিক সেবা"));
+        }
+
         tabs.addTab(tabs.newTab().setText("ফোরাম"));
         tabs.addTab(tabs.newTab().setText("স্টক"));
         //tabs.addTab(tabs.newTab().setText("স্টক"));
@@ -151,7 +179,7 @@ public class NewDashBoardActivity extends SecuredActivity implements View.OnClic
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.backBtn:
-                finish();
+                onBackPressed();
                 break;
         }
     }

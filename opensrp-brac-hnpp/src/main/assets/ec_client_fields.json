@@ -237,6 +237,13 @@
           "json_mapping": {
             "field": "dateCreated"
           }
+        },
+        {
+          "column_name": "provider_id",
+          "type": "Event",
+          "json_mapping": {
+            "field": "providerId"
+          }
         }
       ]
     },

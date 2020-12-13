@@ -4,6 +4,7 @@ import org.smartregister.brac.hnpp.contract.DashBoardContract;
 import org.smartregister.brac.hnpp.interactor.CountSummeryDashBoardInteractor;
 import org.smartregister.brac.hnpp.model.CountSummeryDashBoardModel;
 import org.smartregister.brac.hnpp.utils.DashBoardData;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.family.util.AppExecutors;
 
 import java.util.ArrayList;
@@ -37,6 +38,9 @@ public class CountSummeryDashBoardPresenter implements DashBoardContract.Present
 
     @Override
     public void filterData(String ssName, String month,String year) {
+        if(month.equalsIgnoreCase("-1")) month ="";
+        if(year.equalsIgnoreCase("-1")) year ="";
+        month = HnppConstants.addZeroForMonth(month);
         interactor.filterData(ssName,month,year,this);
 
     }

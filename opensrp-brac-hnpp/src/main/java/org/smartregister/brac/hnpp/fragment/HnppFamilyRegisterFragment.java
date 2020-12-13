@@ -29,6 +29,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.job.HnppPncCloseJob;
+import org.smartregister.brac.hnpp.job.NotificationGeneratorJob;
 import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
@@ -466,6 +467,11 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
         if(JobManager.instance().getAllJobRequestsForTag(VisitLogServiceJob.TAG).isEmpty()){
             VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
         }
+        if(JobManager.instance().getAllJobRequestsForTag(NotificationGeneratorJob.TAG).isEmpty()){
+            NotificationGeneratorJob.scheduleJobImmediately(NotificationGeneratorJob.TAG);
+
+        }
+
         //if we open this it'll cause the issue to remove from anc list
 //        if(JobManager.instance().getAllJobRequestsForTag(HnppPncCloseJob.TAG).isEmpty()){
 //            HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);

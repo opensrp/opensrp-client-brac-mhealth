@@ -144,7 +144,7 @@ public class NotificationRepository extends BaseRepository {
         Cursor cursor = null;
         ArrayList<Notification> notificationArrayList = new ArrayList<>();
         try {
-            cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getLocationTableName(), null);
+            cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getLocationTableName()+" order by "+NOTIFICATION_TIMESTAMP+" desc", null);
             while (cursor.moveToNext()) {
                 notificationArrayList.add(readCursor(cursor));
             }

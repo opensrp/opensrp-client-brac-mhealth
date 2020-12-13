@@ -12,19 +12,19 @@ public class CountSummeryDashBoardFragment extends BaseDashBoardFragment {
     @Override
     void initilizePresenter() {
         presenter = new CountSummeryDashBoardPresenter(this);
-        monthView.setVisibility(View.INVISIBLE);
-        dateView.setVisibility(View.INVISIBLE);
+        monthView.setVisibility(View.VISIBLE);
+        dateView.setVisibility(View.GONE);
     }
 
     @Override
     void fetchData() {
-        presenter.fetchDashBoardData();
+        presenter.filterData(ssName,month+"",year+"");
 
     }
 
     @Override
     void filterData() {
-        presenter.filterData(ssName,"","");
+        presenter.filterData(ssName,month+"",year+"");
     }
 
     @Override

@@ -45,18 +45,31 @@ public class TargetAchievementInteractor implements DashBoardContract.TargetInte
     }
 
     private void fetchData( String day, String month, String year, String ssName) {
+        if(HnppConstants.isPALogin()){
+            setData(model.getAdultForum(day,month,year,ssName));
+            setData(model.getAttendancAdultForum(day,month,year,ssName));
+            setData(model.getServiceCountAdultForum(day,month,year,ssName));
+            setData(model.getMarkedPresbyopia(day,month,year,ssName));
+            setData(model.getPresbyopiaCorrection(day,month,year,ssName));
+            setData(model.getEstimateDiabetes(day,month,year,ssName));
+            setData(model.getEstimateHBS(day,month,year,ssName));
+            setData(model.getCataractSurgery(day,month,year,ssName));
+            setData(model.getCataractSurgeryRefer(day,month,year,ssName));
+        }else{
+            setData(model.getHHVisitTarget(day,month,year,ssName));
+            setData(model.getElcoTarget(day,month,year,ssName));
+            setData(model.getMethodUserTarget(day,month,year,ssName));
+            setData(model.getAdoMethodUserTarget(day,month,year,ssName));
+            setData(model.getPregnencyIdentiTarget(day,month,year,ssName));
+            setData(model.getDeliveryTarget(day,month,year,ssName));
+            setData(model.getInstitutionDeliveryTarget(day,month,year,ssName));
+            setData(model.get0to6ChildVisitTarget(day,month,year,ssName));
+            setData(model.get7to24ChildVisitTarget(day,month,year,ssName));
+            setData(model.get18to36ChildVisitTarget(day,month,year,ssName));
+            setData(model.get0to59ChildImmunizationTarget(day,month,year,ssName));
+        }
 
-        setData(model.getHHVisitTarget(day,month,year,ssName));
-        setData(model.getElcoTarget(day,month,year,ssName));
-        setData(model.getMethodUserTarget(day,month,year,ssName));
-        setData(model.getAdoMethodUserTarget(day,month,year,ssName));
-        setData(model.getPregnencyIdentiTarget(day,month,year,ssName));
-        setData(model.getDeliveryTarget(day,month,year,ssName));
-        setData(model.getInstitutionDeliveryTarget(day,month,year,ssName));
-        setData(model.get0to6ChildVisitTarget(day,month,year,ssName));
-        setData(model.get7to24ChildVisitTarget(day,month,year,ssName));
-        setData(model.get18to36ChildVisitTarget(day,month,year,ssName));
-        setData(model.get0to59ChildImmunizationTarget(day,month,year,ssName));
+
     }
 
     @Override

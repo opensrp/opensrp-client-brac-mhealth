@@ -26,6 +26,7 @@ import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -35,6 +36,65 @@ import java.util.Map;
 import timber.log.Timber;
 
 public class HnppDBUtils extends CoreChildUtils {
+    private static final int STOCK_END_THRESHOLD = 2;
+
+    public static StringBuilder getStockEnd(){
+        Calendar calendar = Calendar.getInstance();
+        int month = calendar.get(Calendar.MONTH)+1;
+        int year = calendar.get(Calendar.YEAR);
+
+        String query = "select  product_name, (sum(stock_quantity) - sum(achievemnt_count)) as balance from stock_table where year <='"+year+"' and month<='"+month+"' group by product_name having (sum(stock_quantity) - sum(achievemnt_count))<"+STOCK_END_THRESHOLD;
+       Log.v("NOTIFICATION_JOB","getStockEnd:"+query);
+        Cursor cursor = null;
+        StringBuilder nameCount = new StringBuilder();
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() > 0){
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    nameCount.append("স্টক নামঃ "+cursor.getString(0)+"\n");
+                    nameCount.append("শেষ ব্যালেন্স: "+cursor.getString(1)+"\n");
+                    cursor.moveToNext();
+                }
+
+            }
+
+        } catch (Exception e) {
+            Timber.e(e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return nameCount;
+    }
+    public static StringBuilder getEddThisMonth(){
+        String query = "select ec_family_member.first_name, edd,STRFTIME('%Y', datetime('now')) as nowYear,STRFTIME('%m', datetime('now')) as nowMonth,substr(edd, 7, 4) as year,substr(edd, 4, 2) as month from ec_anc_register " +
+                "inner join ec_family_member on ec_family_member.base_entity_id = ec_anc_register.base_entity_id " +
+                "where year=nowYear and month = nowMonth order by ec_anc_register.last_interacted_with DESC";
+        Log.v("NOTIFICATION_JOB","getEddThisMonth:"+query);
+        Cursor cursor = null;
+        StringBuilder nameCount = new StringBuilder();
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() > 0){
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    nameCount.append("নামঃ ").append(cursor.getString(0)).append("\n");
+                    nameCount.append("ইডিডি: ").append(cursor.getString(1)).append("\n");
+                    nameCount.append("------------------------------------"+"\n");
+                    cursor.moveToNext();
+                }
+
+            }
+
+        } catch (Exception e) {
+            Timber.e(e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return nameCount;
+    }
     public static void updateBloodGroup(String base_entity_id, String value){
         try{
             SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();

@@ -19,6 +19,7 @@ import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.model.Notification;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.StockData;
 import org.smartregister.domain.Response;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
@@ -65,9 +66,10 @@ public class StockFetchIntentService extends IntentService {
                 }
             }
             if(jsonObjectLocation.length()>0){
-                if(nameCount != null){
-                    intent = new Intent("STOCK_ACTION");
-                    intent.putExtra("name_count", nameCount.toString());
+                if(nameCount != null && nameCount.length()>0){
+                    HnppConstants.insertAtNotificationTable(" নতুন স্টক এসেছে",nameCount.toString());
+                    intent = new Intent(HnppConstants.ACTION_STOCK_COME);
+                    intent.putExtra(HnppConstants.EXTRA_STOCK_COME, nameCount.toString());
                     sendBroadcast(intent);
 
                 }

@@ -1,6 +1,5 @@
 package org.smartregister.brac.hnpp.interactor;
 
-import android.text.TextUtils;
 
 import org.smartregister.brac.hnpp.contract.DashBoardContract;
 import org.smartregister.brac.hnpp.model.TargetVsAchievementModel;
@@ -44,76 +43,106 @@ public class ForumTargetAchievementInteractor implements DashBoardContract.Targe
     }
 
     private void fetchData( String day, String month, String year, String ssName) {
+        if(HnppConstants.isPALogin()){
+            TargetVsAchievementData ncdForum = model.getNcdForumTarget(day,month,year,ssName);
+            TargetVsAchievementData avgNcdForum = model.getAvgNcdTarget(day,month,year,ssName);
+            if(ncdForum.getAchievementCount() !=0){
+                ncdForum.setAvgAchievmentCount(avgNcdForum.getAvgAchievmentCount() / ncdForum.getAchievementCount());
+            }
 
-        TargetVsAchievementData adoForum = model.getAdoForumTarget(day,month,year,ssName);
-        TargetVsAchievementData avgAdoForum = model.getAvgAdoTarget(day,month,year,ssName);
-        if(adoForum.getAchievementCount() !=0){
-            adoForum.setAvgAchievmentCount(avgAdoForum.getAvgAchievmentCount()/adoForum.getAchievementCount());
+            ncdForum.setAvgTargetCount(avgNcdForum.getAvgTargetCount());
+            if(avgNcdForum.getAvgTargetCount() != 0){
+                int percentage = (int) ((avgNcdForum.getAvgAchievmentCount() * 100)/avgNcdForum.getAvgTargetCount());
+                avgNcdForum.setAvgAchievementPercentage(percentage);
+            }
+            ncdForum.setAvgAchievementPercentage(avgNcdForum.getAvgAchievementPercentage());
+            setData(ncdForum);
+            TargetVsAchievementData adultForum = model.getAdultForumTarget(day,month,year,ssName);
+            TargetVsAchievementData avgAdultForum = model.getAvgAdultTarget(day,month,year,ssName);
+            if(adultForum.getAchievementCount() != 0 ){
+                adultForum.setAvgAchievmentCount(avgAdultForum.getAvgAchievmentCount() /adultForum.getAchievementCount() );
+            }
 
-        }
-        adoForum.setAvgTargetCount(avgAdoForum.getAvgTargetCount());
-        if(avgAdoForum.getAvgTargetCount() != 0){
-            int percentage = (int) ((avgAdoForum.getAvgAchievmentCount() * 100)/avgAdoForum.getAvgTargetCount());
-            avgAdoForum.setAvgAchievementPercentage(percentage);
-        }
-        adoForum.setAvgAchievementPercentage(avgAdoForum.getAvgAchievementPercentage());
-        setData(adoForum);
+            adultForum.setAvgTargetCount(avgAdultForum.getAvgTargetCount());
+            if(avgAdultForum.getAvgTargetCount() != 0){
+                int percentage = (int) ((avgAdultForum.getAvgAchievmentCount() * 100)/avgAdultForum.getAvgTargetCount());
+                avgAdultForum.setAvgAchievementPercentage(percentage);
+            }
+            adultForum.setAvgAchievementPercentage(avgAdultForum.getAvgAchievementPercentage());
+            setData(adultForum);
+        }else{
+            TargetVsAchievementData adoForum = model.getAdoForumTarget(day,month,year,ssName);
+            TargetVsAchievementData avgAdoForum = model.getAvgAdoTarget(day,month,year,ssName);
+            if(adoForum.getAchievementCount() !=0){
+                adoForum.setAvgAchievmentCount(avgAdoForum.getAvgAchievmentCount()/adoForum.getAchievementCount());
 
-        TargetVsAchievementData ncdForum = model.getNcdForumTarget(day,month,year,ssName);
-        TargetVsAchievementData avgNcdForum = model.getAvgNcdTarget(day,month,year,ssName);
-        if(ncdForum.getAchievementCount() !=0){
-            ncdForum.setAvgAchievmentCount(avgNcdForum.getAvgAchievmentCount() / ncdForum.getAchievementCount());
+            }
+            adoForum.setAvgTargetCount(avgAdoForum.getAvgTargetCount());
+            if(avgAdoForum.getAvgTargetCount() != 0){
+                int percentage = (int) ((avgAdoForum.getAvgAchievmentCount() * 100)/avgAdoForum.getAvgTargetCount());
+                avgAdoForum.setAvgAchievementPercentage(percentage);
+            }
+            adoForum.setAvgAchievementPercentage(avgAdoForum.getAvgAchievementPercentage());
+            setData(adoForum);
+
+            TargetVsAchievementData ncdForum = model.getNcdForumTarget(day,month,year,ssName);
+            TargetVsAchievementData avgNcdForum = model.getAvgNcdTarget(day,month,year,ssName);
+            if(ncdForum.getAchievementCount() !=0){
+                ncdForum.setAvgAchievmentCount(avgNcdForum.getAvgAchievmentCount() / ncdForum.getAchievementCount());
+            }
+
+            ncdForum.setAvgTargetCount(avgNcdForum.getAvgTargetCount());
+            if(avgNcdForum.getAvgTargetCount() != 0){
+                int percentage = (int) ((avgNcdForum.getAvgAchievmentCount() * 100)/avgNcdForum.getAvgTargetCount());
+                avgNcdForum.setAvgAchievementPercentage(percentage);
+            }
+            ncdForum.setAvgAchievementPercentage(avgNcdForum.getAvgAchievementPercentage());
+            setData(ncdForum);
+
+            TargetVsAchievementData childForum = model.getChildForumTarget(day,month,year,ssName);
+            TargetVsAchievementData avgChildForum = model.getAvgChildTarget(day,month,year,ssName);
+            if(childForum.getAchievementCount() !=0){
+                childForum.setAvgAchievmentCount(avgChildForum.getAvgAchievmentCount() / childForum.getAchievementCount());
+
+            }
+            childForum.setAvgTargetCount(avgChildForum.getAvgTargetCount());
+            if(avgChildForum.getAvgTargetCount() != 0){
+                int percentage = (int) ((avgChildForum.getAvgAchievmentCount() * 100)/avgChildForum.getAvgTargetCount());
+                avgChildForum.setAvgAchievementPercentage(percentage);
+            }
+            childForum.setAvgAchievementPercentage(avgChildForum.getAvgAchievementPercentage());
+            setData(childForum);
+
+            TargetVsAchievementData womenForum = model.getWomenForumTarget(day,month,year,ssName);
+            TargetVsAchievementData avgWomenForum = model.getAvgWomenTarget(day,month,year,ssName);
+            if(womenForum.getAchievementCount() !=0){
+                avgWomenForum.setAvgAchievmentCount(avgWomenForum.getAvgAchievmentCount() / womenForum.getAchievementCount());
+
+            }
+            womenForum.setAvgTargetCount(avgWomenForum.getAvgTargetCount());
+            if(avgWomenForum.getAvgTargetCount() != 0){
+                int percentage = (int) ((avgWomenForum.getAvgAchievmentCount() * 100)/avgWomenForum.getAvgTargetCount());
+                avgWomenForum.setAvgAchievementPercentage(percentage);
+            }
+            womenForum.setAvgAchievementPercentage(avgWomenForum.getAvgAchievementPercentage());
+            setData(womenForum);
+
+            TargetVsAchievementData adultForum = model.getAdultForumTarget(day,month,year,ssName);
+            TargetVsAchievementData avgAdultForum = model.getAvgAdultTarget(day,month,year,ssName);
+            if(adultForum.getAchievementCount() != 0 ){
+                adultForum.setAvgAchievmentCount(avgAdultForum.getAvgAchievmentCount() /adultForum.getAchievementCount() );
+            }
+
+            adultForum.setAvgTargetCount(avgAdultForum.getAvgTargetCount());
+            if(avgAdultForum.getAvgTargetCount() != 0){
+                int percentage = (int) ((avgAdultForum.getAvgAchievmentCount() * 100)/avgAdultForum.getAvgTargetCount());
+                avgAdultForum.setAvgAchievementPercentage(percentage);
+            }
+            adultForum.setAvgAchievementPercentage(avgAdultForum.getAvgAchievementPercentage());
+            setData(adultForum);
         }
 
-        ncdForum.setAvgTargetCount(avgNcdForum.getAvgTargetCount());
-        if(avgNcdForum.getAvgTargetCount() != 0){
-            int percentage = (int) ((avgNcdForum.getAvgAchievmentCount() * 100)/avgNcdForum.getAvgTargetCount());
-            avgNcdForum.setAvgAchievementPercentage(percentage);
-        }
-        ncdForum.setAvgAchievementPercentage(avgNcdForum.getAvgAchievementPercentage());
-        setData(ncdForum);
 
-        TargetVsAchievementData childForum = model.getChildForumTarget(day,month,year,ssName);
-        TargetVsAchievementData avgChildForum = model.getAvgChildTarget(day,month,year,ssName);
-        if(childForum.getAchievementCount() !=0){
-            childForum.setAvgAchievmentCount(avgChildForum.getAvgAchievmentCount() / childForum.getAchievementCount());
-
-        }
-        childForum.setAvgTargetCount(avgChildForum.getAvgTargetCount());
-        if(avgChildForum.getAvgTargetCount() != 0){
-            int percentage = (int) ((avgChildForum.getAvgAchievmentCount() * 100)/avgChildForum.getAvgTargetCount());
-            avgChildForum.setAvgAchievementPercentage(percentage);
-        }
-        childForum.setAvgAchievementPercentage(avgChildForum.getAvgAchievementPercentage());
-        setData(childForum);
-
-        TargetVsAchievementData womenForum = model.getWomenForumTarget(day,month,year,ssName);
-        TargetVsAchievementData avgWomenForum = model.getAvgWomenTarget(day,month,year,ssName);
-        if(womenForum.getAchievementCount() !=0){
-            avgWomenForum.setAvgAchievmentCount(avgWomenForum.getAvgAchievmentCount() / womenForum.getAchievementCount());
-
-        }
-        womenForum.setAvgTargetCount(avgWomenForum.getAvgTargetCount());
-        if(avgWomenForum.getAvgTargetCount() != 0){
-            int percentage = (int) ((avgWomenForum.getAvgAchievmentCount() * 100)/avgWomenForum.getAvgTargetCount());
-            avgWomenForum.setAvgAchievementPercentage(percentage);
-        }
-        womenForum.setAvgAchievementPercentage(avgWomenForum.getAvgAchievementPercentage());
-        setData(womenForum);
-
-        TargetVsAchievementData adultForum = model.getAdultForumTarget(day,month,year,ssName);
-        TargetVsAchievementData avgAdultForum = model.getAvgAdultTarget(day,month,year,ssName);
-        if(adultForum.getAchievementCount() != 0 ){
-            adultForum.setAvgAchievmentCount(avgAdultForum.getAvgAchievmentCount() /adultForum.getAchievementCount() );
-        }
-
-        adultForum.setAvgTargetCount(avgAdultForum.getAvgTargetCount());
-        if(avgAdultForum.getAvgTargetCount() != 0){
-            int percentage = (int) ((avgAdultForum.getAvgAchievmentCount() * 100)/avgAdultForum.getAvgTargetCount());
-            avgAdultForum.setAvgAchievementPercentage(percentage);
-        }
-        adultForum.setAvgAchievementPercentage(avgAdultForum.getAvgAchievementPercentage());
-        setData(adultForum);
     }
 
     @Override

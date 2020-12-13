@@ -102,6 +102,15 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
         return dashBoardData1;
     }
 
+    //for PA
+    public DashBoardData getEyeTestCount(String ssName, String month, String year){
+        return getVisitTypeCount(HnppConstants.EVENT_TYPE.EYE_TEST,ssName,month,year);
+    }
+    public DashBoardData getBloodGroupingCount(String ssName, String month, String year){
+        return getVisitTypeCount(HnppConstants.EVENT_TYPE.BLOOD_GROUP,ssName,month,year);
+    }
+    //
+
     public DashBoardData getANCRegisterCount(String ssName, String month, String year){
         return getVisitTypeCount(HnppConstants.EVENT_TYPE.ANC_REGISTRATION,ssName,month,year);
     }

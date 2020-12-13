@@ -126,6 +126,23 @@ public class SSLocationRepository extends BaseRepository {
         }
         return locations;
     }
+    public ArrayList<SSModel> getAllLocations() {
+        Cursor cursor = null;
+        ArrayList<SSModel> locations = new ArrayList<>();
+        try {
+            cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getLocationTableName(), null);
+            while (cursor.moveToNext()) {
+                locations.add(readCursor(cursor));
+            }
+            cursor.close();
+        } catch (Exception e) {
+            Log.e(LocationRepository.class.getCanonicalName(), e.getMessage(), e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return locations;
+    }
     public ArrayList<SSModel> getAllSelectedLocations() {
         Cursor cursor = null;
         ArrayList<SSModel> locations = new ArrayList<>();

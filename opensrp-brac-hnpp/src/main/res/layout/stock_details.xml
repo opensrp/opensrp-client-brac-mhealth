@@ -99,7 +99,7 @@
         <org.smartregister.view.customcontrols.CustomFontTextView
             android:layout_weight="1"
             android:id="@+id/month_start_blnc_text"
-            android:text="20"
+            android:text="0"
             android:textSize="25sp"
             android:textColor="@color/black"
             android:gravity="end"
@@ -125,7 +125,7 @@
         <org.smartregister.view.customcontrols.CustomFontTextView
             android:layout_weight="1"
             android:id="@+id/new_pkg_text"
-            android:text="20"
+            android:text="0"
             android:textSize="25sp"
             android:textColor="@color/black"
             android:gravity="end"
@@ -151,7 +151,7 @@
         <org.smartregister.view.customcontrols.CustomFontTextView
             android:layout_weight="1"
             android:id="@+id/sell_text"
-            android:text="20"
+            android:text="0"
             android:textSize="25sp"
             android:textColor="@color/black"
             android:gravity="end"
@@ -177,7 +177,7 @@
         <org.smartregister.view.customcontrols.CustomFontTextView
             android:layout_weight="1"
             android:id="@+id/end_blnc_text"
-            android:text="20"
+            android:text="0"
             android:textSize="25sp"
             android:textColor="@color/black"
             android:gravity="end"

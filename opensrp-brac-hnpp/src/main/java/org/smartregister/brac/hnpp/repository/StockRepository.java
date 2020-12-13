@@ -108,21 +108,36 @@ public class StockRepository extends BaseRepository {
 
      private String getTargetName(String targetName, String baseEntityId) {
         if(!TextUtils.isEmpty(targetName)){
-            if(targetName.equalsIgnoreCase(HnppConstants.EventType.ANC_HOME_VISIT)
-                    || targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)
-                    || targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION)
-                    || targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
-                return CoreConstants.EventType.ANC_HOME_VISIT;
-            }else if(targetName.equalsIgnoreCase(HnppConstants.EventType.PNC_HOME_VISIT)
-                    || targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION)){
-                return CoreConstants.EventType.PNC_HOME_VISIT;
-            }else if(targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GIRL_PACKAGE)
-                    || targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.IYCF_PACKAGE)
-                    || targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.NCD_PACKAGE)
-                    || targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.WOMEN_PACKAGE)){
-                return targetName;
+            switch (targetName){
+                case HnppConstants.EventType.ANC_HOME_VISIT:
+                case HnppConstants.EVENT_TYPE.ANC1_REGISTRATION:
+                case HnppConstants.EVENT_TYPE.ANC2_REGISTRATION:
+                case HnppConstants.EVENT_TYPE.ANC3_REGISTRATION:
+                    return CoreConstants.EventType.ANC_HOME_VISIT;
+                case HnppConstants.EventType.PNC_HOME_VISIT:
+                case HnppConstants.EVENT_TYPE.PNC_REGISTRATION:
+                    return CoreConstants.EventType.PNC_HOME_VISIT;
+                case HnppConstants.EVENT_TYPE.GIRL_PACKAGE:
+                case HnppConstants.EVENT_TYPE.IYCF_PACKAGE:
+                case HnppConstants.EVENT_TYPE.NCD_PACKAGE:
+                case HnppConstants.EVENT_TYPE.WOMEN_PACKAGE:
+                    return targetName;
+                case HnppConstants.EVENT_TYPE.GLASS:
+                case HnppConstants.EVENT_TYPE.SUN_GLASS:
+                case HnppConstants.EVENT_TYPE.SV_1:
+                case HnppConstants.EVENT_TYPE.SV_1_5:
+                case HnppConstants.EVENT_TYPE.SV_2:
+                case HnppConstants.EVENT_TYPE.SV_2_5:
+                case HnppConstants.EVENT_TYPE.SV_3:
+                case HnppConstants.EVENT_TYPE.BF_1:
+                case HnppConstants.EVENT_TYPE.BF_1_5:
+                case HnppConstants.EVENT_TYPE.BF_2:
+                case HnppConstants.EVENT_TYPE.BF_2_5:
+                case HnppConstants.EVENT_TYPE.BF_3:
+                    return targetName;
 
             }
+
 
         }
         return "";

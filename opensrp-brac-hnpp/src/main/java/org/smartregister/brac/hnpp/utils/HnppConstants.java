@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.utils;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
@@ -7,7 +8,10 @@ import android.os.Environment;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.widget.TextView;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -19,7 +23,9 @@ import org.joda.time.format.DateTimeFormat;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.BuildConfig;
+import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.model.Notification;
 import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.Utils;
@@ -29,6 +35,7 @@ import org.smartregister.repository.AllSharedPreferences;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -36,6 +43,14 @@ import java.util.Locale;
 import java.util.Map;
 
 public class HnppConstants extends CoreConstants {
+    public static final String ACTION_STOCK_COME = "ACTION_STOCK_COME";
+    public static final String ACTION_STOCK_END = "ACTION_STOCK_END";
+    public static final String ACTION_EDD = "ACTION_EDD";
+    public static final String EXTRA_STOCK_COME = "EXTRA_STOCK_COME";
+    public static final String EXTRA_STOCK_END = "EXTRA_STOCK_END";
+    public static final String EXTRA_EDD = "EXTRA_EDD";
+    public static final long STOCK_END_DEFAULT_TIME = 60*60*1000;//1 hr
+    public static final long EDD_DEFAULT_TIME = 6*60*60*1000;//6 hr
     public static final String TEST_GU_ID = "test";
     public static final float VERIFY_THRESHOLD = 20;
     public static final String MODULE_ID_TRAINING = "TRAINING";
@@ -81,6 +96,72 @@ public class HnppConstants extends CoreConstants {
         public static final int TYPE_IYCF = 4;
         public static final int TYPE_EYE = 5;
         public static final int TYPE_BLOOD = 6;
+    }
+
+    public static boolean isNeedToShowEDDPopup(){
+        String lastEddTimeStr =  org.smartregister.Context.getInstance().allSharedPreferences().getPreference("LAST_EDD_TIME");
+        if(TextUtils.isEmpty(lastEddTimeStr)){
+            org.smartregister.Context.getInstance().allSharedPreferences().savePreference("LAST_EDD_TIME",System.currentTimeMillis()+"");
+            return true;
+        }
+        long diff = System.currentTimeMillis() - Long.parseLong(lastEddTimeStr);
+        if(diff > EDD_DEFAULT_TIME){
+            org.smartregister.Context.getInstance().allSharedPreferences().savePreference("LAST_EDD_TIME",System.currentTimeMillis()+"");
+
+            return true;
+        }
+        return false;
+    }
+    public static boolean isNeedToShowStockEndPopup(){
+        String lastEddTimeStr =  org.smartregister.Context.getInstance().allSharedPreferences().getPreference("STOCK_END_TIME");
+        if(TextUtils.isEmpty(lastEddTimeStr)){
+            org.smartregister.Context.getInstance().allSharedPreferences().savePreference("STOCK_END_TIME",System.currentTimeMillis()+"");
+            return true;
+        }
+        long diff = System.currentTimeMillis() - Long.parseLong(lastEddTimeStr);
+        if(diff > STOCK_END_DEFAULT_TIME){
+            org.smartregister.Context.getInstance().allSharedPreferences().savePreference("STOCK_END_TIME",System.currentTimeMillis()+"");
+
+            return true;
+        }
+        return false;
+    }
+    public static void showDialog(Context context,String title, String text){
+        Dialog dialog = new Dialog(context, android.R.style.Theme_NoTitleBar_Fullscreen);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.new_stock_view);
+        TextView textViewTitle = dialog.findViewById(R.id.stock_new_text);
+        TextView titleTxt = dialog.findViewById(R.id.textview_detail_two);
+        titleTxt.setText(title);
+        textViewTitle.setText(text);
+        dialog.findViewById(R.id.cross_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+    public static void insertAtNotificationTable(String title, String details){
+        long currentTime = System.currentTimeMillis();
+        String notificationType = "In App";
+        Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR);
+        int minute = calendar.get(Calendar.MINUTE);
+        String sendDate = calendar.get(Calendar.YEAR)+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.DAY_OF_MONTH);
+
+        Notification notification = new Notification();
+        notification.setId((int) currentTime);
+        notification.setTimestamp(currentTime);
+        notification.setTitle(title);
+        notification.setDetails(details);
+        notification.setNotificationType(notificationType);
+        notification.setHour(hour);
+        notification.setMinute(minute);
+        notification.setSendDate(sendDate);
+        HnppApplication.getNotificationRepository().addOrUpdate(notification);
+        Log.v("NOTIFICATION_JOB","insertAtNotificationTable:"+title);
+
     }
     public static boolean isEddImportant(String lmp){
         DateTime lmpDate = DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(lmp);
@@ -406,6 +487,32 @@ public class HnppConstants extends CoreConstants {
         public static final String AVG_ATTEND_ADULT_FORUM= "Avg Attendance (Adult Forum)";
         public static final String AVG_ATTEND_IYCF_FORUM= "Avg Attendance (IYCF Forum)";
         public static final String AVG_ATTEND_WOMEN_FORUM= "Avg Attendance (Women Forum)";
+
+        //for PA target
+        public static final String ADULT_FORUM_ATTENDANCE = "Adult Forum Attendance";
+        public static final String ADULT_FORUM_SERVICE_TAKEN = "Adult Forum Service Taken";
+        public static final String MARKED_PRESBYOPIA = "Marked as presbyopia";
+        public static final String PRESBYOPIA_CORRECTION = "Presbyopia correction";
+        public static final String ESTIMATE_DIABETES = "Estimate diabetes";
+        public static final String ESTIMATE_HBP = "Estimate HBP";
+        public static final String CATARACT_SURGERY_REFER = "Cataract surgery refer";
+        public static final String CATARACT_SURGERY = "Cataract surgery";
+
+        //PA stock
+        public static final String ADULT_PACKAGE = "Adult package";
+        public static final String GLASS = "glass";
+        public static final String SUN_GLASS = "Sun glass";
+        public static final String SV_1 = "Sv 1";
+        public static final String SV_1_5 = "Sv 1.5";
+        public static final String SV_2 = "Sv 2";
+        public static final String SV_2_5 = "Sv 2.5";
+        public static final String SV_3 = "Sv 3";
+        public static final String BF_1 = "Bf 1";
+        public static final String BF_1_5 = "Bf 1.5";
+        public static final String BF_2 = "Bf 2";
+        public static final String BF_2_5 = "Bf 2.5";
+        public static final String BF_3 = "Bf 3";
+
         //service
         public static final String ANC_SERVICE = "ANC Service";
         public static final String PNC_SERVICE = "PNC Service";
@@ -494,6 +601,18 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.FORUM_NCD,R.drawable.ic_sugar_blood_level)
             .put("ANC",R.mipmap.ic_anc_pink)
             .put("pnc",R.drawable.sidemenu_pnc)
+            .put(EVENT_TYPE.GLASS,R.drawable.ic_glasses)
+            .put(EVENT_TYPE.SUN_GLASS,R.drawable.ic_sun_glasses)
+            .put(EVENT_TYPE.SV_1,R.drawable.ic_glasses)
+            .put(EVENT_TYPE.SV_1_5,R.drawable.ic_glasses)
+            .put(EVENT_TYPE.SV_2,R.drawable.ic_glasses)
+            .put(EVENT_TYPE.SV_2_5,R.drawable.ic_glasses)
+            .put(EVENT_TYPE.SV_3,R.drawable.ic_glasses)
+            .put(EVENT_TYPE.BF_1,R.drawable.ic_glasses)
+            .put(EVENT_TYPE.BF_1_5,R.drawable.ic_glasses)
+            .put(EVENT_TYPE.BF_2,R.drawable.ic_glasses)
+            .put(EVENT_TYPE.BF_2_5,R.drawable.ic_glasses)
+            .put(EVENT_TYPE.BF_3,R.drawable.ic_glasses)
             .build();
     //need to show the title at row/option
     public static final Map<String,String> visitEventTypeMapping = ImmutableMap.<String,String> builder()
@@ -570,6 +689,14 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.NCD_PACKAGE,"অসংক্রামক রোগের সেবা")
             .put(EVENT_TYPE.ANC_SERVICE,"গর্ভবতী সেবা")
             .put(EVENT_TYPE.PNC_SERVICE,"প্রসব-পরবর্তী সেবা")
+            .put(EVENT_TYPE.AVG_ATTEND_ADULT_FORUM,"অংশগ্রহণকারী সংখ্যা")
+            .put(EVENT_TYPE.ADULT_FORUM_SERVICE_TAKEN,"সেবা গ্রহীতার সংখ্যা")
+            .put(EVENT_TYPE.MARKED_PRESBYOPIA,"চিন্নিত প্রেসবায়োপিয়া")
+            .put(EVENT_TYPE.PRESBYOPIA_CORRECTION,"প্রেসবায়োপিয়া কারেকশন")
+            .put(EVENT_TYPE.ESTIMATE_DIABETES,"সম্ভাব্য ডায়াবেটিস")
+            .put(EVENT_TYPE.ESTIMATE_HBP,"সম্ভাব্য উচ্চ রক্তচাপ")
+            .put(EVENT_TYPE.CATARACT_SURGERY_REFER,"ছানি অপারেশন এ রেফার")
+            .put(EVENT_TYPE.CATARACT_SURGERY,"ছানি অপারেশন")
             .build();
     //for dashboard workSummery
     public static final Map<String,String> workSummeryTypeMapping = ImmutableMap.<String,String> builder()
@@ -598,6 +725,21 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.WOMEN_PACKAGE,"নারী সেবা প্যাকেজ")
             .put(EVENT_TYPE.GIRL_PACKAGE, "কিশোরী সেবা প্যাকেজ")
             .put(EVENT_TYPE.NCD_PACKAGE, "অসংক্রামক রোগের সেবা")
+            .put(EVENT_TYPE.BLOOD_GROUP,"ব্লাড গ্রুপ")
+            .put(EVENT_TYPE.EYE_TEST,"চক্ষু পরীক্ষা")
+            .put(EVENT_TYPE.GLASS,"মোট চশমা")
+            .put(EVENT_TYPE.SUN_GLASS,"সানগ্লাস")
+            .put(EVENT_TYPE.SV_1,"SV- 1.00")
+            .put(EVENT_TYPE.SV_1_5,"SV- 1.50")
+            .put(EVENT_TYPE.SV_2,"SV- 2.00")
+            .put(EVENT_TYPE.SV_2_5,"SV- 2.50")
+            .put(EVENT_TYPE.SV_3,"SV- 3.00")
+            .put(EVENT_TYPE.BF_1,"BF- 1.00")
+            .put(EVENT_TYPE.BF_1_5,"BF- 1.50")
+            .put(EVENT_TYPE.BF_2,"BF- 2.00")
+            .put(EVENT_TYPE.BF_2_5,"BF- 2.50")
+            .put(EVENT_TYPE.BF_3,"BF- 3.00")
+
             .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)")
             .build();
     //for dashboard countSummery

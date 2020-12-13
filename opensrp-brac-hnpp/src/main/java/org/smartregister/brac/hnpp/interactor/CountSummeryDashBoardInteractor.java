@@ -32,7 +32,7 @@ public class CountSummeryDashBoardInteractor implements DashBoardContract.Intera
     @Override
     public void fetchAllData(DashBoardContract.InteractorCallBack callBack) {
         Runnable runnable = () -> {
-            fetchHHData("");
+            fetchHHData("","","");
 
             appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
         };
@@ -40,24 +40,24 @@ public class CountSummeryDashBoardInteractor implements DashBoardContract.Intera
 
     }
     // need to maintain serial to display
-    private void fetchHHData(String ssName) {
-        addToDashBoardList(model.getHHCount(ssName));
-        addToDashBoardList(model.getMemberCount(ssName));
-        addToDashBoardList(model.getOOCCount(ssName));
-        addToDashBoardList(model.getSimprintsCount(ssName));
-        addToDashBoardList(model.getBoyChildUnder5(ssName));
-        addToDashBoardList(model.getGirlChildUnder5(ssName));
-        addToDashBoardList(model.getBoyChild5To9(ssName));
-        addToDashBoardList(model.getGirlChild5To9(ssName));
-        addToDashBoardList(model.getBoyChild10To19(ssName));
-        addToDashBoardList(model.getGirlChild10To19(ssName));
-        addToDashBoardList(model.getBoyChild20To50(ssName));
-        addToDashBoardList(model.getGirlChild20To50(ssName));
-        addToDashBoardList(model.getMenUp50(ssName));
-        addToDashBoardList(model.getWoMenUp50(ssName));
-        addToDashBoardList(model.getAdoGirl(ssName));
-        addToDashBoardList(model.getAdoBoy(ssName));
-        addToDashBoardList(model.getAdoElco(ssName));
+    private void fetchHHData(String ssName,String month, String year) {
+        addToDashBoardList(model.getHHCount(ssName,month,year));
+        addToDashBoardList(model.getMemberCount(ssName,month,year));
+        addToDashBoardList(model.getOOCCount(ssName,month,year));
+        addToDashBoardList(model.getSimprintsCount(ssName,month,year));
+        addToDashBoardList(model.getBoyChildUnder5(ssName,month,year));
+        addToDashBoardList(model.getGirlChildUnder5(ssName,month,year));
+        addToDashBoardList(model.getBoyChild5To9(ssName,month,year));
+        addToDashBoardList(model.getGirlChild5To9(ssName,month,year));
+        addToDashBoardList(model.getBoyChild10To19(ssName,month,year));
+        addToDashBoardList(model.getGirlChild10To19(ssName,month,year));
+        addToDashBoardList(model.getBoyChild20To50(ssName,month,year));
+        addToDashBoardList(model.getGirlChild20To50(ssName,month,year));
+        addToDashBoardList(model.getMenUp50(ssName,month,year));
+        addToDashBoardList(model.getWoMenUp50(ssName,month,year));
+        addToDashBoardList(model.getAdoGirl(ssName,month,year));
+        addToDashBoardList(model.getAdoBoy(ssName,month,year));
+        addToDashBoardList(model.getAdoElco(ssName,month,year));
 
 
     }
@@ -66,7 +66,7 @@ public class CountSummeryDashBoardInteractor implements DashBoardContract.Intera
     public void filterData(String ssName, String month , String year, DashBoardContract.InteractorCallBack callBack) {
         dashBoardDataArrayList.clear();
         Runnable runnable = () -> {
-            fetchHHData(ssName);
+            fetchHHData(ssName,month,year);
 
             appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
         };

@@ -7,9 +7,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp">
+            <ImageView
+                android:id="@+id/app_icon"
+                android:src="@drawable/ic_app_icon"
+                android:padding="5dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"/>
 
             <org.smartregister.view.customcontrols.CustomFontTextView
                 android:id="@+id/date_tv"
+                android:layout_toRightOf="@+id/app_icon"
                 android:layout_width="120dp"
                 android:layout_height="23dp"
                 android:layout_marginLeft="5dp"
@@ -22,7 +29,7 @@
                 android:id="@+id/title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/date_tv"
+                android:layout_below="@+id/app_icon"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
                 android:text="hsghdhksdjkgdjjdhfhdfkdgcvvvvvvvvvvvvvvvvvvhdmdhdf"
@@ -37,29 +44,7 @@
                 android:layout_marginRight="5dp"
                 android:text="20"
                 android:textColor="@color/black"
-                android:textSize="14sp" />
-
-            <org.smartregister.view.customcontrols.CustomFontTextView
-                android:id="@+id/sign_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="19dp"
-                android:layout_toStartOf="@+id/min_tv"
-                android:text=":"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-
-            <org.smartregister.view.customcontrols.CustomFontTextView
-                android:id="@+id/hour_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="22dp"
-                android:layout_toLeftOf="@+id/sign_tv"
-                android:text="11"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
 
         </RelativeLayout>
 

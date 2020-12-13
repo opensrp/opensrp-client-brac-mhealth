@@ -43,28 +43,36 @@ public class WorkSummeryDashBoardInteractor implements DashBoardContract.Interac
     }
     // need to maintain serial to display
     private void fetchHHData(String ssName, String month, String year) {
+        if(HnppConstants.isPALogin()){
+            addToDashBoardList(model.getEyeTestCount(ssName,month,year));
+            addToDashBoardList(model.getBloodGroupingCount(ssName,month,year));
+            addToDashBoardList(model.getNcdServiceCount(ssName,month,year));
+            addToDashBoardList(model.getNcdForumCount(ssName,month,year));
+        }else{
+            addToDashBoardList(model.getHHCount(ssName,month,year));
+            addToDashBoardList(model.getMemberCount(ssName,month,year));
+            addToDashBoardList(model.getElcoCount(ssName,month,year));
+            addToDashBoardList(model.getANCRegisterCount(ssName,month,year));
+            addToDashBoardList(model.getAnc1Count(ssName,month,year));
+            addToDashBoardList(model.getAnc2Count(ssName,month,year));
+            addToDashBoardList(model.getAnc3Count(ssName,month,year));
+            addToDashBoardList(model.getAncCount(ssName,month,year));
+            addToDashBoardList(model.getDeliveryCount(ssName,month,year));
+            addToDashBoardList(model.getPncCount(ssName,month,year));
+            addToDashBoardList(model.getEncCount(ssName,month,year));
+            addToDashBoardList(model.getChildFollowUpCount(ssName,month,year));
+            addToDashBoardList(model.getNcdForumCount(ssName,month,year));
+            addToDashBoardList(model.getNcdServiceCount(ssName,month,year));
+            addToDashBoardList(model.getWomenForumCount(ssName,month,year));
+            addToDashBoardList(model.getWomenServiceCount(ssName,month,year));
+            addToDashBoardList(model.getAdoForumCount(ssName,month,year));
+            addToDashBoardList(model.getAdoServiceCount(ssName,month,year));
+            addToDashBoardList(model.getChildForumCount(ssName,month,year));
+            addToDashBoardList(model.getChildServiceCount(ssName,month,year));
+            addToDashBoardList(model.getAdultForumCount(ssName,month,year));
+        }
 
-        addToDashBoardList(model.getHHCount(ssName,month,year));
-        addToDashBoardList(model.getMemberCount(ssName,month,year));
-        addToDashBoardList(model.getElcoCount(ssName,month,year));
-        addToDashBoardList(model.getANCRegisterCount(ssName,month,year));
-        addToDashBoardList(model.getAnc1Count(ssName,month,year));
-        addToDashBoardList(model.getAnc2Count(ssName,month,year));
-        addToDashBoardList(model.getAnc3Count(ssName,month,year));
-        addToDashBoardList(model.getAncCount(ssName,month,year));
-        addToDashBoardList(model.getDeliveryCount(ssName,month,year));
-        addToDashBoardList(model.getPncCount(ssName,month,year));
-        addToDashBoardList(model.getEncCount(ssName,month,year));
-        addToDashBoardList(model.getChildFollowUpCount(ssName,month,year));
-        addToDashBoardList(model.getNcdForumCount(ssName,month,year));
-        addToDashBoardList(model.getNcdServiceCount(ssName,month,year));
-        addToDashBoardList(model.getWomenForumCount(ssName,month,year));
-        addToDashBoardList(model.getWomenServiceCount(ssName,month,year));
-        addToDashBoardList(model.getAdoForumCount(ssName,month,year));
-        addToDashBoardList(model.getAdoServiceCount(ssName,month,year));
-        addToDashBoardList(model.getChildForumCount(ssName,month,year));
-        addToDashBoardList(model.getChildServiceCount(ssName,month,year));
-        addToDashBoardList(model.getAdultForumCount(ssName,month,year));
+
 
     }
 

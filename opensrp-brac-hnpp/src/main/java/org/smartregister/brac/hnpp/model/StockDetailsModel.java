@@ -24,6 +24,47 @@ public class StockDetailsModel implements StockDetailsContract.Model{
     public Context getContext() {
         return context;
     }
+    //for PA
+    public StockDetailsData getAdultPackageStockData(String month, String year){
+        return getStockData(HnppConstants.EVENT_TYPE.NCD_PACKAGE,month,year,getLastBalance(HnppConstants.EVENT_TYPE.NCD_PACKAGE,month,year));
+    }
+    public StockDetailsData getTotalGlassStockData(String month, String year){
+        return getStockData(HnppConstants.EVENT_TYPE.GLASS,month,year,getLastBalance(HnppConstants.EVENT_TYPE.GLASS,month,year));
+    }
+    public StockDetailsData getSunGlassStockData(String month, String year){
+        return getStockData(HnppConstants.EVENT_TYPE.SUN_GLASS,month,year,getLastBalance(HnppConstants.EVENT_TYPE.SUN_GLASS,month,year));
+    }
+    public StockDetailsData getSV1StockData(String month, String year){
+        return getStockData(HnppConstants.EVENT_TYPE.SV_1,month,year,getLastBalance(HnppConstants.EVENT_TYPE.SV_1,month,year));
+    }
+    public StockDetailsData getSV1_5StockData(String month, String year){
+        return getStockData(HnppConstants.EVENT_TYPE.SV_1_5,month,year,getLastBalance(HnppConstants.EVENT_TYPE.SV_1_5,month,year));
+    }
+    public StockDetailsData getSV2_5StockData(String month, String year){
+        return getStockData(HnppConstants.EVENT_TYPE.SV_2_5,month,year,getLastBalance(HnppConstants.EVENT_TYPE.SV_2_5,month,year));
+    }
+    public StockDetailsData getSV2StockData(String month, String year){
+        return getStockData(HnppConstants.EVENT_TYPE.SV_2,month,year,getLastBalance(HnppConstants.EVENT_TYPE.SV_2,month,year));
+    }
+    public StockDetailsData getSV3StockData(String month, String year){
+        return getStockData(HnppConstants.EVENT_TYPE.SV_3,month,year,getLastBalance(HnppConstants.EVENT_TYPE.SV_3,month,year));
+    }
+    public StockDetailsData getBF1StockData(String month, String year){
+        return getStockData(HnppConstants.EVENT_TYPE.BF_1,month,year,getLastBalance(HnppConstants.EVENT_TYPE.BF_1,month,year));
+    }
+    public StockDetailsData getBF1_5StockData(String month, String year){
+        return getStockData(HnppConstants.EVENT_TYPE.BF_1_5,month,year,getLastBalance(HnppConstants.EVENT_TYPE.BF_1_5,month,year));
+    }
+    public StockDetailsData getBF2StockData(String month, String year){
+        return getStockData(HnppConstants.EVENT_TYPE.BF_2,month,year,getLastBalance(HnppConstants.EVENT_TYPE.BF_2,month,year));
+    }
+    public StockDetailsData getBF2_5StockData(String month, String year){
+        return getStockData(HnppConstants.EVENT_TYPE.BF_2_5,month,year,getLastBalance(HnppConstants.EVENT_TYPE.BF_2_5,month,year));
+    }
+    public StockDetailsData getBF3StockData(String month, String year){
+        return getStockData(HnppConstants.EVENT_TYPE.BF_3,month,year,getLastBalance(HnppConstants.EVENT_TYPE.BF_3,month,year));
+    }
+    //
     public StockDetailsData getAncStockData(String month, String year){
         return getStockData(CoreConstants.EventType.ANC_HOME_VISIT,month,year,getLastBalance(CoreConstants.EventType.ANC_HOME_VISIT,month,year));
     }
@@ -85,7 +126,12 @@ public class StockDetailsModel implements StockDetailsContract.Model{
                 stockDetailsData.setEndBalance(endBalance);
                 stockDetailsData.setCount(endBalance);
                 stockDetailsData.setEventType(visitType);
-                stockDetailsData.setTitle(HnppConstants.workSummeryTypeMapping.get(stockDetailsData.getEventType()));
+                if(HnppConstants.isPALogin() && visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.NCD_PACKAGE)){
+                    stockDetailsData.setTitle("প্রাপ্তবয়স্ক প্যাকেজ");
+                }else{
+                    stockDetailsData.setTitle(HnppConstants.workSummeryTypeMapping.get(stockDetailsData.getEventType()));
+
+                }
 
                 try{
                     stockDetailsData.setImageSource((int)HnppConstants.iconMapping.get(stockDetailsData.getEventType()));

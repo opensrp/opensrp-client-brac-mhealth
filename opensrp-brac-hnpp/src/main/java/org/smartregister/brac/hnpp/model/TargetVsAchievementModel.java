@@ -45,6 +45,36 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
         }
         
     }
+    //PA
+    public TargetVsAchievementData getAdultForum(String day, String month, String year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.FORUM_ADULT,day,month,year,ssName);
+    }
+    public TargetVsAchievementData getAttendancAdultForum(String day, String month, String year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADULT_FORUM,day,month,year,ssName);
+    }
+    public TargetVsAchievementData getServiceCountAdultForum(String day, String month, String year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ADULT_FORUM_SERVICE_TAKEN,day,month,year,ssName);
+    }
+    public TargetVsAchievementData getMarkedPresbyopia(String day, String month, String year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.MARKED_PRESBYOPIA,day,month,year,ssName);
+    }
+    public TargetVsAchievementData getPresbyopiaCorrection(String day, String month, String year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.PRESBYOPIA_CORRECTION,day,month,year,ssName);
+    }
+    public TargetVsAchievementData getEstimateDiabetes(String day, String month, String year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ESTIMATE_DIABETES,day,month,year,ssName);
+    }
+    public TargetVsAchievementData getEstimateHBS(String day, String month, String year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ESTIMATE_HBP,day,month,year,ssName);
+    }
+    public TargetVsAchievementData getCataractSurgeryRefer(String day, String month, String year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CATARACT_SURGERY_REFER,day,month,year,ssName);
+    }
+    public TargetVsAchievementData getCataractSurgery(String day, String month, String year,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CATARACT_SURGERY,day,month,year,ssName);
+    }
+
+    //
     public TargetVsAchievementData getHHVisitTarget(String day, String month, String year,String ssName){
         return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY,day,month,year,ssName);
     }

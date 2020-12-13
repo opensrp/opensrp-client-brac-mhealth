@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.location;
 import android.util.Log;
 
 import org.smartregister.brac.hnpp.HnppApplication;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.clientandeventmodel.Address;
 
 import java.util.ArrayList;
@@ -47,7 +48,11 @@ public class SSLocationHelper {
 
     private void setSsLocationForms(){
             ssModels.clear();
-            ssModels =  HnppApplication.getSSLocationRepository().getAllSelectedLocations();
+            if(HnppConstants.isPALogin()){
+                ssModels =  HnppApplication.getSSLocationRepository().getAllSelectedLocations();
+            }else{
+                ssModels =  HnppApplication.getSSLocationRepository().getAllLocations();
+            }
     }
     public void updateModel(){
         if(ssModels !=null){

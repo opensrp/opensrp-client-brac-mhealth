@@ -281,7 +281,9 @@ public class VisitLogIntentService extends IntentService {
                                         updateFamilyPlanning(log,details);
                                     }
                                     HnppApplication.getStockRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id);
-
+                                    if(EYE_TEST.equalsIgnoreCase(encounter_type)){
+                                        processEyeTest(details,log);
+                                    }
                                 }
 
                                 if (HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)){
@@ -303,6 +305,95 @@ public class VisitLogIntentService extends IntentService {
         }
         processImmunization();
     }
+
+    private void processEyeTest(HashMap<String, String> details, VisitLog visit) {
+        if(details!=null){
+            if(details.containsKey("exam_result") && !StringUtils.isEmpty(details.get("exam_result"))) {
+                String known = details.get("exam_result");
+                if(!TextUtils.isEmpty(known) && known.equalsIgnoreCase("presbiopia")){
+                    LocalDate localDate = new LocalDate(visit.getVisitDate());
+                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.MARKED_PRESBYOPIA,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                }
+            }
+            if(details.containsKey("is_need_glasses") && !StringUtils.isEmpty(details.get("is_need_glasses"))) {
+                String known = details.get("is_need_glasses");
+                if(!TextUtils.isEmpty(known) && known.equalsIgnoreCase("yes")){
+                    LocalDate localDate = new LocalDate(visit.getVisitDate());
+                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.GLASS,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+
+                }
+            }
+            if(details.containsKey("glasses_type") && !StringUtils.isEmpty(details.get("glasses_type"))) {
+                String known = details.get("glasses_type");
+                if(!TextUtils.isEmpty(known) && known.equalsIgnoreCase("sv")){
+                    if(details.containsKey("power") && !StringUtils.isEmpty(details.get("power"))) {
+                        String power = details.get("power");
+                        if(!TextUtils.isEmpty(power)) {
+                            LocalDate localDate = new LocalDate(visit.getVisitDate());
+
+                            switch (power){
+                                case "1":
+                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SV_1,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                                    break;
+                                case "1.5":
+                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SV_1_5,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                                    break;
+                                case "2":
+                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SV_2,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                                    break;
+                                case "2.5":
+                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SV_2_5,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                                    break;
+                                case "3":
+                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SV_3,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                                    break;
+
+                            }
+
+                        }
+
+                        }
+
+                }
+                else  if(!TextUtils.isEmpty(known) && known.equalsIgnoreCase("bf")){
+                    if(details.containsKey("power") && !StringUtils.isEmpty(details.get("power"))) {
+                        String power = details.get("power");
+                        if(!TextUtils.isEmpty(power)) {
+                            LocalDate localDate = new LocalDate(visit.getVisitDate());
+
+                            switch (power){
+                                case "1":
+                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.BF_1,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                                    break;
+                                case "1.5":
+                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.BF_1_5,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                                    break;
+                                case "2":
+                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.BF_2,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                                    break;
+                                case "2.5":
+                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.BF_2_5,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                                    break;
+                                case "3":
+                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.BF_3,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                                    break;
+
+                            }
+
+                        }
+
+                    }
+
+                }
+                else  if(!TextUtils.isEmpty(known) && known.equalsIgnoreCase("bf")){
+                    LocalDate localDate = new LocalDate(visit.getVisitDate());
+                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SUN_GLASS,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+
+                }
+            }
+        }
+    }
+
     private void updateFamilyPlanning(VisitLog visit,HashMap<String,String>details){
         if(details!=null){
             if(details.containsKey("familyplanning_method_known") && !StringUtils.isEmpty(details.get("familyplanning_method_known"))) {
@@ -984,6 +1075,8 @@ public class VisitLogIntentService extends IntentService {
                                 HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_NCD_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
 
                             }else if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_ADULT)){
+                                HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ADULT_FORUM_SERVICE_TAKEN,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfServiceTaken));
+
                                 HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADULT_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
 
                             }

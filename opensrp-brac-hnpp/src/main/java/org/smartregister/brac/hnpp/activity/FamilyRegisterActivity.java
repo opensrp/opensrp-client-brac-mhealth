@@ -11,6 +11,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.bottomnavigation.LabelVisibilityMode;
 import android.support.design.widget.BottomNavigationView;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
@@ -172,7 +173,11 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
     @Override
     protected void onStart() {
         super.onStart();
-        IntentFilter intentFilter = new IntentFilter("STOCK_ACTION");
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(HnppConstants.ACTION_STOCK_COME);
+        intentFilter.addAction(HnppConstants.ACTION_STOCK_END);
+        intentFilter.addAction(HnppConstants.ACTION_EDD);
+
         registerReceiver(notificationBroadcastReceiver, intentFilter);
     }
     @Override
@@ -315,24 +320,22 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
     private class NotificationBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            //Show popup
-            String name, count;
-            Bundle extras = intent.getExtras();
-            name = extras.getString("name_count");
-            //count = extras.getString("count");
-            Dialog dialog = new Dialog(getContext(), android.R.style.Theme_NoTitleBar_Fullscreen);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setContentView(R.layout.new_stock_view);
-            TextView textViewTitle = dialog.findViewById(R.id.stock_new_text);
-            textViewTitle.setText(name);
-            dialog.findViewById(R.id.cross_btn).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });
-            dialog.show();
+            if(intent != null && intent.getAction().equalsIgnoreCase(HnppConstants.ACTION_STOCK_COME)){
+                String value = intent.getStringExtra(HnppConstants.EXTRA_STOCK_COME);
+               HnppConstants.showDialog(FamilyRegisterActivity.this,getString(R.string.menu_new_stock),value);
+
+            }
+            if(intent != null && intent.getAction().equalsIgnoreCase(HnppConstants.ACTION_STOCK_END)){
+                String value = intent.getStringExtra(HnppConstants.EXTRA_STOCK_END);
+                HnppConstants.showDialog(FamilyRegisterActivity.this,getString(R.string.menu_end_stock),value);
+            }
+            if(intent != null && intent.getAction().equalsIgnoreCase(HnppConstants.ACTION_EDD)){
+                String value = intent.getStringExtra(HnppConstants.EXTRA_EDD);
+                HnppConstants.showDialog(FamilyRegisterActivity.this,getString(R.string.menu_edd_this_month),value);
+            }
+
         }
     }
+
 
 }

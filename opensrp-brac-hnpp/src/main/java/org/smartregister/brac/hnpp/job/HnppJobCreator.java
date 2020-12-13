@@ -61,6 +61,8 @@ public class HnppJobCreator implements JobCreator {
                 return new StockFetchJob();
             case PullGuestMemberIdServiceJob.TAG:
                 return new PullGuestMemberIdServiceJob();
+            case NotificationGeneratorJob.TAG:
+                return new NotificationGeneratorJob();
             default:
                 Timber.d("Please create job and specify the right job tag");
                 return null;

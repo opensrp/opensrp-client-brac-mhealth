@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.holder.NotificationViewHolder;
 import org.smartregister.brac.hnpp.model.Notification;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 
 import java.util.ArrayList;
 
@@ -38,10 +39,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationViewHo
     @Override
     public void onBindViewHolder(@NonNull final NotificationViewHolder viewHolder, int position) {
         final Notification content = contentList.get(position);
-        viewHolder.textViewDate.setText(content.getSendDate());
+        viewHolder.textViewDate.setText(content.getSendDate()+"");
         viewHolder.textViewTitle.setText(content.getTitle()+"");
-        viewHolder.textViewHour.setText(content.getHour()+"");
-        viewHolder.textViewMin.setText(content.getMinute()+"");
+        viewHolder.textViewMin.setText(content.getHour()+" : "+content.getMinute()+"");
+        if(content.getNotificationType().equalsIgnoreCase("In app")){
+            viewHolder.imageViewAppIcon.setImageResource(R.drawable.ic_app_icon);
+        }else{
+            viewHolder.imageViewAppIcon.setImageResource(R.drawable.ic_global);
+        }
         viewHolder.itemView.setOnClickListener(v -> onClickAdapter.onClick(viewHolder.getAdapterPosition(), content));
     }
 
