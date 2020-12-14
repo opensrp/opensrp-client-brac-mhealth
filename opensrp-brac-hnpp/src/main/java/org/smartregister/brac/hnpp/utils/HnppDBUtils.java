@@ -150,30 +150,30 @@ public class HnppDBUtils extends CoreChildUtils {
         return count;
     }
 
-    public static String[] getBaseEntityByGuId(String guid){
+    public static IdentityModel getBaseEntityByGuId(String guid){
         String query = "select ec_family_member.base_entity_id,ec_family_member.first_name,ec_family_member.unique_id,ec_family.first_name,ec_family_member.dob from ec_family_member LEFT JOIN ec_family ON  ec_family_member.relational_id = ec_family.id COLLATE NOCASE  where ec_family_member.gu_id = '"+guid+"'";
         Cursor cursor = null;
-        String[] strings = new String[5];
+        IdentityModel identityModel = new IdentityModel();
         try {
             cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
-                strings[0] = cursor.getString(0);
-                strings[1] = cursor.getString(1);
-                strings[2] = cursor.getString(2);
-                strings[3] = cursor.getString(3);
+                identityModel.setBaseEntityId(cursor.getString(0));
+                identityModel.setName(cursor.getString(1));
+                identityModel.setId(cursor.getString(2));
+                identityModel.setFamilyHead(cursor.getString(3));
                 String dobString = Utils.getDuration(cursor.getString(4));
-                strings[4] = dobString;
+                identityModel.setAge(dobString);
             }
 
-            return strings;
+            return identityModel;
         } catch (Exception e) {
             e.printStackTrace();
         }
         finally {
             if(cursor!=null) cursor.close();
         }
-        return strings;
+        return identityModel;
     }
 
     public static String getBirthWeight(String baseEntityId){

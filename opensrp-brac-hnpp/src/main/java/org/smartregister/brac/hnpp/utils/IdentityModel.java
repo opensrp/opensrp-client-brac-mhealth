@@ -1,7 +1,7 @@
 package org.smartregister.brac.hnpp.utils;
 
 public class IdentityModel {
-    String guid;
+    String id;
     String baseEntityId="";
     String name;
     String tier;
@@ -42,12 +42,12 @@ public class IdentityModel {
         return tier;
     }
 
-    public String getGuid() {
-        return guid;
+    public String getId() {
+        return id;
     }
 
-    public void setGuid(String guid) {
-        this.guid = guid;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getBaseEntityId() {

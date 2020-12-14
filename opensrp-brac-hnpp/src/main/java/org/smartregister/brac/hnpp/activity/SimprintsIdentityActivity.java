@@ -388,7 +388,7 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
                     if(check){
                         showProgressDialog();
                         sessionId = data.getStringExtra(Constants.SIMPRINTS_SESSION_ID);
-                        Log.v("SIMPRINTS_IDENTITY","sessionId:"+sessionId);
+                        Log.v("SIMPRINTS_IDENTITY","sessionId:"+sessionId+":moduleId:"+moduleId);
                         appExecutors.diskIO().execute(() -> {
                             try {
 
@@ -404,21 +404,16 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
                                         case TIER_3:
                                         case TIER_4:
                                         case TIER_5:
-                                            IdentityModel identityModel = new IdentityModel();
-                                            String[] ourPut = HnppDBUtils.getBaseEntityByGuId(identification.getGuid());
-                                            if(ourPut!=null && !TextUtils.isEmpty(ourPut[1])){
-                                                Log.v("SIMPRINTS_IDENTITY","baseid:"+ourPut[0]+":identification.getGuid()"+identification.getGuid());
-                                                identityModel.setBaseEntityId(ourPut[0]);
-                                                identityModel.setName(ourPut[1]);
+                                            IdentityModel identityModel = HnppDBUtils.getBaseEntityByGuId(identification.getGuid());
+                                            if(identityModel!=null && !TextUtils.isEmpty(identityModel.getBaseEntityId())){
+                                                Log.v("SIMPRINTS_IDENTITY","baseid:"+identityModel.getBaseEntityId()+":identification.getGuid()"+identification.getGuid());
                                                 identityModel.setTier(identification.getTier().toString().replace("_"," "));
-                                                identityModel.setFamilyHead(ourPut[3]);
-                                                identityModel.setAge(ourPut[4]);
                                                 identityModel.setOriginalGuId(identification.getGuid());
-                                                if(!TextUtils.isEmpty(ourPut[2])) {
-                                                   String id = ourPut[2].replace(org.smartregister.family.util.Constants.IDENTIFIER.FAMILY_SUFFIX,"")
+                                                if(identityModel.getId()!=null) {
+                                                   String id = identityModel.getId().replace(org.smartregister.family.util.Constants.IDENTIFIER.FAMILY_SUFFIX,"")
                                                             .replace(HnppConstants.IDENTIFIER.FAMILY_TEXT,"");
                                                     id = id.substring(id.length() - MEMBER_ID_SUFFIX);
-                                                    identityModel.setGuid("ID: " + id);
+                                                    identityModel.setId("ID: " + id);
                                                 }
                                                 if(identityModelList.size()!=3){
                                                     identityModelList.add(identityModel);
