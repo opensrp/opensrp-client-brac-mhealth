@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/migration_menu"
+        android:title="স্থানান্তর করি"/>
+
+    <item
+        android:id="@+id/migration_details"
+        android:title="বিস্তারিত"/>
+
+
+</menu>

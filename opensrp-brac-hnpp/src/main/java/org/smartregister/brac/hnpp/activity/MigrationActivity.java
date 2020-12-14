@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -81,7 +82,7 @@ public class MigrationActivity extends SecuredActivity implements View.OnClickLi
         dialog.findViewById(R.id.dont_know_search_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+               startActivity(new Intent(MigrationActivity.this,MigrationFilterSearchActivity.class));
             }
         });
         dialog.show();

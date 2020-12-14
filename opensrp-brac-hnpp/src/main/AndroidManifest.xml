@@ -29,15 +29,22 @@
         android:theme="@style/HNPPTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup,android:icon">
-        <activity android:name=".activity.MigrationActivity"
+        <activity android:name=".activity.MigrationSearchDetailsActivity"></activity>
+        <activity
+            android:name=".activity.MigrationFilterSearchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".activity.MigrationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".activity.NotificationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"
@@ -82,7 +89,7 @@
             android:name=".activity.GuestMemberProfileActivity"
             android:label="@string/title_family_detail"
             android:screenOrientation="portrait"
-            android:theme="@style/FamilyTheme.NoActionBar"></activity>
+            android:theme="@style/FamilyTheme.NoActionBar" />
         <activity
             android:name=".activity.HnppFamilyOtherMemberProfileActivity"
             android:label="@string/title_family_detail"

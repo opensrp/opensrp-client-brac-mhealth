@@ -5,6 +5,7 @@
         <item>পুরুষ</item>
         <item>তৃতীয় লিঙ্গ</item>
     </string-array>
+    <string name="gender_prompt">লিঙ্গ বাছাই করুন</string>
     <string name="logo">logo</string>
     <string name="login_title">HEALTH,NUTRITION AND POPULATION PROGRAMME</string>
     <string name="nav_logo">HEALTH,NUTRITION AND POPULATION PROGRAMME</string>
