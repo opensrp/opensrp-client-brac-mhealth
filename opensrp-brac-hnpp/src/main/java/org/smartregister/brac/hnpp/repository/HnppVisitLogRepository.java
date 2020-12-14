@@ -361,7 +361,7 @@ public class HnppVisitLogRepository extends BaseRepository {
     }
     public ArrayList<VisitLog> getAllVisitLogForFamily(String familyId) {
         SQLiteDatabase database = getReadableDatabase();
-        String selection = FAMILY_ID + " = ? " + COLLATE_NOCASE;
+        String selection = FAMILY_ID + " = ? " + COLLATE_NOCASE+" and ("+VISIT_TYPE+"!='"+HnppConstants.EVENT_TYPE.FORUM_ADULT+"' and "+VISIT_TYPE+"!='"+HnppConstants.EVENT_TYPE.FORUM_WOMEN+"' and "+VISIT_TYPE+"!='"+HnppConstants.EVENT_TYPE.FORUM_NCD+"' and "+VISIT_TYPE+"!='"+HnppConstants.EVENT_TYPE.FORUM_ADO+"' and "+VISIT_TYPE+"!='"+HnppConstants.EVENT_TYPE.FORUM_CHILD+"')";
         String[] selectionArgs = new String[]{familyId};
         try{
             net.sqlcipher.Cursor cursor = database.query(VISIT_LOG_TABLE_NAME, TABLE_COLUMNS, selection, selectionArgs, null, null, VISIT_DATE + " DESC");

@@ -113,6 +113,10 @@ public class FamilyHistoryFragment extends Fragment implements MemberHistoryCont
     private MemberHistoryAdapter.OnClickAdapter onClickAdapter = new MemberHistoryAdapter.OnClickAdapter() {
         @Override
         public void onClick(int position, MemberHistoryData content) {
+            if(content.getEventType().equalsIgnoreCase("Vaccination")
+                    || content.getEventType().equalsIgnoreCase("Recurring Service")){
+                return;
+            }
             startFormActivity(content);
         }
     };
