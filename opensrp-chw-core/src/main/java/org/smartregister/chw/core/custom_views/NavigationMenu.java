@@ -76,6 +76,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     private RelativeLayout ss_info_browse;
     private RelativeLayout notification_layout;
     private RelativeLayout migration_layout;
+    private RelativeLayout payment_layout;
 
     private View rootView = null;
     private ImageView ivSync;
@@ -193,6 +194,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         ss_info_browse = rootView.findViewById(R.id.ss_info_browse);
         notification_layout = rootView.findViewById(R.id.notification_view);
         migration_layout = rootView.findViewById(R.id.migration_view);
+        payment_layout = rootView.findViewById(R.id.payment_view);
 
         recyclerView = rootView.findViewById(R.id.rvOptions);
         ivSync = rootView.findViewById(R.id.ivSyncIcon);
@@ -221,6 +223,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         registerBrowseSSInfo(activity);
         registerNotification(activity);
         registerMigration(activity);
+        registerPayment(activity);
 
         registerDeviceToDeviceSync(activity);
         // update all actions
@@ -281,6 +284,11 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     public void browseMigration(Activity activity) {
         if(mPresenter!=null){
             mPresenter.browseMigration(activity);
+        }
+    }
+    public void browsePayment(Activity activity) {
+        if(mPresenter!=null){
+            mPresenter.browsePayment(activity);
         }
     }
 
@@ -347,6 +355,10 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     private void registerMigration(final Activity parentActivity){
         mPresenter.displayCurrentUser();
         migration_layout.setOnClickListener(v -> browseMigration(parentActivity));
+    }
+    private void registerPayment(final Activity parentActivity){
+        mPresenter.displayCurrentUser();
+        payment_layout.setOnClickListener(v -> browsePayment(parentActivity));
     }
 
 

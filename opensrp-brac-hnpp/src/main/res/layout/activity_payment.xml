@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorAccent"
     tools:context=".activity.PaymentActivity">
 
     <LinearLayout
@@ -30,8 +31,7 @@
         app:cardCornerRadius="5dp"
         android:id="@+id/kishori_forum"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:targetApi="lollipop">
+        android:layout_height="wrap_content">
         <LinearLayout
             android:layout_margin="10dp"
             android:layout_width="match_parent"
@@ -47,16 +47,16 @@
                     android:layout_weight="1"
                     android:id="@+id/ancID"
                     android:layout_margin="10dp"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/anc"/>
+                    android:text="@string/anc_payment"/>
                 <Button
                     android:layout_weight="1"
                     android:id="@+id/pncID"
                     android:layout_margin="10dp"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/pnc"/>
+                    android:text="@string/pnc_payment"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_weight="1"
@@ -68,17 +68,17 @@
                     android:layout_weight="1"
                     android:id="@+id/womenID"
                     android:layout_margin="10dp"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textAllCaps="false"
-                    android:text="@string/women"/>
+                    android:text="@string/women_payment"/>
                 <Button
                     android:layout_weight="1"
                     android:id="@+id/iycfID"
                     android:layout_margin="10dp"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/iycf"/>
+                    android:text="@string/iycf_payment"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_weight="1"
@@ -90,17 +90,40 @@
                     android:layout_weight="1"
                     android:id="@+id/ncdID"
                     android:layout_margin="10dp"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/ncd"/>
+                    android:text="@string/ncd_payment"/>
                 <Button
                     android:layout_weight="1"
                     android:id="@+id/adolescatID"
                     android:layout_margin="10dp"
                     android:textAllCaps="false"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/adolescat"/>
+                    android:text="@string/adolscent_payment"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:visibility="gone"
+                    android:layout_weight="1"
+                    android:id="@+id/eyetestID"
+                    android:layout_margin="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/eyetest_payment"/>
+                <Button
+                    android:visibility="gone"
+                    android:layout_weight="1"
+                    android:id="@+id/bloodgroupID"
+                    android:layout_margin="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/blood_group_payment"/>
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>

@@ -10,6 +10,14 @@
     <string name="login_title">HEALTH,NUTRITION AND POPULATION PROGRAMME</string>
     <string name="nav_logo">HEALTH,NUTRITION AND POPULATION PROGRAMME</string>
     <string name="due_only">Referred</string>
+    <string name="anc_payment">গর্ভবতী পরিচর্যা</string>
+    <string name="pnc_payment">প্রসবোত্তর পরিচর্যা</string>
+    <string name="women_payment">নারী সেবা প্যাকেজ</string>
+    <string name="iycf_payment">শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)</string>
+    <string name="ncd_payment">অসংক্রামক রোগের সেবা</string>
+    <string name="adolscent_payment">কিশোরী সেবা প্যাকেজ</string>
+    <string name="eyetest_payment">চক্ষু পরীক্ষা</string>
+    <string name="blood_group_payment">ব্লাড গ্রুপ</string>
 
     <string name="menu_all_clients">সকল ক্লায়েন্ট</string>
     <string name="menu_all_families">খানার তালিকা</string>

@@ -26,6 +26,7 @@ public interface NavigationContract {
         void browseSSInfo(Activity activity);
         void browseNotification(Activity activity);
         void browseMigration(Activity activity);
+        void browsePayment(Activity activity);
         List<NavigationOption> getOptions();
     }
 
