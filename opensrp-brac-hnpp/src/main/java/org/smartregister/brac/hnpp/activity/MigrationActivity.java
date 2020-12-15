@@ -70,7 +70,7 @@ public class MigrationActivity extends SecuredActivity implements View.OnClickLi
         dialog.findViewById(R.id.yes_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                startActivity(new Intent(MigrationActivity.this,MigrationSearchDetailsActivity.class));
             }
         });
         dialog.findViewById(R.id.no_btn).setOnClickListener(new View.OnClickListener() {
