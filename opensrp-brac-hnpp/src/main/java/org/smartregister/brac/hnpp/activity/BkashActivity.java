@@ -73,7 +73,7 @@ public class BkashActivity extends AppCompatActivity {
              */
             wvBkashPayment.addJavascriptInterface(new BkashJavaScriptInterface(BkashActivity.this), "KinYardsPaymentData");
 
-            wvBkashPayment.loadUrl("https://www.hosting.com/api/payment.php");   // api host link .
+            wvBkashPayment.loadUrl("http://hnpptest.mpower-social.com:8080/opensrp/bkash-payment");   // api host link .
 
             wvBkashPayment.setWebViewClient(new CheckoutWebViewClient());
         }
@@ -106,7 +106,7 @@ public class BkashActivity extends AppCompatActivity {
         public void onPageFinished(WebView view, String url) {
             String paymentRequest = "{paymentRequest:" + request + "}";
             wvBkashPayment.loadUrl("javascript:callReconfigure(" + paymentRequest + " )");
-           // wvBkashPayment.loadUrl("javascript:getAmount(" + orderModel.getSub_total() + " )");
+            // wvBkashPayment.loadUrl("javascript:getAmount(" + orderModel.getSub_total() + " )");
             wvBkashPayment.loadUrl("javascript:clickPayButton()");
             progressBar.setVisibility(view.GONE);
         }
