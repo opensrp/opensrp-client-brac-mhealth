@@ -366,6 +366,8 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
             switch (viewId) {
                 case R.id.call_layout:
                     FamilyCallDialogFragment.launchDialog(activity, presenter.getFamilyId());
+                    /*Intent intent = new Intent(HnppChildProfileActivity.this, PaymentActivity.class);
+                    startActivity(intent);*/
                     break;
                 case R.id.refer_to_facility_fab:
                     Toast.makeText(activity, "Refer to facility", Toast.LENGTH_SHORT).show();

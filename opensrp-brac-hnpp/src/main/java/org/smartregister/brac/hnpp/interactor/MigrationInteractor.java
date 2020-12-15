@@ -11,11 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.contract.MigrationContract;
-import org.smartregister.brac.hnpp.utils.District;
-import org.smartregister.brac.hnpp.utils.Pouroshova;
-import org.smartregister.brac.hnpp.utils.Union;
-import org.smartregister.brac.hnpp.utils.Upazila;
-import org.smartregister.brac.hnpp.utils.Village;
+import org.smartregister.brac.hnpp.utils.BaseLocation;
 import org.smartregister.family.util.AppExecutors;
 import org.smartregister.service.HTTPAgent;
 
@@ -23,64 +19,87 @@ import java.util.ArrayList;
 
 public class MigrationInteractor implements MigrationContract.Interactor {
     private AppExecutors appExecutors;
-    private ArrayList<District> districtArrayList;
-    private ArrayList<Upazila> upazilaArrayList;
-    private ArrayList<Pouroshova> pouroshovaArrayList;
-    private ArrayList<Union> unionArrayList;
-    private ArrayList<Village> villageArrayList;
+    private ArrayList<BaseLocation> districtArrayList = new ArrayList<>();
+    private ArrayList<BaseLocation> upazilaArrayList = new ArrayList<>();
+    private ArrayList<BaseLocation> pouroshovaArrayList = new ArrayList<>();
+    private ArrayList<BaseLocation> unionArrayList= new ArrayList<>();
+    private ArrayList<BaseLocation> villageArrayList= new ArrayList<>();
     private static final String DISTRICT_URL = "/location/district-list";
     private static final String CHILD_URL = "/location/child-location?";
+
+    public enum LOCATION_TYPE {
+        DISTRICT, UPOZILA, POUROSHOVA, UNION,VILLAGE;
+
+    }
 
 
     public MigrationInteractor(AppExecutors appExecutors) {
         this.appExecutors = appExecutors;
+    }
+    private void addDistrict(){
+        districtArrayList.clear();
+        JSONArray jsonArray = getDistrictList();
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                JSONObject object = jsonArray.getJSONObject(i);
+                BaseLocation district = new Gson().fromJson(object.toString(), BaseLocation.class);
+                if (district != null) {
+                    districtArrayList.add(district);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    private void addChild(String childId,LOCATION_TYPE locationType ){
+        JSONArray jsonArray = getChildList(childId);
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                JSONObject object = jsonArray.getJSONObject(i);
+                BaseLocation baseLocation = new Gson().fromJson(object.toString(), BaseLocation.class);
+                if(baseLocation!=null){
+                    switch (locationType){
+                        case UPOZILA:
+                            upazilaArrayList.clear();
+                            upazilaArrayList.add(baseLocation);
+                            break;
+                        case POUROSHOVA:
+                            pouroshovaArrayList.clear();
+                            pouroshovaArrayList.add(baseLocation);
+                            break;
+                        case UNION:
+                            unionArrayList.clear();
+                            unionArrayList.add( baseLocation);
+                            break;
+                        case VILLAGE:
+                            villageArrayList.clear();
+                            villageArrayList.add( baseLocation);
+                            break;
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
     public void fetchDistrict(MigrationContract.InteractorCallBack callBack) {
 
         Runnable runnable = () -> {
-            JSONArray jsonArray = getDistrictList();
-            Log.v("District JSON array: ", jsonArray + "");
-
-            for (int i = 0; i < jsonArray.length(); i++) {
-                try {
-                    JSONObject object = jsonArray.getJSONObject(i);
-                    District district = new Gson().fromJson(object.toString(), District.class);
-                    if (district != null) {
-                        districtArrayList.add(district);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
+            addDistrict();
             appExecutors.mainThread().execute(() -> callBack.onUpdateDistrict(districtArrayList));
         };
         appExecutors.diskIO().execute(runnable);
     }
 
     @Override
-    public void fetchUpazila(MigrationContract.InteractorCallBack callBack) {
+    public void fetchUpazila(String jilaId, MigrationContract.InteractorCallBack callBack) {
 
         Runnable runnable = () -> {
-            int id;
-            District district = new District();
-            id = district.getId();
-            JSONArray jsonArray = getChildList(id);
-            Log.v("Upazila JSON array: ", jsonArray + "");
-
-            for (int i = 0; i < jsonArray.length(); i++) {
-                try {
-                    JSONObject object = jsonArray.getJSONObject(i);
-                    Upazila upazila = new Gson().fromJson(object.toString(), Upazila.class);
-                    if (district != null) {
-                        upazilaArrayList.add(upazila);
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
+            addChild(jilaId,LOCATION_TYPE.UPOZILA);
 
             appExecutors.mainThread().execute(() -> callBack.onUpdateUpazila(upazilaArrayList));
         };
@@ -88,28 +107,10 @@ public class MigrationInteractor implements MigrationContract.Interactor {
     }
 
     @Override
-    public void fetchPouroshova(MigrationContract.InteractorCallBack callBack) {
+    public void fetchPouroshova(String upojilaId, MigrationContract.InteractorCallBack callBack) {
 
         Runnable runnable = () -> {
-            int id;
-            Upazila upazila = new Upazila();
-            id = upazila.getId();
-            JSONArray jsonArray = getChildList(id);
-            Log.v("Pouroshova JSON array: ", jsonArray + "");
-
-            for (int i = 0; i < jsonArray.length(); i++) {
-                try {
-                    JSONObject object = jsonArray.getJSONObject(i);
-                    Pouroshova pouroshova = new Gson().fromJson(object.toString(), Pouroshova.class);
-                    if (pouroshova != null) {
-                        pouroshovaArrayList.add(pouroshova);
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
+            addChild(upojilaId,LOCATION_TYPE.POUROSHOVA);
 
             appExecutors.mainThread().execute(() -> callBack.onUpdatePouroshova(pouroshovaArrayList));
         };
@@ -117,28 +118,10 @@ public class MigrationInteractor implements MigrationContract.Interactor {
     }
 
     @Override
-    public void fetchUnion(MigrationContract.InteractorCallBack callBack) {
+    public void fetchUnion(String pourosovaId, MigrationContract.InteractorCallBack callBack) {
 
         Runnable runnable = () -> {
-            int id;
-            Pouroshova pouroshova = new Pouroshova();
-            id = pouroshova.getId();
-            JSONArray jsonArray = getChildList(id);
-            Log.v("Union JSON array: ", jsonArray + "");
-
-            for (int i = 0; i < jsonArray.length(); i++) {
-                try {
-                    JSONObject object = jsonArray.getJSONObject(i);
-                    Union union = new Gson().fromJson(object.toString(), Union.class);
-                    if (union != null) {
-                        unionArrayList.add(union);
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
+            addChild(pourosovaId,LOCATION_TYPE.UNION);
 
             appExecutors.mainThread().execute(() -> callBack.onUpdateUnion(unionArrayList));
         };
@@ -146,27 +129,10 @@ public class MigrationInteractor implements MigrationContract.Interactor {
     }
 
     @Override
-    public void fetchVillage(MigrationContract.InteractorCallBack callBack) {
+    public void fetchVillage(String unionId, MigrationContract.InteractorCallBack callBack) {
 
         Runnable runnable = () -> {
-            int id;
-            Union union = new Union();
-            id = union.getId();
-            JSONArray jsonArray = getChildList(id);
-            Log.v("Village JSON array: ", jsonArray + "");
-
-            for (int i = 0; i < jsonArray.length(); i++) {
-                try {
-                    JSONObject object = jsonArray.getJSONObject(i);
-                    Village village = new Gson().fromJson(object.toString(), Village.class);
-                    if (village != null) {
-                        villageArrayList.add(village);
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
+            addChild(unionId,LOCATION_TYPE.VILLAGE);
 
 
             appExecutors.mainThread().execute(() -> callBack.onUpdateVillage(villageArrayList));
@@ -190,7 +156,7 @@ public class MigrationInteractor implements MigrationContract.Interactor {
             String url = baseUrl + DISTRICT_URL;
                     /*+ "?username=" + userName;*/
 
-            Log.v("District Fetch", "url:" + url);
+            Log.v("DISTRICT_URL", "url:" + url);
             org.smartregister.domain.Response resp = httpAgent.fetch(url);
             if (resp.isFailure()) {
                 throw new NoHttpResponseException(DISTRICT_URL + " not returned data");
@@ -204,7 +170,7 @@ public class MigrationInteractor implements MigrationContract.Interactor {
 
     }
 
-    private JSONArray getChildList(int id) {
+    private JSONArray getChildList(String  id) {
         try {
             HTTPAgent httpAgent = CoreLibrary.getInstance().context().getHttpAgent();
             String baseUrl = CoreLibrary.getInstance().context().
@@ -216,7 +182,7 @@ public class MigrationInteractor implements MigrationContract.Interactor {
 
             String url = baseUrl + CHILD_URL + "id=" + id;
 
-            Log.v("CHILD Fetch", "url:" + url);
+            Log.v("CHILD_URL", "url:" + url);
             org.smartregister.domain.Response resp = httpAgent.fetch(url);
             if (resp.isFailure()) {
                 throw new NoHttpResponseException(CHILD_URL + " not returned data");

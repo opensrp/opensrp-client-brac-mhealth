@@ -316,5 +316,12 @@
     <string name="month_bangla">মাস</string>
     <string name="ss_name_bangla">সেবিকা</string>
     <string name="date_bangla">তারিখ</string>
+    <string name="adolescat">Adolescat</string>
+   <string name="ncd">NCD</string>
+   <string name="iycf">IYCF</string>
+   <string name="payment_for">Payment For</string>
+   <string name="anc">ANC</string>
+   <string name="pnc">PNC</string>
+   <string name="women">Women</string>
 
 </resources>

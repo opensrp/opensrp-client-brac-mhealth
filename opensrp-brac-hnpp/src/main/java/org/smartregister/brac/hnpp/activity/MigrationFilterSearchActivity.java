@@ -2,29 +2,19 @@ package org.smartregister.brac.hnpp.activity;
 
 import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.contract.MigrationContract;
-import org.smartregister.brac.hnpp.contract.NotificationContract;
 import org.smartregister.brac.hnpp.presenter.MigrationPresenter;
-import org.smartregister.brac.hnpp.utils.District;
-import org.smartregister.brac.hnpp.utils.Pouroshova;
-import org.smartregister.brac.hnpp.utils.Union;
-import org.smartregister.brac.hnpp.utils.Upazila;
-import org.smartregister.brac.hnpp.utils.Village;
-import org.smartregister.service.HTTPAgent;
+import org.smartregister.brac.hnpp.utils.BaseLocation;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.view.activity.SecuredActivity;
 
-import java.util.ArrayList;
-
-public class MigrationFilterSearchActivity extends SecuredActivity implements View.OnClickListener, AdapterView.OnItemClickListener,MigrationContract.View{
+public class MigrationFilterSearchActivity extends SecuredActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener,MigrationContract.View{
     protected Spinner migration_district_spinner;
     protected Spinner migration_upazila_spinner;
     protected Spinner migration_pourosova_spinner;
@@ -34,13 +24,13 @@ public class MigrationFilterSearchActivity extends SecuredActivity implements Vi
     protected EditText age_migration;
 
     private MigrationPresenter presenter;
-    private String district, upazila, pouroshova, union, village, gender, age;
+    private String gender, age;
 
-    private ArrayAdapter<District> districtSpinnerArrayAdapter;
-    private ArrayAdapter<Upazila> upazilaSpinnerArrayAdapter;
-    private ArrayAdapter<Pouroshova> pouroshovaSpinnerArrayAdapter;
-    private ArrayAdapter<Union> unionSpinnerArrayAdapter;
-    private ArrayAdapter<Village> villageSpinnerArrayAdapter;
+    private ArrayAdapter<BaseLocation> districtSpinnerArrayAdapter;
+    private ArrayAdapter<BaseLocation> upazilaSpinnerArrayAdapter;
+    private ArrayAdapter<BaseLocation> pouroshovaSpinnerArrayAdapter;
+    private ArrayAdapter<BaseLocation> unionSpinnerArrayAdapter;
+    private ArrayAdapter<BaseLocation> villageSpinnerArrayAdapter;
 
     @Override
     protected void onCreation() {
@@ -55,13 +45,14 @@ public class MigrationFilterSearchActivity extends SecuredActivity implements Vi
 
         presenter = new MigrationPresenter(this);
         presenter.fetchDistrict();
-        presenter.fetchUpazila();
-        presenter.fetchPouroshova();
-        presenter.fetchUnion();
-        presenter.fetchVillage();
-        generateSpinner();
         gender = migration_gender_spinner.getSelectedItem().toString();
         age = age_migration.getText().toString();
+
+        migration_district_spinner.setOnItemSelectedListener(this);
+        migration_upazila_spinner.setOnItemSelectedListener(this);
+        migration_pourosova_spinner.setOnItemSelectedListener(this);
+        migration_union_spinner.setOnItemSelectedListener(this);
+        migration_village_spinner.setOnItemSelectedListener(this);
 
         findViewById(R.id.migration_filter_search_btn).setOnClickListener(this);
     }
@@ -70,34 +61,37 @@ public class MigrationFilterSearchActivity extends SecuredActivity implements Vi
     protected void onResumption() {
 
     }
-    private void generateSpinner(){
-        districtSpinnerArrayAdapter = new ArrayAdapter<District>(this, android.R.layout.simple_spinner_item, presenter.getDistrictList());
+    @Override
+    public void updateDistrictSpinner(){
+        districtSpinnerArrayAdapter = new ArrayAdapter<BaseLocation>(this, android.R.layout.simple_spinner_item, presenter.getDistrictList());
         districtSpinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         migration_district_spinner.setAdapter(districtSpinnerArrayAdapter);
 
-        upazilaSpinnerArrayAdapter = new ArrayAdapter<Upazila>(this, android.R.layout.simple_spinner_item, presenter.getUpazilaList());
+    }
+    @Override
+    public void updateUpazilaSpinner(){
+        upazilaSpinnerArrayAdapter = new ArrayAdapter<BaseLocation>(this, android.R.layout.simple_spinner_item, presenter.getUpazilaList());
         upazilaSpinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         migration_upazila_spinner.setAdapter(upazilaSpinnerArrayAdapter);
 
-        pouroshovaSpinnerArrayAdapter = new ArrayAdapter<Pouroshova>(this, android.R.layout.simple_spinner_item, presenter.getPouroshovaList());
+    }
+    @Override
+    public void updatePouroshovaSpinner(){
+        pouroshovaSpinnerArrayAdapter = new ArrayAdapter<BaseLocation>(this, android.R.layout.simple_spinner_item, presenter.getPouroshovaList());
         pouroshovaSpinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         migration_pourosova_spinner.setAdapter(pouroshovaSpinnerArrayAdapter);
-
-        unionSpinnerArrayAdapter = new ArrayAdapter<Union>(this, android.R.layout.simple_spinner_item, presenter.getUnionList());
+    }
+    @Override
+    public void updateUnionSpinner(){
+        unionSpinnerArrayAdapter = new ArrayAdapter<BaseLocation>(this, android.R.layout.simple_spinner_item, presenter.getUnionList());
         unionSpinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         migration_union_spinner.setAdapter(unionSpinnerArrayAdapter);
-
-        villageSpinnerArrayAdapter = new ArrayAdapter<Village>(this, android.R.layout.simple_spinner_item, presenter.getVillageList());
+    }
+    @Override
+    public void updateVillageSpinner(){
+        villageSpinnerArrayAdapter = new ArrayAdapter<BaseLocation>(this, android.R.layout.simple_spinner_item, presenter.getVillageList());
         villageSpinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         migration_village_spinner.setAdapter(villageSpinnerArrayAdapter);
-
-        migration_district_spinner.setOnItemClickListener(this);
-        migration_upazila_spinner.setOnItemClickListener(this);
-        migration_pourosova_spinner.setOnItemClickListener(this);
-        migration_union_spinner.setOnItemClickListener(this);
-        migration_village_spinner.setOnItemClickListener(this);
-
-
     }
 
     @Override
@@ -112,32 +106,53 @@ public class MigrationFilterSearchActivity extends SecuredActivity implements Vi
 
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        switch (view.getId()){
-            case R.id.migration_filter_district:
-                district = parent.getItemAtPosition(position).toString();
-                break;
-            case R.id.migration_filter_thana:
-                upazila = parent.getItemAtPosition(position).toString();
-                break;
-            case R.id.migration_filter_pourosova:
-                pouroshova = parent.getItemAtPosition(position).toString();
-                break;
-            case R.id.migration_filter_union:
-                union = parent.getItemAtPosition(position).toString();
-                break;
-            case R.id.migration_filter_village:
-                village = parent.getItemAtPosition(position).toString();
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.migration_filter_search_btn:
+                gender = HnppConstants.genderMapping.get(gender);
+                BaseLocation villageLocation = (BaseLocation) migration_village_spinner.getSelectedItem();
+                if(villageLocation!=null && villageLocation.id!=0){
+                    MigrationSearchDetailsActivity.startMigrationSearchActivity(this,villageLocation.id+"",gender,age);
+                }
+
+
                 break;
         }
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.migration_filter_search_btn:
-
+    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+        if(position == -1) return;
+        switch (adapterView.getId()){
+            case R.id.migration_filter_district:
+                BaseLocation district = (BaseLocation) migration_district_spinner.getItemAtPosition(position);
+                if(district!=null){
+                    presenter.fetchUpazila(district.id+"");
+                }
+                break;
+            case R.id.migration_filter_thana:
+                BaseLocation upozila = (BaseLocation) migration_upazila_spinner.getItemAtPosition(position);
+                if(upozila!=null){
+                    presenter.fetchPouroshova(upozila.id+"");
+                }
+                break;
+            case R.id.migration_filter_pourosova:
+                BaseLocation pourosova = (BaseLocation) migration_pourosova_spinner.getItemAtPosition(position);
+                if(pourosova!=null){
+                    presenter.fetchUnion(pourosova.id+"");
+                }
+                break;
+            case R.id.migration_filter_union:
+                BaseLocation union = (BaseLocation) migration_union_spinner.getItemAtPosition(position);
+                if(union!=null){
+                    presenter.fetchVillage(union.id+"");
+                }
                 break;
         }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }

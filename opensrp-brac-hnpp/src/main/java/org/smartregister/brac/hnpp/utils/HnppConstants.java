@@ -518,6 +518,11 @@ public class HnppConstants extends CoreConstants {
         public static final String PNC_SERVICE = "PNC Service";
         public static final String GUEST_MEMBER_REGISTRATION = "OOC Member Registration";
     }
+    public static final Map<String,String> genderMapping = ImmutableMap.<String,String> builder()
+            .put("নারী","F")
+            .put("পুরুষ","M")
+            .put("তৃতীয় লিঙ্গ","O")
+            .build();
     public static final Map<String,String> vaccineNameMapping = ImmutableMap.<String,String> builder()
             .put("bcg","বিসিজি")
             .put("opv_1","পোলিও-১")

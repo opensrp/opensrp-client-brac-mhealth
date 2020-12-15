@@ -29,7 +29,19 @@
         android:theme="@style/HNPPTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup,android:icon">
-        <activity android:name=".activity.MigrationSearchDetailsActivity"></activity>
+
+    <activity android:name=".activity.PaymentSuccess_Activity" android:screenOrientation="portrait"
+        android:theme="@style/HNPPTheme.NoActionBar"
+        android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
+        <activity android:name=".activity.BkashActivity" android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
+        <activity android:name=".activity.PaymentActivity" android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+        <activity android:name=".activity.MigrationSearchDetailsActivity" android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
         <activity
             android:name=".activity.MigrationFilterSearchActivity"
             android:screenOrientation="portrait"
@@ -71,6 +83,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+
         <activity
             android:name=".activity.FamilyRegisterActivity"
             android:screenOrientation="portrait"

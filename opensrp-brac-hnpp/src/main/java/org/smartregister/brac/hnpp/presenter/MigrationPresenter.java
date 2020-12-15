@@ -1,26 +1,19 @@
 package org.smartregister.brac.hnpp.presenter;
 
 import org.smartregister.brac.hnpp.contract.MigrationContract;
-import org.smartregister.brac.hnpp.contract.OtherServiceContract;
-import org.smartregister.brac.hnpp.interactor.MemberOtherServiceInteractor;
 import org.smartregister.brac.hnpp.interactor.MigrationInteractor;
-import org.smartregister.brac.hnpp.utils.District;
-import org.smartregister.brac.hnpp.utils.OtherServiceData;
-import org.smartregister.brac.hnpp.utils.Pouroshova;
-import org.smartregister.brac.hnpp.utils.Union;
-import org.smartregister.brac.hnpp.utils.Upazila;
-import org.smartregister.brac.hnpp.utils.Village;
+import org.smartregister.brac.hnpp.utils.BaseLocation;
 import org.smartregister.family.util.AppExecutors;
 
 import java.util.ArrayList;
 
 public class MigrationPresenter implements MigrationContract.Presenter, MigrationContract.InteractorCallBack {
     private MigrationContract.View view;
-    private ArrayList<District> districtArrayList;
-    private ArrayList<Upazila> upazilaArrayList;
-    private ArrayList<Pouroshova> pouroshovaArrayList;
-    private ArrayList<Union> unionArrayList;
-    private ArrayList<Village> villageArrayList;
+    private ArrayList<BaseLocation> districtArrayList;
+    private ArrayList<BaseLocation> upazilaArrayList;
+    private ArrayList<BaseLocation> pouroshovaArrayList;
+    private ArrayList<BaseLocation> unionArrayList;
+    private ArrayList<BaseLocation> villageArrayList;
     private MigrationContract.Interactor interactor;
 
     public MigrationPresenter(MigrationContract.View view){
@@ -34,74 +27,83 @@ public class MigrationPresenter implements MigrationContract.Presenter, Migratio
     }
 
     @Override
-    public void fetchUpazila() {
-        interactor.fetchUpazila(this);
+    public void fetchUpazila(String districtId) {
+        interactor.fetchUpazila(districtId,this);
     }
 
     @Override
-    public void fetchPouroshova() {
-        interactor.fetchPouroshova(this);
+    public void fetchPouroshova(String upozilaId) {
+        interactor.fetchPouroshova(upozilaId,this);
     }
 
     @Override
-    public void fetchUnion() {
-        interactor.fetchUnion(this);
+    public void fetchUnion(String poroshovaId) {
+        interactor.fetchUnion(poroshovaId,this);
+
     }
 
     @Override
-    public void fetchVillage() {
-        interactor.fetchVillage(this);
+    public void fetchVillage(String unionId) {
+        interactor.fetchVillage(unionId,this);
+
     }
 
+
     @Override
-    public ArrayList<District> getDistrictList() {
+    public ArrayList<BaseLocation> getDistrictList() {
         return districtArrayList;
     }
 
     @Override
-    public ArrayList<Upazila> getUpazilaList() {
+    public ArrayList<BaseLocation> getUpazilaList() {
         return upazilaArrayList;
     }
 
     @Override
-    public ArrayList<Pouroshova> getPouroshovaList() {
+    public ArrayList<BaseLocation> getPouroshovaList() {
         return pouroshovaArrayList;
     }
 
     @Override
-    public ArrayList<Union> getUnionList() {
+    public ArrayList<BaseLocation> getUnionList() {
         return unionArrayList;
     }
 
     @Override
-    public ArrayList<Village> getVillageList() {
+    public ArrayList<BaseLocation> getVillageList() {
         return villageArrayList;
     }
 
 
     @Override
-    public void onUpdateDistrict(ArrayList<District> districts) {
+    public void onUpdateDistrict(ArrayList<BaseLocation> districts) {
         this.districtArrayList = districts;
+        view.updateDistrictSpinner();
+
     }
 
     @Override
-    public void onUpdateUpazila(ArrayList<Upazila> upazilas) {
+    public void onUpdateUpazila(ArrayList<BaseLocation> upazilas) {
         this.upazilaArrayList = upazilas;
+        view.updateUpazilaSpinner();
     }
 
     @Override
-    public void onUpdatePouroshova(ArrayList<Pouroshova> pouroshovas) {
+    public void onUpdatePouroshova(ArrayList<BaseLocation> pouroshovas) {
         this.pouroshovaArrayList = pouroshovas;
+        view.updatePouroshovaSpinner();
     }
 
     @Override
-    public void onUpdateUnion(ArrayList<Union> unions) {
+    public void onUpdateUnion(ArrayList<BaseLocation> unions) {
         this.unionArrayList = unions;
+        view.updateUnionSpinner();
     }
 
     @Override
-    public void onUpdateVillage(ArrayList<Village> villages) {
+    public void onUpdateVillage(ArrayList<BaseLocation> villages) {
         this.villageArrayList = villages;
+        view.updateVillageSpinner();
     }
 
     @Override

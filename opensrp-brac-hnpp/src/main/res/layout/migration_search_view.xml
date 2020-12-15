@@ -131,6 +131,7 @@ android:fillViewport="true">
             android:layout_width="match_parent"
             android:background="@drawable/edit_text_bg"
             android:inputType="numberDecimal"
+            android:maxLength="3"
             android:layout_margin="5dp"
             android:layout_height="50dp">
 
