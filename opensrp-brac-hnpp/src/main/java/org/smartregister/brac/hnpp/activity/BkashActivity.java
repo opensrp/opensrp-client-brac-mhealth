@@ -18,15 +18,18 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.model.PaymentRequest;
 import org.smartregister.brac.hnpp.utils.BkashJavaScriptInterface;
+import org.smartregister.service.HTTPAgent;
 
 public class BkashActivity extends AppCompatActivity {
     WebView wvBkashPayment;
     ProgressBar progressBar;
     String amount = "";
     String request = "";
+    private static final String BKASH_URL = "/bkash-payment";
 
     //created by Mominul Islam mominulcse7@gmail.com  08/06/2020
 
@@ -73,12 +76,23 @@ public class BkashActivity extends AppCompatActivity {
              */
             wvBkashPayment.addJavascriptInterface(new BkashJavaScriptInterface(BkashActivity.this), "KinYardsPaymentData");
 
-            wvBkashPayment.loadUrl("http://hnpptest.mpower-social.com:8080/opensrp/bkash-payment");   // api host link .
+            wvBkashPayment.loadUrl(getUrl());   // api host link .
 
             wvBkashPayment.setWebViewClient(new CheckoutWebViewClient());
         }
     }
 
+    private String getUrl(){
+        String baseUrl = CoreLibrary.getInstance().context().
+                configuration().dristhiBaseURL();
+        String endString = "/";
+        if (baseUrl.endsWith(endString)) {
+            baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf(endString));
+        }
+
+        String url = baseUrl + BKASH_URL;
+        return url;
+    }
 
     private class CheckoutWebViewClient extends WebViewClient {
 
