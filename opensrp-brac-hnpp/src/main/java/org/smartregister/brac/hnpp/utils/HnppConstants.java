@@ -451,9 +451,9 @@ public class HnppConstants extends CoreConstants {
         public static final String PNC_REGISTRATION_OOC = "PNC Registration OOC";
         public static final String WOMEN_PACKAGE = "Women package";
         public static final String GIRL_PACKAGE = "Adolescent package";
-        public static final String NCD_PACKAGE = "NCD package";
-        public static final String EYE_TEST = "Eye test";
-        public static final String BLOOD_GROUP = "Blood group";
+        public static final String NCD_PACKAGE = "NCD package";//pa
+        public static final String EYE_TEST = "Eye test";//pa
+        public static final String BLOOD_GROUP = "Blood group";//pa
         public static final String IYCF_PACKAGE = "IYCF package";
         public static final String ENC_REGISTRATION = "ENC Registration";
         public static final String HOME_VISIT_FAMILY = "HH visit";
