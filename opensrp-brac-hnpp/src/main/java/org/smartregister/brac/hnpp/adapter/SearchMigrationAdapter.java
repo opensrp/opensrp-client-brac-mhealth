@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.holder.SearchMigrationViewHolder;
 import org.smartregister.brac.hnpp.model.Migration;
+import org.smartregister.family.util.Utils;
 
 import java.util.ArrayList;
 
@@ -38,9 +39,9 @@ public class SearchMigrationAdapter extends RecyclerView.Adapter<SearchMigration
     @Override
     public void onBindViewHolder(@NonNull final SearchMigrationViewHolder viewHolder, int position) {
         final Migration content = contentList.get(position);
-        viewHolder.textViewName.setText(content.getName()+"");
-        viewHolder.textViewAge.setText(content.getAge()+"");
-        viewHolder.textViewGender.setText(content.getGender()+"");
+        viewHolder.textViewName.setText(content.firstName+"");
+        viewHolder.textViewAge.setText( Utils.getDuration(content.birthdate+""));
+        viewHolder.textViewGender.setText(content.gender+"");
         viewHolder.imageViewAppIcon.setImageResource(R.drawable.rowavatar_member);
 
         viewHolder.imageViewMenu.setOnClickListener(v -> onClickAdapter.onClick(viewHolder.getAdapterPosition(), content));

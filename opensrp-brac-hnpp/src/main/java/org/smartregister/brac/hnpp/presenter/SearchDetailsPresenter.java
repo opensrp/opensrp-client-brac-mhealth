@@ -39,6 +39,6 @@ public class SearchDetailsPresenter implements SearchDetailsContract.Presenter,S
         this.data.clear();
         this.data = list;
         view.hideProgressBar();
-        if(view != null) view.updateAdapter();
+        view.updateAdapter();
     }
 }
