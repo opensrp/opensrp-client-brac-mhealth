@@ -13,7 +13,6 @@ import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.contract.SearchDetailsContract;
 import org.smartregister.brac.hnpp.model.Migration;
-import org.smartregister.brac.hnpp.utils.District;
 import org.smartregister.family.util.AppExecutors;
 import org.smartregister.service.HTTPAgent;
 
@@ -21,36 +20,39 @@ import java.util.ArrayList;
 
 public class SearchDetailsInteractor implements SearchDetailsContract.Interactor {
     private AppExecutors appExecutors;
-    private ArrayList<Migration> migrationArrayList;
-    private static final String MEMBER_URL = "/rest/client/search-client?villageId=9315&gender=F&startAge=0&endAge=50&type=Member";
+    private ArrayList<Migration> migrationArrayList = new ArrayList<>();;
+    private static final String MEMBER_URL = "/rest/client/search-client?";
+
 
     public SearchDetailsInteractor(AppExecutors appExecutors){
         this.appExecutors = appExecutors;
     }
+    private void addMember(String villageId, String gender, String age){
+        JSONArray jsonArray = getMigrationMemberList(villageId, gender, age);
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                JSONObject object = jsonArray.getJSONObject(i);
+                Migration migration = new Gson().fromJson(object.toString(), Migration.class);
+                if (migration != null) {
+                    migrationArrayList.add(migration);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     @Override
-    public void fetchData(SearchDetailsContract.InteractorCallBack callBack) {
+    public void fetchData(String villageId, String gender, String age, SearchDetailsContract.InteractorCallBack callBack) {
         Runnable runnable = () -> {
-            JSONArray jsonArray = getMigrationMemberList();
-            Log.v("Member JSON array: ", jsonArray + "");
-
-            for (int i = 0; i < jsonArray.length(); i++) {
-                try {
-                    JSONObject object = jsonArray.getJSONObject(i);
-                    Migration migration = new Gson().fromJson(object.toString(), Migration.class);
-                    if (migration != null) {
-                        migrationArrayList.add(migration);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
+            addMember(villageId, gender, age);
             appExecutors.mainThread().execute(() -> callBack.onUpdateList(migrationArrayList));
         };
         appExecutors.diskIO().execute(runnable);
     }
 
-    private JSONArray getMigrationMemberList(){
+    private JSONArray getMigrationMemberList(String villageId, String gender, String age){
         try {
             HTTPAgent httpAgent = CoreLibrary.getInstance().context().getHttpAgent();
             String baseUrl = CoreLibrary.getInstance().context().
@@ -63,7 +65,7 @@ public class SearchDetailsInteractor implements SearchDetailsContract.Interactor
             if (TextUtils.isEmpty(userName)) {
                 return null;
             }
-            String url = baseUrl + MEMBER_URL;
+            String url = baseUrl + MEMBER_URL + "villageId=" + villageId + "&gender=" + gender + "&startAge=0&endAge=" + age + "&type=Member";
             /*+ "?username=" + userName;*/
 
             Log.v("Migration Member Fetch", "url:" + url);

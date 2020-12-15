@@ -53,8 +53,13 @@ public class MigrationSearchDetailsActivity extends SecuredActivity implements V
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         progressBar = findViewById(R.id.progress_bar);
+
+        villageId = getIntent().getStringExtra(EXTRA_VILLAGE_ID);
+        gender = getIntent().getStringExtra(EXTRA_GENDER);
+        age = getIntent().getStringExtra(EXTRA_AGE);
+
         presenter = new SearchDetailsPresenter(this);
-        presenter.fetchData();
+        presenter.fetchData(villageId, gender, age);
     }
 
     @Override
@@ -68,6 +73,11 @@ public class MigrationSearchDetailsActivity extends SecuredActivity implements V
     @Override
     protected void onResumption() {
 
+    }
+
+    @Override
+    public SearchDetailsContract.Presenter getPresenter() {
+        return presenter;
     }
 
     @Override

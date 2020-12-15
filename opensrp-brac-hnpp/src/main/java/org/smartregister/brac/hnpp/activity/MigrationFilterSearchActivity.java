@@ -45,8 +45,6 @@ public class MigrationFilterSearchActivity extends SecuredActivity implements Vi
 
         presenter = new MigrationPresenter(this);
         presenter.fetchDistrict();
-        gender = migration_gender_spinner.getSelectedItem().toString();
-        age = age_migration.getText().toString();
 
         migration_district_spinner.setOnItemSelectedListener(this);
         migration_upazila_spinner.setOnItemSelectedListener(this);
@@ -109,6 +107,8 @@ public class MigrationFilterSearchActivity extends SecuredActivity implements Vi
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.migration_filter_search_btn:
+                gender = migration_gender_spinner.getSelectedItem().toString();
+                age = age_migration.getText().toString();
                 gender = HnppConstants.genderMapping.get(gender);
                 BaseLocation villageLocation = (BaseLocation) migration_village_spinner.getSelectedItem();
                 if(villageLocation!=null && villageLocation.id!=0){

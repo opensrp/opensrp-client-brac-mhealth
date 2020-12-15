@@ -19,9 +19,9 @@ public class SearchDetailsPresenter implements SearchDetailsContract.Presenter,S
     }
 
     @Override
-    public void fetchData() {
+    public void fetchData(String villageId, String gender, String age) {
         view.showProgressBar();
-        interactor.fetchData(this);
+        interactor.fetchData(villageId,gender,age,this);
     }
 
     @Override
@@ -39,6 +39,6 @@ public class SearchDetailsPresenter implements SearchDetailsContract.Presenter,S
         this.data.clear();
         this.data = list;
         view.hideProgressBar();
-        if(getView() != null) getView().updateAdapter();
+        if(view != null) view.updateAdapter();
     }
 }
