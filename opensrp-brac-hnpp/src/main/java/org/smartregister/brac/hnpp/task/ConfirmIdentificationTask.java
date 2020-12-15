@@ -27,13 +27,14 @@ public class ConfirmIdentificationTask extends AsyncTask<Void, Void, Void> {
 
 
     private void confirmSelectedGuid(String sessionid, String simPrintsGuid) {
+        Log.v("SIMPRINTS_IDENTITY","projectId:"+HnppConstants.getSimPrintsProjectId()+":userId:"+CoreLibrary.getInstance().context().allSharedPreferences().fetchRegisteredANM());
         SimPrintsHelper simPrintsHelper = new SimPrintsHelper(HnppConstants.getSimPrintsProjectId(), CoreLibrary.getInstance().context().allSharedPreferences().fetchRegisteredANM());
         if (TextUtils.isEmpty(simPrintsGuid)) {
             Log.v("SIMPRINTS_IDENTITY","confirmSelectedGuid>>"+sessiodId);
             simPrintsHelper.confirmIdentity(HnppApplication.getHNPPInstance().getApplicationContext(), sessionid, "none_selected");
 
         } else {
-            Log.v("SIMPRINTS_IDENTITY","confirmSelectedGuid>>"+sessiodId+":guId"+simPrintsGuid);
+            Log.v("SIMPRINTS_IDENTITY","sessionId:"+sessiodId+":guId"+simPrintsGuid+":appcontext:"+HnppApplication.getHNPPInstance().getApplicationContext());
             simPrintsHelper.confirmIdentity(HnppApplication.getHNPPInstance().getApplicationContext(), sessionid, simPrintsGuid);
         }
     }
