@@ -5,5 +5,6 @@ public class Migration {
     public String firstName;
     public String birthdate;
     public String gender;
+    public String cityVillage;
 
 }
