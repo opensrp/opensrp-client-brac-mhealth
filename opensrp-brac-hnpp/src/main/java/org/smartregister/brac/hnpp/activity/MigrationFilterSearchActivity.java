@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.smartregister.brac.hnpp.R;
@@ -28,6 +29,7 @@ public class MigrationFilterSearchActivity extends SecuredActivity implements Vi
     protected Spinner migration_village_spinner;
     protected Spinner migration_gender_spinner;
     protected EditText age_migration;
+    protected TextView migration_filter_title;
 
     private MigrationFilterSearchPresenter presenter;
     private String gender, age,migrationType;
@@ -54,8 +56,10 @@ public class MigrationFilterSearchActivity extends SecuredActivity implements Vi
         migration_village_spinner = findViewById(R.id.migration_filter_village);
         migration_gender_spinner = findViewById(R.id.migration_filter_gender);
         age_migration = findViewById(R.id.migration_age_ET);
+        migration_filter_title = findViewById(R.id.titleFilter);
         migrationType = getIntent().getStringExtra(MIGRATION_TYPE);
         if(migrationType!=null && migrationType.equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.HH.name())){
+            migration_filter_title.setText("খানার এবং তার পূর্ববর্তী ঠিকানা সম্পর্কে নিম্নোক্ত তথ্যগুলো দিনঃ");
             findViewById(R.id.tv_age).setVisibility(View.GONE);
             age_migration.setVisibility(View.GONE);
             findViewById(R.id.tv_gender).setVisibility(View.GONE);

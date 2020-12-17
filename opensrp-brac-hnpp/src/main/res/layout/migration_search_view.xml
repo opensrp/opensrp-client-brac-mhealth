@@ -16,6 +16,7 @@ android:fillViewport="true">
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:id="@+id/titleFilter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="সদস্যের এবং তার পূর্ববর্তী ঠিকানা সম্পর্কে নিম্নোক্ত তথ্যগুলো দিনঃ"

@@ -154,10 +154,22 @@ public class MigrationSearchDetailsActivity extends SecuredActivity implements V
         TextView textViewAge = dialog.findViewById(R.id.age_TV);
         TextView textViewGender = dialog.findViewById(R.id.gender_TV);
         TextView textViewVillage = dialog.findViewById(R.id.village_TV);
-        textViewName.setText(content.firstName);
-        textViewAge.setText( Utils.getDuration(content.birthdate));
-        textViewGender.setText(content.gender);
-        textViewVillage.setText(content.cityVillage);
+        if(migrationSearchContentData.getMigrationType().equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.Member.name())){
+            textViewName.setText(content.firstName);
+            textViewAge.setText( Utils.getDuration(content.birthdate));
+            textViewGender.setText(content.gender);
+            textViewVillage.setText(content.cityVillage);
+        }else {
+            TextView age = dialog.findViewById(R.id.age_tv);
+            TextView gender = dialog.findViewById(R.id.gender_tv);
+            age.setText("");
+            gender.setText("");
+            textViewName.setText(this.getString(R.string.house_hold_head_name,content.firstName));
+            textViewAge.setText(this.getString(R.string.ss_name,content.attributes.SS_Name));
+            textViewGender.setText(this.getString(R.string.member_count,content.attributes.Number_of_HH_Member));
+            textViewVillage.setText(content.cityVillage);
+        }
+
         dialog.findViewById(R.id.cross_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -76,13 +76,13 @@
     <string name="mark_as_done_message">Referral will closed and disappear from app</string>
     <string name="powered_by_brac">Copyright © BRAC 2019 </string>
     <string name="powered_by_mpower">Powered by mPower </string>
-    <string name="member_count">খানার মোট সদস্য: %s</string>
+    <string name="member_count">খানার মোট সদস্যঃ %s</string>
     <string name="registered_count"><br>সদস্য:</br> %s (নিবন্ধিত: %s)</string>
     <string name="next_visit_date">পরবর্তী দেখার তারিখ: %s</string>
     <string name="house_hold_id">খানা: <br>%s</br> (%s)</string>
     <string name="saving">সংরক্ষণ হচ্ছে ...</string>
     <string name="phone_no">মোবাইল নম্বর : %s</string>
-    <string name="ss_name"><br>সেবিকা :</br> %s</string>
+    <string name="ss_name"><br>সেবিকাঃ </br> %s</string>
     <string name="serial_no"><br>খানা সিরিয়াল :</br> %s</string>
     <string name="name"><br>নাম :</br> %s</string>
     <string name="search_name_or_id">নাম বা আইডি দ্বারা অনুসন্ধান করুন</string>
@@ -110,7 +110,7 @@
     <string name="relation_with_member_and_head">সম্পর্ক : %s</string>
     <string name="care_giver_initials">মায়ের নাম :  %s</string>
     <string name="age">বয়স :  %s</string>
-    <string name="house_hold_head_name">খানা প্রধানের নাম :  %s</string>
+    <string name="house_hold_head_name">খানা প্রধানের নামঃ  %s</string>
     <string name="child_register_title">শিশু তালিকা</string>
     <string name="edit_child_form_title">এডিট ৫ বছরের কম বয়সী শিশু</string>
     <string name="log_out_as">লগ আউট : </string>
