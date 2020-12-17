@@ -5,15 +5,11 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.google.gson.Gson;
-
 import org.apache.http.NoHttpResponseException;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
-import org.smartregister.brac.hnpp.HnppApplication;
-import org.smartregister.brac.hnpp.utils.TargetVsAchievementData;
+
 import org.smartregister.domain.Response;
 import org.smartregister.service.HTTPAgent;
 
