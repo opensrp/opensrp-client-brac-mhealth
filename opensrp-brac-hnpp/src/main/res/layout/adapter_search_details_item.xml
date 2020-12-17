@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <org.smartregister.view.customcontrols.CustomFontTextView
-                android:id="@+id/age_tv"
+                android:id="@+id/age_TV"
                 android:layout_below="@+id/name_TV"
                 android:layout_toRightOf="@+id/image"
                 android:layout_marginTop="10dp"
@@ -41,39 +41,16 @@
                 android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
-            <org.smartregister.view.customcontrols.CustomFontTextView
-                android:id="@+id/age_TV"
-                android:layout_below="@+id/name_TV"
-                android:layout_toRightOf="@+id/age_tv"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="5dp"
-                android:textSize="20sp"
-                android:textStyle="normal"
-                android:textColor="@color/black"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
 
             <org.smartregister.view.customcontrols.CustomFontTextView
-                android:id="@+id/gender_tv"
-                android:layout_below="@+id/age_tv"
+                android:id="@+id/gender_TV"
+                android:layout_below="@+id/age_TV"
                 android:layout_toRightOf="@+id/image"
                 android:layout_marginTop="10dp"
                 android:gravity="left"
                 android:textSize="20sp"
                 android:textStyle="normal"
                 android:text="লিঙ্গঃ"
-                android:textColor="@color/black"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <org.smartregister.view.customcontrols.CustomFontTextView
-                android:id="@+id/gender_TV"
-                android:layout_below="@+id/age_tv"
-                android:layout_toRightOf="@+id/age_tv"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="5dp"
-                android:textSize="20sp"
-                android:text="নারী"
-                android:textStyle="normal"
                 android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>

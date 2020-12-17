@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.TextView;
 
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.model.Notification;
@@ -52,17 +53,23 @@ public class MigrationActivity extends SecuredActivity implements View.OnClickLi
                 finish();
                 break;
             case R.id.migration_member_btn:
-                showDetailsDialog();
+                showDetailsDialog(HnppConstants.MIGRATION_TYPE.Member.name());
                 break;
             case R.id.migration_khana_btn:
-                showDetailsDialog();
+                showDetailsDialog(HnppConstants.MIGRATION_TYPE.HH.name());
                 break;
         }
     }
-    private void showDetailsDialog(){
+    private void showDetailsDialog(String type){
         Dialog dialog = new Dialog(this, android.R.style.Theme_NoTitleBar_Fullscreen);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.migration_dialog);
+        TextView title = (TextView) dialog.findViewById(R.id.title_txt);
+        if(type.equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.Member.name())){
+            title.setText(getString(R.string.dialog_title_member_mg));
+        }else{
+            title.setText(getString(R.string.dialog_title_member_hh));
+        }
        /* Button yesBtn = dialog.findViewById(R.id.yes_btn);
         Button noBtn = dialog.findViewById(R.id.no_btn);
         Button dontKnowSearchBtn = dialog.findViewById(R.id.dont_know_search_btn);*/
@@ -70,7 +77,8 @@ public class MigrationActivity extends SecuredActivity implements View.OnClickLi
         dialog.findViewById(R.id.yes_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MigrationActivity.this,MigrationSearchDetailsActivity.class));
+                MigrationFilterSearchActivity.startMigrationFilterActivity(MigrationActivity.this,type);
+                dialog.dismiss();
             }
         });
         dialog.findViewById(R.id.no_btn).setOnClickListener(new View.OnClickListener() {
@@ -82,7 +90,8 @@ public class MigrationActivity extends SecuredActivity implements View.OnClickLi
         dialog.findViewById(R.id.dont_know_search_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               startActivity(new Intent(MigrationActivity.this,MigrationFilterSearchActivity.class));
+                MigrationFilterSearchActivity.startMigrationFilterActivity(MigrationActivity.this,type);
+                dialog.dismiss();
             }
         });
         dialog.show();

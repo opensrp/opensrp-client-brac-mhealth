@@ -103,6 +103,7 @@ android:fillViewport="true">
 
         </Spinner>
         <TextView
+            android:id="@+id/tv_gender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="লিঙ্গ"
@@ -120,6 +121,7 @@ android:fillViewport="true">
 
         </Spinner>
         <TextView
+            android:id="@+id/tv_age"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="বয়স"
@@ -131,6 +133,7 @@ android:fillViewport="true">
             android:layout_width="match_parent"
             android:background="@drawable/edit_text_bg"
             android:inputType="number"
+            android:paddingLeft="10dp"
             android:layout_margin="5dp"
             android:layout_height="50dp">
         </EditText>

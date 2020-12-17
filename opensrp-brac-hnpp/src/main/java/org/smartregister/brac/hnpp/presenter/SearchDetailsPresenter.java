@@ -19,9 +19,9 @@ public class SearchDetailsPresenter implements SearchDetailsContract.Presenter,S
     }
 
     @Override
-    public void fetchData(String villageId, String gender, String age) {
+    public void fetchData(String type,String villageId, String gender, String age) {
         view.showProgressBar();
-        interactor.fetchData(villageId,gender,age,this);
+        interactor.fetchData(type,villageId,gender,age,this);
     }
 
     @Override

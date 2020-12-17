@@ -38,6 +38,30 @@ import timber.log.Timber;
 public class HnppDBUtils extends CoreChildUtils {
     private static final int STOCK_END_THRESHOLD = 2;
 
+    public static void updateMigratedOrRejectedHH(String base_entity_id){
+        try{
+            SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+            String sql = "update ec_family set is_closed = '1' where " +
+                    "base_entity_id = '"+base_entity_id+"' ;";
+            database.execSQL(sql);
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
+    }
+    public static void updateMigratedOrRejectedMember(String base_entity_id){
+        try{
+            SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+            String sql = "update ec_family_member set is_closed = '1' where " +
+                    "base_entity_id = '"+base_entity_id+"' ;";
+            database.execSQL(sql);
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
+    }
+
+
     public static StringBuilder getStockEnd(){
         Calendar calendar = Calendar.getInstance();
         int month = calendar.get(Calendar.MONTH)+1;

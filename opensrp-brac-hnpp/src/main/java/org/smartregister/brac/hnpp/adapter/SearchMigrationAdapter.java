@@ -38,13 +38,21 @@ public class SearchMigrationAdapter extends RecyclerView.Adapter<SearchMigration
 
     @Override
     public void onBindViewHolder(@NonNull final SearchMigrationViewHolder viewHolder, int position) {
-        final Migration content = contentList.get(position);
-        viewHolder.textViewName.setText(content.firstName+"");
-        viewHolder.textViewAge.setText( Utils.getDuration(content.birthdate+""));
-        viewHolder.textViewGender.setText(content.gender+"");
+        Migration content =  contentList.get(position);
+        if(content!=null && content.attributes!=null && content.attributes.SS_Name!=null){
+            viewHolder.textViewName.setText(context.getString(R.string.house_hold_head_name,content.firstName));
+            viewHolder.textViewAge.setText(context.getString(R.string.ss_name,content.attributes.SS_Name));
+            viewHolder.textViewGender.setText(context.getString(R.string.member_count,content.attributes.Number_of_HH_Member));
+        }else {
+            //final Migration content = contentList.get(position);
+            viewHolder.textViewName.setText(content.firstName+"");
+            viewHolder.textViewAge.setText(context.getString(R.string.age, Utils.getDuration(content.birthdate+"")));
+            viewHolder.textViewGender.setText(context.getString(R.string.gender_postfix,content.gender+""));
+        }
+
         viewHolder.imageViewAppIcon.setImageResource(R.drawable.rowavatar_member);
 
-
+        viewHolder.itemView.setOnClickListener(v -> onClickAdapter.onItemClick(viewHolder,viewHolder.getAdapterPosition(), content));
         viewHolder.imageViewMenu.setOnClickListener(v -> onClickAdapter.onClick(viewHolder,viewHolder.getAdapterPosition(), content));
     }
 
@@ -56,6 +64,7 @@ public class SearchMigrationAdapter extends RecyclerView.Adapter<SearchMigration
 
     public interface OnClickAdapter {
         void onClick(SearchMigrationViewHolder viewHolder, int adapterPosition, Migration content);
+        void onItemClick(SearchMigrationViewHolder viewHolder, int adapterPosition, Migration content);
     }
 }
 

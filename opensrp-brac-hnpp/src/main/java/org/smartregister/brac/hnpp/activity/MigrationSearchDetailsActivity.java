@@ -27,26 +27,24 @@ import org.smartregister.brac.hnpp.model.Notification;
 import org.smartregister.brac.hnpp.presenter.SearchDetailsPresenter;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.MemberHistoryData;
+import org.smartregister.brac.hnpp.utils.MigrationSearchContentData;
 import org.smartregister.family.util.Utils;
 import org.smartregister.view.activity.SecuredActivity;
 
 public class MigrationSearchDetailsActivity extends SecuredActivity implements View.OnClickListener, SearchDetailsContract.View {
-    private static final String EXTRA_VILLAGE_ID = "extra_village_id";
-    private static final String EXTRA_GENDER= "gender";
-    private static final String EXTRA_AGE = "age";
+    private static final String EXTRA_SEARCH_CONTENT = "extra_search_content";
 
     protected RecyclerView recyclerView;
     private ProgressBar progressBar;
+    private TextView titleTextView;
     private SearchDetailsPresenter presenter;
     private SearchMigrationAdapter adapter;
 
-    private String villageId,gender,age;
+    private MigrationSearchContentData migrationSearchContentData;
 
-    public static void startMigrationSearchActivity(Activity activity, String villageId, String gender, String age){
+    public static void startMigrationSearchActivity(Activity activity, MigrationSearchContentData migrationSearchContentData){
         Intent intent = new Intent(activity,MigrationSearchDetailsActivity.class);
-        intent.putExtra(EXTRA_VILLAGE_ID,villageId);
-        intent.putExtra(EXTRA_GENDER,gender);
-        intent.putExtra(EXTRA_AGE,age);
+        intent.putExtra(EXTRA_SEARCH_CONTENT,migrationSearchContentData);
         activity.startActivity(intent);
     }
 
@@ -54,6 +52,7 @@ public class MigrationSearchDetailsActivity extends SecuredActivity implements V
     protected void onCreation() {
         setContentView(R.layout.activity_migration_search_details);
         HnppConstants.updateAppBackground(findViewById(R.id.action_bar));
+        titleTextView = findViewById(R.id.textview_detail_two);
         findViewById(R.id.search_migration).setOnClickListener(this);
         findViewById(R.id.sort_btn).setOnClickListener(this);
         findViewById(R.id.backBtn).setOnClickListener(this);
@@ -61,12 +60,18 @@ public class MigrationSearchDetailsActivity extends SecuredActivity implements V
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         progressBar = findViewById(R.id.progress_bar);
 
-        villageId = getIntent().getStringExtra(EXTRA_VILLAGE_ID);
-        gender = getIntent().getStringExtra(EXTRA_GENDER);
-        age = getIntent().getStringExtra(EXTRA_AGE);
+        migrationSearchContentData =(MigrationSearchContentData) getIntent().getSerializableExtra(EXTRA_SEARCH_CONTENT);
 
         presenter = new SearchDetailsPresenter(this);
-        presenter.fetchData(villageId, gender, age);
+        if(migrationSearchContentData !=null){
+            if(migrationSearchContentData.getMigrationType().equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.Member.name())){
+                titleTextView.setText(getString(R.string.member_migration));
+            }else {
+                titleTextView.setText(getString(R.string.hh_migration));
+            }
+            presenter.fetchData(migrationSearchContentData.getMigrationType(),migrationSearchContentData.getVillageId(), migrationSearchContentData.getGender(), migrationSearchContentData.getAge());
+        }
+
     }
 
     @Override
@@ -100,6 +105,12 @@ public class MigrationSearchDetailsActivity extends SecuredActivity implements V
     @Override
     public void updateAdapter() {
         adapter = new SearchMigrationAdapter(this, new SearchMigrationAdapter.OnClickAdapter() {
+            @Override
+            public void onItemClick(SearchMigrationViewHolder viewHolder, int adapterPosition, Migration content) {
+                content.cityVillage = content.addresses.get(0).getCityVillage();
+                showDetailsDialog(content);
+            }
+
             @Override
             public void onClick(SearchMigrationViewHolder viewHolder, int adapterPosition, Migration content) {
                 PopupMenu popup = new PopupMenu(getContext(), viewHolder.imageViewMenu);
