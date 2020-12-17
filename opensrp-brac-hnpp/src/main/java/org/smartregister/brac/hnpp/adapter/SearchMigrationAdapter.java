@@ -44,7 +44,8 @@ public class SearchMigrationAdapter extends RecyclerView.Adapter<SearchMigration
         viewHolder.textViewGender.setText(content.gender+"");
         viewHolder.imageViewAppIcon.setImageResource(R.drawable.rowavatar_member);
 
-        viewHolder.imageViewMenu.setOnClickListener(v -> onClickAdapter.onClick(viewHolder.getAdapterPosition(), content));
+
+        viewHolder.imageViewMenu.setOnClickListener(v -> onClickAdapter.onClick(viewHolder,viewHolder.getAdapterPosition(), content));
     }
 
 
@@ -54,7 +55,7 @@ public class SearchMigrationAdapter extends RecyclerView.Adapter<SearchMigration
     }
 
     public interface OnClickAdapter {
-        void onClick(int position, Migration content);
+        void onClick(SearchMigrationViewHolder viewHolder, int adapterPosition, Migration content);
     }
 }
 

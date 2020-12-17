@@ -10,5 +10,6 @@ public class Migration {
     public String birthdate;
     public String gender;
     public ArrayList<Address> addresses;
+    public String cityVillage;
 
 }
