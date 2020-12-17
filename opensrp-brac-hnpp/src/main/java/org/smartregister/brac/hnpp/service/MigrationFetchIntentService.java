@@ -68,11 +68,15 @@ public class MigrationFetchIntentService extends IntentService {
         ArrayList<String> baseEntityList = new ArrayList<>();
         for(int i=0;i<jsonArray.length();i++){
             try {
-                JSONObject object = jsonArray.getJSONObject(i);
-                baseEntityList.add(new Gson().toJson(object));
+                baseEntityList.add(jsonArray.getString(i));
+                Log.v("MIGRATED/REJECTED FETCH", "EntityList:"+baseEntityList.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+        for (String strList : baseEntityList)
+        {
+            Log.e("MIGRATED FETCH:LIST:" , strList);
         }
         if(baseEntityList.size()>0){
             CoreLibrary.getInstance().context().allSharedPreferences().savePreference(lastsync, String.valueOf(System.currentTimeMillis()));
@@ -117,8 +121,12 @@ public class MigrationFetchIntentService extends IntentService {
                     type  = "HH";
                     break;
             }
+            if(TextUtils.isEmpty(lastSynTime)){
+                lastSynTime ="0";
+            }
             //testing
             String url = baseUrl + urlMigration + "username=" + userName+"&type="+type+"&timestamp="+lastSynTime;
+            Log.v("MIGRATION_FETCH","getLocationList>>url:"+url);
             Response resp = httpAgent.fetch(url);
             if (resp.isFailure()) {
                 throw new NoHttpResponseException(typeUrl + " not returned data");
