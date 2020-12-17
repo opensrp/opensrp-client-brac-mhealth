@@ -50,7 +50,8 @@
     <string name="ss_month">মাস নির্বাচন করুন</string>
     <string name="village_name_form_field">গ্রামের নামঃ</string>
     <string name="last_submission_date">সেবা গ্রহণের তারিখ: %s</string>
-
+      <string name="member_migration">সদস্য স্থানান্তর</string>
+   <string name="hh_migration">খানা স্থানান্তর</string>
     <string name="title_kishori">কিশোরী ফোরাম</string>
     <string name="title_nari">নারী ফোরাম</string>
     <string name="title_child">শিশু ফোরাম</string>
@@ -331,5 +332,7 @@
    <string name="anc">ANC</string>
    <string name="pnc">PNC</string>
    <string name="women">Women</string>
+   <string name="dialog_title_member_mg">তিনি কি আগে ব্র্যাক এর সদস্য ছিলেন?</string>
+   <string name="dialog_title_member_hh">এই খানা কি আগে ব্র্যাক এর খানা ছিল?</string>
 
 </resources>

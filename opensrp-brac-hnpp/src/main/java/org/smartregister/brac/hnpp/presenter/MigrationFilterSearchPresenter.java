@@ -1,13 +1,13 @@
 package org.smartregister.brac.hnpp.presenter;
 
 import org.smartregister.brac.hnpp.contract.MigrationContract;
-import org.smartregister.brac.hnpp.interactor.MigrationInteractor;
+import org.smartregister.brac.hnpp.interactor.MigrationFilterSearchInteractor;
 import org.smartregister.brac.hnpp.utils.BaseLocation;
 import org.smartregister.family.util.AppExecutors;
 
 import java.util.ArrayList;
 
-public class MigrationPresenter implements MigrationContract.Presenter, MigrationContract.InteractorCallBack {
+public class MigrationFilterSearchPresenter implements MigrationContract.Presenter, MigrationContract.InteractorCallBack {
     private MigrationContract.View view;
     private ArrayList<BaseLocation> districtArrayList;
     private ArrayList<BaseLocation> upazilaArrayList;
@@ -16,9 +16,9 @@ public class MigrationPresenter implements MigrationContract.Presenter, Migratio
     private ArrayList<BaseLocation> villageArrayList;
     private MigrationContract.Interactor interactor;
 
-    public MigrationPresenter(MigrationContract.View view){
+    public MigrationFilterSearchPresenter(MigrationContract.View view){
         this.view = view;
-        interactor = new MigrationInteractor(new AppExecutors());
+        interactor = new MigrationFilterSearchInteractor(new AppExecutors());
     }
 
     @Override

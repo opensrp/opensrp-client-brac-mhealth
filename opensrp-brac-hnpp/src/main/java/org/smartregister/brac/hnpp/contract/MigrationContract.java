@@ -45,4 +45,8 @@ public interface MigrationContract {
         void onUpdateUnion(ArrayList<BaseLocation> unions);
         void onUpdateVillage(ArrayList<BaseLocation> villages);
     }
+    interface MigrationPostInteractorCallBack{
+        void onSuccess();
+        void onFail();
+    }
 }

@@ -16,7 +16,7 @@
         android:padding="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="তিনি কি আগে ব্র্যাক এর সদস্য ছিলেন?"
+        android:text="@string/dialog_title_member_mg"
         android:textColor="@color/black"
         android:textSize="25sp"/>
 

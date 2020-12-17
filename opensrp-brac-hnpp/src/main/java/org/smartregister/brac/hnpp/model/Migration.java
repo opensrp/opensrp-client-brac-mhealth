@@ -11,5 +11,12 @@ public class Migration {
     public String gender;
     public ArrayList<Address> addresses;
     public String cityVillage;
+    public HHAttribute attributes;
+
+    public class HHAttribute{
+        public String SS_Name;
+        public String Number_of_HH_Member;
+
+    }
 
 }

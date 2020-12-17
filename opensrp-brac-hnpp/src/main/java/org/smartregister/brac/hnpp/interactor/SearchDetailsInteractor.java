@@ -1,22 +1,19 @@
 package org.smartregister.brac.hnpp.interactor;
 
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import org.apache.http.NoHttpResponseException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.opensrp.api.domain.Client;
 import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.contract.SearchDetailsContract;
 import org.smartregister.brac.hnpp.model.Migration;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.family.util.AppExecutors;
 import org.smartregister.service.HTTPAgent;
 
@@ -31,9 +28,9 @@ public class SearchDetailsInteractor implements SearchDetailsContract.Interactor
     public SearchDetailsInteractor(AppExecutors appExecutors){
         this.appExecutors = appExecutors;
     }
-    private void addMember(String villageId, String gender, String age){
+    private void addMember(String type, String villageId, String gender, String age){
         migrationArrayList.clear();
-        JSONArray jsonArray = getMigrationMemberList(villageId, gender, age);
+        JSONArray jsonArray = getMigrationMemberList(type,villageId, gender, age);
         if(jsonArray!=null){
             for (int i = 0; i < jsonArray.length(); i++) {
                 try {
@@ -52,18 +49,21 @@ public class SearchDetailsInteractor implements SearchDetailsContract.Interactor
     }
 
     @Override
-    public void fetchData(String villageId, String gender, String age, SearchDetailsContract.InteractorCallBack callBack) {
+    public void fetchData(String type,String villageId, String gender, String age, SearchDetailsContract.InteractorCallBack callBack) {
         Runnable runnable = () -> {
-            addMember(villageId, gender, age);
+            addMember(type,villageId, gender, age);
             appExecutors.mainThread().execute(() -> callBack.onUpdateList(migrationArrayList));
         };
         appExecutors.diskIO().execute(runnable);
     }
 
-    private JSONArray getMigrationMemberList(String villageId, String gender, String age){
+    private JSONArray getMigrationMemberList(String type,String villageId, String gender, String age){
         villageId = "9315";
         gender ="F";
         age ="50";
+        if(type.equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.HH.name())){
+            gender ="";
+        }
         try {
             HTTPAgent httpAgent = CoreLibrary.getInstance().context().getHttpAgent();
             String baseUrl = CoreLibrary.getInstance().context().
@@ -76,7 +76,7 @@ public class SearchDetailsInteractor implements SearchDetailsContract.Interactor
             if (TextUtils.isEmpty(userName)) {
                 return null;
             }
-            String url = baseUrl + MEMBER_URL + "username='"+userName+"'&villageId=" + villageId + "&gender=" + gender + "&startAge=0&endAge=" + age + "&type=Member";
+            String url = baseUrl + MEMBER_URL + "username='"+userName+"'&villageId=" + villageId + "&gender=" + gender + "&startAge=0&endAge=" + age + "&type="+type;
             /*+ "?username=" + userName;*/
 
             Log.v("MEMBER_URL", "url:" + url);

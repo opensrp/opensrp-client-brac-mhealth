@@ -1,20 +1,26 @@
 package org.smartregister.brac.hnpp.activity;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.contract.MigrationContract;
-import org.smartregister.brac.hnpp.presenter.MigrationPresenter;
+import org.smartregister.brac.hnpp.presenter.MigrationFilterSearchPresenter;
 import org.smartregister.brac.hnpp.utils.BaseLocation;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.MigrationSearchContentData;
 import org.smartregister.view.activity.SecuredActivity;
 
 public class MigrationFilterSearchActivity extends SecuredActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener,MigrationContract.View{
+    private static final String MIGRATION_TYPE = "migration_type";
+
     protected Spinner migration_district_spinner;
     protected Spinner migration_upazila_spinner;
     protected Spinner migration_pourosova_spinner;
@@ -23,14 +29,20 @@ public class MigrationFilterSearchActivity extends SecuredActivity implements Vi
     protected Spinner migration_gender_spinner;
     protected EditText age_migration;
 
-    private MigrationPresenter presenter;
-    private String gender, age;
+    private MigrationFilterSearchPresenter presenter;
+    private String gender, age,migrationType;
 
     private ArrayAdapter<BaseLocation> districtSpinnerArrayAdapter;
     private ArrayAdapter<BaseLocation> upazilaSpinnerArrayAdapter;
     private ArrayAdapter<BaseLocation> pouroshovaSpinnerArrayAdapter;
     private ArrayAdapter<BaseLocation> unionSpinnerArrayAdapter;
     private ArrayAdapter<BaseLocation> villageSpinnerArrayAdapter;
+
+    public static void startMigrationFilterActivity(Activity activity, String type){
+        Intent intent = new Intent(activity,MigrationFilterSearchActivity.class);
+        intent.putExtra(MIGRATION_TYPE,type);
+        activity.startActivity(intent);
+    }
 
     @Override
     protected void onCreation() {
@@ -42,8 +54,15 @@ public class MigrationFilterSearchActivity extends SecuredActivity implements Vi
         migration_village_spinner = findViewById(R.id.migration_filter_village);
         migration_gender_spinner = findViewById(R.id.migration_filter_gender);
         age_migration = findViewById(R.id.migration_age_ET);
+        migrationType = getIntent().getStringExtra(MIGRATION_TYPE);
+        if(migrationType!=null && migrationType.equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.HH.name())){
+            findViewById(R.id.tv_age).setVisibility(View.GONE);
+            age_migration.setVisibility(View.GONE);
+            findViewById(R.id.tv_gender).setVisibility(View.GONE);
+            migration_gender_spinner.setVisibility(View.GONE);
+        }
 
-        presenter = new MigrationPresenter(this);
+        presenter = new MigrationFilterSearchPresenter(this);
         presenter.fetchDistrict();
 
         migration_district_spinner.setOnItemSelectedListener(this);
@@ -111,9 +130,19 @@ public class MigrationFilterSearchActivity extends SecuredActivity implements Vi
                 age = age_migration.getText().toString();
                 gender = HnppConstants.genderMapping.get(gender);
                 BaseLocation villageLocation = (BaseLocation) migration_village_spinner.getSelectedItem();
-                if(villageLocation!=null && villageLocation.id!=0){
-                    MigrationSearchDetailsActivity.startMigrationSearchActivity(this,villageLocation.id+"",gender,age);
+                BaseLocation district = (BaseLocation) migration_district_spinner.getSelectedItem();
+                MigrationSearchContentData searchContentData = new MigrationSearchContentData();
+                searchContentData.setAge(age);
+                searchContentData.setDivisionId(district.parentId+"");
+                searchContentData.setDistrictId(district.id+"");
+                searchContentData.setVillageId(villageLocation.id+"");
+                searchContentData.setMigrationType(migrationType);
+                if(searchContentData.getDistrictId()!=null && searchContentData.getDivisionId()!=null){
+                    MigrationSearchDetailsActivity.startMigrationSearchActivity(this,searchContentData);
+                }else{
+                    Toast.makeText(this,"Id not found",Toast.LENGTH_SHORT).show();
                 }
+
 
 
                 break;
