@@ -59,6 +59,8 @@ public class HnppJobCreator implements JobCreator {
                 return new TargetFetchJob();
             case StockFetchJob.TAG:
                 return new StockFetchJob();
+            case MigrationFetchJob.TAG:
+                return new MigrationFetchJob();
             case PullGuestMemberIdServiceJob.TAG:
                 return new PullGuestMemberIdServiceJob();
             case NotificationGeneratorJob.TAG:
