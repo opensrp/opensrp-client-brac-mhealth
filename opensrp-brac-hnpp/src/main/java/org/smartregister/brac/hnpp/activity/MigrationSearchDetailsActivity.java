@@ -5,14 +5,24 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,16 +30,25 @@ import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.adapter.MemberHistoryAdapter;
 import org.smartregister.brac.hnpp.adapter.NotificationAdapter;
 import org.smartregister.brac.hnpp.adapter.SearchMigrationAdapter;
+import org.smartregister.brac.hnpp.contract.MigrationContract;
 import org.smartregister.brac.hnpp.contract.SearchDetailsContract;
 import org.smartregister.brac.hnpp.holder.SearchMigrationViewHolder;
+import org.smartregister.brac.hnpp.interactor.MigrationInteractor;
+import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
+import org.smartregister.brac.hnpp.location.SSLocationHelper;
+import org.smartregister.brac.hnpp.location.SSLocations;
+import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.model.Migration;
 import org.smartregister.brac.hnpp.model.Notification;
 import org.smartregister.brac.hnpp.presenter.SearchDetailsPresenter;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.MemberHistoryData;
 import org.smartregister.brac.hnpp.utils.MigrationSearchContentData;
+import org.smartregister.family.util.AppExecutors;
 import org.smartregister.family.util.Utils;
 import org.smartregister.view.activity.SecuredActivity;
+
+import java.util.ArrayList;
 
 public class MigrationSearchDetailsActivity extends SecuredActivity implements View.OnClickListener, SearchDetailsContract.View {
     public static final String EXTRA_SEARCH_CONTENT = "extra_search_content";
@@ -144,6 +163,10 @@ public class MigrationSearchDetailsActivity extends SecuredActivity implements V
                 DividerItemDecoration.VERTICAL));
     }
     private void openFamilyListActivity(){
+        if(migrationSearchContentData.getMigrationType().equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.HH.name())){
+            showSSDialog();
+            return;
+        }
         Intent intent = new Intent(this, FamilyRegisterActivity.class);
         intent.putExtra(MigrationSearchDetailsActivity.EXTRA_SEARCH_CONTENT,migrationSearchContentData);
         startActivity(intent);
@@ -182,6 +205,136 @@ public class MigrationSearchDetailsActivity extends SecuredActivity implements V
             }
         });
         dialog.show();
+
+    }
+    ArrayAdapter<String> villageSpinnerArrayAdapter;
+    String mSelectedVillageName,mSelectedSSName,mSelectedVillageId;
+    private void showSSDialog(){
+        ArrayList<String> ssSpinnerArray = new ArrayList<>();
+
+        ArrayList<String> villageSpinnerArray = new ArrayList<>();
+        ArrayList<String> villageIdArray = new ArrayList<>();
+
+        ArrayList<SSModel> ssLocationForms = SSLocationHelper.getInstance().getSsModels();
+        for (SSModel ssModel : ssLocationForms) {
+            ssSpinnerArray.add(ssModel.username);
+        }
+
+        ArrayAdapter<String> ssSpinnerArrayAdapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_spinner_item,
+                        ssSpinnerArray){
+            @Override
+            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                convertView = super.getDropDownView(position, convertView,
+                        parent);
+
+                AppCompatTextView appCompatTextView = (AppCompatTextView)convertView;
+                appCompatTextView.setGravity(Gravity.CENTER_VERTICAL);
+                appCompatTextView.setHeight(100);
+
+                return convertView;
+            }
+        };
+
+         villageSpinnerArrayAdapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_spinner_item,
+                        villageSpinnerArray){
+            @Override
+            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                convertView = super.getDropDownView(position, convertView,
+                        parent);
+                AppCompatTextView appCompatTextView = (AppCompatTextView)convertView;
+                appCompatTextView.setGravity(Gravity.CENTER_VERTICAL);
+                appCompatTextView.setHeight(100);
+                return convertView;
+            }
+        };
+
+
+        Dialog dialog = new Dialog(this, android.R.style.Theme_NoTitleBar_Fullscreen);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(org.smartregister.family.R.color.customAppThemeBlue)));
+        dialog.setContentView(R.layout.dialog_ss_selection);
+        Spinner ss_spinner = dialog.findViewById(R.id.ss_filter_spinner);
+        Spinner village_spinner = dialog.findViewById(R.id.village_filter_spinner);
+        village_spinner.setAdapter(villageSpinnerArrayAdapter);
+        ss_spinner.setAdapter(ssSpinnerArrayAdapter);
+        ss_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position != -1) {
+                    villageSpinnerArray.clear();
+                    villageIdArray.clear();
+                    ArrayList<SSLocations> ssLocations = SSLocationHelper.getInstance().getSsModels().get(position).locations;
+                    for (SSLocations ssLocations1 : ssLocations) {
+                        villageSpinnerArray.add(ssLocations1.village.name.trim());
+                        villageIdArray.add(ssLocations1.village.id+"");
+                    }
+                    villageSpinnerArrayAdapter = new ArrayAdapter<String>
+                            (MigrationSearchDetailsActivity.this, android.R.layout.simple_spinner_item,
+                                    villageSpinnerArray);
+                    village_spinner.setAdapter(villageSpinnerArrayAdapter);
+                    mSelectedSSName = ssSpinnerArray.get(position);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        village_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position != -1) {
+                    mSelectedVillageName = villageSpinnerArray.get(position);
+                    mSelectedVillageId = villageIdArray.get(position);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        Button proceed = dialog.findViewById(R.id.filter_apply_button);
+        proceed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                migrateHH();
+                //dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+    private void migrateHH() {
+        HnppConstants.showDialogWithAction(this,getString(R.string.dialog_title), "", new Runnable() {
+            @Override
+            public void run() {
+                new MigrationInteractor(new AppExecutors()).migrateHH(migrationSearchContentData, new MigrationContract.MigrationPostInteractorCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        Toast.makeText(MigrationSearchDetailsActivity.this,"Successfully migrated,Syncing data",Toast.LENGTH_SHORT).show();
+                        HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
+                        Intent intent = new Intent(MigrationSearchDetailsActivity.this, FamilyRegisterActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+
+                    }
+
+                    @Override
+                    public void onFail() {
+                        Toast.makeText(MigrationSearchDetailsActivity.this,"Fail to migrate",Toast.LENGTH_SHORT).show();
+
+
+                    }
+                });
+
+            }
+        });
+
 
     }
 
