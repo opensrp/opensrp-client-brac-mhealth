@@ -58,9 +58,10 @@ public class SearchDetailsInteractor implements SearchDetailsContract.Interactor
     }
 
     private JSONArray getMigrationMemberList(String type,String villageId, String gender, String age){
-        villageId = "9315";
-        gender ="F";
-        age ="50";
+        //test data
+//        villageId = "9315";
+//        gender ="F";
+//        age ="50";
         if(type.equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.HH.name())){
             gender ="";
         }

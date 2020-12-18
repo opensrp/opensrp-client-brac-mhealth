@@ -1,5 +1,7 @@
 package org.smartregister.brac.hnpp.utils;
 
+import org.smartregister.clientandeventmodel.Address;
+
 import java.io.Serializable;
 
 public class MigrationSearchContentData implements Serializable {
@@ -10,6 +12,51 @@ public class MigrationSearchContentData implements Serializable {
     private String age;
     private String migrationType;
     private String baseEntityId;
+    private String familyBaseEntityId;
+    private String ssName;
+    private int villageIndex;
+    private String villageName;
+    private String hhId;
+
+    public void setHhId(String hhId) {
+        this.hhId = hhId;
+    }
+
+    public String getHhId() {
+        return hhId;
+    }
+
+    public void setFamilyBaseEntityId(String familyBaseEntityId) {
+        this.familyBaseEntityId = familyBaseEntityId;
+    }
+
+    public String getFamilyBaseEntityId() {
+        return familyBaseEntityId;
+    }
+
+    public String getSsName() {
+        return ssName;
+    }
+
+    public void setSsName(String ssName) {
+        this.ssName = ssName;
+    }
+
+    public int getVillageIndex() {
+        return villageIndex;
+    }
+
+    public void setVillageIndex(int villageIndex) {
+        this.villageIndex = villageIndex;
+    }
+
+    public String getVillageName() {
+        return villageName;
+    }
+
+    public void setVillageName(String villageName) {
+        this.villageName = villageName;
+    }
 
     public void setBaseEntityId(String baseEntityId) {
         this.baseEntityId = baseEntityId;
