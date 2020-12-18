@@ -334,5 +334,7 @@
    <string name="women">Women</string>
    <string name="dialog_title_member_mg">তিনি কি আগে ব্র্যাক এর সদস্য ছিলেন?</string>
    <string name="dialog_title_member_hh">এই খানা কি আগে ব্র্যাক এর খানা ছিল?</string>
+    <string name="dialog_title">আপনি কি নিশ্চিত এই স্থানান্তর এর সম্পর্কে?</string>
+    <string name="dialog_text_family">যে কোনো একটি খানা সিলেক্ট করুন</string>
 
 </resources>

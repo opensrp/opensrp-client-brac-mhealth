@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import org.apache.http.NoHttpResponseException;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.smartregister.AllConstants;
 import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.contract.MigrationContract;
@@ -16,6 +17,7 @@ import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSLocations;
 import org.smartregister.brac.hnpp.repository.HouseholdIdRepository;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.MigrationSearchContentData;
 import org.smartregister.clientandeventmodel.Address;
 import org.smartregister.clientandeventmodel.Client;
@@ -85,12 +87,15 @@ public class MigrationInteractor  {
             if (TextUtils.isEmpty(userName)) {
                 return false;
             }
-            String url = baseUrl + MIGRATION_POST + "username='"+userName+"'&districtId=" + migrationSearchContentData.getDistrictId() + "&divisionId=" + migrationSearchContentData.getDivisionId()
+            String url = baseUrl + MIGRATION_POST + "districtId=" + migrationSearchContentData.getDistrictId() + "&divisionId=" + migrationSearchContentData.getDivisionId()
                     + "&villageId=" + migrationSearchContentData.getVillageId() + "&type="+migrationSearchContentData.getMigrationType();
             /*+ "?username=" + userName;*/
+            String json = new Gson().toJson(baseClient);
+            JSONObject request = new JSONObject();
+            request.put(AllConstants.KEY.CLIENTS,json);
 
-            Log.v("MIGRATION_POST", "url:" + url);
-            org.smartregister.domain.Response resp = httpAgent.post(url,new Gson().toJson(baseClient));
+            Log.v("MIGRATION_POST", "url:" + url+"payload:"+request.toString());
+            org.smartregister.domain.Response resp = httpAgent.post(url,request.toString());
             if (resp.isFailure()) {
                 throw new NoHttpResponseException(MIGRATION_POST + " not returned data");
             }
@@ -107,8 +112,11 @@ public class MigrationInteractor  {
     }
     private Client generateMemberClient(MigrationSearchContentData migrationSearchContentData) {
         Client baseClient = new Client(migrationSearchContentData.getBaseEntityId());
-        baseClient.addAttribute("ss_name",migrationSearchContentData.getSsName());
         baseClient.addRelationship("family",migrationSearchContentData.getFamilyBaseEntityId());
+        if(TextUtils.isEmpty(migrationSearchContentData.getSsName())){
+            String ssName = HnppDBUtils.getSSNameFromFamilyTable(migrationSearchContentData.getFamilyBaseEntityId());
+            migrationSearchContentData.setSsName(ssName);
+        }
         SSLocations ss = SSLocationHelper.getInstance().getSSLocationBySSName(migrationSearchContentData.getSsName());
         baseClient.addAttribute("house_hold_id",migrationSearchContentData.getHhId());
         String unique_id = generateMemberId(migrationSearchContentData.getHhId(),migrationSearchContentData.getFamilyBaseEntityId());
@@ -132,6 +140,10 @@ public class MigrationInteractor  {
 
     private Client generateHHClient(MigrationSearchContentData migrationSearchContentData) {
         Client baseClient = new Client(migrationSearchContentData.getBaseEntityId());
+        if(TextUtils.isEmpty(migrationSearchContentData.getSsName())){
+            String ssName = HnppDBUtils.getSSNameFromFamilyTable(migrationSearchContentData.getBaseEntityId());
+            migrationSearchContentData.setSsName(ssName);
+        }
         baseClient.addAttribute("ss_name",migrationSearchContentData.getSsName());
 
         SSLocations ss = SSLocationHelper.getInstance().getSSLocationBySSName(migrationSearchContentData.getSsName());

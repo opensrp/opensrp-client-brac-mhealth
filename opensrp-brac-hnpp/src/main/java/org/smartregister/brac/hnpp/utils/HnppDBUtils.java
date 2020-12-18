@@ -208,6 +208,26 @@ public class HnppDBUtils extends CoreChildUtils {
         return "";
 
     }
+    public static String getSSNameFromFamilyTable(String familyBaseEntityId){
+        String query = "select ss_name from ec_family  where base_entity_id = '"+familyBaseEntityId+"'";
+        Cursor cursor = null;
+        String birthWeight="";
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                birthWeight = cursor.getString(0);
+            }
+
+        } catch (Exception e) {
+            Timber.e(e);
+
+        }
+        finally {
+            if(cursor !=null)cursor.close();
+        }
+        return birthWeight;
+    }
     public static String getSSName(String baseEntityId){
         String query = "select ec_family.ss_name from ec_family inner join ec_family_member on ec_family.base_entity_id = ec_family_member.relational_id where ec_family_member.base_entity_id = '"+baseEntityId+"'";
         Cursor cursor = null;

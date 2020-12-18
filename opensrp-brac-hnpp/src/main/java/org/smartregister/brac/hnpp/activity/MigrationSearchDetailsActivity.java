@@ -32,7 +32,7 @@ import org.smartregister.family.util.Utils;
 import org.smartregister.view.activity.SecuredActivity;
 
 public class MigrationSearchDetailsActivity extends SecuredActivity implements View.OnClickListener, SearchDetailsContract.View {
-    private static final String EXTRA_SEARCH_CONTENT = "extra_search_content";
+    public static final String EXTRA_SEARCH_CONTENT = "extra_search_content";
 
     protected RecyclerView recyclerView;
     private ProgressBar progressBar;
@@ -120,9 +120,12 @@ public class MigrationSearchDetailsActivity extends SecuredActivity implements V
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.migration_menu:
+                                migrationSearchContentData.setBaseEntityId(content.baseEntityId);
+                                openFamilyListActivity();
                                 return true;
                             case R.id.migration_details:
                                 content.cityVillage = content.addresses.get(0).getCityVillage();
+
                                 showDetailsDialog(content);
                                 return true;
                             default:
@@ -139,6 +142,12 @@ public class MigrationSearchDetailsActivity extends SecuredActivity implements V
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL));
+    }
+    private void openFamilyListActivity(){
+        Intent intent = new Intent(this, FamilyRegisterActivity.class);
+        intent.putExtra(MigrationSearchDetailsActivity.EXTRA_SEARCH_CONTENT,migrationSearchContentData);
+        startActivity(intent);
+
     }
 
     @Override
@@ -168,6 +177,8 @@ public class MigrationSearchDetailsActivity extends SecuredActivity implements V
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                migrationSearchContentData.setBaseEntityId(content.baseEntityId);
+                openFamilyListActivity();
             }
         });
         dialog.show();
