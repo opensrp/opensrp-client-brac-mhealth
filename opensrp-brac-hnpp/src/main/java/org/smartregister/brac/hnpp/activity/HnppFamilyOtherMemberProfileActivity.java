@@ -46,8 +46,6 @@ import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
-import org.smartregister.brac.hnpp.task.ConfirmIdentificationTask;
-import org.smartregister.brac.hnpp.utils.ANCRegister;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -94,8 +92,8 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     public static final int REQUEST_HOME_VISIT = 5555;
     public static final int REQUEST_SIMPRINTS_VERIFY = 1222;
     public static final String IS_COMES_IDENTITY = "is_comes";
-    public static final String SESSION_ID = "session_id";
-    public static final String SELECTED_GU_ID = "selected_gu_id";
+   // public static final String SESSION_ID = "session_id";
+    //public static final String SELECTED_GU_ID = "selected_gu_id";
     private static final int REQUEST_CODE_PREGNANCY_OUTCOME = 5556;
 
     private CustomFontTextView textViewDetails3;
@@ -145,9 +143,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         if(isComesFromIdentity){
             isVerified = true;
             verificationNeeded = true;
-            String sessionId = getIntent().getStringExtra(SESSION_ID);
-            String selectedGuId = getIntent().getStringExtra(SELECTED_GU_ID);
-            sendSessionIdToSimprints(sessionId,selectedGuId);
+//            String sessionId = getIntent().getStringExtra(SESSION_ID);
+//            String selectedGuId = getIntent().getStringExtra(SELECTED_GU_ID);
+//            sendSessionIdToSimprints(sessionId,selectedGuId);
         }
        moduleId = HnppDBUtils.getModuleId(familyHead);
         guId = HnppDBUtils.getGuid(baseEntityId);
@@ -874,10 +872,10 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             menu.findItem(R.id.action_anc_registration).setVisible(false);
         }
     }
-    private void sendSessionIdToSimprints(String sessionId, String guId){
-        Utils.startAsyncTask(new ConfirmIdentificationTask(sessionId,guId),null);
-
-    }
+//    private void sendSessionIdToSimprints(String sessionId, String guId){
+//        Utils.startAsyncTask(new ConfirmIdentificationTask(sessionId,guId),null);
+//
+//    }
 
 
 }

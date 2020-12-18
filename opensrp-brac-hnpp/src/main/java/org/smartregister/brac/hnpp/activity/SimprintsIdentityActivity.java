@@ -36,13 +36,13 @@ import com.simprints.libsimprints.Identification;
 import com.simprints.libsimprints.Tier;
 
 import org.smartregister.CoreLibrary;
+import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.adapter.IdentityAdapter;
 import org.smartregister.brac.hnpp.fragment.HnppDashBoardFragment;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSLocations;
 import org.smartregister.brac.hnpp.location.SSModel;
-import org.smartregister.brac.hnpp.task.ConfirmIdentificationTask;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.IdentityModel;
@@ -55,6 +55,7 @@ import org.smartregister.family.util.AppExecutors;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.Utils;
 import org.smartregister.simprint.SimPrintsConstantHelper;
+import org.smartregister.simprint.SimPrintsHelper;
 import org.smartregister.simprint.SimPrintsIdentification;
 import org.smartregister.simprint.SimPrintsIdentifyActivity;
 import org.smartregister.simprint.SimPrintsRegistration;
@@ -71,6 +72,7 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.MEMBER_ID_SUFFIX;
 public class SimprintsIdentityActivity extends SecuredActivity implements View.OnClickListener {
 
     private static final int REQUEST_CODE_IDENTIFY = 1445;
+    private static final int REQUEST_CODE = 213;
     private LinearLayout selectionBar,notFoundPanel;
     private String moduleId = "";
     private RecyclerView recyclerView;
@@ -123,8 +125,7 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
             case R.id.not_found_btn:
                 showNotFoundDialog();
                 if(!sessionId.isEmpty()){
-                    org.smartregister.chw.core.utils.Utils.startAsyncTask(new ConfirmIdentificationTask(sessionId,""),null);
-
+                    startSimPrintsConfirmation(sessionId,"","");
                 }
                 break;
         }
@@ -240,7 +241,25 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
         dialog.show();
 
     }
-    private void openProfile(String baseEntityId, String selectedGuId){
+    String baseEntityId;
+    public void startSimPrintsConfirmation(String sessiodId, String simPrintsGuid,String baseEntityId) {
+        this.baseEntityId = baseEntityId;
+
+        //Log.v("SIMPRINTS_IDENTITY","projectId:"+HnppConstants.getSimPrintsProjectId()+":userId:"+CoreLibrary.getInstance().context().allSharedPreferences().fetchRegisteredANM());
+        SimPrintsHelper simPrintsHelper = new SimPrintsHelper(HnppConstants.getSimPrintsProjectId(), CoreLibrary.getInstance().context().allSharedPreferences().fetchRegisteredANM());
+        Intent intent;
+        if (TextUtils.isEmpty(simPrintsGuid)) {
+            //Log.v("SIMPRINTS_IDENTITY","confirmSelectedGuid non selected>>"+sessiodId);
+            intent = simPrintsHelper.confirmIdentity(HnppApplication.getHNPPInstance().getApplicationContext(), sessiodId, "none_selected");
+
+        } else {
+            //Log.v("SIMPRINTS_IDENTITY","sessionId:"+sessiodId+":guId"+simPrintsGuid+":appcontext:"+HnppApplication.getHNPPInstance().getApplicationContext());
+            intent = simPrintsHelper.confirmIdentity(HnppApplication.getHNPPInstance().getApplicationContext(), sessiodId, simPrintsGuid);
+        }
+        startActivityForResult(intent, REQUEST_CODE);
+    }
+
+    private void openProfile(String baseEntityId){
 
         CommonPersonObjectClient patient = HnppDBUtils.createFromBaseEntity(baseEntityId);
         String familyId = org.smartregister.util.Utils.getValue(patient.getColumnmaps(), ChildDBConstants.KEY.RELATIONAL_ID, false);
@@ -260,8 +279,8 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
         intent.putExtra(HnppConstants.KEY.HOUSE_HOLD_ID,moduleId);
         intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_NAME, houseHoldHead);
         intent.putExtra(HnppFamilyOtherMemberProfileActivity.IS_COMES_IDENTITY,true);
-        intent.putExtra(HnppFamilyOtherMemberProfileActivity.SESSION_ID,sessionId);
-        intent.putExtra(HnppFamilyOtherMemberProfileActivity.SELECTED_GU_ID,selectedGuId);
+//        intent.putExtra(HnppFamilyOtherMemberProfileActivity.SESSION_ID,sessionId);
+//        intent.putExtra(HnppFamilyOtherMemberProfileActivity.SELECTED_GU_ID,selectedGuId);
         startActivity(intent);
         finish();
 
@@ -383,6 +402,15 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
         if(resultCode == RESULT_OK && data !=null){
 
             switch (requestCode){
+                case REQUEST_CODE: {
+                    Boolean check = data.getBooleanExtra(Constants.SIMPRINTS_BIOMETRICS_COMPLETE_CHECK, false);
+                    //Log.v("SIMPRINTS_IDENTITY","onActivityREsult>check"+check);
+                    if (check && !TextUtils.isEmpty(baseEntityId)) {
+                        openProfile(baseEntityId);
+                    }
+                }
+
+                    break;
                 case REQUEST_CODE_IDENTIFY:
                     Boolean check = data.getBooleanExtra(Constants.SIMPRINTS_BIOMETRICS_COMPLETE_CHECK,true);
                     if(check){
@@ -458,7 +486,8 @@ public class SimprintsIdentityActivity extends SecuredActivity implements View.O
                 @Override
                 public void onClick(int position, IdentityModel content) {
                     if(!content.getBaseEntityId().isEmpty()){
-                        openProfile(content.getBaseEntityId(),content.getOriginalGuId());
+                        startSimPrintsConfirmation(sessionId,content.getOriginalGuId(),content.getBaseEntityId());
+
                     }else {
                         Toast.makeText(SimprintsIdentityActivity.this,getString(R.string.not_match),Toast.LENGTH_SHORT).show();
                     }
