@@ -1,5 +1,7 @@
 package org.smartregister.brac.hnpp.presenter;
 
+import android.text.TextUtils;
+
 import org.smartregister.brac.hnpp.contract.SearchDetailsContract;
 import org.smartregister.brac.hnpp.interactor.SearchDetailsInteractor;
 import org.smartregister.brac.hnpp.model.Migration;
@@ -11,6 +13,7 @@ public class SearchDetailsPresenter implements SearchDetailsContract.Presenter,S
 
     private SearchDetailsContract.View view;
     private ArrayList<Migration> data = new ArrayList<>();
+    private ArrayList<Migration> searchData = new ArrayList<>();
     private SearchDetailsContract.Interactor interactor;
 
     public SearchDetailsPresenter(SearchDetailsContract.View view){
@@ -23,10 +26,29 @@ public class SearchDetailsPresenter implements SearchDetailsContract.Presenter,S
         view.showProgressBar();
         interactor.fetchData(type,villageId,gender,age,this);
     }
+    public void search(String query){
+        if(!TextUtils.isEmpty(query)){
+            view.showProgressBar();
+            searchData.clear();
+            for(Migration migration:data){
+                if(migration.firstName.contains(query)){
+                    searchData.add(migration);
+                }else if(migration.attributes!=null && migration.attributes.Mobile_Number.contains(query)){
+                    searchData.add(migration);
+                }else if(migration.attributes!=null && migration.attributes.HOH_Phone_Number.contains(query)){
+                    searchData.add(migration);
+                }
+            }
+        }else{
+            searchData.clear();
+        }
+
+    }
 
     @Override
     public ArrayList<Migration> getMemberList() {
-        return data;
+
+        return searchData.size()>0?searchData:data;
     }
 
     @Override

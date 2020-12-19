@@ -126,6 +126,8 @@ android {
             buildConfigField "String", 'opensrp_url_training', '"http://hnpptest.mpower-social.com:8080/opensrp/"'
             buildConfigField "String", 'opensrp_url_live', '"http://hnpptest.mpower-social.com:8080/opensrp/"'
 
+
+
         }
     }
 

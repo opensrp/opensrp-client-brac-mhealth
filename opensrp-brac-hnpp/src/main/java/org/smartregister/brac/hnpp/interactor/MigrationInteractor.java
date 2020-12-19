@@ -89,10 +89,13 @@ public class MigrationInteractor  {
             }
             String url = baseUrl + MIGRATION_POST + "districtId=" + migrationSearchContentData.getDistrictId() + "&divisionId=" + migrationSearchContentData.getDivisionId()
                     + "&villageId=" + migrationSearchContentData.getVillageId() + "&type="+migrationSearchContentData.getMigrationType();
-            /*+ "?username=" + userName;*/
+//            String url = baseUrl + MIGRATION_POST + "districtId=10371&divisionId=10349&villageId=9315&type="+migrationSearchContentData.getMigrationType();
+
             String json = new Gson().toJson(baseClient);
+            ArrayList<String> list = new ArrayList<>();
+            list.add(json);
             JSONObject request = new JSONObject();
-            request.put(AllConstants.KEY.CLIENTS,json);
+            request.put(AllConstants.KEY.CLIENTS,list);
 
             Log.v("MIGRATION_POST", "url:" + url+"payload:"+request.toString());
             org.smartregister.domain.Response resp = httpAgent.post(url,request.toString());
@@ -140,6 +143,8 @@ public class MigrationInteractor  {
 
     private Client generateHHClient(MigrationSearchContentData migrationSearchContentData) {
         Client baseClient = new Client(migrationSearchContentData.getBaseEntityId());
+        baseClient.addRelationship("family_head",migrationSearchContentData.getFamilyBaseEntityId());
+        baseClient.addRelationship("primary_caregiver",migrationSearchContentData.getFamilyBaseEntityId());
         if(TextUtils.isEmpty(migrationSearchContentData.getSsName())){
             String ssName = HnppDBUtils.getSSNameFromFamilyTable(migrationSearchContentData.getBaseEntityId());
             migrationSearchContentData.setSsName(ssName);

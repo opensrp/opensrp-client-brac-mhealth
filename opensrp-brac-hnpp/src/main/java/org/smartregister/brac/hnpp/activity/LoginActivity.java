@@ -388,10 +388,11 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
             if(!HnppConstants.isPALogin()){
                 SSLocationFetchJob.scheduleJobImmediately(SSLocationFetchJob.TAG);
+                MigrationFetchJob.scheduleJobImmediately(MigrationFetchJob.TAG);
             }
             TargetFetchJob.scheduleJobImmediately(TargetFetchJob.TAG);
             StockFetchJob.scheduleJobImmediately(StockFetchJob.TAG);
-            MigrationFetchJob.scheduleJobImmediately(MigrationFetchJob.TAG);
+
 
         }catch (Exception e){
 

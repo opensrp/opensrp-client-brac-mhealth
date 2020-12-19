@@ -44,6 +44,7 @@ public class HnppAllMemberRegisterActivity extends CoreChildRegisterActivity {
         }else{
             findViewById(R.id.simprints_identity).setVisibility(View.GONE);
             findViewById(R.id.ss_info_browse).setVisibility(View.GONE);
+            findViewById(R.id.migration_view).setVisibility(View.GONE);
             findViewById(R.id.sk_change).setVisibility(View.VISIBLE);
             findViewById(R.id.sk_change).setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -259,6 +259,9 @@ public class VisitLogIntentService extends IntentService {
                                 if(HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE.equalsIgnoreCase(encounter_type)){
                                     updatePhysicalProblemRisk(base_entity_id,details);
                                 }
+                                if(NCD_PACKAGE.equalsIgnoreCase(encounter_type)){
+                                    updateNcdPackageRisk(base_entity_id,details);
+                                }
                                 if(HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY.equalsIgnoreCase(encounter_type)){
                                     updatePreviousHistoryRisk(base_entity_id,details);
                                 }
@@ -279,6 +282,10 @@ public class VisitLogIntentService extends IntentService {
                                     HnppApplication.getTargetRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id);
                                     if(ELCO.equalsIgnoreCase(encounter_type)){
                                         updateFamilyPlanning(log,details);
+                                    }
+                                    if(NCD_PACKAGE.equalsIgnoreCase(encounter_type)){
+                                        updateNcdDiabeticsTarget(log,details);
+                                        updateNcdBpTarget(log,details);
                                     }
                                     HnppApplication.getStockRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id);
                                     if(EYE_TEST.equalsIgnoreCase(encounter_type)){
@@ -410,6 +417,131 @@ public class VisitLogIntentService extends IntentService {
             }
         }
 
+    }
+    private void updateNcdDiabeticsTarget(VisitLog visit,HashMap<String,String>details){
+        if(details.containsKey("fasting_blood_sugar") && !StringUtils.isEmpty(details.get("fasting_blood_sugar"))){
+            String fbsValue = details.get("fasting_blood_sugar");
+            if(!TextUtils.isEmpty(fbsValue)){
+                float nP = Float.parseFloat(fbsValue);
+                if (nP>=7){
+                    LocalDate localDate = new LocalDate(visit.getVisitDate());
+                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ESTIMATE_DIABETES,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                    return;
+                }
+
+            }
+        }
+        if(details.containsKey("random_blood_sugar") && !StringUtils.isEmpty(details.get("random_blood_sugar"))){
+            String rbs = details.get("random_blood_sugar");
+            if(!TextUtils.isEmpty(rbs)){
+                float h = Float.parseFloat(rbs);
+                if (h>=11.1){
+                    LocalDate localDate = new LocalDate(visit.getVisitDate());
+                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ESTIMATE_DIABETES,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                    return;
+                }
+
+            }
+        }
+    }
+    private void updateNcdBpTarget(VisitLog visit,HashMap<String,String>details){
+        if(details.containsKey("blood_pressure_systolic") && !StringUtils.isEmpty(details.get("blood_pressure_systolic"))){
+            String fbsValue = details.get("blood_pressure_systolic");
+            if(!TextUtils.isEmpty(fbsValue)){
+                int bps = Integer.parseInt(fbsValue);
+                if (bps>=140){
+                    LocalDate localDate = new LocalDate(visit.getVisitDate());
+                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ESTIMATE_HBP,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                    return;
+                }
+
+            }
+        }
+        if(details.containsKey("blood_pressure_diastolic") && !StringUtils.isEmpty(details.get("blood_pressure_diastolic"))){
+            String bpd = details.get("blood_pressure_diastolic");
+            if(!TextUtils.isEmpty(bpd)){
+                int h = Integer.parseInt(bpd);
+                if (h>=90){
+                    LocalDate localDate = new LocalDate(visit.getVisitDate());
+                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ESTIMATE_HBP,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                    return;
+                }
+
+            }
+        }
+    }
+    private void updateNcdPackageRisk(String baseEntityId,HashMap<String,String>details){
+        if(details.containsKey("fasting_blood_sugar") && !StringUtils.isEmpty(details.get("fasting_blood_sugar"))){
+            String fbsValue = details.get("fasting_blood_sugar");
+            if(!TextUtils.isEmpty(fbsValue)){
+                float nP = Float.parseFloat(fbsValue);
+                if (nP>=7){
+                    RiskyModel riskyModel = new RiskyModel();
+                    riskyModel.riskyValue = fbsValue;
+                    riskyModel.riskyKey = "fasting_blood_sugar";
+                    riskyModel.eventType = NCD_PACKAGE;
+                    riskyModel.baseEntityId = baseEntityId;
+                    HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+                    HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",NCD_PACKAGE);
+                    return;
+                }
+
+            }
+        }
+        if(details.containsKey("random_blood_sugar") && !StringUtils.isEmpty(details.get("random_blood_sugar"))){
+            String rbs = details.get("random_blood_sugar");
+            if(!TextUtils.isEmpty(rbs)){
+                float h = Float.parseFloat(rbs);
+                if (h>=11.1){
+                    RiskyModel riskyModel = new RiskyModel();
+                    riskyModel.riskyValue = rbs;
+                    riskyModel.riskyKey = "random_blood_sugar";
+                    riskyModel.eventType = NCD_PACKAGE;
+                    riskyModel.baseEntityId = baseEntityId;
+                    HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+
+                    HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",NCD_PACKAGE);
+                    return;
+                }
+
+            }
+        }
+        if(details.containsKey("blood_pressure_systolic") && !StringUtils.isEmpty(details.get("blood_pressure_systolic"))){
+            String fbsValue = details.get("blood_pressure_systolic");
+            if(!TextUtils.isEmpty(fbsValue)){
+                int bps = Integer.parseInt(fbsValue);
+                if (bps>=140){
+                    RiskyModel riskyModel = new RiskyModel();
+                    riskyModel.riskyValue = fbsValue;
+                    riskyModel.riskyKey = "blood_pressure_systolic";
+                    riskyModel.eventType = NCD_PACKAGE;
+                    riskyModel.baseEntityId = baseEntityId;
+                    HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+                    HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",NCD_PACKAGE);
+                    return;
+                }
+
+            }
+        }
+        if(details.containsKey("blood_pressure_diastolic") && !StringUtils.isEmpty(details.get("blood_pressure_diastolic"))){
+            String bpd = details.get("blood_pressure_diastolic");
+            if(!TextUtils.isEmpty(bpd)){
+                int h = Integer.parseInt(bpd);
+                if (h>=90){
+                    RiskyModel riskyModel = new RiskyModel();
+                    riskyModel.riskyValue = bpd;
+                    riskyModel.riskyKey = "blood_pressure_diastolic";
+                    riskyModel.eventType = NCD_PACKAGE;
+                    riskyModel.baseEntityId = baseEntityId;
+                    HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+
+                    HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",NCD_PACKAGE);
+                    return;
+                }
+
+            }
+        }
+        HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"false",NCD_PACKAGE);
     }
     private void updateAncRegistrationRisk(String baseEntityId,HashMap<String,String>details){
         if(details.containsKey("no_prev_preg") && !StringUtils.isEmpty(details.get("no_prev_preg"))){

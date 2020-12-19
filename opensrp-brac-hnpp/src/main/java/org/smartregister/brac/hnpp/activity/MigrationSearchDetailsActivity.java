@@ -12,6 +12,9 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +23,8 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -56,6 +61,8 @@ public class MigrationSearchDetailsActivity extends SecuredActivity implements V
     protected RecyclerView recyclerView;
     private ProgressBar progressBar;
     private TextView titleTextView;
+    private EditText editTextSearch;
+    ImageView crossBtn;
     private SearchDetailsPresenter presenter;
     private SearchMigrationAdapter adapter;
 
@@ -72,7 +79,9 @@ public class MigrationSearchDetailsActivity extends SecuredActivity implements V
         setContentView(R.layout.activity_migration_search_details);
         HnppConstants.updateAppBackground(findViewById(R.id.action_bar));
         titleTextView = findViewById(R.id.textview_detail_two);
-        findViewById(R.id.search_migration).setOnClickListener(this);
+        editTextSearch = findViewById(R.id.search_edit_text);
+        crossBtn = findViewById(R.id.cross_btn);
+        crossBtn.setOnClickListener(this);
         findViewById(R.id.sort_btn).setOnClickListener(this);
         findViewById(R.id.backBtn).setOnClickListener(this);
         recyclerView = findViewById(R.id.recycler_view);
@@ -90,6 +99,29 @@ public class MigrationSearchDetailsActivity extends SecuredActivity implements V
             }
             presenter.fetchData(migrationSearchContentData.getMigrationType(),migrationSearchContentData.getVillageId(), migrationSearchContentData.getGender(), migrationSearchContentData.getAge());
         }
+        editTextSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(!TextUtils.isEmpty(s.toString())){
+                    crossBtn.setVisibility(View.VISIBLE);
+                }else{
+                    crossBtn.setVisibility(View.GONE);
+                }
+                presenter.search(s.toString());
+
+
+            }
+        });
 
     }
 
@@ -98,6 +130,8 @@ public class MigrationSearchDetailsActivity extends SecuredActivity implements V
         switch (view.getId()){
             case R.id.backBtn:
                 finish();
+                break;
+            case R.id.cross_btn:
                 break;
         }
     }
@@ -186,11 +220,16 @@ public class MigrationSearchDetailsActivity extends SecuredActivity implements V
         TextView textViewAge = dialog.findViewById(R.id.age_TV);
         TextView textViewGender = dialog.findViewById(R.id.gender_TV);
         TextView textViewVillage = dialog.findViewById(R.id.village_TV);
+        TextView textViewPhoneNo = dialog.findViewById(R.id.phone_no_TV);
         if(migrationSearchContentData.getMigrationType().equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.Member.name())){
-            textViewName.setText(content.firstName);
+            textViewName.setText(this.getString(R.string.name,content.firstName));
             textViewAge.setText( Utils.getDuration(content.birthdate));
             textViewGender.setText(content.gender);
             textViewVillage.setText(content.cityVillage);
+            if(!TextUtils.isEmpty(content.attributes.Mobile_Number)){
+                textViewPhoneNo.setVisibility(View.VISIBLE);
+                textViewPhoneNo.setText(this.getString(R.string.phone_no,content.attributes.Mobile_Number));
+            }
         }else {
             TextView age = dialog.findViewById(R.id.age_tv);
             TextView gender = dialog.findViewById(R.id.gender_tv);
@@ -199,6 +238,10 @@ public class MigrationSearchDetailsActivity extends SecuredActivity implements V
             textViewName.setText(this.getString(R.string.house_hold_head_name,content.firstName));
             textViewAge.setText(this.getString(R.string.ss_name,content.attributes.SS_Name));
             textViewGender.setText(this.getString(R.string.member_count,content.attributes.Number_of_HH_Member));
+            if(!TextUtils.isEmpty(content.attributes.HOH_Phone_Number)){
+                textViewPhoneNo.setVisibility(View.VISIBLE);
+                textViewPhoneNo.setText(this.getString(R.string.phone_no,content.attributes.HOH_Phone_Number));
+            }
             textViewVillage.setText(content.cityVillage);
         }
 

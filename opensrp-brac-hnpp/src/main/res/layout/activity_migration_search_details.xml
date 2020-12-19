@@ -51,34 +51,37 @@
 
     </RelativeLayout>
 
-    <android.support.v7.widget.CardView
+    <RelativeLayout
+        android:id="@+id/search_bar"
         android:layout_below="@+id/action_bar"
-        android:id="@+id/search_bar_view"
-        android:layout_margin="5dp"
-        android:padding="10dp"
-        android:elevation="5dp"
-        app:cardCornerRadius="5dp"
         android:layout_width="match_parent"
+        android:visibility="gone"
+        android:padding="10dp"
         android:layout_height="wrap_content">
-        <LinearLayout
-            android:orientation="vertical"
+        <EditText
+            android:id="@+id/search_edit_text"
+            android:drawableRight="@drawable/ic_icon_search"
+            android:layout_toLeftOf="@+id/cross_btn"
+            android:hint="নাম দিয়ে খুজুন"
+            android:layout_alignParentLeft="true"
+            android:maxWidth="300dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/search_migration"
-                android:padding="10dp"
-                android:text="Search"
-                android:textSize="16sp"
-                android:drawableRight="@drawable/ic_icon_search"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"/>
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:id="@+id/cross_btn"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_cross"
+            android:tint="@color/customAppThemeBlue"
+            android:padding="10dp"
+            android:visibility="gone"
+            android:layout_width="40dp"
+            android:layout_height="40dp"/>
+    </RelativeLayout>
 
 
     <android.support.v7.widget.RecyclerView
         android:layout_alignWithParentIfMissing="true"
-        android:layout_below="@+id/search_bar_view"
+        android:layout_below="@+id/search_bar"
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

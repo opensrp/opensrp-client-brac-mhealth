@@ -16,6 +16,8 @@ public class Migration {
     public class HHAttribute{
         public String SS_Name;
         public String Number_of_HH_Member;
+        public String Mobile_Number;
+        public String HOH_Phone_Number;
 
     }
 

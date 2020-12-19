@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.smartregister.CoreLibrary;
 
+import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.domain.Response;
 import org.smartregister.service.HTTPAgent;
 
@@ -65,21 +66,29 @@ public class MigrationFetchIntentService extends IntentService {
         for(int i=0;i<jsonArray.length();i++){
             try {
                 baseEntityList.add(jsonArray.getString(i));
-                Log.v("MIGRATED/REJECTED FETCH", "EntityList:"+baseEntityList.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        for (String strList : baseEntityList)
-        {
-            Log.e("MIGRATED FETCH:LIST:" , strList);
-        }
         if(baseEntityList.size()>0){
+            for(String id: baseEntityList){
+                if(lastsync.equalsIgnoreCase(LAST_SYNC_TIME_HH_REJECTED) || lastsync.equalsIgnoreCase(LAST_SYNC_TIME_HH_MIGRATED)){
+                    HnppDBUtils.updateMigratedOrRejectedHH(id);
+                }else if(lastsync.equalsIgnoreCase(LAST_SYNC_TIME_MEMEBER_REJECTED) || lastsync.equalsIgnoreCase(LAST_SYNC_TIME_MEMEBER_MIGRATED)){
+                    HnppDBUtils.updateMigratedOrRejectedMember(id);
+                }
+            }
+
             CoreLibrary.getInstance().context().allSharedPreferences().savePreference(lastsync, String.valueOf(System.currentTimeMillis()));
         }
     }
 
     private JSONArray getDataList(LOCATION_TYPE typeUrl){
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         String lastSynTime = "0";
         String urlMigration = null, type = null;
         try{
