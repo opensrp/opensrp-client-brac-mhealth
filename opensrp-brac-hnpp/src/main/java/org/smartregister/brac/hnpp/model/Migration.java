@@ -18,6 +18,8 @@ public class Migration {
         public String Number_of_HH_Member;
         public String Mobile_Number;
         public String HOH_Phone_Number;
+        public String nationalId;
+        public String birthRegistrationID;
 
     }
 

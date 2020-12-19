@@ -61,7 +61,7 @@
             android:id="@+id/search_edit_text"
             android:drawableRight="@drawable/ic_icon_search"
             android:layout_toLeftOf="@+id/cross_btn"
-            android:hint="নাম/মোবাইল নম্বর  দিয়ে খুঁজি "
+            android:hint="নাম/মোবাইল নম্বর/পরিচয় পত্র/জন্ম নিবন্দন  দিয়ে খুঁজি "
             android:layout_alignParentLeft="true"
             android:maxWidth="300dp"
             android:layout_width="match_parent"

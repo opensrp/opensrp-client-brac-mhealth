@@ -218,30 +218,58 @@ public class MigrationSearchDetailsActivity extends SecuredActivity implements V
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.migration_member_details_dialog);
         TextView textViewName = dialog.findViewById(R.id.name_TV);
-        TextView textViewAge = dialog.findViewById(R.id.age_TV);
-        TextView textViewGender = dialog.findViewById(R.id.gender_TV);
         TextView textViewVillage = dialog.findViewById(R.id.village_TV);
         TextView textViewPhoneNo = dialog.findViewById(R.id.phone_no_TV);
         if(migrationSearchContentData.getMigrationType().equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.Member.name())){
             textViewName.setText(this.getString(R.string.name,content.firstName));
-            textViewAge.setText( Utils.getDuration(content.birthdate));
-            textViewGender.setText(content.gender);
             textViewVillage.setText(content.cityVillage);
+            StringBuilder builder = new StringBuilder();
+            if(!TextUtils.isEmpty(content.birthdate)){
+                builder.append(this.getString(R.string.age, Utils.getDuration(content.birthdate))+"\n");
+
+            }
+            if(!TextUtils.isEmpty(content.gender)){
+                builder.append(this.getString(R.string.gender_postfix, HnppConstants.getGender(content.gender))+"\n");
+
+            }
             if(!TextUtils.isEmpty(content.attributes.Mobile_Number)){
+                builder.append(this.getString(R.string.phone_no,content.attributes.Mobile_Number)+"\n");
+
+            }
+            if(!TextUtils.isEmpty(content.attributes.nationalId)){
+                builder.append(this.getString(R.string.nid,content.attributes.nationalId)+"\n");
+            }
+            if(!TextUtils.isEmpty(content.attributes.birthRegistrationID)){
+                builder.append(this.getString(R.string.bid,content.attributes.birthRegistrationID));
+            }
+            if(builder.length()>0){
                 textViewPhoneNo.setVisibility(View.VISIBLE);
-                textViewPhoneNo.setText(this.getString(R.string.phone_no,content.attributes.Mobile_Number));
+                textViewPhoneNo.setText(builder.toString());
             }
         }else {
-            TextView age = dialog.findViewById(R.id.age_tv);
-            TextView gender = dialog.findViewById(R.id.gender_tv);
-            age.setText("");
-            gender.setText("");
             textViewName.setText(this.getString(R.string.house_hold_head_name,content.firstName));
-            textViewAge.setText(this.getString(R.string.ss_name,content.attributes.SS_Name));
-            textViewGender.setText(this.getString(R.string.member_count,content.attributes.Number_of_HH_Member));
+            StringBuilder builder = new StringBuilder();
+            if(!TextUtils.isEmpty(content.attributes.SS_Name)){
+                builder.append(this.getString(R.string.ss_name,content.attributes.SS_Name)+"\n");
+
+            }
+            if(!TextUtils.isEmpty(content.attributes.Number_of_HH_Member)){
+                builder.append(this.getString(R.string.member_count,content.attributes.Number_of_HH_Member)+"\n");
+
+            }
             if(!TextUtils.isEmpty(content.attributes.HOH_Phone_Number)){
+                builder.append(this.getString(R.string.phone_no,content.attributes.HOH_Phone_Number)+"\n");
+
+            }
+            if(!TextUtils.isEmpty(content.attributes.nationalId)){
+                builder.append(this.getString(R.string.nid,content.attributes.nationalId)+"\n");
+            }
+            if(!TextUtils.isEmpty(content.attributes.birthRegistrationID)){
+                builder.append(this.getString(R.string.bid,content.attributes.birthRegistrationID));
+            }
+            if(builder.length()>0){
                 textViewPhoneNo.setVisibility(View.VISIBLE);
-                textViewPhoneNo.setText(this.getString(R.string.phone_no,content.attributes.HOH_Phone_Number));
+                textViewPhoneNo.setText(builder.toString());
             }
             textViewVillage.setText(content.cityVillage);
         }

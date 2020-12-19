@@ -34,18 +34,28 @@ public class SearchDetailsPresenter implements SearchDetailsContract.Presenter,S
             searchData.clear();
             for(Migration migration:data){
                 String name = migration.firstName.toLowerCase();
-                String phoneNo ="",hhPhoneNo="";
+                String phoneNo ="",hhPhoneNo="",nationalId ="",birthRegistrationID ="";
                 if(migration.attributes!=null && migration.attributes.Mobile_Number!=null){
                     phoneNo = migration.attributes.Mobile_Number;
                 }
                 if(migration.attributes!=null && migration.attributes.HOH_Phone_Number!=null){
                     hhPhoneNo = migration.attributes.HOH_Phone_Number;
                 }
+                if(migration.attributes!=null && migration.attributes.nationalId!=null){
+                    nationalId = migration.attributes.nationalId;
+                }
+                if(migration.attributes!=null && migration.attributes.birthRegistrationID!=null){
+                    birthRegistrationID = migration.attributes.birthRegistrationID;
+                }
                 if(name.contains(query)){
                     searchData.add(migration);
                 }else if(phoneNo.contains(query)){
                     searchData.add(migration);
                 }else if(hhPhoneNo.contains(query)){
+                    searchData.add(migration);
+                }else if(nationalId.contains(query)){
+                    searchData.add(migration);
+                }else if(birthRegistrationID.contains(query)){
                     searchData.add(migration);
                 }
             }

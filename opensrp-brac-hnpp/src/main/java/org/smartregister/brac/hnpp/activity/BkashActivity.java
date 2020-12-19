@@ -27,7 +27,7 @@ import org.smartregister.service.HTTPAgent;
 public class BkashActivity extends AppCompatActivity {
     WebView wvBkashPayment;
     ProgressBar progressBar;
-    String amount = "";
+    //String amount = "";
     String request = "";
     private static final String BKASH_URL = "/bkash-payment";
 
@@ -42,16 +42,16 @@ public class BkashActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
 
         //check there is any intent data or not
-        if (getIntent().getExtras() == null) {
-            //no data
-            Toast.makeText(this, "Amount is empty. You can't pay through bkash. Try again", Toast.LENGTH_SHORT).show();
-            return;
-        } else {
-            amount = getIntent().getExtras().getString("AMOUNT");  //make sure your keyname is same as MainActivity.
+//        if (getIntent().getExtras() == null) {
+//            //no data
+//            Toast.makeText(this, "Amount is empty. You can't pay through bkash. Try again", Toast.LENGTH_SHORT).show();
+//            return;
+//        } else {
+//            amount = getIntent().getExtras().getString("AMOUNT");  //make sure your keyname is same as MainActivity.
 
             //Create a PaymentRequests model
             PaymentRequest paymentRequest = new PaymentRequest();
-            paymentRequest.setAmount(amount);
+//            paymentRequest.setAmount(amount);
             paymentRequest.setIntent("sale");
 
             Gson gson = new Gson();
@@ -79,7 +79,7 @@ public class BkashActivity extends AppCompatActivity {
             wvBkashPayment.loadUrl(getUrl());   // api host link .
 
             wvBkashPayment.setWebViewClient(new CheckoutWebViewClient());
-        }
+        //}
     }
 
     private String getUrl(){

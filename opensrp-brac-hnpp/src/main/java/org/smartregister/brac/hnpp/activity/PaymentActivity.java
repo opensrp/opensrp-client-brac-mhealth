@@ -95,27 +95,30 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
     }
 
     private void showDetailsDialog(){
-        Dialog dialog = new Dialog(this, android.R.style.Theme_NoTitleBar_Fullscreen);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.payment_dialog);
-        EditText paymentET = dialog.findViewById(R.id.payment_et);
-        dialog.findViewById(R.id.payment_Btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String amount = String.valueOf(paymentET.getText());
-                Intent intent = new Intent(PaymentActivity.this, BkashActivity.class);
-                intent.putExtra("AMOUNT",amount);  //sent amount to bkash activity
-                startActivity(intent);
-                finish();
-            }
-        });
-        dialog.findViewById(R.id.cross_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
+        Intent intent = new Intent(PaymentActivity.this, BkashActivity.class);
+        startActivity(intent);
+        finish();
+//        Dialog dialog = new Dialog(this, android.R.style.Theme_NoTitleBar_Fullscreen);
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog.setContentView(R.layout.payment_dialog);
+//        EditText paymentET = dialog.findViewById(R.id.payment_et);
+//        dialog.findViewById(R.id.payment_Btn).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String amount = String.valueOf(paymentET.getText());
+//                Intent intent = new Intent(PaymentActivity.this, BkashActivity.class);
+//                intent.putExtra("AMOUNT",amount);  //sent amount to bkash activity
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
+//        dialog.findViewById(R.id.cross_btn).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
+//        dialog.show();
 
     }
 }
