@@ -18,6 +18,15 @@ public class MigrationSearchContentData implements Serializable {
     private int villageIndex;
     private String villageName;
     private String hhId;
+    private String selectedVillageId;
+
+    public void setSelectedVillageId(String selectedVillageId) {
+        this.selectedVillageId = selectedVillageId;
+    }
+
+    public String getSelectedVillageId() {
+        return selectedVillageId;
+    }
 
     public void setHhId(String hhId) {
         this.hhId = hhId;

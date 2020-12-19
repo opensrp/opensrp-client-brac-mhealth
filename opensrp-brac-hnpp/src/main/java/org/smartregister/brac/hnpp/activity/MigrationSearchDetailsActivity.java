@@ -385,6 +385,8 @@ public class MigrationSearchDetailsActivity extends SecuredActivity implements V
         proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                migrationSearchContentData.setSsName(mSelectedSSName);
+                migrationSearchContentData.setSelectedVillageId(mSelectedVillageId);
                 migrateHH();
                 //dialog.dismiss();
             }
