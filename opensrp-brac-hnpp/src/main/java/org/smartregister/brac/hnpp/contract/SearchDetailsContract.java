@@ -15,7 +15,7 @@ public interface SearchDetailsContract {
         Context getContext();
     }
     interface Presenter{
-        void fetchData(String type, String villageId, String gender, String age);
+        void fetchData(String type, String villageId, String gender,String startAge, String age);
         ArrayList<Migration> getMemberList();
         View getView();
     }
@@ -23,6 +23,6 @@ public interface SearchDetailsContract {
         void onUpdateList(ArrayList<Migration> list);
     }
     interface Interactor{
-        void fetchData(String type, String villageId, String gender, String age, SearchDetailsContract.InteractorCallBack callBack);
+        void fetchData(String type, String villageId, String gender, String startAge, String age, SearchDetailsContract.InteractorCallBack callBack);
     }
 }

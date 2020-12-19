@@ -125,19 +125,52 @@ android:fillViewport="true">
             android:id="@+id/tv_age"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="বয়স"
+            android:text="বয়সসীমা"
+            android:layout_margin="10dp"
             android:textColor="@color/black"
             android:textSize="18sp"/>
-        <EditText
-            android:id="@+id/migration_age_ET"
-            android:layout_marginBottom="20dp"
+        <LinearLayout
+            android:id="@+id/age_panel"
+            android:orientation="horizontal"
+            android:weightSum="2.5"
             android:layout_width="match_parent"
-            android:background="@drawable/edit_text_bg"
-            android:inputType="number"
-            android:paddingLeft="10dp"
-            android:layout_margin="5dp"
-            android:layout_height="50dp">
-        </EditText>
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/start_age_ET"
+                android:layout_weight="1"
+                android:layout_marginBottom="20dp"
+                android:layout_width="wrap_content"
+                android:background="@drawable/edit_text_bg"
+                android:inputType="number"
+                android:hint="শুরু"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:layout_margin="5dp"
+                android:layout_height="50dp">
+            </EditText>
+            <TextView
+                android:layout_weight=".5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="হতে"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="18sp"/>
+            <EditText
+                android:id="@+id/migration_age_ET"
+                android:layout_weight="1"
+                android:layout_marginBottom="20dp"
+                android:layout_width="wrap_content"
+                android:background="@drawable/edit_text_bg"
+                android:inputType="number"
+                android:hint="শেষ"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:layout_margin="5dp"
+                android:layout_height="50dp">
+            </EditText>
+        </LinearLayout>
+
 
         <Button
             android:id="@+id/migration_filter_search_btn"

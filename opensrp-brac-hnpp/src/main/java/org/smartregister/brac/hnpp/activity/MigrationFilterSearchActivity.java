@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -28,11 +29,11 @@ public class MigrationFilterSearchActivity extends SecuredActivity implements Vi
     protected Spinner migration_union_spinner;
     protected Spinner migration_village_spinner;
     protected Spinner migration_gender_spinner;
-    protected EditText age_migration;
+    protected EditText age_migration,startAgeEditText;
     protected TextView migration_filter_title;
 
     private MigrationFilterSearchPresenter presenter;
-    private String gender, age,migrationType;
+    private String gender, startAge,age,migrationType;
 
     private ArrayAdapter<BaseLocation> districtSpinnerArrayAdapter;
     private ArrayAdapter<BaseLocation> upazilaSpinnerArrayAdapter;
@@ -55,13 +56,14 @@ public class MigrationFilterSearchActivity extends SecuredActivity implements Vi
         migration_union_spinner = findViewById(R.id.migration_filter_union);
         migration_village_spinner = findViewById(R.id.migration_filter_village);
         migration_gender_spinner = findViewById(R.id.migration_filter_gender);
+        startAgeEditText = findViewById(R.id.start_age_ET);
         age_migration = findViewById(R.id.migration_age_ET);
         migration_filter_title = findViewById(R.id.titleFilter);
         migrationType = getIntent().getStringExtra(MIGRATION_TYPE);
         if(migrationType!=null && migrationType.equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.HH.name())){
             migration_filter_title.setText("খানার এবং তার পূর্ববর্তী ঠিকানা সম্পর্কে নিম্নোক্ত তথ্যগুলো দিনঃ");
             findViewById(R.id.tv_age).setVisibility(View.GONE);
-            age_migration.setVisibility(View.GONE);
+            findViewById(R.id.age_panel).setVisibility(View.GONE);
             findViewById(R.id.tv_gender).setVisibility(View.GONE);
             migration_gender_spinner.setVisibility(View.GONE);
         }
@@ -132,11 +134,23 @@ public class MigrationFilterSearchActivity extends SecuredActivity implements Vi
             case R.id.migration_filter_search_btn:
                 gender = migration_gender_spinner.getSelectedItem().toString();
                 age = age_migration.getText().toString();
+                startAge = startAgeEditText.getText().toString();
                 gender = HnppConstants.genderMapping.get(gender);
+                if(TextUtils.isEmpty(startAge)){
+                    startAge ="0";
+                }
+                if(TextUtils.isEmpty(age)){
+                    age = "0";
+                }
+                if(Integer.parseInt(startAge)>Integer.parseInt(age)){
+                    startAgeEditText.setError("শেষ বয়সসীমা থেকে ছোট হতে হবে ");
+                    return;
+                }
                 BaseLocation villageLocation = (BaseLocation) migration_village_spinner.getSelectedItem();
                 BaseLocation district = (BaseLocation) migration_district_spinner.getSelectedItem();
                 MigrationSearchContentData searchContentData = new MigrationSearchContentData();
                 searchContentData.setAge(age);
+                searchContentData.setStartAge(startAge);
                 searchContentData.setDivisionId(district.parentId+"");
                 searchContentData.setDistrictId(district.id+"");
                 searchContentData.setVillageId(villageLocation.id+"");

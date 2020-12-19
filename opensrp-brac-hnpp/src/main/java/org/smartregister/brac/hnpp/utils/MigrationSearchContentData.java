@@ -9,6 +9,7 @@ public class MigrationSearchContentData implements Serializable {
     private String districtId;
     private String villageId;
     private String gender;
+    private String startAge;
     private String age;
     private String migrationType;
     private String baseEntityId;
@@ -112,5 +113,13 @@ public class MigrationSearchContentData implements Serializable {
 
     public void setAge(String age) {
         this.age = age;
+    }
+
+    public void setStartAge(String startAge) {
+        this.startAge = startAge;
+    }
+
+    public String getStartAge() {
+        return startAge;
     }
 }

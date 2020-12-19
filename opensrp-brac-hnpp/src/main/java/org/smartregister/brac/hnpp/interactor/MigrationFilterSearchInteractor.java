@@ -54,6 +54,20 @@ public class MigrationFilterSearchInteractor implements MigrationContract.Intera
     }
     private void addChild(String childId,LOCATION_TYPE locationType ){
         JSONArray jsonArray = getChildList(childId);
+        switch (locationType){
+            case UPOZILA:
+                upazilaArrayList.clear();
+                break;
+            case POUROSHOVA:
+                pouroshovaArrayList.clear();
+                break;
+            case UNION:
+                unionArrayList.clear();
+                break;
+            case VILLAGE:
+                villageArrayList.clear();
+                break;
+        }
 
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
@@ -62,19 +76,15 @@ public class MigrationFilterSearchInteractor implements MigrationContract.Intera
                 if(baseLocation!=null){
                     switch (locationType){
                         case UPOZILA:
-                            upazilaArrayList.clear();
                             upazilaArrayList.add(baseLocation);
                             break;
                         case POUROSHOVA:
-                            pouroshovaArrayList.clear();
                             pouroshovaArrayList.add(baseLocation);
                             break;
                         case UNION:
-                            unionArrayList.clear();
                             unionArrayList.add( baseLocation);
                             break;
                         case VILLAGE:
-                            villageArrayList.clear();
                             villageArrayList.add( baseLocation);
                             break;
                     }

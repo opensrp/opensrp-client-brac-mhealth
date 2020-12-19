@@ -49,7 +49,7 @@ public class HnppConstants extends CoreConstants {
     public static final String EXTRA_STOCK_COME = "EXTRA_STOCK_COME";
     public static final String EXTRA_STOCK_END = "EXTRA_STOCK_END";
     public static final String EXTRA_EDD = "EXTRA_EDD";
-    public static final long STOCK_END_DEFAULT_TIME = 60*60*1000;//1 hr
+    public static final long STOCK_END_DEFAULT_TIME = 6*60*60*1000;//6 hr
     public static final long EDD_DEFAULT_TIME = 6*60*60*1000;//6 hr
     public static final String TEST_GU_ID = "test";
     public static final float VERIFY_THRESHOLD = 20;
