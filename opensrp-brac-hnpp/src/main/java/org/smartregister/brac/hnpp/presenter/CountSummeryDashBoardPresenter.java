@@ -38,6 +38,7 @@ public class CountSummeryDashBoardPresenter implements DashBoardContract.Present
 
     @Override
     public void filterData(String ssName, String month,String year) {
+        getView().showProgressBar();
         if(month.equalsIgnoreCase("-1")) month ="";
         if(year.equalsIgnoreCase("-1")) year ="";
         month = HnppConstants.addZeroForMonth(month);

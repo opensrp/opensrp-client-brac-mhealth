@@ -29,11 +29,34 @@
         android:theme="@style/HNPPTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup,android:icon">
-        <activity android:name=".activity.NotificationActivity"
+
+    <activity android:name=".activity.PaymentSuccess_Activity" android:screenOrientation="portrait"
+        android:theme="@style/HNPPTheme.NoActionBar"
+        android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
+        <activity android:name=".activity.BkashActivity" android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
+        <activity android:name=".activity.PaymentActivity" android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+        <activity android:name=".activity.MigrationSearchDetailsActivity" android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
+        <activity
+            android:name=".activity.MigrationFilterSearchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
-        </activity>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".activity.MigrationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".activity.NotificationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"
@@ -60,6 +83,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+
         <activity
             android:name=".activity.FamilyRegisterActivity"
             android:screenOrientation="portrait"
@@ -75,13 +99,10 @@
                 android:value="org.smartregister.brac.hnpp.activity.FamilyRegisterActivity" />
         </activity>
         <activity
-            android:name="org.smartregister.brac.hnpp.activity.GuestMemberProfileActivity"
+            android:name=".activity.GuestMemberProfileActivity"
             android:label="@string/title_family_detail"
             android:screenOrientation="portrait"
-            android:theme="@style/FamilyTheme.NoActionBar">
-
-        </activity>
-
+            android:theme="@style/FamilyTheme.NoActionBar" />
         <activity
             android:name=".activity.HnppFamilyOtherMemberProfileActivity"
             android:label="@string/title_family_detail"
@@ -190,13 +211,14 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/FamilyTheme.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
-        <activity android:name=".activity.GuestAddMemberJsonFormActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".activity.GuestAddMemberJsonFormActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/FamilyTheme.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
-         <activity
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
             android:name=".activity.HNPPJsonWizardFormActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -261,10 +283,12 @@
         <activity
             android:name=".activity.SimprintsIdentityActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
-        <activity android:name=".activity.GuestMemberActivity" android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".activity.GuestMemberActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity android:name=".activity.HnppSettingsActivity" />
         <activity
             android:name=".activity.HnppPncRegisterActivity"
@@ -302,13 +326,12 @@
             android:name=".activity.SSInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
-        <service android:name=".service.HnppSyncIntentService"/>
 
+        <service android:name=".service.HnppSyncIntentService" />
         <service android:name="org.smartregister.immunization.service.intent.VaccineIntentService" />
         <service android:name="org.smartregister.immunization.service.intent.RecurringIntentService" />
         <service android:name="org.smartregister.sync.intent.PullUniqueIdsIntentService" />
-        <service android:name=".service.NotificationGeneratorIntentService"/>
-<!--        <service android:name="org.smartregister.sync.intent.SyncIntentService" />-->
+        <service android:name=".service.NotificationGeneratorIntentService" /> <!-- <service android:name="org.smartregister.sync.intent.SyncIntentService" /> -->
         <service android:name="org.smartregister.sync.intent.ExtendedSyncIntentService" />
         <service android:name="org.smartregister.sync.intent.ValidateIntentService" />
         <service android:name="org.smartregister.service.ImageUploadSyncService" />
@@ -319,6 +342,7 @@
         <service android:name=".sync.intent.PullHouseholdIdIntentService" />
         <service android:name=".service.SSLocationFetchIntentService" />
         <service android:name=".service.TargetFetchIntentService" />
+        <service android:name=".service.MigrationFetchIntentService" />
         <service android:name=".service.StockFetchIntentService" />
         <service android:name=".service.HomeVisitIntentService" />
         <service android:name=".service.VisitLogIntentService" />

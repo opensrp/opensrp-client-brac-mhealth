@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:fillViewport="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:background="@color/light_gray"
+        android:gravity="center"
+        android:orientation="vertical">
+        <LinearLayout
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/titleFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="সদস্যের এবং তার পূর্ববর্তী ঠিকানা সম্পর্কে নিম্নোক্ত তথ্যগুলো দিনঃ"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="জেলা"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
+
+        <Spinner
+            android:id="@+id/migration_filter_district"
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:background="@drawable/spinner_resource"
+            android:layout_margin="5dp"
+            android:layout_height="50dp">
+        </Spinner>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="উপজেলা"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
+
+        <Spinner
+            android:id="@+id/migration_filter_thana"
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:background="@drawable/spinner_resource"
+            android:layout_margin="5dp"
+            android:layout_height="50dp">
+
+        </Spinner>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="পৌরসভা"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
+
+        <Spinner
+            android:id="@+id/migration_filter_pourosova"
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:background="@drawable/spinner_resource"
+            android:layout_margin="5dp"
+            android:layout_height="50dp">
+
+        </Spinner>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ইউনিয়ন"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
+        <Spinner
+            android:id="@+id/migration_filter_union"
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:background="@drawable/spinner_resource"
+            android:layout_margin="5dp"
+            android:layout_height="50dp">
+
+        </Spinner>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="গ্রাম"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
+        <Spinner
+            android:id="@+id/migration_filter_village"
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:background="@drawable/spinner_resource"
+            android:layout_margin="5dp"
+            android:layout_height="50dp">
+
+        </Spinner>
+        <TextView
+            android:id="@+id/tv_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="লিঙ্গ"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
+        <Spinner
+            android:id="@+id/migration_filter_gender"
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:background="@drawable/spinner_resource"
+            android:entries="@array/gender"
+            android:prompt="@string/gender_prompt"
+            android:layout_margin="5dp"
+            android:layout_height="50dp">
+
+        </Spinner>
+        <TextView
+            android:id="@+id/tv_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="বয়সসীমা"
+            android:layout_margin="10dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
+        <LinearLayout
+            android:id="@+id/age_panel"
+            android:orientation="horizontal"
+            android:weightSum="2.5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/start_age_ET"
+                android:layout_weight="1"
+                android:layout_marginBottom="20dp"
+                android:layout_width="wrap_content"
+                android:background="@drawable/edit_text_bg"
+                android:inputType="number"
+                android:hint="শুরু"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:layout_margin="5dp"
+                android:layout_height="50dp">
+            </EditText>
+            <TextView
+                android:layout_weight=".5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="হতে"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="18sp"/>
+            <EditText
+                android:id="@+id/migration_age_ET"
+                android:layout_weight="1"
+                android:layout_marginBottom="20dp"
+                android:layout_width="wrap_content"
+                android:background="@drawable/edit_text_bg"
+                android:inputType="number"
+                android:hint="শেষ"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:layout_margin="5dp"
+                android:layout_height="50dp">
+            </EditText>
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/migration_filter_search_btn"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/login_button_bg"
+            android:ems="10"
+            android:shadowColor="#ffffff"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="0.5"
+            android:textStyle="bold"
+            android:text="@string/search"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+
+
+    </LinearLayout>
+</ScrollView>

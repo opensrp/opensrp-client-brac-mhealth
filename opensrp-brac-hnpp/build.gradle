@@ -72,8 +72,8 @@ android {
             buildConfigField "int", "PULL_SSLOCATION", '180'
             buildConfigField "int", "REPORT_INDICATOR_GENERATION_MINUTES", '15'
             buildConfigField "int", "HOME_VISIT_MINUTES", '60'
-            buildConfigField "String", 'opensrp_url_live', '"https://mhealth.brac.net/opensrp/"'
-            buildConfigField "String", 'opensrp_url_training', '"http://mhealthtest.brac.net:8080/opensrp/"'
+//            buildConfigField "String", 'opensrp_url_live', '"https://mhealth.brac.net/opensrp/"'
+//            buildConfigField "String", 'opensrp_url_training', '"http://mhealthtest.brac.net:8080/opensrp/"'
         }
 
         debug {
@@ -117,15 +117,24 @@ android {
         }
         normal{
             versionCode 29
-            versionName "1.3.4"
+            versionName "1.3.4_DEV"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
-//            buildConfigField "String", 'opensrp_url_training', '"http://mhealth.brac.net:8080/opensrp/"'
-//            buildConfigField "String", 'opensrp_url_live', '"http://mhealth.brac.net:8080/opensrp/"'
-//
+
             buildConfigField "String", 'opensrp_url_training', '"http://hnpptest.mpower-social.com:8080/opensrp/"'
             buildConfigField "String", 'opensrp_url_live', '"http://hnpptest.mpower-social.com:8080/opensrp/"'
 
+//            buildConfigField "String", 'opensrp_url_training', '"http://192.168.43.214:8082/opensrp/"'
+//            buildConfigField "String", 'opensrp_url_live', '"http://192.168.43.214:8082/opensrp/"'
+
+        }
+        production{
+            versionCode 30
+            versionName "1.3.4"
+            dimension = 'baseDimension'
+            buildConfigField "boolean", 'IS_TRAINING', 'false'
+            buildConfigField "String", 'opensrp_url_training', '"http://mhealth.brac.net:8080/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"http://mhealth.brac.net:8080/opensrp/"'
         }
     }
 
@@ -141,6 +150,7 @@ dependencies {
     implementation 'com.whiteelephant:monthandyearpicker:1.3.0'
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation 'com.google.code.gson:gson:2.8.5'
     api('org.smartregister:opensrp-client-simprints:2.0.7-SNAPSHOT@aar') {
         transitive = true
         exclude group: 'com.android.support', module: 'appcompat-v7'

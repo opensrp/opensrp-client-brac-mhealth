@@ -15,17 +15,21 @@ import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
+import org.smartregister.brac.hnpp.activity.MigrationActivity;
 import org.smartregister.brac.hnpp.activity.NotificationActivity;
+import org.smartregister.brac.hnpp.activity.PaymentActivity;
 import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
 import org.smartregister.brac.hnpp.job.HomeVisitServiceJob;
 import org.smartregister.brac.hnpp.activity.COVIDJsonFormActivity;
 import org.smartregister.brac.hnpp.activity.ForceSyncActivity;
+import org.smartregister.brac.hnpp.job.MigrationFetchJob;
 import org.smartregister.brac.hnpp.job.NotificationGeneratorJob;
 import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
 import org.smartregister.brac.hnpp.job.StockFetchJob;
 import org.smartregister.brac.hnpp.job.TargetFetchJob;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.chw.anc.util.JsonFormUtils;
 import org.smartregister.chw.core.contract.CoreApplication;
@@ -107,6 +111,15 @@ public class HnppNavigationPresenter extends NavigationPresenter {
     }
 
     @Override
+    public void browseMigration(Activity activity) {
+        activity.startActivity(new Intent(activity, MigrationActivity.class));
+    }
+    @Override
+    public void browsePayment(Activity activity) {
+        activity.startActivity(new Intent(activity, PaymentActivity.class));
+    }
+
+    @Override
     public void sync(Activity activity) {
       userStatusCheck(activity);
     }
@@ -177,6 +190,9 @@ public class HnppNavigationPresenter extends NavigationPresenter {
             });
 
         }else{
+            if(!HnppConstants.isPALogin()){
+                MigrationFetchJob.scheduleJobImmediately(MigrationFetchJob.TAG);
+            }
             HomeVisitServiceJob.scheduleJobImmediately(HomeVisitServiceJob.TAG);
             HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
             PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
@@ -184,6 +200,7 @@ public class HnppNavigationPresenter extends NavigationPresenter {
             VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
             TargetFetchJob.scheduleJobImmediately(TargetFetchJob.TAG);
             StockFetchJob.scheduleJobImmediately(StockFetchJob.TAG);
+
             //NotificationGeneratorJob.scheduleJobImmediately(NotificationGeneratorJob.TAG);
         }
     }

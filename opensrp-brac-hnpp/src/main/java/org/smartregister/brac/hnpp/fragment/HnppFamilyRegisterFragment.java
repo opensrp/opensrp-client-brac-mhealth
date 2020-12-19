@@ -28,6 +28,7 @@ import com.evernote.android.job.JobManager;
 import org.apache.commons.lang3.StringUtils;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.activity.MigrationSearchDetailsActivity;
 import org.smartregister.brac.hnpp.job.HnppPncCloseJob;
 import org.smartregister.brac.hnpp.job.NotificationGeneratorJob;
 import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
@@ -40,6 +41,7 @@ import org.smartregister.brac.hnpp.presenter.HnppFamilyRegisterFragmentPresenter
 import org.smartregister.brac.hnpp.provider.HnppFamilyRegisterProvider;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppQueryBuilder;
+import org.smartregister.brac.hnpp.utils.MigrationSearchContentData;
 import org.smartregister.chw.core.fragment.CoreFamilyRegisterFragment;
 import org.smartregister.chw.core.provider.CoreRegisterProvider;
 import org.smartregister.chw.core.utils.QueryBuilder;
@@ -70,6 +72,7 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
     private TextView textViewVillageNameFilter, textViewClasterNameFilter;
     private ImageView imageViewVillageNameFilter, imageViewClasterNameFilter;
     private ViewGroup clients_header_layout;
+    private MigrationSearchContentData migrationSearchContentData;
 
     @Override
     public void initializeAdapter(Set<org.smartregister.configurableviews.model.View> visibleColumns) {
@@ -77,6 +80,10 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
         clientAdapter = new RecyclerViewPaginatedAdapter(null, chwRegisterProvider, context().commonrepository(this.tablename));
         clientAdapter.setCurrentlimit(20);
         clientsView.setAdapter(clientAdapter);
+    }
+
+    public void setMigrationSearchContentData(MigrationSearchContentData migrationSearchContentData) {
+        this.migrationSearchContentData = migrationSearchContentData;
     }
 
     @Override
@@ -87,7 +94,7 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
         presenter = new HnppFamilyRegisterFragmentPresenter(this, new HnppFamilyRegisterFragmentModel(), null);
     }
 
-    //@Override
+    @Override
     protected void goToPatientDetailActivity(CommonPersonObjectClient patient, boolean goToDuePage) {
         Intent intent = new Intent(getActivity(), Utils.metadata().profileActivity);
         intent.putExtra(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, patient.getCaseId());
@@ -98,6 +105,9 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
         intent.putExtra(Constants.INTENT_KEY.GO_TO_DUE_PAGE, goToDuePage);
         intent.putExtra(DBConstants.KEY.UNIQUE_ID, Utils.getValue(patient.getColumnmaps(), DBConstants.KEY.UNIQUE_ID, false));
         intent.putExtra(HnppConstants.KEY.MODULE_ID, Utils.getValue(patient.getColumnmaps(), HnppConstants.KEY.MODULE_ID, false));
+        if(migrationSearchContentData!=null){
+            intent.putExtra(MigrationSearchDetailsActivity.EXTRA_SEARCH_CONTENT,migrationSearchContentData);
+        }
         startActivity(intent);
     }
     ImageView sortByView;

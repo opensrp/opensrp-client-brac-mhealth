@@ -49,7 +49,7 @@ public class HnppConstants extends CoreConstants {
     public static final String EXTRA_STOCK_COME = "EXTRA_STOCK_COME";
     public static final String EXTRA_STOCK_END = "EXTRA_STOCK_END";
     public static final String EXTRA_EDD = "EXTRA_EDD";
-    public static final long STOCK_END_DEFAULT_TIME = 60*60*1000;//1 hr
+    public static final long STOCK_END_DEFAULT_TIME = 6*60*60*1000;//6 hr
     public static final long EDD_DEFAULT_TIME = 6*60*60*1000;//6 hr
     public static final String TEST_GU_ID = "test";
     public static final float VERIFY_THRESHOLD = 20;
@@ -68,6 +68,7 @@ public class HnppConstants extends CoreConstants {
     public enum VisitType {DUE, OVERDUE, LESS_TWENTY_FOUR, VISIT_THIS_MONTH, NOT_VISIT_THIS_MONTH, EXPIRY, VISIT_DONE}
     public enum HomeVisitType {GREEN, YELLOW, RED, BROWN}
     public enum SEARCH_TYPE {HH, ADO, WOMEN, CHILD,NCD,ADULT}
+    public enum MIGRATION_TYPE {HH, Member}
 
     public static String addZeroForMonth(String month){
         if(TextUtils.isEmpty(month)) return "";
@@ -125,6 +126,45 @@ public class HnppConstants extends CoreConstants {
             return true;
         }
         return false;
+    }
+    public static void showDialogWithAction(Context context,String title, String text,Runnable runnable){
+        Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_with_two_button);
+        TextView textViewTitle = dialog.findViewById(R.id.text_tv);
+        TextView titleTxt = dialog.findViewById(R.id.title_tv);
+        titleTxt.setText(title);
+        textViewTitle.setText(text);
+        dialog.findViewById(R.id.close_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.ok_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                runnable.run();
+            }
+        });
+        dialog.show();
+    }
+    public static void showOneButtonDialog(Context context,String title, String text){
+        Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_with_one_button);
+        TextView textViewTitle = dialog.findViewById(R.id.text_tv);
+        TextView titleTxt = dialog.findViewById(R.id.title_tv);
+        titleTxt.setText(title);
+        textViewTitle.setText(text);
+        dialog.findViewById(R.id.ok_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
     public static void showDialog(Context context,String title, String text){
         Dialog dialog = new Dialog(context, android.R.style.Theme_NoTitleBar_Fullscreen);
@@ -451,9 +491,9 @@ public class HnppConstants extends CoreConstants {
         public static final String PNC_REGISTRATION_OOC = "PNC Registration OOC";
         public static final String WOMEN_PACKAGE = "Women package";
         public static final String GIRL_PACKAGE = "Adolescent package";
-        public static final String NCD_PACKAGE = "NCD package";
-        public static final String EYE_TEST = "Eye test";
-        public static final String BLOOD_GROUP = "Blood group";
+        public static final String NCD_PACKAGE = "NCD package";//pa
+        public static final String EYE_TEST = "Eye test";//pa
+        public static final String BLOOD_GROUP = "Blood group";//pa
         public static final String IYCF_PACKAGE = "IYCF package";
         public static final String ENC_REGISTRATION = "ENC Registration";
         public static final String HOME_VISIT_FAMILY = "HH visit";
@@ -518,6 +558,11 @@ public class HnppConstants extends CoreConstants {
         public static final String PNC_SERVICE = "PNC Service";
         public static final String GUEST_MEMBER_REGISTRATION = "OOC Member Registration";
     }
+    public static final Map<String,String> genderMapping = ImmutableMap.<String,String> builder()
+            .put("নারী","F")
+            .put("পুরুষ","M")
+            .put("তৃতীয় লিঙ্গ","O")
+            .build();
     public static final Map<String,String> vaccineNameMapping = ImmutableMap.<String,String> builder()
             .put("bcg","বিসিজি")
             .put("opv_1","পোলিও-১")

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/title_txt"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dialog_title_member_mg"
+        android:textColor="@color/black"
+        android:textSize="25sp"/>
+
+    <LinearLayout
+        android:padding="10dp"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/yes_btn"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:layout_gravity="center"
+            android:background="@color/visit_status_ok"
+            android:text="হ্যা"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/no_btn"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:padding="10dp"
+            android:layout_margin="10dp"
+            android:background="@color/visit_status_ok"
+            android:text="না"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/dont_know_search_btn"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:padding="10dp"
+            android:layout_margin="10dp"
+            android:background="@color/visit_status_ok"
+            android:text="জানা নেই,খুঁজে দেখতে চাই"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+</LinearLayout>

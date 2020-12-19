@@ -40,7 +40,7 @@ public class ChildDBConstants {
     }
     public static String riskAdultFilterWithTableName(){
         String query = " ((( julianday('now') - julianday(ec_family_member.dob))/365) >" + 18 + ")";
-        return query+" AND " +riskAncPatient();
+        return query+riskAncPatient();
     }
     public static String AdultFilterWithTableName(){
         String query = " ((( julianday('now') - julianday(ec_family_member.dob))/365) >" + 18 + ")";

@@ -31,6 +31,7 @@ import org.smartregister.brac.hnpp.presenter.FamilyRegisterPresenter;
 import org.smartregister.brac.hnpp.presenter.HnppNavigationPresenter;
 import org.smartregister.brac.hnpp.repository.HnppChwRepository;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.MigrationSearchContentData;
 import org.smartregister.chw.core.activity.CoreFamilyRegisterActivity;
 import org.smartregister.chw.core.custom_views.NavigationMenu;
 import org.smartregister.chw.core.utils.CoreConstants;
@@ -58,6 +59,7 @@ import static org.smartregister.util.JsonFormUtils.FIELDS;
 
 public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
     private BroadcastReceiver notificationBroadcastReceiver;
+    private MigrationSearchContentData migrationSearchContentData;
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this).setMessage(getString(R.string.exit_app_message))
@@ -145,6 +147,7 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
         }else{
             findViewById(R.id.simprints_identity).setVisibility(View.GONE);
             findViewById(R.id.ss_info_browse).setVisibility(View.GONE);
+            findViewById(R.id.migration_view).setVisibility(View.GONE);
             findViewById(R.id.sk_change).setVisibility(View.VISIBLE);
             findViewById(R.id.sk_change).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -167,9 +170,17 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
         }
         HnppConstants.isViewRefresh = false;
         SimPrintsLibrary.init(FamilyRegisterActivity.this, HnppConstants.getSimPrintsProjectId(), CoreLibrary.getInstance().context().allSharedPreferences().fetchRegisteredANM());
+        migrationSearchContentData = (MigrationSearchContentData) getIntent().getSerializableExtra(MigrationSearchDetailsActivity.EXTRA_SEARCH_CONTENT);
+        if(migrationSearchContentData!=null){
+            HnppConstants.showOneButtonDialog(this,getString(R.string.dialog_text_family),"");
+            hnppFamilyRegisterFragment.setMigrationSearchContentData(migrationSearchContentData);
 
+        }
 
     }
+
+
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -305,10 +316,12 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
         presenter = new FamilyRegisterPresenter(this,new HnppFamilyRegisterModel());
         return presenter;
     }
+    HnppFamilyRegisterFragment hnppFamilyRegisterFragment;
 
     @Override
     protected BaseRegisterFragment getRegisterFragment() {
-        return new HnppFamilyRegisterFragment();
+        hnppFamilyRegisterFragment = new HnppFamilyRegisterFragment();
+        return hnppFamilyRegisterFragment;
     }
 
     @Override

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="10dp"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/cross_btn"
+        android:layout_width="48dp"
+        android:layout_height="40dp"
+        android:layout_gravity="right"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_cross"
+        android:tint="@color/customAppThemeBlue" />
+        <RelativeLayout
+            android:id="@+id/memberLayout"
+            android:layout_below="@+id/cross_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <ImageView
+                android:id="@+id/image"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="10dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/rowavatar_member"/>
+            <org.smartregister.view.customcontrols.CustomFontTextView
+                android:id="@+id/name_TV"
+                android:layout_below="@+id/image"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:textSize="24sp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <org.smartregister.view.customcontrols.CustomFontTextView
+                android:id="@+id/phone_no_TV"
+                android:layout_below="@+id/name_TV"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:textSize="20sp"
+                android:textStyle="normal"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <org.smartregister.view.customcontrols.CustomFontTextView
+                android:id="@+id/village_tv"
+                android:layout_alignWithParentIfMissing="true"
+                android:layout_below="@+id/phone_no_TV"
+                android:layout_marginRight="10dp"
+                android:gravity="left"
+                android:textSize="20sp"
+                android:textStyle="normal"
+                android:text="গ্রামঃ"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <org.smartregister.view.customcontrols.CustomFontTextView
+                android:id="@+id/village_TV"
+                android:layout_below="@+id/phone_no_TV"
+                android:layout_toRightOf="@+id/village_tv"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:textSize="20sp"
+                android:textStyle="normal"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+
+
+
+    <Button
+        android:id="@+id/migration_btn"
+        android:layout_below="@+id/memberLayout"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/login_button_bg"
+        android:layout_centerInParent="true"
+        android:shadowColor="#ffffff"
+        android:shadowDx="0"
+        android:shadowDy="1"
+        android:shadowRadius="0.5"
+        android:textStyle="bold"
+        android:text="স্থানান্তর করি"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+
+</RelativeLayout>

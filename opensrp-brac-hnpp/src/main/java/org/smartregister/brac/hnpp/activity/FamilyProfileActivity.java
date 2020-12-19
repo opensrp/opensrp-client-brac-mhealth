@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
@@ -28,14 +29,18 @@ import com.vijay.jsonwizard.utils.PermissionUtils;
 
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.contract.MigrationContract;
 import org.smartregister.brac.hnpp.fragment.FamilyHistoryFragment;
 import org.smartregister.brac.hnpp.fragment.FamilyProfileDueFragment;
 import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
+import org.smartregister.brac.hnpp.interactor.MigrationInteractor;
+import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.model.HnppFamilyProfileModel;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
+import org.smartregister.brac.hnpp.utils.MigrationSearchContentData;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.core.activity.CoreFamilyProfileActivity;
 import org.smartregister.chw.core.activity.CoreFamilyProfileMenuActivity;
@@ -49,6 +54,7 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.family.adapter.ViewPagerAdapter;
 import org.smartregister.family.fragment.BaseFamilyProfileDueFragment;
+import org.smartregister.family.util.AppExecutors;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.JsonFormUtils;
@@ -67,6 +73,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
 
     public String moduleId;
     public String houseHoldId;
+    public MigrationSearchContentData migrationSearchContentData;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -81,6 +88,37 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         HnppConstants.updateAppBackground(findViewById(R.id.family_toolbar));
         if(HnppConstants.isPALogin()){
             familyFloatingMenu.setVisibility(View.GONE);
+        }
+        migrationSearchContentData = (MigrationSearchContentData) getIntent().getSerializableExtra(MigrationSearchDetailsActivity.EXTRA_SEARCH_CONTENT);
+
+        if(migrationSearchContentData != null){
+            HnppConstants.showDialogWithAction(this,getString(R.string.dialog_title), "", new Runnable() {
+                @Override
+                public void run() {
+                    migrationSearchContentData.setFamilyBaseEntityId(familyBaseEntityId);
+                    migrationSearchContentData.setHhId(houseHoldId);
+                    new MigrationInteractor(new AppExecutors()).migrateMember(migrationSearchContentData, new MigrationContract.MigrationPostInteractorCallBack() {
+                        @Override
+                        public void onSuccess() {
+                            Toast.makeText(FamilyProfileActivity.this,"Successfully migrated,Syncing data",Toast.LENGTH_SHORT).show();
+                            HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
+                            Intent intent = new Intent(FamilyProfileActivity.this, FamilyRegisterActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();
+
+                        }
+
+                        @Override
+                        public void onFail() {
+                            Toast.makeText(FamilyProfileActivity.this,"Fail to migrate",Toast.LENGTH_SHORT).show();
+
+
+                        }
+                    });
+
+                }
+            });
         }
     }
 
