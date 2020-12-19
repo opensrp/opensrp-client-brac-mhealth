@@ -155,6 +155,7 @@ public class MigrationFilterSearchActivity extends SecuredActivity implements Vi
                 searchContentData.setDistrictId(district.id+"");
                 searchContentData.setVillageId(villageLocation.id+"");
                 searchContentData.setMigrationType(migrationType);
+                searchContentData.setGender(gender);
                 if(searchContentData.getDistrictId()!=null && searchContentData.getDivisionId()!=null){
                     MigrationSearchDetailsActivity.startMigrationSearchActivity(this,searchContentData);
                 }else{

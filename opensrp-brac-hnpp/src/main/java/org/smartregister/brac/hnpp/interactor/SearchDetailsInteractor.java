@@ -64,6 +64,8 @@ public class SearchDetailsInteractor implements SearchDetailsContract.Interactor
 //        age ="50";
         if(type.equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.HH.name())){
             gender ="";
+            startAge ="-1";
+            age ="-1";
         }
         try {
             HTTPAgent httpAgent = CoreLibrary.getInstance().context().getHttpAgent();

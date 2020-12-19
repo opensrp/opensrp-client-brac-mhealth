@@ -15,6 +15,7 @@ public class SearchDetailsPresenter implements SearchDetailsContract.Presenter,S
     private ArrayList<Migration> data = new ArrayList<>();
     private ArrayList<Migration> searchData = new ArrayList<>();
     private SearchDetailsContract.Interactor interactor;
+    private boolean isFromSearch = false;
 
     public SearchDetailsPresenter(SearchDetailsContract.View view){
         this.view = view;
@@ -28,6 +29,7 @@ public class SearchDetailsPresenter implements SearchDetailsContract.Presenter,S
     }
     public void search(String query){
         if(!TextUtils.isEmpty(query)){
+            isFromSearch = true;
             view.showProgressBar();
             searchData.clear();
             for(Migration migration:data){
@@ -48,6 +50,7 @@ public class SearchDetailsPresenter implements SearchDetailsContract.Presenter,S
                 }
             }
         }else{
+            isFromSearch = false;
             searchData.clear();
         }
         view.hideProgressBar();
@@ -58,7 +61,7 @@ public class SearchDetailsPresenter implements SearchDetailsContract.Presenter,S
     @Override
     public ArrayList<Migration> getMemberList() {
 
-        return searchData.size()>0?searchData:data;
+        return isFromSearch?searchData:data;
     }
 
     @Override
