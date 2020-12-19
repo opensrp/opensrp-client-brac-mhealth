@@ -150,7 +150,7 @@ public class MigrationInteractor  {
             migrationSearchContentData.setSsName(ssName);
         }
         baseClient.addAttribute("ss_name",migrationSearchContentData.getSsName());
-        baseClient.addAttribute("village_id",migrationSearchContentData.getVillageId());
+        baseClient.addAttribute("village_id",migrationSearchContentData.getSelectedVillageId());
 
         SSLocations ss = SSLocationHelper.getInstance().getSSLocationBySSName(migrationSearchContentData.getSsName());
         String moduleId;
