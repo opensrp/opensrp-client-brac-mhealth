@@ -132,6 +132,7 @@ public class MigrationSearchDetailsActivity extends SecuredActivity implements V
                 finish();
                 break;
             case R.id.cross_btn:
+                editTextSearch.setText("");
                 break;
         }
     }

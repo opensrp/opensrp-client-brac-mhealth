@@ -31,17 +31,27 @@ public class SearchDetailsPresenter implements SearchDetailsContract.Presenter,S
             view.showProgressBar();
             searchData.clear();
             for(Migration migration:data){
-                if(migration.firstName.contains(query)){
+                String name = migration.firstName.toLowerCase();
+                String phoneNo ="",hhPhoneNo="";
+                if(migration.attributes!=null && migration.attributes.Mobile_Number!=null){
+                    phoneNo = migration.attributes.Mobile_Number;
+                }
+                if(migration.attributes!=null && migration.attributes.HOH_Phone_Number!=null){
+                    hhPhoneNo = migration.attributes.HOH_Phone_Number;
+                }
+                if(name.contains(query)){
                     searchData.add(migration);
-                }else if(migration.attributes!=null && migration.attributes.Mobile_Number.contains(query)){
+                }else if(phoneNo.contains(query)){
                     searchData.add(migration);
-                }else if(migration.attributes!=null && migration.attributes.HOH_Phone_Number.contains(query)){
+                }else if(hhPhoneNo.contains(query)){
                     searchData.add(migration);
                 }
             }
         }else{
             searchData.clear();
         }
+        view.hideProgressBar();
+        view.updateAdapter();
 
     }
 
