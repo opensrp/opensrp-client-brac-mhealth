@@ -29,7 +29,7 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
     private String getMonthYearFilter(String month, String year){
         StringBuilder build = new StringBuilder();
         build.append(MessageFormat.format(" and {0} = {1} ", "strftime('%m', datetime("+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime'))" ,"'"+month+"'"));
-        build.append(MessageFormat.format(" and {0} = {1} ", "strftime('%y', datetime("+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime'))" ,"'"+year+"'"));
+        build.append(MessageFormat.format(" and {0} = {1} ", "strftime('%Y', datetime("+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime'))" ,"'"+year+"'"));
 
         return build.toString();
     }
@@ -41,9 +41,12 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
         if(TextUtils.isEmpty(ssName) && TextUtils.isEmpty(month)){
             query = "select count(*) as count from ec_guest_member where date_removed is null ";
         }
-        else if(TextUtils.isEmpty(month)){
+        else if(TextUtils.isEmpty(month) && !TextUtils.isEmpty(ssName)){
             query = "select count(*) as count from ec_guest_member where ss_name = '"+ssName+"' and date_removed is null ";
-        }else {
+        }else if(!TextUtils.isEmpty(month) && TextUtils.isEmpty(ssName)){
+            query = "select count(*) as count from ec_guest_member where date_removed is null "+getMonthYearFilter(month,year);
+        }
+        else {
             query = "select count(*) as count from ec_guest_member where ss_name = '"+ssName+"' and date_removed is null "+getMonthYearFilter(month,year);
 
         }
@@ -86,6 +89,7 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
         }else {
             query = "select count(*) as count from ec_family where ss_name = '"+ssName+"' and date_removed is null "+getMonthYearFilter(month,year);
         }
+        Log.v("COUNT_QUERY","getHHCount:"+query);
         Cursor cursor = null;
         // try {
         cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
@@ -372,7 +376,7 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
         build.append(mainCondition);
         if(!TextUtils.isEmpty(month)){
             build.append(MessageFormat.format(" and {0} = {1} ", "strftime('%m', datetime("+CoreConstants.TABLE_NAME.FAMILY_MEMBER+"."+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime'))" ,"'"+month+"'"));
-            build.append(MessageFormat.format(" and {0} = {1} ", "strftime('%y', datetime("+CoreConstants.TABLE_NAME.FAMILY_MEMBER+"."+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime'))" ,"'"+year+"'"));
+            build.append(MessageFormat.format(" and {0} = {1} ", "strftime('%Y', datetime("+CoreConstants.TABLE_NAME.FAMILY_MEMBER+"."+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime'))" ,"'"+year+"'"));
 
         }
         return build.toString();
