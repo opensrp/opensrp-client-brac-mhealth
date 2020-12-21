@@ -121,6 +121,9 @@ public class MigrationInteractor  {
             migrationSearchContentData.setSsName(ssName);
         }
         SSLocations ss = SSLocationHelper.getInstance().getSSLocationBySSName(migrationSearchContentData.getSsName());
+        if(ss==null){
+            return null;
+        }
         baseClient.addAttribute("house_hold_id",migrationSearchContentData.getHhId());
         String unique_id = generateMemberId(migrationSearchContentData.getHhId(),migrationSearchContentData.getFamilyBaseEntityId());
         if(unique_id.isEmpty()){
