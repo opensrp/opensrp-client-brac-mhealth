@@ -67,6 +67,12 @@ public class SearchDetailsInteractor implements SearchDetailsContract.Interactor
             startAge ="-1";
             age ="-1";
         }
+        if(startAge.isEmpty()|startAge.equals("0")){
+            startAge = "-1";
+        }
+        if(age.isEmpty()|age.equals("0")){
+            age = "-1";
+        }
         try {
             HTTPAgent httpAgent = CoreLibrary.getInstance().context().getHttpAgent();
             String baseUrl = CoreLibrary.getInstance().context().
