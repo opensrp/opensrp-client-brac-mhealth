@@ -1212,7 +1212,7 @@
           "err": "প্রশ্নের উত্তর দিন"
         },
         "relevance": {
-          "step2:has_family_planning_method": {
+          "step1:has_family_planning_method": {
             "type": "string",
             "ex": "equalTo(., \"হ্যাঁ\")"
           }

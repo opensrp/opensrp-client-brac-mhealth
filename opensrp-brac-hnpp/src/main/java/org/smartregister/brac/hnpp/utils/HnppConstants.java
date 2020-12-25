@@ -24,7 +24,10 @@ import org.smartregister.chw.core.utils.Utils;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.repository.AllSharedPreferences;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,6 +72,25 @@ public class HnppConstants extends CoreConstants {
         public static final int TYPE_GIRL_PACKAGE = 2;
         public static final int TYPE_NCD = 3;
         public static final int TYPE_IYCF = 4;
+    }
+    public static void appendLog(String text) {
+        File logFile = new File("sdcard/log.file");
+        if (!logFile.exists()) {
+            try {
+                logFile.createNewFile();
+            }
+            catch (IOException e) {
+            }
+        }
+        try {
+            //BufferedWriter for performance, true to set append to file flag
+            BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true));
+            buf.append(text);
+            buf.newLine();
+            buf.close();
+        } catch (IOException e) {
+
+        }
     }
 
     public static String getHomeVisitStatus(long lastHomeVisit , String dateCreatedStr){
