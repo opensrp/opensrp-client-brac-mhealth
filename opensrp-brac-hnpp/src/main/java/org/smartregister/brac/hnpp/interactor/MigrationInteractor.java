@@ -121,6 +121,9 @@ public class MigrationInteractor  {
             migrationSearchContentData.setSsName(ssName);
         }
         SSLocations ss = SSLocationHelper.getInstance().getSSLocationBySSName(migrationSearchContentData.getSsName());
+        if(ss==null){
+            return null;
+        }
         baseClient.addAttribute("house_hold_id",migrationSearchContentData.getHhId());
         String unique_id = generateMemberId(migrationSearchContentData.getHhId(),migrationSearchContentData.getFamilyBaseEntityId());
         if(unique_id.isEmpty()){
@@ -143,13 +146,13 @@ public class MigrationInteractor  {
 
     private Client generateHHClient(MigrationSearchContentData migrationSearchContentData) {
         Client baseClient = new Client(migrationSearchContentData.getBaseEntityId());
-        baseClient.addRelationship("family_head",migrationSearchContentData.getFamilyBaseEntityId());
-        baseClient.addRelationship("primary_caregiver",migrationSearchContentData.getFamilyBaseEntityId());
+        baseClient.addRelationship("family_head",migrationSearchContentData.getBaseEntityId());
+        baseClient.addRelationship("primary_caregiver",migrationSearchContentData.getBaseEntityId());
         if(TextUtils.isEmpty(migrationSearchContentData.getSsName())){
             String ssName = HnppDBUtils.getSSNameFromFamilyTable(migrationSearchContentData.getBaseEntityId());
             migrationSearchContentData.setSsName(ssName);
         }
-        baseClient.addAttribute("ss_name",migrationSearchContentData.getSsName());
+        baseClient.addAttribute("SS_Name",migrationSearchContentData.getSsName());
         baseClient.addAttribute("village_id",migrationSearchContentData.getSelectedVillageId());
 
         SSLocations ss = SSLocationHelper.getInstance().getSSLocationBySSName(migrationSearchContentData.getSsName());
