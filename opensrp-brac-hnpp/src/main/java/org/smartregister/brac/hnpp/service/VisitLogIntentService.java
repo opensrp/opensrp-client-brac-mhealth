@@ -133,51 +133,13 @@ public class VisitLogIntentService extends IntentService {
                                 log.setVisitId(visit.getVisitId());
                                 log.setVisitType(visit.getVisitType());
                                 log.setBaseEntityId(base_entity_id);
-                                if( HnppConstants.EVENT_TYPE.CHILD_REFERRAL.equalsIgnoreCase(encounter_type)){
-                                    if(details.containsKey("cause_of_referral_child")&&!StringUtils.isEmpty(details.get("cause_of_referral_child"))){
-                                        log.setReferReason(details.get("cause_of_referral_child"));
+                                String ssName = HnppDBUtils.getSSName(base_entity_id);
+                                log.setSsName(ssName);
+                                log.setVisitDate(visit.getDate().getTime());
+                                log.setEventType(encounter_type);
+                                log.setVisitJson(form_object.toString());
+                                processReferral(encounter_type,log,details);
 
-                                    }
-                                    if(details.containsKey("place_of_referral")){
-                                        log.setReferPlace( details.get("place_of_referral"));
-                                    }
-
-                                }else if( HnppConstants.EVENT_TYPE.WOMEN_REFERRAL.equalsIgnoreCase(encounter_type)){
-                                    if(details.containsKey("cause_of_referral_woman")&&!StringUtils.isEmpty(details.get("cause_of_referral_woman"))){
-                                        log.setReferReason(details.get("cause_of_referral_woman"));
-
-                                    }
-                                    if(details.containsKey("place_of_referral")){
-                                        log.setReferPlace( details.get("place_of_referral"));
-                                    }
-
-                                }
-                                else if( HnppConstants.EVENT_TYPE.MEMBER_REFERRAL.equalsIgnoreCase(encounter_type)){
-                                    if(details.containsKey("cause_of_referral_all")&&!StringUtils.isEmpty(details.get("cause_of_referral_all"))){
-                                        log.setReferReason(details.get("cause_of_referral_all"));
-
-                                    }
-                                    if(details.containsKey("place_of_referral")){
-                                        log.setReferPlace( details.get("place_of_referral"));
-                                    }
-
-                                }
-                                if(REFERREL_FOLLOWUP.equalsIgnoreCase(encounter_type)){
-                                    String refer_reason = "";
-                                    String place_of_refer = "";
-                                    if(details.containsKey("caused_referred")&&!StringUtils.isEmpty(details.get("caused_referred"))){
-                                        refer_reason = details.get("caused_referred");
-                                    }
-
-                                    log.setReferReason(refer_reason);
-
-                                    if(details.containsKey("place_referred")){
-                                        place_of_refer = details.get("place_of_referral");
-                                    }
-                                    log.setReferPlace(place_of_refer);
-
-
-                                }
                                 if(ELCO.equalsIgnoreCase(encounter_type)){
                                     if(details.containsKey("pregnancy_test_result")&&!StringUtils.isEmpty(details.get("pregnancy_test_result"))){
                                         log.setPregnantStatus(details.get("pregnancy_test_result"));
@@ -270,11 +232,8 @@ public class VisitLogIntentService extends IntentService {
                                 }else{
                                     log.setFamilyId(HnppDBUtils.getFamilyIdFromBaseEntityId(base_entity_id));
                                 }
-                                log.setVisitDate(visit.getDate().getTime());
-                                log.setEventType(encounter_type);
-                                log.setVisitJson(form_object.toString());
-                                String ssName = HnppDBUtils.getSSName(base_entity_id);
-                                log.setSsName(ssName);
+
+
 
                                 long isInserted = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
                                 if(isInserted!=-1){
@@ -313,6 +272,71 @@ public class VisitLogIntentService extends IntentService {
         processImmunization();
     }
 
+    private void processReferral(String encounter_type, VisitLog log, HashMap<String,String>details) {
+        if( HnppConstants.EVENT_TYPE.CHILD_REFERRAL.equalsIgnoreCase(encounter_type)){
+            if(details.containsKey("cause_of_referral_child")&&!StringUtils.isEmpty(details.get("cause_of_referral_child"))){
+                log.setReferReason(details.get("cause_of_referral_child"));
+
+            }
+            if(details.containsKey("place_of_referral")){
+                log.setReferPlace( details.get("place_of_referral"));
+            }
+
+        }else if( HnppConstants.EVENT_TYPE.WOMEN_REFERRAL.equalsIgnoreCase(encounter_type)){
+            if(details.containsKey("cause_of_referral_woman")&&!StringUtils.isEmpty(details.get("cause_of_referral_woman"))){
+                log.setReferReason(details.get("cause_of_referral_woman"));
+
+            }
+            if(details.containsKey("place_of_referral")){
+                log.setReferPlace( details.get("place_of_referral"));
+            }
+
+        }
+        else if( HnppConstants.EVENT_TYPE.MEMBER_REFERRAL.equalsIgnoreCase(encounter_type)){
+            if(details.containsKey("cause_of_referral_all")&&!StringUtils.isEmpty(details.get("cause_of_referral_all"))){
+
+                log.setReferReason(details.get("cause_of_referral_all"));
+                String cataractRefer =  details.get("cause_of_referral_all");
+                if(!TextUtils.isEmpty(cataractRefer) && cataractRefer.equalsIgnoreCase("cataract_problem")){
+                    LocalDate localDate = new LocalDate(log.getVisitDate());
+                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.CATARACT_SURGERY_REFER,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
+
+                }
+
+
+            }
+            if(details.containsKey("place_of_referral")){
+                log.setReferPlace( details.get("place_of_referral"));
+            }
+
+        }
+        if(REFERREL_FOLLOWUP.equalsIgnoreCase(encounter_type)){
+            String refer_reason = "";
+            String place_of_refer = "";
+            if(details.containsKey("caused_referred")&&!StringUtils.isEmpty(details.get("caused_referred"))){
+                refer_reason = details.get("caused_referred");
+            }
+            if(details.containsKey("is_operation_done")&&!StringUtils.isEmpty(details.get("is_operation_done"))){
+                String operationDone = details.get("is_operation_done");
+                if(!TextUtils.isEmpty(operationDone) && operationDone.equalsIgnoreCase("Yes")){
+                    LocalDate localDate = new LocalDate(log.getVisitDate());
+                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.CATARACT_SURGERY,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
+
+                }
+            }
+
+
+            log.setReferReason(refer_reason);
+
+            if(details.containsKey("place_referred")){
+                place_of_refer = details.get("place_of_referral");
+            }
+            log.setReferPlace(place_of_refer);
+
+
+        }
+    }
+
     private void processEyeTest(HashMap<String, String> details, VisitLog visit) {
         if(details!=null){
             if(details.containsKey("exam_result") && !StringUtils.isEmpty(details.get("exam_result"))) {
@@ -326,6 +350,8 @@ public class VisitLogIntentService extends IntentService {
                 String known = details.get("is_need_glasses");
                 if(!TextUtils.isEmpty(known) && known.equalsIgnoreCase("yes")){
                     LocalDate localDate = new LocalDate(visit.getVisitDate());
+                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.PRESBYOPIA_CORRECTION,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+
                     HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.GLASS,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
 
                 }
@@ -1493,7 +1519,7 @@ public class VisitLogIntentService extends IntentService {
                 form_name = HnppConstants.JSON_FORMS.ANC3_FORM_OOC + ".json";
                 break;
             case MEMBER_REFERRAL:
-                form_name = HnppConstants.JSON_FORMS.MEMBER_REFERRAL + ".json";
+                form_name = HnppConstants.isPALogin()? HnppConstants.JSON_FORMS.MEMBER_REFERRAL + "_pa.json":HnppConstants.JSON_FORMS.MEMBER_REFERRAL + ".json";
                 break;
             case HnppConstants.EVENT_TYPE.WOMEN_REFERRAL:
                 form_name = HnppConstants.JSON_FORMS.WOMEN_REFERRAL + ".json";

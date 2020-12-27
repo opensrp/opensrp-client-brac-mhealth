@@ -1,9 +1,14 @@
 package org.smartregister.brac.hnpp.interactor;
 
 import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.contract.OtherServiceContract;
+import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.OtherServiceData;
@@ -11,6 +16,9 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.util.AppExecutors;
 
 import java.util.ArrayList;
+
+import static org.smartregister.brac.hnpp.utils.HnppConstants.eventTypeMapping;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.iconMapping;
 
 public class MemberOtherServiceInteractor implements OtherServiceContract.Interactor {
 
@@ -64,6 +72,25 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
             otherServiceData.setTitle("রক্ত পরীক্ষা");
             otherServiceData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_BLOOD);
             otherServiceDataList.add(otherServiceData);
+        }
+        {
+            OtherServiceData otherServiceData = new OtherServiceData();
+            otherServiceData.setImageSource(R.mipmap.ic_refer);
+            otherServiceData.setTitle("রেফারেল");
+            otherServiceData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_REFERRAL);
+            otherServiceDataList.add(otherServiceData);
+        }
+        ArrayList<ReferralFollowUpModel> getList = FormApplicability.getReferralFollowUp(commonPersonObjectClient.getCaseId());
+
+        for(ReferralFollowUpModel referralFollowUpModel : getList){
+            OtherServiceData otherServiceData = new OtherServiceData();
+            otherServiceData.setImageSource(iconMapping.get(HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP));
+            otherServiceData.setTitle(eventTypeMapping.get(HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP));
+            otherServiceData.setSubTitle(referralFollowUpModel.getReferralReason());
+            otherServiceData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_REFERRAL_FOLLOW_UP);
+            otherServiceData.setReferralFollowUpModel(referralFollowUpModel);
+            otherServiceDataList.add(otherServiceData);
+
         }
 
         return otherServiceDataList;

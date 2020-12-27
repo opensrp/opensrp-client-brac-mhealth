@@ -18,6 +18,7 @@ public class MemberOtherServicePresenter implements OtherServiceContract.Present
 
     public MemberOtherServicePresenter(OtherServiceContract.View view){
         this.view = view;
+        data = new ArrayList<>();
         interactor = new MemberOtherServiceInteractor(new AppExecutors());
     }
     @Override
@@ -33,6 +34,7 @@ public class MemberOtherServicePresenter implements OtherServiceContract.Present
 
     @Override
     public void onUpdateList(ArrayList<OtherServiceData> otherServiceData) {
+        this.data.clear();
         this.data = otherServiceData;
         if(getView() != null) getView().updateView();
 

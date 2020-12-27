@@ -121,6 +121,25 @@ public class MemberOtherServiceFragment extends Fragment implements OtherService
                     activity.openServiceForms(HnppConstants.JSON_FORMS.EYE_TEST);
                 }
                 break;
+            case HnppConstants.OTHER_SERVICE_TYPE.TYPE_REFERRAL:
+                if (getActivity() != null && getActivity() instanceof HnppFamilyOtherMemberProfileActivity) {
+                    HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) getActivity();
+                    activity.openServiceForms(HnppConstants.JSON_FORMS.MEMBER_REFERRAL_PA);
+                }else if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                    HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                    activity.openServiceForms(HnppConstants.JSON_FORMS.MEMBER_REFERRAL_PA);
+                }
+                break;
+            case HnppConstants.OTHER_SERVICE_TYPE.TYPE_REFERRAL_FOLLOW_UP:
+                if (getActivity() != null && getActivity() instanceof HnppFamilyOtherMemberProfileActivity) {
+                    HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) getActivity();
+
+                    activity.openReferealFollowUp(content.getReferralFollowUpModel());
+                }else if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                    HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                    activity.openReferealFollowUp(content.getReferralFollowUpModel());
+                }
+                break;
         }
     }
 }
