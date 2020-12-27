@@ -138,7 +138,7 @@ public class HnppChwRepository extends CoreChwRepository {
                     upgradeToVersion29(context,db);
                     break;
                 case 30:
-                    upgradeToVersion29(context,db);
+                    upgradeToVersion30(context,db);
                     break;
                 default:
                     break;
