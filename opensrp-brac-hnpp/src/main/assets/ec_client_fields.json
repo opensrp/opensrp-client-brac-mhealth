@@ -579,6 +579,13 @@
           "json_mapping": {
             "field": "attributes.dateRemoved"
           }
+        },
+        {
+          "column_name": "_id",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes._id"
+          }
         }
       ]
     },
