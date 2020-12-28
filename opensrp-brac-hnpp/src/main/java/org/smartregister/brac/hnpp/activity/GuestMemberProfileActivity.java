@@ -135,7 +135,10 @@ public class GuestMemberProfileActivity extends SecuredActivity implements View.
             Intent intent = new Intent(this, GuestAddMemberJsonFormActivity.class);
             //JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(HnppConstants.JSON_FORMS.GUEST_MEMBER_FORM);
             JSONObject jsonForm = HnppJsonFormUtils.getAutoPopulatedJsonEditFormString(HnppConstants.JSON_FORMS.GUEST_MEMBER_FORM, this, client, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION);
+            String ssName = org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.SS_NAME, false);
+            String villageName = org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.VILLAGE_NAME, false);
             HnppJsonFormUtils.updateFormWithSSName(jsonForm, SSLocationHelper.getInstance().getSsModels());
+            HnppJsonFormUtils.updateFormWithVillageName(jsonForm,ssName,villageName);
             intent.putExtra(org.smartregister.chw.anc.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
             Form form = new Form();
             form.setWizard(false);

@@ -486,7 +486,7 @@
           "column_name": "village_name",
           "type": "Client",
           "json_mapping": {
-            "field": "attributes.Village_Name"
+            "field": "addresses.cityVillage"
           }
         },
         {
