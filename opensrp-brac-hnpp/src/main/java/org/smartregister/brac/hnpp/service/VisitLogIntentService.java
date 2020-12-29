@@ -681,6 +681,7 @@ public class VisitLogIntentService extends IntentService {
         HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"false",PNC_REGISTRATION);
 
     }
+
     private void updatePhysicalProblemRisk(String baseEntityId,HashMap<String,String>details){
         if(details.containsKey("high_blood_pressure") && !StringUtils.isEmpty(details.get("high_blood_pressure"))){
             String eb = details.get("high_blood_pressure");
@@ -1292,73 +1293,6 @@ public class VisitLogIntentService extends IntentService {
             if(cursor !=null) cursor.close();
         }
 
-        return v;
-    }
-
-    private void processAncregistration(){
-        List<Visit> v = getANCRegistrationVisitsFromEvent();
-        for (Visit visit : v) {
-            String eventJson = visit.getJson();
-            if (!StringUtils.isEmpty(eventJson)) {
-                try {
-
-                    Event baseEvent = gson.fromJson(eventJson, Event.class);
-                    String base_entity_id = baseEvent.getBaseEntityId();
-                    HashMap<String,Object>form_details = getFormNamesFromEventObject(baseEvent);
-                    ArrayList<String> encounter_types = (ArrayList<String>) form_details.get("form_name");
-                    HashMap<String,String>details = (HashMap<String, String>) form_details.get("details");
-                    final CommonPersonObjectClient client = new CommonPersonObjectClient(base_entity_id, details, "");
-                    client.setColumnmaps(details);
-                    for (String encounter_type : encounter_types) {
-                        JSONObject form_object = loadFormFromAsset(encounter_type);
-                        JSONObject stepOne = form_object.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
-                        JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
-                        for (int k = 0; k < jsonArray.length(); k++) {
-                            populateValuesForFormObject(client, jsonArray.getJSONObject(k));
-                        }
-                        VisitLog log = new VisitLog();
-                        log.setVisitId(visit.getVisitId());
-                        log.setVisitType(visit.getVisitType());
-                        log.setBaseEntityId(base_entity_id);
-
-                        log.setVisitDate(visit.getDate().getTime());
-                        log.setEventType(encounter_type);
-                        log.setVisitJson(form_object.toString());
-                        log.setFamilyId(HnppDBUtils.getFamilyIdFromBaseEntityId(base_entity_id));
-                        HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
-
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-        public List<Visit>  getANCRegistrationVisitsFromEvent(){
-        List<Visit> v = new ArrayList<>();
-        String query = "SELECT event.baseEntityId,event.eventId, event.json,event.eventType FROM event WHERE (event.eventType = 'ANC Registration' OR event.eventType = 'Pregnancy Outcome') AND event.eventId NOT IN (Select visits.visit_id from visits) AND event.json like '%form_name%'";
-        Cursor cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
-        if(cursor !=null && cursor.getCount() > 0) {
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-                String baseEntityId = cursor.getString(0);
-                String eventId = cursor.getString(1);
-                String json = cursor.getString(2);
-                String eventType = cursor.getString(3);
-                Event baseEvent = gson.fromJson(json, Event.class);
-
-                try {
-                    Visit visit = NCUtils.eventToVisit(baseEvent, eventId);
-                    v.add(visit);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                cursor.moveToNext();
-            }
-            cursor.close();
-        }
         return v;
     }
     private static void populateValuesForFormObject(CommonPersonObjectClient client, JSONObject jsonObject) {

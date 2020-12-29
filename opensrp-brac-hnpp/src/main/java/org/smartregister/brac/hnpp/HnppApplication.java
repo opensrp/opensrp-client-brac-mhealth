@@ -41,6 +41,7 @@ import org.smartregister.brac.hnpp.presenter.HnppNavigationPresenter;
 import org.smartregister.brac.hnpp.repository.GuestMemberIdRepository;
 import org.smartregister.brac.hnpp.repository.HnppChwRepository;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
+import org.smartregister.brac.hnpp.repository.IndicatorRepository;
 import org.smartregister.brac.hnpp.repository.NotificationRepository;
 import org.smartregister.brac.hnpp.repository.RiskDetailsRepository;
 import org.smartregister.brac.hnpp.repository.SSLocationRepository;
@@ -97,6 +98,7 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
     private static SSLocationRepository locationRepository;
     private static RiskDetailsRepository riskDetailsRepository;
     private static TargetVsAchievementRepository targetVsAchievementRepository;
+    private static IndicatorRepository indicatorRepository;
     private static NotificationRepository notificationRepository;
     private static StockRepository stockRepository;
     private static CommonFtsObject commonFtsObject = null;
@@ -302,6 +304,12 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
             targetVsAchievementRepository = new TargetVsAchievementRepository(getInstance().getRepository());
         }
         return targetVsAchievementRepository;
+    }
+    public static IndicatorRepository getIndicatorRepository() {
+        if ( indicatorRepository == null) {
+            indicatorRepository = new IndicatorRepository(getInstance().getRepository());
+        }
+        return indicatorRepository;
     }
     public static NotificationRepository getNotificationRepository() {
         if ( notificationRepository == null) {

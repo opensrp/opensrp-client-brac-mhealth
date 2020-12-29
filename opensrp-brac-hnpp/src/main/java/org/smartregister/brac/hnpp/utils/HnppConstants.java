@@ -471,6 +471,17 @@ public class HnppConstants extends CoreConstants {
         public static final String GUEST_MEMBER_FORM = "guest_member_register";
 
     }
+    public class INDICATOR {
+        public static final String PP_PILL = "contraceptive_pill";
+        public static final String PP_CONDOM = "condom";
+        public static final String PP_IUD = "iud";
+        public static final String PP_INJECTION = "injection";
+        public static final String PP_Implant = "norplant";
+        public static final String PP_Vesectomy = "vasectomy";
+        public static final String PP_Tubectomy = "ligation";
+
+
+    }
 
     public class EVENT_TYPE{
         public static final String ELCO = "ELCO Registration";
