@@ -97,6 +97,8 @@ public class HnppConstants extends CoreConstants {
         public static final int TYPE_IYCF = 4;
         public static final int TYPE_EYE = 5;
         public static final int TYPE_BLOOD = 6;
+        public static final int TYPE_REFERRAL = 7;
+        public static final int TYPE_REFERRAL_FOLLOW_UP = 8;
     }
 
     public static boolean isNeedToShowEDDPopup(){
@@ -450,6 +452,7 @@ public class HnppConstants extends CoreConstants {
         public static final String  PREGNANCY_OUTCOME = "hnpp_anc_pregnancy_outcome";
         public static final String  PREGNANCY_OUTCOME_OOC = "hnpp_anc_pregnancy_outcome_ooc";
         public static final String  MEMBER_REFERRAL = "hnpp_member_referral";
+        public static final String  MEMBER_REFERRAL_PA = "hnpp_member_referral_pa";
         public static final String  WOMEN_REFERRAL = "hnpp_women_referral";
         public static final String  CHILD_REFERRAL = "hnpp_child_referral";
         public static final String  ELCO = "elco_register";
@@ -472,6 +475,9 @@ public class HnppConstants extends CoreConstants {
 
     }
     public class INDICATOR {
+        public static final String ANC_OTHER_SOURCE = "anc_other_source";
+        public static final String ANC_TT = "anc_tt";
+        public static final String FEEDING_UPTO_6_MONTH = "feeding_6_month";
         public static final String PP_PILL = "contraceptive_pill";
         public static final String PP_CONDOM = "condom";
         public static final String PP_IUD = "iud";
@@ -879,6 +885,7 @@ public class HnppConstants extends CoreConstants {
             .put("diabetes","ডায়বেটিস")
             .put("high_blood_pressure","উচ্চ রক্তচাপ")
             .put("problems_with_birth_control","জন্মবিরতিকরণ পদ্ধতি সংক্রান্ত সমস্যা")
+            .put("cataract_problem","চোখে ক্যাটারেক্ট (ছানি) সমস্যা")
             .put("other","অন্যান্য")
             .build();
     public static final Map<String,String> referealPlaceMapping = ImmutableMap.<String,String> builder()

@@ -70,7 +70,7 @@ public class IndicatorRepository extends BaseRepository {
         getWritableDatabase().execSQL("delete from "+getLocationTableName());
     }
 
-    public  void updateValue(String targetName, String day, String month, String year, String ssName, String baseEntityId, String value){
+    public  void updateValue(String targetName, String value, String day, String month, String year, String ssName, String baseEntityId){
         ContentValues contentValues = new ContentValues();
         targetName = getTargetName(targetName,baseEntityId);
         contentValues.put(BASE_ENTITY_ID, baseEntityId);
