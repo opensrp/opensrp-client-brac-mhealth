@@ -11,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +28,7 @@ import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.fragment.GuestMemberDueFragment;
 import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
+import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.utils.GuestMemberData;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -34,7 +37,9 @@ import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.util.NCUtils;
+import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.clientandeventmodel.Event;
+import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.adapter.ViewPagerAdapter;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
@@ -51,14 +56,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity.REQUEST_HOME_VISIT;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.MEMBER_ID_SUFFIX;
+import static org.smartregister.brac.hnpp.utils.HnppJsonFormUtils.makeReadOnlyFields;
 import static org.smartregister.chw.anc.util.JsonFormUtils.updateFormField;
 import static org.smartregister.family.util.Constants.INTENT_KEY.BASE_ENTITY_ID;
 
-public class GuestMemberProfileActivity extends SecuredActivity {
+public class GuestMemberProfileActivity extends SecuredActivity implements View.OnClickListener{
 
     String baseEntityId;
     private GuestMemberData guestMemberData;
     private TextView textViewMemberId,textViewName,textViewAge;
+    private Button editBtn;
     private CircleImageView imageViewProfile;
     private ViewPager mViewPager;
     private ViewPagerAdapter adapter;
@@ -105,10 +112,50 @@ public class GuestMemberProfileActivity extends SecuredActivity {
         textViewMemberId = findViewById(R.id.textview_detail_three);
         textViewAge = findViewById(R.id.textview_age);
         textViewName = findViewById(R.id.textview_name);
+        editBtn = findViewById(R.id.edit_member_btn);
+        editBtn.setOnClickListener(this);
         imageViewProfile = findViewById(org.smartregister.chw.core.R.id.imageview_profile);
         TabLayout tabLayout = findViewById(R.id.tabs);
         ViewPager viewPager = findViewById(R.id.viewpager);
         tabLayout.setupWithViewPager(setupViewPager(viewPager));
+
+    }
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.edit_member_btn:
+                //Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show();
+                CommonPersonObjectClient client = HnppDBUtils.createFromBaseEntityForGuestMember(baseEntityId);
+                startFormForEdit(client);
+                break;
+        }
+    }
+    public void startFormForEdit(CommonPersonObjectClient client) {
+        try {
+            Intent intent = new Intent(this, GuestAddMemberJsonFormActivity.class);
+            //JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(HnppConstants.JSON_FORMS.GUEST_MEMBER_FORM);
+            JSONObject jsonForm = HnppJsonFormUtils.getAutoPopulatedJsonEditFormString(HnppConstants.JSON_FORMS.GUEST_MEMBER_FORM, this, client, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION);
+            String ssName = org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.SS_NAME, false);
+            String villageName = org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.VILLAGE_NAME, false);
+            HnppJsonFormUtils.updateFormWithSSName(jsonForm, SSLocationHelper.getInstance().getSsModels());
+            HnppJsonFormUtils.updateFormWithVillageName(jsonForm,ssName,villageName);
+            intent.putExtra(org.smartregister.chw.anc.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+            Form form = new Form();
+            form.setWizard(false);
+            if(!HnppConstants.isReleaseBuild()){
+                form.setActionBarBackground(R.color.test_app_color);
+
+            }else{
+                form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+
+            }
+
+            intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+
+            startActivityForResult(intent, org.smartregister.chw.anc.util.Constants.REQUEST_CODE_GET_JSON);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     MemberHistoryFragment memberHistoryFragment;
     GuestMemberDueFragment memberDueFragment;
@@ -311,4 +358,6 @@ public class GuestMemberProfileActivity extends SecuredActivity {
             e.printStackTrace();
         }
     }
+
+
 }

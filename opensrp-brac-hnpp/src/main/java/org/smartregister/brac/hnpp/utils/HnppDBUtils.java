@@ -343,6 +343,32 @@ public class HnppDBUtils extends CoreChildUtils {
         return pClient;
 
     }
+    public static CommonPersonObjectClient createFromBaseEntityForGuestMember(String baseEntityId){
+        CommonPersonObjectClient pClient = null;
+        String query = "Select * FROM ec_guest_member WHERE ec_guest_member.base_entity_id ='"+baseEntityId+"'";
+        CommonRepository commonRepository = Utils.context().commonrepository("ec_guest_member");
+        Cursor cursor = null;
+        try {
+            //cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = commonRepository.rawCustomQueryForAdapter(query);
+            if (cursor != null && cursor.moveToFirst()) {
+                CommonPersonObject personObject = commonRepository.readAllcommonforCursorAdapter(cursor);
+                //personObject.setCaseId(baseEntityId);
+                pClient = new CommonPersonObjectClient(personObject.getCaseId(),
+                        personObject.getDetails(), "");
+                pClient.setColumnmaps(personObject.getColumnmaps());
+            }
+        } catch (Exception ex) {
+            Timber.e(ex, "CoreChildProfileInteractor --> updateChildCommonPerson");
+            ex.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return pClient;
+
+    }
     public static String getIsCorona(String baseEntityId){
         String query = "select ec_family_member.is_corona from ec_family_member LEFT JOIN ec_family ON  ec_family_member.relational_id = ec_family.id where ec_family_member.base_entity_id = '"+baseEntityId+"'" +
                 " and (strftime('%d',datetime('now')) - strftime('%d',datetime(last_home_visit/1000,'unixepoch','localtime'))) <= 14";

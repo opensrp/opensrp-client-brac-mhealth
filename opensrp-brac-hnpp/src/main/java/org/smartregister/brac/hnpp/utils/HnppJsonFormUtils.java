@@ -994,12 +994,19 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             jsonArray.put(ssLocations1.village.name);
         }
         JSONObject step1 = form.getJSONObject(STEP1);
-        step1.put("ss_index", ssIndex);
-        step1.put("village_index", villageIndex);
+        try{
+            step1.put("ss_index", ssIndex);
+            step1.put("village_index", villageIndex);
+        }
+        catch (Exception exception){
+
+        }
+
         JSONArray field = fields(form, STEP1);
         JSONObject spinner = getFieldJSONObject(field, VILLAGE_NAME);
         getFieldJSONObject(field, VILLAGE_NAME);
         spinner.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);
+        spinner.put(org.smartregister.family.util.JsonFormUtils.VALUE, villageName);
         return form;
 
 
