@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.interactor;
 import org.smartregister.brac.hnpp.contract.DashBoardContract;
 import org.smartregister.brac.hnpp.model.CountSummeryDashBoardModel;
 import org.smartregister.brac.hnpp.model.DashBoardModel;
+import org.smartregister.brac.hnpp.model.IndicatorDashBoardModel;
 import org.smartregister.brac.hnpp.utils.DashBoardData;
 import org.smartregister.family.util.AppExecutors;
 
@@ -13,11 +14,13 @@ public class CountSummeryDashBoardInteractor implements DashBoardContract.Intera
     private AppExecutors appExecutors;
     private ArrayList<DashBoardData> dashBoardDataArrayList;
     private CountSummeryDashBoardModel model;
+    private IndicatorDashBoardModel indicatorModel;
 
-    public CountSummeryDashBoardInteractor(AppExecutors appExecutors, CountSummeryDashBoardModel model){
+    public CountSummeryDashBoardInteractor(AppExecutors appExecutors, CountSummeryDashBoardModel model,IndicatorDashBoardModel indicatorModel){
         this.appExecutors = appExecutors;
         dashBoardDataArrayList = new ArrayList<>();
         this.model = model;
+        this.indicatorModel = indicatorModel;
     }
 
     @Override
@@ -58,6 +61,19 @@ public class CountSummeryDashBoardInteractor implements DashBoardContract.Intera
         addToDashBoardList(model.getAdoGirl(ssName,month,year));
         addToDashBoardList(model.getAdoBoy(ssName,month,year));
         addToDashBoardList(model.getAdoElco(ssName,month,year));
+        if(indicatorModel !=null){
+            addToDashBoardList(indicatorModel.getFamilyMethodKnown(ssName,month,year));
+            addToDashBoardList(indicatorModel.getNoFamilyMethodUser(ssName,month,year));
+            addToDashBoardList(indicatorModel.getFillUser(ssName,month,year));
+            addToDashBoardList(indicatorModel.getFillFromSS(ssName,month,year));
+            addToDashBoardList(indicatorModel.getFillFromOther(ssName,month,year));
+            addToDashBoardList(indicatorModel.getCondomUser(ssName,month,year));
+            addToDashBoardList(indicatorModel.getIudUser(ssName,month,year));
+            addToDashBoardList(indicatorModel.getInjectionUser(ssName,month,year));
+            addToDashBoardList(indicatorModel.getNorplantUser(ssName,month,year));
+            addToDashBoardList(indicatorModel.getVasectomyUser(ssName,month,year));
+            addToDashBoardList(indicatorModel.getTubeUser(ssName,month,year));
+        }
 
 
     }

@@ -50,7 +50,7 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
         return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.FORUM_ADULT,day,month,year,ssName);
     }
     public TargetVsAchievementData getAttendancAdultForum(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADULT_FORUM,day,month,year,ssName);
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ADULT_FORUM_ATTENDANCE,day,month,year,ssName);
     }
     public TargetVsAchievementData getServiceCountAdultForum(String day, String month, String year,String ssName){
         return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ADULT_FORUM_SERVICE_TAKEN,day,month,year,ssName);

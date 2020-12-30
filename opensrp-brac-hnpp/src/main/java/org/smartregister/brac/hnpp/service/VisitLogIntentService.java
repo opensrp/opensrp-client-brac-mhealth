@@ -299,17 +299,21 @@ public class VisitLogIntentService extends IntentService {
             case ANC3_REGISTRATION:
                 if(details.containsKey("other_source_anc_1")&&!StringUtils.isEmpty(details.get("other_source_anc_1"))) {
                     String value = details.get("other_source_anc_1");
-                    HnppApplication.getIndicatorRepository().updateValue(HnppConstants.INDICATOR.ANC_OTHER_SOURCE,value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
+                        HnppApplication.getIndicatorRepository().updateValue(HnppConstants.INDICATOR.ANC_OTHER_SOURCE,"true",localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
+
+
 
                 }
                 if(details.containsKey("other_source_anc_2")&&!StringUtils.isEmpty(details.get("other_source_anc_2"))) {
                     String value = details.get("other_source_anc_2");
-                    HnppApplication.getIndicatorRepository().updateValue(HnppConstants.INDICATOR.ANC_OTHER_SOURCE,value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
+
+                        HnppApplication.getIndicatorRepository().updateValue(HnppConstants.INDICATOR.ANC_OTHER_SOURCE, "true", localDate.getDayOfMonth() + "", localDate.getMonthOfYear() + "", localDate.getYear() + "", log.getSsName(), log.getBaseEntityId());
 
                 }
                 if(details.containsKey("other_source_anc_3")&&!StringUtils.isEmpty(details.get("other_source_anc_3"))) {
                     String value = details.get("other_source_anc_3");
-                    HnppApplication.getIndicatorRepository().updateValue(HnppConstants.INDICATOR.ANC_OTHER_SOURCE,value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
+
+                        HnppApplication.getIndicatorRepository().updateValue(HnppConstants.INDICATOR.ANC_OTHER_SOURCE, "true", localDate.getDayOfMonth() + "", localDate.getMonthOfYear() + "", localDate.getYear() + "", log.getSsName(), log.getBaseEntityId());
 
                 }
                 if(details.containsKey("vaccination_tt_dose_completed")&&!StringUtils.isEmpty(details.get("vaccination_tt_dose_completed"))) {
@@ -1384,8 +1388,13 @@ public class VisitLogIntentService extends IntentService {
                             }else if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_ADULT)){
                                 HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ADULT_FORUM_SERVICE_TAKEN,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfServiceTaken));
 
-                                HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADULT_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
+                                if(HnppConstants.isPALogin()){
+                                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ADULT_FORUM_ATTENDANCE,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
 
+                                }else{
+                                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADULT_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
+
+                                }
                             }
                         }
 

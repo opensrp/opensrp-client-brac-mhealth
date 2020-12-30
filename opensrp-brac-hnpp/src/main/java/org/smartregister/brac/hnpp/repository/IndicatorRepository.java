@@ -38,9 +38,9 @@ public class IndicatorRepository extends BaseRepository {
     public static final String INDICATOR_COUNT = "indicator_count";
     public static final String SS_NAME = "ss_name";
     public static final String BASE_ENTITY_ID = "base_entity_id";
-    protected static final String YEAR = "year";
-    protected static final String MONTH = "month";
-    protected static final String DAY = "day";
+    public static final String YEAR = "year";
+    public static final String MONTH = "month";
+    public static final String DAY = "day";
     protected static final String START_DATE = "star_date";
     protected static final String END_DATE = "end_date";
 

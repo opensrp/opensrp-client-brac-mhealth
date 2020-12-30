@@ -475,6 +475,8 @@ public class HnppConstants extends CoreConstants {
 
     }
     public class INDICATOR {
+        public static final String FP_uses = "fp_user";
+        public static final String FP_no_method_uses = "fp_no_method_user";
         public static final String ANC_OTHER_SOURCE = "anc_other_source";
         public static final String ANC_TT = "anc_tt";
         public static final String FEEDING_UPTO_6_MONTH = "feeding_6_month";
@@ -546,7 +548,7 @@ public class HnppConstants extends CoreConstants {
         public static final String AVG_ATTEND_WOMEN_FORUM= "Avg Attendance (Women Forum)";
 
         //for PA target
-        public static final String ADULT_FORUM_ATTENDANCE = "Avg Attendance (Adult Forum";
+        public static final String ADULT_FORUM_ATTENDANCE = "Avg.Attendance (Adult Forum)";
         public static final String ADULT_FORUM_SERVICE_TAKEN = "Adult Forum Service Taken";
         public static final String MARKED_PRESBYOPIA = "Marked as presbyopia";
         public static final String PRESBYOPIA_CORRECTION = "Presbyopia correction";
@@ -803,6 +805,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.BF_3,"BF- 3.00")
 
             .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)")
+            .put("familyplanning_method_known", "পরিবার পরিকল্পনা পদ্ধতি ব্যবহারকারী")
             .build();
     //for dashboard countSummery
     public static final Map<String,String> countSummeryTypeMapping = ImmutableMap.<String,String> builder()
