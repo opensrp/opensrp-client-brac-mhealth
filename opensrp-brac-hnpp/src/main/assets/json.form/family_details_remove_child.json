@@ -55,6 +55,15 @@
     "title": "শিশু সদস্যকে বাতিল করুন",
     "fields": [
       {
+        "key": "form_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "Remove Child Under 5",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": "family_details_remove_child"
+      },
+      {
         "key": "spacer",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
@@ -248,11 +257,7 @@
           "err": "মৃত্যর ধরণ নির্বাচন করুন"
         },
         "values": [
-          "বার্ধক্য জনিত",
           "শিশু মৃত্যু",
-          "গর্ভকালীন মৃত্যু",
-          "প্রসবকালীন মৃত্যু",
-          "প্রসবোত্তর মৃত্যু",
           "সড়ক দুর্ঘটনা",
           "পানিতে ডুবে",
           "অপঘাতে মৃত্যু",

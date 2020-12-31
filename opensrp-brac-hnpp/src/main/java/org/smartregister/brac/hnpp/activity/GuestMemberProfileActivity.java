@@ -113,6 +113,7 @@ public class GuestMemberProfileActivity extends SecuredActivity implements View.
         textViewAge = findViewById(R.id.textview_age);
         textViewName = findViewById(R.id.textview_name);
         editBtn = findViewById(R.id.edit_member_btn);
+        editBtn.setVisibility(View.VISIBLE);
         editBtn.setOnClickListener(this);
         imageViewProfile = findViewById(org.smartregister.chw.core.R.id.imageview_profile);
         TabLayout tabLayout = findViewById(R.id.tabs);

@@ -236,6 +236,12 @@ public class HnppChwRepository extends CoreChwRepository {
     }
     private void upgradeToVersion31(Context context, SQLiteDatabase db) {
         IndicatorRepository.createTable(db);
+        try{
+            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN _id VARCHAR;");
+        }catch (Exception e){
+
+        }
+
 
     }
 

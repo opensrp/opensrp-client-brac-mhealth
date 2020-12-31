@@ -170,6 +170,8 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                 case HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME:
             case HnppConstants.EVENT_TYPE.EYE_TEST:
             case HnppConstants.EVENT_TYPE.BLOOD_GROUP:
+            case CoreConstants.EventType.REMOVE_MEMBER:
+            case CoreConstants.EventType.REMOVE_CHILD:
                 if (eventClient.getEvent() == null) {
                     return;
                 }
@@ -182,18 +184,22 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                 }
                 processRemoveFamily(eventClient.getClient().getBaseEntityId(), event.getEventDate().toDate());
                 break;
-            case CoreConstants.EventType.REMOVE_MEMBER:
-                if (eventClient.getClient() == null) {
-                    return;
-                }
-                processRemoveMember(eventClient.getClient().getBaseEntityId(), event.getEventDate().toDate());
-                break;
-            case CoreConstants.EventType.REMOVE_CHILD:
-                if (eventClient.getClient() == null) {
-                    return;
-                }
-                processRemoveChild(eventClient.getClient().getBaseEntityId(), event.getEventDate().toDate());
-                break;
+//            case CoreConstants.EventType.REMOVE_MEMBER:
+//                if (eventClient.getClient() == null) {
+//                    return;
+//                }
+//                processVisitEvent(eventClient);
+//                processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
+//                processRemoveMember(eventClient.getClient().getBaseEntityId(), event.getEventDate().toDate());
+//                break;
+//            case CoreConstants.EventType.REMOVE_CHILD:
+//                if (eventClient.getClient() == null) {
+//                    return;
+//                }
+//                processVisitEvent(eventClient);
+//                processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
+//                processRemoveChild(eventClient.getClient().getBaseEntityId(), event.getEventDate().toDate());
+//                break;
 
             default:
                 if (eventClient.getClient() != null) {

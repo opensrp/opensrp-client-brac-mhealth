@@ -479,6 +479,10 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 return HnppConstants.EVENT_TYPE.EYE_TEST;
             case  HnppConstants.EVENT_TYPE.BLOOD_GROUP:
                 return HnppConstants.EVENT_TYPE.BLOOD_GROUP;
+            case  HnppConstants.EventType.REMOVE_MEMBER:
+                return HnppConstants.EventType.REMOVE_MEMBER;
+            case  HnppConstants.EventType.REMOVE_CHILD:
+                return HnppConstants.EventType.REMOVE_CHILD;
                 default:
                     return org.smartregister.chw.anc.util.Constants.EVENT_TYPE.ANC_HOME_VISIT;
         }

@@ -81,10 +81,10 @@ public class IndicatorRepository extends BaseRepository {
         contentValues.put(DAY, day);
         contentValues.put(SS_NAME, ssName);
         SQLiteDatabase database = getWritableDatabase();
-        if(findUnique(database,targetName,day,month,year,ssName,baseEntityId)){
+        //if(findUnique(database,targetName,day,month,year,ssName,baseEntityId)){
             Log.v("TARGET_INSERTED","update value:"+contentValues);
             long inserted = database.insert(getLocationTableName(), null, contentValues);
-        }
+        //}
 
 //        getWritableDatabase().execSQL("update "+getLocationTableName()+" set achievemnt_count = achievemnt_count +1,"+DAY+" = "+day+" , "+MONTH+" = "+month+" , "+YEAR+" = "+year+" where "+INDICATOR_NAME+" = '"+targetName+"'");
     }

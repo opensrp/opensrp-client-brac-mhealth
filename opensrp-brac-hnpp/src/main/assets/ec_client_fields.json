@@ -408,9 +408,10 @@
         },
         {
           "column_name": "dod",
-          "type": "Client",
+          "type": "Event",
           "json_mapping": {
-            "field": "deathdate"
+            "field": "obs.fieldCode",
+            "formSubmissionField": "date_died"
           }
         },
         {
@@ -554,9 +555,10 @@
         },
         {
           "column_name": "dod",
-          "type": "Client",
+          "type": "Event",
           "json_mapping": {
-            "field": "deathdate"
+            "field": "obs.fieldCode",
+            "formSubmissionField": "date_died"
           }
         },
         {
@@ -707,9 +709,10 @@
         },
         {
           "column_name": "dod",
-          "type": "Client",
+          "type": "Event",
           "json_mapping": {
-            "field": "deathdate"
+            "field": "obs.fieldCode",
+            "formSubmissionField": "date_died"
           }
         },
         {

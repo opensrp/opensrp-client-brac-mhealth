@@ -1,6 +1,7 @@
 package org.smartregister.brac.hnpp.service;
 
 import android.app.IntentService;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
@@ -27,17 +28,22 @@ import org.smartregister.brac.hnpp.utils.VisitLog;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.domain.VisitDetail;
+import org.smartregister.chw.anc.util.DBConstants;
 import org.smartregister.chw.anc.util.NCUtils;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.clientandeventmodel.Obs;
+import org.smartregister.commonregistry.AllCommonsRepository;
+import org.smartregister.commonregistry.CommonFtsObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.util.AssetHandler;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -140,7 +146,7 @@ public class VisitLogIntentService extends IntentService {
                                 log.setVisitJson(form_object.toString());
                                 processReferral(encounter_type,log,details);
                                 try{
-                                    processIndicator(encounter_type,log,details);
+                                    processIndicator(base_entity_id,encounter_type,log,details);
                                     processSimprintsVerification(log,details);
                                 }catch (Exception e){
                                     e.printStackTrace();
@@ -300,7 +306,7 @@ public class VisitLogIntentService extends IntentService {
         }
     }
 
-    private void processIndicator(String encounter_type, VisitLog log, HashMap<String,String>details){
+    private void processIndicator(String baseEntityId,String encounter_type, VisitLog log, HashMap<String,String>details){
         LocalDate localDate = new LocalDate(log.getVisitDate());
         switch (encounter_type){
 
@@ -314,6 +320,11 @@ public class VisitLogIntentService extends IntentService {
                 if(details.containsKey("familyplanning_method")&&!StringUtils.isEmpty(details.get("familyplanning_method"))) {
                     String value = details.get("familyplanning_method");
                     HnppApplication.getIndicatorRepository().updateValue("familyplanning_method",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
+
+                }
+                if(details.containsKey("distribution_location")&&!StringUtils.isEmpty(details.get("distribution_location"))) {
+                    String value = details.get("distribution_location");
+                    HnppApplication.getIndicatorRepository().updateValue("distribution_location",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
 
                 }
                     break;
@@ -430,18 +441,43 @@ public class VisitLogIntentService extends IntentService {
 
                 }
                 break;
-            case HnppConstants.EventType.REMOVE_MEMBER:
-            case HnppConstants.EventType.REMOVE_CHILD:
-                if(details.containsKey("cause_of_death")&&!StringUtils.isEmpty(details.get("cause_of_death"))) {
+            case HnppConstants.EventType.REMOVE_MEMBER: {
+                if (details.containsKey("cause_of_death") && !StringUtils.isEmpty(details.get("cause_of_death"))) {
                     String value = details.get("cause_of_death");
-                    HnppApplication.getIndicatorRepository().updateValue("cause_of_death",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
+                    HnppApplication.getIndicatorRepository().updateValue("cause_of_death", value, localDate.getDayOfMonth() + "", localDate.getMonthOfYear() + "", localDate.getYear() + "", log.getSsName(), log.getBaseEntityId());
 
                 }
-                if(details.containsKey("remove_reason")&&!StringUtils.isEmpty(details.get("remove_reason"))) {
+                if (details.containsKey("remove_reason") && !StringUtils.isEmpty(details.get("remove_reason"))) {
                     String value = details.get("remove_reason");
-                    HnppApplication.getIndicatorRepository().updateValue("remove_reason",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
+                    HnppApplication.getIndicatorRepository().updateValue("remove_reason", value, localDate.getDayOfMonth() + "", localDate.getMonthOfYear() + "", localDate.getYear() + "", log.getSsName(), log.getBaseEntityId());
 
                 }
+                String dod = "";
+                if (details.containsKey("date_died") && !StringUtils.isEmpty(details.get("date_died"))) {
+                    dod = details.get("date_died");
+
+                }
+                processRemoveMember(baseEntityId, log.getVisitDate(), dod);
+            }
+                break;
+            case HnppConstants.EventType.REMOVE_CHILD: {
+                if (details.containsKey("cause_of_death") && !StringUtils.isEmpty(details.get("cause_of_death"))) {
+                    String value = details.get("cause_of_death");
+                    HnppApplication.getIndicatorRepository().updateValue("cause_of_death", value, localDate.getDayOfMonth() + "", localDate.getMonthOfYear() + "", localDate.getYear() + "", log.getSsName(), log.getBaseEntityId());
+
+                }
+                if (details.containsKey("remove_reason") && !StringUtils.isEmpty(details.get("remove_reason"))) {
+                    String value = details.get("remove_reason");
+                    HnppApplication.getIndicatorRepository().updateValue("remove_reason", value, localDate.getDayOfMonth() + "", localDate.getMonthOfYear() + "", localDate.getYear() + "", log.getSsName(), log.getBaseEntityId());
+
+                }
+                String dod = "";
+                if (details.containsKey("date_died") && !StringUtils.isEmpty(details.get("date_died"))) {
+                    dod = details.get("date_died");
+
+                }
+                processRemoveChild(baseEntityId, log.getVisitDate(),dod);
+            }
 
                 break;
             case HOME_VISIT_FAMILY:
@@ -1716,6 +1752,12 @@ public class VisitLogIntentService extends IntentService {
             case BLOOD_GROUP:
                 form_name = HnppConstants.JSON_FORMS.BLOOD_TEST + ".json";
                 break;
+            case HnppConstants.EventType.REMOVE_MEMBER:
+                form_name = "family_details_remove_member.json";
+                break;
+            case HnppConstants.EventType.REMOVE_CHILD:
+                form_name = "family_details_remove_child.json";
+                break;
                 default:
                     break;
         }
@@ -1759,5 +1801,60 @@ public class VisitLogIntentService extends IntentService {
         form_details.put("form_name",forms);
         form_details.put("details",details);
         return form_details;
+    }
+    protected void processRemoveMember(String baseEntityId, long eventDate, String dod) {
+
+
+        if (baseEntityId == null) {
+            return;
+        }
+
+        AllCommonsRepository commonsRepository = CoreChwApplication.getInstance().getAllCommonsRepository(CoreConstants.TABLE_NAME.FAMILY_MEMBER);
+        if (commonsRepository != null) {
+
+            ContentValues values = new ContentValues();
+            values.put(DBConstants.KEY.DATE_REMOVED, new SimpleDateFormat("yyyy-MM-dd").format(eventDate));
+            values.put(DBConstants.KEY.DOD, dod);
+            values.put("is_closed", 1);
+
+            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.FAMILY_MEMBER, values,
+                    DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseEntityId});
+
+            // clean fts table
+            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER), values,
+                    " object_id  = ?  ", new String[]{baseEntityId});
+
+            // Utils.context().commonrepository(CoreConstants.TABLE_NAME.FAMILY_MEMBER).populateSearchValues(baseEntityId, DBConstants.KEY.DATE_REMOVED, new SimpleDateFormat("yyyy-MM-dd").format(eventDate), null);
+
+        }
+    }
+
+    protected void processRemoveChild(String baseEntityId, long eventDate, String dod) {
+
+
+        if (baseEntityId == null) {
+            return;
+        }
+
+        AllCommonsRepository commonsRepository = CoreChwApplication.getInstance().getAllCommonsRepository(CoreConstants.TABLE_NAME.CHILD);
+        if (commonsRepository != null) {
+
+            ContentValues values = new ContentValues();
+            values.put(DBConstants.KEY.DATE_REMOVED, new SimpleDateFormat("yyyy-MM-dd").format(eventDate));
+            values.put(DBConstants.KEY.DOD, dod);
+            values.put("is_closed", 1);
+
+            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.CHILD, values,
+                    DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseEntityId});
+            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.FAMILY_MEMBER, values,
+                    DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseEntityId});
+
+            // clean fts table
+            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.CHILD), values,
+                    CommonFtsObject.idColumn + "  = ?  ", new String[]{baseEntityId});
+
+            // Utils.context().commonrepository(CoreConstants.TABLE_NAME.CHILD).populateSearchValues(baseEntityId, DBConstants.KEY.DATE_REMOVED, new SimpleDateFormat("yyyy-MM-dd").format(eventDate), null);
+
+        }
     }
 }

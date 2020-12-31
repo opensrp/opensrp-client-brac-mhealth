@@ -269,7 +269,7 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
 
     public DashBoardData getVisitTypeCount(String title,String indicatorKey,String indicatorValue, String ssName, String month, String year){
         DashBoardData dashBoardData1 = new DashBoardData();
-        String mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='"+indicatorValue+"'";
+        String mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='"+indicatorValue+"' COLLATE NOCASE";
         if(indicatorKey.equalsIgnoreCase(HnppConstants.INDICATOR.ANC_OTHER_SOURCE)){
             mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='Govt' or "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='other'";
         }
@@ -298,7 +298,8 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
             mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" ='infant_death' ";
         }
         else if(indicatorKey.equalsIgnoreCase("cause_of_death_other")){
-            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" !='preterm_death' or "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" !='childbirth_death' or "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" !='postnatal_death'";
+            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" !='preterm_death' and "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" !='childbirth_death' and "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" !='postnatal_death' and "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" !='infant_death'";
+
         }
         String query;
         if(TextUtils.isEmpty(ssName) && TextUtils.isEmpty(month)){
@@ -358,7 +359,7 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
         build.append(MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.FAMILY, DBConstants.KEY.BASE_ENTITY_ID,
                 CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.RELATIONAL_ID));
         if(!TextUtils.isEmpty(ssName) && !TextUtils.isEmpty(month)){
-            build.append(MessageFormat.format(" where {0}.{1} ={4} and {2} = {3}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED, HnppConstants.KEY.SS_NAME,"'"+ssName+"'"));
+            build.append(MessageFormat.format(" where {0}.{1} ={4} and {2} = {3}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED, HnppConstants.KEY.SS_NAME,"'"+ssName+"'",'1'));
             build.append(MessageFormat.format(" and {0}.{1} ={4} and {2}  = {3}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED,"strftime('%m', datetime("+CoreConstants.TABLE_NAME.FAMILY_MEMBER+"."+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime'))" ,"'"+month+"'","'1'"));
             build.append(MessageFormat.format(" and {0}.{1} ={4} and {2}  = {3}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED,"strftime('%Y', datetime("+CoreConstants.TABLE_NAME.FAMILY_MEMBER+"."+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime'))" ,"'"+year+"'","'1'"));
 
@@ -406,7 +407,7 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
         if(TextUtils.isEmpty(ssName) && TextUtils.isEmpty(month)){
             query = MessageFormat.format("select count(*) as count from {0} {1}", "ec_visit_log", mainCondition);
         }else{
-            query = MessageFormat.format("select count(*) as count from {0} {1}", "ec_visit_log", getVisitFilterCondition(ssName,month,year,mainCondition));
+            query = MessageFormat.format("select count(*) as count from {0} {1}", "ec_visit_log", getVisitLogFilterCondition(ssName,month,year,mainCondition));
 
         }
         Log.v("WORK_SUMMERY","visit_type:"+query);
@@ -435,6 +436,36 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
 
 
         return dashBoardData1;
+    }
+    public String getVisitLogFilterCondition(String ssName, String month, String year, String mainCondition){
+        StringBuilder build = new StringBuilder();
+//        if(!TextUtils.isEmpty(ssName)){
+//            build.append(MessageFormat.format(" inner join {0} ", CoreConstants.TABLE_NAME.FAMILY_MEMBER));
+//            build.append(MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.BASE_ENTITY_ID,
+//                    "visits", DBConstants.KEY.BASE_ENTITY_ID));
+//            build.append(MessageFormat.format(" inner join {0} ", CoreConstants.TABLE_NAME.FAMILY));
+//            build.append(MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.FAMILY, DBConstants.KEY.BASE_ENTITY_ID,
+//                    CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.RELATIONAL_ID));
+//        }
+
+        build.append(mainCondition);
+        if(!TextUtils.isEmpty(ssName) && !TextUtils.isEmpty(month)){
+            build.append(MessageFormat.format(" and {0} = {1} ", HnppConstants.KEY.SS_NAME,"'"+ssName+"'"));
+            build.append(MessageFormat.format(" and {0} = {1} ", "strftime('%m', datetime(ec_visit_log.visit_date/1000,'unixepoch','localtime'))" ,"'"+month+"'"));
+            build.append(MessageFormat.format(" and {0} = {1} ", "strftime('%Y', datetime(ec_visit_log.visit_date/1000,'unixepoch','localtime'))" ,"'"+year+"'"));
+
+        }
+        else if(!TextUtils.isEmpty(month)){
+            build.append(MessageFormat.format(" and {0} = {1} ", "strftime('%m', datetime(ec_visit_log.visit_date/1000,'unixepoch','localtime'))" ,"'"+month+"'"));
+            build.append(MessageFormat.format(" and {0} = {1} ", "strftime('%Y', datetime(ec_visit_log.visit_date/1000,'unixepoch','localtime'))" ,"'"+year+"'"));
+
+        }
+        else if(!TextUtils.isEmpty(ssName)){
+            build.append(MessageFormat.format(" and {0} = {1} ", HnppConstants.KEY.SS_NAME,"'"+ssName+"'"));
+
+        }
+
+        return build.toString();
     }
 
     @Override

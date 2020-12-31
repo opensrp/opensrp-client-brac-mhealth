@@ -34,6 +34,7 @@ public abstract class CoreIndividualProfileRemoveFragment extends BaseFamilyProf
     protected String familyBaseEntityId;
     protected CommonPersonObjectClient pc;
     protected String memberName;
+    protected String baseEntityId;
 
     @Override
     public void initializeAdapter(Set<View> visibleColumns, String familyHead, String primaryCaregiver) {
@@ -79,6 +80,7 @@ public abstract class CoreIndividualProfileRemoveFragment extends BaseFamilyProf
         memberName = String.format("%s", pc.getColumnmaps().get(DBConstants.KEY.FIRST_NAME));
 
         String dod = pc.getColumnmaps().get(DBConstants.KEY.DOD);
+        baseEntityId = pc.getColumnmaps().get(DBConstants.KEY.BASE_ENTITY_ID);
         if (StringUtils.isBlank(dod)) {
             getPresenter().removeMember(pc);
         }

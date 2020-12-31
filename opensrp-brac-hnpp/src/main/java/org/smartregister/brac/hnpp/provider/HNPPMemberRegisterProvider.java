@@ -131,7 +131,7 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
             viewHolder.gender.setTypeface(viewHolder.patientNameAge.getTypeface(), Typeface.ITALIC);
             viewHolder.profile.setImageResource(org.smartregister.family.util.Utils.getMemberProfileImageResourceIDentifier(entityType));
             viewHolder.nextArrow.setVisibility(View.GONE);
-        } else if(StringUtils.isNotBlank(dateRemoved) && dateRemoved.equalsIgnoreCase("1")){
+        } else if(StringUtils.isNotBlank(dateRemoved) || dateRemoved.equalsIgnoreCase("1")){
             dobString = org.smartregister.family.util.Utils.getDuration(dob);
             patientName = patientName + "\n" + org.smartregister.family.util.Utils.getTranslatedDate(dobString, this.context) + " " + this.context.getString(R.string.migrated_brackets);
             viewHolder.patientNameAge.setFontVariant(FontVariant.REGULAR);
