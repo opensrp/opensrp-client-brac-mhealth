@@ -27,6 +27,12 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
 
 
     //for jonosonkha sarsonkhep compilation sheet
+    public DashBoardData getVerifiedBySimprints(String ssName, String month, String year){
+        return getVisitTypeCount("বায়োমেট্রিক দ্বারা যাচাইকৃত","is_verified","true",ssName,month,year);
+    }
+    public DashBoardData getIdentifiedBySimprints(String ssName, String month, String year){
+        return getVisitTypeCount("বায়োমেট্রিক দ্বারা খোজকৃত","is_identified","true",ssName,month,year);
+    }
     public DashBoardData getFamilyMethodKnown(String ssName, String month, String year){
         return getVisitTypeCount("পরিবার পরিকল্পনা পদ্ধতি ব্যবহারকারী","familyplanning_method_known","yes",ssName,month,year);
     }
@@ -75,7 +81,7 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
         return getVisitTypeCount("প্রসবের ফলাফল(স্বাভাবিক)","delivery_method_general","normal",ssName,month,year);
     }
     public DashBoardData getTTWomen(String ssName, String month, String year){
-        return getVisitTypeCount("টিটি টিকা প্রাপ্ত প্রসূতি মায়ের সংখ্যা","vaccination_tt_dose_completed","yes",ssName,month,year);
+        return getVisitTypeCount("টিটি টিকা প্রাপ্ত প্রসূতি মায়ের সংখ্যা",HnppConstants.INDICATOR.ANC_TT,"yes",ssName,month,year);
     }
     public DashBoardData getPncService48Hrs(String ssName, String month, String year){
         return getVisitTypeCount("৪৮ ঘণ্টার মধ্যে পি এন সি সেবা","is_delay","false",ssName,month,year);
@@ -89,6 +95,12 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
     public DashBoardData getReferrelByPregnency(String ssName, String month, String year){
         return getVisitTypeCount("গর্ভ সংক্রান্ত সমস্যার জন্য রেফার","cause_of_referral_woman","pregnancy_problems",ssName,month,year);
     }
+    public DashBoardData getVaccineChild(String ssName, String month, String year){
+        return getVisitTypeCount("শিশুর টিকা","Vaccination",ssName,month,year);
+    }
+    public DashBoardData getVitaminChild(String ssName, String month, String year){
+        return getVisitTypeCount("ভিটামিন প্রাপ্ত শিশুর সংখ্যা","Recurring Service",ssName,month,year);
+    }
     public DashBoardData getBrestFeedingByBirth(String ssName, String month, String year){
         return getVisitTypeCount("জন্মের এক ঘণ্টার মধ্যে বুকের দুধ খাওয়া শিশুর সংখ্যা","breastfeeding_time","1",ssName,month,year);
     }
@@ -98,11 +110,17 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
     public DashBoardData getChildSevenMonth(String ssName, String month, String year){
         return getVisitTypeCount("সাত মাসে বাড়তি খাবার খাওয়া শিশুর সংখ্যা","solid_food_month","7",ssName,month,year);
     }
+    public DashBoardData getTotalDeath(String ssName, String month, String year){
+        return getVisitTypeCount("মোট মৃত্যু","remove_reason","died",ssName,month,year);
+    }
     public DashBoardData getDeathBirth(String ssName, String month, String year){
         return getVisitTypeCount("নবজাতক মৃত্যু","preg_outcome","born_alive_died",ssName,month,year);
     }
     public DashBoardData getMotherDeath(String ssName, String month, String year){
         return getVisitTypeCount("মাতৃমৃত্যু","cause_of_death","c",ssName,month,year);
+    }
+    public DashBoardData getChildDeath(String ssName, String month, String year){
+        return getVisitTypeCount("শিশুর মৃত্যু","cause_of_death_child","c",ssName,month,year);
     }
     public DashBoardData getOtherDeath(String ssName, String month, String year){
         return getVisitTypeCount("অন্যান্য মৃত্যু","cause_of_death_other","c",ssName,month,year);
@@ -172,12 +190,8 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
                 dashBoardData1 = new DashBoardData();
                 dashBoardData1.setCount(cursor.getInt(0));
                 dashBoardData1.setTitle(title);
+                dashBoardData1.setImageSource(R.drawable.ic_home);
 
-                try{
-                    dashBoardData1.setImageSource((int)HnppConstants.iconMapping.get(dashBoardData1.getEventType()));
-                }catch (Exception e){
-
-                }
                 cursor.moveToNext();
             }
             cursor.close();
@@ -242,7 +256,7 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
                 dashBoardData1 = new DashBoardData();
                 dashBoardData1.setCount(cursor.getInt(0));
                 dashBoardData1.setTitle(title);
-                dashBoardData1.setImageSource(R.drawable.rowavatar_member);
+                dashBoardData1.setImageSource(R.drawable.ic_home);
                 cursor.moveToNext();
             }
             cursor.close();
@@ -279,6 +293,9 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
         }
         else if(indicatorKey.equalsIgnoreCase("cause_of_death")){
             mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='preterm_death' or "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='childbirth_death' or "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='postnatal_death'";
+        }
+        else if(indicatorKey.equalsIgnoreCase("cause_of_death_child")){
+            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" ='infant_death' ";
         }
         else if(indicatorKey.equalsIgnoreCase("cause_of_death_other")){
             mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" !='preterm_death' or "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" !='childbirth_death' or "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" !='postnatal_death'";
@@ -380,6 +397,44 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
         }
 
         return build.toString();
+    }
+    public DashBoardData getVisitTypeCount(String title, String visitType, String ssName, String month, String year){
+        DashBoardData dashBoardData1 = new DashBoardData();
+        String mainCondition= " where visit_type ='"+visitType+"'";
+
+        String query;
+        if(TextUtils.isEmpty(ssName) && TextUtils.isEmpty(month)){
+            query = MessageFormat.format("select count(*) as count from {0} {1}", "ec_visit_log", mainCondition);
+        }else{
+            query = MessageFormat.format("select count(*) as count from {0} {1}", "ec_visit_log", getVisitFilterCondition(ssName,month,year,mainCondition));
+
+        }
+        Log.v("WORK_SUMMERY","visit_type:"+query);
+
+        Cursor cursor = null;
+        // try {
+        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        if(cursor !=null && cursor.getCount() > 0){
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+
+                dashBoardData1.setCount(cursor.getInt(0));
+                dashBoardData1.setEventType(visitType);
+                dashBoardData1.setTitle(title);
+
+                try{
+                    dashBoardData1.setImageSource((int)HnppConstants.iconMapping.get(dashBoardData1.getEventType()));
+                }catch (Exception e){
+
+                }
+                cursor.moveToNext();
+            }
+            cursor.close();
+
+        }
+
+
+        return dashBoardData1;
     }
 
     @Override

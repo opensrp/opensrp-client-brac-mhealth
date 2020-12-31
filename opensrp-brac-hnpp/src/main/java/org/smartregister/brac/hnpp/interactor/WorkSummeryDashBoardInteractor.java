@@ -46,6 +46,8 @@ public class WorkSummeryDashBoardInteractor implements DashBoardContract.Interac
     }
     // need to maintain serial to display
     private void fetchHHData(String ssName, String month, String year) {
+        dashBoardDataArrayList.clear();
+
         if(HnppConstants.isPALogin()){
             addToDashBoardList(model.getEyeTestCount(ssName,month,year));
             addToDashBoardList(model.getBloodGroupingCount(ssName,month,year));
@@ -83,11 +85,15 @@ public class WorkSummeryDashBoardInteractor implements DashBoardContract.Interac
                 addToDashBoardList(indicatorModel.getPnc1to2(ssName,month,year));
                 addToDashBoardList(indicatorModel.getPnc3to4(ssName,month,year));
                 addToDashBoardList(indicatorModel.getReferrelByPregnency(ssName,month,year));
+                addToDashBoardList(indicatorModel.getVaccineChild(ssName,month,year));
+                addToDashBoardList(indicatorModel.getVitaminChild(ssName,month,year));
                 addToDashBoardList(indicatorModel.getBrestFeedingByBirth(ssName,month,year));
                 addToDashBoardList(indicatorModel.getOnlyBrestFeeding(ssName,month,year));
                 addToDashBoardList(indicatorModel.getChildSevenMonth(ssName,month,year));
                 addToDashBoardList(indicatorModel.getDeathBirth(ssName,month,year));
+                addToDashBoardList(indicatorModel.getTotalDeath(ssName,month,year));
                 addToDashBoardList(indicatorModel.getMotherDeath(ssName,month,year));
+                addToDashBoardList(indicatorModel.getChildDeath(ssName,month,year));
                 addToDashBoardList(indicatorModel.getOtherDeath(ssName,month,year));
                 addToDashBoardList(indicatorModel.getEstimatedCoronaPatient(ssName,month,year));
                 addToDashBoardList(indicatorModel.getCoronaPatient(ssName,month,year));

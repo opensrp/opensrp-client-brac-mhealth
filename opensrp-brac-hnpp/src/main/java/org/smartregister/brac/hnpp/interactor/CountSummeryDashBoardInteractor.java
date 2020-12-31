@@ -44,6 +44,7 @@ public class CountSummeryDashBoardInteractor implements DashBoardContract.Intera
     }
     // need to maintain serial to display
     private void fetchHHData(String ssName,String month, String year) {
+        dashBoardDataArrayList.clear();
         addToDashBoardList(model.getHHCount(ssName,month,year));
         addToDashBoardList(model.getMemberCount(ssName,month,year));
         addToDashBoardList(model.getOOCCount(ssName,month,year));
@@ -73,6 +74,8 @@ public class CountSummeryDashBoardInteractor implements DashBoardContract.Intera
             addToDashBoardList(indicatorModel.getNorplantUser(ssName,month,year));
             addToDashBoardList(indicatorModel.getVasectomyUser(ssName,month,year));
             addToDashBoardList(indicatorModel.getTubeUser(ssName,month,year));
+            addToDashBoardList(indicatorModel.getVerifiedBySimprints(ssName,month,year));
+            addToDashBoardList(indicatorModel.getIdentifiedBySimprints(ssName,month,year));
         }
 
 

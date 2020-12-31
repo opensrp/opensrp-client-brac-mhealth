@@ -141,9 +141,11 @@ public class VisitLogIntentService extends IntentService {
                                 processReferral(encounter_type,log,details);
                                 try{
                                     processIndicator(encounter_type,log,details);
+                                    processSimprintsVerification(log,details);
                                 }catch (Exception e){
                                     e.printStackTrace();
                                 }
+
 
                                 if(ELCO.equalsIgnoreCase(encounter_type)){
                                     if(details.containsKey("pregnancy_test_result")&&!StringUtils.isEmpty(details.get("pregnancy_test_result"))){
@@ -276,6 +278,28 @@ public class VisitLogIntentService extends IntentService {
         }
         processImmunization();
     }
+
+    private void processSimprintsVerification(VisitLog log, HashMap<String, String> details) {
+        if(details.containsKey("is_verified")&&!StringUtils.isEmpty(details.get("is_verified"))) {
+            LocalDate localDate = new LocalDate(log.getVisitDate());
+            String value = details.get("is_verified");
+            if(!TextUtils.isEmpty(value) && value.equalsIgnoreCase("true")){
+                HnppApplication.getIndicatorRepository().updateValue("is_verified",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
+
+            }
+
+        }
+        if(details.containsKey("is_identified")&&!StringUtils.isEmpty(details.get("is_identified"))) {
+            LocalDate localDate = new LocalDate(log.getVisitDate());
+            String value = details.get("is_identified");
+            if(!TextUtils.isEmpty(value) && value.equalsIgnoreCase("true")){
+                HnppApplication.getIndicatorRepository().updateValue("is_identified",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
+
+            }
+
+        }
+    }
+
     private void processIndicator(String encounter_type, VisitLog log, HashMap<String,String>details){
         LocalDate localDate = new LocalDate(log.getVisitDate());
         switch (encounter_type){
@@ -319,6 +343,18 @@ public class VisitLogIntentService extends IntentService {
                 if(details.containsKey("vaccination_tt_dose_completed")&&!StringUtils.isEmpty(details.get("vaccination_tt_dose_completed"))) {
                     String value = details.get("vaccination_tt_dose_completed");
                     HnppApplication.getIndicatorRepository().updateValue(HnppConstants.INDICATOR.ANC_TT,value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
+
+                }
+                if(details.containsKey("last_tt_vaccination_given")&&!StringUtils.isEmpty(details.get("last_tt_vaccination_given"))) {
+                    String value = details.get("last_tt_vaccination_given");
+                    if(!TextUtils.isEmpty(value)){
+                        if(value.equalsIgnoreCase("tt1") || value.equalsIgnoreCase("tt2") || value.equalsIgnoreCase("tt3")
+                         || value.equalsIgnoreCase("tt4")){
+                            HnppApplication.getIndicatorRepository().updateValue(HnppConstants.INDICATOR.ANC_TT,"yes",localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
+
+                        }
+
+                    }
 
                 }
 
@@ -395,11 +431,18 @@ public class VisitLogIntentService extends IntentService {
                 }
                 break;
             case HnppConstants.EventType.REMOVE_MEMBER:
+            case HnppConstants.EventType.REMOVE_CHILD:
                 if(details.containsKey("cause_of_death")&&!StringUtils.isEmpty(details.get("cause_of_death"))) {
                     String value = details.get("cause_of_death");
                     HnppApplication.getIndicatorRepository().updateValue("cause_of_death",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
 
                 }
+                if(details.containsKey("remove_reason")&&!StringUtils.isEmpty(details.get("remove_reason"))) {
+                    String value = details.get("remove_reason");
+                    HnppApplication.getIndicatorRepository().updateValue("remove_reason",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
+
+                }
+
                 break;
             case HOME_VISIT_FAMILY:
                 if(details.containsKey("is_affected_member")&&!StringUtils.isEmpty(details.get("is_affected_member"))) {
