@@ -806,6 +806,8 @@ public class HnppConstants extends CoreConstants {
 
             .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)")
             .put("familyplanning_method_known", "পরিবার পরিকল্পনা পদ্ধতি ব্যবহারকারী")
+            .put(EVENT_TYPE.ANC_SERVICE,"গর্ভবতী সেবা")
+            .put(EVENT_TYPE.PNC_SERVICE,"প্রসব-পরবর্তী সেবা")
             .build();
     //for dashboard countSummery
     public static final Map<String,String> countSummeryTypeMapping = ImmutableMap.<String,String> builder()
@@ -866,6 +868,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.FORUM_ADULT,"অ্যাডাল্ট ফোরাম")
             .put(EVENT_TYPE.ANC_SERVICE,"গর্ভবতী সেবা")
             .put(EVENT_TYPE.PNC_SERVICE,"প্রসব-পরবর্তী সেবা")
+
             .build();
     public static final Map<String,String> immunizationMapping = ImmutableMap.<String,String> builder()
             .put("PENTA 1","পেন্টা-১")

@@ -305,6 +305,8 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
     }
     ArrayAdapter<String> ssSpinnerArrayAdapter;
     ArrayList<SSModel> ssListModel  = new ArrayList<>();
+    ArrayList<SSModel> skLocationForms = new ArrayList<>();
+
     @Override
     public void onViewClicked(View view) {
         super.onViewClicked(view);
@@ -336,34 +338,14 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
             ArrayList<String> ssSpinnerArray = new ArrayList<>();
             ArrayList<String> skSpinnerArray = new ArrayList<>();
             ArrayList<String> villageSpinnerArray = new ArrayList<>();
-
-
-            ArrayList<SSModel> skLocationForms = SSLocationHelper.getInstance().getAllSks();
-            for (SSModel ssModel : skLocationForms) {
-                skSpinnerArray.add(ssModel.skName+"("+ssModel.skUserName+")");
-            }
-            ArrayAdapter<String> sKSpinnerArrayAdapter = new ArrayAdapter<String>
-                    (getActivity(), android.R.layout.simple_spinner_item,
-                            skSpinnerArray){
-                @Override
-                public android.view.View getDropDownView(int position, @Nullable android.view.View convertView, @NonNull ViewGroup parent) {
-                    convertView = super.getDropDownView(position, convertView,
-                            parent);
-
-                    AppCompatTextView appCompatTextView = (AppCompatTextView)convertView;
-                    appCompatTextView.setGravity(Gravity.CENTER_VERTICAL);
-                    appCompatTextView.setHeight(100);
-
-                    return convertView;
+            if(!HnppConstants.isPALogin()){
+                ArrayList<SSModel> ssLocationForms = SSLocationHelper.getInstance().getSsModels();
+                for (SSModel ssModel : ssLocationForms) {
+                    ssSpinnerArray.add(ssModel.username);
                 }
-            };
-
-
-           /* ArrayList<SSModel> ssLocationForms = SSLocationHelper.getInstance().getSsModels();
-            for (SSModel ssModel : ssLocationForms) {
-                ssSpinnerArray.add(ssModel.username);
             }
-*/
+
+
             ssSpinnerArrayAdapter = new ArrayAdapter<String>
                     (getActivity(), android.R.layout.simple_spinner_item,
                             ssSpinnerArray){
@@ -421,6 +403,25 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
             cluster_spinner.setAdapter(clusterSpinnerArrayAdapter);
             if(HnppConstants.isPALogin()){
                 dialog.findViewById(R.id.sk_filter_view).setVisibility(view.VISIBLE);
+                skLocationForms = SSLocationHelper.getInstance().getAllSks();
+                for (SSModel ssModel : skLocationForms) {
+                    skSpinnerArray.add(ssModel.skName+"("+ssModel.skUserName+")");
+                }
+                ArrayAdapter<String> sKSpinnerArrayAdapter = new ArrayAdapter<String>
+                        (getActivity(), android.R.layout.simple_spinner_item,
+                                skSpinnerArray){
+                    @Override
+                    public android.view.View getDropDownView(int position, @Nullable android.view.View convertView, @NonNull ViewGroup parent) {
+                        convertView = super.getDropDownView(position, convertView,
+                                parent);
+
+                        AppCompatTextView appCompatTextView = (AppCompatTextView)convertView;
+                        appCompatTextView.setGravity(Gravity.CENTER_VERTICAL);
+                        appCompatTextView.setHeight(100);
+
+                        return convertView;
+                    }
+                };
                 sk_spinner.setAdapter(sKSpinnerArrayAdapter);
                 sk_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override

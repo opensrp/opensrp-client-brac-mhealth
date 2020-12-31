@@ -76,7 +76,12 @@ public class HnppDBUtils extends CoreChildUtils {
             if(cursor !=null && cursor.getCount() > 0){
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()) {
-                    nameCount.append("স্টক নামঃ "+HnppConstants.eventTypeMapping.get(cursor.getString(0))+"\n");
+                    try{
+                        nameCount.append("স্টক নামঃ "+HnppConstants.workSummeryTypeMapping.get(cursor.getString(0))+"\n");
+                    }catch (Exception e){
+                        nameCount.append("স্টক নামঃ "+cursor.getString(0)+"\n");
+
+                    }
                     nameCount.append("শেষ ব্যালেন্স: "+cursor.getString(1)+"\n");
                     cursor.moveToNext();
                 }
