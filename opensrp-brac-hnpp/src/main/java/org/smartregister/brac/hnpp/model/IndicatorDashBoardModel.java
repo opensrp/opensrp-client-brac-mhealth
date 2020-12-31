@@ -24,84 +24,7 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
         this.context = context;
     }
 
-    public DashBoardData getHHCount(String ssName, String month, String year){
-        String query;
 
-        DashBoardData  dashBoardData1 = new DashBoardData();
-        if(TextUtils.isEmpty(ssName) && TextUtils.isEmpty(month) & TextUtils.isEmpty(year) ){
-            query = "select count(*) as count from ec_family where date_removed is null ";
-        }else if(!TextUtils.isEmpty(ssName) && !TextUtils.isEmpty(month)){
-            query = "select count(*) as count from ec_family where ss_name = '"+ssName+"' and strftime('%m', datetime("+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime')) = '"+month+"' and strftime('%Y', datetime("+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime')) = '"+year+"' and date_removed is null ";
-
-        }
-        else if(!TextUtils.isEmpty(ssName)){
-            query = "select count(*) as count from ec_family where ss_name = '"+ssName+"' and date_removed is null ";
-        }else {
-            query = "select count(*) as count from ec_family where strftime('%m', datetime("+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime')) = '"+month+"' and strftime('%Y', datetime("+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime')) = '"+year+"' and date_removed is null ";
-        }
-
-        Log.v("WORD_QUERY","log:"+query);
-        Cursor cursor = null;
-        // try {
-        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
-        if(cursor !=null && cursor.getCount() > 0){
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-                dashBoardData1 = new DashBoardData();
-                dashBoardData1.setCount(cursor.getInt(0));
-                dashBoardData1.setEventType(HnppConstants.EventType.FAMILY_REGISTRATION);
-                dashBoardData1.setTitle(HnppConstants.workSummeryTypeMapping.get(dashBoardData1.getEventType()));
-
-                try{
-                    dashBoardData1.setImageSource((int)HnppConstants.iconMapping.get(dashBoardData1.getEventType()));
-                }catch (Exception e){
-
-                }
-                cursor.moveToNext();
-            }
-            cursor.close();
-
-        }
-
-
-        return dashBoardData1;
-    }
-    public DashBoardData getMemberCount(String ssName, String month, String year){
-        DashBoardData dashBoardData1 = new DashBoardData();
-
-        String query;
-        if(TextUtils.isEmpty(ssName) && TextUtils.isEmpty(month)){
-            query = "select count(*) as count from ec_family_member where date_removed is null";
-        }else {
-            query = MessageFormat.format("select count(*) as count from {0} {1}", "ec_family_member", getFilterCondition(ssName,month,year));
-
-        }
-        Log.v("WORK_QUERY","member:"+query);
-        Cursor cursor = null;
-        // try {
-        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
-        if(cursor !=null && cursor.getCount() > 0){
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-                dashBoardData1 = new DashBoardData();
-                dashBoardData1.setCount(cursor.getInt(0));
-                dashBoardData1.setEventType(HnppConstants.EventType.FAMILY_MEMBER_REGISTRATION);
-                dashBoardData1.setTitle(HnppConstants.workSummeryTypeMapping.get(dashBoardData1.getEventType()));
-
-                try{
-                    dashBoardData1.setImageSource((int)HnppConstants.iconMapping.get(dashBoardData1.getEventType()));
-                }catch (Exception e){
-
-                }
-                cursor.moveToNext();
-            }
-            cursor.close();
-
-        }
-
-
-        return dashBoardData1;
-    }
 
     //for jonosonkha sarsonkhep compilation sheet
     public DashBoardData getFamilyMethodKnown(String ssName, String month, String year){
@@ -181,6 +104,155 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
     public DashBoardData getMotherDeath(String ssName, String month, String year){
         return getVisitTypeCount("মাতৃমৃত্যু","cause_of_death","c",ssName,month,year);
     }
+    public DashBoardData getOtherDeath(String ssName, String month, String year){
+        return getVisitTypeCount("অন্যান্য মৃত্যু","cause_of_death_other","c",ssName,month,year);
+    }
+    public DashBoardData getEstimatedCoronaPatient(String ssName, String month, String year){
+        return getVisitTypeCount("সাম্ভাব্য করোনা রোগীর সংখ্যা","is_affected_member","yes",ssName,month,year);
+    }
+    public DashBoardData getCoronaPatient(String ssName, String month, String year){
+        return getVisitTypeCount("করোনা পজিটিভ রোগীর সংখ্যা","corona_test_result","positive",ssName,month,year);
+    }
+    public DashBoardData getIsolationPatient(String ssName, String month, String year){
+        return getVisitTypeCount("করেন্টাইন পরিবারের সংখ্যা","isolation","Yes",ssName,month,year);
+    }
+    public DashBoardData getRemoveMemberCount(String title,String ssName, String month, String year){
+        DashBoardData dashBoardData1 = new DashBoardData();
+
+        String query;
+        if(TextUtils.isEmpty(ssName) && TextUtils.isEmpty(month)){
+            query = "select count(*) as count from ec_family_member where date_removed is not null";
+        }else {
+            query = MessageFormat.format("select count(*) as count from {0} {1}", "ec_family_member", getRemoveFilterCondition(ssName,month,year));
+
+        }
+        Log.v("WORK_QUERY","member:"+query);
+        Cursor cursor = null;
+        // try {
+        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        if(cursor !=null && cursor.getCount() > 0){
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                dashBoardData1 = new DashBoardData();
+                dashBoardData1.setCount(cursor.getInt(0));
+                dashBoardData1.setTitle(title);
+
+                dashBoardData1.setImageSource(R.drawable.rowavatar_member);
+                cursor.moveToNext();
+            }
+            cursor.close();
+
+        }
+
+
+        return dashBoardData1;
+    }
+    public DashBoardData getRemoveHHCount(String title, String ssName, String month, String year){
+        DashBoardData dashBoardData1 = new DashBoardData();
+
+        String query;
+        if(TextUtils.isEmpty(ssName) && TextUtils.isEmpty(month) & TextUtils.isEmpty(year) ){
+            query = "select count(*) as count from ec_family where date_removed is not null ";
+        }else if(!TextUtils.isEmpty(ssName) && !TextUtils.isEmpty(month)){
+            query = "select count(*) as count from ec_family where ss_name = '"+ssName+"' and strftime('%m', datetime("+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime')) = '"+month+"' and strftime('%Y', datetime("+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime')) = '"+year+"' and date_removed is not null ";
+
+        }
+        else if(!TextUtils.isEmpty(ssName)){
+            query = "select count(*) as count from ec_family where ss_name = '"+ssName+"' and date_removed is not null ";
+        }else {
+            query = "select count(*) as count from ec_family where strftime('%m', datetime("+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime')) = '"+month+"' and strftime('%Y', datetime("+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime')) = '"+year+"' and date_removed is not null ";
+        }
+        Log.v("WORK_QUERY","member:"+query);
+        Cursor cursor = null;
+        // try {
+        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        if(cursor !=null && cursor.getCount() > 0){
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                dashBoardData1 = new DashBoardData();
+                dashBoardData1.setCount(cursor.getInt(0));
+                dashBoardData1.setTitle(title);
+
+                try{
+                    dashBoardData1.setImageSource((int)HnppConstants.iconMapping.get(dashBoardData1.getEventType()));
+                }catch (Exception e){
+
+                }
+                cursor.moveToNext();
+            }
+            cursor.close();
+
+        }
+
+
+        return dashBoardData1;
+    }
+    public DashBoardData getMigrateMemberCount(String title, String ssName, String month, String year){
+        DashBoardData dashBoardData1 = new DashBoardData();
+
+        String query;
+        if(TextUtils.isEmpty(ssName) && TextUtils.isEmpty(month)){
+            query = "select count(*) as count from ec_family_member where date_removed ='1'";
+        }else {
+            query = MessageFormat.format("select count(*) as count from {0} {1}", "ec_family_member", getMigrateFilterCondition(ssName,month,year));
+
+        }
+        Log.v("WORK_QUERY","member:"+query);
+        Cursor cursor = null;
+        // try {
+        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        if(cursor !=null && cursor.getCount() > 0){
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                dashBoardData1 = new DashBoardData();
+                dashBoardData1.setCount(cursor.getInt(0));
+                dashBoardData1.setTitle(title);
+                dashBoardData1.setImageSource(R.drawable.rowavatar_member);
+                cursor.moveToNext();
+            }
+            cursor.close();
+
+        }
+
+
+        return dashBoardData1;
+    }
+    public DashBoardData getMigratedHHCount(String title, String ssName, String month, String year){
+        DashBoardData dashBoardData1 = new DashBoardData();
+
+        String query;
+        if(TextUtils.isEmpty(ssName) && TextUtils.isEmpty(month) & TextUtils.isEmpty(year) ){
+            query = "select count(*) as count from ec_family where date_removed ='1' ";
+        }else if(!TextUtils.isEmpty(ssName) && !TextUtils.isEmpty(month)){
+            query = "select count(*) as count from ec_family where ss_name = '"+ssName+"' and strftime('%m', datetime("+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime')) = '"+month+"' and strftime('%Y', datetime("+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime')) = '"+year+"' and date_removed ='1' ";
+
+        }
+        else if(!TextUtils.isEmpty(ssName)){
+            query = "select count(*) as count from ec_family where ss_name = '"+ssName+"' and date_removed date_removed ='1' ";
+        }else {
+            query = "select count(*) as count from ec_family where strftime('%m', datetime("+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime')) = '"+month+"' and strftime('%Y', datetime("+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime')) = '"+year+"' and date_removed ='1' ";
+        }
+        Log.v("WORK_QUERY","member:"+query);
+        Cursor cursor = null;
+        // try {
+        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        if(cursor !=null && cursor.getCount() > 0){
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                dashBoardData1 = new DashBoardData();
+                dashBoardData1.setCount(cursor.getInt(0));
+                dashBoardData1.setTitle(title);
+                dashBoardData1.setImageSource(R.drawable.rowavatar_member);
+                cursor.moveToNext();
+            }
+            cursor.close();
+
+        }
+
+
+        return dashBoardData1;
+    }
+
     public DashBoardData getVisitTypeCount(String title,String indicatorKey,String indicatorValue, String ssName, String month, String year){
         DashBoardData dashBoardData1 = new DashBoardData();
         String mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='"+indicatorValue+"'";
@@ -207,6 +279,9 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
         }
         else if(indicatorKey.equalsIgnoreCase("cause_of_death")){
             mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='preterm_death' or "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='childbirth_death' or "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='postnatal_death'";
+        }
+        else if(indicatorKey.equalsIgnoreCase("cause_of_death_other")){
+            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" !='preterm_death' or "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" !='childbirth_death' or "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" !='postnatal_death'";
         }
         String query;
         if(TextUtils.isEmpty(ssName) && TextUtils.isEmpty(month)){
@@ -237,24 +312,47 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
 
         return dashBoardData1;
     }
-    public String getFilterCondition(String ssName, String month, String year){
+    public String getRemoveFilterCondition(String ssName, String month, String year){
         StringBuilder build = new StringBuilder();
         build.append(MessageFormat.format(" inner join {0} ", CoreConstants.TABLE_NAME.FAMILY));
         build.append(MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.FAMILY, DBConstants.KEY.BASE_ENTITY_ID,
                 CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.RELATIONAL_ID));
         if(!TextUtils.isEmpty(ssName) && !TextUtils.isEmpty(month)){
-            build.append(MessageFormat.format(" where {0}.{1} is null and {2} = {3}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED, HnppConstants.KEY.SS_NAME,"'"+ssName+"'"));
-            build.append(MessageFormat.format(" and {0}.{1} is null and {2}  = {3}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED,"strftime('%m', datetime("+CoreConstants.TABLE_NAME.FAMILY_MEMBER+"."+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime'))" ,"'"+month+"'"));
-            build.append(MessageFormat.format(" and {0}.{1} is null and {2}  = {3}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED,"strftime('%Y', datetime("+CoreConstants.TABLE_NAME.FAMILY_MEMBER+"."+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime'))" ,"'"+year+"'"));
+            build.append(MessageFormat.format(" where {0}.{1} is not null and {2} = {3}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED, HnppConstants.KEY.SS_NAME,"'"+ssName+"'"));
+            build.append(MessageFormat.format(" and {0}.{1} is not null and {2}  = {3}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED,"strftime('%m', datetime("+CoreConstants.TABLE_NAME.FAMILY_MEMBER+"."+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime'))" ,"'"+month+"'"));
+            build.append(MessageFormat.format(" and {0}.{1} is not null and {2}  = {3}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED,"strftime('%Y', datetime("+CoreConstants.TABLE_NAME.FAMILY_MEMBER+"."+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime'))" ,"'"+year+"'"));
 
         }
         else if(!TextUtils.isEmpty(month)){
-            build.append(MessageFormat.format(" where {0}.{1} is null and {2}  = {3}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED,"strftime('%m', datetime("+CoreConstants.TABLE_NAME.FAMILY_MEMBER+"."+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime'))" ,"'"+month+"'"));
-            build.append(MessageFormat.format(" and {0}.{1} is null and {2}  = {3}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED,"strftime('%Y', datetime("+CoreConstants.TABLE_NAME.FAMILY_MEMBER+"."+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime'))" ,"'"+year+"'"));
+            build.append(MessageFormat.format(" where {0}.{1} is not null and {2}  = {3}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED,"strftime('%m', datetime("+CoreConstants.TABLE_NAME.FAMILY_MEMBER+"."+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime'))" ,"'"+month+"'"));
+            build.append(MessageFormat.format(" and {0}.{1} is not null and {2}  = {3}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED,"strftime('%Y', datetime("+CoreConstants.TABLE_NAME.FAMILY_MEMBER+"."+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime'))" ,"'"+year+"'"));
 
         }
         else if(!TextUtils.isEmpty(ssName)){
-            build.append(MessageFormat.format(" where {0}.{1} is null and {2} = {3}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED, HnppConstants.KEY.SS_NAME,"'"+ssName+"'"));
+            build.append(MessageFormat.format(" where {0}.{1} is not null and {2} = {3}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED, HnppConstants.KEY.SS_NAME,"'"+ssName+"'"));
+
+        }
+
+        return build.toString();
+    }
+    public String getMigrateFilterCondition(String ssName, String month, String year){
+        StringBuilder build = new StringBuilder();
+        build.append(MessageFormat.format(" inner join {0} ", CoreConstants.TABLE_NAME.FAMILY));
+        build.append(MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.FAMILY, DBConstants.KEY.BASE_ENTITY_ID,
+                CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.RELATIONAL_ID));
+        if(!TextUtils.isEmpty(ssName) && !TextUtils.isEmpty(month)){
+            build.append(MessageFormat.format(" where {0}.{1} ={4} and {2} = {3}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED, HnppConstants.KEY.SS_NAME,"'"+ssName+"'"));
+            build.append(MessageFormat.format(" and {0}.{1} ={4} and {2}  = {3}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED,"strftime('%m', datetime("+CoreConstants.TABLE_NAME.FAMILY_MEMBER+"."+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime'))" ,"'"+month+"'","'1'"));
+            build.append(MessageFormat.format(" and {0}.{1} ={4} and {2}  = {3}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED,"strftime('%Y', datetime("+CoreConstants.TABLE_NAME.FAMILY_MEMBER+"."+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime'))" ,"'"+year+"'","'1'"));
+
+        }
+        else if(!TextUtils.isEmpty(month)){
+            build.append(MessageFormat.format(" where {0}.{1} ={4} and {2}  = {3}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED,"strftime('%m', datetime("+CoreConstants.TABLE_NAME.FAMILY_MEMBER+"."+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime'))" ,"'"+month+"'","'1'"));
+            build.append(MessageFormat.format(" and {0}.{1} ={4} and {2}  = {3}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED,"strftime('%Y', datetime("+CoreConstants.TABLE_NAME.FAMILY_MEMBER+"."+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime'))" ,"'"+year+"'","'1'"));
+
+        }
+        else if(!TextUtils.isEmpty(ssName)){
+            build.append(MessageFormat.format(" where {0}.{1} ={4} and {2} = {3}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED, HnppConstants.KEY.SS_NAME,"'"+ssName+"'","'1'"));
 
         }
 

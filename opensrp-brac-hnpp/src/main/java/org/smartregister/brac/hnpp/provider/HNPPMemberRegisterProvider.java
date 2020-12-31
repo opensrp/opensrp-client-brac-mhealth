@@ -114,20 +114,35 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
 
         dobString = dobString.contains("y") ? dobString.substring(0, dobString.indexOf("y")) : dobString;
         String dod = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.DOD, false);
+        String dateRemoved = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.DATE_REMOVED, false);
 
         if(!TextUtils.isEmpty(yearSub) && Integer.parseInt(yearSub) >=5){
             entityType ="";
         }
-        if (StringUtils.isNotBlank(dod)) {
+
+        viewHolder.gender.setTextColor(ContextCompat.getColor(context, android.R.color.black));
+        if (StringUtils.isNotBlank(dod) ) {
             dobString = org.smartregister.family.util.Utils.getDuration(dod, dob);
             patientName = patientName + "\n" + org.smartregister.family.util.Utils.getTranslatedDate(dobString, this.context) + " " + this.context.getString(org.smartregister.family.R.string.deceased_brackets);
             viewHolder.patientNameAge.setFontVariant(FontVariant.REGULAR);
             viewHolder.patientNameAge.setTextColor(-7829368);
             viewHolder.patientNameAge.setTypeface(viewHolder.patientNameAge.getTypeface(), Typeface.ITALIC);
-
+            viewHolder.gender.setTextColor(-7829368);
+            viewHolder.gender.setTypeface(viewHolder.patientNameAge.getTypeface(), Typeface.ITALIC);
             viewHolder.profile.setImageResource(org.smartregister.family.util.Utils.getMemberProfileImageResourceIDentifier(entityType));
             viewHolder.nextArrow.setVisibility(View.GONE);
-        } else {
+        } else if(StringUtils.isNotBlank(dateRemoved) && dateRemoved.equalsIgnoreCase("1")){
+            dobString = org.smartregister.family.util.Utils.getDuration(dob);
+            patientName = patientName + "\n" + org.smartregister.family.util.Utils.getTranslatedDate(dobString, this.context) + " " + this.context.getString(R.string.migrated_brackets);
+            viewHolder.patientNameAge.setFontVariant(FontVariant.REGULAR);
+            viewHolder.patientNameAge.setTextColor(-7829368);
+            viewHolder.patientNameAge.setTypeface(viewHolder.patientNameAge.getTypeface(), Typeface.ITALIC);
+            viewHolder.gender.setTextColor(-7829368);
+            viewHolder.gender.setTypeface(viewHolder.patientNameAge.getTypeface(), Typeface.ITALIC);
+            viewHolder.profile.setImageResource(org.smartregister.family.util.Utils.getMemberProfileImageResourceIDentifier(entityType));
+            viewHolder.nextArrow.setVisibility(View.GONE);
+        }
+        else {
 
             viewHolder.patientNameAge.setFontVariant(FontVariant.REGULAR);
             viewHolder.patientNameAge.setTextColor(-16777216);
@@ -137,7 +152,6 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
         }
         ((TextView)viewHolder.patientNameAge).setSingleLine(true);
         ((TextView)viewHolder.gender).setSingleLine(false);
-        viewHolder.gender.setTextColor(ContextCompat.getColor(context, android.R.color.black));
         fillValue(viewHolder.patientNameAge, patientName);
         String gender_key = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), "gender", true);
         String gender = "";
@@ -174,17 +188,20 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
                 viewHolder.patientColumn.performClick();
             }
         });
-//        if (StringUtils.isBlank(dod)) {
+        if (StringUtils.isNotBlank(dod) || StringUtils.isNotBlank(dateRemoved)) {
+
+            android.view.View patient = viewHolder.patientColumn;
+            patient.setClickable(false);
+            android.view.View nextArrow = viewHolder.nextArrow;
+            nextArrow.setClickable(false);
+
+
+        }else{
             android.view.View patient = viewHolder.patientColumn;
             attachPatientOnclickListener(patient, client);
             android.view.View nextArrow = viewHolder.nextArrow;
             attachNextArrowOnclickListener(nextArrow, client);
-//        }else{
-//            android.view.View patient = viewHolder.patientColumn;
-//            patient.setClickable(false);
-//            android.view.View nextArrow = viewHolder.nextArrow;
-//            nextArrow.setClickable(false);
-//        }
+        }
        if(gender_key.equalsIgnoreCase("F")){
            int age = FormApplicability.getAge(pc);
            if (updateAsyncTask == null) {

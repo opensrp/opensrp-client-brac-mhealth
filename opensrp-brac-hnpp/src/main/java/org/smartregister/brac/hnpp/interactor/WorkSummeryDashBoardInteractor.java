@@ -2,6 +2,7 @@ package org.smartregister.brac.hnpp.interactor;
 
 import org.smartregister.brac.hnpp.contract.DashBoardContract;
 import org.smartregister.brac.hnpp.model.CountSummeryDashBoardModel;
+import org.smartregister.brac.hnpp.model.IndicatorDashBoardModel;
 import org.smartregister.brac.hnpp.model.WorkSummeryDashBoardModel;
 import org.smartregister.brac.hnpp.utils.DashBoardData;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -14,11 +15,13 @@ public class WorkSummeryDashBoardInteractor implements DashBoardContract.Interac
     private AppExecutors appExecutors;
     private ArrayList<DashBoardData> dashBoardDataArrayList;
     private WorkSummeryDashBoardModel model;
+    private IndicatorDashBoardModel indicatorModel;
 
-    public WorkSummeryDashBoardInteractor(AppExecutors appExecutors, WorkSummeryDashBoardModel model){
+    public WorkSummeryDashBoardInteractor(AppExecutors appExecutors, WorkSummeryDashBoardModel model,IndicatorDashBoardModel indicatorModel){
         this.appExecutors = appExecutors;
         dashBoardDataArrayList = new ArrayList<>();
         this.model = model;
+        this.indicatorModel = indicatorModel;
     }
 
     @Override
@@ -70,6 +73,32 @@ public class WorkSummeryDashBoardInteractor implements DashBoardContract.Interac
             addToDashBoardList(model.getChildForumCount(ssName,month,year));
             addToDashBoardList(model.getChildServiceCount(ssName,month,year));
             addToDashBoardList(model.getAdultForumCount(ssName,month,year));
+            if(indicatorModel!=null){
+                addToDashBoardList(indicatorModel.getAnotherSource(ssName,month,year));
+                addToDashBoardList(indicatorModel.get4PlusAnc(ssName,month,year));
+                addToDashBoardList(indicatorModel.getCigerDelivery(ssName,month,year));
+                addToDashBoardList(indicatorModel.getNormalDelivery(ssName,month,year));
+                addToDashBoardList(indicatorModel.getTTWomen(ssName,month,year));
+                addToDashBoardList(indicatorModel.getPncService48Hrs(ssName,month,year));
+                addToDashBoardList(indicatorModel.getPnc1to2(ssName,month,year));
+                addToDashBoardList(indicatorModel.getPnc3to4(ssName,month,year));
+                addToDashBoardList(indicatorModel.getReferrelByPregnency(ssName,month,year));
+                addToDashBoardList(indicatorModel.getBrestFeedingByBirth(ssName,month,year));
+                addToDashBoardList(indicatorModel.getOnlyBrestFeeding(ssName,month,year));
+                addToDashBoardList(indicatorModel.getChildSevenMonth(ssName,month,year));
+                addToDashBoardList(indicatorModel.getDeathBirth(ssName,month,year));
+                addToDashBoardList(indicatorModel.getMotherDeath(ssName,month,year));
+                addToDashBoardList(indicatorModel.getOtherDeath(ssName,month,year));
+                addToDashBoardList(indicatorModel.getEstimatedCoronaPatient(ssName,month,year));
+                addToDashBoardList(indicatorModel.getCoronaPatient(ssName,month,year));
+                addToDashBoardList(indicatorModel.getIsolationPatient(ssName,month,year));
+                addToDashBoardList(indicatorModel.getRemoveMemberCount("সদস্য বাতিল",ssName,month,year));
+                addToDashBoardList(indicatorModel.getRemoveHHCount("খানা বাতিল",ssName,month,year));
+                addToDashBoardList(indicatorModel.getMigrateMemberCount("সদস্য স্থানান্তর",ssName,month,year));
+                addToDashBoardList(indicatorModel.getMigratedHHCount("খানা স্থানান্তর",ssName,month,year));
+            }
+
+
         }
 
 

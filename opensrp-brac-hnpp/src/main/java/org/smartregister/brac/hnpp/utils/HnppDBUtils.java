@@ -41,7 +41,7 @@ public class HnppDBUtils extends CoreChildUtils {
     public static void updateMigratedOrRejectedHH(String base_entity_id){
         try{
             SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
-            String sql = "update ec_family set is_closed = '1' where " +
+            String sql = "update ec_family set "+DBConstants.KEY.DATE_REMOVED+" = '1' where " +
                     "base_entity_id = '"+base_entity_id+"' ;";
             database.execSQL(sql);
         }catch(Exception e){
@@ -52,7 +52,7 @@ public class HnppDBUtils extends CoreChildUtils {
     public static void updateMigratedOrRejectedMember(String base_entity_id){
         try{
             SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
-            String sql = "update ec_family_member set is_closed = '1' where " +
+            String sql = "update ec_family_member set "+DBConstants.KEY.DATE_REMOVED+" = '1' where " +
                     "base_entity_id = '"+base_entity_id+"' ;";
             database.execSQL(sql);
         }catch(Exception e){

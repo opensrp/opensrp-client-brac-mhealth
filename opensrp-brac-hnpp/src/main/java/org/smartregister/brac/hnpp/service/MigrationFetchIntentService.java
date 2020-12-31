@@ -130,7 +130,7 @@ public class MigrationFetchIntentService extends IntentService {
                 lastSynTime ="0";
             }
             //testing
-            String url = baseUrl + urlMigration + "username=" + userName+"&type="+type+"&timestamp="+lastSynTime;
+            String url = baseUrl + urlMigration + "username=" + userName+"&type="+type+"&timestamp=1609310290064";//+lastSynTime;
             Log.v("MIGRATION_FETCH","getLocationList>>url:"+url);
             Response resp = httpAgent.fetch(url);
             if (resp.isFailure()) {
