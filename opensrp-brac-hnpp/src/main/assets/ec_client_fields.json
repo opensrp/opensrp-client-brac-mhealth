@@ -486,7 +486,7 @@
           "column_name": "village_name",
           "type": "Client",
           "json_mapping": {
-            "field": "attributes.Village_Name"
+            "field": "addresses.cityVillage"
           }
         },
         {
@@ -578,6 +578,13 @@
           "type": "Client",
           "json_mapping": {
             "field": "attributes.dateRemoved"
+          }
+        },
+        {
+          "column_name": "_id",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes._id"
           }
         }
       ]

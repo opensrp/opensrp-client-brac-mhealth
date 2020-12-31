@@ -76,7 +76,7 @@ public class HnppDBUtils extends CoreChildUtils {
             if(cursor !=null && cursor.getCount() > 0){
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()) {
-                    nameCount.append("স্টক নামঃ "+cursor.getString(0)+"\n");
+                    nameCount.append("স্টক নামঃ "+HnppConstants.eventTypeMapping.get(cursor.getString(0))+"\n");
                     nameCount.append("শেষ ব্যালেন্স: "+cursor.getString(1)+"\n");
                     cursor.moveToNext();
                 }
@@ -335,6 +335,32 @@ public class HnppDBUtils extends CoreChildUtils {
             }
         } catch (Exception ex) {
             Timber.e(ex, "CoreChildProfileInteractor --> updateChildCommonPerson");
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return pClient;
+
+    }
+    public static CommonPersonObjectClient createFromBaseEntityForGuestMember(String baseEntityId){
+        CommonPersonObjectClient pClient = null;
+        String query = "Select * FROM ec_guest_member WHERE ec_guest_member.base_entity_id ='"+baseEntityId+"'";
+        CommonRepository commonRepository = Utils.context().commonrepository("ec_guest_member");
+        Cursor cursor = null;
+        try {
+            //cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = commonRepository.rawCustomQueryForAdapter(query);
+            if (cursor != null && cursor.moveToFirst()) {
+                CommonPersonObject personObject = commonRepository.readAllcommonforCursorAdapter(cursor);
+                //personObject.setCaseId(baseEntityId);
+                pClient = new CommonPersonObjectClient(personObject.getCaseId(),
+                        personObject.getDetails(), "");
+                pClient.setColumnmaps(personObject.getColumnmaps());
+            }
+        } catch (Exception ex) {
+            Timber.e(ex, "CoreChildProfileInteractor --> updateChildCommonPerson");
+            ex.printStackTrace();
         } finally {
             if (cursor != null) {
                 cursor.close();
