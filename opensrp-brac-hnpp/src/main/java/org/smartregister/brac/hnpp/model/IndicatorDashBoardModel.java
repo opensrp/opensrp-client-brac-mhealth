@@ -101,6 +101,9 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
     public DashBoardData getVitaminChild(String ssName, String month, String year){
         return getVisitTypeCount("ভিটামিন প্রাপ্ত শিশুর সংখ্যা","Recurring Service",ssName,month,year);
     }
+    public DashBoardData getBcgChild(String ssName, String month, String year){
+        return getVisitTypeCount("বিসিজি টিকা প্রাপ্ত শিশুর সংখ্যা","bcg","",ssName,month,year);
+    }
     public DashBoardData getBrestFeedingByBirth(String ssName, String month, String year){
         return getVisitTypeCount("জন্মের এক ঘণ্টার মধ্যে বুকের দুধ খাওয়া শিশুর সংখ্যা","breastfeeding_time","1",ssName,month,year);
     }
@@ -242,7 +245,7 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
 
         }
         else if(!TextUtils.isEmpty(ssName)){
-            query = "select count(*) as count from ec_family where ss_name = '"+ssName+"' and date_removed date_removed ='1' ";
+            query = "select count(*) as count from ec_family where ss_name = '"+ssName+"' and date_removed ='1' ";
         }else {
             query = "select count(*) as count from ec_family where strftime('%m', datetime("+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime')) = '"+month+"' and strftime('%Y', datetime("+DBConstants.KEY.LAST_INTERACTED_WITH+"/1000,'unixepoch','localtime')) = '"+year+"' and date_removed ='1' ";
         }
@@ -299,6 +302,9 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
         }
         else if(indicatorKey.equalsIgnoreCase("cause_of_death_other")){
             mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" !='preterm_death' and "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" !='childbirth_death' and "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" !='postnatal_death' and "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" !='infant_death'";
+
+        }else if(indicatorKey.equalsIgnoreCase("bcg")){
+            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='bcg'";
 
         }
         String query;

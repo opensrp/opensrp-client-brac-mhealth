@@ -1513,7 +1513,7 @@ public class VisitLogIntentService extends IntentService {
                         LocalDate localDate = new LocalDate(log.getVisitDate());
                         Log.v("IMMUNIZATION_ADD","update:"+ssName);
                         HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.CHILD_IMMUNIZATION_0_59,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId());
-
+                        updateBcg(baseEvent,log);
                     }
 
 
@@ -1772,6 +1772,17 @@ public class VisitLogIntentService extends IntentService {
 
         }
         return new JSONObject();
+    }
+    private void updateBcg(Event baseEvent, VisitLog log){
+        for (Obs o : baseEvent.getObs()) {
+            if ("bcg".equalsIgnoreCase(o.getFormSubmissionField())) {
+                String value = (String)o.getValue();
+                LocalDate localDate = new LocalDate(log.getVisitDate());
+                HnppApplication.getIndicatorRepository().updateValue("bcg",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
+                break;
+            }
+        }
+
     }
 
     public HashMap<String,Object> getFormNamesFromEventObject(Event baseEvent) {

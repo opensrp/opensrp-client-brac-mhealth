@@ -87,6 +87,7 @@ public class WorkSummeryDashBoardInteractor implements DashBoardContract.Interac
                 addToDashBoardList(indicatorModel.getReferrelByPregnency(ssName,month,year));
                 addToDashBoardList(indicatorModel.getVaccineChild(ssName,month,year));
                 addToDashBoardList(indicatorModel.getVitaminChild(ssName,month,year));
+                addToDashBoardList(indicatorModel.getBcgChild(ssName,month,year));
                 addToDashBoardList(indicatorModel.getBrestFeedingByBirth(ssName,month,year));
                 addToDashBoardList(indicatorModel.getOnlyBrestFeeding(ssName,month,year));
                 addToDashBoardList(indicatorModel.getChildSevenMonth(ssName,month,year));

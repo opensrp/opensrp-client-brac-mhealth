@@ -8,6 +8,7 @@ import android.util.Log;
 import org.joda.time.LocalDate;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.contract.DashBoardContract;
+import org.smartregister.brac.hnpp.utils.ChildDBConstants;
 import org.smartregister.brac.hnpp.utils.DashBoardData;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBConstants;
@@ -75,6 +76,46 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
 
         return dashBoardData1;
     }
+//    public DashBoardData getAdolecentElcoCount(String ssName,String month,String year){
+//        String query;
+//
+//        DashBoardData dashBoardData1 = new DashBoardData();
+//        if(TextUtils.isEmpty(ssName) && TextUtils.isEmpty(month)){
+//            query = "select count(*) as count from ec_family_member where date_removed is null and "+ ChildDBConstants.adolocentElcoFilter();
+//        }
+//        else if(TextUtils.isEmpty(month) && !TextUtils.isEmpty(ssName)){
+//            query = "select count(*) as count from ec_family_member where ss_name = '"+ssName+"' and date_removed is null and "+ ChildDBConstants.adolocentElcoFilter();
+//        }else if(!TextUtils.isEmpty(month) && TextUtils.isEmpty(ssName)) {
+//            query = "select count(*) as count from ec_family_member where  date_removed is null "+getMonthYearFilter(month,year)+"and "+ ChildDBConstants.adolocentElcoFilter();
+//        }else {
+//            query = "select count(*) as count from ec_family_member where ss_name = '"+ssName+"' and date_removed is null "+getMonthYearFilter(month,year)+"and "+ ChildDBConstants.adolocentElcoFilter();
+//        }
+//        Log.v("ELCO_COUNT","getHHCount:"+query);
+//        Cursor cursor = null;
+//        // try {
+//        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+//        if(cursor !=null && cursor.getCount() > 0){
+//            cursor.moveToFirst();
+//            while (!cursor.isAfterLast()) {
+//                dashBoardData1 = new DashBoardData();
+//                dashBoardData1.setCount(cursor.getInt(0));
+//                dashBoardData1.setEventType(HnppConstants.EventType.FAMILY_REGISTRATION);
+//                dashBoardData1.setTitle(HnppConstants.countSummeryTypeMapping.get(dashBoardData1.getEventType()));
+//
+//                try{
+//                    dashBoardData1.setImageSource((int)HnppConstants.iconMapping.get(dashBoardData1.getEventType()));
+//                }catch (Exception e){
+//
+//                }
+//                cursor.moveToNext();
+//            }
+//            cursor.close();
+//
+//        }
+//
+//
+//        return dashBoardData1;
+//    }
     public DashBoardData getHHCount(String ssName,String month,String year){
         String query;
 
@@ -162,7 +203,6 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
         if(cursor !=null && cursor.getCount() > 0){
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
-                dashBoardData1 = new DashBoardData();
                 dashBoardData1.setCount(cursor.getInt(0));
                  dashBoardData1.setEventType(HnppConstants.EventType.FAMILY_MEMBER_REGISTRATION);
                 dashBoardData1.setTitle(HnppConstants.countSummeryTypeMapping.get(dashBoardData1.getEventType()));
@@ -222,7 +262,111 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
     public DashBoardData getBoyChild20To50(String ssName,String month,String year){
         return getChildAgeBased("M",20,50,ssName,month,year,"২০-৫০ বছরের পুরুষ");
     }
+    public DashBoardData getEddThisMonth(String ssName,String month,String year){
+        String query = getEddQuery(ssName,month,year);
+        Log.v("EDD_QUERY","getHHCount:"+query);
+        DashBoardData dashBoardData1 = new DashBoardData();
+        Cursor cursor = null;
+        // try {
+        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        if(cursor !=null && cursor.getCount() > 0){
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
 
+                dashBoardData1.setCount(cursor.getInt(0));
+                dashBoardData1.setTitle("প্রসবের সম্ভাব্য তারিখ এই মাসে");
+                if(TextUtils.isEmpty(month)){
+                    dashBoardData1.setTitle("সম্ভাব্য প্রসব");
+                }
+                dashBoardData1.setImageSource(R.mipmap.ic_anc_pink);
+
+                cursor.moveToNext();
+            }
+            cursor.close();
+
+        }
+
+
+        return dashBoardData1;
+    }
+    public DashBoardData getRiskMother(String ssName,String month,String year){
+        String query = getRiskyQuery(ssName,month,year);
+        Log.v("EDD_QUERY","getHHCount:"+query);
+        DashBoardData dashBoardData1 = new DashBoardData();
+        Cursor cursor = null;
+        // try {
+        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        if(cursor !=null && cursor.getCount() > 0){
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+
+                dashBoardData1.setCount(cursor.getInt(0));
+                dashBoardData1.setTitle("ঝুঁকিপূর্ণ মা");
+                dashBoardData1.setImageSource(R.mipmap.ic_anc_pink);
+
+                cursor.moveToNext();
+            }
+            cursor.close();
+
+        }
+
+
+        return dashBoardData1;
+    }
+    private String getRiskyQuery(String ssName,String month, String year){
+        String query;
+        if(TextUtils.isEmpty(ssName) && TextUtils.isEmpty(month)){
+            query = "select count(*) as count from ec_anc_register  " +
+                    "inner join ec_family_member on ec_family_member.base_entity_id = ec_anc_register.base_entity_id " +
+                    "inner join ec_family on ec_family.base_entity_id = ec_family_member."+DBConstants.KEY.RELATIONAL_ID +
+                    " where ec_family_member.date_removed is null "+ChildDBConstants.riskAncPatient();
+        }
+        else if(TextUtils.isEmpty(month) && !TextUtils.isEmpty(ssName)){
+            query = "select count(*) as count from ec_anc_register  " +
+                    "inner join ec_family_member on ec_family_member.base_entity_id = ec_anc_register.base_entity_id " +
+                    "inner join ec_family on ec_family.base_entity_id = ec_family_member."+DBConstants.KEY.RELATIONAL_ID +
+                    " where ec_family.ss_name='"+ssName+"'"+ChildDBConstants.riskAncPatient();
+
+        }else if(!TextUtils.isEmpty(month) && TextUtils.isEmpty(ssName)) {
+            query = "select count(*) as count,substr(edd, 7, 4) as year,substr(edd, 4, 2) as month from ec_anc_register " +
+                    "inner join ec_family_member on ec_family_member.base_entity_id = ec_anc_register.base_entity_id " +
+                    " where year='"+year+"' and month = '"+month+"'"+ChildDBConstants.riskAncPatient();
+        }else {
+            query = "select count(*) as count,substr(edd, 7, 4) as year,substr(edd, 4, 2) as month from ec_anc_register " +
+                    "inner join ec_family_member on ec_family_member.base_entity_id = ec_anc_register.base_entity_id " +
+                    "inner join ec_family on ec_family.base_entity_id = ec_family_member."+DBConstants.KEY.RELATIONAL_ID +
+                    " where year='"+year+"' and month = '"+month+"' and ec_family.ss_name='"+ssName+"'"+ChildDBConstants.riskAncPatient();
+        }
+
+        return query;
+    }
+    private String getEddQuery(String ssName,String month, String year){
+        String query;
+        if(TextUtils.isEmpty(ssName) && TextUtils.isEmpty(month)){
+            query = "select count(*) as count from ec_anc_register  " +
+                    "inner join ec_family_member on ec_family_member.base_entity_id = ec_anc_register.base_entity_id " +
+                    "inner join ec_family on ec_family.base_entity_id = ec_family_member."+DBConstants.KEY.RELATIONAL_ID +
+                    " where ec_family_member.date_removed is null ";
+        }
+        else if(TextUtils.isEmpty(month) && !TextUtils.isEmpty(ssName)){
+            query = "select count(*) as count from ec_anc_register  " +
+                    "inner join ec_family_member on ec_family_member.base_entity_id = ec_anc_register.base_entity_id " +
+                    "inner join ec_family on ec_family.base_entity_id = ec_family_member."+DBConstants.KEY.RELATIONAL_ID +
+                " where ec_family.ss_name='"+ssName+"'";
+
+        }else if(!TextUtils.isEmpty(month) && TextUtils.isEmpty(ssName)) {
+            query = "select count(*) as count, substr(edd, 7, 4) as year,substr(edd, 4, 2) as month from ec_anc_register " +
+                    "inner join ec_family_member on ec_family_member.base_entity_id = ec_anc_register.base_entity_id " +
+                    " where year='"+year+"' and month = '"+month+"'";
+        }else {
+            query = "select count(*) as count,substr(edd, 7, 4) as year,substr(edd, 4, 2) as month from ec_anc_register " +
+                    "inner join ec_family_member on ec_family_member.base_entity_id = ec_anc_register.base_entity_id " +
+                    "inner join ec_family on ec_family.base_entity_id = ec_family_member."+DBConstants.KEY.RELATIONAL_ID +
+                    " where year='"+year+"' and month = '"+month+"' and ec_family.ss_name='"+ssName+"'";
+        }
+
+        return query;
+    }
 
 
     public DashBoardData getChildUnder5(String gender , String ssName,String month,String year, String title){

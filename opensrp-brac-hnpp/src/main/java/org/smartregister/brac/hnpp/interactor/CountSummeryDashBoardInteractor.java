@@ -62,6 +62,8 @@ public class CountSummeryDashBoardInteractor implements DashBoardContract.Intera
         addToDashBoardList(model.getAdoGirl(ssName,month,year));
         addToDashBoardList(model.getAdoBoy(ssName,month,year));
         addToDashBoardList(model.getAdoElco(ssName,month,year));
+        addToDashBoardList(model.getEddThisMonth(ssName,month,year));
+        addToDashBoardList(model.getRiskMother(ssName,month,year));
         if(indicatorModel !=null){
             addToDashBoardList(indicatorModel.getFamilyMethodKnown(ssName,month,year));
             addToDashBoardList(indicatorModel.getNoFamilyMethodUser(ssName,month,year));

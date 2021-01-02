@@ -163,7 +163,9 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
     }
     public TargetVsAchievementData getTargetVsAchievmentByVisitType(String visitType,String day, String month, String year, String ssName){
         TargetVsAchievementData dashBoardData1 = new TargetVsAchievementData();
-        String query = "select sum(target_count) as target_count, sum(achievemnt_count) as achievemnt_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
+        //String query = "select sum(target_count) as target_count, sum(achievemnt_count) as achievemnt_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
+        String query = "select sum(achievemnt_count) as achievemnt_count,(select sum(target_count) from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,"") +") as target_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
+
         Log.v("TARGET_QUERY","query:"+query);
         Cursor cursor = null;
         try{
@@ -199,7 +201,9 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
     }
     public TargetVsAchievementData getAvgTargetVsAchievmentByVisitType(String visitType,String day, String month, String year, String ssName){
         TargetVsAchievementData dashBoardData1 = new TargetVsAchievementData();
-        String query = "select sum(target_count) as target_count, sum(achievemnt_count) as achievemnt_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
+        //String query = "select sum(target_count) as target_count, sum(achievemnt_count) as achievemnt_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
+        String query = "select sum(achievemnt_count) as achievemnt_count,(select sum(target_count) from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,"") +") as target_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
+
         Log.v("TARGET_QUERY","avg query:"+query);
         Cursor cursor = null;
          try {
