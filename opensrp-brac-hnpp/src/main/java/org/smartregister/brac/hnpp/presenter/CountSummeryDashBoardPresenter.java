@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.presenter;
 import org.smartregister.brac.hnpp.contract.DashBoardContract;
 import org.smartregister.brac.hnpp.interactor.CountSummeryDashBoardInteractor;
 import org.smartregister.brac.hnpp.model.CountSummeryDashBoardModel;
+import org.smartregister.brac.hnpp.model.IndicatorDashBoardModel;
 import org.smartregister.brac.hnpp.utils.DashBoardData;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.family.util.AppExecutors;
@@ -16,7 +17,7 @@ public class CountSummeryDashBoardPresenter implements DashBoardContract.Present
 
     public CountSummeryDashBoardPresenter(DashBoardContract.View view){
         this.view = view;
-        interactor = new CountSummeryDashBoardInteractor(new AppExecutors(),new CountSummeryDashBoardModel(view.getContext()));
+        interactor = new CountSummeryDashBoardInteractor(new AppExecutors(),new CountSummeryDashBoardModel(view.getContext()),new IndicatorDashBoardModel(view.getContext()));
 
     }
     public ArrayList<DashBoardData> getDashBoardData(){

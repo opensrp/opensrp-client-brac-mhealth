@@ -16,6 +16,7 @@ import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.activity.MigrationActivity;
+import org.smartregister.brac.hnpp.activity.NewDashBoardActivity;
 import org.smartregister.brac.hnpp.activity.NotificationActivity;
 import org.smartregister.brac.hnpp.activity.PaymentActivity;
 import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
@@ -117,6 +118,11 @@ public class HnppNavigationPresenter extends NavigationPresenter {
     @Override
     public void browsePayment(Activity activity) {
         activity.startActivity(new Intent(activity, PaymentActivity.class));
+    }
+
+    @Override
+    public void browseDashboard(Activity activity) {
+        activity.startActivity(new Intent(activity, NewDashBoardActivity.class));
     }
 
     @Override

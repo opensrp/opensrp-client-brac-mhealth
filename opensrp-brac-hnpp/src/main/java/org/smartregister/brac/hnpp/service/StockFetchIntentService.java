@@ -56,7 +56,12 @@ public class StockFetchIntentService extends IntentService {
                     if(stockData != null){
                         HnppApplication.getStockRepository().addOrUpdate(stockData);
                         timestamp = stockData.getTimestamp();
-                        nameCount.append("স্টক নামঃ"+HnppConstants.eventTypeMapping.get(stockData.getProductName())+"\n");
+                        try{
+                            nameCount.append("স্টক নামঃ"+HnppConstants.workSummeryTypeMapping.get(stockData.getProductName())+"\n");
+                        }catch (Exception e){
+                            nameCount.append("স্টক নামঃ"+stockData.getProductName()+"\n");
+
+                        }
 
                         nameCount.append("স্টক সংখ্যাঃ"+stockData.getQuantity()+"\n");
                         Log.v("TARGET_FETCH","lasttime:"+timestamp);

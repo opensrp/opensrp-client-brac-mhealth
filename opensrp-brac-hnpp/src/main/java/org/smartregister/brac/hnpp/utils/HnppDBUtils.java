@@ -41,7 +41,7 @@ public class HnppDBUtils extends CoreChildUtils {
     public static void updateMigratedOrRejectedHH(String base_entity_id){
         try{
             SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
-            String sql = "update ec_family set is_closed = '1' where " +
+            String sql = "update ec_family set "+DBConstants.KEY.DATE_REMOVED+" = '1' where " +
                     "base_entity_id = '"+base_entity_id+"' ;";
             database.execSQL(sql);
         }catch(Exception e){
@@ -52,7 +52,7 @@ public class HnppDBUtils extends CoreChildUtils {
     public static void updateMigratedOrRejectedMember(String base_entity_id){
         try{
             SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
-            String sql = "update ec_family_member set is_closed = '1' where " +
+            String sql = "update ec_family_member set "+DBConstants.KEY.DATE_REMOVED+" = '1' where " +
                     "base_entity_id = '"+base_entity_id+"' ;";
             database.execSQL(sql);
         }catch(Exception e){
@@ -76,7 +76,12 @@ public class HnppDBUtils extends CoreChildUtils {
             if(cursor !=null && cursor.getCount() > 0){
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()) {
-                    nameCount.append("স্টক নামঃ "+HnppConstants.eventTypeMapping.get(cursor.getString(0))+"\n");
+                    try{
+                        nameCount.append("স্টক নামঃ "+HnppConstants.workSummeryTypeMapping.get(cursor.getString(0))+"\n");
+                    }catch (Exception e){
+                        nameCount.append("স্টক নামঃ "+cursor.getString(0)+"\n");
+
+                    }
                     nameCount.append("শেষ ব্যালেন্স: "+cursor.getString(1)+"\n");
                     cursor.moveToNext();
                 }

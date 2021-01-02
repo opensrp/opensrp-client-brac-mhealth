@@ -474,6 +474,22 @@ public class HnppConstants extends CoreConstants {
         public static final String GUEST_MEMBER_FORM = "guest_member_register";
 
     }
+    public class INDICATOR {
+        public static final String FP_uses = "fp_user";
+        public static final String FP_no_method_uses = "fp_no_method_user";
+        public static final String ANC_OTHER_SOURCE = "anc_other_source";
+        public static final String ANC_TT = "anc_tt";
+        public static final String FEEDING_UPTO_6_MONTH = "feeding_6_month";
+        public static final String PP_PILL = "contraceptive_pill";
+        public static final String PP_CONDOM = "condom";
+        public static final String PP_IUD = "iud";
+        public static final String PP_INJECTION = "injection";
+        public static final String PP_Implant = "norplant";
+        public static final String PP_Vesectomy = "vasectomy";
+        public static final String PP_Tubectomy = "ligation";
+
+
+    }
 
     public class EVENT_TYPE{
         public static final String ELCO = "ELCO Registration";
@@ -532,7 +548,7 @@ public class HnppConstants extends CoreConstants {
         public static final String AVG_ATTEND_WOMEN_FORUM= "Avg Attendance (Women Forum)";
 
         //for PA target
-        public static final String ADULT_FORUM_ATTENDANCE = "Avg Attendance (Adult Forum";
+        public static final String ADULT_FORUM_ATTENDANCE = "Avg.Attendance (Adult Forum)";
         public static final String ADULT_FORUM_SERVICE_TAKEN = "Adult Forum Service Taken";
         public static final String MARKED_PRESBYOPIA = "Marked as presbyopia";
         public static final String PRESBYOPIA_CORRECTION = "Presbyopia correction";
@@ -789,6 +805,9 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.BF_3,"BF- 3.00")
 
             .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)")
+            .put("familyplanning_method_known", "পরিবার পরিকল্পনা পদ্ধতি ব্যবহারকারী")
+            .put(EVENT_TYPE.ANC_SERVICE,"গর্ভবতী সেবা")
+            .put(EVENT_TYPE.PNC_SERVICE,"প্রসব-পরবর্তী সেবা")
             .build();
     //for dashboard countSummery
     public static final Map<String,String> countSummeryTypeMapping = ImmutableMap.<String,String> builder()
@@ -849,6 +868,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.FORUM_ADULT,"অ্যাডাল্ট ফোরাম")
             .put(EVENT_TYPE.ANC_SERVICE,"গর্ভবতী সেবা")
             .put(EVENT_TYPE.PNC_SERVICE,"প্রসব-পরবর্তী সেবা")
+
             .build();
     public static final Map<String,String> immunizationMapping = ImmutableMap.<String,String> builder()
             .put("PENTA 1","পেন্টা-১")

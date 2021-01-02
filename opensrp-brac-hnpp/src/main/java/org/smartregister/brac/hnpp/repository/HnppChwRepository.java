@@ -70,6 +70,7 @@ public class HnppChwRepository extends CoreChwRepository {
         upgradeToVersion28(context,database);
         upgradeToVersion29(context,database);
         upgradeToVersion30(context,database);
+        upgradeToVersion31(context,database);
 
     }
 
@@ -139,6 +140,9 @@ public class HnppChwRepository extends CoreChwRepository {
                     break;
                 case 30:
                     upgradeToVersion30(context,db);
+                    break;
+                case 31:
+                    upgradeToVersion31(context,db);
                     break;
                 default:
                     break;
@@ -228,6 +232,16 @@ public class HnppChwRepository extends CoreChwRepository {
         } catch (Exception e) {
 
         }
+
+    }
+    private void upgradeToVersion31(Context context, SQLiteDatabase db) {
+        IndicatorRepository.createTable(db);
+        try{
+            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN _id VARCHAR;");
+        }catch (Exception e){
+
+        }
+
 
     }
 

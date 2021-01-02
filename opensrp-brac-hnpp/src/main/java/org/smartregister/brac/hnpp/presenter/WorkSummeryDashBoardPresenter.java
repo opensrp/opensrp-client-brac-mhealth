@@ -4,6 +4,7 @@ import org.smartregister.brac.hnpp.contract.DashBoardContract;
 import org.smartregister.brac.hnpp.interactor.CountSummeryDashBoardInteractor;
 import org.smartregister.brac.hnpp.interactor.WorkSummeryDashBoardInteractor;
 import org.smartregister.brac.hnpp.model.CountSummeryDashBoardModel;
+import org.smartregister.brac.hnpp.model.IndicatorDashBoardModel;
 import org.smartregister.brac.hnpp.model.WorkSummeryDashBoardModel;
 import org.smartregister.brac.hnpp.utils.DashBoardData;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -18,7 +19,7 @@ public class WorkSummeryDashBoardPresenter implements DashBoardContract.Presente
 
     public WorkSummeryDashBoardPresenter(DashBoardContract.View view){
         this.view = view;
-        interactor = new WorkSummeryDashBoardInteractor(new AppExecutors(),new WorkSummeryDashBoardModel(view.getContext()));
+        interactor = new WorkSummeryDashBoardInteractor(new AppExecutors(),new WorkSummeryDashBoardModel(view.getContext()), new IndicatorDashBoardModel(view.getContext()));
 
     }
     public ArrayList<DashBoardData> getDashBoardData(){

@@ -77,6 +77,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     private RelativeLayout notification_layout;
     private RelativeLayout migration_layout;
     private RelativeLayout payment_layout;
+    private RelativeLayout dashboard_layout;
 
     private View rootView = null;
     private ImageView ivSync;
@@ -195,6 +196,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         notification_layout = rootView.findViewById(R.id.notification_view);
         migration_layout = rootView.findViewById(R.id.migration_view);
         payment_layout = rootView.findViewById(R.id.payment_view);
+        dashboard_layout = rootView.findViewById(R.id.dashboard_view);
 
         recyclerView = rootView.findViewById(R.id.rvOptions);
         ivSync = rootView.findViewById(R.id.ivSyncIcon);
@@ -224,6 +226,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         registerNotification(activity);
         registerMigration(activity);
         registerPayment(activity);
+        registerDashboard(activity);
 
         registerDeviceToDeviceSync(activity);
         // update all actions
@@ -289,6 +292,11 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     public void browsePayment(Activity activity) {
         if(mPresenter!=null){
             mPresenter.browsePayment(activity);
+        }
+    }
+    public void browseDashboard(Activity activity) {
+        if(mPresenter!=null){
+            mPresenter.browseDashboard(activity);
         }
     }
 
@@ -359,6 +367,10 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     private void registerPayment(final Activity parentActivity){
         mPresenter.displayCurrentUser();
         payment_layout.setOnClickListener(v -> browsePayment(parentActivity));
+    }
+    private void registerDashboard(final Activity parentActivity){
+        mPresenter.displayCurrentUser();
+        dashboard_layout.setOnClickListener(v -> browseDashboard(parentActivity));
     }
 
 
