@@ -649,7 +649,7 @@ public class VisitLogIntentService extends IntentService {
                     }
 
                 }
-                else  if(!TextUtils.isEmpty(known) && known.equalsIgnoreCase("bf")){
+                else  if(!TextUtils.isEmpty(known) && known.equalsIgnoreCase("sg")){
                     LocalDate localDate = new LocalDate(visit.getVisitDate());
                     HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SUN_GLASS,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
 
