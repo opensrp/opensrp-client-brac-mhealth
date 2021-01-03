@@ -35,7 +35,7 @@ public class StockDetailsPresenter implements StockDetailsContract.Presenter,Sto
         getView().showProgressBar();
         if(month.equalsIgnoreCase("-1")) month ="";
         if(year.equalsIgnoreCase("-1")) year ="";
-        month = HnppConstants.addZeroForMonth(month);
+        //month = HnppConstants.addZeroForMonth(month);
         interactor.filterData(productName,month,year,this);
     }
 

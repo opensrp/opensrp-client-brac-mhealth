@@ -130,7 +130,7 @@ public class TargetVsAchievementRepository extends BaseRepository {
     }
 
     public void addOrUpdate(TargetVsAchievementData targetVsAchievementData) {
-        if(!isExistData(targetVsAchievementData.getTargetId())){
+        //if(!isExistData(targetVsAchievementData.getTargetId())){
             ContentValues contentValues = new ContentValues();
             contentValues.put(TARGET_ID, targetVsAchievementData.getTargetId());
             contentValues.put(TARGET_COUNT, targetVsAchievementData.getTargetCount());
@@ -143,9 +143,9 @@ public class TargetVsAchievementRepository extends BaseRepository {
             contentValues.put(END_DATE, targetVsAchievementData.getEndDate());
             long inserted = getWritableDatabase().insert(getLocationTableName(), null, contentValues);
             Log.v("TARGET_FETCH","inserterd:"+inserted);
-        }else{
-            Log.v("TARGET_FETCH","exists!!!!!!!!!");
-        }
+//        }else{
+//            Log.v("TARGET_FETCH","exists!!!!!!!!!");
+//        }
 
 
     }

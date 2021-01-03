@@ -48,6 +48,7 @@ public class StockDashBoardInteractor implements DashBoardContract.Interactor {
         Calendar calendar = Calendar.getInstance();
         month = calendar.get(Calendar.MONTH)+1+"";
         String year = calendar.get(Calendar.YEAR)+"";
+        //month = HnppConstants.addZeroForMonth(month);
         Log.v("STOCK_DETAILS","sdfasdf"+month+":year:"+year);
         if(HnppConstants.isPALogin()){
             addToDashBoardList(model.getAdultPackageStockData(month,year));

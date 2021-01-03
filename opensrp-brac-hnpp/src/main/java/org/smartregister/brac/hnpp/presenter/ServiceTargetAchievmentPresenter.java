@@ -35,7 +35,7 @@ public class ServiceTargetAchievmentPresenter implements DashBoardContract.Targe
         getView().showProgressBar();
         if(month.equalsIgnoreCase("-1")) month ="";
         if(year.equalsIgnoreCase("-1")) year ="";
-        month = HnppConstants.addZeroForMonth(month);
+        //month = HnppConstants.addZeroForMonth(month);
         interactor.fetchAllData(this,day,month,year,ssName);
     }
 
@@ -44,7 +44,7 @@ public class ServiceTargetAchievmentPresenter implements DashBoardContract.Targe
         getView().showProgressBar();
         if(month.equalsIgnoreCase("-1")) month ="";
         if(year.equalsIgnoreCase("-1")) year ="";
-        month = HnppConstants.addZeroForMonth(month);
+       // month = HnppConstants.addZeroForMonth(month);
         interactor.filterData(ssName,day,month,year,this);
     }
 

@@ -41,7 +41,7 @@ public class SSLocationFetchIntentService extends IntentService {
     protected void onHandleIntent( Intent intent) {
         JSONArray jsonObjectLocation = getLocationList();
         if(jsonObjectLocation!=null){
-            HnppApplication.getSSLocationRepository().dropTable();
+            if(!HnppConstants.isPALogin())HnppApplication.getSSLocationRepository().dropTable();
             for(int i=0;i<jsonObjectLocation.length();i++){
                 try {
                     JSONObject object = jsonObjectLocation.getJSONObject(i);
@@ -55,8 +55,13 @@ public class SSLocationFetchIntentService extends IntentService {
             }
             SSLocationHelper.getInstance().updateModel();
 
-        }
 
+
+        }
+        if(HnppConstants.isPALogin()){
+            Intent intent1 = new Intent(HnppConstants.ACTION_LOCATION_UPDATE);
+            sendBroadcast(intent1);
+        }
     }
 
     private JSONArray getLocationList(){

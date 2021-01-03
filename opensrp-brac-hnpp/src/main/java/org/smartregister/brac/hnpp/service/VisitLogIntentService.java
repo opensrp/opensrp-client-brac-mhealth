@@ -259,7 +259,7 @@ public class VisitLogIntentService extends IntentService {
                                         updateNcdDiabeticsTarget(log,details);
                                         updateNcdBpTarget(log,details);
                                     }
-                                    HnppApplication.getStockRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id);
+                                    HnppApplication.getStockRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id,log.getVisitDate());
                                     if(EYE_TEST.equalsIgnoreCase(encounter_type)){
                                         processEyeTest(details,log);
                                     }
@@ -583,7 +583,7 @@ public class VisitLogIntentService extends IntentService {
                     LocalDate localDate = new LocalDate(visit.getVisitDate());
                     HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.PRESBYOPIA_CORRECTION,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
 
-                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.GLASS,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.GLASS,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate());
 
                 }
             }
@@ -597,19 +597,19 @@ public class VisitLogIntentService extends IntentService {
 
                             switch (power){
                                 case "1":
-                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SV_1,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SV_1,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate());
                                     break;
                                 case "1.5":
-                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SV_1_5,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SV_1_5,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate());
                                     break;
                                 case "2":
-                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SV_2,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SV_2,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate());
                                     break;
                                 case "2.5":
-                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SV_2_5,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SV_2_5,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate());
                                     break;
                                 case "3":
-                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SV_3,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SV_3,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate());
                                     break;
 
                             }
@@ -627,19 +627,19 @@ public class VisitLogIntentService extends IntentService {
 
                             switch (power){
                                 case "1":
-                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.BF_1,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.BF_1,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate());
                                     break;
                                 case "1.5":
-                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.BF_1_5,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.BF_1_5,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate());
                                     break;
                                 case "2":
-                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.BF_2,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.BF_2,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate());
                                     break;
                                 case "2.5":
-                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.BF_2_5,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.BF_2_5,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate());
                                     break;
                                 case "3":
-                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.BF_3,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.BF_3,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate());
                                     break;
 
                             }
@@ -651,7 +651,7 @@ public class VisitLogIntentService extends IntentService {
                 }
                 else  if(!TextUtils.isEmpty(known) && known.equalsIgnoreCase("sg")){
                     LocalDate localDate = new LocalDate(visit.getVisitDate());
-                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SUN_GLASS,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SUN_GLASS,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate());
 
                 }
             }

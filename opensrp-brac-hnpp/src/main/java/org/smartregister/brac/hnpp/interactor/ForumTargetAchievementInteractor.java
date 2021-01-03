@@ -44,19 +44,19 @@ public class ForumTargetAchievementInteractor implements DashBoardContract.Targe
 
     private void fetchData( String day, String month, String year, String ssName) {
         if(HnppConstants.isPALogin()){
-            TargetVsAchievementData ncdForum = model.getNcdForumTarget(day,month,year,ssName);
-            TargetVsAchievementData avgNcdForum = model.getAvgNcdTarget(day,month,year,ssName);
-            if(ncdForum.getAchievementCount() !=0){
-                ncdForum.setAvgAchievmentCount(avgNcdForum.getAvgAchievmentCount() / ncdForum.getAchievementCount());
-            }
-
-            ncdForum.setAvgTargetCount(avgNcdForum.getAvgTargetCount());
-            if(avgNcdForum.getAvgTargetCount() != 0){
-                int percentage = (int) ((avgNcdForum.getAvgAchievmentCount() * 100)/avgNcdForum.getAvgTargetCount());
-                avgNcdForum.setAvgAchievementPercentage(percentage);
-            }
-            ncdForum.setAvgAchievementPercentage(avgNcdForum.getAvgAchievementPercentage());
-            setData(ncdForum);
+//            TargetVsAchievementData ncdForum = model.getNcdForumTarget(day,month,year,ssName);
+//            TargetVsAchievementData avgNcdForum = model.getAvgNcdTarget(day,month,year,ssName);
+//            if(ncdForum.getAchievementCount() !=0){
+//                ncdForum.setAvgAchievmentCount(avgNcdForum.getAvgAchievmentCount() / ncdForum.getAchievementCount());
+//            }
+//
+//            ncdForum.setAvgTargetCount(avgNcdForum.getAvgTargetCount());
+//            if(avgNcdForum.getAvgTargetCount() != 0){
+//                int percentage = (int) ((avgNcdForum.getAvgAchievmentCount() * 100)/avgNcdForum.getAvgTargetCount());
+//                avgNcdForum.setAvgAchievementPercentage(percentage);
+//            }
+//            ncdForum.setAvgAchievementPercentage(avgNcdForum.getAvgAchievementPercentage());
+//            setData(ncdForum);
             TargetVsAchievementData adultForum = model.getAdultForumTarget(day,month,year,ssName);
             TargetVsAchievementData avgAdultForum = model.getAvgAdultTarget(day,month,year,ssName);
             if(adultForum.getAchievementCount() != 0 ){

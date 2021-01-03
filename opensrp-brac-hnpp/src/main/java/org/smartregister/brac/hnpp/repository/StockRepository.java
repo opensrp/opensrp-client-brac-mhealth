@@ -70,12 +70,12 @@ public class StockRepository extends BaseRepository {
     public void dropTable(){
         getWritableDatabase().execSQL("delete from "+getLocationTableName());
     }
-   public  void updateValue(String targetName, String day, String month, String year, String ssName, String baseEntityId){
-        updateValue(targetName,day,month,year,ssName,baseEntityId,1);
+   public  void updateValue(String targetName, String day, String month, String year, String ssName, String baseEntityId,long timeStamp){
+        updateValue(targetName,day,month,year,ssName,baseEntityId,1,timeStamp);
 
 //        getWritableDatabase().execSQL("update "+getLocationTableName()+" set achievemnt_count = achievemnt_count +1,"+DAY+" = "+day+" , "+MONTH+" = "+month+" , "+YEAR+" = "+year+" where "+TARGET_NAME+" = '"+targetName+"'");
     }
-    public  void updateValue(String productName, String day, String month, String year, String ssName, String baseEntityId, int count){
+    public  void updateValue(String productName, String day, String month, String year, String ssName, String baseEntityId, int count,long timeStamp){
         ContentValues contentValues = new ContentValues();
         productName = getTargetName(productName,baseEntityId);
         if(TextUtils.isEmpty(productName)) return;
@@ -83,6 +83,7 @@ public class StockRepository extends BaseRepository {
         contentValues.put(ACHIEVEMNT_DAY, day);
         contentValues.put(STOCK_PRODUCT_NAME, productName);
         contentValues.put(ACHIEVEMNT_COUNT, count);
+        contentValues.put(STOCK_TIMESTAMP, timeStamp);
         contentValues.put(YEAR, year);
         contentValues.put(MONTH, month);
         contentValues.put(SS_NAME, ssName);
@@ -144,7 +145,7 @@ public class StockRepository extends BaseRepository {
     }
 
     public void addOrUpdate(StockData stockData) {
-        if(!isExistData(stockData.getStockId())){
+       // if(!isExistData(stockData.getStockId())){
             ContentValues contentValues = new ContentValues();
             contentValues.put(STOCK_ID, stockData.getStockId());
             contentValues.put(STOCK_PRODUCT_ID, stockData.getProductId());
@@ -157,9 +158,9 @@ public class StockRepository extends BaseRepository {
             contentValues.put(STOCK_TIMESTAMP, stockData.getTimestamp());
             long inserted = getWritableDatabase().insert(getLocationTableName(), null, contentValues);
             Log.v("STOCK_FETCH","inserterd:"+inserted);
-        }else{
-            Log.v("STOCK_FETCH","exists!!!!!!!!!");
-        }
+//        }else{
+//            Log.v("STOCK_FETCH","exists!!!!!!!!!");
+//        }
 
 
     }

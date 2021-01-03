@@ -12,6 +12,10 @@ import org.smartregister.brac.hnpp.utils.StockDetailsData;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.utils.CoreConstants;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
+
 public class StockDetailsModel implements StockDetailsContract.Model{
     private Context context;
 
@@ -85,9 +89,20 @@ public class StockDetailsModel implements StockDetailsContract.Model{
     }
     private int getLastBalance(String visitType, String month, String year){
         int endBalance = 0;
-        String query = "select sum("+ StockRepository.STOCK_QUANTITY+") as count, sum("+StockRepository.ACHIEVEMNT_COUNT+") as acount from "+StockRepository.STOCK_TABLE+" where "+StockRepository.STOCK_PRODUCT_NAME+" = '"+visitType+"' and "+StockRepository.MONTH+" < '"+month+"' and "+StockRepository.YEAR+" = '"+year+"'";
+        String query="";
+//        if(month.equalsIgnoreCase("1")){
+//           query = "select sum("+ StockRepository.STOCK_QUANTITY+") as count, sum("+StockRepository.ACHIEVEMNT_COUNT+") as acount from "+StockRepository.STOCK_TABLE+" where "+StockRepository.STOCK_PRODUCT_NAME+" = '"+visitType+"' and "+StockRepository.MONTH+" <= '12' and "+StockRepository.YEAR+" < '"+year+"'";
+//
+//        }else {
+//            query = "select sum("+ StockRepository.STOCK_QUANTITY+") as count, sum("+StockRepository.ACHIEVEMNT_COUNT+") as acount from "+StockRepository.STOCK_TABLE+" where "+StockRepository.STOCK_PRODUCT_NAME+" = '"+visitType+"' and "+StockRepository.MONTH+" < '"+month+"' and "+StockRepository.YEAR+" <= '"+year+"'";
+//
+//        }
 
-        Log.v("STOCK","visit_type:"+query);
+
+
+        query = "select sum("+ StockRepository.STOCK_QUANTITY+") as count, sum("+StockRepository.ACHIEVEMNT_COUNT+") as acount from "+StockRepository.STOCK_TABLE+" where "+StockRepository.STOCK_PRODUCT_NAME+" = '"+visitType+"' and "+StockRepository.STOCK_TIMESTAMP+" < "+HnppConstants.getLongDateFormate(year,month);//47809000= 1970/01/01
+
+        Log.v("LAST_BALANCE_STOCK","query:"+query);
 
         Cursor cursor = null;
         // try {
@@ -98,6 +113,7 @@ public class StockDetailsModel implements StockDetailsContract.Model{
                 int quantity = cursor.getInt(0);
                 int sell = cursor.getInt(1);
                 endBalance = quantity - sell;
+                Log.v("LAST_BALANCE_STOCK","endBalance:"+endBalance);
                 cursor.moveToNext();
             }
             cursor.close();
@@ -106,11 +122,13 @@ public class StockDetailsModel implements StockDetailsContract.Model{
 
         return endBalance;
     }
+
+
     private StockDetailsData getStockData(String visitType, String month, String year,int startBalance){
         StockDetailsData stockDetailsData = new StockDetailsData();
         String query = "select sum("+ StockRepository.STOCK_QUANTITY+") as count, sum("+StockRepository.ACHIEVEMNT_COUNT+") as acount from "+StockRepository.STOCK_TABLE+" where "+StockRepository.STOCK_PRODUCT_NAME+" = '"+visitType+"' and "+StockRepository.MONTH+" = '"+month+"' and "+StockRepository.YEAR+" = '"+year+"'";
 
-        Log.v("STOCK","visit_type:"+query);
+        Log.v("LAST_BALANCE_STOCK","getStockData:"+query);
 
         Cursor cursor = null;
         // try {

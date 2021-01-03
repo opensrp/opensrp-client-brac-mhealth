@@ -2,6 +2,10 @@ package org.smartregister.brac.hnpp.activity;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -26,6 +30,7 @@ import org.smartregister.brac.hnpp.job.SSLocationFetchJob;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSLocations;
 import org.smartregister.brac.hnpp.location.SSModel;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.domain.FetchStatus;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.view.activity.SecuredActivity;
@@ -39,10 +44,12 @@ public class SkSelectionActivity extends SecuredActivity implements View.OnClick
     private Spinner skSpinner,ssSpinner;
     private SkSelectionAdapter adapter;
     private boolean isComesFromUpdateSync = false;
+    private BroadcastReceiver locationUpdateBroadcastReceiver;
 
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_sk_select);
+        locationUpdateBroadcastReceiver = new LocationBroadcastReceiver();
         isComesFromUpdateSync = getIntent().getBooleanExtra(IS_COMES_FROM_UPDATE,false);
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -57,17 +64,29 @@ public class SkSelectionActivity extends SecuredActivity implements View.OnClick
             SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(this);
         }else {
             showProgressDialog("আপডেটেড লোকেশন নেওয়া হচ্ছে");
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    hideProgressDialog();
-                    updateSpinner();
-
-                }
-            },5000);
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//
+//
+//                }
+//            },5000);
         }
 
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(HnppConstants.ACTION_LOCATION_UPDATE);
+        registerReceiver(locationUpdateBroadcastReceiver, intentFilter);
+    }
+
+    private void updateData(){
+        hideProgressDialog();
+        updateSpinner();
     }
     ArrayAdapter<String> ssSpinnerArrayAdapter;
     ArrayList<SSModel> selectedSSList  = new ArrayList<>();
@@ -163,6 +182,7 @@ public class SkSelectionActivity extends SecuredActivity implements View.OnClick
         super.onDestroy();
         hideProgressDialog();
         SyncStatusBroadcastReceiver.getInstance().removeSyncStatusListener(this);
+        unregisterReceiver(locationUpdateBroadcastReceiver);
 
     }
 
@@ -286,6 +306,16 @@ public class SkSelectionActivity extends SecuredActivity implements View.OnClick
 //
 //            }
 //        },5000);
+    }
+    private class LocationBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent != null && intent.getAction().equalsIgnoreCase(HnppConstants.ACTION_LOCATION_UPDATE)){
+                updateData();
+
+            }
+
+        }
     }
 
 }

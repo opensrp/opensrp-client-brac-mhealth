@@ -41,7 +41,7 @@ public class StockDashBoardPresenter implements DashBoardContract.Presenter,Dash
         getView().showProgressBar();
         if(month.equalsIgnoreCase("-1")) month ="";
         if(year.equalsIgnoreCase("-1")) year ="";
-        month = HnppConstants.addZeroForMonth(month);
+       // month = HnppConstants.addZeroForMonth(month);
         interactor.filterData(ssName,month,year,this);
 
     }
