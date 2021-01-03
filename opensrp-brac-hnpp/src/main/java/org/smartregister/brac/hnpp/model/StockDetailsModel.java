@@ -134,9 +134,7 @@ public class StockDetailsModel implements StockDetailsContract.Model{
                     stockDetailsData.setTitle(HnppConstants.workSummeryTypeMapping.get(stockDetailsData.getEventType()));
 
                 }
-                /*if(HnppConstants.isPALogin() && visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.NCD_PACKAGE)){
 
-                }*/
                 try{
                     stockDetailsData.setImageSource((int)HnppConstants.iconMapping.get(stockDetailsData.getEventType()));
                 }catch (Exception e){
