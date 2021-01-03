@@ -126,13 +126,17 @@ public class StockDetailsModel implements StockDetailsContract.Model{
                 stockDetailsData.setEndBalance(endBalance);
                 stockDetailsData.setCount(endBalance);
                 stockDetailsData.setEventType(visitType);
-                if(HnppConstants.isPALogin() && visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.NCD_PACKAGE)){
-                    stockDetailsData.setTitle("প্রাপ্তবয়স্ক প্যাকেজ");
-                }else{
+                if(HnppConstants.isPALogin()&&visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.NCD_PACKAGE)){
+                        stockDetailsData.setTitle("প্রাপ্তবয়স্ক প্যাকেজ");
+
+                }
+                else{
                     stockDetailsData.setTitle(HnppConstants.workSummeryTypeMapping.get(stockDetailsData.getEventType()));
 
                 }
+                /*if(HnppConstants.isPALogin() && visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.NCD_PACKAGE)){
 
+                }*/
                 try{
                     stockDetailsData.setImageSource((int)HnppConstants.iconMapping.get(stockDetailsData.getEventType()));
                 }catch (Exception e){
