@@ -125,6 +125,7 @@
                     android:layout_height="match_parent"
                     android:text="@string/blood_group_payment"/>
             </LinearLayout>
+
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
