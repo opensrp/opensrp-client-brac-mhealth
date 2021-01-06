@@ -129,6 +129,7 @@
         "hint": "প্রসবের তারিখ",
         "expanded": false,
         "max_date": "today",
+        "min_date": "",
         "v_required": {
           "value": "true",
           "err": "Please enter date the woman delivered"
