@@ -111,6 +111,13 @@ condition: "step1_caused_referred.contains('চোখে ক্যাটার�
 actions:
   - "isRelevant = true"
 ---
+name: step1_other_place
+description: other_place
+priority: 1
+condition: "step1_place_of_referral.contains('অন্যান্য')||step1_place_of_referral.contains('other_option')"
+actions:
+  - "isRelevant = true"
+---
 name: step1_is_problem_solved
 description: is_problem_solved
 priority: 1
