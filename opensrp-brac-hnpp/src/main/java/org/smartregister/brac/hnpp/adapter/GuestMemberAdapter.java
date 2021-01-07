@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -46,9 +47,14 @@ public class GuestMemberAdapter extends RecyclerView.Adapter<GuestMemberViewHold
         final GuestMemberData content = contentList.get(position);
         viewHolder.textViewName.setText(context.getString(R.string.name,content.getName()));
         viewHolder.textViewGender.setText(context.getString(R.string.gender_postfix,HnppConstants.getGender(content.getGender())));
-        Date d = new Date(content.getLastSubmissionDate());
-        String aa = HnppConstants.DDMMYY.format(d);
-        viewHolder.textViewForumDate.setText(context.getString(R.string.last_submission_date,aa));
+        if(content.getLastSubmissionDate()==0){
+            viewHolder.textViewForumDate.setText(context.getString(R.string.last_submission_date,"--"));
+        }else{
+            Date d = new Date(content.getLastSubmissionDate());
+            String aa = HnppConstants.DDMMYY.format(d);
+            viewHolder.textViewForumDate.setText(context.getString(R.string.last_submission_date,aa));
+        }
+
         String dobString = Utils.getDuration(content.getDob());
         viewHolder.textViewAge.setText(context.getString(R.string.age,dobString) );
 

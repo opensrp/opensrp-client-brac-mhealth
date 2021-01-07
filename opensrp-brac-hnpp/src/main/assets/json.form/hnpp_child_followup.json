@@ -154,6 +154,13 @@
         "v_regex": {
           "value": "[0-9]*",
           "err": "দশমিক অনুমোদিত নয়"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_enc_relevance.yml"
+            }
+          }
         }
 
       },
@@ -176,6 +183,13 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_enc_relevance.yml"
+            }
+          }
         }
       },
       {
@@ -197,6 +211,13 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_enc_relevance.yml"
+            }
+          }
         }
       },
       {

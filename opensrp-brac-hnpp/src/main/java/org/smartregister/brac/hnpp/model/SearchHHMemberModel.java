@@ -45,7 +45,8 @@ public class SearchHHMemberModel {
         if(TextUtils.isEmpty(name)) return hhList;
         ArrayList<HHMemberProperty> tempList = new ArrayList<>();
         for(HHMemberProperty hhMemberProperty : hhList){
-            if(hhMemberProperty.name.contains(name)){
+            String n = hhMemberProperty.name.toLowerCase();
+            if(n.contains(name)){
                 tempList.add(hhMemberProperty);
             }
         }
@@ -55,7 +56,8 @@ public class SearchHHMemberModel {
         if(TextUtils.isEmpty(name)) return adoArrayList;
         ArrayList<HHMemberProperty> tempList = new ArrayList<>();
         for(HHMemberProperty hhMemberProperty : adoArrayList){
-            if(hhMemberProperty.name.contains(name)){
+            String n = hhMemberProperty.name.toLowerCase();
+            if(n.contains(name)){
                 tempList.add(hhMemberProperty);
             }
         }
@@ -65,7 +67,8 @@ public class SearchHHMemberModel {
         if(TextUtils.isEmpty(name)) return womenArrayList;
         ArrayList<HHMemberProperty> tempList = new ArrayList<>();
         for(HHMemberProperty hhMemberProperty : womenArrayList){
-            if(hhMemberProperty.name.contains(name)){
+            String n = hhMemberProperty.name.toLowerCase();
+            if(n.contains(name)){
                 tempList.add(hhMemberProperty);
             }
         }
@@ -75,7 +78,8 @@ public class SearchHHMemberModel {
         if(TextUtils.isEmpty(name)) return childArrayList;
         ArrayList<HHMemberProperty> tempList = new ArrayList<>();
         for(HHMemberProperty hhMemberProperty : childArrayList){
-            if(hhMemberProperty.name.contains(name)){
+            String n = hhMemberProperty.name.toLowerCase();
+            if(n.contains(name)){
                 tempList.add(hhMemberProperty);
             }
         }
@@ -85,7 +89,8 @@ public class SearchHHMemberModel {
         if(TextUtils.isEmpty(name)) return ncdArrayList;
         ArrayList<HHMemberProperty> tempList = new ArrayList<>();
         for(HHMemberProperty hhMemberProperty : ncdArrayList){
-            if(hhMemberProperty.name.contains(name)){
+            String n = hhMemberProperty.name.toLowerCase();
+            if(n.contains(name)){
                 tempList.add(hhMemberProperty);
             }
         }

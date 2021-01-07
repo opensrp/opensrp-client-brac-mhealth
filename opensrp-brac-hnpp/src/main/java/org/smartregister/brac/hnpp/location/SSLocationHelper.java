@@ -35,8 +35,14 @@ public class SSLocationHelper {
     public ArrayList<SSModel> getAllSks() {
        return HnppApplication.getSSLocationRepository().getAllSks();
     }
+    public ArrayList<SSModel> getAllSelectedSks() {
+        return HnppApplication.getSSLocationRepository().getAllSelectedSks();
+    }
     public ArrayList<SSModel> getAllSS(String skUserName) {
         return HnppApplication.getSSLocationRepository().getAllSS(skUserName);
+    }
+    public ArrayList<SSModel> getAllSelectedSS(String skUserName) {
+        return HnppApplication.getSSLocationRepository().getAllSelectedSS(skUserName);
     }
     public boolean isUpdated(ArrayList<SSModel> selectedSSId){
         boolean isUpdated = false;
