@@ -179,7 +179,7 @@ public class SSLocationRepository extends BaseRepository {
         Cursor cursor = null;
         ArrayList<SSModel> locations = new ArrayList<>();
         try {
-            cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getLocationTableName()+" where "+IS_SELECTED+" = '1'", null);
+            cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getLocationTableName()+" where "+IS_SELECTED+" = '1' group by "+SS_ID, null);
             while (cursor.moveToNext()) {
                 locations.add(readCursor(cursor));
             }

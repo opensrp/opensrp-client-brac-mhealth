@@ -46,6 +46,7 @@ public class GuestMemberAdapter extends RecyclerView.Adapter<GuestMemberViewHold
     public void onBindViewHolder(@NonNull final GuestMemberViewHolder viewHolder, int position) {
         final GuestMemberData content = contentList.get(position);
         viewHolder.textViewName.setText(context.getString(R.string.name,content.getName()));
+        viewHolder.textViewName.append("\n"+context.getString(R.string.ss_name,content.getSsName()));
         viewHolder.textViewGender.setText(context.getString(R.string.gender_postfix,HnppConstants.getGender(content.getGender())));
         if(content.getLastSubmissionDate()==0){
             viewHolder.textViewForumDate.setText(context.getString(R.string.last_submission_date,"--"));
