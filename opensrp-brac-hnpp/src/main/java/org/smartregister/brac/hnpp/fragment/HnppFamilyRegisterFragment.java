@@ -535,11 +535,10 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
             NotificationGeneratorJob.scheduleJobImmediately(NotificationGeneratorJob.TAG);
 
         }
-
         //if we open this it'll cause the issue to remove from anc list
-//        if(JobManager.instance().getAllJobRequestsForTag(HnppPncCloseJob.TAG).isEmpty()){
-//            HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
-//        }
+       if(JobManager.instance().getAllJobRequestsForTag(HnppPncCloseJob.TAG).isEmpty()){
+            HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
+        }
 
         HnppConstants.isViewRefresh = true;
     }
