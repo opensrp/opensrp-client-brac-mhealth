@@ -58,7 +58,7 @@ public class ForumTargetAchievementInteractor implements DashBoardContract.Targe
 //            ncdForum.setAvgAchievementPercentage(avgNcdForum.getAvgAchievementPercentage());
 //            setData(ncdForum);
             TargetVsAchievementData adultForum = model.getAdultForumTarget(day,month,year,ssName);
-            TargetVsAchievementData avgAdultForum = model.getAvgAdultTarget(day,month,year,ssName);
+            TargetVsAchievementData avgAdultForum = model.getAvgAdultPATarget(day,month,year,ssName);
             if(adultForum.getAchievementCount() != 0 ){
                 adultForum.setAvgAchievmentCount(avgAdultForum.getAvgAchievmentCount() /adultForum.getAchievementCount() );
             }
