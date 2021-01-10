@@ -275,7 +275,7 @@ public class FormApplicability {
     //other service and package
     public static boolean isIycfApplicable(int day){
         if(HnppConstants.isPALogin()) return false;
-        return day >=181 && day <=730;
+        return day >=181 && day <=1825;
     }
     public static boolean isAdolescentApplicable(int age, boolean isWomen){
         if(HnppConstants.isPALogin()) return false;
