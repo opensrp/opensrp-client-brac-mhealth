@@ -71,6 +71,7 @@ public class HnppChwRepository extends CoreChwRepository {
         upgradeToVersion29(context,database);
         upgradeToVersion30(context,database);
         upgradeToVersion31(context,database);
+        upgradeToVersion32(context,database);
 
     }
 
@@ -143,6 +144,9 @@ public class HnppChwRepository extends CoreChwRepository {
                     break;
                 case 31:
                     upgradeToVersion31(context,db);
+                    break;
+                case 32:
+                    upgradeToVersion32(context,db);
                     break;
                 default:
                     break;
@@ -239,6 +243,19 @@ public class HnppChwRepository extends CoreChwRepository {
         try{
             db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN _id VARCHAR;");
         }catch (Exception e){
+
+        }
+
+
+    }
+    private void upgradeToVersion32(Context context, SQLiteDatabase db) {
+        try {
+            db.execSQL("ALTER TABLE ec_family_member ADD COLUMN difficulty_seeing_hearing VARCHAR;");
+            db.execSQL("ALTER TABLE ec_family_member ADD COLUMN difficulty_walking_up_down VARCHAR;");
+            db.execSQL("ALTER TABLE ec_family_member ADD COLUMN trouble_remembering_concentrating VARCHAR;");
+            db.execSQL("ALTER TABLE ec_child ADD COLUMN trouble_seeing_hearing VARCHAR;");
+
+        } catch (Exception e) {
 
         }
 

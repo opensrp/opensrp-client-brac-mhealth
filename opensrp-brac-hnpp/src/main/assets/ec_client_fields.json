@@ -385,6 +385,27 @@
           }
         },
         {
+          "column_name": "difficulty_seeing_hearing",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.difficulty_seeing_hearing"
+          }
+        },
+        {
+          "column_name": "difficulty_walking_up_down",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.difficulty_walking_up_down"
+          }
+        },
+        {
+          "column_name": "trouble_remembering_concentrating",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.trouble_remembering_concentrating"
+          }
+        },
+        {
           "column_name": "gu_id",
           "type": "Client",
           "json_mapping": {
@@ -708,6 +729,13 @@
           }
         },
         {
+          "column_name": "trouble_seeing_hearing",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.trouble_seeing_hearing"
+          }
+        },
+        {
           "column_name": "dod",
           "type": "Event",
           "json_mapping": {
@@ -715,6 +743,7 @@
             "formSubmissionField": "date_died"
           }
         },
+
         {
           "column_name": "last_interacted_with",
           "type": "Event",
@@ -888,6 +917,13 @@
           "json_mapping": {
             "field": "attributes.breast_feeded"
 
+          }
+        },
+        {
+          "column_name": "trouble_seeing_hearing",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.trouble_seeing_hearing"
           }
         }
       ]

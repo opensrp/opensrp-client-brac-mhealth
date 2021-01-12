@@ -243,7 +243,7 @@
           },
           {
             "key": "chk_birth_id",
-            "text": "জন্ম নিবন্ধন পত্র",
+            "text": "BRID",
             "value": false,
             "openmrs_entity": "person_attribute",
             "openmrs_entity_id": "chk_birth_id"
@@ -529,6 +529,69 @@
         "v_required": {
           "value": true,
           "err": "আঙুলের ছাপ পাওয়া যায়নি"
+        }
+      },
+      {
+        "key": "difficulty_seeing_hearing",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "difficulty_seeing_hearing",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "আপনার কি দেখতে, শুনতে অসুবিধা হয় - এমনকি চশমা পরেও/ কানে যন্ত্র দিয়েও?",
+        "values": [
+          "না- কোনো অসুবিধা হয় না",
+          "হ্যা সামান্য অসুবিধা হয়",
+          "হ্যা অনেক অসুবিধা হয়",
+          "একদমই পারি না"
+        ],
+        "openmrs_choice_ids": {
+          "না- কোনো অসুবিধা হয় না": "no_difficulties",
+          "হ্যা সামান্য অসুবিধা হয়": "yes_little_difficulties",
+          "হ্যা অনেক অসুবিধা হয়": "yes_many_difficulties",
+          "একদমই পারি না": "cant"
+        }
+      },
+      {
+        "key": "difficulty_walking_up_down",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "difficulty_walking_up_down",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "আপনার কি হাঁটতে, ওঠা-নামা করতে, নিজে নিজে কিছু করতে যেমন: গোসল করতে অথবা পোশাক পড়তে অসুবিধা হয়?",
+        "values": [
+          "না- কোনো অসুবিধা হয় না",
+          "হ্যা সামান্য অসুবিধা হয়",
+          "হ্যা অনেক অসুবিধা হয়",
+          "একদমই পারি না"
+        ],
+        "openmrs_choice_ids": {
+          "না- কোনো অসুবিধা হয় না": "no_difficulties",
+          "হ্যা সামান্য অসুবিধা হয়": "yes_little_difficulties",
+          "হ্যা অনেক অসুবিধা হয়": "yes_many_difficulties",
+          "একদমই পারি না": "cant"
+        }
+      },
+      {
+        "key": "trouble_remembering_concentrating",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "trouble_remembering_concentrating",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "আপনার কি কোনো কিছু স্মরণ করতে অথবা মনোজোগ দিতে অথবা সাধারণত যেভাবে কথা বলেন, তা দিয়ে মানুষকে বোঝাতে অথবা মানুষের কথা বুঝতে সমস্যা হয়?",
+        "values": [
+          "না- কোনো অসুবিধা হয় না",
+          "হ্যা সামান্য অসুবিধা হয়",
+          "হ্যা অনেক অসুবিধা হয়",
+          "একদমই পারি না"
+        ],
+        "openmrs_choice_ids": {
+          "না- কোনো অসুবিধা হয় না": "no_difficulties",
+          "হ্যা সামান্য অসুবিধা হয়": "yes_little_difficulties",
+          "হ্যা অনেক অসুবিধা হয়": "yes_many_difficulties",
+          "একদমই পারি না": "cant"
         }
       },
       {
