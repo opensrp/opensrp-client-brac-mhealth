@@ -135,7 +135,8 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
-        }
+        },
+        "edit_type": "number"
       },
       {
         "key": "six_month_after_birth",
@@ -147,7 +148,8 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
-        }
+        },
+        "edit_type": "number"
       },
       {
         "key": "seven_month_after_birth",
@@ -159,7 +161,8 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
-        }
+        },
+        "edit_type": "number"
       }
     ]
   },
@@ -178,7 +181,8 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
-        }
+        },
+        "edit_type": "number"
       },
       {
         "key": "pneumonia_patient",
@@ -190,7 +194,8 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
-        }
+        },
+        "edit_type": "number"
       }
 
     ]
@@ -206,11 +211,12 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "male_patient",
         "type": "edit_text",
-        "hint": "সেবিকা কর্তৃক চিকিৎসাকৃত মোটা রোগীর সংখ্যা (পুরুষ)",
+        "hint": "সেবিকা কর্তৃক চিকিৎসাকৃত মোট রোগীর সংখ্যা (পুরুষ)",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
-        }
+        },
+        "edit_type": "number"
       },
       {
         "key": "female_patient",
@@ -218,11 +224,12 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "female_patient",
         "type": "edit_text",
-        "hint": "সেবিকা কর্তৃক চিকিৎসাকৃত মোটা রোগীর সংখ্যা (মহিলা)",
+        "hint": "সেবিকা কর্তৃক চিকিৎসাকৃত মোট রোগীর সংখ্যা (মহিলা)",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
-        }
+        },
+        "edit_type": "number"
       }
     ]
   },
@@ -245,7 +252,8 @@
         "v_max": {
           "value": "19",
           "err": "19 এর সমান বা 19 এর কম হতে হবে"
-        }
+        },
+        "edit_type": "number"
       },
       {
         "key": "eye_exam_count",
@@ -257,7 +265,8 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
-        }
+        },
+        "edit_type": "number"
       },
       {
         "key": "presbiophea_count",
@@ -269,8 +278,8 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
-        }
-
+        },
+        "edit_type": "number"
       },
       {
         "key": "error_presbiophea_count",
@@ -307,7 +316,8 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
-        }
+        },
+        "edit_type": "number"
       },
       {
         "key": "new_patient_count",
@@ -319,7 +329,8 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
-        }
+        },
+        "edit_type": "number"
       },
       {
         "key": "error_new_patient_count",
@@ -349,7 +360,8 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
-        }
+        },
+        "edit_type": "number"
       },
       {
         "key": "error_refer_diabetis",
@@ -379,7 +391,8 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
-        }
+        },
+        "edit_type": "number"
       },
       {
         "key": "confirm_patient_diabetise",
@@ -391,7 +404,8 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
-        }
+        },
+        "edit_type": "number"
       }
     ]
   },
@@ -409,7 +423,8 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
-        }
+        },
+        "edit_type": "number"
       },
       {
         "key": "new_appro_patient",
@@ -421,7 +436,8 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
-        }
+        },
+        "edit_type": "number"
       },
       {
         "key": "error_new_appro_patient",
@@ -451,7 +467,8 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
-        }
+        },
+        "edit_type": "number"
       },
       {
         "key": "error_refer_blood_pressure",
@@ -481,7 +498,8 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
-        }
+        },
+        "edit_type": "number"
       },
       {
         "key": "confirm_patient_blood_pressure",
@@ -493,7 +511,8 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
-        }
+        },
+        "edit_type": "number"
       },
       {
         "openmrs_entity_parent": "",

@@ -110,11 +110,43 @@ public class SSLocationRepository extends BaseRepository {
         }
         return locations;
     }
+    public ArrayList<SSModel> getAllSelectedSks() {
+        Cursor cursor = null;
+        ArrayList<SSModel> locations = new ArrayList<>();
+        try {
+            cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getLocationTableName()+" where "+IS_SELECTED+" = '1' group by "+SK_USER_NAME, null);
+            while (cursor.moveToNext()) {
+                locations.add(readCursor(cursor));
+            }
+        } catch (Exception e) {
+            Log.e(LocationRepository.class.getCanonicalName(), e.getMessage(), e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return locations;
+    }
     public ArrayList<SSModel> getAllSS(String userName) {
         Cursor cursor = null;
         ArrayList<SSModel> locations = new ArrayList<>();
         try {
-            cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getLocationTableName()+" where "+SK_USER_NAME+" = '"+userName+"'", null);
+            cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getLocationTableName()+" where "+SK_USER_NAME+" = '"+userName+"' group by "+SS_ID, null);
+            while (cursor.moveToNext()) {
+                locations.add(readCursor(cursor));
+            }
+        } catch (Exception e) {
+            Log.e(LocationRepository.class.getCanonicalName(), e.getMessage(), e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return locations;
+    }
+    public ArrayList<SSModel> getAllSelectedSS(String userName) {
+        Cursor cursor = null;
+        ArrayList<SSModel> locations = new ArrayList<>();
+        try {
+            cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getLocationTableName()+" where "+SK_USER_NAME+" = '"+userName+"' and "+IS_SELECTED+" = '1' group by "+SS_ID, null);
             while (cursor.moveToNext()) {
                 locations.add(readCursor(cursor));
             }
@@ -147,7 +179,7 @@ public class SSLocationRepository extends BaseRepository {
         Cursor cursor = null;
         ArrayList<SSModel> locations = new ArrayList<>();
         try {
-            cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getLocationTableName()+" where "+IS_SELECTED+" = '1'", null);
+            cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getLocationTableName()+" where "+IS_SELECTED+" = '1' group by "+SS_ID, null);
             while (cursor.moveToNext()) {
                 locations.add(readCursor(cursor));
             }

@@ -53,6 +53,7 @@ import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.presenter.HnppChildProfilePresenter;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.domain.Task;
+import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.adapter.ViewPagerAdapter;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.Utils;
@@ -70,6 +71,7 @@ import timber.log.Timber;
 
 import static org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity.REQUEST_HOME_VISIT;
 import static org.smartregister.chw.anc.util.JsonFormUtils.updateFormField;
+import static org.smartregister.util.JsonFormUtils.getFieldJSONObject;
 
 public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     public CoreFamilyMemberFloatingMenu familyFloatingMenu;
@@ -484,6 +486,12 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
                 String DOB = ((HnppChildProfilePresenter) presenter).getDateOfBirth();
                 Date date = Utils.dobStringToDate(DOB);
                 String dobFormate = HnppConstants.DDMMYY.format(date);
+                String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(childBaseEntityId+"_SOLID_FOOD");
+                if(!TextUtils.isEmpty(prevalue)){
+                    updateFormField(jsonArray,"solid_food_month",prevalue);
+                    JSONObject solidObj = getFieldJSONObject(jsonArray, "solid_food_month");
+                    solidObj.put(org.smartregister.family.util.JsonFormUtils.READ_ONLY, true);
+                }
                 updateFormField(jsonArray,"dob",dobFormate);
             }
             if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.BLOOD_TEST)){
