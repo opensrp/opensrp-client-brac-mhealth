@@ -190,7 +190,7 @@ public class HnppChwRepository extends CoreChwRepository {
     private void upgradeToVersion24(Context context, SQLiteDatabase db) {
         try {
             db.execSQL("CREATE TABLE ec_guest_member (_id VARCHAR,base_entity_id VARCHAR,ss_name VARCHAR,village_name VARCHAR,village_id VARCHAR,unique_id VARCHAR,first_name VARCHAR,father_name VARCHAR,phone_number VARCHAR," +
-                    "is_birthday_known VARCHAR,dob VARCHAR,estimated_age VARCHAR,gender VARCHAR,dod VARCHAR,entity_type VARCHAR,date_removed VARCHAR,last_interacted_with LONG)");
+                    "is_birthday_known VARCHAR,dob VARCHAR,estimated_age VARCHAR,gender VARCHAR,dod VARCHAR,entity_type VARCHAR,date_removed VARCHAR,last_interacted_with LONG,is_closed VARCHAR)");
         } catch (Exception e) {
 
         }
