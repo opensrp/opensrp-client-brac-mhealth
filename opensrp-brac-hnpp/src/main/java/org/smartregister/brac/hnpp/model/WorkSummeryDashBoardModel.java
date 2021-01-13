@@ -174,9 +174,9 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
         DashBoardData dashBoardData1 = new DashBoardData();
         String mainCondition;
         if(visitType.equalsIgnoreCase("ANC")){
-            mainCondition = "where visit_type = '"+ HnppConstants.EventType.ANC_HOME_VISIT+"'";
+            mainCondition = "where (event_type = '"+ HnppConstants.EVENT_TYPE.ANC1_REGISTRATION+"' or event_type ='"+ HnppConstants.EVENT_TYPE.ANC2_REGISTRATION+"' or event_type ='"+ HnppConstants.EVENT_TYPE.ANC3_REGISTRATION+"')";
         }else if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)){
-            mainCondition = "where event_type = '"+ HnppConstants.EVENT_TYPE.ANC1_REGISTRATION+"'" ;
+            mainCondition = "where event_type = '"+ HnppConstants.EVENT_TYPE.ANC1_REGISTRATION+"'";
         }
         else if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION)){
             mainCondition = "where event_type = '"+ HnppConstants.EVENT_TYPE.ANC2_REGISTRATION+"'" ;
