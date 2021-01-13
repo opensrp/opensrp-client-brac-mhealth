@@ -190,23 +190,8 @@ public class HnppChwRepository extends CoreChwRepository {
     }
     private void upgradeToVersion24(Context context, SQLiteDatabase db) {
         try {
-            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN _id VARCHAR;");
-            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN base_entity_id VARCHAR;");
-            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN ss_name VARCHAR;");
-            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN village_name VARCHAR;");
-            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN village_id VARCHAR;");
-            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN unique_id VARCHAR;");
-            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN first_name VARCHAR;");
-            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN father_name VARCHAR;");
-            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN phone_number VARCHAR;");
-            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN is_birthday_known VARCHAR;");
-            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN dob VARCHAR;");
-            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN estimated_age VARCHAR;");
-            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN gender VARCHAR;");
-            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN dod VARCHAR;");
-            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN entity_type VARCHAR;");
-            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN last_interacted_with LONG;");
-
+            db.execSQL("CREATE TABLE ec_guest_member (_id VARCHAR,base_entity_id VARCHAR,ss_name VARCHAR,village_name VARCHAR,village_id VARCHAR,unique_id VARCHAR,first_name VARCHAR,father_name VARCHAR,phone_number VARCHAR," +
+                    "is_birthday_known VARCHAR,dob VARCHAR,estimated_age VARCHAR,gender VARCHAR,dod VARCHAR,entity_type VARCHAR,last_interacted_with LONG)");
         } catch (Exception e) {
 
         }

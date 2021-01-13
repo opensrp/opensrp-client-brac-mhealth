@@ -174,9 +174,17 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
         DashBoardData dashBoardData1 = new DashBoardData();
         String mainCondition;
         if(visitType.equalsIgnoreCase("ANC")){
-            mainCondition = "where visit_type = '"+ HnppConstants.EVENT_TYPE.ANC1_REGISTRATION+"' or visit_type = '"+HnppConstants.EVENT_TYPE.ANC2_REGISTRATION+"'" +
-                    " or visit_type = '"+ HnppConstants.EVENT_TYPE.ANC3_REGISTRATION+"' or visit_type = '"+ HnppConstants.EventType.ANC_HOME_VISIT+"'";
-        }else if(visitType.equalsIgnoreCase("pnc")){
+            mainCondition = "where visit_type = '"+ HnppConstants.EventType.ANC_HOME_VISIT+"'";
+        }else if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)){
+            mainCondition = "where event_type = '"+ HnppConstants.EVENT_TYPE.ANC1_REGISTRATION+"'" ;
+        }
+        else if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION)){
+            mainCondition = "where event_type = '"+ HnppConstants.EVENT_TYPE.ANC2_REGISTRATION+"'" ;
+        }
+        else if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
+            mainCondition = "where event_type = '"+ HnppConstants.EVENT_TYPE.ANC3_REGISTRATION+"'" ;
+        }
+        else if(visitType.equalsIgnoreCase("pnc")){
             mainCondition = "where visit_type = '"+ HnppConstants.EVENT_TYPE.PNC_REGISTRATION+"' or visit_type = '"+HnppConstants.EventType.PNC_HOME_VISIT+"'" ;
 
         }else{
