@@ -114,6 +114,7 @@ public class VisitLogIntentService extends IntentService {
                             final CommonPersonObjectClient client = new CommonPersonObjectClient(base_entity_id, details, "");
                             client.setColumnmaps(details);
                             for (String encounter_type : encounter_types) {
+                                Log.v("ANC_HOME_VISIT","encounter_type:"+encounter_type);
                                 JSONObject form_object = loadFormFromAsset(encounter_type);
                                 if(encounter_type.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME_OOC)){
                                     encounter_type = HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME;

@@ -64,6 +64,7 @@ public class HnppChwRepository extends CoreChwRepository {
         upgradeToVersion20(context,database);
         upgradeToVersion21(context,database);
         upgradeToVersion22(context,database);
+        upgradeToVersion24(context,database);
         upgradeToVersion25(context,database);
         upgradeToVersion26(context,database);
         upgradeToVersion27(context,database);
@@ -123,6 +124,9 @@ public class HnppChwRepository extends CoreChwRepository {
                 case 23:
                     upgradeToVersion23(context,db);
                     break;
+                case 24:
+                    upgradeToVersion24(context,db);
+                    break;
                 case 25:
                     upgradeToVersion25(context,db);
                     break;
@@ -179,6 +183,29 @@ public class HnppChwRepository extends CoreChwRepository {
         try {
             db.execSQL("ALTER TABLE ec_family ADD COLUMN homestead_land VARCHAR;");
             db.execSQL("ALTER TABLE ec_family ADD COLUMN cultivable_land VARCHAR;");
+
+        } catch (Exception e) {
+
+        }
+    }
+    private void upgradeToVersion24(Context context, SQLiteDatabase db) {
+        try {
+            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN _id VARCHAR;");
+            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN base_entity_id VARCHAR;");
+            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN ss_name VARCHAR;");
+            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN village_name VARCHAR;");
+            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN village_id VARCHAR;");
+            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN unique_id VARCHAR;");
+            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN first_name VARCHAR;");
+            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN father_name VARCHAR;");
+            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN phone_number VARCHAR;");
+            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN is_birthday_known VARCHAR;");
+            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN dob VARCHAR;");
+            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN estimated_age VARCHAR;");
+            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN gender VARCHAR;");
+            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN dod VARCHAR;");
+            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN entity_type VARCHAR;");
+            db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN last_interacted_with LONG;");
 
         } catch (Exception e) {
 
