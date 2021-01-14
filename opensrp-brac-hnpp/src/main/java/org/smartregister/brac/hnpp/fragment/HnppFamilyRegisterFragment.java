@@ -402,8 +402,9 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
             village_spinner.setAdapter(villageSpinnerArrayAdapter);
             cluster_spinner.setAdapter(clusterSpinnerArrayAdapter);
             if(HnppConstants.isPALogin()){
+                dialog.findViewById(R.id.claster_view).setVisibility(View.GONE);
                 dialog.findViewById(R.id.sk_filter_view).setVisibility(view.VISIBLE);
-                skLocationForms = SSLocationHelper.getInstance().getAllSks();
+                skLocationForms = SSLocationHelper.getInstance().getAllSelectedSks();
                 for (SSModel ssModel : skLocationForms) {
                     skSpinnerArray.add(ssModel.skName+"("+ssModel.skUserName+")");
                 }
@@ -428,7 +429,7 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
                     public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
                         if (position != -1) {
                             SSModel ssModel = skLocationForms.get(position);
-                            ArrayList<SSModel> ssLocationForms = SSLocationHelper.getInstance().getAllSS(ssModel.skUserName);
+                            ArrayList<SSModel> ssLocationForms = SSLocationHelper.getInstance().getAllSelectedSS(ssModel.skUserName);
                             ssSpinnerArray.clear();
                             ssListModel.clear();
                             for (SSModel ssModel1 : ssLocationForms) {
@@ -453,7 +454,12 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     if (position != -1) {
-                        ArrayList<SSLocations> ssLocations = SSLocationHelper.getInstance().getSsModels().get(position).locations;
+                        ArrayList<SSLocations> ssLocations;
+                        if(HnppConstants.isPALogin()){
+                            ssLocations =ssListModel.get(position).locations;
+                        }else{
+                            ssLocations = SSLocationHelper.getInstance().getSsModels().get(position).locations;
+                        }
                         villageSpinnerArray.clear();
                         for (SSLocations ssLocations1 : ssLocations) {
                             villageSpinnerArray.add(ssLocations1.village.name.trim());
