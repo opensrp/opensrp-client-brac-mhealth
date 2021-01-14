@@ -1,0 +1,781 @@
+{
+  "count": "1",
+  "encounter_type": "Child Info 7-24 months",
+  "entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location": ""
+  },
+  "step1": {
+    "title": "Child Info 7-24 Months",
+    "fields": [
+
+      {
+        "key": "form_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "Child Info 7-24 months",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": "child_info_7_24_months"
+      },
+      {
+        "key": "dob",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden"
+      },
+      {
+        "key": "month_diff",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_iycf_package_calculation.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "caregiver_counseled_for_CF",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "caregiver_counseled_for_CF",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "বাচ্চার (৭-৮ মাস) সেবাদানকারী  সম্পূরক খাদ্যের ব্যাপারে যথাযথ নির্দেশনা গ্রহণ ও পালন করেছে কি?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        }
+      },
+      {
+        "key": "baby_been_breastfed",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "baby_been_breastfed",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "শগত ২৪ ঘন্টায় বাচ্চাটি মায়ের বুকের দুধ খেয়েছে কি?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        }
+      },
+      {
+        "key": "age_baby_first_given_other_foods",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "age_baby_first_given_other_foods",
+        "type": "edit_text",
+        "hint": "শিশুকে মায়ের দুধের সাথে অন্যান্য খাবার প্রথম দেওয়া হয়েছে কত মাস বয়সে ?",
+        "edit_type": "number",
+        "v_numeric": {
+          "value": "true",
+          "err": "0-12 হওয়া আবশ্যক"
+        }
+      },
+      {
+        "key": "child_been_given_complementary_food",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "child_been_given_complementary_food",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "গত ২৪ ঘন্টায় শিশুকে পরিপূরক খাবার দেওয়া হয়েছে কি?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        }
+      },
+      {
+        "key": "proper_hand_washing_system",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "proper_hand_washing_system",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "বাসায় সঠিকভাবে হাত ধোয়ার ব্যবস্থা আছে কি?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        }
+      }
+    ,
+      {
+        "key": "taken_deworming_medicine ",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "taken_deworming_medicine",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "গত ৬ মাসে কৃমিনাশক ঔষধ খেয়েছে কি?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        }
+      },
+      {
+        "key": "baby_eat_nutrients",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "baby_eat_nutrients",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "শিশু পুষ্টিকণা খায় কিনা?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        }
+      },
+      {
+        "key": "advice_toaster_baby_eat_nutrients_yes",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "পুষ্টিকণা খাওয়ার কারণে   : \n ১.পুষ্টিকনা পূর্ণ ছয় মাস থেকে পাঁচ বছর বয়সী শিশুদের পারিবারিক খাবারের পুষ্টিমান বাড়ায়।\n ২. পুষ্টিকনা শিশুর খাওয়ার রুচি বাড়ায়।\n ৩. পুষ্টিকনা রক্তস্বল্পতা থেকে শিশুকে রক্ষা করে।\n ৪. পুষ্টিকনা শিশুকে সুস্থ রাখতে সাহায্য করে. এগুলো মেসেজ বক্সে আসবে ।\n",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_refer_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_baby_eat_nutrients_no",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "পুষ্টিকণা না খাওয়ার কারণে   : \n ১. শিশু পুষ্টিহীনতায় ভোগে\n ২. স্বাস্থ্য ক্ষীণকায় হয়\n ৩. শিশু রক্তস্বল্পতায় ভোগে\n ৪. শিশুর বাড়ন্ত অনুযায়ী মেধার বিকাশ বাধাগ্রস্ত হবে।\n ৫.খাওয়ার রুচি কমবে মেসেজ বক্সে আসবে।\n",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_refer_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "child_had_diarrhea",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "child_had_diarrhea",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "গত ১৫ দিনে শিশুর ডায়রিয়া হয়েছে কিনা?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        }
+      }
+    ,
+      {
+        "key": "eaten_food_saline",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "eaten_food_saline",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "খাবার স্যালাইন খেয়েছে কিনা?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "relevance": {
+          "step1:child_had_diarrhea": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "saline_collected_from_nurse",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "saline_collected_from_nurse",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "খাবার স্যালাইন স্বাস্থ্য সেবিকার নিকট থেকে সংগ্রহ করা হয়েছিল?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "relevance": {
+          "step1:child_had_diarrhea": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "child_had_pneumonia",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "child_had_pneumonia",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "গত ১৫ দিনে শিশুর নিমোনিয়া হয়েছে কিনা?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        }
+      },
+      {
+        "key": "antibiotics_given_for_pneumonia",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "antibiotics_given_for_pneumonia",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "নিমোনিয়ার জন্য স্বাস্থ্য সেবিকার নিকট থেকে এন্টিবায়োটিক খাওয়ানো হয়েছিল কিনা?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "relevance": {
+          "step1:child_had_pneumonia": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_antibiotics_given_for_pneumonia_no",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "সুষম ও পুষ্টিকর খাবার দিন , বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন\n",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_refer_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "seat_ability",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "seat_ability",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "নিজে বসতে পারে",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_refer_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "can_make_words_with_mouth",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "can_make_words_with_mouth",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "বিভিন্ন শব্দ করতে পারে মুখ দিয়ে - বা, মা, দা ইত্যাদি",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_refer_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_can_make_words_with_mouth_no",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "মাকে শিশুর সাথে বেশি বেশি কথা বলতে এবং খেলতে বলুন \n",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_refer_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "can_crawl",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "can_crawl",
+        "type": "spinner",
+        "hint": "হামাগুঁড়ি দিতে পারে? ",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_refer_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "can_babama_sound",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "can_babama_sound",
+        "type": "spinner",
+        "hint": "বাবা, মামা, দাদা  ইত্যাদি শব্দ করতে পারে কি না - ",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_refer_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "can_catch_standup",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "can_catch_standup",
+        "type": "spinner",
+        "hint": "কোন কিছু ধরে দাঁড়াতে পারে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_refer_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "can_make_full_sound",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "can_make_full_sound",
+        "type": "spinner",
+        "hint": "একটি সম্পূর্ণ শব্দ উচ্চারণ করতে পারে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_refer_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "can_catch_walking",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "can_catch_walking",
+        "type": "spinner",
+        "hint": "কোন কিছু ধরে হাটতে পারে কিনা ?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_refer_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "can_say_two_word",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "can_say_two_word",
+        "type": "spinner",
+        "hint": "দুইটি আলাদা শব্দ বলতে পারে কিনা?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_refer_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "walk_alone",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "walk_alone",
+        "type": "spinner",
+        "hint": "একা হাঁটতে পারে কিনা ?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_refer_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "cause_of_referral_child",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cause_of_referral_child",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "রেফারেল এর কারণ",
+        "values": [
+          "শিশু বিষয়ক সমস্যা",
+          "চোখে সমস্যা",
+          "ডায়বেটিস",
+          "উচ্চ রক্তচাপ",
+          "অন্যান্য"
+        ],
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "openmrs_choice_ids": {
+          "শিশু বিষয়ক সমস্যা": "child_problems",
+          "চোখে সমস্যা": "problems_eyes",
+          "ডায়বেটিস": "diabetes",
+          "উচ্চ রক্তচাপ": "high_blood_pressure",
+          "অন্যান্য": "other"
+        }
+      },
+      {
+        "key": "other_refer_reason",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "other_refer_reason",
+        "type": "edit_text",
+        "hint": "অন্যান্য কারণ ",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_refer_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "place_of_referral",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "place_of_referral",
+        "type": "check_box",
+        "label": "রেফারের স্থান",
+        "exclusive": [
+          "None"
+        ],
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "options": [
+          {
+            "key": "brac_maternity_center",
+            "text": "ব্র্যাক ম্যাটারনিটি সেন্টার",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "brac_maternity_center"
+          },
+          {
+            "key": "union_health_center",
+            "text": "ইউনিয়ন উপ-স্বাস্থ্য কেন্দ্র",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "union_health_center"
+          },
+          {
+            "key": "upozzila_health_complex",
+            "text": "উপজেলা স্বাস্থ্য কমপ্লেক্স",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "upozzila_health_complex"
+          },
+          {
+            "key": "union_family_kollan_center",
+            "text": "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "union_family_kollan_center"
+          },
+          {
+            "key": "union_health_and_family_kollan_center",
+            "text": "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "union_health_and_family_kollan_center"
+          },
+          {
+            "key": "mother_child_kollan_center",
+            "text": "মা ও শিশু কল্যাণ কেন্দ্র",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "mother_child_kollan_center"
+          },
+          {
+            "key": "center_hospital",
+            "text": "সদর হাসপাতাল",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "center_hospital"
+          },
+          {
+            "key": "medical_collage_hospital",
+            "text": "মেডিকেল কলেজ হাসপাতাল",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "medical_collage_hospital"
+          },
+          {
+            "key": "private_clinic",
+            "text": "বেসরকারি ক্লিনিক",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "private_clinic"
+          },
+          {
+            "key": "spacial_hospital",
+            "text": "বিশেষায়িত হাসপাতাল",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "spacial_hospital"
+          },
+          {
+            "key": "other_option",
+            "text": "অন্যান্য",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "other_option"
+          }
+        ]
+      },
+      {
+        "key": "other_place",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "other_place",
+        "type": "edit_text",
+        "hint": "লিখুন",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_refer_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "advice",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "advice",
+        "type": "edit_text",
+        "hint": "উপদেশ"
+      },
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "section",
+        "type": "section_label",
+        "section_background": "#3797ca",
+        "text_color": "#FFFFFF",
+        "text_size": "22px",
+        "label_text_style": "bold",
+        "name": "                    সব তথ্য পূরণ করা হলে জমা দিন"
+      },
+      {
+        "key": "spacer",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "spacer",
+        "type": "spacer",
+        "spacer_height": "20dp"
+      }
+    ]
+  }
+}
