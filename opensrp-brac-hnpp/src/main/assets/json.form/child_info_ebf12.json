@@ -1,6 +1,6 @@
 {
   "count": "1",
-  "encounter_type": "Child Info EBF 1&2",
+  "encounter_type": "Child Info EBF 1_2",
   "entity_id": "",
   "metadata": {
     "start": {
@@ -47,14 +47,14 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "EBF-1 & EBF-2",
+    "title": "শিশু তথ্য ২-৩দিন",
     "fields": [
 
       {
         "key": "form_name",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "Child Info EBF 1&2",
+        "openmrs_entity_id": "Child Info EBF 1_2",
         "openmrs_data_type": "text",
         "type": "hidden",
         "value": "child_info_ebf12"
