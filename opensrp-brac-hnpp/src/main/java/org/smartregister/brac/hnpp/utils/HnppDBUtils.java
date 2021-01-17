@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.model.ForumDetails;
+import org.smartregister.brac.hnpp.repository.StockRepository;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.dao.AbstractDao;
 import org.smartregister.chw.core.utils.ChildDBConstants;
@@ -60,6 +61,28 @@ public class HnppDBUtils extends CoreChildUtils {
 
         }
     }
+    public static boolean isAvailableStock(String stockName){
+        String query = "select  product_name, (sum(stock_quantity) - sum(achievemnt_count)) as balance from stock_table where  product_name='"+stockName+"' group by product_name having balance>0";
+        Cursor cursor = null;
+        boolean isAvailable = false;
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    isAvailable = true;
+                    cursor.moveToNext();
+                }
+            }
+        }catch (Exception e){
+
+        }
+        finally {
+            if(cursor!=null) cursor.close();
+        }
+        return isAvailable;
+
+    }
 
 
     public static StringBuilder getStockEnd(){
@@ -67,7 +90,7 @@ public class HnppDBUtils extends CoreChildUtils {
         int month = calendar.get(Calendar.MONTH)+1;
         int year = calendar.get(Calendar.YEAR);
 
-        String query = "select  product_name, (sum(stock_quantity) - sum(achievemnt_count)) as balance from stock_table where year <='"+year+"' and month<='"+month+"' group by product_name having (sum(stock_quantity) - sum(achievemnt_count))<"+STOCK_END_THRESHOLD;
+        String query = "select  product_name, (sum(stock_quantity) - sum(achievemnt_count)) as balance from stock_table where "+ StockRepository.STOCK_TIMESTAMP+" < "+HnppConstants.getLongDateFormate(year+"",month+"")+" group by product_name having (sum(stock_quantity) - sum(achievemnt_count))<"+STOCK_END_THRESHOLD;
        Log.v("NOTIFICATION_JOB","getStockEnd:"+query);
         Cursor cursor = null;
         StringBuilder nameCount = new StringBuilder();

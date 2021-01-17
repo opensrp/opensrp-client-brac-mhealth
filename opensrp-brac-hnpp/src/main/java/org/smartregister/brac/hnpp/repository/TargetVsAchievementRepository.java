@@ -130,27 +130,33 @@ public class TargetVsAchievementRepository extends BaseRepository {
     }
 
     public void addOrUpdate(TargetVsAchievementData targetVsAchievementData) {
-        //if(!isExistData(targetVsAchievementData.getTargetId())){
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(TARGET_ID, targetVsAchievementData.getTargetId());
-            contentValues.put(TARGET_COUNT, targetVsAchievementData.getTargetCount());
-            contentValues.put(TARGET_NAME, targetVsAchievementData.getTargetName());
-            contentValues.put(ACHIEVEMNT_COUNT, targetVsAchievementData.getAchievementCount());
-            contentValues.put(YEAR, targetVsAchievementData.getYear());
-            contentValues.put(MONTH, targetVsAchievementData.getMonth());
-            contentValues.put(DAY, targetVsAchievementData.getDay());
-            contentValues.put(START_DATE, targetVsAchievementData.getStartDate());
-            contentValues.put(END_DATE, targetVsAchievementData.getEndDate());
+        if(targetVsAchievementData==null) return;
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TARGET_ID, targetVsAchievementData.getTargetId());
+        contentValues.put(TARGET_COUNT, targetVsAchievementData.getTargetCount());
+        contentValues.put(TARGET_NAME, targetVsAchievementData.getTargetName());
+        contentValues.put(ACHIEVEMNT_COUNT, targetVsAchievementData.getAchievementCount());
+        contentValues.put(YEAR, targetVsAchievementData.getYear());
+        contentValues.put(MONTH, targetVsAchievementData.getMonth());
+        contentValues.put(DAY, targetVsAchievementData.getDay());
+        contentValues.put(START_DATE, targetVsAchievementData.getStartDate());
+        contentValues.put(END_DATE, targetVsAchievementData.getEndDate());
+        if(!isExistData(targetVsAchievementData)){
+
             long inserted = getWritableDatabase().insert(getLocationTableName(), null, contentValues);
             Log.v("TARGET_FETCH","inserterd:"+inserted);
-//        }else{
-//            Log.v("TARGET_FETCH","exists!!!!!!!!!");
-//        }
+        }else{
+            long updated = getWritableDatabase().update(getLocationTableName(), contentValues,TARGET_NAME+" = '"+targetVsAchievementData.getTargetName()+"' and "+YEAR+" ='"+targetVsAchievementData.getYear()+"'" +
+                    " and "+MONTH+" ='"+targetVsAchievementData.getMonth()+"' and "+DAY+" ='"+targetVsAchievementData.getDay(),null);
+            Log.v("TARGET_FETCH","exists!!!!!!!!!updated:"+updated);
+        }
 
 
     }
-    public boolean isExistData(int targetId){
-        String sql = "select count(*) from "+getLocationTableName()+" where "+TARGET_ID+" = "+targetId;
+    public boolean isExistData(TargetVsAchievementData targetVsAchievementData){
+        String sql = "select count(*) from "+getLocationTableName()+" where "+TARGET_NAME+" = '"+targetVsAchievementData.getTargetName()+"' and "+YEAR+" ='"+targetVsAchievementData.getYear()+"'" +
+                " and "+MONTH+" ='"+targetVsAchievementData.getMonth()+"' and "+DAY+" ='"+targetVsAchievementData.getDay()+"'";
+        Log.v("TARGET_FETCH","isExistData:"+sql);
         Cursor cursor = null;
         boolean isExist = false;
 

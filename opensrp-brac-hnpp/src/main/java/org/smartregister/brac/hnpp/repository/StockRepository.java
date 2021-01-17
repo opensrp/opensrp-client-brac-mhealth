@@ -143,6 +143,13 @@ public class StockRepository extends BaseRepository {
         }
         return "";
     }
+    public  boolean isAvailableStock(String eventTyype){
+        String targetName = getTargetName(eventTyype,"");
+        if(!TextUtils.isEmpty(targetName)){
+            return HnppDBUtils.isAvailableStock(targetName);
+        }
+        return false;
+    }
 
     public void addOrUpdate(StockData stockData) {
        // if(!isExistData(stockData.getStockId())){
