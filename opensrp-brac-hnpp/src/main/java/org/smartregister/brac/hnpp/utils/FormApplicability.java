@@ -35,8 +35,15 @@ public class FormApplicability {
         return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneWihinTwentyFourHours(baseEntityId, eventType);
 
     }
-    public static String isDueChildInfoForm(Date dob){
+    public static boolean isDueChildInfoForm(String baseEntityId, String eventType){
+        return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneWihinChildInfoLogic(baseEntityId, eventType);
+
+    }
+    public static String isDueChildInfo(Date dob){
         int day = DateUtil.dayDifference(new LocalDate(dob),new LocalDate(System.currentTimeMillis()));
+        if(HnppConstants.isPALogin()){
+            return null;
+        }
         if(day >= 2 && day <= 3){
             return HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12;
         }

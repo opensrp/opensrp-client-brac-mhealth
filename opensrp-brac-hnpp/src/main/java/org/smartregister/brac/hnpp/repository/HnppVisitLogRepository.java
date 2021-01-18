@@ -300,6 +300,41 @@ public class HnppVisitLogRepository extends BaseRepository {
 
         }
 
+
+        String eventType="";
+        android.database.Cursor cursor = null;
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+
+                    eventType = cursor.getString(0);
+                    cursor.moveToNext();
+
+                }
+            }
+        }catch (Exception e){
+
+        }
+        finally {
+            if(cursor!=null) cursor.close();
+        }
+        return !TextUtils.isEmpty(eventType);
+    }
+    public boolean isDoneWihinChildInfoLogic(String baseEntityId, String eventTpe) {
+        if(TextUtils.isEmpty(eventTpe)) return true;
+        String query ="";
+        if(eventTpe.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12) ||
+                eventTpe.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS)){
+            query  = "select event_type from ec_visit_log where event_type ='"+eventTpe+"' and base_entity_id ='"+baseEntityId+"'";
+
+        }else{
+            //query = "select event_type from ec_visit_log where event_type ='"+eventTpe+"' and base_entity_id ='"+baseEntityId+"' and (strftime('%d',datetime(visit_date/1000,'unixepoch','localtime')) = strftime('%d',datetime('now')))";
+            query = "select event_type, (strftime('%d',datetime('now'))-(strftime('%d',datetime(visit_date/1000,'unixepoch','localtime')))) as d from ec_visit_log where event_type ='"+eventTpe+"' and base_entity_id ='"+baseEntityId+"' and ((d >= '180' AND d <= '210') or (d >= '331' AND d <= '365') or (d >= '515' AND d <= '545'))";
+        }
+
+
         String eventType="";
         android.database.Cursor cursor = null;
         try {
