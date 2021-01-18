@@ -439,6 +439,10 @@ public class VisitLogIntentService extends IntentService {
                     String value = details.get("solid_food_month");
                     HnppApplication.getIndicatorRepository().updateValue("solid_food_month",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
 
+                    String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(baseEntityId+"_SOLID_FOOD");
+                    if(TextUtils.isEmpty(prevalue)){
+                        FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(baseEntityId+"_SOLID_FOOD",value);
+                    }
                 }
                 break;
             case HnppConstants.EventType.REMOVE_MEMBER: {

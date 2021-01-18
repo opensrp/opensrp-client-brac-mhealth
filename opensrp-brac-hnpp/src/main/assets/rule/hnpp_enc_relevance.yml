@@ -19,3 +19,24 @@ priority: 1
 condition: "(step1_month_diff >= 0 && step1_month_diff < 183)"
 actions:
   - "isRelevant = true"
+---
+name: step1_solid_food_month
+description: if age geter then 6 month
+priority: 1
+condition: "(step1_month_diff >= 0 && step1_month_diff > 183)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_nutrients_in_24hr
+description: if age geter then 6 month 1 day to 60 month
+priority: 1
+condition: "(step1_month_diff >= 0 && step1_month_diff > 183)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_eaten_pesticides
+description: if age geter then 6 month 1 day to 60 month
+priority: 1
+condition: "(step1_month_diff >= 0 && step1_month_diff > 183)"
+actions:
+  - "isRelevant = true"
