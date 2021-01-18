@@ -35,7 +35,7 @@ public class FormApplicability {
         return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneWihinTwentyFourHours(baseEntityId, eventType);
 
     }
-    public static String isDueChildInfoForm(String baseEntityId, Date dob){
+    public static String isDueChildInfoForm(Date dob){
         int day = DateUtil.dayDifference(new LocalDate(dob),new LocalDate(System.currentTimeMillis()));
         if(day >= 2 && day <= 3){
             return HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12;
@@ -286,7 +286,8 @@ public class FormApplicability {
         return org.smartregister.util.Utils.getValue(commonPersonObject.getColumnmaps(), "gender", false);
     }
     //other service and package
-    public static boolean isIycfApplicable(int day){
+    public static boolean isIycfApplicable(Date dob){
+        int day = DateUtil.dayDifference(new LocalDate(dob),new LocalDate(System.currentTimeMillis()));
         if(HnppConstants.isPALogin()) return false;
         return day >=181 && day <=731;
     }

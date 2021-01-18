@@ -19,8 +19,10 @@ import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.GuestMemberData;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.OtherServiceData;
+import org.smartregister.family.util.Utils;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import static org.smartregister.brac.hnpp.utils.HnppConstants.eventTypeFormNameMapping;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.eventTypeMapping;
@@ -117,6 +119,7 @@ public class GuestMemberDueFragment extends Fragment implements View.OnClickList
     }
     private void updateServiceForm(){
         int age =  FormApplicability.getAge(guestMemberData.getDob());
+        Date dob = Utils.dobStringToDate(guestMemberData.getDob());
         ArrayList<OtherServiceData> otherServiceDataList = new ArrayList<>();
         if(FormApplicability.isNcdApplicable(age) && FormApplicability.isDueAnyForm(guestMemberData.getBaseEntityId(),HnppConstants.EVENT_TYPE.NCD_PACKAGE)){
             OtherServiceData otherServiceData3 = new OtherServiceData();
@@ -144,7 +147,7 @@ public class GuestMemberDueFragment extends Fragment implements View.OnClickList
             otherServiceDataList.add(otherServiceData2);
         }
 
-        if(FormApplicability.isIycfApplicable(FormApplicability.getDay(guestMemberData.getDob())) && FormApplicability.isDueAnyForm(guestMemberData.getBaseEntityId(),HnppConstants.EVENT_TYPE.IYCF_PACKAGE)){
+        if(FormApplicability.isIycfApplicable(dob) && FormApplicability.isDueAnyForm(guestMemberData.getBaseEntityId(),HnppConstants.EVENT_TYPE.IYCF_PACKAGE)){
             OtherServiceData otherServiceData4 = new OtherServiceData();
             otherServiceData4.setImageSource(R.drawable.ic_child);
             otherServiceData4.setTitle("শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)");

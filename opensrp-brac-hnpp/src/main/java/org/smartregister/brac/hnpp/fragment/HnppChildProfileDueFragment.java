@@ -272,7 +272,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             }
 
         }
-        eventType = FormApplicability.isDueChildInfoForm(baseEntityId,dob);
+        eventType = FormApplicability.isDueChildInfoForm(dob);
         if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12) && FormApplicability.isDueAnyForm(baseEntityId,eventType)){
             childInfo1View = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
             ImageView fImg = childInfo1View.findViewById(R.id.image_view);
