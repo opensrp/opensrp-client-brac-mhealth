@@ -58,7 +58,7 @@ public class DashBoardModel implements DashBoardContract.Model {
                     try{
                         dashBoardData1.setImageSource((int)HnppConstants.iconMapping.get(dashBoardData1.getEventType()));
                     }catch (Exception e){
-
+                        dashBoardData1.setImageSource(R.drawable.rowavatar_member);
                     }
                     if(!TextUtils.isEmpty(dashBoardData1.getEventType())){
                         dashBoardDataArrayList.add(dashBoardData1);

@@ -44,7 +44,6 @@ import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
-import org.smartregister.brac.hnpp.utils.ANCRegister;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -90,7 +89,6 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     public static final int REQUEST_HOME_VISIT = 5555;
     public static final int REQUEST_SIMPRINTS_VERIFY = 1222;
     public static final String IS_COMES_IDENTITY = "is_comes";
-    private static final int REQUEST_CODE_PREGNANCY_OUTCOME = 5556;
 
     private CustomFontTextView textViewDetails3;
     private String familyBaseEntityId;
