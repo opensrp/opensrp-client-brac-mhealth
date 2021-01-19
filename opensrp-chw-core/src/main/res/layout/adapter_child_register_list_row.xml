@@ -96,7 +96,6 @@
 
 
     <LinearLayout
-        android:visibility="invisible"
         android:id="@+id/due_button_wrapper"
         android:layout_width="@dimen/child_register_list_item_width"
         android:layout_height="90dp"
@@ -143,7 +142,7 @@
         android:paddingEnd="@dimen/register_list_item_padding"
         android:paddingRight="@dimen/register_list_item_padding"
         android:paddingBottom="@dimen/register_list_top_bottom_padding"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <com.rey.material.widget.ImageView
             android:id="@+id/go_to_profile_image_view"

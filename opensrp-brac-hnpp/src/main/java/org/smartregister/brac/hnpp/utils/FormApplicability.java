@@ -252,19 +252,19 @@ public class FormApplicability {
         return -1;
     }
 
-    public static int getDay(CommonPersonObjectClient commonPersonObject){
+    public static long getDay(CommonPersonObjectClient commonPersonObject){
         String dobString = org.smartregister.util.Utils.getValue(commonPersonObject.getColumnmaps(), "dob", false);
         if(!TextUtils.isEmpty(dobString) ){
             Date date = Utils.dobStringToDate(dobString);
-           int day =  getDayDifference(new LocalDate(date),new LocalDate());
+           long day =  getDayDifference(new LocalDate(date),new LocalDate());
            return day;
         }
         return -1;
     }
-    public static int getDay(String dobString){
+    public static long getDay(String dobString){
         if(!TextUtils.isEmpty(dobString) ){
             Date date = Utils.dobStringToDate(dobString);
-            int day =  getDayDifference(new LocalDate(date),new LocalDate());
+            long day =  getDayDifference(new LocalDate(date),new LocalDate());
             return day;
         }
         return -1;
@@ -273,9 +273,10 @@ public class FormApplicability {
         return org.smartregister.util.Utils.getValue(commonPersonObject.getColumnmaps(), "gender", false);
     }
     //other service and package
-    public static boolean isIycfApplicable(int day){
+    public static boolean isIycfApplicable(long day){
         if(HnppConstants.isPALogin()) return false;
-        return day >=181 && day <=730;
+
+        return day >=181 && day <=731;
     }
     public static boolean isAdolescentApplicable(int age, boolean isWomen){
         if(HnppConstants.isPALogin()) return false;
@@ -301,10 +302,10 @@ public class FormApplicability {
         return age >=18;
     }
 
-    private static int getDayDifference(LocalDate date1, LocalDate date2) {
-        return Days.daysBetween(
-                date1.withDayOfMonth(1),
-                date2.withDayOfMonth(1)).getDays();
+    private static long getDayDifference(LocalDate date1, LocalDate date2) {
+        long startTime = date2.toDate().getTime() - date1.toDate().getTime();
+        long difference_In_Days= startTime / 86400000L;
+        return difference_In_Days;
     }
 
 }

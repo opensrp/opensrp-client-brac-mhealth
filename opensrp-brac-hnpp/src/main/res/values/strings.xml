@@ -5,6 +5,7 @@
         <item>পুরুষ</item>
         <item>তৃতীয় লিঙ্গ</item>
     </string-array>
+    <string name="due_visit">সর্বশেষ সেবা গ্রহণের তারিখ \n %1$s \n সংখ্যা: %2$s</string>
     <string name="gender_prompt">লিঙ্গ বাছাই করুন</string>
     <string name="logo">logo</string>
     <string name="login_title">HEALTH,NUTRITION AND POPULATION PROGRAMME</string>
@@ -28,6 +29,9 @@
     <string name="menu_anc_clients">গর্ভবতী মায়ের তালিকা</string>
     <string name="menu_anc_risk_clients">ঝুঁকিপূর্ণ ও জরুরী</string>
     <string name="menu_pnc_clients">প্রসূতি মায়ের তালিকা</string>
+    <string name="menu_ado_clients">কিশোরী তালিকা</string>
+    <string name="menu_women_clients">নারী সেবা তালিকা</string>
+    <string name="menu_iycf_clients">আই ওয়াই সি এফ সেবা তালিকা</string>
     <string name="menu_child_clients">শিশু তালিকা</string>
     <string name="menu_all_member">সব সদস্য তালিকা</string>
     <string name="menu_troubleshoot" translatable="false">ট্রাবলশুট</string>
@@ -343,5 +347,6 @@
     <string name="dialog_title">আপনি কি নিশ্চিত এই স্থানান্তর এর সম্পর্কে?</string>
     <string name="dialog_text_family">যে কোনো একটি খানা সিলেক্ট করুন</string>
    <string name="ss_migration">এখানে স্থানান্তর করি</string>
+    <string name="dialog_stock_sell_end">আপনার স্টক শেষ হয়ে গিয়েছে। অনুগ্রহ করে স্টক কালেক্ট করুন </string>
 
 </resources>

@@ -46,7 +46,7 @@ public class SearchHHMemberModel {
         ArrayList<HHMemberProperty> tempList = new ArrayList<>();
         for(HHMemberProperty hhMemberProperty : hhList){
             String n = hhMemberProperty.name.toLowerCase();
-            if(n.contains(name)){
+            if(n.contains(name.toLowerCase())){
                 tempList.add(hhMemberProperty);
             }
         }
@@ -57,7 +57,7 @@ public class SearchHHMemberModel {
         ArrayList<HHMemberProperty> tempList = new ArrayList<>();
         for(HHMemberProperty hhMemberProperty : adoArrayList){
             String n = hhMemberProperty.name.toLowerCase();
-            if(n.contains(name)){
+            if(n.contains(name.toLowerCase())){
                 tempList.add(hhMemberProperty);
             }
         }
@@ -68,7 +68,7 @@ public class SearchHHMemberModel {
         ArrayList<HHMemberProperty> tempList = new ArrayList<>();
         for(HHMemberProperty hhMemberProperty : womenArrayList){
             String n = hhMemberProperty.name.toLowerCase();
-            if(n.contains(name)){
+            if(n.contains(name.toLowerCase())){
                 tempList.add(hhMemberProperty);
             }
         }
@@ -79,7 +79,7 @@ public class SearchHHMemberModel {
         ArrayList<HHMemberProperty> tempList = new ArrayList<>();
         for(HHMemberProperty hhMemberProperty : childArrayList){
             String n = hhMemberProperty.name.toLowerCase();
-            if(n.contains(name)){
+            if(n.contains(name.toLowerCase())){
                 tempList.add(hhMemberProperty);
             }
         }
@@ -90,7 +90,7 @@ public class SearchHHMemberModel {
         ArrayList<HHMemberProperty> tempList = new ArrayList<>();
         for(HHMemberProperty hhMemberProperty : ncdArrayList){
             String n = hhMemberProperty.name.toLowerCase();
-            if(n.contains(name)){
+            if(n.contains(name.toLowerCase())){
                 tempList.add(hhMemberProperty);
             }
         }

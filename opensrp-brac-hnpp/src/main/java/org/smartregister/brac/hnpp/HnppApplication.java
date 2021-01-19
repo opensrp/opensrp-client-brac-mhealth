@@ -16,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import org.smartregister.AllConstants;
 import org.smartregister.Context;
 import org.smartregister.CoreLibrary;
+import org.smartregister.brac.hnpp.activity.AdoMemberRegisterActivity;
 import org.smartregister.brac.hnpp.activity.AdultMemberRegisterActivity;
 import org.smartregister.brac.hnpp.activity.AdultRiskRegisterActivity;
 import org.smartregister.brac.hnpp.activity.ForumActivity;
@@ -30,9 +31,12 @@ import org.smartregister.brac.hnpp.activity.HnppElcoMemberRegisterActivity;
 import org.smartregister.brac.hnpp.activity.HnppElcoRiskRegisterActivity;
 import org.smartregister.brac.hnpp.activity.HnppPncRegisterActivity;
 import org.smartregister.brac.hnpp.activity.HnppPncRiskRegisterActivity;
+import org.smartregister.brac.hnpp.activity.IYCFRegisterActivity;
 import org.smartregister.brac.hnpp.activity.SSInfoActivity;
 import org.smartregister.brac.hnpp.activity.SimprintsIdentityActivity;
+import org.smartregister.brac.hnpp.activity.WomenServiceRegisterActivity;
 import org.smartregister.brac.hnpp.custom_view.HnppNavigationTopView;
+import org.smartregister.brac.hnpp.fragment.AdolescentMemberRegisterFragment;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.listener.HnppNavigationListener;
 import org.smartregister.brac.hnpp.presenter.HnppNavigationPresenter;
@@ -252,6 +256,10 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.SIMPRINTS_REGISTER_ACTIVITY, SimprintsIdentityActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.ADULT_RISK_REGISTER_ACTIVITY, AdultRiskRegisterActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.ADULT_REGISTER_ACTIVITY, AdultMemberRegisterActivity.class);
+        registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.ADO_REGISTER_ACTIVITY, AdoMemberRegisterActivity.class);
+        registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.WOMEN_REGISTER_ACTIVITY, WomenServiceRegisterActivity.class);
+        registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.IYCF_REGISTER_ACTIVITY, IYCFRegisterActivity.class);
+
         return registeredActivities;
     }
 

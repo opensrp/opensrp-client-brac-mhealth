@@ -47,6 +47,9 @@ public class NavigationPresenter implements NavigationContract.Presenter {
         tableMap.put(CoreConstants.DrawerMenu.ALL_MEMBER,  CoreConstants.TABLE_NAME.FAMILY_MEMBER);
         tableMap.put(CoreConstants.DrawerMenu.ELCO_CLIENT,"test");
         tableMap.put(CoreConstants.DrawerMenu.ADULT,"adult");
+        tableMap.put(CoreConstants.DrawerMenu.ADO,"ado");
+        tableMap.put(CoreConstants.DrawerMenu.IYCF,"iycf");
+        tableMap.put(CoreConstants.DrawerMenu.WOMEN,"women");
         tableMap.put(CoreConstants.DrawerMenu.FORUM,"");
         tableMap.put(CoreConstants.DrawerMenu.GUEST_MEMBER,"");
         tableMap.put(CoreConstants.DrawerMenu.CHILD_CLIENTS, CoreConstants.TABLE_NAME.CHILD);

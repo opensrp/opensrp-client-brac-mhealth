@@ -46,6 +46,25 @@ public class ChildDBConstants {
         String query = " ((( julianday('now') - julianday(ec_family_member.dob))/365) >" + 18 + ")";
         return query;
     }
+    public static String AdoFilterWithTableName(){
+        String query = " ((( julianday('now') - julianday(dob))/365) >" + 10 + ")";
+        String query2 = " ((( julianday('now') - julianday(dob))/365) <" + 20 + ")";
+        String gender = " gender = 'F'";
+        return query+" AND "+query2 +" AND "+gender ;
+    }
+    public static String IycfFilterWithTableName(){
+        String query = " ((( julianday('now') - julianday(ec_child.dob))/365) >" + 0.7 + ")";
+        String query2 = " ((( julianday('now') - julianday(ec_child.dob))/365) <" + 2 + ")";
+        return query+" AND "+query2 ;
+    }
+    public static String WomenFilterWithTableName(){
+        String query = " ((( julianday('now') - julianday(dob))/365) >=" + 18 + ")";
+        String gender = " gender = 'F'";
+        return query+" AND "+gender + " AND "+CoreConstants.TABLE_NAME.FAMILY_MEMBER+"."+DBConstants.KEY.BASE_ENTITY_ID+" " +
+                " NOT IN  (select ec_anc_register.base_entity_id from ec_anc_register where ec_anc_register.is_closed = '0' group by ec_anc_register.base_entity_id) " +
+                " and ec_family_member.base_entity_id  NOT IN (select ec_pregnancy_outcome.base_entity_id from ec_pregnancy_outcome where ec_pregnancy_outcome.is_closed = '0' group by ec_pregnancy_outcome.base_entity_id)";
+
+    }
     public static String elcoFilterWithTableName(){
         String query = " ((( julianday('now') - julianday(ec_family_member.dob))/365) >" + 10 + ")";
         String query2 = " ((( julianday('now') - julianday(ec_family_member.dob))/365) <" + 50 + ")";

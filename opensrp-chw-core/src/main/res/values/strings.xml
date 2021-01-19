@@ -56,7 +56,7 @@
     <string name="record_visit">Record visit</string>
 
     <!-- Floating menu -->
-    <string name="due_visit">Last visit \n %1$s</string>
+    <string name="due_visit">Last visit \n %1$s \n %2$s</string>
     <string name="record_home_visit">Record \nHome visit</string>
     <string name="family_details">Family details</string>
     <string name="add_new_family_member">Add new family member</string>
