@@ -1,6 +1,7 @@
 package org.smartregister.brac.hnpp.provider;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,10 +9,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.text.WordUtils;
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 import org.joda.time.Years;
+import org.smartregister.brac.hnpp.task.UpdateAncLastServiceInfoTask;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.chw.anc.fragment.BaseAncRegisterFragment;
@@ -32,12 +33,21 @@ public class HnppAncRegisterProvider extends ChwAncRegisterProvider {
     private final LayoutInflater inflater;
     private View.OnClickListener onClickListener;
     private Context context;
+    private CommonRepository commonRepository;
 
     public HnppAncRegisterProvider(Context context, CommonRepository commonRepository, Set visibleColumns, View.OnClickListener onClickListener, View.OnClickListener paginationClickListener) {
         super(context, commonRepository, visibleColumns, onClickListener, paginationClickListener);
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.onClickListener = onClickListener;
+        this.commonRepository = commonRepository;
         this.context = context;
+    }
+    @Override
+    public void getView(Cursor cursor, SmartRegisterClient client, RegisterViewHolder viewHolder) {
+
+        CommonPersonObjectClient pc = (CommonPersonObjectClient) client;
+        populatePatientColumn(pc, client, viewHolder);
+        populateLastColumn(pc,viewHolder);
     }
 
     @Override
@@ -104,7 +114,9 @@ public class HnppAncRegisterProvider extends ChwAncRegisterProvider {
             viewHolder.eddView.setVisibility(View.GONE);
         }
     }
-
+    private void populateLastColumn(CommonPersonObjectClient pc, RegisterViewHolder viewHolder) {
+        org.smartregister.family.util.Utils.startAsyncTask(new UpdateAncLastServiceInfoTask(context,viewHolder, pc.entityId()), null);
+    }
     @Override
     public AncRegisterProvider.RegisterViewHolder createViewHolder(ViewGroup parent) {
         View view = inflater.inflate(R.layout.anc_register_list_row, parent, false);
@@ -118,4 +130,5 @@ public class HnppAncRegisterProvider extends ChwAncRegisterProvider {
             eddView = itemView.findViewById(R.id.edd_view);
         }
     }
+
 }

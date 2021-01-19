@@ -1769,12 +1769,12 @@ public class VisitLogIntentService extends IntentService {
 
 
         try {
+
             String jsonString = AssetHandler.readFileFromAssetsFolder("json.form/"+form_name, VisitLogIntentService.this);
             return new JSONObject(jsonString);
-        } catch (JSONException e) {
+        } catch (Exception e) {
+            Log.v("LOAD_FILE","file name:"+form_name+":encounter_type:"+encounter_type);
             e.printStackTrace();
-        } catch (NullPointerException e){
-
         }
         return new JSONObject();
     }

@@ -33,6 +33,7 @@ import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.model.HnppAllMemberRegisterFragmentModel;
 import org.smartregister.brac.hnpp.model.HnppElcoMemberRegisterFragmentModel;
 import org.smartregister.brac.hnpp.presenter.HnppElcoMemberRegisterFragmentPresenter;
+import org.smartregister.brac.hnpp.provider.ElcoMemberRegisterProvider;
 import org.smartregister.brac.hnpp.provider.HnppAllMemberRegisterProvider;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
@@ -128,7 +129,7 @@ public class HnppElcoMemberRegisterFragment extends CoreChildRegisterFragment im
 
     @Override
     public void initializeAdapter(Set<View> visibleColumns) {
-        HnppAllMemberRegisterProvider childRegisterProvider = new HnppAllMemberRegisterProvider(getActivity(), commonRepository(), visibleColumns, registerActionHandler, paginationViewHandler);
+        ElcoMemberRegisterProvider childRegisterProvider = new ElcoMemberRegisterProvider(getActivity(), commonRepository(), visibleColumns, registerActionHandler, paginationViewHandler);
         CommonRepository commonRepository = context().commonrepository(CoreConstants.TABLE_NAME.FAMILY_MEMBER);
         clientAdapter = new RecyclerViewPaginatedAdapter(null, childRegisterProvider, commonRepository);
         clientAdapter.setCurrentlimit(20);

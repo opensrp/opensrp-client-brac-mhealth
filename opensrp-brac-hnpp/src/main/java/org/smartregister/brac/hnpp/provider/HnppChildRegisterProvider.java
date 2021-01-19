@@ -31,7 +31,7 @@ public class HnppChildRegisterProvider extends CoreChildRegisterProvider {
 
     private Set<org.smartregister.configurableviews.model.View> visibleColumns;
     private View.OnClickListener onClickListener;
-    private Context context;
+    protected Context context;
     private CommonRepository commonRepository;
 
     public HnppChildRegisterProvider(Context context, CommonRepository commonRepository, Set visibleColumns, View.OnClickListener onClickListener, View.OnClickListener paginationClickListener) {
@@ -109,8 +109,8 @@ public class HnppChildRegisterProvider extends CoreChildRegisterProvider {
 
     }
 
-    private void populateLastColumn(CommonPersonObjectClient pc, RegisterViewHolder viewHolder) {
-        Utils.startAsyncTask(new UpdateLastAsyncTask(context, commonRepository, viewHolder, pc.entityId(), onClickListener), null);
+    protected void populateLastColumn(CommonPersonObjectClient pc, RegisterViewHolder viewHolder) {
+      //  Utils.startAsyncTask(new UpdateLastAsyncTask(context, commonRepository, viewHolder, pc.entityId(), onClickListener), null);
     }
 
     @Override

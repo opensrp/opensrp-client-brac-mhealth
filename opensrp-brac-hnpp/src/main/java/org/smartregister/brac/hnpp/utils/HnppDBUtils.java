@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.model.ForumDetails;
+import org.smartregister.brac.hnpp.model.VisitInfo;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.dao.AbstractDao;
 import org.smartregister.chw.core.utils.ChildDBConstants;
@@ -37,6 +38,29 @@ import timber.log.Timber;
 
 public class HnppDBUtils extends CoreChildUtils {
     private static final int STOCK_END_THRESHOLD = 2;
+
+    public static VisitInfo getVisitInfo(String eventType, String baseEntityId){
+        String query = "select count(*) as count, max(visit_date) as v_date from ec_visit_log where base_entity_id ='"+baseEntityId+"' and visit_type ='"+eventType+"'";
+        Cursor cursor = null;
+        VisitInfo visitInfo = new VisitInfo();
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                visitInfo.setVisitCount(cursor.getInt(0));
+                visitInfo.setVisitDate(cursor.getInt(1));
+
+            }
+
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        finally {
+            if(cursor !=null) cursor.close();
+        }
+        return visitInfo;
+
+    }
 
     public static void updateMigratedOrRejectedHH(String base_entity_id){
         try{
