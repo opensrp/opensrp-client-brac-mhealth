@@ -251,6 +251,7 @@ public class HnppChwRepository extends CoreChwRepository {
         try{
             db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN _id VARCHAR;");
         }catch (Exception e){
+            e.printStackTrace();
 
         }
 

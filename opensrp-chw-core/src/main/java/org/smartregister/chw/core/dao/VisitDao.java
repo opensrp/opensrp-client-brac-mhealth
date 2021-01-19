@@ -15,6 +15,19 @@ import timber.log.Timber;
 
 public class VisitDao extends AbstractDao {
 
+    public static String[] getVisitInfo(String baseEntityId,String visitType){
+        String lmp = "SELECT count(*) as count, max(visit_date) as visit_date FROM visits where base_entity_id = ? and visit_type = ? ";
+        List<Map<String, String>> valus = AbstractDao.readData(lmp, new String[]{baseEntityId,visitType});
+        String[] strs = new String[2];
+        if(valus.size()>0){
+            strs[0] =  valus.get(0).get("count");
+            strs[1] =  valus.get(0).get("visit_date");
+        }
+
+        return strs;
+
+    }
+
     @Nullable
     public static Map<String, VisitSummary> getVisitSummary(String baseEntityID) {
         String sql = "select base_entity_id , visit_type , max(visit_date) visit_date from visits " +

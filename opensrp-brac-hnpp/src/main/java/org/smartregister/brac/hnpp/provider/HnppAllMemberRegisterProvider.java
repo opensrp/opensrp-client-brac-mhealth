@@ -12,14 +12,11 @@ import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.chw.core.holders.RegisterViewHolder;
 import org.smartregister.chw.core.provider.CoreChildRegisterProvider;
-import org.smartregister.chw.core.task.UpdateLastAsyncTask;
-import org.smartregister.chw.core.utils.ChildDBConstants;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.Utils;
 import org.smartregister.view.contract.SmartRegisterClient;
-
 import java.util.Set;
 
 /**
@@ -29,16 +26,12 @@ import java.util.Set;
 public class HnppAllMemberRegisterProvider extends CoreChildRegisterProvider {
 
     private Set<org.smartregister.configurableviews.model.View> visibleColumns;
-    private View.OnClickListener onClickListener;
-    private Context context;
-    private CommonRepository commonRepository;
+    protected Context context;
 
     public HnppAllMemberRegisterProvider(Context context, CommonRepository commonRepository, Set visibleColumns, View.OnClickListener onClickListener, View.OnClickListener paginationClickListener) {
         super(context, visibleColumns, onClickListener, paginationClickListener);
         this.visibleColumns = visibleColumns;
-        this.onClickListener = onClickListener;
         this.context = context;
-        this.commonRepository = commonRepository;
     }
 
     @Override
@@ -99,8 +92,9 @@ public class HnppAllMemberRegisterProvider extends CoreChildRegisterProvider {
 
     }
 
-    private void populateLastColumn(CommonPersonObjectClient pc, RegisterViewHolder viewHolder) {
-        Utils.startAsyncTask(new UpdateLastAsyncTask(context, commonRepository, viewHolder, pc.entityId(), onClickListener), null);
+    protected void populateLastColumn(CommonPersonObjectClient pc, RegisterViewHolder viewHolder) {
+        viewHolder.dueButtonLayout.setVisibility(View.GONE);
+        // Utils.startAsyncTask(new UpdateElcoServiceTask(context, viewHolder, pc.entityId()), null);
     }
 
     @Override
@@ -112,7 +106,7 @@ public class HnppAllMemberRegisterProvider extends CoreChildRegisterProvider {
 
     @Override
     public void addButtonClickListeners(SmartRegisterClient client, RegisterViewHolder viewHolder) {
-        viewHolder.dueButtonLayout.setVisibility(View.GONE);
+        //viewHolder.dueButtonLayout.setVisibility(View.GONE);
         viewHolder.goToProfileLayout.setVisibility(View.GONE);
 
         View patient = viewHolder.childColumn;
@@ -125,5 +119,8 @@ public class HnppAllMemberRegisterProvider extends CoreChildRegisterProvider {
         attachPatientOnclickListener(goToProfileLayout, client);
 
     }
+
+
+
 
 }
