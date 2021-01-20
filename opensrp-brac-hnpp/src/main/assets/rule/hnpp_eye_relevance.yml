@@ -5,3 +5,10 @@ priority: 1
 condition: "(step1_glasses_type.equalsIgnoreCase('সিঙ্গেল ভিশন') || step1_glasses_type.equalsIgnoreCase('বাই -ফোকাল'))"
 actions:
   - "isRelevant = true"
+---
+name: step1_glasses_sell
+description: present condition
+priority: 1
+condition: "(step1_glasses_type.equalsIgnoreCase('সিঙ্গেল ভিশন') || step1_glasses_type.equalsIgnoreCase('বাই -ফোকাল'))"
+actions:
+  - "isRelevant = true"

@@ -284,7 +284,7 @@ public class FormApplicability {
     }
     public static boolean isWomenPackageApplicable(String baseEntityId , int age, boolean isWomen){
         if(HnppConstants.isPALogin()) return false;
-        return isWomen && age >=14 && !isPragnent(baseEntityId,age);
+        return isWomen && age >14 && !isPragnent(baseEntityId,age);
     }
 
     public static boolean isPragnent(String baseEntityId, int age) {

@@ -43,6 +43,7 @@ import org.smartregister.util.AssetHandler;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -714,11 +715,33 @@ public class VisitLogIntentService extends IntentService {
                 if (bps>=140){
                     LocalDate localDate = new LocalDate(visit.getVisitDate());
                     HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ESTIMATE_HBP,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
-                    return;
                 }
 
             }
         }
+        if(details.containsKey("cause_of_ncd") && !StringUtils.isEmpty(details.get("cause_of_ncd"))){
+            String fbsValue = details.get("cause_of_ncd");
+            Log.v("testValue: ",fbsValue);
+            if(!TextUtils.isEmpty(fbsValue)){
+                if (fbsValue.contains("high_blood_pressure")){
+                    LocalDate localDate = new LocalDate(visit.getVisitDate());
+                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ESTIMATE_HBP,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                }
+
+            }
+        }
+        if(details.containsKey("cause_of_ncd") && !StringUtils.isEmpty(details.get("cause_of_ncd"))){
+            String fbsValue = details.get("cause_of_ncd");
+            Log.v("testValue: ",fbsValue);
+            if(!TextUtils.isEmpty(fbsValue)){
+                if (fbsValue.contains("diabetics")){
+                    LocalDate localDate = new LocalDate(visit.getVisitDate());
+                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ESTIMATE_DIABETES,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                }
+
+            }
+        }
+
         if(details.containsKey("blood_pressure_diastolic") && !StringUtils.isEmpty(details.get("blood_pressure_diastolic"))){
             String bpd = details.get("blood_pressure_diastolic");
             if(!TextUtils.isEmpty(bpd)){
@@ -726,7 +749,6 @@ public class VisitLogIntentService extends IntentService {
                 if (h>=90){
                     LocalDate localDate = new LocalDate(visit.getVisitDate());
                     HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ESTIMATE_HBP,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
-                    return;
                 }
 
             }
@@ -779,6 +801,42 @@ public class VisitLogIntentService extends IntentService {
                     riskyModel.eventType = NCD_PACKAGE;
                     riskyModel.baseEntityId = baseEntityId;
                     HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+                    HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",NCD_PACKAGE);
+                    return;
+                }
+
+            }
+        }
+        if(details.containsKey("cause_of_ncd") && !StringUtils.isEmpty(details.get("cause_of_ncd"))){
+            String fbsValue = details.get("cause_of_ncd");
+            Log.v("testValue: ",fbsValue);
+            if(!TextUtils.isEmpty(fbsValue)){
+                if (fbsValue.contains("high_blood_pressure")){
+                    RiskyModel riskyModel = new RiskyModel();
+                    riskyModel.riskyValue = "high_blood_pressure";
+                    riskyModel.riskyKey = "high_blood_pressure";
+                    riskyModel.eventType = NCD_PACKAGE;
+                    riskyModel.baseEntityId = baseEntityId;
+                    HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+
+                    HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",NCD_PACKAGE);
+                    return;
+                }
+
+            }
+        }
+        if(details.containsKey("cause_of_ncd") && !StringUtils.isEmpty(details.get("cause_of_ncd"))){
+            String fbsValue = details.get("cause_of_ncd");
+            Log.v("testValue: ",fbsValue);
+            if(!TextUtils.isEmpty(fbsValue)){
+                if (fbsValue.contains("diabetics")){
+                    RiskyModel riskyModel = new RiskyModel();
+                    riskyModel.riskyValue = "diabetics";
+                    riskyModel.riskyKey = "diabetics";
+                    riskyModel.eventType = NCD_PACKAGE;
+                    riskyModel.baseEntityId = baseEntityId;
+                    HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+
                     HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",NCD_PACKAGE);
                     return;
                 }

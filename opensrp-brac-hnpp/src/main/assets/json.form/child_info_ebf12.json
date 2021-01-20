@@ -1,6 +1,6 @@
 {
   "count": "1",
-  "encounter_type": "Child Referral",
+  "encounter_type": "Child Info EBF 1&2",
   "entity_id": "",
   "metadata": {
     "start": {
@@ -47,16 +47,188 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "রেফারেল",
+    "title": "EBF-1 & EBF-2",
     "fields": [
+
       {
         "key": "form_name",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "Child Referral",
+        "openmrs_entity_id": "Child Info EBF 1&2",
         "openmrs_data_type": "text",
         "type": "hidden",
-        "value": "hnpp_child_referral"
+        "value": "child_info_ebf12"
+      },
+      {
+        "key": "within_an_hour_birth",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "within_an_hour_birth",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "জন্মের এক ঘন্টার মধ্যে শিশুকে মায়ের বুকে লাগানো হয়েছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        }
+      },
+      {
+        "key": "counseled_on_EBF",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "counseled_on_EBF",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "শিশুর সেবাদানকারী কি ৬ মাস পর্যন্ত শুধুমাত্র মায়ের বুকের দুধ খাওয়ানোর জন্য যথাযথ পরামর্শ ও নির্দেশনা পেয়েছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        }
+      },
+      {
+        "key": "exclusively_breast_fed",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "exclusively_breast_fed",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "গত ২৪ ঘন্টায় শিশুটি শুধুমাত্র মায়ের বুকের দুধ খেয়েছে ?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        }
+      },
+      {
+        "key": "child_had_diarrhea",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "child_had_diarrhea",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "গত ১৫ দিনে শিশুর ডায়রিয়া হয়েছে কিনা?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        }
+      }
+    ,
+      {
+        "key": "eaten_food_saline",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "eaten_food_saline",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "খাবার স্যালাইন খেয়েছে কিনা?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "relevance": {
+          "step1:child_had_diarrhea": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "saline_collected_from_nurse",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "saline_collected_from_nurse",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "খাবার স্যালাইন স্বাস্থ্য সেবিকার নিকট থেকে সংগ্রহ করা হয়েছিল?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "relevance": {
+          "step1:child_had_diarrhea": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "child_had_pneumonia",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "child_had_pneumonia",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "গত ১৫ দিনে শিশুর নিমোনিয়া হয়েছে কিনা?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        }
+      },
+      {
+        "key": "antibiotics_given_for_pneumonia",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "antibiotics_given_for_pneumonia",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "নিমোনিয়ার জন্য স্বাস্থ্য সেবিকার নিকট থেকে এন্টিবায়োটিক খাওয়ানো হয়েছিল কিনা?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "relevance": {
+          "step1:child_had_pneumonia": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+      }, {
+        "key": "baby_control_the_head",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "baby_control_the_head",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "শিশু কি মাথা নিয়ন্ত্রণ করতে পারে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        }
       },
       {
         "key": "cause_of_referral_child",
@@ -92,57 +264,6 @@
         "openmrs_entity_id": "other_refer_reason",
         "type": "edit_text",
         "hint": "অন্যান্য কারণ ",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_refer_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "advice_toaster_eye_child",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "চোখে সমস্যা  : \n ১.দিনে দুই থেকে তিনবার নিরাপদ পানি দিয়ে চোখ পরিষ্কার করা\n ২.চোখে আঘাত লাগতে পারে এমন কাজে চশমা ব্যবহার করা\n ৩.বিরতিহীন ভাবে চোখের কাজ না করা ও কাছ থেকে টিভি না দেখা\n ৪.সবুজ শাকসবজি হলুদ ফলমূল নিয়মিত খাওয়া\n",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_refer_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "advice_toaster_diabetis_child",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "ডায়বেটিস   : \n ১.সর্বপ্রকার মিষ্টি জাতীয় খাবার বর্জন করা\n ২.শর্করা জাতীয় খাবার ও মাটির নিচের সবজি কম খাওয়া\n ৩.আশ জাতীয় খাবার ও টক জাতীয় খাবার বেশি খাওয়া\n ৪.আলগা লবণ খাওয়া যাবে না\n ৫.মদপান ধূমপান তামাক পরিহার করা\n",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_refer_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "advice_toaster_pressure_child",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "উচ্চ রক্তচাপ   : \n ১.পাতে আলগা লবণ খাওয়া যাবেনা\n২.লবণাক্ত খাবার এড়িয়ে চলা\n ৩.30 মিনিট করে সপ্তাহে অন্তত 5 দিন হাটা\n ৪.ওজন নিয়ন্ত্রণে রাখা\n ৫.ধূমপান মদপান তামাক সেবন বর্জন করা\n৬.তেল চর্বি জাতীয় খাবার কম খাওয়া\n",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -267,8 +388,7 @@
         "openmrs_entity_id": "advice",
         "type": "edit_text",
         "hint": "উপদেশ"
-      }
-    ,
+      },
       {
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
