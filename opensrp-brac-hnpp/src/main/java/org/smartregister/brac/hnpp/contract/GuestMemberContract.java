@@ -33,6 +33,7 @@ public interface GuestMemberContract {
         ArrayList<GuestMemberData> getData();
         void saveMember(String jsonString);
         void fetchData();
+        void filterData(String query, String ssName);
         View getView();
     }
     interface Interactor{
@@ -40,6 +41,9 @@ public interface GuestMemberContract {
         void processAndSaveRegistration(final String jsonString,  final InteractorCallBack callBack);
 
         void fetchData(Context context, InteractorCallBack callBack);
+
+        void filterData(Context context, String query, String ssName, InteractorCallBack callBack);
+
         ArrayList<GuestMemberData> getAllGuestMemberList();
     }
 

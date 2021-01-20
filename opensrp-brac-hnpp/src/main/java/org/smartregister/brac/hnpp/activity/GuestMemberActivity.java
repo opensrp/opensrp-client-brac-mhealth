@@ -2,10 +2,24 @@ package org.smartregister.brac.hnpp.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
@@ -16,6 +30,7 @@ import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.adapter.GuestMemberAdapter;
 import org.smartregister.brac.hnpp.contract.GuestMemberContract;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
+import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.presenter.GuestMemberPresenter;
 import org.smartregister.brac.hnpp.utils.GuestMemberData;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -30,23 +45,95 @@ import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.util.FormUtils;
 import org.smartregister.view.activity.SecuredActivity;
 
+import java.util.ArrayList;
+
 public class GuestMemberActivity extends SecuredActivity implements GuestMemberContract.View, View.OnClickListener {
 
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private GuestMemberAdapter adapter;
+    private Spinner ssSpinner;
     private GuestMemberPresenter presenter;
+    private String ssName="";
+    private String query ="";
+    private EditText editTextSearch;
 
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_guest_member);
+        ssSpinner = findViewById(R.id.ss_filter_spinner);
+        editTextSearch = findViewById(R.id.search_edit_text);
         recyclerView = findViewById(R.id.recycler_view);
         progressBar = findViewById(R.id.progress_bar);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         findViewById(R.id.fab_add_member).setOnClickListener(this);
         findViewById(R.id.backBtn).setOnClickListener(this);
         presenter = new GuestMemberPresenter(this);
+        loadSSList();
+        editTextSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                query = s.toString();
+                filterData();
+
+            }
+        });
+
+
+    }
+    private void loadSSList(){
+        ArrayList<String> ssSpinnerArray = new ArrayList<>();
+        ssSpinnerArray.add("সকল");
+        ArrayList<SSModel> ssLocationForms = SSLocationHelper.getInstance().getSsModels();
+        for (SSModel ssModel : ssLocationForms) {
+            ssSpinnerArray.add(ssModel.username);
+        }
+        ArrayAdapter<String> ssSpinnerArrayAdapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_spinner_item,
+                        ssSpinnerArray){
+            @Override
+            public android.view.View getDropDownView(int position, @Nullable android.view.View convertView, @NonNull ViewGroup parent) {
+                convertView = super.getDropDownView(position, convertView,
+                        parent);
+
+                AppCompatTextView appCompatTextView = (AppCompatTextView)convertView;
+                appCompatTextView.setGravity(Gravity.CENTER_VERTICAL);
+                appCompatTextView.setHeight(50);
+                //appCompatTextView.setTextColor(Color.WHITE);
+                return convertView;
+            }
+        };
+        ssSpinner.setAdapter(ssSpinnerArrayAdapter);
+        ssSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
+                ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
+                if (position != -1) {
+                    if(position == 0) ssName = "";
+                    else ssName = ssSpinner.getSelectedItem().toString();
+                    filterData();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    private void filterData() {
+        presenter.filterData(query,ssName);
 
     }
 

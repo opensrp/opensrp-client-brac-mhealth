@@ -32,6 +32,13 @@ public class GuestMemberPresenter implements GuestMemberContract.Presenter,Guest
     }
 
     @Override
+    public void filterData(String query, String ssName) {
+        view.showProgressBar();
+        interactor.filterData(view.getContext(),query,ssName,this);
+
+    }
+
+    @Override
     public void fetchData() {
         view.showProgressBar();
         interactor.fetchData(view.getContext(),this);

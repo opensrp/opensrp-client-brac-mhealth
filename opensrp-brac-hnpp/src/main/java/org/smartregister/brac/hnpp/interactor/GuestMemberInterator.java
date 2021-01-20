@@ -51,4 +51,14 @@ public class GuestMemberInterator implements GuestMemberContract.Interactor {
         appExecutors.diskIO().execute(runnable);
 
     }
+    @Override
+    public void filterData(Context context,String query,String ssName, GuestMemberContract.InteractorCallBack callBack) {
+        Runnable runnable = () -> {
+            model.filterData(query,ssName);
+
+            appExecutors.mainThread().execute(callBack::updateAdapter);
+        };
+        appExecutors.diskIO().execute(runnable);
+
+    }
 }

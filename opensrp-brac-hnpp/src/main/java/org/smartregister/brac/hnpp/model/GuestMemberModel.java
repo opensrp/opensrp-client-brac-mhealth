@@ -2,6 +2,8 @@ package org.smartregister.brac.hnpp.model;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.text.TextUtils;
+import android.util.Log;
 import android.util.Pair;
 
 import org.apache.commons.lang3.StringUtils;
@@ -48,17 +50,48 @@ import static org.smartregister.brac.hnpp.utils.HnppJsonFormUtils.updateFormSubm
 public class GuestMemberModel extends JsonFormUtils implements GuestMemberContract.Model {
 
     private Context context;
-
+    private ArrayList<GuestMemberData> guestMemberDataArrayList;
+    private ArrayList<GuestMemberData> searchedGuestMemberDataArrayList;
+    private boolean isFromSearch;
     public GuestMemberModel(Context context){
         this.context = context;
         this.guestMemberDataArrayList = new ArrayList<>();
+        this.searchedGuestMemberDataArrayList = new ArrayList<>();
     }
 
-    private ArrayList<GuestMemberData> guestMemberDataArrayList;
+
+    public void filterData(String query, String ssName){
+        isFromSearch = false;
+        searchedGuestMemberDataArrayList.clear();
+        if(TextUtils.isEmpty(query) && TextUtils.isEmpty(ssName)) return;
+        isFromSearch = true;
+        for(GuestMemberData guestMemberData: guestMemberDataArrayList){
+            if(!TextUtils.isEmpty(query) && !TextUtils.isEmpty(ssName)){
+                String name = guestMemberData.getName().toLowerCase();
+                if(name.contains(query.toLowerCase()) && guestMemberData.getSsName().equalsIgnoreCase(ssName)){
+                    searchedGuestMemberDataArrayList.add(guestMemberData);
+                }
+            }
+            else if(!TextUtils.isEmpty(ssName)){
+                if(guestMemberData.getSsName().equalsIgnoreCase(ssName)){
+                    searchedGuestMemberDataArrayList.add(guestMemberData);
+                }
+            }
+            else if(!TextUtils.isEmpty(query)){
+               String name = guestMemberData.getName().toLowerCase();
+                Log.v("SEARCH_GUEST","name:"+name+":query:"+query);
+                if(name.contains(query.toLowerCase())){
+                    searchedGuestMemberDataArrayList.add(guestMemberData);
+                }
+            }
+
+        }
+
+    }
 
     @Override
     public ArrayList<GuestMemberData> getData() {
-        return guestMemberDataArrayList;
+        return isFromSearch?searchedGuestMemberDataArrayList:guestMemberDataArrayList;
     }
 
     @Override
