@@ -161,7 +161,9 @@ public class GuestMemberModel extends JsonFormUtils implements GuestMemberContra
     @Override
     public void loadData() {
         guestMemberDataArrayList.clear();
-        String query =  "select * from ec_guest_member where date_removed is null order by last_interacted_with desc";
+        String query =  "select ec_guest_member.base_entity_id,ec_guest_member.unique_id,ec_guest_member.first_name,ec_guest_member.ss_name,ec_guest_member.dob,ec_guest_member.gender,ec_visit_log.visit_date from ec_guest_member " +
+                "left join ec_visit_log on ec_visit_log.base_entity_id = ec_guest_member.base_entity_id  " +
+                "where ec_guest_member.date_removed is null order by ec_guest_member.last_interacted_with desc";
         Cursor cursor = null;
         // try {
         cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
@@ -173,9 +175,10 @@ public class GuestMemberModel extends JsonFormUtils implements GuestMemberContra
                 guestMemberData.setBaseEntityId(cursor.getString(cursor.getColumnIndex("base_entity_id")));
                 guestMemberData.setMemberId(cursor.getString(cursor.getColumnIndex("unique_id")));
                 guestMemberData.setName(cursor.getString(cursor.getColumnIndex("first_name")));
+                guestMemberData.setSsName(cursor.getString(cursor.getColumnIndex("ss_name")));
                 guestMemberData.setDob(cursor.getString(cursor.getColumnIndex("dob")));
                 guestMemberData.setGender(cursor.getString(cursor.getColumnIndex("gender")));
-                guestMemberData.setLastSubmissionDate(cursor.getLong(cursor.getColumnIndex("last_interacted_with")));
+                guestMemberData.setLastSubmissionDate(cursor.getLong(cursor.getColumnIndex("visit_date")));
                 guestMemberDataArrayList.add(guestMemberData);
 
                 cursor.moveToNext();

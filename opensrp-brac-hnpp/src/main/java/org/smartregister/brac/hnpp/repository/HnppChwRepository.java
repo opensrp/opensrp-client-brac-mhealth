@@ -71,7 +71,6 @@ public class HnppChwRepository extends CoreChwRepository {
         upgradeToVersion29(context,database);
         upgradeToVersion30(context,database);
         upgradeToVersion31(context,database);
-        upgradeToVersion32(context,database);
 
     }
 
@@ -123,6 +122,9 @@ public class HnppChwRepository extends CoreChwRepository {
                     break;
                 case 23:
                     upgradeToVersion23(context,db);
+                    break;
+                case 24:
+                    upgradeToVersion24(context,db);
                     break;
                 case 25:
                     upgradeToVersion25(context,db);
@@ -188,6 +190,15 @@ public class HnppChwRepository extends CoreChwRepository {
 
         }
     }
+    private void upgradeToVersion24(Context context, SQLiteDatabase db) {
+        try {
+            db.execSQL("CREATE TABLE ec_guest_member (id VARCHAR,_id VARCHAR,base_entity_id VARCHAR,ss_name VARCHAR,village_name VARCHAR,village_id VARCHAR,unique_id VARCHAR,first_name VARCHAR,father_name VARCHAR,phone_number VARCHAR," +
+                    "is_birthday_known VARCHAR,dob VARCHAR,estimated_age VARCHAR,gender VARCHAR,dod VARCHAR,entity_type VARCHAR,date_removed VARCHAR,last_interacted_with LONG,is_closed VARCHAR" +
+                    ",details VARCHAR,relationalid VARCHAR)");
+        } catch (Exception e) {
+
+        }
+    }
     private void upgradeToVersion19(Context context, SQLiteDatabase db) {
         DistrictListRepository.createTable(db);
 
@@ -243,6 +254,7 @@ public class HnppChwRepository extends CoreChwRepository {
         try{
             db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN _id VARCHAR;");
         }catch (Exception e){
+            e.printStackTrace();
 
         }
 

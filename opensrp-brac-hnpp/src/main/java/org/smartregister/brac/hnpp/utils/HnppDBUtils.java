@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.model.ForumDetails;
+import org.smartregister.brac.hnpp.model.VisitInfo;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.dao.AbstractDao;
 import org.smartregister.chw.core.utils.ChildDBConstants;
@@ -37,6 +38,29 @@ import timber.log.Timber;
 
 public class HnppDBUtils extends CoreChildUtils {
     private static final int STOCK_END_THRESHOLD = 2;
+
+    public static VisitInfo getVisitInfo(String eventType, String baseEntityId){
+        String query = "select count(*) as count, max(visit_date) as v_date from ec_visit_log where base_entity_id ='"+baseEntityId+"' and visit_type ='"+eventType+"'";
+        Cursor cursor = null;
+        VisitInfo visitInfo = new VisitInfo();
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                visitInfo.setVisitCount(cursor.getInt(0));
+                visitInfo.setVisitDate(cursor.getInt(1));
+
+            }
+
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        finally {
+            if(cursor !=null) cursor.close();
+        }
+        return visitInfo;
+
+    }
 
     public static void updateMigratedOrRejectedHH(String base_entity_id){
         try{
@@ -508,28 +532,30 @@ public class HnppDBUtils extends CoreChildUtils {
         return count;
     }
 
-    public static String[] getBaseEntityByGuId(String guid){
+    public static IdentityModel getBaseEntityByGuId(String guid){
         String query = "select ec_family_member.base_entity_id,ec_family_member.first_name,ec_family_member.unique_id,ec_family.first_name,ec_family_member.dob from ec_family_member LEFT JOIN ec_family ON  ec_family_member.relational_id = ec_family.id COLLATE NOCASE  where ec_family_member.gu_id = '"+guid+"'";
         Cursor cursor = null;
-        String[] strings = new String[5];
+        IdentityModel identityModel = new IdentityModel();
         try {
             cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
-                strings[0] = cursor.getString(0);
-                strings[1] = cursor.getString(1);
-                strings[2] = cursor.getString(2);
-                strings[3] = cursor.getString(3);
+                identityModel.setBaseEntityId(cursor.getString(0));
+                identityModel.setName(cursor.getString(1));
+                identityModel.setId(cursor.getString(2));
+                identityModel.setFamilyHead(cursor.getString(3));
                 String dobString = Utils.getDuration(cursor.getString(4));
-                strings[4] = dobString;
-                cursor.close();
+                identityModel.setAge(dobString);
             }
 
-            return strings;
+            return identityModel;
         } catch (Exception e) {
-            Timber.e(e);
+            e.printStackTrace();
         }
-        return strings;
+        finally {
+            if(cursor!=null) cursor.close();
+        }
+        return identityModel;
     }
 
     public static String getBirthWeight(String baseEntityId){
@@ -890,6 +916,7 @@ public class HnppDBUtils extends CoreChildUtils {
         return null;
     }
     public static String getModuleId(String familyId){
+        if(!HnppConstants.isReleaseBuild()) return HnppConstants.MODULE_ID_TRAINING;
         String query = "select module_id from ec_family where base_entity_id = '"+familyId+"'";
         Cursor cursor = null;
         try {

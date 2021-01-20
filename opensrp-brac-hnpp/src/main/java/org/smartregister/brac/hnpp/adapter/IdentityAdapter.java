@@ -40,7 +40,7 @@ public class IdentityAdapter extends RecyclerView.Adapter<IdentityAdapter.Identi
         final IdentityModel content = contentList.get(position);
         viewHolder.textViewName.setText(content.getName());
         viewHolder.textViewName.setText(viewHolder.textViewName.getText()+", বয়স: "+content.getAge());
-        viewHolder.textViewGuid.setText(content.getGuid());
+        viewHolder.textViewGuid.setText(content.getId());
         viewHolder.textViewTier.setText(content.getTier());
         viewHolder.textViewFamilyName.setText("খানা প্রধান: "+content.getFamilyHead());
         if(!TextUtils.isEmpty(content.getHusband())){

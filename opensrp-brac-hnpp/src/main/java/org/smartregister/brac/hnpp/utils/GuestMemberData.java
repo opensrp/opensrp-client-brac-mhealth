@@ -10,6 +10,7 @@ public class GuestMemberData {
     private String villageId;
     private long lastSubmissionDate;
     private String phoneNo;
+    private String ssName;
 
     public void setVillageId(String villageId) {
         this.villageId = villageId;
@@ -41,6 +42,14 @@ public class GuestMemberData {
 
     public String getMemberId() {
         return memberId;
+    }
+
+    public void setSsName(String ssName) {
+        this.ssName = ssName;
+    }
+
+    public String getSsName() {
+        return ssName;
     }
 
     public String getName() {

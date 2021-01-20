@@ -46,13 +46,13 @@ public class GuestMemberActivity extends SecuredActivity implements GuestMemberC
         findViewById(R.id.fab_add_member).setOnClickListener(this);
         findViewById(R.id.backBtn).setOnClickListener(this);
         presenter = new GuestMemberPresenter(this);
-        presenter.fetchData();
+
 
     }
 
     @Override
     protected void onResumption() {
-
+        presenter.fetchData();
     }
     @Override
     public void showProgressBar() {

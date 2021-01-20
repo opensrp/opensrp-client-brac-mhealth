@@ -115,6 +115,7 @@ public class VisitLogIntentService extends IntentService {
                             final CommonPersonObjectClient client = new CommonPersonObjectClient(base_entity_id, details, "");
                             client.setColumnmaps(details);
                             for (String encounter_type : encounter_types) {
+                                Log.v("ANC_HOME_VISIT","encounter_type:"+encounter_type);
                                 JSONObject form_object = loadFormFromAsset(encounter_type);
                                 if(encounter_type.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME_OOC)){
                                     encounter_type = HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME;
@@ -440,6 +441,10 @@ public class VisitLogIntentService extends IntentService {
                     String value = details.get("solid_food_month");
                     HnppApplication.getIndicatorRepository().updateValue("solid_food_month",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
 
+                    String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(baseEntityId+"_SOLID_FOOD");
+                    if(TextUtils.isEmpty(prevalue)){
+                        FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(baseEntityId+"_SOLID_FOOD",value);
+                    }
                 }
                 break;
             case HnppConstants.EventType.REMOVE_MEMBER: {
@@ -1822,12 +1827,12 @@ public class VisitLogIntentService extends IntentService {
 
 
         try {
+
             String jsonString = AssetHandler.readFileFromAssetsFolder("json.form/"+form_name, VisitLogIntentService.this);
             return new JSONObject(jsonString);
-        } catch (JSONException e) {
+        } catch (Exception e) {
+            Log.v("LOAD_FILE","file name:"+form_name+":encounter_type:"+encounter_type);
             e.printStackTrace();
-        } catch (NullPointerException e){
-
         }
         return new JSONObject();
     }
