@@ -269,7 +269,34 @@
           }
         }
       },
-
+      {
+        "key": "trouble_seeing_hearing",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "trouble_seeing_hearing",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "আপনার কি দেখতে, শুনতে অসুবিধা হয় - এমনকি চশমা পরেও/ কানে যন্ত্র দিয়েও?",
+        "values": [
+          "না- কোনো অসুবিধা হয় না",
+          "হ্যা সামান্য অসুবিধা হয়",
+          "হ্যা অনেক অসুবিধা হয়",
+          "একদমই পারি না"
+        ],
+        "openmrs_choice_ids": {
+          "না- কোনো অসুবিধা হয় না": "no_trouble",
+          "হ্যা সামান্য অসুবিধা হয়": "yes_little_trouble",
+          "হ্যা অনেক অসুবিধা হয়": "yes_many_trouble",
+          "একদমই পারি না": "cant"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_default_baby.yml"
+            }
+          }
+        }
+      },
       {
         "key": "birth_weight_taken",
         "openmrs_entity_parent": "",

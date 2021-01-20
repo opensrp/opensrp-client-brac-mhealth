@@ -103,8 +103,7 @@ public class StockDetailsModel implements StockDetailsContract.Model{
         query = "select sum("+ StockRepository.STOCK_QUANTITY+") as count, sum("+StockRepository.ACHIEVEMNT_COUNT+") as acount from "+StockRepository.STOCK_TABLE+" where "+StockRepository.STOCK_PRODUCT_NAME+" = '"+visitType+"' and "+StockRepository.STOCK_TIMESTAMP+" < "+HnppConstants.getLongDateFormate(year,month);//47809000= 1970/01/01
 
         Log.v("LAST_BALANCE_STOCK","query:"+query);
-
-        Cursor cursor = null;
+            Cursor cursor = null;
         // try {
         cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         if(cursor !=null && cursor.getCount() > 0){

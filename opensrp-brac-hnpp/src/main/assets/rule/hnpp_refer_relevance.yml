@@ -27,6 +27,69 @@ condition: "step1_cause_of_referral_woman.equals('চোখে সমস্য�
 actions:
   - "isRelevant = true"
 ---
+name: step1_seat_ability
+description: if age 180 to 270 days
+priority: 1
+condition: "(step1_month_diff >= 180 && step1_month_diff <= 270)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_can_make_words_with_mouth
+description: if age 180 to 270 days
+priority: 1
+condition: "(step1_month_diff >= 180 && step1_month_diff <= 270)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_can_crawl
+description: if age 271 to 365 days
+priority: 1
+condition: "(step1_month_diff >= 271 && step1_month_diff <= 365)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_can_babama_sound
+description: if age 271 to 365 days
+priority: 1
+condition: "(step1_month_diff >= 271 && step1_month_diff <= 365)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_can_catch_standup
+description: if age 330 to 365 days
+priority: 1
+condition: "(step1_month_diff >= 330 && step1_month_diff <= 365)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_can_make_full_sound
+description: if age 365 to 545 days
+priority: 1
+condition: "(step1_month_diff >= 365 && step1_month_diff <= 545)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_can_catch_walking
+description: if age 365 to 545 days
+priority: 1
+condition: "(step1_month_diff >= 365 && step1_month_diff <= 545)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_can_say_two_word
+description: if age 545 to 730 days
+priority: 1
+condition: "(step1_month_diff >= 545 && step1_month_diff <= 730)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_walk_alone
+description: if age 545 to 730 days
+priority: 1
+condition: "(step1_month_diff >= 545 && step1_month_diff <= 730)"
+actions:
+  - "isRelevant = true"
+---
 name: step1_advice_toaster_pressure_child
 description: advice_toaster_eye
 priority: 1
@@ -38,6 +101,34 @@ name: step1_advice_toaster_diabetis_child
 description: advice_toaster_eye
 priority: 1
 condition: "step1_cause_of_referral_child.equals('ডায়বেটিস')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_baby_eat_nutrients_yes
+description: advice_toaster_baby_eat_nutrients_yes
+priority: 1
+condition: "step1_baby_eat_nutrients.equals('হ্যাঁ')||step1_baby_eat_nutrients_24_hours.equals('হ্যাঁ')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_baby_eat_nutrients_no
+description: advice_toaster_baby_eat_nutrients_no
+priority: 1
+condition: "step1_baby_eat_nutrients.equals('না')||step1_baby_eat_nutrients_24_hours.equals('না')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_antibiotics_given_for_pneumonia_no
+description: advice_toaster_antibiotics_given_for_pneumonia_no
+priority: 1
+condition: "step1_antibiotics_given_for_pneumonia.equals('না')||step1_seat_ability.equals('না')||step1_can_crawl.equals('না')||step1_can_catch_standup.equals('না')||step1_can_catch_walking.equals('না')||step1_walk_alone.equals('না')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_toaster_can_make_words_with_mouth_no
+description: advice_toaster_can_make_words_with_mouth_no
+priority: 1
+condition: "step1_can_make_words_with_mouth.equals('না')||step1_can_babama_sound.equals('না')||step1_can_make_full_sound.equals('না')||step1_can_say_two_word.equals('হ্যাঁ')||step1_can_speak.equals('হ্যাঁ')"
 actions:
   - "isRelevant = true"
 ---
@@ -108,6 +199,13 @@ name: step1_is_operation_done
 description: is_operation_done
 priority: 1
 condition: "step1_caused_referred.contains('চোখে ক্যাটারেক্ট (ছানি) সমস্যা')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_other_place
+description: other_place
+priority: 1
+condition: "step1_place_of_referral.contains('অন্যান্য')||step1_place_of_referral.contains('other_option')"
 actions:
   - "isRelevant = true"
 ---

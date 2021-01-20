@@ -42,7 +42,8 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
 
         if(HnppConstants.isPALogin()){
             findViewById(R.id.eyetestID).setVisibility(View.VISIBLE);
-            findViewById(R.id.eyetestID).setVisibility(View.VISIBLE);
+            findViewById(R.id.bloodgroupID).setVisibility(View.VISIBLE);
+            findViewById(R.id.adolescatID).setVisibility(View.GONE);
             findViewById(R.id.ancID).setVisibility(View.GONE);
             findViewById(R.id.pncID).setVisibility(View.GONE);
             findViewById(R.id.womenID).setVisibility(View.GONE);

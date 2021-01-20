@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +32,7 @@ import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.utils.ANCRegister;
+import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.chw.anc.AncLibrary;
@@ -42,6 +45,7 @@ import org.smartregister.chw.anc.util.DBConstants;
 import org.smartregister.chw.anc.util.NCUtils;
 import org.smartregister.chw.core.activity.CoreAncRegisterActivity;
 import org.smartregister.chw.core.utils.CoreConstants;
+import org.smartregister.chw.core.utils.CoreJsonFormUtils;
 import org.smartregister.clientandeventmodel.Address;
 import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.clientandeventmodel.Event;
@@ -53,8 +57,17 @@ import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.EventClientRepository;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import timber.log.Timber;
 
@@ -65,6 +78,8 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
 
     private HnppVisitLogRepository visitLogRepository;
     private static String motherName;
+    private static String baseEntityId;
+
 
     public static void startHnppAncRegisterActivity(Activity activity, String memberBaseEntityID, String phoneNumber, String formName,
                                                     String uniqueId, String familyBaseID, String family_name, String moName) {
@@ -75,6 +90,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
         form_name = formName;
         familyName = family_name;
         motherName = moName;
+        baseEntityId = memberBaseEntityID;
         unique_id = uniqueId;
         intent.putExtra(org.smartregister.chw.anc.util.Constants.ACTIVITY_PAYLOAD.ACTION, org.smartregister.chw.anc.util.Constants.ACTIVITY_PAYLOAD_TYPE.REGISTRATION);
         intent.putExtra(Constants.ACTIVITY_PAYLOAD.TABLE_NAME, getFormTable());
@@ -100,6 +116,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+       // baseEntityId = getIntent().getStringExtra(org.smartregister.chw.anc.util.Constants.ACTIVITY_PAYLOAD.BASE_ENTITY_ID);
         ArrayList<SSModel> ssLocationForms = SSLocationHelper.getInstance().getSsModels();
         if(ssLocationForms.size() > 0){
             boolean simPrintsEnable = ssLocationForms.get(0).simprints_enable;
@@ -123,6 +140,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
     protected void initializePresenter() {
         presenter = new BaseAncRegisterPresenter(this, new BaseAncRegisterModel(), new BaseAncRegisterInteractor());
     }
+
     @Override
     public void startFormActivity(JSONObject jsonForm) {
 
@@ -148,6 +166,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
             updateFormField(jsonArray, DBConstants.KEY.UNIQUE_ID, unique_id);
             updateFormField(jsonArray, DBConstants.KEY.TEMP_UNIQUE_ID, unique_id);
             updateFormField(jsonArray, "temp_name", motherName+" এর বাবু");
+            updateMinDate(jsonArray);
             updateFormField(jsonArray, CoreConstants.JsonAssets.FAM_NAME, familyName);
             updateFormField(jsonArray, CoreConstants.JsonAssets.FAMILY_MEMBER.PHONE_NUMBER, phone_number);
             updateFormField(jsonArray, org.smartregister.family.util.DBConstants.KEY.RELATIONAL_ID, familyBaseEntityId);
@@ -163,6 +182,29 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
         }
     }
 
+
+
+    private void updateMinDate(JSONArray jsonArray) throws JSONException{
+        JSONObject min_date = CoreJsonFormUtils.getFieldJSONObject(jsonArray, "delivery_date");
+        String lmp = FormApplicability.getLmp(baseEntityId);
+        //int days = CoreJsonFormUtils.getDayFromDate(lmp);
+        int days = getDaysFromDate(lmp);
+        min_date.put("min_date", "today-" + days + "d");
+    }
+
+    private int getDaysFromDate(String date){
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        Date past,now;
+        int days=0;
+        try {
+            past = format.parse(date);
+            now = new Date();
+            days = (int) TimeUnit.MILLISECONDS.toDays(now.getTime() - past.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return days;
+    }
     private void updateEncounterType(JSONObject jsonForm) {
         try {
             jsonForm.put("encounter_type", HnppConstants.EVENT_TYPE.UPDATE_ANC_REGISTRATION);
