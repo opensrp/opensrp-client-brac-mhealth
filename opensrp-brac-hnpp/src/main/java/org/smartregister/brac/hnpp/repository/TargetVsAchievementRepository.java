@@ -147,7 +147,7 @@ public class TargetVsAchievementRepository extends BaseRepository {
             Log.v("TARGET_FETCH","inserterd:"+inserted);
         }else{
             long updated = getWritableDatabase().update(getLocationTableName(), contentValues,TARGET_NAME+" = '"+targetVsAchievementData.getTargetName()+"' and "+YEAR+" ='"+targetVsAchievementData.getYear()+"'" +
-                    " and "+MONTH+" ='"+targetVsAchievementData.getMonth()+"' and "+DAY+" ='"+targetVsAchievementData.getDay(),null);
+                    " and "+MONTH+" ='"+targetVsAchievementData.getMonth()+"' and "+DAY+" ='"+targetVsAchievementData.getDay()+"'",null);
             Log.v("TARGET_FETCH","exists!!!!!!!!!updated:"+updated);
         }
 
