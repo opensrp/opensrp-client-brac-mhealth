@@ -44,6 +44,7 @@ import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
+import org.smartregister.brac.hnpp.repository.StockRepository;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -341,6 +342,10 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     int requestedRequestCode;
 
     public void startAnyFormActivity(String formName, int requestCode) {
+        if(!HnppApplication.getStockRepository().isAvailableStock(HnppConstants.formNameEventTypeMapping.get(formName))){
+            HnppConstants.showOneButtonDialog(this,getString(R.string.dialog_stock_sell_end),"");
+            return;
+        }
         requestedFormName = formName;
         requestedRequestCode = requestCode;
         if(!ignoreSimprintCheck && isNeedToVerify()){
@@ -859,6 +864,10 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     private boolean needToStartHomeVisit = false;
 
     public void openHomeVisitForm(){
+        if(!HnppApplication.getStockRepository().isAvailableStock(CoreConstants.EventType.ANC_HOME_VISIT)){
+            HnppConstants.showOneButtonDialog(this,getString(R.string.dialog_stock_sell_end),"");
+            return;
+        }
         needToStartHomeVisit = true;
         if(!ignoreSimprintCheck && isNeedToVerify()){
             showVerifyDialog();

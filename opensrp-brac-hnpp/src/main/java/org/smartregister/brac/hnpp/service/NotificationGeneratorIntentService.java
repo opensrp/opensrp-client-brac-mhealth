@@ -46,18 +46,19 @@ public class NotificationGeneratorIntentService extends IntentService {
 
     }
     private void processStockEndNotification(){
-        Log.v("NOTIFICATION_JOB","processStockEndNotification");
         if(HnppConstants.isNeedToShowStockEndPopup()){
-            Log.v("NOTIFICATION_JOB","is need");
             StringBuilder nameCountBuilder = HnppDBUtils.getStockEnd();
-            Log.v("NOTIFICATION_JOB","processStockEndNotification:"+nameCountBuilder);
             if(nameCountBuilder!=null && nameCountBuilder.length()>0){
 
+                try{
+                    insertAtNotificationTable(getString(R.string.menu_end_stock),nameCountBuilder.toString());
+                    Intent intent = new Intent(HnppConstants.ACTION_STOCK_END);
+                    intent.putExtra(HnppConstants.EXTRA_STOCK_END, nameCountBuilder.toString());
+                    sendBroadcast(intent);
+                }catch (Exception e){
 
-                insertAtNotificationTable(getString(R.string.menu_end_stock),nameCountBuilder.toString());
-                Intent intent = new Intent(HnppConstants.ACTION_STOCK_END);
-                intent.putExtra(HnppConstants.EXTRA_STOCK_END, nameCountBuilder.toString());
-                sendBroadcast(intent);
+                }
+
 
             }
         }
@@ -70,10 +71,15 @@ public class NotificationGeneratorIntentService extends IntentService {
             if(HnppConstants.isNeedToShowEDDPopup()){
                 StringBuilder nameCountBuilder = HnppDBUtils.getEddThisMonth();
                 if(nameCountBuilder!=null && nameCountBuilder.length()>0){
-                    insertAtNotificationTable(getString(R.string.menu_edd_this_month),nameCountBuilder.toString());
-                    Intent intent = new Intent(HnppConstants.ACTION_EDD);
-                    intent.putExtra(HnppConstants.EXTRA_EDD, nameCountBuilder.toString());
-                    sendBroadcast(intent);
+                    try{
+                        insertAtNotificationTable(getString(R.string.menu_edd_this_month),nameCountBuilder.toString());
+                        Intent intent = new Intent(HnppConstants.ACTION_EDD);
+                        intent.putExtra(HnppConstants.EXTRA_EDD, nameCountBuilder.toString());
+                        sendBroadcast(intent);
+                    }catch (Exception e){
+
+                    }
+
                 }
             }
 
