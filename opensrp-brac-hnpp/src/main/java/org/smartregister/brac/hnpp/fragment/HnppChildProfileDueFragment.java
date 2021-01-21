@@ -273,7 +273,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
 
         }
         eventType = FormApplicability.isDueChildInfo(dob);
-        if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12) && FormApplicability.isDueAnyForm(baseEntityId,eventType)){
+        if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12) && FormApplicability.isDueChildInfoForm(baseEntityId,eventType)){
             childInfo1View = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
             ImageView fImg = childInfo1View.findViewById(R.id.image_view);
             TextView fName =  childInfo1View.findViewById(R.id.patient_name_age);
@@ -284,7 +284,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             childInfo1View.setOnClickListener(this);
             otherServiceView.addView(childInfo1View);
         }
-        else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS) && FormApplicability.isDueAnyForm(baseEntityId,eventType)){
+        else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS) && FormApplicability.isDueChildInfoForm(baseEntityId,eventType)){
             childInfo2View = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
             ImageView fImg = childInfo2View.findViewById(R.id.image_view);
             TextView fName =  childInfo2View.findViewById(R.id.patient_name_age);
@@ -295,7 +295,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             childInfo2View.setOnClickListener(this);
             otherServiceView.addView(childInfo2View);
         }
-        else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS) && FormApplicability.isDueAnyForm(baseEntityId,eventType)){
+        else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS) && FormApplicability.isDueChildInfoForm(baseEntityId,eventType)){
             childInfo3View = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
             ImageView fImg = childInfo3View.findViewById(R.id.image_view);
             TextView fName =  childInfo3View.findViewById(R.id.patient_name_age);
