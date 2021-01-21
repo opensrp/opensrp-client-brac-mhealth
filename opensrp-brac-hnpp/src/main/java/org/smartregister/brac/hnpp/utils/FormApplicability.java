@@ -40,10 +40,11 @@ public class FormApplicability {
 
     }
     public static String isDueChildInfo(Date dob){
-        int day = DateUtil.dayDifference(new LocalDate(dob),new LocalDate(System.currentTimeMillis()));
+
         if(HnppConstants.isPALogin()){
             return null;
         }
+        int day = DateUtil.dayDifference(new LocalDate(dob),new LocalDate(System.currentTimeMillis()));
         if(day >= 2 && day <= 3){
             return HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12;
         }
