@@ -217,7 +217,10 @@ public class GuestMemberProfileActivity extends SecuredActivity implements View.
         startAnyFormActivity(formName,REQUEST_HOME_VISIT);
     }
     public void startAnyFormActivity(String formName, int requestCode) {
-
+        if(!HnppApplication.getStockRepository().isAvailableStock(HnppConstants.formNameEventTypeMapping.get(formName))){
+            HnppConstants.showOneButtonDialog(this,getString(R.string.dialog_stock_sell_end),"");
+            return;
+        }
 
         try {
             JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);

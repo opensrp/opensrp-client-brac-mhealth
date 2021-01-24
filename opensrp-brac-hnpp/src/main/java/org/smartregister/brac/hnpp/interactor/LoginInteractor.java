@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.interactor;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.job.HnppPncCloseJob;
 import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
+import org.smartregister.brac.hnpp.job.NotificationGeneratorJob;
 import org.smartregister.brac.hnpp.job.SSLocationFetchJob;
 import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
@@ -26,6 +27,8 @@ public class LoginInteractor extends BaseLoginInteractor implements BaseLoginCon
     protected void scheduleJobsPeriodically() {
         HnppSyncIntentServiceJob.scheduleJob(HnppSyncIntentServiceJob.TAG, TimeUnit.MINUTES.toMinutes(
                 BuildConfig.DATA_SYNC_DURATION_MINUTES), getFlexValue(BuildConfig.DATA_SYNC_DURATION_MINUTES));
+        NotificationGeneratorJob.scheduleJob(NotificationGeneratorJob.TAG, TimeUnit.MINUTES.toMinutes(
+                BuildConfig.NOTIFICATION_GENERATE), getFlexValue(BuildConfig.NOTIFICATION_GENERATE));
 ////
 ////        ImageUploadServiceJob.scheduleJob(ImageUploadServiceJob.TAG, TimeUnit.MINUTES.toMinutes(
 ////                BuildConfig.IMAGE_UPLOAD_MINUTES), getFlexValue(BuildConfig.IMAGE_UPLOAD_MINUTES));

@@ -650,6 +650,16 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,JSON_FORMS.CHILD_INFO_7_24_MONTHS)
             .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,JSON_FORMS.CHILD_INFO_25_MONTHS)
             .build();
+    public static final Map<String,String> formNameEventTypeMapping = ImmutableMap.<String,String> builder()
+            .put(JSON_FORMS.ANC1_FORM,EventType.ANC_HOME_VISIT)
+            .put(JSON_FORMS.ANC2_FORM,EventType.ANC_HOME_VISIT)
+            .put(JSON_FORMS.ANC3_FORM,EventType.ANC_HOME_VISIT)
+            .put(JSON_FORMS.PNC_FORM,EventType.PNC_HOME_VISIT)
+            .put(JSON_FORMS.NCD_PACKAGE,EVENT_TYPE.NCD_PACKAGE)
+            .put(JSON_FORMS.IYCF_PACKAGE,EVENT_TYPE.IYCF_PACKAGE)
+            .put(JSON_FORMS.WOMEN_PACKAGE,EVENT_TYPE.WOMEN_PACKAGE)
+            .put(JSON_FORMS.GIRL_PACKAGE,EVENT_TYPE.GIRL_PACKAGE)
+            .build();
     public static final Map<String,String> guestEventTypeFormNameMapping = ImmutableMap.<String,String> builder()
             .put(EVENT_TYPE.ANC_REGISTRATION,JSON_FORMS.ANC_FORM)
             .put(EVENT_TYPE.ANC1_REGISTRATION,JSON_FORMS.ANC1_FORM_OOC)

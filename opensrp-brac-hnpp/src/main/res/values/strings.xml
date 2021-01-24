@@ -347,5 +347,6 @@
     <string name="dialog_title">আপনি কি নিশ্চিত এই স্থানান্তর এর সম্পর্কে?</string>
     <string name="dialog_text_family">যে কোনো একটি খানা সিলেক্ট করুন</string>
    <string name="ss_migration">এখানে স্থানান্তর করি</string>
+    <string name="dialog_stock_sell_end">আপনার স্টক শেষ হয়ে গিয়েছে। অনুগ্রহ করে স্টক কালেক্ট করুন </string>
 
 </resources>
