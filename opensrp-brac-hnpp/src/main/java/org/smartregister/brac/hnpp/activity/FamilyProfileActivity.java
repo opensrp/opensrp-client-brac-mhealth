@@ -28,6 +28,7 @@ import com.vijay.jsonwizard.domain.Form;
 import com.vijay.jsonwizard.utils.PermissionUtils;
 
 import org.json.JSONObject;
+import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.contract.MigrationContract;
 import org.smartregister.brac.hnpp.fragment.FamilyHistoryFragment;
@@ -250,7 +251,20 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                     presenter().updateFamilyRegister(jsonString);
                     presenter().verifyHasPhone();
                 }else {
-                    super.onActivityResult(requestCode, resultCode, data);
+                    String[] generatedString = HnppJsonFormUtils.getValuesFromRegistrationForm(form);
+                    Log.v("FORM_SAVE","generatedString:"+generatedString);
+                    String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
+
+                    String fullName = HnppApplication.getInstance().getContext().allSharedPreferences().getANMPreferredName(userName);
+                    String title = String.format(getString(R.string.dialog_confirm_save),fullName,generatedString[0],generatedString[2],generatedString[1]);
+                    HnppConstants.showSaveFormConfirmationDialog(this, title, new Runnable() {
+                        @Override
+                        public void run() {
+                           // super.onActivityResult(requestCode, resultCode, data);
+                        }
+                    });
+
+
                 }
             } catch (Exception e) {
                 Timber.e(e);
@@ -286,7 +300,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
             HnppConstants.isViewRefresh = true;
 
         }
-        //super.onActivityResult(requestCode, resultCode, data);
+
     }
 
     @Override

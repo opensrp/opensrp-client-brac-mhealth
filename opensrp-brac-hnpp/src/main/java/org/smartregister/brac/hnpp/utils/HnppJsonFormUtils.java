@@ -580,6 +580,18 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         JSONObject ss_name = getFieldJSONObject(field, "ss_name");
        return ss_name.optString(VALUE);
     }
+    public static String[] getValuesFromRegistrationForm(JSONObject jsonForm){
+        JSONArray field = fields(jsonForm, STEP1);
+        String[] fff = new String[3];
+        JSONObject first_name = getFieldJSONObject(field, "first_name");
+        JSONObject n_id = getFieldJSONObject(field, "national_id");
+        JSONObject age = getFieldJSONObject(field, "estimated_age");
+
+        fff[0] = first_name.optString(VALUE);
+        fff[1] = n_id.optString(VALUE);
+        fff[2] = age.optString(VALUE);
+        return fff;
+    }
     public static String getSSIdFromForm(JSONObject jsonForm){
         JSONArray field = fields(jsonForm, STEP1);
         try{
