@@ -406,6 +406,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     public void openFollowUp() {
         startAnyFormActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOWUP,REQUEST_HOME_VISIT);
     }
+    public void openChildInfo(String eventType) {
+        startAnyFormActivity(HnppConstants.eventTypeFormNameMapping.get(eventType),REQUEST_HOME_VISIT);
+    }
     public void openCoronaIndividualForm(){
         Intent intent = new Intent(this, HnppAncJsonFormActivity.class);
         try{

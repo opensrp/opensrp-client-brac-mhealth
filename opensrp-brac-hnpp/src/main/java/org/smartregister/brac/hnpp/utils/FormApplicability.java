@@ -35,6 +35,27 @@ public class FormApplicability {
         return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneWihinTwentyFourHours(baseEntityId, eventType);
 
     }
+    public static boolean isDueChildInfoForm(String baseEntityId, String eventType){
+        return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneWihinChildInfoLogic(baseEntityId, eventType);
+
+    }
+    public static String isDueChildInfo(Date dob){
+
+        if(HnppConstants.isPALogin()){
+            return null;
+        }
+        int day = DateUtil.dayDifference(new LocalDate(dob),new LocalDate(System.currentTimeMillis()));
+        if(day >= 2 && day <= 3){
+            return HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12;
+        }
+        else if((day >= 180 && day <= 210)||(day >= 331 && day <= 365)||(day >= 515 && day <= 545)) {
+            return HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS;
+        }
+        else if((day >= 700 && day <= 730)) {
+            return HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS;
+        }
+        return "";
+    }
 
     public static ArrayList<ReferralFollowUpModel> getReferralFollowUp(String baseEntityId){
         return HnppApplication.getHNPPInstance().getHnppVisitLogRepository().getAllReferrelFollowUp(baseEntityId);

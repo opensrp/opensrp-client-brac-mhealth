@@ -237,7 +237,9 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
                             (((MaterialSpinner) v).getHint().toString()).equals("দুইটি আলাদা শব্দ বলতে পারে কিনা? *")||
                             (((MaterialSpinner) v).getHint().toString()).equals("এক হাঁটতে পারে কিনা? *")||
                             (((MaterialSpinner) v).getHint().toString()).equals("দৌড়াতে পারে? *")||
-                            (((MaterialSpinner) v).getHint().toString()).equals("কথা(সম্পূর্ণ বাক্য) বলতে পারে কিনা? *")
+                            (((MaterialSpinner) v).getHint().toString()).equals("কথা(সম্পূর্ণ বাক্য) বলতে পারে কিনা? *")||
+                            (((MaterialSpinner) v).getHint().toString()).equals("শিশু কি মাথা নিয়ন্ত্রণ করতে পারে?")||
+                            (((MaterialSpinner) v).getHint().toString()).equals("নিমোনিয়ার জন্য স্বাস্থ্য সেবিকার নিকট থেকে এন্টিবায়োটিক খাওয়ানো হয়েছিল কিনা?")
 
             )) {
 
