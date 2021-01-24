@@ -163,7 +163,7 @@
       }
     ,
       {
-        "key": "taken_deworming_medicine ",
+        "key": "taken_deworming_medicine",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "taken_deworming_medicine",
