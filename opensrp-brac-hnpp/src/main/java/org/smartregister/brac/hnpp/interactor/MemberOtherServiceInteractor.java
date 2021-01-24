@@ -14,11 +14,8 @@ import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.OtherServiceData;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.util.AppExecutors;
-import org.smartregister.family.util.DBConstants;
-import org.smartregister.family.util.Utils;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import static org.smartregister.brac.hnpp.utils.HnppConstants.eventTypeMapping;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.iconMapping;
@@ -103,8 +100,6 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
         int age = FormApplicability.getAge(commonPersonObjectClient);
         long day = FormApplicability.getDay(commonPersonObjectClient);
         String gender = FormApplicability.getGender(commonPersonObjectClient);
-        String dobString = Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOB, false);
-        Date dob = Utils.dobStringToDate(dobString);
 
         ArrayList<OtherServiceData> otherServiceDataList = new ArrayList<>();
 
@@ -133,8 +128,7 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
             otherServiceDataList.add(otherServiceData2);
         }
 
-
-        if(FormApplicability.isIycfApplicable(dob) && FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.IYCF_PACKAGE)){
+        if(FormApplicability.isIycfApplicable(day) && FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.IYCF_PACKAGE)){
             OtherServiceData otherServiceData4 = new OtherServiceData();
             otherServiceData4.setImageSource(R.drawable.ic_child);
             otherServiceData4.setTitle("শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)");
