@@ -483,6 +483,12 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 return HnppConstants.EventType.REMOVE_MEMBER;
             case  HnppConstants.EventType.REMOVE_CHILD:
                 return HnppConstants.EventType.REMOVE_CHILD;
+            case  HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS:
+                return HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS;
+            case  HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS:
+                return HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS;
+            case  HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12:
+                return HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12;
                 default:
                     return org.smartregister.chw.anc.util.Constants.EVENT_TYPE.ANC_HOME_VISIT;
         }
