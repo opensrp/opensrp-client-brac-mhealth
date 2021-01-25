@@ -585,11 +585,33 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         String[] fff = new String[3];
         JSONObject first_name = getFieldJSONObject(field, "first_name");
         JSONObject n_id = getFieldJSONObject(field, "national_id");
-        JSONObject age = getFieldJSONObject(field, "estimated_age");
+        JSONObject age = getFieldJSONObject(field, "age_calculated");
 
         fff[0] = first_name.optString(VALUE);
         fff[1] = n_id.optString(VALUE);
         fff[2] = age.optString(VALUE);
+        return fff;
+    }
+    public static String[] getValuesFromChildRegistrationForm(JSONObject jsonForm){
+        JSONArray field = fields(jsonForm, STEP1);
+        String[] fff = new String[3];
+        JSONObject first_name = getFieldJSONObject(field, "first_name");
+        JSONObject n_id = getFieldJSONObject(field, "birth_id");
+        JSONObject age = getFieldJSONObject(field, "child_age_calculated");
+
+        fff[0] = first_name.optString(VALUE);
+        fff[1] = n_id.optString(VALUE);
+        fff[2] = age.optString(VALUE);
+        return fff;
+    }
+    public static String[] getValuesFromGuestRegistrationForm(JSONObject jsonForm){
+        JSONArray field = fields(jsonForm, STEP1);
+        String[] fff = new String[2];
+        JSONObject first_name = getFieldJSONObject(field, "first_name");
+        JSONObject age = getFieldJSONObject(field, "age_calculated");
+
+        fff[0] = first_name.optString(VALUE);
+        fff[1] = age.optString(VALUE);
         return fff;
     }
     public static String getSSIdFromForm(JSONObject jsonForm){

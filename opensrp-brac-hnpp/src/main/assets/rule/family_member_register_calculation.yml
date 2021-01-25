@@ -6,6 +6,13 @@ condition: "true"
 actions:
   - "calculation = (step1_is_birthday_known.equals('না') && !step1_estimated_age.isEmpty()) ? step1_estimated_age : helper.getDifferenceDays(step1_dob) / 365.25"
 ---
+name: step1_child_age_calculated
+description: Age calculated
+priority: 1
+condition: "true"
+actions:
+  - "calculation = helper.getDifferenceDays(step1_dob) / 365.25"
+---
 name: step1_wra
 description: wra calculation
 priority: 1

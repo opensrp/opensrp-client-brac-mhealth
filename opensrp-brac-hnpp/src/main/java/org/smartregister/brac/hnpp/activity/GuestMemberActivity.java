@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
 import org.json.JSONObject;
+import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.adapter.GuestMemberAdapter;
 import org.smartregister.brac.hnpp.contract.GuestMemberContract;
@@ -227,7 +229,24 @@ public class GuestMemberActivity extends SecuredActivity implements GuestMemberC
         if (requestCode == JsonFormUtils.REQUEST_CODE_GET_JSON && resultCode == RESULT_OK) {
             try {
                 String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
-                presenter.saveMember(jsonString);
+                JSONObject form = new JSONObject(jsonString);
+                String[] generatedString;
+                String title;
+                String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
+
+                String fullName = HnppApplication.getInstance().getContext().allSharedPreferences().getANMPreferredName(userName);
+
+                generatedString = HnppJsonFormUtils.getValuesFromGuestRegistrationForm(form);
+                title = String.format(getString(R.string.dialog_confirm_save_guest),fullName,generatedString[0],generatedString[1]);
+
+
+                HnppConstants.showSaveFormConfirmationDialog(this, title, new Runnable() {
+                    @Override
+                    public void run() {
+                        presenter.saveMember(jsonString);
+                    }
+                });
+
             }catch (Exception e){
 
             }

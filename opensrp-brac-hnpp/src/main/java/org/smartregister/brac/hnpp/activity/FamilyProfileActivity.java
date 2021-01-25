@@ -251,16 +251,27 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                     presenter().updateFamilyRegister(jsonString);
                     presenter().verifyHasPhone();
                 }else {
-                    String[] generatedString = HnppJsonFormUtils.getValuesFromRegistrationForm(form);
-                    Log.v("FORM_SAVE","generatedString:"+generatedString);
+                    String[] generatedString;
+                    String title;
                     String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
 
                     String fullName = HnppApplication.getInstance().getContext().allSharedPreferences().getANMPreferredName(userName);
-                    String title = String.format(getString(R.string.dialog_confirm_save),fullName,generatedString[0],generatedString[2],generatedString[1]);
+
+                    if (form.getString(JsonFormUtils.ENCOUNTER_TYPE).equals(HnppConstants.EventType.CHILD_REGISTRATION)) {
+                        generatedString = HnppJsonFormUtils.getValuesFromChildRegistrationForm(form);
+                        title = String.format(getString(R.string.dialog_confirm_save_child),fullName,generatedString[0],generatedString[2],generatedString[1]);
+
+                    }else {
+                        generatedString = HnppJsonFormUtils.getValuesFromRegistrationForm(form);
+                         title = String.format(getString(R.string.dialog_confirm_save),fullName,generatedString[0],generatedString[2],generatedString[1]);
+
+                    }
+
+                    Log.v("FORM_SAVE","generatedString:"+generatedString);
                     HnppConstants.showSaveFormConfirmationDialog(this, title, new Runnable() {
                         @Override
                         public void run() {
-                           // super.onActivityResult(requestCode, resultCode, data);
+                           processJson(requestCode, resultCode, data);
                         }
                     });
 
@@ -301,6 +312,10 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
 
         }
 
+
+    }
+    private void processJson(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

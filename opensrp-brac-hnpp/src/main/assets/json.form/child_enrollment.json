@@ -154,6 +154,20 @@
           "err": "জন্ম তারিখ প্রবেশ করুন"
         }
       },
+      {
+        "key": "child_age_calculated",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "family_member_register_calculation.yml"
+            }
+          }
+        }
+      },
 
       {
         "key": "relation_with_household_head",
