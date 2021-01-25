@@ -133,6 +133,27 @@ public class HnppConstants extends CoreConstants {
         }
         return false;
     }
+    public static void showSaveFormConfirmationDialog(Context context,String title, Runnable runnable){
+        Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.save_confirm_dialog);
+        TextView textViewTitle = dialog.findViewById(R.id.condirm_text);
+        textViewTitle.setText(title);
+        dialog.findViewById(R.id.no_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.yes_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                runnable.run();
+            }
+        });
+        dialog.show();
+    }
     public static void showDialogWithAction(Context context,String title, String text,Runnable runnable){
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

@@ -172,6 +172,24 @@
         }
       },
       {
+        "key": "toaster_no_surv_children",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "সর্বমোট গর্ভসংখ্যা (এই গর্ভ সহ) থেকে কম হতে হবে ",
+        "text_size": "22px",
+        "text_color": "#FF0000",
+        "toaster_type": "problem",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_risk_relevance.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "height",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -185,6 +203,10 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        },
+        "v_max": {
+          "value": "209",
+          "err": "সংখ্যাটি 210 এর কম হতে হবে"
         }
       },
       {
