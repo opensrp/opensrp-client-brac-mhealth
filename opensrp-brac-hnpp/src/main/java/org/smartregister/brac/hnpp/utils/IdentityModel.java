@@ -1,13 +1,22 @@
 package org.smartregister.brac.hnpp.utils;
 
 public class IdentityModel {
-    String guid;
+    String id;
     String baseEntityId="";
     String name;
     String tier;
     String familyHead;
     String age;
     String husband;
+    String originalGuId;
+
+    public void setOriginalGuId(String originalGuId) {
+        this.originalGuId = originalGuId;
+    }
+
+    public String getOriginalGuId() {
+        return originalGuId;
+    }
 
     public String getAge() {
         return age;
@@ -33,12 +42,12 @@ public class IdentityModel {
         return tier;
     }
 
-    public String getGuid() {
-        return guid;
+    public String getId() {
+        return id;
     }
 
-    public void setGuid(String guid) {
-        this.guid = guid;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getBaseEntityId() {
