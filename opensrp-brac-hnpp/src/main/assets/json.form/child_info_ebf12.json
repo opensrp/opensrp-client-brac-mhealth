@@ -253,10 +253,6 @@
         "exclusive": [
           "None"
         ],
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
         "options": [
           {
             "key": "brac_maternity_center",

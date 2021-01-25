@@ -374,7 +374,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_refer_relevance.yml"
+              "rules-file": "hnpp_enc_relevance.yml"
             }
           }
         }
@@ -398,7 +398,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_refer_relevance.yml"
+              "rules-file": "hnpp_enc_relevance.yml"
             }
           }
         }
@@ -442,7 +442,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_refer_relevance.yml"
+              "rules-file": "hnpp_enc_relevance.yml"
             }
           }
         }
@@ -465,7 +465,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_refer_relevance.yml"
+              "rules-file": "hnpp_enc_relevance.yml"
             }
           }
         }
@@ -492,7 +492,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_refer_relevance.yml"
+              "rules-file": "hnpp_enc_relevance.yml"
             }
           }
         }
@@ -515,7 +515,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_refer_relevance.yml"
+              "rules-file": "hnpp_enc_relevance.yml"
             }
           }
         }
@@ -538,7 +538,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_refer_relevance.yml"
+              "rules-file": "hnpp_enc_relevance.yml"
             }
           }
         }
@@ -565,7 +565,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_refer_relevance.yml"
+              "rules-file": "hnpp_enc_relevance.yml"
             }
           }
         }
@@ -592,7 +592,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_refer_relevance.yml"
+              "rules-file": "hnpp_enc_relevance.yml"
             }
           }
         }
@@ -620,10 +620,6 @@
         "exclusive": [
           "None"
         ],
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
         "options": [
           {
             "key": "brac_maternity_center",

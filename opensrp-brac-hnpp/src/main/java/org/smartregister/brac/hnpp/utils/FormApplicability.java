@@ -39,12 +39,12 @@ public class FormApplicability {
         return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneWihinChildInfoLogic(baseEntityId, eventType);
 
     }
-    public static String isDueChildInfo(Date dob){
+    public static String isDueChildInfo(long day){
 
         if(HnppConstants.isPALogin()){
             return null;
         }
-        int day = DateUtil.dayDifference(new LocalDate(dob),new LocalDate(System.currentTimeMillis()));
+        //int day = DateUtil.dayDifference(new LocalDate(dob),new LocalDate(System.currentTimeMillis()));
         if(day >= 2 && day <= 3){
             return HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12;
         }

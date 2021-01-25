@@ -220,6 +220,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         otherServiceView.setVisibility(View.VISIBLE);
         String dobString = Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOB, false);
         Date dob = Utils.dobStringToDate(dobString);
+        long day = FormApplicability.getDay(commonPersonObjectClient);
         boolean isEnc = FormApplicability.isEncVisible(dob);
         if(isEnc){
             if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.ENC_REGISTRATION)){
@@ -272,7 +273,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             }
 
         }
-        eventType = FormApplicability.isDueChildInfo(dob);
+        eventType = FormApplicability.isDueChildInfo(day);
         if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12) && FormApplicability.isDueChildInfoForm(baseEntityId,eventType)){
             childInfo1View = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
             ImageView fImg = childInfo1View.findViewById(R.id.image_view);
