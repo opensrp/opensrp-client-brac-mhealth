@@ -9,6 +9,6 @@ actions:
 name: step1_first_name
 description: auto name suggest
 priority: 1
-condition: "true"
+condition: "step1_first_name.isEmpty()"
 actions:
   - "calculation = step1_temp_name"
