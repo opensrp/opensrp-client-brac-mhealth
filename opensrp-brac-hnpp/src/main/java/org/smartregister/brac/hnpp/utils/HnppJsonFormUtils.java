@@ -581,7 +581,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 e.printStackTrace();
             }
     }
-    private static String getSSNameFromForm(JSONObject jsonForm){
+    public static String getSSNameFromForm(JSONObject jsonForm){
         JSONArray field = fields(jsonForm, STEP1);
         JSONObject ss_name = getFieldJSONObject(field, "ss_name");
        return ss_name.optString(VALUE);
