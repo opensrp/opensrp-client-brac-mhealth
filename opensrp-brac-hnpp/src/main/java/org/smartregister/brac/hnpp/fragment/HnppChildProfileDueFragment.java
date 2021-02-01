@@ -175,7 +175,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
     }
     View encView;
     public void  updateChildDueEntry(int type, String serviceName, String dueDate){
-        if(otherServiceView==null || TextUtils.isEmpty(serviceName))return;
+        if(otherServiceView==null || TextUtils.isEmpty(serviceName) || getContext() ==null)return;
         serviceName = HnppConstants.immunizationMapping.get(serviceName.toUpperCase());
 //       if(handler !=null){
 //           handler.postDelayed(new Runnable() {

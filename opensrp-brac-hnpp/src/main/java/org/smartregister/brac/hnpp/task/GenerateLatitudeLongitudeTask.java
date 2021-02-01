@@ -1,6 +1,7 @@
 package org.smartregister.brac.hnpp.task;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -8,7 +9,6 @@ import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
-import org.smartregister.Context;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.listener.OnGpsDataGenerateListener;
@@ -21,13 +21,19 @@ public class GenerateLatitudeLongitudeTask extends AsyncTask<Void, Void, Void> {
     LocationManager locationManager;
     Location location;
     boolean isGPSEnable, isNetworkEnable;
-    double latitude, longitude;
+    double latitude = 0.0, longitude = 0.0;
     OnGpsDataGenerateListener onGpsDataGenerateListener;
     Context context;
 
     public GenerateLatitudeLongitudeTask(OnGpsDataGenerateListener onGpsDataGenerateListener, Context context) {
         this.onGpsDataGenerateListener = onGpsDataGenerateListener;
         this.context = context;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        onGpsDataGenerateListener.showProgressBar(R.string.gps_searching);
     }
 
     @Override
@@ -44,9 +50,10 @@ public class GenerateLatitudeLongitudeTask extends AsyncTask<Void, Void, Void> {
                 location = null;
                 if (locationManager != null) {
 
+
                     location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                     if (location != null) {
-                        Log.v("GPS_DATE","latitude:"+location.getLatitude() + ":longitude:"+location.getLongitude() + "");
+                        Log.v("GPS_DATE","isNetworkEnable latitude:"+location.getLatitude() + ":longitude:"+location.getLongitude() + "");
 
 
                         latitude = location.getLatitude();
@@ -62,8 +69,8 @@ public class GenerateLatitudeLongitudeTask extends AsyncTask<Void, Void, Void> {
                 if (locationManager != null) {
                     location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                     if (location != null) {
-                        Log.e("latitude", location.getLatitude() + "");
-                        Log.e("longitude", location.getLongitude() + "");
+                        Log.v("GPS_DATE","isGPSEnable latitude:"+location.getLatitude() + ":longitude:"+location.getLongitude() + "");
+
                         latitude = location.getLatitude();
                         longitude = location.getLongitude();
                     }
@@ -75,16 +82,14 @@ public class GenerateLatitudeLongitudeTask extends AsyncTask<Void, Void, Void> {
     }
 
     @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        onGpsDataGenerateListener.showProgressBar(R.string.gps_searching);
-    }
-
-    @Override
-    protected void onPostExecute(Object o) {
-        super.onPostExecute(o);
-        hideProgressDialog();
-
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        onGpsDataGenerateListener.hideProgress();
+        if(latitude==0.0 && longitude == 0.0){
+            onGpsDataGenerateListener.onGpsDataNotFound();
+        }else {
+            onGpsDataGenerateListener.onGpsData(latitude,longitude);
+        }
 
 
     }

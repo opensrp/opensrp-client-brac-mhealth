@@ -1,11 +1,16 @@
 package org.smartregister.brac.hnpp.utils;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -25,12 +30,19 @@ import org.json.JSONObject;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.activity.FamilyProfileActivity;
+import org.smartregister.brac.hnpp.activity.FamilyRegisterActivity;
+import org.smartregister.brac.hnpp.listener.OnGpsDataGenerateListener;
+import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.model.Notification;
+import org.smartregister.brac.hnpp.task.GenerateGPSTask;
 import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.Utils;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.repository.AllSharedPreferences;
+import org.smartregister.util.FormUtils;
+import org.smartregister.view.activity.BaseProfileActivity;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -73,6 +85,91 @@ public class HnppConstants extends CoreConstants {
     public enum HomeVisitType {GREEN, YELLOW, RED, BROWN}
     public enum SEARCH_TYPE {HH, ADO, WOMEN, CHILD,NCD,ADULT}
     public enum MIGRATION_TYPE {HH, Member}
+
+    public static void getGPSLocation(FamilyRegisterActivity activity, OnPostDataWithGps onPostDataWithGps){
+
+
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},
+                    11111);
+            return ;
+        }
+        GenerateGPSTask task = new GenerateGPSTask(new OnGpsDataGenerateListener() {
+            @Override
+            public void showProgressBar(int message) {
+                activity.showProgressDialog(message);
+            }
+
+            @Override
+            public void hideProgress() {
+                activity.hideProgressDialog();
+
+            }
+
+            @Override
+            public void onGpsDataNotFound() {
+                HnppConstants.showOneButtonDialog(activity,"",activity.getString(R.string.gps_not_found));
+            }
+
+            @Override
+            public void onGpsData(double latitude, double longitude) {
+                onPostDataWithGps.onPost(latitude,longitude);
+
+            }
+        },activity);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(task!=null) task.updateUi();
+            }
+        },2000);
+
+
+    }
+    public static void getGPSLocation(BaseProfileActivity activity, OnPostDataWithGps onPostDataWithGps){
+
+
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},
+                    11111);
+            return ;
+        }
+        GenerateGPSTask task = new GenerateGPSTask(new OnGpsDataGenerateListener() {
+            @Override
+            public void showProgressBar(int message) {
+                activity.showProgressDialog(message);
+            }
+
+            @Override
+            public void hideProgress() {
+                activity.hideProgressDialog();
+
+            }
+
+            @Override
+            public void onGpsDataNotFound() {
+                HnppConstants.showOneButtonDialog(activity,"",activity.getString(R.string.gps_not_found));
+            }
+
+            @Override
+            public void onGpsData(double latitude, double longitude) {
+                onPostDataWithGps.onPost(latitude,longitude);
+
+            }
+        },activity);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(task!=null) task.updateUi();
+            }
+        },2000);
+
+
+    }
 
     public static String addZeroForMonth(String month){
         if(TextUtils.isEmpty(month)) return "";
