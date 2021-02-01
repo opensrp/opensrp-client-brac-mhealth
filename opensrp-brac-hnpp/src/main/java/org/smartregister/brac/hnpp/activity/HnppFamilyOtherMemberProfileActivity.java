@@ -1,14 +1,17 @@
 package org.smartregister.brac.hnpp.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -40,11 +43,14 @@ import org.smartregister.brac.hnpp.fragment.HnppMemberProfileDueFragment;
 import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
 import org.smartregister.brac.hnpp.fragment.MemberOtherServiceFragment;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
+import org.smartregister.brac.hnpp.listener.OnGpsDataGenerateListener;
+import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.repository.StockRepository;
+import org.smartregister.brac.hnpp.task.GenerateGPSTask;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -346,6 +352,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             HnppConstants.showOneButtonDialog(this,getString(R.string.dialog_stock_sell_end),"");
             return;
         }
+
         requestedFormName = formName;
         requestedRequestCode = requestCode;
         if(!ignoreSimprintCheck && isNeedToVerify()){
@@ -353,59 +360,78 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             return;
 
         }
+        getGPSLocation(formName,requestCode);
 
-       try {
-           JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
-           HnppJsonFormUtils.addEDDField(formName,jsonForm,baseEntityId);
-           jsonForm.put(JsonFormUtils.ENTITY_ID, baseEntityId);
-           Intent intent;
-           if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.GIRL_PACKAGE)){
-               HnppJsonFormUtils.addMaritalStatus(jsonForm,maritalStatus);
-           }
-           else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM) || formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM) || formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM)){
-               HnppJsonFormUtils.addLastAnc(jsonForm,baseEntityId,false);
-           } else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM)){
-               HnppJsonFormUtils.addLastPnc(jsonForm,baseEntityId,false);
-           }
-           if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.BLOOD_TEST)){
-               if(gender.equalsIgnoreCase("F")){
-                   HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_women","true");
-               }
-           }
+
+    }
+    private void getGPSLocation(String formName,int requestCode){
+        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+            @Override
+            public void onPost(double latitude, double longitude) {
+                processJsonForm(formName,requestCode,latitude,longitude);
+            }
+        });
+
+
+
+    }
+    private void processJsonForm(String formName,int requestCode,double latitude, double longitude){
+        try {
+            JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
+            HnppJsonFormUtils.addEDDField(formName,jsonForm,baseEntityId);
+            try{
+                HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            jsonForm.put(JsonFormUtils.ENTITY_ID, baseEntityId);
+            Intent intent;
+            if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.GIRL_PACKAGE)){
+                HnppJsonFormUtils.addMaritalStatus(jsonForm,maritalStatus);
+            }
+            else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM) || formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM) || formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM)){
+                HnppJsonFormUtils.addLastAnc(jsonForm,baseEntityId,false);
+            } else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM)){
+                HnppJsonFormUtils.addLastPnc(jsonForm,baseEntityId,false);
+            }
+            if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.BLOOD_TEST)){
+                if(gender.equalsIgnoreCase("F")){
+                    HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_women","true");
+                }
+            }
 
 //           if(formName.contains("anc"))
-           HnppVisitLogRepository visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
-           String height = visitLogRepository.getHeight(baseEntityId);
-           if(!TextUtils.isEmpty(height)){
-               JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
-               JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
-               updateFormField(jsonArray,"height",height);
-           }
+            HnppVisitLogRepository visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
+            String height = visitLogRepository.getHeight(baseEntityId);
+            if(!TextUtils.isEmpty(height)){
+                JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+                JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+                updateFormField(jsonArray,"height",height);
+            }
 
-           intent = new Intent(this, HnppAncJsonFormActivity.class);
+            intent = new Intent(this, HnppAncJsonFormActivity.class);
 //           else
 //               intent = new Intent(this, org.smartregister.family.util.Utils.metadata().familyMemberFormActivity);
-           intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+            intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
 
-           Form form = new Form();
-           form.setWizard(false);
-           if(!HnppConstants.isReleaseBuild()){
-               form.setActionBarBackground(R.color.test_app_color);
+            Form form = new Form();
+            form.setWizard(false);
+            if(!HnppConstants.isReleaseBuild()){
+                form.setActionBarBackground(R.color.test_app_color);
 
-           }else{
-               form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+            }else{
+                form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
-           }
-           intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
-           intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
-           if (this != null) {
-               this.startActivityForResult(intent, requestCode);
-           }
+            }
+            intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+            intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
+            if (this != null) {
+                this.startActivityForResult(intent, requestCode);
+            }
 
-       }catch (Exception e){
-           
-       }
+        }catch (Exception e){
 
+        }
     }
 
 
@@ -820,41 +846,51 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     }
     private ReferralFollowUpModel referralFollowUpModel;
     private boolean ignoreSimprintCheck = false;
-    public void openReferealFollowUp(ReferralFollowUpModel referralFollowUpModel) {
-        this.referralFollowUpModel = referralFollowUpModel;
+    public void openReferealFollowUp(ReferralFollowUpModel refFollowModel) {
+        this.referralFollowUpModel = refFollowModel;
 
         if(!ignoreSimprintCheck && isNeedToVerify()){
             showVerifyDialog();
             return;
         }
+        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+            @Override
+            public void onPost(double latitude, double longitude) {
+                try {
+                    JSONObject jsonForm = FormUtils.getInstance(HnppFamilyOtherMemberProfileActivity.this).getFormJson(HnppConstants.JSON_FORMS.REFERREL_FOLLOWUP);
+                    jsonForm.put(JsonFormUtils.ENTITY_ID, baseEntityId);
+                    try{
+                        HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
+                    }catch (Exception e){
 
-        try {
-            JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(HnppConstants.JSON_FORMS.REFERREL_FOLLOWUP);
-            jsonForm.put(JsonFormUtils.ENTITY_ID, baseEntityId);
-            HnppJsonFormUtils.addReferrelReasonPlaceField(jsonForm,referralFollowUpModel.getReferralReason(),referralFollowUpModel.getReferralPlace());
-            Intent intent;
-            intent = new Intent(this, HnppAncJsonFormActivity.class);
-            intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+                    }
+                    HnppJsonFormUtils.addReferrelReasonPlaceField(jsonForm,referralFollowUpModel.getReferralReason(),referralFollowUpModel.getReferralPlace());
+                    Intent intent;
+                    intent = new Intent(HnppFamilyOtherMemberProfileActivity.this, HnppAncJsonFormActivity.class);
+                    intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
 
-            Form form = new Form();
-            form.setWizard(false);
-            if(!HnppConstants.isReleaseBuild()){
-                form.setActionBarBackground(R.color.test_app_color);
+                    Form form = new Form();
+                    form.setWizard(false);
+                    if(!HnppConstants.isReleaseBuild()){
+                        form.setActionBarBackground(R.color.test_app_color);
 
-            }else{
-                form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+                    }else{
+                        form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
+                    }
+
+                    intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+                    intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
+                    referralFollowUpModel = null;
+                     startActivityForResult(intent, REQUEST_HOME_VISIT);
+
+                }catch (Exception e){
+
+                }
             }
+        });
 
-            intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
-            intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
-            if (this != null) {
-                this.referralFollowUpModel = null;
-                this.startActivityForResult(intent, REQUEST_HOME_VISIT);
-            }
-        }catch (Exception e){
 
-        }
 
     }
 
@@ -946,4 +982,5 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             menu.findItem(R.id.action_anc_registration).setVisible(false);
         }
     }
+
 }
