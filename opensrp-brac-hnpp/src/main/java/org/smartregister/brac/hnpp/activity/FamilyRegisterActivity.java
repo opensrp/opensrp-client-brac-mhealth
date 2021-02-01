@@ -23,7 +23,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.HnppApplication;
-import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.listener.HnppBottomNavigationListener;
 import org.smartregister.brac.hnpp.location.SSModel;
@@ -32,7 +31,6 @@ import org.smartregister.brac.hnpp.presenter.FamilyRegisterPresenter;
 import org.smartregister.brac.hnpp.presenter.HnppNavigationPresenter;
 import org.smartregister.brac.hnpp.repository.HnppChwRepository;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
-import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.brac.hnpp.utils.MigrationSearchContentData;
 import org.smartregister.chw.core.activity.CoreFamilyRegisterActivity;
 import org.smartregister.chw.core.custom_views.NavigationMenu;
@@ -199,42 +197,28 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
             Toast.makeText(this,"ss  লোকেশন পাওয়া যায়নি . পুনরায় লগইন করুন",Toast.LENGTH_LONG).show();
             return;
         }
-        HnppConstants.getGPSLocation(FamilyRegisterActivity.this, new OnPostDataWithGps() {
-            @Override
-            public void onPost(double latitude, double longitude) {
-                try{
-                    Intent intent = new Intent(FamilyRegisterActivity.this, Utils.metadata().familyFormActivity);
-                    HnppJsonFormUtils.updateLatitudeLongitudeFamily(jsonForm,latitude,longitude);
-                    intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
-                    Form form = new Form();
-                    form.setName(getString(R.string.add_family));
-                    form.setSaveLabel(getString(R.string.save));
-                    form.setWizard(false);
-                    if(!HnppConstants.isReleaseBuild()){
-                        form.setActionBarBackground(R.color.test_app_color);
+        Intent intent = new Intent(this, Utils.metadata().familyFormActivity);
+        intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+        Form form = new Form();
+        form.setName(getString(R.string.add_family));
+        form.setSaveLabel(getString(R.string.save));
+        form.setWizard(false);
+        if(!HnppConstants.isReleaseBuild()){
+            form.setActionBarBackground(R.color.test_app_color);
 
-                    }else{
-                        form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+        }else{
+            form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
-                    }
-                    form.setNavigationBackground(org.smartregister.family.R.color.family_navigation);
-                    form.setHomeAsUpIndicator(org.smartregister.family.R.mipmap.ic_cross_white);
-                    intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
-                    if(HnppConstants.isPALogin()){
-                        form.setHideSaveLabel(true);
-                        form.setSaveLabel("");
-                    }
+        }
+        form.setNavigationBackground(org.smartregister.family.R.color.family_navigation);
+        form.setHomeAsUpIndicator(org.smartregister.family.R.mipmap.ic_cross_white);
+        intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+        if(HnppConstants.isPALogin()){
+            form.setHideSaveLabel(true);
+            form.setSaveLabel("");
+        }
 
-                    startActivityForResult(intent, JsonFormUtils.REQUEST_CODE_GET_JSON);
-
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-
-
-            }
-        });
-
+        startActivityForResult(intent, JsonFormUtils.REQUEST_CODE_GET_JSON);
     }
 
     @Override
