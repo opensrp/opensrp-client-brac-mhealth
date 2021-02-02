@@ -44,9 +44,9 @@ import java.util.Calendar;
 
 public abstract class BaseDashBoardFragment extends Fragment implements View.OnClickListener, DashBoardContract.View {
 
-    private Button dateBtn;
+    private Button dateBtn,fromDateBtn,toDateBtn;
     protected RecyclerView recyclerView;
-    protected int day, month, year;
+    protected int day, month, year, fromDay, fromMonth, fromYear, toDay, toMonth, toYear;
     private String fromDate, toDate, currentDate;
     private Runnable runnable;
     protected Spinner ssSpinner;
@@ -54,9 +54,10 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
     protected String ssName;
     private ImageView filterBtn;
     private  TextView monthTV,yearTV;
-    protected LinearLayout monthView,dateView;
+    protected LinearLayout monthView,dateView,fromDateView,toDateView;
     protected RelativeLayout monthPicker;
     abstract void filterData();
+    abstract void filterByFromToDate();
     abstract void updateTitle();
     abstract void fetchData();
     abstract void initilizePresenter();
@@ -85,11 +86,17 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
         yearTV  = view.findViewById(R.id.year_text);
         monthPicker = view.findViewById(R.id.monthDatePicker);
         dateView = view.findViewById(R.id.date_view);
+        fromDateView = view.findViewById(R.id.from_date_view);
+        toDateView = view.findViewById(R.id.to_date_view);
         progressBar = view.findViewById(R.id.progress_bar);
         filterBtn = view.findViewById(R.id.filterBtn);
         dateBtn = view.findViewById(R.id.date_btn);
+        fromDateBtn = view.findViewById(R.id.from_date_btn);
+        toDateBtn = view.findViewById(R.id.to_date_btn);
         view.findViewById(R.id.clear_filter).setOnClickListener(this);
         dateBtn.setOnClickListener(this);
+        fromDateBtn.setOnClickListener(this);
+        toDateBtn.setOnClickListener(this);
         filterBtn.setOnClickListener(this);
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -99,6 +106,8 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
         fromDate = currentDate;
         toDate = currentDate;
         dateBtn.setText(currentDate);
+        toDateBtn.setText(currentDate);
+        fromDateBtn.setText(currentDate);
         return view;
     }
 
@@ -137,6 +146,49 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
                 },year,(month-1),day);
                 //fromDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
                 fromDialog.show();
+                break;
+            case R.id.from_date_btn:
+                if(fromMonth == -1) fromMonth = calendar.get(Calendar.MONTH)+1;
+                if(fromYear == -1) fromYear = calendar.get(Calendar.YEAR);
+
+                DatePickerDialog fromDateDialog = new DatePickerDialog(getActivity(), R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int yr, int mnt, int dayOfMonth) {
+
+                        fromDay = dayOfMonth;
+                        fromMonth = mnt +1;
+                        fromYear = yr;
+
+                        fromDate = fromYear + "-" + HnppConstants.addZeroForMonth((mnt+1)+"")+"-"+HnppConstants.addZeroForMonth(dayOfMonth+"");
+
+                        fromDateBtn.setText(fromDate);
+                        updateFromFilter();
+                    }
+                },year,(month-1),day);
+                //fromDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                fromDateDialog.show();
+                break;
+            case R.id.to_date_btn:
+                if(toMonth == -1) toMonth = calendar.get(Calendar.MONTH)+1;
+                if(toYear == -1) toYear = calendar.get(Calendar.YEAR);
+
+                DatePickerDialog toDateDialog = new DatePickerDialog(getActivity(), R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int yr, int mnt, int dayOfMonth) {
+
+                        toDay = dayOfMonth;
+                        toMonth = mnt +1;
+                        toYear = yr;
+
+                        toDate = toYear + "-" + HnppConstants.addZeroForMonth((mnt+1)+"")+"-"+HnppConstants.addZeroForMonth(dayOfMonth+"");
+
+                        toDateBtn.setText(toDate);
+                        updateToFilter();
+                        filterByFromToDate();
+                    }
+                },year,(month-1),day);
+                //fromDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                toDateDialog.show();
                 break;
             case R.id.filterBtn:
                 filterData();
@@ -272,6 +324,9 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
     public void refreshData(Runnable runnable){
         this.runnable = runnable;
         updateFilter();
+        updateFromFilter();
+        updateToFilter();
+
     }
 
     @Override
@@ -303,6 +358,18 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
         if (TextUtils.isEmpty(dateBtn.getText().toString())) {
             toDate = currentDate;
             dateBtn.setText(toDate+"");
+        }
+    }
+    private void updateFromFilter() {
+        if (TextUtils.isEmpty(fromDateBtn.getText().toString())) {
+            toDate = currentDate;
+            fromDateBtn.setText(toDate+"");
+        }
+    }
+    private void updateToFilter() {
+        if (TextUtils.isEmpty(toDateBtn.getText().toString())) {
+            toDate = currentDate;
+            toDateBtn.setText(toDate+"");
         }
     }
 

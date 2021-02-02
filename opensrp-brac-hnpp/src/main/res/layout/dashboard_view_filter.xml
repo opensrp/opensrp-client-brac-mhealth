@@ -5,6 +5,7 @@
     android:background="@color/primary"
     android:layout_height="60dp">
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/ss_name_view"
         android:gravity="center_vertical"
         android:layout_centerVertical="true"
@@ -92,11 +93,73 @@
         </RelativeLayout>
     </LinearLayout>
     <LinearLayout
-        android:id="@+id/date_view"
+        android:visibility="gone"
+        android:id="@+id/from_date_view"
         android:gravity="center_vertical"
         android:layout_centerVertical="true"
         android:layout_alignWithParentIfMissing="true"
         android:layout_toRightOf="@+id/month_view"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="From"
+            android:padding="10dp"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:drawableRight="@drawable/ic_calender"
+            android:background="@drawable/login_button_bg"
+            android:id="@+id/from_date_btn"
+            android:paddingRight="15dp"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:paddingLeft="5dp"
+            android:layout_weight="1"
+            android:layout_marginRight="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/to_date_view"
+        android:gravity="center_vertical"
+        android:layout_centerVertical="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_toRightOf="@+id/from_date_view"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="To"
+            android:padding="10dp"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:drawableRight="@drawable/ic_calender"
+            android:background="@drawable/login_button_bg"
+            android:id="@+id/to_date_btn"
+            android:paddingRight="15dp"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:paddingLeft="5dp"
+            android:layout_weight="1"
+            android:layout_marginRight="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/date_view"
+        android:gravity="center_vertical"
+        android:layout_centerVertical="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_toRightOf="@+id/to_date_view"
         android:layout_toLeftOf="@+id/filterBtn"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
