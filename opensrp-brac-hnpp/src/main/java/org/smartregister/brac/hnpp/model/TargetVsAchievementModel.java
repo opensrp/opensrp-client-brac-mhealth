@@ -296,7 +296,13 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
         TargetVsAchievementData dashBoardData1 = new TargetVsAchievementData();
         //String query = "select sum(target_count) as target_count, sum(achievemnt_count) as achievemnt_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
        // String query = "select sum(achievemnt_count) as achievemnt_count,(select sum(target_count) from target_table where target_name ='"+ visitType+"'"+ getFilter(fromDate,toDate,"") +") as target_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
-        String query = "with t1 as (SELECT achievemnt_count, year || '"+"-"+"' || month || '"+"-"+"' || day as date, target_count, target_name from target_table) SELECT sum(achievemnt_count) as achievemnt_count, sum(target_count) as target_count from t1 WHERE target_name ='"+ visitType+"'"+ " and date BETWEEN '"+fromDate+"' and "+"'"+toDate+"' ORDER by date DESC";
+        String query = null;
+        if(TextUtils.isEmpty(ssName)){
+            query = "with t1 as (SELECT achievemnt_count, year || '"+"-"+"' || month || '"+"-"+"' || day as date, target_count, target_name from target_table) SELECT sum(achievemnt_count) as achievemnt_count, sum(target_count) as target_count from t1 WHERE target_name ='"+ visitType+"' and date BETWEEN '"+fromDate+"' and "+"'"+toDate+"' ORDER by date DESC";
+        }
+        else{
+            query = "with t1 as (SELECT achievemnt_count, year || '"+"-"+"' || month || '"+"-"+"' || day as date, target_count, target_name, ss_name from target_table) SELECT sum(achievemnt_count) as achievemnt_count, sum(target_count) as target_count from t1 WHERE target_name ='"+ visitType+"' and ss_name ='"+ ssName+"' and date BETWEEN '"+fromDate+"' and "+"'"+toDate+"' ORDER by date DESC";
+        }
 
         Log.v("TARGET_QUERY","query:"+query);
         Cursor cursor = null;
