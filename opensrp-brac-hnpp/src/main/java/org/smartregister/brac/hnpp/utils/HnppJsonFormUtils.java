@@ -1,8 +1,11 @@
 package org.smartregister.brac.hnpp.utils;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Pair;
 
 import com.google.gson.Gson;
@@ -563,7 +566,9 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             }
         }
     }
-    public static void addReferrelReasonPlaceField(JSONObject jsonForm,String reason, String place){
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public static void addReferrelReasonPlaceField(JSONObject jsonForm, String reason, String place){
             JSONObject stepOne = null;
             try {
 
@@ -573,6 +578,9 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 updateFormField(jsonArray, "caused_referred", reason);
                 updateFormField(jsonArray, "place_referred", place);
                 JSONObject caused_referred = getFieldJSONObject(jsonArray, "caused_referred");
+                JSONObject place_of_referral = getFieldJSONObject(jsonArray, "place_of_referral");
+                addWhereWentGo(place_of_referral, place);
+
                 caused_referred.put(org.smartregister.family.util.JsonFormUtils.READ_ONLY, true);
 
 
@@ -581,6 +589,42 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 e.printStackTrace();
             }
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private static void addWhereWentGo(JSONObject place_of_referral, String place){
+
+        JSONArray placeJsonArray = null;
+        try {
+            String[] placeArray;
+            int index;
+            placeJsonArray = place_of_referral.getJSONArray("options");
+            if(place.contains(",")){
+                placeArray = place.split(",");
+                for (int i = 0; i < placeArray.length; i++){
+                    for (int j = 0; j < placeJsonArray.length(); j++) {
+                        String abc = placeJsonArray.getString(j);
+                        if(abc.contains(placeArray[i])){
+                            placeJsonArray.remove(j);
+                        }
+                    }
+                }
+            }
+            else {
+                for (int j = 0; j < placeJsonArray.length(); j++) {
+                    String abc = placeJsonArray.getString(j);
+                    if(abc.contains(place)){
+                        placeJsonArray.remove(j);
+                    }
+                }
+            }
+
+            place_of_referral.put("options",placeJsonArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public static String getSSNameFromForm(JSONObject jsonForm){
         JSONArray field = fields(jsonForm, STEP1);
         JSONObject ss_name = getFieldJSONObject(field, "ss_name");
