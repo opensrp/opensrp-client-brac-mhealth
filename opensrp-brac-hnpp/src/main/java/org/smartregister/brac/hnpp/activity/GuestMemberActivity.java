@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,6 +32,7 @@ import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.adapter.GuestMemberAdapter;
 import org.smartregister.brac.hnpp.contract.GuestMemberContract;
+import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.presenter.GuestMemberPresenter;
@@ -45,11 +47,12 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.util.FormUtils;
+import org.smartregister.view.activity.BaseProfileActivity;
 import org.smartregister.view.activity.SecuredActivity;
 
 import java.util.ArrayList;
 
-public class GuestMemberActivity extends SecuredActivity implements GuestMemberContract.View, View.OnClickListener {
+public class GuestMemberActivity extends BaseProfileActivity implements GuestMemberContract.View, View.OnClickListener {
 
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
@@ -59,6 +62,21 @@ public class GuestMemberActivity extends SecuredActivity implements GuestMemberC
     private String ssName="";
     private String query ="";
     private EditText editTextSearch;
+
+    @Override
+    protected void initializePresenter() {
+
+    }
+
+    @Override
+    protected ViewPager setupViewPager(ViewPager viewPager) {
+        return null;
+    }
+
+    @Override
+    protected void fetchProfileData() {
+
+    }
 
     @Override
     protected void onCreation() {
@@ -198,27 +216,33 @@ public class GuestMemberActivity extends SecuredActivity implements GuestMemberC
                 finish();
                 break;
             case R.id.fab_add_member:
-                try{
-                    Intent intent = new Intent(this, GuestAddMemberJsonFormActivity.class);
-                    JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(HnppConstants.JSON_FORMS.GUEST_MEMBER_FORM);
-                    HnppJsonFormUtils.updateFormWithSSName(jsonForm, SSLocationHelper.getInstance().getSsModels());
-                    intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
-                    Form form = new Form();
-                    form.setWizard(false);
-                    if(!HnppConstants.isReleaseBuild()){
-                        form.setActionBarBackground(R.color.test_app_color);
+                HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+                    @Override
+                    public void onPost(double latitude, double longitude) {
+                        try{
+                            Intent intent = new Intent(GuestMemberActivity.this, GuestAddMemberJsonFormActivity.class);
+                            JSONObject jsonForm = FormUtils.getInstance(GuestMemberActivity.this).getFormJson(HnppConstants.JSON_FORMS.GUEST_MEMBER_FORM);
+                            HnppJsonFormUtils.updateFormWithSSName(jsonForm, SSLocationHelper.getInstance().getSsModels());
+                            intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+                            Form form = new Form();
+                            form.setWizard(false);
+                            if(!HnppConstants.isReleaseBuild()){
+                                form.setActionBarBackground(R.color.test_app_color);
 
-                    }else{
-                        form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+                            }else{
+                                form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
+                            }
+
+                            intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+
+                            startActivityForResult(intent, Constants.REQUEST_CODE_GET_JSON);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
                     }
+                });
 
-                    intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
-
-                    startActivityForResult(intent, Constants.REQUEST_CODE_GET_JSON);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
 
                 break;
         }

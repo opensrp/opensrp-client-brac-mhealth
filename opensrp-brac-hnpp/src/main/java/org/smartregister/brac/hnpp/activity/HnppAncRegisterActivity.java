@@ -185,11 +185,16 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
 
 
     private void updateMinDate(JSONArray jsonArray) throws JSONException{
-        JSONObject min_date = CoreJsonFormUtils.getFieldJSONObject(jsonArray, "delivery_date");
-        String lmp = FormApplicability.getLmp(baseEntityId);
-        //int days = CoreJsonFormUtils.getDayFromDate(lmp);
-        int days = getDaysFromDate(lmp);
-        min_date.put("min_date", "today-" + days + "d");
+       try{
+           JSONObject min_date = CoreJsonFormUtils.getFieldJSONObject(jsonArray, "delivery_date");
+           String lmp = FormApplicability.getLmp(baseEntityId);
+           //int days = CoreJsonFormUtils.getDayFromDate(lmp);
+           int days = getDaysFromDate(lmp);
+           min_date.put("min_date", "today-" + days + "d");
+       }catch (Exception e){
+
+       }
+
     }
 
     private int getDaysFromDate(String date){
