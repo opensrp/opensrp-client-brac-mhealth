@@ -1,9 +1,11 @@
 package org.smartregister.brac.hnpp.fragment;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -111,6 +113,7 @@ public class ChildHistoryFragment extends Fragment implements MemberHistoryContr
     }
 
     private MemberHistoryAdapter.OnClickAdapter onClickAdapter = new MemberHistoryAdapter.OnClickAdapter() {
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         public void onClick(int position, MemberHistoryData content) {
             if(content.getEventType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.VACCINATION)
@@ -124,6 +127,7 @@ public class ChildHistoryFragment extends Fragment implements MemberHistoryContr
         }
     };
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void startFormActivity(MemberHistoryData content){
         try {
             JSONObject jsonForm = new JSONObject(content.getVisitDetails());
@@ -153,6 +157,7 @@ public class ChildHistoryFragment extends Fragment implements MemberHistoryContr
         }
 
     }
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void makeReadOnlyFields(JSONObject jsonObject){
         JSONObject stepOne = null;
         try {
@@ -160,6 +165,9 @@ public class ChildHistoryFragment extends Fragment implements MemberHistoryContr
             JSONArray jsonArray = stepOne.getJSONArray(JsonFormUtils.FIELDS);
             for(int i=0;i<jsonArray.length();i++){
                 JSONObject fieldObject = jsonArray.getJSONObject(i);
+                if(String.valueOf(fieldObject).contains("সব তথ্য পূরণ করা হলে জমা দিন")){
+                    jsonArray.remove(i);
+                }
                 fieldObject.put(JsonFormUtils.READ_ONLY, true);
             }
         } catch (JSONException e) {
