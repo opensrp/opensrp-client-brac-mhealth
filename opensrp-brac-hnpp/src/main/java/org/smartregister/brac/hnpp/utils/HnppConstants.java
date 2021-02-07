@@ -133,6 +133,27 @@ public class HnppConstants extends CoreConstants {
         }
         return false;
     }
+    public static void showSaveFormConfirmationDialog(Context context,String title, Runnable runnable){
+        Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.save_confirm_dialog);
+        TextView textViewTitle = dialog.findViewById(R.id.condirm_text);
+        textViewTitle.setText(title);
+        dialog.findViewById(R.id.no_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.yes_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                runnable.run();
+            }
+        });
+        dialog.show();
+    }
     public static void showDialogWithAction(Context context,String title, String text,Runnable runnable){
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -928,9 +949,9 @@ public class HnppConstants extends CoreConstants {
             .put(EventType.REMOVE_CHILD,"শিশু বাতিল")
             .put(EVENT_TYPE.CORONA_INDIVIDUAL,"করোনা তথ্য")
             .put(EVENT_TYPE.SS_INFO,"স্বাস্থ্য সেবিকা তথ্য")
-            .put(EVENT_TYPE.FORUM_ADO,"কিশোরী সেবা")
-            .put(EVENT_TYPE.FORUM_WOMEN,"নারী সেবা")
-            .put(EVENT_TYPE.FORUM_CHILD,"শিশু সেবা")
+            .put(EVENT_TYPE.FORUM_ADO,"কিশোরী ফোরাম")
+            .put(EVENT_TYPE.FORUM_WOMEN,"নারী ফোরাম")
+            .put(EVENT_TYPE.FORUM_CHILD,"শিশু ফোরাম")
             .put(EVENT_TYPE.FORUM_NCD,"অসংক্রামক রোগের ফোরাম")
             .put(EVENT_TYPE.FORUM_ADULT,"অ্যাডাল্ট ফোরাম")
             .put(EVENT_TYPE.ANC_SERVICE,"গর্ভবতী সেবা")

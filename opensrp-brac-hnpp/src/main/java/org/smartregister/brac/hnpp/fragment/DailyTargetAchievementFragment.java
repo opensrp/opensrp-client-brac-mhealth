@@ -9,7 +9,10 @@ public class DailyTargetAchievementFragment extends TargetAchievementFragment{
     void initilizePresenter() {
         super.initilizePresenter();
         monthView.setVisibility(View.GONE);
-        dateView.setVisibility(View.VISIBLE);
+        dateView.setVisibility(View.GONE);
+
+        fromDateView.setVisibility(View.VISIBLE);
+        toDateView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -19,6 +22,11 @@ public class DailyTargetAchievementFragment extends TargetAchievementFragment{
         month = calendar.get(Calendar.MONTH)+1;
         day = calendar.get(Calendar.DAY_OF_MONTH);
         super.fetchData();
+    }
+
+    @Override
+    public void filterByFromToDate() {
+        super.filterByFromToDate();
     }
 
     @Override

@@ -28,6 +28,11 @@ public class WorkSummeryDashBoardFragment extends BaseDashBoardFragment {
     }
 
     @Override
+    void filterByFromToDate() {
+
+    }
+
+    @Override
     public void updateAdapter() {
         super.updateAdapter();
         if(adapter == null){

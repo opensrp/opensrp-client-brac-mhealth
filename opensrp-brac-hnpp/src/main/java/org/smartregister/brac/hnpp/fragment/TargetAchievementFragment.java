@@ -21,13 +21,19 @@ public class TargetAchievementFragment extends BaseDashBoardFragment {
     @Override
     void fetchData() {
         presenter.fetchDashBoardData(day+"",month+"",year+"",ssName);
-
     }
 
 
     @Override
     void filterData() {
         presenter.filterData(ssName,day+"",month+"",year+"");
+    }
+
+
+    public void filterByFromToDate() {
+        String fromDateFormat = fromYear+"-"+fromMonth+"-"+fromDay;
+        String toDateFormat = toYear+"-"+toMonth+"-"+toDay;
+        presenter.filterByFromToDate(fromDateFormat,toDateFormat,ssName);
     }
 
     @Override
