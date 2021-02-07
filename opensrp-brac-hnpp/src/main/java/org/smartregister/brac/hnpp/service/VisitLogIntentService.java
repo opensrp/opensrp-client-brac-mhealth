@@ -1160,8 +1160,7 @@ public class VisitLogIntentService extends IntentService {
         }
         if(details.containsKey("postnatal_bleeding") && !StringUtils.isEmpty(details.get("postnatal_bleeding"))){
             String obs = details.get("postnatal_bleeding");
-            if(!TextUtils.isEmpty(obs) && obs.
-                    equalsIgnoreCase("yes")){
+            if(!TextUtils.isEmpty(obs) && obs.equalsIgnoreCase("yes")){
                 RiskyModel riskyModel = new RiskyModel();
                 riskyModel.riskyValue = obs;
                 riskyModel.riskyKey = "postnatal_bleeding";
