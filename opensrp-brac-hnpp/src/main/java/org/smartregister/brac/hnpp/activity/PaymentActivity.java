@@ -4,34 +4,47 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.adapter.NotificationAdapter;
+import org.smartregister.brac.hnpp.presenter.NotificationPresenter;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.view.activity.SecuredActivity;
 
 public class PaymentActivity extends SecuredActivity implements View.OnClickListener{
-    private Button ancButton;
+   /* private Button ancButton;
     private Button pncButton;
     private Button womenButton;
     private Button iycfButton;
     private Button ncdButton;
     private Button adolescatButton;
     private Button eyetestButton;
-    private Button bloodgroupButton;
-
+    private Button bloodgroupButton;*/
+   protected RecyclerView recyclerView;
+    private NotificationPresenter presenter;
+    private ProgressBar progressBar;
+    private NotificationAdapter adapter;
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_payment);
-        setupView();
+        HnppConstants.updateAppBackground(findViewById(R.id.action_bar));
+        findViewById(R.id.backBtn).setOnClickListener(this);
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        progressBar = findViewById(R.id.progress_bar);
+
     }
 
     private void setupView() {
-        ancButton  = findViewById(R.id.ancID);
+       /* ancButton  = findViewById(R.id.ancID);
         pncButton = findViewById(R.id.pncID);
         womenButton = findViewById(R.id.womenID);
         iycfButton = findViewById(R.id.iycfID);
@@ -57,7 +70,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
         ncdButton.setOnClickListener(this);
         adolescatButton.setOnClickListener(this);
         eyetestButton.setOnClickListener(this);
-        bloodgroupButton.setOnClickListener(this);
+        bloodgroupButton.setOnClickListener(this);*/
     }
 
     @Override
@@ -68,29 +81,8 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.ancID:
-                showDetailsDialog();
-                break;
-            case R.id.pncID:
-                showDetailsDialog();
-                break;
-            case R.id.womenID:
-                showDetailsDialog();
-                break;
-            case R.id.iycfID:
-                showDetailsDialog();
-                break;
-            case R.id.ncdID:
-                showDetailsDialog();
-                break;
-            case R.id.adolescatID:
-                showDetailsDialog();
-                break;
-            case R.id.eyetestID:
-                showDetailsDialog();
-                break;
-            case R.id.bloodgroupID:
-                showDetailsDialog();
+            case R.id.backBtn:
+                finish();
                 break;
         }
     }
