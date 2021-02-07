@@ -406,6 +406,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     public void openFollowUp() {
         startAnyFormActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOWUP,REQUEST_HOME_VISIT);
     }
+    public void openChildInfo(String eventType) {
+        startAnyFormActivity(HnppConstants.eventTypeFormNameMapping.get(eventType),REQUEST_HOME_VISIT);
+    }
     public void openCoronaIndividualForm(){
         Intent intent = new Intent(this, HnppAncJsonFormActivity.class);
         try{
@@ -492,6 +495,15 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
                     JSONObject solidObj = getFieldJSONObject(jsonArray, "solid_food_month");
                     solidObj.put(org.smartregister.family.util.JsonFormUtils.READ_ONLY, true);
                 }
+                updateFormField(jsonArray,"dob",dobFormate);
+            }
+            else if(HnppConstants.JSON_FORMS.CHILD_INFO_7_24_MONTHS.equalsIgnoreCase(formName)){
+                JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+                JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+                String DOB = ((HnppChildProfilePresenter) presenter).getDateOfBirth();
+                Date date = Utils.dobStringToDate(DOB);
+                String dobFormate = HnppConstants.DDMMYY.format(date);
+
                 updateFormField(jsonArray,"dob",dobFormate);
             }
             if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.BLOOD_TEST)){

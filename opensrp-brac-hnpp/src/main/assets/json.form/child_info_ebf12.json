@@ -1,6 +1,6 @@
 {
   "count": "1",
-  "encounter_type": "Child Info EBF 1&2",
+  "encounter_type": "Child Info EBF 1_2",
   "entity_id": "",
   "metadata": {
     "start": {
@@ -47,14 +47,14 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "EBF-1 & EBF-2",
+    "title": "শিশু তথ্য ২-৩ দিন",
     "fields": [
 
       {
         "key": "form_name",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "Child Info EBF 1&2",
+        "openmrs_entity_id": "Child Info EBF 1_2",
         "openmrs_data_type": "text",
         "type": "hidden",
         "value": "child_info_ebf12"
@@ -231,46 +231,17 @@
         }
       },
       {
-        "key": "cause_of_referral_child",
+        "key": "refer_reason",
+        "type": "label",
+        "text":"রেফারেল এর কারণ:শিশু বিষয়ক সমস্যা",
+        "has_bg": true,
+        "left_padding": "20dp",
+        "right_padding": "20dp",
+        "text_size": "25sp",
+        "text_color": "#000000",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "cause_of_referral_child",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "রেফারেল এর কারণ",
-        "values": [
-          "শিশু বিষয়ক সমস্যা",
-          "চোখে সমস্যা",
-          "ডায়বেটিস",
-          "উচ্চ রক্তচাপ",
-          "অন্যান্য"
-        ],
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "openmrs_choice_ids": {
-          "শিশু বিষয়ক সমস্যা": "child_problems",
-          "চোখে সমস্যা": "problems_eyes",
-          "ডায়বেটিস": "diabetes",
-          "উচ্চ রক্তচাপ": "high_blood_pressure",
-          "অন্যান্য": "other"
-        }
-      },
-      {
-        "key": "other_refer_reason",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "other_refer_reason",
-        "type": "edit_text",
-        "hint": "অন্যান্য কারণ ",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_refer_relevance.yml"
-            }
-          }
-        }
+        "openmrs_entity": "",
+        "openmrs_entity_id": ""
       },
       {
         "key": "place_of_referral",
@@ -282,10 +253,6 @@
         "exclusive": [
           "None"
         ],
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
         "options": [
           {
             "key": "brac_maternity_center",

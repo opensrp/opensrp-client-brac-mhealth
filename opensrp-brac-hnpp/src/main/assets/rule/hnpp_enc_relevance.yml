@@ -34,6 +34,69 @@ condition: "(step1_month_diff >= 0 && step1_month_diff > 183)"
 actions:
   - "isRelevant = true"
 ---
+name: step1_seat_ability
+description: if age 180 to 270 days
+priority: 1
+condition: "(step1_month_diff >= 180 && step1_month_diff <= 270)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_can_make_words_with_mouth
+description: if age 180 to 270 days
+priority: 1
+condition: "(step1_month_diff >= 180 && step1_month_diff <= 270)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_can_crawl
+description: if age 271 to 365 days
+priority: 1
+condition: "(step1_month_diff >= 271 && step1_month_diff <= 365)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_can_babama_sound
+description: if age 271 to 365 days
+priority: 1
+condition: "(step1_month_diff >= 271 && step1_month_diff <= 365)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_can_catch_standup
+description: if age 330 to 365 days
+priority: 1
+condition: "(step1_month_diff >= 330 && step1_month_diff <= 365)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_can_make_full_sound
+description: if age 365 to 545 days
+priority: 1
+condition: "(step1_month_diff >= 365 && step1_month_diff <= 545)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_can_catch_walking
+description: if age 365 to 545 days
+priority: 1
+condition: "(step1_month_diff >= 365 && step1_month_diff <= 545)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_can_say_two_word
+description: if age 545 to 730 days
+priority: 1
+condition: "(step1_month_diff >= 545 && step1_month_diff <= 730)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_walk_alone
+description: if age 545 to 730 days
+priority: 1
+condition: "(step1_month_diff >= 545 && step1_month_diff <= 730)"
+actions:
+  - "isRelevant = true"
+---
 name: step1_eaten_pesticides
 description: if age geter then 6 month 1 day to 60 month
 priority: 1

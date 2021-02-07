@@ -21,6 +21,7 @@ import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.adapter.MemberHistoryAdapter;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
+import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.brac.hnpp.utils.MemberHistoryData;
@@ -152,16 +153,29 @@ public class SSInfoActivity extends SecuredActivity {
         Runnable runnable = () -> {
             ArrayList<VisitLog> visitLogs = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().getAllSSFormVisit();
             ArrayList<MemberHistoryData> historyDataArrayList  = new ArrayList<>();
-            for(VisitLog visitLog : visitLogs){
-                MemberHistoryData historyData = new MemberHistoryData();
-                String eventType = visitLog.getEventType();
-                historyData.setEventType(eventType);
-                historyData.setTitle(getString(R.string.menu_ss_info));
-                historyData.setImageSource(R.drawable.childrow_history);
 
-                historyData.setVisitDetails(visitLog.getVisitJson());
-                historyData.setVisitDate(visitLog.getVisitDate());
-                historyDataArrayList.add(historyData);
+            for(VisitLog visitLog : visitLogs){
+
+                try {
+                    MemberHistoryData historyData = new MemberHistoryData();
+                    String eventType = visitLog.getEventType();
+                    historyData.setEventType(eventType);
+                    historyData.setVisitDetails(visitLog.getVisitJson());
+
+                    JSONObject jsonForm = new JSONObject(historyData.getVisitDetails());
+                    String ssName= HnppJsonFormUtils.getSSNameFromForm(jsonForm);
+                    String title = getString(R.string.menu_ss_info)+"\nস্বাস্থ্য সেবিকার নামঃ"+ssName;
+                    historyData.setTitle(title);
+                    historyData.setImageSource(R.drawable.childrow_history);
+
+
+
+                    historyData.setVisitDate(visitLog.getVisitDate());
+                    historyDataArrayList.add(historyData);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
 
             appExecutors.mainThread().execute(() -> {
