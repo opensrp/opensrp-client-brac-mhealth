@@ -49,6 +49,11 @@ public class ServiceTargetAchievmentPresenter implements DashBoardContract.Targe
     }
 
     @Override
+    public void filterByFromToDate(String fromDate, String toDate, String ssName) {
+
+    }
+
+    @Override
     public DashBoardContract.View getView() {
         return view;
     }

@@ -49,6 +49,11 @@ public class TargetAchievmentPresenter implements DashBoardContract.TargetPresen
         interactor.filterData(ssName,day,month,year,this);
     }
 
+    public void filterByFromToDate(String fromDate, String toDate, String ssName) {
+        getView().showProgressBar();
+        interactor.filterByFromToDate(ssName,fromDate,toDate,this);
+    }
+
     @Override
     public DashBoardContract.View getView() {
         return view;

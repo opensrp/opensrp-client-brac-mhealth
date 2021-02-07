@@ -50,6 +50,11 @@ public class ForumTargetAchievementPresenter implements DashBoardContract.Target
     }
 
     @Override
+    public void filterByFromToDate(String fromDate, String toDate, String ssName) {
+
+    }
+
+    @Override
     public DashBoardContract.View getView() {
         return view;
     }
