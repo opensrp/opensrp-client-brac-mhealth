@@ -106,6 +106,7 @@
     <string name="add_child_under_five">৫ বছরের কম বয়সী শিশু</string>
     <string name="add_other_family_member">পরিবারের অন্য সদস্য</string>
     <string name="filter_village_name">গ্রাম : %s</string>
+    <string name="filter_month_name">মাস : %s</string>
     <string name="claster_village_name">ক্লাস্টার : %s</string>
     <string name="add_new_family_member">নতুন সদস্য যোগ করুন</string>
     <string name="gender_male">M</string>

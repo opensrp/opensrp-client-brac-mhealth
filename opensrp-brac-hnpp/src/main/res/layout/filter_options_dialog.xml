@@ -6,6 +6,62 @@
     android:gravity="center"
     android:background="@color/light_gray"
     android:orientation="vertical">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="মাস"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:textSize="18sp"/>
+    <LinearLayout
+        android:id="@+id/month_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/monthDatePicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:background="@drawable/spinner_resource"
+            android:orientation="horizontal">
+            <org.smartregister.view.customcontrols.CustomFontTextView
+                android:id="@+id/month_text"
+                android:text="সেপ্টেম্বর"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <org.smartregister.view.customcontrols.CustomFontTextView
+                android:id="@+id/year_text"
+                android:text="২০১৭"
+                android:textColor="@color/black"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                android:layout_toRightOf="@+id/month_text"
+                android:layout_marginRight="5dp"
+                android:layout_centerVertical="true"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:id="@+id/clear_filter"
+                android:src="@drawable/ic_filter_delete"
+                android:padding="5dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="20dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+        </RelativeLayout>
+    </LinearLayout>
     <LinearLayout
         android:id="@+id/sk_filter_view"
         android:gravity="center"
@@ -16,6 +72,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="10dp"
             android:text="স্বাস্থ্য কর্মীর নাম"
             android:textColor="@color/black"
             android:textSize="18sp"/>
@@ -32,6 +89,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:text="স্বাস্থ্য সেবিকার নাম"
                 android:textColor="@color/black"
                 android:textSize="18sp"/>
@@ -49,6 +107,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="গ্রামের নামঃ"
+                android:padding="10dp"
                 android:textColor="@color/black"
                 android:textSize="18sp"/>
 
@@ -71,6 +130,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ক্লাস্টারঃ"
+            android:padding="10dp"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
             android:textColor="@color/black"
