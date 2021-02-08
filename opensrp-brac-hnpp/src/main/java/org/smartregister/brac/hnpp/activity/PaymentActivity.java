@@ -4,45 +4,90 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.adapter.NotificationAdapter;
+import org.smartregister.brac.hnpp.adapter.PaymentAdapter;
+import org.smartregister.brac.hnpp.model.Payment;
 import org.smartregister.brac.hnpp.presenter.NotificationPresenter;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.view.activity.SecuredActivity;
 
+import java.util.ArrayList;
+
 public class PaymentActivity extends SecuredActivity implements View.OnClickListener{
-   /* private Button ancButton;
-    private Button pncButton;
-    private Button womenButton;
-    private Button iycfButton;
-    private Button ncdButton;
-    private Button adolescatButton;
-    private Button eyetestButton;
-    private Button bloodgroupButton;*/
    protected RecyclerView recyclerView;
-    private NotificationPresenter presenter;
-    private ProgressBar progressBar;
-    private NotificationAdapter adapter;
+   private static TextView totalPriceTV;
+   private ProgressBar progressBar;
+   private PaymentAdapter adapter;
+   ArrayList<Payment> paymentArrayList;
+   Payment payment,payment2,payment3;
+   static int totalPayment;
+
+   public interface listener {
+      void addsum( int amount);
+   }
+
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_payment);
         HnppConstants.updateAppBackground(findViewById(R.id.action_bar));
         findViewById(R.id.backBtn).setOnClickListener(this);
         recyclerView = findViewById(R.id.recycler_view);
+        totalPriceTV = findViewById(R.id.total_price);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         progressBar = findViewById(R.id.progress_bar);
+        payment = new Payment();
+        payment2 = new Payment();
+        payment3 = new Payment();
+        adapter = new PaymentAdapter(this);
+        paymentArrayList = new ArrayList<>();
 
+        payment.setPackageName("IYCF");
+        payment.setUnitPrice(150);
+        payment.setQuantity(4);
+
+        payment2.setPackageName("ANC");
+        payment2.setUnitPrice(200);
+        payment2.setQuantity(2);
+
+        payment3.setPackageName("PNC");
+        payment3.setUnitPrice(200);
+        payment3.setQuantity(4);
+
+        paymentArrayList.add(payment);
+        paymentArrayList.add(payment2);
+        paymentArrayList.add(payment3);
+
+
+        adapter.setData(paymentArrayList);
+        recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this,
+                DividerItemDecoration.VERTICAL));
+
+        adapter.setListener(new listener() {
+            @Override
+            public void addsum( int amount) {
+                totalPriceTV.setText(amount+"");
+            }
+        });
     }
 
+    public static void addTotalPayment(int total){
+        totalPayment = totalPayment + total;
+        totalPriceTV.setText(totalPayment+"");
+    }
     private void setupView() {
        /* ancButton  = findViewById(R.id.ancID);
         pncButton = findViewById(R.id.pncID);
