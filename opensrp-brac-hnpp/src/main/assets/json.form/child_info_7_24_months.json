@@ -104,7 +104,7 @@
         "openmrs_entity_id": "baby_been_breastfed",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "শগত ২৪ ঘন্টায় বাচ্চাটি মায়ের বুকের দুধ খেয়েছে কি?",
+        "hint": "গত ২৪ ঘন্টায় বাচ্চাটি মায়ের বুকের দুধ খেয়েছে কি?",
         "values": [
           "হ্যাঁ",
           "না"
