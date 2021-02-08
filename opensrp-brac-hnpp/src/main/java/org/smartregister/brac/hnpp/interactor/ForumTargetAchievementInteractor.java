@@ -155,4 +155,9 @@ public class ForumTargetAchievementInteractor implements DashBoardContract.Targe
         };
         appExecutors.diskIO().execute(runnable);
     }
+
+    @Override
+    public void filterByFromToDate(String ssName, String fromDate, String toDate, DashBoardContract.InteractorCallBack callBack) {
+
+    }
 }

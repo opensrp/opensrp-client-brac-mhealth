@@ -60,6 +60,9 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_PRE
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.BLOOD_GROUP;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_REFERRAL;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ELCO;
@@ -1792,6 +1795,15 @@ public class VisitLogIntentService extends IntentService {
                 break;
             case CHILD_FOLLOWUP:
                 form_name = HnppConstants.JSON_FORMS.CHILD_FOLLOWUP + ".json";
+                break;
+            case CHILD_INFO_EBF12:
+                form_name = HnppConstants.JSON_FORMS.CHILD_INFO_EBF12 + ".json";
+                break;
+            case CHILD_INFO_7_24_MONTHS:
+                form_name = HnppConstants.JSON_FORMS.CHILD_INFO_7_24_MONTHS + ".json";
+                break;
+            case CHILD_INFO_25_MONTHS:
+                form_name = HnppConstants.JSON_FORMS.CHILD_INFO_25_MONTHS + ".json";
                 break;
             case ANC_REGISTRATION:
                 form_name = HnppConstants.JSON_FORMS.ANC_FORM + ".json";

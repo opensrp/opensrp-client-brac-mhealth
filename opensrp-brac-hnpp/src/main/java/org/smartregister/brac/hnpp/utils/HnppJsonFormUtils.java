@@ -1,8 +1,11 @@
 package org.smartregister.brac.hnpp.utils;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Pair;
 
 import com.google.gson.Gson;
@@ -483,6 +486,12 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 return HnppConstants.EventType.REMOVE_MEMBER;
             case  HnppConstants.EventType.REMOVE_CHILD:
                 return HnppConstants.EventType.REMOVE_CHILD;
+            case  HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS:
+                return HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS;
+            case  HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS:
+                return HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS;
+            case  HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12:
+                return HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12;
                 default:
                     return org.smartregister.chw.anc.util.Constants.EVENT_TYPE.ANC_HOME_VISIT;
         }
@@ -557,7 +566,9 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             }
         }
     }
-    public static void addReferrelReasonPlaceField(JSONObject jsonForm,String reason, String place){
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public static void addReferrelReasonPlaceField(JSONObject jsonForm, String reason, String place){
             JSONObject stepOne = null;
             try {
 
@@ -567,6 +578,14 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 updateFormField(jsonArray, "caused_referred", reason);
                 updateFormField(jsonArray, "place_referred", place);
                 JSONObject caused_referred = getFieldJSONObject(jsonArray, "caused_referred");
+                try{
+                    JSONObject place_of_referral = getFieldJSONObject(jsonArray, "place_of_referral");
+                    addWhereWentGo(place_of_referral, place);
+                }catch (Exception e){
+
+                }
+
+
                 caused_referred.put(org.smartregister.family.util.JsonFormUtils.READ_ONLY, true);
 
 
@@ -575,7 +594,43 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 e.printStackTrace();
             }
     }
-    private static String getSSNameFromForm(JSONObject jsonForm){
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private static void addWhereWentGo(JSONObject place_of_referral, String place){
+
+        JSONArray placeJsonArray = null;
+        try {
+            String[] placeArray;
+            int index;
+            placeJsonArray = place_of_referral.getJSONArray("options");
+            if(place.contains(",")){
+                placeArray = place.split(",");
+                for (int i = 0; i < placeArray.length; i++){
+                    for (int j = 0; j < placeJsonArray.length(); j++) {
+                        String abc = placeJsonArray.getString(j);
+                        if(abc.contains(placeArray[i])){
+                            placeJsonArray.remove(j);
+                        }
+                    }
+                }
+            }
+            else {
+                for (int j = 0; j < placeJsonArray.length(); j++) {
+                    String abc = placeJsonArray.getString(j);
+                    if(abc.contains(place)){
+                        placeJsonArray.remove(j);
+                    }
+                }
+            }
+
+            place_of_referral.put("options",placeJsonArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static String getSSNameFromForm(JSONObject jsonForm){
         JSONArray field = fields(jsonForm, STEP1);
         JSONObject ss_name = getFieldJSONObject(field, "ss_name");
        return ss_name.optString(VALUE);
@@ -1125,6 +1180,14 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
     }
     public static JSONObject updateLatitudeLongitude(JSONObject form,double latitude, double longitude) throws JSONException {
         JSONArray field = fields(form, STEP1);
+        JSONObject latitude_field = getFieldJSONObject(field, "latitude");
+        JSONObject longitude_field = getFieldJSONObject(field, "longitude");
+        latitude_field.put(org.smartregister.family.util.JsonFormUtils.VALUE,latitude );
+        longitude_field.put(org.smartregister.family.util.JsonFormUtils.VALUE,longitude );
+        return form;
+    }
+    public static JSONObject updateLatitudeLongitudeFamily(JSONObject form,double latitude, double longitude) throws JSONException {
+        JSONArray field = fields(form, STEP2);
         JSONObject latitude_field = getFieldJSONObject(field, "latitude");
         JSONObject longitude_field = getFieldJSONObject(field, "longitude");
         latitude_field.put(org.smartregister.family.util.JsonFormUtils.VALUE,latitude );

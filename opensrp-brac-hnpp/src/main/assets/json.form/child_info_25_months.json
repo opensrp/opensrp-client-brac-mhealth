@@ -47,7 +47,7 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "CHILD INFO 25 MONTHS",
+    "title": "শিশু তথ্য ২৫ মাস",
     "fields": [
 
       {
@@ -115,7 +115,7 @@
         }
       },
       {
-        "key": "taken_deworming_medicine ",
+        "key": "taken_deworming_medicine",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "taken_deworming_medicine",
@@ -294,6 +294,24 @@
             }
           }
         }
+      },
+      {
+        "key": "latitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "latitude",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "অক্ষাংশ"
+      },
+      {
+        "key": "longitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "longitude",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "দ্রাঘিমা"
       },
       {
         "openmrs_entity_parent": "",

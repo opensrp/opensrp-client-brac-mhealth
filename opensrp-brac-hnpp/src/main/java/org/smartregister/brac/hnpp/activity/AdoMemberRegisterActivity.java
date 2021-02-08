@@ -18,7 +18,7 @@ public class AdoMemberRegisterActivity extends HnppAllMemberRegisterActivity {
         super.onResumption();
         NavigationMenu menu = NavigationMenu.getInstance(this, null, null);
         if (menu != null) {
-            menu.getNavigationAdapter().setSelectedView(CoreConstants.DrawerMenu.IYCF);
+            menu.getNavigationAdapter().setSelectedView(CoreConstants.DrawerMenu.ADO);
         }
     }
 }
