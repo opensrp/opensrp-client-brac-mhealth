@@ -1,7 +1,6 @@
 package org.smartregister.brac.hnpp.activity;
 
 
-import org.smartregister.brac.hnpp.fragment.AdolescentMemberRegisterFragment;
 import org.smartregister.brac.hnpp.fragment.WomenServiceRegisterFragment;
 import org.smartregister.chw.core.custom_views.NavigationMenu;
 import org.smartregister.chw.core.utils.CoreConstants;

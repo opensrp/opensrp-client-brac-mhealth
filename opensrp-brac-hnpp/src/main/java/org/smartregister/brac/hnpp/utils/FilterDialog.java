@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -36,16 +37,14 @@ public class FilterDialog {
     String mSelectedVillageName,mSelectedClasterName;
     ArrayAdapter<String> ssSpinnerArrayAdapter;
     ArrayList<SSModel> ssListModel  = new ArrayList<>();
-    int day, month, year;
+    int month = -1, year = -1;
     TextView monthTV,yearTV;
-    public  void showDialog(Context context,OnFilterDialogFilter onFilterDialogFilter){
+    LinearLayout monthView;
+    public  void showDialog(boolean isNeedToShowDate, Context context,OnFilterDialogFilter onFilterDialogFilter){
         ArrayList<String> ssSpinnerArray = new ArrayList<>();
         ArrayList<String> skSpinnerArray = new ArrayList<>();
 
         Calendar calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
-        month = calendar.get(Calendar.MONTH)+1;
-        day = calendar.get(Calendar.DAY_OF_MONTH);
         ArrayList<String> villageSpinnerArray = new ArrayList<>();
         ArrayList<String> clasterList = HnppConstants.getClasterSpinnerArray();
         ssSpinnerArray.add("সকল");
@@ -123,8 +122,12 @@ public class FilterDialog {
         RelativeLayout monthPicker = dialog.findViewById(R.id.monthDatePicker);
         monthTV = dialog.findViewById(R.id.month_text);
         yearTV =  dialog.findViewById(R.id.year_text);
-        monthTV.setText(HnppJsonFormUtils.monthBanglaStr[month-1]);
-        yearTV.setText(year+"");
+        monthView = dialog.findViewById(R.id.month_view);
+//        monthTV.setText(HnppJsonFormUtils.monthBanglaStr[month-1]);
+//        yearTV.setText(year+"");
+        monthTV.setText("");
+        yearTV.setText("সকল");
+        if(!isNeedToShowDate) monthView.setVisibility(View.GONE);
         village_spinner.setAdapter(villageSpinnerArrayAdapter);
         cluster_spinner.setAdapter(clusterSpinnerArrayAdapter);
         monthPicker.setOnClickListener(new View.OnClickListener() {
@@ -274,7 +277,7 @@ public class FilterDialog {
             public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
                 if (position != -1) {
                     if(position == 0) mSelectedClasterName = "";
-                    else mSelectedClasterName = HnppConstants.getClasterNames().get(HnppConstants.getClasterSpinnerArray().get(position));
+                    else mSelectedClasterName = HnppConstants.getClasterNames().get(HnppConstants.getClasterSpinnerArray().get(position-1));
                 }
             }
 

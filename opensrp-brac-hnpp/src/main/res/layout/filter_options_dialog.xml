@@ -6,17 +6,20 @@
     android:gravity="center"
     android:background="@color/light_gray"
     android:orientation="vertical">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="মাস"
-        android:padding="10dp"
-        android:textColor="@color/black"
-        android:textSize="18sp"/>
+
     <LinearLayout
         android:id="@+id/month_view"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="মাস"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
         <RelativeLayout
             android:id="@+id/monthDatePicker"
             android:layout_width="match_parent"
