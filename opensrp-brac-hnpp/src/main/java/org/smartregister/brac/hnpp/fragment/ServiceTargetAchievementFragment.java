@@ -36,6 +36,11 @@ public class ServiceTargetAchievementFragment extends BaseDashBoardFragment {
     }
 
     @Override
+    void filterByFromToMonth() {
+
+    }
+
+    @Override
     public void updateAdapter() {
         super.updateAdapter();
         if(adapter == null){

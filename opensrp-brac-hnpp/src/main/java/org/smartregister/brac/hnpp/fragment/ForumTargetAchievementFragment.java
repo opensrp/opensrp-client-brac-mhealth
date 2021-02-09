@@ -42,6 +42,11 @@ public class ForumTargetAchievementFragment extends BaseDashBoardFragment {
     }
 
     @Override
+    void filterByFromToMonth() {
+
+    }
+
+    @Override
     public void updateAdapter() {
         super.updateAdapter();
         if(adapter == null){

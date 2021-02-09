@@ -98,6 +98,33 @@ public class TargetAchievementInteractor implements DashBoardContract.TargetInte
 
 
     }
+    private void fetchDataByFromToMonth( String fromMonth, String toMonth, String ssName) {
+        if(HnppConstants.isPALogin()){
+            setData(model.getAdultForum(fromMonth,toMonth,ssName));
+            setData(model.getAttendancAdultForum(fromMonth,toMonth,ssName));
+            setData(model.getServiceCountAdultForum(fromMonth,toMonth,ssName));
+            setData(model.getMarkedPresbyopia(fromMonth,toMonth,ssName));
+            setData(model.getPresbyopiaCorrection(fromMonth,toMonth,ssName));
+            setData(model.getEstimateDiabetes(fromMonth,toMonth,ssName));
+            setData(model.getEstimateHBS(fromMonth,toMonth,ssName));
+            setData(model.getCataractSurgery(fromMonth,toMonth,ssName));
+            setData(model.getCataractSurgeryRefer(fromMonth,toMonth,ssName));
+        }else{
+            setData(model.getHHVisitTarget(fromMonth,toMonth,ssName));
+            setData(model.getElcoTarget(fromMonth,toMonth,ssName));
+            setData(model.getMethodUserTarget(fromMonth,toMonth,ssName));
+            setData(model.getAdoMethodUserTarget(fromMonth,toMonth,ssName));
+            setData(model.getPregnencyIdentiTarget(fromMonth,toMonth,ssName));
+            setData(model.getDeliveryTarget(fromMonth,toMonth,ssName));
+            setData(model.getInstitutionDeliveryTarget(fromMonth,toMonth,ssName));
+            setData(model.get0to6ChildVisitTarget(fromMonth,toMonth,ssName));
+            setData(model.get7to24ChildVisitTarget(fromMonth,toMonth,ssName));
+            setData(model.get18to36ChildVisitTarget(fromMonth,toMonth,ssName));
+            setData(model.get0to59ChildImmunizationTarget(fromMonth,toMonth,ssName));
+        }
+
+
+    }
     @Override
     public void filterData(String ssName, String day, String month, String year,DashBoardContract.InteractorCallBack callBack) {
         dashBoardDataArrayList.clear();
@@ -114,6 +141,17 @@ public class TargetAchievementInteractor implements DashBoardContract.TargetInte
         dashBoardDataArrayList.clear();
         Runnable runnable = () -> {
             fetchDataByFromToDate(fromDate, toDate, ssName);
+
+            appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
+        };
+        appExecutors.diskIO().execute(runnable);
+    }
+
+    @Override
+    public void filterByFromToMonth(String ssName, String fromMonth, String toMonth, DashBoardContract.InteractorCallBack callBack) {
+        dashBoardDataArrayList.clear();
+        Runnable runnable = () -> {
+            fetchDataByFromToMonth(fromMonth, toMonth, ssName);
 
             appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
         };
