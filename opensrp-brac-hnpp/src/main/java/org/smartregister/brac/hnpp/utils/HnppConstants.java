@@ -202,6 +202,7 @@ public class HnppConstants extends CoreConstants {
         public static final int TYPE_REFERRAL_FOLLOW_UP = 8;
     }
 
+
     public static boolean isNeedToShowEDDPopup(){
         String lastEddTimeStr =  org.smartregister.Context.getInstance().allSharedPreferences().getPreference("LAST_EDD_TIME");
         if(TextUtils.isEmpty(lastEddTimeStr)){

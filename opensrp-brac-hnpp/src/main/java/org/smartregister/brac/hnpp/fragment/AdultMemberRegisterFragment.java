@@ -13,6 +13,6 @@ public class AdultMemberRegisterFragment extends HnppAllMemberRegisterFragment {
 
         String viewConfigurationIdentifier = ((BaseRegisterActivity) getActivity()).getViewIdentifiers().get(0);
         presenter = new AdultMemberRegisterFragmentPresenter(this, new HnppAllMemberRegisterFragmentModel(), viewConfigurationIdentifier);
-
+        isNeedToShowDateFilter = true;
     }
 }

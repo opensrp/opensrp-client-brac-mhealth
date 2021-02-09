@@ -13,6 +13,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,7 +63,7 @@ import timber.log.Timber;
 
 import static android.view.View.inflate;
 
-public class HnppPncRegisterFragment extends BasePncRegisterFragment implements View.OnClickListener {
+public class HnppPncRegisterFragment extends HnppBasePncRegisterFragment implements View.OnClickListener {
 
     private static final String DUE_FILTER_TAG = "PRESSED";
     private View view;
@@ -73,207 +74,10 @@ public class HnppPncRegisterFragment extends BasePncRegisterFragment implements 
         super.onViewClicked(view);
       if (view.getId() == R.id.filter_text_view) {
 
-
-            ArrayList<String> ssSpinnerArray = new ArrayList<>();
-
-
-            ArrayList<String> villageSpinnerArray = new ArrayList<>();
-
-
-            ArrayList<SSModel> ssLocationForms = SSLocationHelper.getInstance().getSsModels();
-            for (SSModel ssModel : ssLocationForms) {
-                ssSpinnerArray.add(ssModel.username);
-            }
-
-
-            ArrayAdapter<String> ssSpinnerArrayAdapter = new ArrayAdapter<String>
-                    (getActivity(), android.R.layout.simple_spinner_item,
-                            ssSpinnerArray){
-                @Override
-                public android.view.View getDropDownView(int position, @Nullable android.view.View convertView, @NonNull ViewGroup parent) {
-                    convertView = super.getDropDownView(position, convertView,
-                            parent);
-
-                    AppCompatTextView appCompatTextView = (AppCompatTextView)convertView;
-                    appCompatTextView.setGravity(Gravity.CENTER_VERTICAL);
-                    appCompatTextView.setHeight(100);
-
-                    return convertView;
-                }
-            };
-
-            villageSpinnerArrayAdapter = new ArrayAdapter<String>
-                    (getActivity(), android.R.layout.simple_spinner_item,
-                            villageSpinnerArray){
-                @Override
-                public android.view.View getDropDownView(int position, @Nullable android.view.View convertView, @NonNull ViewGroup parent) {
-                    convertView = super.getDropDownView(position, convertView,
-                            parent);
-
-                    AppCompatTextView appCompatTextView = (AppCompatTextView)convertView;
-                    appCompatTextView.setGravity(Gravity.CENTER_VERTICAL);
-                    appCompatTextView.setHeight(100);
-
-                    return convertView;
-                }
-            };
-
-            ArrayAdapter<String> clusterSpinnerArrayAdapter = new ArrayAdapter<String>
-                    (getActivity(), android.R.layout.simple_spinner_item,
-                            HnppConstants.getClasterSpinnerArray()){
-                @Override
-                public android.view.View getDropDownView(int position, @Nullable android.view.View convertView, @NonNull ViewGroup parent) {
-                    convertView = super.getDropDownView(position, convertView,
-                            parent);
-
-                    AppCompatTextView appCompatTextView = (AppCompatTextView)convertView;
-                    appCompatTextView.setGravity(Gravity.CENTER_VERTICAL);
-                    appCompatTextView.setHeight(100);
-
-                    return convertView;
-                }
-            };
-
-            Dialog dialog = new Dialog(getActivity(), android.R.style.Theme_NoTitleBar_Fullscreen);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(org.smartregister.family.R.color.customAppThemeBlue)));
-            dialog.setContentView(R.layout.filter_options_dialog);
-            Spinner ss_spinner = dialog.findViewById(R.id.ss_filter_spinner);
-            Spinner village_spinner = dialog.findViewById(R.id.village_filter_spinner);
-            Spinner cluster_spinner = dialog.findViewById(R.id.klaster_filter_spinner);
-            village_spinner.setAdapter(villageSpinnerArrayAdapter);
-            cluster_spinner.setAdapter(clusterSpinnerArrayAdapter);
-            ss_spinner.setAdapter(ssSpinnerArrayAdapter);
-            ss_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
-                    if (position != -1) {
-                        villageSpinnerArray.clear();
-                        ArrayList<SSLocations> ssLocations = SSLocationHelper.getInstance().getSsModels().get(position).locations;
-                        for (SSLocations ssLocations1 : ssLocations) {
-                            villageSpinnerArray.add(ssLocations1.village.name);
-                        }
-                        villageSpinnerArrayAdapter = new ArrayAdapter<String>
-                                (getActivity(), android.R.layout.simple_spinner_item,
-                                        villageSpinnerArray);
-                        village_spinner.setAdapter(villageSpinnerArrayAdapter);
-//                        villageSpinnerArrayAdapter.notifyDataSetChanged();
-                    }
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });
-            village_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
-                    if (position != -1) {
-                        mSelectedVillageName = villageSpinnerArray.get(position);
-                    }
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });
-            cluster_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
-                    if (position != -1) {
-                        mSelectedClasterName = HnppConstants.getClasterNames().get(HnppConstants.getClasterSpinnerArray().get(position));
-                    }
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });
-            Button proceed = dialog.findViewById(R.id.filter_apply_button);
-            proceed.setOnClickListener(new android.view.View.OnClickListener() {
-                @Override
-                public void onClick(android.view.View v) {
-                    updateFilterView();
-                    dialog.dismiss();
-                }
-            });
-            dialog.show();
+          openFilterDialog(true);
         }
     }
-    private final String DEFAULT_MAIN_CONDITION = "date_removed is null";
-    ArrayAdapter<String> villageSpinnerArrayAdapter;
-    String searchFilterString = "";
-    private String mSelectedVillageName, mSelectedClasterName;
-    private TextView textViewVillageNameFilter, textViewClasterNameFilter;
-    private ImageView imageViewVillageNameFilter, imageViewClasterNameFilter;
-    private ViewGroup clients_header_layout;
 
-    @Override
-    public void setupViews(android.view.View view) {
-        try{
-            super.setupViews(view);
-        }catch (Exception e){
-            HnppApplication.getHNPPInstance().forceLogout();
-            return;
-        }
-        this.view = view;
-        HnppConstants.updateAppBackground((view.findViewById(R.id.register_nav_bar_container)));
-        HnppConstants.updateAppBackground(view.findViewById(org.smartregister.R.id.register_toolbar));
-        CustomFontTextView titleView = view.findViewById(org.smartregister.family.R.id.txt_title_label);
-        if (titleView != null) {
-            titleView.setVisibility(View.VISIBLE);
-            titleView.setText(getString(getToolBarTitle()));
-            titleView.setFontVariant(FontVariant.REGULAR);
-            titleView.setPadding(0, titleView.getTop(), titleView.getPaddingRight(), titleView.getPaddingBottom());
-        }
-        RelativeLayout sortAndFilterView = view.findViewById(org.smartregister.chw.core.R.id.filter_sort_layout);
-        sortAndFilterView.setVisibility(android.view.View.VISIBLE);
-        TextView sortView = sortAndFilterView.findViewById(R.id.sort_text_view);
-        TextView filterTextView = sortAndFilterView.findViewById(R.id.filter_text_view);
-        sortView.setText(getString(R.string.sort));
-        filterTextView.setText(getString(R.string.filter));
-        android.view.View searchBarLayout = view.findViewById(org.smartregister.family.R.id.search_bar_layout);
-        searchBarLayout.setBackgroundResource(org.smartregister.family.R.color.customAppThemeBlue);
-        if (getSearchView() != null) {
-            getSearchView().setTextColor(ContextCompat.getColor(getContext(), android.R.color.black));
-            getSearchView().setBackgroundResource(org.smartregister.family.R.color.white);
-            getSearchView().setCompoundDrawablesWithIntrinsicBounds(org.smartregister.family.R.drawable.ic_action_search, 0, 0, 0);
-        }
-        view.findViewById(org.smartregister.chw.core.R.id.due_only_layout).setVisibility(android.view.View.GONE);
-        filterTextView.setOnClickListener(registerActionHandler);
-        clients_header_layout = view.findViewById(org.smartregister.chw.core.R.id.clients_header_layout);
-        android.view.View filterView = inflate(getContext(), R.layout.filter_top_view, clients_header_layout);
-        textViewVillageNameFilter = filterView.findViewById(R.id.village_name_filter);
-        textViewClasterNameFilter = filterView.findViewById(R.id.claster_name_filter);
-        imageViewVillageNameFilter = filterView.findViewById(R.id.village_filter_img);
-        imageViewClasterNameFilter = filterView.findViewById(R.id.claster_filter_img);
-        imageViewVillageNameFilter.setOnClickListener(this);
-        imageViewClasterNameFilter.setOnClickListener(this);
-        clients_header_layout.getLayoutParams().height = 100;
-        clients_header_layout.setVisibility(android.view.View.GONE);
-        if (getSearchCancelView() != null) {
-            getSearchCancelView().setOnClickListener(this);
-        }
-        setTotalPatients();
-
-        NavigationMenu.getInstance(getActivity(), null, view.findViewById(org.smartregister.R.id.register_toolbar));
-    }
-
-    public void updateFilterView(){
-        if(StringUtils.isEmpty(mSelectedVillageName) && StringUtils.isEmpty(mSelectedClasterName)){
-            clients_header_layout.setVisibility(android.view.View.GONE);
-        } else {
-            clients_header_layout.setVisibility(android.view.View.VISIBLE);
-        }
-        textViewVillageNameFilter.setText(getString(R.string.filter_village_name, mSelectedVillageName));
-        textViewClasterNameFilter.setText(getString(R.string.claster_village_name, HnppConstants.getClusterNameFromValue(mSelectedClasterName)));
-        filter(searchFilterString, "", DEFAULT_MAIN_CONDITION,false);
-
-
-    }
 
     @Override
     protected void onResumption() {
@@ -284,31 +88,6 @@ public class HnppPncRegisterFragment extends BasePncRegisterFragment implements 
         }
 
     }
-
-    @Override
-    public void onClick(android.view.View v) {
-        super.onViewClicked(v);
-        switch (v.getId()) {
-            case R.id.village_filter_img:
-                mSelectedVillageName = "";
-                updateFilterView();
-                break;
-            case R.id.claster_filter_img:
-                mSelectedClasterName = "";
-                updateFilterView();
-                break;
-            case R.id.btn_search_cancel:
-                mSelectedVillageName = "";
-                mSelectedClasterName = "";
-                searchFilterString = "";
-                if (getSearchView() != null) {
-                    getSearchView().setText("");
-                }
-                clients_header_layout.setVisibility(android.view.View.GONE);
-
-                break;
-        }
-    }
     @Override
     public void setTotalPatients() {
         if (headerTextDisplay != null) {
@@ -318,17 +97,6 @@ public class HnppPncRegisterFragment extends BasePncRegisterFragment implements 
             headerTextDisplay.setTypeface(Typeface.DEFAULT_BOLD);
             ((android.view.View)headerTextDisplay.getParent()).findViewById(R.id.filter_display_view).setVisibility(android.view.View.GONE);
             ((android.view.View)headerTextDisplay.getParent()).setVisibility(android.view.View.VISIBLE);
-        }
-    }
-    private void toggleFilterSelection(View dueOnlyLayout) {
-        if (dueOnlyLayout != null) {
-            if (dueOnlyLayout.getTag() == null) {
-                dueFilterActive = true;
-                dueFilter(dueOnlyLayout);
-            } else if (dueOnlyLayout.getTag().toString().equals(DUE_FILTER_TAG)) {
-                dueFilterActive = false;
-                normalFilter(dueOnlyLayout);
-            }
         }
     }
 
@@ -432,17 +200,6 @@ public class HnppPncRegisterFragment extends BasePncRegisterFragment implements 
 //        PncHomeVisitActivity.startMe(getActivity(), new MemberObject(client), false);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-//
-//        Toolbar toolbar = view.findViewById(org.smartregister.R.id.register_toolbar);
-//        toolbar.setContentInsetsAbsolute(0, 0);
-//        toolbar.setContentInsetsRelative(0, 0);
-//        toolbar.setContentInsetStartWithNavigation(0);
-//
-//        NavigationMenu.getInstance(getActivity(), null, toolbar);
-    }
 
     @Override
     protected void refreshSyncProgressSpinner() {
@@ -456,11 +213,20 @@ public class HnppPncRegisterFragment extends BasePncRegisterFragment implements 
 
 
     private String defaultFilterAndSortQuery() {
+        Log.v("VIST_QUERY","defaultFilterAndSortQuery>>"+mainSelect);
+        String sql = "";
+        if(month != -1){
+            sql = mainSelect+" inner join ec_visit_log on ec_visit_log.base_entity_id = ec_family_member.base_entity_id ";
+        }else{
+            sql = mainSelect;
+        }
+        SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(sql);
         joinTables = new String[]{"ec_family"};
-        String query = mainSelect+" where " + getCondition();
-        SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(query);
-
         StringBuilder customFilter = new StringBuilder();
+        String query = sql+" where " + getCondition();
+        Log.v("VIST_QUERY","query>>"+query);
+
+
         if (StringUtils.isNotBlank(searchFilterString)) {
             customFilter.append(MessageFormat.format(" and ( {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.FIRST_NAME, searchFilterString));
             customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.LAST_NAME, searchFilterString));
@@ -477,23 +243,28 @@ public class HnppPncRegisterFragment extends BasePncRegisterFragment implements 
 
         }else if(!StringUtils.isEmpty(mSelectedVillageName)){
             customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
+        }if(month!=-1){
+
+            customFilter.append(MessageFormat.format(" and {0} = {1} ", "strftime('%m', datetime(ec_visit_log.visit_date/1000,'unixepoch','localtime'))" ,"'"+HnppConstants.addZeroForMonth(month+"")+"'"));
+            customFilter.append(MessageFormat.format(" and {0} = {1} ", "strftime('%Y', datetime(ec_visit_log.visit_date/1000,'unixepoch','localtime'))" ,"'"+year+"'"));
+            customFilter.append(" and ec_visit_log.visit_type ='PNC Home Visit'");
+            customFilter.append(" group by ec_family_member.base_entity_id");
         }
 
         try {
-            if (isValidFilterForFts(commonRepository())) {
-
-                String myquery = QueryBuilder.getQuery(joinTables, mainCondition, tablename, customFilter.toString(), clientAdapter, Sortqueries);
-                List<String> ids = commonRepository().findSearchIds(myquery);
-                query = sqb.toStringFts(ids, tablename, CommonRepository.ID_COLUMN,
-                        Sortqueries);
-                query = sqb.Endquery(query);
-            } else {
-//                sqb.addCondition(getCondition()+customFilter.toString());
+//            if (isValidFilterForFts(commonRepository())) {
+//
+//                String myquery = QueryBuilder.getQuery(joinTables, mainCondition, tablename, customFilter.toString(), clientAdapter, Sortqueries);
+//                List<String> ids = commonRepository().findSearchIds(myquery);
+//                query = sqb.toStringFts(ids, tablename, CommonRepository.ID_COLUMN,
+//                        Sortqueries);
+//                query = sqb.Endquery(query);
+//            } else {
                 sqb.addCondition(customFilter.toString());
                 query = sqb.orderbyCondition(Sortqueries);
                 query = sqb.Endquery(sqb.addlimitandOffset(query, clientAdapter.getCurrentlimit(), clientAdapter.getCurrentoffset()));
 
-            }
+            //}
         } catch (Exception e) {
             Timber.e(e);
         }
@@ -501,58 +272,58 @@ public class HnppPncRegisterFragment extends BasePncRegisterFragment implements 
         return query;
     }
 
-    @Override
-    public void countExecute() {
-//        String query = mainSelect+" where " + getCondition();
-
-        Cursor c = null;
-        try {
-
-            String query = "select count(*) from " + presenter().getMainTable() + " inner join " + HnppConstants.TABLE_NAME.FAMILY_MEMBER +
-                    " on " + presenter().getMainTable() + "." + DBConstants.KEY.BASE_ENTITY_ID + " = " +
-                    HnppConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.BASE_ENTITY_ID +
-                    " inner join ec_family  on ec_family.base_entity_id = ec_family_member.relational_id "+
-                    " where " + getCondition();
-            joinTables = new String[]{"ec_family"};
-            StringBuilder customFilter = new StringBuilder();
-            if (StringUtils.isNotBlank(searchFilterString)) {
-                customFilter.append(MessageFormat.format(" and ( {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.FIRST_NAME, searchFilterString));
-                customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.LAST_NAME, searchFilterString));
-                customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.MIDDLE_NAME, searchFilterString));
-                customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.UNIQUE_ID, searchFilterString));
-
-            }
-            if(!StringUtils.isEmpty(mSelectedClasterName)&&!StringUtils.isEmpty(mSelectedVillageName)){
-                customFilter.append(MessageFormat.format(" and ( {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
-                customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ) ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
-
-            }else if(!StringUtils.isEmpty(mSelectedClasterName)){
-                customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
-
-            }else if(!StringUtils.isEmpty(mSelectedVillageName)){
-                customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
-            }
-
-            if (StringUtils.isNotBlank(customFilter)) {
-                query = query + customFilter;
-            }
-
-            c = commonRepository().rawCustomQueryForAdapter(query);
-            c.moveToFirst();
-            clientAdapter.setTotalcount(c.getInt(0));
-            Timber.v("total count here %s", clientAdapter.getTotalcount());
-
-            clientAdapter.setCurrentlimit(20);
-            clientAdapter.setCurrentoffset(0);
-
-        } catch (Exception e) {
-            Timber.e(e);
-        } finally {
-            if (c != null) {
-                c.close();
-            }
-        }
-    }
+//    @Override
+//    public void countExecute() {
+////        String query = mainSelect+" where " + getCondition();
+//
+//        Cursor c = null;
+//        try {
+//
+//            String query = "select count(*) from " + presenter().getMainTable() + " inner join " + HnppConstants.TABLE_NAME.FAMILY_MEMBER +
+//                    " on " + presenter().getMainTable() + "." + DBConstants.KEY.BASE_ENTITY_ID + " = " +
+//                    HnppConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.BASE_ENTITY_ID +
+//                    " inner join ec_family  on ec_family.base_entity_id = ec_family_member.relational_id "+
+//                    " where " + getCondition();
+//            joinTables = new String[]{"ec_family"};
+//            StringBuilder customFilter = new StringBuilder();
+//            if (StringUtils.isNotBlank(searchFilterString)) {
+//                customFilter.append(MessageFormat.format(" and ( {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.FIRST_NAME, searchFilterString));
+//                customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.LAST_NAME, searchFilterString));
+//                customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.MIDDLE_NAME, searchFilterString));
+//                customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.UNIQUE_ID, searchFilterString));
+//
+//            }
+//            if(!StringUtils.isEmpty(mSelectedClasterName)&&!StringUtils.isEmpty(mSelectedVillageName)){
+//                customFilter.append(MessageFormat.format(" and ( {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
+//                customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ) ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
+//
+//            }else if(!StringUtils.isEmpty(mSelectedClasterName)){
+//                customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
+//
+//            }else if(!StringUtils.isEmpty(mSelectedVillageName)){
+//                customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
+//            }
+//
+//            if (StringUtils.isNotBlank(customFilter)) {
+//                query = query + customFilter;
+//            }
+//
+//            c = commonRepository().rawCustomQueryForAdapter(query);
+//            c.moveToFirst();
+//            clientAdapter.setTotalcount(c.getInt(0));
+//            Timber.v("total count here %s", clientAdapter.getTotalcount());
+//
+//            clientAdapter.setCurrentlimit(20);
+//            clientAdapter.setCurrentoffset(0);
+//
+//        } catch (Exception e) {
+//            Timber.e(e);
+//        } finally {
+//            if (c != null) {
+//                c.close();
+//            }
+//        }
+//    }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
