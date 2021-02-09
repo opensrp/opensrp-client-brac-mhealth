@@ -61,7 +61,6 @@ public class WorkSummeryDashBoardFragment extends BaseDashBoardFragment {
         presenter.filterByFromToMonth(fromMonthFormat,toMonthFormat,ssName);
     }
 
-
     @Override
     public void updateAdapter() {
         super.updateAdapter();
