@@ -79,10 +79,12 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
     private HnppVisitLogRepository visitLogRepository;
     private static String motherName;
     private static String baseEntityId;
+    private static double latitude;
+    private static double longitude;
 
 
     public static void startHnppAncRegisterActivity(Activity activity, String memberBaseEntityID, String phoneNumber, String formName,
-                                                    String uniqueId, String familyBaseID, String family_name, String moName) {
+                                                    String uniqueId, String familyBaseID, String family_name, String moName,double lat,double longi) {
         Intent intent = new Intent(activity, org.smartregister.brac.hnpp.activity.HnppAncRegisterActivity.class);
         intent.putExtra(org.smartregister.chw.anc.util.Constants.ACTIVITY_PAYLOAD.BASE_ENTITY_ID, memberBaseEntityID);
         phone_number = phoneNumber;
@@ -90,12 +92,16 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
         form_name = formName;
         familyName = family_name;
         motherName = moName;
+        latitude = lat;
+        longitude = longi;
         baseEntityId = memberBaseEntityID;
         unique_id = uniqueId;
         intent.putExtra(org.smartregister.chw.anc.util.Constants.ACTIVITY_PAYLOAD.ACTION, org.smartregister.chw.anc.util.Constants.ACTIVITY_PAYLOAD_TYPE.REGISTRATION);
         intent.putExtra(Constants.ACTIVITY_PAYLOAD.TABLE_NAME, getFormTable());
         activity.startActivityForResult(intent, Constants.REQUEST_CODE_GET_JSON);
     }
+
+
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this).setMessage(getString(R.string.exit_app_message))
@@ -149,6 +155,11 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
             ANCRegister ancRegister = null;
             if (form_name != null && form_name.equals(HnppConstants.JSON_FORMS.ANC_FORM)) {
                 ancRegister = visitLogRepository.getLastANCRegister(getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.BASE_ENTITY_ID));
+            }
+            try{
+                HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
+            }catch (Exception e){
+                e.printStackTrace();
             }
             Form form = new Form();
             if(!HnppConstants.isReleaseBuild()){

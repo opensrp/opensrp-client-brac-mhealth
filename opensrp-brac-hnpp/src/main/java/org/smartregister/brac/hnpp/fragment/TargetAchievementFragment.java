@@ -29,11 +29,35 @@ public class TargetAchievementFragment extends BaseDashBoardFragment {
         presenter.filterData(ssName,day+"",month+"",year+"");
     }
 
-
-    public void filterByFromToDate() {
+    @Override
+    void filterByFromToDate() {
         String fromDateFormat = fromYear+"-"+fromMonth+"-"+fromDay;
         String toDateFormat = toYear+"-"+toMonth+"-"+toDay;
         presenter.filterByFromToDate(fromDateFormat,toDateFormat,ssName);
+    }
+
+    @Override
+    void filterByFromToMonth() {
+        String fromMonthFormat = null;
+        String toMonthFormat = null;
+        if((fromMonth == -1 || fromYear == -1) && (toMonth == -1 || toYear == -1 )){
+            fromMonthFormat = "";
+            toMonthFormat = "";
+        }
+        if(fromMonth == -1 && toMonth != -1 ){
+            fromMonthFormat = "";
+            toMonthFormat = toYear+"-"+toMonth;
+        }
+        if(fromMonth != -1 && toMonth == -1){
+            fromMonthFormat = fromYear+"-"+fromMonth;
+            toMonthFormat = year+"-"+month;
+        }
+        if(fromMonth != -1 && toMonth != -1) {
+            fromMonthFormat = fromYear+"-"+fromMonth;
+            toMonthFormat = toYear+"-"+toMonth;
+        }
+
+        presenter.filterByFromToMonth(fromMonthFormat,toMonthFormat,ssName);
     }
 
     @Override
