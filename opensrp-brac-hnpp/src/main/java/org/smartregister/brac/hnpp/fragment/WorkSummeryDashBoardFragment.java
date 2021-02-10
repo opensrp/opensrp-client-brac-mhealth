@@ -33,11 +33,6 @@ public class WorkSummeryDashBoardFragment extends BaseDashBoardFragment {
     }
 
     @Override
-    void filterByFromToMonth() {
-
-    }
-
-    @Override
     public void updateAdapter() {
         super.updateAdapter();
         if(adapter == null){

@@ -68,9 +68,4 @@ public class ServiceTargetAchievementInteractor implements DashBoardContract.Tar
     public void filterByFromToDate(String ssName, String fromDate, String toDate, DashBoardContract.InteractorCallBack callBack) {
 
     }
-
-    @Override
-    public void filterByFromToMonth(String ssName, String fromMonth, String toMonth, DashBoardContract.InteractorCallBack callBack) {
-
-    }
 }

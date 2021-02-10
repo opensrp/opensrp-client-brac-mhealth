@@ -52,13 +52,12 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
     protected Spinner ssSpinner;
     protected ProgressBar progressBar;
     protected String ssName;
-    private ImageView filterBtn, fromFilterBtn, toFilterBtn;
-    private  TextView monthTV,yearTV, fromMonthTV, toMonthTV, fromYearTV,toYearTV;
-    protected LinearLayout monthView,dateView,fromDateView,toDateView,fromMonthView, toMonthView;
-    protected RelativeLayout monthPicker, fromMonthPicker, toMonthPicker;
+    private ImageView filterBtn;
+    private  TextView monthTV,yearTV;
+    protected LinearLayout monthView,dateView,fromDateView,toDateView;
+    protected RelativeLayout monthPicker;
     abstract void filterData();
     abstract void filterByFromToDate();
-    abstract void filterByFromToMonth();
     abstract void updateTitle();
     abstract void fetchData();
     abstract void initilizePresenter();
@@ -83,24 +82,14 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
         ssSpinner = view.findViewById(R.id.ss_filter_spinner);
         monthView = view.findViewById(R.id.month_view);
-        fromMonthTV = view.findViewById(R.id.from_month_text);
-        toMonthTV = view.findViewById(R.id.to_month_text);
-        fromYearTV = view.findViewById(R.id.from_year_text);
-        toYearTV = view.findViewById(R.id.to_year_text);
         monthTV = view.findViewById(R.id.month_text);
         yearTV  = view.findViewById(R.id.year_text);
         monthPicker = view.findViewById(R.id.monthDatePicker);
-        fromMonthPicker = view.findViewById(R.id.fromMonthPicker);
-        toMonthPicker = view.findViewById(R.id.toMonthPicker);
         dateView = view.findViewById(R.id.date_view);
-        fromMonthView = view.findViewById(R.id.from_month_view);
-        toMonthView = view.findViewById(R.id.to_month_view);
         fromDateView = view.findViewById(R.id.from_date_view);
         toDateView = view.findViewById(R.id.to_date_view);
         progressBar = view.findViewById(R.id.progress_bar);
         filterBtn = view.findViewById(R.id.filterBtn);
-        fromFilterBtn = view.findViewById(R.id.from_clear_filter);
-        toFilterBtn = view.findViewById(R.id.to_clear_filter);
         dateBtn = view.findViewById(R.id.date_btn);
         fromDateBtn = view.findViewById(R.id.from_date_btn);
         toDateBtn = view.findViewById(R.id.to_date_btn);
@@ -109,8 +98,6 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
         fromDateBtn.setOnClickListener(this);
         toDateBtn.setOnClickListener(this);
         filterBtn.setOnClickListener(this);
-        fromFilterBtn.setOnClickListener(this);
-        toFilterBtn.setOnClickListener(this);
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH)+1;
@@ -131,8 +118,6 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
         updateFilter();
         loadSSList();
         loadMonthList();
-        loadFromMonthList();
-        loadToMonthList();
         updateTitle();
         fetchData();
     }
@@ -214,20 +199,6 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
                 month = -1;
                 year = -1;
                 filterData();
-                break;
-            case R.id.from_clear_filter:
-                fromMonthTV.setText("");
-                fromYearTV.setText("সকল");
-                fromMonth = -1;
-                fromYear = -1;
-                filterByFromToMonth();
-                break;
-            case R.id.to_clear_filter:
-                toMonthTV.setText("");
-                toYearTV.setText("সকল");
-                toMonth = -1;
-                toYear = -1;
-                filterByFromToMonth();
                 break;
         }
     }
@@ -344,109 +315,6 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
 //            }
 //        });
 //
-    }
-    public void loadFromMonthList() {
-        fromMonthPicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(fromMonth == -1) fromMonth = calendar.get(Calendar.MONTH)+1;
-                if(fromYear == -1) fromYear = calendar.get(Calendar.YEAR);
-                MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(getContext(), new MonthPickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(int selectedMonth, int selectedYear) {
-                        fromMonth = selectedMonth+1;
-                        fromYear = selectedYear;
-                        updateFromDatePicker();
-                        filterByFromToMonth();
-                    }
-                }, year, month-1);
-                builder.setActivatedMonth(month-1)
-                        .setMinYear(2010)
-                        .setActivatedYear(year)
-                        .setMaxYear(calendar.get(Calendar.YEAR))
-                        .setTitle("মাস সিলেক্ট করুন")
-                        .setOnMonthChangedListener(new MonthPickerDialog.OnMonthChangedListener() {
-                            @Override
-                            public void onMonthChanged(int selectedMonth) {
-
-                            }
-                        })
-                        .setOnYearChangedListener(new MonthPickerDialog.OnYearChangedListener() {
-                            @Override
-                            public void onYearChanged(int selectedYear) {
-
-                            }
-                        })
-                        .build()
-                        .show();
-            }
-        });
-        updateFromPicker();
-    }
-    public void loadToMonthList() {
-        toMonthPicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(toMonth == -1) toMonth = calendar.get(Calendar.MONTH)+1;
-                if(toYear == -1) toYear = calendar.get(Calendar.YEAR);
-                MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(getContext(), new MonthPickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(int selectedMonth, int selectedYear) {
-                        toMonth = selectedMonth+1;
-                        toYear = selectedYear;
-                        updateToDatePicker();
-                        filterByFromToMonth();
-                    }
-                }, year, month-1);
-                builder.setActivatedMonth(month-1)
-                        .setMinYear(2010)
-                        .setActivatedYear(year)
-                        .setMaxYear(calendar.get(Calendar.YEAR))
-                        .setTitle("মাস সিলেক্ট করুন")
-                        .setOnMonthChangedListener(new MonthPickerDialog.OnMonthChangedListener() {
-                            @Override
-                            public void onMonthChanged(int selectedMonth) {
-
-                            }
-                        })
-                        .setOnYearChangedListener(new MonthPickerDialog.OnYearChangedListener() {
-                            @Override
-                            public void onYearChanged(int selectedYear) {
-
-                            }
-                        })
-                        .build()
-                        .show();
-            }
-        });
-        updateToPicker();
-    }
-
-    private void updateFromDatePicker() {
-        Log.v("FROM_MONTH_PICKER","fromMonth:"+fromMonth+":fromYear:"+fromYear);
-        int index = fromMonth-1;
-        fromMonthTV.setText(HnppJsonFormUtils.monthBanglaStr[index]);
-        fromYearTV.setText(fromYear+"");
-    }
-    private void updateFromPicker() {
-        Log.v("FROM_MONTH_PICKER","fromMonth:"+month+":fromYear:"+year);
-        fromMonth = month;
-        fromYear = year;
-        fromMonthTV.setText(HnppJsonFormUtils.monthBanglaStr[fromMonth-1]);
-        fromYearTV.setText(fromYear+"");
-    }
-    private void updateToDatePicker() {
-        Log.v("TO_MONTH_PICKER","fromMonth:"+month+":fromYear:"+year);
-        int index = toMonth-1;
-        toMonthTV.setText(HnppJsonFormUtils.monthBanglaStr[index]);
-        toYearTV.setText(toYear+"");
-    }
-    private void updateToPicker() {
-        Log.v("TO_MONTH_PICKER","fromMonth:"+month+":fromYear:"+year);
-        toMonth = month;
-        toYear = year;
-        toMonthTV.setText(HnppJsonFormUtils.monthBanglaStr[toMonth-1]);
-        toYearTV.setText(toYear+"");
     }
     private void updateDatePicker() {
         Log.v("MONTH_PICKER","month:"+month+":year:"+year);

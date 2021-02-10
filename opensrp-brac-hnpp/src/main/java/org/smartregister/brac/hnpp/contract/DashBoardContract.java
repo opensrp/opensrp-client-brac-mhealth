@@ -34,7 +34,6 @@ public interface DashBoardContract {
 
         void filterData(String ssName, String day, String month, String year, DashBoardContract.InteractorCallBack callBack);
         void filterByFromToDate(String ssName, String fromDate, String toDate, DashBoardContract.InteractorCallBack callBack);
-        void filterByFromToMonth(String ssName, String fromMonth, String toMonth, DashBoardContract.InteractorCallBack callBack);
 
     }
     public interface Model{
@@ -59,7 +58,6 @@ public interface DashBoardContract {
 
         void filterData(String ssName, String day, String month, String year);
         void filterByFromToDate(String fromDate, String toDate, String ssName);
-        void filterByFromToMonth(String fromMonth, String toMonth, String ssName);
         View getView();
 
     }
