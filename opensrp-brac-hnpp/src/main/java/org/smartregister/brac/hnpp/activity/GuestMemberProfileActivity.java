@@ -28,6 +28,7 @@ import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.fragment.GuestMemberDueFragment;
 import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
+import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.utils.GuestMemberData;
@@ -47,6 +48,7 @@ import org.smartregister.family.util.Utils;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
+import org.smartregister.view.activity.BaseProfileActivity;
 import org.smartregister.view.activity.SecuredActivity;
 
 import java.util.HashMap;
@@ -60,7 +62,7 @@ import static org.smartregister.brac.hnpp.utils.HnppJsonFormUtils.makeReadOnlyFi
 import static org.smartregister.chw.anc.util.JsonFormUtils.updateFormField;
 import static org.smartregister.family.util.Constants.INTENT_KEY.BASE_ENTITY_ID;
 
-public class GuestMemberProfileActivity extends SecuredActivity implements View.OnClickListener{
+public class GuestMemberProfileActivity extends BaseProfileActivity implements View.OnClickListener{
 
     String baseEntityId;
     private GuestMemberData guestMemberData;
@@ -75,7 +77,15 @@ public class GuestMemberProfileActivity extends SecuredActivity implements View.
         intent.putExtra(BASE_ENTITY_ID,baseEntityId);
         activity.startActivity(intent);
     }
+    @Override
+    protected void initializePresenter() {
 
+    }
+
+    @Override
+    protected void fetchProfileData() {
+
+    }
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_other_member_profile);
@@ -131,6 +141,9 @@ public class GuestMemberProfileActivity extends SecuredActivity implements View.
                 break;
         }
     }
+
+
+
     public void startFormForEdit(CommonPersonObjectClient client) {
         try {
             Intent intent = new Intent(this, GuestAddMemberJsonFormActivity.class);
@@ -161,7 +174,12 @@ public class GuestMemberProfileActivity extends SecuredActivity implements View.
     MemberHistoryFragment memberHistoryFragment;
     GuestMemberDueFragment memberDueFragment;
 
-    private ViewPager setupViewPager(ViewPager viewPager) {
+    @Override
+    protected void setupViews() {
+
+    }
+    @Override
+    protected ViewPager setupViewPager(ViewPager viewPager) {
         mViewPager = viewPager;
         Bundle bundle = new Bundle();
         bundle.putBoolean(MemberHistoryFragment.IS_GUEST_USER,true);
@@ -177,6 +195,7 @@ public class GuestMemberProfileActivity extends SecuredActivity implements View.
 
         return viewPager;
     }
+
 
     private void setProfileData(){
         if(guestMemberData != null){
@@ -204,13 +223,25 @@ public class GuestMemberProfileActivity extends SecuredActivity implements View.
 
     }
     public void openAncRegisterForm(){
-        HnppAncRegisterActivity.startHnppAncRegisterActivity(this, baseEntityId, guestMemberData.getPhoneNo(),
-                HnppConstants.JSON_FORMS.ANC_FORM, null, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION,textViewName.getText().toString());
+        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+            @Override
+            public void onPost(double latitude, double longitude) {
+                HnppAncRegisterActivity.startHnppAncRegisterActivity(GuestMemberProfileActivity.this, baseEntityId, guestMemberData.getPhoneNo(),
+                        HnppConstants.JSON_FORMS.ANC_FORM, null, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION,textViewName.getText().toString(),latitude,longitude);
+
+            }
+        });
 
     }
     public void openPregnancyRegisterForm(){
-        HnppAncRegisterActivity.startHnppAncRegisterActivity(this, baseEntityId, guestMemberData.getPhoneNo(),
-                HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME_OOC, null, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION,textViewName.getText().toString());
+        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+            @Override
+            public void onPost(double latitude, double longitude) {
+                HnppAncRegisterActivity.startHnppAncRegisterActivity(GuestMemberProfileActivity.this, baseEntityId, guestMemberData.getPhoneNo(),
+                        HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME_OOC, null, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION,textViewName.getText().toString(),latitude,longitude);
+
+            }
+        });
 
     }
     public void openHomeVisitSingleForm(String formName){
