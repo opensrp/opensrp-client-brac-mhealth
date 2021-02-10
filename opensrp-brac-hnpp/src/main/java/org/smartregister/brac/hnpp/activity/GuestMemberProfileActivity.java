@@ -245,9 +245,15 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements V
 
     }
     public void openHomeVisitSingleForm(String formName){
-        startAnyFormActivity(formName,REQUEST_HOME_VISIT);
+        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+            @Override
+            public void onPost(double latitude, double longitude) {
+                startAnyFormActivity(formName,REQUEST_HOME_VISIT,latitude,longitude);
+            }
+        });
+
     }
-    public void startAnyFormActivity(String formName, int requestCode) {
+    public void startAnyFormActivity(String formName, int requestCode, double latitude, double longitude) {
         if(!HnppApplication.getStockRepository().isAvailableStock(HnppConstants.formNameEventTypeMapping.get(formName))){
             HnppConstants.showOneButtonDialog(this,getString(R.string.dialog_stock_sell_end),"");
             return;
@@ -257,6 +263,11 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements V
             JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
             HnppJsonFormUtils.addEDDField(formName,jsonForm,baseEntityId);
             HnppJsonFormUtils.addRelationalIdAsGuest(jsonForm);
+            try{
+                HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             jsonForm.put(JsonFormUtils.ENTITY_ID, baseEntityId);
             Intent intent;
              if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM_OOC) || formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM_OOC) || formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM_OOC)){
