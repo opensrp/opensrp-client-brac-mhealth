@@ -22,7 +22,7 @@ actions:
 name: step1_toaster_no_surv_children
 description: risk_toaster_1
 priority: 1
-condition: "step1_no_surv_children > no_prev_preg"
+condition: "step1_no_surv_children > step1_no_prev_preg"
 actions:
   - "isRelevant = true"
 ---
