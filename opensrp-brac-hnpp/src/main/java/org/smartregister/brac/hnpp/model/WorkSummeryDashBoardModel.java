@@ -123,7 +123,7 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
         return getANcTrimesterCount("দ্বিতীয় ট্রাইসেমিস্টার-এ সনাক্ত",ssName,month,year,85,168);
     }
     public DashBoardData getThirdTrimsterRegisterCount(String ssName, String month, String year){
-        return getANcTrimesterCount("তৃতীয় ট্রাইসেমিস্টার-এ সনাক্ত",ssName,month,year,169,0);
+        return getANcTrimesterCount("তৃতীয় ট্রাইসেমিস্টার-এ সনাক্ত",ssName,month,year,169,280);
     }
     public DashBoardData getAnc1Count(String ssName, String month, String year){
         return getVisitTypeCount(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION,ssName,month,year);
@@ -191,6 +191,8 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
             mainCondition = "where dayPass>="+startDate+" and dayPass<="+endDate+"";
 
         }
+        mainCondition = mainCondition+" and ec_anc_register.is_closed=0";
+
 
         String query;
         if(TextUtils.isEmpty(ssName) && TextUtils.isEmpty(month)){

@@ -203,8 +203,16 @@
           }
         },
         "exclusive": [
+          "not_going"
         ],
         "options": [
+          {
+            "key": "not_going",
+            "text": "কোথাও যায় নি",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "not_going"
+          },
           {
             "key": "brac_maternity_center",
             "text": "ব্র্যাক ম্যাটারনিটি সেন্টার",
