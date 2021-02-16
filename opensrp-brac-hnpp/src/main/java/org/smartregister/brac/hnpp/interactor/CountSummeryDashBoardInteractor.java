@@ -80,7 +80,6 @@ public class CountSummeryDashBoardInteractor implements DashBoardContract.Intera
             addToDashBoardList(indicatorModel.getIdentifiedBySimprints(ssName,month,year));
         }
 
-
     }
 
     @Override

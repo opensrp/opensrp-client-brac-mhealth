@@ -24,7 +24,6 @@ public interface DashBoardContract {
 
         void filterData(String ssName, String month , String year, DashBoardContract.InteractorCallBack callBack);
 
-
     }
     public interface TargetInteractor {
 
@@ -48,7 +47,6 @@ public interface DashBoardContract {
          void fetchDashBoardData();
 
          void filterData(String ssName, String month, String year);
-
          View getView();
 
     }

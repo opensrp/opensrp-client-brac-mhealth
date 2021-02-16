@@ -5,6 +5,7 @@
     android:background="@color/primary"
     android:layout_height="60dp">
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/ss_name_view"
         android:gravity="center_vertical"
         android:layout_centerVertical="true"
@@ -21,7 +22,7 @@
         <Spinner
             android:id="@+id/ss_filter_spinner"
             android:layout_marginBottom="20dp"
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:background="@drawable/spinner_resource"
             android:layout_margin="5dp"
             android:layout_height="50dp">
@@ -117,10 +118,16 @@
             android:textColor="@color/white"
             android:textSize="18sp"
             android:paddingLeft="5dp"
-            android:layout_weight="1"
             android:layout_marginRight="10dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
+        <ImageView
+            android:id="@+id/from_date_clear_filter"
+            android:src="@drawable/ic_filter_delete"
+            android:padding="5dp"
+            android:tint="@color/white"
+            android:layout_width="40dp"
+            android:layout_height="40dp"/>
     </LinearLayout>
     <LinearLayout
         android:visibility="gone"
@@ -148,10 +155,16 @@
             android:textColor="@color/white"
             android:textSize="18sp"
             android:paddingLeft="5dp"
-            android:layout_weight="1"
             android:layout_marginRight="10dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
+        <ImageView
+            android:id="@+id/to_date_clear_filter"
+            android:src="@drawable/ic_filter_delete"
+            android:padding="5dp"
+            android:tint="@color/white"
+            android:layout_width="40dp"
+            android:layout_height="40dp"/>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/date_view"

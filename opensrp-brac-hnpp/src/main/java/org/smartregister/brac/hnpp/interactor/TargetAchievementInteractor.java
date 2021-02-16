@@ -71,7 +71,7 @@ public class TargetAchievementInteractor implements DashBoardContract.TargetInte
 
 
     }
-    private void fetchDataByFromToDate( String fromDate, String toDate, String ssName) {
+    private void fetchDataByFromToFormat( long fromDate, long toDate, String ssName) {
         if(HnppConstants.isPALogin()){
             setData(model.getAdultForum(fromDate,toDate,ssName));
             setData(model.getAttendancAdultForum(fromDate,toDate,ssName));
@@ -109,11 +109,11 @@ public class TargetAchievementInteractor implements DashBoardContract.TargetInte
         appExecutors.diskIO().execute(runnable);
     }
 
-    @Override
-    public void filterByFromToDate(String ssName, String fromDate, String toDate, DashBoardContract.InteractorCallBack callBack) {
+
+    public void filterByFromToDate(String ssName, long fromDate, long toDate, DashBoardContract.InteractorCallBack callBack) {
         dashBoardDataArrayList.clear();
         Runnable runnable = () -> {
-            fetchDataByFromToDate(fromDate, toDate, ssName);
+            fetchDataByFromToFormat(fromDate, toDate, ssName);
 
             appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
         };

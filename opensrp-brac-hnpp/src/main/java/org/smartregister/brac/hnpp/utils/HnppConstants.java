@@ -176,6 +176,11 @@ public class HnppConstants extends CoreConstants {
         if(month.length()==1) return "0"+month;
         return month;
     }
+    public static String addZeroForDay(String day){
+        if(TextUtils.isEmpty(day)) return "";
+        if(day.length()==1) return "0"+day;
+        return day;
+    }
     public class ANC_REGISTER_COLUMNS {
         public static final String LAST_MENSTRUAL_PERIOD = "last_menstrual_period";
         public static final String EDD = "edd";
@@ -736,6 +741,29 @@ public class HnppConstants extends CoreConstants {
             e.printStackTrace();
         }
         return startDate;
+    }
+    public static long getLongDateFormate(String year,String month,String day){
+        String dateFormate = year+"-"+HnppConstants.addZeroForMonth(month)+"-"+HnppConstants.addZeroForDay(day);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        long startDate = System.currentTimeMillis();
+        try{
+            Date date = format.parse(dateFormate);
+            startDate = date.getTime();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return startDate;
+    }
+    public static String getDateFormateFromLong(long dateTime){
+        Date date = new Date(dateTime);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
+        String dateString = null;
+        try{
+            dateString = format.format(date);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return dateString;
     }
     public static final Map<String,String> genderMapping = ImmutableMap.<String,String> builder()
             .put("নারী","F")

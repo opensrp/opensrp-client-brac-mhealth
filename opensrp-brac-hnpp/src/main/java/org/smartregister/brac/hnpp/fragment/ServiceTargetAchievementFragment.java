@@ -3,9 +3,7 @@ package org.smartregister.brac.hnpp.fragment;
 import android.support.v7.widget.LinearLayoutManager;
 
 import org.smartregister.brac.hnpp.adapter.ServiceTargetAchievementAdapter;
-import org.smartregister.brac.hnpp.adapter.TargetAchievementAdapter;
 import org.smartregister.brac.hnpp.presenter.ServiceTargetAchievmentPresenter;
-import org.smartregister.brac.hnpp.presenter.TargetAchievmentPresenter;
 
 public class ServiceTargetAchievementFragment extends BaseDashBoardFragment {
 

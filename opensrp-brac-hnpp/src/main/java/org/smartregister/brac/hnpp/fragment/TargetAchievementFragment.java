@@ -1,11 +1,9 @@
 package org.smartregister.brac.hnpp.fragment;
 
 import android.support.v7.widget.LinearLayoutManager;
-
-import org.smartregister.brac.hnpp.adapter.DashBoardAdapter;
 import org.smartregister.brac.hnpp.adapter.TargetAchievementAdapter;
 import org.smartregister.brac.hnpp.presenter.TargetAchievmentPresenter;
-import org.smartregister.brac.hnpp.presenter.WorkSummeryDashBoardPresenter;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 
 public class TargetAchievementFragment extends BaseDashBoardFragment {
 
@@ -26,15 +24,51 @@ public class TargetAchievementFragment extends BaseDashBoardFragment {
 
     @Override
     void filterData() {
-        presenter.filterData(ssName,day+"",month+"",year+"");
-    }
+        long fromDateFormat = 0;
+        long toDateFormat = 0;
+        if((fromMonth == -1 || fromYear == -1) && (toMonth == -1 || toYear == -1 )){
+            fromDateFormat = -1;
+            toDateFormat = -1;
+        }
+        if(fromMonth == -1 && toMonth != -1 ){
+            fromDateFormat = -1;
+            toDateFormat = HnppConstants.getLongDateFormate(String.valueOf(toYear),String.valueOf(toMonth),String.valueOf(toDay));
+        }
+        if(fromMonth != -1 && toMonth == -1){
+            fromDateFormat = HnppConstants.getLongDateFormate(String.valueOf(fromYear),String.valueOf(fromMonth),String.valueOf(fromDay));
+            toDateFormat = HnppConstants.getLongDateFormate(String.valueOf(year),String.valueOf(month),String.valueOf(day));
+        }
+        if(fromMonth != -1 && toMonth != -1) {
+            fromDateFormat = HnppConstants.getLongDateFormate(String.valueOf(fromYear),String.valueOf(fromMonth),String.valueOf(fromDay));
+            toDateFormat = HnppConstants.getLongDateFormate(String.valueOf(toYear),String.valueOf(toMonth),String.valueOf(toDay));
+        }
 
-
-    public void filterByFromToDate() {
-        String fromDateFormat = fromYear+"-"+fromMonth+"-"+fromDay;
-        String toDateFormat = toYear+"-"+toMonth+"-"+toDay;
         presenter.filterByFromToDate(fromDateFormat,toDateFormat,ssName);
+
     }
+
+    protected void filterByFromToMonth() {
+        long fromMonthFormat = 0;
+        long toMonthFormat = 0;
+        if((fromMonth == -1 || fromYear == -1) && (toMonth == -1 || toYear == -1 )){
+            fromMonthFormat = -1;
+            toMonthFormat = -1;
+        }
+        if(fromMonth == -1 && toMonth != -1 ){
+            fromMonthFormat = -1;
+            toMonthFormat = HnppConstants.getLongDateFormate(String.valueOf(toYear),String.valueOf(toMonth));
+        }
+        if(fromMonth != -1 && toMonth == -1){
+            fromMonthFormat = HnppConstants.getLongDateFormate(String.valueOf(fromYear),String.valueOf(fromMonth));
+            toMonthFormat = HnppConstants.getLongDateFormate(String.valueOf(year),String.valueOf(month));
+        }
+        if(fromMonth != -1 && toMonth != -1) {
+            fromMonthFormat = HnppConstants.getLongDateFormate(String.valueOf(fromYear),String.valueOf(fromMonth));
+            toMonthFormat = HnppConstants.getLongDateFormate(String.valueOf(toYear),String.valueOf(toMonth));
+        }
+        presenter.filterByFromToMonth(fromMonthFormat,toMonthFormat,ssName);
+    }
+
 
     @Override
     public void updateAdapter() {

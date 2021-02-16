@@ -108,6 +108,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
         dateBtn.setText(currentDate);
         toDateBtn.setText(currentDate);
         fromDateBtn.setText(currentDate);
+
         return view;
     }
 
@@ -144,7 +145,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
                         filterData();
                     }
                 },year,(month-1),day);
-                //fromDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                fromDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
                 fromDialog.show();
                 break;
             case R.id.from_date_btn:
@@ -165,7 +166,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
                         updateFromFilter();
                     }
                 },year,(month-1),day);
-                //fromDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                fromDateDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
                 fromDateDialog.show();
                 break;
             case R.id.to_date_btn:
@@ -184,10 +185,10 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
 
                         toDateBtn.setText(toDate);
                         updateToFilter();
-                        filterByFromToDate();
+                        filterData();
                     }
                 },year,(month-1),day);
-                //fromDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                toDateDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
                 toDateDialog.show();
                 break;
             case R.id.filterBtn:
@@ -261,6 +262,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
                         .setMinYear(2010)
                         .setActivatedYear(year)
                         .setMaxYear(calendar.get(Calendar.YEAR))
+                        .setMaxMonth(calendar.get(Calendar.MONTH))
                         .setTitle("মাস সিলেক্ট করুন")
                         .setOnMonthChangedListener(new MonthPickerDialog.OnMonthChangedListener() {
                             @Override
