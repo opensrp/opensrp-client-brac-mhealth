@@ -11,6 +11,7 @@ import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.TargetVsAchievementData;
 import org.smartregister.chw.core.application.CoreChwApplication;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -299,44 +300,21 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
         //String query = "select sum(target_count) as target_count, sum(achievemnt_count) as achievemnt_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
        // String query = "select sum(achievemnt_count) as achievemnt_count,(select sum(target_count) from target_table where target_name ='"+ visitType+"'"+ getFilter(fromDate,toDate,"") +") as target_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
         String query = null;
-        String regex = "^\\d{4}-(\\d{1}|\\d{2})$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher fromMatcher = pattern.matcher(fromDate);
-        Matcher toMatcher = pattern.matcher(toDate);
-        if(fromMatcher.matches() && toMatcher.matches()){
+        if(fromDate == -1 && toDate == -1){
             if(TextUtils.isEmpty(ssName)){
-                query = "with t1 as (SELECT achievemnt_count, year || '"+"-"+"' || month as date, target_count, target_name from target_table) SELECT sum(achievemnt_count) as achievemnt_count, sum(target_count) as target_count from t1 WHERE target_name ='"+ visitType+"' and date BETWEEN '"+fromDate+"' and "+"'"+toDate+"' ORDER by date DESC";
-            }
-            else{
-                query = "with t1 as (SELECT achievemnt_count, year || '"+"-"+"' || month as date, target_count, target_name, ss_name from target_table) SELECT sum(achievemnt_count) as achievemnt_count, sum(target_count) as target_count from t1 WHERE target_name ='"+ visitType+"' and ss_name ='"+ ssName+"' and date BETWEEN '"+fromDate+"' and "+"'"+toDate+"' ORDER by date DESC";
-            }
-        }
-        else if(fromDate.isEmpty()){
-            if(toDate.isEmpty()){
-                if(TextUtils.isEmpty(ssName)){
-                    query = "with t1 as (SELECT achievemnt_count, year || '"+"-"+"' || month as date, target_count, target_name from target_table) SELECT sum(achievemnt_count) as achievemnt_count, sum(target_count) as target_count from t1 WHERE target_name ='"+ visitType+"'";
-                }
-                else{
-                    query = "with t1 as (SELECT achievemnt_count, year || '"+"-"+"' || month as date, target_count, target_name, ss_name from target_table) SELECT sum(achievemnt_count) as achievemnt_count, sum(target_count) as target_count from t1 WHERE target_name ='"+ visitType+"' and ss_name ='"+ ssName+"'";
-                }
-            }
-            else{
-                if(TextUtils.isEmpty(ssName)){
-                    query = "with t1 as (SELECT achievemnt_count, year || '"+"-"+"' || month as date, target_count, target_name from target_table) SELECT sum(achievemnt_count) as achievemnt_count, sum(target_count) as target_count from t1 WHERE target_name ='"+ visitType+"' and date ='"+toDate+"'";
-                }
-                else{
-                    query = "with t1 as (SELECT achievemnt_count, year || '"+"-"+"' || month as date, target_count, target_name, ss_name from target_table) SELECT sum(achievemnt_count) as achievemnt_count, sum(target_count) as target_count from t1 WHERE target_name ='"+ visitType+"' and ss_name ='"+ ssName+"' and date ='"+toDate+"'";
-                }
+                query = "select sum(target_count) as target_count, sum(achievemnt_count) as achievemnt_count from target_table where target_name ='"+ visitType+"'";
+            }else{
+                query = "select sum(target_count) as target_count, sum(achievemnt_count) as achievemnt_count from target_table where target_name ='"+ visitType+"'"+getSSCondition(ssName);
             }
         }
         else{
             if(TextUtils.isEmpty(ssName)){
-                query = "with t1 as (SELECT achievemnt_count, year || '"+"-"+"' || month || '"+"-"+"' || day as date, target_count, target_name from target_table) SELECT sum(achievemnt_count) as achievemnt_count, sum(target_count) as target_count from t1 WHERE target_name ='"+ visitType+"' and date BETWEEN '"+fromDate+"' and "+"'"+toDate+"' ORDER by date DESC";
-            }
-            else{
-                query = "with t1 as (SELECT achievemnt_count, year || '"+"-"+"' || month || '"+"-"+"' || day as date, target_count, target_name, ss_name from target_table) SELECT sum(achievemnt_count) as achievemnt_count, sum(target_count) as target_count from t1 WHERE target_name ='"+ visitType+"' and ss_name ='"+ ssName+"' and date BETWEEN '"+fromDate+"' and "+"'"+toDate+"' ORDER by date DESC";
+                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date, achievemnt_count, target_count, target_name from target_table)SELECT sum(achievemnt_count) as achievemnt_count, sum(target_count) as target_count,strftime('%s', strftime('%s', date), 'unixepoch') as longtime from t1 WHERE target_name ='"+visitType+"'"+getBetweenCondition(fromDate,toDate,"longtime");
+            }else{
+                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date, achievemnt_count, target_count, target_name from target_table)SELECT sum(achievemnt_count) as achievemnt_count, sum(target_count) as target_count,strftime('%s', strftime('%s', date), 'unixepoch') as longtime from t1 WHERE target_name ='"+visitType+"'"+getSSCondition(ssName)+getBetweenCondition(fromDate,toDate,"longtime");
             }
         }
+
 
         Log.v("FROMTO_QUERY","query:"+query);
         Cursor cursor = null;

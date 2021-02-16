@@ -52,7 +52,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
     protected Spinner ssSpinner;
     protected ProgressBar progressBar;
     protected String ssName;
-    private ImageView filterBtn, fromFilterBtn, toFilterBtn;
+    private ImageView filterBtn, fromFilterBtn, toFilterBtn,fromDateFilterBtn, toDateFilterBtn;
     private  TextView monthTV,yearTV, fromMonthTV, toMonthTV, fromYearTV,toYearTV;
     protected LinearLayout monthView,dateView,fromDateView,toDateView,fromMonthView, toMonthView;
     protected RelativeLayout monthPicker, fromMonthPicker, toMonthPicker;
@@ -99,6 +99,8 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
         filterBtn = view.findViewById(R.id.filterBtn);
         fromFilterBtn = view.findViewById(R.id.from_clear_filter);
         toFilterBtn = view.findViewById(R.id.to_clear_filter);
+        fromDateFilterBtn = view.findViewById(R.id.from_date_clear_filter);
+        toDateFilterBtn = view.findViewById(R.id.to_date_clear_filter);
         dateBtn = view.findViewById(R.id.date_btn);
         fromDateBtn = view.findViewById(R.id.from_date_btn);
         toDateBtn = view.findViewById(R.id.to_date_btn);
@@ -228,6 +230,20 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
                 toYear = -1;
                 filterData();
                 break;
+            case R.id.from_date_clear_filter:
+                fromDateBtn.setText("সকল");
+                fromMonth = -1;
+                fromYear = -1;
+                fromDay = -1;
+                filterData();
+                break;
+            case R.id.to_date_clear_filter:
+                toDateBtn.setText("সকল");
+                toMonth = -1;
+                toYear = -1;
+                toDay = -1;
+                filterData();
+                break;
         }
     }
     private void loadSSList(){
@@ -289,7 +305,6 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
                         .setMinYear(2010)
                         .setActivatedYear(year)
                         .setMaxYear(calendar.get(Calendar.YEAR))
-                        .setMaxMonth(calendar.get(Calendar.MONTH))
                         .setTitle("মাস সিলেক্ট করুন")
                         .setOnMonthChangedListener(new MonthPickerDialog.OnMonthChangedListener() {
                             @Override
@@ -358,6 +373,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
                         fromYear = selectedYear;
                         updateFromDatePicker();
                         filterData();
+
                     }
                 }, year, month-1);
                 builder.setActivatedMonth(month-1)

@@ -61,12 +61,6 @@ public class TargetAchievmentPresenter implements DashBoardContract.TargetPresen
     }
 
     @Override
-    public void filterByFromToMonth(String fromMonth, String toMonth, String ssName) {
-        getView().showProgressBar();
-        interactor.filterByFromToMonth(ssName,fromMonth,toMonth,this);
-    }
-
-    @Override
     public DashBoardContract.View getView() {
         return view;
     }

@@ -27,7 +27,7 @@ public class MonthlyTargetAchievementFragment extends TargetAchievementFragment{
     }
 
     @Override
-    void filterByFromToMonth() {
+    void filterData() {
         super.filterByFromToMonth();
     }
 
