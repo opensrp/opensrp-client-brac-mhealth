@@ -48,7 +48,7 @@ public class FormApplicability {
         if(day >= 2 && day <= 3){
             return HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12;
         }
-        else if((day >= 180 && day <= 210)||(day >= 331 && day <= 365)||(day >= 515 && day <= 545)) {
+        else if((day >= 180 && day <= 210)||(day >= 331 && day <= 366)||(day >= 515 && day <= 545)) {
             return HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS;
         }
         else if((day >= 700 && day <= 730)) {
