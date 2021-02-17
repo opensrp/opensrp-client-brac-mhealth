@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.View;
@@ -21,6 +22,9 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.cursoradapter.RecyclerViewPaginatedAdapter;
 import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
 import org.smartregister.family.util.Constants;
+import org.smartregister.view.customcontrols.CustomFontTextView;
+import org.smartregister.view.customcontrols.FontVariant;
+
 import java.text.MessageFormat;
 import java.util.Set;
 import timber.log.Timber;
@@ -35,6 +39,26 @@ public class HnppAncRegisterFragment extends HnppBaseAncRegisterFragment impleme
 
 
     }
+
+    @Override
+    public void setupViews(View view) {
+        if(getContext() == null) return;
+        super.setupViews(view);
+        CustomFontTextView titleView = view.findViewById(org.smartregister.family.R.id.txt_title_label);
+        if (titleView != null) {
+            titleView.setVisibility(View.VISIBLE);
+            titleView.setText(getString(getToolBarTitle()));
+            titleView.setFontVariant(FontVariant.REGULAR);
+            titleView.setPadding(0, titleView.getTop(), titleView.getPaddingRight(), titleView.getPaddingBottom());
+        }
+        if (getSearchView() != null) {
+            getSearchView().setTextColor(ContextCompat.getColor(getContext(), android.R.color.black));
+            getSearchView().setBackgroundResource(org.smartregister.family.R.color.white);
+            getSearchView().setCompoundDrawablesWithIntrinsicBounds(org.smartregister.family.R.drawable.ic_action_search, 0, 0, 0);
+        }
+
+    }
+
     @Override
     protected void openProfile(CommonPersonObjectClient client) {
 

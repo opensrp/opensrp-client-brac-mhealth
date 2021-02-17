@@ -88,6 +88,26 @@ public class HnppPncRegisterFragment extends HnppBasePncRegisterFragment impleme
         }
 
     }
+
+    @Override
+    public void setupViews(View view) {
+        if(getContext() == null) return;
+        super.setupViews(view);
+        CustomFontTextView titleView = view.findViewById(org.smartregister.family.R.id.txt_title_label);
+        if (titleView != null) {
+            titleView.setVisibility(View.VISIBLE);
+            titleView.setText(getString(getToolBarTitle()));
+            titleView.setFontVariant(FontVariant.REGULAR);
+            titleView.setPadding(0, titleView.getTop(), titleView.getPaddingRight(), titleView.getPaddingBottom());
+        }
+        if (getSearchView() != null) {
+            getSearchView().setHint(getString(R.string.search_name_or_id));
+            getSearchView().setTextColor(ContextCompat.getColor(getContext(), android.R.color.black));
+            getSearchView().setBackgroundResource(org.smartregister.family.R.color.white);
+            getSearchView().setCompoundDrawablesWithIntrinsicBounds(org.smartregister.family.R.drawable.ic_action_search, 0, 0, 0);
+        }
+    }
+
     @Override
     public void setTotalPatients() {
         if (headerTextDisplay != null) {

@@ -29,6 +29,6 @@ actions:
 name: step1_risk_toaster_2
 description: risk_toaster_2
 priority: 1
-condition: "step1_height < 145"
+condition: "!step1_weight.isEmpty() && step1_height < 145"
 actions:
   - "isRelevant = true"
