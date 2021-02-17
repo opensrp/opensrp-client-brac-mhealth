@@ -49,15 +49,6 @@ public class ForumTargetAchievementPresenter implements DashBoardContract.Target
         interactor.filterData(ssName,day,month,year,this);
     }
 
-    @Override
-    public void filterByFromToDate(String fromDate, String toDate, String ssName) {
-
-    }
-
-    @Override
-    public void filterByFromToMonth(String fromMonth, String toMonth, String ssName) {
-
-    }
 
     @Override
     public DashBoardContract.View getView() {

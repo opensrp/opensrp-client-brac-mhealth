@@ -64,13 +64,4 @@ public class ServiceTargetAchievementInteractor implements DashBoardContract.Tar
         appExecutors.diskIO().execute(runnable);
     }
 
-    @Override
-    public void filterByFromToDate(String ssName, String fromDate, String toDate, DashBoardContract.InteractorCallBack callBack) {
-
-    }
-
-    @Override
-    public void filterByFromToMonth(String ssName, String fromMonth, String toMonth, DashBoardContract.InteractorCallBack callBack) {
-
-    }
 }

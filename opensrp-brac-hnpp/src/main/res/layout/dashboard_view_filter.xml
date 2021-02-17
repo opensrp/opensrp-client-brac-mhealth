@@ -5,7 +5,6 @@
     android:background="@color/primary"
     android:layout_height="60dp">
     <LinearLayout
-        android:visibility="gone"
         android:id="@+id/ss_name_view"
         android:gravity="center_vertical"
         android:layout_centerVertical="true"

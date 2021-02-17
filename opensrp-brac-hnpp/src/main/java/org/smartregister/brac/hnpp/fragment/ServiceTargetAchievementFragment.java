@@ -28,15 +28,6 @@ public class ServiceTargetAchievementFragment extends BaseDashBoardFragment {
         presenter.filterData(ssName,day+"",month+"",year+"");
     }
 
-    @Override
-    void filterByFromToDate() {
-
-    }
-
-    @Override
-    void filterByFromToMonth() {
-
-    }
 
     @Override
     public void updateAdapter() {

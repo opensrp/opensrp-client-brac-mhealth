@@ -108,8 +108,8 @@ android {
     productFlavors {
 
         training{
-            versionCode 30
-            versionName "3.0.5"
+            versionCode 31
+            versionName "3.0.6"
             dimension = 'baseDimension'
             applicationIdSuffix ".training"
             buildConfigField "boolean", 'IS_TRAINING', 'true'
@@ -117,8 +117,8 @@ android {
             buildConfigField "String", 'opensrp_url_live', '"http://mhealthtest.brac.net:8080/opensrp/"'
         }
         normal{
-            versionCode 32
-            versionName "1.3.7_DEV"
+            versionCode 33
+            versionName "1.3.8_DEV"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
 
