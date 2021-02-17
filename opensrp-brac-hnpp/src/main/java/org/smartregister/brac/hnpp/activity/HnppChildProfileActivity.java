@@ -2,7 +2,9 @@ package org.smartregister.brac.hnpp.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,6 +26,7 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.adapter.ReferralCardViewAdapter;
 import org.smartregister.brac.hnpp.custom_view.FamilyMemberFloatingMenu;
 import org.smartregister.brac.hnpp.fragment.ChildHistoryFragment;
@@ -441,6 +444,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     }
     public void openReferealFollowUp(ReferralFollowUpModel referralFollowUpModel) {
         HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onPost(double latitude, double longitude) {
                 try {
@@ -482,6 +486,10 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
 
     }
     public void startAnyFormActivity(String formName, int requestCode) {
+        if(!HnppApplication.getStockRepository().isAvailableStock(HnppConstants.formNameEventTypeMapping.get(formName))){
+            HnppConstants.showOneButtonDialog(this,getString(R.string.dialog_stock_sell_end),"");
+            return;
+        }
         HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
             @Override
             public void onPost(double latitude, double longitude) {
