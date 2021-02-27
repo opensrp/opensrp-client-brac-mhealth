@@ -2,8 +2,9 @@ package org.smartregister.brac.hnpp.fragment;
 
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 
 import org.smartregister.brac.hnpp.model.MemberProfileActivityModel;
 import org.smartregister.brac.hnpp.presenter.MemberProfileActivityPresenter;

@@ -53,6 +53,6 @@ public abstract class CoreChildHomeVisitActivity extends BaseAncHomeVisitActivit
     protected void attachBaseContext(Context base) {
         // get language from prefs
         String lang = LangUtils.getLanguage(base.getApplicationContext());
-        super.attachBaseContext(LangUtils.setAppLocale(base, lang));
+        super.attachBaseContext(base);
     }
 }

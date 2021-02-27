@@ -3,8 +3,10 @@ package org.smartregister.brac.hnpp.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -19,7 +21,6 @@ import org.smartregister.brac.hnpp.adapter.SearchHHMemberAdapter;
 import org.smartregister.brac.hnpp.contract.SearchHHMemberContract;
 import org.smartregister.brac.hnpp.model.HHMemberProperty;
 import org.smartregister.brac.hnpp.presenter.SearchHHMemberPresenter;
-import org.smartregister.brac.hnpp.utils.FilterDialog;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.view.activity.SecuredActivity;
 import org.smartregister.view.customcontrols.CustomFontTextView;

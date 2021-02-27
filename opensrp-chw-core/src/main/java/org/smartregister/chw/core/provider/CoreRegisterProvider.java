@@ -125,7 +125,7 @@ public abstract class CoreRegisterProvider extends FamilyRegisterProvider {
 
     protected List<Map<String, String>> getChildren(String familyEntityId) {
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
-        queryBUilder.SelectInitiateMainTable(CoreConstants.TABLE_NAME.CHILD, new String[]{DBConstants.KEY.BASE_ENTITY_ID, DBConstants.KEY.GENDER, ChildDBConstants.KEY.LAST_HOME_VISIT, ChildDBConstants.KEY.VISIT_NOT_DONE, ChildDBConstants.KEY.DATE_CREATED, DBConstants.KEY.DOB});
+        queryBUilder.selectInitiateMainTable(CoreConstants.TABLE_NAME.CHILD, new String[]{DBConstants.KEY.BASE_ENTITY_ID, DBConstants.KEY.GENDER, ChildDBConstants.KEY.LAST_HOME_VISIT, ChildDBConstants.KEY.VISIT_NOT_DONE, ChildDBConstants.KEY.DATE_CREATED, DBConstants.KEY.DOB});
         queryBUilder.mainCondition(String.format(" %s is null AND %s = '%s' AND %s ",
                 DBConstants.KEY.DATE_REMOVED,
                 DBConstants.KEY.RELATIONAL_ID,

@@ -3,16 +3,15 @@ package org.smartregister.brac.hnpp.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +22,8 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
-
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
@@ -38,17 +35,11 @@ import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.presenter.GuestMemberPresenter;
 import org.smartregister.brac.hnpp.utils.GuestMemberData;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
-import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.chw.anc.util.Constants;
-import org.smartregister.chw.core.utils.ChildDBConstants;
-import org.smartregister.chw.core.utils.CoreConstants;
-import org.smartregister.commonregistry.CommonPersonObjectClient;
-import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.util.FormUtils;
 import org.smartregister.view.activity.BaseProfileActivity;
-import org.smartregister.view.activity.SecuredActivity;
 
 import java.util.ArrayList;
 
@@ -250,6 +241,7 @@ public class GuestMemberActivity extends BaseProfileActivity implements GuestMem
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == JsonFormUtils.REQUEST_CODE_GET_JSON && resultCode == RESULT_OK) {
             try {
                 String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
@@ -261,7 +253,7 @@ public class GuestMemberActivity extends BaseProfileActivity implements GuestMem
                 String fullName = HnppApplication.getInstance().getContext().allSharedPreferences().getANMPreferredName(userName);
 
                 generatedString = HnppJsonFormUtils.getValuesFromGuestRegistrationForm(form);
-                title = String.format(getString(R.string.dialog_confirm_save_guest),fullName,generatedString[0],generatedString[1]);
+                title = String.format(getString(R.string.dialog_confirm_save_guest), fullName, generatedString[0], generatedString[1]);
 
 
                 HnppConstants.showSaveFormConfirmationDialog(this, title, new Runnable() {
@@ -271,7 +263,7 @@ public class GuestMemberActivity extends BaseProfileActivity implements GuestMem
                     }
                 });
 
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
         }

@@ -9,13 +9,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.design.bottomnavigation.LabelVisibilityMode;
-import android.support.design.widget.BottomNavigationView;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 import org.json.JSONArray;
@@ -54,6 +52,7 @@ import org.smartregister.view.fragment.BaseRegisterFragment;
 
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import timber.log.Timber;
 
@@ -239,6 +238,7 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == JsonFormUtils.REQUEST_CODE_GET_JSON && resultCode == RESULT_OK) {
             try {
                 String jsonString = data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON);
@@ -247,7 +247,7 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
                 JSONObject form = new JSONObject(jsonString);
                 if (form.getString(JsonFormUtils.ENCOUNTER_TYPE).equals(Utils.metadata().familyRegister.registerEventType)) {
                     presenter().saveForm(jsonString, false);
-                }else if (form.getString(JsonFormUtils.ENCOUNTER_TYPE).equals("COVID19")) {
+                } else if (form.getString(JsonFormUtils.ENCOUNTER_TYPE).equals("COVID19")) {
                     saveRegistration(jsonString);
                 }
             } catch (Exception e) {
@@ -302,7 +302,7 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
             eventJson = new JSONObject(JsonFormUtils.gson.toJson(baseEvent));
             Context context = HnppApplication.getInstance().getContext().applicationContext();
             HnppChwRepository pathRepository = new HnppChwRepository(context, HnppApplication.getInstance().getContext());
-            EventClientRepository eventClientRepository = new EventClientRepository(pathRepository);
+            EventClientRepository eventClientRepository = new EventClientRepository();
             eventClientRepository.addEvent(entityId,eventJson);
 //            List<EventClient>eventClientList = new ArrayList<>();
 //            Client baseClient = new Client(entityId);
@@ -338,6 +338,11 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
     protected BaseRegisterFragment getRegisterFragment() {
         hnppFamilyRegisterFragment = new HnppFamilyRegisterFragment();
         return hnppFamilyRegisterFragment;
+    }
+
+    @Override
+    public void startFormActivity(String s, String s1, Map<String, String> map) {
+
     }
 
     @Override

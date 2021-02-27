@@ -5,7 +5,8 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;

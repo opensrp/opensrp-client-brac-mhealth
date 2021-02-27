@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
 apply plugin: 'jacoco'
 apply plugin: 'com.github.kt3k.coveralls'
-
 buildscript {
     repositories {
         google()
         jcenter()
         mavenLocal()
+        maven { url 'https://maven.fabric.io/public' }
     }
 
     dependencies {
@@ -28,6 +28,10 @@ android {
     repositories {
         google()
         jcenter()
+        mavenCentral()
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        mavenLocal()
+        maven { url 'https://maven.fabric.io/public' }
     }
 
     defaultConfig {
@@ -62,7 +66,16 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    api('org.smartregister:opensrp-client-core:4.2.4-brac-SNAPSHOT@aar') {
+        transitive = true
+        exclude group: 'com.github.bmelnychuk', module: 'atv'
+        exclude group: 'com.google.guava', module: 'guava'
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+        exclude group: 'com.android.support', module: 'design'
+        exclude group: 'com.android.support', module: 'recyclerview-v7'
+        exclude group: 'com.rengwuxian.materialedittext', module: 'library'
+        exclude group: 'com.ibm.fhir', module: 'fhir-model'
+    }
     api('org.smartregister:opensrp-client-native-form:1.1.1-brac-SNAPSHOT@aar') {
         transitive = true
         exclude group: 'com.android.support', module: 'appcompat-v7'
@@ -73,15 +86,7 @@ dependencies {
         exclude group: 'io.ona.rdt-capture', module: 'lib'
     }
 
-    api('org.smartregister:opensrp-client-core:1.1.1-brac-SNAPSHOT@aar') {
-        transitive = true
-        exclude group: 'com.github.bmelnychuk', module: 'atv'
-        exclude group: 'com.google.guava', module: 'guava'
-        exclude group: 'com.android.support', module: 'appcompat-v7'
-        exclude group: 'com.android.support', module: 'design'
-        exclude group: 'com.android.support', module: 'recyclerview-v7'
-        exclude group: 'com.rengwuxian.materialedittext', module: 'library'
-    }
+
 
     api('org.smartregister:opensrp-client-configurable-views:1.1.2-SNAPSHOT@aar') {
         transitive = true
@@ -113,7 +118,7 @@ dependencies {
     }
 
 
-    api('org.smartregister:opensrp-client-chw-anc:0.1.15-SNAPSHOT@aar') {
+    api('org.smartregister:opensrp-client-chw-anc:2.0.2-SNAPSHOT@aar') {
         transitive = true
         exclude group: 'org.smartregister', module: 'opensrp-client-core'
         exclude group: 'com.android.support', module: 'appcompat-v7'
@@ -149,9 +154,6 @@ dependencies {
     api 'org.greenrobot:eventbus:3.1.1'
     api "org.smartregister:android-p2p-sync:0.3.2-SNAPSHOT"
 
-    api('com.crashlytics.sdk.android:crashlytics:2.9.5@aar') {
-        transitive = true
-    }
 
     androidTestImplementation 'org.mockito:mockito-android:2.7.22'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
@@ -175,26 +177,22 @@ dependencies {
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
 
     reports {
-        html {
-            html.enabled = true
-            destination file("${buildDir}/reports/jacoco/jacocoRootReport/chw-core-coverage")
-        }
-
-        xml {
-            xml.enabled = true
-            destination file("${buildDir}/reports/jacoco/jacocoRootReport/chw-core-coverage.xml")
-        }
+        xml.enabled = true
+        html.enabled = true
     }
 
+    getReports().getXml().setDestination(file("${buildDir}/reports/jacoco/jacocoRootReport/merged.xml"))
+    getReports().getHtml().setDestination(file("${buildDir}/reports/jacoco/jacocoRootReport/html"))
+
     def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*', '**/*$ViewBinder*.*']
-    def debugTree = fileTree(dir: "$project.buildDir/intermediates/classes/debug", excludes: fileFilter)
+    def debugTree = fileTree(dir: "$project.buildDir/intermediates/javac/debug/classes", excludes: fileFilter)
     def mainSrc = "$project.projectDir/src/main/java"
 
-    sourceDirectories = files([mainSrc])
-    classDirectories = files([debugTree])
-    executionData = fileTree(dir: project.buildDir, includes: [
+    sourceDirectories.setFrom(files([mainSrc]))
+    classDirectories.setFrom(files([debugTree]))
+    executionData.setFrom(fileTree(dir: project.buildDir, includes: [
             'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
-    ])
+    ]))
 }
 
 tasks.withType(Test) {

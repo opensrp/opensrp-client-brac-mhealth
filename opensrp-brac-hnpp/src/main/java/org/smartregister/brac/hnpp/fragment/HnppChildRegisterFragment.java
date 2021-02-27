@@ -1,44 +1,22 @@
 package org.smartregister.brac.hnpp.fragment;
 
-import android.app.Dialog;
 import android.database.Cursor;
 import android.graphics.Typeface;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
+
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
 
 import org.apache.commons.lang3.StringUtils;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.HnppChildProfileActivity;
-import org.smartregister.brac.hnpp.location.SSLocationHelper;
-import org.smartregister.brac.hnpp.location.SSLocations;
-import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.model.HnppChildRegisterFragmentModel;
 import org.smartregister.brac.hnpp.presenter.HnppChildRegisterFragmentPresenter;
 import org.smartregister.brac.hnpp.provider.HnppChildRegisterProvider;
-import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.core.activity.CoreChildHomeVisitActivity;
-import org.smartregister.chw.core.fragment.CoreChildRegisterFragment;
-import org.smartregister.chw.core.utils.ChildDBConstants;
-import org.smartregister.chw.core.utils.CoreConstants;
-import org.smartregister.commonregistry.CommonFtsObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.configurableviews.model.View;
@@ -47,18 +25,11 @@ import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.util.Utils;
 import org.smartregister.view.activity.BaseRegisterActivity;
-
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
 import timber.log.Timber;
 
-import static android.view.View.inflate;
-import static org.smartregister.chw.core.utils.ChildDBConstants.limitClause;
-import static org.smartregister.chw.core.utils.ChildDBConstants.orderByClause;
-import static org.smartregister.chw.core.utils.ChildDBConstants.tableColConcat;
 
 public class HnppChildRegisterFragment extends HnppBaseChildRegisterFragment implements android.view.View.OnClickListener {
 
@@ -276,7 +247,7 @@ public class HnppChildRegisterFragment extends HnppBaseChildRegisterFragment imp
             CommonPersonObjectClient client = (CommonPersonObjectClient) view.getTag();
             String baseEntityId = Utils.getValue(client.getColumnmaps(), DBConstants.KEY.BASE_ENTITY_ID, false);
             if (StringUtils.isNotBlank(baseEntityId)) {
-                CoreChildHomeVisitActivity.startMe(getActivity(), new MemberObject(client), false);
+                CoreChildHomeVisitActivity.startMe(getActivity(),baseEntityId, false);
             }
         } else if (view.getId() == R.id.filter_text_view) {
 

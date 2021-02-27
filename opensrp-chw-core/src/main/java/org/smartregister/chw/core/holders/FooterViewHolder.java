@@ -1,9 +1,10 @@
 package org.smartregister.chw.core.holders;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class FooterViewHolder extends RecyclerView.ViewHolder {
     public TextView pageInfoView;

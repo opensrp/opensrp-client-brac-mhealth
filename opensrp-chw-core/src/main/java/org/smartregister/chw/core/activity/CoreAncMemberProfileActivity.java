@@ -9,6 +9,7 @@ import android.view.View;
 import org.jeasy.rules.api.Rules;
 import org.joda.time.DateTime;
 import org.smartregister.chw.anc.activity.BaseAncMemberProfileActivity;
+import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.presenter.BaseAncMemberProfilePresenter;
 import org.smartregister.chw.anc.util.Constants;
@@ -27,6 +28,8 @@ import org.smartregister.domain.Task;
 import java.util.Set;
 
 public abstract class CoreAncMemberProfileActivity extends BaseAncMemberProfileActivity implements AncMemberProfileContract.View {
+
+    private static final MemberObject MEMBER_OBJECT = new MemberObject();
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

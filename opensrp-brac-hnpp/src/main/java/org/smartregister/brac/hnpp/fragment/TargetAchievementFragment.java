@@ -1,11 +1,9 @@
 package org.smartregister.brac.hnpp.fragment;
 
-import android.support.v7.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
-import org.smartregister.brac.hnpp.adapter.DashBoardAdapter;
 import org.smartregister.brac.hnpp.adapter.TargetAchievementAdapter;
 import org.smartregister.brac.hnpp.presenter.TargetAchievmentPresenter;
-import org.smartregister.brac.hnpp.presenter.WorkSummeryDashBoardPresenter;
 
 public class TargetAchievementFragment extends BaseDashBoardFragment {
 

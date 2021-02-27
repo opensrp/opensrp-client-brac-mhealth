@@ -1,8 +1,10 @@
 package org.smartregister.brac.hnpp.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatCheckBox;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatCheckBox;
+
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;

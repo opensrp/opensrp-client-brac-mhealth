@@ -2,8 +2,9 @@ package org.smartregister.chw.fragment;
 
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 
 import org.smartregister.chw.R;
 import org.smartregister.chw.adapter.WashCheckAdapter;

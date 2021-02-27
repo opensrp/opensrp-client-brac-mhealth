@@ -15,14 +15,11 @@ import org.smartregister.chw.anc.util.NCUtils;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.Utils;
-import org.smartregister.chw.core.utils.WashCheck;
 import org.smartregister.clientandeventmodel.DateUtil;
 import org.smartregister.commonregistry.AllCommonsRepository;
 import org.smartregister.commonregistry.CommonFtsObject;
-import org.smartregister.domain.db.Client;
-import org.smartregister.domain.db.Event;
+import org.smartregister.domain.Event;
 import org.smartregister.domain.db.EventClient;
-import org.smartregister.domain.db.Obs;
 import org.smartregister.domain.jsonmapping.ClientClassification;
 import org.smartregister.domain.jsonmapping.Column;
 import org.smartregister.domain.jsonmapping.Table;
@@ -127,11 +124,7 @@ public class ChwClientProcessor extends ClientProcessorForJava {
                 }
                 processService(eventClient, serviceTable);
                 break;
-            case CoreConstants.EventType.CHILD_HOME_VISIT:
-                processVisitEvent(Utils.processOldEvents(eventClient), CoreConstants.EventType.CHILD_HOME_VISIT);
-                processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
 
-                break;
             case CoreConstants.EventType.CHILD_VISIT_NOT_DONE:
                 processVisitEvent(eventClient);
                 processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
@@ -609,12 +602,6 @@ public class ChwClientProcessor extends ClientProcessorForJava {
 
     }
 
-    @Override
-    public void updateClientDetailsTable(Event event, Client client) {
-        Timber.d("Started updateClientDetailsTable");
-        event.addDetails("detailsUpdated", Boolean.TRUE.toString());
-        Timber.d("Finished updateClientDetailsTable");
-    }
 
     private void processVisitEvent(List<EventClient> eventClients) {
         for (EventClient eventClient : eventClients) {

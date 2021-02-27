@@ -2,67 +2,35 @@ package org.smartregister.brac.hnpp.fragment;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v7.widget.AppCompatTextView;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.evernote.android.job.JobManager;
-
-import org.apache.commons.lang3.StringUtils;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.MigrationSearchDetailsActivity;
-import org.smartregister.brac.hnpp.activity.SkSelectionActivity;
 import org.smartregister.brac.hnpp.job.HnppPncCloseJob;
 import org.smartregister.brac.hnpp.job.NotificationGeneratorJob;
 import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
-import org.smartregister.brac.hnpp.location.SSLocationHelper;
-import org.smartregister.brac.hnpp.location.SSLocations;
-import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.model.HnppFamilyRegisterFragmentModel;
 import org.smartregister.brac.hnpp.presenter.HnppFamilyRegisterFragmentPresenter;
 import org.smartregister.brac.hnpp.provider.HnppFamilyRegisterProvider;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
-import org.smartregister.brac.hnpp.utils.HnppQueryBuilder;
 import org.smartregister.brac.hnpp.utils.MigrationSearchContentData;
-import org.smartregister.chw.core.fragment.CoreFamilyRegisterFragment;
 import org.smartregister.chw.core.provider.CoreRegisterProvider;
-import org.smartregister.chw.core.utils.QueryBuilder;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.cursoradapter.RecyclerViewPaginatedAdapter;
 import org.smartregister.domain.FetchStatus;
-import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.Utils;
-
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
-
-import timber.log.Timber;
-
-import static android.view.View.inflate;
 
 public class HnppFamilyRegisterFragment extends HnppBaseFamilyRegisterFragment implements View.OnClickListener {
 

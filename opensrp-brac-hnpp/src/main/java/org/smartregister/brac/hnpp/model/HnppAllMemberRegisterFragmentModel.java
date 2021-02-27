@@ -16,7 +16,7 @@ public class HnppAllMemberRegisterFragmentModel extends CoreChildRegisterFragmen
     }
     public static String mainSelectRegisterWithoutGroupby( String familyTableName, String familyMemberTableName, String mainCondition) {
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
-        queryBUilder.SelectInitiateMainTable(familyMemberTableName,mainColumns(familyTableName, familyMemberTableName));
+        queryBUilder.selectInitiateMainTable(familyMemberTableName,mainColumns(familyTableName, familyMemberTableName));
         queryBUilder.customJoin("LEFT JOIN " + familyTableName + " ON  " + familyMemberTableName + "." + DBConstants.KEY.RELATIONAL_ID + " = " + familyTableName + ".id COLLATE NOCASE ");
 
         return queryBUilder.mainCondition(mainCondition);

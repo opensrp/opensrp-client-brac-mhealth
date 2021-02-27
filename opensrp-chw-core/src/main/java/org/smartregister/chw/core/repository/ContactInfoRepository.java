@@ -38,7 +38,7 @@ public class ContactInfoRepository extends BaseRepository {
     private String[] projectionArgs = new String[]{KEY, VALUE, BASE_ENTITY_ID, CREATED_AT};
 
     public ContactInfoRepository(Repository repository) {
-        super(repository);
+        super();
     }
 
     protected static void createTable(SQLiteDatabase database) {

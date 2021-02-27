@@ -8,8 +8,8 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.4'
-        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.5.0-x'
+        classpath 'com.android.tools.build:gradle:4.1.2'
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -65,6 +65,20 @@ subprojects {
 
     ext.androidAnnotationsVersion = '3.0.1'
     ext.androidAnnotationsAPIVersion = '3.0.1'
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+        maven { url "http://acra.googlecode.com/svn/repository/releases" }
+        maven { url "https://repo.maven.apache.org/maven2" }
+        maven { url "http://cloudant.github.io/cloudant-sync-eap/repository" }
+        maven {
+            url "https://s3.amazonaws.com/repo.commonsware.com"
+        }
+        maven { url "https://dl.bintray.com/ibm-watson-health/ibm-fhir-server-releases"}
+        mavenLocal()
+    }
 
     // Improve build server performance by allowing disabling of pre-dexing
     // (see http://tools.android.com/tech-docs/new-build-system/tips#TOC-Improving-Build-Server-performance.)
@@ -81,49 +95,25 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-task jacocoTestReport(type: JacocoReport) {
-    sourceDirectories = files()
-    classDirectories = files()
-    executionData = files()
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
 
     reports {
-        html{
-            html.enabled = true
-            destination file("${buildDir}/reports/jacoco/jacocoRootReport/jacocoFullReport")
-        }
-
-        xml{
-            xml.enabled = true
-            destination file("${buildDir}/reports/jacoco/jacocoRootReport/jacocoFullReport.xml")
-        }
-
-        csv.enabled = false
+        xml.enabled = true
+        html.enabled = true
     }
 
-    // Work-around to allow us to build list of executionData files in doFirst
-    onlyIf = {
-        true
-    }
+    getReports().getXml().setDestination(file("${buildDir}/reports/jacoco/jacocoRootReport/merged.xml"))
+    getReports().getHtml().setDestination(file("${buildDir}/reports/jacoco/jacocoRootReport/html"))
 
-    /*
-     * Builds list of source dirs, class dirs, and executionData files
-     * when task is run, not at script evaluation time
-     */
-    doFirst {
-        subprojects.findAll { subproject ->
-            subproject.pluginManager.hasPlugin('java')
-        }.each { subproject ->
-            additionalSourceDirs files((Set<File>) subproject.sourceSets.main.allJava.srcDirs)
-            additionalClassDirs ((FileCollection) subproject.sourceSets.main.output)
-            if (subproject.pluginManager.hasPlugin('jacoco')) {
-                executionData subproject.tasks.jacocoTestReport.executionData
-            }
-        }
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*', '**/*$ViewBinder*.*']
+    def debugTree = fileTree(dir: "$project.buildDir/intermediates/javac/debug/classes", excludes: fileFilter)
+    def mainSrc = "$project.projectDir/src/main/java"
 
-        executionData = files(executionData.findAll {
-            it.exists()
-        })
-    }
+    sourceDirectories.setFrom(files([mainSrc]))
+    classDirectories.setFrom(files([debugTree]))
+    executionData.setFrom(fileTree(dir: project.buildDir, includes: [
+            'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
+    ]))
 }
 
 task build {

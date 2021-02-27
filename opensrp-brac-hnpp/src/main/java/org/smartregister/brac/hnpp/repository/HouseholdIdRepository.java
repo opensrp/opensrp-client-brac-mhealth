@@ -39,7 +39,7 @@ public class HouseholdIdRepository extends BaseRepository {
 
 
     public HouseholdIdRepository(Repository repository) {
-        super(repository);
+        super();
     }
 
     protected static void createTable(SQLiteDatabase database) {

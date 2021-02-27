@@ -2,9 +2,11 @@ package org.smartregister.brac.hnpp.listener;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.smartregister.brac.hnpp.activity.NewDashBoardActivity;
 import org.smartregister.view.activity.BaseRegisterActivity;

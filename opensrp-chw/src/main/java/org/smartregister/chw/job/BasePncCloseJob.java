@@ -1,8 +1,7 @@
 package org.smartregister.chw.job;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-
+import androidx.annotation.NonNull;
 import org.smartregister.chw.core.job.CoreBasePncCloseJob;
 import org.smartregister.chw.intent.ChwPncCloseDateIntent;
 import org.smartregister.family.util.Constants;

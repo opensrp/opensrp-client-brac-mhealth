@@ -2,23 +2,20 @@ package org.smartregister.brac.hnpp.fragment;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.whiteelephant.monthpicker.MonthPickerDialog;
-
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.contract.StockDetailsContract;
-import org.smartregister.brac.hnpp.interactor.StockDetailsInteractor;
 import org.smartregister.brac.hnpp.presenter.StockDetailsPresenter;
 import org.smartregister.brac.hnpp.utils.DashBoardData;
-import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.brac.hnpp.utils.StockDetailsData;
 

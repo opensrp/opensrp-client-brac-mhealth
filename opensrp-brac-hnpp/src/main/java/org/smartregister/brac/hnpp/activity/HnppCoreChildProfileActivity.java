@@ -6,19 +6,18 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
+
 import org.apache.commons.lang3.StringUtils;
-import org.opensrp.api.constants.Gender;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.core.activity.CoreChildProfileActivity;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.helper.ImageRenderHelper;
-import org.smartregister.util.StringUtil;
 
 import static org.smartregister.brac.hnpp.utils.HnppConstants.MEMBER_ID_SUFFIX;
 

@@ -4,12 +4,12 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
+import androidx.core.content.ContextCompat;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
+
 import android.view.View;
 import android.widget.TextView;
-
 import org.apache.commons.lang3.StringUtils;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity;
@@ -24,7 +24,6 @@ import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
 import org.smartregister.family.util.Constants;
 import org.smartregister.view.customcontrols.CustomFontTextView;
 import org.smartregister.view.customcontrols.FontVariant;
-
 import java.text.MessageFormat;
 import java.util.Set;
 import timber.log.Timber;
@@ -225,11 +224,6 @@ public class HnppAncRegisterFragment extends HnppBaseAncRegisterFragment impleme
 //        }
 //    }
 
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        super.onLoadFinished(loader, cursor);
-        setTotalPatients();
-    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, final Bundle args) {

@@ -1,15 +1,8 @@
 package org.smartregister.brac.hnpp.activity;
 
-import android.app.Dialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.view.activity.SecuredActivity;

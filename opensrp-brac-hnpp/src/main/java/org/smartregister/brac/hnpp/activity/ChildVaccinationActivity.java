@@ -2,11 +2,11 @@ package org.smartregister.brac.hnpp.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.fragment.ChildImmunizationFragment;

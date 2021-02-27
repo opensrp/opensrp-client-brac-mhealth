@@ -1,15 +1,16 @@
 package org.smartregister.brac.hnpp.activity;
 
 import android.os.Handler;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.github.ybq.android.spinkit.style.FadingCircle;
+import com.google.android.material.tabs.TabLayout;
 
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.fragment.BaseDashBoardFragment;

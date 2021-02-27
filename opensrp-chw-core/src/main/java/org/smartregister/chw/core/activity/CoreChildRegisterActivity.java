@@ -2,9 +2,10 @@ package org.smartregister.chw.core.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.bottomnavigation.LabelVisibilityMode;
-import android.support.v4.app.Fragment;
 
+import androidx.fragment.app.Fragment;
+
+import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
@@ -27,6 +28,7 @@ import org.smartregister.view.fragment.BaseRegisterFragment;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import timber.log.Timber;
 
@@ -83,6 +85,11 @@ public class CoreChildRegisterActivity extends BaseRegisterActivity implements C
         if (menu != null) {
             menu.getNavigationAdapter().setSelectedView(CoreConstants.DrawerMenu.CHILD_CLIENTS);
         }
+    }
+
+    @Override
+    public void startFormActivity(String s, String s1, Map<String, String> map) {
+
     }
 
     @Override
@@ -157,6 +164,6 @@ public class CoreChildRegisterActivity extends BaseRegisterActivity implements C
 
     @Override
     public void startRegistration() {
-        startFormActivity(Utils.metadata().familyRegister.formName, null, null);
+        startFormActivity(Utils.metadata().familyRegister.formName, null, (String) null);
     }
 }

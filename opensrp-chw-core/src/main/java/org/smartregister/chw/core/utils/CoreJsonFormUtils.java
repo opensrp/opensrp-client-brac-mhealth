@@ -364,21 +364,7 @@ public class CoreJsonFormUtils extends org.smartregister.family.util.JsonFormUti
         ecUpdater.addClient(baseClient.getBaseEntityId(), mergedJson);
     }
 
-    public static void saveImage(String providerId, String entityId, String imageLocation) {
-        if (StringUtils.isBlank(imageLocation)) {
-            return;
-        }
 
-        File file = new File(imageLocation);
-
-        if (!file.exists()) {
-            return;
-        }
-
-        Bitmap compressedImageFile = FamilyLibrary.getInstance().getCompressor().compressToBitmap(file);
-        saveStaticImageToDisk(compressedImageFile, providerId, entityId);
-
-    }
 
     private static void saveStaticImageToDisk(Bitmap image, String providerId, String entityId) {
         if (image == null || StringUtils.isBlank(providerId) || StringUtils.isBlank(entityId)) {

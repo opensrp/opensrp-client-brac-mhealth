@@ -1,10 +1,11 @@
 package org.smartregister.chw.core.holders;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.smartregister.chw.core.R;
 

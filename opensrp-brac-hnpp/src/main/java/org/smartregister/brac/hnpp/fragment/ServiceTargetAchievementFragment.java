@@ -1,6 +1,8 @@
 package org.smartregister.brac.hnpp.fragment;
 
-import android.support.v7.widget.LinearLayoutManager;
+
+
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import org.smartregister.brac.hnpp.adapter.ServiceTargetAchievementAdapter;
 import org.smartregister.brac.hnpp.adapter.TargetAchievementAdapter;

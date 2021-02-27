@@ -1,7 +1,6 @@
 package org.smartregister.brac.hnpp.utils;
 
-import android.support.annotation.NonNull;
-
+import androidx.annotation.NonNull;
 public class BaseLocation {
     public int id;
     public int parentId;

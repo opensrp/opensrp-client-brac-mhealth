@@ -5,6 +5,9 @@ import org.smartregister.SyncConfiguration;
 import org.smartregister.SyncFilter;
 import org.smartregister.chw.core.utils.Utils;
 import org.smartregister.brac.hnpp.BuildConfig;
+import org.smartregister.view.activity.BaseLoginActivity;
+
+import java.util.List;
 
 /**
  * @author Elly Nerdstone
@@ -53,6 +56,31 @@ public class HnppSyncConfiguration extends SyncConfiguration {
     @Override
     public boolean updateClientDetailsTable() {
         return false;
+    }
+
+    @Override
+    public List<String> getSynchronizedLocationTags() {
+        return null;
+    }
+
+    @Override
+    public String getTopAllowedLocationLevel() {
+        return null;
+    }
+
+    @Override
+    public String getOauthClientId() {
+        return null;
+    }
+
+    @Override
+    public String getOauthClientSecret() {
+        return null;
+    }
+
+    @Override
+    public Class<? extends BaseLoginActivity> getAuthenticationActivity() {
+        return null;
     }
 
     @Override

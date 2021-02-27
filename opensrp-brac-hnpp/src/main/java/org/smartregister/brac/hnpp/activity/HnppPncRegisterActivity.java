@@ -2,18 +2,12 @@ package org.smartregister.brac.hnpp.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.design.bottomnavigation.LabelVisibilityMode;
-import android.support.design.widget.BottomNavigationView;
-
 import org.smartregister.brac.hnpp.BuildConfig;
-import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.fragment.HnppPncRegisterFragment;
-import org.smartregister.brac.hnpp.listener.HnppBottomNavigationListener;
 import org.smartregister.brac.hnpp.listener.HnppFamilyBottomNavListener;
 import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.core.custom_views.NavigationMenu;
 import org.smartregister.chw.core.utils.CoreConstants;
-import org.smartregister.helper.BottomNavigationHelper;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 
 public class HnppPncRegisterActivity extends AncRegisterActivity {

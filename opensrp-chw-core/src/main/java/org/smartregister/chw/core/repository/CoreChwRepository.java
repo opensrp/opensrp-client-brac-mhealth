@@ -102,22 +102,16 @@ public class CoreChwRepository extends Repository {
 
     @Override
     public SQLiteDatabase getReadableDatabase() {
-        String pass = CoreChwApplication.getInstance().getPassword();
-        if (StringUtils.isNotBlank(pass)) {
-            return getReadableDatabase(pass);
-        } else {
-            throw new IllegalStateException("Password is blank");
-        }
+        byte[] pass = CoreChwApplication.getInstance().getPassword();
+        return getReadableDatabase(pass);
+
     }
 
     @Override
     public SQLiteDatabase getWritableDatabase() {
-        String pass = CoreChwApplication.getInstance().getPassword();
-        if (StringUtils.isNotBlank(pass)) {
+        byte[] pass = CoreChwApplication.getInstance().getPassword();
             return getWritableDatabase(pass);
-        } else {
-            throw new IllegalStateException("Password is blank");
-        }
+
     }
 
     @Override

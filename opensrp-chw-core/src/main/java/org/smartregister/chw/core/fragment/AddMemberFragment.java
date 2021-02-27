@@ -5,11 +5,13 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+
+import androidx.annotation.Nullable;
+
 
 import org.smartregister.chw.core.R;
 import org.smartregister.chw.core.activity.CoreFamilyProfileActivity;
@@ -80,7 +82,7 @@ public class AddMemberFragment extends DialogFragment implements View.OnClickLis
                 ((CoreFamilyProfileActivity) context).startChildForm(CoreConstants.JSON_FORM.getChildRegister(), "", "", "");
                 dismiss();
             } else if (i == R.id.layout_add_other_family_member) {
-                ((CoreFamilyProfileActivity) context).startFormActivity(CoreConstants.JSON_FORM.getFamilyMemberRegister(), null, null);
+                ((CoreFamilyProfileActivity) context).startFormActivity(CoreConstants.JSON_FORM.getFamilyMemberRegister(), null, (String) null);
                 dismiss();
             }
         } catch (Exception e) {

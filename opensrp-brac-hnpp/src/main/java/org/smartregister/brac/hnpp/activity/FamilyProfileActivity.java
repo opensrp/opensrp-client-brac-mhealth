@@ -6,17 +6,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationManager;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,15 +28,11 @@ import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.contract.MigrationContract;
 import org.smartregister.brac.hnpp.fragment.FamilyHistoryFragment;
 import org.smartregister.brac.hnpp.fragment.FamilyProfileDueFragment;
-import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
 import org.smartregister.brac.hnpp.interactor.MigrationInteractor;
 import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
-import org.smartregister.brac.hnpp.listener.OnGpsDataGenerateListener;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.model.HnppFamilyProfileModel;
-import org.smartregister.brac.hnpp.task.GenerateGPSTask;
-import org.smartregister.brac.hnpp.task.GenerateLatitudeLongitudeTask;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
@@ -58,7 +49,6 @@ import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.family.adapter.ViewPagerAdapter;
-import org.smartregister.family.fragment.BaseFamilyProfileDueFragment;
 import org.smartregister.family.util.AppExecutors;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
@@ -252,6 +242,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == JsonFormUtils.REQUEST_CODE_GET_JSON && resultCode == RESULT_OK) {
             try {
                 String jsonString = data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON);
@@ -259,14 +250,14 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
 
                 JSONObject form = new JSONObject(jsonString);
                 if (form.getString(JsonFormUtils.ENCOUNTER_TYPE).equals(Utils.metadata().familyRegister.updateEventType)) {
-                    String[] sss =  HnppJsonFormUtils.getHouseholdIdModuleIdFromForm(form);
+                    String[] sss = HnppJsonFormUtils.getHouseholdIdModuleIdFromForm(form);
                     houseHoldId = sss[0];
                     moduleId = sss[1];
-                    ((FamilyProfilePresenter)presenter).updateHouseIdAndModuleId(houseHoldId);
-                    model.updateHouseIdAndModuleId(houseHoldId,moduleId );
+                    ((FamilyProfilePresenter) presenter).updateHouseIdAndModuleId(houseHoldId);
+                    model.updateHouseIdAndModuleId(houseHoldId, moduleId);
                     presenter().updateFamilyRegister(jsonString);
                     presenter().verifyHasPhone();
-                }else {
+                } else {
                     String[] generatedString;
                     String title;
                     String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
@@ -275,19 +266,19 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
 
                     if (form.getString(JsonFormUtils.ENCOUNTER_TYPE).equals(HnppConstants.EventType.CHILD_REGISTRATION)) {
                         generatedString = HnppJsonFormUtils.getValuesFromChildRegistrationForm(form);
-                        title = String.format(getString(R.string.dialog_confirm_save_child),fullName,generatedString[0],generatedString[2],generatedString[1]);
+                        title = String.format(getString(R.string.dialog_confirm_save_child), fullName, generatedString[0], generatedString[2], generatedString[1]);
 
-                    }else {
+                    } else {
                         generatedString = HnppJsonFormUtils.getValuesFromRegistrationForm(form);
-                         title = String.format(getString(R.string.dialog_confirm_save),fullName,generatedString[0],generatedString[2],generatedString[1]);
+                        title = String.format(getString(R.string.dialog_confirm_save), fullName, generatedString[0], generatedString[2], generatedString[1]);
 
                     }
 
-                    Log.v("FORM_SAVE","generatedString:"+generatedString);
+                    Log.v("FORM_SAVE", "generatedString:" + generatedString);
                     HnppConstants.showSaveFormConfirmationDialog(this, title, new Runnable() {
                         @Override
                         public void run() {
-                           processJson(requestCode, resultCode, data);
+                            processJson(requestCode, resultCode, data);
                         }
                     });
 
@@ -298,31 +289,31 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
             }
             HnppConstants.isViewRefresh = true;
         }
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT) {
             VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
 
-            String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
+            String jsonString = data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON);
             Map<String, String> jsonStrings = new HashMap<>();
-            jsonStrings.put("First",jsonString);
+            jsonStrings.put("First", jsonString);
             Visit visit = null;
             try {
                 JSONObject form = new JSONObject(jsonString);
-                String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
+                String type = form.getString(JsonFormUtils.ENCOUNTER_TYPE);
                 type = HnppJsonFormUtils.getEncounterType(type);
 
-                visit = HnppJsonFormUtils.saveVisit(false,false,false,"", familyBaseEntityId, type, jsonStrings, "");
+                visit = HnppJsonFormUtils.saveVisit(false, false, false, "", familyBaseEntityId, type, jsonStrings, "");
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if(familyHistoryFragment !=null){
+            if (familyHistoryFragment != null) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        familyHistoryFragment.onActivityResult(0,0,null);
-                        mViewPager.setCurrentItem(3,true);
+                        familyHistoryFragment.onActivityResult(0, 0, null);
+                        mViewPager.setCurrentItem(3, true);
 
                     }
-                },1000);
+                }, 1000);
             }
             HnppConstants.isViewRefresh = true;
 

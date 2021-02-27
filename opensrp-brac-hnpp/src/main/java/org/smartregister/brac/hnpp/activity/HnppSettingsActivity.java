@@ -17,8 +17,9 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+
 import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -49,8 +50,7 @@ public class HnppSettingsActivity extends PreferenceActivity {
     @Override
     protected void attachBaseContext(Context base) {
         // get language from prefs
-        String lang = LangUtils.getLanguage(base.getApplicationContext());
-        super.attachBaseContext(LangUtils.setAppLocale(base, lang));
+        super.attachBaseContext(base);
     }
     MyPreferenceFragment fragment;
     @Override

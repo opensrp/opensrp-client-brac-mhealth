@@ -4,10 +4,11 @@ package org.smartregister.brac.hnpp.activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -42,8 +43,6 @@ import org.smartregister.family.util.AppExecutors;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.simprint.SimPrintsConstantHelper;
 import org.smartregister.simprint.SimPrintsHelper;
-import org.smartregister.simprint.SimPrintsIdentification;
-import org.smartregister.simprint.SimPrintsIdentifyActivity;
 import org.smartregister.view.activity.SecuredActivity;
 
 import java.util.ArrayList;

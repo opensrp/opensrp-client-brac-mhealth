@@ -16,17 +16,18 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.google.android.gms.common.internal.Preconditions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
@@ -47,7 +48,7 @@ import org.smartregister.clientandeventmodel.Obs;
 import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.commonregistry.CommonRepository;
-import org.smartregister.domain.db.Event;
+import org.smartregister.domain.Event;
 import org.smartregister.domain.db.EventClient;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.location.helper.LocationHelper;
@@ -489,107 +490,6 @@ public abstract class Utils extends org.smartregister.family.util.Utils {
         return false;
     }
 
-    /**
-     * This is a compatibility class to process the old child home visit events to
-     * the new visits structure
-     *
-     * @param eventClient
-     * @return
-     */
-    public static List<EventClient> processOldEvents(EventClient eventClient) {
-
-        // remove all nested events and add them to this object
-        List<EventClient> events = new ArrayList<>();
-
-        if (eventClient.getEvent() == null) {
-            return new ArrayList<>();
-        }
-
-        Event event = eventClient.getEvent();
-        List<org.smartregister.domain.db.Obs> observations = new ArrayList<>();
-        for (org.smartregister.domain.db.Obs obs : event.getObs()) {
-            switch (obs.getFieldCode()) {
-                case "illness_information":
-                    try {
-                        JSONObject jsonObject = new JSONObject(obs.getValues().get(0).toString());
-                        if (jsonObject.has("obsIllness")) {
-                            Event obsEvent = convert(jsonObject.getString("obsIllness"), Event.class);
-                            events.add(new EventClient(obsEvent, eventClient.getClient()));
-                        }
-                    } catch (Exception e) {
-                        Timber.e(e);
-                    }
-                    break;
-                case "birth_certificate":
-                    try {
-                        String val = obs.getValues().get(0).toString();
-                        if (val.equalsIgnoreCase("NOT_GIVEN") || val.equalsIgnoreCase("GIVEN")) {
-                            observations.add(obs);
-                            continue;
-                        }
-
-                        JSONObject jsonObject = new JSONObject(val);
-                        if (jsonObject.has("birtCert")) {
-                            Event obsEvent = convert(jsonObject.getString("birtCert"), Event.class);
-                            events.add(new EventClient(obsEvent, eventClient.getClient()));
-                        }
-                    } catch (Exception e) {
-                        Timber.e(e);
-                    }
-                    break;
-                case "service":
-                    try {
-                        JSONArray jsonArray = new JSONArray(obs.getValues());
-                        int length = jsonArray.length();
-                        int x = 0;
-                        while (x < length) {
-                            String value_raw = jsonArray.getString(x);
-                            String values = value_raw.substring(1, value_raw.length() - 1);
-                            String[] services = values.split(",");
-                            for (String service_str : services) {
-                                String[] service = service_str.split(":");
-                                if (service.length == 2) {
-                                    String key = service[0].substring(1, service[0].length() - 1);
-                                    String val = service[1].substring(1, service[1].length() - 1);
-
-                                    org.smartregister.domain.db.Obs obs1 = new org.smartregister.domain.db.Obs();
-                                    obs1.setFieldType("formsubmissionField");
-                                    obs1.setFieldDataType("text");
-                                    obs1.setFieldCode(key);
-                                    obs1.setFormSubmissionField(key);
-                                    obs1.setParentCode("");
-                                    obs1.setValues(new ArrayList<>(Arrays.asList(val)));
-                                    obs1.setHumanReadableValues(new ArrayList<>(Arrays.asList(val)));
-                                    observations.add(obs1);
-                                }
-                            }
-                            x++;
-                        }
-                    } catch (Exception e) {
-                        Timber.e(e);
-                    }
-                    break;
-                default:
-                    observations.add(obs);
-                    break;
-            }
-
-        }
-
-        // exclude these events
-        // fieldCode : singleVaccine , service ,  vaccineNotGiven , groupVaccine , serviceNotGiven
-
-
-        // convert the json in these events
-        // fieldCode : birth_certificate
-
-        event.setObs(null);
-        event.setObs(observations);
-
-        events.add(new EventClient(event, eventClient.getClient()));
-
-        return events;
-    }
 
     private static <T> T convert(String jsonString, Class<T> t) {
         if (StringUtils.isBlank(jsonString)) {

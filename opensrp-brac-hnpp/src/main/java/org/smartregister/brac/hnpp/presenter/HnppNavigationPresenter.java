@@ -8,6 +8,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
@@ -182,11 +184,11 @@ public class HnppNavigationPresenter extends NavigationPresenter {
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(activity).create();
+                    AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
                     alertDialog.setTitle("আপনার অ্যাকাউন্টটি নিষ্ক্রিয় করা হয়েছে");
                     alertDialog.setCancelable(false);
 
-                    alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE, "ওকে",
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "ওকে",
                             (dialog, which) -> {
                                 HnppApplication.getHNPPInstance().forceLogoutForRemoteLogin();
                             });

@@ -1,8 +1,7 @@
 package org.smartregister.brac.hnpp.job;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-
+import androidx.annotation.NonNull;
 import com.evernote.android.job.Job;
 
 import org.smartregister.brac.hnpp.sync.intent.PullHouseholdIdIntentService;

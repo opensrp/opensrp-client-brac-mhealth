@@ -1,12 +1,8 @@
 package org.smartregister.brac.hnpp.fragment;
-
-import android.support.v7.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import org.smartregister.brac.hnpp.adapter.ForumTargetAchievementAdapter;
-import org.smartregister.brac.hnpp.adapter.TargetAchievementAdapter;
 import org.smartregister.brac.hnpp.presenter.ForumTargetAchievementPresenter;
-import org.smartregister.brac.hnpp.presenter.ServiceTargetAchievmentPresenter;
-
 import java.util.Calendar;
 
 public class ForumTargetAchievementFragment extends BaseDashBoardFragment {

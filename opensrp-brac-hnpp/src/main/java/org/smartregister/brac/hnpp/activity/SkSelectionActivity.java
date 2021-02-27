@@ -7,12 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,20 +20,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.adapter.SkSelectionAdapter;
 import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
-import org.smartregister.brac.hnpp.job.SSLocationFetchJob;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
-import org.smartregister.brac.hnpp.location.SSLocations;
 import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.domain.FetchStatus;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.view.activity.SecuredActivity;
-
 import java.util.ArrayList;
 
 public class SkSelectionActivity extends SecuredActivity implements View.OnClickListener,SyncStatusBroadcastReceiver.SyncStatusListener {

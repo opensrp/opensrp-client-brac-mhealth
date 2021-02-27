@@ -3,9 +3,10 @@ package org.smartregister.brac.hnpp.utils;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatTextView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatTextView;
+
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +19,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.whiteelephant.monthpicker.MonthPickerDialog;
-
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSLocations;
 import org.smartregister.brac.hnpp.location.SSModel;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 

@@ -1,7 +1,8 @@
 package org.smartregister.chw.core.interactor;
 
 import android.content.Context;
-import android.support.annotation.VisibleForTesting;
+
+import androidx.annotation.VisibleForTesting;
 
 import org.smartregister.chw.core.R;
 import org.smartregister.chw.core.contract.HomeVisitGrowthNutritionContract;

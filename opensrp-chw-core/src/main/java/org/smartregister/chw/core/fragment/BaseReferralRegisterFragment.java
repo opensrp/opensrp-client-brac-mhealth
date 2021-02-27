@@ -2,9 +2,10 @@ package org.smartregister.chw.core.fragment;
 
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.view.View;
+
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
 
 import org.smartregister.chw.core.R;
 import org.smartregister.chw.core.contract.BaseReferralRegisterFragmentContract;

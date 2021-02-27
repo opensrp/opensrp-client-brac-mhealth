@@ -2,12 +2,13 @@ package org.smartregister.chw.core.fragment;
 
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
 
 import org.apache.commons.lang3.StringUtils;
 import org.smartregister.chw.anc.domain.MemberObject;
@@ -172,16 +173,7 @@ public abstract class CoreAncRegisterFragment extends BaseAncRegisterFragment {
     @Override
     protected void openProfile(CommonPersonObjectClient client) {
 
-        HashMap<String, String> detailsMap = CoreChwApplication.ancRegisterRepository().getFamilyNameAndPhone(Utils.getValue(client.getColumnmaps(), org.smartregister.family.util.DBConstants.KEY.FAMILY_HEAD, false));
-
-        String familyName = "";
-        String familyHeadPhone = "";
-        if (detailsMap != null) {
-            familyName = detailsMap.get(org.smartregister.chw.anc.util.Constants.ANC_MEMBER_OBJECTS.FAMILY_HEAD_NAME);
-            familyHeadPhone = detailsMap.get(org.smartregister.chw.anc.util.Constants.ANC_MEMBER_OBJECTS.FAMILY_HEAD_PHONE);
-        }
-
-        CoreAncMemberProfileActivity.startMe(getActivity(), new MemberObject(client), familyName, familyHeadPhone);
+        CoreAncMemberProfileActivity.startMe(getActivity(), client.entityId());
     }
 
     @Override

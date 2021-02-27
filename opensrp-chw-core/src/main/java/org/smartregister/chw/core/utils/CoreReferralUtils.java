@@ -25,7 +25,7 @@ public class CoreReferralUtils {
 
     public static String mainSelectRegisterWithoutGroupby(String tableName, String familyTableName, String familyMemberTableName, String mainCondition) {
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
-        queryBUilder.SelectInitiateMainTable(tableName, mainColumns(tableName, familyTableName, familyMemberTableName));
+        queryBUilder.selectInitiateMainTable(tableName, mainColumns(tableName, familyTableName, familyMemberTableName));
         queryBUilder.customJoin("LEFT JOIN " + familyTableName + " ON  " + tableName + "." + DBConstants.KEY.RELATIONAL_ID + " = " + familyTableName + ".id COLLATE NOCASE ");
         queryBUilder.customJoin("LEFT JOIN " + familyMemberTableName + " ON  " + familyMemberTableName + "." + DBConstants.KEY.BASE_ENTITY_ID + " = " + familyTableName + ".primary_caregiver COLLATE NOCASE ");
 
@@ -92,13 +92,12 @@ public class CoreReferralUtils {
         task.setGroupIdentifier(locationHelper.getOpenMrsLocationId(locationHelper.generateDefaultLocationHierarchy(allowedLevels).get(0)));
         task.setStatus(Task.TaskStatus.READY);
         task.setBusinessStatus(CoreConstants.BUSINESS_STATUS.REFERRED);
-        task.setPriority(3);
+        task.setPriority(Task.TaskPriority.ASAP);
         task.setCode("Referral");
         task.setDescription("Review and perform the referral for the client"); //set to string
         task.setFocus(CoreConstants.TASKS_FOCUS.SICK_CHILD);//the same here
         task.setForEntity(baseEntityId);
         DateTime now = new DateTime();
-        task.setExecutionStartDate(now);
         task.setAuthoredOn(now);
         task.setLastModified(now);
         task.setOwner(allSharedPreferences.fetchRegisteredANM());

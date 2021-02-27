@@ -2,8 +2,9 @@ package org.smartregister.brac.hnpp.listener;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
 
 import org.smartregister.brac.hnpp.activity.NewDashBoardActivity;
 import org.smartregister.family.R;

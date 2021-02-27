@@ -4,13 +4,13 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
-
 import org.ei.drishti.dto.AlertStatus;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -36,13 +36,12 @@ import org.smartregister.family.interactor.FamilyProfileInteractor;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
 import org.smartregister.repository.AllSharedPreferences;
-
 import java.util.Date;
 import java.util.Set;
-
 import timber.log.Timber;
 
 public class AncMemberProfileActivity extends CoreAncMemberProfileActivity {
+    private static final MemberObject MEMBER_OBJECT = new MemberObject();
     public RelativeLayout referralRow;
     public RecyclerView referralRecyclerView;
     private CommonPersonObjectClient commonPersonObjectClient;
@@ -66,18 +65,6 @@ public class AncMemberProfileActivity extends CoreAncMemberProfileActivity {
         }
 
         ancMemberProfilePresenter().fetchTasks();
-    }
-
-    @Override
-    public void setUpComingServicesStatus(String service, AlertStatus status, Date date) {
-        view_most_due_overdue_row.setVisibility(View.GONE);
-        rlUpcomingServices.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void setFamilyStatus(AlertStatus status) {
-        view_family_row.setVisibility(View.GONE);
-        rlFamilyServicesDue.setVisibility(View.GONE);
     }
 
     @Override

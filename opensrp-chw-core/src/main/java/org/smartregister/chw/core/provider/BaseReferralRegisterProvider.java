@@ -2,10 +2,11 @@ package org.smartregister.chw.core.provider;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
@@ -44,6 +45,7 @@ public class BaseReferralRegisterProvider implements RecyclerViewProvider<Referr
         CommonPersonObjectClient pc = (CommonPersonObjectClient) client;
         populatePatientColumn(pc, viewHolder);
     }
+
 
 
     public void populatePatientColumn(CommonPersonObjectClient pc, ReferralViewHolder viewHolder) {

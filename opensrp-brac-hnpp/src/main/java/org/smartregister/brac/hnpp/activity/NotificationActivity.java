@@ -2,23 +2,17 @@ package org.smartregister.brac.hnpp.activity;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.adapter.NotificationAdapter;
-import org.smartregister.brac.hnpp.adapter.SearchHHMemberAdapter;
 import org.smartregister.brac.hnpp.contract.NotificationContract;
-import org.smartregister.brac.hnpp.model.HHMemberProperty;
 import org.smartregister.brac.hnpp.model.Notification;
 import org.smartregister.brac.hnpp.presenter.NotificationPresenter;
 import org.smartregister.brac.hnpp.utils.HnppConstants;

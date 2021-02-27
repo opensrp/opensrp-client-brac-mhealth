@@ -4,8 +4,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
+
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
 
 import org.apache.commons.lang3.StringUtils;
 import org.smartregister.brac.hnpp.R;
@@ -151,7 +152,7 @@ public class HnppAllMemberRegisterFragment extends HnppBaseChildRegisterFragment
             CommonPersonObjectClient client = (CommonPersonObjectClient) view.getTag();
             String baseEntityId = Utils.getValue(client.getColumnmaps(), DBConstants.KEY.BASE_ENTITY_ID, true);
             if (StringUtils.isNotBlank(baseEntityId)) {
-                CoreChildHomeVisitActivity.startMe(getActivity(), new MemberObject(client), false);
+                CoreChildHomeVisitActivity.startMe(getActivity(), baseEntityId, false);
             }
         } else if (view.getId() == R.id.filter_text_view) {
             openFilterDialog(isNeedToShowDateFilter);

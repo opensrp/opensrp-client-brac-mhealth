@@ -1,6 +1,7 @@
 package org.smartregister.brac.hnpp.activity;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 
 import org.smartregister.brac.hnpp.R;

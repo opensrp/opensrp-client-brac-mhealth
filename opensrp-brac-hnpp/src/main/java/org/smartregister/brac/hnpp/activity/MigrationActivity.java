@@ -4,19 +4,16 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
+
 import org.smartregister.brac.hnpp.R;
-import org.smartregister.brac.hnpp.model.Notification;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.view.activity.SecuredActivity;
 

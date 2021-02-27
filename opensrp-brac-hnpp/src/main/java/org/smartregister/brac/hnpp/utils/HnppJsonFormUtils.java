@@ -2,11 +2,12 @@ package org.smartregister.brac.hnpp.utils;
 
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import com.google.gson.Gson;
 import com.vijay.jsonwizard.widgets.DatePickerFactory;
@@ -197,8 +198,8 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(baseEvent));
             getSyncHelper().addEvent(baseClient.getBaseEntityId(), eventJson);
             List<EventClient> eventClientList = new ArrayList();
-            org.smartregister.domain.db.Event domainEvent = org.smartregister.family.util.JsonFormUtils.gson.fromJson(eventJson.toString(), org.smartregister.domain.db.Event.class);
-            org.smartregister.domain.db.Client domainClient = org.smartregister.family.util.JsonFormUtils.gson.fromJson(clientJson.toString(), org.smartregister.domain.db.Client.class);
+            org.smartregister.domain.Event domainEvent = org.smartregister.family.util.JsonFormUtils.gson.fromJson(eventJson.toString(), org.smartregister.domain.Event.class);
+            org.smartregister.domain.Client domainClient = org.smartregister.family.util.JsonFormUtils.gson.fromJson(clientJson.toString(), org.smartregister.domain.Client.class);
             eventClientList.add(new EventClient(domainEvent, domainClient));
 
             long lastSyncTimeStamp = Utils.getAllSharedPreferences().fetchLastUpdatedAtDate(0);
@@ -276,8 +277,8 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(baseEvent));
             getSyncHelper().addEvent(baseClient.getBaseEntityId(), eventJson);
             List<EventClient> eventClientList = new ArrayList();
-            org.smartregister.domain.db.Event domainEvent = org.smartregister.family.util.JsonFormUtils.gson.fromJson(eventJson.toString(), org.smartregister.domain.db.Event.class);
-            org.smartregister.domain.db.Client domainClient = org.smartregister.family.util.JsonFormUtils.gson.fromJson(clientJson.toString(), org.smartregister.domain.db.Client.class);
+            org.smartregister.domain.Event domainEvent = org.smartregister.family.util.JsonFormUtils.gson.fromJson(eventJson.toString(), org.smartregister.domain.Event.class);
+            org.smartregister.domain.Client domainClient = org.smartregister.family.util.JsonFormUtils.gson.fromJson(clientJson.toString(), org.smartregister.domain.Client.class);
             eventClientList.add(new EventClient(domainEvent, domainClient));
 
             long lastSyncTimeStamp = Utils.getAllSharedPreferences().fetchLastUpdatedAtDate(0);
@@ -567,7 +568,6 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public static void addReferrelReasonPlaceField(JSONObject jsonForm, String reason, String place){
             JSONObject stepOne = null;
             try {
@@ -595,7 +595,6 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private static void addWhereWentGo(JSONObject place_of_referral, String place){
 
         JSONArray placeJsonArray = null;
@@ -1172,12 +1171,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
 
     }
-    public static JSONObject getJson(String formName, String baseEntityID) throws Exception {
-        String locationId = HnppApplication.getInstance().getContext().allSharedPreferences().getPreference(AllConstants.CURRENT_LOCATION_ID);
-        JSONObject jsonObject = org.smartregister.chw.anc.util.JsonFormUtils.getFormAsJson(formName);
-        org.smartregister.chw.anc.util.JsonFormUtils.getRegistrationForm(jsonObject, baseEntityID, locationId);
-        return jsonObject;
-    }
+
     public static JSONObject updateLatitudeLongitude(JSONObject form,double latitude, double longitude) throws JSONException {
         JSONArray field = fields(form, STEP1);
         JSONObject latitude_field = getFieldJSONObject(field, "latitude");
@@ -1567,8 +1561,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 Context context = HnppApplication.getInstance().getContext().applicationContext();
                 addRelationship(context, motherEntityId,lookUpBaseEntityId, baseClient);
                 SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
-                HnppChwRepository pathRepository = new HnppChwRepository(context, HnppApplication.getInstance().getContext());
-                EventClientRepository eventClientRepository = new EventClientRepository(pathRepository);
+                EventClientRepository eventClientRepository = new EventClientRepository();
                 JSONObject clientjson = eventClientRepository.getClient(db, lookUpBaseEntityId);
                 baseClient.setAddresses(updateWithSSLocation(clientjson));
             }

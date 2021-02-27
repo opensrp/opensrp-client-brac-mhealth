@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.webkit.SslErrorHandler;
@@ -16,13 +14,15 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.gson.Gson;
 
 import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.model.PaymentRequest;
 import org.smartregister.brac.hnpp.utils.BkashJavaScriptInterface;
-import org.smartregister.service.HTTPAgent;
 
 public class BkashActivity extends AppCompatActivity {
     WebView wvBkashPayment;

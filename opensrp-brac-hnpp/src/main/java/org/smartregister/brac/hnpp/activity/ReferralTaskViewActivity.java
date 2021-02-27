@@ -6,39 +6,28 @@ import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.design.widget.AppBarLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.View;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
+
+import com.google.android.material.appbar.AppBarLayout;
+
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONObject;
-import org.smartregister.brac.hnpp.HnppApplication;
-import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.utils.ChildDBConstants;
 import org.smartregister.chw.core.utils.CoreConstants;
-import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.listener.ReferralsTaskViewClickListener;
-import org.smartregister.clientandeventmodel.Event;
-import org.smartregister.clientandeventmodel.Obs;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.domain.Task;
-import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.Utils;
-import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.BaseRepository;
-import org.smartregister.sync.helper.ECSyncHelper;
-import org.smartregister.util.JsonFormUtils;
 import org.smartregister.view.activity.SecuredActivity;
 import org.smartregister.view.customcontrols.CustomFontTextView;
-
-import java.util.ArrayList;
-import java.util.Date;
 
 import timber.log.Timber;
 
@@ -188,7 +177,7 @@ public class ReferralTaskViewActivity extends SecuredActivity {
             clientReferralProblem.setText(getTask().getDescription());
             clientName.setText(getString(R.string.client_name_suffix, name));
             clientAge.setText(Utils.getTranslatedDate(Utils.getDuration(Utils.getValue(getPersonObjectClient().getColumnmaps(), DBConstants.KEY.DOB, false)), getBaseContext()));
-            referralDate.setText(org.smartregister.chw.core.utils.Utils.dd_MMM_yyyy.format(task.getExecutionStartDate().toDate()));
+            referralDate.setText(org.smartregister.chw.core.utils.Utils.dd_MMM_yyyy.format(task.getExecutionPeriod()));
 
             String parentFirstName = Utils.getValue(getPersonObjectClient().getColumnmaps(), ChildDBConstants.KEY.FAMILY_FIRST_NAME, true);
             String parentLastName = Utils.getValue(getPersonObjectClient().getColumnmaps(), ChildDBConstants.KEY.FAMILY_LAST_NAME, true);

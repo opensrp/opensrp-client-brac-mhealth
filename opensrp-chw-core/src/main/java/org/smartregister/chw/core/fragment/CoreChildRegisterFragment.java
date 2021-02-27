@@ -3,11 +3,12 @@ package org.smartregister.chw.core.fragment;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
 
 import org.apache.commons.lang3.StringUtils;
 import org.smartregister.chw.core.R;
@@ -90,7 +91,7 @@ public class CoreChildRegisterFragment extends BaseChwRegisterFragment implement
 
     @Override
     protected void startRegistration() {
-        ((CoreChildRegisterActivity) getActivity()).startFormActivity(CoreConstants.JSON_FORM.getChildRegister(), null, null);
+        ((CoreChildRegisterActivity) getActivity()).startFormActivity(CoreConstants.JSON_FORM.getChildRegister(), null, (String) null);
         //getActivity().startFormActivity(Utils.metadata().familyRegister.formName, null, null);
     }
 

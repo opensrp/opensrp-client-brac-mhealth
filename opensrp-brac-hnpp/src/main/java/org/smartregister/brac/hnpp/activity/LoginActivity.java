@@ -14,9 +14,11 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+
 import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -208,7 +210,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    mLoginPresenter.attemptLogin(userNameText.getText().toString(), passwordText.getText().toString());
+                    mLoginPresenter.attemptLogin(userNameText.getText().toString(), passwordText.getText().toString().toCharArray());
                 }
             },500);
 
@@ -275,11 +277,11 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         }
         String devieImei = HnppConstants.getDeviceId(mTelephonyManager,this,false);
         if(TextUtils.isEmpty(devieImei)){
-            android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(LoginActivity.this).create();
+            AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
             alertDialog.setTitle("এই ডিভাইস টির IMEI পাওয়া যাইনি");
             alertDialog.setCancelable(false);
 
-            alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE, "ওকে",
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "ওকে",
                     (dialog, which) -> {
                         if (mActivity != null) mActivity.finish();
                     });
@@ -339,11 +341,11 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         Log.v("IMEI_URL","showDialog:"+status);
         if(TextUtils.isEmpty(status) || !status.equalsIgnoreCase("true")){
             HnppConstants.updateDeviceVerified(false,devieImei);
-            android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(LoginActivity.this).create();
+            AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
             alertDialog.setTitle("এই ডিভাইস টি রেজিস্টার করা হয় নি।ডিভাইস id:"+devieImei);
             alertDialog.setCancelable(false);
 
-            alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE, "ওকে",
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "ওকে",
                     (dialog, which) -> {
                         if (mActivity != null) mActivity.finish();
                     });

@@ -1,8 +1,7 @@
 package org.smartregister.brac.hnpp.job;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-
+import androidx.annotation.NonNull;
 import org.smartregister.brac.hnpp.service.GuestMemberIdIntentService;
 import org.smartregister.brac.hnpp.sync.intent.PullHouseholdIdIntentService;
 import org.smartregister.family.util.Constants;

@@ -2,11 +2,10 @@ package org.smartregister.brac.hnpp.task;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
-import android.support.v4.app.ActivityCompat;
+
 import android.util.Log;
 
 import org.smartregister.brac.hnpp.HnppApplication;

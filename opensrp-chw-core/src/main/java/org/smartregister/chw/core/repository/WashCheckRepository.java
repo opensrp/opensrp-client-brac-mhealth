@@ -22,7 +22,7 @@ public class WashCheckRepository extends BaseRepository {
     private static final String WASH_CHECK_SQL = "CREATE TABLE ec_wash_check_log (family_id VARCHAR NOT NULL,last_visit VARCHAR,details_info TEXT)";
 
     public WashCheckRepository(Repository repository) {
-        super(repository);
+        super();
     }
 
     public static void createTable(SQLiteDatabase database) {

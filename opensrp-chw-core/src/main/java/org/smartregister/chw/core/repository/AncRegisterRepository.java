@@ -32,7 +32,7 @@ public class AncRegisterRepository extends BaseRepository {
 
 
     public AncRegisterRepository(Repository repository) {
-        super(repository);
+        super();
     }
 
     public HashMap<String, String> getFamilyNameAndPhone(String baseEntityID) {

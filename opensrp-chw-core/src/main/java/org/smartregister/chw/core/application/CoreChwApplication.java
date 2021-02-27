@@ -30,8 +30,8 @@ import org.smartregister.repository.TaskNotesRepository;
 import org.smartregister.repository.TaskRepository;
 import org.smartregister.sync.ClientProcessorForJava;
 import org.smartregister.sync.helper.ECSyncHelper;
+import org.smartregister.view.activity.BaseLoginActivity;
 import org.smartregister.view.activity.DrishtiApplication;
-import org.smartregister.view.activity.LoginActivity;
 
 import java.util.List;
 import java.util.Locale;
@@ -89,14 +89,14 @@ public class CoreChwApplication extends DrishtiApplication implements CoreApplic
 
     public TaskRepository getTaskRepository() {
         if (taskRepository == null) {
-            taskRepository = new TaskRepository(getRepository(), new TaskNotesRepository(getRepository()));
+            taskRepository = new TaskRepository(new TaskNotesRepository());
         }
         return taskRepository;
     }
 
     public PlanDefinitionRepository getPlanDefinitionRepository() {
         if (planDefinitionRepository == null) {
-            planDefinitionRepository = new PlanDefinitionRepository(getRepository());
+            planDefinitionRepository = new PlanDefinitionRepository();
         }
         return planDefinitionRepository;
     }
@@ -109,7 +109,7 @@ public class CoreChwApplication extends DrishtiApplication implements CoreApplic
     @Override
     public void logoutCurrentUser() {
         //TODO need to open in production
-        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        Intent intent = new Intent(getApplicationContext(), BaseLoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -118,7 +118,7 @@ public class CoreChwApplication extends DrishtiApplication implements CoreApplic
         context.userService().logoutSession();
     }
     public void forceLogout() {
-        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        Intent intent = new Intent(getApplicationContext(), BaseLoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -128,14 +128,6 @@ public class CoreChwApplication extends DrishtiApplication implements CoreApplic
     }
 
 
-    @Override
-    public String getPassword() {
-        if (password == null) {
-            String username = getContext().allSharedPreferences().fetchRegisteredANM();
-            password = getContext().userService().getGroupId(username);
-        }
-        return password;
-    }
 
 
     public static ClientProcessorForJava getClientProcessor(android.content.Context context) {
@@ -151,7 +143,7 @@ public class CoreChwApplication extends DrishtiApplication implements CoreApplic
 
     public LocationRepository getLocationRepository() {
         if (locationRepository == null) {
-            locationRepository = new LocationRepository(getRepository());
+            locationRepository = new LocationRepository();
         }
         return locationRepository;
     }

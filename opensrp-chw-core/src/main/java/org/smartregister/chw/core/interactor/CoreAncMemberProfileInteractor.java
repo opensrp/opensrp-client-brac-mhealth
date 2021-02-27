@@ -2,7 +2,6 @@ package org.smartregister.chw.core.interactor;
 
 import android.content.Context;
 
-import org.ei.drishti.dto.AlertStatus;
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 import org.smartregister.chw.anc.AncLibrary;
@@ -16,6 +15,7 @@ import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.contract.AncMemberProfileContract;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.CoreReferralUtils;
+import org.smartregister.domain.AlertStatus;
 import org.smartregister.domain.Task;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.BaseRepository;
@@ -78,12 +78,11 @@ public class CoreAncMemberProfileInteractor extends BaseAncMemberProfileInteract
         task.setGroupIdentifier("iudsfsigdfdsyud");
         task.setStatus(Task.TaskStatus.READY);
         task.setBusinessStatus(CoreConstants.BUSINESS_STATUS.REFERRED);
-        task.setPriority(3);
+        task.setPriority(Task.TaskPriority.ASAP);
         task.setCode("Referral");
         task.setDescription("Review and perform the referral for the client"); //set to string
         task.setForEntity(baseEntityId);
         DateTime now = new DateTime();
-        task.setExecutionStartDate(now);
         task.setAuthoredOn(now);
         task.setLastModified(now);
         task.setOwner("iudsfsigdfdsyud");

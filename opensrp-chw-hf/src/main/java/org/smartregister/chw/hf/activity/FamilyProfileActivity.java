@@ -1,6 +1,7 @@
 package org.smartregister.chw.hf.activity;
 
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
+
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
