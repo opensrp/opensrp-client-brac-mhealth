@@ -42,7 +42,7 @@ public class HnppVisitLogRepository extends BaseRepository {
     private static final String VISIT_LOG_SQL = "CREATE TABLE ec_visit_log (visit_id VARCHAR,visit_type VARCHAR,base_entity_id VARCHAR NOT NULL,family_id VARCHAR NOT NULL,visit_date VARCHAR,event_type VARCHAR,visit_json TEXT,pregnant_status VARCHAR)";
 
     public HnppVisitLogRepository(Repository repository) {
-        super(repository);
+        super();
     }
 
     public static void createTable(SQLiteDatabase database) {

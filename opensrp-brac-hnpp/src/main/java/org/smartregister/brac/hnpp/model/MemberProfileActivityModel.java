@@ -10,14 +10,14 @@ public class MemberProfileActivityModel extends BaseFamilyProfileActivityModel {
     @Override
     public String countSelect(String tableName, String mainCondition) {
         SmartRegisterQueryBuilder countQueryBuilder = new SmartRegisterQueryBuilder();
-        countQueryBuilder.SelectInitiateMainTableCounts(tableName);
+        countQueryBuilder.selectInitiateMainTableCounts(tableName);
         return countQueryBuilder.mainCondition(mainCondition);
     }
 
     @Override
     public String mainSelect(String tableName, String mainCondition) {
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
-        queryBUilder.SelectInitiateMainTable(tableName, mainColumns(tableName));
+        queryBUilder.selectInitiateMainTable(tableName, mainColumns(tableName));
         queryBUilder.customJoin(String.format(" left join %s on %s.%s = %s.%s ",
                 CoreConstants.TABLE_NAME.CHILD, CoreConstants.TABLE_NAME.CHILD_ACTIVITY, DBConstants.KEY.BASE_ENTITY_ID,
                 CoreConstants.TABLE_NAME.CHILD, DBConstants.KEY.BASE_ENTITY_ID));

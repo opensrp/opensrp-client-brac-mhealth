@@ -26,7 +26,7 @@
 //    private static final String HOME_VISIT_SERVICE_SQL = "CREATE TABLE home_visit_service (home_visit_id VARCHAR NOT NULL,event_type VARCHAR,details TEXT,date DATETIME NOT NULL)";
 //
 //    public HomeVisitServiceRepository(Repository repository) {
-//        super(repository);
+//        super();
 //    }
 //
 //    public static void createTable(SQLiteDatabase database) {

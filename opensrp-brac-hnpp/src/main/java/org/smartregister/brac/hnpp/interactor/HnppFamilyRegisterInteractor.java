@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
 public class HnppFamilyRegisterInteractor extends org.smartregister.family.interactor.FamilyRegisterInteractor {
 
 
@@ -106,8 +107,8 @@ public class HnppFamilyRegisterInteractor extends org.smartregister.family.inter
                         JsonFormUtils.saveImage(baseEvent.getProviderId(), baseClient.getBaseEntityId(), imageLocation);
                     }
                 }
-                org.smartregister.domain.db.Event domainEvent = JsonFormUtils.gson.fromJson(eventJson.toString(), org.smartregister.domain.db.Event.class);
-                org.smartregister.domain.db.Client domainClient = JsonFormUtils.gson.fromJson(clientJson.toString(), org.smartregister.domain.db.Client.class);
+                org.smartregister.domain.Event domainEvent = JsonFormUtils.gson.fromJson(eventJson.toString(), org.smartregister.domain.Event.class);
+                org.smartregister.domain.Client domainClient = JsonFormUtils.gson.fromJson(clientJson.toString(), org.smartregister.domain.Client.class);
                 eventClientList.add(new EventClient(domainEvent, domainClient));
             }
 

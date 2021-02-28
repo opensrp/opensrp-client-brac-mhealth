@@ -58,7 +58,7 @@ public class TargetVsAchievementRepository extends BaseRepository {
 
 
     public TargetVsAchievementRepository(Repository repository) {
-        super(repository);
+        super();
     }
 
     protected String getLocationTableName() {

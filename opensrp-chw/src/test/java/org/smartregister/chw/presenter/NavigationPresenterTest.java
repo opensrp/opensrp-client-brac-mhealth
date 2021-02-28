@@ -1,7 +1,7 @@
 package org.smartregister.chw.presenter;
 
 
-import android.support.v7.app.AppCompatActivity;
+import AppCompatActivity;
 
 import org.junit.Assert;
 import org.junit.Before;

@@ -57,7 +57,7 @@ public class StockRepository extends BaseRepository {
 
 
     public StockRepository(Repository repository) {
-        super(repository);
+        super();
     }
 
     protected String getLocationTableName() {

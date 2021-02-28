@@ -56,7 +56,7 @@ public class IndicatorRepository extends BaseRepository {
 
 
     public IndicatorRepository(Repository repository) {
-        super(repository);
+        super();
     }
 
     protected String getLocationTableName() {

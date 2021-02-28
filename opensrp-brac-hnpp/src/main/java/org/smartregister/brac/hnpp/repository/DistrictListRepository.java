@@ -48,7 +48,7 @@ public class DistrictListRepository extends BaseRepository {
 
 
     public DistrictListRepository(Repository repository) {
-        super(repository);
+        super();
     }
 
     protected String getLocationTableName() {

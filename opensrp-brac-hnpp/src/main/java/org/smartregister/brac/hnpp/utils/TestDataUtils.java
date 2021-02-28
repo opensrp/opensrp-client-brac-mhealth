@@ -47,12 +47,10 @@ public class TestDataUtils {
         task.setGroupIdentifier("group1");
         task.setStatus(Task.TaskStatus.READY);
         task.setBusinessStatus(businessStatus);
-        task.setPriority(3);
         task.setCode(intervention);
         task.setDescription("referralDescription");
         task.setFocus(intervention);
         task.setForEntity(entityId);
-        task.setExecutionStartDate(now);
         task.setAuthoredOn(now);
         task.setLastModified(now);
         task.setOwner(sharedPreferences.fetchRegisteredANM());

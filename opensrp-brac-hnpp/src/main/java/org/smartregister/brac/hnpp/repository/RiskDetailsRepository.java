@@ -53,7 +53,7 @@ public class RiskDetailsRepository extends BaseRepository {
 
 
     public RiskDetailsRepository(Repository repository) {
-        super(repository);
+        super();
     }
 
     protected String getLocationTableName() {

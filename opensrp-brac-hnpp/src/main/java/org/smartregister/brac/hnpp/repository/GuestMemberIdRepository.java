@@ -38,7 +38,7 @@ public class GuestMemberIdRepository extends BaseRepository {
 
 
     public GuestMemberIdRepository(Repository repository) {
-        super(repository);
+        super();
     }
 
     protected static void createTable(SQLiteDatabase database) {

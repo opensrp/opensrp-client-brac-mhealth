@@ -150,11 +150,11 @@ public class LivePreference extends Preference  {
                         updateAppData(false);
                     }
                 }else{
-                    android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(getContext()).create();
+                    AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
                     alertDialog.setTitle("পাসওয়ার্ড মিলে নাই");
                     alertDialog.setCancelable(false);
 
-                    alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE, "ওকে",
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "ওকে",
                             (dialog, which) -> {
 
                             });

@@ -15,16 +15,7 @@ import org.smartregister.view.fragment.BaseRegisterFragment;
 import java.util.ArrayList;
 
 public class AncRegisterActivity extends CoreAncRegisterActivity {
-    @Override
-    public void onRegistrationSaved(boolean isEdit) {
-        /*if (hasChildRegistration) {
-            startReferralsRegisterActivity(PncRegisterActivity.class);
-        } else*/
-        if (!hasChildRegistration) {
-            startRegisterActivity(AncRegisterActivity.class);
-        }
-        finish();
-    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +58,7 @@ public class AncRegisterActivity extends CoreAncRegisterActivity {
         finish();
     }
 
-    private void startRegisterActivity(Class registerClass) {
+    protected void startRegisterActivity(Class registerClass) {
         Intent intent = new Intent(this, registerClass);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         this.startActivity(intent);

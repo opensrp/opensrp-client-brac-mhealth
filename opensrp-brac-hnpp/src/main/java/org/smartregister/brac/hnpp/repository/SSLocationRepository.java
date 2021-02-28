@@ -54,7 +54,7 @@ public class SSLocationRepository extends BaseRepository {
 
 
     public SSLocationRepository(Repository repository) {
-        super(repository);
+        super();
     }
 
     protected String getLocationTableName() {

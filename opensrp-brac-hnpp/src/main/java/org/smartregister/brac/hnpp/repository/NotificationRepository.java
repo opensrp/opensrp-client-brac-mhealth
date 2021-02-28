@@ -47,7 +47,7 @@ public class NotificationRepository extends BaseRepository {
 
 
     public NotificationRepository(Repository repository) {
-        super(repository);
+        super();
     }
 
     protected String getLocationTableName() {

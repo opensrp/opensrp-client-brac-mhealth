@@ -204,13 +204,14 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
 
     }
     public void forceLogoutForRemoteLogin() {
+        String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
         JobManager.instance().cancelAll();
         SSLocationHelper.clearLocation();
         Intent intent = new Intent(this,org.smartregister.brac.hnpp.activity.LoginActivity.class);
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        context.userService().forceRemoteLogin();
+        context.userService().forceRemoteLogin(userName);
         context.userService().logoutSession();
         startActivity(intent);
     }
@@ -342,7 +343,7 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
     }
     public EventClientRepository getEventClientRepository() {
         if (eventClientRepository == null) {
-            eventClientRepository = new EventClientRepository(getRepository());
+            eventClientRepository = new EventClientRepository();
         }
         return eventClientRepository;
     }
