@@ -43,6 +43,8 @@ import org.smartregister.family.util.AppExecutors;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.simprint.SimPrintsConstantHelper;
 import org.smartregister.simprint.SimPrintsHelper;
+import org.smartregister.simprint.SimPrintsIdentification;
+import org.smartregister.simprint.SimPrintsIdentifyActivity;
 import org.smartregister.view.activity.SecuredActivity;
 
 import java.util.ArrayList;

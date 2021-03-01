@@ -147,28 +147,7 @@
             android:name="io.fabric.ApiKey"
             android:value="3f94f9c3caeff331b3a2bd8c2182b663ad6a955a" />
 
-        <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="${applicationId}.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/captured_images_path" />
-        </provider>
 
-        <service android:name="org.smartregister.immunization.service.intent.VaccineIntentService" />
-        <service android:name="org.smartregister.immunization.service.intent.RecurringIntentService" />
-        <service android:name="org.smartregister.sync.intent.PullUniqueIdsIntentService" />
-        <service android:name="org.smartregister.sync.intent.SyncIntentService" />
-        <service android:name="org.smartregister.sync.intent.ExtendedSyncIntentService" />
-        <service android:name="org.smartregister.sync.intent.ValidateIntentService" />
-        <service android:name="org.smartregister.service.ImageUploadSyncService" />
-        <service android:name="org.smartregister.chw.anc.intent.HomeVisitIntent" />
-        <service android:name="org.smartregister.sync.intent.SyncTaskIntentService" />
-        <service android:name="org.smartregister.sync.intent.PlanIntentService" />
-        <service android:name="org.smartregister.chw.intent.ChwPncCloseDateIntent" />
-        <service android:name="org.smartregister.reporting.service.IndicatorGeneratorIntentService" />
 
         <uses-library
             android:name="org.apache.http.legacy"

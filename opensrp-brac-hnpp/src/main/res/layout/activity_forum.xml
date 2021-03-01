@@ -14,12 +14,12 @@
         <ImageView
             android:id="@+id/backBtn"
             android:src="@drawable/ic_arrow_back_white_24dp"
-            android:tint="@color/white"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            app:tint="@color/white" />
 
         <org.smartregister.view.customcontrols.CustomFontTextView
             android:id="@+id/textview_detail_two"
@@ -37,7 +37,7 @@
         <ImageView
             android:id="@+id/sort_btn"
             android:src="@drawable/ic_sort"
-            android:tint="@color/white"
+            app:tint="@color/white"
             android:visibility="gone"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
@@ -46,14 +46,14 @@
             android:layout_height="wrap_content"/>
 
     </RelativeLayout>
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:layout_margin="5dp"
                 android:padding="10dp"
                 android:elevation="5dp"
@@ -72,6 +72,7 @@
                         android:layout_gravity="center"
                         android:layout_width="80dp"
                         android:layout_height="80dp"/>
+
                     <org.smartregister.view.customcontrols.CustomFontTextView
                         android:text="@string/title_kishori"
                         android:textColor="@color/black"
@@ -83,8 +84,8 @@
                 </LinearLayout>
 
 
-            </android.support.v7.widget.CardView>
-            <android.support.v7.widget.CardView
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
                 android:layout_margin="5dp"
                 android:padding="10dp"
                 android:elevation="5dp"
@@ -114,8 +115,8 @@
                 </LinearLayout>
 
 
-            </android.support.v7.widget.CardView>
-            <android.support.v7.widget.CardView
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
                 android:layout_margin="5dp"
                 android:padding="10dp"
                 android:elevation="5dp"
@@ -145,8 +146,8 @@
                 </LinearLayout>
 
 
-            </android.support.v7.widget.CardView>
-            <android.support.v7.widget.CardView
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
                 android:layout_margin="5dp"
                 android:padding="10dp"
                 android:elevation="5dp"
@@ -176,8 +177,8 @@
                 </LinearLayout>
 
 
-            </android.support.v7.widget.CardView>
-            <android.support.v7.widget.CardView
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
                 android:layout_margin="5dp"
                 android:padding="10dp"
                 android:elevation="5dp"
@@ -207,8 +208,8 @@
                 </LinearLayout>
 
 
-            </android.support.v7.widget.CardView>
-            <android.support.v7.widget.CardView
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
                 android:layout_margin="5dp"
                 android:padding="10dp"
                 android:elevation="5dp"
@@ -238,9 +239,9 @@
                 </LinearLayout>
 
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 
 </LinearLayout>

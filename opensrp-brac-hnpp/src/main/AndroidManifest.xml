@@ -29,7 +29,7 @@
         android:requestLegacyExternalStorage="true"
         android:theme="@style/HNPPTheme"
         android:usesCleartextTraffic="true"
-        tools:replace="android:allowBackup,android:icon">
+        tools:replace="android:allowBackup,android:icon,android:theme">
 
     <activity android:name=".activity.PaymentSuccess_Activity" android:screenOrientation="portrait"
         android:theme="@style/HNPPTheme.NoActionBar"
@@ -192,7 +192,7 @@
             android:value="3f94f9c3caeff331b3a2bd8c2182b663ad6a955a" />
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -348,7 +348,6 @@
         <service android:name="org.smartregister.sync.intent.ExtendedSyncIntentService" />
         <service android:name="org.smartregister.sync.intent.ValidateIntentService" />
         <service android:name="org.smartregister.service.ImageUploadSyncService" />
-        <service android:name="org.smartregister.chw.anc.intent.HomeVisitIntent" />
         <service android:name="org.smartregister.sync.intent.LocationIntentService" />
         <service android:name=".sync.intent.HfSyncTaskIntentService" />
         <service android:name="org.smartregister.sync.intent.PlanIntentService" />

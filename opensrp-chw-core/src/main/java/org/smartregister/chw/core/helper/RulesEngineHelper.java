@@ -70,7 +70,7 @@ public class RulesEngineHelper {
                 ruleMap.put(fileName, MVELRuleFactory.createRulesFrom(bufferedReader));
             }
             return ruleMap.get(fileName);
-        } catch (IOException e) {
+        } catch (Exception e) {
             return null;
         }
     }

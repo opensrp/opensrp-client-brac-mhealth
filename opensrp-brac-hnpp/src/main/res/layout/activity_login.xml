@@ -69,7 +69,7 @@
             android:id="@+id/middle_section"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 app:cardCornerRadius="10dp"
                 app:cardElevation="10dp"
                 android:layout_margin="50dp"
@@ -90,7 +90,7 @@
                         android:textSize="@dimen/barcode_toolbar_text_size"
                         android:layout_marginBottom="@dimen/btn_margin_bottom" />
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:hintEnabled="false"
@@ -126,9 +126,9 @@
                             android:layout_marginLeft="15dp"
                             android:background="@android:color/black"/>
 
-                    </android.support.design.widget.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                 <android.support.design.widget.TextInputLayout
+                 <com.google.android.material.textfield.TextInputLayout
                      android:layout_width="match_parent"
                      android:layout_height="wrap_content"
                      app:passwordToggleEnabled="true"
@@ -168,7 +168,7 @@
                          android:layout_marginLeft="15dp"
                          android:background="@android:color/black"/>
 
-                 </android.support.design.widget.TextInputLayout>
+                 </com.google.android.material.textfield.TextInputLayout>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -218,7 +218,7 @@
                         android:textSize="18sp" />
 
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
 
 
@@ -273,9 +273,9 @@
                     android:layout_marginTop="10dp"
                     android:adjustViewBounds="false"
                     android:cropToPadding="false"
-                    android:tint="#800000"
                     android:scaleType="centerInside"
-                    android:src="@drawable/ic_mpower" />
+                    android:src="@drawable/ic_mpower"
+                    app:tint="#800000" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
