@@ -6,6 +6,7 @@ import android.util.Log;
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.smartregister.AllConstants;
 import org.smartregister.chw.anc.repository.VisitDetailsRepository;
 import org.smartregister.chw.anc.repository.VisitRepository;
@@ -23,30 +24,33 @@ import org.smartregister.immunization.util.IMDatabaseUtils;
 import org.smartregister.repository.AlertRepository;
 import org.smartregister.repository.EventClientRepository;
 import org.smartregister.repository.LocationRepository;
+import org.smartregister.repository.Repository;
 import org.smartregister.repository.SettingsRepository;
 import org.smartregister.repository.UniqueIdRepository;
+import org.smartregister.view.activity.DrishtiApplication;
 
 import timber.log.Timber;
 
-public class HnppChwRepository extends CoreChwRepository {
-    private Context context;
+public class HnppChwRepository extends Repository {
+    protected SQLiteDatabase readableDatabase;
+    protected SQLiteDatabase writableDatabase;
 
-    public HnppChwRepository(Context context, org.smartregister.Context openSRPContext) {
-        super(context, AllConstants.DATABASE_NAME, BuildConfig.DATABASE_VERSION, openSRPContext.session(), CoreChwApplication.createCommonFtsObject(), openSRPContext.sharedRepositoriesArray());
-        this.context = context;
+    public HnppChwRepository(Context context,org.smartregister.Context openSRPContext) {
+        super(context,
+                AllConstants.DATABASE_NAME,
+                BuildConfig.DATABASE_VERSION,
+                openSRPContext.session(),
+                openSRPContext.commonFtsObject(),
+                openSRPContext.sharedRepositoriesArray());
     }
 
     public void deleteDatabase(){
-        context.deleteDatabase(AllConstants.DATABASE_NAME);
+        DrishtiApplication.getInstance().deleteDatabase(AllConstants.DATABASE_NAME);
     }
 
     @Override
     public void onCreate(SQLiteDatabase database) {
         super.onCreate(database);
-    }
-
-    @Override
-    protected void onCreation(SQLiteDatabase database) {
         SSLocationRepository.createTable(database);
         HouseholdIdRepository.createTable(database);
         VisitRepository.createTable(database);
@@ -58,21 +62,23 @@ public class HnppChwRepository extends CoreChwRepository {
         RecurringServiceTypeRepository.createTable(database);
         RecurringServiceRecordRepository.createTable(database);
         RecurringServiceTypeRepository recurringServiceTypeRepository = ImmunizationLibrary.getInstance().recurringServiceTypeRepository();
-        IMDatabaseUtils.populateRecurringServices(context, database, recurringServiceTypeRepository);
-        upgradeToVersion18(context,database);
-        upgradeToVersion19(context,database);
-        upgradeToVersion20(context,database);
-        upgradeToVersion21(context,database);
-        upgradeToVersion22(context,database);
-        upgradeToVersion25(context,database);
-        upgradeToVersion26(context,database);
-        upgradeToVersion27(context,database);
-        upgradeToVersion28(context,database);
-        upgradeToVersion29(context,database);
-        upgradeToVersion30(context,database);
-        upgradeToVersion31(context,database);
+        IMDatabaseUtils.populateRecurringServices(DrishtiApplication.getInstance().getApplicationContext(), database, recurringServiceTypeRepository);
 
+        upgradeToVersion18(database);
+        upgradeToVersion19(database);
+        upgradeToVersion20(database);
+        upgradeToVersion21(database);
+        upgradeToVersion22(database);
+        upgradeToVersion25(database);
+        upgradeToVersion26(database);
+        upgradeToVersion27(database);
+        upgradeToVersion28(database);
+        upgradeToVersion29(database);
+        upgradeToVersion30(database);
+        upgradeToVersion31(database);
     }
+
+   
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -85,70 +91,70 @@ public class HnppChwRepository extends CoreChwRepository {
             switch (upgradeTo) {
 
                 case 9:
-                    upgradeToVersion9(context, db);
+                    upgradeToVersion9( db);
                     break;
                 case 10:
-                    upgradeToVersion10(context,db);
+                    upgradeToVersion10(db);
                     break;
                 case 11:
-                    upgradeToVersion11(context, db);
+                    upgradeToVersion11( db);
                     break;
                 case 12:
-                    upgradeToVersion12(context, db);
+                    upgradeToVersion12( db);
                     break;
                 case 13:
-                    upgradeToVersion13(context, db);
+                    upgradeToVersion13( db);
                     break;
                 case 16:
-                    upgradeToVersion16(context, db);
+                    upgradeToVersion16( db);
                     break;
                 case 17:
-                    upgradeToVersion17(context, db);
+                    upgradeToVersion17( db);
                     break;
                 case 18:
-                    upgradeToVersion18(context, db);
+                    upgradeToVersion18( db);
                     break;
                 case 19:
-                    upgradeToVersion19(context, db);
+                    upgradeToVersion19( db);
                     break;
                 case 20:
-                    upgradeToVersion20(context,db);
+                    upgradeToVersion20(db);
                     break;
                 case 21:
-                    upgradeToVersion21(context,db);
+                    upgradeToVersion21(db);
                     break;
                 case 22:
-                    upgradeToVersion22(context,db);
+                    upgradeToVersion22(db);
                     break;
                 case 23:
-                    upgradeToVersion23(context,db);
+                    upgradeToVersion23(db);
                     break;
                 case 24:
-                    upgradeToVersion24(context,db);
+                    upgradeToVersion24(db);
                     break;
                 case 25:
-                    upgradeToVersion25(context,db);
+                    upgradeToVersion25(db);
                     break;
                 case 26:
-                    upgradeToVersion26(context,db);
+                    upgradeToVersion26(db);
                     break;
                 case 27:
-                    upgradeToVersion27(context,db);
+                    upgradeToVersion27(db);
                     break;
                 case 28:
-                    upgradeToVersion28(context,db);
+                    upgradeToVersion28(db);
                     break;
                 case 29:
-                    upgradeToVersion29(context,db);
+                    upgradeToVersion29(db);
                     break;
                 case 30:
-                    upgradeToVersion30(context,db);
+                    upgradeToVersion30(db);
                     break;
                 case 31:
-                    upgradeToVersion31(context,db);
+                    upgradeToVersion31(db);
                     break;
                 case 32:
-                    upgradeToVersion32(context,db);
+                    upgradeToVersion32(db);
                     break;
                 default:
                     break;
@@ -156,7 +162,45 @@ public class HnppChwRepository extends CoreChwRepository {
             upgradeTo++;
         }
     }
-    private void upgradeToVersion20(Context context, SQLiteDatabase db) {
+    @Override
+    public synchronized SQLiteDatabase getReadableDatabase(String password) {
+        if (StringUtils.isBlank(password)) {
+            throw new IllegalStateException("Password is blank");
+        }
+        try {
+            if (readableDatabase == null || !readableDatabase.isOpen()) {
+                readableDatabase = super.getReadableDatabase(password);
+            }
+            return readableDatabase;
+        } catch (Exception e) {
+            Timber.e(e, "Database Error. ");
+            return null;
+        }
+
+    }
+
+    @Override
+    public synchronized SQLiteDatabase getWritableDatabase(String password) {
+        if (StringUtils.isBlank(password)) {
+            throw new IllegalStateException("Password is blank");
+        } else if (writableDatabase == null || !writableDatabase.isOpen()) {
+            writableDatabase = super.getWritableDatabase(password);
+        }
+        return writableDatabase;
+    }
+
+    @Override
+    public synchronized void close() {
+        if (readableDatabase != null) {
+            readableDatabase.close();
+        }
+
+        if (writableDatabase != null) {
+            writableDatabase.close();
+        }
+        super.close();
+    }
+    private void upgradeToVersion20(SQLiteDatabase db) {
         try {
             db.execSQL("ALTER TABLE ec_child ADD COLUMN birth_id VARCHAR;");
 
@@ -164,7 +208,7 @@ public class HnppChwRepository extends CoreChwRepository {
 
         }
     }
-    private void upgradeToVersion21(Context context, SQLiteDatabase db) {
+    private void upgradeToVersion21(SQLiteDatabase db) {
         try {
             db.execSQL("ALTER TABLE ec_visit_log ADD COLUMN pregnant_status VARCHAR;");
 
@@ -172,7 +216,7 @@ public class HnppChwRepository extends CoreChwRepository {
 
         }
     }
-    private void upgradeToVersion22(Context context, SQLiteDatabase db) {
+    private void upgradeToVersion22(SQLiteDatabase db) {
         try {
             db.execSQL("ALTER TABLE ec_family_member ADD COLUMN is_risk VARCHAR;");
             db.execSQL("ALTER TABLE ec_family_member ADD COLUMN is_corona VARCHAR;");
@@ -181,7 +225,7 @@ public class HnppChwRepository extends CoreChwRepository {
 
         }
     }
-    private void upgradeToVersion23(Context context, SQLiteDatabase db) {
+    private void upgradeToVersion23(SQLiteDatabase db) {
         try {
             db.execSQL("ALTER TABLE ec_family ADD COLUMN homestead_land VARCHAR;");
             db.execSQL("ALTER TABLE ec_family ADD COLUMN cultivable_land VARCHAR;");
@@ -190,7 +234,7 @@ public class HnppChwRepository extends CoreChwRepository {
 
         }
     }
-    private void upgradeToVersion24(Context context, SQLiteDatabase db) {
+    private void upgradeToVersion24(SQLiteDatabase db) {
         try {
             db.execSQL("CREATE TABLE ec_guest_member (id VARCHAR,_id VARCHAR,base_entity_id VARCHAR,ss_name VARCHAR,village_name VARCHAR,village_id VARCHAR,unique_id VARCHAR,first_name VARCHAR,father_name VARCHAR,phone_number VARCHAR," +
                     "is_birthday_known VARCHAR,dob VARCHAR,estimated_age VARCHAR,gender VARCHAR,dod VARCHAR,entity_type VARCHAR,date_removed VARCHAR,last_interacted_with LONG,is_closed VARCHAR" +
@@ -199,25 +243,25 @@ public class HnppChwRepository extends CoreChwRepository {
 
         }
     }
-    private void upgradeToVersion19(Context context, SQLiteDatabase db) {
+    private void upgradeToVersion19(SQLiteDatabase db) {
         DistrictListRepository.createTable(db);
 
     }
-    private void upgradeToVersion25(Context context, SQLiteDatabase db) {
+    private void upgradeToVersion25(SQLiteDatabase db) {
         db.execSQL("ALTER TABLE ec_family_member ADD COLUMN risk_event_type VARCHAR;");
         db.execSQL("ALTER TABLE ec_child ADD COLUMN is_risk VARCHAR;");
         RiskDetailsRepository.createTable(db);
 
     }
-    private void upgradeToVersion26(Context context, SQLiteDatabase db) {
+    private void upgradeToVersion26(SQLiteDatabase db) {
         TargetVsAchievementRepository.createTable(db);
 
     }
-    private void upgradeToVersion27(Context context, SQLiteDatabase db) {
+    private void upgradeToVersion27(SQLiteDatabase db) {
         NotificationRepository.createTable(db);
 
     }
-    private void upgradeToVersion28(Context context, SQLiteDatabase db) {
+    private void upgradeToVersion28(SQLiteDatabase db) {
         StockRepository.createTable(db);
         GuestMemberIdRepository.createTable(db);
         try {
@@ -228,7 +272,7 @@ public class HnppChwRepository extends CoreChwRepository {
         }
 
     }
-    private void upgradeToVersion29(Context context, SQLiteDatabase db) {
+    private void upgradeToVersion29(SQLiteDatabase db) {
         try {
             db.execSQL("ALTER TABLE ss_location ADD COLUMN sk_name VARCHAR;");
             db.execSQL("ALTER TABLE ss_location ADD COLUMN sk_user_name VARCHAR;");
@@ -240,7 +284,7 @@ public class HnppChwRepository extends CoreChwRepository {
         }
 
     }
-    private void upgradeToVersion30(Context context, SQLiteDatabase db) {
+    private void upgradeToVersion30(SQLiteDatabase db) {
         try {
             db.execSQL("ALTER TABLE ec_family ADD COLUMN provider_id VARCHAR;");
 
@@ -249,7 +293,7 @@ public class HnppChwRepository extends CoreChwRepository {
         }
 
     }
-    private void upgradeToVersion31(Context context, SQLiteDatabase db) {
+    private void upgradeToVersion31(SQLiteDatabase db) {
         IndicatorRepository.createTable(db);
         try{
             db.execSQL("ALTER TABLE ec_guest_member ADD COLUMN _id VARCHAR;");
@@ -260,7 +304,7 @@ public class HnppChwRepository extends CoreChwRepository {
 
 
     }
-    private void upgradeToVersion32(Context context, SQLiteDatabase db) {
+    private void upgradeToVersion32(SQLiteDatabase db) {
         try {
             db.execSQL("ALTER TABLE ec_family_member ADD COLUMN difficulty_seeing_hearing VARCHAR;");
             db.execSQL("ALTER TABLE ec_family_member ADD COLUMN difficulty_walking_up_down VARCHAR;");
@@ -274,7 +318,7 @@ public class HnppChwRepository extends CoreChwRepository {
 
     }
 
-    private void upgradeToVersion18(Context context, SQLiteDatabase db) {
+    private void upgradeToVersion18( SQLiteDatabase db) {
         db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_EVENT_ID_COL);
         db.execSQL(VaccineRepository.EVENT_ID_INDEX);
         db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_FORMSUBMISSION_ID_COL);
@@ -282,7 +326,7 @@ public class HnppChwRepository extends CoreChwRepository {
         db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL);
         db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL_INDEX);
         db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_HIA2_STATUS_COL);
-        IMDatabaseUtils.accessAssetsAndFillDataBaseForVaccineTypes(context, db);
+        IMDatabaseUtils.accessAssetsAndFillDataBaseForVaccineTypes(DrishtiApplication.getInstance(), db);
         db.execSQL(VaccineRepository.ALTER_ADD_CREATED_AT_COLUMN);
         VaccineRepository.migrateCreatedAt(db);
         db.execSQL(RecurringServiceRecordRepository.ALTER_ADD_CREATED_AT_COLUMN);
@@ -302,7 +346,7 @@ public class HnppChwRepository extends CoreChwRepository {
     }
 
 
-    private void upgradeToVersion9(Context context, SQLiteDatabase db) {
+    private void upgradeToVersion9(SQLiteDatabase db) {
         try {
             VaccineRepository.createTable(db);
             VaccineNameRepository.createTable(db);
@@ -310,7 +354,8 @@ public class HnppChwRepository extends CoreChwRepository {
             RecurringServiceTypeRepository.createTable(db);
             RecurringServiceRecordRepository.createTable(db);
             RecurringServiceTypeRepository recurringServiceTypeRepository = ImmunizationLibrary.getInstance().recurringServiceTypeRepository();
-            IMDatabaseUtils.populateRecurringServices(context, db, recurringServiceTypeRepository);
+            IMDatabaseUtils.populateRecurringServices(DrishtiApplication.getInstance().getApplicationContext(), db, recurringServiceTypeRepository);
+
 
             db.execSQL("ALTER TABLE ec_child ADD COLUMN birth_weight_taken VARCHAR;");
             db.execSQL("ALTER TABLE ec_child ADD COLUMN birth_weight VARCHAR;");
@@ -338,7 +383,7 @@ public class HnppChwRepository extends CoreChwRepository {
 
         }
     }
-    private void upgradeToVersion10(Context context, SQLiteDatabase db) {
+    private void upgradeToVersion10(SQLiteDatabase db) {
 
         try{
             db.execSQL("ALTER TABLE ec_family ADD COLUMN occupation VARCHAR;");
@@ -355,7 +400,7 @@ public class HnppChwRepository extends CoreChwRepository {
 
 
     }
-    private void upgradeToVersion11(Context context, SQLiteDatabase db) {
+    private void upgradeToVersion11(SQLiteDatabase db) {
 
         try{
             db.execSQL("CREATE TABLE ec_visit_log (visit_id VARCHAR,visit_type VARCHAR,base_entity_id VARCHAR NOT NULL,visit_date VARCHAR,event_type VARCHAR,visit_json TEXT)");
@@ -365,7 +410,7 @@ public class HnppChwRepository extends CoreChwRepository {
         }
 
     }
-    private void upgradeToVersion13(Context context, SQLiteDatabase db) {
+    private void upgradeToVersion13(SQLiteDatabase db) {
 
         try{
             db.execSQL("ALTER TABLE ec_family ADD COLUMN last_home_visit VARCHAR;");
@@ -374,7 +419,7 @@ public class HnppChwRepository extends CoreChwRepository {
         }
 
     }
-    private void upgradeToVersion12(Context context, SQLiteDatabase db) {
+    private void upgradeToVersion12(SQLiteDatabase db) {
 
         try{
             db.execSQL("ALTER TABLE ec_anc_register ADD COLUMN height VARCHAR;");
@@ -383,7 +428,7 @@ public class HnppChwRepository extends CoreChwRepository {
         }
 
     }
-    private void upgradeToVersion16(Context context, SQLiteDatabase db) {
+    private void upgradeToVersion16(SQLiteDatabase db) {
 
         try{
             db.execSQL("ALTER TABLE ec_family ADD COLUMN date_created VARCHAR;");
@@ -392,7 +437,7 @@ public class HnppChwRepository extends CoreChwRepository {
         }
 
     }
-    private void upgradeToVersion17(Context context, SQLiteDatabase db) {
+    private void upgradeToVersion17(SQLiteDatabase db) {
 
         try{
             db.execSQL("ALTER TABLE ec_visit_log ADD COLUMN family_id VARCHAR;");

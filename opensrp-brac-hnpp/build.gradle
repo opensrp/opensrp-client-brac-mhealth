@@ -130,6 +130,8 @@ android {
             buildConfigField "int", "PULL_SSLOCATION", '180'
             buildConfigField "int", "REPORT_INDICATOR_GENERATION_MINUTES", '15'
             buildConfigField "int", "HOME_VISIT_MINUTES", '10'
+            buildConfigField "String", "OAUTH_CLIENT_ID", '"opensrp-trusted-client"'
+            buildConfigField "String", "OAUTH_CLIENT_SECRET", '"O@aTHS#cr3t"'
             testCoverageEnabled true
         }
     }
