@@ -120,7 +120,6 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
         //Necessary to determine the right form to pick from assets
         CoreConstants.JSON_FORM.setLocaleAndAssetManager(HnppApplication.getCurrentLocale(),
                 HnppApplication.getInstance().getApplicationContext().getAssets());
-
         context.updateApplicationContext(getApplicationContext());
         context.updateCommonFtsObject(createCommonFtsObject());
 

@@ -309,7 +309,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
                     // baseUrl = "http://mhealthtest.brac.net:8080/opensrp";
                             String url = baseUrl + "/deviceverify/get?imei=" + devieImei;
                             Log.v("IMEI_URL","url:"+url);
-                            Response resp = CoreLibrary.getInstance().context().getHttpAgent().fetchWithoutAuth(url);
+                            Response resp = null;//CoreLibrary.getInstance().context().getHttpAgent().fetchWithoutAuth(url);
                             if (resp.isFailure()) {
                                 throw new NoHttpResponseException(" not returned data");
                             }

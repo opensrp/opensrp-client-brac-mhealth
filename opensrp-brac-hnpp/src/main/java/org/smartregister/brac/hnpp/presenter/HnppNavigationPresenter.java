@@ -151,7 +151,7 @@ public class HnppNavigationPresenter extends NavigationPresenter {
                     String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
                     String url = baseUrl + "/user/status?username=" + userName+"&version="+ BuildConfig.VERSION_NAME;
                     Log.v("USER_STATUS","url:"+url);
-                    Response resp = CoreLibrary.getInstance().context().getHttpAgent().fetchWithoutAuth(url);
+                    Response resp = null;// CoreLibrary.getInstance().context().getHttpAgent().fetchWithoutAuth(url);
                     if (resp.isFailure()) {
                         throw new NoHttpResponseException(" not returned data");
                     }

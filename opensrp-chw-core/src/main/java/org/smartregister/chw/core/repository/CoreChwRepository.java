@@ -100,19 +100,7 @@ public class CoreChwRepository extends Repository {
         super.onUpgrade(db, oldVersion, newVersion);
     }
 
-    @Override
-    public SQLiteDatabase getReadableDatabase() {
-        byte[] pass = CoreChwApplication.getInstance().getPassword();
-        return getReadableDatabase(pass);
 
-    }
-
-    @Override
-    public SQLiteDatabase getWritableDatabase() {
-        byte[] pass = CoreChwApplication.getInstance().getPassword();
-            return getWritableDatabase(pass);
-
-    }
 
     @Override
     public synchronized SQLiteDatabase getWritableDatabase(String password) {

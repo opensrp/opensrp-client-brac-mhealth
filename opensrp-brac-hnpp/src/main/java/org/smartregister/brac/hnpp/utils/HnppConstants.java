@@ -452,9 +452,9 @@ public class HnppConstants extends CoreConstants {
         return number_to_return;
     }
     public static boolean isPALogin(){
-        String role = org.smartregister.Context.getInstance().allSharedPreferences().fetchRegisteredRole();
-        if(TextUtils.isEmpty(role)) return false;
-        if(role.equalsIgnoreCase("PA")) return true;
+//        String role = org.smartregister.Context.getInstance().allSharedPreferences().fetchRegisteredRole();
+//        if(TextUtils.isEmpty(role)) return false;
+//        if(role.equalsIgnoreCase("PA")) return true;
         return false;
 
     }
