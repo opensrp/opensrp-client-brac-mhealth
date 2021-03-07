@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.sync;
 
 import org.smartregister.SyncConfiguration;
 import org.smartregister.SyncFilter;
+import org.smartregister.brac.hnpp.activity.LoginActivity;
 import org.smartregister.chw.core.utils.Utils;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.view.activity.BaseLoginActivity;
@@ -70,19 +71,18 @@ public class HnppSyncConfiguration extends SyncConfiguration {
 
     @Override
     public String getOauthClientId() {
-        return null;
+        return BuildConfig.OAUTH_CLIENT_ID;
     }
 
     @Override
     public String getOauthClientSecret() {
-        return null;
+        return BuildConfig.OAUTH_CLIENT_SECRET;
     }
 
     @Override
-    public Class<? extends BaseLoginActivity> getAuthenticationActivity() {
-        return null;
+    public Class<? extends BaseLoginActivity> getAuthenticationActivity(){
+        return LoginActivity.class;
     }
-
     @Override
     public boolean disableActionService() {
         return true;

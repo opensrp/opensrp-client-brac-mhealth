@@ -138,7 +138,6 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
         setOpenSRPUrl();
         // set up processor
         FamilyLibrary.getInstance().setClientProcessorForJava(HnppClientProcessor.getInstance(getApplicationContext()));
-
     }
     public void initOfflineSchedules() {
         try {
