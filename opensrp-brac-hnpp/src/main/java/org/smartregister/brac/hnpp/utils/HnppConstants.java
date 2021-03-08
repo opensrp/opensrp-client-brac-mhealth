@@ -730,8 +730,8 @@ public class HnppConstants extends CoreConstants {
         public static final String PNC_SERVICE = "PNC Service";
         public static final String GUEST_MEMBER_REGISTRATION = "OOC Member Registration";
     }
-    public static long getLongDateFormate(String year,String month){
-        String dateFormate = year+"-"+HnppConstants.addZeroForMonth(month)+"-01";
+    public static long getLongDateFormatForFromMonth(String year,String month){
+        String dateFormate = year+"-"+HnppConstants.addZeroForMonth(month)+"-"+getLastDateOfAMonth(month);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         long startDate = System.currentTimeMillis();
         try{
@@ -741,6 +741,26 @@ public class HnppConstants extends CoreConstants {
             e.printStackTrace();
         }
         return startDate;
+    }
+    public static long getLongDateFormatForToMonth(String year,String month){
+        String dateFormate = year+"-"+HnppConstants.addZeroForMonth(month)+"-"+getLastDateOfAMonth(month);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        long startDate = System.currentTimeMillis();
+        try{
+            Date date = format.parse(dateFormate);
+            startDate = date.getTime();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return startDate;
+    }
+    public static String getLastDateOfAMonth(String month){
+        if (TextUtils.isEmpty(month)) return "";
+        int m = Integer.parseInt(month);
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.MONTH,m);
+        int lastDate = c.getActualMaximum(Calendar.DATE);
+        return HnppConstants.addZeroForMonth(lastDate+"");
     }
     public static long getLongDateFormate(String year,String month,String day){
         String dateFormate = year+"-"+HnppConstants.addZeroForMonth(month)+"-"+HnppConstants.addZeroForDay(day);

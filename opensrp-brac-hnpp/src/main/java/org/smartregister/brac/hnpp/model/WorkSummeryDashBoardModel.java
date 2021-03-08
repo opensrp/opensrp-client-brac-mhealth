@@ -262,7 +262,9 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
             query = MessageFormat.format("select count(*) as count from {0} {1}", "ec_visit_log", getVisitFilterCondition(ssName,month,year,mainCondition));
 
         }*/
-        Log.v("WORK_SUMMERY","visit_type:"+query);
+       if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ELCO)){
+           Log.v("MONTH_FILTER","visit_type:"+query);
+       }
 
         Cursor cursor = null;
         // try {

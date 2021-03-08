@@ -46,7 +46,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
 
     private Button dateBtn,fromDateBtn,toDateBtn;
     protected RecyclerView recyclerView;
-    protected int day, month, year, fromDay, fromMonth, fromYear, toDay, toMonth, toYear;
+    protected int day, month, year, fromDay, fromMonth =-1, fromYear =-1, toDay, toMonth, toYear;
     private String fromDate, toDate, currentDate;
     private Runnable runnable;
     protected Spinner ssSpinner;
@@ -397,7 +397,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
                         .show();
             }
         });
-        updateFromPicker();
+        updateFromDatePicker();
     }
     public void loadToMonthList() {
         toMonthPicker.setOnClickListener(new View.OnClickListener() {
@@ -439,17 +439,16 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
     }
 
     private void updateFromDatePicker() {
-        Log.v("FROM_MONTH_PICKER","fromMonth:"+fromMonth+":fromYear:"+fromYear);
-        int index = fromMonth-1;
-        fromMonthTV.setText(HnppJsonFormUtils.monthBanglaStr[index]);
-        fromYearTV.setText(fromYear+"");
-    }
-    private void updateFromPicker() {
-        Log.v("FROM_MONTH_PICKER","fromMonth:"+month+":fromYear:"+year);
-        fromMonth = month;
-        fromYear = year;
-        fromMonthTV.setText(HnppJsonFormUtils.monthBanglaStr[fromMonth-1]);
-        fromYearTV.setText(fromYear+"");
+        if(fromMonth == -1){
+            fromMonthTV.setText("");
+            fromYearTV.setText("সকল");
+        }else{
+            Log.v("FROM_MONTH_PICKER","fromMonth:"+fromMonth+":fromYear:"+fromYear);
+            int index = fromMonth-1;
+            fromMonthTV.setText(HnppJsonFormUtils.monthBanglaStr[index]);
+            fromYearTV.setText(fromYear+"");
+        }
+
     }
     private void updateToDatePicker() {
         Log.v("TO_MONTH_PICKER","fromMonth:"+month+":fromYear:"+year);
