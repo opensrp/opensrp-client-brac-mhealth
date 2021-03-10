@@ -122,17 +122,17 @@ public class NewDashBoardActivity extends SecuredActivity implements View.OnClic
 
         }
 
-        refreshIndicatorsIcon.setOnClickListener(view -> {
-            refreshIndicatorsIcon.setVisibility(View.GONE);
-            FadingCircle circle = new FadingCircle();
-            refreshIndicatorsProgressBar.setIndeterminateDrawable(circle);
-            refreshIndicatorsProgressBar.setVisibility(View.VISIBLE);
-            new Handler().postDelayed(() -> dashBoardFragment.refreshData(() -> {
-                refreshIndicatorsProgressBar.setVisibility(View.GONE);
-                refreshIndicatorsIcon.setVisibility(View.VISIBLE);
-            }),500);
-
-        });
+//        refreshIndicatorsIcon.setOnClickListener(view -> {
+//            refreshIndicatorsIcon.setVisibility(View.GONE);
+//            FadingCircle circle = new FadingCircle();
+//            refreshIndicatorsProgressBar.setIndeterminateDrawable(circle);
+//            refreshIndicatorsProgressBar.setVisibility(View.VISIBLE);
+//            new Handler().postDelayed(() -> dashBoardFragment.refreshData(() -> {
+//                refreshIndicatorsProgressBar.setVisibility(View.GONE);
+//                refreshIndicatorsIcon.setVisibility(View.VISIBLE);
+//            }),500);
+//
+//        });
         tabs = findViewById(R.id.tabs);
         tabs.addTab(tabs.newTab().setText("জনসংখ্যা সারসংক্ষেপ"));
         tabs.addTab(tabs.newTab().setText("কার্যক্রম সারসংক্ষেপ"));

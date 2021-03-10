@@ -529,9 +529,9 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
         }
         else{
             if(TextUtils.isEmpty(ssName)){
-                query = MessageFormat.format("with t1 as (SELECT year||''-''||printf(''%02d'',month)||''-''||printf(''%02d'',day) as date,indicator_name,indicator_value from {0})SELECT count(*) as count,strftime(''%s'', strftime(''%s'', date), ''unixepoch'') as longtime from t1 {1} {2}", IndicatorRepository.INDICATOR_TABLE,mainCondition,getBetweenCondition(fromMonth,toMonth,"longtime"));
+                query = MessageFormat.format("with t1 as (SELECT year||''-''||printf(''%02d'',month)||''-''||printf(''%02d'',day) as date,ss_name,indicator_name,indicator_value from {0})SELECT count(*) as count,strftime(''%s'', strftime(''%s'', date), ''unixepoch'') as longtime from t1 {1} {2}", IndicatorRepository.INDICATOR_TABLE,mainCondition,getBetweenCondition(fromMonth,toMonth,"longtime"));
             }else{
-                query = MessageFormat.format("with t1 as (SELECT year||''-''||printf(''%02d'',month)||''-''||printf(''%02d'',day) as date,indicator_name,indicator_value from {0})SELECT count(*) as count,strftime(''%s'', strftime(''%s'', date), ''unixepoch'') as longtime from t1 {1} {2} {3}", IndicatorRepository.INDICATOR_TABLE,mainCondition,getSSCondition(ssName),getBetweenCondition(fromMonth,toMonth,"longtime"));
+                query = MessageFormat.format("with t1 as (SELECT year||''-''||printf(''%02d'',month)||''-''||printf(''%02d'',day) as date,ss_name,indicator_name,indicator_value from {0})SELECT count(*) as count,strftime(''%s'', strftime(''%s'', date), ''unixepoch'') as longtime from t1 {1} {2} {3}", IndicatorRepository.INDICATOR_TABLE,mainCondition,getSSCondition(ssName),getBetweenCondition(fromMonth,toMonth,"longtime"));
 
             }
         }

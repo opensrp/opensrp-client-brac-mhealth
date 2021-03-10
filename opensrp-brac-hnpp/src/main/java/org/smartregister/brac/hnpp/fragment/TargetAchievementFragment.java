@@ -56,15 +56,15 @@ public class TargetAchievementFragment extends BaseDashBoardFragment {
         }
         if(fromMonth == -1 && toMonth != -1 ){
             fromMonthFormat = -1;
-            toMonthFormat = HnppConstants.getLongDateFormate(String.valueOf(toYear),String.valueOf(toMonth));
+            toMonthFormat = HnppConstants.getLongDateFormatForToMonth(String.valueOf(toYear),String.valueOf(toMonth));
         }
         if(fromMonth != -1 && toMonth == -1){
-            fromMonthFormat = HnppConstants.getLongDateFormate(String.valueOf(fromYear),String.valueOf(fromMonth));
-            toMonthFormat = HnppConstants.getLongDateFormate(String.valueOf(year),String.valueOf(month));
+            fromMonthFormat = HnppConstants.getLongDateFormatForFromMonth(String.valueOf(fromYear),String.valueOf(fromMonth));
+            toMonthFormat = HnppConstants.getLongDateFormatForToMonth(String.valueOf(year),String.valueOf(month));
         }
         if(fromMonth != -1 && toMonth != -1) {
-            fromMonthFormat = HnppConstants.getLongDateFormate(String.valueOf(fromYear),String.valueOf(fromMonth));
-            toMonthFormat = HnppConstants.getLongDateFormate(String.valueOf(toYear),String.valueOf(toMonth));
+            fromMonthFormat = HnppConstants.getLongDateFormatForFromMonth(String.valueOf(fromYear),String.valueOf(fromMonth));
+            toMonthFormat = HnppConstants.getLongDateFormatForToMonth(String.valueOf(toYear),String.valueOf(toMonth));
         }
         presenter.filterByFromToMonth(fromMonthFormat,toMonthFormat,ssName);
     }

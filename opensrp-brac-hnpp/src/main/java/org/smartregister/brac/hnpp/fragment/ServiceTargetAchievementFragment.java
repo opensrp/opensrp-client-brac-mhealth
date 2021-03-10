@@ -4,6 +4,7 @@ import android.support.v7.widget.LinearLayoutManager;
 
 import org.smartregister.brac.hnpp.adapter.ServiceTargetAchievementAdapter;
 import org.smartregister.brac.hnpp.presenter.ServiceTargetAchievmentPresenter;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 
 public class ServiceTargetAchievementFragment extends BaseDashBoardFragment {
 
@@ -25,7 +26,27 @@ public class ServiceTargetAchievementFragment extends BaseDashBoardFragment {
 
     @Override
     void filterData() {
-        presenter.filterData(ssName,day+"",month+"",year+"");
+        long fromDateFormat = 0;
+        long toDateFormat = 0;
+        if((fromMonth == -1 || fromYear == -1) && (toMonth == -1 || toYear == -1 )){
+            fromDateFormat = -1;
+            toDateFormat = -1;
+        }
+        if(fromMonth == -1 && toMonth != -1 ){
+            fromDateFormat = -1;
+            toDateFormat = HnppConstants.getLongDateFormate(String.valueOf(toYear),String.valueOf(toMonth),String.valueOf(toDay));
+        }
+        if(fromMonth != -1 && toMonth == -1){
+            fromDateFormat = HnppConstants.getLongDateFormate(String.valueOf(fromYear),String.valueOf(fromMonth),String.valueOf(fromDay));
+            toDateFormat = HnppConstants.getLongDateFormate(String.valueOf(year),String.valueOf(month),String.valueOf(day));
+        }
+        if(fromMonth != -1 && toMonth != -1) {
+            fromDateFormat = HnppConstants.getLongDateFormate(String.valueOf(fromYear),String.valueOf(fromMonth),String.valueOf(fromDay));
+            toDateFormat = HnppConstants.getLongDateFormate(String.valueOf(toYear),String.valueOf(toMonth),String.valueOf(toDay));
+        }
+
+        presenter.filterByFromToDate(fromDateFormat,toDateFormat,ssName);
+        //presenter.filterData(ssName,day+"",month+"",year+"");
     }
 
 

@@ -309,14 +309,16 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
         }
         else{
             if(TextUtils.isEmpty(ssName)){
-                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date, achievemnt_count, target_count, target_name from target_table)SELECT sum(achievemnt_count) as achievemnt_count, sum(target_count) as target_count,strftime('%s', strftime('%s', date), 'unixepoch') as longtime from t1 WHERE target_name ='"+visitType+"'"+getBetweenCondition(fromDate,toDate,"longtime");
+                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, achievemnt_count, target_count, target_name from target_table)SELECT sum(achievemnt_count) as achievemnt_count, sum(target_count) as target_count from t1 WHERE target_name ='"+visitType+"'"+getBetweenCondition(fromDate,toDate,"date");
             }else{
-                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date, achievemnt_count, target_count, target_name from target_table)SELECT sum(achievemnt_count) as achievemnt_count, sum(target_count) as target_count,strftime('%s', strftime('%s', date), 'unixepoch') as longtime from t1 WHERE target_name ='"+visitType+"'"+getSSCondition(ssName)+getBetweenCondition(fromDate,toDate,"longtime");
+                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, achievemnt_count, target_count, target_name from target_table)SELECT sum(achievemnt_count) as achievemnt_count, sum(target_count) as target_count from t1 WHERE target_name ='"+visitType+"'"+getSSCondition(ssName)+getBetweenCondition(fromDate,toDate,"date");
             }
         }
 
 
-        Log.v("FROMTO_QUERY","query:"+query);
+       if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ELCO)){
+           Log.v("DAILY_TERGET","query:"+query);
+       }
         Cursor cursor = null;
         try{
             // try {
@@ -360,7 +362,7 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
             query = " and "+compareDate+" ='"+toMonth+"'";
         }
         else {
-            query = " and "+compareDate+" between '"+fromMonth+"' and '"+toMonth+"'";
+            query = " and ("+compareDate+" between '"+HnppConstants.getDateFormateFromLong(fromMonth)+"' and '"+HnppConstants.getDateFormateFromLong(toMonth)+"')";
         }
         return query;
     }

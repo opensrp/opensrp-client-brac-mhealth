@@ -63,5 +63,28 @@ public class ServiceTargetAchievementInteractor implements DashBoardContract.Tar
         };
         appExecutors.diskIO().execute(runnable);
     }
+    public void filterByFromToDate(String ssName, long fromDate, long toDate, DashBoardContract.InteractorCallBack callBack) {
+        dashBoardDataArrayList.clear();
+        Runnable runnable = () -> {
+            fetchDataByFromToFormat(fromDate, toDate, ssName);
+
+            appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
+        };
+        appExecutors.diskIO().execute(runnable);
+    }
+
+
+    public void filterByFromToMonth(String ssName, long fromMonth, long toMonth, DashBoardContract.InteractorCallBack callBack) {
+        dashBoardDataArrayList.clear();
+        Runnable runnable = () -> {
+            fetchDataByFromToFormat(fromMonth, toMonth, ssName);
+
+            appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
+        };
+        appExecutors.diskIO().execute(runnable);
+    }
+    private void fetchDataByFromToFormat( long fromDate, long toDate, String ssName) {
+
+    }
 
 }

@@ -299,7 +299,7 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
     public String getBetweenCondition(long fromMonth, long toMonth, String compareDate){
         StringBuilder build = new StringBuilder();
         if(fromMonth == -1){
-            build.append(MessageFormat.format(" and {0} = {1} ",compareDate,"'"+Long.toString(toMonth)+"'"));
+            build.append(MessageFormat.format(" and {0} <= {1} ",compareDate,"'"+Long.toString(toMonth)+"'"));
         }
         else {
             build.append(MessageFormat.format(" and {0} between {1} and {2} ",compareDate,Long.toString(fromMonth),Long.toString(toMonth)));

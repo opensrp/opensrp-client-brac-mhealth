@@ -46,7 +46,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
 
     private Button dateBtn,fromDateBtn,toDateBtn;
     protected RecyclerView recyclerView;
-    protected int day, month, year, fromDay, fromMonth =-1, fromYear =-1, toDay, toMonth, toYear;
+    protected int day, month, year, fromDay, fromMonth, fromYear, toDay, toMonth, toYear;
     private String fromDate, toDate, currentDate;
     private Runnable runnable;
     protected Spinner ssSpinner;
@@ -121,7 +121,8 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
         dateBtn.setText(currentDate);
         toDateBtn.setText(currentDate);
         fromDateBtn.setText(currentDate);
-
+        fromDay = day;
+        toDay = day;
         return view;
     }
 
@@ -130,6 +131,8 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
         super.onViewCreated(view, savedInstanceState);
         initilizePresenter();
         updateFilter();
+        updateFromFilter();
+        updateToFilter();
         loadSSList();
         loadMonthList();
         loadFromMonthList();
@@ -179,6 +182,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
 
                         fromDateBtn.setText(fromDate);
                         updateFromFilter();
+                        filterData();
                     }
                 },year,(month-1),day);
                 fromDateDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
@@ -397,7 +401,10 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
                         .show();
             }
         });
-        updateFromDatePicker();
+        fromMonth = month;
+        fromYear = year;
+        fromMonthTV.setText(HnppJsonFormUtils.monthBanglaStr[fromMonth-1]);
+        fromYearTV.setText(fromYear+"");
     }
     public void loadToMonthList() {
         toMonthPicker.setOnClickListener(new View.OnClickListener() {
@@ -468,13 +475,13 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
         monthTV.setText(HnppJsonFormUtils.monthBanglaStr[month-1]);
         yearTV.setText(year+"");
     }
-    public void refreshData(Runnable runnable){
-        this.runnable = runnable;
-        updateFilter();
-        updateFromFilter();
-        updateToFilter();
-
-    }
+//    public void refreshData(Runnable runnable){
+//        this.runnable = runnable;
+//        updateFilter();
+//        updateFromFilter();
+//        updateToFilter();
+//
+//    }
 
     @Override
     public void showProgressBar() {
@@ -509,13 +516,15 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
     }
     private void updateFromFilter() {
         if (TextUtils.isEmpty(fromDateBtn.getText().toString())) {
-            toDate = currentDate;
-            fromDateBtn.setText(toDate+"");
+            fromDay = day;
+            fromDate = currentDate;
+            fromDateBtn.setText(fromDate+"");
         }
     }
     private void updateToFilter() {
         if (TextUtils.isEmpty(toDateBtn.getText().toString())) {
             toDate = currentDate;
+            toDay = day;
             toDateBtn.setText(toDate+"");
         }
     }

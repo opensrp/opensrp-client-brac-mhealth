@@ -480,24 +480,29 @@ public class HnppConstants extends CoreConstants {
     }
 
     public static String getDeviceId(TelephonyManager mTelephonyManager, Context context,boolean fromSettings) {
-        String deviceId = null;
-        if (mTelephonyManager != null) {
+        String deviceId = "";
+        try{
+            if (mTelephonyManager != null) {
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                deviceId = mTelephonyManager.getDeviceId(1);
-                if(fromSettings){
-                    deviceId = deviceId+"\n"+mTelephonyManager.getDeviceId(2);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    deviceId = mTelephonyManager.getDeviceId(1);
+                    if(fromSettings){
+                        deviceId = deviceId+"\n"+mTelephonyManager.getDeviceId(2);
+                    }
+                }else {
+                    if (mTelephonyManager.getPhoneType() == TelephonyManager.PHONE_TYPE_NONE) { //For tablet
+                        deviceId = Settings.Secure.getString(context.getApplicationContext().getContentResolver(),
+                                Settings.Secure.ANDROID_ID);
+                    } else { //for normal phones
+                        deviceId = mTelephonyManager.getDeviceId();
+                    }
                 }
-            }else {
-                if (mTelephonyManager.getPhoneType() == TelephonyManager.PHONE_TYPE_NONE) { //For tablet
-                    deviceId = Settings.Secure.getString(context.getApplicationContext().getContentResolver(),
-                            Settings.Secure.ANDROID_ID);
-                } else { //for normal phones
-                    deviceId = mTelephonyManager.getDeviceId();
-                }
+
             }
-
+        }catch (SecurityException se){
+            se.printStackTrace();
         }
+
         return deviceId;
     }
     public static boolean isDeviceVerified(){
@@ -731,7 +736,7 @@ public class HnppConstants extends CoreConstants {
         public static final String GUEST_MEMBER_REGISTRATION = "OOC Member Registration";
     }
     public static long getLongDateFormatForFromMonth(String year,String month){
-        String dateFormate = year+"-"+HnppConstants.addZeroForMonth(month)+"-"+getLastDateOfAMonth(month);
+        String dateFormate = year+"-"+HnppConstants.addZeroForMonth(month)+"-01";
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         long startDate = System.currentTimeMillis();
         try{
@@ -764,7 +769,9 @@ public class HnppConstants extends CoreConstants {
     }
     public static long getLongDateFormate(String year,String month,String day){
         String dateFormate = year+"-"+HnppConstants.addZeroForMonth(month)+"-"+HnppConstants.addZeroForDay(day);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+        Log.v("DAILY_TERGET","dateStr:"+dateFormate);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
         long startDate = System.currentTimeMillis();
         try{
             Date date = format.parse(dateFormate);
@@ -774,9 +781,13 @@ public class HnppConstants extends CoreConstants {
         }
         return startDate;
     }
+    public static String getStringFormatedDate(String year,String month,String day){
+        return   year+"-"+HnppConstants.addZeroForMonth(month)+"-"+HnppConstants.addZeroForDay(day);
+
+    }
     public static String getDateFormateFromLong(long dateTime){
         Date date = new Date(dateTime);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String dateString = null;
         try{
             dateString = format.format(date);
