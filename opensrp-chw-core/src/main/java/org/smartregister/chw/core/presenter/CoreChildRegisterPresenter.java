@@ -136,10 +136,12 @@ public class CoreChildRegisterPresenter implements CoreChildRegisterContract.Pre
                     }
 
                     @Override
-                    public void onRegistrationSaved(boolean isEdit) {
+                    public void onRegistrationSaved(boolean b, boolean b1, List<FamilyEventClient> list) {
                         getView().hideProgressDialog();
                         getView().openFamilyListView();
                     }
+
+
                 });
 
             } else {

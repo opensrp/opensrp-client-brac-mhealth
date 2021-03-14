@@ -130,8 +130,8 @@ android {
             buildConfigField "int", "PULL_SSLOCATION", '180'
             buildConfigField "int", "REPORT_INDICATOR_GENERATION_MINUTES", '15'
             buildConfigField "int", "HOME_VISIT_MINUTES", '10'
-            buildConfigField "String", "OAUTH_CLIENT_ID", '"opensrp-trusted-client"'
-            buildConfigField "String", "OAUTH_CLIENT_SECRET", '"O@aTHS#cr3t"'
+            buildConfigField "String", "OAUTH_CLIENT_ID", '"brachnpp"'
+            buildConfigField "String", "OAUTH_CLIENT_SECRET", '"df6c9a4e-3df9-4da6-b3b0-de5b986af146"'
             testCoverageEnabled true
         }
     }
@@ -167,8 +167,8 @@ android {
 //            buildConfigField "String", 'opensrp_url_training', '"http://hnpptest.mpower-social.com:8080/opensrp/"'
 //            buildConfigField "String", 'opensrp_url_live', '"http://hnpptest.mpower-social.com:8080/opensrp/"'
 
-            buildConfigField "String", 'opensrp_url_training', '"http://123.200.18.20:8080/opensrp/"'
-            buildConfigField "String", 'opensrp_url_live', '"http://123.200.18.20:8080/opensrp/"'
+            buildConfigField "String", 'opensrp_url_training', '"http://goldo.mpower-social.com/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"http://goldo.mpower-social.com/opensrp/"'
 
         }
         production{

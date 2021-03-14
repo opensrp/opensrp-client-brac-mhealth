@@ -24,6 +24,8 @@ import org.smartregister.immunization.util.IMDatabaseUtils;
 import org.smartregister.repository.AlertRepository;
 import org.smartregister.repository.EventClientRepository;
 import org.smartregister.repository.LocationRepository;
+import org.smartregister.repository.PlanDefinitionRepository;
+import org.smartregister.repository.PlanDefinitionSearchRepository;
 import org.smartregister.repository.Repository;
 import org.smartregister.repository.SettingsRepository;
 import org.smartregister.repository.UniqueIdRepository;
@@ -31,9 +33,10 @@ import org.smartregister.view.activity.DrishtiApplication;
 
 import timber.log.Timber;
 
-public class HnppChwRepository extends Repository {
+public class HnppChwRepository extends CoreChwRepository {
     protected SQLiteDatabase readableDatabase;
     protected SQLiteDatabase writableDatabase;
+    private Context context;
 
     public HnppChwRepository(Context context,org.smartregister.Context openSRPContext) {
         super(context,
@@ -42,6 +45,7 @@ public class HnppChwRepository extends Repository {
                 openSRPContext.session(),
                 openSRPContext.commonFtsObject(),
                 openSRPContext.sharedRepositoriesArray());
+        this.context = context;
     }
 
     public void deleteDatabase(){
@@ -49,8 +53,7 @@ public class HnppChwRepository extends Repository {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase database) {
-        super.onCreate(database);
+    protected void onCreation(SQLiteDatabase database) {
         SSLocationRepository.createTable(database);
         HouseholdIdRepository.createTable(database);
         VisitRepository.createTable(database);
@@ -62,7 +65,7 @@ public class HnppChwRepository extends Repository {
         RecurringServiceTypeRepository.createTable(database);
         RecurringServiceRecordRepository.createTable(database);
         RecurringServiceTypeRepository recurringServiceTypeRepository = ImmunizationLibrary.getInstance().recurringServiceTypeRepository();
-        IMDatabaseUtils.populateRecurringServices(DrishtiApplication.getInstance().getApplicationContext(), database, recurringServiceTypeRepository);
+        IMDatabaseUtils.populateRecurringServices(context, database, recurringServiceTypeRepository);
 
         upgradeToVersion18(database);
         upgradeToVersion19(database);
@@ -76,7 +79,10 @@ public class HnppChwRepository extends Repository {
         upgradeToVersion29(database);
         upgradeToVersion30(database);
         upgradeToVersion31(database);
+        upgradeToVersion32(database);
+        upgradeToVersion33(database);
     }
+
 
    
 
@@ -155,6 +161,9 @@ public class HnppChwRepository extends Repository {
                     break;
                 case 32:
                     upgradeToVersion32(db);
+                    break;
+                case 33:
+                    upgradeToVersion33(db);
                     break;
                 default:
                     break;
@@ -317,6 +326,19 @@ public class HnppChwRepository extends Repository {
 
 
     }
+    private void upgradeToVersion33(SQLiteDatabase db) {
+        try {
+            db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_IS_VOIDED_COL);
+            db.execSQL("ALTER TABLE visits ADD COLUMN visit_group VARCHAR;");
+            PlanDefinitionRepository.createTable(db);
+            PlanDefinitionSearchRepository.createTable(db);
+
+        } catch (Exception e) {
+
+        }
+
+
+    }
 
     private void upgradeToVersion18( SQLiteDatabase db) {
         db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_EVENT_ID_COL);
@@ -326,7 +348,7 @@ public class HnppChwRepository extends Repository {
         db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL);
         db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL_INDEX);
         db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_HIA2_STATUS_COL);
-        IMDatabaseUtils.accessAssetsAndFillDataBaseForVaccineTypes(DrishtiApplication.getInstance(), db);
+        IMDatabaseUtils.accessAssetsAndFillDataBaseForVaccineTypes(context, db);
         db.execSQL(VaccineRepository.ALTER_ADD_CREATED_AT_COLUMN);
         VaccineRepository.migrateCreatedAt(db);
         db.execSQL(RecurringServiceRecordRepository.ALTER_ADD_CREATED_AT_COLUMN);
@@ -354,7 +376,7 @@ public class HnppChwRepository extends Repository {
             RecurringServiceTypeRepository.createTable(db);
             RecurringServiceRecordRepository.createTable(db);
             RecurringServiceTypeRepository recurringServiceTypeRepository = ImmunizationLibrary.getInstance().recurringServiceTypeRepository();
-            IMDatabaseUtils.populateRecurringServices(DrishtiApplication.getInstance().getApplicationContext(), db, recurringServiceTypeRepository);
+            IMDatabaseUtils.populateRecurringServices(context, db, recurringServiceTypeRepository);
 
 
             db.execSQL("ALTER TABLE ec_child ADD COLUMN birth_weight_taken VARCHAR;");

@@ -176,7 +176,7 @@ public abstract class CoreFamilyOtherMemberActivityPresenter extends BaseFamilyO
     }
 
     @Override
-    public void onRegistrationSaved(boolean isEditMode) {
+    public void onRegistrationSaved(boolean isEditMode, boolean b1, FamilyEventClient familyEventClient) {
         if (isEditMode) {
             getView().hideProgressDialog();
 

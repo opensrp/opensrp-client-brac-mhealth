@@ -29,11 +29,11 @@ public class HnppFamilyRegisterInteractor extends org.smartregister.family.inter
             @Override
             public void run() {
 
-                saveRegistration(familyEventClientList, jsonString, isEditMode);
+               boolean isSaved = saveRegistration(familyEventClientList, jsonString, isEditMode);
                 appExecutors.mainThread().execute(new Runnable() {
                     @Override
                     public void run() {
-                        callBack.onRegistrationSaved(isEditMode);
+                        callBack.onRegistrationSaved(isEditMode,isSaved,familyEventClientList);
                     }
                 });
             }
@@ -41,8 +41,8 @@ public class HnppFamilyRegisterInteractor extends org.smartregister.family.inter
 
         appExecutors.diskIO().execute(runnable);
     }
-    private void saveRegistration(List<FamilyEventClient> familyEventClientList, String jsonString, boolean isEditMode) {
-
+    private boolean saveRegistration(List<FamilyEventClient> familyEventClientList, String jsonString, boolean isEditMode) {
+        boolean isSaved = false;
         try {
 
 
@@ -117,8 +117,11 @@ public class HnppFamilyRegisterInteractor extends org.smartregister.family.inter
 
             processClient(eventClientList);
             getAllSharedPreferences().saveLastUpdatedAtDate(lastSyncDate.getTime());
+            isSaved = true;
         } catch (Exception e) {
             e.printStackTrace();
+            isSaved = false;
         }
+        return isSaved;
     }
 }

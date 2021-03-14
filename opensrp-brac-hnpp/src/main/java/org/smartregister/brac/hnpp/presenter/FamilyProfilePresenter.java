@@ -109,4 +109,8 @@ public class FamilyProfilePresenter extends CoreFamilyProfilePresenter {
         return childProfileModel;
     }
 
+    @Override
+    public void onRegistrationSaved(boolean isEdit) {
+
+    }
 }

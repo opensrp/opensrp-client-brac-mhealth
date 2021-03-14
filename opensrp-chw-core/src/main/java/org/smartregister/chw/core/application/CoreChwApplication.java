@@ -26,6 +26,7 @@ import org.smartregister.immunization.repository.VaccineRepository;
 import org.smartregister.immunization.util.VaccinatorUtils;
 import org.smartregister.repository.LocationRepository;
 import org.smartregister.repository.PlanDefinitionRepository;
+import org.smartregister.repository.Repository;
 import org.smartregister.repository.TaskNotesRepository;
 import org.smartregister.repository.TaskRepository;
 import org.smartregister.sync.ClientProcessorForJava;
@@ -172,6 +173,8 @@ public class CoreChwApplication extends DrishtiApplication implements CoreApplic
         }
         return ecSyncHelper;
     }
+
+
 
     @Override
     public void notifyAppContextChange() {

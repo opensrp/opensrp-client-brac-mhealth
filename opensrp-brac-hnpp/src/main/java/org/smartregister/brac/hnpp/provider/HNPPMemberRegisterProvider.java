@@ -229,7 +229,7 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
         view.setTag(client);
         view.setTag(org.smartregister.family.R.id.VIEW_ID, BaseFamilyRegisterFragment.CLICK_VIEW_DOSAGE_STATUS);
     }
-    private void populateIdentifierColumn(CommonPersonObjectClient pc, FamilyMemberRegisterProvider.RegisterViewHolder viewHolder) {
+    protected void populateIdentifierColumn(CommonPersonObjectClient pc, FamilyMemberRegisterProvider.RegisterViewHolder viewHolder) {
         String uniqueId = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), "unique_id", false);
         String baseEntityId = pc.getCaseId();
         if (StringUtils.isNotBlank(baseEntityId)) {
