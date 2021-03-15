@@ -35,6 +35,7 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
 
     }
     private ArrayList<OtherServiceData> getOtherService(CommonPersonObjectClient commonPersonObjectClient){
+        if(commonPersonObjectClient == null) return new ArrayList<>();
 
         int age = FormApplicability.getAge(commonPersonObjectClient);
         long day = FormApplicability.getDay(commonPersonObjectClient);

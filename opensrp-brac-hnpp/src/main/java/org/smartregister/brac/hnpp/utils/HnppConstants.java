@@ -205,24 +205,29 @@ public class HnppConstants extends CoreConstants {
     }
 
     public static String getDeviceId(TelephonyManager mTelephonyManager, Context context,boolean fromSettings) {
-        String deviceId = null;
-        if (mTelephonyManager != null) {
+        String deviceId = "";
+        try{
+            if (mTelephonyManager != null) {
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                deviceId = mTelephonyManager.getDeviceId(1);
-                if(fromSettings){
-                    deviceId = deviceId+"\n"+mTelephonyManager.getDeviceId(2);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    deviceId = mTelephonyManager.getDeviceId(1);
+                    if(fromSettings){
+                        deviceId = deviceId+"\n"+mTelephonyManager.getDeviceId(2);
+                    }
+                }else {
+                    if (mTelephonyManager.getPhoneType() == TelephonyManager.PHONE_TYPE_NONE) { //For tablet
+                        deviceId = Settings.Secure.getString(context.getApplicationContext().getContentResolver(),
+                                Settings.Secure.ANDROID_ID);
+                    } else { //for normal phones
+                        deviceId = mTelephonyManager.getDeviceId();
+                    }
                 }
-            }else {
-                if (mTelephonyManager.getPhoneType() == TelephonyManager.PHONE_TYPE_NONE) { //For tablet
-                    deviceId = Settings.Secure.getString(context.getApplicationContext().getContentResolver(),
-                            Settings.Secure.ANDROID_ID);
-                } else { //for normal phones
-                    deviceId = mTelephonyManager.getDeviceId();
-                }
+
             }
-
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
         return deviceId;
     }
     public static boolean isDeviceVerified(){

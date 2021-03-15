@@ -293,6 +293,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if(handler!=null) handler.removeCallbacksAndMessages(null);
     }
 
     private void openMedicalHistoryScreen() {
