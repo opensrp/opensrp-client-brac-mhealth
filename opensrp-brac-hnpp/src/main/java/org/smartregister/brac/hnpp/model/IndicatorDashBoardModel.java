@@ -27,44 +27,44 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
 
 
     //for jonosonkha sarsonkhep compilation sheet
-    public DashBoardData getVerifiedBySimprints(String ssName, String month, String year){
-        return getVisitTypeCount("বায়োমেট্রিক দ্বারা যাচাইকৃত","is_verified","true",ssName,month,year);
+    public DashBoardData getVerifiedBySimprints(String ssName, long fromMonth, long toMonth){
+        return getVisitTypeCount("বায়োমেট্রিক দ্বারা যাচাইকৃত","is_verified","true",ssName,fromMonth,toMonth);
     }
-    public DashBoardData getIdentifiedBySimprints(String ssName, String month, String year){
-        return getVisitTypeCount("বায়োমেট্রিক দ্বারা খোজকৃত","is_identified","true",ssName,month,year);
+    public DashBoardData getIdentifiedBySimprints(String ssName, long fromMonth, long toMonth){
+        return getVisitTypeCount("বায়োমেট্রিক দ্বারা খোজকৃত","is_identified","true",ssName,fromMonth,toMonth);
     }
-    public DashBoardData getFamilyMethodKnown(String ssName, String month, String year){
-        return getVisitTypeCount("পরিবার পরিকল্পনা পদ্ধতি ব্যবহারকারী","familyplanning_method_known","yes",ssName,month,year);
+    public DashBoardData getFamilyMethodKnown(String ssName, long fromMonth, long toMonth){
+        return getVisitTypeCount("পরিবার পরিকল্পনা পদ্ধতি ব্যবহারকারী","familyplanning_method_known","yes",ssName,fromMonth,toMonth);
     }
-    public DashBoardData getNoFamilyMethodUser(String ssName, String month, String year){
-        return getVisitTypeCount("পদ্ধতি ব্যবহারের বাইরে","familyplanning_method_known","no",ssName,month,year);
+    public DashBoardData getNoFamilyMethodUser(String ssName, long fromMonth, long toMonth){
+        return getVisitTypeCount("পদ্ধতি ব্যবহারের বাইরে","familyplanning_method_known","no",ssName,fromMonth,toMonth);
     }
-    public DashBoardData getFillUser(String ssName, String month, String year){
-        return getVisitTypeCount("পিল ব্যবহারকারী","familyplanning_method","contraceptive_pill",ssName,month,year);
+    public DashBoardData getFillUser(String ssName, long fromMonth, long toMonth){
+        return getVisitTypeCount("পিল ব্যবহারকারী","familyplanning_method","contraceptive_pill",ssName,fromMonth,toMonth);
     }
-    public DashBoardData getFillFromSS(String ssName, String month, String year){
-        return getVisitTypeCount("স্বাস্থ্যসেবিকা থেকে পিল ব্যবহারকারী","distribution_location","brac_health_worker",ssName,month,year);
+    public DashBoardData getFillFromSS(String ssName, long fromMonth, long toMonth){
+        return getVisitTypeCount("স্বাস্থ্যসেবিকা থেকে পিল ব্যবহারকারী","distribution_location","brac_health_worker",ssName,fromMonth,toMonth);
     }
-    public DashBoardData getFillFromOther(String ssName, String month, String year){
-        return getVisitTypeCount("অন্যান্য উৎস থেকে পিল ব্যবহারকারী","distribution_location","other",ssName,month,year);
+    public DashBoardData getFillFromOther(String ssName, long fromMonth, long toMonth){
+        return getVisitTypeCount("অন্যান্য উৎস থেকে পিল ব্যবহারকারী","distribution_location","other",ssName,fromMonth,toMonth);
     }
-    public DashBoardData getCondomUser(String ssName, String month, String year){
-        return getVisitTypeCount("কনডম ব্যবহারকারী","familyplanning_method","condom",ssName,month,year);
+    public DashBoardData getCondomUser(String ssName, long fromMonth, long toMonth){
+        return getVisitTypeCount("কনডম ব্যবহারকারী","familyplanning_method","condom",ssName,fromMonth,toMonth);
     }
-    public DashBoardData getIudUser(String ssName, String month, String year){
-        return getVisitTypeCount("আই.ইউ.ডি. ব্যবহারকারী","familyplanning_method","iud",ssName,month,year);
+    public DashBoardData getIudUser(String ssName, long fromMonth, long toMonth){
+        return getVisitTypeCount("আই.ইউ.ডি. ব্যবহারকারী","familyplanning_method","iud",ssName,fromMonth,toMonth);
     }
-    public DashBoardData getInjectionUser(String ssName, String month, String year){
-        return getVisitTypeCount("ইনজেকশন ব্যবহারকারী","familyplanning_method","injection",ssName,month,year);
+    public DashBoardData getInjectionUser(String ssName, long fromMonth, long toMonth){
+        return getVisitTypeCount("ইনজেকশন ব্যবহারকারী","familyplanning_method","injection",ssName,fromMonth,toMonth);
     }
-    public DashBoardData getNorplantUser(String ssName, String month, String year){
-        return getVisitTypeCount("ইমপ্ল্যান্ট ব্যবহারকারী","familyplanning_method","norplant",ssName,month,year);
+    public DashBoardData getNorplantUser(String ssName, long fromMonth, long toMonth){
+        return getVisitTypeCount("ইমপ্ল্যান্ট ব্যবহারকারী","familyplanning_method","norplant",ssName,fromMonth,toMonth);
     }
-    public DashBoardData getVasectomyUser(String ssName, String month, String year){
-        return getVisitTypeCount("ভ্যাসেকটমি ব্যবহারকারী","familyplanning_method","vasectomy",ssName,month,year);
+    public DashBoardData getVasectomyUser(String ssName, long fromMonth, long toMonth){
+        return getVisitTypeCount("ভ্যাসেকটমি ব্যবহারকারী","familyplanning_method","vasectomy",ssName,fromMonth,toMonth);
     }
-    public DashBoardData getTubeUser(String ssName, String month, String year){
-        return getVisitTypeCount("টিউব্যাকটোমি ব্যবহারকারী","familyplanning_method","ligation",ssName,month,year);
+    public DashBoardData getTubeUser(String ssName, long fromMonth, long toMonth){
+        return getVisitTypeCount("টিউব্যাকটোমি ব্যবহারকারী","familyplanning_method","ligation",ssName,fromMonth,toMonth);
     }
 
     //work activity dashboard
@@ -408,72 +408,72 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
         return dashBoardData1;
     }
 
-    public DashBoardData getVisitTypeCount(String title,String indicatorKey,String indicatorValue, String ssName, String month, String year){
-        DashBoardData dashBoardData1 = new DashBoardData();
-        String mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='"+indicatorValue+"' COLLATE NOCASE";
-        if(indicatorKey.equalsIgnoreCase(HnppConstants.INDICATOR.ANC_OTHER_SOURCE)){
-            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='Govt' or "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='other'";
-        }
-        else if(indicatorKey.equalsIgnoreCase("anc_count")){
-            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" >="+indicatorValue;
-        }
-        else if(indicatorKey.equalsIgnoreCase("delivery_method_general")){
-            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='"+indicatorValue+"' or "+IndicatorRepository.INDICATOR_NAME+" ='delivery_method_c_section' and "+IndicatorRepository.INDICATOR_VALUE+" ='"+indicatorValue+"'";
-        }
-        else if(indicatorKey.equalsIgnoreCase("number_of_pnc_1_2")){
-            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='number_of_pnc' and "+IndicatorRepository.INDICATOR_VALUE+" <="+indicatorValue;
-        }
-        else if(indicatorKey.equalsIgnoreCase("number_of_pnc_3")){
-            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='number_of_pnc' and "+IndicatorRepository.INDICATOR_VALUE+" >="+indicatorValue;
-        }
-        else if(indicatorKey.equalsIgnoreCase("breastfeeding_time")){
-            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" <="+indicatorValue;
-        }
-        else if(indicatorKey.equalsIgnoreCase("solid_food_month")){
-            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ="+indicatorValue;
-        }
-        else if(indicatorKey.equalsIgnoreCase("cause_of_death")){
-            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='preterm_death' or "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='childbirth_death' or "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='postnatal_death'";
-        }
-        else if(indicatorKey.equalsIgnoreCase("cause_of_death_child")){
-            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" ='infant_death' ";
-        }
-        else if(indicatorKey.equalsIgnoreCase("cause_of_death_other")){
-            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" !='preterm_death' and "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" !='childbirth_death' and "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" !='postnatal_death' and "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" !='infant_death'";
-
-        }else if(indicatorKey.equalsIgnoreCase("bcg")){
-            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='bcg'";
-
-        }
-        String query;
-        if(TextUtils.isEmpty(ssName) && TextUtils.isEmpty(month)){
-            query = MessageFormat.format("select count(*) as count from {0} {1}", IndicatorRepository.INDICATOR_TABLE, mainCondition);
-        }else{
-            query = MessageFormat.format("select count(*) as count from {0} {1}", IndicatorRepository.INDICATOR_TABLE, getVisitFilterCondition(ssName,month,year,mainCondition));
-
-        }
-        Log.v("WORK_SUMMERY","visit_type:"+query);
-
-        Cursor cursor = null;
-        // try {
-        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
-        if(cursor !=null && cursor.getCount() > 0){
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-
-                dashBoardData1.setCount(cursor.getInt(0));
-                dashBoardData1.setTitle(title);
-                dashBoardData1.setImageSource(R.drawable.rowavatar_member);
-
-                cursor.moveToNext();
-            }
-            cursor.close();
-
-        }
-
-
-        return dashBoardData1;
-    }
+//    public DashBoardData getVisitTypeCount(String title,String indicatorKey,String indicatorValue, String ssName, String month, String year){
+//        DashBoardData dashBoardData1 = new DashBoardData();
+//        String mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='"+indicatorValue+"' COLLATE NOCASE";
+//        if(indicatorKey.equalsIgnoreCase(HnppConstants.INDICATOR.ANC_OTHER_SOURCE)){
+//            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='Govt' or "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='other'";
+//        }
+//        else if(indicatorKey.equalsIgnoreCase("anc_count")){
+//            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" >="+indicatorValue;
+//        }
+//        else if(indicatorKey.equalsIgnoreCase("delivery_method_general")){
+//            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='"+indicatorValue+"' or "+IndicatorRepository.INDICATOR_NAME+" ='delivery_method_c_section' and "+IndicatorRepository.INDICATOR_VALUE+" ='"+indicatorValue+"'";
+//        }
+//        else if(indicatorKey.equalsIgnoreCase("number_of_pnc_1_2")){
+//            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='number_of_pnc' and "+IndicatorRepository.INDICATOR_VALUE+" <="+indicatorValue;
+//        }
+//        else if(indicatorKey.equalsIgnoreCase("number_of_pnc_3")){
+//            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='number_of_pnc' and "+IndicatorRepository.INDICATOR_VALUE+" >="+indicatorValue;
+//        }
+//        else if(indicatorKey.equalsIgnoreCase("breastfeeding_time")){
+//            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" <="+indicatorValue;
+//        }
+//        else if(indicatorKey.equalsIgnoreCase("solid_food_month")){
+//            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ="+indicatorValue;
+//        }
+//        else if(indicatorKey.equalsIgnoreCase("cause_of_death")){
+//            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='preterm_death' or "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='childbirth_death' or "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='postnatal_death'";
+//        }
+//        else if(indicatorKey.equalsIgnoreCase("cause_of_death_child")){
+//            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" ='infant_death' ";
+//        }
+//        else if(indicatorKey.equalsIgnoreCase("cause_of_death_other")){
+//            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" !='preterm_death' and "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" !='childbirth_death' and "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" !='postnatal_death' and "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" !='infant_death'";
+//
+//        }else if(indicatorKey.equalsIgnoreCase("bcg")){
+//            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='bcg'";
+//
+//        }
+//        String query;
+//        if(TextUtils.isEmpty(ssName) && TextUtils.isEmpty(month)){
+//            query = MessageFormat.format("select count(*) as count from {0} {1}", IndicatorRepository.INDICATOR_TABLE, mainCondition);
+//        }else{
+//            query = MessageFormat.format("select count(*) as count from {0} {1}", IndicatorRepository.INDICATOR_TABLE, getVisitFilterCondition(ssName,month,year,mainCondition));
+//
+//        }
+//        Log.v("WORK_SUMMERY","visit_type:"+query);
+//
+//        Cursor cursor = null;
+//        // try {
+//        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+//        if(cursor !=null && cursor.getCount() > 0){
+//            cursor.moveToFirst();
+//            while (!cursor.isAfterLast()) {
+//
+//                dashBoardData1.setCount(cursor.getInt(0));
+//                dashBoardData1.setTitle(title);
+//                dashBoardData1.setImageSource(R.drawable.rowavatar_member);
+//
+//                cursor.moveToNext();
+//            }
+//            cursor.close();
+//
+//        }
+//
+//
+//        return dashBoardData1;
+//    }
     public DashBoardData getVisitTypeCount(String title,String indicatorKey,String indicatorValue, String ssName, long fromMonth, long toMonth){
         DashBoardData dashBoardData1 = new DashBoardData();
         String mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='"+indicatorValue+"' COLLATE NOCASE";
