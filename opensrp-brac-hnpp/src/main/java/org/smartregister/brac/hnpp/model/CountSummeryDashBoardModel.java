@@ -29,9 +29,11 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
     }
     public String getFilterCondition(String ssName, long fromMonth, long toMonth){
         StringBuilder build = new StringBuilder();
-        build.append(MessageFormat.format(" inner join {0}", CoreConstants.TABLE_NAME.FAMILY));
-        build.append(MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.FAMILY, DBConstants.KEY.BASE_ENTITY_ID,
-                CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.RELATIONAL_ID));
+        if(!TextUtils.isEmpty(ssName)) {
+            build.append(MessageFormat.format(" inner join {0}", CoreConstants.TABLE_NAME.FAMILY));
+            build.append(MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.FAMILY, DBConstants.KEY.BASE_ENTITY_ID,
+                    CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.RELATIONAL_ID));
+        }
 
         if(!TextUtils.isEmpty(ssName)){
             build.append(MessageFormat.format(" where {0}.{1} is null and {2} = {3}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED, HnppConstants.KEY.SS_NAME,"'"+ssName+"'"));
@@ -43,8 +45,32 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
         }
         return build.toString();
     }
+    public String getRiskFilterCondition(String ssName, long fromMonth, long toMonth){
+        StringBuilder build = new StringBuilder();
+        build.append(MessageFormat.format(" inner join {0}", CoreConstants.TABLE_NAME.ANC_MEMBER));
+        build.append(MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.ANC_MEMBER, DBConstants.KEY.BASE_ENTITY_ID,
+                CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.BASE_ENTITY_ID));
+
+        build.append(MessageFormat.format(" inner join {0}", CoreConstants.TABLE_NAME.FAMILY));
+        build.append(MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.FAMILY, DBConstants.KEY.BASE_ENTITY_ID,
+                CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.RELATIONAL_ID));
+
+        if(!TextUtils.isEmpty(ssName)){
+            build.append(MessageFormat.format(" where {0}.{1} is null and {2} = {3}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED, HnppConstants.KEY.SS_NAME,"'"+ssName+"'"));
+            build.append(MessageFormat.format(" and {0}.{1} is null {2}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED,getBetweenEDDCondition(fromMonth,toMonth)));
+
+        }
+        else{
+            build.append(MessageFormat.format(" where {0}.{1} is null {2}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED,getBetweenEDDCondition(fromMonth,toMonth)));
+        }
+        return build.toString();
+    }
     public String getEddFilterCondition(String ssName, long fromMonth, long toMonth){
         StringBuilder build = new StringBuilder();
+        build.append(MessageFormat.format(" inner join {0}", CoreConstants.TABLE_NAME.FAMILY_MEMBER));
+        build.append(MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.BASE_ENTITY_ID,
+                CoreConstants.TABLE_NAME.ANC_MEMBER, DBConstants.KEY.BASE_ENTITY_ID));
+
         build.append(MessageFormat.format(" inner join {0}", CoreConstants.TABLE_NAME.FAMILY));
         build.append(MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.FAMILY, DBConstants.KEY.BASE_ENTITY_ID,
                 CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.RELATIONAL_ID));
@@ -62,7 +88,7 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
     public String getBetweenMemberCondition(long fromMonth, long toMonth){
         StringBuilder build = new StringBuilder();
         if(fromMonth == -1){
-            build.append(MessageFormat.format(" and {0} = {1} ",CoreConstants.TABLE_NAME.FAMILY_MEMBER+"."+DBConstants.KEY.LAST_INTERACTED_WITH,"'"+Long.toString(toMonth)+"'"));
+            build.append(MessageFormat.format(" and {0} <= {1} ",CoreConstants.TABLE_NAME.FAMILY_MEMBER+"."+DBConstants.KEY.LAST_INTERACTED_WITH,"'"+Long.toString(toMonth)+"'"));
         }
         else {
             build.append(MessageFormat.format(" and {0} between {1} and {2} ",CoreConstants.TABLE_NAME.FAMILY_MEMBER+"."+DBConstants.KEY.LAST_INTERACTED_WITH,Long.toString(fromMonth),Long.toString(toMonth)));
@@ -72,7 +98,7 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
     public String getBetweenEDDCondition(long fromMonth, long toMonth){
         StringBuilder build = new StringBuilder();
         if(fromMonth == -1){
-            build.append(MessageFormat.format(" and {0} = {1} ",CoreConstants.TABLE_NAME.ANC_MEMBER+"."+DBConstants.KEY.LAST_INTERACTED_WITH,"'"+Long.toString(toMonth)+"'"));
+            build.append(MessageFormat.format(" and {0} <= {1} ",CoreConstants.TABLE_NAME.ANC_MEMBER+"."+DBConstants.KEY.LAST_INTERACTED_WITH,"'"+Long.toString(toMonth)+"'"));
         }
         else {
             build.append(MessageFormat.format(" and {0} between {1} and {2} ",CoreConstants.TABLE_NAME.ANC_MEMBER+"."+DBConstants.KEY.LAST_INTERACTED_WITH,Long.toString(fromMonth),Long.toString(toMonth)));
@@ -102,7 +128,7 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
             if(TextUtils.isEmpty(ssName)){
                 query = MessageFormat.format("select count(*) as count from {0} where date_removed is null", "ec_guest_member");
             }else{
-                query = MessageFormat.format("select count(*) as count from {0} {1} and date_removed is null", "ec_guest_member",getSSCondition(ssName));
+                query = MessageFormat.format("select count(*) as count from {0} where date_removed is null  {1} ", "ec_guest_member",getSSCondition(ssName));
 
             }
         }
@@ -148,7 +174,7 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
             if(TextUtils.isEmpty(ssName)){
                 query = MessageFormat.format("select count(*) as count from {0} where date_removed is null", "ec_family");
             }else{
-                query = MessageFormat.format("select count(*) as count from {0} {1} and date_removed is null", "ec_family",getSSCondition(ssName));
+                query = MessageFormat.format("select count(*) as count from {0}  where date_removed is null {1}", "ec_family",getSSCondition(ssName));
 
             }
         }
@@ -230,6 +256,70 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
 
 
         return dashBoardData1;
+    }
+    public DashBoardData getHHVisitCount(String ssName,long fromMonth, long toMonth){
+        return getVisitTypeCount(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY,ssName,fromMonth,toMonth);
+    }
+    public DashBoardData getVisitTypeCount(String visitType, String ssName, long fromMonth, long toMonth){
+        DashBoardData dashBoardData1 = new DashBoardData();
+        String mainCondition = "";
+
+        if(!TextUtils.isEmpty(ssName)){
+            mainCondition = "inner join ec_family on ec_family.base_entity_id = ec_visit_log.family_id";
+        }
+
+        mainCondition += " where visit_type ='"+visitType+"'";
+        String query = null, compareDate = "visit_date";
+        if(fromMonth == -1 && toMonth == -1){
+            if(TextUtils.isEmpty(ssName)){
+                query = MessageFormat.format("select count(*) as count from {0} {1}", "ec_visit_log", mainCondition);
+            }else{
+                query = MessageFormat.format("select count(*) as count from {0} {1} {2}", "ec_visit_log", mainCondition,getSSConditionWithTable(ssName,"ec_family"));
+
+            }
+        }
+        else{
+            if(TextUtils.isEmpty(ssName)){
+                query = MessageFormat.format("select count(*) as count from {0} {1} {2}", "ec_visit_log", mainCondition, getBetweenCondition(fromMonth,toMonth,compareDate));
+            }else{
+                query = MessageFormat.format("select count(*) as count from {0} {1} {2} {3}", "ec_visit_log", mainCondition,getSSConditionWithTable(ssName,"ec_family"),getBetweenCondition(fromMonth,toMonth,compareDate));
+
+            }
+        }
+            Log.v("HOMEVISIT","visit_type:"+query);
+
+
+        Cursor cursor = null;
+        // try {
+        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        if(cursor !=null && cursor.getCount() > 0){
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+
+                dashBoardData1.setCount(cursor.getInt(0));
+                dashBoardData1.setEventType(visitType);
+                dashBoardData1.setTitle(HnppConstants.countSummeryTypeMapping.get(dashBoardData1.getEventType()));
+
+                try{
+                    dashBoardData1.setImageSource((int)HnppConstants.iconMapping.get(dashBoardData1.getEventType()));
+                }catch (Exception e){
+
+                }
+                cursor.moveToNext();
+            }
+            cursor.close();
+
+        }
+
+
+        return dashBoardData1;
+    }
+    public String getSSConditionWithTable(String ssName,String tableName){
+        if(TextUtils.isEmpty(tableName)){
+            return " and "+HnppConstants.KEY.SS_NAME+" = '"+ssName+"'";
+        }else{
+            return  " and "+tableName+"."+HnppConstants.KEY.SS_NAME+" = '"+ssName+"'";
+        }
     }
 
     public DashBoardData getSimprintsCount(String ssName,long fromMonth, long toMonth){
@@ -383,7 +473,7 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
             }
         }
         else{
-            query = MessageFormat.format("select count(*) as count from {0}{1} {2}", "ec_family_member", getEddFilterCondition(ssName,fromMonth,toMonth),ChildDBConstants.riskAncPatient());
+            query = MessageFormat.format("select count(*) as count from {0}{1} {2}", "ec_family_member", getRiskFilterCondition(ssName,fromMonth,toMonth),ChildDBConstants.riskAncPatient());
         }
 
 

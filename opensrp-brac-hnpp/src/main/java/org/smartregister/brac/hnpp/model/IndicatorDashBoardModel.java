@@ -246,7 +246,7 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
             if(TextUtils.isEmpty(ssName)){
                 query = MessageFormat.format("select count(*) as count from {0} where date_removed is not null", "ec_family");
             }else{
-                query = MessageFormat.format("select count(*) as count from {0} {1} and date_removed is not null", "ec_family",getSSCondition(ssName));
+                query = MessageFormat.format("select count(*) as count from {0}  where date_removed is not null {1}", "ec_family",getSSCondition(ssName));
 
             }
         }
@@ -375,7 +375,7 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
             if(TextUtils.isEmpty(ssName)){
                 query = MessageFormat.format("select count(*) as count from {0} where date_removed ='1'", "ec_family");
             }else{
-                query = MessageFormat.format("select count(*) as count from {0} {1} and date_removed ='1'", "ec_family",getSSCondition(ssName));
+                query = MessageFormat.format("select count(*) as count from {0}  where date_removed ='1' {1}", "ec_family",getSSCondition(ssName));
 
             }
         }

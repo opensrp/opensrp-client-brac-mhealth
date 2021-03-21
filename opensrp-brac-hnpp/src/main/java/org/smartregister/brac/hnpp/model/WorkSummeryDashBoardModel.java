@@ -32,7 +32,7 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
             if(TextUtils.isEmpty(ssName)){
                 query = MessageFormat.format("select count(*) as count from {0} where date_removed is null", "ec_family");
             }else{
-                query = MessageFormat.format("select count(*) as count from {0} {1} and date_removed is null", "ec_family",getSSCondition(ssName));
+                query = MessageFormat.format("select count(*) as count from {0}  where date_removed is null {1}", "ec_family",getSSCondition(ssName));
 
             }
         }
@@ -167,6 +167,9 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
     public DashBoardData getAnc1Count(String ssName,long fromMonth, long toMonth){
         return getVisitTypeCount(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION,ssName,fromMonth,toMonth);
     }
+    public DashBoardData getHHVisitCount(String ssName,long fromMonth, long toMonth){
+        return getVisitTypeCount(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY,ssName,fromMonth,toMonth);
+    }
     public DashBoardData getAnc2Count(String ssName, long fromMonth, long toMonth){
         return getVisitTypeCount(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION,ssName,fromMonth,toMonth);
     }
@@ -221,7 +224,7 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
 
     public DashBoardData getVisitTypeCount(String visitType, String ssName, long fromMonth, long toMonth){
         DashBoardData dashBoardData1 = new DashBoardData();
-        String mainCondition, ssCondition;
+        String mainCondition = "", ssCondition;
         if(visitType.equalsIgnoreCase("ANC")){
             mainCondition = "where (event_type = '"+ HnppConstants.EVENT_TYPE.ANC1_REGISTRATION+"' or event_type ='"+ HnppConstants.EVENT_TYPE.ANC2_REGISTRATION+"' or event_type ='"+ HnppConstants.EVENT_TYPE.ANC3_REGISTRATION+"')";
         }else if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)){
@@ -236,7 +239,15 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
         else if(visitType.equalsIgnoreCase("pnc")){
             mainCondition = "where visit_type = '"+ HnppConstants.EVENT_TYPE.PNC_REGISTRATION+"' or visit_type = '"+HnppConstants.EventType.PNC_HOME_VISIT+"'" ;
 
-        }else{
+        }else if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY)){
+
+           if(!TextUtils.isEmpty(ssName)){
+               mainCondition = "inner join ec_family on ec_family.base_entity_id = ec_visit_log.family_id";
+           }
+
+            mainCondition += " where visit_type ='"+visitType+"'";
+        }
+        else{
             mainCondition= " where visit_type ='"+visitType+"'";
         }
         String query = null, compareDate = "visit_date";
@@ -244,7 +255,7 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
             if(TextUtils.isEmpty(ssName)){
                 query = MessageFormat.format("select count(*) as count from {0} {1}", "ec_visit_log", mainCondition);
             }else{
-                query = MessageFormat.format("select count(*) as count from {0} {1} {2}", "ec_visit_log", mainCondition,getSSCondition(ssName));
+                query = MessageFormat.format("select count(*) as count from {0} {1} {2}", "ec_visit_log", mainCondition,visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY)?getSSCondition(ssName,"ec_family"):getSSCondition(ssName));
 
             }
         }
@@ -252,19 +263,11 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
             if(TextUtils.isEmpty(ssName)){
                 query = MessageFormat.format("select count(*) as count from {0} {1} {2}", "ec_visit_log", mainCondition, getBetweenCondition(fromMonth,toMonth,compareDate));
             }else{
-                query = MessageFormat.format("select count(*) as count from {0} {1} {2}", "ec_visit_log", mainCondition,getSSCondition(ssName),getBetweenCondition(fromMonth,toMonth,compareDate));
+                query = MessageFormat.format("select count(*) as count from {0} {1} {2} {3}", "ec_visit_log", mainCondition,visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY)?getSSCondition(ssName,"ec_family"):getSSCondition(ssName),getBetweenCondition(fromMonth,toMonth,compareDate));
 
             }
         }
-        /*if(TextUtils.isEmpty(ssName) && TextUtils.isEmpty(month)){
-            query = MessageFormat.format("select count(*) as count from {0} {1}", "ec_visit_log", mainCondition);
-        }else{
-            query = MessageFormat.format("select count(*) as count from {0} {1}", "ec_visit_log", getVisitFilterCondition(ssName,month,year,mainCondition));
 
-        }*/
-       if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ELCO)){
-           Log.v("MONTH_FILTER","visit_type:"+query);
-       }
 
         Cursor cursor = null;
         // try {
@@ -292,9 +295,14 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
         return dashBoardData1;
     }
     public String getSSCondition(String ssName){
-        String ssCondition;
-        ssCondition = " and "+HnppConstants.KEY.SS_NAME+" = '"+ssName+"'";
-        return ssCondition;
+        return getSSCondition(ssName,"");
+    }
+    public String getSSCondition(String ssName,String tableName){
+        if(TextUtils.isEmpty(tableName)){
+            return " and "+HnppConstants.KEY.SS_NAME+" = '"+ssName+"'";
+        }else{
+           return  " and "+tableName+"."+HnppConstants.KEY.SS_NAME+" = '"+ssName+"'";
+        }
     }
     public String getBetweenCondition(long fromMonth, long toMonth, String compareDate){
         StringBuilder build = new StringBuilder();
@@ -310,30 +318,42 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
     public DashBoardData getANcTrimesterCount(String title,String ssName, long fromMonth, long toMonth,int startDate,int endDate){
         String compareDate = "ec_anc_register."+DBConstants.KEY.LAST_INTERACTED_WITH;
         DashBoardData dashBoardData1 = new DashBoardData();
-        String mainCondition;
+        String mainCondition = "";
+
+        StringBuilder build = new StringBuilder();
+        if(!TextUtils.isEmpty(ssName)){
+            build.append(MessageFormat.format(" inner join {0} ", CoreConstants.TABLE_NAME.FAMILY));
+            build.append(MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.FAMILY, DBConstants.KEY.BASE_ENTITY_ID,
+                    CoreConstants.TABLE_NAME.ANC_MEMBER, DBConstants.KEY.RELATIONAL_ID));
+
+            build.append(mainCondition);
+        }
         if(endDate==0){
 
-            mainCondition   = "where dayPass>="+startDate;
+            mainCondition   = " where dayPass>="+startDate;
+            build.append(mainCondition);
 
         }else{
 
-            mainCondition = "where dayPass>="+startDate+" and dayPass<="+endDate+"";
+            mainCondition = " where dayPass>="+startDate+" and dayPass<="+endDate+"";
+            build.append(mainCondition);
 
         }
+
         String query;
         if(fromMonth == -1 && toMonth == -1){
             if(TextUtils.isEmpty(ssName)){
-                query = MessageFormat.format("select count(*) as count,{2} from {0} {1}", "ec_anc_register", mainCondition,getDateFormate());
+                query = MessageFormat.format("select count(*) as count,{2} from {0} {1}", "ec_anc_register", build.toString(),getDateFormate());
             }else{
-                query = MessageFormat.format("select count(*) as count,{3} from {0} {1} {2}", "ec_anc_register", mainCondition,getSSCondition(ssName),getDateFormate());
+                query = MessageFormat.format("select count(*) as count,{3} from {0} {1} {2}", "ec_anc_register", build.toString(),getSSCondition(ssName),getDateFormate());
 
             }
         }
         else{
             if(TextUtils.isEmpty(ssName)){
-                query = MessageFormat.format("select count(*) as count,{3} from {0} {1} {2}", "ec_anc_register", mainCondition, getBetweenCondition(fromMonth,toMonth,compareDate),getDateFormate());
+                query = MessageFormat.format("select count(*) as count,{3} from {0} {1} {2}", "ec_anc_register", build.toString(), getBetweenCondition(fromMonth,toMonth,compareDate),getDateFormate());
             }else{
-                query = MessageFormat.format("select count(*) as count,{3} from {0} {1} {2}", "ec_anc_register", mainCondition,getSSCondition(ssName),getBetweenCondition(fromMonth,toMonth,compareDate),getDateFormate());
+                query = MessageFormat.format("select count(*) as count,{4} from {0} {1} {2} {3}", "ec_anc_register", build.toString(),getSSCondition(ssName),getBetweenCondition(fromMonth,toMonth,compareDate),getDateFormate());
 
             }
         }
@@ -372,31 +392,6 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
         return "(julianday() - julianday(substr(last_menstrual_period, 7, 4)||'-'||substr(last_menstrual_period, 4, 2)||'-'||substr(last_menstrual_period, 1, 2))) as dayPass";
     }
 
-    public String getTrimesterFilterCondition(String ssName, String month, String year, String mainCondition){
-        StringBuilder build = new StringBuilder();
-        build.append(MessageFormat.format(" inner join {0} ", CoreConstants.TABLE_NAME.FAMILY));
-        build.append(MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.FAMILY, DBConstants.KEY.BASE_ENTITY_ID,
-                CoreConstants.TABLE_NAME.ANC_MEMBER, DBConstants.KEY.RELATIONAL_ID));
-
-        build.append(mainCondition);
-        if(!TextUtils.isEmpty(ssName) && !TextUtils.isEmpty(month)){
-            build.append(MessageFormat.format(" and {0} = {1} ", HnppConstants.KEY.SS_NAME,"'"+ssName+"'"));
-            build.append(MessageFormat.format(" and {0} = {1} ", "strftime('%m', datetime(ec_anc_register.last_interacted_with/1000,'unixepoch','localtime'))" ,"'"+month+"'"));
-            build.append(MessageFormat.format(" and {0} = {1} ", "strftime('%Y', datetime(ec_anc_register.last_interacted_with/1000,'unixepoch','localtime'))" ,"'"+year+"'"));
-
-        }
-        else if(!TextUtils.isEmpty(month)){
-            build.append(MessageFormat.format(" and {0} = {1} ", "strftime('%m', datetime(ec_anc_register.last_interacted_with/1000,'unixepoch','localtime'))" ,"'"+month+"'"));
-            build.append(MessageFormat.format(" and {0} = {1} ", "strftime('%Y', datetime(ec_anc_register.last_interacted_with/1000,'unixepoch','localtime'))" ,"'"+year+"'"));
-
-        }
-        else if(!TextUtils.isEmpty(ssName)){
-            build.append(MessageFormat.format(" and {0} = {1} ", HnppConstants.KEY.SS_NAME,"'"+ssName+"'"));
-
-        }
-
-        return build.toString();
-    }
 
 
 
