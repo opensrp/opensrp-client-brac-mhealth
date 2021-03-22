@@ -41,13 +41,18 @@ public class WorkSummeryDashBoardPresenter implements DashBoardContract.Presente
 
     @Override
     public void filterData(String ssName, String month, String year) {
-        getView().showProgressBar();
+       /* getView().showProgressBar();
         if(month.equalsIgnoreCase("-1")) month ="";
         if(year.equalsIgnoreCase("-1")) year ="";
         month = HnppConstants.addZeroForMonth(month);
-        interactor.filterData(ssName,month,year,this);
+        interactor.filterData(ssName,month,year,this);*/
 
     }
+
+    public void filterByFromToMonth(long fromMonth, long toMonth, String ssName) {
+        interactor.filterByFromToMonth(ssName,fromMonth,toMonth,this);
+    }
+
 
     @Override
     public DashBoardContract.View getView() {

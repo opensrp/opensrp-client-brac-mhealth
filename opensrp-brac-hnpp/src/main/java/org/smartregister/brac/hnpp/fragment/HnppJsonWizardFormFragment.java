@@ -71,7 +71,7 @@ public class HnppJsonWizardFormFragment extends JsonWizardFormFragment {
         boolean isCurrentYear = HnppJsonFormUtils.isCurrentYear(value);
         if(isCurrentYear){
             int cMonth = HnppJsonFormUtils.getCurrentMonth();
-            for(int i = 0;i< cMonth-1 ;i++){
+            for(int i = 0;i< cMonth;i++){
                 monthList.add(HnppJsonFormUtils.monthStr[i]);
             }
 

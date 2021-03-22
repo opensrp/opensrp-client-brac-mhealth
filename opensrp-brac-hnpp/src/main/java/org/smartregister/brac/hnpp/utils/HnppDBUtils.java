@@ -114,7 +114,7 @@ public class HnppDBUtils extends CoreChildUtils {
         int month = calendar.get(Calendar.MONTH)+1;
         int year = calendar.get(Calendar.YEAR);
 
-        String query = "select  product_name, (sum(coalesce(stock_quantity,0)) - sum(coalesce(achievemnt_count,0))) as balance from stock_table where "+ StockRepository.STOCK_TIMESTAMP+" < "+HnppConstants.getLongDateFormate(year+"",month+"")+" group by product_name having (sum(stock_quantity) - sum(achievemnt_count))<"+STOCK_END_THRESHOLD;
+        String query = "select  product_name, (sum(coalesce(stock_quantity,0)) - sum(coalesce(achievemnt_count,0))) as balance from stock_table where "+ StockRepository.STOCK_TIMESTAMP+" < "+HnppConstants.getLongDateFormatForToMonth(year+"",month+"")+" group by product_name having (sum(stock_quantity) - sum(achievemnt_count))<"+STOCK_END_THRESHOLD;
        Log.v("NOTIFICATION_JOB","getStockEnd:"+query);
         Cursor cursor = null;
         StringBuilder nameCount = new StringBuilder();

@@ -580,7 +580,7 @@
         "key": "can_two_sound",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "can_walk",
+        "openmrs_entity_id": "can_two_sound",
         "openmrs_data_type": "",
         "type": "spinner",
         "hint": "দুইটি আলাদা শব্দ বলতে পারে কিনা?",

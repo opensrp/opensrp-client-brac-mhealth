@@ -35,7 +35,7 @@ public class CountSummeryDashBoardInteractor implements DashBoardContract.Intera
     @Override
     public void fetchAllData(DashBoardContract.InteractorCallBack callBack) {
         Runnable runnable = () -> {
-            fetchHHData("","","");
+            fetchHHData("",-1,-1);
 
             appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
         };
@@ -43,43 +43,43 @@ public class CountSummeryDashBoardInteractor implements DashBoardContract.Intera
 
     }
     // need to maintain serial to display
-    private void fetchHHData(String ssName,String month, String year) {
+    private void fetchHHData(String ssName, long fromMonth, long toMonth) {
         dashBoardDataArrayList.clear();
-        addToDashBoardList(model.getHHCount(ssName,month,year));
-        addToDashBoardList(model.getMemberCount(ssName,month,year));
-        addToDashBoardList(model.getOOCCount(ssName,month,year));
-        addToDashBoardList(model.getSimprintsCount(ssName,month,year));
-        addToDashBoardList(model.getBoyChildUnder5(ssName,month,year));
-        addToDashBoardList(model.getGirlChildUnder5(ssName,month,year));
-        addToDashBoardList(model.getBoyChild5To9(ssName,month,year));
-        addToDashBoardList(model.getGirlChild5To9(ssName,month,year));
-        addToDashBoardList(model.getBoyChild10To19(ssName,month,year));
-        addToDashBoardList(model.getGirlChild10To19(ssName,month,year));
-        addToDashBoardList(model.getBoyChild20To50(ssName,month,year));
-        addToDashBoardList(model.getGirlChild20To50(ssName,month,year));
-        addToDashBoardList(model.getMenUp50(ssName,month,year));
-        addToDashBoardList(model.getWoMenUp50(ssName,month,year));
-        addToDashBoardList(model.getAdoGirl(ssName,month,year));
-        addToDashBoardList(model.getAdoBoy(ssName,month,year));
-        addToDashBoardList(model.getAdoElco(ssName,month,year));
-        addToDashBoardList(model.getEddThisMonth(ssName,month,year));
-        addToDashBoardList(model.getRiskMother(ssName,month,year));
+        addToDashBoardList(model.getHHCount(ssName,fromMonth,toMonth));
+        addToDashBoardList(model.getMemberCount(ssName,fromMonth,toMonth));
+        addToDashBoardList(model.getHHVisitCount(ssName,fromMonth,toMonth));
+        addToDashBoardList(model.getOOCCount(ssName,fromMonth,toMonth));
+        addToDashBoardList(model.getSimprintsCount(ssName,fromMonth,toMonth));
+        addToDashBoardList(model.getBoyChildUnder5(ssName,fromMonth,toMonth));
+        addToDashBoardList(model.getGirlChildUnder5( ssName,fromMonth,toMonth));
+        addToDashBoardList(model.getBoyChild5To9( ssName,fromMonth,toMonth));
+        addToDashBoardList(model.getGirlChild5To9( ssName,fromMonth,toMonth));
+        addToDashBoardList(model.getBoyChild10To19( ssName,fromMonth,toMonth));
+        addToDashBoardList(model.getGirlChild10To19( ssName,fromMonth,toMonth));
+        addToDashBoardList(model.getBoyChild20To50( ssName,fromMonth,toMonth));
+        addToDashBoardList(model.getGirlChild20To50( ssName,fromMonth,toMonth));
+        addToDashBoardList(model.getMenUp50( ssName,fromMonth,toMonth));
+        addToDashBoardList(model.getWoMenUp50( ssName,fromMonth,toMonth));
+        addToDashBoardList(model.getAdoGirl( ssName,fromMonth,toMonth));
+        addToDashBoardList(model.getAdoBoy( ssName,fromMonth,toMonth));
+        addToDashBoardList(model.getAdoElco( ssName,fromMonth,toMonth));
+        addToDashBoardList(model.getEddThisMonth( ssName,fromMonth,toMonth));
+        addToDashBoardList(model.getRiskMother( ssName,fromMonth,toMonth));
         if(indicatorModel !=null){
-            addToDashBoardList(indicatorModel.getFamilyMethodKnown(ssName,month,year));
-            addToDashBoardList(indicatorModel.getNoFamilyMethodUser(ssName,month,year));
-            addToDashBoardList(indicatorModel.getFillUser(ssName,month,year));
-            addToDashBoardList(indicatorModel.getFillFromSS(ssName,month,year));
-            addToDashBoardList(indicatorModel.getFillFromOther(ssName,month,year));
-            addToDashBoardList(indicatorModel.getCondomUser(ssName,month,year));
-            addToDashBoardList(indicatorModel.getIudUser(ssName,month,year));
-            addToDashBoardList(indicatorModel.getInjectionUser(ssName,month,year));
-            addToDashBoardList(indicatorModel.getNorplantUser(ssName,month,year));
-            addToDashBoardList(indicatorModel.getVasectomyUser(ssName,month,year));
-            addToDashBoardList(indicatorModel.getTubeUser(ssName,month,year));
-            addToDashBoardList(indicatorModel.getVerifiedBySimprints(ssName,month,year));
-            addToDashBoardList(indicatorModel.getIdentifiedBySimprints(ssName,month,year));
+            addToDashBoardList(indicatorModel.getFamilyMethodKnown( ssName,fromMonth,toMonth));
+            addToDashBoardList(indicatorModel.getNoFamilyMethodUser( ssName,fromMonth,toMonth));
+            addToDashBoardList(indicatorModel.getFillUser( ssName,fromMonth,toMonth));
+            addToDashBoardList(indicatorModel.getFillFromSS( ssName,fromMonth,toMonth));
+            addToDashBoardList(indicatorModel.getFillFromOther( ssName,fromMonth,toMonth));
+            addToDashBoardList(indicatorModel.getCondomUser( ssName,fromMonth,toMonth));
+            addToDashBoardList(indicatorModel.getIudUser( ssName,fromMonth,toMonth));
+            addToDashBoardList(indicatorModel.getInjectionUser( ssName,fromMonth,toMonth));
+            addToDashBoardList(indicatorModel.getNorplantUser( ssName,fromMonth,toMonth));
+            addToDashBoardList(indicatorModel.getVasectomyUser( ssName,fromMonth,toMonth));
+            addToDashBoardList(indicatorModel.getTubeUser( ssName,fromMonth,toMonth));
+            addToDashBoardList(indicatorModel.getVerifiedBySimprints( ssName,fromMonth,toMonth));
+            addToDashBoardList(indicatorModel.getIdentifiedBySimprints( ssName,fromMonth,toMonth));
         }
-
 
     }
 
@@ -87,12 +87,22 @@ public class CountSummeryDashBoardInteractor implements DashBoardContract.Intera
     public void filterData(String ssName, String month , String year, DashBoardContract.InteractorCallBack callBack) {
         dashBoardDataArrayList.clear();
         Runnable runnable = () -> {
-            fetchHHData(ssName,month,year);
+            //TODO not needed
+            fetchHHData( ssName,-1,-1);
 
             appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
         };
         appExecutors.diskIO().execute(runnable);
 
 
+    }
+    public void filterByFromToMonth(String ssName, long fromMonth, long toMonth, DashBoardContract.InteractorCallBack callBack) {
+        dashBoardDataArrayList.clear();
+        Runnable runnable = () -> {
+            fetchHHData(ssName,fromMonth,toMonth);
+
+            appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
+        };
+        appExecutors.diskIO().execute(runnable);
     }
 }

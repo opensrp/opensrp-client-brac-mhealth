@@ -176,6 +176,11 @@ public class HnppConstants extends CoreConstants {
         if(month.length()==1) return "0"+month;
         return month;
     }
+    public static String addZeroForDay(String day){
+        if(TextUtils.isEmpty(day)) return "";
+        if(day.length()==1) return "0"+day;
+        return day;
+    }
     public class ANC_REGISTER_COLUMNS {
         public static final String LAST_MENSTRUAL_PERIOD = "last_menstrual_period";
         public static final String EDD = "edd";
@@ -475,24 +480,29 @@ public class HnppConstants extends CoreConstants {
     }
 
     public static String getDeviceId(TelephonyManager mTelephonyManager, Context context,boolean fromSettings) {
-        String deviceId = null;
-        if (mTelephonyManager != null) {
+        String deviceId = "";
+        try{
+            if (mTelephonyManager != null) {
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                deviceId = mTelephonyManager.getDeviceId(1);
-                if(fromSettings){
-                    deviceId = deviceId+"\n"+mTelephonyManager.getDeviceId(2);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    deviceId = mTelephonyManager.getDeviceId(1);
+                    if(fromSettings){
+                        deviceId = deviceId+"\n"+mTelephonyManager.getDeviceId(2);
+                    }
+                }else {
+                    if (mTelephonyManager.getPhoneType() == TelephonyManager.PHONE_TYPE_NONE) { //For tablet
+                        deviceId = Settings.Secure.getString(context.getApplicationContext().getContentResolver(),
+                                Settings.Secure.ANDROID_ID);
+                    } else { //for normal phones
+                        deviceId = mTelephonyManager.getDeviceId();
+                    }
                 }
-            }else {
-                if (mTelephonyManager.getPhoneType() == TelephonyManager.PHONE_TYPE_NONE) { //For tablet
-                    deviceId = Settings.Secure.getString(context.getApplicationContext().getContentResolver(),
-                            Settings.Secure.ANDROID_ID);
-                } else { //for normal phones
-                    deviceId = mTelephonyManager.getDeviceId();
-                }
+
             }
-
+        }catch (SecurityException se){
+            se.printStackTrace();
         }
+
         return deviceId;
     }
     public static boolean isDeviceVerified(){
@@ -725,7 +735,7 @@ public class HnppConstants extends CoreConstants {
         public static final String PNC_SERVICE = "PNC Service";
         public static final String GUEST_MEMBER_REGISTRATION = "OOC Member Registration";
     }
-    public static long getLongDateFormate(String year,String month){
+    public static long getLongDateFormatForFromMonth(String year,String month){
         String dateFormate = year+"-"+HnppConstants.addZeroForMonth(month)+"-01";
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         long startDate = System.currentTimeMillis();
@@ -736,6 +746,55 @@ public class HnppConstants extends CoreConstants {
             e.printStackTrace();
         }
         return startDate;
+    }
+    public static long getLongDateFormatForToMonth(String year,String month){
+        String dateFormate = year+"-"+HnppConstants.addZeroForMonth(month)+"-"+getLastDateOfAMonth(month);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        long startDate = System.currentTimeMillis();
+        try{
+            Date date = format.parse(dateFormate);
+            startDate = date.getTime();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return startDate;
+    }
+    public static String getLastDateOfAMonth(String month){
+        if (TextUtils.isEmpty(month)) return "";
+        int m = Integer.parseInt(month);
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.MONTH,m);
+        int lastDate = c.getActualMaximum(Calendar.DATE);
+        return HnppConstants.addZeroForMonth(lastDate+"");
+    }
+    public static long getLongDateFormate(String year,String month,String day){
+        String dateFormate = year+"-"+HnppConstants.addZeroForMonth(month)+"-"+HnppConstants.addZeroForDay(day);
+
+        Log.v("DAILY_TERGET","dateStr:"+dateFormate);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
+        long startDate = System.currentTimeMillis();
+        try{
+            Date date = format.parse(dateFormate);
+            startDate = date.getTime();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return startDate;
+    }
+    public static String getStringFormatedDate(String year,String month,String day){
+        return   year+"-"+HnppConstants.addZeroForMonth(month)+"-"+HnppConstants.addZeroForDay(day);
+
+    }
+    public static String getDateFormateFromLong(long dateTime){
+        Date date = new Date(dateTime);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = null;
+        try{
+            dateString = format.format(date);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return dateString;
     }
     public static final Map<String,String> genderMapping = ImmutableMap.<String,String> builder()
             .put("নারী","F")
@@ -947,6 +1006,7 @@ public class HnppConstants extends CoreConstants {
 
             .put(HnppConstants.EventType.FAMILY_REGISTRATION,"খানা রেজিস্ট্রেশন")
             .put(HnppConstants.EventType.FAMILY_MEMBER_REGISTRATION,"সদস্য রেজিস্ট্রেশন")
+            .put(EVENT_TYPE.HOME_VISIT_FAMILY,"খানা ভিজিট")
             .put(HnppConstants.EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,"সদস্য রেজিস্ট্রেশন")
             .put(EVENT_TYPE.ANC1_REGISTRATION,"গর্ভবতী পরিচর্যা - ১ম ত্রিমাসিক")
             .put(EVENT_TYPE.ANC2_REGISTRATION,"গর্ভবতী পরিচর্যা - ২য় ত্রিমাসিক")
@@ -1000,6 +1060,7 @@ public class HnppConstants extends CoreConstants {
             .put(HnppConstants.EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,"সদস্য সংখ্যা")
             .put(HnppConstants.EventType.CHILD_REGISTRATION,"শিশু সংখ্যা")
             .put(EVENT_TYPE.ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন")
+            .put(EVENT_TYPE.HOME_VISIT_FAMILY,"খানা ভিজিট")
             .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,"গর্ভবতী পরিচর্যা ভিজিট(এএনসি)")
             .put(Constants.EVENT_TYPE.PNC_HOME_VISIT,"প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি)")
             .put(EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসব")
