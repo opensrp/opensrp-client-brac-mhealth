@@ -22,7 +22,7 @@ public class HnppNavigationListener extends NavigationListener {
                 startRegisterActivity(getActivity(CoreConstants.REGISTERED_ACTIVITIES.ELCO_REGISTER_ACTIVITY));
             }else if(CoreConstants.DrawerMenu.SIMPRINTS_IDENTITY.equals(tag)){
 
-                startRegisterActivityWithoutFinish(getActivity(CoreConstants.REGISTERED_ACTIVITIES.SIMPRINTS_REGISTER_ACTIVITY));
+                startRegisterActivityWithOutFinish(getActivity(CoreConstants.REGISTERED_ACTIVITIES.SIMPRINTS_REGISTER_ACTIVITY));
             }
             else if(CoreConstants.DrawerMenu.FORUM.equals(tag)){
 
