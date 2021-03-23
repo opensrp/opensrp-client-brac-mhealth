@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.presenter;
 
+import org.json.JSONObject;
 import org.smartregister.brac.hnpp.contract.HnppFamilyRegisterContract;
 import org.smartregister.brac.hnpp.interactor.HnppFamilyRegisterInteractor;
 import org.smartregister.brac.hnpp.model.HnppFamilyRegisterModel;
@@ -16,6 +17,14 @@ public class FamilyRegisterPresenter extends BaseFamilyRegisterPresenter  {
     public FamilyRegisterPresenter(FamilyRegisterContract.View view, FamilyRegisterContract.Model model) {
         super(view, model);
         interactor  = new HnppFamilyRegisterInteractor();
+    }
+
+    @Override
+    public void startForm(String formName, String entityId, String metadata, String currentLocationId) throws Exception {
+        JSONObject form = this.model.getFormAsJson(formName, entityId, currentLocationId);
+        if (this.getView() != null) {
+            this.getView().startFormActivity(form);
+        }
     }
 
     @Override

@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.interactor;
 import android.util.Log;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Triple;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.clientandeventmodel.Client;
@@ -20,8 +21,10 @@ import java.util.List;
 
 
 public class HnppFamilyRegisterInteractor extends org.smartregister.family.interactor.FamilyRegisterInteractor {
-
-
+    @Override
+    public void getNextUniqueId(Triple<String, String, String> triple, FamilyRegisterContract.InteractorCallBack callBack) {
+        //no need to handle this
+    }
 
     @Override
     public void saveRegistration(List<FamilyEventClient> familyEventClientList, String jsonString, boolean isEditMode, FamilyRegisterContract.InteractorCallBack callBack) {
