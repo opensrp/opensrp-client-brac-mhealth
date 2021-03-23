@@ -29,16 +29,6 @@ import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.domain.HouseholdId;
 import org.smartregister.brac.hnpp.interactor.HnppJsonFormInteractor;
-import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
-import org.smartregister.brac.hnpp.location.SSLocationHelper;
-import org.smartregister.brac.hnpp.location.SSLocations;
-import org.smartregister.brac.hnpp.repository.HouseholdIdRepository;
-import org.smartregister.brac.hnpp.utils.HnppConstants;
-import org.smartregister.util.Utils;
-
-import java.util.ArrayList;
-
-import static com.vijay.jsonwizard.utils.FormUtils.getFieldJSONObject;
 
 public class COVIDJsonFormFragment extends JsonWizardFormFragment {
     public COVIDJsonFormFragment() {

@@ -203,7 +203,7 @@ public class HnppNavigationPresenter extends NavigationPresenter {
             }
             HomeVisitServiceJob.scheduleJobImmediately(HomeVisitServiceJob.TAG);
             HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
-            PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
+            //PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
             PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
             VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
             TargetFetchJob.scheduleJobImmediately(TargetFetchJob.TAG);
