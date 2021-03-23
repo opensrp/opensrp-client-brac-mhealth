@@ -115,6 +115,10 @@
     <string name="Female">F</string>
     <string name="male">M</string>
     <string name="female">F</string>
+    <string name="abbrv_years">\u0020 বছর</string>
+    <string name="abbrv_months">\u0020 মাস</string>
+    <string name="abbrv_weeks">\u0020 সপ্তাহ</string>
+    <string name="abbrv_days">\u0020 দিন</string>
     <string name="relation_with_member_and_head">সম্পর্ক : %s</string>
     <string name="care_giver_initials">মায়ের নাম :  %s</string>
     <string name="age">বয়স :  %s</string>

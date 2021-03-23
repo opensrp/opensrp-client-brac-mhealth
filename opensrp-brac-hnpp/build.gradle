@@ -117,8 +117,8 @@ android {
             buildConfigField "String", 'opensrp_url_live', '"http://mhealthtest.brac.net:8080/opensrp/"'
         }
         normal{
-            versionCode 34
-            versionName "1.3.9_DEV"
+            versionCode 35
+            versionName "1.4.0_DEV"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
 
