@@ -107,8 +107,8 @@ android {
     productFlavors {
 
         training{
-            versionCode 29
-            versionName "3.0.3"
+            versionCode 30
+            versionName "3.0.4"
             dimension = 'baseDimension'
             applicationIdSuffix ".training"
             buildConfigField "boolean", 'IS_TRAINING', 'true'
