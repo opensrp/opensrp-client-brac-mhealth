@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -247,7 +248,10 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
 
     @Override
     public void logout(Activity activity) {
-        Toast.makeText(activity.getApplicationContext(), activity.getResources().getText(R.string.action_log_out), Toast.LENGTH_SHORT).show();
+        if(activity !=null && !activity.isFinishing()){
+            Toast.makeText(activity, activity.getResources().getText(R.string.action_log_out), Toast.LENGTH_SHORT).show();
+
+        }
         application.forceLogout();
     }
 
@@ -276,8 +280,8 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
 
     @Override
     public void displayToast(Activity activity, String message) {
-        if (activity != null) {
-            Toast.makeText(activity.getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+        if (activity != null && !activity.isFinishing()) {
+            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -333,8 +337,16 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         syncProgressBar = rootView.findViewById(R.id.pbSync);
 
         View.OnClickListener syncClicker = v -> {
-            Toast.makeText(parentActivity, parentActivity.getResources().getText(R.string.action_start_sync), Toast.LENGTH_SHORT).show();
-            mPresenter.sync(parentActivity);
+            if(parentActivity!=null && !parentActivity.isFinishing()){
+                try{
+                    Toast.makeText(parentActivity, parentActivity.getResources().getText(R.string.action_start_sync), Toast.LENGTH_SHORT).show();
+                    mPresenter.sync(parentActivity);
+                }catch (WindowManager.BadTokenException e) {
+
+                }
+
+            }
+
         };
 
 
