@@ -248,11 +248,16 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
 
     @Override
     public void logout(Activity activity) {
-        if(activity !=null && !activity.isFinishing()){
-            Toast.makeText(activity, activity.getResources().getText(R.string.action_log_out), Toast.LENGTH_SHORT).show();
+        try{
+            if(activity !=null && !activity.isFinishing()){
+                Toast.makeText(activity, activity.getResources().getText(R.string.action_log_out), Toast.LENGTH_SHORT).show();
 
+            }
+            application.forceLogout();
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        application.forceLogout();
+
     }
 
     public void covid19(Activity activity) {
@@ -280,9 +285,14 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
 
     @Override
     public void displayToast(Activity activity, String message) {
-        if (activity != null && !activity.isFinishing()) {
-            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+        try{
+            if (activity != null && !activity.isFinishing()) {
+                Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
     }
 
     private void registerDrawer(Activity parentActivity) {
@@ -341,7 +351,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
                 try{
                     Toast.makeText(parentActivity, parentActivity.getResources().getText(R.string.action_start_sync), Toast.LENGTH_SHORT).show();
                     mPresenter.sync(parentActivity);
-                }catch (WindowManager.BadTokenException e) {
+                }catch (Exception e) {
 
                 }
 
