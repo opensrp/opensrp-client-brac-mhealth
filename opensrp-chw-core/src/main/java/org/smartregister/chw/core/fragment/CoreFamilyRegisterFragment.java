@@ -90,7 +90,7 @@ public abstract class CoreFamilyRegisterFragment extends BaseFamilyRegisterFragm
             } else {
                 super.onSyncInProgress(fetchStatus);
             }
-        }catch (WindowManager.BadTokenException e){
+        }catch (Exception e){
 
         }
 
@@ -106,7 +106,7 @@ public abstract class CoreFamilyRegisterFragment extends BaseFamilyRegisterFragm
             } else {
                 super.onSyncComplete(fetchStatus);
             }
-        }catch (WindowManager.BadTokenException e){
+        }catch (Exception e){
 
         }
 
