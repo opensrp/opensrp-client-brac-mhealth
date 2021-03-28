@@ -92,7 +92,7 @@
     <string name="ss_name"><br>সেবিকাঃ </br> %s</string>
     <string name="serial_no"><br>খানা সিরিয়াল :</br> %s</string>
     <string name="name"><br>নাম :</br> %s</string>
-    <string name="search_name_or_id">নাম বা আইডি দ্বারা অনুসন্ধান করুন</string>
+    <string name="search_name_or_id">নাম বা আইডি বা মোবাইল নম্বর দ্বারা অনুসন্ধান করুন</string>
     <string name="home">হোম</string>
     <string name="job_aids">ড্যাশবোর্ড</string>
     <string name="add_family">খানা নিবন্ধন</string>

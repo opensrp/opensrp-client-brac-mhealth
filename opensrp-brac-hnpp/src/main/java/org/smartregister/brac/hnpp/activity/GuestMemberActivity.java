@@ -81,6 +81,7 @@ public class GuestMemberActivity extends BaseProfileActivity implements GuestMem
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_guest_member);
+        HnppConstants.updateAppBackground(findViewById(R.id.action_bar));
         ssSpinner = findViewById(R.id.ss_filter_spinner);
         editTextSearch = findViewById(R.id.search_edit_text);
         recyclerView = findViewById(R.id.recycler_view);
