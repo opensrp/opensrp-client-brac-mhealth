@@ -68,7 +68,8 @@ public class GuestMemberModel extends JsonFormUtils implements GuestMemberContra
         for(GuestMemberData guestMemberData: guestMemberDataArrayList){
             if(!TextUtils.isEmpty(query) && !TextUtils.isEmpty(ssName)){
                 String name = guestMemberData.getName().toLowerCase();
-                if(name.contains(query.toLowerCase()) && guestMemberData.getSsName().equalsIgnoreCase(ssName)){
+                String phoneNo = guestMemberData.getPhoneNo().toLowerCase();
+                if((name.contains(query.toLowerCase()) || phoneNo.contains(query.toLowerCase()))&& guestMemberData.getSsName().equalsIgnoreCase(ssName)){
                     searchedGuestMemberDataArrayList.add(guestMemberData);
                 }
             }
@@ -79,8 +80,9 @@ public class GuestMemberModel extends JsonFormUtils implements GuestMemberContra
             }
             else if(!TextUtils.isEmpty(query)){
                String name = guestMemberData.getName().toLowerCase();
+                String phoneNo = guestMemberData.getPhoneNo().toLowerCase();
                 Log.v("SEARCH_GUEST","name:"+name+":query:"+query);
-                if(name.contains(query.toLowerCase())){
+                if(name.contains(query.toLowerCase()) || phoneNo.contains(query.toLowerCase())){
                     searchedGuestMemberDataArrayList.add(guestMemberData);
                 }
             }
@@ -194,7 +196,7 @@ public class GuestMemberModel extends JsonFormUtils implements GuestMemberContra
     @Override
     public void loadData() {
         guestMemberDataArrayList.clear();
-        String query =  "select ec_guest_member.base_entity_id,ec_guest_member.unique_id,ec_guest_member.first_name,ec_guest_member.ss_name,ec_guest_member.dob,ec_guest_member.gender,ec_visit_log.visit_date from ec_guest_member " +
+        String query =  "select ec_guest_member.base_entity_id,ec_guest_member.unique_id,ec_guest_member.first_name,ec_guest_member.ss_name,ec_guest_member.dob,ec_guest_member.gender,ec_guest_member.phone_number,ec_visit_log.visit_date from ec_guest_member " +
                 "left join ec_visit_log on ec_visit_log.base_entity_id = ec_guest_member.base_entity_id  " +
                 "where ec_guest_member.date_removed is null order by ec_guest_member.last_interacted_with desc";
         Cursor cursor = null;
@@ -211,6 +213,7 @@ public class GuestMemberModel extends JsonFormUtils implements GuestMemberContra
                 guestMemberData.setSsName(cursor.getString(cursor.getColumnIndex("ss_name")));
                 guestMemberData.setDob(cursor.getString(cursor.getColumnIndex("dob")));
                 guestMemberData.setGender(cursor.getString(cursor.getColumnIndex("gender")));
+                guestMemberData.setPhoneNo(cursor.getString(cursor.getColumnIndex("phone_number")));
                 guestMemberData.setLastSubmissionDate(cursor.getLong(cursor.getColumnIndex("visit_date")));
                 guestMemberDataArrayList.add(guestMemberData);
 
