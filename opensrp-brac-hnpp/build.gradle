@@ -120,10 +120,13 @@ android {
             versionCode 35
             versionName "1.4.0_DEV"
             dimension = 'baseDimension'
-            buildConfigField "boolean", 'IS_TRAINING', 'false'
+//            buildConfigField "boolean", 'IS_TRAINING', 'false'
+//            buildConfigField "String", 'opensrp_url_training', '"http://hnpptest.mpower-social.com:8080/opensrp/"'
+//            buildConfigField "String", 'opensrp_url_live', '"http://hnpptest.mpower-social.com:8080/opensrp/"'
 
-            buildConfigField "String", 'opensrp_url_training', '"http://hnpptest.mpower-social.com:8080/opensrp/"'
-            buildConfigField "String", 'opensrp_url_live', '"http://hnpptest.mpower-social.com:8080/opensrp/"'
+            buildConfigField "boolean", 'IS_TRAINING', 'true'
+            buildConfigField "String", 'opensrp_url_training', '"http://mhealthtest.brac.net:8080/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"http://mhealthtest.brac.net:8080/opensrp/"'
 
 //            buildConfigField "String", 'opensrp_url_training', '"http://192.168.43.214:8082/opensrp/"'
 //            buildConfigField "String", 'opensrp_url_live', '"http://192.168.43.214:8082/opensrp/"'
