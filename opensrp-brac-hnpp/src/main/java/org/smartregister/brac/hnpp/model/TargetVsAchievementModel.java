@@ -260,7 +260,7 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
     public TargetVsAchievementData getTargetVsAchievmentByVisitType(String visitType,String day, String month, String year, String ssName){
         TargetVsAchievementData dashBoardData1 = new TargetVsAchievementData();
         //String query = "select sum(target_count) as target_count, sum(achievemnt_count) as achievemnt_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
-        String query = "select sum(achievemnt_count) as achievemnt_count,(select sum(target_count) from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,"") +") as target_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
+        String query = "select sum(coalesce(achievemnt_count,0)) as achievemnt_count,(select sum(coalesce(target_count,0)) from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,"") +") as target_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
 
         Log.v("TARGET_QUERY","query:"+query);
         Cursor cursor = null;
@@ -302,16 +302,16 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
         String query = null;
         if(fromDate == -1 && toDate == -1){
             if(TextUtils.isEmpty(ssName)){
-                query = "select sum(target_count) as target_count, sum(achievemnt_count) as achievemnt_count from target_table where target_name ='"+ visitType+"'";
+                query = "select sum(coalesce(target_count,0)) as target_count, sum(coalesce(achievemnt_count,0)) as achievemnt_count from target_table where target_name ='"+ visitType+"'";
             }else{
-                query = "select sum(target_count) as target_count, sum(achievemnt_count) as achievemnt_count from target_table where target_name ='"+ visitType+"'"+getSSCondition(ssName);
+                query = "select sum(coalesce(target_count,0)) as target_count, sum(coalesce(achievemnt_count,0)) as achievemnt_count from target_table where target_name ='"+ visitType+"'"+getSSCondition(ssName);
             }
         }
         else{
             if(TextUtils.isEmpty(ssName)){
-                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, achievemnt_count, target_count, target_name from target_table)SELECT sum(achievemnt_count) as achievemnt_count, sum(target_count) as target_count from t1 WHERE target_name ='"+visitType+"'"+getBetweenCondition(fromDate,toDate,"date");
+                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, achievemnt_count, target_count, target_name from target_table)SELECT sum(coalesce(achievemnt_count,0)) as achievemnt_count, sum(coalesce(target_count,0) as target_count from t1 WHERE target_name ='"+visitType+"'"+getBetweenCondition(fromDate,toDate,"date");
             }else{
-                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, achievemnt_count, target_count, target_name from target_table)SELECT sum(achievemnt_count) as achievemnt_count, sum(target_count) as target_count from t1 WHERE target_name ='"+visitType+"'"+getSSCondition(ssName)+getBetweenCondition(fromDate,toDate,"date");
+                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, achievemnt_count, target_count, target_name from target_table)SELECT sum(coalesce(achievemnt_count,0)) as achievemnt_count, sum(coalesce(target_count,0)) as target_count from t1 WHERE target_name ='"+visitType+"'"+getSSCondition(ssName)+getBetweenCondition(fromDate,toDate,"date");
             }
         }
 
@@ -369,7 +369,7 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
     public TargetVsAchievementData getAvgTargetVsAchievmentByVisitType(String visitType,String day, String month, String year, String ssName){
         TargetVsAchievementData dashBoardData1 = new TargetVsAchievementData();
         //String query = "select sum(target_count) as target_count, sum(achievemnt_count) as achievemnt_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
-        String query = "select sum(achievemnt_count) as achievemnt_count,(select sum(target_count) from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,"") +") as target_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
+        String query = "select sum(coalesce(achievemnt_count,0)) as achievemnt_count,(select sum(coalesce(target_count,0)) from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,"") +") as target_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
 
         Log.v("TARGET_QUERY","avg query:"+query);
         Cursor cursor = null;
