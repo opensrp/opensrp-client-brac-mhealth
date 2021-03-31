@@ -258,6 +258,7 @@ public class FormApplicability {
         return false;
     }
     public static int getAge(CommonPersonObjectClient commonPersonObject){
+        if(commonPersonObject == null) return -1;
         String dobString = org.smartregister.util.Utils.getValue(commonPersonObject.getColumnmaps(), "dob", false);
         if(!TextUtils.isEmpty(dobString) ){
             Period period = new Period(new DateTime(dobString), new DateTime());
