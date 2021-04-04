@@ -74,33 +74,36 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
 
     }*/
     //PA
-    public TargetVsAchievementData getAdultForum(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.FORUM_ADULT,day,month,year,ssName);
-    }
-    public TargetVsAchievementData getAttendancAdultForum(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ADULT_FORUM_ATTENDANCE,day,month,year,ssName);
-    }
-    public TargetVsAchievementData getServiceCountAdultForum(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ADULT_FORUM_SERVICE_TAKEN,day,month,year,ssName);
-    }
-    public TargetVsAchievementData getMarkedPresbyopia(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.MARKED_PRESBYOPIA,day,month,year,ssName);
-    }
-    public TargetVsAchievementData getPresbyopiaCorrection(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.PRESBYOPIA_CORRECTION,day,month,year,ssName);
-    }
-    public TargetVsAchievementData getEstimateDiabetes(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ESTIMATE_DIABETES,day,month,year,ssName);
-    }
-    public TargetVsAchievementData getEstimateHBS(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ESTIMATE_HBP,day,month,year,ssName);
-    }
-    public TargetVsAchievementData getCataractSurgeryRefer(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CATARACT_SURGERY_REFER,day,month,year,ssName);
-    }
-    public TargetVsAchievementData getCataractSurgery(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CATARACT_SURGERY,day,month,year,ssName);
-    }
+//    public TargetVsAchievementData getAdultForum(String day, String month, String year,String ssName){
+//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.FORUM_ADULT,day,month,year,ssName);
+//    }
+//    public TargetVsAchievementData getAttendancAdultForum(String day, String month, String year,String ssName){
+//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ADULT_FORUM_ATTENDANCE,day,month,year,ssName);
+//    }
+//    public TargetVsAchievementData getServiceCountAdultForum(String day, String month, String year,String ssName){
+//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ADULT_FORUM_SERVICE_TAKEN,day,month,year,ssName);
+//    }
+//    public TargetVsAchievementData getAdultPackage(String day, String month, String year,String ssName){
+//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.NCD_BY_PA,day,month,year,ssName);
+//    }
+//    public TargetVsAchievementData getMarkedPresbyopia(String day, String month, String year,String ssName){
+//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.MARKED_PRESBYOPIA,day,month,year,ssName);
+//    }
+//    public TargetVsAchievementData getPresbyopiaCorrection(String day, String month, String year,String ssName){
+//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.PRESBYOPIA_CORRECTION,day,month,year,ssName);
+//    }
+//    public TargetVsAchievementData getEstimateDiabetes(String day, String month, String year,String ssName){
+//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ESTIMATE_DIABETES,day,month,year,ssName);
+//    }
+//    public TargetVsAchievementData getEstimateHBS(String day, String month, String year,String ssName){
+//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ESTIMATE_HBP,day,month,year,ssName);
+//    }
+//    public TargetVsAchievementData getCataractSurgeryRefer(String day, String month, String year,String ssName){
+//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CATARACT_SURGERY_REFER,day,month,year,ssName);
+//    }
+//    public TargetVsAchievementData getCataractSurgery(String day, String month, String year,String ssName){
+//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CATARACT_SURGERY,day,month,year,ssName);
+//    }
 
     //PA For DailyVisitFromToDate
 
@@ -113,6 +116,9 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
     public TargetVsAchievementData getServiceCountAdultForum(long fromDate, long toDate,String ssName){
         return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ADULT_FORUM_SERVICE_TAKEN,fromDate,toDate,ssName);
     }
+//    public TargetVsAchievementData getAdultPackage(long fromDate, long toDate,String ssName){
+//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.NCD_BY_PA,fromDate,toDate,ssName);
+//    }
     public TargetVsAchievementData getMarkedPresbyopia(long fromDate, long toDate,String ssName){
         return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.MARKED_PRESBYOPIA,fromDate,toDate,ssName);
     }
@@ -316,7 +322,7 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
         }
 
 
-       if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY)){
+       if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.MARKED_PRESBYOPIA)){
            Log.v("DAILY_TERGET","query:"+query);
        }
         Cursor cursor = null;

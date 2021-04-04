@@ -35,47 +35,49 @@ public class TargetAchievementInteractor implements DashBoardContract.TargetInte
     @Override
     public void fetchAllData(DashBoardContract.InteractorCallBack callBack, String day, String month, String year, String ssName) {
 
-        Runnable runnable = () -> {
-            fetchData(day,month,year,ssName);
-
-            appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
-        };
-        appExecutors.diskIO().execute(runnable);
-
-    }
-
-    private void fetchData( String day, String month, String year, String ssName) {
-        if(HnppConstants.isPALogin()){
-            setData(model.getAdultForum(day,month,year,ssName));
-            setData(model.getAttendancAdultForum(day,month,year,ssName));
-            setData(model.getServiceCountAdultForum(day,month,year,ssName));
-            setData(model.getMarkedPresbyopia(day,month,year,ssName));
-            setData(model.getPresbyopiaCorrection(day,month,year,ssName));
-            setData(model.getEstimateDiabetes(day,month,year,ssName));
-            setData(model.getEstimateHBS(day,month,year,ssName));
-            setData(model.getCataractSurgery(day,month,year,ssName));
-            setData(model.getCataractSurgeryRefer(day,month,year,ssName));
-        }else{
-            setData(model.getHHVisitTarget(day,month,year,ssName));
-            setData(model.getElcoTarget(day,month,year,ssName));
-            setData(model.getMethodUserTarget(day,month,year,ssName));
-            setData(model.getAdoMethodUserTarget(day,month,year,ssName));
-            setData(model.getPregnencyIdentiTarget(day,month,year,ssName));
-            setData(model.getDeliveryTarget(day,month,year,ssName));
-            setData(model.getInstitutionDeliveryTarget(day,month,year,ssName));
-            setData(model.get0to6ChildVisitTarget(day,month,year,ssName));
-            setData(model.get7to24ChildVisitTarget(day,month,year,ssName));
-            setData(model.get18to36ChildVisitTarget(day,month,year,ssName));
-            setData(model.get0to59ChildImmunizationTarget(day,month,year,ssName));
-        }
-
+//        Runnable runnable = () -> {
+//            fetchData(day,month,year,ssName);
+//
+//            appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
+//        };
+//        appExecutors.diskIO().execute(runnable);
 
     }
+//
+//    private void fetchData( String day, String month, String year, String ssName) {
+//        if(HnppConstants.isPALogin()){
+//            setData(model.getAdultForum(day,month,year,ssName));
+//            setData(model.getAttendancAdultForum(day,month,year,ssName));
+//            setData(model.getServiceCountAdultForum(day,month,year,ssName));
+//            setData(model.getAdultPackage(day,month,year,ssName));
+//            setData(model.getMarkedPresbyopia(day,month,year,ssName));
+//            setData(model.getPresbyopiaCorrection(day,month,year,ssName));
+//            setData(model.getEstimateDiabetes(day,month,year,ssName));
+//            setData(model.getEstimateHBS(day,month,year,ssName));
+//            setData(model.getCataractSurgery(day,month,year,ssName));
+//            setData(model.getCataractSurgeryRefer(day,month,year,ssName));
+//        }else{
+//            setData(model.getHHVisitTarget(day,month,year,ssName));
+//            setData(model.getElcoTarget(day,month,year,ssName));
+//            setData(model.getMethodUserTarget(day,month,year,ssName));
+//            setData(model.getAdoMethodUserTarget(day,month,year,ssName));
+//            setData(model.getPregnencyIdentiTarget(day,month,year,ssName));
+//            setData(model.getDeliveryTarget(day,month,year,ssName));
+//            setData(model.getInstitutionDeliveryTarget(day,month,year,ssName));
+//            setData(model.get0to6ChildVisitTarget(day,month,year,ssName));
+//            setData(model.get7to24ChildVisitTarget(day,month,year,ssName));
+//            setData(model.get18to36ChildVisitTarget(day,month,year,ssName));
+//            setData(model.get0to59ChildImmunizationTarget(day,month,year,ssName));
+//        }
+//
+//
+//    }
     private void fetchDataByFromToFormat( long fromDate, long toDate, String ssName) {
         if(HnppConstants.isPALogin()){
             setData(model.getAdultForum(fromDate,toDate,ssName));
             setData(model.getAttendancAdultForum(fromDate,toDate,ssName));
             setData(model.getServiceCountAdultForum(fromDate,toDate,ssName));
+//            setData(model.getAdultPackage(fromDate,toDate,ssName));
             setData(model.getMarkedPresbyopia(fromDate,toDate,ssName));
             setData(model.getPresbyopiaCorrection(fromDate,toDate,ssName));
             setData(model.getEstimateDiabetes(fromDate,toDate,ssName));
@@ -101,13 +103,13 @@ public class TargetAchievementInteractor implements DashBoardContract.TargetInte
 
     @Override
     public void filterData(String ssName, String day, String month, String year,DashBoardContract.InteractorCallBack callBack) {
-        dashBoardDataArrayList.clear();
-        Runnable runnable = () -> {
-            fetchData(day,month,year,ssName);
-
-            appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
-        };
-        appExecutors.diskIO().execute(runnable);
+//        dashBoardDataArrayList.clear();
+//        Runnable runnable = () -> {
+//            fetchData(day,month,year,ssName);
+//
+//            appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
+//        };
+//        appExecutors.diskIO().execute(runnable);
     }
 
 
