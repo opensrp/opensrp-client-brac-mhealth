@@ -706,7 +706,7 @@ public class HnppConstants extends CoreConstants {
         public static final String AVG_ATTEND_WOMEN_FORUM= "Avg Attendance (Women Forum)";
 
         //for PA target
-        public static final String ADULT_FORUM_ATTENDANCE = "Avg.Attendance (Adult Forum)";
+        public static final String ADULT_FORUM_ATTENDANCE = "Avg. Attendance (Adult Forum)";
         public static final String ADULT_FORUM_SERVICE_TAKEN = "Adult Forum Service Taken";
         public static final String MARKED_PRESBYOPIA = "Marked as presbyopia";
         public static final String PRESBYOPIA_CORRECTION = "Presbyopia correction";
@@ -714,9 +714,10 @@ public class HnppConstants extends CoreConstants {
         public static final String ESTIMATE_HBP = "Estimate HBP";
         public static final String CATARACT_SURGERY_REFER = "Cataract surgery refer";
         public static final String CATARACT_SURGERY = "Cataract surgery";
+        //public static final String NCD_BY_PA = "NCD by PA";
 
         //PA stock
-        public static final String ADULT_PACKAGE = "NCD package";
+
         public static final String GLASS = "glass";
         public static final String SUN_GLASS = "Sun glass";
         public static final String SV_1 = "Sv 1";
@@ -736,7 +737,7 @@ public class HnppConstants extends CoreConstants {
         public static final String GUEST_MEMBER_REGISTRATION = "OOC Member Registration";
     }
     public static long getLongDateFormatForFromMonth(String year,String month){
-        String dateFormate = year+"-"+HnppConstants.addZeroForMonth(month)+"-01";
+        String dateFormate = year+"-"+HnppConstants.addZeroForMonth(month)+"-00";
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         long startDate = System.currentTimeMillis();
         try{
@@ -993,6 +994,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.PNC_SERVICE,"প্রসব-পরবর্তী সেবা")
             .put(EVENT_TYPE.AVG_ATTEND_ADULT_FORUM,"অংশগ্রহণকারী সংখ্যা")
             .put(EVENT_TYPE.ADULT_FORUM_ATTENDANCE,"অংশগ্রহণকারী সংখ্যা")
+           // .put(EVENT_TYPE.NCD_BY_PA,"অসংক্রামক রোগের সেবা")
             .put(EVENT_TYPE.ADULT_FORUM_SERVICE_TAKEN,"সেবা গ্রহীতার সংখ্যা")
             .put(EVENT_TYPE.MARKED_PRESBYOPIA,"চিন্নিত প্রেসবায়োপিয়া")
             .put(EVENT_TYPE.PRESBYOPIA_CORRECTION,"প্রেসবায়োপিয়া কারেকশন")

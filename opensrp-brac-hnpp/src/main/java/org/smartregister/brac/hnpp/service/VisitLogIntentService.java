@@ -711,12 +711,12 @@ public class VisitLogIntentService extends IntentService {
         }
     }
     private void updateNcdBpTarget(VisitLog visit,HashMap<String,String>details){
+        LocalDate localDate = new LocalDate(visit.getVisitDate());
         if(details.containsKey("blood_pressure_systolic") && !StringUtils.isEmpty(details.get("blood_pressure_systolic"))){
             String fbsValue = details.get("blood_pressure_systolic");
             if(!TextUtils.isEmpty(fbsValue)){
                 int bps = Integer.parseInt(fbsValue);
                 if (bps>=140){
-                    LocalDate localDate = new LocalDate(visit.getVisitDate());
                     HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ESTIMATE_HBP,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
                 }
 
@@ -727,7 +727,6 @@ public class VisitLogIntentService extends IntentService {
             Log.v("testValue: ",fbsValue);
             if(!TextUtils.isEmpty(fbsValue)){
                 if (fbsValue.contains("high_blood_pressure")){
-                    LocalDate localDate = new LocalDate(visit.getVisitDate());
                     HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ESTIMATE_HBP,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
                 }
 
@@ -738,7 +737,6 @@ public class VisitLogIntentService extends IntentService {
             Log.v("testValue: ",fbsValue);
             if(!TextUtils.isEmpty(fbsValue)){
                 if (fbsValue.contains("diabetics")){
-                    LocalDate localDate = new LocalDate(visit.getVisitDate());
                     HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ESTIMATE_DIABETES,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
                 }
 
@@ -750,12 +748,14 @@ public class VisitLogIntentService extends IntentService {
             if(!TextUtils.isEmpty(bpd)){
                 int h = Integer.parseInt(bpd);
                 if (h>=90){
-                    LocalDate localDate = new LocalDate(visit.getVisitDate());
                     HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ESTIMATE_HBP,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
                 }
 
             }
         }
+        //if(HnppConstants.isPALogin())HnppApplication.getTargetRepository().updateValue(NCD_BY_PA,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+
+
     }
     private void updateNcdPackageRisk(String baseEntityId,HashMap<String,String>details){
         if(details.containsKey("fasting_blood_sugar") && !StringUtils.isEmpty(details.get("fasting_blood_sugar"))){
