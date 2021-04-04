@@ -316,7 +316,7 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
         }
 
 
-       if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ELCO)){
+       if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY)){
            Log.v("DAILY_TERGET","query:"+query);
        }
         Cursor cursor = null;
