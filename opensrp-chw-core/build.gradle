@@ -88,8 +88,9 @@ dependencies {
         exclude group: 'org.smartregister', module: 'opensrp-client-core'
         exclude group: 'com.android.support', module: 'appcompat-v7'
     }
+    //brac-hnpp branch
 
-    api('org.smartregister:opensrp-client-family:1.2.27-brac-SNAPSHOT@aar') {
+    api('org.smartregister:opensrp-client-family:1.2.28-brac-SNAPSHOT@aar') {
         transitive = true
         exclude group: 'org.smartregister', module: 'opensrp-client-core'
         exclude group: 'org.smartregister', module: 'opensrp-client-native-form'
