@@ -735,6 +735,7 @@ public class HnppConstants extends CoreConstants {
         public static final String ANC_SERVICE = "ANC Service";
         public static final String PNC_SERVICE = "PNC Service";
         public static final String GUEST_MEMBER_REGISTRATION = "OOC Member Registration";
+        public static final String GUEST_MEMBER_UPDATE_REGISTRATION = "OOC Member Update Registration";
     }
     public static long getLongDateFormatForFromMonth(String year,String month){
         String dateFormate = year+"-"+HnppConstants.addZeroForMonth(month)+"-00";
