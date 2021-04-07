@@ -185,6 +185,7 @@
     <string name="fill_earler_immunization"><![CDATA[<i>আগের টিকাদান রেকর্ড করুন</i>]]></string>
     <string name="immunizations_count">টিকাদান ({0})</string>
     <string name="vitamin_given">কখন %1$s দেয়া হয়েছে?</string>
+   <string name="vitamin_a">ভিটামিন এ</string>
     <string name="overdue">ওভারডিউ&#160;</string>
     <string name="not_given_with_spaces">&#160;দেয়া হয়নি&#160;</string>
     <string name="given_on_with_spaces">&#160;দেয়া হয়েছে&#160;</string>
@@ -283,7 +284,10 @@
 
     <string name="remove_member_title">সদস্যকে সরান</string>
     <string name="remove_member_prompt">আপনি কোন সদস্যটিকে সরাতে চান??</string>
-    <string name="confirm_remove_text">আপনি %s ব্যক্তির মৃত্যু সংক্রান্ত যে তথ্য দিয়েছেন , তা সঠিক? সঠিক হলে, হ্যা চাপুন। এর প্রেক্ষিতে এই ব্যক্তির ভবিষ্যতের সকল সেবা বন্ধ হয়ে যাবে।</string>
+    <string name="confirm_remove_text">আপনি %s\'র মৃত্যু সংক্রান্ত যে তথ্য দিয়েছেন , তা সঠিক? সঠিক হলে, হ্যা চাপুন। এর প্রেক্ষিতে এই ব্যক্তির ভবিষ্যতের সকল সেবা বন্ধ হয়ে যাবে।</string>
+    <string name="confirm_migrate_text">আপনি %s\'র স্থানান্তর সংক্রান্ত যে তথ্য দিয়েছেন , তা সঠিক? সঠিক হলে, হ্যা চাপুন। এর প্রেক্ষিতে এই ব্যক্তির ভবিষ্যতের সকল সেবা বন্ধ হয়ে যাবে।</string>
+    <string name="confirm_other_text">আপনি %s\'র সরানো সংক্রান্ত যে তথ্য দিয়েছেন , তা সঠিক? সঠিক হলে, হ্যা চাপুন। এর প্রেক্ষিতে এই ব্যক্তির ভবিষ্যতের সকল সেবা বন্ধ হয়ে যাবে।</string>
+
     <string name="remove">হ্যা</string>
     <string name="remove_entire_family">পুরো পরিবার সরিয়ে ফেলা হচ্ছে</string>
     <string name="remove_warning_family">আপনি কি %s পরিবারের রেকর্ডটি সরানোর বিষয়ে নিশ্চিত? এটি আপনার ডিভাইস থেকে পরিবারের সম্পূর্ণ রেকর্ড এবং %s পরিবারের সদস্যদের সমস্তের স্বাস্থ্য রেকর্ডাকে সরিয়ে ফেলবে। এই ক্রিয়াটি পূর্বাবস্থায় ফেরানো যাবে না.</string>

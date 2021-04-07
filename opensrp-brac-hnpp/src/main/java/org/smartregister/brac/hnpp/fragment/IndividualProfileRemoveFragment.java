@@ -7,6 +7,7 @@ import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import org.smartregister.brac.hnpp.R;
@@ -14,20 +15,27 @@ import org.smartregister.brac.hnpp.activity.AncRegisterActivity;
 import org.smartregister.brac.hnpp.activity.FamilyRegisterActivity;
 import org.smartregister.brac.hnpp.activity.IndividualProfileRemoveActivity;
 import org.smartregister.brac.hnpp.activity.IndividualProfileRemoveJsonFormActivity;
+import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.model.FamilyRemoveMemberModel;
 import org.smartregister.brac.hnpp.presenter.FamilyRemoveMemberPresenter;
 import org.smartregister.brac.hnpp.provider.FamilyRemoveMemberProvider;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
+import org.smartregister.chw.anc.util.DBConstants;
 import org.smartregister.chw.core.activity.CoreAncRegisterActivity;
 import org.smartregister.chw.core.activity.CoreFamilyRegisterActivity;
 import org.smartregister.chw.core.fragment.CoreFamilyProfileChangeDialog;
 import org.smartregister.chw.core.fragment.CoreIndividualProfileRemoveFragment;
 import org.smartregister.chw.core.fragment.FamilyRemoveMemberConfirmDialog;
 import org.smartregister.chw.core.utils.CoreConstants;
+import org.smartregister.chw.core.utils.CoreJsonFormUtils;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
 
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 public class IndividualProfileRemoveFragment extends CoreIndividualProfileRemoveFragment {
@@ -113,12 +121,39 @@ public class IndividualProfileRemoveFragment extends CoreIndividualProfileRemove
     @Override
     public void confirmRemove(final JSONObject form) {
         if (StringUtils.isNotBlank(memberName) && getFragmentManager() != null) {
-            FamilyRemoveMemberConfirmDialog dialog = FamilyRemoveMemberConfirmDialog.newInstance(
-                    String.format(getString(R.string.confirm_remove_text), memberName)
-            );
+            String title ="";
+            JSONArray field = org.smartregister.util.JsonFormUtils.fields(form);
+            JSONObject removeReasonObj = org.smartregister.util.JsonFormUtils.getFieldJSONObject(field, "remove_reason");
+            try{
+                String value = removeReasonObj.getString(CoreJsonFormUtils.VALUE);
+                if(value.equalsIgnoreCase("মৃত্যু নিবন্ধন")){
+                    title = String.format(getString(R.string.confirm_remove_text), memberName);
+                }else if(value.equalsIgnoreCase("স্থানান্তর")){
+                    title = String.format(getString(R.string.confirm_migrate_text), memberName);
+                }else {
+                    title = String.format(getString(R.string.confirm_other_text), memberName);
+                }
+            }catch (Exception e){
+
+            }
+            FamilyRemoveMemberConfirmDialog dialog = FamilyRemoveMemberConfirmDialog.newInstance(title);
             dialog.show(getFragmentManager(), FamilyRemoveMemberFragment.DIALOG_TAG);
             dialog.setOnRemove(() -> {
-                getPresenter().processRemoveForm(form);
+                //getPresenter().processRemoveForm(form);
+                try{
+                    String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
+                    type = HnppJsonFormUtils.getEncounterType(type);
+                    Map<String, String> jsonStrings = new HashMap<>();
+                    jsonStrings.put("First",form.toString());
+
+                    HnppJsonFormUtils.saveVisit(false,false,false,"", baseEntityId, type, jsonStrings, "");
+                    VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+                }catch (Exception e){
+                    e.printStackTrace();
+
+                }
+
+
                 Intent intent = new Intent(getActivity(), FamilyRegisterActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);

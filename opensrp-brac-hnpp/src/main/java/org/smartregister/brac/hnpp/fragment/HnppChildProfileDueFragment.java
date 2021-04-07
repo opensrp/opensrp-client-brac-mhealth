@@ -97,6 +97,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                if(getActivity() ==null || getActivity().isFinishing()) return;
                 addStaticView();
                 String dobString = Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOB, false);
                 Date dob = Utils.dobStringToDate(dobString);

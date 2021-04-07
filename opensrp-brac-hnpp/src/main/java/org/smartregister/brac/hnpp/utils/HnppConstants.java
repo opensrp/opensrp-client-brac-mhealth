@@ -553,6 +553,7 @@ public class HnppConstants extends CoreConstants {
             .put("PCV 2","পিসিভি-২")
             .put("PCV 3","পিসিভি-৩")
             .put("BCG","বিসিজি")
+            .put("VITAMIN A1","ভিটামিন এ")
             .build();
     public static final Map<String,String> referealResonMapping = ImmutableMap.<String,String> builder()
             .put("child_problems","শিশু বিষয়ক সমস্যা")

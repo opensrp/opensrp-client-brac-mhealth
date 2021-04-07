@@ -56,8 +56,20 @@ public class HnppJsonWizardFormFragment extends JsonWizardFormFragment {
         if (position != -1 && parent instanceof MaterialSpinner) {
             if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.ss_year))) {
                 String value = (String)((MaterialSpinner) parent).getItemAtPosition(position);
+                ArrayList<String> monthList = new ArrayList<>();
+                boolean isCurrentYear = HnppJsonFormUtils.isCurrentYear(value);
+                if(isCurrentYear){
+                    int cMonth = HnppJsonFormUtils.getCurrentMonth();
+                    for(int i = 0;i< cMonth;i++){
+                        monthList.add(HnppJsonFormUtils.monthStr[i]);
+                    }
+
+                }else{
+                    monthList.addAll(Arrays.asList(HnppJsonFormUtils.monthStr));
+                }
+                Log.v("SPINNER_VALUE","value:"+value);
                 if(isManuallyPressed){
-                    processMonth(value);
+                    processMonth(monthList);
                 }
             }
 
@@ -66,18 +78,8 @@ public class HnppJsonWizardFormFragment extends JsonWizardFormFragment {
         }
     }
 
-    private void processMonth(String value) {
-        ArrayList<String> monthList = new ArrayList<>();
-        boolean isCurrentYear = HnppJsonFormUtils.isCurrentYear(value);
-        if(isCurrentYear){
-            int cMonth = HnppJsonFormUtils.getCurrentMonth();
-            for(int i = 0;i< cMonth-1 ;i++){
-                monthList.add(HnppJsonFormUtils.monthStr[i]);
-            }
+    private void processMonth(ArrayList<String> monthList) {
 
-        }else{
-            monthList.addAll(Arrays.asList(HnppJsonFormUtils.monthStr));
-        }
         ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());
         for (int i = 0; i < formdataviews.size(); i++) {
             if (formdataviews.get(i) instanceof MaterialSpinner) {
@@ -109,8 +111,10 @@ public class HnppJsonWizardFormFragment extends JsonWizardFormFragment {
                                 if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.ss_month))) {
                                     try {
                                         String value = (String)((MaterialSpinner) parent).getItemAtPosition(position);
+
                                         JSONObject villageNames = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "month");
                                         villageNames.put(org.smartregister.family.util.JsonFormUtils.VALUE,value);
+                                        isManuallyPressed = false;
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
