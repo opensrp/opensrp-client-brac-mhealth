@@ -887,7 +887,7 @@ public class VisitLogIntentService extends IntentService {
         if(details.containsKey("height") && !StringUtils.isEmpty(details.get("height"))){
             String hight = details.get("height");
             if(!TextUtils.isEmpty(hight)){
-                int h = Integer.parseInt(hight);
+                double h = Double.parseDouble(hight);
                 if (h<145){
                     RiskyModel riskyModel = new RiskyModel();
                     riskyModel.riskyValue = hight;

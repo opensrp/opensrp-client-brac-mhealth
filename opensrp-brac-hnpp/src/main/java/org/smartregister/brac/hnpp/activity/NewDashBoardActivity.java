@@ -172,7 +172,7 @@ public class NewDashBoardActivity extends SecuredActivity implements View.OnClic
 
     }
     public void updateTitle(String title){
-        titleText.setText(title);
+       if(titleText!=null) titleText.setText(title);
     }
 
     @Override
