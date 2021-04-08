@@ -221,6 +221,7 @@
     <string name="fill_earler_immunization"><![CDATA[<i>আগের টিকাদান রেকর্ড করুন</i>]]></string>
     <string name="immunizations_count">টিকাদান ({0})</string>
     <string name="vitamin_given">কখন %1$s দেয়া হয়েছে?</string>
+   <string name="vitamin_a">ভিটামিন এ</string>
     <string name="overdue">ওভারডিউ&#160;</string>
     <string name="not_given_with_spaces">&#160;দেয়া হয়নি&#160;</string>
     <string name="given_on_with_spaces">&#160;দেয়া হয়েছে&#160;</string>
