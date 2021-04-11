@@ -179,12 +179,17 @@ public class VisitLogIntentService extends IntentService {
                                         String ancValue = details.get("brac_anc");
                                         String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(base_entity_id+"_BRAC_ANC");
                                         if(!TextUtils.isEmpty(prevalue)){
-                                            int lastValue = Integer.parseInt(prevalue);
-                                            int ancValueInt = Integer.parseInt(ancValue);
-                                            if(ancValueInt >= lastValue){
+                                            try{
+                                                int lastValue = Integer.parseInt(prevalue);
+                                                int ancValueInt = Integer.parseInt(ancValue);
+                                                if(ancValueInt >= lastValue){
 
-                                                FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",(ancValueInt+1)+"");
+                                                    FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",(ancValueInt+1)+"");
+                                                }
+                                            }catch (NumberFormatException ne){
+
                                             }
+
                                         }else{
                                             FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",1+"");
                                         }
@@ -197,22 +202,32 @@ public class VisitLogIntentService extends IntentService {
                                         String ancValue = details.get("brac_pnc");
                                         String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(base_entity_id+"_BRAC_PNC");
                                         if(!TextUtils.isEmpty(prevalue)){
-                                            int lastValue = Integer.parseInt(prevalue);
-                                            int ancValueInt = Integer.parseInt(ancValue);
-                                            if(ancValueInt >= lastValue){
-                                                FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_PNC",(ancValueInt+1)+"");
+                                            try{
+                                                int lastValue = Integer.parseInt(prevalue);
+                                                int ancValueInt = Integer.parseInt(ancValue);
+                                                if(ancValueInt >= lastValue){
+                                                    FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_PNC",(ancValueInt+1)+"");
+                                                }
+                                            }catch (NumberFormatException e){
+
                                             }
+
                                         }else{
                                             FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_PNC",1+"");
                                         }
                                     }
                                     if(details.containsKey("total_anc") && !StringUtils.isEmpty(details.get("brac_pnc"))){
                                         String ancValue = details.get("total_anc");
-                                        if(!TextUtils.isEmpty(ancValue)){
-                                            int count = Integer.parseInt(ancValue);
-                                            FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_TOTAL_ANC",count+"");
+                                        try{
+                                            if(!TextUtils.isEmpty(ancValue)){
+                                                int count = Integer.parseInt(ancValue);
+                                                FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_TOTAL_ANC",count+"");
+
+                                            }
+                                        }catch (NumberFormatException ne){
 
                                         }
+
                                     }
                                     if(details.containsKey("is_delay") && !StringUtils.isEmpty(details.get("is_delay"))){
                                         String is_delay = details.get("is_delay");
