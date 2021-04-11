@@ -233,7 +233,7 @@ public class SkSelectionActivity extends SecuredActivity implements View.OnClick
                     Toast.makeText(SkSelectionActivity.this,"সর্বোচ্চ ৫ জন স্বাস্থসেবিকা অ্যাড করতে পারবেন",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(!isExistInList(selectedSS)){
+                if(selectedSS!=null && !isExistInList(selectedSS)){
                     selectedSSList.add(selectedSS);
                 }else{
                     Toast.makeText(SkSelectionActivity.this,"অলরেডি অ্যাড করা হয়েছে",Toast.LENGTH_SHORT).show();

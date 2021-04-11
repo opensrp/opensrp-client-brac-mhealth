@@ -141,18 +141,30 @@ public class HnppConstants extends CoreConstants {
         GenerateGPSTask task = new GenerateGPSTask(new OnGpsDataGenerateListener() {
             @Override
             public void showProgressBar(int message) {
-                activity.showProgressDialog(message);
+                try{
+                    activity.showProgressDialog(message);
+                }catch (Exception e){
+
+                }
             }
 
             @Override
             public void hideProgress() {
-                activity.hideProgressDialog();
+                try{
+                    activity.hideProgressDialog();
+                }catch (Exception e){
+
+                }
 
             }
 
             @Override
             public void onGpsDataNotFound() {
-                HnppConstants.showOneButtonDialog(activity,"",activity.getString(R.string.gps_not_found));
+                try{
+                    HnppConstants.showOneButtonDialog(activity,"",activity.getString(R.string.gps_not_found));
+                }catch (Exception e){
+
+                }
             }
 
             @Override
