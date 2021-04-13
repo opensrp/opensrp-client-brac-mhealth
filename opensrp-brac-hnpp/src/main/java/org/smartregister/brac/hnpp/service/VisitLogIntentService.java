@@ -650,6 +650,9 @@ public class VisitLogIntentService extends IntentService {
                                 case "3":
                                     HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.BF_3,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate());
                                     break;
+                                case "4":
+                                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.BLOOD_TEST,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate());
+                                    break;
 
                             }
 

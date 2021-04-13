@@ -68,6 +68,9 @@ public class StockDetailsModel implements StockDetailsContract.Model{
     public StockDetailsData getBF3StockData(String month, String year){
         return getStockData(HnppConstants.EVENT_TYPE.BF_3,month,year,getLastBalance(HnppConstants.EVENT_TYPE.BF_3,month,year));
     }
+    public StockDetailsData getBloodTestStockData(String month, String year){
+        return getStockData(HnppConstants.EVENT_TYPE.BLOOD_TEST,month,year,getLastBalance(HnppConstants.EVENT_TYPE.BLOOD_TEST,month,year));
+    }
     //
     public StockDetailsData getAncStockData(String month, String year){
         return getStockData(CoreConstants.EventType.ANC_HOME_VISIT,month,year,getLastBalance(CoreConstants.EventType.ANC_HOME_VISIT,month,year));
@@ -110,6 +113,7 @@ public class StockDetailsModel implements StockDetailsContract.Model{
                     StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.BF_2+"' or " +
                     StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.BF_2_5+"' or " +
                     StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.BF_3+"' or " +
+                    StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.BLOOD_TEST+"' or " +
                     StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.SUN_GLASS+"')" +
                     "and "+StockRepository.STOCK_TIMESTAMP+" < "+HnppConstants.getLongDateFormate(year,month);//47809000= 1970/01/01
         }
@@ -153,6 +157,7 @@ public class StockDetailsModel implements StockDetailsContract.Model{
                    StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.BF_2+"' or "+
                    StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.BF_2_5+"' or "+
                    StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.BF_3+"' or "+
+                   StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.BLOOD_TEST+"' or "+
                    StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.SUN_GLASS+"')"+
                    "and "+StockRepository.MONTH+" = '"+month+"' and "+StockRepository.YEAR+" = '"+year+"'";
        }

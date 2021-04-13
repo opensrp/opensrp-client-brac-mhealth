@@ -621,6 +621,7 @@ public class HnppConstants extends CoreConstants {
         public static final String BF_2 = "Bf 2";
         public static final String BF_2_5 = "Bf 2.5";
         public static final String BF_3 = "Bf 3";
+        public static final String BLOOD_TEST = "Blood Test";
 
         //service
         public static final String ANC_SERVICE = "ANC Service";
@@ -755,6 +756,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.BF_2,R.drawable.ic_glasses)
             .put(EVENT_TYPE.BF_2_5,R.drawable.ic_glasses)
             .put(EVENT_TYPE.BF_3,R.drawable.ic_glasses)
+            .put(EVENT_TYPE.BLOOD_TEST,R.drawable.ic_blood)
             .build();
     //need to show the title at row/option
     public static final Map<String,String> visitEventTypeMapping = ImmutableMap.<String,String> builder()
@@ -888,6 +890,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.BF_2,"BF- 2.00")
             .put(EVENT_TYPE.BF_2_5,"BF- 2.50")
             .put(EVENT_TYPE.BF_3,"BF- 3.00")
+            .put(EVENT_TYPE.BLOOD_TEST,"Blood Test")
 
             .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)")
             .put("familyplanning_method_known", "পরিবার পরিকল্পনা পদ্ধতি ব্যবহারকারী")

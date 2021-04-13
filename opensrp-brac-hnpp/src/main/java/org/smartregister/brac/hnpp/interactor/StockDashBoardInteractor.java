@@ -64,6 +64,7 @@ public class StockDashBoardInteractor implements DashBoardContract.Interactor {
             addToDashBoardList(model.getBF2StockData(month,year));
             addToDashBoardList(model.getBF2_5StockData(month,year));
             addToDashBoardList(model.getBF3StockData(month,year));
+            addToDashBoardList(model.getBloodTestStockData(month,year));
         }else{
             addToDashBoardList(model.getAncStockData(month,year));
             addToDashBoardList(model.getPncStockData(month,year));
