@@ -16,6 +16,7 @@ import org.smartregister.family.util.AppExecutors;
 import org.smartregister.service.HTTPAgent;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class MigrationFilterSearchInteractor implements MigrationContract.Interactor {
     private AppExecutors appExecutors;
@@ -47,6 +48,7 @@ public class MigrationFilterSearchInteractor implements MigrationContract.Intera
                 if (district != null) {
                     districtArrayList.add(district);
                 }
+                Collections.sort(districtArrayList);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

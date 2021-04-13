@@ -67,6 +67,9 @@ public class StockDetailsInteractor implements StockDetailsContract.Interactor {
             else if(productName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.BF_3)){
                 addToDashBoardList(model.getBF3StockData(month,year));
             }
+            else if(productName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.BLOOD_TEST)){
+                addToDashBoardList(model.getBloodTestStockData(month,year));
+            }
 
         }
         else{
