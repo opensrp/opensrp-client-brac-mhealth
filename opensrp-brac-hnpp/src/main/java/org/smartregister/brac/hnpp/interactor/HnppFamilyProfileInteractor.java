@@ -3,14 +3,22 @@ package org.smartregister.brac.hnpp.interactor;
 import android.database.Cursor;
 import android.text.TextUtils;
 
+import org.apache.commons.lang3.tuple.Triple;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.contract.FamilyProfileExtendedContract;
 import org.smartregister.chw.core.interactor.CoreFamilyProfileInteractor;
+import org.smartregister.family.contract.FamilyProfileContract;
 
 import timber.log.Timber;
 
 public class HnppFamilyProfileInteractor extends CoreFamilyProfileInteractor {
     private String phoneNumber;
+
+    @Override
+    public void getNextUniqueId(Triple<String, String, String> triple, FamilyProfileContract.InteractorCallBack callBack) {
+
+    }
+
     @Override
     public void verifyHasPhone(String familyID, FamilyProfileExtendedContract.PresenterCallBack profilePresenter) {
         Runnable runnable = () -> {

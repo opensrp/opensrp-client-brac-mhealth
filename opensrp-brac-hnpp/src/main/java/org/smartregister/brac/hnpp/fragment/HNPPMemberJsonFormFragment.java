@@ -56,7 +56,11 @@ public class HNPPMemberJsonFormFragment extends JsonWizardFormFragment {
     }
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        super.onItemSelected(parent, view, position, id);
+        try{
+            super.onItemSelected(parent, view, position, id);
+        }catch (Exception e){
+
+        }
         if(position == -1)
             return;
         if (parent instanceof MaterialSpinner) {

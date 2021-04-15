@@ -39,6 +39,18 @@ public class FamilyProfilePresenter extends CoreFamilyProfilePresenter {
         getChildRegisterModel();
         verifyHasPhone();
     }
+
+    @Override
+    public void startForm(String formName, String entityId, String metadata, String currentLocationId) throws Exception {
+        JSONObject form = this.model.getFormAsJson(formName, entityId, currentLocationId);
+        if(this.getView()!=null)this.getView().startFormActivity(form);
+    }
+
+    @Override
+    public void saveFamilyMember(String jsonString) {
+        super.saveFamilyMember(jsonString);
+    }
+
     public void updateHouseIdAndModuleId(String houseHoldId){
         this.houseHoldId = houseHoldId;
     }
