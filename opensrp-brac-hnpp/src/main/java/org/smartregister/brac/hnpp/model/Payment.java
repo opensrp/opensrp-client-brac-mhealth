@@ -4,10 +4,11 @@ import java.io.Serializable;
 
 public class Payment implements Serializable {
     int transactionId;
-    String packageName;
-    String date;
+    String serviceType;
+    String serviceCode;
     int unitPrice;
     int quantity;
+    int total;
 
     public int getTransactionId() {
         return transactionId;
@@ -17,20 +18,20 @@ public class Payment implements Serializable {
         this.transactionId = transactionId;
     }
 
-    public String getPackageName() {
-        return packageName;
+    public String getServiceType() {
+        return serviceType;
     }
 
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
+    public void setServiceType(String serviceType) {
+        this.serviceType = serviceType;
     }
 
-    public String getDate() {
-        return date;
+    public String getServiceCode() {
+        return serviceCode;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setServiceCode(String serviceCode) {
+        this.serviceCode = serviceCode;
     }
 
     public int getUnitPrice() {
@@ -47,5 +48,13 @@ public class Payment implements Serializable {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
     }
 }

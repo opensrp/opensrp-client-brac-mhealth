@@ -13,6 +13,7 @@ import org.smartregister.brac.hnpp.holder.NotificationViewHolder;
 import org.smartregister.brac.hnpp.holder.PaymentViewHolder;
 import org.smartregister.brac.hnpp.model.Notification;
 import org.smartregister.brac.hnpp.model.Payment;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 
 import java.util.ArrayList;
 
@@ -20,7 +21,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentViewHolder>{
     private ArrayList<Payment> contentList;
     private Context context;
     int quantity, unitPrice, price;
-    int total;
+    int total = 0;
     private PaymentActivity.listener totalListener;
     //private PaymentAdapter.OnClickAdapter onClickAdapter;
 
@@ -43,11 +44,12 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull PaymentViewHolder paymentViewHolder, int position) {
         final Payment content = contentList.get(position);
-        paymentViewHolder.packageNameTV.setText(content.getPackageName()+"");
+        paymentViewHolder.packageNameTV.setText(HnppConstants.targetTypeMapping.get(content.getServiceType()+""));
         paymentViewHolder.unitPriceTV.setText(content.getUnitPrice()+"");
         paymentViewHolder.quantityTV.setText(content.getQuantity()+"");
         paymentViewHolder.numberTV.setText(content.getQuantity()+"");
-        paymentViewHolder.priceTV.setText(Integer.valueOf(paymentViewHolder.quantityTV.getText().toString())*Integer.valueOf(paymentViewHolder.unitPriceTV.getText().toString())+"");
+ //       paymentViewHolder.priceTV.setText(Double.valueOf(paymentViewHolder.quantityTV.getText().toString())*Double.valueOf(paymentViewHolder.unitPriceTV.getText().toString())+"");
+        paymentViewHolder.priceTV.setText(content.getTotal()+"");
 
         paymentViewHolder.increaseBtn.setOnClickListener(new View.OnClickListener() {
             @Override

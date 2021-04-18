@@ -113,8 +113,8 @@ android {
             dimension = 'baseDimension'
             applicationIdSuffix ".training"
             buildConfigField "boolean", 'IS_TRAINING', 'true'
-            buildConfigField "String", 'opensrp_url_training', '"http://mhealthtest.brac.net:8080/opensrp/"'
-            buildConfigField "String", 'opensrp_url_live', '"http://mhealthtest.brac.net:8080/opensrp/"'
+            buildConfigField "String", 'opensrp_url_training', '"http://mhealthtest1.brac.net:8080/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"http://mhealthtest1.brac.net:8080/opensrp/"'
         }
         normal{
             versionCode 32
@@ -122,8 +122,8 @@ android {
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
 
-            buildConfigField "String", 'opensrp_url_training', '"http://hnpptest.mpower-social.com:8080/opensrp/"'
-            buildConfigField "String", 'opensrp_url_live', '"http://hnpptest.mpower-social.com:8080/opensrp/"'
+            buildConfigField "String", 'opensrp_url_training', '"http://hnpptest1.mpower-social.com:8080/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"http://hnpptest1.mpower-social.com:8080/opensrp/"'
 
 //            buildConfigField "String", 'opensrp_url_training', '"http://192.168.43.214:8082/opensrp/"'
 //            buildConfigField "String", 'opensrp_url_live', '"http://192.168.43.214:8082/opensrp/"'
