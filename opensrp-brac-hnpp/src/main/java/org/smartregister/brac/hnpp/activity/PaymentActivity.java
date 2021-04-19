@@ -11,8 +11,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,18 +22,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
-import org.smartregister.brac.hnpp.adapter.NotificationAdapter;
 import org.smartregister.brac.hnpp.adapter.PaymentAdapter;
 import org.smartregister.brac.hnpp.contract.PaymentContract;
+import org.smartregister.brac.hnpp.interactor.PaymentDetailsInteractor;
 import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
-import org.smartregister.brac.hnpp.model.Payment;
-import org.smartregister.brac.hnpp.presenter.NotificationPresenter;
 import org.smartregister.brac.hnpp.presenter.PaymentPresenter;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.PaymentDetails;
 import org.smartregister.domain.FetchStatus;
+import org.smartregister.family.util.AppExecutors;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.view.activity.SecuredActivity;
 
@@ -50,12 +48,14 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
    private PaymentPresenter presenter;
    static int totalPayment;
    static int givenPayment;
+   static ArrayList<PaymentDetails> paymentDetails;;
 
 
 
     public interface listener {
       void addsum( int amount);
       void addsumpay(int amount);
+      void getPaymentDetailsObject(ArrayList<PaymentDetails> paymentDetailsArrayList);
    }
 
     @Override
@@ -70,6 +70,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
         totalPriceTVGiven = findViewById(R.id.total_given);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         progressBar = findViewById(R.id.progress_bar);
+        paymentDetails = new ArrayList<>();
         initializePresenter();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (isOnline()) {
@@ -114,6 +115,11 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
             public void addsumpay(int amount) {
                 givenPayment = amount;
                 totalPriceTV.setText(amount+"");
+            }
+
+            @Override
+            public void getPaymentDetailsObject(ArrayList<PaymentDetails> paymentDetailsArrayList) {
+                paymentDetails = paymentDetailsArrayList;
             }
         });
         adapter.notifyDataSetChanged();
@@ -164,7 +170,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
                 finish();
                 break;
             case R.id.confirm_btn:
-                showDetailsDialog(totalPayment,givenPayment);
+                showDetailsDialog(totalPayment,givenPayment,paymentDetails);
                 break;
         }
     }
@@ -198,7 +204,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
             dialog.dismiss();
         }
     }
-    private void showDetailsDialog(int totallAmount, int givenAmount){
+    private void showDetailsDialog(int totallAmount, int givenAmount, ArrayList<PaymentDetails> paymentDetailsArrayList){
         Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.payment_dialog);
@@ -218,6 +224,27 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
                 intent.putExtra("AMOUNT",amount);  //sent amount to bkash activity
                 startActivity(intent);
                 finish();*/
+                if(paymentDetails != null){
+                    HnppConstants.showDialogWithAction(PaymentActivity.this,getString(R.string.dialog_title_payment), "", new Runnable() {
+                        @Override
+                        public void run() {
+                            new PaymentDetailsInteractor(new AppExecutors()).paymentDetailsPost(paymentDetailsArrayList, givenAmount, new PaymentContract.PaymentPostInteractorCallBack() {
+                                @Override
+                                public void onSuccess() {
+                                    Toast.makeText(PaymentActivity.this,"Successfully posted,Payment data",Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onFail() {
+                                    Toast.makeText(PaymentActivity.this,"Fail to post",Toast.LENGTH_SHORT).show();
+
+
+                                }
+                            });
+
+                        }
+                    });
+                }
             }
         });
         dialog.findViewById(R.id.cancel_btn).setOnClickListener(new View.OnClickListener() {

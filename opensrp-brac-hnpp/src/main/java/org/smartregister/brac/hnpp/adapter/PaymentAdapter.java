@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.PaymentActivity;
 import org.smartregister.brac.hnpp.holder.NotificationViewHolder;
@@ -14,11 +15,13 @@ import org.smartregister.brac.hnpp.holder.PaymentViewHolder;
 import org.smartregister.brac.hnpp.model.Notification;
 import org.smartregister.brac.hnpp.model.Payment;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.PaymentDetails;
 
 import java.util.ArrayList;
 
 public class PaymentAdapter extends RecyclerView.Adapter<PaymentViewHolder>{
     private ArrayList<Payment> contentList;
+    private ArrayList<PaymentDetails> paymentDetailsArrayList;
     private Context context;
     int quantity, unitPrice, price;
     int total = 0; int amount = 0,totalAmount = 0;
@@ -28,6 +31,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentViewHolder>{
     public PaymentAdapter(Context context) {
         this.context = context;
         contentList = new ArrayList<>();
+        paymentDetailsArrayList = new ArrayList<>();
     }
 
     public void setData(ArrayList<Payment> contentList) {
@@ -71,6 +75,18 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentViewHolder>{
                     //notifyDataSetChanged();
                     totalAmount = plusPayment(mainPrice,totalAmount);
                     totalListener.addsumpay(totalAmount);
+
+                        PaymentDetails paymentDetails = new PaymentDetails();
+                        paymentDetails.setServiceType(content.getServiceType());
+                        paymentDetails.setServiceCode(content.getServiceCode());
+                        paymentDetails.setUnitPrice(unitPrice);
+                        paymentDetails.setPayFor(quantity);
+                        if(paymentDetails != null){
+                            paymentDetailsArrayList.add(paymentDetails);
+                            totalListener.getPaymentDetailsObject(paymentDetailsArrayList);
+                        }
+
+
                 }
             }
         });
@@ -92,10 +108,33 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentViewHolder>{
                    // notifyDataSetChanged();
                     totalAmount = minusPayment(mainPrice,totalAmount);
                     totalListener.addsumpay(totalAmount);
+
+                        PaymentDetails paymentDetails = new PaymentDetails();
+                        paymentDetails.setServiceType(content.getServiceType());
+                        paymentDetails.setServiceCode(content.getServiceCode());
+                        paymentDetails.setUnitPrice(unitPrice);
+                        paymentDetails.setPayFor(quantity);
+                        if(paymentDetails != null){
+                            paymentDetailsArrayList.add(paymentDetails);
+                            totalListener.getPaymentDetailsObject(paymentDetailsArrayList);
+                        }
+
                 }
 
             }
         });
+
+        if(content.getTotal() > 0){
+            PaymentDetails paymentDetails = new PaymentDetails();
+            paymentDetails.setServiceType(content.getServiceType());
+            paymentDetails.setServiceCode(content.getServiceCode());
+            paymentDetails.setUnitPrice(content.getUnitPrice());
+            paymentDetails.setPayFor(content.getQuantity());
+            if(paymentDetails != null){
+                paymentDetailsArrayList.add(paymentDetails);
+                totalListener.getPaymentDetailsObject(paymentDetailsArrayList);
+            }
+        }
 
 
 
