@@ -41,11 +41,11 @@
         android:id="@+id/headerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="160dp"
             android:layout_height="70dp"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:background="@color/light_navy"
             android:orientation="vertical">
@@ -216,7 +216,7 @@
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@color/black"
+            android:background="@color/hnpp_accent"
             android:text="CONFIRM"
             android:gravity="center"
             android:textColor="@color/white"

@@ -49,11 +49,13 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
    private PaymentAdapter adapter;
    private PaymentPresenter presenter;
    static int totalPayment;
+   static int givenPayment;
 
 
 
     public interface listener {
       void addsum( int amount);
+      void addsumpay(int amount);
    }
 
     @Override
@@ -61,6 +63,8 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
         setContentView(R.layout.activity_payment);
         HnppConstants.updateAppBackground(findViewById(R.id.action_bar));
         findViewById(R.id.backBtn).setOnClickListener(this);
+        findViewById(R.id.cancel_btn).setOnClickListener(this);
+        findViewById(R.id.confirm_btn).setOnClickListener(this);
         recyclerView = findViewById(R.id.recycler_view);
         totalPriceTV = findViewById(R.id.total_price);
         totalPriceTVGiven = findViewById(R.id.total_given);
@@ -80,11 +84,6 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
 
 
 
-    }
-
-    public static void addTotalPayment(int total){
-        totalPayment = totalPayment + total;
-        totalPriceTV.setText(totalPayment+"");
     }
 
     @Override
@@ -107,8 +106,14 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
         adapter.setListener(new listener() {
             @Override
             public void addsum( int amount) {
-                totalPriceTV.setText(amount+"");
+                totalPayment = amount;
                 totalPriceTVGiven.setText(amount+"");
+            }
+
+            @Override
+            public void addsumpay(int amount) {
+                givenPayment = amount;
+                totalPriceTV.setText(amount+"");
             }
         });
         adapter.notifyDataSetChanged();
@@ -155,6 +160,12 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
             case R.id.backBtn:
                 finish();
                 break;
+            case R.id.cancel_btn:
+                finish();
+                break;
+            case R.id.confirm_btn:
+                showDetailsDialog(totalPayment,givenPayment);
+                break;
         }
     }
     private void showSyncDataDialog(){
@@ -187,31 +198,35 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
             dialog.dismiss();
         }
     }
-    private void showDetailsDialog(){
-        Intent intent = new Intent(PaymentActivity.this, BkashActivity.class);
-        startActivity(intent);
-        finish();
-//        Dialog dialog = new Dialog(this, android.R.style.Theme_NoTitleBar_Fullscreen);
-//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        dialog.setContentView(R.layout.payment_dialog);
-//        EditText paymentET = dialog.findViewById(R.id.payment_et);
-//        dialog.findViewById(R.id.payment_Btn).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String amount = String.valueOf(paymentET.getText());
-//                Intent intent = new Intent(PaymentActivity.this, BkashActivity.class);
-//                intent.putExtra("AMOUNT",amount);  //sent amount to bkash activity
-//                startActivity(intent);
-//                finish();
-//            }
-//        });
-//        dialog.findViewById(R.id.cross_btn).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dialog.dismiss();
-//            }
-//        });
-//        dialog.show();
+    private void showDetailsDialog(int totallAmount, int givenAmount){
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.payment_dialog);
+        int remainAmount = totallAmount - givenAmount;
+        TextView totalTV = dialog.findViewById(R.id.totalTV);
+        TextView givenTV = dialog.findViewById(R.id.givenTV);
+        TextView remainTV = dialog.findViewById(R.id.remainTV);
+
+        totalTV.setText(totallAmount+" "+"Taka");
+        remainTV.setText(remainAmount+" "+"Taka");
+        givenTV.setText(givenAmount+" "+"Taka");
+        dialog.findViewById(R.id.send_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            /*    String amount = String.valueOf(paymentET.getText());
+                Intent intent = new Intent(PaymentActivity.this, BkashActivity.class);
+                intent.putExtra("AMOUNT",amount);  //sent amount to bkash activity
+                startActivity(intent);
+                finish();*/
+            }
+        });
+        dialog.findViewById(R.id.cancel_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
 
     }
     @RequiresApi(api = Build.VERSION_CODES.M)
