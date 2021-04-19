@@ -701,27 +701,17 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
 
-//            String type = StringUtils.isBlank(parentEventType) ? getEncounterType() : getEncounterType();
-           // String type = HnppJsonFormUtils.getEncounterType();
             String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
 
-            Visit visit = null;
             try {
             JSONObject form = new JSONObject(jsonString);
             String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
                 type = HnppJsonFormUtils.getEncounterType(type);
-                Log.v("BRAC_","type:"+type);
-//                if(type.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION) ||
-//                        type.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION) ||
-//                        type.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
-//                    HnppJsonFormUtils.updateLastBracAnc(form,baseEntityId);
-//                }
-            // persist to database
 
                 Map<String, String> jsonStrings = new HashMap<>();
                 jsonStrings.put("First",form.toString());
 
-                visit = HnppJsonFormUtils.saveVisit(isComesFromIdentity,verificationNeeded, isVerified,checkedItem, baseEntityId, type, jsonStrings, "");
+                HnppJsonFormUtils.saveVisit(isComesFromIdentity,verificationNeeded, isVerified,checkedItem, baseEntityId, type, jsonStrings, "");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -729,7 +719,6 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-//                        memberHistoryFragment.onActivityResult(0,0,null);
                         if(!HnppConstants.isPALogin()){
                             mViewPager.setCurrentItem(2,true);
                             if(profileMemberFragment !=null){
