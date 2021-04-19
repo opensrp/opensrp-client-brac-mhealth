@@ -36,6 +36,7 @@
             android:textSize="20sp" />
     </RelativeLayout>
     <RelativeLayout
+        android:layout_marginTop="5dp"
         android:layout_below="@+id/action_bar"
         android:id="@+id/headerView"
         android:layout_width="match_parent"
@@ -71,21 +72,6 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/force_sync_btn"
-            android:layout_width="70dp"
-            android:layout_height="50dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/button_bg"
-            android:gravity="center"
-            android:paddingTop="10dp"
-            android:paddingBottom="5dp"
-            android:text="SYNC"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
 
     </RelativeLayout>
 
@@ -193,6 +179,15 @@
             android:layout_height="wrap_content"
             android:gravity="right"
             android:text=""
+            android:textColor="@color/light_blue"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+        <TextView
+            android:layout_weight="1.5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="Taka"
             android:textColor="@color/light_blue"
             android:textSize="18sp"
             android:textStyle="bold" />
