@@ -321,10 +321,6 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
             }
         }
 
-
-       if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.MARKED_PRESBYOPIA)){
-           Log.v("DAILY_TERGET","query:"+query);
-       }
         Cursor cursor = null;
         try{
             // try {

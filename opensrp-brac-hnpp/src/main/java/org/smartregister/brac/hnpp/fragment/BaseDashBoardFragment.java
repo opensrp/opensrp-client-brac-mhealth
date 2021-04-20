@@ -54,7 +54,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
     protected String ssName;
     private ImageView filterBtn, fromFilterBtn, toFilterBtn,fromDateFilterBtn, toDateFilterBtn;
     private  TextView monthTV,yearTV, fromMonthTV, toMonthTV, fromYearTV,toYearTV;
-    protected LinearLayout monthView,dateView,fromDateView,toDateView,fromMonthView, toMonthView;
+    protected LinearLayout monthView,dateView,fromDateView,toDateView,fromMonthView, toMonthView,ssView;
     protected RelativeLayout monthPicker, fromMonthPicker, toMonthPicker;
     abstract void filterData();
     abstract void updateTitle();
@@ -79,6 +79,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
         View view = inflater.inflate(R.layout.base_fragment_dashboard,null);
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
+        ssView = view.findViewById(R.id.ss_name_view);
         ssSpinner = view.findViewById(R.id.ss_filter_spinner);
         monthView = view.findViewById(R.id.month_view);
         fromMonthTV = view.findViewById(R.id.from_month_text);

@@ -7,6 +7,7 @@ import android.util.Log;
 
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.contract.DashBoardContract;
+import org.smartregister.brac.hnpp.repository.StockRepository;
 import org.smartregister.brac.hnpp.utils.DashBoardData;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.core.application.CoreChwApplication;
@@ -150,6 +151,55 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
     public DashBoardData getBloodGroupingCount(String ssName, long fromMonth, long toMonth){
         return getVisitTypeCount(HnppConstants.EVENT_TYPE.BLOOD_GROUP,ssName,fromMonth,toMonth);
     }
+    public DashBoardData getTotalGlassCount(long fromDate, long toDate){
+        String query;
+        if(fromDate == -1 && toDate == -1){
+            query =  "select sum(coalesce("+StockRepository.ACHIEVEMNT_COUNT+",0)) as acount from "+StockRepository.STOCK_TABLE+" "+getGlassNames();
+
+        }
+        else{
+                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date, achievemnt_count from stock_table)SELECT sum(coalesce(achievemnt_count,0)) as achievemnt_count  from t1 "+getGlassNames()+" "+getBetweenCondition(fromDate,toDate,"date");
+
+        }
+        DashBoardData dashBoardData1 = new DashBoardData();
+        Cursor cursor = null;
+        // try {
+        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        if(cursor !=null && cursor.getCount() > 0){
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+
+                dashBoardData1.setCount(cursor.getInt(0));
+                dashBoardData1.setEventType(HnppConstants.EVENT_TYPE.GLASS);
+                dashBoardData1.setTitle("চশমা বিক্রি");
+                try{
+                    dashBoardData1.setImageSource((int)HnppConstants.iconMapping.get(dashBoardData1.getEventType()));
+                }catch (Exception e){
+
+                }
+                cursor.moveToNext();
+            }
+            cursor.close();
+
+        }
+        return dashBoardData1;
+    }
+
+    private String getGlassNames() {
+        return
+       " where ("
+                +StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.SV_1+"' or "+
+                StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.SV_1_5+"' or "+
+                StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.SV_2+"' or "+
+                StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.SV_2_5+"' or "+
+                StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.SV_3+"' or "+
+                StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.BF_1+"' or "+
+                StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.BF_1_5+"' or "+
+                StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.BF_2+"' or "+
+                StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.BF_2_5+"' or "+
+                StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.BF_3+"' or "+
+                StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.SUN_GLASS+"')";
+    }
     // for from to month
 
     public DashBoardData getANCRegisterCount(String ssName,long fromMonth, long toMonth){
@@ -278,7 +328,12 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
 
                 dashBoardData1.setCount(cursor.getInt(0));
                 dashBoardData1.setEventType(visitType);
-                dashBoardData1.setTitle(HnppConstants.workSummeryTypeMapping.get(dashBoardData1.getEventType()));
+                if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.NCD_PACKAGE) && HnppConstants.isPALogin()){
+                    dashBoardData1.setTitle("অ্যাডাল্ট প্যাকেজ");
+                }else{
+                    dashBoardData1.setTitle(HnppConstants.workSummeryTypeMapping.get(dashBoardData1.getEventType()));
+
+                }
 
                 try{
                     dashBoardData1.setImageSource((int)HnppConstants.iconMapping.get(dashBoardData1.getEventType()));
