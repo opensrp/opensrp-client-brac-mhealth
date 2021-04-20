@@ -29,6 +29,7 @@ import org.smartregister.brac.hnpp.adapter.PaymentAdapter;
 import org.smartregister.brac.hnpp.contract.PaymentContract;
 import org.smartregister.brac.hnpp.interactor.PaymentDetailsInteractor;
 import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
+import org.smartregister.brac.hnpp.model.Payment;
 import org.smartregister.brac.hnpp.presenter.PaymentPresenter;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.PaymentDetails;
@@ -48,14 +49,12 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
    private PaymentPresenter presenter;
    static int totalPayment;
    static int givenPayment;
-   static ArrayList<PaymentDetails> paymentDetails;;
 
 
 
     public interface listener {
       void addsum( int amount);
       void addsumpay(int amount);
-      void getPaymentDetailsObject(ArrayList<PaymentDetails> paymentDetailsArrayList);
    }
 
     @Override
@@ -70,7 +69,6 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
         totalPriceTVGiven = findViewById(R.id.total_given);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         progressBar = findViewById(R.id.progress_bar);
-        paymentDetails = new ArrayList<>();
         initializePresenter();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (isOnline()) {
@@ -100,28 +98,13 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
     @Override
     public void updateAdapter() {
         adapter = new PaymentAdapter(this);
-        adapter.setData(presenter.getPaymentData());
+        ArrayList<Payment> getPaymentList = presenter.getPaymentData();
+        adapter.setData(getPaymentList);
+        totalPriceTVGiven.setText(getPaymentList.size()>0?getPaymentList.get(getPaymentList.size()-1).getTotalInitialAmount()+"":0+"");
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(this,
                 DividerItemDecoration.VERTICAL));
-        adapter.setListener(new listener() {
-            @Override
-            public void addsum( int amount) {
-                totalPayment = amount;
-                totalPriceTVGiven.setText(amount+"");
-            }
 
-            @Override
-            public void addsumpay(int amount) {
-                givenPayment = amount;
-                totalPriceTV.setText(amount+"");
-            }
-
-            @Override
-            public void getPaymentDetailsObject(ArrayList<PaymentDetails> paymentDetailsArrayList) {
-                paymentDetails = paymentDetailsArrayList;
-            }
-        });
         adapter.notifyDataSetChanged();
     }
 

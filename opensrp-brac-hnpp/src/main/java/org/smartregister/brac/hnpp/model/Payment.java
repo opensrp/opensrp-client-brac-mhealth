@@ -9,6 +9,24 @@ public class Payment implements Serializable {
     int unitPrice;
     int quantity;
     int total;
+    private int payFor;
+    private int totalInitialAmount;
+
+    public void setTotalInitialAmount(int totalInitialAmount) {
+        this.totalInitialAmount = totalInitialAmount;
+    }
+
+    public int getTotalInitialAmount() {
+        return totalInitialAmount;
+    }
+
+    public void setPayFor(int payFor) {
+        this.payFor = payFor;
+    }
+
+    public int getPayFor() {
+        return payFor;
+    }
 
     public int getTransactionId() {
         return transactionId;

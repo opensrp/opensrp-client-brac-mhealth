@@ -31,12 +31,15 @@ public class PaymentInteractor implements PaymentContract.Interactor {
     private ArrayList<Payment> getPaymentServiceList(){
         paymentArrayList.clear();
         JSONArray jsonArray = getPaymentServiceJsonArrayList();
-
+        int totalInit = 0;
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 JSONObject object = jsonArray.getJSONObject(i);
                 Payment payment = new Gson().fromJson(object.toString(), Payment.class);
                 if (payment != null) {
+                    payment.setPayFor(payment.getQuantity());
+                    totalInit = totalInit + payment.getTotal();
+                    payment.setTotalInitialAmount(totalInit);
                     paymentArrayList.add(payment);
                 }
             } catch (JSONException e) {
