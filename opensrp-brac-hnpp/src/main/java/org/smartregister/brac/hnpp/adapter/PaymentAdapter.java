@@ -62,6 +62,9 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentViewHolder> {
         paymentViewHolder.increaseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
+
                 if (Integer.valueOf(paymentViewHolder.quantityTV.getText().toString()) > Integer.valueOf(paymentViewHolder.numberTV.getText().toString())) {
                     int oldPrice = 0, currentPrice = 0;
                     oldPrice = Integer.valueOf(paymentViewHolder.priceTV.getText().toString());
@@ -76,16 +79,18 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentViewHolder> {
                     //notifyDataSetChanged();
                     totalAmount = plusPayment(mainPrice, totalAmount);
                     totalListener.addsumpay(totalAmount);
-
-                    PaymentDetails paymentDetails = new PaymentDetails();
-                    paymentDetails.setServiceType(content.getServiceType());
-                    paymentDetails.setServiceCode(content.getServiceCode());
-                    paymentDetails.setUnitPrice(unitPrice);
-                    paymentDetails.setPayFor(quantity);
-                    if (paymentDetails != null) {
+                    if(quantity>0){
+                        PaymentDetails paymentDetails = new PaymentDetails();
+                        paymentDetails.setServiceType(content.getServiceType());
+                        paymentDetails.setServiceCode(content.getServiceCode());
+                        paymentDetails.setUnitPrice(unitPrice);
+                        paymentDetails.setPayFor(quantity);
                         paymentDetailsArrayList.add(paymentDetails);
                         totalListener.getPaymentDetailsObject(paymentDetailsArrayList);
+
+
                     }
+
 
 
                 }
@@ -109,16 +114,18 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentViewHolder> {
                     // notifyDataSetChanged();
                     totalAmount = minusPayment(mainPrice, totalAmount);
                     totalListener.addsumpay(totalAmount);
-
-                    PaymentDetails paymentDetails = new PaymentDetails();
-                    paymentDetails.setServiceType(content.getServiceType());
-                    paymentDetails.setServiceCode(content.getServiceCode());
-                    paymentDetails.setUnitPrice(unitPrice);
-                    paymentDetails.setPayFor(quantity);
-                    if (paymentDetails != null) {
+                    if(quantity>0){
+                        PaymentDetails paymentDetails = new PaymentDetails();
+                        paymentDetails.setServiceType(content.getServiceType());
+                        paymentDetails.setServiceCode(content.getServiceCode());
+                        paymentDetails.setUnitPrice(unitPrice);
+                        paymentDetails.setPayFor(quantity);
                         paymentDetailsArrayList.add(paymentDetails);
                         totalListener.getPaymentDetailsObject(paymentDetailsArrayList);
+
                     }
+
+
 
                 }
 
