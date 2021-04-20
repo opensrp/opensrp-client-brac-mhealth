@@ -41,11 +41,11 @@
         android:id="@+id/headerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="160dp"
             android:layout_height="70dp"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:background="@color/light_navy"
             android:orientation="vertical">
@@ -92,7 +92,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="1.5"
                 android:gravity="center"
                 android:text="@string/name_pay"
                 android:textColor="@color/black"
@@ -122,7 +122,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:gravity="center"
                 android:text="@string/for_pay"
                 android:textColor="@color/black"

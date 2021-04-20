@@ -224,7 +224,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
                 intent.putExtra("AMOUNT",amount);  //sent amount to bkash activity
                 startActivity(intent);
                 finish();*/
-                if(paymentDetails != null){
+                /*if(paymentDetails != null){
                     HnppConstants.showDialogWithAction(PaymentActivity.this,getString(R.string.dialog_title_payment), "", new Runnable() {
                         @Override
                         public void run() {
@@ -244,7 +244,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
 
                         }
                     });
-                }
+                }*/
             }
         });
         dialog.findViewById(R.id.cancel_btn).setOnClickListener(new View.OnClickListener() {
