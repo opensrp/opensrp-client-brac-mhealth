@@ -15,7 +15,7 @@ public class WorkSummeryDashBoardFragment extends BaseDashBoardFragment {
     void initilizePresenter() {
         presenter = new WorkSummeryDashBoardPresenter(this);
         if(HnppConstants.isPALogin()){
-            ssView.setVisibility(View.INVISIBLE);
+            ssView.setVisibility(View.GONE);
         }
         monthView.setVisibility(View.GONE);
         dateView.setVisibility(View.GONE);

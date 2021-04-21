@@ -109,7 +109,7 @@ android {
 
         pa{
             versionCode 1
-            versionName "2.0.1"
+            versionName "1.0.1"
             dimension = 'baseDimension'
             applicationIdSuffix ".pa"
             buildConfigField "boolean", 'IS_TRAINING', 'false'
@@ -118,7 +118,7 @@ android {
         }
         pa_training{
             versionCode 1
-            versionName "4.0.1"
+            versionName "1.0.1"
             dimension = 'baseDimension'
             applicationIdSuffix ".patraining"
             buildConfigField "boolean", 'IS_TRAINING', 'true'

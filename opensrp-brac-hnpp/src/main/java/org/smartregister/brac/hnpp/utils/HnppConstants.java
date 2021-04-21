@@ -79,7 +79,6 @@ public class HnppConstants extends CoreConstants {
     public static boolean isSortByLastVisit = false;
     public static boolean isViewRefresh = false;
     public static final String KEY_IS_SAME_MONTH = "is_same_month";
-
     public static SimpleDateFormat DDMMYY = new SimpleDateFormat("dd-MM-yyyy",Locale.getDefault());
     public enum VisitType {DUE, OVERDUE, LESS_TWENTY_FOUR, VISIT_THIS_MONTH, NOT_VISIT_THIS_MONTH, EXPIRY, VISIT_DONE}
     public enum HomeVisitType {GREEN, YELLOW, RED, BROWN}
@@ -750,7 +749,7 @@ public class HnppConstants extends CoreConstants {
         public static final String GUEST_MEMBER_UPDATE_REGISTRATION = "OOC Member Update Registration";
     }
     public static long getLongDateFormatForFromMonth(String year,String month){
-        String dateFormate = year+"-"+HnppConstants.addZeroForMonth(month)+"-00";
+        String dateFormate = year+"-"+HnppConstants.addZeroForMonth(month)+"-01";
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         long startDate = System.currentTimeMillis();
         try{

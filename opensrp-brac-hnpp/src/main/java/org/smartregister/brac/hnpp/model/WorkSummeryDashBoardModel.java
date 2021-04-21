@@ -7,6 +7,7 @@ import android.util.Log;
 
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.contract.DashBoardContract;
+import org.smartregister.brac.hnpp.repository.IndicatorRepository;
 import org.smartregister.brac.hnpp.repository.StockRepository;
 import org.smartregister.brac.hnpp.utils.DashBoardData;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -151,16 +152,19 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
     public DashBoardData getBloodGroupingCount(String ssName, long fromMonth, long toMonth){
         return getVisitTypeCount(HnppConstants.EVENT_TYPE.BLOOD_GROUP,ssName,fromMonth,toMonth);
     }
-    public DashBoardData getTotalGlassCount(long fromDate, long toDate){
+    public DashBoardData getTotalGlassCount(long fromMonth, long toMonth){
         String query;
-        if(fromDate == -1 && toDate == -1){
-            query =  "select sum(coalesce("+StockRepository.ACHIEVEMNT_COUNT+",0)) as acount from "+StockRepository.STOCK_TABLE+" "+getGlassNames();
+        String mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='glasses_sell'";
+        if(fromMonth == -1 && toMonth == -1){
+                query = MessageFormat.format("select count(*) as count from {0} {1}", IndicatorRepository.INDICATOR_TABLE,mainCondition);
 
         }
         else{
-                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date, achievemnt_count from stock_table)SELECT sum(coalesce(achievemnt_count,0)) as achievemnt_count  from t1 "+getGlassNames()+" "+getBetweenCondition(fromDate,toDate,"date");
+            query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name,indicator_name,indicator_value from "+IndicatorRepository.INDICATOR_TABLE+") SELECT count(*) as count from t1 "+mainCondition+getBetweenConditionFromStringDate(fromMonth,toMonth,"date");
+
 
         }
+        Log.v("TOTAL_GLASS","total glass:"+query);
         DashBoardData dashBoardData1 = new DashBoardData();
         Cursor cursor = null;
         // try {
@@ -185,21 +189,6 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
         return dashBoardData1;
     }
 
-    private String getGlassNames() {
-        return
-       " where ("
-                +StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.SV_1+"' or "+
-                StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.SV_1_5+"' or "+
-                StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.SV_2+"' or "+
-                StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.SV_2_5+"' or "+
-                StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.SV_3+"' or "+
-                StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.BF_1+"' or "+
-                StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.BF_1_5+"' or "+
-                StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.BF_2+"' or "+
-                StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.BF_2_5+"' or "+
-                StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.BF_3+"' or "+
-                StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.SUN_GLASS+"')";
-    }
     // for from to month
 
     public DashBoardData getANCRegisterCount(String ssName,long fromMonth, long toMonth){
@@ -368,6 +357,16 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
             build.append(MessageFormat.format(" and {0} between {1} and {2} ",compareDate,Long.toString(fromMonth),Long.toString(toMonth)));
         }
         return build.toString();
+    }
+    public String getBetweenConditionFromStringDate(long fromMonth, long toMonth, String compareDate){
+        String query = null;
+        if(fromMonth == -1){
+            query = " and "+compareDate+" ='"+toMonth+"'";
+        }
+        else {
+            query = " and ("+compareDate+" between '"+HnppConstants.getDateFormateFromLong(fromMonth)+"' and '"+HnppConstants.getDateFormateFromLong(toMonth)+"')";
+        }
+        return query;
     }
 
     public DashBoardData getANcTrimesterCount(String title,String ssName, long fromMonth, long toMonth,int startDate,int endDate){

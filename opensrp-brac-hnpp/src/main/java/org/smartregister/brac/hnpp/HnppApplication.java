@@ -231,9 +231,11 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
     public void clearDatabase(){
         ((HnppChwRepository)getRepository()).deleteDatabase();
     }
-    public void clearSharePreference(){
+    public void clearSharePreference(String previousName){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         preferences.edit().clear().commit();
+        //need to set the username at loginscreen
+        HnppApplication.getInstance().getContext().allSharedPreferences().updateANMUserName(previousName);
     }
 
     public @NotNull Map<String, Class> getRegisteredActivities() {

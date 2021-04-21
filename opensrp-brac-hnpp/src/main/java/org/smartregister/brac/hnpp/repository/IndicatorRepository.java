@@ -81,19 +81,19 @@ public class IndicatorRepository extends BaseRepository {
         contentValues.put(DAY, day);
         contentValues.put(SS_NAME, ssName);
         SQLiteDatabase database = getWritableDatabase();
-        //if(findUnique(database,targetName,day,month,year,ssName,baseEntityId)){
+        if(findUnique(database,targetName,value,day,month,year,ssName,baseEntityId)){
             Log.v("TARGET_INSERTED","update value:"+contentValues);
             long inserted = database.insert(getLocationTableName(), null, contentValues);
-        //}
+        }
 
 //        getWritableDatabase().execSQL("update "+getLocationTableName()+" set achievemnt_count = achievemnt_count +1,"+DAY+" = "+day+" , "+MONTH+" = "+month+" , "+YEAR+" = "+year+" where "+INDICATOR_NAME+" = '"+targetName+"'");
     }
-    public boolean findUnique(SQLiteDatabase db, String targetName, String day, String month, String year, String ssName, String baseEntityId) {
+    public boolean findUnique(SQLiteDatabase db, String targetName, String value, String day, String month, String year, String ssName, String baseEntityId) {
 
 
         SQLiteDatabase database = (db == null) ? getReadableDatabase() : db;
-        String selection = BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE + " and " + INDICATOR_NAME + " = ? " + COLLATE_NOCASE+" and "+DAY+" = ?"+COLLATE_NOCASE+" and "+MONTH+" = ?"+COLLATE_NOCASE+" and "+YEAR+" = ?"+COLLATE_NOCASE+" and "+SS_NAME+" = ?"+COLLATE_NOCASE;
-        String[] selectionArgs = new String[]{baseEntityId, targetName,day,month,year,ssName};
+        String selection = BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE + " and " + INDICATOR_NAME + " = ? " + COLLATE_NOCASE+" and "+DAY+" = ?"+COLLATE_NOCASE+" and "+MONTH+" = ?"+COLLATE_NOCASE+" and "+YEAR+" = ?"+COLLATE_NOCASE+" and "+SS_NAME+" = ?"+COLLATE_NOCASE+" and "+INDICATOR_VALUE+" = ?"+COLLATE_NOCASE;
+        String[] selectionArgs = new String[]{baseEntityId, targetName,day,month,year,ssName,value};
         Cursor cursor = database.query(getLocationTableName(), null, selection, selectionArgs, null, null, null, null);
         if(cursor!=null && cursor.getCount() > 0){
             cursor.close();

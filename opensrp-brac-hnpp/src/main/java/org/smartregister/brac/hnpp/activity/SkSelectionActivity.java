@@ -41,6 +41,7 @@ import java.util.ArrayList;
 
 public class SkSelectionActivity extends SecuredActivity implements View.OnClickListener,SyncStatusBroadcastReceiver.SyncStatusListener {
     public static final String IS_COMES_FROM_UPDATE = "is_comes_from_update";
+    private  String storeUserName;
 
     private RecyclerView recyclerView;
     private Spinner skSpinner,ssSpinner;
@@ -284,6 +285,7 @@ public class SkSelectionActivity extends SecuredActivity implements View.OnClick
         removeDialog.findViewById(R.id.remove_data_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                storeUserName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
                 SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(SkSelectionActivity.this);
                 HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
                 showProgressDialog(getString(R.string.syncing));
@@ -317,7 +319,7 @@ public class SkSelectionActivity extends SecuredActivity implements View.OnClick
     @Override
     public void onSyncComplete(FetchStatus fetchStatus) {
         hideProgressDialog();
-        HnppApplication.getHNPPInstance().clearSharePreference();
+        HnppApplication.getHNPPInstance().clearSharePreference(storeUserName);
         HnppApplication.getHNPPInstance().clearDatabase();
         HnppApplication.getHNPPInstance().appSwitch();
     }

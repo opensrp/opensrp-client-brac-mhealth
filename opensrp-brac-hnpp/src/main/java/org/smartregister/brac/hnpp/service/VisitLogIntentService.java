@@ -601,6 +601,13 @@ public class VisitLogIntentService extends IntentService {
                     HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.MARKED_PRESBYOPIA,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
                 }
             }
+            if(details.containsKey("glasses_sell") && !StringUtils.isEmpty(details.get("glasses_sell"))) {
+                String value = details.get("glasses_sell");
+                if(!TextUtils.isEmpty(value)){
+                    LocalDate localDate = new LocalDate(visit.getVisitDate());
+                    HnppApplication.getIndicatorRepository().updateValue("glasses_sell", value, localDate.getDayOfMonth() + "", localDate.getMonthOfYear() + "", localDate.getYear() + "", visit.getSsName(), visit.getBaseEntityId());
+                }
+            }
             if(details.containsKey("is_need_glasses") && !StringUtils.isEmpty(details.get("is_need_glasses"))) {
                 String known = details.get("is_need_glasses");
                 if(!TextUtils.isEmpty(known) && known.equalsIgnoreCase("yes")){
