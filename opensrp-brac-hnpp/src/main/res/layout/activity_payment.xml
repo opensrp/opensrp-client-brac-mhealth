@@ -15,11 +15,12 @@
             android:id="@+id/backBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:src="@drawable/ic_arrow_back_white_24dp"
-            android:tint="@color/white" />
+            android:tint="@color/white"
+            android:contentDescription="TODO" />
 
         <org.smartregister.view.customcontrols.CustomFontTextView
             android:id="@+id/textview_detail_two"
@@ -30,7 +31,6 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:paddingStart="0dp"
-            android:paddingLeft="0dp"
             android:text="@string/menu_payment"
             android:textColor="@color/white"
             android:textSize="20sp" />
@@ -122,7 +122,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/for_pay"
                 android:textColor="@color/black"
@@ -144,7 +144,6 @@
     <android.support.v7.widget.RecyclerView
         android:layout_below="@+id/paymentView"
         android:layout_marginTop="5dp"
-        android:layout_alignWithParentIfMissing="true"
         android:id="@+id/recycler_view"
         android:scrollbars="vertical"
         android:layout_width="match_parent"

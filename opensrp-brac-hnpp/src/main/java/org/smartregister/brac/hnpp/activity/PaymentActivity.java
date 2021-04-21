@@ -49,10 +49,9 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
     private ProgressBar progressBar;
     private PaymentAdapter adapter;
     private PaymentPresenter presenter;
+    private int totalPayable;
+    private ArrayList<Payment> payments;
 
-    /*public interface listener {
-        void getPayableAmount(int amount);
-    }*/
 
     @Override
     protected void onCreation() {
@@ -66,6 +65,8 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
         totalPriceTVGiven = findViewById(R.id.total_given);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         progressBar = findViewById(R.id.progress_bar);
+        totalPayable = 0;
+        payments = new ArrayList<>();
         initializePresenter();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (isOnline()) {
@@ -95,8 +96,8 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
         adapter = new PaymentAdapter(this, new Runnable() {
             @Override
             public void run() {
-                ArrayList<Payment> pay = adapter.getPaymentWithoutZero();
-               int totalPayable = adapter.getTotalPayableAmount();
+                payments = adapter.getPaymentWithoutZero();
+                totalPayable = adapter.getTotalPayableAmount();
                 Log.v("TOTAL_PAY","totalPayable:"+totalPayable);
 
                 totalPriceTV.setText(totalPayable+"");
@@ -109,7 +110,6 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
                 DividerItemDecoration.VERTICAL));
         totalPriceTVGiven.setText(getPaymentList.size() > 0 ? getPaymentList.get(getPaymentList.size() - 1).getTotalInitialAmount() + "" : 0 + "");
         totalPriceTV.setText(totalPriceTVGiven.getText().toString()+"");
-        //adapter.setListener(amount -> totalPriceTV.setText(amount+""));
         adapter.notifyDataSetChanged();
     }
 
@@ -161,7 +161,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
             case R.id.confirm_btn:
                 ArrayList<Payment> payments = adapter.getPaymentWithoutZero();
                 int givenAmount = adapter.getTotalPayableAmount();
-                showDetailsDialog(payments,givenAmount);
+                showDetailsDialog();
                 break;
         }
     }
@@ -200,7 +200,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
         }
     }
 
-    private void showDetailsDialog(ArrayList<Payment> payments, int givenAmount) {
+    private void showDetailsDialog() {
         Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.payment_dialog);
@@ -209,8 +209,9 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
         TextView remainTV = dialog.findViewById(R.id.remainTV);
 
         totalTV.setText(totalPriceTVGiven.getText().toString() + " " + "Taka");
-        remainTV.setText((Integer.valueOf(totalPriceTVGiven.getText().toString()) - givenAmount) + " " + "Taka");
-        givenTV.setText(givenAmount + " " + "Taka");
+        remainTV.setText((Integer.valueOf(totalPriceTVGiven.getText().toString()) - totalPayable) + " " + "Taka");
+        givenTV.setText(totalPayable + " " + "Taka");
+
         dialog.findViewById(R.id.send_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

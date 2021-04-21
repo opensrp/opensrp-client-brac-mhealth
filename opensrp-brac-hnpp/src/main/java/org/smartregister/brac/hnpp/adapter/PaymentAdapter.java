@@ -17,8 +17,6 @@ import java.util.ArrayList;
 public class PaymentAdapter extends RecyclerView.Adapter<PaymentViewHolder> {
     private ArrayList<Payment> contentList;
     private Context context;
-    //int totalInitialAmount = 0;
-    //private PaymentActivity.listener totalListener;
     private Runnable runnable;
 
     public PaymentAdapter(Context context,Runnable runnable) {
@@ -35,59 +33,43 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentViewHolder> {
     @NonNull
     @Override
     public PaymentViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new PaymentViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.adapter_payment_list, null));
+        return new PaymentViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.adapter_payment_list, viewGroup, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull PaymentViewHolder paymentViewHolder, @SuppressLint("RecyclerView") int i) {
-        //int position = paymentViewHolder.getAdapterPosition();
         Payment content = contentList.get(i);
         paymentViewHolder.packageNameTV.setText(HnppConstants.targetTypeMapping.get(content.getServiceType() + ""));
         paymentViewHolder.unitPriceTV.setText(content.getUnitPrice() + "");
         paymentViewHolder.quantityTV.setText(content.getQuantity() + "");
         paymentViewHolder.numberTV.setText(content.getPayFor() + "");
         //       paymentViewHolder.priceTV.setText(Double.valueOf(paymentViewHolder.quantityTV.getText().toString())*Double.valueOf(paymentViewHolder.unitPriceTV.getText().toString())+"");
-        paymentViewHolder.priceTV.setText(content.getTotal() + "");
-
-        //totalInitialAmount = contentList.get(contentList.size()-1).getTotalInitialAmount();
-        //totalListener.getPayableAmount(totalInitialAmount);
+        paymentViewHolder.priceTV.setText(content.getTotal() + " Taka");
 
         paymentViewHolder.increaseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // int oldPrice = 0, currentPrice = 0;
                 if(content.getQuantity()>content.getPayFor()){
-                   // oldPrice = content.getTotal();
                     content.setPayFor(content.getPayFor()+1);
                     content.setTotal(content.getPayFor() * content.getUnitPrice());
-                    //currentPrice = content.getTotal();
                 }
                 notifyItemChanged(i);
                 runnable.run();
 
-                /*int mainPrice = currentPrice - oldPrice;
-                totalInitialAmount = plusPayment(mainPrice, totalInitialAmount);
-                totalListener.getPayableAmount(totalInitialAmount);*/
             }
         });
 
         paymentViewHolder.decreaseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //int oldPrice = 0, currentPrice = 0;
                 if(content.getPayFor()>0){
-                    //oldPrice = content.getTotal();
                     content.setPayFor(content.getPayFor()- 1);
                     content.setTotal(content.getPayFor() * content.getUnitPrice());
-                    //currentPrice = content.getTotal();
 
                 }
                 notifyItemChanged(i);
                 runnable.run();
 
-                /*int mainPrice = oldPrice - currentPrice;
-                totalInitialAmount = minusPayment(mainPrice, totalInitialAmount);
-                totalListener.getPayableAmount(totalInitialAmount);*/
             }
         });
     }
@@ -111,23 +93,12 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentViewHolder> {
         return details;
 
     }
+
     private int totalPayableAmount = 0;
     //get total price
     public int getTotalPayableAmount() {
         return totalPayableAmount;
     }
 
-    /*public void setListener(PaymentActivity.listener listener) {
-        totalListener = listener;
-    }
 
-     public int plusPayment(int price, int amount) {
-        amount = price + amount;
-        return amount;
-    }
-
-    public int minusPayment(int price, int amount) {
-        amount = amount - price;
-        return amount;
-    }*/
 }
