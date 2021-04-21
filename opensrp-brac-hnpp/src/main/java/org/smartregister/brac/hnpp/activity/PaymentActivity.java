@@ -92,14 +92,23 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
 
     @Override
     public void updateAdapter() {
-        adapter = new PaymentAdapter(this);
+        adapter = new PaymentAdapter(this, new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<Payment> pay = adapter.getPaymentWithoutZero();
+               int totalPayable = adapter.getTotalPayableAmount();
+                Log.v("TOTAL_PAY","totalPayable:"+totalPayable);
+
+                totalPriceTV.setText(totalPayable+"");
+            }
+        });
         ArrayList<Payment> getPaymentList = presenter.getPaymentData();
         adapter.setData(getPaymentList);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(this,
                 DividerItemDecoration.VERTICAL));
         totalPriceTVGiven.setText(getPaymentList.size() > 0 ? getPaymentList.get(getPaymentList.size() - 1).getTotalInitialAmount() + "" : 0 + "");
-        totalPriceTV.setText(adapter.getTotalPayableAmount()+"");
+
         //adapter.setListener(amount -> totalPriceTV.setText(amount+""));
         adapter.notifyDataSetChanged();
     }

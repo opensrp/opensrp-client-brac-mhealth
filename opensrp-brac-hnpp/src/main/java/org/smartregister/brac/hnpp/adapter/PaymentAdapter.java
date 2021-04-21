@@ -19,9 +19,11 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentViewHolder> {
     private Context context;
     //int totalInitialAmount = 0;
     //private PaymentActivity.listener totalListener;
+    private Runnable runnable;
 
-    public PaymentAdapter(Context context) {
+    public PaymentAdapter(Context context,Runnable runnable) {
         this.context = context;
+        this.runnable = runnable;
         contentList = new ArrayList<>();
     }
 
@@ -61,6 +63,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentViewHolder> {
                     //currentPrice = content.getTotal();
                 }
                 notifyItemChanged(i);
+                runnable.run();
 
                 /*int mainPrice = currentPrice - oldPrice;
                 totalInitialAmount = plusPayment(mainPrice, totalInitialAmount);
@@ -80,6 +83,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentViewHolder> {
 
                 }
                 notifyItemChanged(i);
+                runnable.run();
 
                 /*int mainPrice = oldPrice - currentPrice;
                 totalInitialAmount = minusPayment(mainPrice, totalInitialAmount);
@@ -96,6 +100,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentViewHolder> {
     //call this method from confirm button
 
     public ArrayList<Payment> getPaymentWithoutZero(){
+        totalPayableAmount = 0;
         ArrayList<Payment> details = new ArrayList<>();
         for(Payment payment : contentList){
             if(payment.getTotal()>0){
