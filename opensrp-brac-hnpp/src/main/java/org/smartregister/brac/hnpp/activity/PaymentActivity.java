@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.activity;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -11,6 +12,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.design.chip.Chip;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,7 +34,6 @@ import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
 import org.smartregister.brac.hnpp.model.Payment;
 import org.smartregister.brac.hnpp.presenter.PaymentPresenter;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
-import org.smartregister.brac.hnpp.utils.PaymentDetails;
 import org.smartregister.domain.FetchStatus;
 import org.smartregister.family.util.AppExecutors;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
@@ -40,22 +41,18 @@ import org.smartregister.view.activity.SecuredActivity;
 
 import java.util.ArrayList;
 
-public class PaymentActivity extends SecuredActivity implements View.OnClickListener, PaymentContract.View, SyncStatusBroadcastReceiver.SyncStatusListener{
-   protected RecyclerView recyclerView;
-   private static TextView totalPriceTV;
-   private static TextView totalPriceTVGiven;
-   private ProgressBar progressBar;
-   private PaymentAdapter adapter;
-   private PaymentPresenter presenter;
-   static int totalPayment;
-   static int givenPayment;
+public class PaymentActivity extends SecuredActivity implements View.OnClickListener, PaymentContract.View, SyncStatusBroadcastReceiver.SyncStatusListener {
+   
+    protected RecyclerView recyclerView;
+    private TextView totalPriceTV;
+    private TextView totalPriceTVGiven;
+    private ProgressBar progressBar;
+    private PaymentAdapter adapter;
+    private PaymentPresenter presenter;
 
-
-
-    public interface listener {
-      void addsum( int amount);
-      void addsumpay(int amount);
-   }
+    /*public interface listener {
+        void getPayableAmount(int amount);
+    }*/
 
     @Override
     protected void onCreation() {
@@ -74,16 +71,14 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
             if (isOnline()) {
                 showSyncDataDialog();
                 SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(this);
-            }
-            else
-            {
+            } else {
                 checkNetworkConnection();
             }
         }
 
 
-
     }
+
 
     @Override
     public void showProgressBar() {
@@ -100,11 +95,12 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
         adapter = new PaymentAdapter(this);
         ArrayList<Payment> getPaymentList = presenter.getPaymentData();
         adapter.setData(getPaymentList);
-        totalPriceTVGiven.setText(getPaymentList.size()>0?getPaymentList.get(getPaymentList.size()-1).getTotalInitialAmount()+"":0+"");
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(this,
                 DividerItemDecoration.VERTICAL));
-
+        totalPriceTVGiven.setText(getPaymentList.size() > 0 ? getPaymentList.get(getPaymentList.size() - 1).getTotalInitialAmount() + "" : 0 + "");
+        totalPriceTV.setText(adapter.getTotalPayableAmount()+"");
+        //adapter.setListener(amount -> totalPriceTV.setText(amount+""));
         adapter.notifyDataSetChanged();
     }
 
@@ -128,6 +124,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
     public void onSyncComplete(FetchStatus fetchStatus) {
         hideProgressDialog();
     }
+
     @Override
     public PaymentContract.Presenter getPresenter() {
         return presenter;
@@ -145,7 +142,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.backBtn:
                 finish();
                 break;
@@ -153,11 +150,14 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
                 finish();
                 break;
             case R.id.confirm_btn:
-                showDetailsDialog(totalPayment,givenPayment,paymentDetails);
+                ArrayList<Payment> payments = adapter.getPaymentWithoutZero();
+                int givenAmount = adapter.getTotalPayableAmount();
+                showDetailsDialog(payments,givenAmount);
                 break;
         }
     }
-    private void showSyncDataDialog(){
+
+    private void showSyncDataDialog() {
         Dialog dialog = new Dialog(this, android.R.style.Theme_NoTitleBar_Fullscreen);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(org.smartregister.family.R.color.customAppThemeBlue)));
@@ -172,9 +172,11 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
         });
         dialog.show();
     }
+
     private ProgressDialog dialog;
-    private void showProgressDialog(String text){
-        if(dialog == null){
+
+    private void showProgressDialog(String text) {
+        if (dialog == null) {
             dialog = new ProgressDialog(this);
             dialog.setMessage(text);
             dialog.setCancelable(false);
@@ -182,23 +184,24 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
         }
 
     }
-    private void hideProgressDialog(){
-        if(dialog !=null && dialog.isShowing()){
+
+    private void hideProgressDialog() {
+        if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
     }
-    private void showDetailsDialog(int totallAmount, int givenAmount, ArrayList<PaymentDetails> paymentDetailsArrayList){
+
+    private void showDetailsDialog(ArrayList<Payment> payments, int givenAmount) {
         Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.payment_dialog);
-        int remainAmount = totallAmount - givenAmount;
         TextView totalTV = dialog.findViewById(R.id.totalTV);
         TextView givenTV = dialog.findViewById(R.id.givenTV);
         TextView remainTV = dialog.findViewById(R.id.remainTV);
 
-        totalTV.setText(totallAmount+" "+"Taka");
-        remainTV.setText(remainAmount+" "+"Taka");
-        givenTV.setText(givenAmount+" "+"Taka");
+        totalTV.setText(totalPriceTVGiven.getText().toString() + " " + "Taka");
+        remainTV.setText((Integer.valueOf(totalPriceTVGiven.getText().toString()) - givenAmount) + " " + "Taka");
+        givenTV.setText(givenAmount + " " + "Taka");
         dialog.findViewById(R.id.send_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -207,28 +210,30 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
                 intent.putExtra("AMOUNT",amount);  //sent amount to bkash activity
                 startActivity(intent);
                 finish();*/
-                /*if(paymentDetails != null){
-                    HnppConstants.showDialogWithAction(PaymentActivity.this,getString(R.string.dialog_title_payment), "", new Runnable() {
-                        @Override
-                        public void run() {
-                            new PaymentDetailsInteractor(new AppExecutors()).paymentDetailsPost(paymentDetailsArrayList, givenAmount, new PaymentContract.PaymentPostInteractorCallBack() {
-                                @Override
-                                public void onSuccess() {
-                                    Toast.makeText(PaymentActivity.this,"Successfully posted,Payment data",Toast.LENGTH_SHORT).show();
-                                }
 
-                                @Override
-                                public void onFail() {
-                                    Toast.makeText(PaymentActivity.this,"Fail to post",Toast.LENGTH_SHORT).show();
+                /*HnppConstants.showDialogWithAction(PaymentActivity.this, getString(R.string.dialog_title_payment), "", new Runnable() {
+                    @Override
+                    public void run() {
+                        new PaymentDetailsInteractor(new AppExecutors()).paymentDetailsPost(payments, adapter.getTotalPayableAmount(), new PaymentContract.PaymentPostInteractorCallBack() {
+                            @Override
+                            public void onSuccess() {
+                                Toast.makeText(PaymentActivity.this, "Successfully posted,Payment data", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onFail() {
+                                Toast.makeText(PaymentActivity.this, "Fail to post", Toast.LENGTH_SHORT).show();
 
 
-                                }
-                            });
+                            }
+                        });
 
-                        }
-                    });
-                }*/
+                    }
+                });*/
+
+                finish();
             }
+
         });
         dialog.findViewById(R.id.cancel_btn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -239,19 +244,20 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
         dialog.show();
 
     }
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     public boolean isOnline() {
         ConnectivityManager conMgr = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
 
-        if(netInfo == null || !netInfo.isConnected() || !netInfo.isAvailable()){
+        if (netInfo == null || !netInfo.isConnected() || !netInfo.isAvailable()) {
             return false;
         }
         return true;
     }
 
-    public void checkNetworkConnection(){
-        AlertDialog.Builder builder =new AlertDialog.Builder(this);
+    public void checkNetworkConnection() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("No internet Connection");
         builder.setMessage("Please turn on internet connection to continue");
         builder.setNegativeButton("close", new DialogInterface.OnClickListener() {

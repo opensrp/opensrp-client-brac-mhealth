@@ -14,9 +14,7 @@ import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.contract.MigrationContract;
 import org.smartregister.brac.hnpp.contract.PaymentContract;
-import org.smartregister.brac.hnpp.utils.MigrationSearchContentData;
-import org.smartregister.brac.hnpp.utils.PaymentDetails;
-import org.smartregister.clientandeventmodel.Client;
+import org.smartregister.brac.hnpp.model.Payment;
 import org.smartregister.family.util.AppExecutors;
 import org.smartregister.service.HTTPAgent;
 
@@ -29,7 +27,7 @@ public class PaymentDetailsInteractor {
     public PaymentDetailsInteractor(AppExecutors appExecutors) {
         this.appExecutors = appExecutors;
     }
-    public void paymentDetailsPost(ArrayList<PaymentDetails> paymentDetails, int givenAmount, PaymentContract.PaymentPostInteractorCallBack callBack)
+    public void paymentDetailsPost(ArrayList<Payment> paymentDetails, int givenAmount, PaymentContract.PaymentPostInteractorCallBack callBack)
     {
         Runnable runnable = () -> {
             //Client baseClient = generateHHClient(migrationSearchContentData);
@@ -46,7 +44,7 @@ public class PaymentDetailsInteractor {
 
 
     }
-    private boolean postData(ArrayList<PaymentDetails> paymentDetails, int givenAmount) {
+    private boolean postData(ArrayList<Payment> paymentDetails, int givenAmount) {
         try {
             HTTPAgent httpAgent = CoreLibrary.getInstance().context().getHttpAgent();
             String baseUrl = CoreLibrary.getInstance().context().
@@ -70,7 +68,7 @@ public class PaymentDetailsInteractor {
             }
             String responseStr = (String)resp.payload();
             Log.v("PAYMENT_DETAILS_POST", "responseStr:" + responseStr);
-            if(responseStr.equalsIgnoreCase("ok")){
+            if(responseStr.contains("trxId")){
                 return true;
             }
 /*
@@ -97,7 +95,7 @@ public class PaymentDetailsInteractor {
         return false;
     }
 
-    private JSONObject makJsonObject(ArrayList<PaymentDetails> paymentDetails, int givenAmount) throws JSONException {
+    private JSONObject makJsonObject(ArrayList<Payment> paymentDetails, int givenAmount) throws JSONException {
         JSONObject obj = null;
         JSONArray jsonArray = new JSONArray();
         for (int i = 0; i < paymentDetails.size(); i++) {
@@ -118,7 +116,7 @@ public class PaymentDetailsInteractor {
         JSONObject finalobject = new JSONObject();
         finalobject.put("providerId", providerId);
         finalobject.put("totalAmount", givenAmount);
-        finalobject.put("student", jsonArray);
+        finalobject.put("services", jsonArray);
         return finalobject;
     }
 }
