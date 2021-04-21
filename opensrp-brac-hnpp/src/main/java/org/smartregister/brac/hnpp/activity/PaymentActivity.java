@@ -108,7 +108,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
         recyclerView.addItemDecoration(new DividerItemDecoration(this,
                 DividerItemDecoration.VERTICAL));
         totalPriceTVGiven.setText(getPaymentList.size() > 0 ? getPaymentList.get(getPaymentList.size() - 1).getTotalInitialAmount() + "" : 0 + "");
-
+        totalPriceTV.setText(totalPriceTVGiven.getText().toString()+"");
         //adapter.setListener(amount -> totalPriceTV.setText(amount+""));
         adapter.notifyDataSetChanged();
     }
