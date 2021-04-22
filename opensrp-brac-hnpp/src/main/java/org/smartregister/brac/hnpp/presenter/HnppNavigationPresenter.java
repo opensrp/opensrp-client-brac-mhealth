@@ -15,10 +15,10 @@ import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
+import org.smartregister.brac.hnpp.activity.DFSActivity;
 import org.smartregister.brac.hnpp.activity.MigrationActivity;
 import org.smartregister.brac.hnpp.activity.NewDashBoardActivity;
 import org.smartregister.brac.hnpp.activity.NotificationActivity;
-import org.smartregister.brac.hnpp.activity.PaymentActivity;
 import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
 import org.smartregister.brac.hnpp.job.HomeVisitServiceJob;
 import org.smartregister.brac.hnpp.activity.COVIDJsonFormActivity;
@@ -117,7 +117,7 @@ public class HnppNavigationPresenter extends NavigationPresenter {
     }
     @Override
     public void browsePayment(Activity activity) {
-        activity.startActivity(new Intent(activity, PaymentActivity.class));
+        activity.startActivity(new Intent(activity, DFSActivity.class));
     }
 
     @Override
