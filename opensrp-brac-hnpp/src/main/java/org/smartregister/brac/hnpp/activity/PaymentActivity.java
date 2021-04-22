@@ -159,8 +159,6 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
                 finish();
                 break;
             case R.id.confirm_btn:
-                ArrayList<Payment> payments = adapter.getPaymentWithoutZero();
-                int givenAmount = adapter.getTotalPayableAmount();
                 showDetailsDialog();
                 break;
         }
@@ -224,7 +222,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
                 HnppConstants.showDialogWithAction(PaymentActivity.this, getString(R.string.dialog_title_payment), "", new Runnable() {
                     @Override
                     public void run() {
-                        new PaymentDetailsInteractor(new AppExecutors()).paymentDetailsPost(payments, adapter.getTotalPayableAmount(), new PaymentContract.PaymentPostInteractorCallBack() {
+                        new PaymentDetailsInteractor(new AppExecutors()).paymentDetailsPost(payments, totalPayable, new PaymentContract.PaymentPostInteractorCallBack() {
                             @Override
                             public void onSuccess() {
                                 Toast.makeText(PaymentActivity.this, "Successfully posted,Payment data", Toast.LENGTH_SHORT).show();
