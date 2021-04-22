@@ -221,7 +221,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
                 startActivity(intent);
                 finish();*/
 
-                /*HnppConstants.showDialogWithAction(PaymentActivity.this, getString(R.string.dialog_title_payment), "", new Runnable() {
+                HnppConstants.showDialogWithAction(PaymentActivity.this, getString(R.string.dialog_title_payment), "", new Runnable() {
                     @Override
                     public void run() {
                         new PaymentDetailsInteractor(new AppExecutors()).paymentDetailsPost(payments, adapter.getTotalPayableAmount(), new PaymentContract.PaymentPostInteractorCallBack() {
@@ -239,7 +239,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
                         });
 
                     }
-                });*/
+                });
 
                 finish();
             }
