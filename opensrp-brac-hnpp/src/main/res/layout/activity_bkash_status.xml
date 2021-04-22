@@ -3,14 +3,40 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:padding="20dp"
+    android:padding="10dp"
     android:layout_gravity="center"
     android:gravity="center"
-    android:layout_width="350dp"
+    android:layout_width="match_parent"
     android:layout_height="450dp">
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:text="Transaction ID"
+            android:textColor="@color/light_blue"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/trnsactionTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="Inv-testsk-1619072062817"
+            android:textColor="@color/light_blue"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -19,7 +45,32 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="start"
-            android:text="@string/total_payment"
+            android:text="Quantity"
+            android:textColor="@color/light_blue"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/qtyTV"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="1"
+            android:textColor="@color/light_blue"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:text="Total Amount"
             android:textColor="@color/light_blue"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -44,42 +95,17 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="start"
-            android:text="@string/remain_payment"
+            android:text="Status"
             android:textColor="@color/light_blue"
             android:textSize="18sp"
             android:textStyle="bold" />
         <TextView
-            android:id="@+id/remainTV"
+            android:id="@+id/statusTV"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:text="1800 Taka"
-            android:textColor="@color/light_blue"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="start"
-            android:text="@string/given_payment"
-            android:textColor="@color/light_blue"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-        <TextView
-            android:id="@+id/givenTV"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:text="1800 Taka"
+            android:text="INITIATED"
             android:textColor="@color/light_blue"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -88,31 +114,25 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:gravity="center|bottom"
-        android:orientation="horizontal">
+        android:gravity="center|bottom">
+
         <Button
-            android:id="@+id/cancel_btn"
+            android:id="@+id/okBtn"
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:background="@color/red"
-            android:text="CANCEL"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-        <Button
-            android:id="@+id/send_btn"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:background="@color/hnpp_accent"
-            android:text="Send"
+            android:background="@drawable/rounded_blue_btn"
+            android:text="Ok"
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></ProgressBar>
 </LinearLayout>

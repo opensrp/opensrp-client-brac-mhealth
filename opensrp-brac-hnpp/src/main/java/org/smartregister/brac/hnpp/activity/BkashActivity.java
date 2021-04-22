@@ -1,7 +1,9 @@
 package org.smartregister.brac.hnpp.activity;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
@@ -9,29 +11,37 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 
 import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.contract.PaymentContract;
+import org.smartregister.brac.hnpp.interactor.PaymentDetailsInteractor;
 import org.smartregister.brac.hnpp.model.PaymentRequest;
 import org.smartregister.brac.hnpp.utils.BkashJavaScriptInterface;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.family.util.AppExecutors;
 import org.smartregister.service.HTTPAgent;
+
+import java.util.ArrayList;
 
 public class BkashActivity extends AppCompatActivity {
     WebView wvBkashPayment;
     ProgressBar progressBar;
-    //String amount = "";
-    String request = "";
-    private static final String BKASH_URL = "/bkash-payment";
+    private String url;
+    private String trnsactionId;
+    public static final String BKASH_TRANSACTION_ID = "bkash_transaction_id";
 
-    //created by Mominul Islam mominulcse7@gmail.com  08/06/2020
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,59 +50,33 @@ public class BkashActivity extends AppCompatActivity {
 
         wvBkashPayment = findViewById(R.id.wvBkashPayment);
         progressBar = findViewById(R.id.progressBar);
+        url = getIntent().getStringExtra("url");
+        trnsactionId = getIntent().getStringExtra("trxId");
+        CoreLibrary.getInstance().context().allSharedPreferences().savePreference(BKASH_TRANSACTION_ID,trnsactionId);
+        WebSettings webSettings = wvBkashPayment.getSettings();
+        webSettings.setJavaScriptEnabled(true);
 
-        //check there is any intent data or not
-//        if (getIntent().getExtras() == null) {
-//            //no data
-//            Toast.makeText(this, "Amount is empty. You can't pay through bkash. Try again", Toast.LENGTH_SHORT).show();
-//            return;
-//        } else {
-//            amount = getIntent().getExtras().getString("AMOUNT");  //make sure your keyname is same as MainActivity.
+        /*
+         * Below part is for enabling webview settings for using javascript and accessing html files and other assets
+         */
+        wvBkashPayment.setClickable(true);
+        wvBkashPayment.getSettings().setDomStorageEnabled(true);
+        wvBkashPayment.getSettings().setAppCacheEnabled(false);
+        wvBkashPayment.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        wvBkashPayment.clearCache(true);
+        wvBkashPayment.getSettings().setAllowFileAccessFromFileURLs(true);
+        wvBkashPayment.getSettings().setAllowUniversalAccessFromFileURLs(true);
+        /*
+         * To control any kind of interaction from html file
+         */
+        wvBkashPayment.addJavascriptInterface(new BkashJavaScriptInterface(BkashActivity.this), "KinYardsPaymentData");
 
-            //Create a PaymentRequests model
-            PaymentRequest paymentRequest = new PaymentRequest();
-//            paymentRequest.setAmount(amount);
-            paymentRequest.setIntent("sale");
+        wvBkashPayment.loadUrl(url);   // api host link .
 
-            Gson gson = new Gson();
-            request = gson.toJson(paymentRequest);
-
-            WebSettings webSettings = wvBkashPayment.getSettings();
-            webSettings.setJavaScriptEnabled(true);
-
-            /*
-             * Below part is for enabling webview settings for using javascript and accessing html files and other assets
-             */
-            wvBkashPayment.setClickable(true);
-            wvBkashPayment.getSettings().setDomStorageEnabled(true);
-            wvBkashPayment.getSettings().setAppCacheEnabled(false);
-            wvBkashPayment.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-            wvBkashPayment.clearCache(true);
-            wvBkashPayment.getSettings().setAllowFileAccessFromFileURLs(true);
-            wvBkashPayment.getSettings().setAllowUniversalAccessFromFileURLs(true);
-
-            /*
-             * To control any kind of interaction from html file
-             */
-            wvBkashPayment.addJavascriptInterface(new BkashJavaScriptInterface(BkashActivity.this), "KinYardsPaymentData");
-
-            wvBkashPayment.loadUrl(getUrl());   // api host link .
-
-            wvBkashPayment.setWebViewClient(new CheckoutWebViewClient());
+        wvBkashPayment.setWebViewClient(new CheckoutWebViewClient());
         //}
     }
 
-    private String getUrl(){
-        String baseUrl = CoreLibrary.getInstance().context().
-                configuration().dristhiBaseURL();
-        String endString = "/";
-        if (baseUrl.endsWith(endString)) {
-            baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf(endString));
-        }
-
-        String url = baseUrl + BKASH_URL;
-        return url;
-    }
 
     private class CheckoutWebViewClient extends WebViewClient {
 
@@ -103,11 +87,11 @@ public class BkashActivity extends AppCompatActivity {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             Log.d("External URL: ", url);
-            if (url.equals("https://www.bkash.com/terms-and-conditions")) {
+           /* if (url.equals("https://www.bkash.com/terms-and-conditions")) {
                 Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 startActivity(myIntent);
                 return true;
-            }
+            }*/
             return super.shouldOverrideUrlLoading(view, url);
         }
 
@@ -118,11 +102,19 @@ public class BkashActivity extends AppCompatActivity {
 
         @Override
         public void onPageFinished(WebView view, String url) {
-            String paymentRequest = "{paymentRequest:" + request + "}";
+            progressBar.setVisibility(view.GONE);
+
+            if(url.contains("status=success") || url.contains("status=failure") || url.contains("status=cancel")){
+                //showStatusDialog();
+                Intent intent = new Intent(BkashActivity.this,BkashStatusActivity.class);
+                startActivity(intent);
+            }
+
+           /* String paymentRequest = "{paymentRequest:" + request + "}";
             wvBkashPayment.loadUrl("javascript:callReconfigure(" + paymentRequest + " )");
             // wvBkashPayment.loadUrl("javascript:getAmount(" + orderModel.getSub_total() + " )");
-            wvBkashPayment.loadUrl("javascript:clickPayButton()");
-            progressBar.setVisibility(view.GONE);
+            wvBkashPayment.loadUrl("javascript:clickPayButton()");*/
+
         }
 
     }

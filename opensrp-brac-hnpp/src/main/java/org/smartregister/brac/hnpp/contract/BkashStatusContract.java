@@ -1,35 +1,32 @@
 package org.smartregister.brac.hnpp.contract;
+
 import android.content.Context;
-import org.smartregister.brac.hnpp.model.Payment;
+import org.smartregister.brac.hnpp.utils.BkashStatus;
 
 import java.util.ArrayList;
 
-public interface PaymentContract {
+public interface BkashStatusContract {
 
     interface View{
         void showProgressBar();
         void hideProgressBar();
-        void updateAdapter();
+        void updateView();
         void initializePresenter();
         Presenter getPresenter();
         Context getContext();
 
     }
     interface Presenter{
-        void fetchPaymentService();
+        void fetchBkashStatus();
         View getView();
     }
     interface Interactor{
-        ArrayList<Payment> getPaymentList();
-        void fetchPaymentService(PaymentContract.InteractorCallBack callBack);
+        ArrayList<BkashStatus> getStatusList();
+        void fetchBkashStatus(BkashStatusContract.InteractorCallBack callBack);
 
     }
 
     interface InteractorCallBack{
         void fetchedSuccessfully();
-    }
-    interface PaymentPostInteractorCallBack{
-        void onSuccess(ArrayList<String> responses);
-        void onFail();
     }
 }

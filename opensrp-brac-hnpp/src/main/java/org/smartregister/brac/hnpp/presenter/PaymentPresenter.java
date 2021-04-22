@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 public class PaymentPresenter implements PaymentContract.Presenter, PaymentContract.InteractorCallBack {
     private PaymentContract.View view;
-    private ArrayList<Payment> paymentArrayList;
     private PaymentContract.Interactor interactor;
 
     public PaymentPresenter(PaymentContract.View view){

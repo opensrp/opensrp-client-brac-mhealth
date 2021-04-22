@@ -223,9 +223,14 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
                     @Override
                     public void run() {
                         new PaymentDetailsInteractor(new AppExecutors()).paymentDetailsPost(payments, totalPayable, new PaymentContract.PaymentPostInteractorCallBack() {
+
                             @Override
-                            public void onSuccess() {
+                            public void onSuccess(ArrayList<String> responses) {
                                 Toast.makeText(PaymentActivity.this, "Successfully posted,Payment data", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(PaymentActivity.this,BkashActivity.class);
+                                intent.putExtra("url",responses.get(0));
+                                intent.putExtra("trxId",responses.get(1));
+                                startActivity(intent);
                             }
 
                             @Override
@@ -239,7 +244,6 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
                     }
                 });
 
-                finish();
             }
 
         });
