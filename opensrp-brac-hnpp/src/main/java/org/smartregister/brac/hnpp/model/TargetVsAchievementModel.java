@@ -320,6 +320,7 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
                 query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, achievemnt_count, target_count, target_name from target_table)SELECT sum(coalesce(achievemnt_count,0)) as achievemnt_count, sum(coalesce(target_count,0)) as target_count from t1 WHERE target_name ='"+visitType+"'"+getSSCondition(ssName)+getBetweenCondition(fromDate,toDate,"date");
             }
         }
+        Log.v("TARGET_VS_ACHIEV","query:"+query);
 
         Cursor cursor = null;
         try{
