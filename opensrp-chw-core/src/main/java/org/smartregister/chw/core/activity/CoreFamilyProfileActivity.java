@@ -116,62 +116,7 @@ public abstract class CoreFamilyProfileActivity extends BaseFamilyProfileActivit
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            switch (requestCode) {
-                case JsonFormUtils.REQUEST_CODE_GET_JSON:
-                    try {
-                        String jsonString = data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON);
-                        Timber.d("JSONResult : %s", jsonString);
 
-                        JSONObject form = new JSONObject(jsonString);
-                        String encounter_type = form.getString(JsonFormUtils.ENCOUNTER_TYPE);
-                        // process child registration
-                        if (form.getString(JsonFormUtils.ENCOUNTER_TYPE).equals(Utils.metadata().familyRegister.updateEventType)) {
-
-                            presenter().updateFamilyRegister(jsonString);
-                            presenter().verifyHasPhone();
-
-                        } else if (encounter_type.equals(CoreConstants.EventType.CHILD_REGISTRATION)) {
-
-                            presenter().saveChildForm(jsonString, false);
-
-                        } else if (encounter_type.equals(Utils.metadata().familyMemberRegister.registerEventType)) {
-
-                            String careGiver = presenter().saveChwFamilyMember(jsonString);
-                            if (presenter().updatePrimaryCareGiver(getApplicationContext(), jsonString, familyBaseEntityId, careGiver)) {
-                                setPrimaryCaregiver(careGiver);
-                                refreshPresenter();
-                                refreshMemberFragment(careGiver, null);
-                            }
-
-                            presenter().verifyHasPhone();
-                        }
-                    } catch (Exception e) {
-                        Timber.e(e);
-                        Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                    break;
-                case CoreConstants.ProfileActivityResults.CHANGE_COMPLETED:
-                    try {
-
-                        String careGiverID = data.getStringExtra(Constants.INTENT_KEY.PRIMARY_CAREGIVER);
-                        String familyHeadID = data.getStringExtra(Constants.INTENT_KEY.FAMILY_HEAD);
-
-                        setPrimaryCaregiver(careGiverID);
-                        setFamilyHead(familyHeadID);
-
-                        refreshMemberFragment(careGiverID, familyHeadID);
-                        presenter().verifyHasPhone();
-
-                    } catch (Exception e) {
-                        Timber.e(e);
-                        Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
     }
 
     @Override
