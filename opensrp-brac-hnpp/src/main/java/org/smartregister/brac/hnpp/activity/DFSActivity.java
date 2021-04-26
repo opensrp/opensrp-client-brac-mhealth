@@ -30,6 +30,7 @@ public class DFSActivity extends SecuredActivity implements View.OnClickListener
                 startActivity(new Intent(this,PaymentActivity.class));
                 break;
             case R.id.history:
+                startActivity(new Intent(this,PaymentHistoryActivity.class));
                 break;
             case R.id.backBtn:
                 finish();

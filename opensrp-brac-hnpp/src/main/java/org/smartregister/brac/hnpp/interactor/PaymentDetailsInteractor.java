@@ -49,12 +49,16 @@ public class PaymentDetailsInteractor {
         responseList.clear();
         try {
             JSONObject object = getResponseJsonObject(paymentDetails,givenAmount);
+
+          if(object !=null){
+
             String url = object.getString("url");
             String transactionId = object.getString("trxId");
             if(!TextUtils.isEmpty(url) && !TextUtils.isEmpty(transactionId)){
                 responseList.add(url);
                 responseList.add(transactionId);
             }
+          }
         } catch (JSONException e) {
             e.printStackTrace();
         }
