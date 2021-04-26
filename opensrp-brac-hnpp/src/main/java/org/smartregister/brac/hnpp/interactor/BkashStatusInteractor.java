@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class BkashStatusInteractor implements BkashStatusContract.Interactor {
     private AppExecutors appExecutors;
     private ArrayList<BkashStatus> bkashStatusArrayList;
-    private static final String BKASH_STATUS_URL = "/rest/event/bkash-transaction";
+    private static final String BKASH_STATUS_URL = "/rest/event/bkash-transaction?";
 
     public BkashStatusInteractor(AppExecutors appExecutors) {
         this.appExecutors = appExecutors;
