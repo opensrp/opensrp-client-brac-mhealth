@@ -1,25 +1,25 @@
 package org.smartregister.brac.hnpp.utils;
 
 public class BkashStatus {
-    private String transactionId;
-    private int quantity;
+    private String trxId;
+    private int qty;
     private int totalAmount;
     private String status;
 
-    public String getTransactionId() {
-        return transactionId;
+    public String getTrxId() {
+        return trxId;
     }
 
-    public void setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
+    public void setTrxId(String trxId) {
+        this.trxId = trxId;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public int getQty() {
+        return qty;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setQty(int qty) {
+        this.qty = qty;
     }
 
     public int getTotalAmount() {

@@ -87,6 +87,7 @@ public class PaymentInteractor implements PaymentContract.Interactor {
             }
             JSONObject object = new JSONObject(resp.payload().toString());
             JSONArray Jarray  = object.getJSONArray("pending");
+            Log.v("PAYMENT_PENDING_URL", "data:" + Jarray.toString());
             return Jarray;
         } catch (Exception e) {
             e.printStackTrace();

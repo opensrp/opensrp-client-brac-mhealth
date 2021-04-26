@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.adapter.PaymentAdapter;
 import org.smartregister.brac.hnpp.contract.BkashStatusContract;
@@ -28,16 +29,21 @@ public class BkashStatusActivity extends SecuredActivity implements View.OnClick
     private Button okBtn;
     private ProgressBar progressBar;
     private BkashStatusPresenter presenter;
+    String trnsactionId;
+    public static final String BKASH_TRANSACTION_ID = "bkash_transaction_id";
 
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_bkash_status);
         findViewById(R.id.okBtn).setOnClickListener(this);
+        trnsactionId = getIntent().getStringExtra("trxId");
+        CoreLibrary.getInstance().context().allSharedPreferences().savePreference(BKASH_TRANSACTION_ID,trnsactionId);
         transactionTV = findViewById(R.id.trnsactionTV);
         quantityTV = findViewById(R.id.qtyTV);
         totalTV = findViewById(R.id.totalTV);
         statusTV = findViewById(R.id.statusTV);
         progressBar = findViewById(R.id.progress_bar);
+        initializePresenter();
     }
 
     @Override
@@ -65,8 +71,8 @@ public class BkashStatusActivity extends SecuredActivity implements View.OnClick
         ArrayList<BkashStatus> bkashStatusArrayList =  presenter.getBkashStatusData();
         if(bkashStatusArrayList.size()>0){
             BkashStatus bkashStatus = bkashStatusArrayList.get(0);
-            transactionTV.setText(bkashStatus.getTransactionId()+"");
-            quantityTV.setText(bkashStatus.getQuantity()+"");
+            transactionTV.setText(bkashStatus.getTrxId()+"");
+            quantityTV.setText(bkashStatus.getQty()+"");
             totalTV.setText(bkashStatus.getTotalAmount()+"");
             statusTV.setText(bkashStatus.getStatus()+"");
 

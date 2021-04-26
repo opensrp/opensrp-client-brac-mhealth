@@ -40,7 +40,7 @@ public class BkashActivity extends AppCompatActivity {
     ProgressBar progressBar;
     private String url;
     private String trnsactionId;
-    public static final String BKASH_TRANSACTION_ID = "bkash_transaction_id";
+
 
 
     @Override
@@ -52,7 +52,6 @@ public class BkashActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         url = getIntent().getStringExtra("url");
         trnsactionId = getIntent().getStringExtra("trxId");
-        CoreLibrary.getInstance().context().allSharedPreferences().savePreference(BKASH_TRANSACTION_ID,trnsactionId);
         WebSettings webSettings = wvBkashPayment.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
@@ -69,7 +68,7 @@ public class BkashActivity extends AppCompatActivity {
         /*
          * To control any kind of interaction from html file
          */
-        wvBkashPayment.addJavascriptInterface(new BkashJavaScriptInterface(BkashActivity.this), "KinYardsPaymentData");
+//        wvBkashPayment.addJavascriptInterface(new BkashJavaScriptInterface(BkashActivity.this), "KinYardsPaymentData");
 
         wvBkashPayment.loadUrl(url);   // api host link .
 
@@ -87,11 +86,11 @@ public class BkashActivity extends AppCompatActivity {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             Log.d("External URL: ", url);
-           /* if (url.equals("https://www.bkash.com/terms-and-conditions")) {
+            if (url.equals("https://www.bkash.com/terms-and-conditions")) {
                 Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 startActivity(myIntent);
                 return true;
-            }*/
+            }
             return super.shouldOverrideUrlLoading(view, url);
         }
 
@@ -103,10 +102,11 @@ public class BkashActivity extends AppCompatActivity {
         @Override
         public void onPageFinished(WebView view, String url) {
             progressBar.setVisibility(view.GONE);
-
+            Log.v("STATUS_URL:",url);
             if(url.contains("status=success") || url.contains("status=failure") || url.contains("status=cancel")){
                 //showStatusDialog();
                 Intent intent = new Intent(BkashActivity.this,BkashStatusActivity.class);
+                intent.putExtra("trxId",trnsactionId);
                 startActivity(intent);
             }
 

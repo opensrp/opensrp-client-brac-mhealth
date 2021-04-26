@@ -3,16 +3,13 @@ package org.smartregister.brac.hnpp.interactor;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.google.gson.Gson;
 
 import org.apache.http.NoHttpResponseException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.smartregister.AllConstants;
 import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.HnppApplication;
-import org.smartregister.brac.hnpp.contract.MigrationContract;
 import org.smartregister.brac.hnpp.contract.PaymentContract;
 import org.smartregister.brac.hnpp.model.Payment;
 import org.smartregister.family.util.AppExecutors;
