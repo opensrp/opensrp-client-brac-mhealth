@@ -8,6 +8,7 @@ import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.contract.FamilyProfileExtendedContract;
 import org.smartregister.chw.core.interactor.CoreFamilyProfileInteractor;
 import org.smartregister.family.contract.FamilyProfileContract;
+import org.smartregister.family.domain.FamilyEventClient;
 
 import timber.log.Timber;
 
@@ -54,4 +55,5 @@ public class HnppFamilyProfileInteractor extends CoreFamilyProfileInteractor {
             return phone;
 
     };
+
 }

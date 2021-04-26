@@ -258,6 +258,11 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
         }
 
     }
+
+    @Override
+    protected void onActivityResultExtended(int requestCode, int resultCode, Intent data) {
+    }
+
     private static JSONArray processAttributesWithChoiceIDsForSave(JSONArray fields) {
         for (int i = 0; i < fields.length(); i++) {
             try {
