@@ -43,15 +43,7 @@ public abstract class CoreFamilyProfilePresenter extends BaseFamilyProfilePresen
         childProfileModel = new CoreChildProfileModel(familyName);
     }
 
-    @Override
-    public void onUniqueIdFetched(Triple<String, String, String> triple, String entityId, String familyId) {
-        try {
-            startChildForm(triple.getLeft(), entityId, triple.getMiddle(), triple.getRight());
-        } catch (Exception e) {
-            Timber.e(e);
-            getView().displayToast(R.string.error_unable_to_start_form);
-        }
-    }
+
 
     @Override
     public FamilyProfileExtendedContract.View getView() {
@@ -81,12 +73,6 @@ public abstract class CoreFamilyProfilePresenter extends BaseFamilyProfilePresen
 
     @Override
     public void startChildForm(String formName, String entityId, String metadata, String currentLocationId) throws Exception {
-        if (StringUtils.isBlank(entityId)) {
-            Triple<String, String, String> triple = Triple.of(formName, metadata, currentLocationId);
-            childRegisterInteractor.getNextUniqueId(triple, this, familyBaseEntityId);
-            return;
-        }
-
         JSONObject form = childProfileModel.getFormAsJson(formName, entityId, currentLocationId, familyBaseEntityId);
         getView().startFormActivity(form);
 

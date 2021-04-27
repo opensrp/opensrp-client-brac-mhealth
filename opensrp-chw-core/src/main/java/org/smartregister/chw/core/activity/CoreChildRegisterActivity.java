@@ -122,22 +122,22 @@ public class CoreChildRegisterActivity extends BaseRegisterActivity implements C
 
     @Override
     protected void onActivityResultExtended(int requestCode, int resultCode, Intent data) {
-        if (requestCode == JsonFormUtils.REQUEST_CODE_GET_JSON && resultCode == RESULT_OK) {
-            try {
-                String jsonString = data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON);
-                Timber.d("JSONResult : %s", jsonString);
-
-                JSONObject form = new JSONObject(jsonString);
-                if (form.getString(JsonFormUtils.ENCOUNTER_TYPE).equals(Utils.metadata().familyRegister.registerEventType)
-                        || form.getString(JsonFormUtils.ENCOUNTER_TYPE).equals(CoreConstants.EventType.CHILD_REGISTRATION)
-                ) {
-                    presenter().saveForm(jsonString, false);
-                }
-            } catch (Exception e) {
-                Timber.e(e);
-            }
-
-        }
+//        if (requestCode == JsonFormUtils.REQUEST_CODE_GET_JSON && resultCode == RESULT_OK) {
+//            try {
+//                String jsonString = data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON);
+//                Timber.d("JSONResult : %s", jsonString);
+//
+//                JSONObject form = new JSONObject(jsonString);
+//                if (form.getString(JsonFormUtils.ENCOUNTER_TYPE).equals(Utils.metadata().familyRegister.registerEventType)
+//                        || form.getString(JsonFormUtils.ENCOUNTER_TYPE).equals(CoreConstants.EventType.CHILD_REGISTRATION)
+//                ) {
+//                    presenter().saveForm(jsonString, false);
+//                }
+//            } catch (Exception e) {
+//                Timber.e(e);
+//            }
+//
+//        }
     }
 
     @Override

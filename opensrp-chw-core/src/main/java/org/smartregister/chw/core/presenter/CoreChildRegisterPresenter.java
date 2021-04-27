@@ -3,6 +3,7 @@ package org.smartregister.chw.core.presenter;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Pair;
 
 import org.apache.commons.lang3.StringUtils;
@@ -95,11 +96,7 @@ public class CoreChildRegisterPresenter implements CoreChildRegisterContract.Pre
     @Override
     public void startForm(String formName, String entityId, String metadata, String currentLocationId, String familyId) throws Exception {
 
-        if (StringUtils.isBlank(entityId)) {
-            Triple<String, String, String> triple = Triple.of(formName, metadata, currentLocationId);
-            interactor.getNextUniqueId(triple, this, familyId);
-            return;
-        }
+
         if (TextUtils.isEmpty(familyId)) {
             JSONObject form = new BaseFamilyRegisterModel().getFormAsJson(formName, entityId, currentLocationId);
             getView().startFormActivity(form);
@@ -147,6 +144,7 @@ public class CoreChildRegisterPresenter implements CoreChildRegisterContract.Pre
             } else {
 
                 Pair<Client, Event> pair = model.processRegistration(jsonString);
+                Log.v("SAVE_FORM","coreChildRegisterPresenter>>saveForm");
                 if (pair == null) {
                     return;
                 }

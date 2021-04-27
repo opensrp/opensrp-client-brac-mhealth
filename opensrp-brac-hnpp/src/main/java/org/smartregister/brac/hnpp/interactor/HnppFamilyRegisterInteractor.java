@@ -98,18 +98,18 @@ public class HnppFamilyRegisterInteractor extends org.smartregister.family.inter
                     }
                 }
 
-                if (baseClient != null || baseEvent != null) {
-                    String imageLocation = null;
-                    if (i == 0) {
-                        imageLocation = JsonFormUtils.getFieldValue(jsonString, Constants.KEY.PHOTO);
-                    } else if (i == 1) {
-                        imageLocation = JsonFormUtils.getFieldValue(jsonString, JsonFormUtils.STEP2, Constants.KEY.PHOTO);
-                    }
-
-                    if (StringUtils.isNotBlank(imageLocation)) {
-                        JsonFormUtils.saveImage(baseEvent.getProviderId(), baseClient.getBaseEntityId(), imageLocation);
-                    }
-                }
+//                if (baseClient != null || baseEvent != null) {
+//                    String imageLocation = null;
+//                    if (i == 0) {
+//                        imageLocation = JsonFormUtils.getFieldValue(jsonString, Constants.KEY.PHOTO);
+//                    } else if (i == 1) {
+//                        imageLocation = JsonFormUtils.getFieldValue(jsonString, JsonFormUtils.STEP2, Constants.KEY.PHOTO);
+//                    }
+//
+//                    if (StringUtils.isNotBlank(imageLocation)) {
+//                        JsonFormUtils.saveImage(baseEvent.getProviderId(), baseClient.getBaseEntityId(), imageLocation);
+//                    }
+//                }
                 org.smartregister.domain.Event domainEvent = JsonFormUtils.gson.fromJson(eventJson.toString(), org.smartregister.domain.Event.class);
                 org.smartregister.domain.Client domainClient = JsonFormUtils.gson.fromJson(clientJson.toString(), org.smartregister.domain.Client.class);
                 eventClientList.add(new EventClient(domainEvent, domainClient));

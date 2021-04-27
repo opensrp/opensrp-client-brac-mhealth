@@ -10,6 +10,7 @@ import org.smartregister.brac.hnpp.model.HnppChildRegisterModel;
 import org.smartregister.brac.hnpp.model.HnppFamilyRegisterModel;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
+import org.smartregister.chw.core.contract.CoreChildRegisterContract;
 import org.smartregister.chw.core.contract.FamilyProfileExtendedContract;
 import org.smartregister.chw.core.model.CoreChildRegisterModel;
 import org.smartregister.chw.core.presenter.CoreFamilyProfilePresenter;
@@ -77,14 +78,13 @@ public class FamilyProfilePresenter extends CoreFamilyProfilePresenter {
 
     @Override
     public void startChildForm(String formName, String entityId, String metadata, String currentLocationId) throws Exception {
-        if (StringUtils.isBlank(entityId)) {
-            Triple<String, String, String> triple = Triple.of(formName, metadata, currentLocationId);
-            childRegisterInteractor.getNextUniqueId(triple, this, familyBaseEntityId);
-            return;
-        }
 
         JSONObject form = childProfileModel.getFormAsJson(formName, entityId, currentLocationId, familyBaseEntityId);
         getView().startFormActivity(form);
+    }
+    @Override
+    public void saveChildRegistration(Pair<Client, Event> pair, String jsonString, boolean isEditMode, CoreChildRegisterContract.InteractorCallBack callBack) {
+        childRegisterInteractor.saveRegistration(pair, jsonString, isEditMode, this);
     }
     @Override
     public void saveChildForm(String jsonString, boolean isEditMode) {
@@ -122,7 +122,12 @@ public class FamilyProfilePresenter extends CoreFamilyProfilePresenter {
     }
 
     @Override
-    public void onRegistrationSaved(boolean isEdit) {
+    public void onUniqueIdFetched(Triple<String, String, String> triple, String entityId, String familyId) {
 
+    }
+
+    @Override
+    public void onRegistrationSaved(boolean isEdit) {
+        if (getView() != null) getView().hideProgressDialog();
     }
 }

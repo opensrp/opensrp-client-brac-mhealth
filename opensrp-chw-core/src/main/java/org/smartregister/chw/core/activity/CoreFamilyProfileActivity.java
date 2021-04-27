@@ -115,7 +115,32 @@ public abstract class CoreFamilyProfileActivity extends BaseFamilyProfileActivit
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case JsonFormUtils.REQUEST_CODE_GET_JSON:
+                    try {
+                        String jsonString = data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON);
+                        Timber.d("JSONResult : %s", jsonString);
+
+                        JSONObject form = new JSONObject(jsonString);
+                        String encounter_type = form.getString(JsonFormUtils.ENCOUNTER_TYPE);
+                       if (encounter_type.equals(CoreConstants.EventType.CHILD_REGISTRATION)) {
+
+                            presenter().saveChildForm(jsonString, false);
+
+                        }
+                       else {
+                           super.onActivityResult(requestCode, resultCode, data);
+                       }
+                    } catch (Exception e) {
+                        Timber.e(e);
+                        Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+
+            }
+        }
 
     }
 

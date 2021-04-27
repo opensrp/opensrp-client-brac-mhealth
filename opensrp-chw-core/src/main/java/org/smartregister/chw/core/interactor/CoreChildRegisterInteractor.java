@@ -1,5 +1,6 @@
 package org.smartregister.chw.core.interactor;
 
+import android.util.Log;
 import android.util.Pair;
 
 import androidx.annotation.VisibleForTesting;
@@ -52,19 +53,6 @@ public class CoreChildRegisterInteractor implements CoreChildRegisterContract.In
     @Override
     public void getNextUniqueId(final Triple<String, String, String> triple, final CoreChildRegisterContract.InteractorCallBack callBack, final String familyId) {
 
-        Runnable runnable = () -> {
-            UniqueId uniqueId = getUniqueIdRepository().getNextUniqueId();
-            final String entityId = uniqueId != null ? uniqueId.getOpenmrsId() : "";
-            appExecutors.mainThread().execute(() -> {
-                if (StringUtils.isBlank(entityId)) {
-                    callBack.onNoUniqueId();
-                } else {
-                    callBack.onUniqueIdFetched(triple, entityId, familyId);
-                }
-            });
-        };
-
-        appExecutors.diskIO().execute(runnable);
     }
 
     @Override
@@ -72,6 +60,7 @@ public class CoreChildRegisterInteractor implements CoreChildRegisterContract.In
 
         Runnable runnable = () -> {
             saveRegistration(pair, jsonString, isEditMode);
+            Log.v("CHILD_REGISTER","saveRegistration");
             appExecutors.mainThread().execute(() -> callBack.onRegistrationSaved(isEditMode));
         };
 
@@ -128,10 +117,10 @@ public class CoreChildRegisterInteractor implements CoreChildRegisterContract.In
                 }
             }
 
-            if (baseClient != null || baseEvent != null) {
-                String imageLocation = JsonFormUtils.getFieldValue(jsonString, Constants.KEY.PHOTO);
-                JsonFormUtils.saveImage(baseEvent.getProviderId(), baseClient.getBaseEntityId(), imageLocation);
-            }
+//            if (baseClient != null || baseEvent != null) {
+//                String imageLocation = JsonFormUtils.getFieldValue(jsonString, Constants.KEY.PHOTO);
+//                JsonFormUtils.saveImage(baseEvent.getProviderId(), baseClient.getBaseEntityId(), imageLocation);
+//            }
 
             long lastSyncTimeStamp = getAllSharedPreferences().fetchLastUpdatedAtDate(0);
             Date lastSyncDate = new Date(lastSyncTimeStamp);

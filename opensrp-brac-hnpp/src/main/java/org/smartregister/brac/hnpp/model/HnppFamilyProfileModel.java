@@ -50,6 +50,7 @@ public class HnppFamilyProfileModel extends CoreFamilyProfileModel {
         return form;
     }
 
+
     @Override
     public FamilyEventClient processMemberRegistration(String jsonString, String familyBaseEntityId) {
         FamilyEventClient familyEventClient = processRegistration(jsonString, familyBaseEntityId);

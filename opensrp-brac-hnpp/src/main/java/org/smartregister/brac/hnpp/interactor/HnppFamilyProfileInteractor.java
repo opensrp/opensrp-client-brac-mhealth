@@ -21,6 +21,11 @@ public class HnppFamilyProfileInteractor extends CoreFamilyProfileInteractor {
     }
 
     @Override
+    public void saveRegistration(FamilyEventClient familyEventClient, String jsonString, boolean isEditMode, FamilyProfileContract.InteractorCallBack callBack) {
+        super.saveRegistration(familyEventClient, jsonString, isEditMode, callBack);
+    }
+
+    @Override
     public void verifyHasPhone(String familyID, FamilyProfileExtendedContract.PresenterCallBack profilePresenter) {
         Runnable runnable = () -> {
 
