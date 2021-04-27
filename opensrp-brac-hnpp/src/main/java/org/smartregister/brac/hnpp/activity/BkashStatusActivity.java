@@ -52,6 +52,7 @@ public class BkashStatusActivity extends SecuredActivity implements View.OnClick
             case R.id.okBtn:
                 Intent intent = new Intent(BkashStatusActivity.this,DFSActivity.class);
                 startActivity(intent);
+                finish();
                 break;
         }
     }

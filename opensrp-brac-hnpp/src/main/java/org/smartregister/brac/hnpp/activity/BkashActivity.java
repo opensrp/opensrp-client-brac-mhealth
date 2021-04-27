@@ -108,6 +108,7 @@ public class BkashActivity extends AppCompatActivity {
                 Intent intent = new Intent(BkashActivity.this,BkashStatusActivity.class);
                 intent.putExtra("trxId",trnsactionId);
                 startActivity(intent);
+                finish();
             }
 
            /* String paymentRequest = "{paymentRequest:" + request + "}";
