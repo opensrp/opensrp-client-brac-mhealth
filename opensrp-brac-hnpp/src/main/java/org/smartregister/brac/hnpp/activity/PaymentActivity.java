@@ -17,6 +17,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -51,6 +52,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
     private PaymentPresenter presenter;
     private int totalPayable;
     private ArrayList<Payment> payments;
+    private Button confirmBtn;
 
 
     @Override
@@ -59,7 +61,8 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
         HnppConstants.updateAppBackground(findViewById(R.id.action_bar));
         findViewById(R.id.backBtn).setOnClickListener(this);
         findViewById(R.id.cancel_btn).setOnClickListener(this);
-        findViewById(R.id.confirm_btn).setOnClickListener(this);
+        confirmBtn =findViewById(R.id.confirm_btn);
+        confirmBtn.setOnClickListener(this);
         recyclerView = findViewById(R.id.recycler_view);
         totalPriceTV = findViewById(R.id.total_price);
         totalPriceTVGiven = findViewById(R.id.total_given);
@@ -71,9 +74,10 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (isOnline()) {
                 showSyncDataDialog();
-                SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(this);
+
             } else {
                 checkNetworkConnection();
+                finish();
             }
         }
 
@@ -116,7 +120,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
     @Override
     public void initializePresenter() {
         presenter = new PaymentPresenter(this);
-        presenter.fetchPaymentService();
+
     }
 
     @Override
@@ -132,6 +136,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
     @Override
     public void onSyncComplete(FetchStatus fetchStatus) {
         hideProgressDialog();
+        presenter.fetchPaymentService();
     }
 
     @Override
@@ -163,21 +168,34 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
                 break;
         }
     }
-
+    Dialog removeDialog;
     private void showSyncDataDialog() {
-        Dialog dialog = new Dialog(this, android.R.style.Theme_NoTitleBar_Fullscreen);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(org.smartregister.family.R.color.customAppThemeBlue)));
-        dialog.setContentView(R.layout.dialog_sync_data);
-        dialog.findViewById(R.id.sync_data_btn).setOnClickListener(new View.OnClickListener() {
+        removeDialog = new Dialog(this, android.R.style.Theme_NoTitleBar_Fullscreen);
+        removeDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        removeDialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(org.smartregister.family.R.color.customAppThemeBlue)));
+        removeDialog.setContentView(R.layout.dialog_sync_data);
+        removeDialog.findViewById(R.id.sync_data_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(PaymentActivity.this);
                 HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
                 showProgressDialog(getString(R.string.syncing));
-                dialog.dismiss();
+                removeDialog.dismiss();
             }
         });
-        dialog.show();
+        removeDialog.setOnKeyListener(new Dialog.OnKeyListener() {
+
+            @Override
+            public boolean onKey(DialogInterface arg0, int keyCode,
+                                 KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    finish();
+                    removeDialog.dismiss();
+                }
+                return true;
+            }
+        });
+        removeDialog.show();
     }
 
     private ProgressDialog dialog;
@@ -195,6 +213,9 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
     private void hideProgressDialog() {
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
+        }
+        if(removeDialog !=null){
+            removeDialog.dismiss();
         }
     }
 
@@ -231,6 +252,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
                                 intent.putExtra("url",responses.get(0));
                                 intent.putExtra("trxId",responses.get(1));
                                 startActivity(intent);
+                                dialog.dismiss();
                             }
 
                             @Override
@@ -280,5 +302,12 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        hideProgressDialog();
+        SyncStatusBroadcastReceiver.getInstance().removeSyncStatusListener(this);
+
     }
 }

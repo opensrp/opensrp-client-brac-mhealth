@@ -18,7 +18,7 @@ import org.smartregister.service.HTTPAgent;
 import java.util.ArrayList;
 
 public class PaymentHistoryInteractor implements PaymentHistoryContract.Interactor{
-    private static final String API_TO_GET_PAYMENT_HISTORY = "/rest/event/bkash-payment-history";
+    private static final String API_TO_GET_PAYMENT_HISTORY = "/rest/event/bkash-payment-history?timestamp=0";
     private AppExecutors appExecutors;
     private ArrayList<PaymentHistory> paymentHistoryArrayList;
 
