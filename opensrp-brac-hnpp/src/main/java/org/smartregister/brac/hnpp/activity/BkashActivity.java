@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ public class BkashActivity extends AppCompatActivity implements View.OnClickList
     ProgressBar progressBar;
     private String url;
     private String trnsactionId;
+    private Handler myHandler;
 
 
 
@@ -49,6 +51,7 @@ public class BkashActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_bkash);
         HnppConstants.updateAppBackground(findViewById(R.id.action_bar));
         findViewById(R.id.backBtn).setOnClickListener(this);
+        myHandler = new Handler();
         wvBkashPayment = findViewById(R.id.wvBkashPayment);
         progressBar = findViewById(R.id.progressBar);
         url = getIntent().getStringExtra("url");
@@ -111,14 +114,24 @@ public class BkashActivity extends AppCompatActivity implements View.OnClickList
 
         @Override
         public void onPageFinished(WebView view, String url) {
-            progressBar.setVisibility(view.GONE);
+
             Log.v("STATUS_URL:",url);
             if(url.contains("status=success") || url.contains("status=failure") || url.contains("status=cancel")){
+                progressBar.setVisibility(view.VISIBLE);
+                myHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(view.GONE);
+                        Intent intent = new Intent(BkashActivity.this,BkashStatusActivity.class);
+                        intent.putExtra("trxId",trnsactionId);
+                        startActivity(intent);
+                        finish();
+                    }
+                },2000);
                 //showStatusDialog();
-                Intent intent = new Intent(BkashActivity.this,BkashStatusActivity.class);
-                intent.putExtra("trxId",trnsactionId);
-                startActivity(intent);
-                finish();
+
+            }else{
+                progressBar.setVisibility(view.GONE);
             }
 
            /* String paymentRequest = "{paymentRequest:" + request + "}";

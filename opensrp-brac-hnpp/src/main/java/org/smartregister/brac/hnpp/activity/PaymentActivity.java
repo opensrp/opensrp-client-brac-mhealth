@@ -51,7 +51,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
     private PaymentAdapter adapter;
     private PaymentPresenter presenter;
     private int totalPayable;
-    private ArrayList<Payment> payments;
+    private ArrayList<Payment> payments = new ArrayList<>();
     private Button confirmBtn;
 
 
@@ -69,9 +69,8 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         progressBar = findViewById(R.id.progress_bar);
         totalPayable = 0;
-        payments = new ArrayList<>();
         initializePresenter();
-        setPaymentsDefaultValue();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (isOnline()) {
                 showSyncDataDialog();
@@ -98,6 +97,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
 
     @Override
     public void updateAdapter() {
+        if(payments !=null) payments.clear();
         adapter = new PaymentAdapter(this, new Runnable() {
             @Override
             public void run() {
@@ -108,12 +108,12 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
                 totalPriceTV.setText(totalPayable+"");
             }
         });
-        ArrayList<Payment> getPaymentList = presenter.getPaymentData();
-        adapter.setData(getPaymentList);
+        payments = presenter.getPaymentData();
+        adapter.setData(payments);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(this,
                 DividerItemDecoration.VERTICAL));
-        totalPriceTVGiven.setText(getPaymentList.size() > 0 ? getPaymentList.get(getPaymentList.size() - 1).getTotalInitialAmount() + "" : 0 + "");
+        totalPriceTVGiven.setText(payments.size() > 0 ? payments.get(payments.size() - 1).getTotalInitialAmount() + "" : 0 + "");
         totalPriceTV.setText(totalPriceTVGiven.getText().toString()+"");
         adapter.notifyDataSetChanged();
     }
@@ -316,8 +316,5 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
         hideProgressDialog();
         SyncStatusBroadcastReceiver.getInstance().removeSyncStatusListener(this);
 
-    }
-    private void setPaymentsDefaultValue(){
-        payments = presenter.getPaymentData();
     }
 }

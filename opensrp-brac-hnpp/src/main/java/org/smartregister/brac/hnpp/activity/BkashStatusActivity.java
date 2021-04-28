@@ -57,6 +57,7 @@ public class BkashStatusActivity extends SecuredActivity implements View.OnClick
         }
     }
 
+
     @Override
     public void showProgressBar() {
         progressBar.setVisibility(View.VISIBLE);
