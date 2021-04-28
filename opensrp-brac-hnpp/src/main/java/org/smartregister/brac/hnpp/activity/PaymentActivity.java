@@ -229,7 +229,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
 
         totalTV.setText(totalPriceTVGiven.getText().toString() + " " + "Taka");
         remainTV.setText((Integer.valueOf(totalPriceTVGiven.getText().toString()) - totalPayable) + " " + "Taka");
-        givenTV.setText(totalPayable + " " + "Taka");
+        givenTV.setText(totalPriceTV.getText().toString()+"" + " " + "Taka");
 
         dialog.findViewById(R.id.send_btn).setOnClickListener(new View.OnClickListener() {
             @Override
