@@ -71,6 +71,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
         totalPayable = 0;
         payments = new ArrayList<>();
         initializePresenter();
+        setPaymentsDefaultValue();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (isOnline()) {
                 showSyncDataDialog();
@@ -169,20 +170,24 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
         }
     }
     Dialog removeDialog;
+    Button syncBtn;
     private void showSyncDataDialog() {
         removeDialog = new Dialog(this, android.R.style.Theme_NoTitleBar_Fullscreen);
         removeDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         removeDialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(org.smartregister.family.R.color.customAppThemeBlue)));
         removeDialog.setContentView(R.layout.dialog_sync_data);
-        removeDialog.findViewById(R.id.sync_data_btn).setOnClickListener(new View.OnClickListener() {
+        syncBtn = removeDialog.findViewById(R.id.sync_data_btn);
+        syncBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(PaymentActivity.this);
                 HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
                 showProgressDialog(getString(R.string.syncing));
+                syncBtn.setEnabled(false);
                 removeDialog.dismiss();
             }
         });
+
         removeDialog.setOnKeyListener(new Dialog.OnKeyListener() {
 
             @Override
@@ -215,6 +220,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
             dialog.dismiss();
         }
         if(removeDialog !=null){
+            syncBtn.setEnabled(true);
             removeDialog.dismiss();
         }
     }
@@ -228,7 +234,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
         TextView remainTV = dialog.findViewById(R.id.remainTV);
 
         totalTV.setText(totalPriceTVGiven.getText().toString() + " " + "Taka");
-        remainTV.setText((Integer.valueOf(totalPriceTVGiven.getText().toString()) - totalPayable) + " " + "Taka");
+        remainTV.setText((Integer.valueOf(totalPriceTVGiven.getText().toString()) - (Integer.valueOf(totalPriceTV.getText().toString()))) + " " + "Taka");
         givenTV.setText(totalPriceTV.getText().toString()+"" + " " + "Taka");
 
         dialog.findViewById(R.id.send_btn).setOnClickListener(new View.OnClickListener() {
@@ -243,7 +249,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
                 HnppConstants.showDialogWithAction(PaymentActivity.this, getString(R.string.dialog_title_payment), "", new Runnable() {
                     @Override
                     public void run() {
-                        new PaymentDetailsInteractor(new AppExecutors()).paymentDetailsPost(payments, totalPayable, new PaymentContract.PaymentPostInteractorCallBack() {
+                        new PaymentDetailsInteractor(new AppExecutors()).paymentDetailsPost(payments, Integer.valueOf(totalPriceTV.getText().toString()), new PaymentContract.PaymentPostInteractorCallBack() {
 
                             @Override
                             public void onSuccess(ArrayList<String> responses) {
@@ -253,6 +259,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
                                 intent.putExtra("trxId",responses.get(1));
                                 startActivity(intent);
                                 dialog.dismiss();
+                                finish();
                             }
 
                             @Override
@@ -309,5 +316,8 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
         hideProgressDialog();
         SyncStatusBroadcastReceiver.getInstance().removeSyncStatusListener(this);
 
+    }
+    private void setPaymentsDefaultValue(){
+        payments = presenter.getPaymentData();
     }
 }

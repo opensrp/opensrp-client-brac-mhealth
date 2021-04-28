@@ -40,6 +40,7 @@
     <string name="menu_forum">ফোরাম</string>
     <string name="menu_notification">নোটিফিকেশন</string>
     <string name="menu_payment">পেমেন্ট</string>
+    <string name="menu_bkash">বিকাশ পেমেন্ট</string>
     <string name="menu_stock_details">লেনদেনের সারসংক্ষেপ</string>
     <string name="menu_new_stock">নতুন স্টক আসছে</string>
     <string name="menu_end_stock">যে সব স্টক শেষ হয়ে যাচ্ছে</string>

@@ -35,7 +35,7 @@ import org.smartregister.service.HTTPAgent;
 
 import java.util.ArrayList;
 
-public class BkashActivity extends AppCompatActivity {
+public class BkashActivity extends AppCompatActivity implements View.OnClickListener{
     WebView wvBkashPayment;
     ProgressBar progressBar;
     private String url;
@@ -47,7 +47,8 @@ public class BkashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bkash);
-
+        HnppConstants.updateAppBackground(findViewById(R.id.action_bar));
+        findViewById(R.id.backBtn).setOnClickListener(this);
         wvBkashPayment = findViewById(R.id.wvBkashPayment);
         progressBar = findViewById(R.id.progressBar);
         url = getIntent().getStringExtra("url");
@@ -74,6 +75,15 @@ public class BkashActivity extends AppCompatActivity {
 
         wvBkashPayment.setWebViewClient(new CheckoutWebViewClient());
         //}
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.backBtn:
+                popupPaymentCancelAlert();
+                break;
+        }
     }
 
 
