@@ -34,7 +34,7 @@ public class HnppCoreChildProfileActivity extends CoreChildProfileActivity {
     }
     @Override
     protected void onCreation() {
-        setContentView(org.smartregister.chw.core.R.layout.activity_child_profile);
+        setContentView(R.layout.activity_child_profile);
         Toolbar toolbar = findViewById(org.smartregister.chw.core.R.id.collapsing_toolbar);
         textViewTitle = toolbar.findViewById(org.smartregister.chw.core.R.id.toolbar_title);
         setSupportActionBar(toolbar);

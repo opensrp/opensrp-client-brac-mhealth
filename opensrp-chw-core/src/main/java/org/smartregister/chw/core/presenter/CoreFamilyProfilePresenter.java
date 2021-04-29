@@ -111,19 +111,19 @@ public abstract class CoreFamilyProfilePresenter extends BaseFamilyProfilePresen
 
     @Override
     public String saveChwFamilyMember(String jsonString) {
-        try {
-            getView().showProgressDialog(org.smartregister.family.R.string.saving_dialog_title);
-
-            FamilyEventClient familyEventClient = model.processMemberRegistration(jsonString, familyBaseEntityId);
-            if (familyEventClient == null) {
-                return null;
-            }
-
-            interactor.saveRegistration(familyEventClient, jsonString, false, this);
-            return familyEventClient.getClient().getBaseEntityId();
-        } catch (Exception e) {
-            Timber.e(e);
-        }
+//        try {
+//            getView().showProgressDialog(org.smartregister.family.R.string.saving_dialog_title);
+//
+//            FamilyEventClient familyEventClient = model.processMemberRegistration(jsonString, familyBaseEntityId);
+//            if (familyEventClient == null) {
+//                return null;
+//            }
+//
+//            interactor.saveRegistration(familyEventClient, jsonString, false, this);
+//            return familyEventClient.getClient().getBaseEntityId();
+//        } catch (Exception e) {
+//            Timber.e(e);
+//        }
         return null;
     }
 
@@ -131,16 +131,16 @@ public abstract class CoreFamilyProfilePresenter extends BaseFamilyProfilePresen
     public boolean updatePrimaryCareGiver(Context context, String jsonString, String familyBaseEntityId, String entityID) {
 
         boolean res = false;
-        try {
-            FamilyMember member = CoreJsonFormUtils.getFamilyMemberFromRegistrationForm(jsonString, familyBaseEntityId, entityID);
-            if (member != null && member.getPrimaryCareGiver()) {
-                LocationPickerView lpv = new LocationPickerView(context);
-                lpv.init();
-                res = true;
-            }
-        } catch (Exception e) {
-            Timber.e(e);
-        }
+//        try {
+//            FamilyMember member = CoreJsonFormUtils.getFamilyMemberFromRegistrationForm(jsonString, familyBaseEntityId, entityID);
+//            if (member != null && member.getPrimaryCareGiver()) {
+//                LocationPickerView lpv = new LocationPickerView(context);
+//                lpv.init();
+//                res = true;
+//            }
+//        } catch (Exception e) {
+//            Timber.e(e);
+//        }
         return res;
     }
 }

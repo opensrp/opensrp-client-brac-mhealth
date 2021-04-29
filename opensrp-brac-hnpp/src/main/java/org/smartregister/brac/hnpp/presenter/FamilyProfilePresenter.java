@@ -20,6 +20,7 @@ import org.smartregister.chw.core.utils.Utils;
 import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
+import org.smartregister.domain.FetchStatus;
 import org.smartregister.family.contract.FamilyProfileContract;
 import org.smartregister.family.domain.FamilyEventClient;
 import org.smartregister.family.util.DBConstants;
@@ -128,6 +129,9 @@ public class FamilyProfilePresenter extends CoreFamilyProfilePresenter {
 
     @Override
     public void onRegistrationSaved(boolean isEdit) {
-        if (getView() != null) getView().hideProgressDialog();
+        if (getView() != null){
+            getView().hideProgressDialog();
+            getView().refreshMemberList(FetchStatus.fetched);
+        }
     }
 }
