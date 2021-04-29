@@ -37,16 +37,19 @@ public class HnppSyncIntentService extends SyncIntentService {
                         vid = vid.substring(0,vid.length() - 1);
                     }
                     url += "?" + configs.getSyncFilterParam().value() + "=" + configs.getSyncFilterValue() + "&serverVersion=" + lastSyncDatetime + "&limit=" + getEventPullLimit()+"&isEmptyToAdd="+isEmptyToAdd+"&villageIds="+vid;
-                    Log.i("URL:PA %s", url);
+                    Log.v("URL:PA %s", url);
                 }else{
-                    url += "?" + configs.getSyncFilterParam().value() + "=" + configs.getSyncFilterValue() + "&serverVersion=" + lastSyncDatetime + "&limit=" + getEventPullLimit()+"&isEmptyToAdd="+isEmptyToAdd;
-                    Log.i("URL: %s", url);
+                    //url += "?" + configs.getSyncFilterParam().value() + "=" + configs.getSyncFilterValue() + "&serverVersion=" + lastSyncDatetime + "&limit=" + getEventPullLimit()+"&isEmptyToAdd="+isEmptyToAdd+"&providerId=testsk";
+                    url += "?serverVersion=" + lastSyncDatetime + "&limit=" + getEventPullLimit()+"&isEmptyToAdd="+isEmptyToAdd+"&providerId=testsk";
+
+                    Log.v("URL", url);
                 }
                 resp = httpAgent.fetch(url);
             }
             return resp;
 
         }catch (JSONException e){
+            e.printStackTrace();
 
         }
         return resp;
