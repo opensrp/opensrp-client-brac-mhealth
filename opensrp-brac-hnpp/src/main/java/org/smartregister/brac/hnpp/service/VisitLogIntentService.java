@@ -734,21 +734,21 @@ public class VisitLogIntentService extends IntentService {
     }
     private void updateNcdBpTarget(VisitLog visit,HashMap<String,String>details){
         LocalDate localDate = new LocalDate(visit.getVisitDate());
-        if(details.containsKey("blood_pressure_systolic") && !StringUtils.isEmpty(details.get("blood_pressure_systolic"))){
-            String fbsValue = details.get("blood_pressure_systolic");
-            if(!TextUtils.isEmpty(fbsValue)){
-                try{
-                    int bps = Integer.parseInt(fbsValue);
-                    if (bps>=140){
-                        HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ESTIMATE_HBP,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
-                    }
-                }catch (NumberFormatException e){
-
-                }
-
-
-            }
-        }
+//        if(details.containsKey("blood_pressure_systolic") && !StringUtils.isEmpty(details.get("blood_pressure_systolic"))){
+//            String fbsValue = details.get("blood_pressure_systolic");
+//            if(!TextUtils.isEmpty(fbsValue)){
+//                try{
+//                    int bps = Integer.parseInt(fbsValue);
+//                    if (bps>=140){
+//                        HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ESTIMATE_HBP,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+//                    }
+//                }catch (NumberFormatException e){
+//
+//                }
+//
+//
+//            }
+//        }
         if(details.containsKey("cause_of_ncd") && !StringUtils.isEmpty(details.get("cause_of_ncd"))){
             String fbsValue = details.get("cause_of_ncd");
             Log.v("testValue: ",fbsValue);
@@ -770,21 +770,21 @@ public class VisitLogIntentService extends IntentService {
             }
         }
 
-        if(details.containsKey("blood_pressure_diastolic") && !StringUtils.isEmpty(details.get("blood_pressure_diastolic"))){
-            String bpd = details.get("blood_pressure_diastolic");
-            if(!TextUtils.isEmpty(bpd)){
-                try{
-                    int h = Integer.parseInt(bpd);
-                    if (h>=90){
-                        HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ESTIMATE_HBP,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
-                    }
-                }catch (NumberFormatException e){
-
-                }
-
-
-            }
-        }
+//        if(details.containsKey("blood_pressure_diastolic") && !StringUtils.isEmpty(details.get("blood_pressure_diastolic"))){
+//            String bpd = details.get("blood_pressure_diastolic");
+//            if(!TextUtils.isEmpty(bpd)){
+//                try{
+//                    int h = Integer.parseInt(bpd);
+//                    if (h>=90){
+//                        HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ESTIMATE_HBP,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+//                    }
+//                }catch (NumberFormatException e){
+//
+//                }
+//
+//
+//            }
+//        }
         //if(HnppConstants.isPALogin())HnppApplication.getTargetRepository().updateValue(NCD_BY_PA,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
 
 
