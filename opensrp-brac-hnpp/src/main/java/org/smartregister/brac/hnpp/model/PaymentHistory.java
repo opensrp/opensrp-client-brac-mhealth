@@ -8,6 +8,15 @@ public class PaymentHistory implements Serializable {
     String serviceType;
     String price;
     String status;
+    long paymentTimestamp;
+
+    public void setPaymentTimestamp(long paymentTimestamp) {
+        this.paymentTimestamp = paymentTimestamp;
+    }
+
+    public long getPaymentTimestamp() {
+        return paymentTimestamp;
+    }
 
     public String getPaymentId() {
         return paymentId;

@@ -2,6 +2,7 @@ package org.smartregister.brac.hnpp.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -38,6 +39,9 @@ public class PaymentHistoryAdapter  extends RecyclerView.Adapter<PaymentHistoryV
         paymenthistoryViewHolder.paymentDate.setText(content.getPaymentDate());
         paymenthistoryViewHolder.serviceType.setText(HnppConstants.targetTypeMapping.get(content.getServiceType() + ""));
         paymenthistoryViewHolder.price.setText(content.getPrice() );
+        if(content.getStatus().equals("COMPLETED")) {
+            paymenthistoryViewHolder.status.setTextColor(Color.GREEN);
+        }
         paymenthistoryViewHolder.status.setText(content.getStatus());
         if(content.getStatus()!=null && content.getStatus().equalsIgnoreCase("COMPLETED")){
             paymenthistoryViewHolder.status.setTextColor(context.getResources().getColor(R.color.alert_complete_green));

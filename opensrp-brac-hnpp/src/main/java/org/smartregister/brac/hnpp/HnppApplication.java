@@ -1,16 +1,11 @@
 package org.smartregister.brac.hnpp;
 
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.preference.PreferenceManager;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.evernote.android.job.JobManager;
-import com.evernote.android.job.JobRequest;
 
 import org.jetbrains.annotations.NotNull;
 import org.smartregister.AllConstants;
@@ -36,17 +31,15 @@ import org.smartregister.brac.hnpp.activity.SSInfoActivity;
 import org.smartregister.brac.hnpp.activity.SimprintsIdentityActivity;
 import org.smartregister.brac.hnpp.activity.WomenServiceRegisterActivity;
 import org.smartregister.brac.hnpp.custom_view.HnppNavigationTopView;
-import org.smartregister.brac.hnpp.fragment.AdolescentMemberRegisterFragment;
-import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.listener.HnppNavigationListener;
 import org.smartregister.brac.hnpp.presenter.HnppNavigationPresenter;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
-import org.smartregister.brac.hnpp.presenter.HnppNavigationPresenter;
 import org.smartregister.brac.hnpp.repository.GuestMemberIdRepository;
 import org.smartregister.brac.hnpp.repository.HnppChwRepository;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.repository.IndicatorRepository;
 import org.smartregister.brac.hnpp.repository.NotificationRepository;
+import org.smartregister.brac.hnpp.repository.PaymentHistoryRepository;
 import org.smartregister.brac.hnpp.repository.RiskDetailsRepository;
 import org.smartregister.brac.hnpp.repository.SSLocationRepository;
 import org.smartregister.brac.hnpp.repository.HouseholdIdRepository;
@@ -61,7 +54,6 @@ import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.contract.CoreApplication;
 import org.smartregister.chw.core.custom_views.NavigationMenu;
 import org.smartregister.chw.core.utils.CoreConstants;
-import org.smartregister.chw.core.utils.FormUtils;
 import org.smartregister.brac.hnpp.activity.ChildRegisterActivity;
 import org.smartregister.brac.hnpp.activity.FamilyProfileActivity;
 import org.smartregister.brac.hnpp.activity.FamilyRegisterActivity;
@@ -85,7 +77,6 @@ import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.EventClientRepository;
 import org.smartregister.repository.Repository;
-import org.smartregister.sync.ClientProcessorForJava;
 import org.smartregister.util.Utils;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -104,6 +95,7 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
     private static TargetVsAchievementRepository targetVsAchievementRepository;
     private static IndicatorRepository indicatorRepository;
     private static NotificationRepository notificationRepository;
+    private static PaymentHistoryRepository paymentHistoryRepository;
     private static StockRepository stockRepository;
     private static CommonFtsObject commonFtsObject = null;
     private EventClientRepository eventClientRepository;
@@ -355,5 +347,11 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
         metadata.updateFamilyActivityRegister(CoreConstants.TABLE_NAME.CHILD_ACTIVITY, Integer.MAX_VALUE, false);
         metadata.updateFamilyOtherMemberRegister(CoreConstants.TABLE_NAME.FAMILY_MEMBER, Integer.MAX_VALUE, false);
         return metadata;
+    }
+    public static PaymentHistoryRepository getPaymentHistoryRepository() {
+        if ( paymentHistoryRepository == null) {
+            paymentHistoryRepository = new PaymentHistoryRepository(getInstance().getRepository());
+        }
+        return paymentHistoryRepository;
     }
 }

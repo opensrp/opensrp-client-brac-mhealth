@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
+import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.contract.PaymentHistoryContract;
 import org.smartregister.brac.hnpp.model.PaymentHistory;
 import org.smartregister.family.util.AppExecutors;
@@ -18,9 +19,10 @@ import org.smartregister.service.HTTPAgent;
 import java.util.ArrayList;
 
 public class PaymentHistoryInteractor implements PaymentHistoryContract.Interactor{
-    private static final String API_TO_GET_PAYMENT_HISTORY = "/rest/event/bkash-payment-history?timestamp=0";
+    private static final String API_TO_GET_PAYMENT_HISTORY = "/rest/event/bkash-payment-history?";
     private AppExecutors appExecutors;
     private ArrayList<PaymentHistory> paymentHistoryArrayList;
+    private static final String LAST_PAYMENT_HISTORY_SYNC = "last_payment_history_sync";
 
     public PaymentHistoryInteractor(AppExecutors appExecutors) {
         this.appExecutors = appExecutors;
@@ -30,16 +32,29 @@ public class PaymentHistoryInteractor implements PaymentHistoryContract.Interact
     private ArrayList<PaymentHistory> getPaymentServiceList(){
         paymentHistoryArrayList.clear();
         JSONArray jsonArray = getPaymentServiceJsonArrayList();
+        long tempTimestamp = 0;
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 JSONObject object = jsonArray.getJSONObject(i);
                 PaymentHistory paymentHistory = new Gson().fromJson(object.toString(), PaymentHistory.class);
                 if (paymentHistory != null) {
-                    paymentHistoryArrayList.add(paymentHistory);
+                    if(paymentHistory.getPaymentTimestamp() > tempTimestamp){
+                       tempTimestamp = paymentHistory.getPaymentTimestamp();
+                    }
+                    HnppApplication.getPaymentHistoryRepository().addOrUpdate(paymentHistory);
                 }
+//                ArrayList<PaymentHistory> paymentHistoryList =  HnppApplication.getPaymentHistoryRepository().getAllPayment();
+//                paymentHistoryArrayList.addAll(paymentHistoryList);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+
+        ArrayList<PaymentHistory> paymentHistoryList =  HnppApplication.getPaymentHistoryRepository().getAllPayment();
+        paymentHistoryArrayList.addAll(paymentHistoryList);
+
+        if(tempTimestamp > 0){
+            CoreLibrary.getInstance().context().allSharedPreferences().savePreference(LAST_PAYMENT_HISTORY_SYNC, tempTimestamp+"");
         }
         return paymentHistoryArrayList;
     }
@@ -72,7 +87,12 @@ public class PaymentHistoryInteractor implements PaymentHistoryContract.Interact
             if (TextUtils.isEmpty(userName)) {
                 return null;
             }
-            String url = baseUrl + API_TO_GET_PAYMENT_HISTORY;
+            String lastHistorySyncTime = CoreLibrary.getInstance().context().allSharedPreferences().getPreference(LAST_PAYMENT_HISTORY_SYNC);
+            if(TextUtils.isEmpty(lastHistorySyncTime)){
+                lastHistorySyncTime ="0";
+            }
+
+            String url = baseUrl + API_TO_GET_PAYMENT_HISTORY + "&timestamp=" + lastHistorySyncTime;
             /*+ "?username=" + userName;*/
 
             Log.v("API_payment_History", "url:" + url);
