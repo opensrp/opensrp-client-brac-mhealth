@@ -70,16 +70,14 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
         progressBar = findViewById(R.id.progress_bar);
         totalPayable = 0;
         initializePresenter();
+        if (isOnline()) {
+            showSyncDataDialog();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (isOnline()) {
-                showSyncDataDialog();
-
-            } else {
-                checkNetworkConnection();
-                finish();
-            }
+        } else {
+            checkNetworkConnection();
+            finish();
         }
+
 
 
     }
@@ -98,12 +96,19 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
     @Override
     public void updateAdapter() {
         if(payments !=null) payments.clear();
-        adapter = new PaymentAdapter(this, new Runnable() {
+        adapter = new PaymentAdapter(this, new PaymentAdapter.OnClickAdapter() {
             @Override
-            public void run() {
+            public void onClickItem(int position) {
+                recyclerView.postDelayed(new Runnable()
+                {
+                    @Override
+                    public void run() {
+                        adapter.notifyItemChanged(position);
+                    }
+                },500);
                 payments = adapter.getPaymentWithoutZero();
                 totalPayable = adapter.getTotalPayableAmount();
-                Log.v("TOTAL_PAY","totalPayable:"+totalPayable);
+                Log.v("TOTAL_PAY","totalPayable:"+totalPayable+":payments:"+payments);
 
                 totalPriceTV.setText(totalPayable+"");
             }
@@ -111,8 +116,6 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
         payments = presenter.getPaymentData();
         adapter.setData(payments);
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this,
-                DividerItemDecoration.VERTICAL));
         totalPriceTVGiven.setText(payments.size() > 0 ? payments.get(payments.size() - 1).getTotalInitialAmount() + "" : 0 + "");
         totalPriceTV.setText(totalPriceTVGiven.getText().toString()+"");
         adapter.notifyDataSetChanged();
@@ -249,6 +252,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
                 HnppConstants.showDialogWithAction(PaymentActivity.this, getString(R.string.dialog_title_payment), "", new Runnable() {
                     @Override
                     public void run() {
+                        payments = adapter.getPaymentWithoutZero();
                         new PaymentDetailsInteractor(new AppExecutors()).paymentDetailsPost(payments, Integer.valueOf(totalPriceTV.getText().toString()), new PaymentContract.PaymentPostInteractorCallBack() {
 
                             @Override
@@ -286,7 +290,6 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     public boolean isOnline() {
         ConnectivityManager conMgr = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = conMgr.getActiveNetworkInfo();

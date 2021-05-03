@@ -11,6 +11,33 @@ public class Payment implements Serializable {
     int total;
     private int payFor;
     private int totalInitialAmount;
+    private boolean isSelected = true;
+    private boolean considerChange = false;
+    private boolean isEmpty = false;
+
+    public boolean isEmpty() {
+        return isEmpty;
+    }
+
+    public void setEmpty(boolean empty) {
+        isEmpty = empty;
+    }
+
+    public boolean isConsiderChange() {
+        return considerChange;
+    }
+
+    public void setConsiderChange(boolean considerChange) {
+        this.considerChange = considerChange;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
 
     public void setTotalInitialAmount(int totalInitialAmount) {
         this.totalInitialAmount = totalInitialAmount;
