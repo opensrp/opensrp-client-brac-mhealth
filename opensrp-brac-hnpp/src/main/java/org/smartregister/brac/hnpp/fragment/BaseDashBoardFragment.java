@@ -195,7 +195,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
                 break;
             case R.id.clear_filter:
                 monthTV.setText("");
-                yearTV.setText("সকল");
+                yearTV.setText(getString(R.string.all_text));
                 month = -1;
                 year = -1;
                 filterData();
@@ -204,7 +204,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
     }
     private void loadSSList(){
         ArrayList<String> ssSpinnerArray = new ArrayList<>();
-        ssSpinnerArray.add("সকল");
+        ssSpinnerArray.add(getString(R.string.all_text));
         ArrayList<SSModel> ssLocationForms = SSLocationHelper.getInstance().getSsModels();
         for (SSModel ssModel : ssLocationForms) {
             ssSpinnerArray.add(ssModel.username);

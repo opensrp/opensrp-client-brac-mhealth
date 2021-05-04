@@ -49,14 +49,17 @@ public class PaymentHistoryInteractor implements PaymentHistoryContract.Interact
                 e.printStackTrace();
             }
         }
-
-        ArrayList<PaymentHistory> paymentHistoryList =  HnppApplication.getPaymentHistoryRepository().getAllPayment();
-        paymentHistoryArrayList.addAll(paymentHistoryList);
-
         if(tempTimestamp > 0){
             CoreLibrary.getInstance().context().allSharedPreferences().savePreference(LAST_PAYMENT_HISTORY_SYNC, tempTimestamp+"");
         }
+        loadLocalData();
+
+
         return paymentHistoryArrayList;
+    }
+    private void loadLocalData(){
+        ArrayList<PaymentHistory> paymentHistoryList =  HnppApplication.getPaymentHistoryRepository().getAllPayment();
+        if(paymentHistoryList.size()>0)paymentHistoryArrayList.addAll(paymentHistoryList);
     }
 
     @Override
@@ -65,10 +68,14 @@ public class PaymentHistoryInteractor implements PaymentHistoryContract.Interact
     }
 
     @Override
-    public void fetchPaymentService(PaymentHistoryContract.InteractorCallBack callBack) {
+    public void fetchPaymentService(PaymentHistoryContract.InteractorCallBack callBack,boolean isLocal) {
         Runnable runnable = () -> {
-            paymentHistoryArrayList = getPaymentServiceList();
-            Log.v("PaymenthistoryList: ", paymentHistoryArrayList.toString());
+            if(!isLocal){
+                getPaymentServiceList();
+            }else {
+                paymentHistoryArrayList.clear();
+                loadLocalData();
+            }
             appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
         };
         appExecutors.diskIO().execute(runnable);

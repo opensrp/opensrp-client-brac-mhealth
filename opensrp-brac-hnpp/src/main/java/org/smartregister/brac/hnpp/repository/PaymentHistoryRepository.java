@@ -9,6 +9,7 @@ import net.sqlcipher.Cursor;
 import net.sqlcipher.database.SQLiteDatabase;
 import org.joda.time.DateTime;
 import org.smartregister.brac.hnpp.model.PaymentHistory;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.repository.BaseRepository;
 import org.smartregister.repository.LocationRepository;
 import org.smartregister.repository.Repository;
@@ -158,15 +159,17 @@ public class PaymentHistoryRepository extends BaseRepository {
         String paymentPrice = cursor.getString(cursor.getColumnIndex(PAYMENT_PRICE));
         String paymentDate = cursor.getString(cursor.getColumnIndex(PAYMENT_DATE));
         String paymentStaus = cursor.getString(cursor.getColumnIndex(PAYMENT_STATUS));
-      //  long paymentTimestamp = cursor.getLong(cursor.getColumnIndex(PAYMENT_TIMESTAMP));
+        long paymentTimestamp = cursor.getLong(cursor.getColumnIndex(PAYMENT_TIMESTAMP));
+        int quantity = cursor.getInt(cursor.getColumnIndex("quantity"));
 
         PaymentHistory paymentHistory = new PaymentHistory();
 
        // paymentHistory.setPaymentId(paymentId);
         paymentHistory.setServiceType(paymentType+"");
         paymentHistory.setPrice(paymentPrice+"");
-        paymentHistory.setPaymentDate(paymentDate+"");
+        paymentHistory.setPaymentDate(HnppConstants.DDMMYYHM.format(paymentTimestamp) +"");
         paymentHistory.setStatus(paymentStaus+"");
+        paymentHistory.setQuantity(quantity);
      //   paymentHistory.setPaymentTimestamp(paymentTimestamp);
 
         return paymentHistory;

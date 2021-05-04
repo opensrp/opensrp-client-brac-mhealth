@@ -13,6 +13,7 @@ import org.smartregister.immunization.job.VaccineServiceJob;
 import org.smartregister.job.PullUniqueIdsServiceJob;
 import org.smartregister.login.interactor.BaseLoginInteractor;
 import org.smartregister.service.AlertService;
+import org.smartregister.service.UserService;
 import org.smartregister.view.contract.BaseLoginContract;
 
 import java.util.concurrent.TimeUnit;
@@ -23,8 +24,11 @@ public class LoginInteractor extends BaseLoginInteractor implements BaseLoginCon
         super(loginPresenter);
     }
 
+
     @Override
     protected void scheduleJobsPeriodically() {
+
+
         HnppSyncIntentServiceJob.scheduleJob(HnppSyncIntentServiceJob.TAG, TimeUnit.MINUTES.toMinutes(
                 BuildConfig.DATA_SYNC_DURATION_MINUTES), getFlexValue(BuildConfig.DATA_SYNC_DURATION_MINUTES));
         NotificationGeneratorJob.scheduleJob(NotificationGeneratorJob.TAG, TimeUnit.MINUTES.toMinutes(

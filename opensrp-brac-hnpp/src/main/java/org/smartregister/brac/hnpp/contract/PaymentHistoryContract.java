@@ -16,11 +16,12 @@ public interface PaymentHistoryContract {
     }
     interface Presenter{
         void fetchPaymentService();
+        void filterByFromToDate(String fromDate, String toDate);
         PaymentHistoryContract.View getView();
     }
     interface Interactor{
         ArrayList<PaymentHistory> getPaymentHistoryList();
-        void fetchPaymentService(PaymentHistoryContract.InteractorCallBack callBack);
+        void fetchPaymentService(PaymentHistoryContract.InteractorCallBack callBack,boolean isLocal);
 
     }
 
