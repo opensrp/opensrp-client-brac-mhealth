@@ -1,5 +1,7 @@
 package org.smartregister.brac.hnpp.interactor;
 
+import android.util.Log;
+
 import org.smartregister.brac.hnpp.job.HnppPncCloseJob;
 import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
 import org.smartregister.brac.hnpp.job.SSLocationFetchJob;
@@ -7,15 +9,26 @@ import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.job.HomeVisitServiceJob;
 import org.smartregister.chw.core.job.VaccineRecurringServiceJob;
+import org.smartregister.domain.LoginResponse;
 import org.smartregister.immunization.job.VaccineServiceJob;
 import org.smartregister.job.PullUniqueIdsServiceJob;
 import org.smartregister.login.interactor.BaseLoginInteractor;
 import org.smartregister.view.contract.BaseLoginContract;
 
+import java.util.ArrayList;
+
 
 public class LoginInteractor extends BaseLoginInteractor implements BaseLoginContract.Interactor {
     public LoginInteractor(BaseLoginContract.Presenter loginPresenter) {
         super(loginPresenter);
+    }
+
+    @Override
+    protected void processServerSettings(LoginResponse loginResponse) {
+        super.processServerSettings(loginResponse);
+        String userName = getUserService().getAllSharedPreferences().fetchRegisteredANM();
+       ArrayList<String> getList = new ArrayList<String>(getUserService().getUserRoles(userName));
+        Log.v("UserRoles","roles:"+getList);
     }
 
     @Override
