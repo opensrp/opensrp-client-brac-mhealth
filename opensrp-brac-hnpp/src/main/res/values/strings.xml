@@ -54,8 +54,8 @@
     <string name="ss_month">মাস নির্বাচন করুন</string>
     <string name="village_name_form_field">গ্রামের নামঃ</string>
     <string name="last_submission_date">সেবা গ্রহণের তারিখ: %s</string>
-      <string name="member_migration">সদস্য স্থানান্তর</string>
-   <string name="hh_migration">খানা স্থানান্তর</string>
+    <string name="member_migration">সদস্য স্থানান্তর</string>
+    <string name="hh_migration">খানা স্থানান্তর</string>
     <string name="title_kishori">কিশোরী ফোরাম</string>
     <string name="title_nari">নারী ফোরাম</string>
     <string name="title_child">শিশু ফোরাম</string>
@@ -93,13 +93,13 @@
     <string name="serial_no"><br>খানা সিরিয়াল :</br> %s</string>
     <string name="name"><br>নাম :</br> %s</string>
     <string name="search_name_or_id">নাম বা আইডি দ্বারা অনুসন্ধান করুন</string>
-    <string name="home">হোম</string>
-    <string name="job_aids">ড্যাশবোর্ড</string>
-    <string name="add_family">খানা নিবন্ধন</string>
+    <string name="home">Home</string>
+    <string name="job_aids">Dashboard</string>
+    <string name="add_family">Household registration</string>
     <string name="add_family_member">সদস্য যোগ করুন</string>
     <string name="add_member_title">সদস্য যোগ করুন</string>
     <string name="save">জমা দিন</string>
-    <string name="all_families">খানার তালিকা</string>
+    <string name="all_families">Household list</string>
     <string name="finger_print_added"><![CDATA[<b><font color=#3797ca>ফিঙ্গার প্রিন্ট দ্বারা নিবন্ধিত</font></b>]]></string>
     <string name="finger_print_without"><![CDATA[<font color=#FF0000>ফিঙ্গার প্রিন্ট ছাড়া নিবন্ধিত</font>]]></string>
     <string name="add_member_title_question">আপনি কোন ধরণের পরিবারের সদস্য যুক্ত করতে চান?</string>
@@ -327,7 +327,7 @@
     <string name="remove_this_person">সদস্য বাদ দিন</string>
     <string name="remove_family_count">%s সদস্য এবং %s শিশু</string>
     <string name="deceased_brackets">(মৃত)</string>
- <string name="migrated_brackets">(স্থানান্তরিত)</string>
+    <string name="migrated_brackets">(স্থানান্তরিত)</string>
     <string name="filter">Filter</string>
     <string name="search">Search</string>
     <string name="sort">Sort</string>
@@ -338,17 +338,17 @@
     <string name="ss_name_bangla">SS</string>
     <string name="date_bangla">Date</string>
     <string name="adolescat">Adolescat</string>
-   <string name="ncd">NCD</string>
-   <string name="iycf">IYCF</string>
-   <string name="payment_for">Payment For</string>
-   <string name="anc">ANC</string>
-   <string name="pnc">PNC</string>
-   <string name="women">Women</string>
-   <string name="dialog_title_member_mg">তিনি কি আগে ব্র্যাক এর সদস্য ছিলেন?</string>
-   <string name="dialog_title_member_hh">এই খানা কি আগে ব্র্যাক এর খানা ছিল?</string>
+    <string name="ncd">NCD</string>
+    <string name="iycf">IYCF</string>
+    <string name="payment_for">Payment For</string>
+    <string name="anc">ANC</string>
+    <string name="pnc">PNC</string>
+    <string name="women">Women</string>
+    <string name="dialog_title_member_mg">তিনি কি আগে ব্র্যাক এর সদস্য ছিলেন?</string>
+    <string name="dialog_title_member_hh">এই খানা কি আগে ব্র্যাক এর খানা ছিল?</string>
     <string name="dialog_title">আপনি কি নিশ্চিত এই স্থানান্তর এর সম্পর্কে?</string>
     <string name="dialog_text_family">যে কোনো একটি খানা সিলেক্ট করুন</string>
-   <string name="ss_migration">এখানে স্থানান্তর করি</string>
+    <string name="ss_migration">এখানে স্থানান্তর করি</string>
     <string name="dialog_stock_sell_end">Your stock is finish</string>
     <string name="dialog_confirm_save">আমি %s, ব্র্যাকের স্বাস্থ্য পুষ্টি ও জনসংখ্যা কর্মসূচির একজন স্বাস্থ্যকর্মী। এই কর্মসূচি মা ও শিশুর প্রাথমিক স্বাস্থ্যসেবার পাশাপাশি অসংক্রামক রোগের প্রাথমিক চিকিৎসা সেবা প্রদান করে থাকে। এই সেবা কার্যক্রমের অংশই হিসেবে  আমরা আপনার এবং আপনার পরিবারের ব্যক্তিগত ও স্বাস্থ্য-বিষয়ক তথ্য সংগ্রহ রাখতে চাই। ব্র্যাক ও অন্যান্য সামাজিক উন্নয়ন সংস্থার প্রাথমিক স্বাস্থ্যসেবা,  সামাজিক উন্নয়ন, বিশ্লেষণ, প্রতিবেদন এবং গবেষণা কার্যক্রমের প্রয়োজনে ভবিষ্যতে এই তথ্য ব্যবহার করা হতে পারে। তবে সেক্ষত্রে অবশ্যই আপনার পরিচয় গোপন রাখা হবে. আপনি- %s, বয়স- %s, জাতীয় পরিচয়পত্র নাম্বার - %s; আপনার প্রদানকৃত তথ্যাবলি উল্লিখিত কাজে ব্যবহার করতে দিতে সম্মত আছেন? সম্মত থাকলে - হ্যাঁ ঘরে টিক দিন.</string>
     <string name="dialog_confirm_save_guest">আমি %s, ব্র্যাকের স্বাস্থ্য পুষ্টি ও জনসংখ্যা কর্মসূচির একজন স্বাস্থ্যকর্মী। এই কর্মসূচি মা ও শিশুর প্রাথমিক স্বাস্থ্যসেবার পাশাপাশি অসংক্রামক রোগের প্রাথমিক চিকিৎসা সেবা প্রদান করে থাকে। এই সেবা কার্যক্রমের অংশই হিসেবে  আমরা আপনার এবং আপনার পরিবারের ব্যক্তিগত ও স্বাস্থ্য-বিষয়ক তথ্য সংগ্রহ রাখতে চাই। ব্র্যাক ও অন্যান্য সামাজিক উন্নয়ন সংস্থার প্রাথমিক স্বাস্থ্যসেবা,  সামাজিক উন্নয়ন, বিশ্লেষণ, প্রতিবেদন এবং গবেষণা কার্যক্রমের প্রয়োজনে ভবিষ্যতে এই তথ্য ব্যবহার করা হতে পারে। তবে সেক্ষত্রে অবশ্যই আপনার পরিচয় গোপন রাখা হবে. আপনি- %s, বয়স- %s; আপনার প্রদানকৃত তথ্যাবলি উল্লিখিত কাজে ব্যবহার করতে দিতে সম্মত আছেন? সম্মত থাকলে - হ্যাঁ ঘরে টিক দিন.</string>
