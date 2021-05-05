@@ -1,9 +1,13 @@
 package org.smartregister.brac.hnpp.service;
 
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.AllConstants;
+import org.smartregister.CoreLibrary;
 import org.smartregister.SyncConfiguration;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -12,46 +16,42 @@ import org.smartregister.service.HTTPAgent;
 import org.smartregister.sync.intent.SyncIntentService;
 import java.util.ArrayList;
 
+import timber.log.Timber;
+
 public class HnppSyncIntentService extends SyncIntentService {
     @Override
-    protected Response getUrlResponse(SyncConfiguration configs, HTTPAgent httpAgent, String url, Long lastSyncDatetime, boolean returnCount) {
-        Response resp = null;
-        try{
+    protected Response getUrlResponse(@NonNull String baseURL, @NonNull RequestParamsBuilder requestParamsBuilder, @NonNull SyncConfiguration configs, boolean returnCount) {
+        Response response = null;
+        HTTPAgent httpAgent = CoreLibrary.getInstance().context().getHttpAgent();
 
-            if (configs.isSyncUsingPost()) {
-                JSONObject syncParams = new JSONObject();
-                syncParams.put(configs.getSyncFilterParam().value(), configs.getSyncFilterValue());
-                syncParams.put("serverVersion", lastSyncDatetime);
-                syncParams.put("limit", getEventPullLimit());
-                syncParams.put(AllConstants.RETURN_COUNT, returnCount);
-                syncParams.put("isEmptyToAdd",  isEmptyToAdd);
-                resp = httpAgent.postWithJsonResponse(url, syncParams.toString());
-            } else {
-                if(HnppConstants.isPALogin()){
-                    ArrayList<String> getVillageList = SSLocationHelper.getInstance().getSelectedVillageId();
-                    String vid = "";
-                    for(int i = 0; i< getVillageList.size() ; i++){
-                        vid = vid + getVillageList.get(i)+",";
-                    }
-                    if(!vid.isEmpty()){
-                        vid = vid.substring(0,vid.length() - 1);
-                    }
-                    url += "?" + configs.getSyncFilterParam().value() + "=" + configs.getSyncFilterValue() + "&serverVersion=" + lastSyncDatetime + "&limit=" + getEventPullLimit()+"&isEmptyToAdd="+isEmptyToAdd+"&villageIds="+vid;
-                    Log.v("URL:PA %s", url);
-                }else{
-                    //url += "?" + configs.getSyncFilterParam().value() + "=" + configs.getSyncFilterValue() + "&serverVersion=" + lastSyncDatetime + "&limit=" + getEventPullLimit()+"&isEmptyToAdd="+isEmptyToAdd+"&providerId=testsk";
-                    url += "?serverVersion=" + lastSyncDatetime + "&limit=" + getEventPullLimit()+"&isEmptyToAdd="+isEmptyToAdd+"&providerId=testsk";
+        String requestUrl = baseURL;
 
-                    Log.v("URL", url);
+        if (configs.isSyncUsingPost()) {
+            requestParamsBuilder.addParam("isEmptyToAdd",isEmptyToAdd);
+            response = httpAgent.postWithJsonResponse(requestUrl, requestParamsBuilder.returnCount(returnCount).build());
+
+        } else {
+            requestParamsBuilder.addParam("isEmptyToAdd",isEmptyToAdd);
+            if(HnppConstants.isPALogin()){
+                ArrayList<String> getVillageList = SSLocationHelper.getInstance().getSelectedVillageId();
+                String vid = "";
+                for(int i = 0; i< getVillageList.size() ; i++){
+                    vid = vid + getVillageList.get(i)+",";
                 }
-                resp = httpAgent.fetch(url);
+                if(!vid.isEmpty()){
+                    vid = vid.substring(0,vid.length() - 1);
+                }
+                requestParamsBuilder.addParam("villageIds",vid);
+            }else{
+                //test
+                requestParamsBuilder.removeParam("locationId");
+                requestParamsBuilder.addParam("providerId","testsk");
             }
-            return resp;
-
-        }catch (JSONException e){
-            e.printStackTrace();
-
+            requestUrl += "?" + requestParamsBuilder.build();
+            Log.v("URL: %s", requestUrl);
+            response = httpAgent.fetch(requestUrl);
         }
-        return resp;
+        return response;
+
     }
 }
