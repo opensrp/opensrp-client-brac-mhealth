@@ -104,7 +104,7 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
-            android:text="ফিল্টার"
+            android:text="@string/filter"
             android:textColor="@color/white"
             android:textSize="@dimen/default_font_size_search_bar" />
 
