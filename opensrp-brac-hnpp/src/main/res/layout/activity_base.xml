@@ -223,7 +223,7 @@
                                 android:layout_toEndOf="@+id/dashboard_img"
                                 android:layout_toRightOf="@+id/dashboard_img"
                                 android:fontFamily="sans-serif"
-                                android:text="ড্যাশবোর্ড"
+                                android:text="@string/menu_dashboard"
                                 android:textColor="@color/white"
                                 android:textSize="20sp" />
 
@@ -320,7 +320,7 @@
                                 android:layout_toEndOf="@+id/ivskcng"
                                 android:layout_toRightOf="@+id/ivskcng"
                                 android:fontFamily="sans-serif"
-                                android:text="আপডেট ডাটা"
+                                android:text="@string/menu_update_data"
                                 android:textColor="@color/white"
                                 android:textSize="20sp" />
 
@@ -352,7 +352,7 @@
                                 android:layout_toEndOf="@+id/ivssinfo"
                                 android:layout_toRightOf="@+id/ivssinfo"
                                 android:fontFamily="sans-serif"
-                                android:text="SS তথ্য"
+                                android:text="@string/menu_browse_ss_info"
                                 android:textColor="@color/white"
                                 android:textSize="20sp" />
 
@@ -384,7 +384,7 @@
                                 android:layout_toEndOf="@+id/notification_img"
                                 android:layout_toRightOf="@+id/notification_img"
                                 android:fontFamily="sans-serif"
-                                android:text="নোটিফিকেশন"
+                                android:text="@string/menu_notification_list"
                                 android:textColor="@color/white"
                                 android:textSize="20sp" />
 
@@ -416,7 +416,7 @@
                                 android:layout_toEndOf="@+id/migration_img"
                                 android:layout_toRightOf="@+id/migration_img"
                                 android:fontFamily="sans-serif"
-                                android:text="স্থানান্তর"
+                                android:text="@string/menu_migration"
                                 android:textColor="@color/white"
                                 android:textSize="20sp" />
 
@@ -448,7 +448,7 @@
                                 android:layout_toEndOf="@+id/payment_img"
                                 android:layout_toRightOf="@+id/payment_img"
                                 android:fontFamily="sans-serif"
-                                android:text="পেমেন্ট"
+                                android:text="@string/menu_payment"
                                 android:textColor="@color/white"
                                 android:textSize="20sp" />
 

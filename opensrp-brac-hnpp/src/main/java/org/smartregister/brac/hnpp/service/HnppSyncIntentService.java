@@ -27,11 +27,11 @@ public class HnppSyncIntentService extends SyncIntentService {
         String requestUrl = baseURL;
 
         if (configs.isSyncUsingPost()) {
-            requestParamsBuilder.addParam("isEmptyToAdd",isEmptyToAdd);
+            requestParamsBuilder.addParam("isEmptyToAdd",isEmptyToAdd());
             response = httpAgent.postWithJsonResponse(requestUrl, requestParamsBuilder.returnCount(returnCount).build());
 
         } else {
-            requestParamsBuilder.addParam("isEmptyToAdd",isEmptyToAdd);
+            requestParamsBuilder.addParam("isEmptyToAdd",isEmptyToAdd());
             if(HnppConstants.isPALogin()){
                 ArrayList<String> getVillageList = SSLocationHelper.getInstance().getSelectedVillageId();
                 String vid = "";
