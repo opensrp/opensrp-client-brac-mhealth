@@ -165,8 +165,8 @@ android {
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
 
-//            buildConfigField "String", 'opensrp_url_training', '"http://hnpptest.mpower-social.com:8080/opensrp/"'
-//            buildConfigField "String", 'opensrp_url_live', '"http://hnpptest.mpower-social.com:8080/opensrp/"'
+//            buildConfigField "String", 'opensrp_url_training', '"http://192.168.43.214:8080/opensrp/"'
+//            buildConfigField "String", 'opensrp_url_live', '"http://192.168.43.214:8080/opensrp/"'
 
             buildConfigField "String", 'opensrp_url_training', '"http://goldo.mpower-social.com/opensrp/"'
             buildConfigField "String", 'opensrp_url_live', '"http://goldo.mpower-social.com/opensrp/"'
