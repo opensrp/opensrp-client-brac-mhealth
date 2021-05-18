@@ -69,7 +69,7 @@ public class HnppConstants extends CoreConstants {
     public static final String KEY_IS_SAME_MONTH = "is_same_month";
 
     public static SimpleDateFormat DDMMYY = new SimpleDateFormat("dd-MM-yyyy",Locale.getDefault());
-    public static SimpleDateFormat DDMMYYHM = new SimpleDateFormat("dd-MM-yyyy hh:mm",Locale.getDefault());
+    public static SimpleDateFormat DDMMYYHM = new SimpleDateFormat("dd-MM-yyyy",Locale.getDefault());
     public enum VisitType {DUE, OVERDUE, LESS_TWENTY_FOUR, VISIT_THIS_MONTH, NOT_VISIT_THIS_MONTH, EXPIRY, VISIT_DONE}
     public enum HomeVisitType {GREEN, YELLOW, RED, BROWN}
     public enum SEARCH_TYPE {HH, ADO, WOMEN, CHILD,NCD,ADULT}

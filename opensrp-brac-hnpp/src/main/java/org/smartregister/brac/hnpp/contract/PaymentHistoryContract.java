@@ -22,6 +22,7 @@ public interface PaymentHistoryContract {
     interface Interactor{
         ArrayList<PaymentHistory> getPaymentHistoryList();
         void fetchPaymentService(PaymentHistoryContract.InteractorCallBack callBack,boolean isLocal);
+        void filterByFromToDate(PaymentHistoryContract.InteractorCallBack callBack,String fromDate, String toDate);
 
     }
 

@@ -26,7 +26,8 @@ public class PaymentHistoryPresenter implements PaymentHistoryContract.Presenter
     }
     @Override
     public void filterByFromToDate(String fromDate, String toDate) {
-
+        getView().showProgressBar();
+        interactor.filterByFromToDate(this,fromDate,toDate);
     }
 
     @Override

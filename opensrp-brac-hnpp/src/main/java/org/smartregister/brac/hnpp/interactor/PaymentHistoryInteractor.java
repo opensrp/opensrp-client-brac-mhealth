@@ -81,6 +81,19 @@ public class PaymentHistoryInteractor implements PaymentHistoryContract.Interact
         appExecutors.diskIO().execute(runnable);
     }
 
+    @Override
+    public void filterByFromToDate(PaymentHistoryContract.InteractorCallBack callBack, String fromDate, String toDate) {
+        Runnable runnable = () -> {
+
+                paymentHistoryArrayList.clear();
+            ArrayList<PaymentHistory> paymentHistoryList =  HnppApplication.getPaymentHistoryRepository().getFilterPayment(fromDate,toDate);
+            if(paymentHistoryList.size()>0)paymentHistoryArrayList.addAll(paymentHistoryList);
+
+            appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
+        };
+        appExecutors.diskIO().execute(runnable);
+    }
+
     private JSONArray getPaymentServiceJsonArrayList() {
         try {
             HTTPAgent httpAgent = CoreLibrary.getInstance().context().getHttpAgent();

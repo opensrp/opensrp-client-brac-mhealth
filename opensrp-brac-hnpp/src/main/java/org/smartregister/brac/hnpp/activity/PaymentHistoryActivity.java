@@ -69,11 +69,12 @@ public class PaymentHistoryActivity extends SecuredActivity implements View.OnCl
                 finish();
             }
         });
+        initDatePicker();
         initializePresenter();
     }
     private void initDatePicker(){
-        fromDateBtn = findViewById(R.id.from_date_btn);
-        toDateBtn = findViewById(R.id.to_date_btn);
+        fromDateBtn = findViewById(R.id.from);
+        toDateBtn = findViewById(R.id.to);
         fromDateBtn.setOnClickListener(this);
         toDateBtn.setOnClickListener(this);
         findViewById(R.id.clear_filter).setOnClickListener(this);
@@ -84,6 +85,10 @@ public class PaymentHistoryActivity extends SecuredActivity implements View.OnCl
         currentDate   = year+"-"+ HnppConstants.addZeroForMonth(month+"")+"-"+HnppConstants.addZeroForMonth(day+"");
         fromDate = currentDate;
         toDate = currentDate;
+        fromDateBtn.setText(getString(R.string.all_text));
+        toDateBtn.setText(getString(R.string.all_text));
+        month = -1;
+        year = -1;
     }
 
     @Override
@@ -99,7 +104,7 @@ public class PaymentHistoryActivity extends SecuredActivity implements View.OnCl
                 year = -1;
                 presenter.fetchLocalData();
                 break;
-            case R.id.from_date_btn:
+            case R.id.from:
                 if(fromMonth == -1) fromMonth = calendar.get(Calendar.MONTH)+1;
                 if(fromYear == -1) fromYear = calendar.get(Calendar.YEAR);
 
@@ -115,6 +120,7 @@ public class PaymentHistoryActivity extends SecuredActivity implements View.OnCl
 
                         fromDateBtn.setText(fromDate);
                         updateFromFilter();
+                        filterByFromToDate();
                     }
                 },year,(month-1),day);
                 LocalDate currentDate = LocalDate.now();
@@ -123,7 +129,7 @@ public class PaymentHistoryActivity extends SecuredActivity implements View.OnCl
                 fromDateDialog.getDatePicker().setMaxDate(currentDateMinus6Months.toDate().getTime());
                 fromDateDialog.show();
                 break;
-            case R.id.to_date_btn:
+            case R.id.to:
                 if(toMonth == -1) toMonth = calendar.get(Calendar.MONTH)+1;
                 if(toYear == -1) toYear = calendar.get(Calendar.YEAR);
 
@@ -188,7 +194,6 @@ public class PaymentHistoryActivity extends SecuredActivity implements View.OnCl
         Log.e(PaymentHistoryActivity.class.getSimpleName(), "updateAdapter called");
         paymentHistoryadapter = new PaymentHistoryAdapter(this);
         paymentHistoryList = presenter.getPaymentData();
-        sortListByDate(paymentHistoryList);
         paymentHistoryadapter.setData(paymentHistoryList);
         recyclerView.setAdapter(paymentHistoryadapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
@@ -251,21 +256,5 @@ public class PaymentHistoryActivity extends SecuredActivity implements View.OnCl
         }
     }
 
-    private void sortListByDate(ArrayList<PaymentHistory> paymentHistoryList)
-    {
-        Collections.sort(this.paymentHistoryList, new Comparator<PaymentHistory>() {
-            public int compare(PaymentHistory obj1, PaymentHistory obj2) {
-                DateFormat dateString = new SimpleDateFormat("MM-dd-yyyy");
-                Date dateOne = null, dateTwo = null;
-                try {
-                    dateOne = dateString.parse(obj1.getPaymentDate());
-                    dateTwo = dateString.parse(obj2.getPaymentDate());
-                }
-                catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                return dateTwo.compareTo(dateOne);
-            }
-        });
-    }
+
 }

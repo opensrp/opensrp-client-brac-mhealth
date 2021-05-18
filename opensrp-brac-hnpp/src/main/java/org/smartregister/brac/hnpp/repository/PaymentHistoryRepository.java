@@ -1,6 +1,7 @@
 package org.smartregister.brac.hnpp.repository;
 
 import android.content.ContentValues;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -15,7 +16,9 @@ import org.smartregister.repository.LocationRepository;
 import org.smartregister.repository.Repository;
 import org.smartregister.util.DateTimeTypeConverter;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class PaymentHistoryRepository extends BaseRepository {
 
@@ -37,7 +40,7 @@ public class PaymentHistoryRepository extends BaseRepository {
                     ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                     PAYMENT_ID + " VARCHAR , "  + PAYMENT_TYPE + " VARCHAR, " +
                     PAYMENT_PRICE+ " VARCHAR, "+ PAYMENT_DATE+" VARCHAR, "+
-                    PAYMENT_STATUS+" VARCHAR, "+ PAYMENT_TIMESTAMP+" INTEGER ) ";
+                    PAYMENT_STATUS+" VARCHAR, "+ PAYMENT_TIMESTAMP+" LONG ) ";
 
     public PaymentHistoryRepository(Repository repository) {
         super(repository);
@@ -64,7 +67,7 @@ public class PaymentHistoryRepository extends BaseRepository {
             contentValues.put(PAYMENT_STATUS, paymentHistory.getStatus());
             contentValues.put(PAYMENT_TIMESTAMP, paymentHistory.getPaymentTimestamp());
             long inserted = getWritableDatabase().insert(getLocationTableName(), null, contentValues);
-            Log.v("TARGET_FETCH","inserterd:"+inserted);
+            Log.v("TARGET_FETCH","inserterd:"+inserted+":contentValues:"+contentValues);
         }else{
             Log.v("TARGET_FETCH","exists!!!!!!!!!");
         }
@@ -114,11 +117,18 @@ public class PaymentHistoryRepository extends BaseRepository {
         return payment;
     }
 
-    public ArrayList<PaymentHistory> getPaymentDetailsById(String paymentId) {
+    public ArrayList<PaymentHistory> getFilterPayment(String fromDate, String toDate) {
         Cursor cursor = null;
         ArrayList<PaymentHistory> paymentArrayList = new ArrayList<>();
         try {
-            cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getLocationTableName()+" where "+PAYMENT_ID+" = '"+paymentId+"", null);
+            String rawQuery= "";
+            if(!TextUtils.isEmpty(fromDate) && !TextUtils.isEmpty(toDate)){
+                rawQuery = "select serviceType, paymentDate, status, count(*) as quantity, paymentTimestamp,sum(price) as price " +
+                        "from payment_table group by paymentId order by paymentTimestamp desc between "+fromDate+" and "+toDate;
+
+            }
+
+            cursor = getReadableDatabase().rawQuery(rawQuery, null);
             while (cursor.moveToNext()) {
                 paymentArrayList.add(readCursor(cursor));
             }
@@ -136,7 +146,7 @@ public class PaymentHistoryRepository extends BaseRepository {
         ArrayList<PaymentHistory> paymentArrayList = new ArrayList<>();
         try {
 
-            String rawQuery = "select serviceType, paymentDate, status, count(*) as quantity, sum(price) as price " +
+            String rawQuery = "select serviceType, paymentDate, status, count(*) as quantity, paymentTimestamp,sum(price) as price " +
                               "from payment_table group by paymentId order by paymentTimestamp desc";
 
             cursor = getReadableDatabase().rawQuery(rawQuery, null);
@@ -167,7 +177,8 @@ public class PaymentHistoryRepository extends BaseRepository {
        // paymentHistory.setPaymentId(paymentId);
         paymentHistory.setServiceType(paymentType+"");
         paymentHistory.setPrice(paymentPrice+"");
-        paymentHistory.setPaymentDate(HnppConstants.DDMMYYHM.format(paymentTimestamp) +"");
+        paymentHistory.setPaymentDate(paymentDate);//HnppConstants.DDMMYYHM.format(new Date(paymentTimestamp)));
+
         paymentHistory.setStatus(paymentStaus+"");
         paymentHistory.setQuantity(quantity);
      //   paymentHistory.setPaymentTimestamp(paymentTimestamp);
