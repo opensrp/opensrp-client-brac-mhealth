@@ -267,6 +267,24 @@
         "openmrs_entity_id": "advice",
         "type": "edit_text",
         "hint": "উপদেশ"
+      },
+      {
+        "key": "latitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "latitude",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "অক্ষাংশ"
+      },
+      {
+        "key": "longitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "longitude",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "দ্রাঘিমা"
       }
     ,
       {

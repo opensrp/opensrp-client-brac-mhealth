@@ -331,7 +331,7 @@ public class HnppVisitLogRepository extends BaseRepository {
 
         }else{
             //query = "select event_type from ec_visit_log where event_type ='"+eventTpe+"' and base_entity_id ='"+baseEntityId+"' and (strftime('%d',datetime(visit_date/1000,'unixepoch','localtime')) = strftime('%d',datetime('now')))";
-            query = "select event_type, CAST((julianday(DATE('now'))-julianday(DATE(ROUND(visit_date / 1000), 'unixepoch')))as INTEGER) as d from ec_visit_log where event_type ='"+eventTpe+"' and base_entity_id ='"+baseEntityId+"' and ((d >= '180' AND d <= '210') or (d >= '331' AND d <= '365') or (d >= '515' AND d <= '545'))";
+            query = "select event_type, CAST((julianday(DATE('now'))-julianday(DATE(ROUND(visit_date / 1000), 'unixepoch')))as INTEGER) as d from ec_visit_log where event_type ='"+eventTpe+"' and base_entity_id ='"+baseEntityId+"' and ((d >= '180' AND d <= '210') or (d >= '331' AND d <= '366') or (d >= '515' AND d <= '545'))";
         }
 
 

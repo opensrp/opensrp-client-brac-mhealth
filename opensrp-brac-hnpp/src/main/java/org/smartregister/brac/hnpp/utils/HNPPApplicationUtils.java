@@ -32,16 +32,17 @@ public class HNPPApplicationUtils {
     private static String[] getFtsSortFields(String tableName) {
         return retrieveFtsSortFields(tableName);
     }
+    // This method not using to search. it's handling via custom query at HnppBaseFamilyRegisterFragment
 
     @Nullable
     private static String[] retrieveFtsSearchFields(String tableName) {
         switch (tableName) {
             case CoreConstants.TABLE_NAME.FAMILY:
-                return new String[]{DBConstants.KEY.VILLAGE_TOWN, HnppConstants.KEY.CLASTER, DBConstants.KEY.FIRST_NAME,
+                return new String[]{DBConstants.KEY.UNIQUE_ID, DBConstants.KEY.FIRST_NAME,
                         HnppConstants.KEY.HOUSE_HOLD_NAME, HnppConstants.KEY.SERIAL_NO, DBConstants.KEY.PHONE_NUMBER};
             case CoreConstants.TABLE_NAME.FAMILY_MEMBER:
                 return new String[]{DBConstants.KEY.FIRST_NAME, DBConstants.KEY.MIDDLE_NAME,
-                        DBConstants.KEY.LAST_NAME,DBConstants.KEY.PHONE_NUMBER};
+                        DBConstants.KEY.LAST_NAME,DBConstants.KEY.PHONE_NUMBER,DBConstants.KEY.UNIQUE_ID,};
             case CoreConstants.TABLE_NAME.CHILD:
                 return new String[]{DBConstants.KEY.FIRST_NAME, DBConstants.KEY.MIDDLE_NAME,
                         DBConstants.KEY.LAST_NAME,HnppConstants.KEY.CHILD_MOTHER_NAME,HnppConstants.KEY.CHILD_MOTHER_NAME_REGISTERED};

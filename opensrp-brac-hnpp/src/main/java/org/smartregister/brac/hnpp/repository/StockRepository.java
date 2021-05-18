@@ -89,7 +89,7 @@ public class StockRepository extends BaseRepository {
         contentValues.put(SS_NAME, ssName);
         SQLiteDatabase database = getWritableDatabase();
         if(findUnique(database,productName,day,month,year,ssName,baseEntityId)){
-            Log.v("TARGET_INSERTED","update value:"+contentValues);
+            Log.v("STOCK_INSERTED","update value:"+contentValues);
             long inserted = database.insert(getLocationTableName(), null, contentValues);
         }
 

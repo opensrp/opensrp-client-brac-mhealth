@@ -21,7 +21,7 @@ public class IYCFRegisterFragment extends HnppChildRegisterFragment {
 
         String viewConfigurationIdentifier = ((BaseRegisterActivity) getActivity()).getViewIdentifiers().get(0);
         presenter = new IYCFRegisterFragmentPresenter(this, new HnppChildRegisterFragmentModel(), viewConfigurationIdentifier);
-
+        isNeedToShowDateFilter = true;
     }
 
     @Override
@@ -30,6 +30,17 @@ public class IYCFRegisterFragment extends HnppChildRegisterFragment {
         clientAdapter = new RecyclerViewPaginatedAdapter(null, childRegisterProvider, context().commonrepository(this.tablename));
         clientAdapter.setCurrentlimit(20);
         clientsView.setAdapter(clientAdapter);
+    }
+    @Override
+    public void countExecute() {
+        visitType = "and ec_visit_log.visit_type ='IYCF package'";
+        super.countExecute();
+    }
+
+    @Override
+    protected String filterandSortQuery() {
+        visitType = "and ec_visit_log.visit_type ='IYCF package'";
+        return super.filterandSortQuery();
     }
 
     @Override

@@ -99,7 +99,7 @@ public class StockDetailsModel implements StockDetailsContract.Model{
 //        }
 
         if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GLASS)){
-            query = "select sum("+ StockRepository.STOCK_QUANTITY+") as count, sum("+StockRepository.ACHIEVEMNT_COUNT+") as acount from "+StockRepository.STOCK_TABLE+" where ("
+            query = "select sum(coalesce("+ StockRepository.STOCK_QUANTITY+",0)) as count, sum(coalesce("+StockRepository.ACHIEVEMNT_COUNT+",0)) as acount from "+StockRepository.STOCK_TABLE+" where ("
                     +StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.SV_1+"' or " +
                     StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.SV_1_5+"' or " +
                     StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.SV_2+"' or " +
@@ -111,10 +111,10 @@ public class StockDetailsModel implements StockDetailsContract.Model{
                     StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.BF_2_5+"' or " +
                     StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.BF_3+"' or " +
                     StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.SUN_GLASS+"')" +
-                    "and "+StockRepository.STOCK_TIMESTAMP+" < "+HnppConstants.getLongDateFormate(year,month);//47809000= 1970/01/01
+                    "and "+StockRepository.STOCK_TIMESTAMP+" < "+HnppConstants.getLongDateFormatForFromMonth(year,month);//47809000= 1970/01/01
         }
         else {
-            query = "select sum("+ StockRepository.STOCK_QUANTITY+") as count, sum("+StockRepository.ACHIEVEMNT_COUNT+") as acount from "+StockRepository.STOCK_TABLE+" where "+StockRepository.STOCK_PRODUCT_NAME+" = '"+visitType+"' and "+StockRepository.STOCK_TIMESTAMP+" < "+HnppConstants.getLongDateFormate(year,month);//47809000= 1970/01/01
+            query = "select sum(coalesce("+ StockRepository.STOCK_QUANTITY+",0)) as count, sum(coalesce("+StockRepository.ACHIEVEMNT_COUNT+",0)) as acount from "+StockRepository.STOCK_TABLE+" where "+StockRepository.STOCK_PRODUCT_NAME+" = '"+visitType+"' and "+StockRepository.STOCK_TIMESTAMP+" < "+HnppConstants.getLongDateFormatForFromMonth(year,month);//47809000= 1970/01/01
         }
         Log.v("LAST_BALANCE_STOCK","query:"+query);
 
@@ -142,7 +142,7 @@ public class StockDetailsModel implements StockDetailsContract.Model{
         StockDetailsData stockDetailsData = new StockDetailsData();
         String query="";
        if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GLASS)){
-           query = "select sum("+ StockRepository.STOCK_QUANTITY+") as count, sum("+StockRepository.ACHIEVEMNT_COUNT+") as acount from "+StockRepository.STOCK_TABLE+" where ("
+           query = "select sum(coalesce("+ StockRepository.STOCK_QUANTITY+",0)) as count, sum(coalesce("+StockRepository.ACHIEVEMNT_COUNT+",0)) as acount from "+StockRepository.STOCK_TABLE+" where ("
                    +StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.SV_1+"' or "+
                    StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.SV_1_5+"' or "+
                    StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.SV_2+"' or "+
@@ -157,10 +157,10 @@ public class StockDetailsModel implements StockDetailsContract.Model{
                    "and "+StockRepository.MONTH+" = '"+month+"' and "+StockRepository.YEAR+" = '"+year+"'";
        }
        else {
-           query = "select sum("+ StockRepository.STOCK_QUANTITY+") as count, sum("+StockRepository.ACHIEVEMNT_COUNT+") as acount from "+StockRepository.STOCK_TABLE+" where "+StockRepository.STOCK_PRODUCT_NAME+" = '"+visitType+"' and "+StockRepository.MONTH+" = '"+month+"' and "+StockRepository.YEAR+" = '"+year+"'";
+           query = "select sum(coalesce("+ StockRepository.STOCK_QUANTITY+",0)) as count, sum(coalesce("+StockRepository.ACHIEVEMNT_COUNT+",0)) as acount from "+StockRepository.STOCK_TABLE+" where "+StockRepository.STOCK_PRODUCT_NAME+" = '"+visitType+"' and "+StockRepository.MONTH+" = '"+month+"' and "+StockRepository.YEAR+" = '"+year+"'";
        }
 
-        Log.v("LAST_BALANCE_STOCK","getStockData:"+query);
+        Log.v("getStockData","getStockData:"+query+":startBalance:"+startBalance);
 
         Cursor cursor = null;
         // try {

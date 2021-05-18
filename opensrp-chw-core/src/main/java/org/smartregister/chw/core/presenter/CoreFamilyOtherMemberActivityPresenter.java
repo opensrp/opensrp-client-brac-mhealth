@@ -114,8 +114,9 @@ public abstract class CoreFamilyOtherMemberActivityPresenter extends BaseFamilyO
 
             String dob = Utils.getValue(client.getColumnmaps(), DBConstants.KEY.DOB, true);
             int age = StringUtils.isNotBlank(dob) ? Utils.getAgeFromDate(dob) : 0;
+            String ageStr = org.smartregister.family.util.Utils.getTranslatedDate(org.smartregister.family.util.Utils.getDuration(dob),getView().getContext());
 
-            this.getView().setProfileName(MessageFormat.format("{0}, {1}", getName(getName(firstName, middleName), lastName), age));
+            this.getView().setProfileName(MessageFormat.format("{0}, {1}", getName(getName(firstName, middleName), lastName), ageStr));
             String gestationAge = CoreChwApplication.ancRegisterRepository().getGaIfAncWoman(client.getCaseId());
             if (gestationAge != null) {
                 this.getView().setProfileDetailOne(NCUtils.gestationAgeString(gestationAge, viewReference.get().getContext(), true));

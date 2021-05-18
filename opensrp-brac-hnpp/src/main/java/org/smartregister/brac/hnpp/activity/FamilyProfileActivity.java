@@ -37,7 +37,11 @@ import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
 import org.smartregister.brac.hnpp.interactor.MigrationInteractor;
 import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
+import org.smartregister.brac.hnpp.listener.OnGpsDataGenerateListener;
+import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.model.HnppFamilyProfileModel;
+import org.smartregister.brac.hnpp.task.GenerateGPSTask;
+import org.smartregister.brac.hnpp.task.GenerateLatitudeLongitudeTask;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
@@ -192,19 +196,31 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                     openAsReadOnlyMode(jsonForm);
                     return;
                 }
-                Intent intent = new Intent(this, Utils.metadata().familyMemberFormActivity);
-                intent.putExtra("json", jsonForm.toString());
-                Form form = new Form();
-                if(!HnppConstants.isReleaseBuild()){
-                    form.setActionBarBackground(R.color.test_app_color);
+                HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+                    @Override
+                    public void onPost(double latitude, double longitude) {
+                        try{
+                            Intent intent = new Intent(FamilyProfileActivity.this, Utils.metadata().familyMemberFormActivity);
+                            HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
+                            intent.putExtra("json", jsonForm.toString());
+                            Form form = new Form();
+                            if(!HnppConstants.isReleaseBuild()){
+                                form.setActionBarBackground(R.color.test_app_color);
 
-                }else{
-                    form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+                            }else{
+                                form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
-                }
-                form.setWizard(false);
-                intent.putExtra("form", form);
-                this.startActivityForResult(intent, 2244);
+                            }
+                            form.setWizard(false);
+                            intent.putExtra("form", form);
+                            startActivityForResult(intent, 2244);
+                        }catch (Exception e){
+
+                        }
+
+                    }
+                });
+
             }
         }catch (Exception e){
 
@@ -400,81 +416,13 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         }
     }
     public void openHomeVisitFamily() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions((Activity) this, new String[]{
-                        Manifest.permission.ACCESS_FINE_LOCATION}, PermissionUtils.FINE_LOCATION_PERMISSION_REQUEST_CODE);
-                return;
-            } else {
-                getGPSLocation();
-            }
-        }else {
-            getGPSLocation();
-        }
+        getGPSLocation();
 
     }
     private void getGPSLocation(){
-        org.smartregister.util.Utils.startAsyncTask(new AsyncTask() {
-            LocationManager locationManager;
-            Location location;
-            boolean isGPSEnable,isNetworkEnable;
-            double latitude,longitude;
+        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
             @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                showProgressDialog(R.string.gps_searching);
-            }
-
-            @Override
-            protected Object doInBackground(Object[] objects) {
-
-                locationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
-                isGPSEnable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-                isNetworkEnable = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-                if (!isGPSEnable && !isNetworkEnable){
-
-                }else {
-
-                    if (isNetworkEnable) {
-                        location = null;
-                        if (locationManager != null) {
-                            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                            if (location != null) {
-
-                                Log.e("latitude", location.getLatitude() + "");
-                                Log.e("longitude", location.getLongitude() + "");
-
-                                latitude = location.getLatitude();
-                                longitude = location.getLongitude();
-                            }
-                        }
-
-                    }
-
-
-                    if (isGPSEnable) {
-                        location = null;
-                        if (locationManager != null) {
-                            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                            if (location != null) {
-                                Log.e("latitude", location.getLatitude() + "");
-                                Log.e("longitude", location.getLongitude() + "");
-                                latitude = location.getLatitude();
-                                longitude = location.getLongitude();
-                            }
-                        }
-                    }
-                }
-
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Object o) {
-                super.onPostExecute(o);
-                hideProgressDialog();
+            public void onPost(double latitude, double longitude) {
                 try{
                     JSONObject jsonForm = FormUtils.getInstance(getApplicationContext()).getFormJson(HnppConstants.JSON_FORMS.HOME_VISIT_FAMILY);
                     ArrayList<String[]> memberList = HnppDBUtils.getAllMembersInHouseHold(familyBaseEntityId);
@@ -484,11 +432,11 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
 
                 }catch (Exception e){
                     e.printStackTrace();
+                    hideProgressDialog();
                 }
-
-
             }
-        }, null);
+        });
+
 
     }
     @Override

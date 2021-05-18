@@ -2,7 +2,9 @@ package org.smartregister.brac.hnpp.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,6 +26,7 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.adapter.ReferralCardViewAdapter;
 import org.smartregister.brac.hnpp.custom_view.FamilyMemberFloatingMenu;
 import org.smartregister.brac.hnpp.fragment.ChildHistoryFragment;
@@ -33,6 +36,7 @@ import org.smartregister.brac.hnpp.fragment.HnppMemberProfileDueFragment;
 import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
 import org.smartregister.brac.hnpp.fragment.MemberOtherServiceFragment;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
+import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
 import org.smartregister.brac.hnpp.utils.ChildDBConstants;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -347,6 +351,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if(handler!=null) handler.removeCallbacksAndMessages(null);
     }
 
     private void openMedicalHistoryScreen() {
@@ -439,99 +444,125 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
 
     }
     public void openReferealFollowUp(ReferralFollowUpModel referralFollowUpModel) {
+        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public void onPost(double latitude, double longitude) {
+                try {
+                    JSONObject jsonForm = FormUtils.getInstance(HnppChildProfileActivity.this).getFormJson(HnppConstants.JSON_FORMS.REFERREL_FOLLOWUP);
+                    jsonForm.put(JsonFormUtils.ENTITY_ID, childBaseEntityId);
+                    try{
+                        HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    HnppJsonFormUtils.addReferrelReasonPlaceField(jsonForm,referralFollowUpModel.getReferralReason(),referralFollowUpModel.getReferralPlace());
+                    Intent intent;
+                    intent = new Intent(HnppChildProfileActivity.this, HnppAncJsonFormActivity.class);
+                    intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
 
-        try {
-            JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(HnppConstants.JSON_FORMS.REFERREL_FOLLOWUP);
-            jsonForm.put(JsonFormUtils.ENTITY_ID, childBaseEntityId);
-            HnppJsonFormUtils.addReferrelReasonPlaceField(jsonForm,referralFollowUpModel.getReferralReason(),referralFollowUpModel.getReferralPlace());
-            Intent intent;
-            intent = new Intent(this, HnppAncJsonFormActivity.class);
-            intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+                    Form form = new Form();
+                    form.setWizard(false);
+                    if(!HnppConstants.isReleaseBuild()){
+                        form.setActionBarBackground(R.color.test_app_color);
 
-            Form form = new Form();
-            form.setWizard(false);
-            if(!HnppConstants.isReleaseBuild()){
-                form.setActionBarBackground(R.color.test_app_color);
+                    }else{
+                        form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
-            }else{
-                form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+                    }
+                    if(HnppConstants.isPALogin()){
+                        form.setHideSaveLabel(true);
+                        form.setSaveLabel("");
+                    }
+                    intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+                    intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
+                     startActivityForResult(intent, REQUEST_HOME_VISIT);
 
+                }catch (Exception e){
+
+                }
             }
-            if(HnppConstants.isPALogin()){
-                form.setHideSaveLabel(true);
-                form.setSaveLabel("");
-            }
-            intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
-            intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
-            if (this != null) {
-                this.startActivityForResult(intent, REQUEST_HOME_VISIT);
-            }
-        }catch (Exception e){
+        });
 
-        }
+
     }
     public void startAnyFormActivity(String formName, int requestCode) {
-        try {
-            JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
-            if(HnppConstants.JSON_FORMS.IYCF_PACKAGE.equalsIgnoreCase(formName)){
-                JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
-                JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
-                String DOB = ((HnppChildProfilePresenter) presenter).getDateOfBirth();
-                Date date = Utils.dobStringToDate(DOB);
-                String dobFormate = HnppConstants.DDMMYY.format(date);
-                updateFormField(jsonArray,"dob",dobFormate);
-                String birthWeight = HnppDBUtils.getBirthWeight(childBaseEntityId);
-                updateFormField(jsonArray,"weight",birthWeight);
-            }
-            else if(HnppConstants.JSON_FORMS.CHILD_FOLLOWUP.equalsIgnoreCase(formName)){
-                JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
-                JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
-                String DOB = ((HnppChildProfilePresenter) presenter).getDateOfBirth();
-                Date date = Utils.dobStringToDate(DOB);
-                String dobFormate = HnppConstants.DDMMYY.format(date);
-                String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(childBaseEntityId+"_SOLID_FOOD");
-                if(!TextUtils.isEmpty(prevalue)){
-                    updateFormField(jsonArray,"solid_food_month",prevalue);
-                    JSONObject solidObj = getFieldJSONObject(jsonArray, "solid_food_month");
-                    solidObj.put(org.smartregister.family.util.JsonFormUtils.READ_ONLY, true);
-                }
-                updateFormField(jsonArray,"dob",dobFormate);
-            }
-            else if(HnppConstants.JSON_FORMS.CHILD_INFO_7_24_MONTHS.equalsIgnoreCase(formName)){
-                JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
-                JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
-                String DOB = ((HnppChildProfilePresenter) presenter).getDateOfBirth();
-                Date date = Utils.dobStringToDate(DOB);
-                String dobFormate = HnppConstants.DDMMYY.format(date);
-
-                updateFormField(jsonArray,"dob",dobFormate);
-            }
-            if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.BLOOD_TEST)){
-                if(gender.equalsIgnoreCase("F")){
-                    HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_women","true");
-                }
-            }
-            jsonForm.put(JsonFormUtils.ENTITY_ID, memberObject.getFamilyHead());
-            Intent intent = new Intent(this, HnppAncJsonFormActivity.class);
-            intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
-
-            Form form = new Form();
-            form.setWizard(false);
-            if(!HnppConstants.isReleaseBuild()){
-                form.setActionBarBackground(R.color.test_app_color);
-
-            }else{
-                form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
-
-            }
-            intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
-            intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
-            if (this != null) {
-                this.startActivityForResult(intent, requestCode);
-            }
-        }catch (Exception e){
-
+        if(!HnppApplication.getStockRepository().isAvailableStock(HnppConstants.formNameEventTypeMapping.get(formName))){
+            HnppConstants.showOneButtonDialog(this,getString(R.string.dialog_stock_sell_end),"");
+            return;
         }
+        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+            @Override
+            public void onPost(double latitude, double longitude) {
+                try {
+                    JSONObject jsonForm = FormUtils.getInstance(HnppChildProfileActivity.this).getFormJson(formName);
+                    try{
+                        HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    if(HnppConstants.JSON_FORMS.IYCF_PACKAGE.equalsIgnoreCase(formName)){
+                        JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+                        JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+                        String DOB = ((HnppChildProfilePresenter) presenter).getDateOfBirth();
+                        Date date = Utils.dobStringToDate(DOB);
+                        String dobFormate = HnppConstants.DDMMYY.format(date);
+                        updateFormField(jsonArray,"dob",dobFormate);
+                        String birthWeight = HnppDBUtils.getBirthWeight(childBaseEntityId);
+                        updateFormField(jsonArray,"weight",birthWeight);
+                    }
+                    else if(HnppConstants.JSON_FORMS.CHILD_FOLLOWUP.equalsIgnoreCase(formName)){
+                        JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+                        JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+                        String DOB = ((HnppChildProfilePresenter) presenter).getDateOfBirth();
+                        Date date = Utils.dobStringToDate(DOB);
+                        String dobFormate = HnppConstants.DDMMYY.format(date);
+                        String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(childBaseEntityId+"_SOLID_FOOD");
+                        if(!TextUtils.isEmpty(prevalue)){
+                            updateFormField(jsonArray,"solid_food_month",prevalue);
+                            JSONObject solidObj = getFieldJSONObject(jsonArray, "solid_food_month");
+                            solidObj.put(org.smartregister.family.util.JsonFormUtils.READ_ONLY, true);
+                        }
+                        updateFormField(jsonArray,"dob",dobFormate);
+                    }
+                    else if(HnppConstants.JSON_FORMS.CHILD_INFO_7_24_MONTHS.equalsIgnoreCase(formName)){
+                        JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+                        JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+                        String DOB = ((HnppChildProfilePresenter) presenter).getDateOfBirth();
+                        Date date = Utils.dobStringToDate(DOB);
+                        String dobFormate = HnppConstants.DDMMYY.format(date);
+
+                        updateFormField(jsonArray,"dob",dobFormate);
+                    }
+                    if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.BLOOD_TEST)){
+                        if(gender.equalsIgnoreCase("F")){
+                            HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_women","true");
+                        }
+                    }
+                    jsonForm.put(JsonFormUtils.ENTITY_ID, memberObject.getFamilyHead());
+                    Intent intent = new Intent(HnppChildProfileActivity.this, HnppAncJsonFormActivity.class);
+                    intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+
+                    Form form = new Form();
+                    form.setWizard(false);
+                    if(!HnppConstants.isReleaseBuild()){
+                        form.setActionBarBackground(R.color.test_app_color);
+
+                    }else{
+                        form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+
+                    }
+                    intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+                    intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
+                     startActivityForResult(intent, requestCode);
+
+                }catch (Exception e){
+
+                }
+            }
+        });
+
+
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

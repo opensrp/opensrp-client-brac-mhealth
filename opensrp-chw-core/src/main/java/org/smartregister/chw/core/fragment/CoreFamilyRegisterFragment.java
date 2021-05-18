@@ -6,6 +6,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -81,24 +82,34 @@ public abstract class CoreFamilyRegisterFragment extends BaseFamilyRegisterFragm
 
     @Override
     public void onSyncInProgress(FetchStatus fetchStatus) {
-        if (!SyncStatusBroadcastReceiver.getInstance().isSyncing() && (FetchStatus.fetched.equals(fetchStatus) || FetchStatus.nothingFetched.equals(fetchStatus)) && dueFilterActive && dueOnlyLayout != null) {
-            dueFilter(dueOnlyLayout);
-            Utils.showShortToast(getActivity(), getString(R.string.sync_complete));
-            refreshSyncProgressSpinner();
-        } else {
-            super.onSyncInProgress(fetchStatus);
+        try{
+            if (!SyncStatusBroadcastReceiver.getInstance().isSyncing() && (FetchStatus.fetched.equals(fetchStatus) || FetchStatus.nothingFetched.equals(fetchStatus)) && dueFilterActive && dueOnlyLayout != null) {
+                dueFilter(dueOnlyLayout);
+                org.smartregister.util.Utils.showShortToast(getActivity(), getString(R.string.sync_complete));
+                refreshSyncProgressSpinner();
+            } else {
+                super.onSyncInProgress(fetchStatus);
+            }
+        }catch (Exception e){
+
         }
+
     }
 
     @Override
     public void onSyncComplete(FetchStatus fetchStatus) {
-        if (!SyncStatusBroadcastReceiver.getInstance().isSyncing() && (FetchStatus.fetched.equals(fetchStatus) || FetchStatus.nothingFetched.equals(fetchStatus)) && (dueFilterActive && dueOnlyLayout != null)) {
-            dueFilter(dueOnlyLayout);
-            Utils.showShortToast(getActivity(), getString(R.string.sync_complete));
-            refreshSyncProgressSpinner();
-        } else {
-            super.onSyncComplete(fetchStatus);
+        try{
+            if (!SyncStatusBroadcastReceiver.getInstance().isSyncing() && (FetchStatus.fetched.equals(fetchStatus) || FetchStatus.nothingFetched.equals(fetchStatus)) && (dueFilterActive && dueOnlyLayout != null)) {
+                dueFilter(dueOnlyLayout);
+                org.smartregister.util.Utils.showShortToast(getActivity(), getString(R.string.sync_complete));
+                refreshSyncProgressSpinner();
+            } else {
+                super.onSyncComplete(fetchStatus);
+            }
+        }catch (Exception e){
+
         }
+
     }
 
     @Override

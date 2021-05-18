@@ -42,7 +42,7 @@
             android:id="@+id/search_edit_text"
             android:drawableRight="@drawable/ic_icon_search"
             android:layout_toLeftOf="@+id/ss_name_view"
-            android:hint="নাম দিয়ে খুজুন"
+            android:hint="নাম বা মোবাইল নম্বর দিয়ে খুজুন"
             android:textColorHint="@color/white"
             android:textColor="@color/white"
             android:layout_alignParentLeft="true"

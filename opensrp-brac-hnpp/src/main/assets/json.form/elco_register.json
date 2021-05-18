@@ -183,7 +183,7 @@
         "key": "distribution_location_other",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "distribution_location",
+        "openmrs_entity_id": "distribution_location_other",
         "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "পদ্ধতিটি কোথা থেকে গ্রহণ করা হয়েছিল",
@@ -619,6 +619,24 @@
             "ex": "equalTo(., \"হ্যাঁ\")"
           }
         }
+      },
+      {
+        "key": "latitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "latitude",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "অক্ষাংশ"
+      },
+      {
+        "key": "longitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "longitude",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "দ্রাঘিমা"
       }
     ,
       {

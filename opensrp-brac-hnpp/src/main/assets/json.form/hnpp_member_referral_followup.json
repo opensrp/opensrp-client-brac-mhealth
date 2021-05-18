@@ -203,8 +203,16 @@
           }
         },
         "exclusive": [
+          "not_going"
         ],
         "options": [
+          {
+            "key": "not_going",
+            "text": "কোথাও যায় নি",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "not_going"
+          },
           {
             "key": "brac_maternity_center",
             "text": "ব্র্যাক ম্যাটারনিটি সেন্টার",
@@ -305,6 +313,24 @@
             "ex": "equalTo(., \"অন্যান্য\")"
           }
         }
+      },
+      {
+        "key": "latitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "latitude",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "অক্ষাংশ"
+      },
+      {
+        "key": "longitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "longitude",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "দ্রাঘিমা"
       }
     ,
       {

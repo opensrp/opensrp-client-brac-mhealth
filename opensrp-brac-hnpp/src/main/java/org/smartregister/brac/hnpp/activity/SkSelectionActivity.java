@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
@@ -14,6 +15,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -39,6 +41,7 @@ import java.util.ArrayList;
 
 public class SkSelectionActivity extends SecuredActivity implements View.OnClickListener,SyncStatusBroadcastReceiver.SyncStatusListener {
     public static final String IS_COMES_FROM_UPDATE = "is_comes_from_update";
+    private  String storeUserName;
 
     private RecyclerView recyclerView;
     private Spinner skSpinner,ssSpinner;
@@ -61,7 +64,7 @@ public class SkSelectionActivity extends SecuredActivity implements View.OnClick
         findViewById(R.id.backBtn).setOnClickListener(this);
         if(isComesFromUpdateSync){
             showClearDataDialog();
-            SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(this);
+
         }else {
             showProgressDialog("আপডেটেড লোকেশন নেওয়া হচ্ছে");
 //            new Handler().postDelayed(new Runnable() {
@@ -177,6 +180,8 @@ public class SkSelectionActivity extends SecuredActivity implements View.OnClick
 
     }
 
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -185,6 +190,9 @@ public class SkSelectionActivity extends SecuredActivity implements View.OnClick
         unregisterReceiver(locationUpdateBroadcastReceiver);
 
     }
+
+
+
 
     private ProgressDialog dialog;
     private void showProgressDialog(String text){
@@ -199,6 +207,9 @@ public class SkSelectionActivity extends SecuredActivity implements View.OnClick
     private void hideProgressDialog(){
         if(dialog !=null && dialog.isShowing()){
             dialog.dismiss();
+        }
+        if(removeDialog !=null){
+            removeDialog.dismiss();
         }
     }
     private boolean isExistInList(SSModel ssModel){
@@ -223,7 +234,7 @@ public class SkSelectionActivity extends SecuredActivity implements View.OnClick
                     Toast.makeText(SkSelectionActivity.this,"সর্বোচ্চ ৫ জন স্বাস্থসেবিকা অ্যাড করতে পারবেন",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(!isExistInList(selectedSS)){
+                if(selectedSS!=null && !isExistInList(selectedSS)){
                     selectedSSList.add(selectedSS);
                 }else{
                     Toast.makeText(SkSelectionActivity.this,"অলরেডি অ্যাড করা হয়েছে",Toast.LENGTH_SHORT).show();
@@ -265,20 +276,35 @@ public class SkSelectionActivity extends SecuredActivity implements View.OnClick
                 break;
         }
     }
+    Dialog removeDialog;
     private void showClearDataDialog(){
-        Dialog dialog = new Dialog(this, android.R.style.Theme_NoTitleBar_Fullscreen);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(org.smartregister.family.R.color.customAppThemeBlue)));
-        dialog.setContentView(R.layout.dialog_remove_data);
-        dialog.findViewById(R.id.remove_data_btn).setOnClickListener(new View.OnClickListener() {
+        removeDialog = new Dialog(this, android.R.style.Theme_NoTitleBar_Fullscreen);
+        removeDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        removeDialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(org.smartregister.family.R.color.customAppThemeBlue)));
+        removeDialog.setContentView(R.layout.dialog_remove_data);
+        removeDialog.findViewById(R.id.remove_data_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                storeUserName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
+                SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(SkSelectionActivity.this);
                 HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
                 showProgressDialog(getString(R.string.syncing));
-                dialog.dismiss();
+
             }
         });
-        dialog.show();
+        removeDialog.setOnKeyListener(new Dialog.OnKeyListener() {
+
+            @Override
+            public boolean onKey(DialogInterface arg0, int keyCode,
+                                 KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    finish();
+                    removeDialog.dismiss();
+                }
+                return true;
+            }
+        });
+        removeDialog.show();
     }
     @Override
     public void onSyncStart() {
@@ -293,19 +319,9 @@ public class SkSelectionActivity extends SecuredActivity implements View.OnClick
     @Override
     public void onSyncComplete(FetchStatus fetchStatus) {
         hideProgressDialog();
-        HnppApplication.getHNPPInstance().clearSharePreference();
+        HnppApplication.getHNPPInstance().clearSharePreference(storeUserName);
         HnppApplication.getHNPPInstance().clearDatabase();
         HnppApplication.getHNPPInstance().appSwitch();
-//        SSLocationFetchJob.scheduleJobImmediately(SSLocationFetchJob.TAG);
-//        showProgressDialog("আপডেটেড লোকেশন নেওয়া হচ্ছে");
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                hideProgressDialog();
-//                updateSpinner();
-//
-//            }
-//        },5000);
     }
     private class LocationBroadcastReceiver extends BroadcastReceiver {
         @Override

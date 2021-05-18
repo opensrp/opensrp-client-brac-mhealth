@@ -64,15 +64,8 @@ import timber.log.Timber;
 
 import static android.view.View.inflate;
 
-public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment implements View.OnClickListener {
+public class HnppFamilyRegisterFragment extends HnppBaseFamilyRegisterFragment implements View.OnClickListener {
 
-    private final String DEFAULT_MAIN_CONDITION = "date_removed is null";
-    ArrayAdapter<String> villageSpinnerArrayAdapter;
-    String searchFilterString = "";
-    private String mSelectedVillageName, mSelectedClasterName;
-    private TextView textViewVillageNameFilter, textViewClasterNameFilter;
-    private ImageView imageViewVillageNameFilter, imageViewClasterNameFilter;
-    private ViewGroup clients_header_layout;
     private MigrationSearchContentData migrationSearchContentData;
 
     @Override
@@ -147,19 +140,7 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
 
         dueOnlyLayout.setVisibility(View.GONE);
         filterTextView.setOnClickListener(registerActionHandler);
-        clients_header_layout = view.findViewById(org.smartregister.chw.core.R.id.clients_header_layout);
-        View filterView = inflate(getContext(), R.layout.filter_top_view, clients_header_layout);
-        textViewVillageNameFilter = filterView.findViewById(R.id.village_name_filter);
-        textViewClasterNameFilter = filterView.findViewById(R.id.claster_name_filter);
-        imageViewVillageNameFilter = filterView.findViewById(R.id.village_filter_img);
-        imageViewClasterNameFilter = filterView.findViewById(R.id.claster_filter_img);
-        imageViewVillageNameFilter.setOnClickListener(this);
-        imageViewClasterNameFilter.setOnClickListener(this);
-        clients_header_layout.getLayoutParams().height = 100;
-        clients_header_layout.setVisibility(View.GONE);
-        if (getSearchCancelView() != null) {
-            getSearchCancelView().setOnClickListener(this);
-        }
+
         setTotalPatients();
 //        TextView dueOnly = ((TextView)view.findViewById(org.smartregister.chw.core.R.id.due_only_text_view));
 //        dueOnly.setVisibility(View.VISIBLE);
@@ -198,102 +179,11 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
     }
 
     @Override
-    public void onClick(View v) {
-        super.onViewClicked(v);
-        switch (v.getId()) {
-            case R.id.village_filter_img:
-                mSelectedVillageName = "";
-                updateFilterView();
-                break;
-            case R.id.claster_filter_img:
-                mSelectedClasterName = "";
-                updateFilterView();
-                break;
-            case R.id.btn_search_cancel:
-                mSelectedVillageName = "";
-                mSelectedClasterName = "";
-                searchFilterString = "";
-                if (getSearchView() != null) {
-                    getSearchView().setText("");
-                }
-                clients_header_layout.setVisibility(android.view.View.GONE);
-
-                break;
-        }
-    }
-    @Override
     protected boolean isValidFilterForFts(CommonRepository commonRepository) {
         return false;
     }
-    @Override
-    public void countExecute() {
-        SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(mainSelect);
-        StringBuilder customFilter = new StringBuilder();
-        if (StringUtils.isNotBlank(searchFilterString)) {
-            customFilter.append(MessageFormat.format(" and ( {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.FIRST_NAME, searchFilterString));
-            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.SERIAL_NO, searchFilterString));
-            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.UNIQUE_ID, searchFilterString));
-
-        }
-        if(!StringUtils.isEmpty(mSelectedClasterName)&&!StringUtils.isEmpty(mSelectedVillageName)){
-            customFilter.append(MessageFormat.format(" and ( {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
-            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ) ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
-
-        }else if(!StringUtils.isEmpty(mSelectedClasterName)){
-            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
-
-        }else if(!StringUtils.isEmpty(mSelectedVillageName)){
-            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
-        }
-        String query = "";
-        try {
-                String sql = "";
-                sql = mainSelect;
-                if (StringUtils.isNotBlank(customFilter)) {
-                    sql = sql + customFilter;
-                }
-                List<String> ids = commonRepository().findSearchIds(sql);
-                clientAdapter.setTotalcount(ids.size());
-
-        } catch (Exception e) {
-            Timber.e(e);
-        }
-    }
-    @Override
-    protected String defaultFilterAndSortQuery() {
-        Sortqueries = getDefaultSortQuery();
-        SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(mainSelect);
-        StringBuilder customFilter = new StringBuilder();
-        if (StringUtils.isNotBlank(searchFilterString)) {
-            customFilter.append(MessageFormat.format(" and ( {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.FIRST_NAME, searchFilterString));
-            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.SERIAL_NO, searchFilterString));
-            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.UNIQUE_ID, searchFilterString));
-
-        }
-        if(!StringUtils.isEmpty(mSelectedClasterName)&&!StringUtils.isEmpty(mSelectedVillageName)){
-            customFilter.append(MessageFormat.format(" and ( {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
-            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ) ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
-
-        }else if(!StringUtils.isEmpty(mSelectedClasterName)){
-            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
-
-        }else if(!StringUtils.isEmpty(mSelectedVillageName)){
-            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
-        }
-        String query = "";
-        try {
-
-                sqb.addCondition(customFilter.toString());
-                query = sqb.orderbyCondition(Sortqueries);
-                query = sqb.Endquery(sqb.addlimitandOffset(query, clientAdapter.getCurrentlimit(), clientAdapter.getCurrentoffset()));
 
 
-        } catch (Exception e) {
-            Timber.e(e);
-        }
-
-        return query;
-    }
     private void updateSortView(boolean isVisitWise){
         if(isVisitWise){
             sortByView.setImageResource(R.drawable.childrow_history);
@@ -303,9 +193,6 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
         filter(searchFilterString, "", DEFAULT_MAIN_CONDITION,false);
 
     }
-    ArrayAdapter<String> ssSpinnerArrayAdapter;
-    ArrayList<SSModel> ssListModel  = new ArrayList<>();
-    ArrayList<SSModel> skLocationForms = new ArrayList<>();
 
     @Override
     public void onViewClicked(View view) {
@@ -335,196 +222,8 @@ public class HnppFamilyRegisterFragment extends CoreFamilyRegisterFragment imple
             dialog.show();
         }
         else if (view.getId() == R.id.filter_text_view) {
-            ArrayList<String> ssSpinnerArray = new ArrayList<>();
-            ArrayList<String> skSpinnerArray = new ArrayList<>();
-            ArrayList<String> villageSpinnerArray = new ArrayList<>();
-            if(!HnppConstants.isPALogin()){
-                ArrayList<SSModel> ssLocationForms = SSLocationHelper.getInstance().getSsModels();
-                for (SSModel ssModel : ssLocationForms) {
-                    ssSpinnerArray.add(ssModel.username);
-                }
-            }
-
-
-            ssSpinnerArrayAdapter = new ArrayAdapter<String>
-                    (getActivity(), android.R.layout.simple_spinner_item,
-                            ssSpinnerArray){
-                @Override
-                public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                    convertView = super.getDropDownView(position, convertView,
-                            parent);
-
-                    AppCompatTextView appCompatTextView = (AppCompatTextView)convertView;
-                    appCompatTextView.setGravity(Gravity.CENTER_VERTICAL);
-                    appCompatTextView.setHeight(100);
-
-                    return convertView;
-                }
-            };
-
-            villageSpinnerArrayAdapter = new ArrayAdapter<String>
-                    (getActivity(), android.R.layout.simple_spinner_item,
-                            villageSpinnerArray){
-                @Override
-                public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                    convertView = super.getDropDownView(position, convertView,
-                            parent);
-                    AppCompatTextView appCompatTextView = (AppCompatTextView)convertView;
-                    appCompatTextView.setGravity(Gravity.CENTER_VERTICAL);
-                    appCompatTextView.setHeight(100);
-                    return convertView;
-                }
-            };
-
-            ArrayAdapter<String> clusterSpinnerArrayAdapter = new ArrayAdapter<String>
-                    (getActivity(), android.R.layout.simple_spinner_item,
-                            HnppConstants.getClasterSpinnerArray()){
-                @Override
-                public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                    convertView = super.getDropDownView(position, convertView,
-                            parent);
-                    AppCompatTextView appCompatTextView = (AppCompatTextView)convertView;
-                    appCompatTextView.setGravity(Gravity.CENTER_VERTICAL);
-                    appCompatTextView.setHeight(100);
-
-                    return convertView;
-                }
-            };
-
-            Dialog dialog = new Dialog(getActivity(), android.R.style.Theme_NoTitleBar_Fullscreen);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(org.smartregister.family.R.color.customAppThemeBlue)));
-            dialog.setContentView(R.layout.filter_options_dialog);
-            Spinner sk_spinner = dialog.findViewById(R.id.sk_filter_spinner);
-            Spinner ss_spinner = dialog.findViewById(R.id.ss_filter_spinner);
-            Spinner village_spinner = dialog.findViewById(R.id.village_filter_spinner);
-            Spinner cluster_spinner = dialog.findViewById(R.id.klaster_filter_spinner);
-            village_spinner.setAdapter(villageSpinnerArrayAdapter);
-            cluster_spinner.setAdapter(clusterSpinnerArrayAdapter);
-            if(HnppConstants.isPALogin()){
-                dialog.findViewById(R.id.claster_view).setVisibility(View.GONE);
-                dialog.findViewById(R.id.sk_filter_view).setVisibility(view.VISIBLE);
-                skLocationForms = SSLocationHelper.getInstance().getAllSelectedSks();
-                for (SSModel ssModel : skLocationForms) {
-                    skSpinnerArray.add(ssModel.skName+"("+ssModel.skUserName+")");
-                }
-                ArrayAdapter<String> sKSpinnerArrayAdapter = new ArrayAdapter<String>
-                        (getActivity(), android.R.layout.simple_spinner_item,
-                                skSpinnerArray){
-                    @Override
-                    public android.view.View getDropDownView(int position, @Nullable android.view.View convertView, @NonNull ViewGroup parent) {
-                        convertView = super.getDropDownView(position, convertView,
-                                parent);
-
-                        AppCompatTextView appCompatTextView = (AppCompatTextView)convertView;
-                        appCompatTextView.setGravity(Gravity.CENTER_VERTICAL);
-                        appCompatTextView.setHeight(100);
-
-                        return convertView;
-                    }
-                };
-                sk_spinner.setAdapter(sKSpinnerArrayAdapter);
-                sk_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
-                        if (position != -1) {
-                            SSModel ssModel = skLocationForms.get(position);
-                            ArrayList<SSModel> ssLocationForms = SSLocationHelper.getInstance().getAllSelectedSS(ssModel.skUserName);
-                            ssSpinnerArray.clear();
-                            ssListModel.clear();
-                            for (SSModel ssModel1 : ssLocationForms) {
-                                ssSpinnerArray.add(ssModel1.username);
-                                ssListModel.add(ssModel1);
-                            }
-                            ssSpinnerArrayAdapter = new ArrayAdapter<String>
-                                    (getActivity(), android.R.layout.simple_spinner_item,
-                                            ssSpinnerArray);
-                            ss_spinner.setAdapter(ssSpinnerArrayAdapter);
-                        }
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });
-            }
-            ss_spinner.setAdapter(ssSpinnerArrayAdapter);
-            ss_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if (position != -1) {
-                        ArrayList<SSLocations> ssLocations;
-                        if(HnppConstants.isPALogin()){
-                            ssLocations =ssListModel.get(position).locations;
-                        }else{
-                            ssLocations = SSLocationHelper.getInstance().getSsModels().get(position).locations;
-                        }
-                        villageSpinnerArray.clear();
-                        for (SSLocations ssLocations1 : ssLocations) {
-                            villageSpinnerArray.add(ssLocations1.village.name.trim());
-                        }
-                        villageSpinnerArrayAdapter = new ArrayAdapter<String>
-                                (getActivity(), android.R.layout.simple_spinner_item,
-                                        villageSpinnerArray);
-                        village_spinner.setAdapter(villageSpinnerArrayAdapter);
-                        //villageSpinnerArrayAdapter.notifyDataSetChanged();
-                    }
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });
-            village_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if (position != -1) {
-                        mSelectedVillageName = villageSpinnerArray.get(position);
-                    }
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });
-            cluster_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if (position != -1) {
-                        mSelectedClasterName = HnppConstants.getClasterNames().get(HnppConstants.getClasterSpinnerArray().get(position));
-                    }
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });
-            Button proceed = dialog.findViewById(R.id.filter_apply_button);
-            proceed.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    updateFilterView();
-                    dialog.dismiss();
-                }
-            });
-            dialog.show();
+            openFilterDialog(false);
         }
-    }
-
-    public void updateFilterView() {
-        if (StringUtils.isEmpty(mSelectedVillageName) && StringUtils.isEmpty(mSelectedClasterName)) {
-            clients_header_layout.setVisibility(View.GONE);
-        } else {
-            clients_header_layout.setVisibility(View.VISIBLE);
-        }
-
-        textViewVillageNameFilter.setText(getString(R.string.filter_village_name, mSelectedVillageName));
-        textViewClasterNameFilter.setText(getString(R.string.claster_village_name, HnppConstants.getClusterNameFromValue(mSelectedClasterName)));
-        filter(searchFilterString, "", DEFAULT_MAIN_CONDITION,false);
     }
 
 
