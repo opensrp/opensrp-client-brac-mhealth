@@ -6,6 +6,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import org.apache.http.NoHttpResponseException;
+import org.joda.time.LocalDate;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,10 +24,16 @@ public class PaymentHistoryInteractor implements PaymentHistoryContract.Interact
     private AppExecutors appExecutors;
     private ArrayList<PaymentHistory> paymentHistoryArrayList;
     private static final String LAST_PAYMENT_HISTORY_SYNC = "last_payment_history_sync";
+    private int totalPayment;
 
     public PaymentHistoryInteractor(AppExecutors appExecutors) {
         this.appExecutors = appExecutors;
         this.paymentHistoryArrayList = new ArrayList<>();
+    }
+
+    @Override
+    public int getTotalPayment() {
+        return totalPayment;
     }
 
     private ArrayList<PaymentHistory> getPaymentServiceList(){
@@ -76,6 +83,7 @@ public class PaymentHistoryInteractor implements PaymentHistoryContract.Interact
                 paymentHistoryArrayList.clear();
                 loadLocalData();
             }
+            totalPayment = HnppApplication.getPaymentHistoryRepository().getTotalPayment("","");
             appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
         };
         appExecutors.diskIO().execute(runnable);
@@ -88,6 +96,7 @@ public class PaymentHistoryInteractor implements PaymentHistoryContract.Interact
                 paymentHistoryArrayList.clear();
             ArrayList<PaymentHistory> paymentHistoryList =  HnppApplication.getPaymentHistoryRepository().getFilterPayment(fromDate,toDate);
             if(paymentHistoryList.size()>0)paymentHistoryArrayList.addAll(paymentHistoryList);
+            totalPayment = HnppApplication.getPaymentHistoryRepository().getTotalPayment(fromDate,toDate);
 
             appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
         };
@@ -109,7 +118,10 @@ public class PaymentHistoryInteractor implements PaymentHistoryContract.Interact
             }
             String lastHistorySyncTime = CoreLibrary.getInstance().context().allSharedPreferences().getPreference(LAST_PAYMENT_HISTORY_SYNC);
             if(TextUtils.isEmpty(lastHistorySyncTime)){
-                lastHistorySyncTime ="0";
+                LocalDate currentDate = LocalDate.now();
+                LocalDate currentDateMinus6Months = currentDate.minusMonths(6);
+
+                lastHistorySyncTime =currentDateMinus6Months.toDate().getTime()+"";
             }
 
             String url = baseUrl + API_TO_GET_PAYMENT_HISTORY + "&timestamp=" + lastHistorySyncTime;

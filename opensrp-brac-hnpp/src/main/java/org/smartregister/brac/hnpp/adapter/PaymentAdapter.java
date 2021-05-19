@@ -48,7 +48,9 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentViewHolder> {
         Payment content = contentList.get(i);
         content.setConsiderChange(false);
         paymentViewHolder.numberTV.setTag(i);
-        paymentViewHolder.packageNameTV.setText(HnppConstants.targetTypeMapping.get(content.getServiceType() + ""));
+        paymentViewHolder.packageNameTV.setText(content.getServiceType() + "");
+
+//        paymentViewHolder.packageNameTV.setText(HnppConstants.targetTypeMapping.get(content.getServiceType() + ""));
         paymentViewHolder.unitPriceTV.setText(content.getUnitPrice() + "");
         paymentViewHolder.quantityTV.setText(content.getQuantity() + "");
         if(!content.isEmpty()){
@@ -148,14 +150,15 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentViewHolder> {
         paymentViewHolder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.v("TEXT_EDIT","1");
                 content.setSelected(!content.isSelected());
                 if(!content.isSelected()){
                     content.setPayFor(0);
                     content.setTotal(0);
+                }else{
+                    content.setPayFor(content.getQuantity());
+                    content.setTotal(content.getPayFor() * content.getUnitPrice());
                 }
 
-                Log.v("TEXT_EDIT","2");
                 onClickAdapter.onClickItem(i);
             }
         });

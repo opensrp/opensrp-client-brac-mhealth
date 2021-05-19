@@ -65,7 +65,7 @@ public class PaymentHistoryRepository extends BaseRepository {
             contentValues.put(PAYMENT_PRICE, paymentHistory.getPrice());
             contentValues.put(PAYMENT_DATE, paymentHistory.getPaymentDate());
             contentValues.put(PAYMENT_STATUS, paymentHistory.getStatus());
-            contentValues.put(PAYMENT_TIMESTAMP, paymentHistory.getPaymentTimestamp());
+            contentValues.put(PAYMENT_TIMESTAMP, paymentHistory.getPaymentTimestamp() * 1000);
             long inserted = getWritableDatabase().insert(getLocationTableName(), null, contentValues);
             Log.v("TARGET_FETCH","inserterd:"+inserted+":contentValues:"+contentValues);
         }else{
@@ -73,6 +73,37 @@ public class PaymentHistoryRepository extends BaseRepository {
         }
 
 
+    }
+    public int getTotalPayment(String fromDate, String toDate){
+
+        String sql;
+        if(TextUtils.isEmpty(fromDate) && TextUtils.isEmpty(toDate)){
+            sql = "select sum(price) from "+getLocationTableName()+" where "+PAYMENT_STATUS+" = 'COMPLETED'";
+
+        }else{
+            sql = "select sum(price) from "+getLocationTableName()+" where "+PAYMENT_STATUS+" = 'COMPLETED' and "+PAYMENT_DATE+" between '"+fromDate+"' and '"+toDate+"'";
+
+        }
+        Cursor cursor = null;
+        int total = 0;
+
+        try {
+            cursor = getReadableDatabase().rawQuery(sql, null);
+            if(cursor!=null&&cursor.getCount()>0){
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    total = cursor.getInt(0);
+                    cursor.moveToNext();
+                }
+
+            }
+        } catch (Exception e) {
+            Log.e(LocationRepository.class.getCanonicalName(), e.getMessage(), e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return total;
     }
     public boolean isExistData(String paymentId){
         String sql = "select count(*) from "+getLocationTableName()+" where "+PAYMENT_ID+" = "+paymentId;
@@ -124,8 +155,8 @@ public class PaymentHistoryRepository extends BaseRepository {
             String rawQuery= "";
             if(!TextUtils.isEmpty(fromDate) && !TextUtils.isEmpty(toDate)){
                 rawQuery = "select serviceType, paymentDate, status, count(*) as quantity, paymentTimestamp,sum(price) as price " +
-                        "from payment_table group by paymentId order by paymentTimestamp desc between "+fromDate+" and "+toDate;
-
+                        "from payment_table where paymentDate between '"+fromDate+"' and '"+toDate+"' group by paymentId order by paymentTimestamp desc ";
+                Log.v("HISTORY","rawQuery:"+rawQuery);
             }
 
             cursor = getReadableDatabase().rawQuery(rawQuery, null);
@@ -177,7 +208,7 @@ public class PaymentHistoryRepository extends BaseRepository {
        // paymentHistory.setPaymentId(paymentId);
         paymentHistory.setServiceType(paymentType+"");
         paymentHistory.setPrice(paymentPrice+"");
-        paymentHistory.setPaymentDate(paymentDate);//HnppConstants.DDMMYYHM.format(new Date(paymentTimestamp)));
+        paymentHistory.setPaymentDate(HnppConstants.getDateWithHHMMFormateFromLong(paymentTimestamp));//HnppConstants.DDMMYYHM.format(new Date(paymentTimestamp)));
 
         paymentHistory.setStatus(paymentStaus+"");
         paymentHistory.setQuantity(quantity);

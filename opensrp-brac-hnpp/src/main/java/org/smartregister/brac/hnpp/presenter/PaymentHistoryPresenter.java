@@ -38,6 +38,9 @@ public class PaymentHistoryPresenter implements PaymentHistoryContract.Presenter
     public ArrayList<PaymentHistory> getPaymentData(){
         return interactor.getPaymentHistoryList();
     }
+    public int getTotalPayment(){
+        return interactor.getTotalPayment();
+    }
     @Override
     public PaymentHistoryContract.View getView() {
         return view;

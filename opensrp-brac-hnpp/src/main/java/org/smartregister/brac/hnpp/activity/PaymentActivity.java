@@ -1,6 +1,7 @@
 package org.smartregister.brac.hnpp.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -33,6 +34,7 @@ import org.smartregister.brac.hnpp.contract.PaymentContract;
 import org.smartregister.brac.hnpp.interactor.PaymentDetailsInteractor;
 import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
 import org.smartregister.brac.hnpp.model.Payment;
+import org.smartregister.brac.hnpp.model.PaymentHistory;
 import org.smartregister.brac.hnpp.presenter.PaymentPresenter;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.domain.FetchStatus;
@@ -43,7 +45,8 @@ import org.smartregister.view.activity.SecuredActivity;
 import java.util.ArrayList;
 
 public class PaymentActivity extends SecuredActivity implements View.OnClickListener, PaymentContract.View, SyncStatusBroadcastReceiver.SyncStatusListener {
-   
+
+
     protected RecyclerView recyclerView;
     private TextView totalPriceTV;
     private TextView totalPriceTVGiven;
@@ -53,6 +56,8 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
     private int totalPayable;
     private ArrayList<Payment> payments = new ArrayList<>();
     private Button confirmBtn;
+
+
 
 
     @Override
@@ -70,6 +75,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
         progressBar = findViewById(R.id.progress_bar);
         totalPayable = 0;
         initializePresenter();
+
         if (isOnline()) {
             showSyncDataDialog();
 

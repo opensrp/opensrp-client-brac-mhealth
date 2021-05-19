@@ -810,6 +810,28 @@ public class HnppConstants extends CoreConstants {
         }
         return dateString;
     }
+    public static String getDateWithHHMMFormateFromLong(long dateTime){
+        Date date = new Date(dateTime);
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+        String dateString = null;
+        try{
+            dateString = format.format(date);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return dateString;
+    }
+    public static String getDDMMYYYYFormateFromLong(long dateTime){
+        Date date = new Date(dateTime);
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        String dateString = null;
+        try{
+            dateString = format.format(date);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return dateString;
+    }
     public static final Map<String,String> genderMapping = ImmutableMap.<String,String> builder()
             .put("নারী","F")
             .put("পুরুষ","M")

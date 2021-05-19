@@ -39,7 +39,7 @@
  \n * আপনার অনুমতি না থাকলে এটা কাজ করবে না</string>
     <string name="menu_forum">ফোরাম</string>
     <string name="menu_notification">নোটিফিকেশন</string>
-    <string name="menu_payment">Paymen</string>
+    <string name="menu_payment">Payment</string>
     <string name="menu_bkash">বিকাশ পেমেন্ট</string>
     <string name="menu_stock_details">লেনদেনের সারসংক্ষেপ</string>
     <string name="menu_new_stock">নতুন স্টক আসছে</string>
@@ -375,6 +375,10 @@
    <string name="menu_history">History</string>
     <string name="all_text">All</string>
    <string name="payment_sync">Before going to payment please sync all data. To sync automatically please press the sync button below.</string>
+    <string name="confirm">Confirm</string>
+    <string name="not_confirm">Not yet</string>
+<!--    <string name="confirm">নিশ্চিত</string>-->
+<!--    <string name="not_confirm">নিশ্চিত নই</string>-->
 
-<!--   <string name="payment_sync">পেমেন্ট অপশনে যাওয়ার আগে বর্তমানে থাকা হাউসহোল্ড এবং মেম্বার এর তথ্য সিংক করে নিন। অটোমেটিক্যালি ডাটা গুলো সিঙ্ক করার জন্যে নিচের সিংক বাটনে প্রেস করুন ।</string>-->
+    <!--   <string name="payment_sync">পেমেন্ট অপশনে যাওয়ার আগে বর্তমানে থাকা হাউসহোল্ড এবং মেম্বার এর তথ্য সিংক করে নিন। অটোমেটিক্যালি ডাটা গুলো সিঙ্ক করার জন্যে নিচের সিংক বাটনে প্রেস করুন ।</string>-->
 </resources>

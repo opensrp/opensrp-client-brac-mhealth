@@ -28,6 +28,7 @@ import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.contract.PaymentContract;
 import org.smartregister.brac.hnpp.interactor.PaymentDetailsInteractor;
+import org.smartregister.brac.hnpp.model.PaymentHistory;
 import org.smartregister.brac.hnpp.model.PaymentRequest;
 import org.smartregister.brac.hnpp.utils.BkashJavaScriptInterface;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -109,7 +110,7 @@ public class BkashActivity extends AppCompatActivity implements View.OnClickList
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            progressBar.setVisibility(view.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -117,21 +118,22 @@ public class BkashActivity extends AppCompatActivity implements View.OnClickList
 
             Log.v("STATUS_URL:",url);
             if(url.contains("status=success") || url.contains("status=failure") || url.contains("status=cancel")){
-                progressBar.setVisibility(view.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
                 myHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        progressBar.setVisibility(view.GONE);
-                        Intent intent = new Intent(BkashActivity.this,BkashStatusActivity.class);
-                        intent.putExtra("trxId",trnsactionId);
-                        startActivity(intent);
+                        progressBar.setVisibility(View.GONE);
+//                        Intent intent = new Intent(BkashActivity.this,BkashStatusActivity.class);
+//                        intent.putExtra("trxId",trnsactionId);
+//                        startActivity(intent);
+                        DFSActivity.startPaymentActivity(BkashActivity.this,true);
                         finish();
                     }
                 },2000);
                 //showStatusDialog();
 
             }else{
-                progressBar.setVisibility(view.GONE);
+                progressBar.setVisibility(View.GONE);
             }
 
            /* String paymentRequest = "{paymentRequest:" + request + "}";

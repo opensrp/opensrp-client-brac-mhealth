@@ -21,6 +21,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import org.joda.time.LocalDate;
 import org.smartregister.brac.hnpp.R;
@@ -52,8 +53,9 @@ public class PaymentHistoryActivity extends SecuredActivity implements View.OnCl
     private PaymentHistoryPresenter presenter;
     private ArrayList<PaymentHistory> paymentHistoryList;
     private Button fromDateBtn,toDateBtn;
-    protected int day, month, year, fromDay, fromMonth, fromYear, toDay, toMonth, toYear;
-    private String fromDate, toDate, currentDate;
+    private TextView totalPaymentTxt;
+    protected int fromDay, fromMonth, fromYear, toDay, toMonth, toYear;
+    private String fromDate, toDate;
     Calendar calendar;
     @Override
     protected void onCreation() {
@@ -74,21 +76,25 @@ public class PaymentHistoryActivity extends SecuredActivity implements View.OnCl
     }
     private void initDatePicker(){
         fromDateBtn = findViewById(R.id.from);
+        totalPaymentTxt = findViewById(R.id.total_given);
         toDateBtn = findViewById(R.id.to);
         fromDateBtn.setOnClickListener(this);
         toDateBtn.setOnClickListener(this);
         findViewById(R.id.clear_filter).setOnClickListener(this);
+        LocalDate currentDateMinus6Months = LocalDate.now().minusMonths(6);
+
+        fromYear = currentDateMinus6Months.getYear();
+        fromMonth = currentDateMinus6Months.getMonthOfYear();
+        fromDay = currentDateMinus6Months.getDayOfMonth();
+        fromDate = fromYear +"-"+HnppConstants.addZeroForMonth(fromMonth+"")+"-"+ HnppConstants.addZeroForMonth(fromDay+"");
         calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
-        month = calendar.get(Calendar.MONTH)+1;
-        day = calendar.get(Calendar.DAY_OF_MONTH);
-        currentDate   = year+"-"+ HnppConstants.addZeroForMonth(month+"")+"-"+HnppConstants.addZeroForMonth(day+"");
-        fromDate = currentDate;
-        toDate = currentDate;
-        fromDateBtn.setText(getString(R.string.all_text));
-        toDateBtn.setText(getString(R.string.all_text));
-        month = -1;
-        year = -1;
+        toYear = calendar.get(Calendar.YEAR);
+        toMonth = calendar.get(Calendar.MONTH)+1;
+        toDay = calendar.get(Calendar.DAY_OF_MONTH);
+        toDate   = toYear+"-"+HnppConstants.addZeroForMonth(toMonth+"")+"-"+ HnppConstants.addZeroForMonth(toDay+"");
+        fromDateBtn.setText(fromDate);
+        toDateBtn.setText(toDate);
+
     }
 
     @Override
@@ -100,13 +106,10 @@ public class PaymentHistoryActivity extends SecuredActivity implements View.OnCl
             case R.id.clear_filter:
                 fromDateBtn.setText(getString(R.string.all_text));
                 toDateBtn.setText(getString(R.string.all_text));
-                month = -1;
-                year = -1;
+
                 presenter.fetchLocalData();
                 break;
             case R.id.from:
-                if(fromMonth == -1) fromMonth = calendar.get(Calendar.MONTH)+1;
-                if(fromYear == -1) fromYear = calendar.get(Calendar.YEAR);
 
                 DatePickerDialog fromDateDialog = new DatePickerDialog(this, R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -116,23 +119,20 @@ public class PaymentHistoryActivity extends SecuredActivity implements View.OnCl
                         fromMonth = mnt +1;
                         fromYear = yr;
 
-                        fromDate = fromYear + "-" + HnppConstants.addZeroForMonth((mnt+1)+"")+"-"+HnppConstants.addZeroForMonth(dayOfMonth+"");
+                        fromDate = fromYear+"-"+HnppConstants.addZeroForMonth((mnt+1)+"")+"-"+ HnppConstants.addZeroForMonth(dayOfMonth+"") ;
 
                         fromDateBtn.setText(fromDate);
-                        updateFromFilter();
                         filterByFromToDate();
                     }
-                },year,(month-1),day);
+                },fromYear,(fromMonth-1),fromDay);
                 LocalDate currentDate = LocalDate.now();
                 LocalDate currentDateMinus6Months = currentDate.minusMonths(6);
 
-                fromDateDialog.getDatePicker().setMaxDate(currentDateMinus6Months.toDate().getTime());
+                fromDateDialog.getDatePicker().setMinDate(currentDateMinus6Months.toDate().getTime());
+                fromDateDialog.getDatePicker().setMaxDate(calendar.getTime().getTime());
                 fromDateDialog.show();
                 break;
             case R.id.to:
-                if(toMonth == -1) toMonth = calendar.get(Calendar.MONTH)+1;
-                if(toYear == -1) toYear = calendar.get(Calendar.YEAR);
-
                 DatePickerDialog toDateDialog = new DatePickerDialog(this, R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int yr, int mnt, int dayOfMonth) {
@@ -144,35 +144,19 @@ public class PaymentHistoryActivity extends SecuredActivity implements View.OnCl
                         toDate = toYear + "-" + HnppConstants.addZeroForMonth((mnt+1)+"")+"-"+HnppConstants.addZeroForMonth(dayOfMonth+"");
 
                         toDateBtn.setText(toDate);
-                        updateToFilter();
                         filterByFromToDate();
                     }
-                },year,(month-1),day);
-                LocalDate cDate = LocalDate.now();
-                LocalDate localDates = cDate.minusMonths(6);
-
-                toDateDialog.getDatePicker().setMaxDate(localDates.toDate().getTime());
+                },toYear,(toMonth-1),toDay);
+                toDateDialog.getDatePicker().setMaxDate(calendar.getTime().getTime());
+                toDateDialog.getDatePicker().setMinDate(LocalDate.now().minusMonths(6).toDate().getTime());
                 toDateDialog.show();
                 break;
         }
     }
     public void filterByFromToDate() {
-        String fromDateFormat = fromYear+"-"+fromMonth+"-"+fromDay;
-        String toDateFormat = toYear+"-"+toMonth+"-"+toDay;
-        presenter.filterByFromToDate(fromDateFormat,toDateFormat);
+        presenter.filterByFromToDate(fromDate,toDate);
     }
-    private void updateFromFilter() {
-        if (TextUtils.isEmpty(fromDateBtn.getText().toString())) {
-            toDate = currentDate;
-            fromDateBtn.setText(toDate+"");
-        }
-    }
-    private void updateToFilter() {
-        if (TextUtils.isEmpty(toDateBtn.getText().toString())) {
-            toDate = currentDate;
-            toDateBtn.setText(toDate+"");
-        }
-    }
+
 
     @Override
     protected void onResumption() {
@@ -190,15 +174,13 @@ public class PaymentHistoryActivity extends SecuredActivity implements View.OnCl
 
     @Override
     public void updateAdapter() {
-      // todo//
-        Log.e(PaymentHistoryActivity.class.getSimpleName(), "updateAdapter called");
         paymentHistoryadapter = new PaymentHistoryAdapter(this);
         paymentHistoryList = presenter.getPaymentData();
         paymentHistoryadapter.setData(paymentHistoryList);
         recyclerView.setAdapter(paymentHistoryadapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         paymentHistoryadapter.notifyDataSetChanged();
-
+        totalPaymentTxt.setText(presenter.getTotalPayment()+"");
     }
 
     @Override
