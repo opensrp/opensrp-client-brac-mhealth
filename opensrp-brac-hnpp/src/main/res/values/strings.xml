@@ -39,7 +39,7 @@
  \n * আপনার অনুমতি না থাকলে এটা কাজ করবে না</string>
     <string name="menu_forum">ফোরাম</string>
     <string name="menu_notification">নোটিফিকেশন</string>
-    <string name="menu_payment">Payment</string>
+    <string name="menu_payment">পেমেন্ট</string>
     <string name="menu_bkash">বিকাশ পেমেন্ট</string>
     <string name="menu_stock_details">লেনদেনের সারসংক্ষেপ</string>
     <string name="menu_new_stock">নতুন স্টক আসছে</string>
@@ -361,9 +361,8 @@
     <string name="dialog_title_member_mg">তিনি কি আগে ব্র্যাক এর সদস্য ছিলেন?</string>
     <string name="dialog_title_member_hh">এই খানা কি আগে ব্র্যাক এর খানা ছিল?</string>
     <string name="dialog_title">আপনি কি নিশ্চিত এই স্থানান্তর এর সম্পর্কে?</string>
-   <string name="dialog_title_payment">Are you sure to pay?</string>
 
-<!--   <string name="dialog_title_payment">আপনি কি নিশ্চিত এই পেমেন্ট প্রদান এর সম্পর্কে?</string>-->
+   <string name="dialog_title_payment">আপনি কি নিশ্চিত এই পেমেন্ট প্রদান এর সম্পর্কে?</string>
     <string name="dialog_text_family">যে কোনো একটি খানা সিলেক্ট করুন</string>
     <string name="ss_migration">এখানে স্থানান্তর করি</string>
     <string name="dialog_stock_sell_end">আপনার স্টক শেষ হয়ে গিয়েছে। অনুগ্রহ করে স্টক কালেক্ট করুন </string>
@@ -374,11 +373,9 @@
     <string name="gps_not_found">আপনার মোবাইল এর জিপিএস ডাটা পাওয়া যায়নি।  অনুগ্রহ করে জিপিএস অন রাখুন।  জিপিএস ডাটা পেতে সময় লাগতে পারে অনুগ্রহ করে অপেক্ষা করুন</string>
    <string name="menu_history">History</string>
     <string name="all_text">All</string>
-   <string name="payment_sync">Before going to payment please sync all data. To sync automatically please press the sync button below.</string>
-    <string name="confirm">Confirm</string>
-    <string name="not_confirm">Not yet</string>
-<!--    <string name="confirm">নিশ্চিত</string>-->
-<!--    <string name="not_confirm">নিশ্চিত নই</string>-->
 
-    <!--   <string name="payment_sync">পেমেন্ট অপশনে যাওয়ার আগে বর্তমানে থাকা হাউসহোল্ড এবং মেম্বার এর তথ্য সিংক করে নিন। অটোমেটিক্যালি ডাটা গুলো সিঙ্ক করার জন্যে নিচের সিংক বাটনে প্রেস করুন ।</string>-->
+    <string name="confirm">নিশ্চিত</string>
+    <string name="not_confirm">নিশ্চিত নই</string>
+
+    <string name="payment_sync">পেমেন্ট অপশনে যাওয়ার আগে বর্তমানে থাকা হাউসহোল্ড এবং মেম্বার এর তথ্য সিংক করে নিন। অটোমেটিক্যালি ডাটা গুলো সিঙ্ক করার জন্যে নিচের সিংক বাটনে প্রেস করুন ।</string>
 </resources>
