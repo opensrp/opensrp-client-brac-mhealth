@@ -31,6 +31,7 @@ import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.model.ForumDetails;
 import org.smartregister.brac.hnpp.repository.HnppChwRepository;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
+import org.smartregister.brac.hnpp.service.VisitLogIntentService;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.repository.VisitRepository;
@@ -89,6 +90,31 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
     public static String[] monthStr = {"January","February","March","April","May","June","July","August","September","October","November","December"};
 
     public static String[] monthBanglaStr = {"জানুয়ারী","ফেব্রুয়ারী","মার্চ","এপ্রিল","মে","জুন","জুলাই","আগস্ট","সেপ্টেম্বর","অক্টোবর","নভেম্বর","ডিসেম্বর"};
+
+    public static JSONObject getVisitFormWithData(String eventJson, Context context){
+        JSONObject form_object = null;
+        try{
+            Event baseEvent = gson.fromJson(eventJson, Event.class);
+            String base_entity_id = baseEvent.getBaseEntityId();
+            HashMap<String,Object>form_details = VisitLogIntentService.getFormNamesFromEventObject(baseEvent);
+            ArrayList<String> encounter_types = (ArrayList<String>) form_details.get("form_name");
+            HashMap<String,String>details = (HashMap<String, String>) form_details.get("details");
+            final CommonPersonObjectClient client = new CommonPersonObjectClient(base_entity_id, details, "");
+            client.setColumnmaps(details);
+            form_object = VisitLogIntentService.loadFormFromAsset(encounter_types.get(0),context);
+           JSONObject stepOne = form_object.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+           JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+           for (int k = 0; k < jsonArray.length(); k++) {
+               VisitLogIntentService.populateValuesForFormObject(client, jsonArray.getJSONObject(k));
+           }
+       }catch (Exception e){
+            e.printStackTrace();
+
+       }
+        return form_object;
+
+    }
+
 
     public static void addRelationalIdAsGuest(JSONObject jsonForm){
         JSONObject stepOne = null;

@@ -4,13 +4,17 @@ import android.content.Context;
 import android.database.Cursor;
 import android.text.TextUtils;
 
+import org.json.JSONObject;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.contract.MemberHistoryContract;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.brac.hnpp.utils.MemberHistoryData;
 import org.smartregister.brac.hnpp.utils.VisitLog;
+import org.smartregister.chw.anc.AncLibrary;
+import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.family.FamilyLibrary;
@@ -39,6 +43,16 @@ public class MemberHistoryInteractor implements MemberHistoryContract.Interactor
 
     }
 
+    @Override
+    public void getVisitFormWithData(Context context, MemberHistoryData content, MemberHistoryContract.InteractorCallBack callBack) {
+        Runnable runnable = () -> {
+            Visit visit = AncLibrary.getInstance().visitRepository().getVisitByVisitId(content.getVisitId());
+            JSONObject jsonForm  = HnppJsonFormUtils.getVisitFormWithData(visit.getJson(),context);
+            appExecutors.mainThread().execute(() -> callBack.updateFormWithData(content,jsonForm));
+        };
+        appExecutors.diskIO().execute(runnable);
+    }
+
     private ArrayList<MemberHistoryData> getHistory(String baseEntityId) {
 
         ArrayList<MemberHistoryData> historyDataArrayList  = new ArrayList<>();
@@ -60,7 +74,6 @@ public class MemberHistoryInteractor implements MemberHistoryContract.Interactor
                     historyData.setDelay(isDelay.equalsIgnoreCase("true"));
                 }
             }
-            historyData.setVisitDetails(visitLog.getVisitJson());
             historyData.setVisitDate(visitLog.getVisitDate());
             historyDataArrayList.add(historyData);
         }

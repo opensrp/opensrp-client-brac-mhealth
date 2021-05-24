@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.presenter;
 
+import org.json.JSONObject;
 import org.smartregister.brac.hnpp.contract.MemberHistoryContract;
 import org.smartregister.brac.hnpp.contract.OtherServiceContract;
 import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
@@ -30,6 +31,11 @@ public class MemberHistoryPresenter implements MemberHistoryContract.Presenter, 
     }
 
     @Override
+    public void getVisitFormWithData(MemberHistoryData content) {
+        interactor.getVisitFormWithData(getView().getContext(),content,this);
+    }
+
+    @Override
     public ArrayList<MemberHistoryData> getMemberHistory() {
         return data;
     }
@@ -39,6 +45,11 @@ public class MemberHistoryPresenter implements MemberHistoryContract.Presenter, 
         this.data.clear();
         this.data = list;
         if(getView() != null) getView().updateAdapter();
+    }
+
+    @Override
+    public void updateFormWithData(MemberHistoryData content, JSONObject jsonForm) {
+        if(getView() !=null) getView().startFormWithVisitData(content,jsonForm);
     }
 
     @Override

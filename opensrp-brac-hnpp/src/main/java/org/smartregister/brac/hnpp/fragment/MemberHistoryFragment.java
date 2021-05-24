@@ -126,9 +126,9 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
         }
     };
 
-    private void startFormActivity(MemberHistoryData content){
+    @Override
+    public void startFormWithVisitData(MemberHistoryData content, JSONObject jsonForm) {
         try {
-            JSONObject jsonForm = new JSONObject(content.getVisitDetails());
             String eventType = content.getEventType();
             if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME)){
                 HnppDBUtils.populatePNCChildDetails(content.getBaseEntityId(),jsonForm);
@@ -172,9 +172,13 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
             if (this != null) {
                 this.startActivity(intent);
             }
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void startFormActivity(MemberHistoryData content){
+        presenter.getVisitFormWithData(content);
 
     }
 

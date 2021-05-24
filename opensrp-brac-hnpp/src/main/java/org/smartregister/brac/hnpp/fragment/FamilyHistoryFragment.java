@@ -107,26 +107,9 @@ public class FamilyHistoryFragment extends Fragment implements MemberHistoryCont
         this.clientsView.setAdapter(adapter);
     }
 
-
     @Override
-    public MemberHistoryContract.Presenter getPresenter() {
-        return presenter;
-    }
-
-    private MemberHistoryAdapter.OnClickAdapter onClickAdapter = new MemberHistoryAdapter.OnClickAdapter() {
-        @Override
-        public void onClick(int position, MemberHistoryData content) {
-            if(content.getEventType().equalsIgnoreCase("Vaccination")
-                    || content.getEventType().equalsIgnoreCase("Recurring Service")){
-                return;
-            }
-            startFormActivity(content);
-        }
-    };
-
-    private void startFormActivity(MemberHistoryData content){
+    public void startFormWithVisitData(MemberHistoryData content, JSONObject jsonForm) {
         try {
-            JSONObject jsonForm = new JSONObject(content.getVisitDetails());
             makeReadOnlyFields(jsonForm);
             String eventType = content.getEventType();
             if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME)){
@@ -159,9 +142,29 @@ public class FamilyHistoryFragment extends Fragment implements MemberHistoryCont
             if (this != null) {
                 this.startActivity(intent);
             }
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public MemberHistoryContract.Presenter getPresenter() {
+        return presenter;
+    }
+
+    private MemberHistoryAdapter.OnClickAdapter onClickAdapter = new MemberHistoryAdapter.OnClickAdapter() {
+        @Override
+        public void onClick(int position, MemberHistoryData content) {
+            if(content.getEventType().equalsIgnoreCase("Vaccination")
+                    || content.getEventType().equalsIgnoreCase("Recurring Service")){
+                return;
+            }
+            startFormActivity(content);
+        }
+    };
+
+    private void startFormActivity(MemberHistoryData content){
+        presenter.getVisitFormWithData(content);
 
     }
     public void makeReadOnlyFields(JSONObject jsonObject){

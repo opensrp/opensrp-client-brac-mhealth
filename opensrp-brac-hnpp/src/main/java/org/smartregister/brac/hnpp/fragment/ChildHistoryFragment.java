@@ -127,9 +127,9 @@ public class ChildHistoryFragment extends Fragment implements MemberHistoryContr
         }
     };
 
-    private void startFormActivity(MemberHistoryData content){
+    @Override
+    public void startFormWithVisitData(MemberHistoryData content, JSONObject jsonForm) {
         try {
-            JSONObject jsonForm = new JSONObject(content.getVisitDetails());
             makeReadOnlyFields(jsonForm);
 
             Intent intent = new Intent(getActivity(), HnppFormViewActivity.class);
@@ -151,9 +151,13 @@ public class ChildHistoryFragment extends Fragment implements MemberHistoryContr
             if (this != null) {
                 this.startActivity(intent);
             }
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void startFormActivity(MemberHistoryData content){
+        presenter.getVisitFormWithData(content);
 
     }
     public void makeReadOnlyFields(JSONObject jsonObject){

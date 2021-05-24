@@ -2,6 +2,7 @@ package org.smartregister.brac.hnpp.service;
 
 import android.app.IntentService;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
@@ -119,7 +120,7 @@ public class VisitLogIntentService extends IntentService {
                             client.setColumnmaps(details);
                             for (String encounter_type : encounter_types) {
                                 Log.v("ANC_HOME_VISIT","encounter_type:"+encounter_type);
-                                JSONObject form_object = loadFormFromAsset(encounter_type);
+                               // JSONObject form_object = loadFormFromAsset(encounter_type,this);
                                 if(encounter_type.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME_OOC)){
                                     encounter_type = HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME;
                                 }
@@ -135,11 +136,11 @@ public class VisitLogIntentService extends IntentService {
                                 else if(encounter_type.equalsIgnoreCase(PNC_REGISTRATION_OOC)){
                                     encounter_type = HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
                                 }
-                                JSONObject stepOne = form_object.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
-                                JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
-                                for (int k = 0; k < jsonArray.length(); k++) {
-                                    populateValuesForFormObject(client, jsonArray.getJSONObject(k));
-                                }
+//                                JSONObject stepOne = form_object.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+//                                JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+//                                for (int k = 0; k < jsonArray.length(); k++) {
+//                                    populateValuesForFormObject(client, jsonArray.getJSONObject(k));
+//                                }
                                 VisitLog log = new VisitLog();
                                 log.setVisitId(visit.getVisitId());
                                 log.setVisitType(visit.getVisitType());
@@ -148,7 +149,7 @@ public class VisitLogIntentService extends IntentService {
                                 log.setSsName(ssName);
                                 log.setVisitDate(visit.getDate().getTime());
                                 log.setEventType(encounter_type);
-                                log.setVisitJson(form_object.toString());
+                                //log.setVisitJson(form_object.toString());
                                 processReferral(encounter_type,log,details);
                                 try{
                                     processIndicator(base_entity_id,encounter_type,log,details);
@@ -278,7 +279,7 @@ public class VisitLogIntentService extends IntentService {
                                 }
                             }
 
-                        } catch (JSONException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
@@ -1623,7 +1624,7 @@ public class VisitLogIntentService extends IntentService {
 
         return v;
     }
-    private static void populateValuesForFormObject(CommonPersonObjectClient client, JSONObject jsonObject) {
+    public static void populateValuesForFormObject(CommonPersonObjectClient client, JSONObject jsonObject) {
         try {
             String value = org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(),jsonObject.getString(org.smartregister.family.util.JsonFormUtils.KEY),false);
             //spinner
@@ -1727,7 +1728,7 @@ public class VisitLogIntentService extends IntentService {
         }
     }
 
-    public JSONObject loadFormFromAsset(String encounter_type) {
+    public static JSONObject loadFormFromAsset(String encounter_type, Context context) {
         String form_name = "";
         switch (encounter_type) {
             case ANC_PREGNANCY_HISTORY:
@@ -1840,7 +1841,7 @@ public class VisitLogIntentService extends IntentService {
 
         try {
 
-            String jsonString = AssetHandler.readFileFromAssetsFolder("json.form/"+form_name, VisitLogIntentService.this);
+            String jsonString = AssetHandler.readFileFromAssetsFolder("json.form/"+form_name, context);
             return new JSONObject(jsonString);
         } catch (Exception e) {
             Log.v("LOAD_FILE","file name:"+form_name+":encounter_type:"+encounter_type);
@@ -1860,7 +1861,7 @@ public class VisitLogIntentService extends IntentService {
 
     }
 
-    public HashMap<String,Object> getFormNamesFromEventObject(Event baseEvent) {
+    public static HashMap<String,Object> getFormNamesFromEventObject(Event baseEvent) {
         ArrayList<String> forms = new ArrayList<>();
         HashMap<String,Object>details = new HashMap<>();
         for (Obs o : baseEvent.getObs()) {
