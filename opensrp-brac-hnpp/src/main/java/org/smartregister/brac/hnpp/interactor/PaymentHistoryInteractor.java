@@ -40,22 +40,25 @@ public class PaymentHistoryInteractor implements PaymentHistoryContract.Interact
         paymentHistoryArrayList.clear();
         JSONArray jsonArray = getPaymentServiceJsonArrayList();
         long tempTimestamp = 0;
-        for (int i = 0; i < jsonArray.length(); i++) {
-            try {
-                JSONObject object = jsonArray.getJSONObject(i);
-                PaymentHistory paymentHistory = new Gson().fromJson(object.toString(), PaymentHistory.class);
-                if (paymentHistory != null) {
-                    if(paymentHistory.getPaymentTimestamp() > tempTimestamp){
-                       tempTimestamp = paymentHistory.getPaymentTimestamp();
+        if(jsonArray!=null){
+            for (int i = 0; i < jsonArray.length(); i++) {
+                try {
+                    JSONObject object = jsonArray.getJSONObject(i);
+                    PaymentHistory paymentHistory = new Gson().fromJson(object.toString(), PaymentHistory.class);
+                    if (paymentHistory != null) {
+                        if(paymentHistory.getPaymentTimestamp() > tempTimestamp){
+                            tempTimestamp = paymentHistory.getPaymentTimestamp();
+                        }
+                        HnppApplication.getPaymentHistoryRepository().addOrUpdate(paymentHistory);
                     }
-                    HnppApplication.getPaymentHistoryRepository().addOrUpdate(paymentHistory);
-                }
 //                ArrayList<PaymentHistory> paymentHistoryList =  HnppApplication.getPaymentHistoryRepository().getAllPayment();
 //                paymentHistoryArrayList.addAll(paymentHistoryList);
-            } catch (JSONException e) {
-                e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
+
         if(tempTimestamp > 0){
             CoreLibrary.getInstance().context().allSharedPreferences().savePreference(LAST_PAYMENT_HISTORY_SYNC, tempTimestamp+"");
         }
@@ -121,7 +124,7 @@ public class PaymentHistoryInteractor implements PaymentHistoryContract.Interact
                 LocalDate currentDate = LocalDate.now();
                 LocalDate currentDateMinus6Months = currentDate.minusMonths(6);
 
-                lastHistorySyncTime =currentDateMinus6Months.toDate().getTime()+"";
+                lastHistorySyncTime =currentDateMinus6Months.toDate().getTime()/1000+"";
             }
 
             String url = baseUrl + API_TO_GET_PAYMENT_HISTORY + "&timestamp=" + lastHistorySyncTime;
