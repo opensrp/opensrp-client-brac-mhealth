@@ -2,6 +2,7 @@ package org.smartregister.brac.hnpp.utils;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Environment;
@@ -11,6 +12,9 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.google.common.collect.ImmutableMap;
@@ -25,6 +29,8 @@ import org.json.JSONObject;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.activity.TermAndConditionWebView;
+import org.smartregister.brac.hnpp.fragment.COVIDJsonFormFragment;
 import org.smartregister.brac.hnpp.model.Notification;
 import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.core.utils.CoreConstants;
@@ -169,6 +175,49 @@ public class HnppConstants extends CoreConstants {
             }
         });
         dialog.findViewById(R.id.ok_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                runnable.run();
+            }
+        });
+        dialog.show();
+    }
+    public static void showTermConditionDialog(Context context,String title, String text,Runnable runnable){
+        Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_with_term_condition);
+        TextView textViewTitle = dialog.findViewById(R.id.text_tv);
+        TextView titleTxt = dialog.findViewById(R.id.title_tv);
+        titleTxt.setText(title);
+        textViewTitle.setText(text);
+        CheckBox checkBox = dialog.findViewById(R.id.term_check);
+        Button okBtn = dialog.findViewById(R.id.ok_btn);
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    okBtn.setAlpha(1.0f);
+                    okBtn.setEnabled(true);
+                }else{
+                    okBtn.setAlpha(0.3f);
+                    okBtn.setEnabled(false);
+                }
+            }
+        });
+        dialog.findViewById(R.id.term_text).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context, TermAndConditionWebView.class));
+            }
+        });
+        dialog.findViewById(R.id.close_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();

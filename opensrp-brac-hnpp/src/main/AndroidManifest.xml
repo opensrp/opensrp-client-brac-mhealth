@@ -361,6 +361,10 @@
             android:name=".activity.SSInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
+        <activity android:name=".activity.TermAndConditionWebView"
+            android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
 
         <service android:name=".service.HnppSyncIntentService" />
         <service android:name="org.smartregister.immunization.service.intent.VaccineIntentService" />

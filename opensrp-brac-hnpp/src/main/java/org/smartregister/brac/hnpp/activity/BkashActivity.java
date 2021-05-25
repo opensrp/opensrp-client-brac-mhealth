@@ -33,21 +33,19 @@ import org.smartregister.brac.hnpp.utils.BkashJavaScriptInterface;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.family.util.AppExecutors;
 import org.smartregister.service.HTTPAgent;
+import org.smartregister.view.activity.SecuredActivity;
 
 import java.util.ArrayList;
 
-public class BkashActivity extends AppCompatActivity implements View.OnClickListener{
+public class BkashActivity extends SecuredActivity implements View.OnClickListener{
     WebView wvBkashPayment;
     ProgressBar progressBar;
     private String url;
     private String trnsactionId;
     private Handler myHandler;
 
-
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreation() {
         setContentView(R.layout.activity_bkash);
         HnppConstants.updateAppBackground(findViewById(R.id.action_bar));
         findViewById(R.id.backBtn).setOnClickListener(this);
@@ -79,6 +77,12 @@ public class BkashActivity extends AppCompatActivity implements View.OnClickList
         wvBkashPayment.setWebViewClient(new CheckoutWebViewClient());
         //}
     }
+
+    @Override
+    protected void onResumption() {
+
+    }
+
 
     @Override
     public void onClick(View view) {

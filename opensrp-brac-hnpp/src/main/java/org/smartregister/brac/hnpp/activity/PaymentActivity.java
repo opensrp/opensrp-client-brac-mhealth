@@ -249,7 +249,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
                 startActivity(intent);
                 finish();*/
 
-                HnppConstants.showDialogWithAction(PaymentActivity.this, getString(R.string.dialog_title_payment), "", new Runnable() {
+                HnppConstants.showTermConditionDialog(PaymentActivity.this, getString(R.string.dialog_title_payment), "", new Runnable() {
                     @Override
                     public void run() {
                         payments = adapter.getPaymentWithoutZero();
