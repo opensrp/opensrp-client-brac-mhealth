@@ -46,7 +46,9 @@ public class CountSummeryDashBoardPresenter implements DashBoardContract.Present
         interactor.filterData(ssName,month,year,this);
 
     }
-
+    public void filterByFromToMonth(long fromMonth, long toMonth, String ssName) {
+        interactor.filterByFromToMonth(ssName,fromMonth,toMonth,this);
+    }
     @Override
     public DashBoardContract.View getView() {
         return view;

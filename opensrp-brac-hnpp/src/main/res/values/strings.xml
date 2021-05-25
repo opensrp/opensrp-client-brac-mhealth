@@ -92,7 +92,7 @@
     <string name="ss_name"><br>সেবিকাঃ </br> %s</string>
     <string name="serial_no"><br>খানা সিরিয়াল :</br> %s</string>
     <string name="name"><br>নাম :</br> %s</string>
-    <string name="search_name_or_id">নাম বা আইডি দ্বারা অনুসন্ধান করুন</string>
+    <string name="search_name_or_id">নাম বা আইডি বা মোবাইল নম্বর দ্বারা অনুসন্ধান করুন</string>
     <string name="home">হোম</string>
     <string name="job_aids">ড্যাশবোর্ড</string>
     <string name="add_family">খানা নিবন্ধন</string>
@@ -115,6 +115,10 @@
     <string name="Female">F</string>
     <string name="male">M</string>
     <string name="female">F</string>
+    <string name="abbrv_years">\u0020 বছর</string>
+    <string name="abbrv_months">\u0020 মাস</string>
+    <string name="abbrv_weeks">\u0020 সপ্তাহ</string>
+    <string name="abbrv_days">\u0020 দিন</string>
     <string name="relation_with_member_and_head">সম্পর্ক : %s</string>
     <string name="care_giver_initials">মায়ের নাম :  %s</string>
     <string name="age">বয়স :  %s</string>
@@ -217,6 +221,7 @@
     <string name="fill_earler_immunization"><![CDATA[<i>আগের টিকাদান রেকর্ড করুন</i>]]></string>
     <string name="immunizations_count">টিকাদান ({0})</string>
     <string name="vitamin_given">কখন %1$s দেয়া হয়েছে?</string>
+   <string name="vitamin_a">ভিটামিন এ</string>
     <string name="overdue">ওভারডিউ&#160;</string>
     <string name="not_given_with_spaces">&#160;দেয়া হয়নি&#160;</string>
     <string name="given_on_with_spaces">&#160;দেয়া হয়েছে&#160;</string>

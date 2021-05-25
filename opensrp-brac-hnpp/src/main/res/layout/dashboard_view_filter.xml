@@ -8,7 +8,7 @@
         android:id="@+id/ss_name_view"
         android:gravity="center_vertical"
         android:layout_centerVertical="true"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content">
         <TextView
             android:text="@string/ss_name_bangla"
@@ -21,7 +21,7 @@
         <Spinner
             android:id="@+id/ss_filter_spinner"
             android:layout_marginBottom="20dp"
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:background="@drawable/spinner_resource"
             android:layout_margin="5dp"
             android:layout_height="50dp">
@@ -93,11 +93,131 @@
     </LinearLayout>
     <LinearLayout
         android:visibility="gone"
+        android:id="@+id/from_month_view"
+        android:layout_alignWithParentIfMissing="true"
+        android:gravity="center_vertical"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/month_view"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="From"
+            android:padding="10dp"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <RelativeLayout
+            android:id="@+id/fromMonthPicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:background="@drawable/spinner_resource"
+            android:orientation="horizontal">
+            <org.smartregister.view.customcontrols.CustomFontTextView
+                android:id="@+id/from_month_text"
+                android:text="সেপ্টেম্বর"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+            <org.smartregister.view.customcontrols.CustomFontTextView
+                android:id="@+id/from_year_text"
+                android:text="২০১৭"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                android:layout_toRightOf="@+id/from_month_text"
+                android:layout_marginRight="5dp"
+                android:layout_centerVertical="true"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+            <ImageView
+                android:layout_toRightOf="@+id/from_year_text"
+                android:id="@+id/from_clear_filter"
+                android:src="@drawable/ic_filter_delete"
+                android:padding="5dp"
+                android:tint="@color/white"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+        </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/to_month_view"
+        android:layout_alignWithParentIfMissing="true"
+        android:gravity="center_vertical"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/from_month_view"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="To"
+            android:padding="10dp"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <RelativeLayout
+            android:id="@+id/toMonthPicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:background="@drawable/spinner_resource"
+            android:orientation="horizontal">
+            <org.smartregister.view.customcontrols.CustomFontTextView
+                android:id="@+id/to_month_text"
+                android:text="সেপ্টেম্বর"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+            <org.smartregister.view.customcontrols.CustomFontTextView
+                android:id="@+id/to_year_text"
+                android:text="২০১৭"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                android:layout_toRightOf="@+id/to_month_text"
+                android:layout_marginRight="5dp"
+                android:layout_centerVertical="true"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+            <ImageView
+                android:layout_toRightOf="@+id/to_year_text"
+                android:id="@+id/to_clear_filter"
+                android:src="@drawable/ic_filter_delete"
+                android:padding="5dp"
+                android:tint="@color/white"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+        </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:visibility="gone"
         android:id="@+id/from_date_view"
         android:gravity="center_vertical"
         android:layout_centerVertical="true"
         android:layout_alignWithParentIfMissing="true"
-        android:layout_toRightOf="@+id/month_view"
+        android:layout_toRightOf="@+id/to_month_view"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -117,10 +237,16 @@
             android:textColor="@color/white"
             android:textSize="18sp"
             android:paddingLeft="5dp"
-            android:layout_weight="1"
             android:layout_marginRight="10dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
+        <ImageView
+            android:id="@+id/from_date_clear_filter"
+            android:src="@drawable/ic_filter_delete"
+            android:padding="5dp"
+            android:tint="@color/white"
+            android:layout_width="40dp"
+            android:layout_height="40dp"/>
     </LinearLayout>
     <LinearLayout
         android:visibility="gone"
@@ -148,10 +274,16 @@
             android:textColor="@color/white"
             android:textSize="18sp"
             android:paddingLeft="5dp"
-            android:layout_weight="1"
             android:layout_marginRight="10dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
+        <ImageView
+            android:id="@+id/to_date_clear_filter"
+            android:src="@drawable/ic_filter_delete"
+            android:padding="5dp"
+            android:tint="@color/white"
+            android:layout_width="40dp"
+            android:layout_height="40dp"/>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/date_view"

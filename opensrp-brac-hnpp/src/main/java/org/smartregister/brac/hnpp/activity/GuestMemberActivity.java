@@ -81,6 +81,7 @@ public class GuestMemberActivity extends BaseProfileActivity implements GuestMem
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_guest_member);
+        HnppConstants.updateAppBackground(findViewById(R.id.action_bar));
         ssSpinner = findViewById(R.id.ss_filter_spinner);
         editTextSearch = findViewById(R.id.search_edit_text);
         recyclerView = findViewById(R.id.recycler_view);
@@ -223,6 +224,7 @@ public class GuestMemberActivity extends BaseProfileActivity implements GuestMem
                             Intent intent = new Intent(GuestMemberActivity.this, GuestAddMemberJsonFormActivity.class);
                             JSONObject jsonForm = FormUtils.getInstance(GuestMemberActivity.this).getFormJson(HnppConstants.JSON_FORMS.GUEST_MEMBER_FORM);
                             HnppJsonFormUtils.updateFormWithSSName(jsonForm, SSLocationHelper.getInstance().getSsModels());
+                            HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
                             intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
                             Form form = new Form();
                             form.setWizard(false);

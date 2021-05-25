@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.HnppChildProfileActivity;
 import org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity;
@@ -120,7 +121,12 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
 
     @Override
     public void setupViews(View view) {
-        super.setupViews(view);
+        try{
+            super.setupViews(view);
+        }catch (Exception e){
+            HnppApplication.getHNPPInstance().forceLogout();
+            return;
+        }
         emptyView = view.findViewById(R.id.empty_view);
         otherServiceView = view.findViewById(R.id.other_option);
         isStart = false;

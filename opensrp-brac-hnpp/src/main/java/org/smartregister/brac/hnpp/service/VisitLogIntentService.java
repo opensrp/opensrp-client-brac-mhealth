@@ -179,12 +179,17 @@ public class VisitLogIntentService extends IntentService {
                                         String ancValue = details.get("brac_anc");
                                         String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(base_entity_id+"_BRAC_ANC");
                                         if(!TextUtils.isEmpty(prevalue)){
-                                            int lastValue = Integer.parseInt(prevalue);
-                                            int ancValueInt = Integer.parseInt(ancValue);
-                                            if(ancValueInt >= lastValue){
+                                            try{
+                                                int lastValue = Integer.parseInt(prevalue);
+                                                int ancValueInt = Integer.parseInt(ancValue);
+                                                if(ancValueInt >= lastValue){
 
-                                                FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",(ancValueInt+1)+"");
+                                                    FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",(ancValueInt+1)+"");
+                                                }
+                                            }catch (NumberFormatException ne){
+
                                             }
+
                                         }else{
                                             FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",1+"");
                                         }
@@ -197,22 +202,32 @@ public class VisitLogIntentService extends IntentService {
                                         String ancValue = details.get("brac_pnc");
                                         String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(base_entity_id+"_BRAC_PNC");
                                         if(!TextUtils.isEmpty(prevalue)){
-                                            int lastValue = Integer.parseInt(prevalue);
-                                            int ancValueInt = Integer.parseInt(ancValue);
-                                            if(ancValueInt >= lastValue){
-                                                FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_PNC",(ancValueInt+1)+"");
+                                            try{
+                                                int lastValue = Integer.parseInt(prevalue);
+                                                int ancValueInt = Integer.parseInt(ancValue);
+                                                if(ancValueInt >= lastValue){
+                                                    FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_PNC",(ancValueInt+1)+"");
+                                                }
+                                            }catch (NumberFormatException e){
+
                                             }
+
                                         }else{
                                             FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_PNC",1+"");
                                         }
                                     }
                                     if(details.containsKey("total_anc") && !StringUtils.isEmpty(details.get("brac_pnc"))){
                                         String ancValue = details.get("total_anc");
-                                        if(!TextUtils.isEmpty(ancValue)){
-                                            int count = Integer.parseInt(ancValue);
-                                            FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_TOTAL_ANC",count+"");
+                                        try{
+                                            if(!TextUtils.isEmpty(ancValue)){
+                                                int count = Integer.parseInt(ancValue);
+                                                FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_TOTAL_ANC",count+"");
+
+                                            }
+                                        }catch (NumberFormatException ne){
 
                                         }
+
                                     }
                                     if(details.containsKey("is_delay") && !StringUtils.isEmpty(details.get("is_delay"))){
                                         String is_delay = details.get("is_delay");
@@ -586,6 +601,13 @@ public class VisitLogIntentService extends IntentService {
                     HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.MARKED_PRESBYOPIA,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
                 }
             }
+            if(details.containsKey("glasses_sell") && !StringUtils.isEmpty(details.get("glasses_sell"))) {
+                String value = details.get("glasses_sell");
+                if(!TextUtils.isEmpty(value)){
+                    LocalDate localDate = new LocalDate(visit.getVisitDate());
+                    HnppApplication.getIndicatorRepository().updateValue("glasses_sell", value, localDate.getDayOfMonth() + "", localDate.getMonthOfYear() + "", localDate.getYear() + "", visit.getSsName(), visit.getBaseEntityId());
+                }
+            }
             if(details.containsKey("is_need_glasses") && !StringUtils.isEmpty(details.get("is_need_glasses"))) {
                 String known = details.get("is_need_glasses");
                 if(!TextUtils.isEmpty(known) && known.equalsIgnoreCase("yes")){
@@ -711,23 +733,27 @@ public class VisitLogIntentService extends IntentService {
         }
     }
     private void updateNcdBpTarget(VisitLog visit,HashMap<String,String>details){
-        if(details.containsKey("blood_pressure_systolic") && !StringUtils.isEmpty(details.get("blood_pressure_systolic"))){
-            String fbsValue = details.get("blood_pressure_systolic");
-            if(!TextUtils.isEmpty(fbsValue)){
-                int bps = Integer.parseInt(fbsValue);
-                if (bps>=140){
-                    LocalDate localDate = new LocalDate(visit.getVisitDate());
-                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ESTIMATE_HBP,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
-                }
-
-            }
-        }
+        LocalDate localDate = new LocalDate(visit.getVisitDate());
+//        if(details.containsKey("blood_pressure_systolic") && !StringUtils.isEmpty(details.get("blood_pressure_systolic"))){
+//            String fbsValue = details.get("blood_pressure_systolic");
+//            if(!TextUtils.isEmpty(fbsValue)){
+//                try{
+//                    int bps = Integer.parseInt(fbsValue);
+//                    if (bps>=140){
+//                        HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ESTIMATE_HBP,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+//                    }
+//                }catch (NumberFormatException e){
+//
+//                }
+//
+//
+//            }
+//        }
         if(details.containsKey("cause_of_ncd") && !StringUtils.isEmpty(details.get("cause_of_ncd"))){
             String fbsValue = details.get("cause_of_ncd");
             Log.v("testValue: ",fbsValue);
             if(!TextUtils.isEmpty(fbsValue)){
                 if (fbsValue.contains("high_blood_pressure")){
-                    LocalDate localDate = new LocalDate(visit.getVisitDate());
                     HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ESTIMATE_HBP,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
                 }
 
@@ -738,24 +764,30 @@ public class VisitLogIntentService extends IntentService {
             Log.v("testValue: ",fbsValue);
             if(!TextUtils.isEmpty(fbsValue)){
                 if (fbsValue.contains("diabetics")){
-                    LocalDate localDate = new LocalDate(visit.getVisitDate());
                     HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ESTIMATE_DIABETES,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
                 }
 
             }
         }
 
-        if(details.containsKey("blood_pressure_diastolic") && !StringUtils.isEmpty(details.get("blood_pressure_diastolic"))){
-            String bpd = details.get("blood_pressure_diastolic");
-            if(!TextUtils.isEmpty(bpd)){
-                int h = Integer.parseInt(bpd);
-                if (h>=90){
-                    LocalDate localDate = new LocalDate(visit.getVisitDate());
-                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ESTIMATE_HBP,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
-                }
+//        if(details.containsKey("blood_pressure_diastolic") && !StringUtils.isEmpty(details.get("blood_pressure_diastolic"))){
+//            String bpd = details.get("blood_pressure_diastolic");
+//            if(!TextUtils.isEmpty(bpd)){
+//                try{
+//                    int h = Integer.parseInt(bpd);
+//                    if (h>=90){
+//                        HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ESTIMATE_HBP,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+//                    }
+//                }catch (NumberFormatException e){
+//
+//                }
+//
+//
+//            }
+//        }
+        //if(HnppConstants.isPALogin())HnppApplication.getTargetRepository().updateValue(NCD_BY_PA,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
 
-            }
-        }
+
     }
     private void updateNcdPackageRisk(String baseEntityId,HashMap<String,String>details){
         if(details.containsKey("fasting_blood_sugar") && !StringUtils.isEmpty(details.get("fasting_blood_sugar"))){
@@ -796,17 +828,22 @@ public class VisitLogIntentService extends IntentService {
         if(details.containsKey("blood_pressure_systolic") && !StringUtils.isEmpty(details.get("blood_pressure_systolic"))){
             String fbsValue = details.get("blood_pressure_systolic");
             if(!TextUtils.isEmpty(fbsValue)){
-                int bps = Integer.parseInt(fbsValue);
-                if (bps>=140){
-                    RiskyModel riskyModel = new RiskyModel();
-                    riskyModel.riskyValue = fbsValue;
-                    riskyModel.riskyKey = "blood_pressure_systolic";
-                    riskyModel.eventType = NCD_PACKAGE;
-                    riskyModel.baseEntityId = baseEntityId;
-                    HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                    HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",NCD_PACKAGE);
-                    return;
+                try{
+                    int bps = Integer.parseInt(fbsValue);
+                    if (bps>=140){
+                        RiskyModel riskyModel = new RiskyModel();
+                        riskyModel.riskyValue = fbsValue;
+                        riskyModel.riskyKey = "blood_pressure_systolic";
+                        riskyModel.eventType = NCD_PACKAGE;
+                        riskyModel.baseEntityId = baseEntityId;
+                        HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+                        HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",NCD_PACKAGE);
+                        return;
+                    }
+                }catch (NumberFormatException e){
+
                 }
+
 
             }
         }
@@ -849,18 +886,23 @@ public class VisitLogIntentService extends IntentService {
         if(details.containsKey("blood_pressure_diastolic") && !StringUtils.isEmpty(details.get("blood_pressure_diastolic"))){
             String bpd = details.get("blood_pressure_diastolic");
             if(!TextUtils.isEmpty(bpd)){
-                int h = Integer.parseInt(bpd);
-                if (h>=90){
-                    RiskyModel riskyModel = new RiskyModel();
-                    riskyModel.riskyValue = bpd;
-                    riskyModel.riskyKey = "blood_pressure_diastolic";
-                    riskyModel.eventType = NCD_PACKAGE;
-                    riskyModel.baseEntityId = baseEntityId;
-                    HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+                try{
+                    int h = Integer.parseInt(bpd);
+                    if (h>=90){
+                        RiskyModel riskyModel = new RiskyModel();
+                        riskyModel.riskyValue = bpd;
+                        riskyModel.riskyKey = "blood_pressure_diastolic";
+                        riskyModel.eventType = NCD_PACKAGE;
+                        riskyModel.baseEntityId = baseEntityId;
+                        HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
 
-                    HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",NCD_PACKAGE);
-                    return;
+                        HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",NCD_PACKAGE);
+                        return;
+                    }
+                }catch (NumberFormatException e){
+
                 }
+
 
             }
         }
@@ -870,24 +912,29 @@ public class VisitLogIntentService extends IntentService {
         if(details.containsKey("no_prev_preg") && !StringUtils.isEmpty(details.get("no_prev_preg"))){
             String ancValue = details.get("no_prev_preg");
             if(!TextUtils.isEmpty(ancValue)){
-                int nP = Integer.parseInt(ancValue);
-                if (nP>4){
-                    RiskyModel riskyModel = new RiskyModel();
-                    riskyModel.riskyValue = ancValue;
-                    riskyModel.riskyKey = "no_prev_preg";
-                    riskyModel.eventType = ANC_REGISTRATION;
-                    riskyModel.baseEntityId = baseEntityId;
-                    HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                    HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",ANC_REGISTRATION);
-                    return;
+                try{
+                    int nP = Integer.parseInt(ancValue);
+                    if (nP>4){
+                        RiskyModel riskyModel = new RiskyModel();
+                        riskyModel.riskyValue = ancValue;
+                        riskyModel.riskyKey = "no_prev_preg";
+                        riskyModel.eventType = ANC_REGISTRATION;
+                        riskyModel.baseEntityId = baseEntityId;
+                        HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+                        HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",ANC_REGISTRATION);
+                        return;
+                    }
+                }catch (NumberFormatException e){
+
                 }
+
 
             }
         }
         if(details.containsKey("height") && !StringUtils.isEmpty(details.get("height"))){
             String hight = details.get("height");
             if(!TextUtils.isEmpty(hight)){
-                int h = Integer.parseInt(hight);
+                double h = Double.parseDouble(hight);
                 if (h<145){
                     RiskyModel riskyModel = new RiskyModel();
                     riskyModel.riskyValue = hight;
@@ -910,59 +957,65 @@ public class VisitLogIntentService extends IntentService {
         if(details.containsKey("blood_pressure_systolic") && !StringUtils.isEmpty(details.get("blood_pressure_systolic"))){
             String bps = details.get("blood_pressure_systolic");
             if(!TextUtils.isEmpty(bps)){
-                int nBPS = Integer.parseInt(bps);
-                if(details.containsKey("blood_pressure_diastolic") && !StringUtils.isEmpty(details.get("blood_pressure_diastolic"))){
-                    String bpd = details.get("blood_pressure_diastolic");
-                    if(!TextUtils.isEmpty(bpd)) {
-                        int nBPD = Integer.parseInt(bpd);
-                        if(details.containsKey("has_edema") && !StringUtils.isEmpty(details.get("has_edema"))){
-                            String edema = details.get("has_edema");
-                            if(!TextUtils.isEmpty(edema)) {
-                                if(details.containsKey("albumin_test") && !StringUtils.isEmpty(details.get("albumin_test"))){
-                                    String albumin = details.get("albumin_test");
-                                    if(!TextUtils.isEmpty(albumin))
-                                    {
-                                        if(edema.equalsIgnoreCase("yes") && (nBPS >=120 || nBPD >= 80) && albumin.equalsIgnoreCase("yes")){
+                try{
+                    int nBPS = Integer.parseInt(bps);
+                    if(details.containsKey("blood_pressure_diastolic") && !StringUtils.isEmpty(details.get("blood_pressure_diastolic"))){
+                        String bpd = details.get("blood_pressure_diastolic");
+                        if(!TextUtils.isEmpty(bpd)) {
+                            int nBPD = Integer.parseInt(bpd);
+                            if(details.containsKey("has_edema") && !StringUtils.isEmpty(details.get("has_edema"))){
+                                String edema = details.get("has_edema");
+                                if(!TextUtils.isEmpty(edema)) {
+                                    if(details.containsKey("albumin_test") && !StringUtils.isEmpty(details.get("albumin_test"))){
+                                        String albumin = details.get("albumin_test");
+                                        if(!TextUtils.isEmpty(albumin))
+                                        {
+                                            if(edema.equalsIgnoreCase("yes") && (nBPS >=120 || nBPD >= 80) && albumin.equalsIgnoreCase("yes")){
 
-                                       isAncHomeVisitRisk = true;
+                                                isAncHomeVisitRisk = true;
 
-                                        RiskyModel riskynBPSModel = new RiskyModel();
-                                        riskynBPSModel.riskyValue = bps;
-                                        riskynBPSModel.riskyKey = "blood_pressure_systolic";
-                                        riskynBPSModel.eventType = eventType;
-                                        riskynBPSModel.baseEntityId = baseEntityId;
-                                        HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
-                                        RiskyModel riskynBPDModel = new RiskyModel();
-                                        riskynBPDModel.riskyValue = bpd;
-                                        riskynBPDModel.riskyKey = "blood_pressure_diastolic";
-                                        riskynBPDModel.eventType = eventType;
-                                        riskynBPDModel.baseEntityId = baseEntityId;
-                                        HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPDModel);
-                                        RiskyModel riskyedemaModel = new RiskyModel();
-                                        riskyedemaModel.riskyValue = edema;
-                                        riskyedemaModel.riskyKey = "has_edema";
-                                        riskyedemaModel.eventType = eventType;
-                                        riskyedemaModel.baseEntityId = baseEntityId;
-                                        HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyedemaModel);
+                                                RiskyModel riskynBPSModel = new RiskyModel();
+                                                riskynBPSModel.riskyValue = bps;
+                                                riskynBPSModel.riskyKey = "blood_pressure_systolic";
+                                                riskynBPSModel.eventType = eventType;
+                                                riskynBPSModel.baseEntityId = baseEntityId;
+                                                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
+                                                RiskyModel riskynBPDModel = new RiskyModel();
+                                                riskynBPDModel.riskyValue = bpd;
+                                                riskynBPDModel.riskyKey = "blood_pressure_diastolic";
+                                                riskynBPDModel.eventType = eventType;
+                                                riskynBPDModel.baseEntityId = baseEntityId;
+                                                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPDModel);
+                                                RiskyModel riskyedemaModel = new RiskyModel();
+                                                riskyedemaModel.riskyValue = edema;
+                                                riskyedemaModel.riskyKey = "has_edema";
+                                                riskyedemaModel.eventType = eventType;
+                                                riskyedemaModel.baseEntityId = baseEntityId;
+                                                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyedemaModel);
 
-                                        RiskyModel riskyalbuminModel = new RiskyModel();
-                                        riskyalbuminModel.riskyValue = albumin;
-                                        riskyalbuminModel.riskyKey = "albumin";
-                                        riskyalbuminModel.eventType = eventType;
-                                        riskyalbuminModel.baseEntityId = baseEntityId;
-                                        HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyalbuminModel);
+                                                RiskyModel riskyalbuminModel = new RiskyModel();
+                                                riskyalbuminModel.riskyValue = albumin;
+                                                riskyalbuminModel.riskyKey = "albumin";
+                                                riskyalbuminModel.eventType = eventType;
+                                                riskyalbuminModel.baseEntityId = baseEntityId;
+                                                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyalbuminModel);
+
+                                            }
 
                                         }
 
                                     }
 
-                                    }
 
-
+                                }
                             }
                         }
                     }
+
+                }catch (NumberFormatException e){
+
                 }
+
             }
         }
         if(isAncHomeVisitRisk) {
@@ -1516,31 +1569,36 @@ public class VisitLogIntentService extends IntentService {
                         log.setSsName(ssName);
                         long inserted = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
                         if(inserted != -1){
-                            LocalDate localDate = new LocalDate(visit.getDate().getTime());
-                            HnppApplication.getTargetRepository().updateValue(visit.getVisitType(),localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId());
-                            if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_CHILD)){
-                                HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_IYCF_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
+                            try{
+                                LocalDate localDate = new LocalDate(visit.getDate().getTime());
+                                HnppApplication.getTargetRepository().updateValue(visit.getVisitType(),localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId());
+                                if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_CHILD)){
+                                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_IYCF_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
 
-                            }else if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_WOMEN)){
-                                HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_WOMEN_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
+                                }else if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_WOMEN)){
+                                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_WOMEN_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
 
-                            }else if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_ADO)){
-                                HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADO_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
+                                }else if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_ADO)){
+                                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADO_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
 
-                            }else if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_NCD)){
-                                HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_NCD_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
+                                }else if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_NCD)){
+                                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_NCD_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
 
-                            }else if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_ADULT)){
-                                HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ADULT_FORUM_SERVICE_TAKEN,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfServiceTaken));
+                                }else if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_ADULT)){
+                                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ADULT_FORUM_SERVICE_TAKEN,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfServiceTaken));
 
-                                if(HnppConstants.isPALogin()){
-                                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ADULT_FORUM_ATTENDANCE,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
+                                    if(HnppConstants.isPALogin()){
+                                        HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ADULT_FORUM_ATTENDANCE,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
 
-                                }else{
-                                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADULT_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
+                                    }else{
+                                        HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADULT_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
 
+                                    }
                                 }
+                            }catch (NumberFormatException e){
+
                             }
+
                         }
 
                     }

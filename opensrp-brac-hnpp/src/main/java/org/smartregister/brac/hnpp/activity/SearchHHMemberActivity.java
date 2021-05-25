@@ -113,7 +113,8 @@ public class SearchHHMemberActivity extends SecuredActivity implements View.OnCl
                 else if(searchType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.CHILD.toString())){
                     presenter.searchChild(s.toString());
                 }
-                else if(searchType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.NCD.toString())){
+                else if(searchType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.NCD.toString())
+                        || searchType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.ADULT.toString())){
                     presenter.searchNcd(s.toString());
                 }
 

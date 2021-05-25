@@ -147,20 +147,25 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
                 }
             });
         }else{
-            findViewById(R.id.simprints_identity).setVisibility(View.GONE);
-            findViewById(R.id.ss_info_browse).setVisibility(View.GONE);
-            findViewById(R.id.migration_view).setVisibility(View.GONE);
-            findViewById(R.id.sk_change).setVisibility(View.VISIBLE);
-            findViewById(R.id.sk_change).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(FamilyRegisterActivity.this, SkSelectionActivity.class);
-                    intent.putExtra(SkSelectionActivity.IS_COMES_FROM_UPDATE,true);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    overridePendingTransition(org.smartregister.chw.core.R.anim.slide_in_up, org.smartregister.chw.core.R.anim.slide_out_up);
-                }
-            });
+            try{
+                findViewById(R.id.simprints_identity).setVisibility(View.GONE);
+                findViewById(R.id.ss_info_browse).setVisibility(View.GONE);
+                findViewById(R.id.migration_view).setVisibility(View.GONE);
+                findViewById(R.id.sk_change).setVisibility(View.VISIBLE);
+                findViewById(R.id.sk_change).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(FamilyRegisterActivity.this, SkSelectionActivity.class);
+                        intent.putExtra(SkSelectionActivity.IS_COMES_FROM_UPDATE,true);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        overridePendingTransition(org.smartregister.chw.core.R.anim.slide_in_up, org.smartregister.chw.core.R.anim.slide_out_up);
+                    }
+                });
+            }catch (Exception e){
+
+            }
+
 
         }
 

@@ -23,12 +23,6 @@ public class DailyTargetAchievementFragment extends TargetAchievementFragment{
         day = calendar.get(Calendar.DAY_OF_MONTH);
         super.fetchData();
     }
-
-    @Override
-    public void filterByFromToDate() {
-        super.filterByFromToDate();
-    }
-
     @Override
     void filterData() {
         super.filterData();
