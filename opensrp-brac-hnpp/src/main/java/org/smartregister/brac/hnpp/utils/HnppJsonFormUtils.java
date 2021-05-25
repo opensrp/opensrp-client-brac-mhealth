@@ -578,8 +578,13 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 updateFormField(jsonArray, "caused_referred", reason);
                 updateFormField(jsonArray, "place_referred", place);
                 JSONObject caused_referred = getFieldJSONObject(jsonArray, "caused_referred");
-                JSONObject place_of_referral = getFieldJSONObject(jsonArray, "place_of_referral");
-                addWhereWentGo(place_of_referral, place);
+                try{
+                    JSONObject place_of_referral = getFieldJSONObject(jsonArray, "place_of_referral");
+                    addWhereWentGo(place_of_referral, place);
+                }catch (Exception e){
+
+                }
+
 
                 caused_referred.put(org.smartregister.family.util.JsonFormUtils.READ_ONLY, true);
 
@@ -1175,6 +1180,14 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
     }
     public static JSONObject updateLatitudeLongitude(JSONObject form,double latitude, double longitude) throws JSONException {
         JSONArray field = fields(form, STEP1);
+        JSONObject latitude_field = getFieldJSONObject(field, "latitude");
+        JSONObject longitude_field = getFieldJSONObject(field, "longitude");
+        latitude_field.put(org.smartregister.family.util.JsonFormUtils.VALUE,latitude );
+        longitude_field.put(org.smartregister.family.util.JsonFormUtils.VALUE,longitude );
+        return form;
+    }
+    public static JSONObject updateLatitudeLongitudeFamily(JSONObject form,double latitude, double longitude) throws JSONException {
+        JSONArray field = fields(form, STEP2);
         JSONObject latitude_field = getFieldJSONObject(field, "latitude");
         JSONObject longitude_field = getFieldJSONObject(field, "longitude");
         latitude_field.put(org.smartregister.family.util.JsonFormUtils.VALUE,latitude );

@@ -52,12 +52,11 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
     protected Spinner ssSpinner;
     protected ProgressBar progressBar;
     protected String ssName;
-    private ImageView filterBtn;
-    private  TextView monthTV,yearTV;
-    protected LinearLayout monthView,dateView,fromDateView,toDateView;
-    protected RelativeLayout monthPicker;
+    private ImageView filterBtn, fromFilterBtn, toFilterBtn,fromDateFilterBtn, toDateFilterBtn;
+    private  TextView monthTV,yearTV, fromMonthTV, toMonthTV, fromYearTV,toYearTV;
+    protected LinearLayout monthView,dateView,fromDateView,toDateView,fromMonthView, toMonthView,ssView;
+    protected RelativeLayout monthPicker, fromMonthPicker, toMonthPicker;
     abstract void filterData();
-    abstract void filterByFromToDate();
     abstract void updateTitle();
     abstract void fetchData();
     abstract void initilizePresenter();
@@ -80,16 +79,29 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
         View view = inflater.inflate(R.layout.base_fragment_dashboard,null);
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
+        ssView = view.findViewById(R.id.ss_name_view);
         ssSpinner = view.findViewById(R.id.ss_filter_spinner);
         monthView = view.findViewById(R.id.month_view);
+        fromMonthTV = view.findViewById(R.id.from_month_text);
+        toMonthTV = view.findViewById(R.id.to_month_text);
+        fromYearTV = view.findViewById(R.id.from_year_text);
+        toYearTV = view.findViewById(R.id.to_year_text);
         monthTV = view.findViewById(R.id.month_text);
         yearTV  = view.findViewById(R.id.year_text);
         monthPicker = view.findViewById(R.id.monthDatePicker);
+        fromMonthPicker = view.findViewById(R.id.fromMonthPicker);
+        toMonthPicker = view.findViewById(R.id.toMonthPicker);
         dateView = view.findViewById(R.id.date_view);
+        fromMonthView = view.findViewById(R.id.from_month_view);
+        toMonthView = view.findViewById(R.id.to_month_view);
         fromDateView = view.findViewById(R.id.from_date_view);
         toDateView = view.findViewById(R.id.to_date_view);
         progressBar = view.findViewById(R.id.progress_bar);
         filterBtn = view.findViewById(R.id.filterBtn);
+        fromFilterBtn = view.findViewById(R.id.from_clear_filter);
+        toFilterBtn = view.findViewById(R.id.to_clear_filter);
+        fromDateFilterBtn = view.findViewById(R.id.from_date_clear_filter);
+        toDateFilterBtn = view.findViewById(R.id.to_date_clear_filter);
         dateBtn = view.findViewById(R.id.date_btn);
         fromDateBtn = view.findViewById(R.id.from_date_btn);
         toDateBtn = view.findViewById(R.id.to_date_btn);
@@ -98,6 +110,8 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
         fromDateBtn.setOnClickListener(this);
         toDateBtn.setOnClickListener(this);
         filterBtn.setOnClickListener(this);
+        fromFilterBtn.setOnClickListener(this);
+        toFilterBtn.setOnClickListener(this);
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH)+1;
@@ -108,6 +122,8 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
         dateBtn.setText(currentDate);
         toDateBtn.setText(currentDate);
         fromDateBtn.setText(currentDate);
+        fromDay = day;
+        toDay = day;
         return view;
     }
 
@@ -116,8 +132,12 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
         super.onViewCreated(view, savedInstanceState);
         initilizePresenter();
         updateFilter();
+        updateFromFilter();
+        updateToFilter();
         loadSSList();
         loadMonthList();
+        loadFromMonthList();
+        loadToMonthList();
         updateTitle();
         fetchData();
     }
@@ -144,7 +164,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
                         filterData();
                     }
                 },year,(month-1),day);
-                //fromDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                fromDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
                 fromDialog.show();
                 break;
             case R.id.from_date_btn:
@@ -163,9 +183,10 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
 
                         fromDateBtn.setText(fromDate);
                         updateFromFilter();
+                        filterData();
                     }
                 },year,(month-1),day);
-                //fromDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                fromDateDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
                 fromDateDialog.show();
                 break;
             case R.id.to_date_btn:
@@ -184,10 +205,10 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
 
                         toDateBtn.setText(toDate);
                         updateToFilter();
-                        filterByFromToDate();
+                        filterData();
                     }
                 },year,(month-1),day);
-                //fromDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                toDateDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
                 toDateDialog.show();
                 break;
             case R.id.filterBtn:
@@ -195,16 +216,44 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
                 break;
             case R.id.clear_filter:
                 monthTV.setText("");
-                yearTV.setText("সকল");
+                yearTV.setText(getString(R.string.all_text));
                 month = -1;
                 year = -1;
+                filterData();
+                break;
+            case R.id.from_clear_filter:
+                fromMonthTV.setText("");
+                fromYearTV.setText("সকল");
+                fromMonth = -1;
+                fromYear = -1;
+                filterData();
+                break;
+            case R.id.to_clear_filter:
+                toMonthTV.setText("");
+                toYearTV.setText("সকল");
+                toMonth = -1;
+                toYear = -1;
+                filterData();
+                break;
+            case R.id.from_date_clear_filter:
+                fromDateBtn.setText("সকল");
+                fromMonth = -1;
+                fromYear = -1;
+                fromDay = -1;
+                filterData();
+                break;
+            case R.id.to_date_clear_filter:
+                toDateBtn.setText("সকল");
+                toMonth = -1;
+                toYear = -1;
+                toDay = -1;
                 filterData();
                 break;
         }
     }
     private void loadSSList(){
         ArrayList<String> ssSpinnerArray = new ArrayList<>();
-        ssSpinnerArray.add("সকল");
+        ssSpinnerArray.add(getString(R.string.all_text));
         ArrayList<SSModel> ssLocationForms = SSLocationHelper.getInstance().getSsModels();
         for (SSModel ssModel : ssLocationForms) {
             ssSpinnerArray.add(ssModel.username);
@@ -316,18 +365,124 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
 //        });
 //
     }
+    public void loadFromMonthList() {
+        fromMonthPicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(fromMonth == -1) fromMonth = calendar.get(Calendar.MONTH)+1;
+                if(fromYear == -1) fromYear = calendar.get(Calendar.YEAR);
+                MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(getContext(), new MonthPickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(int selectedMonth, int selectedYear) {
+                        fromMonth = selectedMonth+1;
+                        fromYear = selectedYear;
+                        updateFromDatePicker();
+                        filterData();
+
+                    }
+                }, year, month-1);
+                builder.setActivatedMonth(month-1)
+                        .setMinYear(2010)
+                        .setActivatedYear(year)
+                        .setMaxYear(calendar.get(Calendar.YEAR))
+                        .setTitle("মাস সিলেক্ট করুন")
+                        .setOnMonthChangedListener(new MonthPickerDialog.OnMonthChangedListener() {
+                            @Override
+                            public void onMonthChanged(int selectedMonth) {
+
+                            }
+                        })
+                        .setOnYearChangedListener(new MonthPickerDialog.OnYearChangedListener() {
+                            @Override
+                            public void onYearChanged(int selectedYear) {
+
+                            }
+                        })
+                        .build()
+                        .show();
+            }
+        });
+        fromMonth = month;
+        fromYear = year;
+        fromMonthTV.setText(HnppJsonFormUtils.monthBanglaStr[fromMonth-1]);
+        fromYearTV.setText(fromYear+"");
+    }
+    public void loadToMonthList() {
+        toMonthPicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(toMonth == -1) toMonth = calendar.get(Calendar.MONTH)+1;
+                if(toYear == -1) toYear = calendar.get(Calendar.YEAR);
+                MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(getContext(), new MonthPickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(int selectedMonth, int selectedYear) {
+                        toMonth = selectedMonth+1;
+                        toYear = selectedYear;
+                        updateToDatePicker();
+                        filterData();
+                    }
+                }, year, month-1);
+                builder.setActivatedMonth(month-1)
+                        .setMinYear(2010)
+                        .setActivatedYear(year)
+                        .setMaxYear(calendar.get(Calendar.YEAR))
+                        .setTitle("মাস সিলেক্ট করুন")
+                        .setOnMonthChangedListener(new MonthPickerDialog.OnMonthChangedListener() {
+                            @Override
+                            public void onMonthChanged(int selectedMonth) {
+
+                            }
+                        })
+                        .setOnYearChangedListener(new MonthPickerDialog.OnYearChangedListener() {
+                            @Override
+                            public void onYearChanged(int selectedYear) {
+
+                            }
+                        })
+                        .build()
+                        .show();
+            }
+        });
+        updateToPicker();
+    }
+
+    private void updateFromDatePicker() {
+        if(fromMonth == -1){
+            fromMonthTV.setText("");
+            fromYearTV.setText("সকল");
+        }else{
+            Log.v("FROM_MONTH_PICKER","fromMonth:"+fromMonth+":fromYear:"+fromYear);
+            int index = fromMonth-1;
+            fromMonthTV.setText(HnppJsonFormUtils.monthBanglaStr[index]);
+            fromYearTV.setText(fromYear+"");
+        }
+
+    }
+    private void updateToDatePicker() {
+        Log.v("TO_MONTH_PICKER","fromMonth:"+month+":fromYear:"+year);
+        int index = toMonth-1;
+        toMonthTV.setText(HnppJsonFormUtils.monthBanglaStr[index]);
+        toYearTV.setText(toYear+"");
+    }
+    private void updateToPicker() {
+        Log.v("TO_MONTH_PICKER","fromMonth:"+month+":fromYear:"+year);
+        toMonth = month;
+        toYear = year;
+        toMonthTV.setText(HnppJsonFormUtils.monthBanglaStr[toMonth-1]);
+        toYearTV.setText(toYear+"");
+    }
     private void updateDatePicker() {
         Log.v("MONTH_PICKER","month:"+month+":year:"+year);
         monthTV.setText(HnppJsonFormUtils.monthBanglaStr[month-1]);
         yearTV.setText(year+"");
     }
-    public void refreshData(Runnable runnable){
-        this.runnable = runnable;
-        updateFilter();
-        updateFromFilter();
-        updateToFilter();
-
-    }
+//    public void refreshData(Runnable runnable){
+//        this.runnable = runnable;
+//        updateFilter();
+//        updateFromFilter();
+//        updateToFilter();
+//
+//    }
 
     @Override
     public void showProgressBar() {
@@ -362,13 +517,15 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
     }
     private void updateFromFilter() {
         if (TextUtils.isEmpty(fromDateBtn.getText().toString())) {
-            toDate = currentDate;
-            fromDateBtn.setText(toDate+"");
+            fromDay = day;
+            fromDate = currentDate;
+            fromDateBtn.setText(fromDate+"");
         }
     }
     private void updateToFilter() {
         if (TextUtils.isEmpty(toDateBtn.getText().toString())) {
             toDate = currentDate;
+            toDay = day;
             toDateBtn.setText(toDate+"");
         }
     }

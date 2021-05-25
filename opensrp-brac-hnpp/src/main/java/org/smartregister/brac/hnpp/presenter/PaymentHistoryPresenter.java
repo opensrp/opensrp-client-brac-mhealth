@@ -18,8 +18,18 @@ public class PaymentHistoryPresenter implements PaymentHistoryContract.Presenter
     @Override
     public void fetchPaymentService() {
         getView().showProgressBar();
-        interactor.fetchPaymentService(this);
+        interactor.fetchPaymentService(this,false);
     }
+    public void fetchLocalData() {
+        getView().showProgressBar();
+        interactor.fetchPaymentService(this,true);
+    }
+    @Override
+    public void filterByFromToDate(String fromDate, String toDate) {
+        getView().showProgressBar();
+        interactor.filterByFromToDate(this,fromDate,toDate);
+    }
+
     @Override
     public void fetchedSuccessfully() {
         getView().hideProgressBar();
@@ -27,6 +37,9 @@ public class PaymentHistoryPresenter implements PaymentHistoryContract.Presenter
     }
     public ArrayList<PaymentHistory> getPaymentData(){
         return interactor.getPaymentHistoryList();
+    }
+    public int getTotalPayment(){
+        return interactor.getTotalPayment();
     }
     @Override
     public PaymentHistoryContract.View getView() {

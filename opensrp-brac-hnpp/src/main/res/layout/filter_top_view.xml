@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:weightSum="2"
+    android:weightSum="3"
     android:layout_height="wrap_content">
     <RelativeLayout
         android:layout_weight="1"
@@ -28,8 +28,33 @@
 
     </RelativeLayout>
     <RelativeLayout
+        android:id="@+id/month_filter_view"
+        android:layout_weight="1"
+        android:layout_marginRight="5dp"
+        android:background="@color/colorPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <com.vijay.jsonwizard.views.CustomTextView
+            android:id="@+id/month_name_filter"
+            android:layout_width="match_parent"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"
+            android:text="@string/filter_month_name"
+            android:layout_toLeftOf="@+id/month_filter_img"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_alignParentRight="true"
+            android:id="@+id/month_filter_img"
+            android:src="@drawable/ic_action_close"
+            android:padding="5dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+
+    </RelativeLayout>
+    <RelativeLayout
         android:layout_marginLeft="5dp"
         android:layout_weight="1"
+        android:id="@+id/cluster_filter_view"
         android:background="@color/colorPrimary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">

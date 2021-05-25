@@ -9,7 +9,10 @@ public class DailyServiceTargetAchievementFragment extends ServiceTargetAchievem
     void initilizePresenter() {
         super.initilizePresenter();
         monthView.setVisibility(View.GONE);
-        dateView.setVisibility(View.VISIBLE);
+        dateView.setVisibility(View.GONE);
+
+        fromDateView.setVisibility(View.VISIBLE);
+        toDateView.setVisibility(View.VISIBLE);
     }
 
     @Override

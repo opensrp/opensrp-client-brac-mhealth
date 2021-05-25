@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.FamilyProfileActivity;
 import org.smartregister.brac.hnpp.activity.HnppChildProfileActivity;
@@ -83,15 +84,17 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment imple
 
     @Override
     public void setupViews(View view) {
-       try {
-           super.setupViews(view);
+        try{
+            super.setupViews(view);
+        }catch (Exception e){
+            HnppApplication.getHNPPInstance().forceLogout();
+            return;
+        }
            isStart = false;
            otherServiceView = view.findViewById(R.id.other_option);
            emptyView = view.findViewById(R.id.empty_view);
            emptyView.setVisibility(View.GONE);
-       }catch (Exception e){
-           Toast.makeText(getActivity(),getString(R.string.fail_result),Toast.LENGTH_SHORT).show();
-       }
+
 
 
     }

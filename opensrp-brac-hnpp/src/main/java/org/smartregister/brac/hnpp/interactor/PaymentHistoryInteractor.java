@@ -6,10 +6,12 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import org.apache.http.NoHttpResponseException;
+import org.joda.time.LocalDate;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
+import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.contract.PaymentHistoryContract;
 import org.smartregister.brac.hnpp.model.PaymentHistory;
 import org.smartregister.family.util.AppExecutors;
@@ -18,30 +20,53 @@ import org.smartregister.service.HTTPAgent;
 import java.util.ArrayList;
 
 public class PaymentHistoryInteractor implements PaymentHistoryContract.Interactor{
-    private static final String API_TO_GET_PAYMENT_HISTORY = "/rest/event/bkash-payment-history?timestamp=0";
+    private static final String API_TO_GET_PAYMENT_HISTORY = "/rest/event/bkash-payment-history?";
     private AppExecutors appExecutors;
     private ArrayList<PaymentHistory> paymentHistoryArrayList;
+    private static final String LAST_PAYMENT_HISTORY_SYNC = "last_payment_history_sync";
+    private int totalPayment;
 
     public PaymentHistoryInteractor(AppExecutors appExecutors) {
         this.appExecutors = appExecutors;
         this.paymentHistoryArrayList = new ArrayList<>();
     }
 
+    @Override
+    public int getTotalPayment() {
+        return totalPayment;
+    }
+
     private ArrayList<PaymentHistory> getPaymentServiceList(){
         paymentHistoryArrayList.clear();
         JSONArray jsonArray = getPaymentServiceJsonArrayList();
+        long tempTimestamp = 0;
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 JSONObject object = jsonArray.getJSONObject(i);
                 PaymentHistory paymentHistory = new Gson().fromJson(object.toString(), PaymentHistory.class);
                 if (paymentHistory != null) {
-                    paymentHistoryArrayList.add(paymentHistory);
+                    if(paymentHistory.getPaymentTimestamp() > tempTimestamp){
+                       tempTimestamp = paymentHistory.getPaymentTimestamp();
+                    }
+                    HnppApplication.getPaymentHistoryRepository().addOrUpdate(paymentHistory);
                 }
+//                ArrayList<PaymentHistory> paymentHistoryList =  HnppApplication.getPaymentHistoryRepository().getAllPayment();
+//                paymentHistoryArrayList.addAll(paymentHistoryList);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+        if(tempTimestamp > 0){
+            CoreLibrary.getInstance().context().allSharedPreferences().savePreference(LAST_PAYMENT_HISTORY_SYNC, tempTimestamp+"");
+        }
+        loadLocalData();
+
+
         return paymentHistoryArrayList;
+    }
+    private void loadLocalData(){
+        ArrayList<PaymentHistory> paymentHistoryList =  HnppApplication.getPaymentHistoryRepository().getAllPayment();
+        if(paymentHistoryList.size()>0)paymentHistoryArrayList.addAll(paymentHistoryList);
     }
 
     @Override
@@ -50,10 +75,29 @@ public class PaymentHistoryInteractor implements PaymentHistoryContract.Interact
     }
 
     @Override
-    public void fetchPaymentService(PaymentHistoryContract.InteractorCallBack callBack) {
+    public void fetchPaymentService(PaymentHistoryContract.InteractorCallBack callBack,boolean isLocal) {
         Runnable runnable = () -> {
-            paymentHistoryArrayList = getPaymentServiceList();
-            Log.v("PaymenthistoryList: ", paymentHistoryArrayList.toString());
+            if(!isLocal){
+                getPaymentServiceList();
+            }else {
+                paymentHistoryArrayList.clear();
+                loadLocalData();
+            }
+            totalPayment = HnppApplication.getPaymentHistoryRepository().getTotalPayment("","");
+            appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
+        };
+        appExecutors.diskIO().execute(runnable);
+    }
+
+    @Override
+    public void filterByFromToDate(PaymentHistoryContract.InteractorCallBack callBack, String fromDate, String toDate) {
+        Runnable runnable = () -> {
+
+                paymentHistoryArrayList.clear();
+            ArrayList<PaymentHistory> paymentHistoryList =  HnppApplication.getPaymentHistoryRepository().getFilterPayment(fromDate,toDate);
+            if(paymentHistoryList.size()>0)paymentHistoryArrayList.addAll(paymentHistoryList);
+            totalPayment = HnppApplication.getPaymentHistoryRepository().getTotalPayment(fromDate,toDate);
+
             appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
         };
         appExecutors.diskIO().execute(runnable);
@@ -72,7 +116,15 @@ public class PaymentHistoryInteractor implements PaymentHistoryContract.Interact
             if (TextUtils.isEmpty(userName)) {
                 return null;
             }
-            String url = baseUrl + API_TO_GET_PAYMENT_HISTORY;
+            String lastHistorySyncTime = CoreLibrary.getInstance().context().allSharedPreferences().getPreference(LAST_PAYMENT_HISTORY_SYNC);
+            if(TextUtils.isEmpty(lastHistorySyncTime)){
+                LocalDate currentDate = LocalDate.now();
+                LocalDate currentDateMinus6Months = currentDate.minusMonths(6);
+
+                lastHistorySyncTime =currentDateMinus6Months.toDate().getTime()+"";
+            }
+
+            String url = baseUrl + API_TO_GET_PAYMENT_HISTORY + "&timestamp=" + lastHistorySyncTime;
             /*+ "?username=" + userName;*/
 
             Log.v("API_payment_History", "url:" + url);

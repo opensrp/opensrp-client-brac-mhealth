@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.fragment;
 
+import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.model.HnppAllMemberRegisterFragmentModel;
 import org.smartregister.brac.hnpp.presenter.AdultMemberRegisterFragmentPresenter;
 import org.smartregister.view.activity.BaseRegisterActivity;
@@ -13,6 +14,10 @@ public class AdultMemberRegisterFragment extends HnppAllMemberRegisterFragment {
 
         String viewConfigurationIdentifier = ((BaseRegisterActivity) getActivity()).getViewIdentifiers().get(0);
         presenter = new AdultMemberRegisterFragmentPresenter(this, new HnppAllMemberRegisterFragmentModel(), viewConfigurationIdentifier);
-
+        isNeedToShowDateFilter = true;
+    }
+    @Override
+    protected int getToolBarTitle() {
+        return R.string.menu_adult;
     }
 }

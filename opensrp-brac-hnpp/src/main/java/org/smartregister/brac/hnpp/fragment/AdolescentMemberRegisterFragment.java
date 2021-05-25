@@ -22,7 +22,7 @@ public class AdolescentMemberRegisterFragment extends HnppAllMemberRegisterFragm
 
         String viewConfigurationIdentifier = ((BaseRegisterActivity) getActivity()).getViewIdentifiers().get(0);
         presenter = new AdoMemberRegisterFragmentPresenter(this, new HnppAllMemberRegisterFragmentModel(), viewConfigurationIdentifier);
-
+        isNeedToShowDateFilter = true;
     }
     @Override
     public void initializeAdapter(Set<View> visibleColumns) {
@@ -30,6 +30,17 @@ public class AdolescentMemberRegisterFragment extends HnppAllMemberRegisterFragm
         clientAdapter = new RecyclerViewPaginatedAdapter(null, childRegisterProvider, context().commonrepository(CoreConstants.TABLE_NAME.FAMILY_MEMBER));
         clientAdapter.setCurrentlimit(20);
         clientsView.setAdapter(clientAdapter);
+    }
+    @Override
+    public void countExecute() {
+        visitType = "and ec_visit_log.visit_type ='Adolescent package'";
+        super.countExecute();
+    }
+
+    @Override
+    protected String filterandSortQuery() {
+        visitType = "and ec_visit_log.visit_type ='Adolescent package'";
+        return super.filterandSortQuery();
     }
 
     @Override

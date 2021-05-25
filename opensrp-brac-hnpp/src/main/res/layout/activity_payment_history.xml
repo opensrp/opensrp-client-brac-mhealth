@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".activity.PaymentHistoryActivity">
 
     <RelativeLayout
@@ -34,13 +35,76 @@
             android:text="@string/menu_history"
             android:textColor="@color/white"
             android:textSize="20sp" />
+        <ImageView
+            android:id="@+id/refreshIndicatorsIcon"
+            android:layout_alignParentRight="true"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:clickable="true"
+            android:layout_centerVertical="true"
+            android:paddingRight="10dp"
+            android:contentDescription="Refresh indicators"
+            android:focusable="true"
+            app:srcCompat="@mipmap/sidemenu_sync" />
     </RelativeLayout>
     <RelativeLayout
+        android:id="@+id/date_view"
+        android:layout_below="@+id/action_bar_payment_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include android:id="@+id/d"
+            android:layout_toLeftOf="@+id/clear_filter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/view_date_range"/>
+        <ImageView
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            android:id="@+id/clear_filter"
+            android:src="@drawable/ic_filter_delete"
+            android:padding="5dp"
+            android:layout_gravity="right"
+            android:layout_marginRight="20dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_marginTop="5dp"
-        android:layout_below="@+id/action_bar"
+        android:layout_below="@+id/date_view"
         android:id="@+id/headerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="160dp"
+            android:layout_height="70dp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:background="@color/light_navy"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/total_given"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:text="@string/total_payment"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
 
     </RelativeLayout>
@@ -80,6 +144,15 @@
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Quantity"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="0dp"
@@ -106,8 +179,9 @@
         android:layout_below="@+id/historyView"
         android:id="@+id/recycler_view_history"
         android:scrollbars="vertical"
+        android:padding="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         />
 
 

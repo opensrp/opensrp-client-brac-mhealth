@@ -7,12 +7,12 @@ import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteException;
 
 import org.smartregister.AllConstants;
+import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.chw.anc.repository.VisitDetailsRepository;
 import org.smartregister.chw.anc.repository.VisitRepository;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.repository.CoreChwRepository;
 import org.smartregister.brac.hnpp.BuildConfig;
-import org.smartregister.configurableviews.repository.ConfigurableViewsRepository;
 import org.smartregister.immunization.ImmunizationLibrary;
 import org.smartregister.immunization.repository.RecurringServiceRecordRepository;
 import org.smartregister.immunization.repository.RecurringServiceTypeRepository;
@@ -21,18 +21,12 @@ import org.smartregister.immunization.repository.VaccineRepository;
 import org.smartregister.immunization.repository.VaccineTypeRepository;
 import org.smartregister.immunization.util.IMDatabaseUtils;
 import org.smartregister.repository.AlertRepository;
-import org.smartregister.repository.EventClientRepository;
-import org.smartregister.repository.LocationRepository;
-import org.smartregister.repository.SettingsRepository;
-import org.smartregister.repository.UniqueIdRepository;
-
-import timber.log.Timber;
 
 public class HnppChwRepository extends CoreChwRepository {
     private Context context;
 
     public HnppChwRepository(Context context, org.smartregister.Context openSRPContext) {
-        super(context, AllConstants.DATABASE_NAME, BuildConfig.DATABASE_VERSION, openSRPContext.session(), CoreChwApplication.createCommonFtsObject(), openSRPContext.sharedRepositoriesArray());
+        super(context, AllConstants.DATABASE_NAME, BuildConfig.DATABASE_VERSION, openSRPContext.session(), HnppApplication.createCommonFtsObject(), openSRPContext.sharedRepositoriesArray());
         this.context = context;
     }
 
@@ -71,7 +65,7 @@ public class HnppChwRepository extends CoreChwRepository {
         upgradeToVersion29(context,database);
         upgradeToVersion30(context,database);
         upgradeToVersion31(context,database);
-
+        upgradeToVersion33(context,database);
     }
 
     @Override
@@ -150,12 +144,24 @@ public class HnppChwRepository extends CoreChwRepository {
                 case 32:
                     upgradeToVersion32(context,db);
                     break;
+                case 33:
+                    upgradeToVersion33(context,db);
+                    break;
                 default:
                     break;
             }
             upgradeTo++;
         }
     }
+
+    private void upgradeToVersion33(Context context, SQLiteDatabase db) {
+        try {
+            PaymentHistoryRepository.createTable(db);
+        } catch (Exception e) {
+
+        }
+    }
+
     private void upgradeToVersion20(Context context, SQLiteDatabase db) {
         try {
             db.execSQL("ALTER TABLE ec_child ADD COLUMN birth_id VARCHAR;");

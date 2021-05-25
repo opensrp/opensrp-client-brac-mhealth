@@ -11,6 +11,7 @@ import net.sqlcipher.Cursor;
 import net.sqlcipher.database.SQLiteDatabase;
 
 import org.joda.time.DateTime;
+import org.smartregister.brac.hnpp.model.TargetVsAchievementModel;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.RiskyModel;
@@ -51,8 +52,8 @@ public class TargetVsAchievementRepository extends BaseRepository {
     private static final String CREATE_TARGET_TABLE =
             "CREATE TABLE " + TARGET_TABLE + " (" +
                     ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                    TARGET_ID + " INTEGER , " +TARGET_NAME + " VARCHAR , " + TARGET_COUNT+ " INTEGER,"+
-                    YEAR + " VARCHAR, " + MONTH+ " VARCHAR, "+DAY+" VARCHAR, "+START_DATE+" VARCHAR, "+END_DATE+" VARCHAR ,"+ACHIEVEMNT_COUNT+" INTEGER,"+SS_NAME+" VARCHAR,"+BASE_ENTITY_ID+" VARCHAR ) ";
+                    TARGET_ID + " INTEGER , " +TARGET_NAME + " VARCHAR , " + TARGET_COUNT+ " int default 0,"+
+                    YEAR + " VARCHAR, " + MONTH+ " VARCHAR, "+DAY+" VARCHAR, "+START_DATE+" VARCHAR, "+END_DATE+" VARCHAR ,"+ACHIEVEMNT_COUNT+" int default 0,"+SS_NAME+" VARCHAR,"+BASE_ENTITY_ID+" VARCHAR ) ";
 
 
 
@@ -87,12 +88,30 @@ public class TargetVsAchievementRepository extends BaseRepository {
         contentValues.put(DAY, day);
         contentValues.put(SS_NAME, ssName);
         SQLiteDatabase database = getWritableDatabase();
-        if(findUnique(database,targetName,day,month,year,ssName,baseEntityId)){
-            Log.v("TARGET_INSERTED","update value:"+contentValues);
-            long inserted = database.insert(getLocationTableName(), null, contentValues);
-        }
+//        if(findUnique(database,targetName,day,month,year,ssName,baseEntityId)){
+//            Log.v("TARGET_INSERTED","update value:"+contentValues);
+//            long inserted = database.insert(getLocationTableName(), null, contentValues);
+//        }
+        TargetVsAchievementData targetVsAchievementData = new TargetVsAchievementData();
+        targetVsAchievementData.setTargetName(targetName);
+        targetVsAchievementData.setDay(day);
+        targetVsAchievementData.setMonth(month);
+        targetVsAchievementData.setYear(year);
 
-//        getWritableDatabase().execSQL("update "+getLocationTableName()+" set achievemnt_count = achievemnt_count +1,"+DAY+" = "+day+" , "+MONTH+" = "+month+" , "+YEAR+" = "+year+" where "+TARGET_NAME+" = '"+targetName+"'");
+        if(!isExistData(targetVsAchievementData)){
+
+            long inserted = getWritableDatabase().insert(getLocationTableName(), null, contentValues);
+            Log.v("TARGET_FETCH","achievemnt inserterd:"+inserted);
+        }else{
+
+            String sql = "UPDATE "+getLocationTableName()+" SET "+ACHIEVEMNT_COUNT+" = "+ACHIEVEMNT_COUNT+" + "+count+" WHERE "+TARGET_NAME+" = '"+targetVsAchievementData.getTargetName()+"' and "+YEAR+" ='"+targetVsAchievementData.getYear()+"'" +
+                    " and "+MONTH+" ='"+targetVsAchievementData.getMonth()+"' and "+DAY+" ='"+targetVsAchievementData.getDay()+"' ";
+            getWritableDatabase().execSQL(sql);
+            //            long updated = getWritableDatabase().update(getLocationTableName(), contentValues,TARGET_NAME+" = '"+targetVsAchievementData.getTargetName()+"' and "+YEAR+" ='"+targetVsAchievementData.getYear()+"'" +
+//                    " and "+MONTH+" ='"+targetVsAchievementData.getMonth()+"' and "+DAY+" ='"+targetVsAchievementData.getDay()+"' ",null);
+
+            Log.v("TARGET_FETCH","achievemnt exists!!!!!!!!!updated:"+sql+":contentValues:"+contentValues);
+        }
     }
     public boolean findUnique(SQLiteDatabase db, String targetName, String day, String month, String year, String ssName, String baseEntityId) {
 
@@ -135,7 +154,6 @@ public class TargetVsAchievementRepository extends BaseRepository {
         contentValues.put(TARGET_ID, targetVsAchievementData.getTargetId());
         contentValues.put(TARGET_COUNT, targetVsAchievementData.getTargetCount());
         contentValues.put(TARGET_NAME, targetVsAchievementData.getTargetName());
-        contentValues.put(ACHIEVEMNT_COUNT, targetVsAchievementData.getAchievementCount());
         contentValues.put(YEAR, targetVsAchievementData.getYear());
         contentValues.put(MONTH, targetVsAchievementData.getMonth());
         contentValues.put(DAY, targetVsAchievementData.getDay());
@@ -147,8 +165,8 @@ public class TargetVsAchievementRepository extends BaseRepository {
             Log.v("TARGET_FETCH","inserterd:"+inserted);
         }else{
             long updated = getWritableDatabase().update(getLocationTableName(), contentValues,TARGET_NAME+" = '"+targetVsAchievementData.getTargetName()+"' and "+YEAR+" ='"+targetVsAchievementData.getYear()+"'" +
-                    " and "+MONTH+" ='"+targetVsAchievementData.getMonth()+"' and "+DAY+" ='"+targetVsAchievementData.getDay()+"'",null);
-            Log.v("TARGET_FETCH","exists!!!!!!!!!updated:"+updated);
+                    " and "+MONTH+" ='"+targetVsAchievementData.getMonth()+"' and "+DAY+" ='"+targetVsAchievementData.getDay()+"' ",null);
+            Log.v("TARGET_FETCH","exists!!!!!!!!!updated:"+updated+":contentValues:"+contentValues);
         }
 
 

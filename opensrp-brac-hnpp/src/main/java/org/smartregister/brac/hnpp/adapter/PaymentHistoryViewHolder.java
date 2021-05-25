@@ -13,6 +13,7 @@ public class PaymentHistoryViewHolder extends RecyclerView.ViewHolder {
     public TextView serviceType;
     public TextView price;
     public TextView status;
+    public TextView quantity;
 
     public PaymentHistoryViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -20,5 +21,6 @@ public class PaymentHistoryViewHolder extends RecyclerView.ViewHolder {
         serviceType = itemView.findViewById(R.id.service_type_history_payment);
         price = itemView.findViewById(R.id.price_history_payment);
         status = itemView.findViewById(R.id.status_history_payment);
+        quantity = itemView.findViewById(R.id.quantity_history_payment);
     }
 }

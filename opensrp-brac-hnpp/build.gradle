@@ -45,7 +45,7 @@ android {
         buildConfigField "String[]", "ALLOWED_LOCATION_LEVELS", '{"MOH Jhpiego Facility Name" , "Village"}'
         buildConfigField "String", 'DEFAULT_LOCATION', '"Village"'
         buildConfigField "boolean", 'SUPPORT_QR', 'false'
-        buildConfigField "int", "DATABASE_VERSION", '32'
+        buildConfigField "int", "DATABASE_VERSION", '33'
         buildConfigField "int", "DATA_SYNC_DURATION_MINUTES", '10'
         buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "1800000l"
         buildConfigField "boolean", "TIME_CHECK", "false"
@@ -107,23 +107,45 @@ android {
     flavorDimensions 'baseDimension'
     productFlavors {
 
+        pa{
+            versionCode 2
+            versionName "1.0.2"
+            dimension = 'baseDimension'
+            applicationIdSuffix ".pa"
+            buildConfigField "boolean", 'IS_TRAINING', 'false'
+            buildConfigField "String", 'opensrp_url_training', '"http://mhealth.brac.net:8080/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"http://mhealth.brac.net:8080/opensrp/"'
+        }
+        pa_training{
+            versionCode 2
+            versionName "1.0.2"
+            dimension = 'baseDimension'
+            applicationIdSuffix ".patraining"
+            buildConfigField "boolean", 'IS_TRAINING', 'true'
+            buildConfigField "String", 'opensrp_url_training', '"http://mhealthtest.brac.net:8080/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"http://mhealthtest.brac.net:8080/opensrp/"'
+        }
+
         training{
-            versionCode 30
-            versionName "3.0.5"
+            versionCode 34
+            versionName "3.0.8"
             dimension = 'baseDimension'
             applicationIdSuffix ".training"
             buildConfigField "boolean", 'IS_TRAINING', 'true'
-            buildConfigField "String", 'opensrp_url_training', '"http://mhealthtest1.brac.net:8080/opensrp/"'
-            buildConfigField "String", 'opensrp_url_live', '"http://mhealthtest1.brac.net:8080/opensrp/"'
+            buildConfigField "String", 'opensrp_url_training', '"http://mhealthtest.brac.net:8080/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"http://mhealthtest.brac.net:8080/opensrp/"'
         }
         normal{
-            versionCode 32
-            versionName "1.3.7_DEV"
+            versionCode 35
+            versionName "1.4.0_DEV"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
-
             buildConfigField "String", 'opensrp_url_training', '"http://hnpptest1.mpower-social.com:8080/opensrp/"'
             buildConfigField "String", 'opensrp_url_live', '"http://hnpptest1.mpower-social.com:8080/opensrp/"'
+
+//            buildConfigField "boolean", 'IS_TRAINING', 'true'
+//            buildConfigField "String", 'opensrp_url_training', '"http://mhealthtest.brac.net:8080/opensrp/"'
+//            buildConfigField "String", 'opensrp_url_live', '"http://mhealthtest.brac.net:8080/opensrp/"'
 
 //            buildConfigField "String", 'opensrp_url_training', '"http://192.168.43.214:8082/opensrp/"'
 //            buildConfigField "String", 'opensrp_url_live', '"http://192.168.43.214:8082/opensrp/"'

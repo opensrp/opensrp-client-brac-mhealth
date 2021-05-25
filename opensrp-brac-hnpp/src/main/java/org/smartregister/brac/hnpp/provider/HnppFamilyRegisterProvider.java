@@ -138,11 +138,16 @@ public class HnppFamilyRegisterProvider extends CoreRegisterProvider  {
         String firstName = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.FIRST_NAME, true);
         setText(viewHolder.houseHoldName, context.getString(R.string.name,firstName));
         String houseHoldId = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.UNIQUE_ID, true);
-        if(!TextUtils.isEmpty(houseHoldId)){
-            houseHoldId = houseHoldId.replace(Constants.IDENTIFIER.FAMILY_SUFFIX,"")
-                    .replace(HnppConstants.IDENTIFIER.FAMILY_TEXT,"");
-            houseHoldId = houseHoldId.substring(houseHoldId.length() - HnppConstants.HOUSE_HOLD_ID_SUFFIX);
+        try{
+            if(!TextUtils.isEmpty(houseHoldId)){
+                houseHoldId = houseHoldId.replace(Constants.IDENTIFIER.FAMILY_SUFFIX,"")
+                        .replace(HnppConstants.IDENTIFIER.FAMILY_TEXT,"");
+                houseHoldId = houseHoldId.substring(houseHoldId.length() - HnppConstants.HOUSE_HOLD_ID_SUFFIX);
+            }
+        }catch (Exception e){
+
         }
+
         String serialNo = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.SERIAL_NO, true);
 //        if(!TextUtils.isEmpty(serialNo) && serialNo.length() > 2){
 //            serialNo = serialNo.substring(0,1)+"-"+serialNo.substring(1);

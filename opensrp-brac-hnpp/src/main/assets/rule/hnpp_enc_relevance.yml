@@ -14,9 +14,9 @@ actions:
   - "isRelevant = true"
 ---
 name: step1_extra_food_in_24hr
-description: if age 0 month less than 6 month
+description: if age 7 month less than 12 month
 priority: 1
-condition: "(step1_month_diff >= 0 && step1_month_diff < 183)"
+condition: "(step1_month_diff >= 183 && step1_month_diff < 731)"
 actions:
   - "isRelevant = true"
 ---

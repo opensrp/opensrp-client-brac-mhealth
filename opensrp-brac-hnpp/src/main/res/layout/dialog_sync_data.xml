@@ -8,15 +8,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <org.smartregister.view.customcontrols.CustomFontTextView
+    <TextView
         android:id="@+id/not_found_txt"
         android:layout_gravity="center"
         android:gravity="center"
         android:padding="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="পেমেন্ট অপশনে যাওয়ার আগে বর্তমানে থাকা হাউসহোল্ড এবং মেম্বার এর তথ্য সিংক করে নিন।
-অটোমেটিক্যালি ডাটা গুলো সিঙ্ক করার জন্যে নিচের সিংক বাটনে প্রেস করুন ।"
+        android:text="@string/payment_sync"
         android:textColor="@color/black"
         android:textSize="20sp"/>
 

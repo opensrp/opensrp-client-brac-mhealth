@@ -1,5 +1,7 @@
 package org.smartregister.brac.hnpp.fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -9,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.HnppChildProfileActivity;
 import org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity;
@@ -94,6 +97,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                if(getActivity() ==null || getActivity().isFinishing()) return;
                 addStaticView();
                 String dobString = Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOB, false);
                 Date dob = Utils.dobStringToDate(dobString);
@@ -131,7 +135,12 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
 
     @Override
     public void setupViews(View view) {
-        super.setupViews(view);
+        try{
+            super.setupViews(view);
+        }catch (Exception e){
+            HnppApplication.getHNPPInstance().forceLogout();
+            return;
+        }
         emptyView = view.findViewById(R.id.empty_view);
         otherServiceView = view.findViewById(R.id.other_option);
 
@@ -178,7 +187,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
     }
     View encView;
     public void  updateChildDueEntry(int type, String serviceName, String dueDate){
-        if(otherServiceView==null || TextUtils.isEmpty(serviceName))return;
+        if(getActivity() == null || getActivity().isFinishing() || otherServiceView==null || TextUtils.isEmpty(serviceName))return;
         serviceName = HnppConstants.immunizationMapping.get(serviceName.toUpperCase());
 //       if(handler !=null){
 //           handler.postDelayed(new Runnable() {
@@ -186,7 +195,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
 //               public void run() {
                    otherServiceView.setVisibility(View.VISIBLE);
                    if(encView !=null) otherServiceView.removeView(encView);
-                   encView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+                   encView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
                    ImageView image1 = encView.findViewById(R.id.image_view);
                    TextView name1 =  encView.findViewById(R.id.patient_name_age);
                    encView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
@@ -214,6 +223,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
     String eventType = "";
     View childInfo1View, childInfo2View, childInfo3View;
     private void addStaticView(){
+        if(getActivity() ==null || getActivity().isFinishing()) return;
         if(otherServiceView.getVisibility() == View.VISIBLE){
             otherServiceView.removeAllViews();
         }
@@ -224,7 +234,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         boolean isEnc = FormApplicability.isEncVisible(dob);
         if(isEnc){
             if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.ENC_REGISTRATION)){
-                View encView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+                View encView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
                 ImageView image1 = encView.findViewById(R.id.image_view);
                 TextView name1 =  encView.findViewById(R.id.patient_name_age);
                 encView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
@@ -238,7 +248,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         }
 
 
-        View familyView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+        View familyView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
         ImageView image = familyView.findViewById(R.id.image_view);
         TextView name =  familyView.findViewById(R.id.patient_name_age);
         familyView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
@@ -249,7 +259,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         otherServiceView.addView(familyView);
 
         {
-            View referelView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+            View referelView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
             ImageView imageReferel = referelView.findViewById(R.id.image_view);
             TextView nameReferel =  referelView.findViewById(R.id.patient_name_age);
             referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
@@ -261,7 +271,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         }
         if(!isEnc){
             if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP)){
-                View followupView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+                View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
                 ImageView fImg = followupView.findViewById(R.id.image_view);
                 TextView fName =  followupView.findViewById(R.id.patient_name_age);
                 followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
@@ -275,7 +285,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         }
         eventType = FormApplicability.isDueChildInfo(day);
         if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12) && FormApplicability.isDueChildInfoForm(baseEntityId,eventType)){
-            childInfo1View = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+            childInfo1View = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
             ImageView fImg = childInfo1View.findViewById(R.id.image_view);
             TextView fName =  childInfo1View.findViewById(R.id.patient_name_age);
             childInfo1View.findViewById(R.id.status).setVisibility(View.INVISIBLE);
@@ -286,7 +296,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             otherServiceView.addView(childInfo1View);
         }
         else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS) && FormApplicability.isDueChildInfoForm(baseEntityId,eventType)){
-            childInfo2View = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+            childInfo2View = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
             ImageView fImg = childInfo2View.findViewById(R.id.image_view);
             TextView fName =  childInfo2View.findViewById(R.id.patient_name_age);
             childInfo2View.findViewById(R.id.status).setVisibility(View.INVISIBLE);
@@ -297,7 +307,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             otherServiceView.addView(childInfo2View);
         }
         else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS) && FormApplicability.isDueChildInfoForm(baseEntityId,eventType)){
-            childInfo3View = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+            childInfo3View = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
             ImageView fImg = childInfo3View.findViewById(R.id.image_view);
             TextView fName =  childInfo3View.findViewById(R.id.patient_name_age);
             childInfo3View.findViewById(R.id.status).setVisibility(View.INVISIBLE);
@@ -312,7 +322,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
 
         for(ReferralFollowUpModel referralFollowUpModel : getList){
 
-            View referrelFollowUp = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+            View referrelFollowUp = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
             ImageView imgFollowup = referrelFollowUp.findViewById(R.id.image_view);
             TextView nReferel =  referrelFollowUp.findViewById(R.id.patient_name_age);
             TextView lastVisitRow = referrelFollowUp.findViewById(R.id.last_visit);
@@ -328,7 +338,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         }
 
             if (FormApplicability.isDueCoronaForm(baseEntityId)) {
-                View referelView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due, null);
+                View referelView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due, null);
                 ImageView imageReferel = referelView.findViewById(R.id.image_view);
                 TextView nameReferel = referelView.findViewById(R.id.patient_name_age);
                 referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
