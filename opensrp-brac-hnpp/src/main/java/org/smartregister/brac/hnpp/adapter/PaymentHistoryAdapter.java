@@ -37,9 +37,9 @@ public class PaymentHistoryAdapter  extends RecyclerView.Adapter<PaymentHistoryV
     public void onBindViewHolder(@NonNull PaymentHistoryViewHolder paymenthistoryViewHolder, @SuppressLint("RecyclerView") int i) {
         PaymentHistory content = contentList.get(i);
         paymenthistoryViewHolder.paymentDate.setText(content.getPaymentDate());
-        paymenthistoryViewHolder.serviceType.setText(content.getServiceType() + "");
+        //paymenthistoryViewHolder.serviceType.setText(content.getServiceType() + "");
 
-        //paymenthistoryViewHolder.serviceType.setText(HnppConstants.targetTypeMapping.get(content.getServiceType() + ""));
+        paymenthistoryViewHolder.serviceType.setText(HnppConstants.targetTypeMapping.get(content.getServiceType() + ""));
         paymenthistoryViewHolder.quantity.setText(content.getQuantity()+"");
         paymenthistoryViewHolder.price.setText(content.getPrice() );
         paymenthistoryViewHolder.status.setText(content.getStatus());

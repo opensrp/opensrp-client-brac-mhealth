@@ -48,9 +48,9 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentViewHolder> {
         Payment content = contentList.get(i);
         content.setConsiderChange(false);
         paymentViewHolder.numberTV.setTag(i);
-        paymentViewHolder.packageNameTV.setText(content.getServiceType() + "");
+        //paymentViewHolder.packageNameTV.setText(content.getServiceType() + "");
 
-//        paymentViewHolder.packageNameTV.setText(HnppConstants.targetTypeMapping.get(content.getServiceType() + ""));
+        paymentViewHolder.packageNameTV.setText(HnppConstants.targetTypeMapping.get(content.getServiceType() + ""));
         paymentViewHolder.unitPriceTV.setText(content.getUnitPrice() + "");
         paymentViewHolder.quantityTV.setText(content.getQuantity() + "");
         if(!content.isEmpty()){

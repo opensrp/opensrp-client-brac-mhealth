@@ -379,4 +379,5 @@
     <string name="not_confirm">নিশ্চিত নই</string>
 
     <string name="payment_sync">পেমেন্ট অপশনে যাওয়ার আগে বর্তমানে থাকা হাউসহোল্ড এবং মেম্বার এর তথ্য সিংক করে নিন। অটোমেটিক্যালি ডাটা গুলো সিঙ্ক করার জন্যে নিচের সিংক বাটনে প্রেস করুন ।</string>
+    <string name="bill_pay">পে করুন</string>
 </resources>

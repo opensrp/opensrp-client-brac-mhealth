@@ -57,9 +57,6 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
     private ArrayList<Payment> payments = new ArrayList<>();
     private Button confirmBtn;
 
-
-
-
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_payment);
