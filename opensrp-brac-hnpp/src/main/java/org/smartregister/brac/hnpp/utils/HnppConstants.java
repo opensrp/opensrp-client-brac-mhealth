@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -20,6 +21,8 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.common.collect.ImmutableMap;
@@ -225,6 +228,12 @@ public class HnppConstants extends CoreConstants {
         public static final int TYPE_REFERRAL_FOLLOW_UP = 8;
     }
 
+    public static String getPaymentIdFromUrl(String url){
+        String paymentId = "";
+        if(TextUtils.isEmpty(url)) return "";
+        paymentId= url.substring(url.indexOf("paymentID")+10,url.indexOf("&"));
+        return paymentId;
+    }
 
     public static boolean isNeedToShowEDDPopup(){
         String lastEddTimeStr =  org.smartregister.Context.getInstance().allSharedPreferences().getPreference("LAST_EDD_TIME");
@@ -307,16 +316,16 @@ public class HnppConstants extends CoreConstants {
         titleTxt.setText(title);
         textViewTitle.setText(text);
         CheckBox checkBox = dialog.findViewById(R.id.term_check);
-        Button okBtn = dialog.findViewById(R.id.ok_btn);
+        LinearLayout payBtn = dialog.findViewById(R.id.bkash_pay);
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    okBtn.setAlpha(1.0f);
-                    okBtn.setEnabled(true);
+                    payBtn.setAlpha(1.0f);
+                    payBtn.setEnabled(true);
                 }else{
-                    okBtn.setAlpha(0.3f);
-                    okBtn.setEnabled(false);
+                    payBtn.setAlpha(0.3f);
+                    payBtn.setEnabled(false);
                 }
             }
         });
@@ -332,7 +341,37 @@ public class HnppConstants extends CoreConstants {
                 dialog.dismiss();
             }
         });
-        okBtn.setOnClickListener(new View.OnClickListener() {
+        payBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                runnable.run();
+            }
+        });
+        dialog.show();
+    }
+    public static void showButtonWithImageDialog(Context context, int type, Runnable runnable){
+        Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_with_image_one_button);
+        ImageView imageView = dialog.findViewById(R.id.image);
+        TextView titleTxt = dialog.findViewById(R.id.title_tv);
+        if(type ==1){
+            imageView.setImageResource(R.drawable.success);
+            titleTxt.setText("Payment successfully");
+            titleTxt.setTextColor(context.getResources().getColor(R.color.alert_complete_green));
+        }else if(type == 2){
+            imageView.setImageResource(R.drawable.failure);
+            titleTxt.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
+            titleTxt.setText("Payment failed");
+        }else if(type == 3){
+            imageView.setImageResource(R.drawable.cancel);
+            titleTxt.setText("Payment cancel");
+            titleTxt.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
+        }
+
+
+        dialog.findViewById(R.id.ok_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();

@@ -121,29 +121,74 @@ public class BkashActivity extends SecuredActivity implements View.OnClickListen
         public void onPageFinished(WebView view, String url) {
 
             Log.v("STATUS_URL:",url);
-            if(url.contains("status=success") || url.contains("status=failure") || url.contains("status=cancel")){
+
+            if(url.contains("status=success")){
+                String paymentId = HnppConstants.getPaymentIdFromUrl(url);
                 progressBar.setVisibility(View.VISIBLE);
-                myHandler.postDelayed(new Runnable() {
+                new PaymentDetailsInteractor(new AppExecutors()).executeBKashPayment(paymentId, new PaymentContract.PaymentPostInteractorCallBack() {
+                    @Override
+                    public void onSuccess(ArrayList<String> responses) {
+
+                    }
+
+                    @Override
+                    public void onFail() {
+                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(BkashActivity.this,"Fail to execute payment",Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                        HnppConstants.showButtonWithImageDialog(BkashActivity.this, 1, new Runnable() {
+                            @Override
+                            public void run() {
+
+                                progressBar.setVisibility(View.VISIBLE);
+                                myHandler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        progressBar.setVisibility(View.GONE);
+                                        DFSActivity.startPaymentActivity(BkashActivity.this,true);
+                                        finish();
+                                    }
+                                },2000);
+
+
+                            }
+                        });
+
+                    }
+                });
+
+
+            }else if(url.contains("status=failure") ){
+                HnppConstants.showButtonWithImageDialog(BkashActivity.this, 2, new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.VISIBLE);
+                        myHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                progressBar.setVisibility(View.GONE);
+                                DFSActivity.startPaymentActivity(BkashActivity.this,true);
+                                finish();
+                            }
+                        },2000);
+                    }
+                });
+            }
+            else if(url.contains("status=cancel") ){
+                HnppConstants.showButtonWithImageDialog(BkashActivity.this, 3, new Runnable() {
                     @Override
                     public void run() {
                         progressBar.setVisibility(View.GONE);
-//                        Intent intent = new Intent(BkashActivity.this,BkashStatusActivity.class);
-//                        intent.putExtra("trxId",trnsactionId);
-//                        startActivity(intent);
-                        DFSActivity.startPaymentActivity(BkashActivity.this,true);
-                        finish();
+                        BkashActivity.super.onBackPressed();
                     }
-                },2000);
-                //showStatusDialog();
-
+                });
             }else{
                 progressBar.setVisibility(View.GONE);
             }
-
-           /* String paymentRequest = "{paymentRequest:" + request + "}";
-            wvBkashPayment.loadUrl("javascript:callReconfigure(" + paymentRequest + " )");
-            // wvBkashPayment.loadUrl("javascript:getAmount(" + orderModel.getSub_total() + " )");
-            wvBkashPayment.loadUrl("javascript:clickPayButton()");*/
 
         }
 

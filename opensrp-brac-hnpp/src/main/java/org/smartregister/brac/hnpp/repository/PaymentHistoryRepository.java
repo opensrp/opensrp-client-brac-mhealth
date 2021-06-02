@@ -58,7 +58,7 @@ public class PaymentHistoryRepository extends BaseRepository {
     }
 
     public void addOrUpdate(PaymentHistory paymentHistory) {
-        if(!isExistData(paymentHistory.getPaymentId())){
+        //if(!isExistData(paymentHistory.getPaymentId())){
             ContentValues contentValues = new ContentValues();
             contentValues.put(PAYMENT_ID, paymentHistory.getPaymentId());
             contentValues.put(PAYMENT_TYPE, paymentHistory.getServiceType());
@@ -68,9 +68,9 @@ public class PaymentHistoryRepository extends BaseRepository {
             contentValues.put(PAYMENT_TIMESTAMP, paymentHistory.getPaymentTimestamp() * 1000);
             long inserted = getWritableDatabase().insert(getLocationTableName(), null, contentValues);
             Log.v("TARGET_FETCH","inserterd:"+inserted+":contentValues:"+contentValues);
-        }else{
-            Log.v("TARGET_FETCH","exists!!!!!!!!!");
-        }
+//        }else{
+//            Log.v("TARGET_FETCH","exists!!!!!!!!!");
+//        }
 
 
     }

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 public class PaymentDetailsInteractor {
     private static final String PAYMENT_DETAILS_POST = "/rest/event/create-payment";
+    private static final String PAYMENT_EXECUTE_POST = "/rest/event/execute-bkash-payment";
     private AppExecutors appExecutors;
     private ArrayList<String> responseList;
 
@@ -26,11 +27,26 @@ public class PaymentDetailsInteractor {
         this.appExecutors = appExecutors;
         responseList = new ArrayList<>();
     }
+    public void executeBKashPayment(String paymentId, PaymentContract.PaymentPostInteractorCallBack callBack)
+    {
+        Runnable runnable = () -> {
+            boolean isSuccess = postPaymentExecute(paymentId);
+            if(isSuccess){
+                appExecutors.mainThread().execute(() -> callBack.onSuccess());
+            }else{
+                appExecutors.mainThread().execute(callBack::onFail);
+            }
+
+        };
+        appExecutors.diskIO().execute(runnable);
+
+
+    }
     public void paymentDetailsPost(ArrayList<Payment> paymentDetails, int givenAmount, PaymentContract.PaymentPostInteractorCallBack callBack)
     {
         Runnable runnable = () -> {
             responseList = getPostResponseList(paymentDetails,givenAmount);
-            boolean isSuccess = postData(responseList);
+            boolean isSuccess = responseList.size()>1;
             if(isSuccess){
                 appExecutors.mainThread().execute(() -> callBack.onSuccess(responseList));
             }else{
@@ -60,6 +76,44 @@ public class PaymentDetailsInteractor {
             e.printStackTrace();
         }
         return responseList;
+    }
+    private boolean postPaymentExecute(String paymentId){
+        try{
+            HTTPAgent httpAgent = CoreLibrary.getInstance().context().getHttpAgent();
+            String baseUrl = CoreLibrary.getInstance().context().
+                    configuration().dristhiBaseURL();
+            String endString = "/";
+            if (baseUrl.endsWith(endString)) {
+                baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf(endString));
+            }
+            String userName = CoreLibrary.getInstance().context().allSharedPreferences().fetchRegisteredANM();
+            if (TextUtils.isEmpty(userName)) {
+                return false;
+            }
+            String url = baseUrl + PAYMENT_EXECUTE_POST;
+            JSONObject finalobject = new JSONObject();
+            finalobject.put("paymentID", paymentId);
+            org.smartregister.domain.Response resp = httpAgent.post(url,finalobject.toString());
+            Log.v("PAYMENT_EXECUTE", "url:" + url+"payload:"+finalobject.toString()+":code:"+resp.status().displayValue());
+
+            if (resp.isFailure()) {
+                throw new NoHttpResponseException(PAYMENT_EXECUTE_POST + " not returned data");
+            }
+            String responseStr = (String)resp.payload();
+            Log.v("PAYMENT_EXECUTE","responseStr>>"+responseStr);
+            if(!TextUtils.isEmpty(responseStr) ){
+                JSONObject object = new JSONObject(resp.payload().toString());
+                String statusCode = object.getString("statusCode");
+                if(!TextUtils.isEmpty(statusCode) && statusCode.equalsIgnoreCase("0000")){
+                    return true;
+                }
+
+            }
+        }catch (Exception e){
+        e.printStackTrace();
+        }
+        return false;
+
     }
     private JSONObject getResponseJsonObject(ArrayList<Payment> paymentDetails, int givenAmount) {
         try {
