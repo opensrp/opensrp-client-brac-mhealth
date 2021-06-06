@@ -58,7 +58,7 @@ public class PaymentHistoryRepository extends BaseRepository {
     }
 
     public void addOrUpdate(PaymentHistory paymentHistory) {
-        //if(!isExistData(paymentHistory.getPaymentId())){
+        if(!isExistData(paymentHistory.getPaymentId())){
             ContentValues contentValues = new ContentValues();
             contentValues.put(PAYMENT_ID, paymentHistory.getPaymentId());
             contentValues.put(PAYMENT_TYPE, paymentHistory.getServiceType());
@@ -67,10 +67,19 @@ public class PaymentHistoryRepository extends BaseRepository {
             contentValues.put(PAYMENT_STATUS, paymentHistory.getStatus());
             contentValues.put(PAYMENT_TIMESTAMP, paymentHistory.getPaymentTimestamp() * 1000);
             long inserted = getWritableDatabase().insert(getLocationTableName(), null, contentValues);
-            Log.v("TARGET_FETCH","inserterd:"+inserted+":contentValues:"+contentValues);
-//        }else{
-//            Log.v("TARGET_FETCH","exists!!!!!!!!!");
-//        }
+            Log.v("PAYMENT_HISTORY","inserterd:"+inserted+":contentValues:"+contentValues);
+        }else{
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(PAYMENT_ID, paymentHistory.getPaymentId());
+            contentValues.put(PAYMENT_TYPE, paymentHistory.getServiceType());
+            contentValues.put(PAYMENT_PRICE, paymentHistory.getPrice());
+            contentValues.put(PAYMENT_DATE, paymentHistory.getPaymentDate());
+            contentValues.put(PAYMENT_STATUS, paymentHistory.getStatus());
+            contentValues.put(PAYMENT_TIMESTAMP, paymentHistory.getPaymentTimestamp() * 1000);
+            int isUpdated = getWritableDatabase().update(getLocationTableName(), contentValues,
+                    PAYMENT_ID + " = ?  ", new String[]{paymentHistory.getPaymentId()});
+            Log.v("PAYMENT_HISTORY","updated:"+isUpdated+":content:"+contentValues);
+        }
 
 
     }
@@ -106,7 +115,8 @@ public class PaymentHistoryRepository extends BaseRepository {
         return total;
     }
     public boolean isExistData(String paymentId){
-        String sql = "select count(*) from "+getLocationTableName()+" where "+PAYMENT_ID+" = "+paymentId;
+        String sql = "select count(*) from "+getLocationTableName()+" where "+PAYMENT_ID+" = '"+paymentId+"' and "+PAYMENT_STATUS+" = 'FAILED'";
+        Log.v("PAYMENT_HISTORY","sql:"+sql);
         Cursor cursor = null;
         boolean isExist = false;
 

@@ -130,7 +130,7 @@ public class PaymentHistoryInteractor implements PaymentHistoryContract.Interact
             String url = baseUrl + API_TO_GET_PAYMENT_HISTORY + "&timestamp=" + lastHistorySyncTime;
             /*+ "?username=" + userName;*/
 
-            Log.v("API_payment_History", "url:" + url);
+            Log.v("PAYMENT_HISTORY", "url:" + url);
             org.smartregister.domain.Response resp = httpAgent.fetch(url);
             if (resp.isFailure()) {
                 throw new NoHttpResponseException(API_TO_GET_PAYMENT_HISTORY + " not returned data");
@@ -139,7 +139,6 @@ public class PaymentHistoryInteractor implements PaymentHistoryContract.Interact
           //  JSONArray Jarray  = object.getJSONArray("pending");
             JSONArray Jarray  = new JSONArray(resp.payload().toString());
 
-            Log.e("response: History", Jarray.toString());
 
             return Jarray;
         } catch (Exception e) {
