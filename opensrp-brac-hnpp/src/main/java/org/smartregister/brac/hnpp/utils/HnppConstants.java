@@ -5,17 +5,24 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.common.collect.ImmutableMap;
@@ -34,6 +41,8 @@ import org.smartregister.brac.hnpp.activity.FamilyProfileActivity;
 import org.smartregister.brac.hnpp.activity.FamilyRegisterActivity;
 import org.smartregister.brac.hnpp.listener.OnGpsDataGenerateListener;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
+import org.smartregister.brac.hnpp.activity.TermAndConditionWebView;
+import org.smartregister.brac.hnpp.fragment.COVIDJsonFormFragment;
 import org.smartregister.brac.hnpp.model.Notification;
 import org.smartregister.brac.hnpp.task.GenerateGPSTask;
 import org.smartregister.chw.anc.util.Constants;
@@ -80,6 +89,7 @@ public class HnppConstants extends CoreConstants {
     public static boolean isViewRefresh = false;
     public static final String KEY_IS_SAME_MONTH = "is_same_month";
     public static SimpleDateFormat DDMMYY = new SimpleDateFormat("dd-MM-yyyy",Locale.getDefault());
+    public static SimpleDateFormat DDMMYYHM = new SimpleDateFormat("dd-MM-yyyy",Locale.getDefault());
     public enum VisitType {DUE, OVERDUE, LESS_TWENTY_FOUR, VISIT_THIS_MONTH, NOT_VISIT_THIS_MONTH, EXPIRY, VISIT_DONE}
     public enum HomeVisitType {GREEN, YELLOW, RED, BROWN}
     public enum SEARCH_TYPE {HH, ADO, WOMEN, CHILD,NCD,ADULT}
@@ -218,6 +228,12 @@ public class HnppConstants extends CoreConstants {
         public static final int TYPE_REFERRAL_FOLLOW_UP = 8;
     }
 
+    public static String getPaymentIdFromUrl(String url){
+        String paymentId = "";
+        if(TextUtils.isEmpty(url)) return "";
+        paymentId= url.substring(url.indexOf("paymentID")+10,url.indexOf("&"));
+        return paymentId;
+    }
 
     public static boolean isNeedToShowEDDPopup(){
         String lastEddTimeStr =  org.smartregister.Context.getInstance().allSharedPreferences().getPreference("LAST_EDD_TIME");
@@ -282,6 +298,79 @@ public class HnppConstants extends CoreConstants {
                 dialog.dismiss();
             }
         });
+        dialog.findViewById(R.id.ok_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                runnable.run();
+            }
+        });
+        dialog.show();
+    }
+    public static void showTermConditionDialog(Context context,String title, String text,Runnable runnable){
+        Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_with_term_condition);
+        TextView textViewTitle = dialog.findViewById(R.id.text_tv);
+        TextView titleTxt = dialog.findViewById(R.id.title_tv);
+        titleTxt.setText(title);
+        textViewTitle.setText(text);
+        CheckBox checkBox = dialog.findViewById(R.id.term_check);
+        LinearLayout payBtn = dialog.findViewById(R.id.bkash_pay);
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    payBtn.setAlpha(1.0f);
+                    payBtn.setEnabled(true);
+                }else{
+                    payBtn.setAlpha(0.3f);
+                    payBtn.setEnabled(false);
+                }
+            }
+        });
+        dialog.findViewById(R.id.term_text).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context, TermAndConditionWebView.class));
+            }
+        });
+        dialog.findViewById(R.id.close_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        payBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                runnable.run();
+            }
+        });
+        dialog.show();
+    }
+    public static void showButtonWithImageDialog(Context context, int type, Runnable runnable){
+        Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_with_image_one_button);
+        ImageView imageView = dialog.findViewById(R.id.image);
+        TextView titleTxt = dialog.findViewById(R.id.title_tv);
+        if(type ==1){
+            imageView.setImageResource(R.drawable.success);
+            titleTxt.setText("Payment successfully");
+            titleTxt.setTextColor(context.getResources().getColor(R.color.alert_complete_green));
+        }else if(type == 2){
+            imageView.setImageResource(R.drawable.failure);
+            titleTxt.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
+            titleTxt.setText("Payment failed");
+        }else if(type == 3){
+            imageView.setImageResource(R.drawable.cancel);
+            titleTxt.setText("Payment cancel");
+            titleTxt.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
+        }
+
+
         dialog.findViewById(R.id.ok_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -801,6 +890,28 @@ public class HnppConstants extends CoreConstants {
     public static String getDateFormateFromLong(long dateTime){
         Date date = new Date(dateTime);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = null;
+        try{
+            dateString = format.format(date);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return dateString;
+    }
+    public static String getDateWithHHMMFormateFromLong(long dateTime){
+        Date date = new Date(dateTime);
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+        String dateString = null;
+        try{
+            dateString = format.format(date);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return dateString;
+    }
+    public static String getDDMMYYYYFormateFromLong(long dateTime){
+        Date date = new Date(dateTime);
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         String dateString = null;
         try{
             dateString = format.format(date);

@@ -3,8 +3,14 @@
     android:orientation="vertical"
     android:padding="10dp"
     android:background="@color/white"
-    android:layout_width="400dp"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/image"
+        android:padding="10dp"
+        android:src="@drawable/success"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
 
     <TextView
         android:id="@+id/title_tv"
@@ -12,8 +18,8 @@
         android:gravity="center"
         android:padding="10dp"
         android:textStyle="bold"
-
-        android:layout_width="match_parent"
+        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/dialog_title"
         android:textColor="@color/black"
@@ -36,25 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <Button
-            android:id="@+id/close_btn"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/red_round"
-            android:ems="10"
-            android:shadowColor="#ffffff"
-            android:shadowDx="0"
-            android:shadowDy="1"
-            android:shadowRadius="0.5"
-            android:textStyle="bold"
-            android:text="@string/not_confirm"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
+
         <Button
             android:id="@+id/ok_btn"
             android:layout_width="150dp"
@@ -69,7 +57,7 @@
             android:shadowDy="1"
             android:shadowRadius="0.5"
             android:textStyle="bold"
-            android:text="@string/confirm"
+            android:text="ঠিক আছে"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="18sp" />
