@@ -300,5 +300,7 @@
     <string name="call">কল</string>
     <string name="call_no_number_provided">(কোনো নাম্বার দেওয়া হয়নি)</string>
     <string name="not_match">এই ব্যক্তিটির তথ্য পাওয়া যাই নি </string>
+    <string name="wrong_date_title">ডিভাইস এর তারিখ ঠিক নাই</string>
+    <string name="wrong_date_msg">আপনার ডিভাইস এর তারিখ ঠিক নাই। অনুগ্রহ করে সেটিংস থেকে তারিখ এবং সময় ঠিক করে নিন।</string>
 
 </resources>

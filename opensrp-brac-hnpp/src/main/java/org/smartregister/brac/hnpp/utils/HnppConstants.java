@@ -30,6 +30,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
@@ -72,6 +73,12 @@ public class HnppConstants extends CoreConstants {
         public static final int TYPE_GIRL_PACKAGE = 2;
         public static final int TYPE_NCD = 3;
         public static final int TYPE_IYCF = 4;
+    }
+    public static boolean isWrongDate(){
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        if(year<2018) return true;
+        return false;
     }
     public static void appendLog(String text) {
         File logFile = new File("sdcard/log.file");

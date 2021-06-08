@@ -77,23 +77,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
         intent.putExtra(Constants.ACTIVITY_PAYLOAD.TABLE_NAME, getFormTable());
         activity.startActivityForResult(intent, Constants.REQUEST_CODE_GET_JSON);
     }
-    @Override
-    public void onBackPressed() {
-        new AlertDialog.Builder(this).setMessage(getString(R.string.exit_app_message))
-                .setTitle(getString(R.string.exit_app_title)).setCancelable(false)
-                .setPositiveButton(R.string.yes_button_label, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        Intent a = new Intent(Intent.ACTION_MAIN);
-                        a.addCategory(Intent.CATEGORY_HOME);
-                        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(a);
-                        finish();
-                    }
-                }).setNegativeButton(R.string.no_button_label, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-            }
-        }).show();
-    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
