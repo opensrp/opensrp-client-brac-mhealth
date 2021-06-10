@@ -29,6 +29,7 @@ public class CoreAncRegisterActivity extends BaseAncRegisterActivity {
     protected static String unique_id;
     protected static String familyBaseEntityId;
     protected static String familyName;
+    protected  NavigationMenu navigationMenu;
 
 
     public static void startAncRegistrationActivity(Activity activity, String memberBaseEntityID, String phoneNumber, String formName,
@@ -95,7 +96,7 @@ public class CoreAncRegisterActivity extends BaseAncRegisterActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        NavigationMenu.getInstance(this, null, null);
+        navigationMenu = NavigationMenu.getInstance(this, null, null);
     }
 
     @Override
@@ -178,9 +179,9 @@ public class CoreAncRegisterActivity extends BaseAncRegisterActivity {
     @Override
     protected void onResumption() {
         super.onResumption();
-        NavigationMenu menu = NavigationMenu.getInstance(this, null, null);
-        if (menu != null) {
-            menu.getNavigationAdapter()
+        navigationMenu = NavigationMenu.getInstance(this, null, null);
+        if (navigationMenu != null) {
+            navigationMenu.getNavigationAdapter()
                     .setSelectedView(CoreConstants.DrawerMenu.ANC);
         }
     }
