@@ -2,6 +2,7 @@ package org.smartregister.brac.hnpp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.View;
 
 import org.smartregister.brac.hnpp.BuildConfig;
@@ -39,6 +40,20 @@ public class HnppAllMemberRegisterActivity extends CoreChildRegisterActivity {
                 findViewById(R.id.simprints_identity).setVisibility(View.GONE);
             }
         }
+    }
+    @Override
+    public void onBackPressed() {
+        Fragment fragment = findFragmentByPosition(currentPage);
+        if (fragment instanceof BaseRegisterFragment) {
+            setSelectedBottomBarMenuItem(org.smartregister.R.id.action_clients);
+            BaseRegisterFragment registerFragment = (BaseRegisterFragment) fragment;
+            if (registerFragment.onBackPressed()) {
+                return;
+            }
+        }
+
+        switchToBaseFragment();
+        setSelectedBottomBarMenuItem(org.smartregister.R.id.action_clients);
     }
     @Override
     protected BaseRegisterFragment getRegisterFragment() {

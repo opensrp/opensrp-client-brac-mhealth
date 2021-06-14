@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.evernote.android.job.JobManager;
@@ -100,6 +101,22 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
             }
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        Fragment fragment = findFragmentByPosition(currentPage);
+        if (fragment instanceof BaseRegisterFragment) {
+            setSelectedBottomBarMenuItem(org.smartregister.R.id.action_clients);
+            BaseRegisterFragment registerFragment = (BaseRegisterFragment) fragment;
+            if (registerFragment.onBackPressed()) {
+                return;
+            }
+        }
+
+        switchToBaseFragment();
+        setSelectedBottomBarMenuItem(org.smartregister.R.id.action_clients);
+    }
+
     @Override
     protected void initializePresenter() {
         presenter = new BaseAncRegisterPresenter(this, new BaseAncRegisterModel(), new BaseAncRegisterInteractor());
