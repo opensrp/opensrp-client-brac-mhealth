@@ -62,6 +62,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
@@ -469,6 +470,12 @@ public class HnppConstants extends CoreConstants {
         LocalDate expectedDeliveryDate = lastMenstrualPeriod.plusDays(280);
         int dayDiff = Days.daysBetween(lastMenstrualPeriod, expectedDeliveryDate).getDays();
         return dayDiff <=30;
+    }
+    public static boolean isWrongDate(){
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        if(year<2018) return true;
+        return false;
     }
     public static void appendLog(String text) {
         File logFile = new File("sdcard/log.file");
