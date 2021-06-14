@@ -380,4 +380,6 @@
 
     <string name="payment_sync">পেমেন্ট অপশনে যাওয়ার আগে বর্তমানে থাকা হাউসহোল্ড এবং মেম্বার এর তথ্য সিংক করে নিন। অটোমেটিক্যালি ডাটা গুলো সিঙ্ক করার জন্যে নিচের সিংক বাটনে প্রেস করুন ।</string>
     <string name="bill_pay">পে করুন</string>
+    <string name="no_internet_title">ইন্টারনেট সংযোগ নেই </string>
+    <string name="no_internet_msg">আপনার ডিভাইস  এর ইন্টারনেট  সংযোগ নেই। অনুগ্রহ করে ইন্টারনেট চালু রাখুন </string>
 </resources>

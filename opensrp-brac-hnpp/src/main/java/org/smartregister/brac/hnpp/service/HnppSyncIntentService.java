@@ -69,10 +69,10 @@ public class HnppSyncIntentService extends SyncIntentService {
                         vid = vid.substring(0,vid.length() - 1);
                     }
                     url += "?" + configs.getSyncFilterParam().value() + "=" + configs.getSyncFilterValue() + "&serverVersion=" + lastSyncDatetime + "&limit=" + getEventPullLimit()+"&isEmptyToAdd="+isEmptyToAdd+"&villageIds="+vid;
-                    Log.i("URL:PA %s", url);
+                    Log.v("SYNC_URL", url);
                 }else{
                     url += "?" + configs.getSyncFilterParam().value() + "=" + configs.getSyncFilterValue() + "&serverVersion=" + lastSyncDatetime + "&limit=" + getEventPullLimit()+"&isEmptyToAdd="+isEmptyToAdd;
-                    Log.i("URL: %s", url);
+                    Log.v("SYNC_URL", url);
                 }
 
                 resp = httpAgent.fetch(url);
@@ -130,6 +130,7 @@ public class HnppSyncIntentService extends SyncIntentService {
 
         while (keepSyncing) {
             try {
+                Log.v("SYNC_URL", "pushECToServer");
                 Map<String, Object> pendingEvents = db.getUnSyncedEvents(EVENT_PUSH_LIMIT);
 
                 if (pendingEvents.isEmpty()) {
@@ -153,16 +154,17 @@ public class HnppSyncIntentService extends SyncIntentService {
                 String add_url =  MessageFormat.format("{0}/{1}",
                         baseUrl,
                         ADD_URL);
-                Log.i("URL: %s", add_url);
+                Log.v("SYNC_URL", add_url);
                 Response<String> response = httpAgent.post(add_url
                         ,
                         jsonPayload);
                 if (response.isFailure()) {
                     Timber.e("Events sync failed.");
+                    Log.v("SYNC_URL", "Events sync failed.");
                     return;
                 }
                 db.markEventsAsSynced(pendingEvents);
-                Timber.i("Events synced successfully.");
+                Log.v("SYNC_URL", "Events synced successfully.");
             } catch (Exception e) {
                 Timber.e(e);
             }

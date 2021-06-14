@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
@@ -94,6 +95,34 @@ public class HnppConstants extends CoreConstants {
     public enum HomeVisitType {GREEN, YELLOW, RED, BROWN}
     public enum SEARCH_TYPE {HH, ADO, WOMEN, CHILD,NCD,ADULT}
     public enum MIGRATION_TYPE {HH, Member}
+
+    public static boolean isConnectedToInternet(Context context) {
+        ConnectivityManager conMgr = null;
+        boolean connected = false;
+
+        try {
+            conMgr = (ConnectivityManager) context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+            connected = (conMgr.getActiveNetworkInfo() != null
+                    && conMgr.getActiveNetworkInfo().isAvailable() && conMgr
+                    .getActiveNetworkInfo().isConnected());
+            return connected;
+        } catch (Exception e) {
+            if (context == null) {
+                context = HnppApplication.getHNPPInstance();
+            }
+            if (conMgr == null) {
+                conMgr = (ConnectivityManager) context
+                        .getSystemService(Context.CONNECTIVITY_SERVICE);
+            }
+            if (conMgr != null) {
+                connected = (conMgr.getActiveNetworkInfo() != null
+                        && conMgr.getActiveNetworkInfo().isAvailable() && conMgr
+                        .getActiveNetworkInfo().isConnected());
+            }
+            return connected;
+        }
+    }
 
     public static void getGPSLocation(FamilyRegisterActivity activity, OnPostDataWithGps onPostDataWithGps){
 

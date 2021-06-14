@@ -1,6 +1,8 @@
 package org.smartregister.brac.hnpp.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
 
@@ -40,6 +42,10 @@ public class DFSActivity extends SecuredActivity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.new_payment:
+                if(!HnppConstants.isConnectedToInternet(this)){
+                    checkNetworkConnection();
+                    return;
+                }
                 startActivity(new Intent(this,PaymentActivity.class));
                 break;
             case R.id.history:
@@ -50,5 +56,20 @@ public class DFSActivity extends SecuredActivity implements View.OnClickListener
                 break;
         }
 
+    }
+
+
+    public void checkNetworkConnection() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.no_internet_title);
+        builder.setMessage(R.string.no_internet_msg);
+        builder.setNegativeButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }

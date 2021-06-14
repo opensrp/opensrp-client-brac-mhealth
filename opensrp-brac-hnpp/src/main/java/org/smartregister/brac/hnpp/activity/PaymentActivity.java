@@ -33,6 +33,7 @@ import org.smartregister.brac.hnpp.adapter.PaymentAdapter;
 import org.smartregister.brac.hnpp.contract.PaymentContract;
 import org.smartregister.brac.hnpp.interactor.PaymentDetailsInteractor;
 import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
+import org.smartregister.brac.hnpp.job.HomeVisitServiceJob;
 import org.smartregister.brac.hnpp.model.Payment;
 import org.smartregister.brac.hnpp.model.PaymentHistory;
 import org.smartregister.brac.hnpp.presenter.PaymentPresenter;
@@ -72,15 +73,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
         progressBar = findViewById(R.id.progress_bar);
         totalPayable = 0;
         initializePresenter();
-
-        if (isOnline()) {
-            showSyncDataDialog();
-
-        } else {
-            checkNetworkConnection();
-            finish();
-        }
-
+        showSyncDataDialog();
 
 
     }
@@ -187,6 +180,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
             @Override
             public void onClick(View view) {
                 SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(PaymentActivity.this);
+                HomeVisitServiceJob.scheduleJobImmediately(HomeVisitServiceJob.TAG);
                 HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
                 showProgressDialog(getString(R.string.syncing));
                 syncBtn.setEnabled(false);
@@ -298,29 +292,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
 
     }
 
-    public boolean isOnline() {
-        ConnectivityManager conMgr = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
 
-        if (netInfo == null || !netInfo.isConnected() || !netInfo.isAvailable()) {
-            return false;
-        }
-        return true;
-    }
-
-    public void checkNetworkConnection() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("No internet Connection");
-        builder.setMessage("Please turn on internet connection to continue");
-        builder.setNegativeButton("close", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
