@@ -28,6 +28,7 @@ import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.adapter.SkSelectionAdapter;
 import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
+import org.smartregister.brac.hnpp.job.HomeVisitServiceJob;
 import org.smartregister.brac.hnpp.job.SSLocationFetchJob;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSLocations;
@@ -287,6 +288,7 @@ public class SkSelectionActivity extends SecuredActivity implements View.OnClick
             public void onClick(View v) {
                 storeUserName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
                 SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(SkSelectionActivity.this);
+                HomeVisitServiceJob.scheduleJobImmediately(HomeVisitServiceJob.TAG);
                 HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
                 showProgressDialog(getString(R.string.syncing));
 
