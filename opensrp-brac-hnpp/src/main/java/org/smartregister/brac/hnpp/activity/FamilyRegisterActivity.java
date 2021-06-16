@@ -133,6 +133,9 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
                 HnppApplication.getHNPPInstance().getHnppNavigationModel());
 
         HnppApplication.getHNPPInstance().setupNavigation(hnppNavigationPresenter);
+        if(getIntent().getBooleanExtra(HnppConstants.KEY_NEED_TO_OPEN,false)){
+            navigationMenu.openDrawer();
+        }
         ArrayList<SSModel> ssLocationForms = SSLocationHelper.getInstance().getSsModels();
         if(ssLocationForms.size() > 0){
            boolean simPrintsEnable = ssLocationForms.get(0).simprints_enable;
