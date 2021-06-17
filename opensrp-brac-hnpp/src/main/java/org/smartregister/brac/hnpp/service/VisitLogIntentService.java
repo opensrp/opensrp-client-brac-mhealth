@@ -188,7 +188,7 @@ public class VisitLogIntentService extends IntentService {
                                     if(details.containsKey("brac_anc") && !StringUtils.isEmpty(details.get("brac_anc"))){
                                         String ancValue = details.get("brac_anc");
                                         String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(base_entity_id+"_BRAC_ANC");
-                                        if(!TextUtils.isEmpty(prevalue)){
+                                        if(!TextUtils.isEmpty(prevalue) && !TextUtils.isEmpty(ancValue)){
                                             try{
                                                 int lastValue = Integer.parseInt(prevalue);
                                                 int ancValueInt = Integer.parseInt(ancValue);
@@ -210,7 +210,7 @@ public class VisitLogIntentService extends IntentService {
                                     if(details.containsKey("brac_pnc") && !StringUtils.isEmpty(details.get("brac_pnc"))){
                                         String ancValue = details.get("brac_pnc");
                                         String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(base_entity_id+"_BRAC_PNC");
-                                        if(!TextUtils.isEmpty(prevalue)){
+                                        if(!TextUtils.isEmpty(prevalue) && !TextUtils.isEmpty(ancValue)){
                                             try{
                                                 int lastValue = Integer.parseInt(prevalue);
                                                 int ancValueInt = Integer.parseInt(ancValue);
