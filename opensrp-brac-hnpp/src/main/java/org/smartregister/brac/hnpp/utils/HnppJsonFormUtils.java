@@ -216,7 +216,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
     }
     public static void makeReadOnlyFields(JSONObject jsonObject){
         try {
-            for(int i=1;i<8;i++){
+            for(int i=1;i<9;i++){
                 JSONObject steps = jsonObject.getJSONObject("step"+i);
                 JSONArray jsonArray = steps.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
                 for(int j=0;j<jsonArray.length();j++){

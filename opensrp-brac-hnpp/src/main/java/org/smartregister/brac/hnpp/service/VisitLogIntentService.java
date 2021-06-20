@@ -1449,7 +1449,7 @@ public class VisitLogIntentService extends IntentService {
             client.setColumnmaps(details);
 
            try{
-               for(int i= 1;i<8;i++){
+               for(int i= 1;i<9;i++){
                    JSONObject steps = form_object.getJSONObject("step"+i);
                    JSONArray jsonArray = steps.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
 
