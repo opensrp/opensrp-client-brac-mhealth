@@ -81,6 +81,6 @@ public class WorkSummeryDashBoardFragment extends BaseDashBoardFragment {
 
     @Override
     void updateTitle() {
-        super.updateTitle("মাসিক পরিদর্শন ড্যাশবোর্ড");
+        super.updateTitle("কার্যক্রম সারসংক্ষেপ");
     }
 }
