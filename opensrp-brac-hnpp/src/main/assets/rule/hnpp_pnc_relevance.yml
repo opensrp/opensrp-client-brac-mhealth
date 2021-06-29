@@ -1,0 +1,28 @@
+---
+name: step1_excess_bleeding
+description: Delivery date to 21 days
+priority: 1
+condition: "step1_pnc_day_passed<21"
+actions:
+  - "isRelevant = true"
+---
+name: step1_has_edema
+description: Delivery date to 21 days
+priority: 1
+condition: "step1_pnc_day_passed<21"
+actions:
+  - "isRelevant = true"
+---
+name: step1_obsessive_compulsive_disorder
+description: Delivery time to 48 hours
+priority: 1
+condition: "step1_pnc_hour_passed<48"
+actions:
+  - "isRelevant = true"
+---
+name: step1_perineum_sewing
+description: Delivery time to 48 hours
+priority: 1
+condition: "step1_pnc_hour_passed<48"
+actions:
+  - "isRelevant = true"
