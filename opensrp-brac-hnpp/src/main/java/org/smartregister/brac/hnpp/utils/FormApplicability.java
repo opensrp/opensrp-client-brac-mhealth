@@ -5,6 +5,7 @@ import android.util.Log;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
+import org.joda.time.Hours;
 import org.joda.time.LocalDate;
 import org.joda.time.Months;
 import org.joda.time.Period;
@@ -82,7 +83,9 @@ public class FormApplicability {
                 int pncDay = getDayPassPregnancyOutcome(baseEntityId);
                 if(pncDay != -1&&!isClosedPregnancyOutCome(baseEntityId)){
                     if(pncDay<=41){
-                        return HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
+                        //todo prosober current datetime - prosober_date+prosober_time>48hr = PNC AFTER else PNC WITHIN 48
+                        return getHourPassPregnancyOutcome(baseEntityId) > 48 ?
+                                HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour : HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour;
                     }else{
                         return HnppConstants.EVENT_TYPE.ELCO;
                     }
@@ -110,7 +113,8 @@ public class FormApplicability {
             int pncDay = getDayPassPregnancyOutcome(baseEntityId);
             if(pncDay != -1&&!isClosedPregnancyOutCome(baseEntityId)){
                 if(pncDay<=41){
-                    return HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
+                    return getHourPassPregnancyOutcome(baseEntityId) > 48 ?
+                            HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC : HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC;
                 }else{
                     return HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
                 }
@@ -210,7 +214,6 @@ public class FormApplicability {
         String DeliveryDateSql = "SELECT delivery_date FROM ec_pregnancy_outcome where base_entity_id = ? ";
 
         List<Map<String, String>> valus = AbstractDao.readData(DeliveryDateSql, new String[]{baseEntityId});
-
         if(valus.size() > 0&&valus.get(0).get("delivery_date")!=null){
             dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(valus.get(0).get("delivery_date")), new DateTime()).getDays();
 
@@ -330,4 +333,18 @@ public class FormApplicability {
         return difference_In_Days;
     }
 
+    public static int getHourPassPregnancyOutcome(String baseEntityId){
+        int hoursPassed = -1;
+        String DeliveryDateSql = "SELECT delivery_date, delivery_time FROM ec_pregnancy_outcome where base_entity_id = ? ";
+        List<Map<String, String>> valus = AbstractDao.readData(DeliveryDateSql, new String[]{baseEntityId});
+        if( valus.size() > 0 && valus.get(0).get("delivery_date")!= null && valus.get(0).get("delivery_time")!= null ){
+            String day = valus.get(0).get("delivery_date");
+            String time = valus.get(0).get("delivery_time");
+            String dateTime = day +" "+ time;
+              hoursPassed = Hours.hoursBetween(DateTimeFormat.forPattern("dd-MM-yyyy HH:mm").parseDateTime(dateTime), new DateTime()).getHours();
+        }
+       // HH:mm:ss.SSS
+        Log.e(FormApplicability.class.getSimpleName(), String.valueOf(hoursPassed));
+        return hoursPassed;
+    }
 }

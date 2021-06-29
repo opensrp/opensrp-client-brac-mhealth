@@ -745,7 +745,11 @@ public class HnppConstants extends CoreConstants {
         public static final String  CHILD_REFERRAL = "hnpp_child_referral";
         public static final String  ELCO = "elco_register";
         public static final String  PNC_FORM = "hnpp_pnc_registration";
+        public static final String  PNC_FORM_BEFORE_48_HOUR = "hnpp_pnc_registration_before48_hour";
+        public static final String  PNC_FORM_AFTER_48_HOUR = "hnpp_pnc_registration_after48_hour";
         public static final String  PNC_FORM_OOC = "hnpp_pnc_registration_ooc";
+        public static final String  PNC_FORM_BEFORE_48_HOUR_OOC = "hnpp_pnc_registration_before48_hour_ooc";
+        public static final String  PNC_FORM_AFTER_48_HOUR_OOC = "hnpp_pnc_registration_after48_hour_ooc";
         public static final String  WOMEN_PACKAGE = "hnpp_women_package";
         public static final String  EYE_TEST = "eye_test";
         public static final String  BLOOD_TEST = "blood_test";
@@ -798,7 +802,11 @@ public class HnppConstants extends CoreConstants {
         public static final String ANC_REGISTRATION = "ANC Registration";
         public static final String UPDATE_ANC_REGISTRATION = "Update ANC Registration";
         public static final String PNC_REGISTRATION = "PNC Registration";
+        public static final String PNC_REGISTRATION_BEFORE_48_hour = "PNC Registration Before Forty8";
+        public static final String PNC_REGISTRATION_AFTER_48_hour = "PNC Registration After Forty8";
         public static final String PNC_REGISTRATION_OOC = "PNC Registration OOC";
+        public static final String PNC_REGISTRATION_BEFORE_48_hour_OOC = "PNC Registration Before Forty8 OOC";
+        public static final String PNC_REGISTRATION_AFTER_48_hour_OOC = "PNC Registration After Forty8 OOC";
         public static final String WOMEN_PACKAGE = "Women package";
         public static final String GIRL_PACKAGE = "Adolescent package";
         public static final String NCD_PACKAGE = "NCD package";//pa
@@ -984,6 +992,8 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ANC3_REGISTRATION,JSON_FORMS.ANC3_FORM)
             .put(EVENT_TYPE.ELCO,JSON_FORMS.ELCO)
             .put(EVENT_TYPE.PNC_REGISTRATION,JSON_FORMS.PNC_FORM)
+            .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,JSON_FORMS.PNC_FORM_AFTER_48_HOUR)
+            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,JSON_FORMS.PNC_FORM_BEFORE_48_HOUR)
             .put(EVENT_TYPE.CHILD_INFO_EBF12,JSON_FORMS.CHILD_INFO_EBF12)
             .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,JSON_FORMS.CHILD_INFO_7_24_MONTHS)
             .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,JSON_FORMS.CHILD_INFO_25_MONTHS)
@@ -1004,6 +1014,9 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ANC2_REGISTRATION,JSON_FORMS.ANC2_FORM_OOC)
             .put(EVENT_TYPE.ANC3_REGISTRATION,JSON_FORMS.ANC3_FORM_OOC)
             .put(EVENT_TYPE.PNC_REGISTRATION,JSON_FORMS.PNC_FORM_OOC)
+            .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC,JSON_FORMS.PNC_FORM_AFTER_48_HOUR_OOC)
+            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC,JSON_FORMS.PNC_FORM_BEFORE_48_HOUR_OOC)
+
             .build();
     public static final Map<String,Integer> iconMapping = ImmutableMap.<String,Integer> builder()
             .put("গর্ভবতী পরিচর্যা-১ম ত্রিমাসিক",R.mipmap.ic_anc_pink)
@@ -1012,6 +1025,10 @@ public class HnppConstants extends CoreConstants {
             .put("শারীরিক সমস্যা",R.mipmap.ic_anc_pink)
             .put( "পূর্বের গর্ভের ইতিহাস",R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.PNC_REGISTRATION,R.drawable.sidemenu_pnc)
+            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,R.drawable.sidemenu_pnc)
+            .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,R.drawable.sidemenu_pnc)
+            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC,R.drawable.sidemenu_pnc)
+            .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC,R.drawable.sidemenu_pnc)
             .put(EVENT_TYPE.PREGNANCY_OUTCOME,R.drawable.sidemenu_pnc)
             .put(EVENT_TYPE.ANC1_REGISTRATION,R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.ANC2_REGISTRATION,R.mipmap.ic_anc_pink)
@@ -1096,6 +1113,10 @@ public class HnppConstants extends CoreConstants {
             .put( EVENT_TYPE.PREGNANCY_OUTCOME_OOC,"প্রসবের ফলাফল")
             .put( JSON_FORMS.PNC_FORM,"প্রসবোত্তর পরিচর্যা")
             .put( EVENT_TYPE.PNC_REGISTRATION,"প্রসবোত্তর পরিচর্যা")
+            .put( EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,"প্রসবোত্তর পরিচর্যা")
+            .put( EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,"প্রসবোত্তর পরিচর্যা")
+            .put( EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC,"প্রসবোত্তর পরিচর্যা")
+            .put( EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC,"প্রসবোত্তর পরিচর্যা")
             .put(EVENT_TYPE.WOMEN_PACKAGE,"নারী সেবা প্যাকেজ")
             .put(EVENT_TYPE.GIRL_PACKAGE, "কিশোরী সেবা প্যাকেজ")
             .put(EVENT_TYPE.NCD_PACKAGE, "অসংক্রামক রোগের সেবা")
@@ -1212,6 +1233,9 @@ public class HnppConstants extends CoreConstants {
             .put("familyplanning_method_known", "পরিবার পরিকল্পনা পদ্ধতি ব্যবহারকারী")
             .put(EVENT_TYPE.ANC_SERVICE,"গর্ভবতী সেবা")
             .put(EVENT_TYPE.PNC_SERVICE,"প্রসব-পরবর্তী সেবা")
+            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,"প্রথম ৪৮ ঘন্টা পর")
+            .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,"প্রথম ৪৮ ঘন্টার মধ্যে")
+
             .build();
     //for dashboard countSummery
     public static final Map<String,String> countSummeryTypeMapping = ImmutableMap.<String,String> builder()
@@ -1251,6 +1275,10 @@ public class HnppConstants extends CoreConstants {
             .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,"গর্ভবতী পরিচর্যা ভিজিট(এএনসি)")
             .put(Constants.EVENT_TYPE.PNC_HOME_VISIT,"প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি)")
             .put(EVENT_TYPE.PNC_REGISTRATION,"প্রসবোত্তর পরিচর্যা")
+            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,"প্রথম ৪৮ ঘন্টা পর")
+            .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,"প্রথম ৪৮ ঘন্টার মধ্যে")
+            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC,"প্রথম ৪৮ ঘন্টা পর")
+            .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC,"প্রথম ৪৮ ঘন্টার মধ্যে")
             .put(EVENT_TYPE.ENC_REGISTRATION, "নবজাতকের সেবা")
             .put(EVENT_TYPE.HOME_VISIT_FAMILY, "খানা পরিদর্শন")
             .put(EventType.CHILD_HOME_VISIT, "শিশু হোম ভিজিট")

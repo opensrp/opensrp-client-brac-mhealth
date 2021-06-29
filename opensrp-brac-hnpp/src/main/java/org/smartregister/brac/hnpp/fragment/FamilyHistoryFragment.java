@@ -134,6 +134,8 @@ public class FamilyHistoryFragment extends Fragment implements MemberHistoryCont
                     || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
                 HnppJsonFormUtils.addLastAnc(jsonForm,baseEntityId,true);
             } else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION) ||
+                    eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour) ||
+                    eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour) ||
                     eventType.equalsIgnoreCase(CoreConstants.EventType.PNC_HOME_VISIT)){
                 HnppJsonFormUtils.addLastPnc(jsonForm,baseEntityId,true);
             }

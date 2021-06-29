@@ -134,8 +134,7 @@ public class TargetVsAchievementRepository extends BaseRepository {
                 || targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION)
                     || targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
                 targetName = HnppConstants.EVENT_TYPE.ANC_SERVICE;
-            }else if(targetName.equalsIgnoreCase(HnppConstants.EventType.PNC_HOME_VISIT)
-                    || targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION)){
+            }else if(targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour)){
                 targetName = HnppConstants.EVENT_TYPE.PNC_SERVICE;
             } else if(targetName.equalsIgnoreCase(HnppConstants.EventType.ANC_REGISTRATION)){
                 targetName = HnppConstants.EVENT_TYPE.PREGNANCY_IDENTIFIED;

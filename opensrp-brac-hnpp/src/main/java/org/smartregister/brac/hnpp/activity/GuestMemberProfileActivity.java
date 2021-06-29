@@ -36,6 +36,7 @@ import org.smartregister.brac.hnpp.model.GuestMemberModel;
 import org.smartregister.brac.hnpp.presenter.GuestMemberPresenter;
 import org.smartregister.brac.hnpp.presenter.GuestMemberProfilePresenter;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
+import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.GuestMemberData;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
@@ -292,9 +293,12 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
              if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM_OOC) || formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM_OOC) || formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM_OOC)){
                 HnppJsonFormUtils.addNoOfAnc(jsonForm);
             }
-            else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM_OOC)){
-                HnppJsonFormUtils.addNoOfPnc(jsonForm);
-            }
+             else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM_BEFORE_48_HOUR_OOC)
+                     ||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM_AFTER_48_HOUR_OOC)){
+                 HnppJsonFormUtils.addNoOfPnc(jsonForm);
+                 int pncDay = FormApplicability.getDayPassPregnancyOutcome(baseEntityId);
+                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"pnc_day_passed", String.valueOf(pncDay));
+             }
             if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.BLOOD_TEST)){
                 if (guestMemberData.getGender().equalsIgnoreCase("F")) {
                     HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_women","true");
