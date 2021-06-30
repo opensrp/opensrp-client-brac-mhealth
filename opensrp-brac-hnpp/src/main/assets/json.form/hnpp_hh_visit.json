@@ -62,8 +62,8 @@
       {
         "key": "house_hold_type",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "HH_Type",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "house_hold_type",
         "type": "spinner",
         "hint": "খানার ধরণ",
         "values": [
@@ -82,7 +82,7 @@
       {
         "key": "serial_no",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "serial_no",
         "type": "edit_text",
         "hint": "সিরিয়াল নাম্বার",
@@ -95,8 +95,8 @@
       {
         "key": "firstName",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person",
-        "openmrs_entity_id": "first_name",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "firstName",
         "type": "edit_text",
         "hint": "খানা প্রধানের নাম",
         "edit_type": "name",
@@ -112,8 +112,8 @@
       {
         "key": "occupation",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "hh_occupation",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "occupation",
         "type": "spinner",
         "hint": "খানা প্রধানের পেশাঃ",
         "values": [
@@ -150,8 +150,8 @@
       {
         "key": "occupation_other",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "hh_occupation_other",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "occupation_other",
         "type": "edit_text",
         "hint": "লিখুন",
         "relevance": {
@@ -164,8 +164,8 @@
       {
         "key": "member_count",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "Number_of_HH_Member",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "member_count",
         "type": "edit_text",
         "hint": "খানার মোট সদস্য সংখ্যা",
         "v_numeric": {
@@ -189,8 +189,8 @@
       {
         "key": "has_latrine",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "Has_Latrine",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "has_latrine",
         "type": "spinner",
         "hint": "খানায় স্যানিটারি ল্যাট্রিন আছে কিনা?",
         "values": [
@@ -209,8 +209,8 @@
       {
         "key": "financial_status",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "hh_financial_status",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "financial_status",
         "type": "spinner",
         "hint": "খানার আর্থিক অবস্থাঃ",
         "openmrs_data_type": "text",
@@ -236,8 +236,8 @@
       {
         "key": "list_of_assets",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "hh_list_of_assets",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "list_of_assets",
         "openmrs_data_type": "text",
         "type": "check_box",
         "label": "সম্পদের তালিকা",
@@ -278,8 +278,8 @@
       {
         "key": "floor_material",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "hh_floor_material",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "floor_material",
         "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "মেঝে কি দিয়ে তৈরি",
@@ -301,8 +301,8 @@
       {
         "key": "wall_material",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "hh_wall_material",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "wall_material",
         "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "দেয়াল কি দিয়ে তৈরি",
@@ -326,8 +326,8 @@
       {
         "key": "roof_material",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "hh_roof_material",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "roof_material",
         "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "ছাদ কি দিয়ে তৈরি",
@@ -351,7 +351,7 @@
       {
         "key": "homestead_land",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "homestead_land",
         "type": "edit_text",
         "hint": "বসত জমির পরিমাণ কত শতাংশ",
@@ -363,7 +363,7 @@
       {
         "key": "cultivable_land",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "cultivable_land",
         "type": "edit_text",
         "hint": "চাষের যোগ্য জমির পরিমাণ কত শতাংশ",
