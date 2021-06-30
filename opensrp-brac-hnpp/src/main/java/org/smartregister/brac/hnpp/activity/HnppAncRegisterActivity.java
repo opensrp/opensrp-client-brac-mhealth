@@ -138,7 +138,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
             }
         }
 
-        switchToBaseFragment();
+        backToHomeScreen();
         setSelectedBottomBarMenuItem(org.smartregister.R.id.action_clients);
     }
 
@@ -265,6 +265,12 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
         Intent intent = new Intent(this, FamilyRegisterActivity.class);
         startActivity(intent);
         this.finish();
+    }
+    public void backToHomeScreen() {
+        Intent intent = new Intent(this, FamilyRegisterActivity.class);
+        intent.putExtra(HnppConstants.KEY_NEED_TO_OPEN,true);
+        startActivity(intent);
+        finish();
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -53,6 +53,12 @@ public class HnppElcoMemberRegisterActivity extends CoreChildRegisterActivity {
         startActivity(intent);
         finish();
     }
+    public void backToHomeScreen() {
+        Intent intent = new Intent(this, FamilyRegisterActivity.class);
+        intent.putExtra(HnppConstants.KEY_NEED_TO_OPEN,true);
+        startActivity(intent);
+        finish();
+    }
     @Override
     public void onBackPressed() {
         Fragment fragment = findFragmentByPosition(currentPage);
@@ -64,7 +70,7 @@ public class HnppElcoMemberRegisterActivity extends CoreChildRegisterActivity {
             }
         }
 
-        switchToBaseFragment();
+        backToHomeScreen();
         setSelectedBottomBarMenuItem(org.smartregister.R.id.action_clients);
     }
     @Override

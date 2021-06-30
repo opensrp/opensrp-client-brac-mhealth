@@ -90,6 +90,8 @@ public class HnppConstants extends CoreConstants {
     public static boolean isSortByLastVisit = false;
     public static boolean isViewRefresh = false;
     public static final String KEY_IS_SAME_MONTH = "is_same_month";
+    public static final String KEY_NEED_TO_OPEN = "need_to_open_drawer";
+
     public static SimpleDateFormat DDMMYY = new SimpleDateFormat("dd-MM-yyyy",Locale.getDefault());
     public static SimpleDateFormat DDMMYYHM = new SimpleDateFormat("dd-MM-yyyy",Locale.getDefault());
     public enum VisitType {DUE, OVERDUE, LESS_TWENTY_FOUR, VISIT_THIS_MONTH, NOT_VISIT_THIS_MONTH, EXPIRY, VISIT_DONE}

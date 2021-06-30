@@ -71,7 +71,7 @@ public class HnppAllMemberRegisterActivity extends CoreChildRegisterActivity {
             }
         }
 
-        switchToBaseFragment();
+        backToHomeScreen();
         setSelectedBottomBarMenuItem(org.smartregister.R.id.action_clients);
     }
     @Override
@@ -82,6 +82,12 @@ public class HnppAllMemberRegisterActivity extends CoreChildRegisterActivity {
     @Override
     public void switchToBaseFragment() {
         Intent intent = new Intent(this, FamilyRegisterActivity.class);
+        startActivity(intent);
+        finish();
+    }
+    public void backToHomeScreen() {
+        Intent intent = new Intent(this, FamilyRegisterActivity.class);
+        intent.putExtra(HnppConstants.KEY_NEED_TO_OPEN,true);
         startActivity(intent);
         finish();
     }
