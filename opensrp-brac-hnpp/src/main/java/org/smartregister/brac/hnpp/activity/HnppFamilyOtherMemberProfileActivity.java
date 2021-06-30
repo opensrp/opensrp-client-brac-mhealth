@@ -713,8 +713,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             try {
             JSONObject form = new JSONObject(jsonString);
             String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
-                type = HnppJsonFormUtils.getEncounterType(type);
                 Log.v("BRAC_","type:"+type);
+                type = HnppJsonFormUtils.getEncounterType(type);
+
 //                if(type.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION) ||
 //                        type.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION) ||
 //                        type.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){

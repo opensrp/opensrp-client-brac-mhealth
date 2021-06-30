@@ -1,6 +1,6 @@
 {
   "count": "1",
-  "encounter_type": "PNC Registration After Forty8",
+  "encounter_type": "PNC Visit After 48_hr",
   "entity_id": "",
   "metadata": {
     "start": {
@@ -53,7 +53,7 @@
         "key": "form_name",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "PNC Registration After Forty8",
+        "openmrs_entity_id": "PNC Visit After 48_hr",
         "openmrs_data_type": "text",
         "type": "hidden",
         "value": "hnpp_pnc_registration_after48_hour"

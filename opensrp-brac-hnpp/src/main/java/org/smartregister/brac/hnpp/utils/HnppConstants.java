@@ -802,11 +802,11 @@ public class HnppConstants extends CoreConstants {
         public static final String ANC_REGISTRATION = "ANC Registration";
         public static final String UPDATE_ANC_REGISTRATION = "Update ANC Registration";
         public static final String PNC_REGISTRATION = "PNC Registration";
-        public static final String PNC_REGISTRATION_BEFORE_48_hour = "PNC Registration Before Forty8";
-        public static final String PNC_REGISTRATION_AFTER_48_hour = "PNC Registration After Forty8";
+        public static final String PNC_REGISTRATION_BEFORE_48_hour = "PNC Visit Within 48_hr";
+        public static final String PNC_REGISTRATION_AFTER_48_hour = "PNC Visit After 48_hr";
         public static final String PNC_REGISTRATION_OOC = "PNC Registration OOC";
-        public static final String PNC_REGISTRATION_BEFORE_48_hour_OOC = "PNC Registration Before Forty8 OOC";
-        public static final String PNC_REGISTRATION_AFTER_48_hour_OOC = "PNC Registration After Forty8 OOC";
+        public static final String PNC_REGISTRATION_BEFORE_48_hour_OOC = "PNC Visit Within 48_hr OOC";
+        public static final String PNC_REGISTRATION_AFTER_48_hour_OOC = "PNC Visit After 48_hr OOC";
         public static final String WOMEN_PACKAGE = "Women package";
         public static final String GIRL_PACKAGE = "Adolescent package";
         public static final String NCD_PACKAGE = "NCD package";//pa
@@ -1113,10 +1113,10 @@ public class HnppConstants extends CoreConstants {
             .put( EVENT_TYPE.PREGNANCY_OUTCOME_OOC,"প্রসবের ফলাফল")
             .put( JSON_FORMS.PNC_FORM,"প্রসবোত্তর পরিচর্যা")
             .put( EVENT_TYPE.PNC_REGISTRATION,"প্রসবোত্তর পরিচর্যা")
-            .put( EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,"প্রসবোত্তর পরিচর্যা")
-            .put( EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,"প্রসবোত্তর পরিচর্যা")
-            .put( EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC,"প্রসবোত্তর পরিচর্যা")
-            .put( EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC,"প্রসবোত্তর পরিচর্যা")
+            .put( EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,"পি.এন.সি. (প্রথম ৪৮ ঘন্টা পর)")
+            .put( EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
+            .put( EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC,"পি.এন.সি. (প্রথম ৪৮ ঘন্টা পর)")
+            .put( EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
             .put(EVENT_TYPE.WOMEN_PACKAGE,"নারী সেবা প্যাকেজ")
             .put(EVENT_TYPE.GIRL_PACKAGE, "কিশোরী সেবা প্যাকেজ")
             .put(EVENT_TYPE.NCD_PACKAGE, "অসংক্রামক রোগের সেবা")
@@ -1233,8 +1233,8 @@ public class HnppConstants extends CoreConstants {
             .put("familyplanning_method_known", "পরিবার পরিকল্পনা পদ্ধতি ব্যবহারকারী")
             .put(EVENT_TYPE.ANC_SERVICE,"গর্ভবতী সেবা")
             .put(EVENT_TYPE.PNC_SERVICE,"প্রসব-পরবর্তী সেবা")
-            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,"প্রথম ৪৮ ঘন্টা পর")
-            .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,"প্রথম ৪৮ ঘন্টার মধ্যে")
+            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
+            .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,"পি.এন.সি.(প্রথম ৪৮ ঘন্টা পর)")
 
             .build();
     //for dashboard countSummery
@@ -1275,10 +1275,10 @@ public class HnppConstants extends CoreConstants {
             .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,"গর্ভবতী পরিচর্যা ভিজিট(এএনসি)")
             .put(Constants.EVENT_TYPE.PNC_HOME_VISIT,"প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি)")
             .put(EVENT_TYPE.PNC_REGISTRATION,"প্রসবোত্তর পরিচর্যা")
-            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,"প্রথম ৪৮ ঘন্টা পর")
-            .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,"প্রথম ৪৮ ঘন্টার মধ্যে")
-            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC,"প্রথম ৪৮ ঘন্টা পর")
-            .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC,"প্রথম ৪৮ ঘন্টার মধ্যে")
+            .put( EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,"পি.এন.সি. (প্রথম ৪৮ ঘন্টা পর)")
+            .put( EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
+            .put( EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC,"পি.এন.সি. (প্রথম ৪৮ ঘন্টা পর)")
+            .put( EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
             .put(EVENT_TYPE.ENC_REGISTRATION, "নবজাতকের সেবা")
             .put(EVENT_TYPE.HOME_VISIT_FAMILY, "খানা পরিদর্শন")
             .put(EventType.CHILD_HOME_VISIT, "শিশু হোম ভিজিট")
