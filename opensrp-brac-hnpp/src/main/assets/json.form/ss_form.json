@@ -126,6 +126,23 @@
     "next": "step3",
     "fields": [
       {
+        "key": "no_of_hh_visit",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "no_of_hh_visit",
+        "type": "edit_text",
+        "hint": "আপনি কতটি খানা ভিজিট করেছেন?",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "edit_type": "number"
+      },
+      {
         "key": "one_hour_after_birth",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -135,6 +152,10 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
         },
         "edit_type": "number"
       },
@@ -149,6 +170,10 @@
           "value": "true",
           "err": "Enter a valid Number"
         },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
         "edit_type": "number"
       },
       {
@@ -161,6 +186,10 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
         },
         "edit_type": "number"
       }
@@ -182,6 +211,10 @@
           "value": "true",
           "err": "Enter a valid Number"
         },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
         "edit_type": "number"
       },
       {
@@ -194,6 +227,27 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "edit_type": "number"
+      },
+      {
+        "key": "no_of_epi_present",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "no_of_epi_present",
+        "type": "edit_text",
+        "hint": "কতগুলো ই.পি.এই সেন্টার এ উপস্থিত ছিলেন?",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
         },
         "edit_type": "number"
       }
@@ -216,6 +270,10 @@
           "value": "true",
           "err": "Enter a valid Number"
         },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
         "edit_type": "number"
       },
       {
@@ -228,6 +286,10 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
         },
         "edit_type": "number"
       }
@@ -266,6 +328,10 @@
           "value": "true",
           "err": "Enter a valid Number"
         },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
         "edit_type": "number"
       },
       {
@@ -278,6 +344,10 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
         },
         "edit_type": "number"
       },
@@ -310,6 +380,10 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
         },
         "edit_type": "number"
       },
@@ -349,6 +423,10 @@
           "value": "true",
           "err": "Enter a valid Number"
         },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
         "edit_type": "number"
       },
       {
@@ -361,6 +439,10 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
         },
         "edit_type": "number"
       },
@@ -393,6 +475,10 @@
           "value": "true",
           "err": "Enter a valid Number"
         },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
         "edit_type": "number"
       },
       {
@@ -424,6 +510,10 @@
           "value": "true",
           "err": "Enter a valid Number"
         },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
         "edit_type": "number"
       },
       {
@@ -436,6 +526,10 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
         },
         "edit_type": "number"
       }
@@ -457,6 +551,10 @@
           "value": "true",
           "err": "Enter a valid Number"
         },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
         "edit_type": "number"
       },
       {
@@ -469,6 +567,10 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
         },
         "edit_type": "number"
       },
@@ -501,6 +603,10 @@
           "value": "true",
           "err": "Enter a valid Number"
         },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
         "edit_type": "number"
       },
       {
@@ -532,6 +638,10 @@
           "value": "true",
           "err": "Enter a valid Number"
         },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
         "edit_type": "number"
       },
       {
@@ -544,6 +654,10 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
         },
         "edit_type": "number"
       }
@@ -565,6 +679,10 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
         },
         "edit_type": "number"
       },
