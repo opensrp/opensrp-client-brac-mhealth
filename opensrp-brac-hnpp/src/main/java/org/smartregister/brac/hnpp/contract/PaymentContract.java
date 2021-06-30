@@ -30,7 +30,7 @@ public interface PaymentContract {
     }
     interface PaymentPostInteractorCallBack{
         void onSuccess(ArrayList<String> responses);
-        void onFail();
-        void onSuccess();
+        void onFail(String message);
+        void onSuccess(String message);
     }
 }

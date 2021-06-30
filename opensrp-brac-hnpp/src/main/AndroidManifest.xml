@@ -52,6 +52,7 @@
         <activity
             android:name=".activity.PaymentActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity

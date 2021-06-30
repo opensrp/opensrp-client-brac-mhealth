@@ -30,11 +30,19 @@ public class PaymentDetailsInteractor {
     public void executeBKashPayment(String paymentId, PaymentContract.PaymentPostInteractorCallBack callBack)
     {
         Runnable runnable = () -> {
-            boolean isSuccess = postPaymentExecute(paymentId);
-            if(isSuccess){
-                appExecutors.mainThread().execute(() -> callBack.onSuccess());
-            }else{
-                appExecutors.mainThread().execute(callBack::onFail);
+            JSONObject object = postPaymentExecute(paymentId);
+            if(object!=null){
+                try {
+                    String statusCode = object.getString("statusCode");
+                    String statusMessage = object.getString("statusMessage");
+                    if(!TextUtils.isEmpty(statusCode) && statusCode.equalsIgnoreCase("0000")) {
+                        appExecutors.mainThread().execute(() -> callBack.onSuccess(statusMessage));
+                    }else {
+                        appExecutors.mainThread().execute(() -> callBack.onFail(statusMessage));
+                    }
+                } catch (JSONException jsonException) {
+                    jsonException.printStackTrace();
+                }
             }
 
         };
@@ -50,7 +58,7 @@ public class PaymentDetailsInteractor {
             if(isSuccess){
                 appExecutors.mainThread().execute(() -> callBack.onSuccess(responseList));
             }else{
-                appExecutors.mainThread().execute(callBack::onFail);
+                appExecutors.mainThread().execute(()->callBack.onFail("Fail to post,trxId not found"));
             }
 
         };
@@ -77,7 +85,7 @@ public class PaymentDetailsInteractor {
         }
         return responseList;
     }
-    private boolean postPaymentExecute(String paymentId){
+    private JSONObject postPaymentExecute(String paymentId){
         try{
             HTTPAgent httpAgent = CoreLibrary.getInstance().context().getHttpAgent();
             String baseUrl = CoreLibrary.getInstance().context().
@@ -88,7 +96,7 @@ public class PaymentDetailsInteractor {
             }
             String userName = CoreLibrary.getInstance().context().allSharedPreferences().fetchRegisteredANM();
             if (TextUtils.isEmpty(userName)) {
-                return false;
+                return null;
             }
             String url = baseUrl + PAYMENT_EXECUTE_POST;
             JSONObject finalobject = new JSONObject();
@@ -103,16 +111,12 @@ public class PaymentDetailsInteractor {
             Log.v("PAYMENT_EXECUTE","responseStr>>"+responseStr);
             if(!TextUtils.isEmpty(responseStr) ){
                 JSONObject object = new JSONObject(resp.payload().toString());
-                String statusCode = object.getString("statusCode");
-                if(!TextUtils.isEmpty(statusCode) && statusCode.equalsIgnoreCase("0000")){
-                    return true;
-                }
-
+                return object;
             }
         }catch (Exception e){
         e.printStackTrace();
         }
-        return false;
+        return null;
 
     }
     private JSONObject getResponseJsonObject(ArrayList<Payment> paymentDetails, int givenAmount) {

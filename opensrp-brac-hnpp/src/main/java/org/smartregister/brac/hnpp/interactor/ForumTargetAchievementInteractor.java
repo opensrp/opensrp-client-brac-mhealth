@@ -9,7 +9,7 @@ import org.smartregister.family.util.AppExecutors;
 
 import java.util.ArrayList;
 
-public class ForumTargetAchievementInteractor implements DashBoardContract.TargetInteractor {
+public class ForumTargetAchievementInteractor implements DashBoardContract.ForumTargetInteractor {
 
     private AppExecutors appExecutors;
     private ArrayList<TargetVsAchievementData> dashBoardDataArrayList;

@@ -226,6 +226,35 @@
           }
         }
       },
+
+      {
+        "key": "no_miscarriage",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "no_miscarriage",
+        "openmrs_data_type": "select one",
+        "type": "edit_text",
+        "hint": "গর্ভপাত সংখ্যা",
+        "relevance": {
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "miscarriage"
+                ]
+              }
+            ]
+          }
+        },
+        "v_numeric": {
+          "value": true,
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        }
+      },
       {
         "key": "no_born_alive_died",
         "openmrs_entity_parent": "",
@@ -255,13 +284,59 @@
         }
       },
       {
-        "key": "no_miscarriage",
+        "key": "no_anc_at_pregnant",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "no_miscarriage",
+        "openmrs_entity_id": "no_anc_at_pregnant",
         "openmrs_data_type": "select one",
         "type": "edit_text",
-        "hint": "গর্ভপাত সংখ্যা",
+        "hint": "গর্ভবতী অবস্থায় মোট কয়টি এ.এন .সি. সেবা নিয়েছে?",
+        "v_numeric": {
+          "value": true,
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        }
+      },
+      {
+        "key": "is_tt_completed",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_tt_completed",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "আপনার কি টিটি টিকা ডোজ সম্পূর্ণ করা আছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+      {
+        "key": "type_miscarriage",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "type_miscarriage",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "গর্ভপাতের ধরণ",
+        "values": [
+          "অনাকাঙ্খিত গর্ভপাত",
+          "ঔষধ দ্বারা গর্ভপাত"
+        ],
+        "openmrs_choice_ids": {
+          "অনাকাঙ্খিত গর্ভপাত": "unnecessary_abortion",
+          "ঔষধ দ্বারা গর্ভপাত": "abortion_by_medication"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Please select one option"
+        },
         "relevance": {
           "step1:preg_outcome": {
             "ex-checkbox": [
@@ -272,14 +347,48 @@
               }
             ]
           }
+        }
+      },
+      {
+        "key": "cause_born_alive_died",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cause_born_alive_died",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "নবজাতকের মৃত্যুর কারণ",
+        "values": [
+          "শ্বাসরোধ",
+          "অস্বাভাবিক কম তাপমাত্রা",
+          "কম জন্ম ওজন",
+          "খিঁচুনি",
+          "নাভির সংক্রমণ",
+          "জানা নেই",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "শ্বাসরোধ": "shortness_of_breath",
+          "অস্বাভাবিক কম তাপমাত্রা": "abnormally_low_temperatures",
+          "কম জন্ম ওজন": "low_birth_weight",
+          "খিঁচুনি": "itching",
+          "নাভির সংক্রমণ": "infection_of_the_navel",
+          "জানা নেই": "unknown",
+          "অন্যান্য": "other"
         },
-        "v_numeric": {
-          "value": true,
-          "err": "Enter a valid Number"
+        "v_required": {
+          "value": "true",
+          "err": "Please select one option"
         },
-        "v_regex": {
-          "value": "[0-9]*",
-          "err": "দশমিক অনুমোদিত নয়"
+        "relevance": {
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive_died"
+                ]
+              }
+            ]
+          }
         }
       },
       {
@@ -595,80 +704,8 @@
         }
       },
 
-      {
-        "key": "type_miscarriage",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "type_miscarriage",
-        "openmrs_data_type": "select one",
-        "type": "spinner",
-        "hint": "গর্ভপাতের ধরণ",
-        "values": [
-          "অনাকাঙ্খিত গর্ভপাত",
-          "ঔষধ দ্বারা গর্ভপাত"
-        ],
-        "openmrs_choice_ids": {
-          "অনাকাঙ্খিত গর্ভপাত": "unnecessary_abortion",
-          "ঔষধ দ্বারা গর্ভপাত": "abortion_by_medication"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "Please select one option"
-        },
-        "relevance": {
-          "step1:preg_outcome": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "miscarriage"
-                ]
-              }
-            ]
-          }
-        }
-      },
-      {
-        "key": "cause_born_alive_died",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "cause_born_alive_died",
-        "openmrs_data_type": "select one",
-        "type": "spinner",
-        "hint": "নবজাতকের মৃত্যুর কারণ",
-        "values": [
-          "শ্বাসরোধ",
-          "অস্বাভাবিক কম তাপমাত্রা",
-          "কম জন্ম ওজন",
-          "খিঁচুনি",
-          "নাভির সংক্রমণ",
-          "জানা নেই",
-          "অন্যান্য"
-        ],
-        "openmrs_choice_ids": {
-          "শ্বাসরোধ": "shortness_of_breath",
-          "অস্বাভাবিক কম তাপমাত্রা": "abnormally_low_temperatures",
-          "কম জন্ম ওজন": "low_birth_weight",
-          "খিঁচুনি": "itching",
-          "নাভির সংক্রমণ": "infection_of_the_navel",
-          "জানা নেই": "unknown",
-          "অন্যান্য": "other"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "Please select one option"
-        },
-        "relevance": {
-          "step1:preg_outcome": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "born_alive_died"
-                ]
-              }
-            ]
-          }
-        }
-      },
+
+
       {
         "key": "baby_label",
         "type": "label",

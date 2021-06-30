@@ -380,24 +380,35 @@ public class HnppConstants extends CoreConstants {
         });
         dialog.show();
     }
-    public static void showButtonWithImageDialog(Context context, int type, Runnable runnable){
+    public static void showButtonWithImageDialog(Context context, int type, String message, Runnable runnable){
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_with_image_one_button);
+        dialog.setContentView(R.layout.dialog_bkash_success);
         ImageView imageView = dialog.findViewById(R.id.image);
         TextView titleTxt = dialog.findViewById(R.id.title_tv);
+        TextView statusTxt = dialog.findViewById(R.id.status_tv);
+        TextView messageTxt = dialog.findViewById(R.id.text_tv);
         if(type ==1){
+            titleTxt.setText("আপনার পেমেন্ট টি সফল হয়েছে");
             imageView.setImageResource(R.drawable.success);
-            titleTxt.setText("Payment successfully");
-            titleTxt.setTextColor(context.getResources().getColor(R.color.alert_complete_green));
+            statusTxt.setText("Payment successfully");
+            statusTxt.setTextColor(context.getResources().getColor(R.color.alert_complete_green));
+            messageTxt.setText(message);
+            messageTxt.setTextColor(context.getResources().getColor(R.color.alert_complete_green));
         }else if(type == 2){
+            titleTxt.setText("আপনার পেমেন্ট টি ফেইল্ড করেছে");
             imageView.setImageResource(R.drawable.failure);
-            titleTxt.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
-            titleTxt.setText("Payment failed");
+            statusTxt.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
+            statusTxt.setText("Payment failed");
+            messageTxt.setText(message);
+            messageTxt.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
         }else if(type == 3){
+            titleTxt.setText("আপনার পেমেন্ট টি বাতিল হয়েছে");
             imageView.setImageResource(R.drawable.cancel);
-            titleTxt.setText("Payment cancel");
-            titleTxt.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
+            statusTxt.setText("Payment cancel");
+            statusTxt.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
+            messageTxt.setText(message);
+            messageTxt.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
         }
 
 

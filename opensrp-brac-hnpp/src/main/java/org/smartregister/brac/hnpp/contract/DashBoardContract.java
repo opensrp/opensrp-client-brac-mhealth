@@ -29,7 +29,16 @@ public interface DashBoardContract {
 
         ArrayList<TargetVsAchievementData> getTargetListData();
 
-        void fetchAllData(DashBoardContract.InteractorCallBack callBack, String day, String month, String year, String ssName);
+       // void fetchAllData(DashBoardContract.InteractorCallBack callBack, String day, String month, String year, String ssName);
+
+        //void filterData(String ssName, String day, String month, String year, DashBoardContract.InteractorCallBack callBack);
+
+    }
+    public interface ForumTargetInteractor {
+
+        ArrayList<TargetVsAchievementData> getTargetListData();
+
+         void fetchAllData(DashBoardContract.InteractorCallBack callBack, String day, String month, String year, String ssName);
 
         void filterData(String ssName, String day, String month, String year, DashBoardContract.InteractorCallBack callBack);
 
@@ -50,6 +59,11 @@ public interface DashBoardContract {
 
     }
     public interface TargetPresenter{
+
+        View getView();
+
+    }
+    public interface ForumPresenter{
 
         void fetchDashBoardData(String day, String month, String year, String ssName);
 
