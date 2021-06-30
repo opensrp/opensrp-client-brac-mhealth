@@ -1176,6 +1176,20 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         longitude_field.put(org.smartregister.family.util.JsonFormUtils.VALUE,longitude );
         return form;
     }
+    public static JSONObject updateHhVisitForm(JSONObject form,CommonPersonObjectClient client) throws JSONException{
+        JSONObject stepOne = form.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+        JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+            jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,
+                    org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(),
+                            jsonObject.getString(org.smartregister.family.util.JsonFormUtils.KEY), false));
+
+
+        }
+        return form;
+    }
 
     public static JSONObject getAutoPopulatedJsonEditFormString(String formName, Context context, CommonPersonObjectClient client, String eventType) {
         try {

@@ -238,7 +238,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "list_of_assets",
-        "openmrs_data_type": "text",
         "type": "check_box",
         "label": "সম্পদের তালিকা",
         "exclusive": [

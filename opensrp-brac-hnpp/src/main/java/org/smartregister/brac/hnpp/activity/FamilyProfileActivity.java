@@ -425,12 +425,9 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
             public void onPost(double latitude, double longitude) {
                 try{
                     CommonPersonObjectClient client = getFamilyClientObject(familyBaseEntityId);
-                    //JSONObject jsonForm = FormUtils.getInstance(getApplicationContext()).getFormJson(HnppConstants.JSON_FORMS.HOME_VISIT_FAMILY);
-                    JSONObject jsonForm = HnppJsonFormUtils.getAutoPopulatedJsonEditFormString(HnppConstants.JSON_FORMS.HOME_VISIT_FAMILY, FamilyProfileActivity.this, client, HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY);
-
+                    JSONObject jsonForm = FormUtils.getInstance(getApplicationContext()).getFormJson(HnppConstants.JSON_FORMS.HOME_VISIT_FAMILY);
+                    HnppJsonFormUtils.updateHhVisitForm(jsonForm, client);
                     ArrayList<String[]> memberList = HnppDBUtils.getAllMembersInHouseHold(familyBaseEntityId);
-
-
                     HnppJsonFormUtils.updateFormWithAllMemberName(jsonForm,memberList);
                     HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
                     startHHFormActivity(jsonForm,REQUEST_HOME_VISIT);
