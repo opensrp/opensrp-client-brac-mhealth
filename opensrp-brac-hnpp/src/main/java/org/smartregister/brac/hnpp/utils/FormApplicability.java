@@ -209,6 +209,7 @@ public class FormApplicability {
         }
         return false;
     }
+
     public static int getDayPassPregnancyOutcome(String baseEntityId){
         int dayPass = -1;
         String DeliveryDateSql = "SELECT delivery_date FROM ec_pregnancy_outcome where base_entity_id = ? ";

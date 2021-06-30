@@ -1125,25 +1125,15 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
     }
     public static JSONObject updateFormWithAllMemberName(JSONObject form , ArrayList<String[]> motherNameList) throws Exception{
         JSONArray field = fields(form, STEP1);
-        JSONObject hh_visit_members = getFieldJSONObject(field, "hh_visit_members");
         JSONObject corona_members = getFieldJSONObject(field, "corona_affected_members");
        // JSONObject corona_members_id = getFieldJSONObject(field, "corona_affected_id");
 
-        JSONArray jsonArray = hh_visit_members.getJSONArray("options");
         JSONArray jsonArrayCoronaMember = corona_members.getJSONArray("options");
        // JSONArray jsonArrayCoronaMemberIds = corona_members_id.getJSONArray("options");
         for(String[] optionList : motherNameList){
             String name = optionList[0];
             String ids = optionList[1];
             if(StringUtils.isEmpty(name))continue;
-            JSONObject item = new JSONObject();
-            item.put("key",name.replace(" ","_"));
-            item.put("text",name);
-            item.put("value",false);
-            item.put("openmrs_entity","concept");
-            item.put("openmrs_entity_id",name.replace(" ","_"));
-
-            jsonArray.put(item);
 
             JSONObject itemWithIds = new JSONObject();
             itemWithIds.put("key",name.replace(" ","_")+"#"+ids);
@@ -1163,14 +1153,6 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 //            itemId.put("openmrs_entity_id",ids);
            // jsonArrayCoronaMemberIds.put(itemId);
         }
-
-        JSONObject not_found = new JSONObject();
-        not_found.put("key","chk_nobody");
-        not_found.put("text","কাউকে পাওয়া যায়নি");
-        not_found.put("value",false);
-        not_found.put("openmrs_entity","concept");
-        not_found.put("openmrs_entity_id","chk_nobody");
-        jsonArray.put(not_found);
 
         return form;
 
@@ -1196,6 +1178,20 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         JSONObject longitude_field = getFieldJSONObject(field, "longitude");
         latitude_field.put(org.smartregister.family.util.JsonFormUtils.VALUE,latitude );
         longitude_field.put(org.smartregister.family.util.JsonFormUtils.VALUE,longitude );
+        return form;
+    }
+    public static JSONObject updateHhVisitForm(JSONObject form,CommonPersonObjectClient client) throws JSONException{
+        JSONObject stepOne = form.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+        JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+            jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,
+                    org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(),
+                            jsonObject.getString(org.smartregister.family.util.JsonFormUtils.KEY), false));
+
+
+        }
         return form;
     }
 

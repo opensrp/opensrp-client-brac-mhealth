@@ -77,7 +77,7 @@ public class CountSummeryDashBoardFragment extends BaseDashBoardFragment {
 
     @Override
     void updateTitle() {
-        super.updateTitle("পরিদর্শন ড্যাশবোর্ড");
+        super.updateTitle("জনসংখ্যা সারসংক্ষেপ");
 
     }
 }

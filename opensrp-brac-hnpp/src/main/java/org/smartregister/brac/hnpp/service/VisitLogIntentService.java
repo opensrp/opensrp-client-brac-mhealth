@@ -48,6 +48,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC1_REGISTRATION;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC1_REGISTRATION_OOC;
@@ -1465,6 +1466,7 @@ public class VisitLogIntentService extends IntentService {
                if(HnppJsonFormUtils.isCurrentMonth(monthValue,yearValue)){
                    FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(HnppConstants.KEY_IS_SAME_MONTH,"true");
                }
+
            }catch (Exception e){
                e.printStackTrace();
            }
@@ -1475,14 +1477,51 @@ public class VisitLogIntentService extends IntentService {
             log.setFamilyId(HnppDBUtils.getFamilyIdFromBaseEntityId(base_entity_id));
             log.setVisitDate(visit.getDate().getTime());
             log.setEventType(visit.getVisitType());
+
             log.setVisitJson(form_object.toString());
-            HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
+           long inserted =  HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
+           if(inserted!=-1){
+               try{
+                   addSSFormToIndicator(log,details);
+               }catch (Exception e){
+                   e.printStackTrace();
+               }
+           }
         }catch (Exception e){
             e.printStackTrace();
         }
 
 
     }
+
+    /**
+     * keep all the ss forms value in this indicator table for dashboard
+     * @param log
+     * @param details
+     */
+
+    private void addSSFormToIndicator(VisitLog log,HashMap<String, String> details) {
+        if(details.containsKey("ss_name")&&!StringUtils.isEmpty(details.get("ss_name"))) {
+            String value = details.get("ss_name");
+            if(!TextUtils.isEmpty(value))log.setSsName(value);
+
+        }
+        if(TextUtils.isEmpty(log.getSsName())){
+            String ssName = HnppDBUtils.getSSName(log.getBaseEntityId());
+            log.setSsName(ssName);
+        }
+        for(String key: details.keySet()){
+            if(details.containsKey(key) && !StringUtils.isEmpty(details.get(key))){
+                String value = details.get(key);
+                Log.v("SS_FORM","key >>"+key+":value:"+value);
+                LocalDate localDate = new LocalDate(log.getVisitDate());
+                HnppApplication.getIndicatorRepository().updateValue(key,value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
+
+            }
+        }
+
+    }
+
     private static synchronized void saveForumData(Visit visit) {
         switch (visit.getVisitType()){
             case HnppConstants.EVENT_TYPE.FORUM_CHILD:
@@ -1703,35 +1742,6 @@ public class VisitLogIntentService extends IntentService {
                 }
 
             }else if (jsonObject.has("options")) {
-                if(jsonObject.getString("key").equalsIgnoreCase("hh_visit_members")){
-                    JSONArray option_array = jsonObject.getJSONArray("options");
-                    String[] strs = value.split(",");
-                    if(strs.length == 0){
-
-                    }else{
-                        for(String name : strs){
-                            JSONObject item = new JSONObject();
-                            if(name.equalsIgnoreCase("chk_nobody")){
-
-                                item.put("key","chk_nobody");
-                                item.put("text","কাউকে পাওয়া যায়নি");
-                                item.put("value",true);
-                                item.put("openmrs_entity","concept");
-                                item.put("openmrs_entity_id","chk_nobody");
-                            }else{
-                                item.put("key",name.replace(" ","_"));
-                                item.put("text",name);
-                                item.put("value",true);
-                                item.put("openmrs_entity","concept");
-                                item.put("openmrs_entity_id",name.replace(" ","_"));
-                            }
-
-
-                            option_array.put(item);
-                        }
-                    }
-
-                }
                 if(jsonObject.getString("key").equalsIgnoreCase("corona_affected_members")){
                     JSONArray option_array = jsonObject.getJSONArray("options");
                     String[] strs = value.split(",");
@@ -1863,6 +1873,7 @@ public class VisitLogIntentService extends IntentService {
                 form_name = HnppConstants.JSON_FORMS.CHILD_FOLLOWUP + ".json";
                 break;
             case CHILD_INFO_EBF12:
+            case "Child Info EBF 1&2":
                 form_name = HnppConstants.JSON_FORMS.CHILD_INFO_EBF12 + ".json";
                 break;
             case CHILD_INFO_7_24_MONTHS:

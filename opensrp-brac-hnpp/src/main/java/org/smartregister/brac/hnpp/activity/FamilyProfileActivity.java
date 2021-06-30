@@ -424,7 +424,9 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
             @Override
             public void onPost(double latitude, double longitude) {
                 try{
+                    CommonPersonObjectClient client = getFamilyClientObject(familyBaseEntityId);
                     JSONObject jsonForm = FormUtils.getInstance(getApplicationContext()).getFormJson(HnppConstants.JSON_FORMS.HOME_VISIT_FAMILY);
+                    HnppJsonFormUtils.updateHhVisitForm(jsonForm, client);
                     ArrayList<String[]> memberList = HnppDBUtils.getAllMembersInHouseHold(familyBaseEntityId);
                     HnppJsonFormUtils.updateFormWithAllMemberName(jsonForm,memberList);
                     HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
@@ -520,6 +522,14 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
     }
     private CommonPersonObjectClient clientObject(String baseEntityId) {
         CommonRepository commonRepository =Utils.context().commonrepository(Utils.metadata().familyMemberRegister.tableName);
+        final CommonPersonObject commonPersonObject = commonRepository.findByBaseEntityId(baseEntityId);
+        final CommonPersonObjectClient client =
+                new CommonPersonObjectClient(commonPersonObject.getCaseId(), commonPersonObject.getDetails(), "");
+        client.setColumnmaps(commonPersonObject.getColumnmaps());
+        return client;
+    }
+    private CommonPersonObjectClient getFamilyClientObject(String baseEntityId) {
+        CommonRepository commonRepository =Utils.context().commonrepository(Utils.metadata().familyRegister.tableName);
         final CommonPersonObject commonPersonObject = commonRepository.findByBaseEntityId(baseEntityId);
         final CommonPersonObjectClient client =
                 new CommonPersonObjectClient(commonPersonObject.getCaseId(), commonPersonObject.getDetails(), "");

@@ -134,8 +134,22 @@ public class BkashActivity extends SecuredActivity implements View.OnClickListen
                     @Override
                     public void onFail() {
                         progressBar.setVisibility(View.GONE);
-                        Toast.makeText(BkashActivity.this,"Fail to execute payment",Toast.LENGTH_SHORT).show();
-                        finish();
+                        HnppConstants.showButtonWithImageDialog(BkashActivity.this, 2, new Runnable() {
+                            @Override
+                            public void run() {
+
+                                progressBar.setVisibility(View.VISIBLE);
+                                myHandler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        progressBar.setVisibility(View.GONE);
+                                        DFSActivity.startPaymentActivity(BkashActivity.this,true);
+                                        finish();
+                                    }
+                                },2000);
+
+                            }
+                        });
                     }
 
                     @Override

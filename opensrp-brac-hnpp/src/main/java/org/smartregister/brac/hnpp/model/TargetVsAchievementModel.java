@@ -173,60 +173,25 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
         return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CHILD_IMMUNIZATION_0_59,fromDate,toDate,ssName);
     }
 
-    //
-    public TargetVsAchievementData getHHVisitTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY,day,month,year,ssName);
-    }
-    public TargetVsAchievementData getElcoTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ELCO,day,month,year,ssName);
-    }
-    public TargetVsAchievementData getMethodUserTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.METHOD_USER,day,month,year,ssName);
-    }
-    public TargetVsAchievementData getAdoMethodUserTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ADO_METHOD_USER,day,month,year,ssName);
-    }
-    public TargetVsAchievementData getPregnencyIdentiTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.PREGNANCY_IDENTIFIED,day,month,year,ssName);
-    }
-    public TargetVsAchievementData getDeliveryTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME,day,month,year,ssName);
-    }
-    public TargetVsAchievementData getInstitutionDeliveryTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.INSTITUTIONALIZES_DELIVERY,day,month,year,ssName);
-    }
-    public TargetVsAchievementData get0to6ChildVisitTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CHILD_VISIT_0_6,day,month,year,ssName);
-    }
-    public TargetVsAchievementData get7to24ChildVisitTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CHILD_VISIT_7_24,day,month,year,ssName);
-    }
-    public TargetVsAchievementData get18to36ChildVisitTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CHILD_VISIT_18_36,day,month,year,ssName);
-    }
-    public TargetVsAchievementData get0to59ChildImmunizationTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CHILD_IMMUNIZATION_0_59,day,month,year,ssName);
-    }
-
     // service
 
-    public TargetVsAchievementData getAncServiceTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ANC_SERVICE,day,month,year,ssName);
+    public TargetVsAchievementData getAncServiceTarget(long fromDate, long toDate,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ANC_SERVICE,fromDate,toDate,ssName);
     }
-    public TargetVsAchievementData getPncServiceTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.PNC_SERVICE,day,month,year,ssName);
+    public TargetVsAchievementData getPncServiceTarget(long fromDate, long toDate,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.PNC_SERVICE,fromDate,toDate,ssName);
     }
-    public TargetVsAchievementData getNcdTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.NCD_PACKAGE,day,month,year,ssName);
+    public TargetVsAchievementData getNcdTarget(long fromDate, long toDate,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.NCD_PACKAGE,fromDate,toDate,ssName);
     }
-    public TargetVsAchievementData getIYCFTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.IYCF_PACKAGE,day,month,year,ssName);
+    public TargetVsAchievementData getIYCFTarget(long fromDate, long toDate,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.IYCF_PACKAGE,fromDate,toDate,ssName);
     }
-    public TargetVsAchievementData getWomenTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.WOMEN_PACKAGE,day,month,year,ssName);
+    public TargetVsAchievementData getWomenTarget(long fromDate, long toDate,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.WOMEN_PACKAGE,fromDate,toDate,ssName);
     }
-    public TargetVsAchievementData getAdoTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.GIRL_PACKAGE,day,month,year,ssName);
+    public TargetVsAchievementData getAdoTarget(long fromDate, long toDate,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.GIRL_PACKAGE,fromDate,toDate,ssName);
     }
     //forum
     public TargetVsAchievementData getAdoForumTarget(String day, String month, String year,String ssName){

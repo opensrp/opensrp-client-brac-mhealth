@@ -31,38 +31,28 @@ public class ServiceTargetAchievementInteractor implements DashBoardContract.Tar
         if(targetVsAchievementData !=null) dashBoardDataArrayList.add(targetVsAchievementData);
     }
 
-    @Override
-    public void fetchAllData(DashBoardContract.InteractorCallBack callBack, String day, String month, String year, String ssName) {
+//    @Override
+//    public void fetchAllData(DashBoardContract.InteractorCallBack callBack, String day, String month, String year, String ssName) {
+//
+//        Runnable runnable = () -> {
+//            fetchData(day,month,year,ssName);
+//
+//            appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
+//        };
+//        appExecutors.diskIO().execute(runnable);
+//
+//    }
 
-        Runnable runnable = () -> {
-            fetchData(day,month,year,ssName);
-
-            appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
-        };
-        appExecutors.diskIO().execute(runnable);
-
-    }
-
-    private void fetchData( String day, String month, String year, String ssName) {
-
-        setData(model.getAncServiceTarget(day,month,year,ssName));
-        setData(model.getPncServiceTarget(day,month,year,ssName));
-        setData(model.getNcdTarget(day,month,year,ssName));
-        setData(model.getIYCFTarget(day,month,year,ssName));
-        setData(model.getWomenTarget(day,month,year,ssName));
-        setData(model.getAdoTarget(day,month,year,ssName));
-    }
-
-    @Override
-    public void filterData(String ssName, String day, String month, String year,DashBoardContract.InteractorCallBack callBack) {
-        dashBoardDataArrayList.clear();
-        Runnable runnable = () -> {
-            fetchData(day,month,year,ssName);
-
-            appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
-        };
-        appExecutors.diskIO().execute(runnable);
-    }
+//    @Override
+//    public void filterData(String ssName, String day, String month, String year,DashBoardContract.InteractorCallBack callBack) {
+//        dashBoardDataArrayList.clear();
+//        Runnable runnable = () -> {
+//            fetchData(day,month,year,ssName);
+//
+//            appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
+//        };
+//        appExecutors.diskIO().execute(runnable);
+//    }
     public void filterByFromToDate(String ssName, long fromDate, long toDate, DashBoardContract.InteractorCallBack callBack) {
         dashBoardDataArrayList.clear();
         Runnable runnable = () -> {
@@ -84,7 +74,12 @@ public class ServiceTargetAchievementInteractor implements DashBoardContract.Tar
         appExecutors.diskIO().execute(runnable);
     }
     private void fetchDataByFromToFormat( long fromDate, long toDate, String ssName) {
-
+        setData(model.getAncServiceTarget(fromDate,toDate,ssName));
+        setData(model.getPncServiceTarget(fromDate,toDate,ssName));
+        setData(model.getNcdTarget(fromDate,toDate,ssName));
+        setData(model.getIYCFTarget(fromDate,toDate,ssName));
+        setData(model.getWomenTarget(fromDate,toDate,ssName));
+        setData(model.getAdoTarget(fromDate,toDate,ssName));
     }
 
 }
