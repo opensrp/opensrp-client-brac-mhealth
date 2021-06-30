@@ -466,8 +466,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 return HnppConstants.EVENT_TYPE.NCD_PACKAGE;
             case HnppConstants.EVENT_TYPE.IYCF_PACKAGE:
                 return HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
-            case  HnppConstants.EVENT_TYPE.PNC_REGISTRATION:
-                return org.smartregister.chw.anc.util.Constants.EVENT_TYPE.PNC_HOME_VISIT;
+
             case  HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour:
                 return HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour;
             case  HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour:

@@ -281,8 +281,8 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
         else if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
             mainCondition = "where event_type = '"+ HnppConstants.EVENT_TYPE.ANC3_REGISTRATION+"'" ;
         }
-        else if(visitType.equalsIgnoreCase("pnc")){
-            mainCondition = "where visit_type = '"+ HnppConstants.EVENT_TYPE.PNC_REGISTRATION+"' or visit_type = '"+HnppConstants.EventType.PNC_HOME_VISIT+"'" ;
+        else if(visitType.equalsIgnoreCase("pnc")){ // todo
+            mainCondition = "where visit_type = '"+ HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour+"' or visit_type = '"+HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour+"'" ;
 
         }else if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY)){
 

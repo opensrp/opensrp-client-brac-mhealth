@@ -74,12 +74,12 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.HOME_VI
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.MEMBER_REFERRAL;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.NCD_PACKAGE;
-import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
+
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC;
-import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION_OOC;
+
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME_OOC;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP;
@@ -206,8 +206,7 @@ public class VisitLogIntentService extends IntentService {
                                 }
 
                                 if(PNC_REGISTRATION_BEFORE_48_hour.equalsIgnoreCase(encounter_type)||
-                                        PNC_REGISTRATION_AFTER_48_hour.equalsIgnoreCase(encounter_type)||
-                                        encounter_type.equalsIgnoreCase(CoreConstants.EventType.PNC_HOME_VISIT)){
+                                        PNC_REGISTRATION_AFTER_48_hour.equalsIgnoreCase(encounter_type)){
                                     if(details.containsKey("brac_pnc") && !StringUtils.isEmpty(details.get("brac_pnc"))){
                                         String ancValue = details.get("brac_pnc");
                                         String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(base_entity_id+"_BRAC_PNC");
@@ -1042,16 +1041,16 @@ public class VisitLogIntentService extends IntentService {
                     RiskyModel riskyModel = new RiskyModel();
                     riskyModel.riskyValue = obs;
                     riskyModel.riskyKey = "obsessive_compulsive_disorder";
-                    riskyModel.eventType = PNC_REGISTRATION;
+                    riskyModel.eventType = PNC_REGISTRATION_BEFORE_48_hour; // todo
                     riskyModel.baseEntityId = baseEntityId;
                     HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                    HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",PNC_REGISTRATION);
+                    HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",PNC_REGISTRATION_BEFORE_48_hour); // todo
                     return;
 
 
             }
         }
-        HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"false",PNC_REGISTRATION);
+        HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"false",PNC_REGISTRATION_BEFORE_48_hour); // todo
 
     }
 
@@ -1827,18 +1826,13 @@ public class VisitLogIntentService extends IntentService {
             case HnppConstants.EVENT_TYPE.CHILD_REFERRAL:
                 form_name = HnppConstants.JSON_FORMS.CHILD_REFERRAL + ".json";
                 break;
-            case PNC_REGISTRATION:
-                form_name = HnppConstants.JSON_FORMS.PNC_FORM + ".json";
-                break;
             case PNC_REGISTRATION_AFTER_48_hour:
                 form_name = HnppConstants.JSON_FORMS.PNC_FORM_AFTER_48_HOUR + ".json";
                 break;
             case PNC_REGISTRATION_BEFORE_48_hour:
                 form_name = HnppConstants.JSON_FORMS.PNC_FORM_BEFORE_48_HOUR + ".json";
                 break;
-            case PNC_REGISTRATION_OOC:
-                form_name = HnppConstants.JSON_FORMS.PNC_FORM_OOC + ".json";
-                break;
+
             case PNC_REGISTRATION_BEFORE_48_hour_OOC:
                 form_name = HnppConstants.JSON_FORMS.PNC_FORM_BEFORE_48_HOUR_OOC + ".json";
                 break;

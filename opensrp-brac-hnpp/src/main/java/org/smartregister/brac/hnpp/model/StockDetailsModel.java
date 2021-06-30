@@ -72,9 +72,7 @@ public class StockDetailsModel implements StockDetailsContract.Model{
     public StockDetailsData getAncStockData(String month, String year){
         return getStockData(CoreConstants.EventType.ANC_HOME_VISIT,month,year,getLastBalance(CoreConstants.EventType.ANC_HOME_VISIT,month,year));
     }
-    public StockDetailsData getPncStockData(String month, String year){
-        return getStockData(CoreConstants.EventType.PNC_HOME_VISIT,month,year,getLastBalance(CoreConstants.EventType.PNC_HOME_VISIT,month,year));
-    }
+
     public StockDetailsData getAdoServiceStockData(String month, String year){
         return getStockData(HnppConstants.EVENT_TYPE.GIRL_PACKAGE,month,year,getLastBalance(HnppConstants.EVENT_TYPE.GIRL_PACKAGE,month,year));
     }

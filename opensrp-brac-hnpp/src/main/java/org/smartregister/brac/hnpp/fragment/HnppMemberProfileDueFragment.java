@@ -321,7 +321,7 @@ public class HnppMemberProfileDueFragment extends BaseFamilyProfileDueFragment i
                     if (getActivity() != null && getActivity() instanceof HnppFamilyOtherMemberProfileActivity) {
                         HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) getActivity();
                         String eventType = (String) v.getTag(org.smartregister.family.R.id.VIEW_ID);
-                        if(!eventType.equals(HnppConstants.EVENT_TYPE.ELCO) && !eventType.equals(HnppConstants.EVENT_TYPE.PNC_REGISTRATION)
+                        if(!eventType.equals(HnppConstants.EVENT_TYPE.ELCO)
                                 && !eventType.equals(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour)
                                 && !eventType.equals(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour)
                                 && FormApplicability.isFirstTimeAnc(baseEntityId)){

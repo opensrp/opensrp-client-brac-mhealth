@@ -54,15 +54,7 @@ public class MemberHistoryInteractor implements MemberHistoryContract.Interactor
             }catch(NullPointerException e){
 
             }
-            if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION) ||
-                    eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour) ||
-                    eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour) ||
-                    eventType.equalsIgnoreCase(CoreConstants.EventType.PNC_HOME_VISIT)){
-                String isDelay = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(visitLog.visitId+"_IS_DELAY");
-                if(!TextUtils.isEmpty(isDelay)){
-                    historyData.setDelay(isDelay.equalsIgnoreCase("true"));
-                }
-            }
+
             historyData.setVisitDetails(visitLog.getVisitJson());
             historyData.setVisitDate(visitLog.getVisitDate());
             historyDataArrayList.add(historyData);
