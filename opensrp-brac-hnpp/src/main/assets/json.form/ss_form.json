@@ -374,7 +374,7 @@
         "key": "presbiophea_correction_count",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "presbiophea_count",
+        "openmrs_entity_id": "presbiophea_correction_count",
         "type": "edit_text",
         "hint": "কতজনের প্রেসবায়োপিয়া কারেকশন করা হয়েছে? ",
         "v_numeric": {

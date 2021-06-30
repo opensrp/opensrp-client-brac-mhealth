@@ -424,8 +424,13 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
             @Override
             public void onPost(double latitude, double longitude) {
                 try{
-                    JSONObject jsonForm = FormUtils.getInstance(getApplicationContext()).getFormJson(HnppConstants.JSON_FORMS.HOME_VISIT_FAMILY);
+                    CommonPersonObjectClient client = getFamilyClientObject(familyBaseEntityId);
+                    //JSONObject jsonForm = FormUtils.getInstance(getApplicationContext()).getFormJson(HnppConstants.JSON_FORMS.HOME_VISIT_FAMILY);
+                    JSONObject jsonForm = HnppJsonFormUtils.getAutoPopulatedJsonEditFormString(HnppConstants.JSON_FORMS.HOME_VISIT_FAMILY, FamilyProfileActivity.this, client, HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY);
+
                     ArrayList<String[]> memberList = HnppDBUtils.getAllMembersInHouseHold(familyBaseEntityId);
+
+
                     HnppJsonFormUtils.updateFormWithAllMemberName(jsonForm,memberList);
                     HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
                     startHHFormActivity(jsonForm,REQUEST_HOME_VISIT);
@@ -520,6 +525,14 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
     }
     private CommonPersonObjectClient clientObject(String baseEntityId) {
         CommonRepository commonRepository =Utils.context().commonrepository(Utils.metadata().familyMemberRegister.tableName);
+        final CommonPersonObject commonPersonObject = commonRepository.findByBaseEntityId(baseEntityId);
+        final CommonPersonObjectClient client =
+                new CommonPersonObjectClient(commonPersonObject.getCaseId(), commonPersonObject.getDetails(), "");
+        client.setColumnmaps(commonPersonObject.getColumnmaps());
+        return client;
+    }
+    private CommonPersonObjectClient getFamilyClientObject(String baseEntityId) {
+        CommonRepository commonRepository =Utils.context().commonrepository(Utils.metadata().familyRegister.tableName);
         final CommonPersonObject commonPersonObject = commonRepository.findByBaseEntityId(baseEntityId);
         final CommonPersonObjectClient client =
                 new CommonPersonObjectClient(commonPersonObject.getCaseId(), commonPersonObject.getDetails(), "");
