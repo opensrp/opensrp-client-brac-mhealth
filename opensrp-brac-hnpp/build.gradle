@@ -128,7 +128,7 @@ android {
 
         training{
             versionCode 34
-            versionName "3.0.8"
+            versionName "1.4.0_dfs"
             dimension = 'baseDimension'
             applicationIdSuffix ".training"
             buildConfigField "boolean", 'IS_TRAINING', 'true'
@@ -137,7 +137,7 @@ android {
         }
         normal{
             versionCode 35
-            versionName "1.4.0_DEV"
+            versionName "1.4.0_dfs"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
             buildConfigField "String", 'opensrp_url_training', '"http://hnpptest1.mpower-social.com:8080/opensrp/"'
