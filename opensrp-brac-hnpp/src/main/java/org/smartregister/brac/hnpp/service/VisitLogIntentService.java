@@ -1049,10 +1049,10 @@ public class VisitLogIntentService extends IntentService {
                     RiskyModel riskyModel = new RiskyModel();
                     riskyModel.riskyValue = obs;
                     riskyModel.riskyKey = "obsessive_compulsive_disorder";
-                    riskyModel.eventType = PNC_REGISTRATION_BEFORE_48_hour; // todo
+                    riskyModel.eventType = encounter_type;
                     riskyModel.baseEntityId = baseEntityId;
                     HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                    HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",PNC_REGISTRATION_BEFORE_48_hour); // todo
+                    HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",encounter_type);
                     return;
 
 
