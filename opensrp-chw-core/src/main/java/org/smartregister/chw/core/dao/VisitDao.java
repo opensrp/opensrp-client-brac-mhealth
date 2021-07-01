@@ -27,6 +27,19 @@ public class VisitDao extends AbstractDao {
         return strs;
 
     }
+    //TODO need to support multiple visit type
+    public static String[] getVisitInfo(String baseEntityId,String visitType, String visitType2){
+        String lmp = "SELECT count(*) as count, max(visit_date) as visit_date FROM visits where base_entity_id = ? and visit_type = ? or visit_type = ?";
+        List<Map<String, String>> valus = AbstractDao.readData(lmp, new String[]{baseEntityId,visitType,visitType2});
+        String[] strs = new String[2];
+        if(valus.size()>0){
+            strs[0] =  valus.get(0).get("count");
+            strs[1] =  valus.get(0).get("visit_date");
+        }
+
+        return strs;
+
+    }
 
     @Nullable
     public static Map<String, VisitSummary> getVisitSummary(String baseEntityID) {

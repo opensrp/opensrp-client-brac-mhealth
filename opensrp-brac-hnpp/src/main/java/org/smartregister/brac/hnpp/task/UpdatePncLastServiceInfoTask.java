@@ -35,7 +35,7 @@ public class UpdatePncLastServiceInfoTask extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... params) {
         //commonPersonObject = commonRepository.findByBaseEntityId(baseEntityId);
 
-        String[] returnValue = VisitDao.getVisitInfo(baseEntityId, HnppConstants.EventType.PNC_HOME_VISIT); //todo
+        String[] returnValue = VisitDao.getVisitInfo(baseEntityId, HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour);
         if(returnValue.length>0){
             lastVisit = returnValue[1];
             totalServiceCount =  returnValue[0];

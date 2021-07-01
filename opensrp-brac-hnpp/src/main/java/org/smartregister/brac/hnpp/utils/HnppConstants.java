@@ -1002,7 +1002,8 @@ public class HnppConstants extends CoreConstants {
             .put(JSON_FORMS.ANC1_FORM,EventType.ANC_HOME_VISIT)
             .put(JSON_FORMS.ANC2_FORM,EventType.ANC_HOME_VISIT)
             .put(JSON_FORMS.ANC3_FORM,EventType.ANC_HOME_VISIT)
-
+            .put(JSON_FORMS.PNC_FORM_AFTER_48_HOUR,EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour)
+            .put(JSON_FORMS.PNC_FORM_BEFORE_48_HOUR,EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour)
             .put(JSON_FORMS.NCD_PACKAGE,EVENT_TYPE.NCD_PACKAGE)
             .put(JSON_FORMS.IYCF_PACKAGE,EVENT_TYPE.IYCF_PACKAGE)
             .put(JSON_FORMS.WOMEN_PACKAGE,EVENT_TYPE.WOMEN_PACKAGE)
@@ -1247,6 +1248,8 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন")
             .put(EVENT_TYPE.HOME_VISIT_FAMILY,"খানা ভিজিট")
             .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,"গর্ভবতী পরিচর্যা ভিজিট(এএনসি)")
+            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
+            .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,"পি.এন.সি.(প্রথম ৪৮ ঘন্টা পর)")
 
             .put(EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসব")
             .build();
