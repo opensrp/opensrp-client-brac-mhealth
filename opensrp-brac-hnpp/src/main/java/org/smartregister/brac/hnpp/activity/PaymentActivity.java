@@ -264,14 +264,14 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
                             }
 
                             @Override
-                            public void onFail() {
-                                Toast.makeText(PaymentActivity.this, "Fail to post,trxId not found", Toast.LENGTH_SHORT).show();
+                            public void onFail(String message) {
+                                Toast.makeText(PaymentActivity.this, message, Toast.LENGTH_SHORT).show();
 
 
                             }
 
                             @Override
-                            public void onSuccess() {
+                            public void onSuccess(String message) {
 
                             }
                         });

@@ -11,6 +11,7 @@ import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.fragment.HnppPncRegisterFragment;
 import org.smartregister.brac.hnpp.listener.HnppBottomNavigationListener;
 import org.smartregister.brac.hnpp.listener.HnppFamilyBottomNavListener;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.core.custom_views.NavigationMenu;
 import org.smartregister.chw.core.utils.CoreConstants;
@@ -39,7 +40,12 @@ public class HnppPncRegisterActivity extends AncRegisterActivity {
         startActivity(intent);
         finish();
     }
-
+    public void backToHomeScreen() {
+        Intent intent = new Intent(this, FamilyRegisterActivity.class);
+        intent.putExtra(HnppConstants.KEY_NEED_TO_OPEN,true);
+        startActivity(intent);
+        finish();
+    }
     @Override
     public void onBackPressed() {
         Fragment fragment = findFragmentByPosition(currentPage);
@@ -50,7 +56,7 @@ public class HnppPncRegisterActivity extends AncRegisterActivity {
                 return;
             }
         }
-        switchToBaseFragment();
+        backToHomeScreen();
         setSelectedBottomBarMenuItem(org.smartregister.R.id.action_clients);
 
     }
