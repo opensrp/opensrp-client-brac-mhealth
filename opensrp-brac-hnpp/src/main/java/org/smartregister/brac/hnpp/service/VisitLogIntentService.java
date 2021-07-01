@@ -266,9 +266,6 @@ public class VisitLogIntentService extends IntentService {
                                 }else{
                                     log.setFamilyId(HnppDBUtils.getFamilyIdFromBaseEntityId(base_entity_id));
                                 }
-
-
-
                                 long isInserted = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
                                 if(isInserted!=-1){
                                     LocalDate localDate = new LocalDate(visit.getDate().getTime());
@@ -284,14 +281,15 @@ public class VisitLogIntentService extends IntentService {
                                     if(EYE_TEST.equalsIgnoreCase(encounter_type)){
                                         processEyeTest(details,log);
                                     }
+                                    if (HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)){
+                                        processHHVisitForm(details,log);
+                                    }
+                                    if(HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL.equalsIgnoreCase(encounter_type)){
+                                        HnppDBUtils.updateCoronaFamilyMember(base_entity_id,"false");
+                                    }
                                 }
 
-                                if (HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)){
-                                    HnppApplication.getHNPPInstance().getHnppVisitLogRepository().updateFamilyLastHomeVisit(base_entity_id,String.valueOf(visit.getDate().getTime()));
-                                }
-                                if(HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL.equalsIgnoreCase(encounter_type)){
-                                    HnppDBUtils.updateCoronaFamilyMember(base_entity_id,"false");
-                                }
+
                             }
 
                         } catch (JSONException e) {
@@ -304,6 +302,16 @@ public class VisitLogIntentService extends IntentService {
             }
         }
         processImmunization();
+    }
+
+    private void processHHVisitForm(HashMap<String, String> details, VisitLog log) {
+        ContentValues values = new ContentValues();
+        HashMap<String, String> mapWithTable = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().tableHasColumn(details);
+        for(String key: mapWithTable.keySet()){
+            values.put(key,mapWithTable.get(key));
+        }
+        HnppApplication.getHNPPInstance().getHnppVisitLogRepository().updateFamilyFromHomeVisit(values,log.getBaseEntityId(),String.valueOf(log.getVisitDate()));
+
     }
 
     private void processSimprintsVerification(VisitLog log, HashMap<String, String> details) {

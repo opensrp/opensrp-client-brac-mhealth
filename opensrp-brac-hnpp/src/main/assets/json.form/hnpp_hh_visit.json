@@ -49,7 +49,6 @@
   "step1": {
     "title": "খানা পরিদর্শন",
     "fields": [
-
       {
         "key": "form_name",
         "openmrs_entity_parent": "",
@@ -93,10 +92,10 @@
         }
       },
       {
-        "key": "firstName",
+        "key": "first_name",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "firstName",
+        "openmrs_entity_id": "first_name",
         "type": "edit_text",
         "hint": "খানা প্রধানের নাম",
         "edit_type": "name",

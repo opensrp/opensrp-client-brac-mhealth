@@ -40,6 +40,31 @@ import timber.log.Timber;
 public class HnppDBUtils extends CoreChildUtils {
     private static final int STOCK_END_THRESHOLD = 2;
 
+    public static HashMap<String, String> getDetails(String baseEntityId, String tableName) {
+        HashMap<String, String> map = new HashMap<>();
+        String query = "select * from "+tableName+" where base_entity_id='" + baseEntityId + "'";
+
+        Cursor cursor =  CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        try {
+
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                int columncount = cursor.getColumnCount();
+                for(int i=0;i<columncount;i++){
+                    map.put(cursor.getColumnName(i),cursor.getString(i));
+                }
+                cursor.moveToNext();
+            }
+
+        } catch (Exception e) {
+
+        } finally {
+            cursor.close();
+        }
+
+        return map;
+    }
+
     public static VisitInfo getVisitInfo(String eventType, String baseEntityId){
         String query = "select count(*) as count, max(visit_date) as v_date from ec_visit_log where base_entity_id ='"+baseEntityId+"' and visit_type ='"+eventType+"'";
         Cursor cursor = null;

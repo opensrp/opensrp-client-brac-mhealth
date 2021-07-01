@@ -1176,15 +1176,23 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         longitude_field.put(org.smartregister.family.util.JsonFormUtils.VALUE,longitude );
         return form;
     }
-    public static JSONObject updateHhVisitForm(JSONObject form,CommonPersonObjectClient client) throws JSONException{
+    public static JSONObject updateHhVisitForm(JSONObject form,Map<String,String> details) throws JSONException{
         JSONObject stepOne = form.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
         JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
+            String key = jsonObject.getString(org.smartregister.family.util.JsonFormUtils.KEY);
+            if(key.equalsIgnoreCase("form_name")) continue;
+            String value = details.get(key);
 
-            jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,
-                    org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(),
-                            jsonObject.getString(org.smartregister.family.util.JsonFormUtils.KEY), false));
+            Log.v("HH_VISIT","key:"+key+":value:"+value);
+
+            if(jsonObject.has("openmrs_choice_ids")&&jsonObject.getJSONObject("openmrs_choice_ids").length()>0){
+                value = processValueWithChoiceIdsForEdit(jsonObject,value);
+                jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,value);
+            }else{
+                jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,value);
+            }
 
 
         }
