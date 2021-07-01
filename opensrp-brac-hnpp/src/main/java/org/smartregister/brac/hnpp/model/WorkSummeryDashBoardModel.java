@@ -260,8 +260,14 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
     public DashBoardData getAdultForumCount(String ssName, long fromMonth, long toMonth){
         return getVisitTypeCount(HnppConstants.EVENT_TYPE.FORUM_ADULT,ssName,fromMonth,toMonth);
     }
+    public DashBoardData getPncBefore48Count(String ssName, long fromMonth, long toMonth){
+        return getVisitTypeCount(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,ssName,fromMonth,toMonth);
+    }
+    public DashBoardData getPncAfter48Count(String ssName, long fromMonth, long toMonth) {
+        return getVisitTypeCount(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour, ssName, fromMonth, toMonth);
+    }
 
-    public DashBoardData getVisitTypeCount(String visitType, String ssName, long fromMonth, long toMonth){
+        public DashBoardData getVisitTypeCount(String visitType, String ssName, long fromMonth, long toMonth){
         DashBoardData dashBoardData1 = new DashBoardData();
         String mainCondition = "", ssCondition;
         if(visitType.equalsIgnoreCase("ANC")){
@@ -275,8 +281,8 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
         else if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
             mainCondition = "where event_type = '"+ HnppConstants.EVENT_TYPE.ANC3_REGISTRATION+"'" ;
         }
-        else if(visitType.equalsIgnoreCase("pnc")){
-            mainCondition = "where visit_type = '"+ HnppConstants.EVENT_TYPE.PNC_REGISTRATION+"' or visit_type = '"+HnppConstants.EventType.PNC_HOME_VISIT+"'" ;
+        else if(visitType.equalsIgnoreCase("pnc")){ // todo
+            mainCondition = "where visit_type = '"+ HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour+"' or visit_type = '"+HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour+"'" ;
 
         }else if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY)){
 
@@ -321,7 +327,6 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
                     dashBoardData1.setTitle("অ্যাডাল্ট প্যাকেজ");
                 }else{
                     dashBoardData1.setTitle(HnppConstants.workSummeryTypeMapping.get(dashBoardData1.getEventType()));
-
                 }
 
                 try{

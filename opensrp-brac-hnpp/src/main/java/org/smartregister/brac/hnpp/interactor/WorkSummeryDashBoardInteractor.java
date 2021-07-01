@@ -81,6 +81,10 @@ public class WorkSummeryDashBoardInteractor implements DashBoardContract.Interac
             addToDashBoardList(model.getChildForumCount(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getChildServiceCount(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getAdultForumCount(ssName,fromMonth,toMonth));
+
+            addToDashBoardList(model.getPncAfter48Count(ssName,fromMonth,toMonth));
+            addToDashBoardList(model.getPncBefore48Count(ssName,fromMonth,toMonth));
+
             if(indicatorModel!=null){
                 addToDashBoardList(indicatorModel.getAnotherSource(ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.get4PlusAnc(ssName,fromMonth,toMonth));

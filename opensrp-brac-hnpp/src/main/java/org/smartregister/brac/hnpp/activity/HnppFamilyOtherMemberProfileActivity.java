@@ -402,8 +402,12 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             }
             else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM) || formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM) || formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM)){
                 HnppJsonFormUtils.addLastAnc(jsonForm,baseEntityId,false);
-            } else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM)){
+            } else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM)||
+               formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM_AFTER_48_HOUR)
+                    ||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM_BEFORE_48_HOUR)  ){
                 HnppJsonFormUtils.addLastPnc(jsonForm,baseEntityId,false);
+                int pncDay = FormApplicability.getDayPassPregnancyOutcome(baseEntityId);
+                HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"pnc_day_passed", String.valueOf(pncDay));
             }
             if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.BLOOD_TEST)){
                 if(gender.equalsIgnoreCase("F")){
@@ -709,8 +713,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             try {
             JSONObject form = new JSONObject(jsonString);
             String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
-                type = HnppJsonFormUtils.getEncounterType(type);
                 Log.v("BRAC_","type:"+type);
+                type = HnppJsonFormUtils.getEncounterType(type);
+
 //                if(type.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION) ||
 //                        type.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION) ||
 //                        type.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){

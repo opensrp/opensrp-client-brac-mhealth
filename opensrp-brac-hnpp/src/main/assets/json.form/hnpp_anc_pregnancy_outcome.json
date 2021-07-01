@@ -609,7 +609,6 @@
           }
         }
       },
-
       {
         "key": "delivery_complication",
         "openmrs_entity_parent": "",

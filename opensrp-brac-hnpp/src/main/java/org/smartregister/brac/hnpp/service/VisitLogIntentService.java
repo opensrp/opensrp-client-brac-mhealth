@@ -74,8 +74,12 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.HOME_VI
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.MEMBER_REFERRAL;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.NCD_PACKAGE;
-import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
-import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION_OOC;
+
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC;
+
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME_OOC;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP;
@@ -133,8 +137,11 @@ public class VisitLogIntentService extends IntentService {
                                 else if(encounter_type.equalsIgnoreCase(ANC3_REGISTRATION_OOC)){
                                     encounter_type = HnppConstants.EVENT_TYPE.ANC3_REGISTRATION;
                                 }
-                                else if(encounter_type.equalsIgnoreCase(PNC_REGISTRATION_OOC)){
-                                    encounter_type = HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
+                                else if(encounter_type.equalsIgnoreCase(PNC_REGISTRATION_BEFORE_48_hour_OOC)){
+                                    encounter_type = HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC;
+                                }
+                                else if(encounter_type.equalsIgnoreCase(PNC_REGISTRATION_AFTER_48_hour_OOC)){
+                                    encounter_type = HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC;
                                 }
                                 JSONObject stepOne = form_object.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
                                 JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
@@ -198,7 +205,8 @@ public class VisitLogIntentService extends IntentService {
                                     updateAncHomeVisitRisk(encounter_type,base_entity_id,details);
                                 }
 
-                                if(PNC_REGISTRATION.equalsIgnoreCase(encounter_type)|| encounter_type.equalsIgnoreCase(CoreConstants.EventType.PNC_HOME_VISIT)){
+                                if(PNC_REGISTRATION_BEFORE_48_hour.equalsIgnoreCase(encounter_type)||
+                                        PNC_REGISTRATION_AFTER_48_hour.equalsIgnoreCase(encounter_type)){
                                     if(details.containsKey("brac_pnc") && !StringUtils.isEmpty(details.get("brac_pnc"))){
                                         String ancValue = details.get("brac_pnc");
                                         String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(base_entity_id+"_BRAC_PNC");
@@ -230,19 +238,8 @@ public class VisitLogIntentService extends IntentService {
                                         }
 
                                     }
-                                    if(details.containsKey("is_delay") && !StringUtils.isEmpty(details.get("is_delay"))){
-                                        String is_delay = details.get("is_delay");
-                                        if(!TextUtils.isEmpty(is_delay)){
-                                            String isDelay = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(base_entity_id+"_IS_DELAY");
-                                            if(TextUtils.isEmpty(isDelay)){
-                                                FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_IS_DELAY",is_delay);
-                                                FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(visit.getVisitId()+"_IS_DELAY",is_delay);
 
-                                            }
-
-                                        }
-                                    }
-                                    updatePncRisk(base_entity_id,details);
+                                    updatePncRisk(base_entity_id,details, encounter_type );
                                 }
                                 if(ANC_REGISTRATION.equalsIgnoreCase(encounter_type)){
                                     FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",0+"");
@@ -266,11 +263,9 @@ public class VisitLogIntentService extends IntentService {
                                 }else{
                                     log.setFamilyId(HnppDBUtils.getFamilyIdFromBaseEntityId(base_entity_id));
                                 }
-
-
-
                                 long isInserted = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
                                 if(isInserted!=-1){
+                                    Log.d(VisitLogIntentService.class.getSimpleName(), "Encounter type: "+ encounter_type);
                                     LocalDate localDate = new LocalDate(visit.getDate().getTime());
                                     HnppApplication.getTargetRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id);
                                     if(ELCO.equalsIgnoreCase(encounter_type)){
@@ -284,14 +279,15 @@ public class VisitLogIntentService extends IntentService {
                                     if(EYE_TEST.equalsIgnoreCase(encounter_type)){
                                         processEyeTest(details,log);
                                     }
+                                    if (HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)){
+                                        processHHVisitForm(details,log);
+                                    }
+                                    if(HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL.equalsIgnoreCase(encounter_type)){
+                                        HnppDBUtils.updateCoronaFamilyMember(base_entity_id,"false");
+                                    }
                                 }
 
-                                if (HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)){
-                                    HnppApplication.getHNPPInstance().getHnppVisitLogRepository().updateFamilyLastHomeVisit(base_entity_id,String.valueOf(visit.getDate().getTime()));
-                                }
-                                if(HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL.equalsIgnoreCase(encounter_type)){
-                                    HnppDBUtils.updateCoronaFamilyMember(base_entity_id,"false");
-                                }
+
                             }
 
                         } catch (JSONException e) {
@@ -304,6 +300,16 @@ public class VisitLogIntentService extends IntentService {
             }
         }
         processImmunization();
+    }
+
+    private void processHHVisitForm(HashMap<String, String> details, VisitLog log) {
+        ContentValues values = new ContentValues();
+        HashMap<String, String> mapWithTable = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().tableHasColumn(details);
+        for(String key: mapWithTable.keySet()){
+            values.put(key,mapWithTable.get(key));
+        }
+        HnppApplication.getHNPPInstance().getHnppVisitLogRepository().updateFamilyFromHomeVisit(values,log.getBaseEntityId(),String.valueOf(log.getVisitDate()));
+
     }
 
     private void processSimprintsVerification(VisitLog log, HashMap<String, String> details) {
@@ -391,15 +397,11 @@ public class VisitLogIntentService extends IntentService {
                 }
 
                 break;
-            case PNC_REGISTRATION:
+            case PNC_REGISTRATION_AFTER_48_hour:
+            case PNC_REGISTRATION_BEFORE_48_hour:
                 if(details.containsKey("anc_count")&&!StringUtils.isEmpty(details.get("anc_count"))) {
                     String value = details.get("anc_count");
                     HnppApplication.getIndicatorRepository().updateValue("anc_count",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
-
-                }
-                if(details.containsKey("is_delay")&&!StringUtils.isEmpty(details.get("is_delay"))) {
-                    String value = details.get("is_delay");
-                    HnppApplication.getIndicatorRepository().updateValue("is_delay",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
 
                 }
                 if(details.containsKey("number_of_pnc")&&!StringUtils.isEmpty(details.get("number_of_pnc"))) {
@@ -408,6 +410,7 @@ public class VisitLogIntentService extends IntentService {
 
                 }
                 break;
+
             case WOMEN_REFERRAL:
                 if(details.containsKey("cause_of_referral_woman")&&!StringUtils.isEmpty(details.get("cause_of_referral_woman"))) {
                     String value = details.get("cause_of_referral_woman");
@@ -1025,17 +1028,17 @@ public class VisitLogIntentService extends IntentService {
             HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"false",HnppConstants.EventType.ANC_HOME_VISIT);
         }
     }
-    private void updatePncRisk(String baseEntityId,HashMap<String,String>details){
+    private void updatePncRisk(String baseEntityId, HashMap<String, String> details, String encounter_type){
         if(details.containsKey("excess_bleeding") && !StringUtils.isEmpty(details.get("excess_bleeding"))){
             String eb = details.get("excess_bleeding");
             if(!TextUtils.isEmpty(eb) && eb.equalsIgnoreCase("yes")){
                     RiskyModel riskyModel = new RiskyModel();
                     riskyModel.riskyValue = eb;
                     riskyModel.riskyKey = "excess_bleeding";
-                    riskyModel.eventType = PNC_REGISTRATION;
+                    riskyModel.eventType = encounter_type;
                     riskyModel.baseEntityId = baseEntityId;
                     HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                    HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",PNC_REGISTRATION);
+                    HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",encounter_type);
                     return;
 
             }
@@ -1046,16 +1049,16 @@ public class VisitLogIntentService extends IntentService {
                     RiskyModel riskyModel = new RiskyModel();
                     riskyModel.riskyValue = obs;
                     riskyModel.riskyKey = "obsessive_compulsive_disorder";
-                    riskyModel.eventType = PNC_REGISTRATION;
+                    riskyModel.eventType = encounter_type;
                     riskyModel.baseEntityId = baseEntityId;
                     HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                    HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",PNC_REGISTRATION);
+                    HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",encounter_type);
                     return;
 
 
             }
         }
-        HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"false",PNC_REGISTRATION);
+        HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"false",PNC_REGISTRATION_BEFORE_48_hour); // todo
 
     }
 
@@ -1746,35 +1749,6 @@ public class VisitLogIntentService extends IntentService {
                 }
 
             }else if (jsonObject.has("options")) {
-                if(jsonObject.getString("key").equalsIgnoreCase("hh_visit_members")){
-                    JSONArray option_array = jsonObject.getJSONArray("options");
-                    String[] strs = value.split(",");
-                    if(strs.length == 0){
-
-                    }else{
-                        for(String name : strs){
-                            JSONObject item = new JSONObject();
-                            if(name.equalsIgnoreCase("chk_nobody")){
-
-                                item.put("key","chk_nobody");
-                                item.put("text","কাউকে পাওয়া যায়নি");
-                                item.put("value",true);
-                                item.put("openmrs_entity","concept");
-                                item.put("openmrs_entity_id","chk_nobody");
-                            }else{
-                                item.put("key",name.replace(" ","_"));
-                                item.put("text",name);
-                                item.put("value",true);
-                                item.put("openmrs_entity","concept");
-                                item.put("openmrs_entity_id",name.replace(" ","_"));
-                            }
-
-
-                            option_array.put(item);
-                        }
-                    }
-
-                }
                 if(jsonObject.getString("key").equalsIgnoreCase("corona_affected_members")){
                     JSONArray option_array = jsonObject.getJSONArray("options");
                     String[] strs = value.split(",");
@@ -1860,11 +1834,18 @@ public class VisitLogIntentService extends IntentService {
             case HnppConstants.EVENT_TYPE.CHILD_REFERRAL:
                 form_name = HnppConstants.JSON_FORMS.CHILD_REFERRAL + ".json";
                 break;
-            case PNC_REGISTRATION:
-                form_name = HnppConstants.JSON_FORMS.PNC_FORM + ".json";
+            case PNC_REGISTRATION_AFTER_48_hour:
+                form_name = HnppConstants.JSON_FORMS.PNC_FORM_AFTER_48_HOUR + ".json";
                 break;
-            case PNC_REGISTRATION_OOC:
-                form_name = HnppConstants.JSON_FORMS.PNC_FORM_OOC + ".json";
+            case PNC_REGISTRATION_BEFORE_48_hour:
+                form_name = HnppConstants.JSON_FORMS.PNC_FORM_BEFORE_48_HOUR + ".json";
+                break;
+
+            case PNC_REGISTRATION_BEFORE_48_hour_OOC:
+                form_name = HnppConstants.JSON_FORMS.PNC_FORM_BEFORE_48_HOUR_OOC + ".json";
+                break;
+            case PNC_REGISTRATION_AFTER_48_hour_OOC:
+                form_name = HnppConstants.JSON_FORMS.PNC_FORM_AFTER_48_HOUR_OOC + ".json";
                 break;
             case ELCO:
                 form_name = HnppConstants.JSON_FORMS.ELCO + ".json";
