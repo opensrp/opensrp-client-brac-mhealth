@@ -40,6 +40,27 @@ import timber.log.Timber;
 public class HnppDBUtils extends CoreChildUtils {
     private static final int STOCK_END_THRESHOLD = 2;
 
+    public static String getFirstName(String familyBaseEntityId){
+        String query = "select first_name from ec_family  where base_entity_id = '"+familyBaseEntityId+"'";
+        Cursor cursor = null;
+        String birthWeight="";
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                birthWeight = cursor.getString(0);
+            }
+
+        } catch (Exception e) {
+            Timber.e(e);
+
+        }
+        finally {
+            if(cursor !=null)cursor.close();
+        }
+        return birthWeight;
+    }
+
     public static HashMap<String, String> getDetails(String baseEntityId, String tableName) {
         HashMap<String, String> map = new HashMap<>();
         String query = "select * from "+tableName+" where base_entity_id='" + baseEntityId + "'";
