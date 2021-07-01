@@ -43,6 +43,8 @@ public class PaymentDetailsInteractor {
                 } catch (JSONException jsonException) {
                     jsonException.printStackTrace();
                 }
+            }else{
+                appExecutors.mainThread().execute(() -> callBack.onFail("Failed response"));
             }
 
         };
@@ -105,7 +107,7 @@ public class PaymentDetailsInteractor {
             Log.v("PAYMENT_EXECUTE", "url:" + url+"payload:"+finalobject.toString()+":code:"+resp.status().displayValue());
 
             if (resp.isFailure()) {
-                throw new NoHttpResponseException(PAYMENT_EXECUTE_POST + " not returned data");
+               return null;
             }
             String responseStr = (String)resp.payload();
             Log.v("PAYMENT_EXECUTE","responseStr>>"+responseStr);

@@ -11,6 +11,7 @@ import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.fragment.HnppPncRegisterFragment;
 import org.smartregister.brac.hnpp.listener.HnppBottomNavigationListener;
 import org.smartregister.brac.hnpp.listener.HnppFamilyBottomNavListener;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.core.custom_views.NavigationMenu;
 import org.smartregister.chw.core.utils.CoreConstants;

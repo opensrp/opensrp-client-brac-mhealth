@@ -12,6 +12,7 @@ import org.smartregister.brac.hnpp.fragment.HnppElcoMemberRegisterFragment;
 import org.smartregister.brac.hnpp.listener.HnppFamilyBottomNavListener;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSModel;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.core.activity.CoreChildRegisterActivity;
 import org.smartregister.chw.core.custom_views.NavigationMenu;
 import org.smartregister.chw.core.utils.CoreConstants;
