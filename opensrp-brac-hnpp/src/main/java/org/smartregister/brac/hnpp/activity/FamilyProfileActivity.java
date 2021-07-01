@@ -320,11 +320,14 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                     public void run() {
                         familyHistoryFragment.onActivityResult(0,0,null);
                         mViewPager.setCurrentItem(3,true);
-
+                        HnppConstants.isViewRefresh = true;
+                        String name = HnppDBUtils.getFirstName(familyBaseEntityId);
+                        familyName = name;
+                        setProfileName(name);
                     }
                 },1000);
             }
-            HnppConstants.isViewRefresh = true;
+
 
         }
 
@@ -424,9 +427,9 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
             @Override
             public void onPost(double latitude, double longitude) {
                 try{
-                    CommonPersonObjectClient client = getFamilyClientObject(familyBaseEntityId);
+                    Map<String,String> hhByBaseEntityId = HnppDBUtils.getDetails(familyBaseEntityId,"ec_family");
                     JSONObject jsonForm = FormUtils.getInstance(getApplicationContext()).getFormJson(HnppConstants.JSON_FORMS.HOME_VISIT_FAMILY);
-                    HnppJsonFormUtils.updateHhVisitForm(jsonForm, client);
+                    HnppJsonFormUtils.updateHhVisitForm(jsonForm, hhByBaseEntityId);
                     ArrayList<String[]> memberList = HnppDBUtils.getAllMembersInHouseHold(familyBaseEntityId);
                     HnppJsonFormUtils.updateFormWithAllMemberName(jsonForm,memberList);
                     HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);

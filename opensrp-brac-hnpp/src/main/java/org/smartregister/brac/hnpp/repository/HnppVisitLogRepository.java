@@ -18,6 +18,7 @@ import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.repository.BaseRepository;
 import org.smartregister.repository.Repository;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import timber.log.Timber;
@@ -53,16 +54,36 @@ public class HnppVisitLogRepository extends BaseRepository {
        }
     }
 
-    public void updateFamilyLastHomeVisit(String base_entity_id,String last_home_visit){
+    public void updateFamilyFromHomeVisit(ContentValues values,String base_entity_id,String last_home_visit){
         try{
             SQLiteDatabase database = getWritableDatabase();
-            String sql = "update ec_family set last_home_visit = '"+last_home_visit+"' where " +
-                    "base_entity_id = '"+base_entity_id+"' and (last_home_visit < '"+last_home_visit+"' or last_home_visit is null);";
-            database.execSQL(sql);
+            values.put("last_home_visit",last_home_visit);
+            String selection = "base_entity_id = '"+base_entity_id+"' and (last_home_visit < '"+last_home_visit+"' or last_home_visit is null)";
+            int isUpdated = database.update("ec_family",values,selection,null);
         }catch(Exception e){
             e.printStackTrace();
 
         }
+    }
+    public HashMap<String, String>  tableHasColumn(HashMap<String, String> details) {
+        HashMap<String, String> existColumn = new HashMap<>();
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.rawQuery("PRAGMA table_info(ec_family)",null);
+        int cursorCount = cursor.getCount();
+        for (int i = 1; i < cursorCount; i++ ) {
+            cursor.moveToPosition(i);
+            String storedSqlColumnName = cursor.getString(cursor.getColumnIndex("name"));
+            try{
+                String value = details.get(storedSqlColumnName);
+                if(!TextUtils.isEmpty(value)){
+                    existColumn.put(storedSqlColumnName,value);
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+
+            }
+        }
+        return existColumn;
     }
     public long add(VisitLog visitLog) {
         long rowId = -1;
