@@ -233,6 +233,51 @@
         }
       },
       {
+        "key": "list_of_assets",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "list_of_assets",
+        "type": "check_box",
+        "label": "সম্পদের তালিকা",
+        "exclusive": [
+          "None"
+        ],
+        "options": [
+          {
+            "key": "Television",
+            "text": "টেলিভিশন",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Television"
+          },
+          {
+            "key": "Refridgarator",
+            "text": "রেফ্রিজারেটর",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Refridgarator"
+          },
+          {
+            "key": "Closet",
+            "text": "আলমারি/ওয়ারড্রব",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Closet"
+          },
+          {
+            "key": "Electric_Fan",
+            "text": "বৈদ্যুতিক ফ্যান",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Electric_Fan"
+          }
+        ],
+        "v_required": {
+          "value": "true",
+          "err": " সম্পদের তালিকা নির্বাচন করুন"
+        }
+      },
+      {
         "key": "floor_material",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",

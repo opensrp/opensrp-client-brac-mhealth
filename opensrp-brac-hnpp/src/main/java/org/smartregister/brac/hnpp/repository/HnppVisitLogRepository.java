@@ -58,6 +58,7 @@ public class HnppVisitLogRepository extends BaseRepository {
         try{
             SQLiteDatabase database = getWritableDatabase();
             values.put("last_home_visit",last_home_visit);
+            supportListOfAsset(values);
             String selection = "base_entity_id = '"+base_entity_id+"' and (last_home_visit < '"+last_home_visit+"' or last_home_visit is null)";
             int isUpdated = database.update("ec_family",values,selection,null);
         }catch(Exception e){
@@ -65,6 +66,39 @@ public class HnppVisitLogRepository extends BaseRepository {
 
         }
     }
+
+    /*
+        This method reshape the multiple question input abc,xye output like ["abc","xyz"]
+     */
+    private void supportListOfAsset(ContentValues values) {
+        if(values.get("list_of_assets")!=null){
+            String valuesWillComma = (String)values.get("list_of_assets");
+            String newValue ="";
+            String[] spiltArray = valuesWillComma.split(",");
+            StringBuilder builder = new StringBuilder();
+            if(spiltArray.length ==1){
+                builder.append("\"");
+                builder.append(valuesWillComma);
+                builder.append("\"");
+                newValue = builder.toString();
+            }else{
+                for(String value:spiltArray){
+                    builder = new StringBuilder();
+                    builder.append(newValue);
+                    builder.append("\"");
+                    builder.append(value);
+                    builder.append("\"");
+                    builder.append(",");
+                    newValue = builder.toString();
+                }
+            }
+            if(newValue.endsWith(",")) newValue = newValue.substring(0,newValue.length()-1);
+            newValue = "["+newValue+"]";
+            Log.v("HH_VISIT","supportListOfAsset>>newValue:"+newValue+":valuesWillComma"+valuesWillComma);
+            values.put("list_of_assets",newValue);
+        }
+    }
+
     public HashMap<String, String>  tableHasColumn(HashMap<String, String> details) {
         HashMap<String, String> existColumn = new HashMap<>();
         SQLiteDatabase db = getWritableDatabase();

@@ -267,7 +267,10 @@ public class VisitLogIntentService extends IntentService {
                                 if(isInserted!=-1){
                                     Log.d(VisitLogIntentService.class.getSimpleName(), "Encounter type: "+ encounter_type);
                                     LocalDate localDate = new LocalDate(visit.getDate().getTime());
-                                    HnppApplication.getTargetRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id);
+                                    if(!encounter_type.equalsIgnoreCase(PNC_REGISTRATION_AFTER_48_hour)){
+                                        HnppApplication.getTargetRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id);
+
+                                    }
                                     if(ELCO.equalsIgnoreCase(encounter_type)){
                                         updateFamilyPlanning(log,details);
                                     }
@@ -308,6 +311,7 @@ public class VisitLogIntentService extends IntentService {
         for(String key: mapWithTable.keySet()){
             values.put(key,mapWithTable.get(key));
         }
+
         HnppApplication.getHNPPInstance().getHnppVisitLogRepository().updateFamilyFromHomeVisit(values,log.getBaseEntityId(),String.valueOf(log.getVisitDate()));
 
     }
@@ -512,6 +516,11 @@ public class VisitLogIntentService extends IntentService {
                 if(details.containsKey("is_affected_member")&&!StringUtils.isEmpty(details.get("is_affected_member"))) {
                     String value = details.get("is_affected_member");
                     HnppApplication.getIndicatorRepository().updateValue("is_affected_member",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
+
+                }
+                if(details.containsKey("member_count")&&!StringUtils.isEmpty(details.get("member_count"))) {
+                    String value = details.get("member_count");
+                    HnppApplication.getIndicatorRepository().updateValue("member_count",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
 
                 }
                 break;
@@ -1726,11 +1735,6 @@ public class VisitLogIntentService extends IntentService {
     private static void populateValuesForFormObject(CommonPersonObjectClient client, JSONObject jsonObject) {
         try {
             String value = org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(),jsonObject.getString(org.smartregister.family.util.JsonFormUtils.KEY),false);
-            //spinner
-//            if(jsonObject.getString("key").equalsIgnoreCase("number_of_pnc")){
-//
-//                jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUES,value);
-//            }
 
             if (jsonObject.has("openmrs_choice_ids")) {
                 JSONObject choiceObject = jsonObject.getJSONObject("openmrs_choice_ids");
@@ -1775,6 +1779,13 @@ public class VisitLogIntentService extends IntentService {
                     for (int i = 0; i < option_array.length(); i++) {
                         JSONObject option = option_array.getJSONObject(i);
                         if(jsonObject.getString("key").equalsIgnoreCase("preg_outcome")){
+                            String[] strs = value.split(",");
+                            for(String name : strs){
+                                if (name.equalsIgnoreCase(option.optString("key"))) {
+                                    option.put("value", "true");
+                                }
+                            }
+                        }else if(jsonObject.getString("key").equalsIgnoreCase("list_of_assets")){
                             String[] strs = value.split(",");
                             for(String name : strs){
                                 if (name.equalsIgnoreCase(option.optString("key"))) {

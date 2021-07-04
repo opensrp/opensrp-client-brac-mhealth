@@ -321,11 +321,9 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                         familyHistoryFragment.onActivityResult(0,0,null);
                         mViewPager.setCurrentItem(3,true);
                         HnppConstants.isViewRefresh = true;
-                        String name = HnppDBUtils.getFirstName(familyBaseEntityId);
-                        familyName = name;
-                        setProfileName(name);
+                        presenter().refreshProfileView();
                     }
-                },1000);
+                },2000);
             }
 
 
