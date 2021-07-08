@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_bg"
+    android:layout_width="match_parent"
+    android:padding="10dp"
+    android:layout_margin="10dp"
+    android:background="@drawable/dashboard_background"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/image_view"
+        android:src="@drawable/ic_home"
+        android:padding="5dp"
+        android:visibility="invisible"
+        android:layout_centerVertical="true"
+        android:layout_width="40dp"
+        android:layout_height="40dp"/>
+    <org.smartregister.view.customcontrols.CustomFontTextView
+        android:id="@+id/patient_name_age"
+        android:text="নিবন্ধিত খানা"
+        android:padding="5dp"
+        android:textSize="22sp"
+        android:layout_toRightOf="@id/image_view"
+        android:gravity="end"
+        android:textStyle="bold"
+        android:layout_below="@+id/count_txt"
+        android:textColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <org.smartregister.view.customcontrols.CustomFontTextView
+        android:id="@+id/count_txt"
+        android:text="1000"
+        android:textSize="25sp"
+        android:layout_alignParentTop="true"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

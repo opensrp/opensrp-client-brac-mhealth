@@ -906,6 +906,12 @@ public class HnppConstants extends CoreConstants {
         }
         return startDate;
     }
+    public static String getStringDateFormatForFromMonth(String year, String month){
+        return  year+"-"+HnppConstants.addZeroForMonth(month)+"-01";
+    }
+    public static String getStringDateFormatForToMonth(String year, String month){
+        return year+"-"+HnppConstants.addZeroForMonth(month)+"-"+getLastDateOfAMonth(month);
+    }
     public static long getLongDateFormatForToMonth(String year,String month){
         String dateFormate = year+"-"+HnppConstants.addZeroForMonth(month)+"-"+getLastDateOfAMonth(month);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -943,6 +949,17 @@ public class HnppConstants extends CoreConstants {
     public static String getStringFormatedDate(String year,String month,String day){
         return   year+"-"+HnppConstants.addZeroForMonth(month)+"-"+HnppConstants.addZeroForDay(day);
 
+    }
+    public static long getLongFromDateFormat(String dateTime){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        long milliseconds =0;
+        try{
+            Date d = format.parse(dateTime);
+            milliseconds  = d.getTime();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return milliseconds;
     }
     public static String getDateFormateFromLong(long dateTime){
         Date date = new Date(dateTime);
