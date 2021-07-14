@@ -135,6 +135,7 @@ public class NavigationInteractor implements NavigationContract.Interactor {
                 tableName  = CoreConstants.TABLE_NAME.ANC_MEMBER;
                 mainCondition = mainCondition + " "+ChildDBConstants.riskAncPatient();
             }
+            Log.v("NAVIGATION_QUERY","query anc:"+mainCondition);
         } else if (tableName.equalsIgnoreCase(CoreConstants.TABLE_NAME.TASK)) {
             mainCondition =
                     MessageFormat.format(" where {0}.{1} is \''READY'\' AND {0}.{2} is \''Referral'\' ", CoreConstants.TABLE_NAME.CHILD_REFERRAL, ChwDBConstants.TASK_STATUS, ChwDBConstants.TASK_CODE);
@@ -181,7 +182,6 @@ public class NavigationInteractor implements NavigationContract.Interactor {
             SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder();
             String query = MessageFormat.format("select count(*) from {0} {1}", tableName, mainCondition);
             query = sqb.Endquery(query);
-            Log.v("NAVIGATION_QUERY","final:"+query);
 
             cursor = commonRepository(tableName).rawCustomQueryForAdapter(query);
             count = cursor != null && cursor.moveToFirst() ? cursor.getInt(0) : 0;

@@ -159,6 +159,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
+            android:name="org.smartregister.chw.anc.activity.BaseAncRegisterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar" />
+        <activity
             android:name=".activity.HnppAncRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />

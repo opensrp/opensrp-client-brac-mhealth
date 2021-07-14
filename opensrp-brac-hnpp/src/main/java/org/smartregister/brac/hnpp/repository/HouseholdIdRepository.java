@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 public class HouseholdIdRepository extends BaseRepository {
     private static final String TAG = HouseholdIdRepository.class.getCanonicalName();
@@ -216,8 +217,11 @@ public class HouseholdIdRepository extends BaseRepository {
      * @return
      */
     public HouseholdId getNextHouseholdId(String village_id) {
+        //test with random id
         HouseholdId householdId = new HouseholdId();
-        householdId.setOpenmrsId("1234");
+        Random random = new Random();
+        String id = String.format("%04d", random.nextInt(10000));
+        householdId.setOpenmrsId(id);
         return householdId;
 //        HouseholdId householdId = null;
 //        Cursor cursor = null;
