@@ -78,35 +78,15 @@
           "প্রেসবায়োপিয়া",
           "ক্যাটারাক্ট",
           "সমস্যা নেই",
-          "অন্যান্য সমস্যা"
+          "অন্যান্য সমস্যা",
+          "আগেই পরীক্ষা করা হয়েছিল"
         ],
         "openmrs_choice_ids": {
           "প্রেসবায়োপিয়া": "presbiopia",
           "ক্যাটারাক্ট": "cataract",
           "সমস্যা নেই": "no_problem",
-          "অন্যান্য সমস্যা": "other_problem"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
-
-      },
-      {
-        "key": "is_need_glasses",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "is_need_glasses",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "চশমা দেয়া হয়েছে কি?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "yes",
-          "না": "no"
+          "অন্যান্য সমস্যা": "other_problem",
+          "আগেই পরীক্ষা করা হয়েছিল": "in_previous"
         },
         "v_required": {
           "value": true,
@@ -125,21 +105,24 @@
         "values": [
           "সিঙ্গেল ভিশন",
           "বাই -ফোকাল",
-          "সানগ্লাস"
+          "সানগ্লাস",
+          "চশমা নেয় নি"
         ],
         "openmrs_choice_ids": {
           "সিঙ্গেল ভিশন": "sv",
           "বাই -ফোকাল": "bf",
-          "সানগ্লাস": "sg"
+          "সানগ্লাস": "sg",
+          "চশমা নেয় নি": "no_glass_taken"
         },
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
         },
         "relevance": {
-          "step1:is_need_glasses": {
-            "type": "string",
-            "ex": "equalTo(., \"হ্যাঁ\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_eye_relevance.yml"
+            }
           }
         }
 
@@ -178,8 +161,37 @@
           }
         }
 
-      }
-    ,
+      },
+      {
+        "key": "is_need_glasses",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_need_glasses",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "চশমা দেয়া হয়েছে কি?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_eye_relevance.yml"
+            }
+          }
+        }
+
+      },
+
       {
         "key": "glasses_sell",
         "openmrs_entity_parent": "",
@@ -195,6 +207,36 @@
         "openmrs_choice_ids": {
           "মেটাল": "metal",
           "প্লাস্টিক": "plastic"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_eye_relevance.yml"
+            }
+          }
+        }
+
+      },
+      {
+        "key": "first_glass_user",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "first_glass_user",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "প্রথম চশমা ব্যবহারকারী কিনা?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
         },
         "v_required": {
           "value": true,

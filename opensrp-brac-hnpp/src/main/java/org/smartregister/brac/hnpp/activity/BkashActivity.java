@@ -177,7 +177,7 @@ public class BkashActivity extends SecuredActivity implements View.OnClickListen
 
 
             }else if(url.contains("status=failure") ){
-                HnppConstants.showButtonWithImageDialog(BkashActivity.this, 2,"status failure", new Runnable() {
+                HnppConstants.showButtonWithImageDialog(BkashActivity.this, 2,"", new Runnable() {
                     @Override
                     public void run() {
                         progressBar.setVisibility(View.VISIBLE);
@@ -193,7 +193,7 @@ public class BkashActivity extends SecuredActivity implements View.OnClickListen
                 });
             }
             else if(url.contains("status=cancel") ){
-                HnppConstants.showButtonWithImageDialog(BkashActivity.this, 3,"status cancel", new Runnable() {
+                HnppConstants.showButtonWithImageDialog(BkashActivity.this, 3,"", new Runnable() {
                     @Override
                     public void run() {
                         progressBar.setVisibility(View.GONE);

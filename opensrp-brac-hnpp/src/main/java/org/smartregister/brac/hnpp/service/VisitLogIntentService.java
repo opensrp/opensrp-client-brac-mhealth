@@ -920,6 +920,19 @@ public class VisitLogIntentService extends IntentService {
             }
         }
         HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"false",NCD_PACKAGE);
+        if(details.containsKey("suger_confirm_hospital") && !StringUtils.isEmpty(details.get("suger_confirm_hospital"))){
+            String sugerHospital = details.get("suger_confirm_hospital");
+            Log.v("SUGER_TEST","visitlog>>>sugerHospital:"+sugerHospital);
+
+            FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(baseEntityId+"_SUGER",sugerHospital);
+
+        }
+        if(details.containsKey("pressure_confirm_hospital") && !StringUtils.isEmpty(details.get("pressure_confirm_hospital"))){
+            String pressureHospital = details.get("pressure_confirm_hospital");
+            Log.v("SUGER_TEST","visitlog>>>pressureHospital:"+pressureHospital);
+            FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(baseEntityId+"_PRESSURE",pressureHospital);
+
+        }
     }
     private void updateAncRegistrationRisk(String baseEntityId,HashMap<String,String>details){
         if(details.containsKey("no_prev_preg") && !StringUtils.isEmpty(details.get("no_prev_preg"))){
@@ -1517,9 +1530,27 @@ public class VisitLogIntentService extends IntentService {
      */
 
     private void addSSFormToIndicator(VisitLog log,HashMap<String, String> details) {
+        LocalDate localDate = new LocalDate(log.getVisitDate());
+        String year = localDate.getYear()+"";
+        int month = localDate.getMonthOfYear();
+        String date = "01";
         if(details.containsKey("ss_name")&&!StringUtils.isEmpty(details.get("ss_name"))) {
             String value = details.get("ss_name");
             if(!TextUtils.isEmpty(value))log.setSsName(value);
+
+        }
+        if(details.containsKey("year")&&!StringUtils.isEmpty(details.get("year"))) {
+            String value = details.get("year");
+            if(!TextUtils.isEmpty(value)){
+                year = value;
+            }
+
+        }
+        if(details.containsKey("month")&&!StringUtils.isEmpty(details.get("month"))) {
+            String value = details.get("month");
+            if(!TextUtils.isEmpty(value)){
+                month = HnppJsonFormUtils.getMonthFromMonthString(value);
+            }
 
         }
         if(TextUtils.isEmpty(log.getSsName())){
@@ -1529,9 +1560,8 @@ public class VisitLogIntentService extends IntentService {
         for(String key: details.keySet()){
             if(details.containsKey(key) && !StringUtils.isEmpty(details.get(key))){
                 String value = details.get(key);
-                Log.v("SS_FORM","key >>"+key+":value:"+value);
-                LocalDate localDate = new LocalDate(log.getVisitDate());
-                HnppApplication.getIndicatorRepository().updateValue(key,value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
+                Log.v("SS_FORM","key >>"+key+":value:"+value+":year:"+year+":month:"+month);
+                HnppApplication.getIndicatorRepository().updateValue(key,value,date,month+"",year+"",log.getSsName(),log.getBaseEntityId());
 
             }
         }

@@ -161,7 +161,9 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
         return getVisitTypeCount("করেন্টাইন পরিবারের সংখ্যা","isolation","Yes",ssName,fromMonth,toMonth);
     }
     public DashBoardData getNoOfMemberVisited(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("জনসংখ্যা পরিদর্শন","member_count","",ssName,fromMonth,toMonth);
+        String fromMonthStr= HnppConstants.getDateFormateFromLong(fromMonth);
+        String toMonthStr = HnppConstants.getDateFormateFromLong(toMonth);
+        return getVisitTypeSum("জনসংখ্যা পরিদর্শন","member_count",ssName,fromMonthStr,toMonthStr);
     }
     public DashBoardData getRemoveMemberCount(String title,String ssName, long fromMonth, long toMonth){
         DashBoardData dashBoardData1 = new DashBoardData();

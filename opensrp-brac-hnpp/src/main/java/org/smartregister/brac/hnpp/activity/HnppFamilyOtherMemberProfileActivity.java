@@ -414,6 +414,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                     HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_women","true");
                 }
             }
+            if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.NCD_PACKAGE)){
+                HnppJsonFormUtils.addNcdSugerPressure(baseEntityId,jsonForm);
+            }
 
 //           if(formName.contains("anc"))
             HnppVisitLogRepository visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();

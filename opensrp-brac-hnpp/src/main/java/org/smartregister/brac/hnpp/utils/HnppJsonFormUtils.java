@@ -105,6 +105,14 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         }
 
     }
+    public static int getMonthFromMonthString(String month){
+        for(int i=0;i<monthStr.length;i++){
+            if(monthStr[i].equalsIgnoreCase(month)){
+                return i+1;
+            }
+        }
+        return 0;
+    }
     public static boolean isCurrentMonth(String month, String year){
         if(TextUtils.isEmpty(month) || TextUtils.isEmpty(year)){
             return false;
@@ -769,6 +777,29 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
             updateFormField(jsonArray,"height",height);
 
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public static void addNcdSugerPressure(String baseEntityId, JSONObject jsonForm){
+        try {
+            String sugervalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(baseEntityId+"_SUGER");
+            String pressurevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(baseEntityId+"_PRESSURE");
+            if(sugervalue.isEmpty() && pressurevalue.isEmpty()) return;
+            Log.v("SUGER_TEST","addNcdSugerPressure>>>sugervalue:"+sugervalue+":pressurevalue:"+pressurevalue);
+            JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+            JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+            if(!TextUtils.isEmpty(sugervalue) && sugervalue.equalsIgnoreCase("yes")){
+                updateFormField(jsonArray,"suger_confirm_hospital","হ্যাঁ");
+                JSONObject formObject = org.smartregister.util.JsonFormUtils.getFieldJSONObject(jsonArray, "suger_confirm_hospital");
+                formObject.put(org.smartregister.family.util.JsonFormUtils.READ_ONLY, true);
+            }
+            if(!TextUtils.isEmpty(pressurevalue) && pressurevalue.equalsIgnoreCase("yes")){
+                updateFormField(jsonArray,"pressure_confirm_hospital","হ্যাঁ");
+                JSONObject formObject = org.smartregister.util.JsonFormUtils.getFieldJSONObject(jsonArray, "pressure_confirm_hospital");
+                formObject.put(org.smartregister.family.util.JsonFormUtils.READ_ONLY, true);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

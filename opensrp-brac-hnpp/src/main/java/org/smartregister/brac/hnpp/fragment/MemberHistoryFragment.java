@@ -148,6 +148,9 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
                 }
 
             }
+            if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.NCD_PACKAGE)){
+                HnppJsonFormUtils.addNcdSugerPressure(baseEntityId,jsonForm);
+            }
             makeReadOnlyFields(jsonForm);
 
             Intent intent = new Intent(getActivity(), HnppFormViewActivity.class);

@@ -349,6 +349,57 @@
         }
       },
       {
+        "key": "pressure_test_hospital",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "pressure_test_hospital",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "হাসপাতালে গিয়ে  রক্তচাপ পরীক্ষা করেছে কিনা?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+
+      },
+      {
+        "key": "pressure_confirm_hospital",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "pressure_confirm_hospital",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "এই রোগীর রক্তচাপ কি হাসপাতালে নিশ্চিত হয়েছে? ",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_ncd_package_relevance.yml"
+            }
+          }
+        }
+
+      },
+      {
         "key": "glucose_label",
         "type": "label",
         "text": "গ্লুকোজ(mmol/l) - রক্ত পরীক্ষা",
@@ -453,6 +504,56 @@
         "text": "চিনি এবং শর্করা জাতীয় খাবার কমাতে হবে, নিয়মিত ব্যায়াম করতে হবে।  তাছাড়াও নিয়মিত পরীক্ষা করতে হবে",
         "text_color": "#CF0800",
         "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_ncd_package_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "suger_test_hospital",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "suger_test_hospital",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "হাসপাতালে গিয়ে  ডায়েবেটিস পরীক্ষা করেছে কিনা?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+
+      },
+      {
+        "key": "suger_confirm_hospital",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "suger_confirm_hospital",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "এই রোগীর ডায়েবেটিস কি হাসপাতালে নিশ্চিত হয়েছে? ",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
         "relevance": {
           "rules-engine": {
             "ex-rules": {
