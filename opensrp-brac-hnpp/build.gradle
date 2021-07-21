@@ -165,12 +165,13 @@ android {
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
 
-//            buildConfigField "String", 'opensrp_url_training', '"http://192.168.43.214:8080/opensrp/"'
-//            buildConfigField "String", 'opensrp_url_live', '"http://192.168.43.214:8080/opensrp/"'
+            // buildConfigField "String", 'opensrp_url_training', '"http://192.168.43.214:8080/opensrp/"'
+            // buildConfigField "String", 'opensrp_url_live', '"http://192.168.43.214:8080/opensrp/"'
 
-            buildConfigField "String", 'opensrp_url_training', '"http://goldo.mpower-social.com/opensrp/"'
-            buildConfigField "String", 'opensrp_url_live', '"http://goldo.mpower-social.com/opensrp/"'
-
+            /*buildConfigField "String", 'opensrp_url_training', '"http://goldo.mpower-social.com/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"http://goldo.mpower-social.com/opensrp/"'*/
+            buildConfigField "String", 'opensrp_url_training', '"http://goldo.mpower-social.com/opensrp"'
+            buildConfigField "String", 'opensrp_url_live', '"http://goldo.mpower-social.com/opensrp"'
         }
         production{
             versionCode 30
@@ -186,7 +187,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(':opensrp-chw-core')
+    implementation (project(':opensrp-chw-core')) {
+        exclude group: 'org.smartregister', module: 'opensrp-client-core'
+    }
 
     implementation 'com.whiteelephant:monthandyearpicker:1.3.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
@@ -197,6 +200,26 @@ dependencies {
         exclude group: 'com.android.support', module: 'appcompat-v7'
         exclude group: 'org.smartregister', module: 'opensrp-client-native-form'
     }
+
+    api('org.smartregister:opensrp-client-core:4.2.13-gs.1-SNAPSHOT') {
+        transitive = true
+        exclude group: 'com.ibm.fhir', module: 'fhir-model'
+        exclude group: 'org.smartregister', module: 'opensrp-client-reporting'
+        exclude group: 'com.crashlytics.sdk.android', module: 'crashlytics'
+    }
+
+    implementation('org.smartregister:opensrp-client-tasking:0.0.3.16-GS-PREVIEW-SNAPSHOT') {
+        exclude group: 'org.smartregister', module: 'opensrp-plan-evaluator'
+        exclude group: 'org.smartregister', module: 'opensrp-client-core'
+        exclude group: 'io.ona.rdt-capture'
+        exclude group: 'org.smartregister', module: 'opensrp-client-reporting'
+    }
+
+    implementation('org.smartregister:opensrp-plan-evaluator:1.2.11-SNAPSHOT') {
+        transitive = true
+        exclude group: 'com.ibm.fhir', module: 'fhir-model'
+    }
+
 
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
