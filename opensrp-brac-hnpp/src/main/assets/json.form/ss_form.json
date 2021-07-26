@@ -1,5 +1,5 @@
 {
-  "count": "7",
+  "count": "8",
   "encounter_type": "SS Form",
   "entity_id": "",
   "relational_id": "",
@@ -126,6 +126,23 @@
     "next": "step3",
     "fields": [
       {
+        "key": "no_of_hh_visit",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "no_of_hh_visit",
+        "type": "edit_text",
+        "hint": "আপনি কতটি খানা ভিজিট করেছেন?",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "edit_type": "number"
+      },
+      {
         "key": "one_hour_after_birth",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -135,6 +152,10 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
         },
         "edit_type": "number"
       },
@@ -149,6 +170,10 @@
           "value": "true",
           "err": "Enter a valid Number"
         },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
         "edit_type": "number"
       },
       {
@@ -161,6 +186,10 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
         },
         "edit_type": "number"
       }
@@ -182,6 +211,10 @@
           "value": "true",
           "err": "Enter a valid Number"
         },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
         "edit_type": "number"
       },
       {
@@ -194,6 +227,27 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "edit_type": "number"
+      },
+      {
+        "key": "no_of_epi_present",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "no_of_epi_present",
+        "type": "edit_text",
+        "hint": "কতগুলো ই.পি.এই সেন্টার এ উপস্থিত ছিলেন?",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
         },
         "edit_type": "number"
       }
@@ -216,6 +270,10 @@
           "value": "true",
           "err": "Enter a valid Number"
         },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
         "edit_type": "number"
       },
       {
@@ -228,6 +286,10 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
         },
         "edit_type": "number"
       }
@@ -266,6 +328,10 @@
           "value": "true",
           "err": "Enter a valid Number"
         },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
         "edit_type": "number"
       },
       {
@@ -279,10 +345,50 @@
           "value": "true",
           "err": "Enter a valid Number"
         },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
         "edit_type": "number"
       },
       {
         "key": "error_presbiophea_count",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "চক্ষু পরীক্ষার সংখ্যা থেকে কম হতে হবে",
+        "text_color": "#FF0000",
+        "text_size": "20sp",
+        "toaster_type": "problem",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_ss_relevance.yml"
+            }
+          }
+        }
+      },
+
+      {
+        "key": "presbiophea_correction_count",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "presbiophea_correction_count",
+        "type": "edit_text",
+        "hint": "কতজনের প্রেসবায়োপিয়া কারেকশন করা হয়েছে? ",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "edit_type": "number"
+      },
+      {
+        "key": "error_presbiophea_correction_count",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
@@ -317,6 +423,10 @@
           "value": "true",
           "err": "Enter a valid Number"
         },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
         "edit_type": "number"
       },
       {
@@ -329,6 +439,10 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
         },
         "edit_type": "number"
       },
@@ -361,6 +475,10 @@
           "value": "true",
           "err": "Enter a valid Number"
         },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
         "edit_type": "number"
       },
       {
@@ -392,6 +510,10 @@
           "value": "true",
           "err": "Enter a valid Number"
         },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
         "edit_type": "number"
       },
       {
@@ -405,6 +527,10 @@
           "value": "true",
           "err": "Enter a valid Number"
         },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
         "edit_type": "number"
       }
     ]
@@ -412,6 +538,7 @@
   "step7": {
     "title": "রক্তচাপ পরীক্ষা",
     "previous": "step6",
+    "next": "step8",
     "fields": [
       {
         "key": "total_blood_presser",
@@ -423,6 +550,10 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
         },
         "edit_type": "number"
       },
@@ -436,6 +567,10 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
         },
         "edit_type": "number"
       },
@@ -468,6 +603,10 @@
           "value": "true",
           "err": "Enter a valid Number"
         },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
         "edit_type": "number"
       },
       {
@@ -499,6 +638,10 @@
           "value": "true",
           "err": "Enter a valid Number"
         },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
         "edit_type": "number"
       },
       {
@@ -512,8 +655,299 @@
           "value": "true",
           "err": "Enter a valid Number"
         },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "edit_type": "number"
+      }
+
+    ]
+  },
+
+  "step8": {
+    "title": "বিক্রয়কৃত পণ্যের হিসাব ",
+    "previous": "step7",
+    "fields": [
+      {
+        "key": "income_from_medicine",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "income_from_medicine",
+        "type": "edit_text",
+        "hint": "ঔষধ থেকে আয় (টাকা)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
         "edit_type": "number"
       },
+
+      {
+        "key": "orsaline_count",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "orsaline_count",
+        "type": "edit_text",
+        "hint": "ওরস্যালাইন (সংখ্যা)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "edit_type": "number"
+      },
+
+      {
+        "key": "brac_salt",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "brac_salt",
+        "type": "edit_text",
+        "hint": "ব্র্যাক লবন (কেজি)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "edit_type": "number"
+      },
+
+      {
+        "key": "sanitary_napkin",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "sanitary_napkin",
+        "type": "edit_text",
+        "hint": "স্যানিটারি ন্যাপকিন (সংখ্যা)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "edit_type": "number"
+      },
+      {
+        "key": "beneficiary_delivery_kit",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "beneficiary_delivery_kit",
+        "type": "edit_text",
+        "hint": "কল্যাণী ডেলিভারি কিট (প্যাকেটের সংখ্যা)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "edit_type": "number"
+      },
+      {
+        "key": "soap_count",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "soap_count",
+        "type": "edit_text",
+        "hint": "সাবান (সংখ্যা)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "edit_type": "number"
+      },
+      {
+        "key": "tablet_count",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "tablet_count",
+        "type": "edit_text",
+        "hint": "বড়ি ( চক্র) ",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "edit_type": "number"
+      },
+      {
+        "key": "condom_count",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "condom_count",
+        "type": "edit_text",
+        "hint": "কনডম (সংখ্যা) ",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "edit_type": "number"
+      },
+
+      {
+        "key": "strip_test_pregnancy_count",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "strip_test_pregnancy_count",
+        "type": "edit_text",
+        "hint": "গর্ভাবস্থা পরীক্ষা স্ট্রিপ (সংখ্যা) ",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "edit_type": "number"
+      },
+      {
+        "key": "nutrition_count",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "nutrition_count",
+        "type": "edit_text",
+        "hint": "পুষ্টিকণা (ছোট প্যাকেট) ",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "edit_type": "number"
+      },
+
+
+      {
+        "key": "glass",
+        "type": "label",
+        "text": "চশমা ",
+        "has_bg": true,
+        "text_size": "15sp",
+        "text_color": "#000000"
+      },
+      {
+        "key": "glass_metal_count",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "glass_metal_count",
+        "type": "edit_text",
+        "hint": "চশমা - মেটাল ",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "edit_type": "number"
+      },
+      {
+        "key": "glass_plastic_count",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "glass_plastic_count",
+        "type": "edit_text",
+        "hint": "চশমা - প্লাষ্টিক  ",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "edit_type": "number"
+      },
+      {
+        "key": "glass_sunglass_count",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "glass_sunglass_count",
+        "type": "edit_text",
+        "hint": "সানগ্লাস ",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "edit_type": "number"
+      },
+
+      {
+        "key": "dental_care",
+        "type": "label",
+        "text": "দাঁতের যত্ন ",
+        "has_bg": true,
+        "text_size": "15sp",
+        "text_color": "#000000"
+      },
+      {
+        "key": "toothpaste_count",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "toothpaste_count",
+        "type": "edit_text",
+        "hint": "টুথপেষ্ট ",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "edit_type": "number"
+      },
+      {
+        "key": "toothbrush_count",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "toothbrush_count",
+        "type": "edit_text",
+        "hint": "টুথব্রাশ ",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+        "value": "[0-9]*",
+        "err": "দশমিক অনুমোদিত নয়"
+      },
+        "edit_type": "number"
+      },
+
       {
         "openmrs_entity_parent": "",
         "openmrs_entity": "",

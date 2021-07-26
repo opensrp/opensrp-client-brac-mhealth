@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.design.bottomnavigation.LabelVisibilityMode;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.fragment.HnppPncRegisterFragment;
 import org.smartregister.brac.hnpp.listener.HnppBottomNavigationListener;
 import org.smartregister.brac.hnpp.listener.HnppFamilyBottomNavListener;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.core.custom_views.NavigationMenu;
 import org.smartregister.chw.core.utils.CoreConstants;
@@ -38,8 +40,26 @@ public class HnppPncRegisterActivity extends AncRegisterActivity {
         startActivity(intent);
         finish();
     }
+    public void backToHomeScreen() {
+        Intent intent = new Intent(this, FamilyRegisterActivity.class);
+        intent.putExtra(HnppConstants.KEY_NEED_TO_OPEN,true);
+        startActivity(intent);
+        finish();
+    }
+    @Override
+    public void onBackPressed() {
+        Fragment fragment = findFragmentByPosition(currentPage);
+        if (fragment instanceof BaseRegisterFragment) {
+            setSelectedBottomBarMenuItem(org.smartregister.R.id.action_clients);
+            BaseRegisterFragment registerFragment = (BaseRegisterFragment) fragment;
+            if (registerFragment.onBackPressed()) {
+                return;
+            }
+        }
+        backToHomeScreen();
+        setSelectedBottomBarMenuItem(org.smartregister.R.id.action_clients);
 
-
+    }
 
     @Override
     protected void registerBottomNavigation() {
@@ -63,7 +83,7 @@ public class HnppPncRegisterActivity extends AncRegisterActivity {
     @Override
     protected void onResumption() {
         super.onResumption();
-        NavigationMenu menu = NavigationMenu.getInstance(this, null, null);
+        NavigationMenu menu = NavigationMenu.getInstance(this, null, findViewById(org.smartregister.R.id.register_toolbar));
         if (menu != null) {
             menu.getNavigationAdapter()
                     .setSelectedView(CoreConstants.DrawerMenu.PNC);

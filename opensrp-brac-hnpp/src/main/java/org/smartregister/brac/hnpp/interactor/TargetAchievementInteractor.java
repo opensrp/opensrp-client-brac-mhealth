@@ -32,17 +32,17 @@ public class TargetAchievementInteractor implements DashBoardContract.TargetInte
         if(targetVsAchievementData !=null) dashBoardDataArrayList.add(targetVsAchievementData);
     }
 
-    @Override
-    public void fetchAllData(DashBoardContract.InteractorCallBack callBack, String day, String month, String year, String ssName) {
-
-//        Runnable runnable = () -> {
-//            fetchData(day,month,year,ssName);
+//    @Override
+//    public void fetchAllData(DashBoardContract.InteractorCallBack callBack, String day, String month, String year, String ssName) {
 //
-//            appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
-//        };
-//        appExecutors.diskIO().execute(runnable);
-
-    }
+////        Runnable runnable = () -> {
+////            fetchData(day,month,year,ssName);
+////
+////            appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
+////        };
+////        appExecutors.diskIO().execute(runnable);
+//
+//    }
 //
 //    private void fetchData( String day, String month, String year, String ssName) {
 //        if(HnppConstants.isPALogin()){
@@ -100,17 +100,17 @@ public class TargetAchievementInteractor implements DashBoardContract.TargetInte
 
 
     }
-
-    @Override
-    public void filterData(String ssName, String day, String month, String year,DashBoardContract.InteractorCallBack callBack) {
-//        dashBoardDataArrayList.clear();
-//        Runnable runnable = () -> {
-//            fetchData(day,month,year,ssName);
 //
-//            appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
-//        };
-//        appExecutors.diskIO().execute(runnable);
-    }
+//    @Override
+//    public void filterData(String ssName, String day, String month, String year,DashBoardContract.InteractorCallBack callBack) {
+////        dashBoardDataArrayList.clear();
+////        Runnable runnable = () -> {
+////            fetchData(day,month,year,ssName);
+////
+////            appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
+////        };
+////        appExecutors.diskIO().execute(runnable);
+//    }
 
 
     public void filterByFromToDate(String ssName, long fromDate, long toDate, DashBoardContract.InteractorCallBack callBack) {

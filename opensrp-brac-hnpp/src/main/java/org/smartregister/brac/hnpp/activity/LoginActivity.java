@@ -198,6 +198,16 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
     @Override
     public void onClick(View v) {
         if (v.getId() == org.smartregister.R.id.login_login_btn) {
+            if(HnppConstants.isWrongDate()){
+                new AlertDialog.Builder(this).setMessage(getString(R.string.wrong_date_msg))
+                        .setTitle(R.string.wrong_date_title).setCancelable(false)
+                        .setPositiveButton(R.string.yes_button_label, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+                return;
+            }
             String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
             if(!TextUtils.isEmpty(userName) && !userName.equalsIgnoreCase(userNameText.getText().toString())){
                 showClearDataMessage();

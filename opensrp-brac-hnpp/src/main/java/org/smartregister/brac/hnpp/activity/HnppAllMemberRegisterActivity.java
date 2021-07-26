@@ -2,6 +2,7 @@ package org.smartregister.brac.hnpp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.View;
 
 import org.smartregister.brac.hnpp.BuildConfig;
@@ -60,6 +61,20 @@ public class HnppAllMemberRegisterActivity extends CoreChildRegisterActivity {
 
     }
     @Override
+    public void onBackPressed() {
+        Fragment fragment = findFragmentByPosition(currentPage);
+        if (fragment instanceof BaseRegisterFragment) {
+            setSelectedBottomBarMenuItem(org.smartregister.R.id.action_clients);
+            BaseRegisterFragment registerFragment = (BaseRegisterFragment) fragment;
+            if (registerFragment.onBackPressed()) {
+                return;
+            }
+        }
+
+        backToHomeScreen();
+        setSelectedBottomBarMenuItem(org.smartregister.R.id.action_clients);
+    }
+    @Override
     protected BaseRegisterFragment getRegisterFragment() {
         return new HnppAllMemberRegisterFragment();
     }
@@ -67,6 +82,12 @@ public class HnppAllMemberRegisterActivity extends CoreChildRegisterActivity {
     @Override
     public void switchToBaseFragment() {
         Intent intent = new Intent(this, FamilyRegisterActivity.class);
+        startActivity(intent);
+        finish();
+    }
+    public void backToHomeScreen() {
+        Intent intent = new Intent(this, FamilyRegisterActivity.class);
+        intent.putExtra(HnppConstants.KEY_NEED_TO_OPEN,true);
         startActivity(intent);
         finish();
     }

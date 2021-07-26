@@ -62,6 +62,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
@@ -89,6 +90,8 @@ public class HnppConstants extends CoreConstants {
     public static boolean isSortByLastVisit = false;
     public static boolean isViewRefresh = false;
     public static final String KEY_IS_SAME_MONTH = "is_same_month";
+    public static final String KEY_NEED_TO_OPEN = "need_to_open_drawer";
+
     public static SimpleDateFormat DDMMYY = new SimpleDateFormat("dd-MM-yyyy",Locale.getDefault());
     public static SimpleDateFormat DDMMYYHM = new SimpleDateFormat("dd-MM-yyyy",Locale.getDefault());
     public enum VisitType {DUE, OVERDUE, LESS_TWENTY_FOUR, VISIT_THIS_MONTH, NOT_VISIT_THIS_MONTH, EXPIRY, VISIT_DONE}
@@ -379,24 +382,35 @@ public class HnppConstants extends CoreConstants {
         });
         dialog.show();
     }
-    public static void showButtonWithImageDialog(Context context, int type, Runnable runnable){
+    public static void showButtonWithImageDialog(Context context, int type, String message, Runnable runnable){
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_with_image_one_button);
+        dialog.setContentView(R.layout.dialog_bkash_success);
         ImageView imageView = dialog.findViewById(R.id.image);
         TextView titleTxt = dialog.findViewById(R.id.title_tv);
+        TextView statusTxt = dialog.findViewById(R.id.status_tv);
+        TextView messageTxt = dialog.findViewById(R.id.text_tv);
         if(type ==1){
+            titleTxt.setText("আপনার পেমেন্ট টি সফল হয়েছে");
             imageView.setImageResource(R.drawable.success);
-            titleTxt.setText("Payment successfully");
-            titleTxt.setTextColor(context.getResources().getColor(R.color.alert_complete_green));
+            statusTxt.setText("Payment successfully");
+            statusTxt.setTextColor(context.getResources().getColor(R.color.alert_complete_green));
+            messageTxt.setText(message);
+            messageTxt.setTextColor(context.getResources().getColor(R.color.alert_complete_green));
         }else if(type == 2){
+            titleTxt.setText("আপনার পেমেন্ট টি ফেইল্ড করেছে");
             imageView.setImageResource(R.drawable.failure);
-            titleTxt.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
-            titleTxt.setText("Payment failed");
+            statusTxt.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
+            statusTxt.setText("Payment failed");
+            messageTxt.setText(message);
+            messageTxt.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
         }else if(type == 3){
+            titleTxt.setText("আপনার পেমেন্ট টি বাতিল হয়েছে");
             imageView.setImageResource(R.drawable.cancel);
-            titleTxt.setText("Payment cancel");
-            titleTxt.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
+            statusTxt.setText("Payment cancel");
+            statusTxt.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
+            messageTxt.setText(message);
+            messageTxt.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
         }
 
 
@@ -469,6 +483,12 @@ public class HnppConstants extends CoreConstants {
         LocalDate expectedDeliveryDate = lastMenstrualPeriod.plusDays(280);
         int dayDiff = Days.daysBetween(lastMenstrualPeriod, expectedDeliveryDate).getDays();
         return dayDiff <=30;
+    }
+    public static boolean isWrongDate(){
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        if(year<2018) return true;
+        return false;
     }
     public static void appendLog(String text) {
         File logFile = new File("sdcard/log.file");
@@ -738,7 +758,11 @@ public class HnppConstants extends CoreConstants {
         public static final String  CHILD_REFERRAL = "hnpp_child_referral";
         public static final String  ELCO = "elco_register";
         public static final String  PNC_FORM = "hnpp_pnc_registration";
+        public static final String  PNC_FORM_BEFORE_48_HOUR = "hnpp_pnc_registration_before48_hour";
+        public static final String  PNC_FORM_AFTER_48_HOUR = "hnpp_pnc_registration_after48_hour";
         public static final String  PNC_FORM_OOC = "hnpp_pnc_registration_ooc";
+        public static final String  PNC_FORM_BEFORE_48_HOUR_OOC = "hnpp_pnc_registration_before48_hour_ooc";
+        public static final String  PNC_FORM_AFTER_48_HOUR_OOC = "hnpp_pnc_registration_after48_hour_ooc";
         public static final String  WOMEN_PACKAGE = "hnpp_women_package";
         public static final String  EYE_TEST = "eye_test";
         public static final String  BLOOD_TEST = "blood_test";
@@ -790,8 +814,12 @@ public class HnppConstants extends CoreConstants {
         public static final String ANC3_REGISTRATION_OOC = "ANC3 Registration OOC";
         public static final String ANC_REGISTRATION = "ANC Registration";
         public static final String UPDATE_ANC_REGISTRATION = "Update ANC Registration";
-        public static final String PNC_REGISTRATION = "PNC Registration";
-        public static final String PNC_REGISTRATION_OOC = "PNC Registration OOC";
+
+        public static final String PNC_REGISTRATION_BEFORE_48_hour = "PNC Visit Within 48_hr";
+        public static final String PNC_REGISTRATION_AFTER_48_hour = "PNC Visit After 48_hr";
+
+        public static final String PNC_REGISTRATION_BEFORE_48_hour_OOC = "PNC Visit Within 48_hr OOC";
+        public static final String PNC_REGISTRATION_AFTER_48_hour_OOC = "PNC Visit After 48_hr OOC";
         public static final String WOMEN_PACKAGE = "Women package";
         public static final String GIRL_PACKAGE = "Adolescent package";
         public static final String NCD_PACKAGE = "NCD package";//pa
@@ -878,6 +906,12 @@ public class HnppConstants extends CoreConstants {
         }
         return startDate;
     }
+    public static String getStringDateFormatForFromMonth(String year, String month){
+        return  year+"-"+HnppConstants.addZeroForMonth(month)+"-01";
+    }
+    public static String getStringDateFormatForToMonth(String year, String month){
+        return year+"-"+HnppConstants.addZeroForMonth(month)+"-"+getLastDateOfAMonth(month);
+    }
     public static long getLongDateFormatForToMonth(String year,String month){
         String dateFormate = year+"-"+HnppConstants.addZeroForMonth(month)+"-"+getLastDateOfAMonth(month);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -915,6 +949,17 @@ public class HnppConstants extends CoreConstants {
     public static String getStringFormatedDate(String year,String month,String day){
         return   year+"-"+HnppConstants.addZeroForMonth(month)+"-"+HnppConstants.addZeroForDay(day);
 
+    }
+    public static long getLongFromDateFormat(String dateTime){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        long milliseconds =0;
+        try{
+            Date d = format.parse(dateTime);
+            milliseconds  = d.getTime();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return milliseconds;
     }
     public static String getDateFormateFromLong(long dateTime){
         Date date = new Date(dateTime);
@@ -976,7 +1021,9 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ANC2_REGISTRATION,JSON_FORMS.ANC2_FORM)
             .put(EVENT_TYPE.ANC3_REGISTRATION,JSON_FORMS.ANC3_FORM)
             .put(EVENT_TYPE.ELCO,JSON_FORMS.ELCO)
-            .put(EVENT_TYPE.PNC_REGISTRATION,JSON_FORMS.PNC_FORM)
+
+            .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,JSON_FORMS.PNC_FORM_AFTER_48_HOUR)
+            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,JSON_FORMS.PNC_FORM_BEFORE_48_HOUR)
             .put(EVENT_TYPE.CHILD_INFO_EBF12,JSON_FORMS.CHILD_INFO_EBF12)
             .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,JSON_FORMS.CHILD_INFO_7_24_MONTHS)
             .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,JSON_FORMS.CHILD_INFO_25_MONTHS)
@@ -985,7 +1032,8 @@ public class HnppConstants extends CoreConstants {
             .put(JSON_FORMS.ANC1_FORM,EventType.ANC_HOME_VISIT)
             .put(JSON_FORMS.ANC2_FORM,EventType.ANC_HOME_VISIT)
             .put(JSON_FORMS.ANC3_FORM,EventType.ANC_HOME_VISIT)
-            .put(JSON_FORMS.PNC_FORM,EventType.PNC_HOME_VISIT)
+            .put(JSON_FORMS.PNC_FORM_AFTER_48_HOUR,EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour)
+            .put(JSON_FORMS.PNC_FORM_BEFORE_48_HOUR,EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour)
             .put(JSON_FORMS.NCD_PACKAGE,EVENT_TYPE.NCD_PACKAGE)
             .put(JSON_FORMS.IYCF_PACKAGE,EVENT_TYPE.IYCF_PACKAGE)
             .put(JSON_FORMS.WOMEN_PACKAGE,EVENT_TYPE.WOMEN_PACKAGE)
@@ -996,7 +1044,10 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ANC1_REGISTRATION,JSON_FORMS.ANC1_FORM_OOC)
             .put(EVENT_TYPE.ANC2_REGISTRATION,JSON_FORMS.ANC2_FORM_OOC)
             .put(EVENT_TYPE.ANC3_REGISTRATION,JSON_FORMS.ANC3_FORM_OOC)
-            .put(EVENT_TYPE.PNC_REGISTRATION,JSON_FORMS.PNC_FORM_OOC)
+
+            .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC,JSON_FORMS.PNC_FORM_AFTER_48_HOUR_OOC)
+            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC,JSON_FORMS.PNC_FORM_BEFORE_48_HOUR_OOC)
+
             .build();
     public static final Map<String,Integer> iconMapping = ImmutableMap.<String,Integer> builder()
             .put("গর্ভবতী পরিচর্যা-১ম ত্রিমাসিক",R.mipmap.ic_anc_pink)
@@ -1004,7 +1055,11 @@ public class HnppConstants extends CoreConstants {
             .put("গর্ভবতী পরিচর্যা - ৩য় ত্রিমাসিক",R.mipmap.ic_anc_pink)
             .put("শারীরিক সমস্যা",R.mipmap.ic_anc_pink)
             .put( "পূর্বের গর্ভের ইতিহাস",R.mipmap.ic_anc_pink)
-            .put(EVENT_TYPE.PNC_REGISTRATION,R.drawable.sidemenu_pnc)
+
+            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,R.drawable.sidemenu_pnc)
+            .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,R.drawable.sidemenu_pnc)
+            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC,R.drawable.sidemenu_pnc)
+            .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC,R.drawable.sidemenu_pnc)
             .put(EVENT_TYPE.PREGNANCY_OUTCOME,R.drawable.sidemenu_pnc)
             .put(EVENT_TYPE.ANC1_REGISTRATION,R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.ANC2_REGISTRATION,R.mipmap.ic_anc_pink)
@@ -1030,7 +1085,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.EYE_TEST,R.drawable.ic_eye)
             .put(EVENT_TYPE.IYCF_PACKAGE, R.drawable.child_girl_infant)
             .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,R.mipmap.ic_anc_pink)
-            .put(Constants.EVENT_TYPE.PNC_HOME_VISIT,R.drawable.sidemenu_pnc)
+
             .put(EVENT_TYPE.ENC_REGISTRATION,R.mipmap.ic_child)
             .put("Member referral",R.mipmap.ic_refer)
             .put(EVENT_TYPE.HOME_VISIT_FAMILY, R.mipmap.ic_icon_home)
@@ -1088,7 +1143,11 @@ public class HnppConstants extends CoreConstants {
             .put( EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসবের ফলাফল")
             .put( EVENT_TYPE.PREGNANCY_OUTCOME_OOC,"প্রসবের ফলাফল")
             .put( JSON_FORMS.PNC_FORM,"প্রসবোত্তর পরিচর্যা")
-            .put( EVENT_TYPE.PNC_REGISTRATION,"প্রসবোত্তর পরিচর্যা")
+
+            .put( EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,"পি.এন.সি. (প্রথম ৪৮ ঘন্টা পর)")
+            .put( EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
+            .put( EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC,"পি.এন.সি. (প্রথম ৪৮ ঘন্টা পর)")
+            .put( EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
             .put(EVENT_TYPE.WOMEN_PACKAGE,"নারী সেবা প্যাকেজ")
             .put(EVENT_TYPE.GIRL_PACKAGE, "কিশোরী সেবা প্যাকেজ")
             .put(EVENT_TYPE.NCD_PACKAGE, "অসংক্রামক রোগের সেবা")
@@ -1171,7 +1230,7 @@ public class HnppConstants extends CoreConstants {
             .put(HnppConstants.EventType.CHILD_REGISTRATION,"শিশু রেজিস্ট্রেশন")
             .put(EVENT_TYPE.ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন")
             .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,"গর্ভবতী পরিচর্যা ভিজিট(এএনসি)")
-            .put(Constants.EVENT_TYPE.PNC_HOME_VISIT,"প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি)")
+
             .put(EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসব")
             .put(EVENT_TYPE.ENC_REGISTRATION, "নবজাতকের সেবা")
             .put(EVENT_TYPE.CHILD_FOLLOWUP,"শিশু ফলোআপ")
@@ -1205,6 +1264,9 @@ public class HnppConstants extends CoreConstants {
             .put("familyplanning_method_known", "পরিবার পরিকল্পনা পদ্ধতি ব্যবহারকারী")
             .put(EVENT_TYPE.ANC_SERVICE,"গর্ভবতী সেবা")
             .put(EVENT_TYPE.PNC_SERVICE,"প্রসব-পরবর্তী সেবা")
+            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
+            .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,"পি.এন.সি.(প্রথম ৪৮ ঘন্টা পর)")
+
             .build();
     //for dashboard countSummery
     public static final Map<String,String> countSummeryTypeMapping = ImmutableMap.<String,String> builder()
@@ -1216,7 +1278,9 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন")
             .put(EVENT_TYPE.HOME_VISIT_FAMILY,"খানা ভিজিট")
             .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,"গর্ভবতী পরিচর্যা ভিজিট(এএনসি)")
-            .put(Constants.EVENT_TYPE.PNC_HOME_VISIT,"প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি)")
+            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
+            .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,"পি.এন.সি.(প্রথম ৪৮ ঘন্টা পর)")
+
             .put(EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসব")
             .build();
 
@@ -1242,8 +1306,12 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.EYE_TEST,"চক্ষু পরীক্ষা")
             .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)")
             .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,"গর্ভবতী পরিচর্যা ভিজিট(এএনসি)")
-            .put(Constants.EVENT_TYPE.PNC_HOME_VISIT,"প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি)")
-            .put(EVENT_TYPE.PNC_REGISTRATION,"প্রসবোত্তর পরিচর্যা")
+
+
+            .put( EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,"পি.এন.সি. (প্রথম ৪৮ ঘন্টা পর)")
+            .put( EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
+            .put( EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC,"পি.এন.সি. (প্রথম ৪৮ ঘন্টা পর)")
+            .put( EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
             .put(EVENT_TYPE.ENC_REGISTRATION, "নবজাতকের সেবা")
             .put(EVENT_TYPE.HOME_VISIT_FAMILY, "খানা পরিদর্শন")
             .put(EventType.CHILD_HOME_VISIT, "শিশু হোম ভিজিট")

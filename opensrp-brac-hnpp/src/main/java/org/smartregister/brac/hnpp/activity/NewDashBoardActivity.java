@@ -19,6 +19,7 @@ import org.smartregister.brac.hnpp.fragment.DailyTargetAchievementFragment;
 import org.smartregister.brac.hnpp.fragment.ForumTargetAchievementFragment;
 import org.smartregister.brac.hnpp.fragment.MonthlyServiceTargetAchievementFragment;
 import org.smartregister.brac.hnpp.fragment.MonthlyTargetAchievementFragment;
+import org.smartregister.brac.hnpp.fragment.SSInfoDashBoardFragment;
 import org.smartregister.brac.hnpp.fragment.StockDashBoardFragment;
 import org.smartregister.brac.hnpp.fragment.WorkSummeryDashBoardFragment;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
@@ -68,6 +69,9 @@ public class NewDashBoardActivity extends SecuredActivity implements View.OnClic
                 case 5:
                     dashBoardFragment = new StockDashBoardFragment();
                     break;
+                case 6:
+                    dashBoardFragment = new SSInfoDashBoardFragment();
+                    break;
             }
         }else {
             switch (position){
@@ -94,6 +98,9 @@ public class NewDashBoardActivity extends SecuredActivity implements View.OnClic
                     break;
                 case 7:
                     dashBoardFragment = new StockDashBoardFragment();
+                    break;
+                case 8:
+                    dashBoardFragment = new SSInfoDashBoardFragment();
                     break;
             }
         }
@@ -145,6 +152,7 @@ public class NewDashBoardActivity extends SecuredActivity implements View.OnClic
 
         tabs.addTab(tabs.newTab().setText("ফোরাম"));
         tabs.addTab(tabs.newTab().setText("স্টক"));
+        tabs.addTab(tabs.newTab().setText("সেবিকা"));
         //tabs.addTab(tabs.newTab().setText("স্টক"));
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

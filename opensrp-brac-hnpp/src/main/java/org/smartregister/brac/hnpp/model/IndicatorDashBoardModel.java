@@ -66,6 +66,29 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
     public DashBoardData getTubeUser(String ssName, long fromMonth, long toMonth){
         return getVisitTypeCount("টিউব্যাকটোমি ব্যবহারকারী","familyplanning_method","ligation",ssName,fromMonth,toMonth);
     }
+    //ss info dashboard
+    public DashBoardData getHHVisitCount(String ssName, String fromMonth, String toMonth){
+        return getVisitTypeSum("খানা পরিদর্শন","no_of_hh_visit",ssName,fromMonth,toMonth);
+    }
+    public DashBoardData getPregnancyIdentity(String ssName, String fromMonth, String toMonth){
+        return getAncRegistrationCount("গর্ভবতী সনাক্ত ",ssName,fromMonth,toMonth);
+    }
+    public DashBoardData getAfter1hrBirthAdviceCount(String ssName, String fromMonth, String toMonth){
+        return getVisitTypeSum("জন্মের ১ ঘন্টার মধ্যে মায়ের বুকে লাগানোর পরামর্শ","one_hour_after_birth",ssName,fromMonth,toMonth);
+    }
+    public DashBoardData getServiceTakenMemberCount(String ssName, String fromMonth, String toMonth){
+        return getVisitTypeSum("সেবাপ্রাপ্ত মানুষের সংখ্যা","m",ssName,fromMonth,toMonth);
+    }
+    public DashBoardData getIncomeFromMedicineCount(String ssName, String fromMonth, String toMonth){
+        return getVisitTypeSum("ওষুধ থেকে আয়","income_from_medicine",ssName,fromMonth,toMonth);
+    }
+    public DashBoardData getGlassSellCount(String ssName, String fromMonth, String toMonth){
+        return getVisitTypeSum("চশমা বিক্রির সংখ্যা","g",ssName,fromMonth,toMonth);
+    }
+    public DashBoardData getPresentEpiCount(String ssName, String fromMonth, String toMonth){
+        return getVisitTypeSum("ই.পি.এই সেন্টার এ উপস্থিত","no_of_epi_present",ssName,fromMonth,toMonth);
+    }
+
 
     //work activity dashboard
     public DashBoardData getAnotherSource(String ssName, long fromMonth, long toMonth){
@@ -137,7 +160,11 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
     public DashBoardData getIsolationPatient(String ssName, long fromMonth, long toMonth){
         return getVisitTypeCount("করেন্টাইন পরিবারের সংখ্যা","isolation","Yes",ssName,fromMonth,toMonth);
     }
-
+    public DashBoardData getNoOfMemberVisited(String ssName, long fromMonth, long toMonth){
+        String fromMonthStr= HnppConstants.getDateFormateFromLong(fromMonth);
+        String toMonthStr = HnppConstants.getDateFormateFromLong(toMonth);
+        return getVisitTypeSum("জনসংখ্যা পরিদর্শন","member_count",ssName,fromMonthStr,toMonthStr);
+    }
     public DashBoardData getRemoveMemberCount(String title,String ssName, long fromMonth, long toMonth){
         DashBoardData dashBoardData1 = new DashBoardData();
 
@@ -407,76 +434,105 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
 
         return dashBoardData1;
     }
+    public DashBoardData getAncRegistrationCount(String title, String ssName, String fromMonth, String toMonth){
+        DashBoardData dashBoardData1 = new DashBoardData();
+        String mainCondition= " where visit_type ='"+HnppConstants.EVENT_TYPE.ANC_REGISTRATION+ "'";
+        String query = null, compareDate = "visit_date";
+        long fromMonthLong = HnppConstants.getLongFromDateFormat(fromMonth);
+        long toMonthLong = HnppConstants.getLongFromDateFormat(toMonth);
+        if(TextUtils.isEmpty(fromMonth)&& TextUtils.isEmpty(toMonth)){
+            if(TextUtils.isEmpty(ssName)){
+                query = MessageFormat.format("select count(*) as count from {0} {1}", "ec_visit_log", mainCondition);
+            }else{
+                query = MessageFormat.format("select count(*) as count from {0} {1} {2}", "ec_visit_log", mainCondition,getSSCondition(ssName));
 
-//    public DashBoardData getVisitTypeCount(String title,String indicatorKey,String indicatorValue, String ssName, String month, String year){
-//        DashBoardData dashBoardData1 = new DashBoardData();
-//        String mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='"+indicatorValue+"' COLLATE NOCASE";
-//        if(indicatorKey.equalsIgnoreCase(HnppConstants.INDICATOR.ANC_OTHER_SOURCE)){
-//            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='Govt' or "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='other'";
-//        }
-//        else if(indicatorKey.equalsIgnoreCase("anc_count")){
-//            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" >="+indicatorValue;
-//        }
-//        else if(indicatorKey.equalsIgnoreCase("delivery_method_general")){
-//            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='"+indicatorValue+"' or "+IndicatorRepository.INDICATOR_NAME+" ='delivery_method_c_section' and "+IndicatorRepository.INDICATOR_VALUE+" ='"+indicatorValue+"'";
-//        }
-//        else if(indicatorKey.equalsIgnoreCase("number_of_pnc_1_2")){
-//            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='number_of_pnc' and "+IndicatorRepository.INDICATOR_VALUE+" <="+indicatorValue;
-//        }
-//        else if(indicatorKey.equalsIgnoreCase("number_of_pnc_3")){
-//            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='number_of_pnc' and "+IndicatorRepository.INDICATOR_VALUE+" >="+indicatorValue;
-//        }
-//        else if(indicatorKey.equalsIgnoreCase("breastfeeding_time")){
-//            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" <="+indicatorValue;
-//        }
-//        else if(indicatorKey.equalsIgnoreCase("solid_food_month")){
-//            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ="+indicatorValue;
-//        }
-//        else if(indicatorKey.equalsIgnoreCase("cause_of_death")){
-//            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='preterm_death' or "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='childbirth_death' or "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='postnatal_death'";
-//        }
-//        else if(indicatorKey.equalsIgnoreCase("cause_of_death_child")){
-//            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" ='infant_death' ";
-//        }
-//        else if(indicatorKey.equalsIgnoreCase("cause_of_death_other")){
-//            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" !='preterm_death' and "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" !='childbirth_death' and "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" !='postnatal_death' and "+IndicatorRepository.INDICATOR_NAME+" ='cause_of_death' and "+IndicatorRepository.INDICATOR_VALUE+" !='infant_death'";
-//
-//        }else if(indicatorKey.equalsIgnoreCase("bcg")){
-//            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='bcg'";
-//
-//        }
-//        String query;
-//        if(TextUtils.isEmpty(ssName) && TextUtils.isEmpty(month)){
-//            query = MessageFormat.format("select count(*) as count from {0} {1}", IndicatorRepository.INDICATOR_TABLE, mainCondition);
-//        }else{
-//            query = MessageFormat.format("select count(*) as count from {0} {1}", IndicatorRepository.INDICATOR_TABLE, getVisitFilterCondition(ssName,month,year,mainCondition));
-//
-//        }
-//        Log.v("WORK_SUMMERY","visit_type:"+query);
-//
-//        Cursor cursor = null;
-//        // try {
-//        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
-//        if(cursor !=null && cursor.getCount() > 0){
-//            cursor.moveToFirst();
-//            while (!cursor.isAfterLast()) {
-//
-//                dashBoardData1.setCount(cursor.getInt(0));
-//                dashBoardData1.setTitle(title);
-//                dashBoardData1.setImageSource(R.drawable.rowavatar_member);
-//
-//                cursor.moveToNext();
-//            }
-//            cursor.close();
-//
-//        }
-//
-//
-//        return dashBoardData1;
-//    }
+            }
+        }
+        else{
+            if(TextUtils.isEmpty(ssName)){
+                query = MessageFormat.format("select count(*) as count from {0} {1} {2}", "ec_visit_log", mainCondition, getBetweenCondition(fromMonthLong,toMonthLong,compareDate));
+            }else{
+                query = MessageFormat.format("select count(*) as count from {0} {1} {2} {3}", "ec_visit_log", mainCondition,getSSCondition(ssName),getBetweenCondition(fromMonthLong,toMonthLong,compareDate));
+
+            }
+        }
+        Log.v("SS_DASHBOARD","query:"+query+":toMonth:"+toMonth+":fromMonth:"+fromMonth);
+        Cursor cursor = null;
+        // try {
+        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        if(cursor !=null && cursor.getCount() > 0){
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+
+                dashBoardData1.setCount(cursor.getInt(0));
+                dashBoardData1.setEventType(HnppConstants.EVENT_TYPE.ANC_REGISTRATION);
+                dashBoardData1.setTitle(title);
+                try{
+                    dashBoardData1.setImageSource((int)HnppConstants.iconMapping.get(dashBoardData1.getEventType()));
+                }catch (Exception e){
+
+                }
+                cursor.moveToNext();
+            }
+            cursor.close();
+
+        }
+
+        return dashBoardData1;
+    }
+
+public DashBoardData getVisitTypeSum(String title,String indicatorKey,String ssName, String fromMonth, String toMonth){
+    DashBoardData dashBoardData1 = new DashBoardData();
+    String mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"'";
+    if(indicatorKey.equalsIgnoreCase("m")){
+        mainCondition = " where indicator_name = 'male_patient' or indicator_name = 'female_patient'";
+    }else if(indicatorKey.equalsIgnoreCase("g")){
+        mainCondition = " where indicator_name = 'glass_metal_count' or indicator_name = 'glass_plastic_count' or indicator_name = 'glass_sunglass_count'";
+    }
+    String query,returnColumn = "sum("+IndicatorRepository.INDICATOR_VALUE+")";
+    if(TextUtils.isEmpty( fromMonth)&& TextUtils.isEmpty(toMonth)){
+        if(TextUtils.isEmpty(ssName)){
+            query = MessageFormat.format("select "+returnColumn+" as count from {0} {1}", IndicatorRepository.INDICATOR_TABLE,mainCondition);
+        }else{
+            query = MessageFormat.format("select "+returnColumn+" as count from {0} {1} {2}", IndicatorRepository.INDICATOR_TABLE,mainCondition,getSSCondition(ssName));
+
+        }
+    }
+    else{
+        if(TextUtils.isEmpty(ssName)){
+            query = MessageFormat.format("with t1 as (SELECT year||''-''||printf(''%02d'',month)||''-''||printf(''%02d'',day) as date,ss_name,indicator_name,indicator_value from {0})SELECT "+returnColumn+" as count from t1 {1} {2}", IndicatorRepository.INDICATOR_TABLE,mainCondition,getBetweenCondition(fromMonth,toMonth,"date"));
+        }else{
+            query = MessageFormat.format("with t1 as (SELECT year||''-''||printf(''%02d'',month)||''-''||printf(''%02d'',day) as date,ss_name,indicator_name,indicator_value from {0})SELECT "+returnColumn+" as count from t1 {1} {2} {3}", IndicatorRepository.INDICATOR_TABLE,mainCondition,getSSCondition(ssName),getBetweenCondition(fromMonth,toMonth,"date"));
+
+        }
+    }
+    Log.v("getVisitTypeSum","query:"+query);
+
+    Cursor cursor = null;
+    // try {
+    cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+    if(cursor !=null && cursor.getCount() > 0){
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+
+            dashBoardData1.setCount(cursor.getInt(cursor.getColumnIndex("count")));
+            dashBoardData1.setTitle(title);
+            dashBoardData1.setImageSource(R.drawable.rowavatar_member);
+
+            cursor.moveToNext();
+        }
+        cursor.close();
+
+    }
+
+
+    return dashBoardData1;
+}
+
     public DashBoardData getVisitTypeCount(String title,String indicatorKey,String indicatorValue, String ssName, long fromMonth, long toMonth){
         DashBoardData dashBoardData1 = new DashBoardData();
         String mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='"+indicatorValue+"' COLLATE NOCASE";
+        String returnColumn = "count(*)";
         if(indicatorKey.equalsIgnoreCase(HnppConstants.INDICATOR.ANC_OTHER_SOURCE)){
             mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='Govt' or "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='other'";
         }
@@ -510,6 +566,9 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
         }else if(indicatorKey.equalsIgnoreCase("bcg")){
             mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='bcg'";
 
+        }else if(indicatorKey.equalsIgnoreCase("member_count")){
+            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='member_count'";
+            returnColumn = "sum("+IndicatorRepository.INDICATOR_VALUE+")";
         }
         String query = null;
        /* if(TextUtils.isEmpty(ssName) && TextUtils.isEmpty(month)){
@@ -521,9 +580,9 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
 
         if(fromMonth == -1 && toMonth == -1){
             if(TextUtils.isEmpty(ssName)){
-                query = MessageFormat.format("select count(*) as count from {0} {1}", IndicatorRepository.INDICATOR_TABLE,mainCondition);
+                query = MessageFormat.format("select "+returnColumn+" as count from {0} {1}", IndicatorRepository.INDICATOR_TABLE,mainCondition);
             }else{
-                query = MessageFormat.format("select count(*) as count from {0} {1} {2}", IndicatorRepository.INDICATOR_TABLE,mainCondition,getSSCondition(ssName));
+                query = MessageFormat.format("select "+returnColumn+" as count from {0} {1} {2}", IndicatorRepository.INDICATOR_TABLE,mainCondition,getSSCondition(ssName));
 
             }
         }
@@ -535,7 +594,10 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
 
             }
         }
-        Log.v("WORK_SUMMERY","visit_type:"+query);
+        if(indicatorKey.equalsIgnoreCase("member_count")){
+            Log.v("WORK_SUMMERY","member_count:"+query);
+        }
+
 
         Cursor cursor = null;
         // try {
@@ -564,6 +626,16 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
         }
         else {
             build.append(MessageFormat.format(" and {0} between {1} and {2} ",compareDate,Long.toString(fromMonth),Long.toString(toMonth)));
+        }
+        return build.toString();
+    }
+    public String getBetweenCondition(String fromMonth, String toMonth, String compareDate){
+        StringBuilder build = new StringBuilder();
+        if(TextUtils.isEmpty(fromMonth)){
+            build.append(MessageFormat.format(" and {0} = {1} ",compareDate,"'"+toMonth+"'"));
+        }
+        else {
+            build.append(MessageFormat.format(" and {0} between {1} and {2} ",compareDate,"'"+fromMonth+"'","'"+toMonth+"'"));
         }
         return build.toString();
     }
@@ -651,6 +723,7 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
 
         return dashBoardData1;
     }
+
     public String getVisitLogFilterCondition(String ssName, String month, String year, String mainCondition){
         StringBuilder build = new StringBuilder();
 //        if(!TextUtils.isEmpty(ssName)){

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.Log;
+import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.evernote.android.job.JobManager;
@@ -125,6 +126,22 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
             }
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        Fragment fragment = findFragmentByPosition(currentPage);
+        if (fragment instanceof BaseRegisterFragment) {
+            setSelectedBottomBarMenuItem(org.smartregister.R.id.action_clients);
+            BaseRegisterFragment registerFragment = (BaseRegisterFragment) fragment;
+            if (registerFragment.onBackPressed()) {
+                return;
+            }
+        }
+
+        backToHomeScreen();
+        setSelectedBottomBarMenuItem(org.smartregister.R.id.action_clients);
+    }
+
     @Override
     protected void initializePresenter() {
         presenter = new BaseAncRegisterPresenter(this, new BaseAncRegisterModel(), new BaseAncRegisterInteractor());
@@ -248,6 +265,12 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
         Intent intent = new Intent(this, FamilyRegisterActivity.class);
         startActivity(intent);
         this.finish();
+    }
+    public void backToHomeScreen() {
+        Intent intent = new Intent(this, FamilyRegisterActivity.class);
+        intent.putExtra(HnppConstants.KEY_NEED_TO_OPEN,true);
+        startActivity(intent);
+        finish();
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

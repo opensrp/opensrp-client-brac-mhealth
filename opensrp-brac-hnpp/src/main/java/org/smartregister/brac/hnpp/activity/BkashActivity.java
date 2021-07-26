@@ -132,15 +132,29 @@ public class BkashActivity extends SecuredActivity implements View.OnClickListen
                     }
 
                     @Override
-                    public void onFail() {
+                    public void onFail(String message) {
                         progressBar.setVisibility(View.GONE);
-                        Toast.makeText(BkashActivity.this,"Fail to execute payment",Toast.LENGTH_SHORT).show();
-                        finish();
+                        HnppConstants.showButtonWithImageDialog(BkashActivity.this, 2,message, new Runnable() {
+                            @Override
+                            public void run() {
+
+                                progressBar.setVisibility(View.VISIBLE);
+                                myHandler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        progressBar.setVisibility(View.GONE);
+                                        DFSActivity.startPaymentActivity(BkashActivity.this,true);
+                                        finish();
+                                    }
+                                },2000);
+
+                            }
+                        });
                     }
 
                     @Override
-                    public void onSuccess() {
-                        HnppConstants.showButtonWithImageDialog(BkashActivity.this, 1, new Runnable() {
+                    public void onSuccess(String message) {
+                        HnppConstants.showButtonWithImageDialog(BkashActivity.this, 1,message, new Runnable() {
                             @Override
                             public void run() {
 
@@ -163,7 +177,7 @@ public class BkashActivity extends SecuredActivity implements View.OnClickListen
 
 
             }else if(url.contains("status=failure") ){
-                HnppConstants.showButtonWithImageDialog(BkashActivity.this, 2, new Runnable() {
+                HnppConstants.showButtonWithImageDialog(BkashActivity.this, 2,"", new Runnable() {
                     @Override
                     public void run() {
                         progressBar.setVisibility(View.VISIBLE);
@@ -179,7 +193,7 @@ public class BkashActivity extends SecuredActivity implements View.OnClickListen
                 });
             }
             else if(url.contains("status=cancel") ){
-                HnppConstants.showButtonWithImageDialog(BkashActivity.this, 3, new Runnable() {
+                HnppConstants.showButtonWithImageDialog(BkashActivity.this, 3,"", new Runnable() {
                     @Override
                     public void run() {
                         progressBar.setVisibility(View.GONE);

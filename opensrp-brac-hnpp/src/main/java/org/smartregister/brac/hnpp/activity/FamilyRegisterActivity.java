@@ -64,6 +64,7 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
     private MigrationSearchContentData migrationSearchContentData;
     @Override
     public void onBackPressed() {
+        if(isFinishing()) return;
         new AlertDialog.Builder(this).setMessage(getString(R.string.exit_app_message))
                 .setTitle(getString(R.string.exit_app_title)).setCancelable(false)
                 .setPositiveButton(R.string.yes_button_label, new DialogInterface.OnClickListener() {
@@ -126,6 +127,9 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
 
                 HnppApplication.getHNPPInstance().getHnppNavigationModel());
         HnppApplication.getHNPPInstance().setupNavigation(hnppNavigationPresenter);
+        if(getIntent().getBooleanExtra(HnppConstants.KEY_NEED_TO_OPEN,false)){
+            navigationMenu.openDrawer();
+        }
         if(!HnppConstants.isPALogin()){
             ArrayList<SSModel> ssLocationForms = SSLocationHelper.getInstance().getSsModels();
             if(ssLocationForms.size() > 0){

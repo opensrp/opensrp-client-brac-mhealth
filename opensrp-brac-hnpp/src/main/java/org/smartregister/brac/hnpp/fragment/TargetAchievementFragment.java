@@ -18,7 +18,6 @@ public class TargetAchievementFragment extends BaseDashBoardFragment {
 
     @Override
     void fetchData() {
-        presenter.fetchDashBoardData(day+"",month+"",year+"",ssName);
     }
 
 

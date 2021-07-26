@@ -63,7 +63,8 @@ public class HnppPncRegisterProvider extends PncRegisterProvider {
         viewHolder.dueButton.setOnClickListener(null);
         org.smartregister.family.util.Utils.startAsyncTask(new UpdatePncLastServiceInfoTask(context,viewHolder, pc.entityId()), null);
 
-        if(HnppDBUtils.isRisk(baseEntityId, HnppConstants.EVENT_TYPE.PNC_REGISTRATION)){
+        if(HnppDBUtils.isRisk(baseEntityId, HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour)||
+                HnppDBUtils.isRisk(baseEntityId, HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour)){
             viewHolder.riskView.setVisibility(View.VISIBLE);
         }else{
             viewHolder.riskView.setVisibility(View.GONE);

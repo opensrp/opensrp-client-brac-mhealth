@@ -4,16 +4,17 @@ import android.util.Log;
 import android.view.View;
 
 import org.smartregister.brac.hnpp.adapter.DashBoardAdapter;
-import org.smartregister.brac.hnpp.presenter.WorkSummeryDashBoardPresenter;
+import org.smartregister.brac.hnpp.adapter.SSDashboardAdapter;
+import org.smartregister.brac.hnpp.presenter.SSInfoDashBoardPresenter;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 
-public class WorkSummeryDashBoardFragment extends BaseDashBoardFragment {
+public class SSInfoDashBoardFragment extends BaseDashBoardFragment {
 
-    private WorkSummeryDashBoardPresenter presenter;
+    private SSInfoDashBoardPresenter presenter;
 
     @Override
     void initilizePresenter() {
-        presenter = new WorkSummeryDashBoardPresenter(this);
+        presenter = new SSInfoDashBoardPresenter(this);
         if(HnppConstants.isPALogin()){
             ssView.setVisibility(View.GONE);
         }
@@ -29,7 +30,7 @@ public class WorkSummeryDashBoardFragment extends BaseDashBoardFragment {
     @Override
     void fetchData() {
         //presenter.filterData(ssName,month+"",year+"");
-        filterByFromToMonth();
+       // filterByFromToMonth();
 
     }
 
@@ -39,36 +40,32 @@ public class WorkSummeryDashBoardFragment extends BaseDashBoardFragment {
     }
 
     void filterByFromToMonth() {
-        long fromMonthFormat = 0;
-        long toMonthFormat = 0;
+        String toMonthFormatStr ="";
+        String fromMonthFormatStr="";
         if((fromMonth == -1 || fromYear == -1) && (toMonth == -1 || toYear == -1 )){
-            fromMonthFormat = -1;
-            toMonthFormat = -1;
+            fromMonthFormatStr ="";
+            toMonthFormatStr = "";
         }
         if(fromMonth == -1 && toMonth != -1 ){
-            fromMonthFormat = -1;
-            toMonthFormat = HnppConstants.getLongDateFormatForToMonth(String.valueOf(toYear),String.valueOf(toMonth));
+            fromMonthFormatStr = "1970-01-01";
+            toMonthFormatStr = HnppConstants.getStringDateFormatForToMonth(toYear+"",toMonth+"");
         }
         if(fromMonth != -1 && toMonth == -1){
-            fromMonthFormat = HnppConstants.getLongDateFormatForFromMonth(String.valueOf(fromYear),String.valueOf(fromMonth));
-            toMonthFormat = HnppConstants.getLongDateFormatForToMonth(String.valueOf(year),String.valueOf(month));
+            fromMonthFormatStr = HnppConstants.getStringDateFormatForFromMonth(String.valueOf(fromYear),String.valueOf(fromMonth));
+            toMonthFormatStr = "2030-01-01";
         }
         if(fromMonth != -1 && toMonth != -1) {
-            fromMonthFormat = HnppConstants.getLongDateFormatForFromMonth(String.valueOf(fromYear),String.valueOf(fromMonth));
-            toMonthFormat = HnppConstants.getLongDateFormatForToMonth(String.valueOf(toYear),String.valueOf(toMonth));
+            fromMonthFormatStr = HnppConstants.getStringDateFormatForFromMonth(String.valueOf(fromYear),String.valueOf(fromMonth));
+            toMonthFormatStr = HnppConstants.getStringDateFormatForToMonth(String.valueOf(toYear),String.valueOf(toMonth));
         }
-
-
-
-
-        presenter.filterByFromToMonth(fromMonthFormat,toMonthFormat,ssName);
+        presenter.filterData(ssName,toMonthFormatStr,fromMonthFormatStr);
     }
 
     @Override
     public void updateAdapter() {
         super.updateAdapter();
         if(adapter == null){
-            adapter = new DashBoardAdapter(getActivity(), (position, content) -> {
+            adapter = new SSDashboardAdapter(getActivity(), (position, content) -> {
 
             });
             adapter.setData(presenter.getDashBoardData());
@@ -81,6 +78,6 @@ public class WorkSummeryDashBoardFragment extends BaseDashBoardFragment {
 
     @Override
     void updateTitle() {
-        super.updateTitle("কার্যক্রম সারসংক্ষেপ");
+        super.updateTitle("স্বাস্থ্য সেবিকা ড্যাশবোর্ড");
     }
 }

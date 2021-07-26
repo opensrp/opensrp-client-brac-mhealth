@@ -508,6 +508,11 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         }
         return res;
     }
+    public void openDrawer() {
+        if (drawer != null) {
+            drawer.openDrawer(GravityCompat.START);
+        }
+    }
 
     @Override
     public void onSyncStart() {

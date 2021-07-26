@@ -139,14 +139,17 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
                     HnppJsonFormUtils.addLastAnc(jsonForm,baseEntityId,true);
                 }
 
-            } else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION) ||
-                    eventType.equalsIgnoreCase(CoreConstants.EventType.PNC_HOME_VISIT)){
+            } else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour) ||
+                    eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour)){
                 if(isGuestUser){
                     HnppJsonFormUtils.addNoOfPnc(jsonForm);
                 }else{
                     HnppJsonFormUtils.addLastPnc(jsonForm,baseEntityId,true);
                 }
 
+            }
+            if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.NCD_PACKAGE)){
+                HnppJsonFormUtils.addNcdSugerPressure(baseEntityId,jsonForm);
             }
             makeReadOnlyFields(jsonForm);
 

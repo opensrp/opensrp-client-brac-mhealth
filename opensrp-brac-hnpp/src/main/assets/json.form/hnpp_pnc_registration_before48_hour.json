@@ -1,6 +1,6 @@
 {
   "count": "1",
-  "encounter_type": "PNC Registration",
+  "encounter_type": "PNC Visit Within 48_hr",
   "entity_id": "",
   "metadata": {
     "start": {
@@ -53,24 +53,16 @@
         "key": "form_name",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "PNC Registration",
+        "openmrs_entity_id": "PNC Visit Within 48_hr",
         "openmrs_data_type": "text",
         "type": "hidden",
-        "value": "hnpp_pnc_registration"
+        "value": "hnpp_pnc_registration_before48_hour"
       },
       {
         "key": "relational_id",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "relational_id",
-        "type": "hidden"
-      },
-      {
-        "key": "is_delay",
-        "openmrs_entity_parent": "",
-        "openmrs_data_type": "text",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "is_delay",
         "type": "hidden"
       },
       {
@@ -467,32 +459,6 @@
         }
       },
       {
-        "key": "total_anc",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "total_anc",
-        "type": "edit_text",
-        "hint": "গর্ভবতী অবস্থায় মোট কয়টি এ.এন .সি. সেবা নিয়েছে?",
-        "v_numeric": {
-          "value": "true",
-          "err": "Enter a valid Number"
-        },
-        "v_regex": {
-          "value": "[0-9]*",
-          "err": "দশমিক অনুমোদিত নয়"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "step1:anc_count": {
-            "type": "numeric",
-            "ex": "equalTo(., \"0\")"
-          }
-        }
-      },
-      {
         "key": "body_temperature",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -597,68 +563,7 @@
           }
         }
       },
-      {
-        "key": "pregnancy_symptoms",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "pregnancy_symptoms",
-        "type": "check_box",
-        "label": "নিচের সমস্যাগুলো আছে কিনা?",
-        "exclusive": [
-          "chk_none"
-        ],
-        "options": [
-          {
-            "key": "unconscious_state",
-            "text": "অচেতন অবস্থা",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "unconscious_state"
-          },
-          {
-            "key": "dyspnoea_chest_pain",
-            "text": "শ্বাসকষ্ট/ বুকে ব্যথা",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "dyspnoea_chest_pain"
-          },
-          {
-            "key": "fatigue",
-            "text": "দাঁড়িয়ে থাকলে দুর্বল লাগে",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "fatigue"
-          },
-          {
-            "key": "over_sweating",
-            "text": "অতিরিক্ত ঘামানো",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "over_sweating"
-          },
-          {
-            "key": "cold_intelorant",
-            "text": "ঠান্ডা সহ্য করতে না পারা",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "cold_intelorant"
-          },
-          {
-            "key": "obesity",
-            "text": "অতিরিক্ত ওজন বৃদ্ধি",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "obesity"
-          },
-          {
-            "key": "chk_none",
-            "text": "কোনটিই নয়",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "chk_none"
-          }
-        ]
-      },
+
       {
         "key": "advice_toaster_pregnancy_symptoms",
         "openmrs_entity_parent": "",
@@ -930,6 +835,7 @@
           }
         }
       },
+
       {
         "key": "excess_bleeding",
         "openmrs_entity_parent": "",
@@ -949,9 +855,23 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_pnc_relevance.yml"
+            }
+          }
         }
       },
-
+      {
+        "key": "pnc_day_passed",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden",
+        "edit_type": "number"
+      },
       {
         "key": "advice_excess_bleeding",
         "openmrs_entity_parent": "",
@@ -988,6 +908,13 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_pnc_relevance.yml"
+            }
+          }
         }
       },
       {
@@ -1008,7 +935,6 @@
           }
         }
       },
-
       {
         "key": "obsessive_compulsive_disorder",
         "openmrs_entity_parent": "",
@@ -1084,28 +1010,6 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
-        }
-      },
-      {
-        "key": "sewing_length",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "sewing_length",
-        "type": "edit_text",
-        "hint": "ছেড়ার দৈর্ঘ্য (ইঞ্চি)",
-        "v_numeric": {
-          "value": "true",
-          "err": "Enter a valid Number"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "step1:perineum_sewing": {
-            "type": "string",
-            "ex": "equalTo(., \"হ্যাঁ\")"
-          }
         }
       },
       {
