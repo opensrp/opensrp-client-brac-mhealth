@@ -154,7 +154,7 @@
         "type": "edit_text",
         "hint": "লিখুন",
         "relevance": {
-          "step2:occupation": {
+          "step1:occupation": {
             "type": "string",
             "ex": "equalTo(., \"অন্যান্য\")"
           }

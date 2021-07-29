@@ -549,6 +549,75 @@
         }
       },
       {
+        "key": "enabled_label",
+        "type": "label",
+        "text": "রক্তচাপ",
+        "has_bg": true,
+        "left_padding": "20dp",
+        "right_padding": "20dp",
+        "text_size": "25sp",
+        "text_color": "#000000",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": ""
+      },
+      {
+        "key": "blood_pressure_systolic",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "blood_pressure_systolic",
+        "type": "edit_text",
+        "hint": "সিস্টোলিক",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "advice_toaster_systolic",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "text_size": "20sp",
+        "toaster_type": "problem",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_pnc_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_systolic_less",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text_color": "#FF0000",
+        "text_size": "20sp",
+        "toaster_type": "problem",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_pnc_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "blood_pressure_diastolic",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -718,7 +787,7 @@
         "openmrs_entity_id": "excess_bleeding",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "অতিরিক্ত রক্তক্ষরণ",
+        "hint": "অতিরিক্ত রক্তক্ষরণ ( ৩০ মিনিটে দুইটি প্যাড ভিজে যাচ্ছে)",
         "values": [
           "হ্যাঁ",
           "না"

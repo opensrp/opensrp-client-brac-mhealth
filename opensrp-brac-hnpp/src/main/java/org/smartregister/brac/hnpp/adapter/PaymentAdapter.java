@@ -71,15 +71,16 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentViewHolder> {
         if(content.isSelected()){
             paymentViewHolder.checkBox.setImageResource(R.drawable.ic_checked_f);
             paymentViewHolder.itemView.setBackgroundColor(context.getResources().getColor(R.color.transparent));
+            paymentViewHolder.numberTV.setEnabled(true);
 
         }else{
             paymentViewHolder.checkBox.setImageResource(R.drawable.ic_unchecked_f);
             paymentViewHolder.itemView.setBackgroundColor(context.getResources().getColor(R.color.alert_expired));
+            paymentViewHolder.numberTV.setEnabled(false);
         }
         paymentViewHolder.numberTV.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -89,6 +90,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentViewHolder> {
 
             @Override
             public void afterTextChanged(Editable s) {
+
                 Log.v("TEXT_EDIT",">>>"+s.toString()+":considerChange:"+content.isConsiderChange());
 
                 if (content.isConsiderChange())
@@ -126,6 +128,8 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentViewHolder> {
         paymentViewHolder.increaseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!content.isSelected()) return;
+
                 if(content.getQuantity()>content.getPayFor()){
                     content.setPayFor(content.getPayFor()+1);
                     content.setTotal(content.getPayFor() * content.getUnitPrice());
@@ -138,6 +142,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentViewHolder> {
         paymentViewHolder.decreaseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!content.isSelected()) return;
                 if(content.getPayFor()>0){
                     content.setPayFor(content.getPayFor()- 1);
                     content.setTotal(content.getPayFor() * content.getUnitPrice());

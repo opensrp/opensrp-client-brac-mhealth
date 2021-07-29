@@ -138,10 +138,10 @@ public class VisitLogIntentService extends IntentService {
                                     encounter_type = HnppConstants.EVENT_TYPE.ANC3_REGISTRATION;
                                 }
                                 else if(encounter_type.equalsIgnoreCase(PNC_REGISTRATION_BEFORE_48_hour_OOC)){
-                                    encounter_type = HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC;
+                                    encounter_type = HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour;
                                 }
                                 else if(encounter_type.equalsIgnoreCase(PNC_REGISTRATION_AFTER_48_hour_OOC)){
-                                    encounter_type = HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC;
+                                    encounter_type = HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour;
                                 }
                                 JSONObject stepOne = form_object.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
                                 JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
@@ -423,6 +423,14 @@ public class VisitLogIntentService extends IntentService {
                 }
                 break;
             case PREGNANCY_OUTCOME:
+                if(details.containsKey("is_tt_completed")&&!StringUtils.isEmpty(details.get("is_tt_completed"))) {
+                    String value = details.get("is_tt_completed");
+                    if(value.equalsIgnoreCase("yes")){
+                        HnppApplication.getIndicatorRepository().updateValue(HnppConstants.INDICATOR.OUTCOME_TT,value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
+
+                    }
+
+                }
                 if(details.containsKey("breastfeeding_time")&&!StringUtils.isEmpty(details.get("breastfeeding_time"))) {
                     String value = details.get("breastfeeding_time");
                     HnppApplication.getIndicatorRepository().updateValue("breastfeeding_time",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());

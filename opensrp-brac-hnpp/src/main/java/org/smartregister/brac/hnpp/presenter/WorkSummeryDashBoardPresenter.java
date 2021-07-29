@@ -50,6 +50,7 @@ public class WorkSummeryDashBoardPresenter implements DashBoardContract.Presente
     }
 
     public void filterByFromToMonth(long fromMonth, long toMonth, String ssName) {
+        getView().showProgressBar();
         interactor.filterByFromToMonth(ssName,fromMonth,toMonth,this);
     }
 

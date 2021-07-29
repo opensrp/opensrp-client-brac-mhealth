@@ -103,8 +103,11 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
     public DashBoardData getNormalDelivery(String ssName, long fromMonth, long toMonth){
         return getVisitTypeCount("প্রসবের ফলাফল(স্বাভাবিক)","delivery_method_general","normal",ssName,fromMonth,toMonth);
     }
-    public DashBoardData getTTWomen(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("টিটি টিকা প্রাপ্ত প্রসূতি মায়ের সংখ্যা",HnppConstants.INDICATOR.ANC_TT,"yes",ssName,fromMonth,toMonth);
+    public DashBoardData getTTAncWomen(String ssName, long fromMonth, long toMonth){
+        return getVisitTypeCount("টিটি টিকা প্রাপ্ত গর্ভবতী মায়ের সংখ্যা",HnppConstants.INDICATOR.ANC_TT,"yes",ssName,fromMonth,toMonth);
+    }
+    public DashBoardData getTTPNCWomen(String ssName, long fromMonth, long toMonth){
+        return getVisitTypeCount("টিটি টিকা প্রাপ্ত প্রসূতি মায়ের সংখ্যা",HnppConstants.INDICATOR.OUTCOME_TT,"yes",ssName,fromMonth,toMonth);
     }
     public DashBoardData getPncService48Hrs(String ssName, long fromMonth, long toMonth){
         return getVisitTypeCount("৪৮ ঘণ্টার মধ্যে পি এন সি সেবা","is_delay","false",ssName,fromMonth,toMonth);
@@ -485,9 +488,9 @@ public DashBoardData getVisitTypeSum(String title,String indicatorKey,String ssN
     DashBoardData dashBoardData1 = new DashBoardData();
     String mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"'";
     if(indicatorKey.equalsIgnoreCase("m")){
-        mainCondition = " where indicator_name = 'male_patient' or indicator_name = 'female_patient'";
+        mainCondition = " where (indicator_name = 'male_patient' or indicator_name = 'female_patient')";
     }else if(indicatorKey.equalsIgnoreCase("g")){
-        mainCondition = " where indicator_name = 'glass_metal_count' or indicator_name = 'glass_plastic_count' or indicator_name = 'glass_sunglass_count'";
+        mainCondition = " where (indicator_name = 'glass_metal_count' or indicator_name = 'glass_plastic_count' or indicator_name = 'glass_sunglass_count')";
     }
     String query,returnColumn = "sum("+IndicatorRepository.INDICATOR_VALUE+")";
     if(TextUtils.isEmpty( fromMonth)&& TextUtils.isEmpty(toMonth)){
@@ -529,7 +532,9 @@ public DashBoardData getVisitTypeSum(String title,String indicatorKey,String ssN
     return dashBoardData1;
 }
 
-    public DashBoardData getVisitTypeCount(String title,String indicatorKey,String indicatorValue, String ssName, long fromMonth, long toMonth){
+    public DashBoardData getVisitTypeCount(String title,String indicatorKey,String indicatorValue, String ssName,long fromMonth, long toMonth){
+        String fromMonthStr = HnppConstants.getDateFormateFromLong(fromMonth);
+        String toMonthStr = HnppConstants.getDateFormateFromLong(toMonth);
         DashBoardData dashBoardData1 = new DashBoardData();
         String mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='"+indicatorValue+"' COLLATE NOCASE";
         String returnColumn = "count(*)";
@@ -540,7 +545,7 @@ public DashBoardData getVisitTypeSum(String title,String indicatorKey,String ssN
             mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" >="+indicatorValue;
         }
         else if(indicatorKey.equalsIgnoreCase("delivery_method_general")){
-            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='"+indicatorValue+"' or "+IndicatorRepository.INDICATOR_NAME+" ='delivery_method_c_section' and "+IndicatorRepository.INDICATOR_VALUE+" ='"+indicatorValue+"'";
+            mainCondition = " where (("+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='"+indicatorValue+"') or ("+IndicatorRepository.INDICATOR_NAME+" ='delivery_method_c_section' and "+IndicatorRepository.INDICATOR_VALUE+" ='"+indicatorValue+"'))";
         }
         else if(indicatorKey.equalsIgnoreCase("number_of_pnc_1_2")){
             mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='number_of_pnc' and "+IndicatorRepository.INDICATOR_VALUE+" <="+indicatorValue;
@@ -571,13 +576,23 @@ public DashBoardData getVisitTypeSum(String title,String indicatorKey,String ssN
             returnColumn = "sum("+IndicatorRepository.INDICATOR_VALUE+")";
         }
         String query = null;
-       /* if(TextUtils.isEmpty(ssName) && TextUtils.isEmpty(month)){
-            query = MessageFormat.format("select count(*) as count from {0} {1}", IndicatorRepository.INDICATOR_TABLE, mainCondition);
-        }else{
-            query = MessageFormat.format("select count(*) as count from {0} {1}", IndicatorRepository.INDICATOR_TABLE, getVisitFilterCondition(ssName,month,year,mainCondition));
 
-        }*/
-
+//        if(fromMonth == -1 && toMonth == -1){
+//            if(TextUtils.isEmpty(ssName)){
+//                query = MessageFormat.format("select "+returnColumn+" as count from {0} {1}", IndicatorRepository.INDICATOR_TABLE,mainCondition);
+//            }else{
+//                query = MessageFormat.format("select "+returnColumn+" as count from {0} {1} {2}", IndicatorRepository.INDICATOR_TABLE,mainCondition,getSSCondition(ssName));
+//
+//            }
+//        }
+//        else{
+//            if(TextUtils.isEmpty(ssName)){
+//                query = MessageFormat.format("with t1 as (SELECT year||''-''||printf(''%02d'',month)||''-''||printf(''%02d'',day) as date,ss_name,indicator_name,indicator_value from {0})SELECT count(*) as count,strftime(''%s'', strftime(''%s'', date), ''unixepoch'') as longtime from t1 {1} {2}", IndicatorRepository.INDICATOR_TABLE,mainCondition,getBetweenCondition(fromMonth,toMonth,"longtime"));
+//            }else{
+//                query = MessageFormat.format("with t1 as (SELECT year||''-''||printf(''%02d'',month)||''-''||printf(''%02d'',day) as date,ss_name,indicator_name,indicator_value from {0})SELECT count(*) as count,strftime(''%s'', strftime(''%s'', date), ''unixepoch'') as longtime from t1 {1} {2} {3}", IndicatorRepository.INDICATOR_TABLE,mainCondition,getSSCondition(ssName),getBetweenCondition(fromMonth,toMonth,"longtime"));
+//
+//            }
+//        }
         if(fromMonth == -1 && toMonth == -1){
             if(TextUtils.isEmpty(ssName)){
                 query = MessageFormat.format("select "+returnColumn+" as count from {0} {1}", IndicatorRepository.INDICATOR_TABLE,mainCondition);
@@ -588,13 +603,13 @@ public DashBoardData getVisitTypeSum(String title,String indicatorKey,String ssN
         }
         else{
             if(TextUtils.isEmpty(ssName)){
-                query = MessageFormat.format("with t1 as (SELECT year||''-''||printf(''%02d'',month)||''-''||printf(''%02d'',day) as date,ss_name,indicator_name,indicator_value from {0})SELECT count(*) as count,strftime(''%s'', strftime(''%s'', date), ''unixepoch'') as longtime from t1 {1} {2}", IndicatorRepository.INDICATOR_TABLE,mainCondition,getBetweenCondition(fromMonth,toMonth,"longtime"));
+                query = MessageFormat.format("with t1 as (SELECT year||''-''||printf(''%02d'',month)||''-''||printf(''%02d'',day) as date,ss_name,indicator_name,indicator_value from {0})SELECT "+returnColumn+" as count from t1 {1} {2}", IndicatorRepository.INDICATOR_TABLE,mainCondition,getBetweenCondition(fromMonthStr,toMonthStr,"date"));
             }else{
-                query = MessageFormat.format("with t1 as (SELECT year||''-''||printf(''%02d'',month)||''-''||printf(''%02d'',day) as date,ss_name,indicator_name,indicator_value from {0})SELECT count(*) as count,strftime(''%s'', strftime(''%s'', date), ''unixepoch'') as longtime from t1 {1} {2} {3}", IndicatorRepository.INDICATOR_TABLE,mainCondition,getSSCondition(ssName),getBetweenCondition(fromMonth,toMonth,"longtime"));
+                query = MessageFormat.format("with t1 as (SELECT year||''-''||printf(''%02d'',month)||''-''||printf(''%02d'',day) as date,ss_name,indicator_name,indicator_value from {0})SELECT "+returnColumn+" as count from t1 {1} {2} {3}", IndicatorRepository.INDICATOR_TABLE,mainCondition,getSSCondition(ssName),getBetweenCondition(fromMonthStr,toMonthStr,"date"));
 
             }
         }
-        if(indicatorKey.equalsIgnoreCase("member_count")){
+        if(indicatorKey.equalsIgnoreCase("delivery_method_general") || indicatorKey.equalsIgnoreCase("delivery_method_c_section")){
             Log.v("WORK_SUMMERY","member_count:"+query);
         }
 

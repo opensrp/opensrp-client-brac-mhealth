@@ -458,7 +458,7 @@
         "openmrs_entity_id": "excess_bleeding",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "অতিরিক্ত রক্তক্ষরণ",
+        "hint": "অতিরিক্ত রক্তক্ষরণ ( ৩০ মিনিটে দুইটি প্যাড ভিজে যাচ্ছে)",
         "values": [
           "হ্যাঁ",
           "না"

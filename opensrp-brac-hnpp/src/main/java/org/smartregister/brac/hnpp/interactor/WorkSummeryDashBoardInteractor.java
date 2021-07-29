@@ -91,8 +91,9 @@ public class WorkSummeryDashBoardInteractor implements DashBoardContract.Interac
                 addToDashBoardList(indicatorModel.get4PlusAnc(ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.getCigerDelivery(ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.getNormalDelivery(ssName,fromMonth,toMonth));
-                addToDashBoardList(indicatorModel.getTTWomen(ssName,fromMonth,toMonth));
-                addToDashBoardList(indicatorModel.getPncService48Hrs(ssName,fromMonth,toMonth));
+                addToDashBoardList(indicatorModel.getTTPNCWomen(ssName,fromMonth,toMonth));
+                addToDashBoardList(indicatorModel.getTTAncWomen(ssName,fromMonth,toMonth));
+                //addToDashBoardList(indicatorModel.getPncService48Hrs(ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.getPnc1to2(ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.getPnc3to4(ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.getReferrelByPregnency(ssName,fromMonth,toMonth));

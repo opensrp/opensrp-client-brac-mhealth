@@ -104,13 +104,13 @@ public class PaymentDetailsInteractor {
             JSONObject finalobject = new JSONObject();
             finalobject.put("paymentID", paymentId);
             org.smartregister.domain.Response resp = httpAgent.post(url,finalobject.toString());
-            Log.v("PAYMENT_EXECUTE", "url:" + url+"payload:"+finalobject.toString()+":code:"+resp.status().displayValue());
+//            Log.v("PAYMENT_EXECUTE", "url:" + url+"payload:"+finalobject.toString()+":code:"+resp.status().displayValue());
 
             if (resp.isFailure()) {
                return null;
             }
             String responseStr = (String)resp.payload();
-            Log.v("PAYMENT_EXECUTE","responseStr>>"+responseStr);
+//            Log.v("PAYMENT_EXECUTE","responseStr>>"+responseStr);
             if(!TextUtils.isEmpty(responseStr) ){
                 JSONObject object = new JSONObject(resp.payload().toString());
                 return object;
@@ -137,14 +137,14 @@ public class PaymentDetailsInteractor {
             String url = baseUrl + PAYMENT_DETAILS_POST;
             JSONObject request = makJsonObject(paymentDetails,givenAmount);
 
-            Log.v("PAYMENT_DETAILS_POST", "url:" + url+"payload:"+request.toString());
+//            Log.v("PAYMENT_DETAILS_POST", "url:" + url+"payload:"+request.toString());
 
             org.smartregister.domain.Response resp = httpAgent.post(url,request.toString());
             if (resp.isFailure()) {
                 throw new NoHttpResponseException(PAYMENT_DETAILS_POST + " not returned data");
             }
             String responseStr = (String)resp.payload();
-            Log.v("PAYMENT_DETAILS_POST", "responseStr:" + responseStr);
+//            Log.v("PAYMENT_DETAILS_POST", "responseStr:" + responseStr);
 
             JSONObject object = new JSONObject(resp.payload().toString());
             return object;

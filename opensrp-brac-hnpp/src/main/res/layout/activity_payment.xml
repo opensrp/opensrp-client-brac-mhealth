@@ -45,7 +45,8 @@
 
         <LinearLayout
             android:layout_width="160dp"
-            android:layout_height="70dp"
+            android:padding="5dp"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:background="@color/light_navy"
@@ -55,7 +56,7 @@
                 android:id="@+id/total_given"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
+                android:layout_gravity="center"
                 android:layout_margin="5dp"
                 android:textColor="@color/white"
                 android:textSize="22sp"

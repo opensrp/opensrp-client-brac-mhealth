@@ -787,6 +787,7 @@ public class HnppConstants extends CoreConstants {
         public static final String FP_no_method_uses = "fp_no_method_user";
         public static final String ANC_OTHER_SOURCE = "anc_other_source";
         public static final String ANC_TT = "anc_tt";
+        public static final String OUTCOME_TT = "is_tt_completed";
         public static final String FEEDING_UPTO_6_MONTH = "feeding_6_month";
         public static final String PP_PILL = "contraceptive_pill";
         public static final String PP_CONDOM = "condom";

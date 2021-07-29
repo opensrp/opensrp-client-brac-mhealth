@@ -25,7 +25,7 @@ public class CountSummeryDashBoardFragment extends BaseDashBoardFragment {
     @Override
     void fetchData() {
        // presenter.filterData(ssName,month+"",year+"");
-        filterByFromToMonth();
+        //filterByFromToMonth();
 
     }
 
