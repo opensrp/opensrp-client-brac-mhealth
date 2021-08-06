@@ -267,22 +267,26 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
         return dashBoardData1;
     }
     public TargetVsAchievementData getTargetVsAchievmentByVisitType(String visitType,long fromDate,long toDate, String ssName){
+        String fromMonthStr = HnppConstants.getDateFormateFromLong(fromDate);
+        String toMonthStr = HnppConstants.getDateFormateFromLong(toDate);
         TargetVsAchievementData dashBoardData1 = new TargetVsAchievementData();
-        //String query = "select sum(target_count) as target_count, sum(achievemnt_count) as achievemnt_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
-       // String query = "select sum(achievemnt_count) as achievemnt_count,(select sum(target_count) from target_table where target_name ='"+ visitType+"'"+ getFilter(fromDate,toDate,"") +") as target_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
         String query = null;
+        String whereCluse = " where target_name ='"+visitType+"'";
+        if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_SERVICE)){
+            whereCluse = " where (target_name ='"+visitType+"' or target_name ='"+HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour+"')";
+        }
         if(fromDate == -1 && toDate == -1){
             if(TextUtils.isEmpty(ssName)){
-                query = "select sum(coalesce(target_count,0)) as target_count, sum(coalesce(achievemnt_count,0)) as achievemnt_count from target_table where target_name ='"+ visitType+"'";
+                query = "select sum(coalesce(target_count,0)) as target_count, sum(coalesce(achievemnt_count,0)) as achievemnt_count from target_table "+whereCluse;
             }else{
-                query = "select sum(coalesce(target_count,0)) as target_count, sum(coalesce(achievemnt_count,0)) as achievemnt_count from target_table where target_name ='"+ visitType+"'"+getSSCondition(ssName);
+                query = "select sum(coalesce(target_count,0)) as target_count, sum(coalesce(achievemnt_count,0)) as achievemnt_count from target_table "+whereCluse+getSSCondition(ssName);
             }
         }
         else{
             if(TextUtils.isEmpty(ssName)){
-                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, achievemnt_count, target_count, target_name from target_table)SELECT sum(coalesce(achievemnt_count,0)) as achievemnt_count, sum(coalesce(target_count,0)) as target_count from t1 WHERE target_name ='"+visitType+"'"+getBetweenCondition(fromDate,toDate,"date");
+                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, achievemnt_count, target_count, target_name from target_table)SELECT sum(coalesce(achievemnt_count,0)) as achievemnt_count, sum(coalesce(target_count,0)) as target_count from t1 "+whereCluse+getBetweenCondition(fromMonthStr,toMonthStr,"date");
             }else{
-                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, achievemnt_count, target_count, target_name from target_table)SELECT sum(coalesce(achievemnt_count,0)) as achievemnt_count, sum(coalesce(target_count,0)) as target_count from t1 WHERE target_name ='"+visitType+"'"+getSSCondition(ssName)+getBetweenCondition(fromDate,toDate,"date");
+                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, achievemnt_count, target_count, target_name from target_table)SELECT sum(coalesce(achievemnt_count,0)) as achievemnt_count, sum(coalesce(target_count,0)) as target_count from t1 "+whereCluse+getSSCondition(ssName)+getBetweenCondition(fromMonthStr,toMonthStr,"date");
             }
         }
         Log.v("TARGET_VS_ACHIEV","query:"+query);
@@ -323,6 +327,16 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
         String ssCondition;
         ssCondition = " and "+HnppConstants.KEY.SS_NAME+" = '"+ssName+"'";
         return ssCondition;
+    }
+    public String getBetweenCondition(String fromMonth, String toMonth, String compareDate){
+        StringBuilder build = new StringBuilder();
+        if(TextUtils.isEmpty(fromMonth)){
+            build.append(MessageFormat.format(" and {0} = {1} ",compareDate,"'"+toMonth+"'"));
+        }
+        else {
+            build.append(MessageFormat.format(" and {0} between {1} and {2} ",compareDate,"'"+fromMonth+"'","'"+toMonth+"'"));
+        }
+        return build.toString();
     }
     public String getBetweenCondition(long fromMonth, long toMonth, String compareDate){
         String query = null;

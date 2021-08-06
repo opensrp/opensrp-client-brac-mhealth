@@ -80,35 +80,20 @@
             android:textSize="18sp" />
         <LinearLayout
             android:id="@+id/bkash_pay"
-            android:background="@drawable/bkash_button_bg"
+            android:alpha="0.3"
             android:layout_marginLeft="20dp"
-            android:alpha=".3"
+            android:background="@drawable/white_b_round"
             android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal"
             android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="60dp">
             <ImageView
-                android:src="@drawable/bkash_logo"
-                android:tint="@color/white"
+                android:src="@drawable/bkash"
+                android:background="@color/white"
                 android:clickable="false"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"/>
-            <Button
-                android:id="@+id/ok_btn"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="center_horizontal"
-                android:ems="10"
-                android:clickable="false"
-                android:background="@color/transparent"
-                android:textStyle="bold"
-                android:text="Pay with bKash"
-                android:enabled="false"
-                android:layout_marginLeft="-30dp"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"/>
         </LinearLayout>
 
 

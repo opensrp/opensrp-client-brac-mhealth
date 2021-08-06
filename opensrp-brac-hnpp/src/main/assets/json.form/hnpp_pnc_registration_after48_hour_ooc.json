@@ -67,13 +67,6 @@
       },
 
       {
-        "key": "anc_count",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "hidden"
-      },
-      {
         "key": "number_of_pnc",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",

@@ -250,8 +250,27 @@
           "err": "দশমিক অনুমোদিত নয়"
         },
         "edit_type": "number"
+      },
+      {
+        "key": "is_present_refresheres",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_present_refresheres",
+        "type": "spinner",
+        "hint": "মাসিক রিফ্রেসার্স এ উপস্থিত ছিল কিনা ?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
       }
-
     ]
   },
   "step4": {

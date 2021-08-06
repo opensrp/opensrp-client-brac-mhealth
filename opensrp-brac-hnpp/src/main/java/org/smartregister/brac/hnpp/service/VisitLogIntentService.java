@@ -403,11 +403,7 @@ public class VisitLogIntentService extends IntentService {
                 break;
             case PNC_REGISTRATION_AFTER_48_hour:
             case PNC_REGISTRATION_BEFORE_48_hour:
-                if(details.containsKey("anc_count")&&!StringUtils.isEmpty(details.get("anc_count"))) {
-                    String value = details.get("anc_count");
-                    HnppApplication.getIndicatorRepository().updateValue("anc_count",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
 
-                }
                 if(details.containsKey("number_of_pnc")&&!StringUtils.isEmpty(details.get("number_of_pnc"))) {
                     String value = details.get("number_of_pnc");
                     HnppApplication.getIndicatorRepository().updateValue("number_of_pnc",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
@@ -431,6 +427,12 @@ public class VisitLogIntentService extends IntentService {
                     }
 
                 }
+                if(details.containsKey("no_anc_at_pregnant")&&!StringUtils.isEmpty(details.get("no_anc_at_pregnant"))) {
+                    String value = details.get("no_anc_at_pregnant");
+                    HnppApplication.getIndicatorRepository().updateValue("no_anc_at_pregnant",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
+
+                }
+
                 if(details.containsKey("breastfeeding_time")&&!StringUtils.isEmpty(details.get("breastfeeding_time"))) {
                     String value = details.get("breastfeeding_time");
                     HnppApplication.getIndicatorRepository().updateValue("breastfeeding_time",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());

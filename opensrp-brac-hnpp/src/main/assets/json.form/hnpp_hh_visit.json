@@ -240,7 +240,7 @@
         "type": "check_box",
         "label": "সম্পদের তালিকা",
         "exclusive": [
-          "None"
+          "chk_none"
         ],
         "options": [
           {
@@ -270,6 +270,13 @@
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "Electric_Fan"
+          },
+          {
+            "key": "chk_none",
+            "text": "কোনোটিই নেই",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "chk_none"
           }
         ],
         "v_required": {
@@ -430,6 +437,26 @@
         "options": [
 
         ]
+      },
+      {
+        "key": "new_hh_created",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "new_hh_created",
+        "type": "spinner",
+        "hint": "এইখানা ভেঙে নতুন কোন খানা হয়েছে কিনা?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
       },
       {
         "key": "latitude",

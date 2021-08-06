@@ -134,7 +134,7 @@ public class TargetVsAchievementRepository extends BaseRepository {
                 || targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION)
                     || targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
                 targetName = HnppConstants.EVENT_TYPE.ANC_SERVICE;
-            }else if(targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour)){
+            }else if(targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour)){
                 targetName = HnppConstants.EVENT_TYPE.PNC_SERVICE;
             } else if(targetName.equalsIgnoreCase(HnppConstants.EventType.ANC_REGISTRATION)){
                 targetName = HnppConstants.EVENT_TYPE.PREGNANCY_IDENTIFIED;
@@ -161,7 +161,7 @@ public class TargetVsAchievementRepository extends BaseRepository {
         if(!isExistData(targetVsAchievementData)){
 
             long inserted = getWritableDatabase().insert(getLocationTableName(), null, contentValues);
-            Log.v("TARGET_FETCH","inserterd:"+inserted);
+            Log.v("TARGET_FETCH","inserterd:"+inserted+"contentValues:"+contentValues);
         }else{
             long updated = getWritableDatabase().update(getLocationTableName(), contentValues,TARGET_NAME+" = '"+targetVsAchievementData.getTargetName()+"' and "+YEAR+" ='"+targetVsAchievementData.getYear()+"'" +
                     " and "+MONTH+" ='"+targetVsAchievementData.getMonth()+"' and "+DAY+" ='"+targetVsAchievementData.getDay()+"' ",null);

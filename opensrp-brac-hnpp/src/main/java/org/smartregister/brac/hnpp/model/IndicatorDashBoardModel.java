@@ -95,7 +95,7 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
         return getVisitTypeCount("এ\u200C এন সি অন্যান্য",HnppConstants.INDICATOR.ANC_OTHER_SOURCE,"govt",ssName,fromMonth,toMonth);
     }
     public DashBoardData get4PlusAnc(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("4+ এ এন সি","anc_count","3",ssName,fromMonth,toMonth);
+        return getVisitTypeCount("4+ এ এন সি","no_anc_at_pregnant","4",ssName,fromMonth,toMonth);
     }
     public DashBoardData getCigerDelivery(String ssName, long fromMonth, long toMonth){
         return getVisitTypeCount("প্রসবের ফলাফল(সিজার)","delivery_method_c_section","c_section",ssName,fromMonth,toMonth);
@@ -541,7 +541,7 @@ public DashBoardData getVisitTypeSum(String title,String indicatorKey,String ssN
         if(indicatorKey.equalsIgnoreCase(HnppConstants.INDICATOR.ANC_OTHER_SOURCE)){
             mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='Govt' or "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='other'";
         }
-        else if(indicatorKey.equalsIgnoreCase("anc_count")){
+        else if(indicatorKey.equalsIgnoreCase("no_anc_at_pregnant")){
             mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" >="+indicatorValue;
         }
         else if(indicatorKey.equalsIgnoreCase("delivery_method_general")){

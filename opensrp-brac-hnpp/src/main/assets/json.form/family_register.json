@@ -366,7 +366,7 @@
         "type": "check_box",
         "label": "সম্পদের তালিকা",
         "exclusive": [
-          "noIdentifier"
+          "chk_none"
         ],
         "options": [
           {
@@ -392,6 +392,13 @@
             "text": "বৈদ্যুতিক ফ্যান",
             "value": false,
             "openmrs_choice_id": "Electric_Fan"
+          },
+          {
+            "key": "chk_none",
+            "text": "কোনোটিই নেই",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "chk_none"
           }
         ],
         "v_required": {

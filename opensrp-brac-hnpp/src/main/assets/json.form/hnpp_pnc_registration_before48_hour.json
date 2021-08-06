@@ -65,13 +65,7 @@
         "openmrs_entity_id": "relational_id",
         "type": "hidden"
       },
-      {
-        "key": "anc_count",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "hidden"
-      },
+
       {
         "key": "brac_pnc",
         "openmrs_entity_parent": "",

@@ -25,6 +25,10 @@ public class MonthlyServiceTargetAchievementFragment extends ServiceTargetAchiev
         super.fetchData();
     }
     @Override
+    void filterData() {
+        super.filterByFromToMonth();
+    }
+    @Override
     void updateTitle() {
         super.updateTitle("মাসিক সেবা");
 

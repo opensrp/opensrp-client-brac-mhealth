@@ -93,6 +93,7 @@ public class PaymentHistoryRepository extends BaseRepository {
             sql = "select sum(price) from "+getLocationTableName()+" where "+PAYMENT_STATUS+" = 'COMPLETED' and "+PAYMENT_DATE+" between '"+fromDate+"' and '"+toDate+"'";
 
         }
+        Log.v("PAYMENT_HISTORY","sql:"+sql);
         Cursor cursor = null;
         int total = 0;
 
@@ -165,7 +166,7 @@ public class PaymentHistoryRepository extends BaseRepository {
             String rawQuery= "";
             if(!TextUtils.isEmpty(fromDate) && !TextUtils.isEmpty(toDate)){
                 rawQuery = "select serviceType, paymentDate, status, count(*) as quantity, paymentTimestamp,sum(price) as price " +
-                        "from payment_table where paymentDate between '"+fromDate+"' and '"+toDate+"' group by paymentId order by paymentTimestamp desc ";
+                        "from payment_table where paymentDate between '"+fromDate+"' and '"+toDate+"' group by paymentId,serviceType order by paymentTimestamp desc ";
                 Log.v("HISTORY","rawQuery:"+rawQuery);
             }
 
@@ -188,7 +189,7 @@ public class PaymentHistoryRepository extends BaseRepository {
         try {
 
             String rawQuery = "select serviceType, paymentDate, status, count(*) as quantity, paymentTimestamp,sum(price) as price " +
-                              "from payment_table group by paymentId order by paymentTimestamp desc";
+                              "from payment_table group by paymentId,serviceType order by paymentTimestamp desc";
 
             cursor = getReadableDatabase().rawQuery(rawQuery, null);
 

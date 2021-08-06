@@ -892,6 +892,8 @@ public class HnppConstants extends CoreConstants {
         //service
         public static final String ANC_SERVICE = "ANC Service";
         public static final String PNC_SERVICE = "PNC Service";
+        public static final String ANC_PACKAGE = "ANC package";
+        public static final String PNC_PACKAGE = "PNC package";
         public static final String GUEST_MEMBER_REGISTRATION = "OOC Member Registration";
         public static final String GUEST_MEMBER_UPDATE_REGISTRATION = "OOC Member Update Registration";
     }
@@ -1175,7 +1177,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.FORUM_ADO,"কিশোরী ফোরাম")
             .put(EVENT_TYPE.FORUM_WOMEN,"নারী ফোরাম")
             .put(EVENT_TYPE.FORUM_CHILD,"শিশু ফোরাম")
-            .put(EVENT_TYPE.FORUM_NCD,"অসংক্রামক রোগের ফোরাম")
+            .put(EVENT_TYPE.FORUM_NCD,"সাধারণ ফোরাম")
             .put(EVENT_TYPE.FORUM_ADULT,"অ্যাডাল্ট ফোরাম")
             .build();
 
@@ -1195,7 +1197,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.FORUM_ADO,"কিশোরী ফোরাম")
             .put(EVENT_TYPE.FORUM_WOMEN,"নারী ফোরাম")
             .put(EVENT_TYPE.FORUM_CHILD,"শিশু ফোরাম")
-            .put(EVENT_TYPE.FORUM_NCD,"অসংক্রামক রোগের ফোরাম")
+            .put(EVENT_TYPE.FORUM_NCD,"সাধারণ ফোরাম")
             .put(EVENT_TYPE.FORUM_ADULT,"অ্যাডাল্ট ফোরাম")
             .put(EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসব")
             .put(EVENT_TYPE.GIRL_PACKAGE,"কিশোরী সেবা")
@@ -1204,6 +1206,9 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.NCD_PACKAGE,"অসংক্রামক রোগের সেবা")
             .put(EVENT_TYPE.ANC_SERVICE,"গর্ভবতী সেবা")
             .put(EVENT_TYPE.PNC_SERVICE,"প্রসব-পরবর্তী সেবা")
+            .put(EVENT_TYPE.ANC_PACKAGE,"গর্ভবতী সেবা")
+            .put(EVENT_TYPE.PNC_PACKAGE,"প্রসব-পরবর্তী সেবা")
+            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,"প্রসব-পরবর্তী সেবা")
             .put(EVENT_TYPE.AVG_ATTEND_ADULT_FORUM,"অংশগ্রহণকারী সংখ্যা")
             .put(EVENT_TYPE.ADULT_FORUM_ATTENDANCE,"অংশগ্রহণকারী সংখ্যা")
            // .put(EVENT_TYPE.NCD_BY_PA,"অসংক্রামক রোগের সেবা")
@@ -1241,7 +1246,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.FORUM_ADO,"কিশোরী ফোরাম")
             .put(EVENT_TYPE.FORUM_WOMEN,"নারী ফোরাম")
             .put(EVENT_TYPE.FORUM_CHILD,"শিশু ফোরাম")
-            .put(EVENT_TYPE.FORUM_NCD,"অসংক্রামক রোগের ফোরাম")
+            .put(EVENT_TYPE.FORUM_NCD,"সাধারণ ফোরাম")
             .put(EVENT_TYPE.FORUM_ADULT,"অ্যাডাল্ট ফোরাম")
             .put(EVENT_TYPE.WOMEN_PACKAGE,"নারী সেবা প্যাকেজ")
             .put(EVENT_TYPE.GIRL_PACKAGE, "কিশোরী সেবা প্যাকেজ")
@@ -1334,7 +1339,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.FORUM_ADO,"কিশোরী ফোরাম")
             .put(EVENT_TYPE.FORUM_WOMEN,"নারী ফোরাম")
             .put(EVENT_TYPE.FORUM_CHILD,"শিশু ফোরাম")
-            .put(EVENT_TYPE.FORUM_NCD,"অসংক্রামক রোগের ফোরাম")
+            .put(EVENT_TYPE.FORUM_NCD,"সাধারণ ফোরাম")
             .put(EVENT_TYPE.FORUM_ADULT,"অ্যাডাল্ট ফোরাম")
             .put(EVENT_TYPE.ANC_SERVICE,"গর্ভবতী সেবা")
             .put(EVENT_TYPE.PNC_SERVICE,"প্রসব-পরবর্তী সেবা")
