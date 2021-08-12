@@ -102,4 +102,11 @@ public class Payment implements Serializable {
     public void setTotal(int total) {
         this.total = total;
     }
+
+    @Override
+    public String toString() {
+        return "Payment{" +
+                "serviceType='" + serviceType + '\'' +
+                '}';
+    }
 }

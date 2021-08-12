@@ -180,7 +180,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentViewHolder> {
         totalPayableAmount = 0;
         ArrayList<Payment> details = new ArrayList<>();
         for(Payment payment : contentList){
-            if(!payment.isEmpty() && payment.getTotal()>0){
+            if(!payment.isEmpty() && payment.getTotal()>0 && payment.isSelected()){
                 details.add(payment);
                 totalPayableAmount = totalPayableAmount + payment.getTotal();
             }

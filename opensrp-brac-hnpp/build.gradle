@@ -127,8 +127,8 @@ android {
         }
 
         training{
-            versionCode 39
-            versionName "3.0.9"
+            versionCode 41
+            versionName "4.0.1"
             dimension = 'baseDimension'
             applicationIdSuffix ".training"
             buildConfigField "boolean", 'IS_TRAINING', 'true'
@@ -138,18 +138,20 @@ android {
             buildConfigField "String", 'opensrp_url_live', '"https://mhealthtest.brac.net/opensrp/"'
         }
         normal{
-            versionCode 38
-            versionName "3.0.8_dev"
+            versionCode 41
+            versionName "4.0.1_dev"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
             buildConfigField "String", 'opensrp_url_training', '"https://hnpptest1.mpower-social.com/opensrp/"'
             buildConfigField "String", 'opensrp_url_live', '"https://hnpptest1.mpower-social.com/opensrp/"'
+//            buildConfigField "String", 'opensrp_url_training', '"https://mhealthtest.brac.net/opensrp/"'
+//            buildConfigField "String", 'opensrp_url_live', '"https://mhealthtest.brac.net/opensrp/"'
 
 
         }
         production{
-            versionCode 40
-            versionName "2.0.3"
+            versionCode 41
+            versionName "2.0.4"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
             buildConfigField "String", 'opensrp_url_training', '"https://mhealth.brac.net/opensrp/"'
