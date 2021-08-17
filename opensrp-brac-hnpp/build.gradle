@@ -122,12 +122,12 @@ android {
 //            buildConfigField "boolean", 'IS_TRAINING', 'true'
 //            buildConfigField "String", 'opensrp_url_training', '"http://mhealthtest.brac.net:8080/opensrp/"'
 //            buildConfigField "String", 'opensrp_url_live', '"http://mhealthtest.brac.net:8080/opensrp/"'
-            buildConfigField "boolean", 'IS_TRAINING', 'false'
-            buildConfigField "String", 'opensrp_url_training', '"http://mhealth.brac.net:8080/opensrp/"'
-            buildConfigField "String", 'opensrp_url_live', '"http://mhealth.brac.net:8080/opensrp/"'
-//            buildConfigField "boolean", 'IS_TRAINING', 'true'
-//            buildConfigField "String", 'opensrp_url_training', '"http://hnpptest1.mpower-social.com:8080/opensrp/"'
-//            buildConfigField "String", 'opensrp_url_live', '"http://hnpptest1.mpower-social.com:8080/opensrp/"'
+//            buildConfigField "boolean", 'IS_TRAINING', 'false'
+//            buildConfigField "String", 'opensrp_url_training', '"http://mhealth.brac.net:8080/opensrp/"'
+//            buildConfigField "String", 'opensrp_url_live', '"http://mhealth.brac.net:8080/opensrp/"'
+            buildConfigField "boolean", 'IS_TRAINING', 'true'
+            buildConfigField "String", 'opensrp_url_training', '"https://hnpptest1.mpower-social.com/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"https://hnpptest1.mpower-social.com/opensrp/"'
 
         }
     }
