@@ -11,6 +11,8 @@ import net.sqlcipher.Cursor;
 import net.sqlcipher.database.SQLiteDatabase;
 
 import org.joda.time.DateTime;
+import org.smartregister.CoreLibrary;
+import org.smartregister.brac.hnpp.service.StockFetchIntentService;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.StockData;
@@ -144,33 +146,55 @@ public class StockRepository extends BaseRepository {
     }
     public  boolean isAvailableStock(String eventTyype){
         if(TextUtils.isEmpty(eventTyype)) return true;
+        if(!isEligable()) return true;
         String targetName = getTargetName(eventTyype);
         if(!TextUtils.isEmpty(targetName)){
             return HnppDBUtils.isAvailableStock(targetName);
         }
         return true;
     }
+    public static boolean isEligable(){
+        String lastSynTime = CoreLibrary.getInstance().context().allSharedPreferences().getPreference(StockFetchIntentService.LAST_SYNC_TIME);
+        if(!TextUtils.isEmpty(lastSynTime)){
+            return true;
+        }
+        return false;
+    }
 
     public void addOrUpdate(StockData stockData) {
         if(TextUtils.isEmpty(stockData.getProductName())) return;
-       // if(!isExistData(stockData.getStockId())){
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(STOCK_ID, stockData.getStockId());
-            contentValues.put(STOCK_PRODUCT_ID, stockData.getProductId());
-            contentValues.put(STOCK_PRODUCT_NAME, stockData.getProductName());
-            contentValues.put(YEAR, stockData.getYear());
-            contentValues.put(MONTH, stockData.getMonth());
-            contentValues.put(STOCK_EXPIREY_DATE, stockData.getExpireyDate());
-            contentValues.put(STOCK_RECEIVE_DATE, stockData.getReceiveDate());
-            contentValues.put(STOCK_QUANTITY, stockData.getQuantity());
-            contentValues.put(STOCK_TIMESTAMP, stockData.getTimestamp());
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(STOCK_ID, stockData.getStockId());
+        contentValues.put(STOCK_PRODUCT_ID, stockData.getProductId());
+        contentValues.put(STOCK_PRODUCT_NAME, stockData.getProductName());
+        contentValues.put(YEAR, stockData.getYear());
+        contentValues.put(MONTH, stockData.getMonth());
+        contentValues.put(STOCK_EXPIREY_DATE, stockData.getExpireyDate());
+        contentValues.put(STOCK_RECEIVE_DATE, stockData.getReceiveDate());
+        contentValues.put(STOCK_QUANTITY, stockData.getQuantity());
+        contentValues.put(STOCK_TIMESTAMP, stockData.getTimestamp());
+        if(!isExistData(stockData.getStockId())){
+
             long inserted = getWritableDatabase().insert(getLocationTableName(), null, contentValues);
             Log.v("STOCK_FETCH","inserterd:"+inserted);
-//        }else{
-//            Log.v("STOCK_FETCH","exists!!!!!!!!!");
-//        }
+        }else{
+
+            long updated = getWritableDatabase().update(getLocationTableName(),contentValues,STOCK_PRODUCT_ID+" = "+stockData.getStockId(),null);
+            Log.v("STOCK_FETCH","exists!!!!!!!!!"+updated);
+        }
 
 
+    }
+    public boolean isExistStock(SQLiteDatabase db, String targetName, long timeStamp) {
+        SQLiteDatabase database = (db == null) ? getReadableDatabase() : db;
+        String selection = STOCK_PRODUCT_NAME + " = ? " + COLLATE_NOCASE+" and "+STOCK_TIMESTAMP+" = ?";
+        String[] selectionArgs = new String[]{targetName,timeStamp+""};
+        net.sqlcipher.Cursor cursor = database.query(getLocationTableName(), null, selection, selectionArgs, null, null, null, null);
+        if(cursor!=null && cursor.getCount() > 0){
+            cursor.close();
+            return true;
+        }
+        return false;
     }
     public boolean isExistData(int stockId){
         String sql = "select count(*) from "+getLocationTableName()+" where "+STOCK_ID+" = "+stockId;

@@ -1231,7 +1231,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ANC2_REGISTRATION,"গর্ভবতী পরিচর্যা - ২য় ত্রিমাসিক")
             .put(EVENT_TYPE.ANC3_REGISTRATION,"গর্ভবতী পরিচর্যা - ৩য় ত্রিমাসিক")
             .put("ANC","গর্ভবতী পরিচর্যা(এএনসি)")
-            .put("pnc","প্রসবোত্তর পরিচর্যা(পিএনসি)")
+            .put("pnc","পূর্বের প্রসবোত্তর পরিচর্যা(পিএনসি)")
             .put(EVENT_TYPE.ELCO,"সক্ষম দম্পতি পরিদর্শন")
             .put(HnppConstants.EventType.CHILD_REGISTRATION,"শিশু রেজিস্ট্রেশন")
             .put(EVENT_TYPE.ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন")

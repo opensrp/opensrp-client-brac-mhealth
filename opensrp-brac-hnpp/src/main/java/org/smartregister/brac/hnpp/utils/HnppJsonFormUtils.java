@@ -30,6 +30,7 @@ import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.model.ForumDetails;
 import org.smartregister.brac.hnpp.repository.HnppChwRepository;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
+import org.smartregister.brac.hnpp.repository.StockRepository;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.repository.VisitRepository;
@@ -781,6 +782,21 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             e.printStackTrace();
         }
 
+    }
+    public static void addAddToStockValue(JSONObject jsonForm){
+        try {
+            JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+            JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+            if(StockRepository.isEligable()){
+                updateFormField(jsonArray,"add_to_stock","1");
+            }else{
+                updateFormField(jsonArray,"add_to_stock","0");
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
     public static void addNcdSugerPressure(String baseEntityId, JSONObject jsonForm){
         try {

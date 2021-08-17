@@ -143,69 +143,120 @@
 
         </LinearLayout>
     </LinearLayout>
-    <ScrollView
+<!--    <ScrollView-->
 
+<!--        android:layout_below="@+id/paymentView"-->
+<!--        android:layout_above="@+id/bottom_panel"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content">-->
+<!--        <LinearLayout-->
+<!--            android:orientation="vertical"-->
+<!--            android:layout_marginBottom="100dp"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
+<!--            <android.support.v7.widget.RecyclerView-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:id="@+id/recycler_view"-->
+<!--                android:scrollbars="vertical"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                />-->
+<!--            <LinearLayout-->
+<!--                android:id="@+id/line"-->
+<!--                android:layout_width="fill_parent"-->
+<!--                android:layout_height="2dp"-->
+<!--                android:background="@color/grey"-->
+<!--                android:orientation="horizontal" />-->
+<!--            <LinearLayout-->
+<!--                android:layout_margin="10dp"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal">-->
+<!--                <TextView-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="@string/total_payment"-->
+<!--                    android:textColor="@color/light_blue"-->
+<!--                    android:textSize="18sp"-->
+<!--                    android:textStyle="bold" />-->
+<!--                <TextView-->
+<!--                    android:id="@+id/total_price"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:gravity="right"-->
+<!--                    android:textColor="@color/light_blue"-->
+<!--                    android:textSize="18sp"-->
+<!--                    android:layout_marginRight="5dp"-->
+<!--                    android:textStyle="bold" />-->
+<!--                <TextView-->
+<!--                    android:gravity="right"-->
+<!--                    android:text="Taka"-->
+<!--                    android:layout_marginRight="20dp"-->
+<!--                    android:textColor="@color/light_blue"-->
+<!--                    android:textSize="18sp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"/>-->
+
+<!--            </LinearLayout>-->
+<!--        </LinearLayout>-->
+<!--    </ScrollView>-->
+    <android.support.v7.widget.RecyclerView
         android:layout_below="@+id/paymentView"
-        android:layout_above="@+id/bottom_panel"
+        android:layout_above="@+id/line"
+        android:layout_marginTop="5dp"
+        android:id="@+id/recycler_view"
+        android:scrollbars="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_marginBottom="100dp"
+        android:layout_height="wrap_content"
+        />
+    <LinearLayout
+        android:id="@+id/line"
+        android:layout_above="@+id/total_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="@color/grey"
+        android:orientation="horizontal" />
+    <LinearLayout
+        android:id="@+id/total_bar"
+        android:layout_above="@+id/bottom_panel"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <android.support.v7.widget.RecyclerView
-                android:layout_marginTop="5dp"
-                android:id="@+id/recycler_view"
-                android:scrollbars="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
-            <LinearLayout
-                android:id="@+id/line"
-                android:layout_width="fill_parent"
-                android:layout_height="2dp"
-                android:background="@color/grey"
-                android:orientation="horizontal" />
-            <LinearLayout
-                android:layout_margin="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_weight="1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/total_payment"
-                    android:textColor="@color/light_blue"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-                <TextView
-                    android:id="@+id/total_price"
-                    android:layout_weight="1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:textColor="@color/light_blue"
-                    android:textSize="18sp"
-                    android:layout_marginRight="5dp"
-                    android:textStyle="bold" />
-                <TextView
-                    android:gravity="right"
-                    android:text="Taka"
-                    android:layout_marginRight="20dp"
-                    android:textColor="@color/light_blue"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/total_payment"
+            android:textColor="@color/light_blue"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/total_price"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:textColor="@color/light_blue"
+            android:textSize="18sp"
+            android:layout_marginRight="5dp"
+            android:textStyle="bold" />
+        <TextView
+            android:gravity="right"
+            android:text="Taka"
+            android:layout_marginRight="20dp"
+            android:textColor="@color/light_blue"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
-
-
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/bottom_panel"
