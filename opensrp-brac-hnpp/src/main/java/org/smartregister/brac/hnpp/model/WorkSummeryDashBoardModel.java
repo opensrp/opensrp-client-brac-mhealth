@@ -195,13 +195,13 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
         return getVisitTypeCount(HnppConstants.EVENT_TYPE.ANC_REGISTRATION,ssName,fromMonth,toMonth);
     }
     public DashBoardData getFirstTrimsterRegisterCount(String ssName, long fromMonth, long toMonth){
-        return getANcTrimesterCount("প্রথম ট্রাইসেমিস্টার-এ সনাক্ত",ssName,fromMonth,toMonth,1,105);
+        return getANcTrimesterCount("প্রথম ট্রাইসেমিস্টার-এ সনাক্ত",ssName,fromMonth,toMonth,1,106);
     }
     public DashBoardData getSecondTrimsterRegisterCount(String ssName, long fromMonth, long toMonth){
-        return getANcTrimesterCount("দ্বিতীয় ট্রাইসেমিস্টার-এ সনাক্ত",ssName,fromMonth,toMonth,106,168);
+        return getANcTrimesterCount("দ্বিতীয় ট্রাইসেমিস্টার-এ সনাক্ত",ssName,fromMonth,toMonth,107,169);
     }
     public DashBoardData getThirdTrimsterRegisterCount(String ssName, long fromMonth, long toMonth){
-        return getANcTrimesterCount("তৃতীয় ট্রাইসেমিস্টার-এ সনাক্ত",ssName,fromMonth,toMonth,169,0);
+        return getANcTrimesterCount("তৃতীয় ট্রাইসেমিস্টার-এ সনাক্ত",ssName,fromMonth,toMonth,170,0);
     }
     public DashBoardData getAnc1Count(String ssName,long fromMonth, long toMonth){
         return getVisitTypeCount(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION,ssName,fromMonth,toMonth);

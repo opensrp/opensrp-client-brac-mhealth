@@ -59,6 +59,14 @@
         "value": "hnpp_anc2_registration_ooc"
       },
       {
+        "key": "add_to_stock",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "add_to_stock",
+        "type": "hidden",
+        "value": "1"
+      },
+      {
         "key": "relational_id",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",

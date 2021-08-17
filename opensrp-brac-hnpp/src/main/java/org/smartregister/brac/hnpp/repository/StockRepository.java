@@ -77,7 +77,7 @@ public class StockRepository extends BaseRepository {
     }
     public  void updateValue(String productName, String day, String month, String year, String ssName, String baseEntityId, int count,long timeStamp){
         ContentValues contentValues = new ContentValues();
-        productName = getTargetName(productName,baseEntityId);
+        productName = getTargetName(productName);
         if(TextUtils.isEmpty(productName)) return;
         contentValues.put(BASE_ENTITY_ID, baseEntityId);
         contentValues.put(ACHIEVEMNT_DAY, day);
@@ -89,7 +89,7 @@ public class StockRepository extends BaseRepository {
         contentValues.put(SS_NAME, ssName);
         SQLiteDatabase database = getWritableDatabase();
         if(findUnique(database,productName,day,month,year,ssName,baseEntityId)){
-            Log.v("STOCK_INSERTED","update value:"+contentValues);
+            Log.v("STOCK_NAME","update value:"+contentValues);
             long inserted = database.insert(getLocationTableName(), null, contentValues);
         }
 
@@ -107,7 +107,7 @@ public class StockRepository extends BaseRepository {
         return true;
     }
 
-     private String getTargetName(String targetName, String baseEntityId) {
+     public static String getTargetName(String targetName) {
         if(!TextUtils.isEmpty(targetName)){
             switch (targetName){
                 case HnppConstants.EventType.ANC_HOME_VISIT:
@@ -144,7 +144,7 @@ public class StockRepository extends BaseRepository {
     }
     public  boolean isAvailableStock(String eventTyype){
         if(TextUtils.isEmpty(eventTyype)) return true;
-        String targetName = getTargetName(eventTyype,"");
+        String targetName = getTargetName(eventTyype);
         if(!TextUtils.isEmpty(targetName)){
             return HnppDBUtils.isAvailableStock(targetName);
         }
@@ -152,6 +152,7 @@ public class StockRepository extends BaseRepository {
     }
 
     public void addOrUpdate(StockData stockData) {
+        if(TextUtils.isEmpty(stockData.getProductName())) return;
        // if(!isExistData(stockData.getStockId())){
             ContentValues contentValues = new ContentValues();
             contentValues.put(STOCK_ID, stockData.getStockId());

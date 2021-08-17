@@ -47,6 +47,7 @@ public class CountSummeryDashBoardPresenter implements DashBoardContract.Present
 
     }
     public void filterByFromToMonth(long fromMonth, long toMonth, String ssName) {
+        getView().showProgressBar();
         interactor.filterByFromToMonth(ssName,fromMonth,toMonth,this);
     }
     @Override

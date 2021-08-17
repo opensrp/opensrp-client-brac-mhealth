@@ -70,7 +70,7 @@ public class WorkSummeryDashBoardInteractor implements DashBoardContract.Interac
             addToDashBoardList(model.getAnc3Count(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getAncCount(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getDeliveryCount(ssName,fromMonth,toMonth));
-            addToDashBoardList(model.getPncCount(ssName,fromMonth,toMonth));
+            //addToDashBoardList(model.getPncCount(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getEncCount(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getChildFollowUpCount(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getNcdForumCount(ssName,fromMonth,toMonth));
@@ -91,8 +91,9 @@ public class WorkSummeryDashBoardInteractor implements DashBoardContract.Interac
                 addToDashBoardList(indicatorModel.get4PlusAnc(ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.getCigerDelivery(ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.getNormalDelivery(ssName,fromMonth,toMonth));
-                addToDashBoardList(indicatorModel.getTTWomen(ssName,fromMonth,toMonth));
-                addToDashBoardList(indicatorModel.getPncService48Hrs(ssName,fromMonth,toMonth));
+                addToDashBoardList(indicatorModel.getTTPNCWomen(ssName,fromMonth,toMonth));
+                addToDashBoardList(indicatorModel.getTTAncWomen(ssName,fromMonth,toMonth));
+                //addToDashBoardList(indicatorModel.getPncService48Hrs(ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.getPnc1to2(ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.getPnc3to4(ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.getReferrelByPregnency(ssName,fromMonth,toMonth));

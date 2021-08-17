@@ -166,7 +166,7 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
                     referUHCCheckStatus(bilirubin);
 
             }
-            else if (((MaterialSpinner) v).getHint() != null && (((MaterialSpinner) v).getHint().toString()).equals("অতিরিক্ত রক্তক্ষরণ *")) {
+            else if (((MaterialSpinner) v).getHint() != null && (((MaterialSpinner) v).getHint().toString()).equals("অতিরিক্ত রক্তক্ষরণ ( ৩০ মিনিটে দুইটি প্যাড ভিজে যাচ্ছে) *")) {
                         excesbleeding = position == 0;
                         referUHCCheckStatus(excesbleeding);
             }
@@ -175,7 +175,7 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
                         compulsion = position == 0;
                         referUHCCheckStatus(compulsion);
             }
-            else if (((MaterialSpinner) v).getHint() != null && (((MaterialSpinner) v).getHint().toString()).equals("অতিরিক্ত রক্তক্ষরণ *")) {
+            else if (((MaterialSpinner) v).getHint() != null && (((MaterialSpinner) v).getHint().toString()).equals("অতিরিক্ত রক্তক্ষরণ ( ৩০ মিনিটে দুইটি প্যাড ভিজে যাচ্ছে) *")) {
 
                         excesbleeding = position == 0;
                         referUHCCheckStatus(excesbleeding);
