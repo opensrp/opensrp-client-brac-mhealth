@@ -395,6 +395,11 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             }catch (Exception e){
                 e.printStackTrace();
             }
+            try{
+                HnppJsonFormUtils.addAddToStockValue(jsonForm);
+            }catch (Exception e){
+
+            }
             jsonForm.put(JsonFormUtils.ENTITY_ID, baseEntityId);
             Intent intent;
             if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.GIRL_PACKAGE)){

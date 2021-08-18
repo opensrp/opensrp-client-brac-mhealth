@@ -70,7 +70,7 @@ public class WorkSummeryDashBoardInteractor implements DashBoardContract.Interac
             addToDashBoardList(model.getAnc3Count(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getAncCount(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getDeliveryCount(ssName,fromMonth,toMonth));
-            //addToDashBoardList(model.getPncCount(ssName,fromMonth,toMonth));
+
             addToDashBoardList(model.getEncCount(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getChildFollowUpCount(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getNcdForumCount(ssName,fromMonth,toMonth));
@@ -82,7 +82,7 @@ public class WorkSummeryDashBoardInteractor implements DashBoardContract.Interac
             addToDashBoardList(model.getChildForumCount(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getChildServiceCount(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getAdultForumCount(ssName,fromMonth,toMonth));
-
+            addToDashBoardList(model.getPncCount(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getPncAfter48Count(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getPncBefore48Count(ssName,fromMonth,toMonth));
 

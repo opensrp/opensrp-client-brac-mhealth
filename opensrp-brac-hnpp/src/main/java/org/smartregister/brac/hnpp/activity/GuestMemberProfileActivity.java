@@ -288,6 +288,11 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
             }catch (Exception e){
                 e.printStackTrace();
             }
+            try{
+                HnppJsonFormUtils.addAddToStockValue(jsonForm);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             jsonForm.put(JsonFormUtils.ENTITY_ID, baseEntityId);
             Intent intent;
              if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM_OOC) || formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM_OOC) || formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM_OOC)){
