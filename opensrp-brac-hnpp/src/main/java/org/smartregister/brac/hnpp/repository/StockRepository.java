@@ -91,8 +91,9 @@ public class StockRepository extends BaseRepository {
         contentValues.put(SS_NAME, ssName);
         SQLiteDatabase database = getWritableDatabase();
         if(findUnique(database,productName,day,month,year,ssName,baseEntityId)){
-            Log.v("STOCK_NAME","update value:"+contentValues);
+
             long inserted = database.insert(getLocationTableName(), null, contentValues);
+            Log.v("STOCK_ADD","update value2:"+contentValues+":inserted:"+inserted);
         }
 
 //        getWritableDatabase().execSQL("update "+getLocationTableName()+" set achievemnt_count = achievemnt_count +1,"+DAY+" = "+day+" , "+MONTH+" = "+month+" , "+YEAR+" = "+year+" where "+TARGET_NAME+" = '"+targetName+"'");

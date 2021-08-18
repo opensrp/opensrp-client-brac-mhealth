@@ -9,6 +9,7 @@ import android.util.Log;
 import com.google.gson.reflect.TypeToken;
 
 import net.sqlcipher.Cursor;
+import net.sqlcipher.database.SQLiteDatabase;
 
 
 import org.apache.commons.lang3.StringUtils;
@@ -307,6 +308,69 @@ public class VisitLogIntentService extends IntentService {
             }
         }
         processImmunization();
+        processAlreadySubmittedDataForStock();
+    }
+
+    /**
+     * this method searched already stored at local device but need to update the stock amount
+     */
+    private void processAlreadySubmittedDataForStock(){
+        //TODO need to remove this logic from 2.0.6 version production
+        ArrayList<String> visit_ids = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().getNeedToUpdateAlreadyProccedVisit();
+        Log.v("STOCK_ADD","processAlreadySubmittedDataForStock"+visit_ids.size());
+        for (int i = 0; i < visit_ids.size(); i++) {
+            List<Visit> v = AncLibrary.getInstance().visitRepository().getVisitsByVisitId(visit_ids.get(i));
+            for (Visit visit : v) {
+                Event baseEvent = gson.fromJson(visit.getJson(), Event.class);
+                String base_entity_id = baseEvent.getBaseEntityId();
+                HashMap<String,Object>form_details = getFormNamesFromEventObject(baseEvent);
+                ArrayList<String> encounter_types = (ArrayList<String>) form_details.get("form_name");
+                HashMap<String,String>details = (HashMap<String, String>) form_details.get("details");
+                for (String encounter_type : encounter_types) {
+                    if(encounter_type.equalsIgnoreCase(ANC1_REGISTRATION_OOC)){
+                        encounter_type = HnppConstants.EVENT_TYPE.ANC1_REGISTRATION;
+                    }
+                    else if(encounter_type.equalsIgnoreCase(ANC2_REGISTRATION_OOC)){
+                        encounter_type = HnppConstants.EVENT_TYPE.ANC2_REGISTRATION;
+                    }
+                    else if(encounter_type.equalsIgnoreCase(ANC3_REGISTRATION_OOC)){
+                        encounter_type = HnppConstants.EVENT_TYPE.ANC3_REGISTRATION;
+                    }
+                    else if(encounter_type.equalsIgnoreCase(PNC_REGISTRATION_BEFORE_48_hour_OOC)){
+                        encounter_type = HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour;
+                    }
+                    else if(encounter_type.equalsIgnoreCase(PNC_REGISTRATION_AFTER_48_hour_OOC)){
+                        encounter_type = HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour;
+                    }
+                    if(isNeedToAddStockTableForExisting(encounter_type,details)){
+                        String ssName = HnppDBUtils.getSSName(base_entity_id);
+                        LocalDate localDate = new LocalDate(visit.getDate().getTime());
+
+                        HnppApplication.getStockRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id,visit.getDate().getTime());
+
+
+                    }
+                }
+                SQLiteDatabase db = CoreChwApplication.getInstance().getRepository().getReadableDatabase();
+
+                db.execSQL("UPDATE visits set processed='1' where visit_id='"+visit.getVisitId()+"'");
+                Log.v("STOCK_ADD","processAlreadySubmittedDataForStock>>done");
+            }
+        }
+    }
+    private boolean isNeedToAddStockTableForExisting(String eventType,HashMap<String, String> details){
+        String targetName = StockRepository.getTargetName(eventType);
+        if(TextUtils.isEmpty(targetName)) return false;
+        if(details.containsKey("add_to_stock")&&!StringUtils.isEmpty(details.get("add_to_stock"))) {
+            String value = details.get("add_to_stock");
+            Log.v("STOCK_ADD","isNeedToAddStockTable>>"+value);
+            if(!TextUtils.isEmpty(value) && value.equalsIgnoreCase("2")){
+                return true;
+
+            }
+
+        }
+        return false;
     }
 
     private boolean isNeedToAddStockTable(String eventType,HashMap<String, String> details){
@@ -314,7 +378,8 @@ public class VisitLogIntentService extends IntentService {
         if(TextUtils.isEmpty(targetName)) return false;
         if(details.containsKey("add_to_stock")&&!StringUtils.isEmpty(details.get("add_to_stock"))) {
             String value = details.get("add_to_stock");
-            if(!TextUtils.isEmpty(value) && value.equalsIgnoreCase("1")){
+            Log.v("STOCK_ADD","isNeedToAddStockTable>>"+value);
+            if(!TextUtils.isEmpty(value) && !value.equalsIgnoreCase("0")){
                 return true;
 
             }

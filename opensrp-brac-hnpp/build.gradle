@@ -141,7 +141,7 @@ android {
             versionCode 42
             versionName "4.0.2_dev"
             dimension = 'baseDimension'
-            buildConfigField "boolean", 'IS_TRAINING', 'false'
+            buildConfigField "boolean", 'IS_TRAINING', 'true'
             buildConfigField "String", 'opensrp_url_training', '"https://hnpptest1.mpower-social.com/opensrp/"'
             buildConfigField "String", 'opensrp_url_live', '"https://hnpptest1.mpower-social.com/opensrp/"'
 //            buildConfigField "String", 'opensrp_url_training', '"https://mhealthtest.brac.net/opensrp/"'
