@@ -93,7 +93,9 @@ public class StockRepository extends BaseRepository {
         if(findUnique(database,productName,day,month,year,ssName,baseEntityId)){
 
             long inserted = database.insert(getLocationTableName(), null, contentValues);
-            Log.v("STOCK_ADD","update value2:"+contentValues+":inserted:"+inserted);
+            Log.v("STOCK_FETCH","update value2:"+contentValues+":inserted:"+inserted);
+        }else{
+            Log.v("STOCK_FETCH","update value2:"+contentValues);
         }
 
 //        getWritableDatabase().execSQL("update "+getLocationTableName()+" set achievemnt_count = achievemnt_count +1,"+DAY+" = "+day+" , "+MONTH+" = "+month+" , "+YEAR+" = "+year+" where "+TARGET_NAME+" = '"+targetName+"'");
@@ -180,7 +182,7 @@ public class StockRepository extends BaseRepository {
             Log.v("STOCK_FETCH","inserterd:"+inserted);
         }else{
 
-            long updated = getWritableDatabase().update(getLocationTableName(),contentValues,STOCK_PRODUCT_ID+" = "+stockData.getStockId(),null);
+            long updated = getWritableDatabase().update(getLocationTableName(),contentValues,STOCK_ID+" = "+stockData.getStockId(),null);
             Log.v("STOCK_FETCH","exists!!!!!!!!!"+updated);
         }
 

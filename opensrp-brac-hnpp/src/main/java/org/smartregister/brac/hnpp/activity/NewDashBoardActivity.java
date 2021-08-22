@@ -51,16 +51,41 @@ public class NewDashBoardActivity extends SecuredActivity implements View.OnClic
         if(HnppConstants.isPALogin()){
             switch (position){
                 case 0:
-                    dashBoardFragment = new CountSummeryDashBoardFragment();
-                    break;
-                case 1:
-                    dashBoardFragment = new WorkSummeryDashBoardFragment();
-                    break;
-                case 2:
                     dashBoardFragment = new DailyTargetAchievementFragment();
                     break;
-                case 3:
+                case 1:
                     dashBoardFragment = new MonthlyTargetAchievementFragment();
+                    break;
+                case 2:
+                    dashBoardFragment = new ForumTargetAchievementFragment();
+                    break;
+                case 3:
+                    dashBoardFragment = new StockDashBoardFragment();
+                    break;
+                case 4:
+                    dashBoardFragment = new CountSummeryDashBoardFragment();
+                    break;
+                case 5:
+                    dashBoardFragment = new WorkSummeryDashBoardFragment();
+                    break;
+                case 6:
+                    dashBoardFragment = new SSInfoDashBoardFragment();
+                    break;
+            }
+        }else {
+            switch (position){
+
+                case 0:
+                    dashBoardFragment = new DailyTargetAchievementFragment();
+                    break;
+                case 1:
+                    dashBoardFragment = new MonthlyTargetAchievementFragment();
+                    break;
+                case 2:
+                    dashBoardFragment = new DailyServiceTargetAchievementFragment();
+                    break;
+                case 3:
+                    dashBoardFragment = new MonthlyServiceTargetAchievementFragment();
                     break;
 
                 case 4:
@@ -70,34 +95,10 @@ public class NewDashBoardActivity extends SecuredActivity implements View.OnClic
                     dashBoardFragment = new StockDashBoardFragment();
                     break;
                 case 6:
-                    dashBoardFragment = new SSInfoDashBoardFragment();
-                    break;
-            }
-        }else {
-            switch (position){
-                case 0:
                     dashBoardFragment = new CountSummeryDashBoardFragment();
                     break;
-                case 1:
-                    dashBoardFragment = new WorkSummeryDashBoardFragment();
-                    break;
-                case 2:
-                    dashBoardFragment = new DailyTargetAchievementFragment();
-                    break;
-                case 3:
-                    dashBoardFragment = new MonthlyTargetAchievementFragment();
-                    break;
-                case 4:
-                    dashBoardFragment = new DailyServiceTargetAchievementFragment();
-                    break;
-                case 5:
-                    dashBoardFragment = new MonthlyServiceTargetAchievementFragment();
-                    break;
-                case 6:
-                    dashBoardFragment = new ForumTargetAchievementFragment();
-                    break;
                 case 7:
-                    dashBoardFragment = new StockDashBoardFragment();
+                    dashBoardFragment = new WorkSummeryDashBoardFragment();
                     break;
                 case 8:
                     dashBoardFragment = new SSInfoDashBoardFragment();
@@ -141,17 +142,17 @@ public class NewDashBoardActivity extends SecuredActivity implements View.OnClic
 //
 //        });
         tabs = findViewById(R.id.tabs);
-        tabs.addTab(tabs.newTab().setText("জনসংখ্যা সারসংক্ষেপ"));
-        tabs.addTab(tabs.newTab().setText("কার্যক্রম সারসংক্ষেপ"));
+
         tabs.addTab(tabs.newTab().setText("দৈনিক পরিদর্শন"));
         tabs.addTab(tabs.newTab().setText("মাসিক পরিদর্শন"));
         if(!HnppConstants.isPALogin()){
             tabs.addTab(tabs.newTab().setText("দৈনিক সেবা"));
             tabs.addTab(tabs.newTab().setText("মাসিক সেবা"));
         }
-
         tabs.addTab(tabs.newTab().setText("ফোরাম"));
         tabs.addTab(tabs.newTab().setText("স্টক"));
+        tabs.addTab(tabs.newTab().setText("জনসংখ্যা সারসংক্ষেপ"));
+        tabs.addTab(tabs.newTab().setText("কার্যক্রম সারসংক্ষেপ"));
         tabs.addTab(tabs.newTab().setText("সেবিকা"));
         //tabs.addTab(tabs.newTab().setText("স্টক"));
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

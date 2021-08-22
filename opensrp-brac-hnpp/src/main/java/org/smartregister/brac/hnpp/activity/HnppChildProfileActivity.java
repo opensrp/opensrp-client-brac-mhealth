@@ -501,6 +501,11 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
                     }catch (Exception e){
                         e.printStackTrace();
                     }
+                    try{
+                        HnppJsonFormUtils.addAddToStockValue(jsonForm);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                     if(HnppConstants.JSON_FORMS.IYCF_PACKAGE.equalsIgnoreCase(formName)){
                         JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
                         JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);

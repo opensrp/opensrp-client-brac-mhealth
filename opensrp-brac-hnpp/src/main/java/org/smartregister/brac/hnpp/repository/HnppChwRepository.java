@@ -147,16 +147,29 @@ public class HnppChwRepository extends CoreChwRepository {
                 case 33:
                     upgradeToVersion33(context,db);
                     break;
+                case 34:
+                    upgradeToVersion34(context,db);
+                    break;
                 default:
                     break;
             }
             upgradeTo++;
         }
     }
+    private void upgradeToVersion34(Context context, SQLiteDatabase db) {
+        try {
+            Log.v("STOCK_FETCH","db delete");
+            db.execSQL("delete from stock_table where stock_quantity IS NOT NULL and achievemnt_count is null and stock_id is NOT null");
+
+        } catch (Exception e) {
+
+        }
+    }
 
     private void upgradeToVersion33(Context context, SQLiteDatabase db) {
         try {
             PaymentHistoryRepository.createTable(db);
+
         } catch (Exception e) {
 
         }

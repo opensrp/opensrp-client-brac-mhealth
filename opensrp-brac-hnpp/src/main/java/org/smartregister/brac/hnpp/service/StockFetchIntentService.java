@@ -31,7 +31,7 @@ public class StockFetchIntentService extends IntentService {
 
     private static final String LOCATION_FETCH = "/get_stock_info?";
     private static final String TAG = "StockFetchIntentService";
-    public static final String LAST_SYNC_TIME = "last_stock_sync_new";
+    public static final String LAST_SYNC_TIME = "stock_last_sync_time";
 
     public StockFetchIntentService() { super(TAG); }
     /**
