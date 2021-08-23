@@ -139,13 +139,13 @@ android {
         }
         normal{
             versionCode 42
-            versionName "4.0.2_dev"
+            versionName "4.0.3_dev"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'true'
             buildConfigField "String", 'opensrp_url_training', '"https://hnpptest1.mpower-social.com/opensrp/"'
             buildConfigField "String", 'opensrp_url_live', '"https://hnpptest1.mpower-social.com/opensrp/"'
-//            buildConfigField "String", 'opensrp_url_training', '"https://mhealthtest.brac.net/opensrp/"'
-//            buildConfigField "String", 'opensrp_url_live', '"https://mhealthtest.brac.net/opensrp/"'
+//            buildConfigField "String", 'opensrp_url_training', '"http://hnpp.mpower-social.com/opensrp/"'
+//            buildConfigField "String", 'opensrp_url_live', '"http://hnpp.mpower-social.com/opensrp/"'
 
 
         }
