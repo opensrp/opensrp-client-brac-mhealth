@@ -388,13 +388,18 @@ public class VisitLogIntentService extends IntentService {
         return false;
     }
     private void processHHVisitForm(HashMap<String, String> details, VisitLog log) {
-        ContentValues values = new ContentValues();
-        HashMap<String, String> mapWithTable = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().tableHasColumn(details);
-        for(String key: mapWithTable.keySet()){
-            values.put(key,mapWithTable.get(key));
-        }
+        try{
+            ContentValues values = new ContentValues();
+            HashMap<String, String> mapWithTable = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().tableHasColumn(details);
+            for(String key: mapWithTable.keySet()){
+                values.put(key,mapWithTable.get(key));
+            }
 
-        HnppApplication.getHNPPInstance().getHnppVisitLogRepository().updateFamilyFromHomeVisit(values,log.getBaseEntityId(),String.valueOf(log.getVisitDate()));
+            HnppApplication.getHNPPInstance().getHnppVisitLogRepository().updateFamilyFromHomeVisit(values,log.getBaseEntityId(),String.valueOf(log.getVisitDate()));
+
+        }catch (Exception e){
+
+        }
 
     }
 

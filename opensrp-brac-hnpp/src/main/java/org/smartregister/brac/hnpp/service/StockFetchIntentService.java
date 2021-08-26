@@ -64,7 +64,7 @@ public class StockFetchIntentService extends IntentService {
                         }
 
                         nameCount.append("স্টক সংখ্যাঃ"+stockData.getQuantity()+"\n");
-                        Log.v("TARGET_FETCH","lasttime:"+timestamp);
+                        Log.v("STOCK_FETCH","lasttime:"+timestamp);
 
                     }
                 } catch (JSONException e) {
