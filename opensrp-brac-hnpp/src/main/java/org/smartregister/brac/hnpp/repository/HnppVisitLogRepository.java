@@ -172,6 +172,26 @@ public class HnppVisitLogRepository extends BaseRepository {
         }
         return visit_ids;
     }
+    public ArrayList<String> getNeedToUpdateAlreadyProccedVisit(){
+        ArrayList<String>visit_ids = new ArrayList<String>();
+        try{
+
+            SQLiteDatabase database = getWritableDatabase();
+            Cursor cursor = database.rawQuery("select visits.visit_id from visits where visits.processed ='2' ",null);
+            if(cursor!=null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    String visit_id = cursor.getString(0);
+                    visit_ids.add(visit_id);
+                    cursor.moveToNext();
+                }
+                cursor.close();
+            }
+        }catch(Exception e){
+
+        }
+        return visit_ids;
+    }
     public ArrayList<VisitLog> getAllSSFormVisit(){
         SQLiteDatabase database = getWritableDatabase();
 
