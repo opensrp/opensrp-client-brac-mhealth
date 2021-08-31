@@ -1,22 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_gravity="center"
-    android:gravity="center"
     android:padding="10dp"
+    android:layout_gravity="center"
+    android:background="@color/white"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
     <TextView
         android:padding="10dp"
         android:textSize="20sp"
         android:gravity="center"
         android:textColor="@color/black"
-        android:text="@string/force_sync_text"
+        android:text="@string/invalid_data_count"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
+    <TextView
+        android:id="@+id/count_tv"
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/due_vaccine_red"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
         <Button
-            android:id="@+id/invalid_data"
+            android:id="@+id/close_btn"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
@@ -29,30 +45,12 @@
             android:shadowDy="1"
             android:shadowRadius="0.5"
             android:textStyle="bold"
-            android:text="ইনভ্যালিড ডাটা"
+            android:text="বাদ দিই"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="18sp" />
-    <Button
-        android:id="@+id/data_sync_by_id"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/login_button_bg"
-        android:ems="10"
-        android:shadowColor="#ffffff"
-        android:shadowDx="0"
-        android:shadowDy="1"
-        android:shadowRadius="0.5"
-        android:textStyle="bold"
-        android:text="আইডি দিয়ে ডাটা সিঙ্ক"
-        android:textAllCaps="true"
-        android:textColor="@color/white"
-        android:textSize="18sp" />
         <Button
-            android:id="@+id/force_sync_btn"
+            android:id="@+id/invalid_sync_btn"
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
@@ -65,9 +63,13 @@
             android:shadowDy="1"
             android:shadowRadius="0.5"
             android:textStyle="bold"
-            android:text="ফোর্স সিঙ্ক "
+            android:text=" সিঙ্ক করি"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
     </LinearLayout>
+
+
+
+</LinearLayout>

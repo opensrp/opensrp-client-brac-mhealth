@@ -8,8 +8,10 @@ import com.evernote.android.job.JobCreator;
 
 import org.smartregister.chw.core.job.VaccineRecurringServiceJob;
 import org.smartregister.brac.hnpp.sync.intent.HfSyncTaskIntentService;
+import org.smartregister.job.DataSyncByBaseEntityServiceJob;
 import org.smartregister.job.ExtendedSyncServiceJob;
 import org.smartregister.job.ImageUploadServiceJob;
+import org.smartregister.job.InValidateSyncDataServiceJob;
 import org.smartregister.job.LocationStructureServiceJob;
 import org.smartregister.job.PlanIntentServiceJob;
 import org.smartregister.job.PullUniqueIdsServiceJob;
@@ -42,6 +44,10 @@ public class HnppJobCreator implements JobCreator {
                 return new PullHouseholdIdsServiceJob();
             case ValidateSyncDataServiceJob.TAG:
                 return new ValidateSyncDataServiceJob();
+            case InValidateSyncDataServiceJob.TAG:
+                return new InValidateSyncDataServiceJob();
+            case DataSyncByBaseEntityServiceJob.TAG:
+                return new DataSyncByBaseEntityServiceJob();
             case ImageUploadServiceJob.TAG:
                 return new ImageUploadServiceJob();
             case VaccineRecurringServiceJob.TAG:
