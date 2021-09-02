@@ -298,6 +298,7 @@ public class HnppConstants extends CoreConstants {
     public static void showSaveFormConfirmationDialog(Context context,String title, Runnable runnable){
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
         dialog.setContentView(R.layout.save_confirm_dialog);
         TextView textViewTitle = dialog.findViewById(R.id.condirm_text);
         textViewTitle.setText(title);
