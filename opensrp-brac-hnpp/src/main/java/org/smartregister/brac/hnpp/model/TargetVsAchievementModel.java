@@ -363,8 +363,6 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
                      dashBoardData1.setAvgTargetCount(cursor.getInt(cursor.getColumnIndex(TargetVsAchievementRepository.TARGET_COUNT)));
                      int achCount = cursor.getInt(cursor.getColumnIndex(TargetVsAchievementRepository.ACHIEVEMNT_COUNT));
                      dashBoardData1.setAvgAchievmentCount(achCount);
-
-
                      dashBoardData1.setEventType(visitType);
                      dashBoardData1.setTitle(HnppConstants.targetTypeMapping.get(dashBoardData1.getEventType()));
 

@@ -42,9 +42,11 @@ public class ForumTargetAchievementAdapter extends RecyclerView.Adapter<ForumTar
         final TargetVsAchievementData content = contentList.get(position);
         viewHolder.textViewTitle.setText(content.getTitle());
         viewHolder.textViewAchievementCount.setText(content.getAchievementCount()+"");
+        viewHolder.progressBar.setProgress(content.getAchievementPercentage());
         viewHolder.textViewAchievementAvgCount.setText(content.getAvgAchievmentCount()+"");
         viewHolder.textViewTargetAvgCount.setText(content.getAvgTargetCount()+"");
         viewHolder.textViewTargetCount.setText(content.getTargetCount()+"");
+        viewHolder.progressBarAvg.setProgress(content.getAvgAchievementPercentage());
         viewHolder.itemView.setOnClickListener(v -> onClickAdapter.onClick(viewHolder.getAdapterPosition(), content));
     }
 
