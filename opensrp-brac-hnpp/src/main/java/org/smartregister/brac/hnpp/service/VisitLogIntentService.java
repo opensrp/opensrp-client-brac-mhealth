@@ -309,6 +309,46 @@ public class VisitLogIntentService extends IntentService {
         }
         processImmunization();
         processAlreadySubmittedDataForStock();
+        processInstitutionalDeliveryForTarget();
+    }
+
+    /**
+     * this will update the "Institutionalized Delivery" count at target table for already subitted forms only execute if on upgrader
+     */
+    private void processInstitutionalDeliveryForTarget(){
+       String value = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference("IS_UPGRADED");
+       if(TextUtils.isEmpty(value) || value.equalsIgnoreCase("0")){
+           return;
+       }
+        ArrayList<String> visit_ids = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().getPregnancyOutcomeEvents();
+        Log.v("TARGET_FETCH","processInstitutionalDeliveryForTarget"+visit_ids.size());
+        for (int i = 0; i < visit_ids.size(); i++) {
+            List<Visit> v = AncLibrary.getInstance().visitRepository().getVisitsByVisitId(visit_ids.get(i));
+            for (Visit visit : v) {
+                Event baseEvent = gson.fromJson(visit.getJson(), Event.class);
+                String base_entity_id = baseEvent.getBaseEntityId();
+                HashMap<String,Object>form_details = getFormNamesFromEventObject(baseEvent);
+                ArrayList<String> encounter_types = (ArrayList<String>) form_details.get("form_name");
+                HashMap<String,String>details = (HashMap<String, String>) form_details.get("details");
+                for (String encounter_type : encounter_types) {
+                    if(encounter_type.equalsIgnoreCase(PREGNANCY_OUTCOME) || encounter_type.equalsIgnoreCase(PREGNANCY_OUTCOME_OOC)){
+                        if(details.containsKey("delivery_place")&&!StringUtils.isEmpty(details.get("delivery_place"))) {
+                            String delivery_place = details.get("delivery_place");
+                            if(!delivery_place.equalsIgnoreCase("home") || !delivery_place.equalsIgnoreCase("বাড়ি")){
+                                String ssName = HnppDBUtils.getSSName(base_entity_id);
+                                LocalDate localDate = new LocalDate(visit.getDate().getTime());
+                                HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.INSTITUTIONALIZES_DELIVERY,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id);
+
+                            }
+
+                        }
+                    }
+
+                }
+                Log.v("TARGET_FETCH","processInstitutionalDeliveryForTarget>>done");
+            }
+        }
+        FamilyLibrary.getInstance().context().allSharedPreferences().savePreference("IS_UPGRADED","0");
     }
 
     /**
@@ -543,6 +583,14 @@ public class VisitLogIntentService extends IntentService {
                 if(details.containsKey("preg_outcome")&&!StringUtils.isEmpty(details.get("preg_outcome"))) {
                     String value = details.get("preg_outcome");
                     HnppApplication.getIndicatorRepository().updateValue("preg_outcome",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
+
+                }
+                if(details.containsKey("delivery_place")&&!StringUtils.isEmpty(details.get("delivery_place"))) {
+                    String value = details.get("delivery_place");
+                    Log.v("TARGET_FETCH","delivery_place>>"+value);
+                    if(!value.equalsIgnoreCase("home") || !value.equalsIgnoreCase("বাড়ি")){
+                        HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.INSTITUTIONALIZES_DELIVERY,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
+                    }
 
                 }
                 break;

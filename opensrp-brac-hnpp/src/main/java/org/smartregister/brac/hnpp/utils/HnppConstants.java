@@ -1147,11 +1147,11 @@ public class HnppConstants extends CoreConstants {
             .put( EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসবের ফলাফল")
             .put( EVENT_TYPE.PREGNANCY_OUTCOME_OOC,"প্রসবের ফলাফল")
             .put( JSON_FORMS.PNC_FORM,"প্রসবোত্তর পরিচর্যা")
-
             .put( EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,"পি.এন.সি. (প্রথম ৪৮ ঘন্টা পর)")
             .put( EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
             .put( EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC,"পি.এন.সি. (প্রথম ৪৮ ঘন্টা পর)")
             .put( EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
+            .put(Constants.EVENT_TYPE.PNC_HOME_VISIT,"প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি)")
             .put(EVENT_TYPE.WOMEN_PACKAGE,"নারী সেবা প্যাকেজ")
             .put(EVENT_TYPE.GIRL_PACKAGE, "কিশোরী সেবা প্যাকেজ")
             .put(EVENT_TYPE.NCD_PACKAGE, "অসংক্রামক রোগের সেবা")

@@ -13,6 +13,7 @@ import org.smartregister.chw.anc.repository.VisitRepository;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.repository.CoreChwRepository;
 import org.smartregister.brac.hnpp.BuildConfig;
+import org.smartregister.family.FamilyLibrary;
 import org.smartregister.immunization.ImmunizationLibrary;
 import org.smartregister.immunization.repository.RecurringServiceRecordRepository;
 import org.smartregister.immunization.repository.RecurringServiceTypeRepository;
@@ -153,11 +154,18 @@ public class HnppChwRepository extends CoreChwRepository {
                 case 35:
                     upgradeToVersion35(db);
                     break;
+                case 36:
+                    upgradeToVersion36();
+                    break;
                 default:
                     break;
             }
             upgradeTo++;
         }
+    }
+    private void upgradeToVersion36(){
+        FamilyLibrary.getInstance().context().allSharedPreferences().savePreference("IS_UPGRADED","1");
+
     }
     private void upgradeToVersion35(SQLiteDatabase db){
         try {

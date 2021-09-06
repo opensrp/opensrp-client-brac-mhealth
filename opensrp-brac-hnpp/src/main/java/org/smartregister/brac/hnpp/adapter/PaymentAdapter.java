@@ -86,36 +86,45 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentViewHolder> {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Log.v("TEXT_EDIT","onTextChanged>>"+s);
+                String value = s.toString();
+                if(!TextUtils.isEmpty(value)){
+                    int payFor = Integer.parseInt(value);
+                    if(payFor<= content.getQuantity()){
+                        paymentViewHolder.numberTV.setError(null);
+                    }
+                }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
 
-                Log.v("TEXT_EDIT",">>>"+s.toString()+":considerChange:"+content.isConsiderChange());
+
 
                 if (content.isConsiderChange())
                 {
                 String value = s.toString();
+                try{
+                    if(!TextUtils.isEmpty(value)){
+                        content.setEmpty(false);
 
-                if(!TextUtils.isEmpty(value)){
-                    content.setEmpty(false);
-
-                    int payFor = Integer.parseInt(value);
-                    if(payFor<= content.getQuantity()){
-
-                        content.setPayFor(payFor);
-                        content.setTotal(content.getPayFor() * content.getUnitPrice());
-                        onClickAdapter.onClickItem(i);
+                        int payFor = Integer.parseInt(value);
+                        Log.v("TEXT_EDIT",">>>"+payFor+":quantity:"+content.getQuantity());
+                        if(payFor<= content.getQuantity()){
+                            Log.v("TEXT_EDIT",">>>not error"+payFor+":quantity:"+content.getQuantity());
+                            content.setPayFor(payFor);
+                            content.setTotal(content.getPayFor() * content.getUnitPrice());
+                            onClickAdapter.onClickItem(i);
+                        }else{
+                            Log.v("TEXT_EDIT",">>>error"+payFor+":quantity:"+content.getQuantity());
+                            paymentViewHolder.numberTV.setError("Less then quantity");
+                        }
                     }else{
-                        paymentViewHolder.numberTV.setError("Less then quantity");
+                        content.setEmpty(true);
+                        paymentViewHolder.numberTV.setError("Empty");
                     }
-                }else{
-                    content.setEmpty(true);
-                    paymentViewHolder.numberTV.setError("Empty");
+                }catch (NumberFormatException e){
+                    e.printStackTrace();
                 }
-
-
-
 
                 }
 
