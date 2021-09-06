@@ -1,9 +1,11 @@
 package org.smartregister.brac.hnpp.activity;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
@@ -28,6 +30,7 @@ import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.domain.FetchStatus;
 import org.smartregister.domain.Response;
 import org.smartregister.exception.NoHttpResponseException;
+import org.smartregister.job.CompareDataServiceJob;
 import org.smartregister.job.DataSyncByBaseEntityServiceJob;
 import org.smartregister.job.InValidateSyncDataServiceJob;
 import org.smartregister.job.SyncServiceJob;
@@ -47,6 +50,27 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
         findViewById(R.id.invalid_data).setOnClickListener(v -> checkInvalidData());
         findViewById(R.id.force_sync_btn).setOnClickListener( v -> getServerResponse() );
         findViewById(R.id.data_sync_by_id).setOnClickListener( v -> syncDataById() );
+        findViewById(R.id.compare_btn).setOnClickListener( v -> compareData() );
+    }
+
+    private void compareData() {
+        new AlertDialog.Builder(this).setMessage("ডাটা কম্পেয়ার উইথ সার্ভার")
+                .setTitle("আপনার ডিভাইস এর ডাটা গুলো সার্ভার এর সাথে ম্যাচ আছে কিনা চেক করার জন্য পাঠাতে চান ?")
+                .setCancelable(false)
+                .setPositiveButton(R.string.yes_button_label, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        invalidDataBroadcastReceiver = new InvalidSyncBroadcast();
+                        IntentFilter intentFilter = new IntentFilter();
+                        intentFilter.addAction("COMPARE_DATA");
+                        registerReceiver(invalidDataBroadcastReceiver, intentFilter);
+                        showProgressDialog("ডাটা সিঙ্ক করা হচ্ছে....");
+                        CompareDataServiceJob.scheduleJobImmediately(CompareDataServiceJob.TAG);
+                        dialog.dismiss();
+                    }
+                }).setNegativeButton(R.string.no_button_label, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+            }
+        }).show();
     }
 
     private void syncDataById() {
@@ -235,7 +259,10 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
                 String value = intent.getStringExtra("EXTRA_DATA_SYNC");
                 Toast.makeText(ForceSyncActivity.this,value,Toast.LENGTH_SHORT).show();
             }
-
+            if(intent != null && intent.getAction().equalsIgnoreCase("COMPARE_DATA")){
+                String value = intent.getStringExtra("EXTRA_COMPARE_DATA");
+                Toast.makeText(ForceSyncActivity.this,value,Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

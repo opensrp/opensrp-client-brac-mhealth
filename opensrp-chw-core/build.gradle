@@ -72,8 +72,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'design'
         exclude group: 'io.ona.rdt-capture', module: 'lib'
     }
- //brac-p1 branch
-    api('org.smartregister:opensrp-client-core:4.7.49-p1-brac-SNAPSHOT@aar') {
+ //brac-invalid branch
+    api('org.smartregister:opensrp-client-core:4.7.50-invalid-brac-SNAPSHOT@aar') {
         transitive = true
         exclude group: 'com.github.bmelnychuk', module: 'atv'
         exclude group: 'com.google.guava', module: 'guava'
