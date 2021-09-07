@@ -1959,8 +1959,9 @@ public class VisitLogIntentService extends IntentService {
 
                     }else{
                         for(String name : strs){
-                            String[] nameIds = name.split("#");
-                            JSONObject item = new JSONObject();
+                            try{
+                                String[] nameIds = name.split("#");
+                                JSONObject item = new JSONObject();
                                 item.put("key",nameIds[0].replace(" ","_")+"#"+nameIds[1]);
                                 item.put("text",nameIds[0]);
                                 item.put("value",true);
@@ -1968,6 +1969,10 @@ public class VisitLogIntentService extends IntentService {
                                 item.put("openmrs_entity_id",nameIds[0].replace(" ","_")+"#"+nameIds[1]);
                                 option_array.put(item);
                                 HnppDBUtils.updateCoronaFamilyMember(nameIds[1],"true");
+                            }catch (Exception e){
+
+                            }
+
                         }
                     }
 

@@ -29,9 +29,11 @@ import org.smartregister.job.SyncServiceJob;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.view.activity.SecuredActivity;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
@@ -163,6 +165,16 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
                     file.mkdir();
                 }
                 filePath = (file.getAbsolutePath() + "/"+ "drishti.db");
+                try {
+                    File logFile = new File(file.getAbsolutePath() + "/"+ "keys.txt");
+                    //BufferedWriter for performance, true to set append to file flag
+                    BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true));
+                    buf.append(password);
+                    buf.newLine();
+                    buf.close();
+                } catch (IOException e) {
+
+                }
                 File finalFile = new File(filePath);
 
                 finalFile.setWritable(true);

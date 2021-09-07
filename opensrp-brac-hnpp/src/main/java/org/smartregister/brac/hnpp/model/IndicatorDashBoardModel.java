@@ -140,7 +140,7 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
         return getVisitTypeCount("সাত মাসে বাড়তি খাবার খাওয়া শিশুর সংখ্যা","solid_food_month","7",ssName,fromMonth,toMonth);
     }
     public DashBoardData getTotalDeath(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("মোট মৃত্যু","remove_reason","died",ssName,fromMonth,toMonth);
+        return getVisitTypeCount("সদস্য মৃত্যু নিবন্ধন","remove_reason","died",ssName,fromMonth,toMonth);
     }
     public DashBoardData getDeathBirth(String ssName, long fromMonth, long toMonth){
         return getVisitTypeCount("নবজাতক মৃত্যু","preg_outcome","born_alive_died",ssName,fromMonth,toMonth);
