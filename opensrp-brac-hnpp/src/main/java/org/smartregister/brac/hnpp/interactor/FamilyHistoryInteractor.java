@@ -3,16 +3,21 @@ package org.smartregister.brac.hnpp.interactor;
 import android.content.Context;
 import android.util.Log;
 
+import org.json.JSONObject;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.contract.MemberHistoryContract;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
+import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.brac.hnpp.utils.MemberHistoryData;
 import org.smartregister.brac.hnpp.utils.VisitLog;
+import org.smartregister.chw.anc.AncLibrary;
+import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.family.util.AppExecutors;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FamilyHistoryInteractor implements MemberHistoryContract.Interactor {
 
@@ -22,6 +27,20 @@ public class FamilyHistoryInteractor implements MemberHistoryContract.Interactor
     public FamilyHistoryInteractor(AppExecutors appExecutors){
         this.appExecutors = appExecutors;
         visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
+    }
+    @Override
+    public void getVisitFormWithData(Context context,MemberHistoryData content, MemberHistoryContract.InteractorCallBack callBack){
+        Runnable runnable = () -> {
+            List<Visit> v = AncLibrary.getInstance().visitRepository().getVisitsByVisitId(content.getVisitId());
+            if(v.size()>0){
+                Visit visit = v.get(0);
+                JSONObject jsonForm  = HnppJsonFormUtils.getVisitFormWithData(visit.getJson(),context);
+                appExecutors.mainThread().execute(() -> callBack.updateFormWithData(content,jsonForm));
+            }
+
+
+        };
+        appExecutors.diskIO().execute(runnable);
     }
 
     @Override
@@ -43,6 +62,7 @@ public class FamilyHistoryInteractor implements MemberHistoryContract.Interactor
             MemberHistoryData historyData = new MemberHistoryData();
             String eventType = visitLog.getEventType();
             Log.v("EVENT_TYPE","history:"+eventType);
+            historyData.setVisitId(visitLog.getVisitId());
             historyData.setEventType(eventType);
             historyData.setMemberName(HnppDBUtils.getNameBaseEntityId(visitLog.getBaseEntityId()));
             historyData.setTitle(HnppConstants.visitEventTypeMapping.get(eventType));
@@ -51,7 +71,7 @@ public class FamilyHistoryInteractor implements MemberHistoryContract.Interactor
             }catch(NullPointerException e){
 
             }
-            historyData.setVisitDetails(visitLog.getVisitJson());
+//            historyData.setVisitDetails(visitLog.getVisitJson());
             historyData.setVisitDate(visitLog.getVisitDate());
             historyDataArrayList.add(historyData);
         }

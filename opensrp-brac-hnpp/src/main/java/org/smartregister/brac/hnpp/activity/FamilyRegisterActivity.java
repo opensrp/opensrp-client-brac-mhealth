@@ -35,6 +35,7 @@ import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.brac.hnpp.utils.MigrationSearchContentData;
 import org.smartregister.chw.core.activity.CoreFamilyRegisterActivity;
+import org.smartregister.chw.core.adapter.NavigationAdapter;
 import org.smartregister.chw.core.custom_views.NavigationMenu;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.brac.hnpp.BuildConfig;
@@ -117,7 +118,11 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        navigationMenu = NavigationMenu.getInstance(this, null, null);
+        navigationMenu = NavigationMenu.getInstance(this, null, findViewById(org.smartregister.R.id.register_toolbar));
+        NavigationAdapter navAdapter = navigationMenu.getNavigationAdapter();
+        if (navigationMenu != null && navAdapter !=null) {
+           navAdapter.setSelectedView(CoreConstants.DrawerMenu.ALL_FAMILIES);
+        }
         notificationBroadcastReceiver = new NotificationBroadcastReceiver();
         hnppNavigationPresenter = new HnppNavigationPresenter(
 
@@ -375,5 +380,9 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
         }
     }
 
+    @Override
+    protected void onResumption() {
+        super.onResumption();
 
+    }
 }

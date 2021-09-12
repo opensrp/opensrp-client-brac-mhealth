@@ -86,7 +86,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                 }
 
                 String eventType = event.getEventType();
-                Log.v("PROCESS_CLIENT","processClient1>>"+eventType);
+                Log.v("PROCESS_CLIENT","processClient1>>"+eventType+":baseentityid:"+event.getBaseEntityId());
                 if (eventType == null) {
                     continue;
                 }
@@ -136,18 +136,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                 }
                 processService(eventClient, serviceTable);
                 break;
-            case CoreConstants.EventType.CHILD_HOME_VISIT:
-                processVisitEvent(Utils.processOldEvents(eventClient), CoreConstants.EventType.CHILD_HOME_VISIT);
-                processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
-
-                break;
-            case CoreConstants.EventType.CHILD_VISIT_NOT_DONE:
-                processVisitEvent(eventClient);
-                processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
-                break;
             case CoreConstants.EventType.ANC_HOME_VISIT:
-            case Constants.EVENT_TYPE.ANC_HOME_VISIT_NOT_DONE:
-            case Constants.EVENT_TYPE.ANC_HOME_VISIT_NOT_DONE_UNDO:
             case HnppConstants.EVENT_TYPE.ELCO:
             case HnppConstants.EVENT_TYPE.MEMBER_REFERRAL:
             case HnppConstants.EVENT_TYPE.WOMEN_REFERRAL:
@@ -214,6 +203,65 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                     processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
                 }
                 break;
+        }
+    }
+
+    @Override
+    public Boolean processCaseModel(Event event, Client client, List<String> createsCase) {
+        try {
+
+            if (createsCase == null || createsCase.isEmpty()) {
+                return false;
+            }
+            for (String clientType : createsCase) {
+                Table table = getColumnMappings(clientType);
+                List<Column> columns = table.columns;
+                String baseEntityId = client != null ? client.getBaseEntityId() : event != null ? event.getBaseEntityId() : null;
+
+                ContentValues contentValues = new ContentValues();
+                //Add the base_entity_id
+                contentValues.put("base_entity_id", baseEntityId);
+                contentValues.put("is_closed", 0);
+
+                for (Column colObject : columns) {
+                    processCaseModel(event, client, colObject, contentValues);
+                }
+
+                // Modify openmrs generated identifier, Remove hyphen if it exists
+                updateIdenitifier(contentValues);
+
+                // save the values to db
+                executeInsertStatement(contentValues, clientType);
+
+            }
+
+            return true;
+        } catch (Exception e) {
+            Timber.e(e);
+
+            return null;
+        }
+    }
+
+    @Override
+    public void updateFTSsearch(String tableName, String entityId, ContentValues contentValues) {
+        //no need to implement
+    }
+
+    private void updateIdenitifier(ContentValues values) {
+        try {
+            for (String identifier : getOpenmrsGenIds()) {
+                Object value = values.get(identifier); //TODO
+                if (value != null) {
+                    String sValue = value.toString();
+                    if (value instanceof String && StringUtils.isNotBlank(sValue)) {
+                        values.remove(identifier);
+                        values.put(identifier, sValue.replace("-", ""));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Timber.e(e);
         }
     }
 
@@ -353,7 +401,6 @@ public class HnppClientProcessor extends ClientProcessorForJava {
     protected void processVisitEvent(EventClient eventClient) {
         try {
             processAncHomeVisit(eventClient, null, null); // save locally
-            Log.v("PROCESS_CLIENT","processVisitEvent>>"+eventClient.getEvent());
         } catch (Exception e) {
             String formID = (eventClient != null && eventClient.getEvent() != null) ? eventClient.getEvent().getFormSubmissionId() : "no form id";
             Timber.e("Form id " + formID + ". " + e.toString());
@@ -365,10 +412,10 @@ public class HnppClientProcessor extends ClientProcessorForJava {
             if (visit == null) {
                 visit = eventToVisit(baseEvent.getEvent());
 
-                if (StringUtils.isNotBlank(parentEventType) && !parentEventType.equalsIgnoreCase(visit.getVisitType())) {
-                    String parentVisitID = AncLibrary.getInstance().visitRepository().getParentVisitEventID(visit.getBaseEntityId(), parentEventType, visit.getDate());
-                    visit.setParentVisitID(parentVisitID);
-                }
+//                if (StringUtils.isNotBlank(parentEventType) && !parentEventType.equalsIgnoreCase(visit.getVisitType())) {
+//                    String parentVisitID = AncLibrary.getInstance().visitRepository().getParentVisitEventID(visit.getBaseEntityId(), parentEventType, visit.getDate());
+//                    visit.setParentVisitID(parentVisitID);
+//                }
 
                 if (database != null) {
                     AncLibrary.getInstance().visitRepository().addVisit(visit, database);
@@ -377,27 +424,28 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                 }
 
 
-            }else{
-                //need to handle to update visit table to process again
-                //TODO need to remove this logic from 2.0.6 version production
-                Log.v("STOCK_ADD","pre process"+baseEvent.getEvent().getEventType()+":is process:"+visit.getProcessed());
-
-                switch (baseEvent.getEvent().getEventType()){
-                    case CoreConstants.EventType.ANC_HOME_VISIT:
-                    case HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour:
-                    case HnppConstants.EVENT_TYPE.GIRL_PACKAGE:
-                    case HnppConstants.EVENT_TYPE.WOMEN_PACKAGE:
-                    case HnppConstants.EVENT_TYPE.NCD_PACKAGE:
-                    case HnppConstants.EVENT_TYPE.IYCF_PACKAGE:
-                        SQLiteDatabase db = CoreChwApplication.getInstance().getRepository().getReadableDatabase();
-                        String event = (new JSONObject(JsonFormUtils.gson.toJson(baseEvent.getEvent())).toString());
-                        db.execSQL("UPDATE visits set processed='2',visit_json ='"+event+"' where visit_id='"+visit.getVisitId()+"' and processed ='1'");
-                        Log.v("STOCK_ADD","updated:"+visit.getVisitId());
-                        break;
-                    default:
-                        break;
-                }
-              }
+            }
+//            else{
+//                //need to handle to update visit table to process again
+//                //TODO need to remove this logic from 2.0.6 version production
+//                Log.v("STOCK_ADD","pre process"+baseEvent.getEvent().getEventType()+":is process:"+visit.getProcessed());
+//
+//                switch (baseEvent.getEvent().getEventType()){
+//                    case CoreConstants.EventType.ANC_HOME_VISIT:
+//                    case HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour:
+//                    case HnppConstants.EVENT_TYPE.GIRL_PACKAGE:
+//                    case HnppConstants.EVENT_TYPE.WOMEN_PACKAGE:
+//                    case HnppConstants.EVENT_TYPE.NCD_PACKAGE:
+//                    case HnppConstants.EVENT_TYPE.IYCF_PACKAGE:
+//                        SQLiteDatabase db = CoreChwApplication.getInstance().getRepository().getReadableDatabase();
+//                        String event = (new JSONObject(JsonFormUtils.gson.toJson(baseEvent.getEvent())).toString());
+//                        db.execSQL("UPDATE visits set processed='2',visit_json ='"+event+"' where visit_id='"+visit.getVisitId()+"' and processed ='1'");
+//                        Log.v("STOCK_ADD","updated:"+visit.getVisitId());
+//                        break;
+//                    default:
+//                        break;
+//                }
+//              }
         } catch (JSONException e) {
             Timber.e(e);
         }
@@ -422,10 +470,10 @@ public class HnppClientProcessor extends ClientProcessorForJava {
             if (visit == null) {
                 visit = eventToVisit(baseEvent.getEvent());
 
-                if (StringUtils.isNotBlank(parentEventType) && !parentEventType.equalsIgnoreCase(visit.getVisitType())) {
-                    String parentVisitID = AncLibrary.getInstance().visitRepository().getParentVisitEventID(visit.getBaseEntityId(), parentEventType, visit.getDate());
-                    visit.setParentVisitID(parentVisitID);
-                }
+//                if (StringUtils.isNotBlank(parentEventType) && !parentEventType.equalsIgnoreCase(visit.getVisitType())) {
+//                    String parentVisitID = AncLibrary.getInstance().visitRepository().getParentVisitEventID(visit.getBaseEntityId(), parentEventType, visit.getDate());
+//                    visit.setParentVisitID(parentVisitID);
+//                }
 
                 if (database != null) {
                     AncLibrary.getInstance().visitRepository().addVisit(visit, database);
@@ -638,9 +686,9 @@ public class HnppClientProcessor extends ClientProcessorForJava {
 
     @Override
     public void updateClientDetailsTable(Event event, Client client) {
-        Timber.d("Started updateClientDetailsTable");
-        event.addDetails("detailsUpdated", Boolean.TRUE.toString());
-        Timber.d("Finished updateClientDetailsTable");
+//        Timber.d("Started updateClientDetailsTable");
+//        event.addDetails("detailsUpdated", Boolean.TRUE.toString());
+//        Timber.d("Finished updateClientDetailsTable");
     }
 
     private void processVisitEvent(List<EventClient> eventClients) {

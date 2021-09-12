@@ -2,6 +2,7 @@ package org.smartregister.brac.hnpp.service;
 
 import android.app.IntentService;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
@@ -105,8 +106,9 @@ public class VisitLogIntentService extends IntentService {
             List<Visit> v = AncLibrary.getInstance().visitRepository().getVisitsByVisitId(visit_ids.get(i));
             //getANCRegistrationVisitsFromEvent(v);
             for (Visit visit : v) {
+                String formSubmissionId = visit.getFormSubmissionId();
                 if(isForumEvent(visit.getVisitType())){
-                   saveForumData(visit);
+                   saveForumData(visit,formSubmissionId);
 
                 }else if(visit.getVisitType().equalsIgnoreCase(SS_INFO)){
                     saveSSFormData(visit);
@@ -126,7 +128,7 @@ public class VisitLogIntentService extends IntentService {
                             client.setColumnmaps(details);
                             for (String encounter_type : encounter_types) {
                                 Log.v("ANC_HOME_VISIT","encounter_type:"+encounter_type);
-                                JSONObject form_object = loadFormFromAsset(encounter_type);
+                               // JSONObject form_object = loadFormFromAsset(encounter_type,this);
                                 if(encounter_type.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME_OOC)){
                                     encounter_type = HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME;
                                 }
@@ -145,11 +147,11 @@ public class VisitLogIntentService extends IntentService {
                                 else if(encounter_type.equalsIgnoreCase(PNC_REGISTRATION_AFTER_48_hour_OOC)){
                                     encounter_type = HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour;
                                 }
-                                JSONObject stepOne = form_object.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
-                                JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
-                                for (int k = 0; k < jsonArray.length(); k++) {
-                                    populateValuesForFormObject(client, jsonArray.getJSONObject(k));
-                                }
+//                                JSONObject stepOne = form_object.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+//                                JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+//                                for (int k = 0; k < jsonArray.length(); k++) {
+//                                    populateValuesForFormObject(client, jsonArray.getJSONObject(k));
+//                                }
                                 VisitLog log = new VisitLog();
                                 log.setVisitId(visit.getVisitId());
                                 log.setVisitType(visit.getVisitType());
@@ -158,10 +160,10 @@ public class VisitLogIntentService extends IntentService {
                                 log.setSsName(ssName);
                                 log.setVisitDate(visit.getDate().getTime());
                                 log.setEventType(encounter_type);
-                                log.setVisitJson(form_object.toString());
-                                processReferral(encounter_type,log,details);
+                                //log.setVisitJson(form_object.toString());
+                                processReferral(encounter_type,log,details,formSubmissionId);
                                 try{
-                                    processIndicator(base_entity_id,encounter_type,log,details);
+                                    processIndicator(base_entity_id,encounter_type,log,details,formSubmissionId);
                                     processSimprintsVerification(log,details);
                                 }catch (Exception e){
                                     e.printStackTrace();
@@ -270,22 +272,22 @@ public class VisitLogIntentService extends IntentService {
                                     Log.d(VisitLogIntentService.class.getSimpleName(), "Encounter type: "+ encounter_type);
                                     LocalDate localDate = new LocalDate(visit.getDate().getTime());
                                     if(!encounter_type.equalsIgnoreCase(PNC_REGISTRATION_AFTER_48_hour)){
-                                        HnppApplication.getTargetRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id);
+                                        HnppApplication.getTargetRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id,formSubmissionId);
 
                                     }
                                     if(ELCO.equalsIgnoreCase(encounter_type)){
-                                        updateFamilyPlanning(log,details);
+                                        updateFamilyPlanning(log,details,formSubmissionId);
                                     }
                                     if(NCD_PACKAGE.equalsIgnoreCase(encounter_type)){
-                                        updateNcdDiabeticsTarget(log,details);
-                                        updateNcdBpTarget(log,details);
+                                        updateNcdDiabeticsTarget(log,details,formSubmissionId);
+                                        updateNcdBpTarget(log,details,formSubmissionId);
                                     }
                                     if(isNeedToAddStockTable(encounter_type,details)){
-                                        HnppApplication.getStockRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id,log.getVisitDate());
+                                        HnppApplication.getStockRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id,log.getVisitDate(),formSubmissionId);
 
                                     }
                                     if(EYE_TEST.equalsIgnoreCase(encounter_type)){
-                                        processEyeTest(details,log);
+                                        processEyeTest(details,log,formSubmissionId);
                                     }
                                     if (HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)){
                                         processHHVisitForm(details,log);
@@ -298,7 +300,7 @@ public class VisitLogIntentService extends IntentService {
 
                             }
 
-                        } catch (JSONException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
@@ -308,7 +310,7 @@ public class VisitLogIntentService extends IntentService {
             }
         }
         processImmunization();
-        processAlreadySubmittedDataForStock();
+        //processAlreadySubmittedDataForStock();
         processInstitutionalDeliveryForTarget();
     }
 
@@ -337,7 +339,7 @@ public class VisitLogIntentService extends IntentService {
                             if(!delivery_place.equalsIgnoreCase("home") || !delivery_place.equalsIgnoreCase("বাড়ি")){
                                 String ssName = HnppDBUtils.getSSName(base_entity_id);
                                 LocalDate localDate = new LocalDate(visit.getDate().getTime());
-                                HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.INSTITUTIONALIZES_DELIVERY,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id);
+                                HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.INSTITUTIONALIZES_DELIVERY,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id,visit.getFormSubmissionId());
 
                             }
 
@@ -351,53 +353,53 @@ public class VisitLogIntentService extends IntentService {
         FamilyLibrary.getInstance().context().allSharedPreferences().savePreference("IS_UPGRADED","0");
     }
 
-    /**
-     * this method searched already stored at local device but need to update the stock amount
-     */
-    private void processAlreadySubmittedDataForStock(){
-        //TODO need to remove this logic from 2.0.6 version production
-        ArrayList<String> visit_ids = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().getNeedToUpdateAlreadyProccedVisit();
-        Log.v("STOCK_ADD","processAlreadySubmittedDataForStock"+visit_ids.size());
-        for (int i = 0; i < visit_ids.size(); i++) {
-            List<Visit> v = AncLibrary.getInstance().visitRepository().getVisitsByVisitId(visit_ids.get(i));
-            for (Visit visit : v) {
-                Event baseEvent = gson.fromJson(visit.getJson(), Event.class);
-                String base_entity_id = baseEvent.getBaseEntityId();
-                HashMap<String,Object>form_details = getFormNamesFromEventObject(baseEvent);
-                ArrayList<String> encounter_types = (ArrayList<String>) form_details.get("form_name");
-                HashMap<String,String>details = (HashMap<String, String>) form_details.get("details");
-                for (String encounter_type : encounter_types) {
-                    if(encounter_type.equalsIgnoreCase(ANC1_REGISTRATION_OOC)){
-                        encounter_type = HnppConstants.EVENT_TYPE.ANC1_REGISTRATION;
-                    }
-                    else if(encounter_type.equalsIgnoreCase(ANC2_REGISTRATION_OOC)){
-                        encounter_type = HnppConstants.EVENT_TYPE.ANC2_REGISTRATION;
-                    }
-                    else if(encounter_type.equalsIgnoreCase(ANC3_REGISTRATION_OOC)){
-                        encounter_type = HnppConstants.EVENT_TYPE.ANC3_REGISTRATION;
-                    }
-                    else if(encounter_type.equalsIgnoreCase(PNC_REGISTRATION_BEFORE_48_hour_OOC)){
-                        encounter_type = HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour;
-                    }
-                    else if(encounter_type.equalsIgnoreCase(PNC_REGISTRATION_AFTER_48_hour_OOC)){
-                        encounter_type = HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour;
-                    }
-                    if(isNeedToAddStockTableForExisting(encounter_type,details)){
-                        String ssName = HnppDBUtils.getSSName(base_entity_id);
-                        LocalDate localDate = new LocalDate(visit.getDate().getTime());
-
-                        HnppApplication.getStockRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id,visit.getDate().getTime());
-
-
-                    }
-                }
-                SQLiteDatabase db = CoreChwApplication.getInstance().getRepository().getReadableDatabase();
-
-                db.execSQL("UPDATE visits set processed='1' where visit_id='"+visit.getVisitId()+"'");
-                Log.v("STOCK_ADD","processAlreadySubmittedDataForStock>>done");
-            }
-        }
-    }
+//    /**
+//     * this method searched already stored at local device but need to update the stock amount
+//     */
+//    private void processAlreadySubmittedDataForStock(){
+//        //TODO need to remove this logic from 2.0.6 version production
+//        ArrayList<String> visit_ids = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().getNeedToUpdateAlreadyProccedVisit();
+//        Log.v("STOCK_ADD","processAlreadySubmittedDataForStock"+visit_ids.size());
+//        for (int i = 0; i < visit_ids.size(); i++) {
+//            List<Visit> v = AncLibrary.getInstance().visitRepository().getVisitsByVisitId(visit_ids.get(i));
+//            for (Visit visit : v) {
+//                Event baseEvent = gson.fromJson(visit.getJson(), Event.class);
+//                String base_entity_id = baseEvent.getBaseEntityId();
+//                HashMap<String,Object>form_details = getFormNamesFromEventObject(baseEvent);
+//                ArrayList<String> encounter_types = (ArrayList<String>) form_details.get("form_name");
+//                HashMap<String,String>details = (HashMap<String, String>) form_details.get("details");
+//                for (String encounter_type : encounter_types) {
+//                    if(encounter_type.equalsIgnoreCase(ANC1_REGISTRATION_OOC)){
+//                        encounter_type = HnppConstants.EVENT_TYPE.ANC1_REGISTRATION;
+//                    }
+//                    else if(encounter_type.equalsIgnoreCase(ANC2_REGISTRATION_OOC)){
+//                        encounter_type = HnppConstants.EVENT_TYPE.ANC2_REGISTRATION;
+//                    }
+//                    else if(encounter_type.equalsIgnoreCase(ANC3_REGISTRATION_OOC)){
+//                        encounter_type = HnppConstants.EVENT_TYPE.ANC3_REGISTRATION;
+//                    }
+//                    else if(encounter_type.equalsIgnoreCase(PNC_REGISTRATION_BEFORE_48_hour_OOC)){
+//                        encounter_type = HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour;
+//                    }
+//                    else if(encounter_type.equalsIgnoreCase(PNC_REGISTRATION_AFTER_48_hour_OOC)){
+//                        encounter_type = HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour;
+//                    }
+//                    if(isNeedToAddStockTableForExisting(encounter_type,details)){
+//                        String ssName = HnppDBUtils.getSSName(base_entity_id);
+//                        LocalDate localDate = new LocalDate(visit.getDate().getTime());
+//
+//                        HnppApplication.getStockRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id,visit.getDate().getTime(),visit.getFormSubmissionId());
+//
+//
+//                    }
+//                }
+//                SQLiteDatabase db = CoreChwApplication.getInstance().getRepository().getReadableDatabase();
+//
+//                db.execSQL("UPDATE visits set processed='1' where visit_id='"+visit.getVisitId()+"'");
+//                Log.v("STOCK_ADD","processAlreadySubmittedDataForStock>>done");
+//            }
+//        }
+//    }
     private boolean isNeedToAddStockTableForExisting(String eventType,HashMap<String, String> details){
         String targetName = StockRepository.getTargetName(eventType);
         if(TextUtils.isEmpty(targetName)) return false;
@@ -464,7 +466,7 @@ public class VisitLogIntentService extends IntentService {
         }
     }
 
-    private void processIndicator(String baseEntityId,String encounter_type, VisitLog log, HashMap<String,String>details){
+    private void processIndicator(String baseEntityId,String encounter_type, VisitLog log, HashMap<String,String>details,String formSubmissionId){
         LocalDate localDate = new LocalDate(log.getVisitDate());
         switch (encounter_type){
 
@@ -589,7 +591,7 @@ public class VisitLogIntentService extends IntentService {
                     String value = details.get("delivery_place");
                     Log.v("TARGET_FETCH","delivery_place>>"+value);
                     if(!value.equalsIgnoreCase("home") || !value.equalsIgnoreCase("বাড়ি")){
-                        HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.INSTITUTIONALIZES_DELIVERY,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
+                        HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.INSTITUTIONALIZES_DELIVERY,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId(),formSubmissionId);
                     }
 
                 }
@@ -685,7 +687,7 @@ public class VisitLogIntentService extends IntentService {
 
     }
 
-    private void processReferral(String encounter_type, VisitLog log, HashMap<String,String>details) {
+    private void processReferral(String encounter_type, VisitLog log, HashMap<String,String>details, String formSubmissionId) {
         if( HnppConstants.EVENT_TYPE.CHILD_REFERRAL.equalsIgnoreCase(encounter_type)){
             if(details.containsKey("cause_of_referral_child")&&!StringUtils.isEmpty(details.get("cause_of_referral_child"))){
                 log.setReferReason(details.get("cause_of_referral_child"));
@@ -712,7 +714,7 @@ public class VisitLogIntentService extends IntentService {
                 String cataractRefer =  details.get("cause_of_referral_all");
                 if(!TextUtils.isEmpty(cataractRefer) && cataractRefer.equalsIgnoreCase("cataract_problem")){
                     LocalDate localDate = new LocalDate(log.getVisitDate());
-                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.CATARACT_SURGERY_REFER,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
+                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.CATARACT_SURGERY_REFER,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId(),formSubmissionId);
 
                 }
 
@@ -733,7 +735,7 @@ public class VisitLogIntentService extends IntentService {
                 String operationDone = details.get("is_operation_done");
                 if(!TextUtils.isEmpty(operationDone) && operationDone.equalsIgnoreCase("Yes")){
                     LocalDate localDate = new LocalDate(log.getVisitDate());
-                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.CATARACT_SURGERY,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
+                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.CATARACT_SURGERY,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId(),formSubmissionId);
 
                 }
             }
@@ -751,13 +753,13 @@ public class VisitLogIntentService extends IntentService {
     }
     //TODO need to improvement
 
-    private void processEyeTest(HashMap<String, String> details, VisitLog visit) {
+    private void processEyeTest(HashMap<String, String> details, VisitLog visit, String formSubmissionId) {
         if(details!=null){
             if(details.containsKey("exam_result") && !StringUtils.isEmpty(details.get("exam_result"))) {
                 String known = details.get("exam_result");
                 if(!TextUtils.isEmpty(known) && known.equalsIgnoreCase("presbiopia")){
                     LocalDate localDate = new LocalDate(visit.getVisitDate());
-                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.MARKED_PRESBYOPIA,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.MARKED_PRESBYOPIA,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),formSubmissionId);
                 }
             }
             if(details.containsKey("glasses_sell") && !StringUtils.isEmpty(details.get("glasses_sell"))) {
@@ -771,11 +773,11 @@ public class VisitLogIntentService extends IntentService {
                 String known = details.get("is_need_glasses");
                 if(!TextUtils.isEmpty(known) && known.equalsIgnoreCase("yes")){
                     LocalDate localDate = new LocalDate(visit.getVisitDate());
-                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.PRESBYOPIA_CORRECTION,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.PRESBYOPIA_CORRECTION,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),formSubmissionId);
                     if(details.containsKey("add_to_stock") && !StringUtils.isEmpty(details.get("add_to_stock"))) {
                         String add_to_stock = details.get("add_to_stock");
                         if (!TextUtils.isEmpty(add_to_stock) && add_to_stock.equalsIgnoreCase("1")) {
-                            HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.GLASS,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate());
+                            HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.GLASS,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate(),formSubmissionId);
 
                         }
                     }
@@ -795,19 +797,19 @@ public class VisitLogIntentService extends IntentService {
 
                                     switch (power){
                                         case "1":
-                                            HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SV_1,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate());
+                                            HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SV_1,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate(),formSubmissionId);
                                             break;
                                         case "1.5":
-                                            HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SV_1_5,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate());
+                                            HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SV_1_5,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate(),formSubmissionId);
                                             break;
                                         case "2":
-                                            HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SV_2,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate());
+                                            HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SV_2,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate(),formSubmissionId);
                                             break;
                                         case "2.5":
-                                            HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SV_2_5,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate());
+                                            HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SV_2_5,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate(),formSubmissionId);
                                             break;
                                         case "3":
-                                            HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SV_3,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate());
+                                            HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SV_3,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate(),formSubmissionId);
                                             break;
 
                                     }
@@ -831,19 +833,19 @@ public class VisitLogIntentService extends IntentService {
 
                                     switch (power){
                                         case "1":
-                                            HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.BF_1,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate());
+                                            HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.BF_1,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate(),formSubmissionId);
                                             break;
                                         case "1.5":
-                                            HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.BF_1_5,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate());
+                                            HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.BF_1_5,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate(),formSubmissionId);
                                             break;
                                         case "2":
-                                            HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.BF_2,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate());
+                                            HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.BF_2,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate(),formSubmissionId);
                                             break;
                                         case "2.5":
-                                            HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.BF_2_5,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate());
+                                            HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.BF_2_5,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate(),formSubmissionId);
                                             break;
                                         case "3":
-                                            HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.BF_3,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate());
+                                            HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.BF_3,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate(),formSubmissionId);
                                             break;
 
                                     }
@@ -861,7 +863,7 @@ public class VisitLogIntentService extends IntentService {
                         String add_to_stock = details.get("add_to_stock");
                         if (!TextUtils.isEmpty(add_to_stock) && add_to_stock.equalsIgnoreCase("1")) {
                             LocalDate localDate = new LocalDate(visit.getVisitDate());
-                            HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SUN_GLASS,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate());
+                            HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SUN_GLASS,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate(),formSubmissionId);
 
                         }
                     }
@@ -871,16 +873,16 @@ public class VisitLogIntentService extends IntentService {
         }
     }
 
-    private void updateFamilyPlanning(VisitLog visit,HashMap<String,String>details){
+    private void updateFamilyPlanning(VisitLog visit,HashMap<String,String>details,String formSubmissionId){
         if(details!=null){
             if(details.containsKey("familyplanning_method_known") && !StringUtils.isEmpty(details.get("familyplanning_method_known"))) {
                 String known = details.get("familyplanning_method_known");
                 Log.v("IMMUNIZATION_ADD","update ado:"+known);
                 if(!TextUtils.isEmpty(known) && known.equalsIgnoreCase("yes")){
                     LocalDate localDate = new LocalDate(visit.getVisitDate());
-                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.METHOD_USER,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.METHOD_USER,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),formSubmissionId);
                     if(HnppDBUtils.isAdolescent(visit.getBaseEntityId())){
-                        HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ADO_METHOD_USER,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                        HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ADO_METHOD_USER,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),formSubmissionId);
 
                     }
                 }
@@ -888,14 +890,14 @@ public class VisitLogIntentService extends IntentService {
         }
 
     }
-    private void updateNcdDiabeticsTarget(VisitLog visit,HashMap<String,String>details){
+    private void updateNcdDiabeticsTarget(VisitLog visit,HashMap<String,String>details,String formSubmissionId){
         if(details.containsKey("fasting_blood_sugar") && !StringUtils.isEmpty(details.get("fasting_blood_sugar"))){
             String fbsValue = details.get("fasting_blood_sugar");
             if(!TextUtils.isEmpty(fbsValue)){
                 float nP = Float.parseFloat(fbsValue);
                 if (nP>=7){
                     LocalDate localDate = new LocalDate(visit.getVisitDate());
-                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ESTIMATE_DIABETES,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ESTIMATE_DIABETES,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),formSubmissionId);
                     return;
                 }
 
@@ -907,14 +909,14 @@ public class VisitLogIntentService extends IntentService {
                 float h = Float.parseFloat(rbs);
                 if (h>=11.1){
                     LocalDate localDate = new LocalDate(visit.getVisitDate());
-                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ESTIMATE_DIABETES,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ESTIMATE_DIABETES,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),formSubmissionId);
                     return;
                 }
 
             }
         }
     }
-    private void updateNcdBpTarget(VisitLog visit,HashMap<String,String>details){
+    private void updateNcdBpTarget(VisitLog visit,HashMap<String,String>details,String formSubmissionId){
         LocalDate localDate = new LocalDate(visit.getVisitDate());
 //        if(details.containsKey("blood_pressure_systolic") && !StringUtils.isEmpty(details.get("blood_pressure_systolic"))){
 //            String fbsValue = details.get("blood_pressure_systolic");
@@ -936,7 +938,7 @@ public class VisitLogIntentService extends IntentService {
             Log.v("testValue: ",fbsValue);
             if(!TextUtils.isEmpty(fbsValue)){
                 if (fbsValue.contains("high_blood_pressure")){
-                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ESTIMATE_HBP,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ESTIMATE_HBP,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),formSubmissionId);
                 }
 
             }
@@ -946,7 +948,7 @@ public class VisitLogIntentService extends IntentService {
             Log.v("testValue: ",fbsValue);
             if(!TextUtils.isEmpty(fbsValue)){
                 if (fbsValue.contains("diabetics")){
-                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ESTIMATE_DIABETES,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId());
+                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ESTIMATE_DIABETES,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),formSubmissionId);
                 }
 
             }
@@ -1679,6 +1681,7 @@ public class VisitLogIntentService extends IntentService {
             log.setVisitJson(form_object.toString());
            long inserted =  HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
            if(inserted!=-1){
+
                try{
                    addSSFormToIndicator(log,details);
                }catch (Exception e){
@@ -1726,18 +1729,57 @@ public class VisitLogIntentService extends IntentService {
             String ssName = HnppDBUtils.getSSName(log.getBaseEntityId());
             log.setSsName(ssName);
         }
-        for(String key: details.keySet()){
-            if(details.containsKey(key) && !StringUtils.isEmpty(details.get(key))){
-                String value = details.get(key);
-                Log.v("SS_FORM","key >>"+key+":value:"+value+":year:"+year+":month:"+month);
-                HnppApplication.getIndicatorRepository().updateValue(key,value,date,month+"",year+"",log.getSsName(),log.getBaseEntityId());
-
+        if(details.containsKey("one_hour_after_birth") && !StringUtils.isEmpty(details.get("one_hour_after_birth"))) {
+            String value = details.get("one_hour_after_birth");
+            if(!TextUtils.isEmpty(value)){
+             HnppApplication.getIndicatorRepository().updateValue("one_hour_after_birth",value,date,month+"",year+"",log.getSsName(),log.getBaseEntityId());
             }
         }
-
+        if(details.containsKey("income_from_medicine") && !StringUtils.isEmpty(details.get("income_from_medicine"))) {
+            String value = details.get("income_from_medicine");
+            if(!TextUtils.isEmpty(value)){
+                HnppApplication.getIndicatorRepository().updateValue("income_from_medicine",value,date,month+"",year+"",log.getSsName(),log.getBaseEntityId());
+            }
+        }
+        if(details.containsKey("no_of_epi_present") && !StringUtils.isEmpty(details.get("no_of_epi_present"))) {
+            String value = details.get("no_of_epi_present");
+            if(!TextUtils.isEmpty(value)){
+                HnppApplication.getIndicatorRepository().updateValue("no_of_epi_present",value,date,month+"",year+"",log.getSsName(),log.getBaseEntityId());
+            }
+        }
+        if(details.containsKey("male_patient") && !StringUtils.isEmpty(details.get("male_patient"))) {
+            String value = details.get("male_patient");
+            if(!TextUtils.isEmpty(value)){
+                HnppApplication.getIndicatorRepository().updateValue("male_patient",value,date,month+"",year+"",log.getSsName(),log.getBaseEntityId());
+            }
+        }
+        if(details.containsKey("female_patient") && !StringUtils.isEmpty(details.get("female_patient"))) {
+            String value = details.get("female_patient");
+            if(!TextUtils.isEmpty(value)){
+                HnppApplication.getIndicatorRepository().updateValue("female_patient",value,date,month+"",year+"",log.getSsName(),log.getBaseEntityId());
+            }
+        }
+        if(details.containsKey("glass_metal_count") && !StringUtils.isEmpty(details.get("glass_metal_count"))) {
+            String value = details.get("glass_metal_count");
+            if(!TextUtils.isEmpty(value)){
+                HnppApplication.getIndicatorRepository().updateValue("glass_metal_count",value,date,month+"",year+"",log.getSsName(),log.getBaseEntityId());
+            }
+        }
+        if(details.containsKey("glass_plastic_count") && !StringUtils.isEmpty(details.get("glass_plastic_count"))) {
+            String value = details.get("glass_plastic_count");
+            if(!TextUtils.isEmpty(value)){
+                HnppApplication.getIndicatorRepository().updateValue("glass_plastic_count",value,date,month+"",year+"",log.getSsName(),log.getBaseEntityId());
+            }
+        }
+        if(details.containsKey("glass_sunglass_count") && !StringUtils.isEmpty(details.get("glass_sunglass_count"))) {
+            String value = details.get("glass_sunglass_count");
+            if(!TextUtils.isEmpty(value)){
+                HnppApplication.getIndicatorRepository().updateValue("glass_sunglass_count",value,date,month+"",year+"",log.getSsName(),log.getBaseEntityId());
+            }
+        }
     }
 
-    private static synchronized void saveForumData(Visit visit) {
+    private static synchronized void saveForumData(Visit visit,String formSubmissionId) {
         switch (visit.getVisitType()){
             case HnppConstants.EVENT_TYPE.FORUM_CHILD:
             case HnppConstants.EVENT_TYPE.FORUM_WOMEN:
@@ -1821,27 +1863,27 @@ public class VisitLogIntentService extends IntentService {
                         if(inserted != -1){
                             try{
                                 LocalDate localDate = new LocalDate(visit.getDate().getTime());
-                                HnppApplication.getTargetRepository().updateValue(visit.getVisitType(),localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId());
+                                HnppApplication.getTargetRepository().updateValue(visit.getVisitType(),localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),formSubmissionId);
                                 if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_CHILD)){
-                                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_IYCF_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
+                                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_IYCF_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant),formSubmissionId);
 
                                 }else if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_WOMEN)){
-                                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_WOMEN_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
+                                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_WOMEN_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant),formSubmissionId);
 
                                 }else if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_ADO)){
-                                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADO_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
+                                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADO_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant),formSubmissionId);
 
                                 }else if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_NCD)){
-                                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_NCD_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
+                                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_NCD_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant),formSubmissionId);
 
                                 }else if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_ADULT)){
-                                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ADULT_FORUM_SERVICE_TAKEN,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfServiceTaken));
+                                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ADULT_FORUM_SERVICE_TAKEN,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfServiceTaken),formSubmissionId);
 
                                     if(HnppConstants.isPALogin()){
-                                        HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ADULT_FORUM_ATTENDANCE,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
+                                        HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ADULT_FORUM_ATTENDANCE,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant),formSubmissionId);
 
                                     }else{
-                                        HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADULT_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant));
+                                        HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADULT_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant),formSubmissionId);
 
                                     }
                                 }
@@ -1866,6 +1908,7 @@ public class VisitLogIntentService extends IntentService {
         List<Visit> v = getImmunizationVisitsFromEvent();
         for(Visit visit : v){
             String eventJson = visit.getJson();
+            String formSubmissionId = visit.getFormSubmissionId();
             if(!StringUtils.isEmpty(eventJson)){
                 try{
                     Event baseEvent = gson.fromJson(eventJson, Event.class);
@@ -1886,7 +1929,7 @@ public class VisitLogIntentService extends IntentService {
                     if(rowId != -1){
                         LocalDate localDate = new LocalDate(log.getVisitDate());
                         Log.v("IMMUNIZATION_ADD","update:"+ssName);
-                        HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.CHILD_IMMUNIZATION_0_59,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId());
+                        HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.CHILD_IMMUNIZATION_0_59,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),formSubmissionId);
                         updateBcg(baseEvent,log);
                     }
 
@@ -1931,7 +1974,7 @@ public class VisitLogIntentService extends IntentService {
 
         return v;
     }
-    private static void populateValuesForFormObject(CommonPersonObjectClient client, JSONObject jsonObject) {
+    public static void populateValuesForFormObject(CommonPersonObjectClient client, JSONObject jsonObject) {
         try {
             String value = org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(),jsonObject.getString(org.smartregister.family.util.JsonFormUtils.KEY),false);
 
@@ -2013,7 +2056,7 @@ public class VisitLogIntentService extends IntentService {
         }
     }
 
-    public JSONObject loadFormFromAsset(String encounter_type) {
+    public static JSONObject loadFormFromAsset(String encounter_type, Context context) {
         String form_name = "";
         switch (encounter_type) {
             case ANC_PREGNANCY_HISTORY:
@@ -2134,7 +2177,7 @@ public class VisitLogIntentService extends IntentService {
 
         try {
 
-            String jsonString = AssetHandler.readFileFromAssetsFolder("json.form/"+form_name, VisitLogIntentService.this);
+            String jsonString = AssetHandler.readFileFromAssetsFolder("json.form/"+form_name, context);
             return new JSONObject(jsonString);
         } catch (Exception e) {
             Log.v("LOAD_FILE","file name:"+form_name+":encounter_type:"+encounter_type);
@@ -2154,7 +2197,7 @@ public class VisitLogIntentService extends IntentService {
 
     }
 
-    public HashMap<String,Object> getFormNamesFromEventObject(Event baseEvent) {
+    public static HashMap<String,Object> getFormNamesFromEventObject(Event baseEvent) {
         ArrayList<String> forms = new ArrayList<>();
         HashMap<String,Object>details = new HashMap<>();
         for (Obs o : baseEvent.getObs()) {

@@ -12,6 +12,6 @@ public class HnppBaseFamilyProfileMemberPresenter extends BaseFamilyProfileMembe
 
     @Override
     public String getMainCondition() {
-        return String.format(" %s = '%s' AND (%s IS NULL OR %s IS NOT NULL)", "object_relational_id", this.familyBaseEntityId, DBConstants.KEY.DATE_REMOVED, DBConstants.KEY.DOD);
+        return String.format(" %s = '%s' AND (%s IS NULL OR %s IS NOT NULL)", "relational_id", this.familyBaseEntityId, DBConstants.KEY.DATE_REMOVED, DBConstants.KEY.DOD);
     }
 }

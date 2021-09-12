@@ -33,6 +33,7 @@ public class StockRepository extends BaseRepository {
     protected static final String ID = "_id";
 
     public static final String STOCK_TABLE = "stock_table";
+    public static final long STOCK_DELETE_TIME = 1631145601000l;
     protected static final String STOCK_ID = "stock_id";
     protected static final String STOCK_PRODUCT_ID = "product_id";
     public static final String STOCK_PRODUCT_NAME = "product_name";
@@ -46,13 +47,14 @@ public class StockRepository extends BaseRepository {
     public static final String ACHIEVEMNT_COUNT = "achievemnt_count";
     public static final String SS_NAME = "ss_name";
     public static final String BASE_ENTITY_ID = "base_entity_id";
+    public static final String FORM_SUBMISSION_ID = "form_submission_id";
 
 
 
     private static final String CREATE_STOCK_TABLE=
             "CREATE TABLE " + STOCK_TABLE + " (" +
                     ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                    STOCK_ID + " INTEGER , " +STOCK_PRODUCT_ID + " INTEGER , " +BASE_ENTITY_ID + " INTEGER , " +ACHIEVEMNT_COUNT + " INTEGER , " +STOCK_PRODUCT_NAME + " VARCHAR , " + STOCK_QUANTITY+ " INTEGER,"+
+                    STOCK_ID + " INTEGER , " +STOCK_PRODUCT_ID + " INTEGER , " +BASE_ENTITY_ID + " INTEGER , " +FORM_SUBMISSION_ID + " VARCHAR , " +ACHIEVEMNT_COUNT + " INTEGER , " +STOCK_PRODUCT_NAME + " VARCHAR , " + STOCK_QUANTITY+ " INTEGER,"+
                     YEAR + " VARCHAR, " +MONTH + " VARCHAR, " + ACHIEVEMNT_DAY+ " VARCHAR, "+STOCK_TIMESTAMP+" VARCHAR, "+SS_NAME+" VARCHAR, "+STOCK_EXPIREY_DATE+" VARCHAR, "+STOCK_RECEIVE_DATE+" VARCHAR ) ";
 
 
@@ -72,15 +74,16 @@ public class StockRepository extends BaseRepository {
     public void dropTable(){
         getWritableDatabase().execSQL("delete from "+getLocationTableName());
     }
-   public  void updateValue(String targetName, String day, String month, String year, String ssName, String baseEntityId,long timeStamp){
-        updateValue(targetName,day,month,year,ssName,baseEntityId,1,timeStamp);
+   public  void updateValue(String targetName, String day, String month, String year, String ssName, String baseEntityId,long timeStamp, String formSubmissionId){
+        updateValue(targetName,day,month,year,ssName,baseEntityId,1,timeStamp,formSubmissionId);
 
 //        getWritableDatabase().execSQL("update "+getLocationTableName()+" set achievemnt_count = achievemnt_count +1,"+DAY+" = "+day+" , "+MONTH+" = "+month+" , "+YEAR+" = "+year+" where "+TARGET_NAME+" = '"+targetName+"'");
     }
-    public  void updateValue(String productName, String day, String month, String year, String ssName, String baseEntityId, int count,long timeStamp){
+    public  void updateValue(String productName, String day, String month, String year, String ssName, String baseEntityId, int count,long timeStamp, String formSubmissionId){
         ContentValues contentValues = new ContentValues();
         productName = getTargetName(productName);
         if(TextUtils.isEmpty(productName)) return;
+        //if(timeStamp>STOCK_DELETE_TIME) return;
         contentValues.put(BASE_ENTITY_ID, baseEntityId);
         contentValues.put(ACHIEVEMNT_DAY, day);
         contentValues.put(STOCK_PRODUCT_NAME, productName);
@@ -89,8 +92,9 @@ public class StockRepository extends BaseRepository {
         contentValues.put(YEAR, year);
         contentValues.put(MONTH, month);
         contentValues.put(SS_NAME, ssName);
+        contentValues.put(FORM_SUBMISSION_ID, formSubmissionId);
         SQLiteDatabase database = getWritableDatabase();
-        if(findUnique(database,productName,day,month,year,ssName,baseEntityId)){
+        if(findUnique(database,productName,day,month,year,ssName,baseEntityId,formSubmissionId)){
 
             long inserted = database.insert(getLocationTableName(), null, contentValues);
             Log.v("STOCK_FETCH","update value2:"+contentValues+":inserted:"+inserted);
@@ -100,10 +104,10 @@ public class StockRepository extends BaseRepository {
 
 //        getWritableDatabase().execSQL("update "+getLocationTableName()+" set achievemnt_count = achievemnt_count +1,"+DAY+" = "+day+" , "+MONTH+" = "+month+" , "+YEAR+" = "+year+" where "+TARGET_NAME+" = '"+targetName+"'");
     }
-    public boolean findUnique(SQLiteDatabase db, String targetName, String day, String month, String year, String ssName, String baseEntityId) {
+    public boolean findUnique(SQLiteDatabase db, String targetName, String day, String month, String year, String ssName, String baseEntityId,String formSubmissionId) {
         SQLiteDatabase database = (db == null) ? getReadableDatabase() : db;
-        String selection = BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE + " and " + STOCK_PRODUCT_NAME + " = ? " + COLLATE_NOCASE+" and "+ACHIEVEMNT_DAY+" = ?"+COLLATE_NOCASE+" and "+MONTH+" = ?"+COLLATE_NOCASE+" and "+YEAR+" = ?"+COLLATE_NOCASE+" and "+SS_NAME+" = ?"+COLLATE_NOCASE;
-        String[] selectionArgs = new String[]{baseEntityId, targetName,day,month,year,ssName};
+        String selection = BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE + " and " + STOCK_PRODUCT_NAME + " = ? " + COLLATE_NOCASE+" and "+ACHIEVEMNT_DAY+" = ?"+COLLATE_NOCASE+" and "+MONTH+" = ?"+COLLATE_NOCASE+" and "+YEAR+" = ?"+COLLATE_NOCASE+" and "+SS_NAME+" = ?"+COLLATE_NOCASE+" and "+FORM_SUBMISSION_ID+" = ?"+COLLATE_NOCASE;
+        String[] selectionArgs = new String[]{baseEntityId, targetName,day,month,year,ssName,formSubmissionId};
         net.sqlcipher.Cursor cursor = database.query(getLocationTableName(), null, selection, selectionArgs, null, null, null, null);
         if(cursor!=null && cursor.getCount() > 0){
             cursor.close();

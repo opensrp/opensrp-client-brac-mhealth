@@ -17,6 +17,8 @@ import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.core.activity.CoreChildRegisterActivity;
 import org.smartregister.brac.hnpp.fragment.HnppChildRegisterFragment;
+import org.smartregister.chw.core.custom_views.NavigationMenu;
+import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
@@ -114,5 +116,12 @@ public class ChildRegisterActivity extends CoreChildRegisterActivity {
         bottomNavigationView.getMenu().removeItem(org.smartregister.family.R.id.action_register);
         bottomNavigationView.getMenu().removeItem(org.smartregister.family.R.id.action_job_aids);
         bottomNavigationView.setOnNavigationItemSelectedListener(new HnppFamilyBottomNavListener(this, bottomNavigationView));
+    }
+    @Override
+    protected void onResumption() {
+        NavigationMenu menu = NavigationMenu.getInstance(this, null, findViewById(org.smartregister.R.id.register_toolbar));
+        if (menu != null) {
+            menu.getNavigationAdapter().setSelectedView(CoreConstants.DrawerMenu.CHILD_CLIENTS);
+        }
     }
 }

@@ -105,7 +105,7 @@ public class HnppAllMemberRegisterActivity extends CoreChildRegisterActivity {
     @Override
     protected void onResumption() {
         super.onResumption();
-        NavigationMenu menu = NavigationMenu.getInstance(this, null, null);
+        NavigationMenu menu = NavigationMenu.getInstance(this, null, findViewById(org.smartregister.R.id.register_toolbar));
         if (menu != null) {
             menu.getNavigationAdapter().setSelectedView(CoreConstants.DrawerMenu.ALL_MEMBER);
         }

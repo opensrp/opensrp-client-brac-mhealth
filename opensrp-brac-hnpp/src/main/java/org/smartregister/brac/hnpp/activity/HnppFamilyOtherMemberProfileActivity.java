@@ -666,6 +666,53 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         dialog.show();
 
     }
+    private void showServiceDoneDialog(boolean isSuccess){
+        Dialog dialog = new Dialog(this);
+        dialog.setCancelable(false);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_with_one_button);
+        TextView titleTv = dialog.findViewById(R.id.title_tv);
+        titleTv.setText(isSuccess?"সার্ভিসটি দেওয়া সম্পূর্ণ হয়েছে":"সার্ভিসটি দেওয়া সফল হয়নি। পুনরায় চেষ্টা করুন ");
+        Button ok_btn = dialog.findViewById(R.id.ok_btn);
+
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                if(isSuccess){
+                    if(memberHistoryFragment !=null){
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                hideProgressDialog();
+//                        memberHistoryFragment.onActivityResult(0,0,null);
+                                if(!HnppConstants.isPALogin()){
+
+                                    if(profileMemberFragment !=null){
+                                        profileMemberFragment.updateStaticView();
+                                    }
+                                    if(memberOtherServiceFragment !=null){
+                                        memberOtherServiceFragment.updateStaticView();
+                                    }
+                                    mViewPager.setCurrentItem(2,true);
+                                }else{
+                                    if(memberOtherServiceFragment !=null){
+                                        memberOtherServiceFragment.updateStaticView();
+                                    }
+                                    mViewPager.setCurrentItem(1,true);
+
+                                }
+
+
+                            }
+                        },1000);
+                    }
+                }
+            }
+        });
+        dialog.show();
+
+    }
     public void startSimprintVerify(){
         if(!TextUtils.isEmpty(moduleId)){
             SimPrintsVerifyActivity.startSimprintsVerifyActivity(HnppFamilyOtherMemberProfileActivity.this,moduleId,guId,REQUEST_SIMPRINTS_VERIFY);
@@ -712,6 +759,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 
         }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
+            showProgressDialog(R.string.please_wait_message);
 
 //            String type = StringUtils.isBlank(parentEventType) ? getEncounterType() : getEncounterType();
            // String type = HnppJsonFormUtils.getEncounterType();
@@ -724,44 +772,24 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                 Log.v("BRAC_","type:"+type);
                 type = HnppJsonFormUtils.getEncounterType(type);
 
-//                if(type.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION) ||
-//                        type.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION) ||
-//                        type.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
-//                    HnppJsonFormUtils.updateLastBracAnc(form,baseEntityId);
-//                }
-            // persist to database
-
                 Map<String, String> jsonStrings = new HashMap<>();
                 jsonStrings.put("First",form.toString());
 
                 visit = HnppJsonFormUtils.saveVisit(isComesFromIdentity,verificationNeeded, isVerified,checkedItem, baseEntityId, type, jsonStrings, "");
+                if(visit!=null){
+                    hideProgressDialog();
+                    showServiceDoneDialog(true);
+
+
+                }else{
+                    hideProgressDialog();
+                    showServiceDoneDialog(false);
+                }
             } catch (Exception e) {
+                hideProgressDialog();
                 e.printStackTrace();
             }
-            if(memberHistoryFragment !=null){
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-//                        memberHistoryFragment.onActivityResult(0,0,null);
-                        if(!HnppConstants.isPALogin()){
-                            mViewPager.setCurrentItem(2,true);
-                            if(profileMemberFragment !=null){
-                                profileMemberFragment.updateStaticView();
-                            }
-                            if(memberOtherServiceFragment !=null){
-                                memberOtherServiceFragment.updateStaticView();
-                            }
-                        }else{
-                            mViewPager.setCurrentItem(1,true);
-                            if(memberOtherServiceFragment !=null){
-                                memberOtherServiceFragment.updateStaticView();
-                            }
-                        }
 
-
-                    }
-                },1000);
-            }
 
         }
 

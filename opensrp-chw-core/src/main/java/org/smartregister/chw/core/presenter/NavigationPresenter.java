@@ -80,7 +80,7 @@ public class NavigationPresenter implements NavigationContract.Presenter {
 
 
     @Override
-    public void refreshNavigationCount(final Activity activity) {
+    public void refreshNavigationCount() {
 
         int x = 0;
         while (x < mModel.getNavigationItems().size()) {

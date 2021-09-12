@@ -4,19 +4,24 @@ import android.content.Context;
 import android.database.Cursor;
 import android.text.TextUtils;
 
+import org.json.JSONObject;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.contract.MemberHistoryContract;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.brac.hnpp.utils.MemberHistoryData;
 import org.smartregister.brac.hnpp.utils.VisitLog;
+import org.smartregister.chw.anc.AncLibrary;
+import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.util.AppExecutors;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MemberHistoryInteractor implements MemberHistoryContract.Interactor {
 
@@ -39,6 +44,22 @@ public class MemberHistoryInteractor implements MemberHistoryContract.Interactor
 
     }
 
+    @Override
+    public void getVisitFormWithData(Context context,MemberHistoryData content, MemberHistoryContract.InteractorCallBack callBack){
+        Runnable runnable = () -> {
+            List<Visit> v = AncLibrary.getInstance().visitRepository().getVisitsByVisitId(content.getVisitId());
+            if(v.size()>0){
+                Visit visit = v.get(0);
+                JSONObject jsonForm  = HnppJsonFormUtils.getVisitFormWithData(visit.getJson(),context);
+                appExecutors.mainThread().execute(() -> callBack.updateFormWithData(content,jsonForm));
+            }
+
+
+        };
+        appExecutors.diskIO().execute(runnable);
+    }
+
+
     private ArrayList<MemberHistoryData> getHistory(String baseEntityId) {
 
         ArrayList<MemberHistoryData> historyDataArrayList  = new ArrayList<>();
@@ -46,6 +67,7 @@ public class MemberHistoryInteractor implements MemberHistoryContract.Interactor
         for(VisitLog visitLog : visitLogs){
             MemberHistoryData historyData = new MemberHistoryData();
             historyData.setBaseEntityId(baseEntityId);
+            historyData.setVisitId(visitLog.getVisitId());
             String eventType = visitLog.getEventType();
             historyData.setEventType(eventType);
             historyData.setTitle(HnppConstants.visitEventTypeMapping.get(eventType));
@@ -55,7 +77,7 @@ public class MemberHistoryInteractor implements MemberHistoryContract.Interactor
 
             }
 
-            historyData.setVisitDetails(visitLog.getVisitJson());
+//            historyData.setVisitDetails(visitLog.getVisitJson());
             historyData.setVisitDate(visitLog.getVisitDate());
             historyDataArrayList.add(historyData);
         }

@@ -15,8 +15,12 @@ public class FamilyProfileDuePresenter extends BaseFamilyProfileDuePresenter {
 
     @Override
     public String getMainCondition() {
-        return String.format(" %s AND %s AND %s ", super.getMainCondition(), ChildDBConstants.childDueFilter(), ChildDBConstants.childAgeLimitFilter());
+        return String.format(" %s AND %s AND %s ", condition(), ChildDBConstants.childDueFilter(), ChildDBConstants.childAgeLimitFilter());
     }
+    public String condition() {
+        return String.format(" %s = '%s' and %s is null ", "relational_id", this.familyBaseEntityId, "date_removed");
+    }
+
 
     @Override
     public String getDefaultSortQuery() {

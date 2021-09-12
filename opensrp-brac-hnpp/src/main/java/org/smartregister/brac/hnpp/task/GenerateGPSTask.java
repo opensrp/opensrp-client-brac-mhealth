@@ -39,12 +39,11 @@ public class GenerateGPSTask  implements LocationListener, GoogleApiClient.Conne
     private Location lastLocation;
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        Log.v("GPS_DATA","onConnected");
+        Log.v("GPS_DATA","onConnected"+googleApiClient.isConnected());
         LocationRequest locationRequest = new LocationRequest();
         locationRequest.setInterval(5000);
         locationRequest.setFastestInterval(1000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
         LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
 
         lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);

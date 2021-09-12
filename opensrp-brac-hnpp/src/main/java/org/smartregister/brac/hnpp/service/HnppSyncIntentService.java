@@ -26,6 +26,7 @@ import timber.log.Timber;
 public class HnppSyncIntentService extends SyncIntentService {
     protected boolean isEmptyToAdd = false;
 
+
     @Override
     protected synchronized void fetchRetry(int count) {
         try {
@@ -96,6 +97,8 @@ public class HnppSyncIntentService extends SyncIntentService {
             JSONObject jsonObject = new JSONObject((String) resp.payload());
 
             int eCount = fetchNumberOfEvents(jsonObject);
+            long startTime = System.currentTimeMillis();
+            Log.v("SYNC_URL", "response comes.eCount:"+eCount);
             Timber.i("Parse Network Event Count: %s", eCount);
 
             if (eCount == 0) {
@@ -103,16 +106,21 @@ public class HnppSyncIntentService extends SyncIntentService {
             } else if (eCount < 0) {
                 fetchFailed(count);
             } else if (eCount > 0) {
+
                 final Pair<Long, Long> serverVersionPair = getMinMaxServerVersions(jsonObject);
                 long lastServerVersion = serverVersionPair.second - 1;
                 if (eCount < getEventPullLimit()) {
                     lastServerVersion = serverVersionPair.second;
                 }
-
+                Log.v("SYNC_URL", "parse for lastServerVersion:"+eCount+":timediff:"+(System.currentTimeMillis() - startTime));
                 boolean isSaved = ecSyncUpdater.saveAllClientsAndEvents(jsonObject);
+                Log.v("SYNC_URL", "isSaved:"+isSaved+":timediff:"+(System.currentTimeMillis() - startTime));
+
                 //update sync time if all event client is save.
                 if(isSaved){
                     processClient(serverVersionPair);
+                    Log.v("SYNC_URL", "processClient done timediff:"+(System.currentTimeMillis() - startTime));
+
                     ecSyncUpdater.updateLastSyncTimeStamp(lastServerVersion);
                 }
                 fetchRetry(0);

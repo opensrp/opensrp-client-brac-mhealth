@@ -46,13 +46,13 @@ public class TargetVsAchievementRepository extends BaseRepository {
     protected static final String DAY = "day";
     protected static final String START_DATE = "star_date";
     protected static final String END_DATE = "end_date";
-
+    public static final String FORM_SUBMISSION_ID = "form_submission_id";
 
 
     private static final String CREATE_TARGET_TABLE =
             "CREATE TABLE " + TARGET_TABLE + " (" +
                     ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                    TARGET_ID + " INTEGER , " +TARGET_NAME + " VARCHAR , " + TARGET_COUNT+ " int default 0,"+
+                    TARGET_ID + " INTEGER , " +TARGET_NAME + " VARCHAR , " +FORM_SUBMISSION_ID + " VARCHAR , " + TARGET_COUNT+ " int default 0,"+
                     YEAR + " VARCHAR, " + MONTH+ " VARCHAR, "+DAY+" VARCHAR, "+START_DATE+" VARCHAR, "+END_DATE+" VARCHAR ,"+ACHIEVEMNT_COUNT+" int default 0,"+SS_NAME+" VARCHAR,"+BASE_ENTITY_ID+" VARCHAR ) ";
 
 
@@ -72,12 +72,12 @@ public class TargetVsAchievementRepository extends BaseRepository {
     public void dropTable(){
         getWritableDatabase().execSQL("delete from "+getLocationTableName());
     }
-    public  void updateValue(String targetName, String day, String month, String year, String ssName, String baseEntityId){
-        updateValue(targetName,day,month,year,ssName,baseEntityId,1);
+    public  void updateValue(String targetName, String day, String month, String year, String ssName, String baseEntityId,String formSubmissionId){
+        updateValue(targetName,day,month,year,ssName,baseEntityId,1,formSubmissionId);
 
 //        getWritableDatabase().execSQL("update "+getLocationTableName()+" set achievemnt_count = achievemnt_count +1,"+DAY+" = "+day+" , "+MONTH+" = "+month+" , "+YEAR+" = "+year+" where "+TARGET_NAME+" = '"+targetName+"'");
     }
-    public  void updateValue(String targetName, String day, String month, String year, String ssName, String baseEntityId, int count){
+    public  void updateValue(String targetName, String day, String month, String year, String ssName, String baseEntityId, int count, String formSubmissionId){
         ContentValues contentValues = new ContentValues();
         targetName = getTargetName(targetName,baseEntityId);
         contentValues.put(BASE_ENTITY_ID, baseEntityId);
@@ -87,7 +87,7 @@ public class TargetVsAchievementRepository extends BaseRepository {
         contentValues.put(MONTH, month);
         contentValues.put(DAY, day);
         contentValues.put(SS_NAME, ssName);
-        SQLiteDatabase database = getWritableDatabase();
+        contentValues.put(FORM_SUBMISSION_ID, formSubmissionId);
 //        if(findUnique(database,targetName,day,month,year,ssName,baseEntityId)){
 //            Log.v("TARGET_INSERTED","update value:"+contentValues);
 //            long inserted = database.insert(getLocationTableName(), null, contentValues);
@@ -98,7 +98,7 @@ public class TargetVsAchievementRepository extends BaseRepository {
         targetVsAchievementData.setMonth(month);
         targetVsAchievementData.setYear(year);
 
-        if(!isExistData(targetVsAchievementData)){
+        if(!isExistData(targetVsAchievementData,formSubmissionId)){
 
             long inserted = getWritableDatabase().insert(getLocationTableName(), null, contentValues);
             Log.v("TARGET_FETCH","achievemnt inserterd:"+inserted);
@@ -158,7 +158,7 @@ public class TargetVsAchievementRepository extends BaseRepository {
         contentValues.put(DAY, targetVsAchievementData.getDay());
         contentValues.put(START_DATE, targetVsAchievementData.getStartDate());
         contentValues.put(END_DATE, targetVsAchievementData.getEndDate());
-        if(!isExistData(targetVsAchievementData)){
+        if(!isExistData(targetVsAchievementData,"")){
 
             long inserted = getWritableDatabase().insert(getLocationTableName(), null, contentValues);
             Log.v("TARGET_FETCH","inserterd:"+inserted+"contentValues:"+contentValues);
@@ -170,9 +170,17 @@ public class TargetVsAchievementRepository extends BaseRepository {
 
 
     }
-    public boolean isExistData(TargetVsAchievementData targetVsAchievementData){
-        String sql = "select count(*) from "+getLocationTableName()+" where "+TARGET_NAME+" = '"+targetVsAchievementData.getTargetName()+"' and "+YEAR+" ='"+targetVsAchievementData.getYear()+"'" +
-                " and "+MONTH+" ='"+targetVsAchievementData.getMonth()+"' and "+DAY+" ='"+targetVsAchievementData.getDay()+"'";
+    public boolean isExistData(TargetVsAchievementData targetVsAchievementData,String formSubmissionId){
+        String sql;
+        if(TextUtils.isEmpty(formSubmissionId)){
+            sql = "select count(*) from "+getLocationTableName()+" where "+TARGET_NAME+" = '"+targetVsAchievementData.getTargetName()+"' and "+YEAR+" ='"+targetVsAchievementData.getYear()+"'" +
+                    " and "+MONTH+" ='"+targetVsAchievementData.getMonth()+"' and "+DAY+" ='"+targetVsAchievementData.getDay()+"'";
+
+        }else{
+            sql = "select count(*) from "+getLocationTableName()+" where "+TARGET_NAME+" = '"+targetVsAchievementData.getTargetName()+"' and "+YEAR+" ='"+targetVsAchievementData.getYear()+"'" +
+                    " and "+MONTH+" ='"+targetVsAchievementData.getMonth()+"' and "+DAY+" ='"+targetVsAchievementData.getDay()+"' and "+FORM_SUBMISSION_ID+" ='"+formSubmissionId+"'";
+
+        }
         Log.v("TARGET_FETCH","isExistData:"+sql);
         Cursor cursor = null;
         boolean isExist = false;

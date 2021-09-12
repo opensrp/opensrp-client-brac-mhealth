@@ -35,7 +35,7 @@ public class CoreChildRegisterActivity extends BaseRegisterActivity implements C
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        NavigationMenu.getInstance(this, null, null);
+        NavigationMenu.getInstance(this, null, findViewById(org.smartregister.R.id.register_toolbar));
     }
 
     @Override
@@ -79,10 +79,7 @@ public class CoreChildRegisterActivity extends BaseRegisterActivity implements C
     @Override
     protected void onResumption() {
         super.onResumption();
-        NavigationMenu menu = NavigationMenu.getInstance(this, null, null);
-        if (menu != null) {
-            menu.getNavigationAdapter().setSelectedView(CoreConstants.DrawerMenu.CHILD_CLIENTS);
-        }
+
     }
 
     @Override
