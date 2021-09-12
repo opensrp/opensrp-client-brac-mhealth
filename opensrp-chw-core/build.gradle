@@ -73,7 +73,7 @@ dependencies {
         exclude group: 'io.ona.rdt-capture', module: 'lib'
     }
  //brac-hnpp branch
-    api('org.smartregister:opensrp-client-core:4.7.50-brac-SNAPSHOT@aar') {
+    api('org.smartregister:opensrp-client-core:4.7.49-brac-SNAPSHOT@aar') {
         transitive = true
         exclude group: 'com.github.bmelnychuk', module: 'atv'
         exclude group: 'com.google.guava', module: 'guava'
