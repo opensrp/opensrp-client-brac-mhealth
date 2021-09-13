@@ -16,7 +16,7 @@ public class IYCFRegisterActivity extends ChildRegisterActivity {
     @Override
     protected void onResumption() {
         super.onResumption();
-        NavigationMenu menu = NavigationMenu.getInstance(this, null, findViewById(org.smartregister.R.id.register_toolbar));
+        NavigationMenu menu = NavigationMenu.getInstance(this, null, null);
         if (menu != null) {
             menu.getNavigationAdapter().setSelectedView(CoreConstants.DrawerMenu.IYCF);
         }

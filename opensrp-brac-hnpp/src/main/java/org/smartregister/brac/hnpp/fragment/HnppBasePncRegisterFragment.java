@@ -76,7 +76,7 @@ public class HnppBasePncRegisterFragment extends BasePncRegisterFragment impleme
             getSearchCancelView().setOnClickListener(this);
         }
         setTotalPatients();
-        //NavigationMenu.getInstance(getActivity(), null, view.findViewById(org.smartregister.R.id.register_toolbar));
+        NavigationMenu.getInstance(getActivity(), null, view.findViewById(org.smartregister.R.id.register_toolbar));
 
     }
     @Override

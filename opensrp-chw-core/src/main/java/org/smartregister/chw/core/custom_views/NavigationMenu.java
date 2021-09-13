@@ -441,7 +441,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         tvSync.setOnClickListener(syncClicker);
         ivSync.setOnClickListener(syncClicker);
 
-        refreshSyncProgressSpinner();
+        //refreshSyncProgressSpinner();
     }
 
     private void registerLanguageSwitcher(final Activity context) {
@@ -541,25 +541,25 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     public void openDrawer() {
         if (drawer != null) {
             drawer.openDrawer(GravityCompat.START);
-
         }
-        mPresenter.refreshLastSync();
-        mPresenter.refreshNavigationCount();
     }
 
     @Override
     public void onSyncStart() {
         // set the sync icon to be a rotating menu
         refreshSyncProgressSpinner();
+        Timber.v("onSyncStart");
     }
 
     @Override
     public void onSyncInProgress(FetchStatus fetchStatus) {
         Timber.v("onSyncInProgress");
+
     }
 
     @Override
     public void onSyncComplete(FetchStatus fetchStatus) {
+        Timber.v("onSyncInProgress");
         // hide the rotating menu
         refreshSyncProgressSpinner();
         if (!fetchStatus.equals(FetchStatus.noConnection) && !fetchStatus.equals(FetchStatus.fetchedFailed)) {

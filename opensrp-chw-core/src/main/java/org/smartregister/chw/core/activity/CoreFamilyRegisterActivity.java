@@ -44,6 +44,13 @@ public abstract class CoreFamilyRegisterActivity extends BaseFamilyRegisterActiv
     }
 
     @Override
+    protected void onResumption() {
+        super.onResumption();
+        NavigationMenu.getInstance(this, null, null).getNavigationAdapter()
+                .setSelectedView(CoreConstants.DrawerMenu.ALL_FAMILIES);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == JsonFormUtils.REQUEST_CODE_GET_JSON && resultCode != RESULT_OK && StringUtils.isNotBlank(action)) {

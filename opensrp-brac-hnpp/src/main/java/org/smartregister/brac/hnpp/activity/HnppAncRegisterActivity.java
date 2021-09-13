@@ -45,7 +45,6 @@ import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.anc.util.DBConstants;
 import org.smartregister.chw.anc.util.NCUtils;
 import org.smartregister.chw.core.activity.CoreAncRegisterActivity;
-import org.smartregister.chw.core.custom_views.NavigationMenu;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.CoreJsonFormUtils;
 import org.smartregister.clientandeventmodel.Address;
@@ -107,14 +106,6 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        NavigationMenu.getInstance(this, null, findViewById(org.smartregister.R.id.register_toolbar));
-        findViewById(org.smartregister.R.id.register_toolbar).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //no need
-            }
-        });
-        findViewById(org.smartregister.R.id.left_menu).setVisibility(View.VISIBLE);
        // baseEntityId = getIntent().getStringExtra(org.smartregister.chw.anc.util.Constants.ACTIVITY_PAYLOAD.BASE_ENTITY_ID);
         ArrayList<SSModel> ssLocationForms = SSLocationHelper.getInstance().getSsModels();
         if(ssLocationForms.size() > 0){
@@ -133,15 +124,6 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
             }else{
                 findViewById(R.id.simprints_identity).setVisibility(View.GONE);
             }
-        }
-    }
-    @Override
-    protected void onResumption() {
-        super.onResumption();
-        NavigationMenu menu = NavigationMenu.getInstance(this, null, findViewById(org.smartregister.R.id.register_toolbar));
-        if (menu != null) {
-            menu.getNavigationAdapter()
-                    .setSelectedView(CoreConstants.DrawerMenu.ANC);
         }
     }
 

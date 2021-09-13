@@ -255,7 +255,6 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         this.menu = menu;
-        Log.v("MENU_CHECK","menu1>>"+menu);
         setupMenuOptions(menu);
         return true;
     }
@@ -522,7 +521,13 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         if(referralFollowUpModel!=null){
             openReferealFollowUp(referralFollowUpModel);
         }else if(needToStartHomeVisit){
-            HnppHomeVisitActivity.startMe(this, new MemberObject(commonPersonObject), false,isComesFromIdentity,verificationNeeded,isVerified,checkedItem);
+            HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+                @Override
+                public void onPost(double latitude, double longitude) {
+                    HnppHomeVisitActivity.startMe(HnppFamilyOtherMemberProfileActivity.this, new MemberObject(commonPersonObject), false,isComesFromIdentity,verificationNeeded,isVerified,checkedItem,latitude,longitude);
+
+                }
+            });
             needToStartHomeVisit = false;
         }
         else{
@@ -793,7 +798,10 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 
 
         }
+        if (resultCode == Activity.RESULT_OK && requestCode == org.smartregister.chw.anc.util.Constants.REQUEST_CODE_HOME_VISIT){
+            showServiceDoneDialog(true);
 
+        }
 
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -964,7 +972,13 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             return;
         }
         needToStartHomeVisit = false;
-        HnppHomeVisitActivity.startMe(this, new MemberObject(commonPersonObject), false,isComesFromIdentity,verificationNeeded,isVerified,checkedItem);
+        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+            @Override
+            public void onPost(double latitude, double longitude) {
+                HnppHomeVisitActivity.startMe(HnppFamilyOtherMemberProfileActivity.this, new MemberObject(commonPersonObject), false,isComesFromIdentity,verificationNeeded,isVerified,checkedItem,latitude,longitude);
+
+            }
+        });
 
     }
 
@@ -987,12 +1001,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         familyFloatingMenu = new FamilyMemberFloatingMenu(this);
         familyFloatingMenu.fab.setOnClickListener(v -> FamilyCallDialogFragment.launchDialog(this, familyBaseEntityId));
     }
-    public static void startMe(Activity activity, MemberObject memberObject, String familyHeadName, String familyHeadPhoneNumber, CommonPersonObjectClient patient) {
-
-    }
 
     private void setupMenuOptions(Menu menu) {
-        Log.v("MENU_CHECK","menu2>>"+menu);
+
         menu.findItem(R.id.action_remove_member).setTitle("সদস্য বাদ দিন / মাইগ্রেট / মৃত্যু");
         menu.findItem(R.id.action_anc_registration).setTitle("গর্ভবতী রেজিস্ট্রেশন");
         menu.findItem(R.id.action_malaria_registration).setVisible(false);
@@ -1019,12 +1030,12 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 
     }
     public void updatePregnancyOutcomeVisible(String eventType){
-        Log.v("MENU_CHECK","menu>>3"+menu);
+
         if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)
         || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
-            this.menu.findItem(R.id.action_pregnancy_out_come).setVisible(true);
+            menu.findItem(R.id.action_pregnancy_out_come).setVisible(true);
         }else{
-            this.menu.findItem(R.id.action_pregnancy_out_come).setVisible(false);
+            menu.findItem(R.id.action_pregnancy_out_come).setVisible(false);
         }
     }
     public void updateAncRegisterVisible(String eventType){

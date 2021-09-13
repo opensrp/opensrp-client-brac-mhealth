@@ -52,33 +52,6 @@ public class HnppPncRegisterActivity extends AncRegisterActivity {
         startActivity(intent);
         finish();
     }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-       NavigationMenu.getInstance(this, null, null);
-
-        ArrayList<SSModel> ssLocationForms = SSLocationHelper.getInstance().getSsModels();
-        if(ssLocationForms.size() > 0){
-            boolean simPrintsEnable = ssLocationForms.get(0).simprints_enable;
-            if(simPrintsEnable){
-                findViewById(R.id.simprints_identity).setVisibility(View.VISIBLE);
-                findViewById(R.id.simprints_identity).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(HnppPncRegisterActivity.this, SimprintsIdentityActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                        overridePendingTransition(org.smartregister.chw.core.R.anim.slide_in_up, org.smartregister.chw.core.R.anim.slide_out_up);
-                    }
-                });
-            }else{
-                findViewById(R.id.simprints_identity).setVisibility(View.GONE);
-            }
-        }
-    }
-
     @Override
     public void onBackPressed() {
         Fragment fragment = findFragmentByPosition(currentPage);

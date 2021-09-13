@@ -13,6 +13,7 @@ import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
 import org.smartregister.brac.hnpp.utils.ANCRegister;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.VisitLog;
+import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.utils.CoreConstants;
@@ -217,6 +218,15 @@ public class HnppVisitLogRepository extends BaseRepository {
         }
         return visit_ids;
     }
+    public ArrayList<Visit> getVisitByVisitId(String visitId){
+        SQLiteDatabase database = getWritableDatabase();
+
+        String selection = VISIT_ID+" = ?"+COLLATE_NOCASE;
+        String[] selectionArgs = new String[]{visitId};
+        net.sqlcipher.Cursor cursor = database.query("visits", null, selection, selectionArgs, null, null, VISIT_DATE + " DESC", null);
+        ArrayList<Visit> homeVisits = getVisits(cursor);
+        return homeVisits;
+    }
     public ArrayList<VisitLog> getAllSSFormVisit(){
         SQLiteDatabase database = getWritableDatabase();
 
@@ -304,6 +314,30 @@ public class HnppVisitLogRepository extends BaseRepository {
             if(cursor!=null) cursor.close();
         }
         return list;
+    }
+    private ArrayList<Visit> getVisits(Cursor cursor) {
+        ArrayList<Visit> visitLogs = new ArrayList<>();
+        try {
+            if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    Visit visitLog = new Visit();
+                    visitLog.setVisitId(cursor.getString(cursor.getColumnIndex(VISIT_ID)));
+                    visitLog.setBaseEntityId(cursor.getString(cursor.getColumnIndex(BASE_ENTITY_ID)));
+                    visitLog.setJson(cursor.getString(cursor.getColumnIndex("visit_json")));
+                    visitLog.setVisitType(cursor.getString(cursor.getColumnIndex(VISIT_TYPE)));
+                    visitLogs.add(visitLog);
+                    cursor.moveToNext();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return visitLogs;
+
     }
     private ArrayList<VisitLog> getAllVisitLog(Cursor cursor) {
         ArrayList<VisitLog> visitLogs = new ArrayList<>();
