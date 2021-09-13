@@ -251,7 +251,8 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
 
             @Override
             public void onDrawerClosed(@NonNull View view) {
-
+                Log.v("NAVIGATION_QUERY","onDrawerOpened>>>>>>>>>>>>>>>>>>"+activity);
+                activityInstance = null;
             }
 
             @Override
@@ -576,6 +577,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         if(mPresenter!=null){
             mPresenter.refreshLastSync();
             mPresenter.refreshNavigationCount();
+            refreshSyncProgressSpinner();
         }
     }
 

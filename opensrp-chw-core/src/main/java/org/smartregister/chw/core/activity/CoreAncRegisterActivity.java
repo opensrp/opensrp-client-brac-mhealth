@@ -95,7 +95,7 @@ public class CoreAncRegisterActivity extends BaseAncRegisterActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        NavigationMenu.getInstance(this, null, null);
+        //NavigationMenu.getInstance(this, null, null);
     }
 
     @Override

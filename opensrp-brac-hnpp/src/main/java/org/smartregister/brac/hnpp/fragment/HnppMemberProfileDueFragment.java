@@ -1,5 +1,7 @@
 package org.smartregister.brac.hnpp.fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -62,7 +64,13 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
     private CommonPersonObjectClient commonPersonObjectClient;
     private Handler handler;
     private boolean isStart = true;
+    Activity mActivity;
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mActivity = (Activity) context;
+    }
 
     public static HnppMemberProfileDueFragment newInstance(Bundle bundle) {
         Bundle args = bundle;
@@ -86,7 +94,7 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
 
     public void updateStaticView() {
        // if(FormApplicability.isDueAnyForm(baseEntityId,eventType)){
-            handler = new Handler();
+
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -114,6 +122,7 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         baseEntityId = getArguments().getString(Constants.INTENT_KEY.BASE_ENTITY_ID);
+        handler = new Handler();
         addStaticView();
     }
 
@@ -143,14 +152,20 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
 
                     otherServiceView.addView(anc1View);
                 }
-                if(getActivity() instanceof HnppFamilyOtherMemberProfileActivity){
-                    HnppFamilyOtherMemberProfileActivity aaa = (HnppFamilyOtherMemberProfileActivity) getActivity();
-                   try{
-                       aaa.updatePregnancyOutcomeVisible(eventType);
-                       aaa.updateAncRegisterVisible(eventType);
-                   }catch (Exception e){
-                       e.printStackTrace();
-                   }
+                if(mActivity instanceof HnppFamilyOtherMemberProfileActivity){
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            HnppFamilyOtherMemberProfileActivity aaa = (HnppFamilyOtherMemberProfileActivity) mActivity;
+                            try{
+                                aaa.updatePregnancyOutcomeVisible(eventType);
+                                aaa.updateAncRegisterVisible(eventType);
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+                        }
+                    },500);
+
 
                 }
                 if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ELCO) && FormApplicability.isPregnant(baseEntityId)){
@@ -228,8 +243,8 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
     public void onClick(View v) {
         if(v.getTag() instanceof ReferralFollowUpModel){
             ReferralFollowUpModel referralFollowUpModel = (ReferralFollowUpModel) v.getTag();
-            if (getActivity() != null && getActivity() instanceof HnppFamilyOtherMemberProfileActivity) {
-                HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) getActivity();
+            if (mActivity != null && mActivity instanceof HnppFamilyOtherMemberProfileActivity) {
+                HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) mActivity;
                 activity.openReferealFollowUp(referralFollowUpModel);
             }
             return;
@@ -238,32 +253,32 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
         if (tag != null) {
             switch (tag) {
                 case TAG_OPEN_CORONA:
-                    if (getActivity() != null && getActivity() instanceof HnppFamilyOtherMemberProfileActivity) {
-                        HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) getActivity();
+                    if (mActivity != null && mActivity instanceof HnppFamilyOtherMemberProfileActivity) {
+                        HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) mActivity;
                         activity.openCoronaIndividualForm();
                     }
                     break;
                 case TAG_OPEN_ANC_REGISTRATION:
-                    if (getActivity() != null && getActivity() instanceof HnppFamilyOtherMemberProfileActivity) {
-                        HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) getActivity();
+                    if (mActivity != null && mActivity instanceof HnppFamilyOtherMemberProfileActivity) {
+                        HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) mActivity;
                         activity.startAncRegister();
                     }
                     break;
                 case TAG_OPEN_FAMILY:
-                    if (getActivity() != null && getActivity() instanceof HnppFamilyOtherMemberProfileActivity) {
-                        HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) getActivity();
+                    if (mActivity != null && mActivity instanceof HnppFamilyOtherMemberProfileActivity) {
+                        HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) mActivity;
                         activity.openFamilyDueTab();
                     }
                     break;
                 case TAG_OPEN_REFEREAL:
-                    if (getActivity() != null && getActivity() instanceof HnppFamilyOtherMemberProfileActivity) {
-                        HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) getActivity();
+                    if (mActivity != null && mActivity instanceof HnppFamilyOtherMemberProfileActivity) {
+                        HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) mActivity;
                         activity.openRefereal();
                     }
                     break;
                 case TAG_OPEN_ANC1:
-                    if (getActivity() != null && getActivity() instanceof HnppFamilyOtherMemberProfileActivity) {
-                        HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) getActivity();
+                    if (mActivity != null && mActivity instanceof HnppFamilyOtherMemberProfileActivity) {
+                        HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) mActivity;
                         String eventType = (String) v.getTag(org.smartregister.family.R.id.VIEW_ID);
                         if(!eventType.equals(HnppConstants.EVENT_TYPE.ELCO)
                                 && !eventType.equals(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour)
@@ -283,5 +298,6 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
     public void onDestroyView() {
         super.onDestroyView();
         if(handler != null) handler.removeCallbacksAndMessages(null);
+        mActivity = null;
     }
 }

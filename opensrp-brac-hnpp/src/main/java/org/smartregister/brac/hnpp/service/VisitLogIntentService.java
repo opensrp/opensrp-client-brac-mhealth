@@ -400,20 +400,20 @@ public class VisitLogIntentService extends IntentService {
 //            }
 //        }
 //    }
-    private boolean isNeedToAddStockTableForExisting(String eventType,HashMap<String, String> details){
-        String targetName = StockRepository.getTargetName(eventType);
-        if(TextUtils.isEmpty(targetName)) return false;
-        if(details.containsKey("add_to_stock")&&!StringUtils.isEmpty(details.get("add_to_stock"))) {
-            String value = details.get("add_to_stock");
-            Log.v("STOCK_ADD","isNeedToAddStockTable>>"+value);
-            if(!TextUtils.isEmpty(value) && value.equalsIgnoreCase("2")){
-                return true;
-
-            }
-
-        }
-        return false;
-    }
+//    private boolean isNeedToAddStockTableForExisting(String eventType,HashMap<String, String> details){
+//        String targetName = StockRepository.getTargetName(eventType);
+//        if(TextUtils.isEmpty(targetName)) return false;
+//        if(details.containsKey("add_to_stock")&&!StringUtils.isEmpty(details.get("add_to_stock"))) {
+//            String value = details.get("add_to_stock");
+//            Log.v("STOCK_ADD","isNeedToAddStockTable>>"+value);
+//            if(!TextUtils.isEmpty(value) && value.equalsIgnoreCase("2")){
+//                return true;
+//
+//            }
+//
+//        }
+//        return false;
+//    }
 
     private boolean isNeedToAddStockTable(String eventType,HashMap<String, String> details){
         String targetName = StockRepository.getTargetName(eventType);
@@ -421,7 +421,7 @@ public class VisitLogIntentService extends IntentService {
         if(details.containsKey("add_to_stock")&&!StringUtils.isEmpty(details.get("add_to_stock"))) {
             String value = details.get("add_to_stock");
             Log.v("STOCK_ADD","isNeedToAddStockTable>>"+value);
-            if(!TextUtils.isEmpty(value) && !value.equalsIgnoreCase("0")){
+            if(!TextUtils.isEmpty(value) && value.equalsIgnoreCase("3")){
                 return true;
 
             }

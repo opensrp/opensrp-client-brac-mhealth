@@ -33,7 +33,6 @@ public class StockRepository extends BaseRepository {
     protected static final String ID = "_id";
 
     public static final String STOCK_TABLE = "stock_table";
-    public static final long STOCK_DELETE_TIME = 1631145601000l;
     protected static final String STOCK_ID = "stock_id";
     protected static final String STOCK_PRODUCT_ID = "product_id";
     public static final String STOCK_PRODUCT_NAME = "product_name";

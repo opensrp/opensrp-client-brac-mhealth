@@ -108,6 +108,13 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         NavigationMenu.getInstance(this, null, findViewById(org.smartregister.R.id.register_toolbar));
+        findViewById(org.smartregister.R.id.register_toolbar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //no need
+            }
+        });
+        findViewById(org.smartregister.R.id.left_menu).setVisibility(View.VISIBLE);
        // baseEntityId = getIntent().getStringExtra(org.smartregister.chw.anc.util.Constants.ACTIVITY_PAYLOAD.BASE_ENTITY_ID);
         ArrayList<SSModel> ssLocationForms = SSLocationHelper.getInstance().getSsModels();
         if(ssLocationForms.size() > 0){
