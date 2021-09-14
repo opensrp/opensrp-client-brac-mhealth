@@ -15,6 +15,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -229,7 +230,14 @@ public class HnppFamilyRegisterFragment extends HnppBaseFamilyRegisterFragment i
 
     @Override
     public void onSyncComplete(FetchStatus fetchStatus) {
-        super.onSyncComplete(fetchStatus);
+        //super.onSyncComplete(fetchStatus);
+        try{
+            org.smartregister.util.Utils.showShortToast(getActivity(), getString(org.smartregister.chw.core.R.string.sync_complete));
+        }catch (WindowManager.BadTokenException e){
+            e.printStackTrace();
+        }
+        refreshSyncProgressSpinner();
+
         if(JobManager.instance().getAllJobRequestsForTag(PullHouseholdIdsServiceJob.TAG).isEmpty()){
             PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
         }
