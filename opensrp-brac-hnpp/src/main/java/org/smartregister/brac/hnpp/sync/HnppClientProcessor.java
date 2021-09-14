@@ -232,7 +232,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
 
                 // save the values to db
                 executeInsertStatement(contentValues, clientType);
-
+                updateRegisterCount(baseEntityId);
             }
 
             return true;

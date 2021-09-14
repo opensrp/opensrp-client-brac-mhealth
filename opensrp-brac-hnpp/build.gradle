@@ -141,7 +141,7 @@ android {
         }
         normal{
             versionCode 43
-            versionName "2.0.5.3_dev"
+            versionName "2.0.6_dev"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'true'
 //            buildConfigField "String", 'opensrp_url_training', '"https://hnpptest1.mpower-social.com/opensrp/"'
