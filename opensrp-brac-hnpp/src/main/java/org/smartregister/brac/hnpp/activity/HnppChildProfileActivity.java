@@ -1,6 +1,7 @@
 package org.smartregister.brac.hnpp.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
@@ -15,8 +16,11 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
@@ -576,7 +580,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
 
         }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
-
+            showProgressDialog(R.string.please_wait_message);
             VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
             String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
             Map<String, String> jsonStrings = new HashMap<>();
@@ -590,22 +594,20 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
 
 
                 visit = HnppJsonFormUtils.saveVisit(false,false,false,"", childBaseEntityId, type, jsonStrings, "");
+                if(visit!=null){
+                    hideProgressDialog();
+                    showServiceDoneDialog(true);
+
+
+                }else{
+                    hideProgressDialog();
+                    showServiceDoneDialog(false);
+                }
             } catch (Exception e) {
+                hideProgressBar();
                 e.printStackTrace();
             }
-            if(memberHistoryFragment !=null){
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-//                        memberHistoryFragment.onActivityResult(0,0,null);
-                        mViewPager.setCurrentItem(2,true);
-                        if(memberOtherServiceFragment !=null){
-                            memberOtherServiceFragment.updateStaticView();
-                        }
 
-                    }
-                },1000);
-            }
 
         }else if(resultCode == Activity.RESULT_OK && requestCode == org.smartregister.chw.anc.util.Constants.REQUEST_CODE_HOME_VISIT){
            if(mViewPager!=null) mViewPager.setCurrentItem(0,true);
@@ -614,6 +616,39 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
         }
 
         super.onActivityResult(requestCode, resultCode, data);
+
+    }
+    private void showServiceDoneDialog(boolean isSuccess){
+        Dialog dialog = new Dialog(this);
+        dialog.setCancelable(false);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_with_one_button);
+        TextView titleTv = dialog.findViewById(R.id.title_tv);
+        titleTv.setText(isSuccess?"সার্ভিসটি দেওয়া সম্পূর্ণ হয়েছে":"সার্ভিসটি দেওয়া সফল হয়নি। পুনরায় চেষ্টা করুন ");
+        Button ok_btn = dialog.findViewById(R.id.ok_btn);
+
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                if(isSuccess){
+                    if(memberHistoryFragment !=null){
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                hideProgressDialog();
+                                mViewPager.setCurrentItem(2,true);
+                                if(memberOtherServiceFragment !=null){
+                                    memberOtherServiceFragment.updateStaticView();
+                                }
+
+                            }
+                        },1000);
+                    }
+                }
+            }
+        });
+        dialog.show();
 
     }
 

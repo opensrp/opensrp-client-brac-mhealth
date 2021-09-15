@@ -160,9 +160,9 @@ public class ChildHistoryInteractor implements MemberHistoryContract.Interactor 
                 cursor.moveToNext();
 
             }
-            cursor.close();
 
         }
+        if(cursor!=null) cursor.close();
         return memberHistoryDataList;
     }
 

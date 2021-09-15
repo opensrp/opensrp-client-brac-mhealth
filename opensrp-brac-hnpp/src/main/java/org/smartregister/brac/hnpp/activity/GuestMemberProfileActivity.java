@@ -1,6 +1,7 @@
 package org.smartregister.brac.hnpp.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -379,26 +381,24 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
         }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
             String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
-
+            showProgressDialog(R.string.please_wait_message);
 
             try {
-                saveRegistration(jsonString,"visits");
+                Visit visit = saveRegistration(jsonString,"visits");
+                if(visit!=null){
+                    hideProgressDialog();
+                    showServiceDoneDialog(true);
+
+
+                }else{
+                    hideProgressDialog();
+                    showServiceDoneDialog(false);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
+                hideProgressBar();
             }
-            if(memberHistoryFragment !=null){
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-//                        memberHistoryFragment.onActivityResult(0,0,null);
-                        mViewPager.setCurrentItem(1,true);
-                        if(memberDueFragment !=null){
-                            memberDueFragment.updateStaticView();
-                        }
 
-                    }
-                },2000);
-            }
 
         }
         else if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_GET_JSON){
@@ -410,7 +410,41 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
         super.onActivityResult(requestCode, resultCode, data);
 
     }
-    private void saveRegistration(final String jsonString, String table) throws Exception {
+    private void showServiceDoneDialog(boolean isSuccess){
+        Dialog dialog = new Dialog(this);
+        dialog.setCancelable(false);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_with_one_button);
+        TextView titleTv = dialog.findViewById(R.id.title_tv);
+        titleTv.setText(isSuccess?"সার্ভিসটি দেওয়া সম্পূর্ণ হয়েছে":"সার্ভিসটি দেওয়া সফল হয়নি। পুনরায় চেষ্টা করুন ");
+        Button ok_btn = dialog.findViewById(R.id.ok_btn);
+
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                if(isSuccess){
+                    if(memberHistoryFragment !=null){
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                hideProgressDialog();
+//                        memberHistoryFragment.onActivityResult(0,0,null);
+                                mViewPager.setCurrentItem(1,true);
+                                if(memberDueFragment !=null){
+                                    memberDueFragment.updateStaticView();
+                                }
+
+                            }
+                        },2000);
+                    }
+                }
+            }
+        });
+        dialog.show();
+
+    }
+    private Visit saveRegistration(final String jsonString, String table) throws Exception {
         AllSharedPreferences allSharedPreferences = AncLibrary.getInstance().context().allSharedPreferences();
         Event baseEvent = org.smartregister.chw.anc.util.JsonFormUtils.processJsonForm(allSharedPreferences, jsonString, table);
         JSONObject form = new JSONObject(jsonString);
@@ -435,6 +469,7 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
         }catch (Exception e){
             e.printStackTrace();
         }
+        return visit;
     }
 
 

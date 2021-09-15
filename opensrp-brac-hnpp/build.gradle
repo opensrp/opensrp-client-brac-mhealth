@@ -140,7 +140,7 @@ android {
 //            buildConfigField "String", 'opensrp_url_live', '"http://hnppqa.mpower-social.com:8080/opensrp/"'
         }
         normal{
-            versionCode 51
+            versionCode 54
             versionName "2.0.6_dev"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'true'

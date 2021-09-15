@@ -13,7 +13,6 @@ import org.smartregister.brac.hnpp.utils.FilterDialog;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.chw.anc.util.DBConstants;
-import org.smartregister.chw.core.fragment.CoreChildRegisterFragment;
 import org.smartregister.chw.core.fragment.CoreFamilyRegisterFragment;
 import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
 

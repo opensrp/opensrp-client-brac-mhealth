@@ -1,7 +1,5 @@
 package org.smartregister.brac.hnpp.fragment;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -14,15 +12,15 @@ import android.widget.TextView;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.HnppChildProfileActivity;
-import org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity;
 import org.smartregister.brac.hnpp.model.MemberProfileDueModel;
 import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
-import org.smartregister.brac.hnpp.presenter.HnppMemberProfileDuePresenter;
+import org.smartregister.brac.hnpp.presenter.HnppChildProfileDuePresenter;
 import org.smartregister.brac.hnpp.provider.HnppFamilyDueRegisterProvider;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.core.utils.CoreChildUtils;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
+import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.family.adapter.FamilyRecyclerViewCustomAdapter;
 import org.smartregister.family.fragment.BaseFamilyProfileDueFragment;
 import org.smartregister.family.util.Constants;
@@ -36,7 +34,6 @@ import java.util.Set;
 
 import timber.log.Timber;
 
-import static org.smartregister.brac.hnpp.utils.HnppConstants.eventTypeFormNameMapping;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.eventTypeMapping;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.iconMapping;
 
@@ -121,10 +118,15 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
     protected void initializePresenter() {
         familyBaseEntityId = getArguments().getString(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID);
         familyName = getArguments().getString(Constants.INTENT_KEY.FAMILY_NAME);
-        presenter = new HnppMemberProfileDuePresenter(this, new MemberProfileDueModel(), null, familyBaseEntityId);
+        presenter = new HnppChildProfileDuePresenter(this, new MemberProfileDueModel(), null, familyBaseEntityId);
         //TODO need to pass this value as this value using at homevisit rule
         dateFamilyCreated = getArguments().getLong("");
 
+    }
+
+    @Override
+    protected boolean isValidFilterForFts(CommonRepository commonRepository) {
+        return false;
     }
 
     @Override
@@ -158,6 +160,11 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         updateStaticView();
 
 
+    }
+
+    @Override
+    protected String getMainCondition() {
+        return super.getMainCondition();
     }
 
     @Override

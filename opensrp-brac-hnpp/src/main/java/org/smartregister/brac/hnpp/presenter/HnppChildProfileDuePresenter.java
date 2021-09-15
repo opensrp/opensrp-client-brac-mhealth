@@ -7,15 +7,15 @@ import org.smartregister.chw.core.utils.WashCheck;
 import org.smartregister.family.contract.FamilyProfileDueContract;
 import org.smartregister.family.presenter.BaseFamilyProfileDuePresenter;
 
-public class HnppMemberProfileDuePresenter extends BaseFamilyProfileDuePresenter {
+public class HnppChildProfileDuePresenter extends BaseFamilyProfileDuePresenter {
 
-    public HnppMemberProfileDuePresenter(FamilyProfileDueContract.View view, FamilyProfileDueContract.Model model, String viewConfigurationIdentifier, String familyBaseEntityId) {
+    public HnppChildProfileDuePresenter(FamilyProfileDueContract.View view, FamilyProfileDueContract.Model model, String viewConfigurationIdentifier, String familyBaseEntityId) {
         super(view, model, viewConfigurationIdentifier, familyBaseEntityId);
     }
 
     @Override
     public String getMainCondition() {
-        return String.format(" %s AND %s AND %s ", super.getMainCondition(), ChildDBConstants.childDueFilter(), ChildDBConstants.childAgeLimitFilter());
+        return "";// String.format("AND %s AND %s ", super.getMainCondition(), ChildDBConstants.childDueFilter(), ChildDBConstants.childAgeLimitFilter());
     }
 
     @Override

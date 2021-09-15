@@ -17,14 +17,10 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
-import org.smartregister.brac.hnpp.activity.HnppChildProfileActivity;
 import org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity;
 import org.smartregister.brac.hnpp.model.MemberProfileDueModel;
 import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
-import org.smartregister.brac.hnpp.presenter.HnppMemberProfileDuePresenter;
-import org.smartregister.brac.hnpp.provider.HnppFamilyDueRegisterProvider;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
