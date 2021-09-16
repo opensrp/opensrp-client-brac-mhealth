@@ -101,6 +101,7 @@ public class VisitLogIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        Log.v("SYNC_URL","visit log stated");
         ArrayList<String> visit_ids = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().getVisitIds();
         for (int i = 0; i < visit_ids.size(); i++) {
             List<Visit> v = AncLibrary.getInstance().visitRepository().getVisitsByVisitId(visit_ids.get(i));

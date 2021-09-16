@@ -73,7 +73,8 @@ public class HnppClientProcessor extends ClientProcessorForJava {
 
     @Override
     public synchronized void processClient(List<EventClient> eventClients) throws Exception {
-
+        long startTime = System.currentTimeMillis();
+        Log.v("SYNC_URL", "processClient started");
         ClientClassification clientClassification = getClassification();
         Table vaccineTable = getVaccineTable();
         Table serviceTable = getServiceTable();
@@ -86,15 +87,14 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                 }
 
                 String eventType = event.getEventType();
-                Log.v("PROCESS_CLIENT","processClient1>>"+eventType+":baseentityid:"+event.getBaseEntityId());
                 if (eventType == null) {
                     continue;
                 }
 
                 processEvents(clientClassification, vaccineTable, serviceTable, eventClient, event, eventType);
             }
-
-            VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+            Log.v("SYNC_URL", "processClient end >>"+(System.currentTimeMillis() - startTime));
+            //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
 
         }
     }
@@ -121,7 +121,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
     }
 
     protected void processEvents(ClientClassification clientClassification, Table vaccineTable, Table serviceTable, EventClient eventClient, Event event, String eventType) throws Exception {
-        Log.v("PROCESS_EVENT","processEvents2>>"+eventType);
+       long startTime = System.currentTimeMillis();
         switch (eventType) {
             case VaccineIntentService.EVENT_TYPE:
             case VaccineIntentService.EVENT_TYPE_OUT_OF_CATCHMENT:
@@ -164,8 +164,6 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                 case HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME:
             case HnppConstants.EVENT_TYPE.EYE_TEST:
             case HnppConstants.EVENT_TYPE.BLOOD_GROUP:
-            case CoreConstants.EventType.REMOVE_MEMBER:
-            case CoreConstants.EventType.REMOVE_CHILD:
                 if (eventClient.getEvent() == null) {
                     return;
                 }
@@ -178,22 +176,18 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                 }
                 processRemoveFamily(eventClient.getClient().getBaseEntityId(), event.getEventDate().toDate());
                 break;
-//            case CoreConstants.EventType.REMOVE_MEMBER:
-//                if (eventClient.getClient() == null) {
-//                    return;
-//                }
-//                processVisitEvent(eventClient);
-//                processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
-//                processRemoveMember(eventClient.getClient().getBaseEntityId(), event.getEventDate().toDate());
-//                break;
-//            case CoreConstants.EventType.REMOVE_CHILD:
-//                if (eventClient.getClient() == null) {
-//                    return;
-//                }
-//                processVisitEvent(eventClient);
-//                processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
-//                processRemoveChild(eventClient.getClient().getBaseEntityId(), event.getEventDate().toDate());
-//                break;
+            case CoreConstants.EventType.REMOVE_MEMBER:
+                if (eventClient.getClient() == null) {
+                    return;
+                }
+                processRemoveMember(eventClient.getClient().getBaseEntityId(), event.getEventDate().toDate());
+                break;
+            case CoreConstants.EventType.REMOVE_CHILD:
+                if (eventClient.getClient() == null) {
+                    return;
+                }
+                processRemoveChild(eventClient.getClient().getBaseEntityId(), event.getEventDate().toDate());
+                break;
 
             default:
                 if (eventClient.getClient() != null) {
@@ -391,11 +385,6 @@ public class HnppClientProcessor extends ClientProcessorForJava {
         }
     }
 
-    protected void processVisitEvent(List<EventClient> eventClients, String parentEventName) {
-        for (EventClient eventClient : eventClients) {
-            processVisitEvent(eventClient, parentEventName); // save locally
-        }
-    }
 
     // possible to delegate
     protected void processVisitEvent(EventClient eventClient) {
@@ -521,14 +510,14 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                     DBConstants.KEY.RELATIONAL_ID + " = ?  ", new String[]{familyID});
 
             // clean fts table
-            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY), values,
-                    CommonFtsObject.idColumn + " = ?  ", new String[]{familyID});
-
-            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.CHILD), values,
-                    String.format(" %s in (select base_entity_id from %s where relational_id = ? )  ", CommonFtsObject.idColumn, CoreConstants.TABLE_NAME.CHILD), new String[]{familyID});
-
-            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER), values,
-                    String.format(" %s in (select base_entity_id from %s where relational_id = ? )  ", CommonFtsObject.idColumn, CoreConstants.TABLE_NAME.FAMILY_MEMBER), new String[]{familyID});
+//            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY), values,
+//                    CommonFtsObject.idColumn + " = ?  ", new String[]{familyID});
+//
+//            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.CHILD), values,
+//                    String.format(" %s in (select base_entity_id from %s where relational_id = ? )  ", CommonFtsObject.idColumn, CoreConstants.TABLE_NAME.CHILD), new String[]{familyID});
+//
+//            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER), values,
+//                    String.format(" %s in (select base_entity_id from %s where relational_id = ? )  ", CommonFtsObject.idColumn, CoreConstants.TABLE_NAME.FAMILY_MEMBER), new String[]{familyID});
 
         }
     }
@@ -555,8 +544,8 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                     DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseEntityId});
 
             // clean fts table
-            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER), values,
-                    " object_id  = ?  ", new String[]{baseEntityId});
+//            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER), values,
+//                    " object_id  = ?  ", new String[]{baseEntityId});
 
             // Utils.context().commonrepository(CoreConstants.TABLE_NAME.FAMILY_MEMBER).populateSearchValues(baseEntityId, DBConstants.KEY.DATE_REMOVED, new SimpleDateFormat("yyyy-MM-dd").format(eventDate), null);
 
@@ -584,9 +573,9 @@ public class HnppClientProcessor extends ClientProcessorForJava {
             CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.CHILD, values,
                     DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseEntityId});
 
-            // clean fts table
-            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.CHILD), values,
-                    CommonFtsObject.idColumn + "  = ?  ", new String[]{baseEntityId});
+//            // clean fts table
+//            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.CHILD), values,
+//                    CommonFtsObject.idColumn + "  = ?  ", new String[]{baseEntityId});
 
             // Utils.context().commonrepository(CoreConstants.TABLE_NAME.CHILD).populateSearchValues(baseEntityId, DBConstants.KEY.DATE_REMOVED, new SimpleDateFormat("yyyy-MM-dd").format(eventDate), null);
 

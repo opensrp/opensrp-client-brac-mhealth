@@ -48,7 +48,7 @@ public class LoginInteractor extends BaseLoginInteractor implements BaseLoginCon
             SSLocationFetchJob.scheduleJobImmediately(SSLocationFetchJob.TAG);
             HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
             HomeVisitServiceJob.scheduleJobImmediately(HomeVisitServiceJob.TAG);
-            VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+            //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
             HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
             VaccineServiceJob.scheduleJobImmediately(VaccineServiceJob.TAG);
             VaccineRecurringServiceJob.scheduleJobImmediately(VaccineRecurringServiceJob.TAG);

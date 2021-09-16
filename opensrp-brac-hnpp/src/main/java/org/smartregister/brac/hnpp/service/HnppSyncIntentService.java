@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.smartregister.AllConstants;
 import org.smartregister.CoreLibrary;
 import org.smartregister.SyncConfiguration;
+import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.domain.FetchStatus;
@@ -103,6 +104,7 @@ public class HnppSyncIntentService extends SyncIntentService {
 
             if (eCount == 0) {
                 complete(FetchStatus.nothingFetched);
+                VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
             } else if (eCount < 0) {
                 fetchFailed(count);
             } else if (eCount > 0) {
@@ -119,7 +121,7 @@ public class HnppSyncIntentService extends SyncIntentService {
                 //update sync time if all event client is save.
                 if(isSaved){
                     processClient(serverVersionPair);
-                    Log.v("SYNC_URL", "processClient done timediff:"+(System.currentTimeMillis() - startTime));
+                    Log.v("SYNC_URL", "processClient done timediff:"+(System.currentTimeMillis() - startTime)+"lastServerVersion:"+lastServerVersion);
 
                     ecSyncUpdater.updateLastSyncTimeStamp(lastServerVersion);
                 }

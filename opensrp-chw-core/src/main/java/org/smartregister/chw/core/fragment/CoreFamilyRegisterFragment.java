@@ -81,6 +81,11 @@ public abstract class CoreFamilyRegisterFragment extends BaseFamilyRegisterFragm
     }
 
     @Override
+    public void onSyncStart() {
+        super.onSyncStart();
+    }
+
+    @Override
     public void onSyncInProgress(FetchStatus fetchStatus) {
         try{
             if (!SyncStatusBroadcastReceiver.getInstance().isSyncing() && (FetchStatus.fetched.equals(fetchStatus) || FetchStatus.nothingFetched.equals(fetchStatus)) && dueFilterActive && dueOnlyLayout != null) {
