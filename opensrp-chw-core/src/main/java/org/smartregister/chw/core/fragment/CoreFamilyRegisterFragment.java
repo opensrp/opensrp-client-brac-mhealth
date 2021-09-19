@@ -85,10 +85,11 @@ public abstract class CoreFamilyRegisterFragment extends BaseFamilyRegisterFragm
         try{
             if (!SyncStatusBroadcastReceiver.getInstance().isSyncing() && (FetchStatus.fetched.equals(fetchStatus) || FetchStatus.nothingFetched.equals(fetchStatus)) && dueFilterActive && dueOnlyLayout != null) {
                 dueFilter(dueOnlyLayout);
-                org.smartregister.util.Utils.showShortToast(getActivity(), getString(R.string.sync_complete));
-                refreshSyncProgressSpinner();
-            } else {
-                super.onSyncInProgress(fetchStatus);
+                if(getActivity()!=null && !getActivity().isFinishing()){
+                    org.smartregister.util.Utils.showShortToast(getActivity(), getString(R.string.sync_complete));
+                    refreshSyncProgressSpinner();
+                }
+
             }
         }catch (WindowManager.BadTokenException e){
             e.printStackTrace();
@@ -104,10 +105,13 @@ public abstract class CoreFamilyRegisterFragment extends BaseFamilyRegisterFragm
         try{
             if (!SyncStatusBroadcastReceiver.getInstance().isSyncing() && (FetchStatus.fetched.equals(fetchStatus) || FetchStatus.nothingFetched.equals(fetchStatus)) && (dueFilterActive && dueOnlyLayout != null)) {
                 dueFilter(dueOnlyLayout);
-                org.smartregister.util.Utils.showShortToast(getActivity(), getString(R.string.sync_complete));
-                refreshSyncProgressSpinner();
+                if(getActivity()!=null && !getActivity().isFinishing()){
+                    org.smartregister.util.Utils.showShortToast(getActivity(), getString(R.string.sync_complete));
+                    refreshSyncProgressSpinner();
+                }
+
             } else {
-                super.onSyncComplete(fetchStatus);
+                //super.onSyncComplete(fetchStatus);
             }
         }catch (WindowManager.BadTokenException e){
             e.printStackTrace();
