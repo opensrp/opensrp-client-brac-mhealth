@@ -106,6 +106,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     private boolean isVerified,verificationNeeded;
     private String guId;
     private String moduleId;
+    private Handler handler;
 
 
     public boolean isNeedToVerify() {
@@ -119,7 +120,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_other_member_profile);
-
+        handler = new Handler();
         Toolbar toolbar = findViewById(org.smartregister.family.R.id.family_toolbar);
         HnppConstants.updateAppBackground(toolbar);
         setSupportActionBar(toolbar);
@@ -166,9 +167,10 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         }
 
     }
-    public void updateDueCount(final int dueCount) {
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.post(() -> adapter.updateCount(Pair.create(1, dueCount)));
+
+    @Override
+    public void startFormForEdit(Integer title_resource) {
+        super.startFormForEdit(title_resource);
     }
 
     @Override
@@ -473,20 +475,30 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     }
     @Override
     protected void startEditMemberJsonForm(Integer title_resource, CommonPersonObjectClient client) {
+        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+            @Override
+            public void onPost(double latitude, double longitude) {
+                try {
+                    JSONObject form = HnppJsonFormUtils.getAutoPopulatedJsonEditFormString(CoreConstants.JSON_FORM.getFamilyMemberRegister(), HnppFamilyOtherMemberProfileActivity.this, client, Utils.metadata().familyMemberRegister.updateEventType);
+                    String moduleId = HnppDBUtils.getModuleId(familyHead);
+                    HnppJsonFormUtils.updateFormWithModuleId(form,moduleId,familyBaseEntityId);
+                    HnppJsonFormUtils.updateFormWithSimPrintsEnable(form);
+                    if(HnppConstants.isPALogin()){
+                        makeReadOnlyFields(form);
+                    }
+                    try{
+                        HnppJsonFormUtils.updateLatitudeLongitude(form,latitude,longitude);
+                    }catch (Exception e){
 
-
-        try {
-            JSONObject form = HnppJsonFormUtils.getAutoPopulatedJsonEditFormString(CoreConstants.JSON_FORM.getFamilyMemberRegister(), this, client, Utils.metadata().familyMemberRegister.updateEventType);
-            String moduleId = HnppDBUtils.getModuleId(familyHead);
-            HnppJsonFormUtils.updateFormWithModuleId(form,moduleId,familyBaseEntityId);
-            HnppJsonFormUtils.updateFormWithSimPrintsEnable(form);
-            if(HnppConstants.isPALogin()){
-                makeReadOnlyFields(form);
+                    }
+                    startFormActivity(form);
+                } catch (Exception e) {
+                    Timber.e(e);
+                }
             }
-            startFormActivity(form);
-        } catch (Exception e) {
-            Timber.e(e);
-        }
+        });
+
+
     }
     private void showFailAlertDialog(String message, String threshold){
         new AlertDialog.Builder(this).setMessage(message)
@@ -687,7 +699,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                 dialog.dismiss();
                 if(isSuccess){
                     if(memberHistoryFragment !=null){
-                        new Handler().postDelayed(new Runnable() {
+                        handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 hideProgressDialog();
@@ -870,27 +882,40 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 
     }
     public void openCoronaIndividualForm(){
-       Intent intent = new Intent(this, HnppAncJsonFormActivity.class);
-       try{
-           JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(HnppConstants.JSON_FORMS.CORONA_INDIVIDUAL);
-           intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+            @Override
+            public void onPost(double latitude, double longitude) {
+                Intent intent = new Intent(HnppFamilyOtherMemberProfileActivity.this, HnppAncJsonFormActivity.class);
+                try{
+                    JSONObject jsonForm = FormUtils.getInstance(HnppFamilyOtherMemberProfileActivity.this).getFormJson(HnppConstants.JSON_FORMS.CORONA_INDIVIDUAL);
 
-           Form form = new Form();
-           form.setWizard(false);
-           if(!HnppConstants.isReleaseBuild()){
-               form.setActionBarBackground(R.color.test_app_color);
 
-           }else{
-               form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+                    Form form = new Form();
+                    form.setWizard(false);
+                    if(!HnppConstants.isReleaseBuild()){
+                        form.setActionBarBackground(R.color.test_app_color);
 
-           }
-           intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
-           intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
-           this.startActivityForResult(intent, REQUEST_HOME_VISIT);
+                    }else{
+                        form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
-       }catch (Exception e){
+                    }
+                    try{
+                        HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
+                    }catch (Exception e){
+                        e.printStackTrace();
 
-       }
+                    }
+                    intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+                    intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+                    intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
+                    startActivityForResult(intent, REQUEST_HOME_VISIT);
+
+                }catch (Exception e){
+
+                }
+            }
+        });
+
 
 
     }
@@ -1048,4 +1073,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(handler!=null) handler.removeCallbacksAndMessages(null);
+    }
 }

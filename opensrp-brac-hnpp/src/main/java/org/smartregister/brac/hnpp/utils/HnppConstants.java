@@ -69,7 +69,9 @@ import java.util.Locale;
 import java.util.Map;
 
 public class HnppConstants extends CoreConstants {
-    public static final boolean IS_MANDATORY_GPS = true;
+    public static boolean IS_MANDATORY_GPS = true;
+    public static int GPS_ATTEMPT_COUNT = 0;
+    public static final int DEFAULT_GPS_ATTEMPT = 3;
     public static final String ACTION_STOCK_COME = "ACTION_STOCK_COME";
     public static final String ACTION_STOCK_END = "ACTION_STOCK_END";
     public static final String ACTION_EDD = "ACTION_EDD";
