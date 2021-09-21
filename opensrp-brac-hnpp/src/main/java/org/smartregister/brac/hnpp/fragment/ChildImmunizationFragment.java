@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.fragment;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -81,6 +82,20 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mActivity = null;
+    }
+
+    Activity mActivity;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mActivity = (Activity) getActivity();
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
@@ -117,7 +132,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
 
         View fragmentView = inflater.inflate(R.layout.immunization_activity_main, container, false);
         this.view = fragmentView;
-//        cia = new ChildImmunizationFragment(fragmentView,getActivity());
+//        cia = new ChildImmunizationFragment(fragmentView,mActivity);
         return fragmentView;
     }
     // Data
@@ -253,7 +268,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
             serviceGroups = new ArrayList<>();
             LinearLayout serviceGroupCanvasLL = (LinearLayout) view.findViewById(R.id.service_group_canvas_ll);
 
-            ServiceGroup curGroup = new ServiceGroup(getActivity());
+            ServiceGroup curGroup = new ServiceGroup(mActivity);
             curGroup.setChildActive(isChildActive);
             curGroup.setData(childDetails, foundServiceTypeMap, serviceRecordList, alerts);
             curGroup.setOnServiceClickedListener(new ServiceGroup.OnServiceClickedListener() {
@@ -280,11 +295,11 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
         if (vaccineGroups == null) {
             vaccineGroups = new ArrayList<>();
             List<org.smartregister.immunization.domain.jsonmapping.VaccineGroup> supportedVaccines =
-                    VaccinatorUtils.getSupportedVaccines(getActivity());
+                    VaccinatorUtils.getSupportedVaccines(mActivity);
 
             for (org.smartregister.immunization.domain.jsonmapping.VaccineGroup vaccineGroupObject : supportedVaccines) {
                 //Add BCG2 special vaccine to birth vaccine group
-                VaccinateActionUtils.addBcg2SpecialVaccine(getActivity(), vaccineGroupObject, vaccineList);
+                VaccinateActionUtils.addBcg2SpecialVaccine(mActivity, vaccineGroupObject, vaccineList);
 
                 addVaccineGroup(-1, vaccineGroupObject, vaccineList, alerts);
             }
@@ -294,7 +309,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
 
     private void addVaccineGroup(int canvasId, org.smartregister.immunization.domain.jsonmapping.VaccineGroup vaccineGroupData, List<Vaccine> vaccineList, List<Alert> alerts) {
         LinearLayout vaccineGroupCanvasLL = (LinearLayout) view.findViewById(R.id.vaccine_group_canvas_ll);
-        VaccineGroup curGroup = new VaccineGroup(getActivity());
+        VaccineGroup curGroup = new VaccineGroup(mActivity);
         curGroup.setChildActive(isChildActive);
         curGroup.setData(vaccineGroupData, childDetails, vaccineList, alerts, "child");
         curGroup.setOnRecordAllClickListener(new VaccineGroup.OnRecordAllClickListener() {
@@ -322,7 +337,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
         if (canvasId == -1) {
             Random r = new Random();
             canvasId = r.nextInt(4232 - 213) + 213;
-            parent = new LinearLayout(getActivity());
+            parent = new LinearLayout(mActivity);
             parent.setId(canvasId);
             vaccineGroupCanvasLL.addView(parent);
         } else {
@@ -336,8 +351,8 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
     }
 
     private void addVaccineUndoDialogFragment(VaccineGroup vaccineGroup, VaccineWrapper vaccineWrapper) {
-        FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
-        Fragment prev = getActivity().getFragmentManager().findFragmentByTag(DIALOG_TAG);
+        FragmentTransaction ft = mActivity.getFragmentManager().beginTransaction();
+        Fragment prev = mActivity.getFragmentManager().findFragmentByTag(DIALOG_TAG);
         if (prev != null) {
             ft.remove(prev);
         }
@@ -350,8 +365,8 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
     }
 
     private void addServiceUndoDialogFragment(ServiceGroup serviceGroup, ServiceWrapper serviceWrapper) {
-        FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
-        Fragment prev = getActivity().getFragmentManager().findFragmentByTag(DIALOG_TAG);
+        FragmentTransaction ft = mActivity.getFragmentManager().beginTransaction();
+        Fragment prev = mActivity.getFragmentManager().findFragmentByTag(DIALOG_TAG);
         if (prev != null) {
             ft.remove(prev);
         }
@@ -387,8 +402,8 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
 
     public void addVaccinationDialogFragment(ArrayList<VaccineWrapper> vaccineWrappers, VaccineGroup vaccineGroup) {
 
-        FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
-        Fragment prev = getActivity().getFragmentManager().findFragmentByTag(DIALOG_TAG);
+        FragmentTransaction ft = mActivity.getFragmentManager().beginTransaction();
+        Fragment prev = mActivity.getFragmentManager().findFragmentByTag(DIALOG_TAG);
         if (prev != null) {
             ft.remove(prev);
         }
@@ -412,8 +427,8 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
 
     public void addServiceDialogFragment(ServiceWrapper serviceWrapper, ServiceGroup serviceGroup) {
 
-        FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
-        Fragment prev = getActivity().getFragmentManager().findFragmentByTag(DIALOG_TAG);
+        FragmentTransaction ft = mActivity.getFragmentManager().beginTransaction();
+        Fragment prev = mActivity.getFragmentManager().findFragmentByTag(DIALOG_TAG);
         if (prev != null) {
             ft.remove(prev);
         }
@@ -511,11 +526,11 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
     }
 
     public void startServices() {
-        Intent vaccineIntent = new Intent(getActivity(), VaccineIntentService.class);
-        getActivity().startService(vaccineIntent);
+        Intent vaccineIntent = new Intent(mActivity, VaccineIntentService.class);
+        mActivity.startService(vaccineIntent);
 
-        Intent serviceIntent = new Intent(getActivity(), RecurringIntentService.class);
-        getActivity().startService(serviceIntent);
+        Intent serviceIntent = new Intent(mActivity, RecurringIntentService.class);
+        mActivity.startService(serviceIntent);
 
     }
 
@@ -540,6 +555,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
 
         @Override
         protected void onPostExecute(Pair<ArrayList<VaccineWrapper>, List<Vaccine>> pair) {
+            if(mActivity==null || mActivity.isFinishing()) return;
             updateVaccineGroupViews(view, pair.first, pair.second);
 
             updateVaccineGroupsUsingAlerts(affectedVaccines, vaccineList, alertList);
@@ -619,6 +635,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
         @SuppressWarnings("unchecked")
         @Override
         protected void onPostExecute(Map<String, NamedObject<?>> map) {
+            if(mActivity == null || mActivity.isFinishing()) return;
 
             List<Vaccine> vaccineList = new ArrayList<>();
 
