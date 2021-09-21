@@ -35,7 +35,7 @@ android {
     defaultConfig {
         applicationId "org.smartregister.brac.hnpp"
         minSdkVersion 18
-        targetSdkVersion 29
+        targetSdkVersion 30
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
@@ -67,6 +67,7 @@ android {
             buildConfigField "int", "OPENMRS_UNIQUE_ID_SOURCE", '1'
             buildConfigField "boolean", "TIME_CHECK", "true"
             buildConfigField "int", "DATA_SYNC_DURATION_MINUTES", '90'
+            buildConfigField "int", "MISSING_DATA_MINUTES", '360'
             buildConfigField "int", "VACCINE_SYNC_PROCESSING_MINUTES", '30'
             buildConfigField "int", "IMAGE_UPLOAD_MINUTES", '180'
             buildConfigField "int", "PULL_UNIQUE_IDS_MINUTES", '180'
@@ -84,6 +85,7 @@ android {
             buildConfigField "int", "OPENMRS_UNIQUE_ID_SOURCE", '2'
             buildConfigField "boolean", "TIME_CHECK", "false"
             buildConfigField "int", "DATA_SYNC_DURATION_MINUTES", '15'
+            buildConfigField "int", "MISSING_DATA_MINUTES", '1'
             buildConfigField "int", "VACCINE_SYNC_PROCESSING_MINUTES", '30'
             buildConfigField "int", "IMAGE_UPLOAD_MINUTES", '15'
             buildConfigField "int", "PULL_UNIQUE_IDS_MINUTES", '15'
