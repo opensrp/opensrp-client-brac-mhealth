@@ -73,6 +73,9 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_force_unsync);
+        findViewById(R.id.invalid_data).setOnClickListener(v -> checkInvalidData());
+        findViewById(R.id.data_sync_by_id).setOnClickListener( v -> syncDataById() );
+        findViewById(R.id.compare_btn).setOnClickListener( v -> compareData() );
         findViewById(R.id.close_btn).setOnClickListener(v -> finish());
         findViewById(R.id.permission_btn).setOnClickListener( v -> getServerResponse() );
         findViewById(R.id.all_data_btn).setOnClickListener(new View.OnClickListener() {
@@ -177,84 +180,6 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
         return forceSyncModelArrayList;
     }
 
-    private void dumpDatabase(){
-        AppExecutors appExecutors = new AppExecutors();
-        ((Button)findViewById(R.id.dump_btn)).setText("ডাটাবেস ডাম্প নেওয়া হচ্ছে ");
-        Runnable runnable = () -> {
-            try{
-
-                String userName = CoreLibrary.getInstance().context().allSharedPreferences().fetchRegisteredANM();
-                String password = CoreLibrary.getInstance().context().allSharedPreferences().fetchUserLocalityId(userName);
-                Log.v("DUMP_DB","password:"+password+":userName:"+userName);
-                File Db = new File("/data/data/"+getPackageName()+"/databases/drishti.db");
-                String filePath = getExternalFilesDir(null) + "/db";
-                File file = new File(filePath);
-                if(!file.exists()){
-                    file.mkdir();
-                }
-                filePath = (file.getAbsolutePath() + "/"+ "drishti.db");
-                try {
-                    File logFile = new File(file.getAbsolutePath() + "/"+ "keys.txt");
-                    //BufferedWriter for performance, true to set append to file flag
-                    BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true));
-                    buf.append(password);
-                    buf.newLine();
-                    buf.close();
-                } catch (IOException e) {
-
-                }
-                File finalFile = new File(filePath);
-
-                finalFile.setWritable(true);
-
-                copyFile(new FileInputStream(Db), new FileOutputStream(finalFile));
-
-            }catch (Exception e){
-                e.printStackTrace();
-
-            }
-
-            appExecutors.mainThread().execute(() ->  ((Button)findViewById(R.id.dump_btn)).setText("ডাম্প নেওয়া শেষ হয়েছে"));
-        };
-        appExecutors.diskIO().execute(runnable);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//                    != PackageManager.PERMISSION_GRANTED) {
-//                ActivityCompat.requestPermissions(this, new String[]{
-//                        Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE}, 10000);
-//                return;
-//            }
-//        }
-
-
-
-    }
-    public static void copyFile(FileInputStream fromFile, FileOutputStream toFile) throws IOException {
-        FileChannel fromChannel = null;
-        FileChannel toChannel = null;
-        try {
-            fromChannel = fromFile.getChannel();
-            toChannel = toFile.getChannel();
-            fromChannel.transferTo(0, fromChannel.size(), toChannel);
-        } finally {
-            try {
-                if (fromChannel != null) {
-                    fromChannel.close();
-                }
-            } finally {
-                if (toChannel != null) {
-                    toChannel.close();
-                }
-            }
-            Log.v("DUMP_DB","done");
-        }
-        findViewById(R.id.invalid_data).setOnClickListener(v -> checkInvalidData());
-        findViewById(R.id.force_sync_btn).setOnClickListener( v -> getServerResponse() );
-        findViewById(R.id.data_sync_by_id).setOnClickListener( v -> syncDataById() );
-        findViewById(R.id.compare_btn).setOnClickListener( v -> compareData() );
-        findViewById(R.id.dump_btn).setOnClickListener( v -> dumpDatabase() );
-
-    }
     private void dumpDatabase(){
         AppExecutors appExecutors = new AppExecutors();
         ((Button)findViewById(R.id.dump_btn)).setText("ডাটাবেস ডাম্প নেওয়া হচ্ছে ");

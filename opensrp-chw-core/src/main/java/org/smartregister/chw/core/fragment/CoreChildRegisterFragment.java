@@ -121,7 +121,7 @@ public class CoreChildRegisterFragment extends BaseChwRegisterFragment implement
                 }
 
             } else {
-                super.onSyncInProgress(fetchStatus);
+               // super.onSyncInProgress(fetchStatus);
             }
         }catch (WindowManager.BadTokenException e){
 
@@ -140,7 +140,7 @@ public class CoreChildRegisterFragment extends BaseChwRegisterFragment implement
                 }
 
             } else {
-                super.onSyncComplete(fetchStatus);
+               // super.onSyncComplete(fetchStatus);
             }
 
             if (syncProgressBar != null) {
