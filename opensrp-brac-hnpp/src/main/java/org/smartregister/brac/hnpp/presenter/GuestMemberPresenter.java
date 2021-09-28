@@ -26,7 +26,7 @@ public class GuestMemberPresenter implements GuestMemberContract.Presenter,Guest
 
     @Override
     public void saveMember(String jsonString) {
-        view.showProgressBar();
+
         interactor.processAndSaveRegistration(jsonString,this);
 
     }

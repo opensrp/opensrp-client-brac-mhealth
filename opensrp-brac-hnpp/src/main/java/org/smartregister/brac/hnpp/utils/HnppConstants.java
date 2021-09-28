@@ -308,7 +308,7 @@ public class HnppConstants extends CoreConstants {
         }
         return false;
     }
-    public static void showSaveFormConfirmationDialog(Context context,String title, Runnable runnable){
+    public static void showSaveFormConfirmationDialog(Context context,String title, OnDialogOptionSelect onDialogOptionSelect){
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
@@ -319,13 +319,14 @@ public class HnppConstants extends CoreConstants {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                onDialogOptionSelect.onClickNoButton();
             }
         });
         dialog.findViewById(R.id.yes_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                runnable.run();
+                onDialogOptionSelect.onClickYesButton();
             }
         });
         dialog.show();

@@ -457,6 +457,10 @@ public class HnppVisitLogRepository extends BaseRepository {
             case HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY:
             case HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE:
                 return CoreConstants.EventType.ANC_HOME_VISIT;
+            case HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC:
+                return HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour;
+            case HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC:
+                return HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour;
             default:
                 return eventType;
         }

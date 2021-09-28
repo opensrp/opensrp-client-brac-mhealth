@@ -32,6 +32,8 @@ import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 import com.vijay.jsonwizard.utils.PermissionUtils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
@@ -51,6 +53,7 @@ import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.brac.hnpp.utils.MigrationSearchContentData;
+import org.smartregister.brac.hnpp.utils.OnDialogOptionSelect;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.core.activity.CoreFamilyProfileActivity;
 import org.smartregister.chw.core.activity.CoreFamilyProfileMenuActivity;
@@ -77,6 +80,7 @@ import java.util.Map;
 
 import timber.log.Timber;
 
+import static com.vijay.jsonwizard.constants.JsonFormConstants.FIELDS;
 import static org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity.REQUEST_HOME_VISIT;
 
 public class FamilyProfileActivity extends CoreFamilyProfileActivity {
@@ -290,8 +294,8 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                     String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
 
                     String fullName = HnppApplication.getInstance().getContext().allSharedPreferences().getANMPreferredName(userName);
-
-                    if (form.getString(JsonFormUtils.ENCOUNTER_TYPE).equals(HnppConstants.EventType.CHILD_REGISTRATION)) {
+                    String encounterType = form.getString(JsonFormUtils.ENCOUNTER_TYPE);
+                    if (encounterType.equals(HnppConstants.EventType.CHILD_REGISTRATION)) {
                         generatedString = HnppJsonFormUtils.getValuesFromChildRegistrationForm(form);
                         title = String.format(getString(R.string.dialog_confirm_save_child),fullName,generatedString[0],generatedString[2],generatedString[1]);
 
@@ -301,11 +305,32 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
 
                     }
 
-                    Log.v("FORM_SAVE","generatedString:"+generatedString);
-                    HnppConstants.showSaveFormConfirmationDialog(this, title, new Runnable() {
+                    HnppConstants.showSaveFormConfirmationDialog(this, title, new OnDialogOptionSelect() {
                         @Override
-                        public void run() {
-                           processJson(requestCode, resultCode, data);
+                        public void onClickYesButton() {
+
+                            try{
+                                JSONObject formWithConsent = new JSONObject(jsonString);
+                                JSONObject jobkect = formWithConsent.getJSONObject("step1");
+                                JSONArray field = jobkect.getJSONArray(FIELDS);
+                                HnppJsonFormUtils.addConsent(field,true);
+                                processForm(encounterType,formWithConsent.toString());
+                            }catch (JSONException je){
+                                je.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onClickNoButton() {
+                            try{
+                                JSONObject formWithConsent = new JSONObject(jsonString);
+                                JSONObject jobkect = formWithConsent.getJSONObject("step1");
+                                JSONArray field = jobkect.getJSONArray(FIELDS);
+                                HnppJsonFormUtils.addConsent(field,false);
+                                processForm(encounterType,formWithConsent.toString());
+                            }catch (JSONException je){
+                                je.printStackTrace();
+                            }
                         }
                     });
 
@@ -349,6 +374,23 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         }
 
 
+    }
+    private void processForm(String encounter_type, String jsonString){
+        if (encounter_type.equals(CoreConstants.EventType.CHILD_REGISTRATION)) {
+
+            presenter().saveChildForm(jsonString, false);
+
+        } else if (encounter_type.equals(Utils.metadata().familyMemberRegister.registerEventType)) {
+
+            String careGiver = presenter().saveChwFamilyMember(jsonString);
+            if (presenter().updatePrimaryCareGiver(getApplicationContext(), jsonString, familyBaseEntityId, careGiver)) {
+                setPrimaryCaregiver(careGiver);
+                refreshPresenter();
+                refreshMemberFragment(careGiver, null);
+            }
+
+            presenter().verifyHasPhone();
+        }
     }
     private void showServiceDoneDialog(boolean isSuccess){
         Dialog dialog = new Dialog(this);

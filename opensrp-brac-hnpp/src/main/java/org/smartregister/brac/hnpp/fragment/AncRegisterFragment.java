@@ -1,6 +1,5 @@
 package org.smartregister.brac.hnpp.fragment;
 
-import org.smartregister.brac.hnpp.activity.AncMemberProfileActivity;
 import org.smartregister.brac.hnpp.model.AncRegisterFragmentModel;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.core.application.CoreChwApplication;
@@ -36,16 +35,6 @@ public class AncRegisterFragment extends CoreAncRegisterFragment {
     @Override
     protected void openProfile(CommonPersonObjectClient client) {
 
-        HashMap<String, String> detailsMap = CoreChwApplication.ancRegisterRepository().getFamilyNameAndPhone(Utils.getValue(client.getColumnmaps(), org.smartregister.family.util.DBConstants.KEY.FAMILY_HEAD, false));
-
-        String familyName = "";
-        String familyHeadPhone = "";
-        if (detailsMap != null) {
-            familyName = detailsMap.get(org.smartregister.chw.anc.util.Constants.ANC_MEMBER_OBJECTS.FAMILY_HEAD_NAME);
-            familyHeadPhone = detailsMap.get(org.smartregister.chw.anc.util.Constants.ANC_MEMBER_OBJECTS.FAMILY_HEAD_PHONE);
-        }
-
-        AncMemberProfileActivity.startMe(getActivity(), new MemberObject(client), familyName, familyHeadPhone, client);
     }
 
     @Override

@@ -58,6 +58,7 @@ import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.brac.hnpp.utils.HouseHoldInfo;
+import org.smartregister.brac.hnpp.utils.OnDialogOptionSelect;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.core.activity.CoreFamilyOtherMemberProfileActivity;
@@ -91,6 +92,7 @@ import java.util.Map;
 
 import timber.log.Timber;
 
+import static com.vijay.jsonwizard.constants.JsonFormConstants.FIELDS;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.MEMBER_ID_SUFFIX;
 import static org.smartregister.brac.hnpp.utils.HnppJsonFormUtils.makeReadOnlyFields;
 
@@ -814,8 +816,55 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             showServiceDoneDialog(true);
 
         }
+        else if(resultCode == RESULT_OK && requestCode == org.smartregister.family.util.JsonFormUtils.REQUEST_CODE_GET_JSON){
+            String jsonString = data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON);
+            try{
+                JSONObject form = new JSONObject(jsonString);
+                if (form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE).equals(org.smartregister.family.util.Utils.metadata().familyMemberRegister.updateEventType)) {
+                    String[] generatedString;
+                    String title;
+                    String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
 
-        super.onActivityResult(requestCode, resultCode, data);
+                    String fullName = HnppApplication.getInstance().getContext().allSharedPreferences().getANMPreferredName(userName);
+                    generatedString = HnppJsonFormUtils.getValuesFromRegistrationForm(form);
+                    title = String.format(getString(R.string.dialog_confirm_save),fullName,generatedString[0],generatedString[2],generatedString[1]);
+
+                    HnppConstants.showSaveFormConfirmationDialog(this, title, new OnDialogOptionSelect() {
+                        @Override
+                        public void onClickYesButton() {
+
+                            try{
+                                JSONObject formWithConsent = new JSONObject(jsonString);
+                                JSONObject jobkect = formWithConsent.getJSONObject("step1");
+                                JSONArray field = jobkect.getJSONArray(FIELDS);
+                                HnppJsonFormUtils.addConsent(field,true);
+                                presenter().updateFamilyMember(formWithConsent.toString());
+                            }catch (JSONException je){
+                                je.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onClickNoButton() {
+                            try{
+                                JSONObject formWithConsent = new JSONObject(jsonString);
+                                JSONObject jobkect = formWithConsent.getJSONObject("step1");
+                                JSONArray field = jobkect.getJSONArray(FIELDS);
+                                HnppJsonFormUtils.addConsent(field,false);
+                                presenter().updateFamilyMember(formWithConsent.toString());
+                            }catch (JSONException je){
+                                je.printStackTrace();
+                            }
+                        }
+                    });
+                }
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
+       // super.onActivityResult(requestCode, resultCode, data);
 
     }
 

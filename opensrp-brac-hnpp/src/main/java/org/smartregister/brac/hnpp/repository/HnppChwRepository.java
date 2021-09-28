@@ -168,8 +168,8 @@ public class HnppChwRepository extends CoreChwRepository {
     }
     private void upgradeToVersion37(SQLiteDatabase db){
         try{
-            db.execSQL("delete from ec_family_member_search");
-            db.execSQL("delete from ec_family_search");
+            //db.execSQL("delete from ec_family_member_search");
+            //db.execSQL("delete from ec_family_search");
             db.execSQL("update ec_visit_log set visit_json = null where event_type!='SS Form'");
         }catch (Exception e){
 
