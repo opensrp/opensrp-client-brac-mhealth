@@ -134,10 +134,10 @@ android {
             dimension = 'baseDimension'
             applicationIdSuffix ".training"
             buildConfigField "boolean", 'IS_TRAINING', 'true'
-//            buildConfigField "String", 'opensrp_url_training', '"https://hnpptest1.mpower-social.com/opensrp/"'
-//            buildConfigField "String", 'opensrp_url_live', '"https://hnpptest1.mpower-social.com/opensrp/"'
-            buildConfigField "String", 'opensrp_url_training', '"https://mhealthtest.brac.net/opensrp/"'
-            buildConfigField "String", 'opensrp_url_live', '"https://mhealthtest.brac.net/opensrp/"'
+            buildConfigField "String", 'opensrp_url_training', '"https://hnpptest1.mpower-social.com/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"https://hnpptest1.mpower-social.com/opensrp/"'
+//            buildConfigField "String", 'opensrp_url_training', '"https://mhealthtest.brac.net/opensrp/"'
+//            buildConfigField "String", 'opensrp_url_live', '"https://mhealthtest.brac.net/opensrp/"'
 //            buildConfigField "String", 'opensrp_url_training', '"http://hnppqa.mpower-social.com:8080/opensrp/"'
 //            buildConfigField "String", 'opensrp_url_live', '"http://hnppqa.mpower-social.com:8080/opensrp/"'
         }
