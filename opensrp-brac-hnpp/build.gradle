@@ -45,7 +45,7 @@ android {
         buildConfigField "String[]", "ALLOWED_LOCATION_LEVELS", '{"MOH Jhpiego Facility Name" , "Village"}'
         buildConfigField "String", 'DEFAULT_LOCATION', '"Village"'
         buildConfigField "boolean", 'SUPPORT_QR', 'false'
-        buildConfigField "int", "DATABASE_VERSION", '38'
+        buildConfigField "int", "DATABASE_VERSION", '37'
         buildConfigField "int", "DATA_SYNC_DURATION_MINUTES", '10'
         buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "1800000l"
         buildConfigField "boolean", "TIME_CHECK", "false"
@@ -155,8 +155,8 @@ android {
 
         }
         production{
-            versionCode 50
-            versionName "2.0.6.1"
+            versionCode 49
+            versionName "2.0.6"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
             buildConfigField "String", 'opensrp_url_training', '"https://mhealth.brac.net/opensrp/"'
