@@ -160,9 +160,6 @@ public class HnppChwRepository extends CoreChwRepository {
                 case 37:
                     upgradeToVersion37(db);
                     break;
-                case 38:
-                    upgradeToVersion38(db);
-                    break;
                 default:
                     break;
             }
@@ -174,14 +171,6 @@ public class HnppChwRepository extends CoreChwRepository {
             //db.execSQL("delete from ec_family_member_search");
             //db.execSQL("delete from ec_family_search");
             db.execSQL("update ec_visit_log set visit_json = null where event_type!='SS Form'");
-        }catch (Exception e){
-
-        }
-
-    }
-    private void upgradeToVersion38(SQLiteDatabase db){
-        try{
-            db.execSQL("delete from stock_table");
         }catch (Exception e){
 
         }
