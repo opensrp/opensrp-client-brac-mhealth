@@ -130,7 +130,6 @@ public class StockRepository extends BaseRepository {
                 case HnppConstants.EVENT_TYPE.IYCF_PACKAGE:
                 case HnppConstants.EVENT_TYPE.NCD_PACKAGE:
                 case HnppConstants.EVENT_TYPE.WOMEN_PACKAGE:
-                    return targetName;
                 case HnppConstants.EVENT_TYPE.GLASS:
                 case HnppConstants.EVENT_TYPE.SUN_GLASS:
                 case HnppConstants.EVENT_TYPE.SV_1:
