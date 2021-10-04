@@ -97,7 +97,7 @@ public class MigrationSearchDetailsActivity extends SecuredActivity implements V
             }else {
                 titleTextView.setText(getString(R.string.hh_migration));
             }
-            presenter.fetchData(migrationSearchContentData.getMigrationType(),migrationSearchContentData.getVillageId(), migrationSearchContentData.getGender(),migrationSearchContentData.getStartAge(), migrationSearchContentData.getAge());
+            presenter.fetchData(migrationSearchContentData.getMigrationType(),migrationSearchContentData.getDistrictId(),migrationSearchContentData.getVillageId(), migrationSearchContentData.getGender(),migrationSearchContentData.getStartAge(), migrationSearchContentData.getAge());
         }
         editTextSearch.addTextChangedListener(new TextWatcher() {
             @Override
