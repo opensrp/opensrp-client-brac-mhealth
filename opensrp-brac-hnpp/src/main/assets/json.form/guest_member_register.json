@@ -55,7 +55,14 @@
   "step1": {
     "title": "সদস্য যোগ করুন",
     "fields": [
-
+      {
+        "key": "is_consent",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_consent",
+        "type": "hidden",
+        "value": "1"
+      },
       {
         "key": "village_id",
         "openmrs_entity_parent": "",

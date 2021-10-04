@@ -1499,6 +1499,14 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         }
         processAttributesWithChoiceIDsForSave(fields);
     }
+    public static void addConsent(JSONArray fields,boolean isConsent){
+        try{
+            JSONObject isConsentObj = getFieldJSONObject(fields, "is_consent");
+            isConsentObj.put("value",isConsent?"1":"0");
+        }catch (Exception e){
+
+        }
+    }
     public static String getDobWithToday(int age) {
         Calendar cal = Calendar.getInstance();
         if (age > 0)

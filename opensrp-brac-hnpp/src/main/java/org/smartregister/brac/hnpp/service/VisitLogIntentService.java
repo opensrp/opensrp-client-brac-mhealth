@@ -129,7 +129,7 @@ public class VisitLogIntentService extends IntentService {
                             client.setColumnmaps(details);
                             for (String encounter_type : encounter_types) {
                                 Log.v("ANC_HOME_VISIT","encounter_type:"+encounter_type);
-                               // JSONObject form_object = loadFormFromAsset(encounter_type,this);
+
                                 if(encounter_type.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME_OOC)){
                                     encounter_type = HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME;
                                 }
@@ -148,11 +148,15 @@ public class VisitLogIntentService extends IntentService {
                                 else if(encounter_type.equalsIgnoreCase(PNC_REGISTRATION_AFTER_48_hour_OOC)){
                                     encounter_type = HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour;
                                 }
-//                                JSONObject stepOne = form_object.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
-//                                JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
-//                                for (int k = 0; k < jsonArray.length(); k++) {
-//                                    populateValuesForFormObject(client, jsonArray.getJSONObject(k));
-//                                }
+                                if(encounter_type.equalsIgnoreCase(HOME_VISIT_FAMILY)){
+                                     JSONObject form_object = loadFormFromAsset(encounter_type,this);
+                                    JSONObject stepOne = form_object.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+                                    JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+                                    for (int k = 0; k < jsonArray.length(); k++) {
+                                        populateValuesForFormObject(client, jsonArray.getJSONObject(k));
+                                    }
+                                }
+
                                 VisitLog log = new VisitLog();
                                 log.setVisitId(visit.getVisitId());
                                 log.setVisitType(visit.getVisitType());

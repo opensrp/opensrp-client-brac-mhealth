@@ -25,6 +25,7 @@ import com.vijay.jsonwizard.domain.Form;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
@@ -43,6 +44,7 @@ import org.smartregister.brac.hnpp.utils.GuestMemberData;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
+import org.smartregister.brac.hnpp.utils.OnDialogOptionSelect;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.util.NCUtils;
@@ -64,6 +66,7 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.vijay.jsonwizard.constants.JsonFormConstants.FIELDS;
 import static org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity.REQUEST_HOME_VISIT;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.MEMBER_ID_SUFFIX;
 import static org.smartregister.brac.hnpp.utils.HnppJsonFormUtils.makeReadOnlyFields;
@@ -402,8 +405,53 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
 
         }
         else if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_GET_JSON){
-            String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
-            presenter.saveMember(jsonString);
+            try {
+                String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
+                JSONObject form = new JSONObject(jsonString);
+                String[] generatedString;
+                String title;
+                String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
+
+                String fullName = HnppApplication.getInstance().getContext().allSharedPreferences().getANMPreferredName(userName);
+
+                generatedString = HnppJsonFormUtils.getValuesFromGuestRegistrationForm(form);
+                title = String.format(getString(R.string.dialog_confirm_save_guest),fullName,generatedString[0],generatedString[1]);
+
+
+                HnppConstants.showSaveFormConfirmationDialog(this, title, new OnDialogOptionSelect() {
+                    @Override
+                    public void onClickYesButton() {
+                        try{
+                            showProgressBar();
+                            JSONObject formWithConsent = new JSONObject(jsonString);
+                            JSONObject jobkect = formWithConsent.getJSONObject("step1");
+                            JSONArray field = jobkect.getJSONArray(FIELDS);
+                            HnppJsonFormUtils.addConsent(field,true);
+                            presenter.saveMember(formWithConsent.toString());
+                        }catch (JSONException je){
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onClickNoButton() {
+                        try{
+                            showProgressBar();
+                            JSONObject formWithConsent = new JSONObject(jsonString);
+                            JSONObject jobkect = formWithConsent.getJSONObject("step1");
+                            JSONArray field = jobkect.getJSONArray(FIELDS);
+                            HnppJsonFormUtils.addConsent(field,false);
+                            presenter.saveMember(formWithConsent.toString());
+                        }catch (JSONException je){
+
+                        }
+                    }
+                });
+
+            }catch (JSONException e){
+
+            }
         }
 
 

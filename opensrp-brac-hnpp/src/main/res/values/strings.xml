@@ -37,6 +37,7 @@
     <string name="menu_troubleshoot" translatable="false">ট্রাবলশুট</string>
     <string name="force_sync_text" translatable="false">আপনার ডাটা সিঙ্ক হতে প্রব্লেম হলে সার্ভার অ্যাডমিন এর অনুমতি ক্রমে নিচের "ফোর্স সিঙ্ক " বাটন এ ছাপ দিন।
  \n * আপনার অনুমতি না থাকলে এটা কাজ করবে না</string>
+    <string name="invalid_data_count">আপনার ডিভাইস এ ইনভ্যালিড ডাটা আছে :</string>
     <string name="menu_forum">ফোরাম</string>
     <string name="menu_notification">নোটিফিকেশন</string>
     <string name="menu_payment">পেমেন্ট</string>
