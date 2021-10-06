@@ -1,5 +1,7 @@
 package org.smartregister.chw.core.dao;
 
+import android.util.Log;
+
 import org.smartregister.chw.core.domain.VisitSummary;
 import org.smartregister.chw.core.utils.CoreConstants;
 
@@ -29,7 +31,7 @@ public class VisitDao extends AbstractDao {
     }
     //TODO need to support multiple visit type
     public static String[] getVisitInfo(String baseEntityId,String visitType, String visitType2){
-        String lmp = "SELECT count(*) as count, max(visit_date) as visit_date FROM visits where base_entity_id = ? and visit_type = ? or visit_type = ?";
+        String lmp = "SELECT count(*) as count, max(visit_date) as visit_date FROM visits where base_entity_id = ? and (visit_type = ? or visit_type = ?)";
         List<Map<String, String>> valus = AbstractDao.readData(lmp, new String[]{baseEntityId,visitType,visitType2});
         String[] strs = new String[2];
         if(valus.size()>0){
