@@ -445,9 +445,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
         String derivedEncounterType = StringUtils.isBlank(parentEventType) ? encounterType : "";
         Event baseEvent = org.smartregister.chw.anc.util.JsonFormUtils.processVisitJsonForm(allSharedPreferences, memberID, derivedEncounterType, jsonString, getTableName());
-        if(encounterType.equalsIgnoreCase(org.smartregister.chw.anc.util.Constants.EVENT_TYPE.ANC_HOME_VISIT)){
-            prepareEvent(baseEvent);
-        }
+
         if(isComesFromIdentity){
             prepareIsIdentified(baseEvent);
         }else if(needVerified){
@@ -538,15 +536,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
     private static String getTableName() {
         return org.smartregister.chw.anc.util.Constants.TABLES.ANC_MEMBERS;
     }
-    private static void prepareEvent(Event baseEvent) {
-        if (baseEvent != null) {
-            // add anc date obs and last
-            List<Object> list = new ArrayList<>();
-            list.add(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date()));
-            baseEvent.addObs(new Obs("concept", "text", "anc_visit_date", "",
-                    list, new ArrayList<>(), null, "anc_visit_date"));
-        }
-    }
+
     private static void prepareIsVerified(Event baseEvent, boolean isVerified , String notVerifyCause) {
         if (baseEvent != null) {
             // add anc date obs and last
