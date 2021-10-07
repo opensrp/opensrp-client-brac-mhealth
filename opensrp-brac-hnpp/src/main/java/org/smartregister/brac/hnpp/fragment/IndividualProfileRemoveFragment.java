@@ -139,24 +139,24 @@ public class IndividualProfileRemoveFragment extends CoreIndividualProfileRemove
             FamilyRemoveMemberConfirmDialog dialog = FamilyRemoveMemberConfirmDialog.newInstance(title);
             dialog.show(getFragmentManager(), FamilyRemoveMemberFragment.DIALOG_TAG);
             dialog.setOnRemove(() -> {
-                //getPresenter().processRemoveForm(form);
-                try{
-                    String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
-                    type = HnppJsonFormUtils.getEncounterType(type);
-                    Map<String, String> jsonStrings = new HashMap<>();
-                    jsonStrings.put("First",form.toString());
+                getPresenter().processRemoveForm(form);
+//                try{
+//                    String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
+//                    type = HnppJsonFormUtils.getEncounterType(type);
+//                    Map<String, String> jsonStrings = new HashMap<>();
+//                    jsonStrings.put("First",form.toString());
+//
+//                    HnppJsonFormUtils.saveVisit(false,false,false,"", baseEntityId, type, jsonStrings, "");
+//                    VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+//                }catch (Exception e){
+//                    e.printStackTrace();
+//
+//                }
 
-                    HnppJsonFormUtils.saveVisit(false,false,false,"", baseEntityId, type, jsonStrings, "");
-                    VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
-                }catch (Exception e){
-                    e.printStackTrace();
 
-                }
-
-
-                Intent intent = new Intent(getActivity(), FamilyRegisterActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+//                Intent intent = new Intent(getActivity(), FamilyRegisterActivity.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                startActivity(intent);
             });
             dialog.setOnRemoveActivity(() -> {
                 if (getActivity() != null) {

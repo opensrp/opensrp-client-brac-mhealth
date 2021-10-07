@@ -454,6 +454,10 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 return HnppConstants.EVENT_TYPE.ENC_REGISTRATION;
             case  HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL:
                 return HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL;
+            case  HnppConstants.EventType.REMOVE_MEMBER:
+                return HnppConstants.EventType.REMOVE_MEMBER;
+            case  HnppConstants.EventType.REMOVE_CHILD:
+                return HnppConstants.EventType.REMOVE_CHILD;
                 default:
                     return org.smartregister.chw.anc.util.Constants.EVENT_TYPE.ANC_HOME_VISIT;
         }
