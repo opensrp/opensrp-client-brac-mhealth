@@ -7,6 +7,8 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,14 +18,23 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity;
+import org.smartregister.brac.hnpp.adapter.HnppMemberProfileDueAdapter;
+import org.smartregister.brac.hnpp.adapter.OtherServiceAdapter;
+import org.smartregister.brac.hnpp.contract.HnppMemberProfileContract;
+import org.smartregister.brac.hnpp.contract.OtherServiceContract;
 import org.smartregister.brac.hnpp.model.MemberProfileDueModel;
 import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
+import org.smartregister.brac.hnpp.presenter.HnppMemberProfilePresenter;
+import org.smartregister.brac.hnpp.presenter.MemberOtherServicePresenter;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
+import org.smartregister.brac.hnpp.utils.MemberProfileDueData;
+import org.smartregister.brac.hnpp.utils.OtherServiceData;
 import org.smartregister.chw.core.utils.CoreChildUtils;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.adapter.FamilyRecyclerViewCustomAdapter;
@@ -46,7 +57,7 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.eventTypeFormNameM
 import static org.smartregister.brac.hnpp.utils.HnppConstants.eventTypeMapping;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.iconMapping;
 
-public class HnppMemberProfileDueFragment extends Fragment implements View.OnClickListener {
+public class HnppMemberProfileDueFragment extends Fragment implements View.OnClickListener, HnppMemberProfileContract.View {
     private static final int TAG_OPEN_ANC1 = 101;
 
     private static final int TAG_OPEN_FAMILY = 111;
@@ -61,6 +72,9 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
     private Handler handler;
     private boolean isStart = true;
     Activity mActivity;
+    private HnppMemberProfilePresenter presenter;
+    private RecyclerView dueRecyclerView;
+
 
     @Override
     public void onAttach(Context context) {
@@ -84,7 +98,8 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser && !isStart){
-            addStaticView();
+            //addStaticView();
+            presenter.fetchData(commonPersonObjectClient,baseEntityId);
         }
     }
 
@@ -94,7 +109,9 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    addStaticView();
+                   // addStaticView();
+                    fetchData();
+
                 }
             },500);
 //        }else{
@@ -107,7 +124,9 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_member_profile_due,null);
-        otherServiceView = view.findViewById(R.id.other_option);
+       // otherServiceView = view.findViewById(R.id.other_option);
+        dueRecyclerView = view.findViewById(R.id.due_recycler_view);
+        dueRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         loadingProgressBar = view.findViewById(R.id.client_list_progress);
         isStart = false;
 
@@ -117,12 +136,19 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        presenter = new HnppMemberProfilePresenter(this);
         baseEntityId = getArguments().getString(Constants.INTENT_KEY.BASE_ENTITY_ID);
         handler = new Handler();
-        addStaticView();
+        //addStaticView();
+        fetchData();
     }
 
-    String eventType = "";
+    private void fetchData() {
+        presenter.fetchData(commonPersonObjectClient,baseEntityId);
+    }
+
+    ///old
+   /* String eventType = "";
     View anc1View;
     private void addStaticView(){
         loadingProgressBar.setVisibility(View.VISIBLE);
@@ -231,8 +257,63 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
         }
         loadingProgressBar.setVisibility(View.GONE);
 
-    }
+    }*/
 
+    private HnppMemberProfileDueAdapter.OnClickAdapter onClickAdapter = (position, content) -> startFormActivity(content);
+
+    private void startFormActivity(MemberProfileDueData content) {
+        if(content.getReferralFollowUpModel() instanceof ReferralFollowUpModel){
+            ReferralFollowUpModel referralFollowUpModel = (ReferralFollowUpModel) content.getReferralFollowUpModel();
+            if (mActivity != null && mActivity instanceof HnppFamilyOtherMemberProfileActivity) {
+                HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) mActivity;
+                activity.openReferealFollowUp(referralFollowUpModel);
+            }
+            return;
+        }
+        Integer tag = (Integer) content.getType();
+        if (tag != null) {
+            switch (tag) {
+                case TAG_OPEN_CORONA:
+                    if (mActivity != null && mActivity instanceof HnppFamilyOtherMemberProfileActivity) {
+                        HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) mActivity;
+                        activity.openCoronaIndividualForm();
+                    }
+                    break;
+                case TAG_OPEN_ANC_REGISTRATION:
+                    if (mActivity != null && mActivity instanceof HnppFamilyOtherMemberProfileActivity) {
+                        HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) mActivity;
+                        activity.startAncRegister();
+                    }
+                    break;
+                case TAG_OPEN_FAMILY:
+                    if (mActivity != null && mActivity instanceof HnppFamilyOtherMemberProfileActivity) {
+                        HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) mActivity;
+                        activity.openFamilyDueTab();
+                    }
+                    break;
+                case TAG_OPEN_REFEREAL:
+                    if (mActivity != null && mActivity instanceof HnppFamilyOtherMemberProfileActivity) {
+                        HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) mActivity;
+                        activity.openRefereal();
+                    }
+                    break;
+                case TAG_OPEN_ANC1:
+                    if (mActivity != null && mActivity instanceof HnppFamilyOtherMemberProfileActivity) {
+                        HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) mActivity;
+                        String eventType = (String) content.getEventType();
+                        if(!eventType.equals(HnppConstants.EVENT_TYPE.ELCO)
+                                && !eventType.equals(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour)
+                                && !eventType.equals(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour)
+                                && FormApplicability.isFirstTimeAnc(baseEntityId)){
+                            activity.openHomeVisitForm();
+                        }else {
+                            activity.openHomeVisitSingleForm(eventTypeFormNameMapping.get(eventType));
+                        }
+                    }
+                    break;
+            }
+        }
+    }
 
 
     @Override
@@ -296,4 +377,28 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
         if(handler != null) handler.removeCallbacksAndMessages(null);
         mActivity = null;
     }
+
+    @Override
+    public void showProgressBar() {
+
+    }
+
+    @Override
+    public void hideProgressBar() {
+
+    }
+
+    @Override
+    public void updateView() {
+        HnppMemberProfileDueAdapter adapter = new HnppMemberProfileDueAdapter(getActivity(),onClickAdapter);
+        adapter.setData(presenter.getData());
+        this.dueRecyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public HnppMemberProfileContract.Presenter getPresenter() {
+        return presenter;
+    }
+
+
 }
