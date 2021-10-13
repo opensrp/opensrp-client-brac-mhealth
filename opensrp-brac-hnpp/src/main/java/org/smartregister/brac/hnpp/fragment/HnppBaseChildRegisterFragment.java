@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.fragment;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -17,6 +18,8 @@ import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.chw.anc.util.DBConstants;
 import org.smartregister.chw.core.fragment.CoreChildRegisterFragment;
 import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
+import org.smartregister.domain.FetchStatus;
+import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -152,6 +155,38 @@ public class HnppBaseChildRegisterFragment extends CoreChildRegisterFragment imp
             }
         }
         filter(searchFilterString, "", DEFAULT_MAIN_CONDITION,false);
+
+    }
+    @Override
+    public void onSyncInProgress(FetchStatus fetchStatus) {
+        try{
+            if (!SyncStatusBroadcastReceiver.getInstance().isSyncing() && (FetchStatus.fetched.equals(fetchStatus) || FetchStatus.nothingFetched.equals(fetchStatus))) {
+                org.smartregister.util.Utils.showShortToast(getActivity(), getString(org.smartregister.chw.core.R.string.sync_complete));
+                refreshSyncProgressSpinner();
+            }
+        }catch (WindowManager.BadTokenException e){
+
+        }
+
+    }
+    @Override
+    public void onSyncComplete(FetchStatus fetchStatus) {
+        try{
+            try{
+                org.smartregister.util.Utils.showShortToast(getActivity(), getString(org.smartregister.chw.core.R.string.sync_complete));
+            }catch (WindowManager.BadTokenException e){
+                e.printStackTrace();
+            }
+            refreshSyncProgressSpinner();
+            if (syncProgressBar != null) {
+                syncProgressBar.setVisibility(View.GONE);
+            }
+            if (syncButton != null) {
+                syncButton.setVisibility(View.GONE);
+            }
+        }catch (WindowManager.BadTokenException e){
+
+        }
 
     }
     protected String visitType ="";

@@ -13,8 +13,10 @@ import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
 import org.smartregister.brac.hnpp.utils.ANCRegister;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.VisitLog;
+import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.core.application.CoreChwApplication;
+import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.repository.BaseRepository;
 import org.smartregister.repository.Repository;
 import java.util.ArrayList;
@@ -103,20 +105,24 @@ public class HnppVisitLogRepository extends BaseRepository {
         HashMap<String, String> existColumn = new HashMap<>();
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = db.rawQuery("PRAGMA table_info(ec_family)",null);
-        int cursorCount = cursor.getCount();
-        for (int i = 1; i < cursorCount; i++ ) {
-            cursor.moveToPosition(i);
-            String storedSqlColumnName = cursor.getString(cursor.getColumnIndex("name"));
-            try{
-                String value = details.get(storedSqlColumnName);
-                if(!TextUtils.isEmpty(value)){
-                    existColumn.put(storedSqlColumnName,value);
-                }
-            }catch (Exception e){
-                e.printStackTrace();
+        if(cursor!=null){
+            int cursorCount = cursor.getCount();
+            for (int i = 1; i < cursorCount; i++ ) {
+                cursor.moveToPosition(i);
+                String storedSqlColumnName = cursor.getString(cursor.getColumnIndex("name"));
+                try{
+                    String value = details.get(storedSqlColumnName);
+                    if(!TextUtils.isEmpty(value)){
+                        existColumn.put(storedSqlColumnName,value);
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
 
+                }
             }
         }
+
+        if(cursor!=null) cursor.close();
         return existColumn;
     }
     public long add(VisitLog visitLog) {
@@ -172,26 +178,29 @@ public class HnppVisitLogRepository extends BaseRepository {
         }
         return visit_ids;
     }
-    public ArrayList<String> getNeedToUpdateAlreadyProccedVisit(){
-        ArrayList<String>visit_ids = new ArrayList<String>();
-        try{
-
-            SQLiteDatabase database = getWritableDatabase();
-            Cursor cursor = database.rawQuery("select visits.visit_id from visits where visits.processed ='2' ",null);
-            if(cursor!=null && cursor.getCount() > 0) {
-                cursor.moveToFirst();
-                while (!cursor.isAfterLast()) {
-                    String visit_id = cursor.getString(0);
-                    visit_ids.add(visit_id);
-                    cursor.moveToNext();
-                }
-                cursor.close();
-            }
-        }catch(Exception e){
-
-        }
-        return visit_ids;
-    }
+//    public ArrayList<String> getNeedToUpdateAlreadyProccedVisit(){
+//        ArrayList<String>visit_ids = new ArrayList<String>();
+//        Cursor cursor = null;
+//        try{
+//
+//            SQLiteDatabase database = getWritableDatabase();
+//            cursor= database.rawQuery("select visits.visit_id from visits where visits.processed ='2' ",null);
+//            if(cursor!=null && cursor.getCount() > 0) {
+//                cursor.moveToFirst();
+//                while (!cursor.isAfterLast()) {
+//                    String visit_id = cursor.getString(0);
+//                    visit_ids.add(visit_id);
+//                    cursor.moveToNext();
+//                }
+//            }
+//        }catch(Exception e){
+//
+//        }
+//        finally {
+//            if(cursor!=null) cursor.close();
+//        }
+//        return visit_ids;
+//    }
     public ArrayList<String> getPregnancyOutcomeEvents(){
         ArrayList<String>visit_ids = new ArrayList<String>();
         try{
@@ -211,6 +220,15 @@ public class HnppVisitLogRepository extends BaseRepository {
 
         }
         return visit_ids;
+    }
+    public ArrayList<Visit> getVisitByVisitId(String visitId){
+        SQLiteDatabase database = getWritableDatabase();
+
+        String selection = VISIT_ID+" = ?"+COLLATE_NOCASE;
+        String[] selectionArgs = new String[]{visitId};
+        net.sqlcipher.Cursor cursor = database.query("visits", null, selection, selectionArgs, null, null, VISIT_DATE + " DESC", null);
+        ArrayList<Visit> homeVisits = getVisits(cursor);
+        return homeVisits;
     }
     public ArrayList<VisitLog> getAllSSFormVisit(){
         SQLiteDatabase database = getWritableDatabase();
@@ -300,6 +318,30 @@ public class HnppVisitLogRepository extends BaseRepository {
         }
         return list;
     }
+    private ArrayList<Visit> getVisits(Cursor cursor) {
+        ArrayList<Visit> visitLogs = new ArrayList<>();
+        try {
+            if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    Visit visitLog = new Visit();
+                    visitLog.setVisitId(cursor.getString(cursor.getColumnIndex(VISIT_ID)));
+                    visitLog.setBaseEntityId(cursor.getString(cursor.getColumnIndex(BASE_ENTITY_ID)));
+                    visitLog.setJson(cursor.getString(cursor.getColumnIndex("visit_json")));
+                    visitLog.setVisitType(cursor.getString(cursor.getColumnIndex(VISIT_TYPE)));
+                    visitLogs.add(visitLog);
+                    cursor.moveToNext();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return visitLogs;
+
+    }
     private ArrayList<VisitLog> getAllVisitLog(Cursor cursor) {
         ArrayList<VisitLog> visitLogs = new ArrayList<>();
         try {
@@ -383,28 +425,20 @@ public class HnppVisitLogRepository extends BaseRepository {
 
         return  false;
     }
-    public boolean isDoneWihinTwentyFourHours(String baseEntityId, String eventTpe) {
-        if(TextUtils.isEmpty(eventTpe)) return true;
-        String query ="";
-        if(eventTpe.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION) ||
-                eventTpe.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY)){
-            query  = "select event_type from ec_visit_log where (event_type ='"+HnppConstants.EVENT_TYPE.ANC1_REGISTRATION+"' OR event_type ='"+HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY+"') and base_entity_id ='"+baseEntityId+"' and (strftime('%d',datetime(visit_date/1000,'unixepoch','localtime')) = strftime('%d',datetime('now')))";
+    public boolean isDoneWihinTwentyFourHours(String baseEntityId, String eventType) {
+        if(TextUtils.isEmpty(eventType)) return true;
 
-        }else{
-            query = "select event_type from ec_visit_log where event_type ='"+eventTpe+"' and base_entity_id ='"+baseEntityId+"' and (strftime('%d',datetime(visit_date/1000,'unixepoch','localtime')) = strftime('%d',datetime('now')))";
-
-        }
-
-
-        String eventType="";
+        String visitType = getCorrespondingVisitType(eventType);
+        String query = "select visit_type from visits where visit_type ='"+visitType+"' and base_entity_id ='"+baseEntityId+"' and (strftime('%d',datetime(visit_date/1000,'unixepoch','localtime')) = strftime('%d',datetime('now')))";
+        Log.v("DUE_VISIT",""+query);
         android.database.Cursor cursor = null;
+        boolean isExist = false;
         try {
             cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()) {
-
-                    eventType = cursor.getString(0);
+                    isExist = true;
                     cursor.moveToNext();
 
                 }
@@ -415,8 +449,26 @@ public class HnppVisitLogRepository extends BaseRepository {
         finally {
             if(cursor!=null) cursor.close();
         }
-        return !TextUtils.isEmpty(eventType);
+        return isExist;
     }
+
+    private String getCorrespondingVisitType(String eventType) {
+        switch (eventType){
+            case HnppConstants.EVENT_TYPE.ANC1_REGISTRATION:
+            case HnppConstants.EVENT_TYPE.ANC2_REGISTRATION:
+            case HnppConstants.EVENT_TYPE.ANC3_REGISTRATION:
+            case HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY:
+            case HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE:
+                return CoreConstants.EventType.ANC_HOME_VISIT;
+            case HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC:
+                return HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour;
+            case HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC:
+                return HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour;
+            default:
+                return eventType;
+        }
+    }
+
     public boolean isDoneWihinChildInfoLogic(String baseEntityId, String eventTpe) {
         if(TextUtils.isEmpty(eventTpe)) return true;
         String query ="";

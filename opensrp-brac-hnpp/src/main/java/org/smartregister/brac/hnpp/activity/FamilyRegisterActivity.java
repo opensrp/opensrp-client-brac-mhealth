@@ -202,6 +202,7 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
 
         registerReceiver(notificationBroadcastReceiver, intentFilter);
     }
+
     @Override
     public void startFormActivity(JSONObject jsonForm) {
         if(SSLocationHelper.getInstance().getSsModels().size() == 0){

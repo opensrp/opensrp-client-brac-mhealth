@@ -80,7 +80,7 @@ public class HnppDBUtils extends CoreChildUtils {
         } catch (Exception e) {
 
         } finally {
-            cursor.close();
+            if(cursor!=null)cursor.close();
         }
 
         return map;
@@ -294,11 +294,13 @@ public class HnppDBUtils extends CoreChildUtils {
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 month = cursor.getInt(0);
-                cursor.close();
             }
 
         } catch (Exception e) {
             Timber.e(e);
+        }
+        finally {
+            if(cursor!=null)cursor.close();
         }
         if(month>= 18 && month <= 36) return HnppConstants.EVENT_TYPE.CHILD_VISIT_18_36;
         if(month>= 7 && month <= 24) return HnppConstants.EVENT_TYPE.CHILD_VISIT_7_24;
@@ -504,8 +506,9 @@ public class HnppDBUtils extends CoreChildUtils {
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 isCorona = cursor.getString(0);
-                cursor.close();
+
             }
+            if(cursor!=null)cursor.close();
 
             return isCorona;
         } catch (Exception e) {
@@ -524,9 +527,8 @@ public class HnppDBUtils extends CoreChildUtils {
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 birthWeight = cursor.getString(0);
-                cursor.close();
             }
-
+            if(cursor!=null)cursor.close();
             return birthWeight;
         } catch (Exception e) {
             Timber.e(e);
@@ -543,9 +545,8 @@ public class HnppDBUtils extends CoreChildUtils {
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 count = cursor.getInt(0);
-                cursor.close();
             }
-
+            if(cursor!=null)cursor.close();
             return count>0;
         } catch (Exception e) {
             Timber.e(e);
@@ -562,9 +563,8 @@ public class HnppDBUtils extends CoreChildUtils {
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 count = cursor.getInt(0);
-                cursor.close();
             }
-
+            if(cursor!=null)cursor.close();
             return count>0;
         } catch (Exception e) {
             Timber.e(e);
@@ -581,9 +581,8 @@ public class HnppDBUtils extends CoreChildUtils {
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 count = cursor.getInt(0);
-                cursor.close();
             }
-
+            if(cursor!=null)cursor.close();
             return count>0;
         } catch (Exception e) {
             Timber.e(e);
@@ -599,9 +598,8 @@ public class HnppDBUtils extends CoreChildUtils {
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 count = cursor.getInt(0);
-                cursor.close();
             }
-
+            if(cursor!=null)cursor.close();
             return count>0;
         } catch (Exception e) {
             Timber.e(e);
@@ -617,9 +615,8 @@ public class HnppDBUtils extends CoreChildUtils {
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 count = cursor.getInt(0);
-                cursor.close();
             }
-
+            if(cursor!=null)cursor.close();
             return count;
         } catch (Exception e) {
             Timber.e(e);
@@ -662,9 +659,8 @@ public class HnppDBUtils extends CoreChildUtils {
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 birthWeight = cursor.getString(0);
-                cursor.close();
             }
-
+            if(cursor!=null)cursor.close();
             return birthWeight;
         } catch (Exception e) {
             Timber.e(e);
@@ -938,9 +934,8 @@ public class HnppDBUtils extends CoreChildUtils {
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 motherName = cursor.getString(0);
-                cursor.close();
             }
-
+            if(cursor!=null)cursor.close();
             return motherName;
         } catch (Exception e) {
             Timber.e(e);
@@ -977,9 +972,8 @@ public class HnppDBUtils extends CoreChildUtils {
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 motherName = cursor.getString(0);
-                cursor.close();
             }
-
+            if(cursor!=null)cursor.close();
             return motherName;
         } catch (Exception e) {
             Timber.e(e);

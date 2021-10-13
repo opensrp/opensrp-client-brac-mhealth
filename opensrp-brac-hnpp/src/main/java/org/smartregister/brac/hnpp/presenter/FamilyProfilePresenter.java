@@ -5,10 +5,13 @@ import android.util.Pair;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Triple;
 import org.json.JSONObject;
+import org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity;
+import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.model.HnppChildRegisterModel;
 import org.smartregister.brac.hnpp.model.HnppFamilyRegisterModel;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.chw.core.contract.FamilyProfileExtendedContract;
 import org.smartregister.chw.core.model.CoreChildRegisterModel;
@@ -22,6 +25,7 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.contract.FamilyProfileContract;
 import org.smartregister.family.domain.FamilyEventClient;
 import org.smartregister.family.util.DBConstants;
+import org.smartregister.view.activity.BaseProfileActivity;
 
 import java.util.List;
 
@@ -32,8 +36,10 @@ import static org.smartregister.brac.hnpp.utils.HnppJsonFormUtils.makeReadOnlyFi
 public class FamilyProfilePresenter extends CoreFamilyProfilePresenter {
     String houseHoldId = "";
     HnppChildRegisterModel childProfileModel;
+    BaseProfileActivity baseProfileActivity;
     public FamilyProfilePresenter(FamilyProfileExtendedContract.View loginView, FamilyProfileContract.Model model, String houseHoldId, String familyBaseEntityId, String familyHead, String primaryCaregiver, String familyName) {
         super(loginView, model, familyBaseEntityId, familyHead, primaryCaregiver, familyName);
+        baseProfileActivity =(BaseProfileActivity) loginView;
         this.houseHoldId = houseHoldId;
         interactor = new HnppFamilyProfileInteractor();
         getChildRegisterModel();
@@ -50,17 +56,28 @@ public class FamilyProfilePresenter extends CoreFamilyProfilePresenter {
 
     @Override
     public void startFormForEdit(CommonPersonObjectClient client) {
-        try {
-            JSONObject form = HnppJsonFormUtils.getAutoPopulatedJsonEditFormString(CoreConstants.JSON_FORM.getFamilyDetailsRegister(), getView().getApplicationContext(), client, Utils.metadata().familyRegister.updateEventType);
-            String ssName = org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.SS_NAME, false);
-            String villageName = org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(), DBConstants.KEY.VILLAGE_TOWN, false);
-            HnppJsonFormUtils.updateFormWithSSName(form, SSLocationHelper.getInstance().getSsModels());
-            HnppJsonFormUtils.updateFormWithVillageName(form,ssName,villageName);
-            if(HnppConstants.isPALogin())makeReadOnlyFields(form);
-            getView().startFormActivity(form);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        HnppConstants.getGPSLocation(baseProfileActivity, new OnPostDataWithGps() {
+            @Override
+            public void onPost(double latitude, double longitude) {
+                try {
+                    JSONObject form = HnppJsonFormUtils.getAutoPopulatedJsonEditFormString(CoreConstants.JSON_FORM.getFamilyDetailsRegister(), getView().getApplicationContext(), client, Utils.metadata().familyRegister.updateEventType);
+                    String ssName = org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.SS_NAME, false);
+                    String villageName = org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(), DBConstants.KEY.VILLAGE_TOWN, false);
+                    HnppJsonFormUtils.updateFormWithSSName(form, SSLocationHelper.getInstance().getSsModels());
+                    HnppJsonFormUtils.updateFormWithVillageName(form,ssName,villageName);
+                    if(HnppConstants.isPALogin())makeReadOnlyFields(form);
+                    try{
+                        HnppJsonFormUtils.updateLatitudeLongitudeFamily(form,latitude,longitude);
+                    }catch (Exception e){
+
+                    }
+                    getView().startFormActivity(form);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
     @Override

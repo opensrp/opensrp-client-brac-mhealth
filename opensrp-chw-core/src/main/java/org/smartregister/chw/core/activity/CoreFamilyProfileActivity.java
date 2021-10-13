@@ -202,7 +202,7 @@ public abstract class CoreFamilyProfileActivity extends BaseFamilyProfileActivit
 
     protected abstract void refreshPresenter();
 
-    private void refreshMemberFragment(String careGiverID, String familyHeadID) {
+    protected void refreshMemberFragment(String careGiverID, String familyHeadID) {
         BaseFamilyProfileMemberFragment memberFragment = this.getProfileMemberFragment();
         if (memberFragment != null) {
             if (StringUtils.isNotBlank(careGiverID)) {

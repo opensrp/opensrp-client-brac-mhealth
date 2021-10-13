@@ -22,7 +22,7 @@ public class HNPPApplicationUtils {
     }
 
     private static String[] getFtsTables() {
-        return new String[]{CoreConstants.TABLE_NAME.FAMILY, CoreConstants.TABLE_NAME.FAMILY_MEMBER, CoreConstants.TABLE_NAME.CHILD};
+        return new String[]{};
     }
 
     private static String[] getFtsSearchFields(String tableName) {

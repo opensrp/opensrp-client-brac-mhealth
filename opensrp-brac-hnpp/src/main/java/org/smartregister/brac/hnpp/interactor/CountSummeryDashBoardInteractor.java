@@ -85,14 +85,14 @@ public class CountSummeryDashBoardInteractor implements DashBoardContract.Intera
 
     @Override
     public void filterData(String ssName, String month , String year, DashBoardContract.InteractorCallBack callBack) {
-        dashBoardDataArrayList.clear();
-        Runnable runnable = () -> {
-            //TODO not needed
-            fetchHHData( ssName,-1,-1);
-
-            appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
-        };
-        appExecutors.diskIO().execute(runnable);
+//        dashBoardDataArrayList.clear();
+//        Runnable runnable = () -> {
+//            //TODO not needed
+//            fetchHHData( ssName,-1,-1);
+//
+//            appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
+//        };
+//        appExecutors.diskIO().execute(runnable);
 
 
     }

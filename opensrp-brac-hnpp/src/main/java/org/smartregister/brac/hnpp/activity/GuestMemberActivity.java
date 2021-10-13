@@ -27,6 +27,8 @@ import android.widget.Toast;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
@@ -40,6 +42,7 @@ import org.smartregister.brac.hnpp.utils.GuestMemberData;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
+import org.smartregister.brac.hnpp.utils.OnDialogOptionSelect;
 import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.core.utils.ChildDBConstants;
 import org.smartregister.chw.core.utils.CoreConstants;
@@ -51,6 +54,8 @@ import org.smartregister.view.activity.BaseProfileActivity;
 import org.smartregister.view.activity.SecuredActivity;
 
 import java.util.ArrayList;
+
+import static com.vijay.jsonwizard.constants.JsonFormConstants.FIELDS;
 
 public class GuestMemberActivity extends BaseProfileActivity implements GuestMemberContract.View, View.OnClickListener {
 
@@ -266,14 +271,38 @@ public class GuestMemberActivity extends BaseProfileActivity implements GuestMem
                 title = String.format(getString(R.string.dialog_confirm_save_guest),fullName,generatedString[0],generatedString[1]);
 
 
-                HnppConstants.showSaveFormConfirmationDialog(this, title, new Runnable() {
+                HnppConstants.showSaveFormConfirmationDialog(this, title, new OnDialogOptionSelect() {
                     @Override
-                    public void run() {
-                        presenter.saveMember(jsonString);
+                    public void onClickYesButton() {
+                       try{
+                           showProgressBar();
+                           JSONObject formWithConsent = new JSONObject(jsonString);
+                           JSONObject jobkect = formWithConsent.getJSONObject("step1");
+                           JSONArray field = jobkect.getJSONArray(FIELDS);
+                           HnppJsonFormUtils.addConsent(field,true);
+                           presenter.saveMember(formWithConsent.toString());
+                       }catch (JSONException je){
+
+                       }
+
+                    }
+
+                    @Override
+                    public void onClickNoButton() {
+                        try{
+                            showProgressBar();
+                            JSONObject formWithConsent = new JSONObject(jsonString);
+                            JSONObject jobkect = formWithConsent.getJSONObject("step1");
+                            JSONArray field = jobkect.getJSONArray(FIELDS);
+                            HnppJsonFormUtils.addConsent(field,false);
+                            presenter.saveMember(formWithConsent.toString());
+                        }catch (JSONException je){
+
+                        }
                     }
                 });
 
-            }catch (Exception e){
+            }catch (JSONException e){
 
             }
         }

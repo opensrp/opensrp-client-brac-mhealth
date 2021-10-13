@@ -13,6 +13,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -118,6 +119,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             if (instance == null) {
                 instance = new NavigationMenu();
+
             }
 
             SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(instance);
@@ -183,6 +185,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         }
         //
     }
+    Activity activityInstance;
 
     @Override
     public void prepareViews(Activity activity) {
@@ -230,9 +233,36 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         registerDashboard(activity);
 
         registerDeviceToDeviceSync(activity);
+        drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull View view, float v) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(@NonNull View view) {
+                Log.v("NAVIGATION_QUERY","onDrawerOpened>>>>>>>>>>>>>>>>>>"+activity);
+                if(activity != activityInstance){
+                    updateLastSyncTimeAndNavigationCount();
+                }
+                activityInstance = activity;
+
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View view) {
+                Log.v("NAVIGATION_QUERY","onDrawerOpened>>>>>>>>>>>>>>>>>>"+activity);
+                activityInstance = null;
+            }
+
+            @Override
+            public void onDrawerStateChanged(int i) {
+
+            }
+        });
         // update all actions
-        mPresenter.refreshLastSync();
-        mPresenter.refreshNavigationCount(activity);
+        //mPresenter.refreshLastSync();
+        //mPresenter.refreshNavigationCount(activity);
     }
 
 
@@ -411,7 +441,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         tvSync.setOnClickListener(syncClicker);
         ivSync.setOnClickListener(syncClicker);
 
-        refreshSyncProgressSpinner();
+        //refreshSyncProgressSpinner();
     }
 
     private void registerLanguageSwitcher(final Activity context) {
@@ -518,15 +548,18 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     public void onSyncStart() {
         // set the sync icon to be a rotating menu
         refreshSyncProgressSpinner();
+        Timber.v("onSyncStart");
     }
 
     @Override
     public void onSyncInProgress(FetchStatus fetchStatus) {
         Timber.v("onSyncInProgress");
+
     }
 
     @Override
     public void onSyncComplete(FetchStatus fetchStatus) {
+        Timber.v("onSyncInProgress");
         // hide the rotating menu
         refreshSyncProgressSpinner();
         if (!fetchStatus.equals(FetchStatus.noConnection) && !fetchStatus.equals(FetchStatus.fetchedFailed)) {
@@ -537,7 +570,14 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         // refreshLastSync(new Date());
 
         if (activityWeakReference.get() != null && !activityWeakReference.get().isDestroyed()) {
-            mPresenter.refreshNavigationCount(activityWeakReference.get());
+            mPresenter.refreshNavigationCount();
+        }
+    }
+    public void updateLastSyncTimeAndNavigationCount(){
+        if(mPresenter!=null){
+            mPresenter.refreshLastSync();
+            mPresenter.refreshNavigationCount();
+            refreshSyncProgressSpinner();
         }
     }
 

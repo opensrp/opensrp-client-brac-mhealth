@@ -15,6 +15,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -43,7 +44,6 @@ import org.smartregister.brac.hnpp.provider.HnppFamilyRegisterProvider;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppQueryBuilder;
 import org.smartregister.brac.hnpp.utils.MigrationSearchContentData;
-import org.smartregister.chw.core.fragment.CoreFamilyRegisterFragment;
 import org.smartregister.chw.core.provider.CoreRegisterProvider;
 import org.smartregister.chw.core.utils.QueryBuilder;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
@@ -54,6 +54,7 @@ import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.Utils;
+import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -225,11 +226,30 @@ public class HnppFamilyRegisterFragment extends HnppBaseFamilyRegisterFragment i
             openFilterDialog(false);
         }
     }
+    @Override
+    public void onSyncInProgress(FetchStatus fetchStatus) {
+        try{
+            if (!SyncStatusBroadcastReceiver.getInstance().isSyncing() && (FetchStatus.fetched.equals(fetchStatus) || FetchStatus.nothingFetched.equals(fetchStatus))) {
+                org.smartregister.util.Utils.showShortToast(getActivity(), getString(org.smartregister.chw.core.R.string.sync_complete));
+                refreshSyncProgressSpinner();
+            }
+        }catch (WindowManager.BadTokenException e){
+
+        }
+
+    }
 
 
     @Override
     public void onSyncComplete(FetchStatus fetchStatus) {
-        super.onSyncComplete(fetchStatus);
+        //super.onSyncComplete(fetchStatus);
+        try{
+            org.smartregister.util.Utils.showShortToast(getActivity(), getString(org.smartregister.chw.core.R.string.sync_complete));
+        }catch (WindowManager.BadTokenException e){
+            e.printStackTrace();
+        }
+        refreshSyncProgressSpinner();
+
         if(JobManager.instance().getAllJobRequestsForTag(PullHouseholdIdsServiceJob.TAG).isEmpty()){
             PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
         }

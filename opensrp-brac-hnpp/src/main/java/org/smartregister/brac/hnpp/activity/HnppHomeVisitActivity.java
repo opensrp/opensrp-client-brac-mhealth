@@ -29,6 +29,8 @@ import static org.smartregister.chw.anc.util.Constants.ANC_MEMBER_OBJECTS.MEMBER
 public class HnppHomeVisitActivity extends BaseAncHomeVisitActivity {
     private static boolean sIsIdentify,sNeedVerified,sIsVerify;
     private static String sNotVerifyText;
+    private static double sLatitude;
+    private static double sLongitude;
     public static void startMe(Activity activity, MemberObject memberObject, Boolean isEditMode ) {
         Intent intent = new Intent(activity, HnppHomeVisitActivity.class);
         intent.putExtra(MEMBER_PROFILE_OBJECT, memberObject);
@@ -37,7 +39,7 @@ public class HnppHomeVisitActivity extends BaseAncHomeVisitActivity {
     }
 
     public static void startMe(Activity activity, MemberObject memberObject, Boolean isEditMode,boolean isIdentify,boolean needVerified,
-                               boolean isVerify, String notVerifyText ) {
+                               boolean isVerify, String notVerifyText,double lat,double lng ) {
         Intent intent = new Intent(activity, HnppHomeVisitActivity.class);
         intent.putExtra(MEMBER_PROFILE_OBJECT, memberObject);
         intent.putExtra(Constants.ANC_MEMBER_OBJECTS.EDIT_MODE, isEditMode);
@@ -45,6 +47,8 @@ public class HnppHomeVisitActivity extends BaseAncHomeVisitActivity {
         sNeedVerified = needVerified;
         sIsVerify = isVerify;
         sNotVerifyText = notVerifyText;
+        sLatitude = lat;
+        sLongitude = lng;
         activity.startActivityForResult(intent, Constants.REQUEST_CODE_HOME_VISIT);
     }
 
@@ -84,6 +88,8 @@ public class HnppHomeVisitActivity extends BaseAncHomeVisitActivity {
             submitVisit();
         }
     }
+
+
     @Override
     public void startFormActivity(JSONObject jsonForm) {
         Intent intent = new Intent(this, HnppAncJsonFormActivity.class);
@@ -104,7 +110,7 @@ public class HnppHomeVisitActivity extends BaseAncHomeVisitActivity {
     }
     @Override
     protected void registerPresenter() {
-        presenter = new BaseAncHomeVisitPresenter(memberObject, this, new HnppAncHomeVisitInteractor(sIsIdentify,sNeedVerified,sIsVerify,sNotVerifyText));
+        presenter = new BaseAncHomeVisitPresenter(memberObject, this, new HnppAncHomeVisitInteractor(sIsIdentify,sNeedVerified,sIsVerify,sNotVerifyText,sLatitude,sLongitude));
     }
 
     @Override

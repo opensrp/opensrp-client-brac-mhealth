@@ -1,6 +1,13 @@
 package org.smartregister.brac.hnpp.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
@@ -8,11 +15,18 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
+import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
+import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.adapter.ForceSynItemAdapter;
 import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
@@ -25,8 +39,13 @@ import org.smartregister.domain.FetchStatus;
 import org.smartregister.domain.Response;
 import org.smartregister.exception.NoHttpResponseException;
 import org.smartregister.family.util.AppExecutors;
+import org.smartregister.job.CompareDataServiceJob;
+import org.smartregister.job.DataSyncByBaseEntityServiceJob;
+import org.smartregister.job.InValidateSyncDataServiceJob;
+import org.smartregister.family.util.AppExecutors;
 import org.smartregister.job.SyncServiceJob;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
+import org.smartregister.repository.EventClientRepository;
 import org.smartregister.view.activity.SecuredActivity;
 
 import java.io.BufferedWriter;
@@ -38,13 +57,25 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
+import java.util.List;
+
 import timber.log.Timber;
 
 public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroadcastReceiver.SyncStatusListener{
-
+    private BroadcastReceiver invalidDataBroadcastReceiver;
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_force_unsync);
+        findViewById(R.id.invalid_data).setOnClickListener(v -> checkInvalidData());
+        findViewById(R.id.data_sync_by_id).setOnClickListener( v -> syncDataById() );
+        findViewById(R.id.compare_btn).setOnClickListener( v -> compareData() );
         findViewById(R.id.close_btn).setOnClickListener(v -> finish());
         findViewById(R.id.permission_btn).setOnClickListener( v -> getServerResponse() );
         findViewById(R.id.all_data_btn).setOnClickListener(new View.OnClickListener() {
@@ -222,6 +253,84 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
         }
     }
 
+    private void compareData() {
+        new AlertDialog.Builder(this).setMessage("ডাটা কম্পেয়ার উইথ সার্ভার")
+                .setTitle("আপনার ডিভাইস এর ডাটা গুলো সার্ভার এর সাথে ম্যাচ আছে কিনা চেক করার জন্য পাঠাতে চান ?")
+                .setCancelable(false)
+                .setPositiveButton(R.string.yes_button_label, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        invalidDataBroadcastReceiver = new InvalidSyncBroadcast();
+                        IntentFilter intentFilter = new IntentFilter();
+                        intentFilter.addAction("COMPARE_DATA");
+                        registerReceiver(invalidDataBroadcastReceiver, intentFilter);
+                        showProgressDialog("ডাটা সিঙ্ক করা হচ্ছে....");
+                        CompareDataServiceJob.scheduleJobImmediately(CompareDataServiceJob.TAG);
+                        dialog.dismiss();
+                    }
+                }).setNegativeButton(R.string.no_button_label, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+            }
+        }).show();
+    }
+
+    private void syncDataById() {
+        invalidDataBroadcastReceiver = new InvalidSyncBroadcast();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("DATA_SYNC");
+        registerReceiver(invalidDataBroadcastReceiver, intentFilter);
+        showProgressDialog("ডাটা সিঙ্ক করা হচ্ছে....");
+        DataSyncByBaseEntityServiceJob.scheduleJobImmediately(DataSyncByBaseEntityServiceJob.TAG);
+    }
+
+    private void checkInvalidData() {
+        EventClientRepository eventClientRepository = HnppApplication.getHNPPInstance().getEventClientRepository();
+        List<JSONObject> invalidClients = eventClientRepository.getUnValidatedClients(100);
+        List<JSONObject> invalidEvents = eventClientRepository.getUnValidatedEvents(100);
+        showInvalidCountDialog(invalidClients,invalidEvents);
+
+
+    }
+    private void showInvalidCountDialog(List<JSONObject> invalidClients, List<JSONObject> invalidEvents ){
+        Dialog dialog = new Dialog(this);
+        dialog.setCancelable(false);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_invalid_data);
+        TextView countTxt = dialog.findViewById(R.id.count_tv);
+        StringBuilder builder = new StringBuilder();
+        builder.append("No Of Invalid Client: "+invalidClients.size());
+        builder.append("\n");
+        builder.append("No Of Invalid Events: "+invalidEvents.size());
+        countTxt.setText(builder.toString());
+
+
+        Button syncBtn = dialog.findViewById(R.id.invalid_sync_btn);
+        Button closeBtn = dialog.findViewById(R.id.close_btn);
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        syncBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(invalidClients.size()==0 && invalidEvents.size()==0){
+                    Toast.makeText(ForceSyncActivity.this,"কোনো ইনভ্যালিড ডাটা পাওয়া যায়নি",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                invalidDataBroadcastReceiver = new InvalidSyncBroadcast();
+                IntentFilter intentFilter = new IntentFilter();
+                intentFilter.addAction("INVALID_SYNC");
+                registerReceiver(invalidDataBroadcastReceiver, intentFilter);
+                showProgressDialog("ইনভ্যালিড ডাটা সিঙ্ক করা হচ্ছে....");
+                dialog.dismiss();
+                InValidateSyncDataServiceJob.scheduleJobImmediately(InValidateSyncDataServiceJob.TAG);
+            }
+        });
+        dialog.show();
+
+    }
+
     private void getServerResponse(){
         org.smartregister.util.Utils.startAsyncTask(new AsyncTask() {
 
@@ -329,6 +438,7 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
     @Override
     public void onDestroy() {
         SyncStatusBroadcastReceiver.getInstance().removeSyncStatusListener(this);
+        if(invalidDataBroadcastReceiver!=null)unregisterReceiver(invalidDataBroadcastReceiver);
         super.onDestroy();
     }
 
@@ -353,5 +463,23 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
         hideProgressDialog();
         Toast.makeText(this,getString(R.string.sync_complete),Toast.LENGTH_SHORT).show();
         finish();
+    }
+    private class InvalidSyncBroadcast extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            hideProgressDialog();
+            if(intent != null && intent.getAction().equalsIgnoreCase("INVALID_SYNC")){
+                String value = intent.getStringExtra("EXTRA_INVALID_SYNC");
+                Toast.makeText(ForceSyncActivity.this,value,Toast.LENGTH_SHORT).show();
+            }
+            if(intent != null && intent.getAction().equalsIgnoreCase("DATA_SYNC")){
+                String value = intent.getStringExtra("EXTRA_DATA_SYNC");
+                Toast.makeText(ForceSyncActivity.this,value,Toast.LENGTH_SHORT).show();
+            }
+            if(intent != null && intent.getAction().equalsIgnoreCase("COMPARE_DATA")){
+                String value = intent.getStringExtra("EXTRA_COMPARE_DATA");
+                Toast.makeText(ForceSyncActivity.this,value,Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

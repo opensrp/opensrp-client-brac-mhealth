@@ -107,6 +107,7 @@ public class IndicatorRepository extends BaseRepository {
             cursor.close();
             return false;
         }
+        if(cursor!=null) cursor.close();
         return true;
     }
 

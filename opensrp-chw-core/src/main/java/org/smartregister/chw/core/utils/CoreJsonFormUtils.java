@@ -579,32 +579,18 @@ public class CoreJsonFormUtils extends org.smartregister.family.util.JsonFormUti
             }
 
             Date dod = null;
+            JSONObject jsonForm = registrationFormParams.getMiddle();
+            JSONArray fields = registrationFormParams.getRight();
 
-
-            JSONObject metadata = getJSONObject(registrationFormParams.getMiddle(), METADATA);
-            String memberID = getString(registrationFormParams.getMiddle(), ENTITY_ID);
-
-            JSONArray fields = new JSONArray();
-
-            int x = 0;
-            while (x < registrationFormParams.getRight().length()) {
-                //JSONObject obj = registrationFormParams.getRight().getJSONObject(x);
-                String myKey = registrationFormParams.getRight().getJSONObject(x).getString(KEY);
-
-                if (myKey.equalsIgnoreCase(CoreConstants.FORM_CONSTANTS.REMOVE_MEMBER_FORM.DATE_MOVED) ||
-                        myKey.equalsIgnoreCase(CoreConstants.FORM_CONSTANTS.REMOVE_MEMBER_FORM.REASON)
-                ) {
-                    fields.put(registrationFormParams.getRight().get(x));
+            JSONObject metadata = getJSONObject(jsonForm, METADATA);
+            String memberID = getString(jsonForm, ENTITY_ID);
+            try{
+                JSONObject dodObj = getFieldJSONObject(fields, CoreConstants.FORM_CONSTANTS.REMOVE_MEMBER_FORM.DATE_DIED);
+                if(!TextUtils.isEmpty(dodObj.optString(VALUE))){
+                 dod = dd_MM_yyyy.parse(dodObj.optString(VALUE));
                 }
-                if (myKey.equalsIgnoreCase(CoreConstants.FORM_CONSTANTS.REMOVE_MEMBER_FORM.DATE_DIED)) {
-                    fields.put(registrationFormParams.getRight().get(x));
-                    try {
-                        dod = dd_MM_yyyy.parse(registrationFormParams.getRight().getJSONObject(x).getString(VALUE));
-                    } catch (Exception e) {
-                        Timber.d(e.toString());
-                    }
-                }
-                x++;
+            }catch (Exception e){
+                Timber.e(e.toString());
             }
 
             String encounterType = getString(jsonObject, ENCOUNTER_TYPE);

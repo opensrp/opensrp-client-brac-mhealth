@@ -28,9 +28,9 @@ public class SearchDetailsInteractor implements SearchDetailsContract.Interactor
     public SearchDetailsInteractor(AppExecutors appExecutors){
         this.appExecutors = appExecutors;
     }
-    private void addMember(String type, String villageId, String gender, String startAge, String age){
+    private void addMember(String type,String districtId, String villageId, String gender, String startAge, String age){
         migrationArrayList.clear();
-        JSONArray jsonArray = getMigrationMemberList(type,villageId, gender,startAge, age);
+        JSONArray jsonArray = getMigrationMemberList(type,districtId,villageId, gender,startAge, age);
         if(jsonArray!=null){
             for (int i = 0; i < jsonArray.length(); i++) {
                 try {
@@ -49,15 +49,15 @@ public class SearchDetailsInteractor implements SearchDetailsContract.Interactor
     }
 
     @Override
-    public void fetchData(String type,String villageId, String gender,String startAge, String age, SearchDetailsContract.InteractorCallBack callBack) {
+    public void fetchData(String type,String districtId,String villageId, String gender,String startAge, String age, SearchDetailsContract.InteractorCallBack callBack) {
         Runnable runnable = () -> {
-            addMember(type,villageId, gender,startAge, age);
+            addMember(type,districtId,villageId, gender,startAge, age);
             appExecutors.mainThread().execute(() -> callBack.onUpdateList(migrationArrayList));
         };
         appExecutors.diskIO().execute(runnable);
     }
 
-    private JSONArray getMigrationMemberList(String type,String villageId, String gender, String startAge,String age){
+    private JSONArray getMigrationMemberList(String type,String districtId,String villageId, String gender, String startAge,String age){
         //test data
 //        villageId = "9315";
 //        gender ="F";
@@ -85,9 +85,8 @@ public class SearchDetailsInteractor implements SearchDetailsContract.Interactor
             if (TextUtils.isEmpty(userName)) {
                 return null;
             }
-            String url = baseUrl + MEMBER_URL + "username='"+userName+"'&villageId=" + villageId + "&gender=" + gender + "&startAge="+startAge+"&endAge=" + age + "&type="+type;
+            String url = baseUrl + MEMBER_URL + "username='"+userName+"'&district="+districtId+"&villageId=" + villageId + "&gender=" + gender + "&startAge="+startAge+"&endAge=" + age + "&type="+type;
             /*+ "?username=" + userName;*/
-
             Log.v("MEMBER_URL", "url:" + url);
             org.smartregister.domain.Response resp = httpAgent.fetch(url);
             if (resp.isFailure()) {

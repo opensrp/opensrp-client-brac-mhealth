@@ -8,7 +8,6 @@ import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.chw.core.activity.CoreAncRegisterActivity;
 import org.smartregister.brac.hnpp.R;
-import org.smartregister.brac.hnpp.fragment.AncRegisterFragment;
 import org.smartregister.helper.BottomNavigationHelper;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 
@@ -55,10 +54,7 @@ public class AncRegisterActivity extends CoreAncRegisterActivity {
         FamilyRegisterActivity.registerBottomNavigation(bottomNavigationHelper, bottomNavigationView, this);
     }
 
-    @Override
-    protected BaseRegisterFragment getRegisterFragment() {
-        return new AncRegisterFragment();
-    }
+
 
     @Override
     public void switchToBaseFragment() {

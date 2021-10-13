@@ -24,6 +24,7 @@ import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.ProfileDueInfo;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
+import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.family.adapter.FamilyRecyclerViewCustomAdapter;
 import org.smartregister.family.fragment.BaseFamilyProfileDueFragment;
 import org.smartregister.family.util.Constants;
@@ -100,13 +101,18 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment imple
     }
 
     @Override
+    protected boolean isValidFilterForFts(CommonRepository commonRepository) {
+        return false;
+    }
+
+    @Override
     public void initializeAdapter(Set<org.smartregister.configurableviews.model.View> visibleColumns) {
         HnppFamilyDueRegisterProvider chwDueRegisterProvider = new HnppFamilyDueRegisterProvider(this.getActivity(), this.commonRepository(), visibleColumns, this.registerActionHandler, this.paginationViewHandler);
         this.clientAdapter = new FamilyRecyclerViewCustomAdapter(null, chwDueRegisterProvider, this.context().commonrepository(this.tablename), Utils.metadata().familyDueRegister.showPagination);
         this.clientAdapter.setCurrentlimit(10);
         this.clientsView.setAdapter(this.clientAdapter);
         //this.clientsView.setVisibility(View.GONE);
-        updateStaticView();
+        //updateStaticView();
 
     }
     private void updateStaticView(){
@@ -122,6 +128,8 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment imple
 //            if(otherServiceView !=null) otherServiceView.setVisibility(View.GONE);
 //        }
     }
+
+
 
     private void addStaticView(){
         if(otherServiceView == null) return;

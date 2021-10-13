@@ -611,9 +611,9 @@ public class ChwClientProcessor extends ClientProcessorForJava {
 
     @Override
     public void updateClientDetailsTable(Event event, Client client) {
-        Timber.d("Started updateClientDetailsTable");
-        event.addDetails("detailsUpdated", Boolean.TRUE.toString());
-        Timber.d("Finished updateClientDetailsTable");
+//        Timber.d("Started updateClientDetailsTable");
+//        event.addDetails("detailsUpdated", Boolean.TRUE.toString());
+//        Timber.d("Finished updateClientDetailsTable");
     }
 
     private void processVisitEvent(List<EventClient> eventClients) {

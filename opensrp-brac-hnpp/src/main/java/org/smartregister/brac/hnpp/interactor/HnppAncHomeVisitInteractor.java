@@ -31,12 +31,15 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
     HnppHomeVisitActionHelper PREGNANCY_HISTORYHelper;
     private boolean sIsIdentify,sNeedVerified,sIsVerify;
     private  String sNotVerifyText;
+    private double latitude,longitude;
 
-    public HnppAncHomeVisitInteractor(boolean isIdentify,boolean needVerified,boolean isVerify, String notVerifyText){
+    public HnppAncHomeVisitInteractor(boolean isIdentify,boolean needVerified,boolean isVerify, String notVerifyText,double lat,double lng){
         sIsIdentify = isIdentify;
         sNeedVerified = needVerified;
         sIsVerify = isVerify;
         sNotVerifyText = notVerifyText;
+        latitude = lat;
+        longitude = lng;
     }
 
     @Override
@@ -68,6 +71,11 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
                     HnppJsonFormUtils.addLastAnc(jsonPayload,memberObject.getBaseEntityId(),false);
                     try{
                         HnppJsonFormUtils.addAddToStockValue(jsonPayload);
+                    }catch (Exception e){
+
+                    }
+                    try{
+                        HnppJsonFormUtils.updateLatitudeLongitude(jsonPayload,latitude,longitude);
                     }catch (Exception e){
 
                     }

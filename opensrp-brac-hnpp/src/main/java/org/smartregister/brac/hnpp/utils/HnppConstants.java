@@ -69,6 +69,9 @@ import java.util.Locale;
 import java.util.Map;
 
 public class HnppConstants extends CoreConstants {
+    public static boolean IS_MANDATORY_GPS = true;
+    public static int GPS_ATTEMPT_COUNT = 0;
+    public static final int DEFAULT_GPS_ATTEMPT = 3;
     public static final String ACTION_STOCK_COME = "ACTION_STOCK_COME";
     public static final String ACTION_STOCK_END = "ACTION_STOCK_END";
     public static final String ACTION_EDD = "ACTION_EDD";
@@ -151,7 +154,12 @@ public class HnppConstants extends CoreConstants {
 
             @Override
             public void onGpsDataNotFound() {
-                HnppConstants.showOneButtonDialog(activity,"",activity.getString(R.string.gps_not_found));
+                HnppConstants.showOneButtonDialog(activity, "", activity.getString(R.string.gps_not_found), new Runnable() {
+                    @Override
+                    public void run() {
+                       if(!IS_MANDATORY_GPS) onPostDataWithGps.onPost(0.0,0.0);
+                    }
+                });
             }
 
             @Override
@@ -165,7 +173,7 @@ public class HnppConstants extends CoreConstants {
             public void run() {
                 if(task!=null) task.updateUi();
             }
-        },2000);
+        },5000);
 
 
     }
@@ -202,7 +210,12 @@ public class HnppConstants extends CoreConstants {
             @Override
             public void onGpsDataNotFound() {
                 try{
-                    HnppConstants.showOneButtonDialog(activity,"",activity.getString(R.string.gps_not_found));
+                    HnppConstants.showOneButtonDialog(activity, "", activity.getString(R.string.gps_not_found), new Runnable() {
+                        @Override
+                        public void run() {
+                            if(!IS_MANDATORY_GPS)onPostDataWithGps.onPost(0.0,0.0);
+                        }
+                    });
                 }catch (Exception e){
 
                 }
@@ -219,7 +232,7 @@ public class HnppConstants extends CoreConstants {
             public void run() {
                 if(task!=null) task.updateUi();
             }
-        },2000);
+        },5000);
 
 
     }
@@ -295,7 +308,7 @@ public class HnppConstants extends CoreConstants {
         }
         return false;
     }
-    public static void showSaveFormConfirmationDialog(Context context,String title, Runnable runnable){
+    public static void showSaveFormConfirmationDialog(Context context,String title, OnDialogOptionSelect onDialogOptionSelect){
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
@@ -306,13 +319,14 @@ public class HnppConstants extends CoreConstants {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                onDialogOptionSelect.onClickNoButton();
             }
         });
         dialog.findViewById(R.id.yes_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                runnable.run();
+                onDialogOptionSelect.onClickYesButton();
             }
         });
         dialog.show();
@@ -425,6 +439,9 @@ public class HnppConstants extends CoreConstants {
         dialog.show();
     }
     public static void showOneButtonDialog(Context context,String title, String text){
+        showOneButtonDialog(context,title,text,null);
+    }
+    public static void showOneButtonDialog(Context context,String title, String text,Runnable runnable){
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_with_one_button);
@@ -436,6 +453,7 @@ public class HnppConstants extends CoreConstants {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+               if(runnable!=null) runnable.run();
             }
         });
         dialog.show();
