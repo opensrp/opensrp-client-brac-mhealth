@@ -28,20 +28,17 @@ import com.vijay.jsonwizard.domain.Form;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.adapter.ReferralCardViewAdapter;
 import org.smartregister.brac.hnpp.custom_view.FamilyMemberFloatingMenu;
 import org.smartregister.brac.hnpp.fragment.ChildHistoryFragment;
-import org.smartregister.brac.hnpp.fragment.ChildImmunizationFragment;
 import org.smartregister.brac.hnpp.fragment.HnppChildProfileDueFragment;
-import org.smartregister.brac.hnpp.fragment.HnppMemberProfileDueFragment;
-import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
 import org.smartregister.brac.hnpp.fragment.MemberOtherServiceFragment;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
+import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
 import org.smartregister.brac.hnpp.utils.ChildDBConstants;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
@@ -49,10 +46,12 @@ import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.brac.hnpp.utils.HouseHoldInfo;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.util.DBConstants;
+import org.smartregister.chw.anc.util.NCUtils;
 import org.smartregister.chw.core.activity.CoreChildMedicalHistoryActivity;
 import org.smartregister.chw.core.activity.CoreUpcomingServicesActivity;
 import org.smartregister.chw.core.custom_views.CoreFamilyMemberFloatingMenu;
 import org.smartregister.chw.core.fragment.FamilyCallDialogFragment;
+import org.smartregister.chw.core.job.VaccineRecurringServiceJob;
 import org.smartregister.chw.core.listener.OnClickFloatingMenu;
 import org.smartregister.chw.core.model.CoreChildProfileModel;
 import org.smartregister.chw.core.presenter.CoreChildProfilePresenter;
@@ -63,6 +62,7 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.domain.Task;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.adapter.ViewPagerAdapter;
+import org.smartregister.family.util.AppExecutors;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.Utils;
 import org.smartregister.util.FormUtils;
@@ -71,7 +71,6 @@ import org.smartregister.util.JsonFormUtils;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -577,11 +576,29 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK){
             HnppConstants.isViewRefresh = true;
+            if(data!=null && data.getBooleanExtra("VACCINE_TAKEN",false)){
+
+                    AppExecutors appExecutors = new AppExecutors();
+                    appExecutors.diskIO().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                            NCUtils.startClientProcessing();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+
+
+                VaccineRecurringServiceJob.scheduleJobImmediately(VaccineRecurringServiceJob.TAG);
+
+            }
 
         }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
             showProgressDialog(R.string.please_wait_message);
-            VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+            //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
             String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
             Map<String, String> jsonStrings = new HashMap<>();
             jsonStrings.put("First",jsonString);
@@ -595,6 +612,8 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
 
                 visit = HnppJsonFormUtils.saveVisit(false,false,false,"", childBaseEntityId, type, jsonStrings, "");
                 if(visit!=null){
+                    HnppHomeVisitIntentService.processVisits();
+                    VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
                     hideProgressDialog();
                     showServiceDoneDialog(true);
 

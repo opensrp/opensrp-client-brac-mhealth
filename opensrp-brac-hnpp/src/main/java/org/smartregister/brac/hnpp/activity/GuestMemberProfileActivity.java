@@ -11,13 +11,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
@@ -35,10 +33,9 @@ import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
-import org.smartregister.brac.hnpp.model.GuestMemberModel;
-import org.smartregister.brac.hnpp.presenter.GuestMemberPresenter;
 import org.smartregister.brac.hnpp.presenter.GuestMemberProfilePresenter;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
+import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.GuestMemberData;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -48,29 +45,21 @@ import org.smartregister.brac.hnpp.utils.OnDialogOptionSelect;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.util.NCUtils;
-import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.adapter.ViewPagerAdapter;
 import org.smartregister.family.util.Constants;
-import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.Utils;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
 import org.smartregister.view.activity.BaseProfileActivity;
-import org.smartregister.view.activity.SecuredActivity;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.vijay.jsonwizard.constants.JsonFormConstants.FIELDS;
 import static org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity.REQUEST_HOME_VISIT;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.MEMBER_ID_SUFFIX;
-import static org.smartregister.brac.hnpp.utils.HnppJsonFormUtils.makeReadOnlyFields;
-import static org.smartregister.chw.anc.util.JsonFormUtils.updateFormField;
 import static org.smartregister.chw.core.utils.CoreJsonFormUtils.REQUEST_CODE_GET_JSON;
 import static org.smartregister.family.util.Constants.INTENT_KEY.BASE_ENTITY_ID;
 
@@ -360,7 +349,7 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == Activity.RESULT_OK){
             //TODO: Need to check request code
-            VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+            //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
             HnppConstants.isViewRefresh = true;
             if(data!=null) {
                 String eventType = data.getStringExtra("event_type");
@@ -389,6 +378,8 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
             try {
                 Visit visit = saveRegistration(jsonString,"visits");
                 if(visit!=null){
+                    HnppHomeVisitIntentService.processVisits();
+                    VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
                     hideProgressDialog();
                     showServiceDoneDialog(true);
 
@@ -499,7 +490,7 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
         String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
         type = HnppJsonFormUtils.getEncounterType(type);
         baseEvent.setEntityType(type);
-        NCUtils.addEvent(allSharedPreferences, baseEvent);
+        //NCUtils.addEvent(allSharedPreferences, baseEvent);
        // NCUtils.startClientProcessing();
         String visitID ="";
         if(!TextUtils.isEmpty(baseEvent.getEventId())){
@@ -507,12 +498,12 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
         }else{
             visitID = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
         }
-        Log.v("ANC_HISTORY","visitId:"+visitID);
 
-        Visit visit = NCUtils.eventToVisit(baseEvent, visitID);
-        visit.setPreProcessedJson(new Gson().toJson(baseEvent));
+        Visit visit =null;
+
         try{
-            // visit.setParentVisitID(visitRepository().getParentVisitEventID(visit.getBaseEntityId(), HnppConstants.EVENT_TYPE.SS_INFO, visit.getDate()));
+            visit = NCUtils.eventToVisit(baseEvent, visitID);
+            visit.setPreProcessedJson(new Gson().toJson(baseEvent));
             AncLibrary.getInstance().visitRepository().addVisit(visit);
         }catch (Exception e){
             e.printStackTrace();

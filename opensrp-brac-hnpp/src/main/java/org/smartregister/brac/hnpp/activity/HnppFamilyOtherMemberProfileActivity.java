@@ -1,25 +1,19 @@
 package org.smartregister.brac.hnpp.activity;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,8 +28,6 @@ import com.simprints.libsimprints.Tier;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.text.WordUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,14 +37,13 @@ import org.smartregister.brac.hnpp.fragment.HnppMemberProfileDueFragment;
 import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
 import org.smartregister.brac.hnpp.fragment.MemberOtherServiceFragment;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
-import org.smartregister.brac.hnpp.listener.OnGpsDataGenerateListener;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSModel;
+import org.smartregister.brac.hnpp.model.ForceSyncModel;
 import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
-import org.smartregister.brac.hnpp.repository.StockRepository;
-import org.smartregister.brac.hnpp.task.GenerateGPSTask;
+import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -74,6 +65,7 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.adapter.ViewPagerAdapter;
 import org.smartregister.family.fragment.BaseFamilyOtherMemberProfileFragment;
 import org.smartregister.family.model.BaseFamilyOtherMemberProfileActivityModel;
+import org.smartregister.family.util.AppExecutors;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.helper.ImageRenderHelper;
@@ -741,6 +733,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             Toast.makeText(HnppFamilyOtherMemberProfileActivity.this,"Please select module id",Toast.LENGTH_LONG).show();
         }
     }
+    boolean isProcessing = false;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -773,47 +766,60 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             return;
         }
         if(resultCode == Activity.RESULT_OK){
-            //TODO: Need to check request code
-            VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
             HnppConstants.isViewRefresh = true;
 
         }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
+            if(isProcessing) return;
+            isProcessing = true;
             showProgressDialog(R.string.please_wait_message);
+            AppExecutors appExecutors = new AppExecutors();
+            Runnable runnable = () -> {
+                String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
 
-//            String type = StringUtils.isBlank(parentEventType) ? getEncounterType() : getEncounterType();
-           // String type = HnppJsonFormUtils.getEncounterType();
-            String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
+                boolean isSave = processVisitFormAndSave(jsonString);
 
-            Visit visit = null;
-            try {
-            JSONObject form = new JSONObject(jsonString);
-            String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
-                Log.v("BRAC_","type:"+type);
-                type = HnppJsonFormUtils.getEncounterType(type);
-
-                Map<String, String> jsonStrings = new HashMap<>();
-                jsonStrings.put("First",form.toString());
-
-                visit = HnppJsonFormUtils.saveVisit(isComesFromIdentity,verificationNeeded, isVerified,checkedItem, baseEntityId, type, jsonStrings, "");
-                if(visit!=null){
-                    hideProgressDialog();
-                    showServiceDoneDialog(true);
-
-
-                }else{
-                    hideProgressDialog();
-                    showServiceDoneDialog(false);
-                }
-            } catch (Exception e) {
-                hideProgressDialog();
-                e.printStackTrace();
-            }
-
-
+                appExecutors.mainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        isProcessing = false;
+                        if(isSave){
+                            hideProgressDialog();
+                            showServiceDoneDialog(true);
+                        }else {
+                            hideProgressDialog();
+                            showServiceDoneDialog(false);
+                        }
+                    }
+                });
+            };
+            appExecutors.diskIO().execute(runnable);
         }
-        if (resultCode == Activity.RESULT_OK && requestCode == org.smartregister.chw.anc.util.Constants.REQUEST_CODE_HOME_VISIT){
-            showServiceDoneDialog(true);
+       else if (resultCode == Activity.RESULT_OK && requestCode == org.smartregister.chw.anc.util.Constants.REQUEST_CODE_HOME_VISIT){
+            if(isProcessing) return;
+            isProcessing = true;
+           showProgressDialog(R.string.please_wait_message);
+           AppExecutors appExecutors = new AppExecutors();
+            Runnable runnable = () -> {
+
+                boolean isSave = processVisits();
+
+                appExecutors.mainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        isProcessing = false;
+                        if(isSave){
+                            hideProgressDialog();
+                            showServiceDoneDialog(true);
+                        }else {
+                            hideProgressDialog();
+                            showServiceDoneDialog(false);
+                        }
+                    }
+                });
+            };
+            appExecutors.diskIO().execute(runnable);
+
 
         }
         else if(resultCode == RESULT_OK && requestCode == org.smartregister.family.util.JsonFormUtils.REQUEST_CODE_GET_JSON){
@@ -866,6 +872,38 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 
        // super.onActivityResult(requestCode, resultCode, data);
 
+    }
+    private boolean processVisitFormAndSave(String jsonString){
+
+        try {
+            JSONObject form = new JSONObject(jsonString);
+            String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
+            type = HnppJsonFormUtils.getEncounterType(type);
+            Map<String, String> jsonStrings = new HashMap<>();
+            jsonStrings.put("First",form.toString());
+
+            Visit visit = HnppJsonFormUtils.saveVisit(isComesFromIdentity,verificationNeeded, isVerified,checkedItem, baseEntityId, type, jsonStrings, "");
+            if(visit!=null){
+                HnppHomeVisitIntentService.processVisits();
+                VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+                return true;
+
+            }else{
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    private boolean processVisits(){
+        try{
+            HnppHomeVisitIntentService.processVisits();
+            VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 
     @Override

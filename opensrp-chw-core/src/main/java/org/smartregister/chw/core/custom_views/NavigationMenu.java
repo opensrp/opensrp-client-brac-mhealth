@@ -115,19 +115,14 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     public static NavigationMenu getInstance(Activity activity, View parentView, Toolbar myToolbar) {
         SyncStatusBroadcastReceiver.getInstance().removeSyncStatusListener(instance);
         activityWeakReference = new WeakReference<>(activity);
-        int orientation = activity.getResources().getConfiguration().orientation;
-        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            if (instance == null) {
+         if (instance == null) {
                 instance = new NavigationMenu();
+         }
 
-            }
+         SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(instance);
+         instance.init(activity, parentView, myToolbar);
+         return instance;
 
-            SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(instance);
-            instance.init(activity, parentView, myToolbar);
-            return instance;
-        } else {
-            return null;
-        }
     }
 
     private void init(Activity activity, View myParentView, Toolbar myToolbar) {

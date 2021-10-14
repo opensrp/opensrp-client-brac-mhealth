@@ -99,7 +99,7 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser && !isStart){
             //addStaticView();
-            presenter.fetchData(commonPersonObjectClient,baseEntityId);
+            fetchData();
         }
     }
 
@@ -144,6 +144,7 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
     }
 
     private void fetchData() {
+        showProgressBar();
         presenter.fetchData(commonPersonObjectClient,baseEntityId);
     }
 
@@ -380,19 +381,42 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
 
     @Override
     public void showProgressBar() {
-
+        loadingProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgressBar() {
+        loadingProgressBar.setVisibility(View.GONE);
 
     }
 
     @Override
     public void updateView() {
+        hideProgressBar();
+
         HnppMemberProfileDueAdapter adapter = new HnppMemberProfileDueAdapter(getActivity(),onClickAdapter);
         adapter.setData(presenter.getData());
         this.dueRecyclerView.setAdapter(adapter);
+        updateOptionMenu(presenter.getLastEventType());
+    }
+    private void updateOptionMenu(String eventType){
+        if(TextUtils.isEmpty(eventType)) return;
+    if(mActivity instanceof HnppFamilyOtherMemberProfileActivity){
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        HnppFamilyOtherMemberProfileActivity aaa = (HnppFamilyOtherMemberProfileActivity) mActivity;
+                        try{
+                            aaa.updatePregnancyOutcomeVisible(eventType);
+                            aaa.updateAncRegisterVisible(eventType);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                },500);
+
+
+            }
     }
 
     @Override

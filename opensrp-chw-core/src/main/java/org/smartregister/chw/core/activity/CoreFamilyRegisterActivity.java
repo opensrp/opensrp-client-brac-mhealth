@@ -27,7 +27,7 @@ public abstract class CoreFamilyRegisterActivity extends BaseFamilyRegisterActiv
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        NavigationMenu.getInstance(this, null, null);
+//        NavigationMenu.getInstance(this, null, null);
     }
 
     @Override
@@ -46,8 +46,8 @@ public abstract class CoreFamilyRegisterActivity extends BaseFamilyRegisterActiv
     @Override
     protected void onResumption() {
         super.onResumption();
-        NavigationMenu.getInstance(this, null, null).getNavigationAdapter()
-                .setSelectedView(CoreConstants.DrawerMenu.ALL_FAMILIES);
+//        NavigationMenu.getInstance(this, null, null).getNavigationAdapter()
+//                .setSelectedView(CoreConstants.DrawerMenu.ALL_FAMILIES);
     }
 
     @Override

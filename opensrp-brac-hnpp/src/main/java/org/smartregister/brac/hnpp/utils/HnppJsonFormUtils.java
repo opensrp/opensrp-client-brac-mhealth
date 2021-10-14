@@ -437,24 +437,27 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         return event;
     }
 
-    public static Visit saveVisit(boolean isComesFromIdentity,boolean needVerified,boolean isVerified, String notVerifyCause,String memberID, String encounterType,
+    public static synchronized Visit saveVisit(boolean isComesFromIdentity,boolean needVerified,boolean isVerified, String notVerifyCause,String memberID, String encounterType,
                             final Map<String, String> jsonString,
                             String parentEventType) throws Exception {
 
         AllSharedPreferences allSharedPreferences = AncLibrary.getInstance().context().allSharedPreferences();
 
-        String derivedEncounterType = StringUtils.isBlank(parentEventType) ? encounterType : "";
-        Event baseEvent = org.smartregister.chw.anc.util.JsonFormUtils.processVisitJsonForm(allSharedPreferences, memberID, derivedEncounterType, jsonString, getTableName());
+        //String derivedEncounterType = StringUtils.isBlank(parentEventType) ? encounterType : "";
+        //Event baseEvent = org.smartregister.chw.anc.util.JsonFormUtils.processVisitJsonForm(allSharedPreferences, memberID, derivedEncounterType, jsonString, getTableName());
+        //
+        Triple<Boolean, JSONObject, JSONArray> registrationFormParams = validateParameters(jsonString.get("First"));
+        JSONObject jsonForm = (JSONObject)registrationFormParams.getMiddle();
+        JSONArray fields = (JSONArray)registrationFormParams.getRight();
+        Event baseEvent = org.smartregister.util.JsonFormUtils.createEvent(fields, getJSONObject(jsonForm, "metadata"), formTag(allSharedPreferences), memberID,encounterType,getTableName());
 
+        //
         if(isComesFromIdentity){
             prepareIsIdentified(baseEvent);
         }else if(needVerified){
                 prepareIsVerified(baseEvent,isVerified,notVerifyCause);
 
         }
-
-//        if (StringUtils.isBlank(parentEventType))
-//            prepareEvent(baseEvent);
 
         if (baseEvent != null) {
             baseEvent.setFormSubmissionId(JsonFormUtils.generateRandomUUIDString());
@@ -468,13 +471,6 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
             Visit visit = NCUtils.eventToVisit(baseEvent, visitID);
             visit.setPreProcessedJson(new Gson().toJson(baseEvent));
-//            try{
-//                visit.setParentVisitID(visitRepository().getParentVisitEventID(visit.getBaseEntityId(), parentEventType, visit.getDate()));
-//            }catch (Exception e){
-//                e.printStackTrace();
-//
-//            }
-
             visitRepository().addVisit(visit);
             return visit;
         }

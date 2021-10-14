@@ -31,6 +31,7 @@ public interface HnppMemberProfileContract {
                        Context context,
                        String baseEntityId,
                        HnppMemberProfileContract.InteractorCallBack callBack);
+        String getLastEvent();
     }
     interface InteractorCallBack{
         void onUpdateList(ArrayList<MemberProfileDueData> memberProfileDueData);

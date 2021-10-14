@@ -88,10 +88,13 @@ public class HnppSyncIntentService extends SyncIntentService {
             if (resp.isTimeoutError()) {
                 FetchStatus.fetchedFailed.setDisplayValue(resp.status().displayValue());
                 complete(FetchStatus.fetchedFailed);
+                return;
             }
 
             if (resp.isFailure() && !resp.isUrlError() && !resp.isTimeoutError()) {
                 fetchFailed(count);
+                complete(FetchStatus.fetchedFailed);
+                return;
             }
 
             JSONObject jsonObject = new JSONObject((String) resp.payload());
@@ -127,7 +130,11 @@ public class HnppSyncIntentService extends SyncIntentService {
             }
         } catch (Exception e) {
             Timber.e(e, "Fetch Retry Exception:  %s", e.getMessage());
-            fetchFailed(count);
+            try{
+                fetchFailed(count);
+            }catch (Exception ee){
+                ee.printStackTrace();
+            }
         }
     }
     @Override

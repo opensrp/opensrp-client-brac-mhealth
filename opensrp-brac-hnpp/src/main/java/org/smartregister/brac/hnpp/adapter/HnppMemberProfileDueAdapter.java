@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.holder.HnppMemberProfileDueHolder;
 import org.smartregister.brac.hnpp.holder.MemberDueViewHolder;
+import org.smartregister.brac.hnpp.interactor.HnppMemberProfileInteractor;
 import org.smartregister.brac.hnpp.utils.MemberProfileDueData;
 import org.smartregister.brac.hnpp.utils.OtherServiceData;
 
@@ -51,6 +52,11 @@ public class HnppMemberProfileDueAdapter extends RecyclerView.Adapter<HnppMember
         }else{
             viewHolder.textViewLastVisit.setVisibility(View.INVISIBLE);
 
+        }
+        if(content.getType() == HnppMemberProfileInteractor.TAG_OPEN_FAMILY || content.getType() == HnppMemberProfileInteractor.TAG_OPEN_REFEREAL){
+            viewHolder.statusImage.setVisibility(View.INVISIBLE);
+        }else{
+            viewHolder.statusImage.setVisibility(View.VISIBLE);
         }
         viewHolder.itemView.setOnClickListener(v -> onClickAdapter.onClick(viewHolder.getAdapterPosition(), content));
     }

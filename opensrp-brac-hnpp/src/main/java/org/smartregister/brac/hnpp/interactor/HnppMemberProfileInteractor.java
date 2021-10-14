@@ -28,8 +28,8 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
 
     private static final int TAG_OPEN_ANC1 = 101;
 
-    private static final int TAG_OPEN_FAMILY = 111;
-    private static final int TAG_OPEN_REFEREAL = 222;
+    public static final int TAG_OPEN_FAMILY = 111;
+    public static final int TAG_OPEN_REFEREAL = 222;
     private static final int TAG_OPEN_CORONA = 88888;
     private static final int TAG_OPEN_ANC_REGISTRATION= 555;
 
@@ -38,10 +38,10 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
     public HnppMemberProfileInteractor(AppExecutors appExecutors){
         this.appExecutors = appExecutors;
     }
-
+    String eventType = "";
     private ArrayList<MemberProfileDueData> getOtherService(CommonPersonObjectClient commonPersonObjectClient,String baseEntityId) {
         ArrayList<MemberProfileDueData> memberProfileDueDataArrayList = new ArrayList<>();
-        String eventType = "";
+
         String gender = org.smartregister.util.Utils.getValue(commonPersonObjectClient.getColumnmaps(), "gender", false);
         String maritalStatus  = org.smartregister.util.Utils.getValue(commonPersonObjectClient.getColumnmaps(), "marital_status", false);
         if(gender.equalsIgnoreCase("F") && maritalStatus.equalsIgnoreCase("Married")){
@@ -55,22 +55,7 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                 memberProfileDueData.setEventType(eventType);
                 memberProfileDueDataArrayList.add(memberProfileDueData);
             }
-            /*if(mActivity instanceof HnppFamilyOtherMemberProfileActivity){
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        HnppFamilyOtherMemberProfileActivity aaa = (HnppFamilyOtherMemberProfileActivity) mActivity;
-                        try{
-                            aaa.updatePregnancyOutcomeVisible(eventType);
-                            aaa.updateAncRegisterVisible(eventType);
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    }
-                },500);
 
-
-            }*/
             if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ELCO) && FormApplicability.isPregnant(baseEntityId)){
                 MemberProfileDueData memberProfileDueData2 = new MemberProfileDueData();
                 memberProfileDueData2.setImageSource(R.drawable.childrow_family);
@@ -117,6 +102,11 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
         }
 
         return memberProfileDueDataArrayList;
+    }
+
+    @Override
+    public String getLastEvent() {
+        return eventType;
     }
 
     @Override

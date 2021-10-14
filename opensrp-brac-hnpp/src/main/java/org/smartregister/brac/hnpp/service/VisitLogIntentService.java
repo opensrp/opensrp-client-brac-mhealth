@@ -233,19 +233,6 @@ public class VisitLogIntentService extends IntentService {
                                             FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_PNC",1+"");
                                         }
                                     }
-                                    if(details.containsKey("total_anc") && !StringUtils.isEmpty(details.get("brac_pnc"))){
-                                        String ancValue = details.get("total_anc");
-                                        try{
-                                            if(!TextUtils.isEmpty(ancValue)){
-                                                int count = Integer.parseInt(ancValue);
-                                                FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_TOTAL_ANC",count+"");
-
-                                            }
-                                        }catch (NumberFormatException ne){
-
-                                        }
-
-                                    }
 
                                     updatePncRisk(base_entity_id,details, encounter_type );
                                 }
@@ -780,7 +767,7 @@ public class VisitLogIntentService extends IntentService {
                     HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.PRESBYOPIA_CORRECTION,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),formSubmissionId);
                     if(details.containsKey("add_to_stock") && !StringUtils.isEmpty(details.get("add_to_stock"))) {
                         String add_to_stock = details.get("add_to_stock");
-                        if (!TextUtils.isEmpty(add_to_stock) && add_to_stock.equalsIgnoreCase("1")) {
+                        if (!TextUtils.isEmpty(add_to_stock) && add_to_stock.equalsIgnoreCase("3")) {
                             HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.GLASS,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate(),formSubmissionId);
 
                         }
@@ -796,7 +783,7 @@ public class VisitLogIntentService extends IntentService {
                         if(!TextUtils.isEmpty(power)) {
                             if(details.containsKey("add_to_stock") && !StringUtils.isEmpty(details.get("add_to_stock"))) {
                                 String add_to_stock = details.get("add_to_stock");
-                                if (!TextUtils.isEmpty(add_to_stock) && add_to_stock.equalsIgnoreCase("1")) {
+                                if (!TextUtils.isEmpty(add_to_stock) && add_to_stock.equalsIgnoreCase("3")) {
                                     LocalDate localDate = new LocalDate(visit.getVisitDate());
 
                                     switch (power){
@@ -832,7 +819,7 @@ public class VisitLogIntentService extends IntentService {
                         if(!TextUtils.isEmpty(power)) {
                             if(details.containsKey("add_to_stock") && !StringUtils.isEmpty(details.get("add_to_stock"))) {
                                 String add_to_stock = details.get("add_to_stock");
-                                if (!TextUtils.isEmpty(add_to_stock) && add_to_stock.equalsIgnoreCase("1")) {
+                                if (!TextUtils.isEmpty(add_to_stock) && add_to_stock.equalsIgnoreCase("3")) {
                                     LocalDate localDate = new LocalDate(visit.getVisitDate());
 
                                     switch (power){
@@ -865,7 +852,7 @@ public class VisitLogIntentService extends IntentService {
                 else  if(!TextUtils.isEmpty(known) && known.equalsIgnoreCase("sg")){
                     if(details.containsKey("add_to_stock") && !StringUtils.isEmpty(details.get("add_to_stock"))) {
                         String add_to_stock = details.get("add_to_stock");
-                        if (!TextUtils.isEmpty(add_to_stock) && add_to_stock.equalsIgnoreCase("1")) {
+                        if (!TextUtils.isEmpty(add_to_stock) && add_to_stock.equalsIgnoreCase("3")) {
                             LocalDate localDate = new LocalDate(visit.getVisitDate());
                             HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SUN_GLASS,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate(),formSubmissionId);
 
@@ -1968,7 +1955,6 @@ public class VisitLogIntentService extends IntentService {
 
                     cursor.moveToNext();
                 }
-                cursor.close();
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -2248,8 +2234,8 @@ public class VisitLogIntentService extends IntentService {
                     DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseEntityId});
 
             // clean fts table
-            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER), values,
-                    " object_id  = ?  ", new String[]{baseEntityId});
+//            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER), values,
+//                    " object_id  = ?  ", new String[]{baseEntityId});
 
             // Utils.context().commonrepository(CoreConstants.TABLE_NAME.FAMILY_MEMBER).populateSearchValues(baseEntityId, DBConstants.KEY.DATE_REMOVED, new SimpleDateFormat("yyyy-MM-dd").format(eventDate), null);
 
@@ -2277,8 +2263,8 @@ public class VisitLogIntentService extends IntentService {
                     DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseEntityId});
 
             // clean fts table
-            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.CHILD), values,
-                    CommonFtsObject.idColumn + "  = ?  ", new String[]{baseEntityId});
+//            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.CHILD), values,
+//                    CommonFtsObject.idColumn + "  = ?  ", new String[]{baseEntityId});
 
             // Utils.context().commonrepository(CoreConstants.TABLE_NAME.CHILD).populateSearchValues(baseEntityId, DBConstants.KEY.DATE_REMOVED, new SimpleDateFormat("yyyy-MM-dd").format(eventDate), null);
 

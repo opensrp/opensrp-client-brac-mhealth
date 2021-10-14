@@ -32,6 +32,9 @@ public class HnppMemberProfilePresenter implements HnppMemberProfileContract.Pre
     public ArrayList<MemberProfileDueData> getData() {
         return data;
     }
+    public String getLastEventType(){
+       return interactor.getLastEvent();
+    }
 
     @Override
     public HnppMemberProfileDueFragment getView() {

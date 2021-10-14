@@ -414,6 +414,7 @@
         "openmrs_entity_id": "child_count",
         "type": "edit_text",
         "hint": "আপনার সন্তান কয়টি?",
+        "edit_type": "number",
         "v_numeric": {
           "value": "true",
           "err": "সংখ্যাটি অবশ্যই পূর্ণসংখ্যা হওয়া আবশ্যক"
@@ -452,6 +453,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "age_small_child",
         "type": "edit_text",
+        "edit_type": "number",
         "hint": "বছর",
         "v_numeric": {
           "value": "true",
@@ -478,6 +480,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "month_small_child",
         "type": "edit_text",
+        "edit_type": "number",
         "hint": "মাস",
         "v_numeric": {
           "value": "true",

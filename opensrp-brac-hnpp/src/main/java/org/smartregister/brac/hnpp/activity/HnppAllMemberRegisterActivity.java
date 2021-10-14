@@ -23,6 +23,7 @@ public class HnppAllMemberRegisterActivity extends CoreChildRegisterActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if(!HnppConstants.isPALogin()){
             ArrayList<SSModel> ssLocationForms = SSLocationHelper.getInstance().getSsModels();
             if(ssLocationForms.size() > 0){
