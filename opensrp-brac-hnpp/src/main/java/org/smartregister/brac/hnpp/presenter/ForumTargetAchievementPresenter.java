@@ -11,7 +11,7 @@ import org.smartregister.family.util.AppExecutors;
 
 import java.util.ArrayList;
 
-public class ForumTargetAchievementPresenter implements DashBoardContract.TargetPresenter,DashBoardContract.InteractorCallBack {
+public class ForumTargetAchievementPresenter implements DashBoardContract.ForumPresenter,DashBoardContract.InteractorCallBack {
 
     private DashBoardContract.View view;
     private ForumTargetAchievementInteractor interactor;
@@ -49,10 +49,6 @@ public class ForumTargetAchievementPresenter implements DashBoardContract.Target
         interactor.filterData(ssName,day,month,year,this);
     }
 
-    @Override
-    public void filterByFromToDate(String fromDate, String toDate, String ssName) {
-
-    }
 
     @Override
     public DashBoardContract.View getView() {

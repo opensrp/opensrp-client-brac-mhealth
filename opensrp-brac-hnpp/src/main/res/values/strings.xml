@@ -37,6 +37,15 @@
     <string name="menu_troubleshoot" translatable="false">Force sync</string>
     <string name="force_sync_text" translatable="false">আপনার ডাটা সিঙ্ক হতে প্রব্লেম হলে সার্ভার অ্যাডমিন এর অনুমতি ক্রমে নিচের "ফোর্স সিঙ্ক " বাটন এ ছাপ দিন।
  \n * আপনার অনুমতি না থাকলে এটা কাজ করবে না</string>
+    <string name="invalid_data_count">আপনার ডিভাইস এ ইনভ্যালিড ডাটা আছে :</string>
+    <string name="menu_forum">ফোরাম</string>
+    <string name="menu_notification">নোটিফিকেশন</string>
+    <string name="menu_payment">পেমেন্ট</string>
+    <string name="menu_bkash">বিকাশ পেমেন্ট</string>
+    <string name="menu_stock_details">লেনদেনের সারসংক্ষেপ</string>
+    <string name="menu_new_stock">নতুন স্টক আসছে</string>
+    <string name="menu_end_stock">যে সব স্টক শেষ হয়ে যাচ্ছে</string>
+    <string name="menu_edd_this_month">এই মাসে ইডিডি যাদের</string>
     <string name="menu_forum">Forum</string>
     <string name="menu_notification">Notification</string>
     <string name="menu_stock_details">Srock details</string>
@@ -59,7 +68,7 @@
     <string name="title_kishori">কিশোরী ফোরাম</string>
     <string name="title_nari">নারী ফোরাম</string>
     <string name="title_child">শিশু ফোরাম</string>
-    <string name="title_ncd">অসংক্রামক রোগের ফোরাম</string>
+    <string name="title_ncd">সাধারণ ফোরাম</string>
     <string name="title_adult">অ্যাডাল্ট ফোরাম</string>
     <string name="clicked_sick_child">You have clicked the sick child follow-up action</string>
     <string name="clicked_malaria_diagnosis">You have clicked the malaria diagnosis action</string>
@@ -115,6 +124,10 @@
     <string name="Female">F</string>
     <string name="male">M</string>
     <string name="female">F</string>
+    <string name="abbrv_years">\u0020 বছর</string>
+    <string name="abbrv_months">\u0020 মাস</string>
+    <string name="abbrv_weeks">\u0020 সপ্তাহ</string>
+    <string name="abbrv_days">\u0020 দিন</string>
     <string name="relation_with_member_and_head">সম্পর্ক : %s</string>
     <string name="care_giver_initials">মায়ের নাম :  %s</string>
     <string name="age">বয়স :  %s</string>
@@ -217,6 +230,7 @@
     <string name="fill_earler_immunization"><![CDATA[<i>আগের টিকাদান রেকর্ড করুন</i>]]></string>
     <string name="immunizations_count">টিকাদান ({0})</string>
     <string name="vitamin_given">কখন %1$s দেয়া হয়েছে?</string>
+   <string name="vitamin_a">ভিটামিন এ</string>
     <string name="overdue">ওভারডিউ&#160;</string>
     <string name="not_given_with_spaces">&#160;দেয়া হয়নি&#160;</string>
     <string name="given_on_with_spaces">&#160;দেয়া হয়েছে&#160;</string>
@@ -346,12 +360,33 @@
     <string name="women">Women</string>
     <string name="dialog_title_member_mg">তিনি কি আগে ব্র্যাক এর সদস্য ছিলেন?</string>
     <string name="dialog_title_member_hh">এই খানা কি আগে ব্র্যাক এর খানা ছিল?</string>
+    <string name="ncd">NCD</string>
+    <string name="iycf">IYCF</string>
+    <string name="total_payment">সর্বমোট প্রদেয়</string>
+    <string name="remain_payment">বাকি</string>
+    <string name="given_payment">প্রদান</string>
+    <string name="name_pay"><u>Name</u></string>
+    <string name="price_pay"><u>Unit Price</u></string>
+    <string name="qty_pay"><u>Qty Sold</u></string>
+    <string name="for_pay"><u>Pay For</u></string>
+    <string name="total_pay"><u>Total</u></string>
+    <string name="anc">ANC</string>
+    <string name="pnc">PNC</string>
+    <string name="women">Women</string>
+    <string name="dialog_title_member_mg">তিনি কি আগে ব্র্যাক এর সদস্য ছিলেন?</string>
+    <string name="dialog_title_member_hh">এই খানা কি আগে ব্র্যাক এর খানা ছিল?</string>
     <string name="dialog_title">আপনি কি নিশ্চিত এই স্থানান্তর এর সম্পর্কে?</string>
+
+   <string name="dialog_title_payment">আপনি কি নিশ্চিত এই পেমেন্ট প্রদান এর সম্পর্কে?</string>
     <string name="dialog_text_family">যে কোনো একটি খানা সিলেক্ট করুন</string>
     <string name="ss_migration">এখানে স্থানান্তর করি</string>
     <string name="dialog_stock_sell_end">Your stock is finish</string>
+    <string name="ss_migration">এখানে স্থানান্তর করি</string>
+    <string name="dialog_stock_sell_end">আপনার স্টক শেষ হয়ে গিয়েছে। অনুগ্রহ করে স্টক কালেক্ট করুন </string>
     <string name="dialog_confirm_save">আমি %s, ব্র্যাকের স্বাস্থ্য পুষ্টি ও জনসংখ্যা কর্মসূচির একজন স্বাস্থ্যকর্মী। এই কর্মসূচি মা ও শিশুর প্রাথমিক স্বাস্থ্যসেবার পাশাপাশি অসংক্রামক রোগের প্রাথমিক চিকিৎসা সেবা প্রদান করে থাকে। এই সেবা কার্যক্রমের অংশই হিসেবে  আমরা আপনার এবং আপনার পরিবারের ব্যক্তিগত ও স্বাস্থ্য-বিষয়ক তথ্য সংগ্রহ রাখতে চাই। ব্র্যাক ও অন্যান্য সামাজিক উন্নয়ন সংস্থার প্রাথমিক স্বাস্থ্যসেবা,  সামাজিক উন্নয়ন, বিশ্লেষণ, প্রতিবেদন এবং গবেষণা কার্যক্রমের প্রয়োজনে ভবিষ্যতে এই তথ্য ব্যবহার করা হতে পারে। তবে সেক্ষত্রে অবশ্যই আপনার পরিচয় গোপন রাখা হবে. আপনি- %s, বয়স- %s, জাতীয় পরিচয়পত্র নাম্বার - %s; আপনার প্রদানকৃত তথ্যাবলি উল্লিখিত কাজে ব্যবহার করতে দিতে সম্মত আছেন? সম্মত থাকলে - হ্যাঁ ঘরে টিক দিন.</string>
     <string name="dialog_confirm_save_guest">আমি %s, ব্র্যাকের স্বাস্থ্য পুষ্টি ও জনসংখ্যা কর্মসূচির একজন স্বাস্থ্যকর্মী। এই কর্মসূচি মা ও শিশুর প্রাথমিক স্বাস্থ্যসেবার পাশাপাশি অসংক্রামক রোগের প্রাথমিক চিকিৎসা সেবা প্রদান করে থাকে। এই সেবা কার্যক্রমের অংশই হিসেবে  আমরা আপনার এবং আপনার পরিবারের ব্যক্তিগত ও স্বাস্থ্য-বিষয়ক তথ্য সংগ্রহ রাখতে চাই। ব্র্যাক ও অন্যান্য সামাজিক উন্নয়ন সংস্থার প্রাথমিক স্বাস্থ্যসেবা,  সামাজিক উন্নয়ন, বিশ্লেষণ, প্রতিবেদন এবং গবেষণা কার্যক্রমের প্রয়োজনে ভবিষ্যতে এই তথ্য ব্যবহার করা হতে পারে। তবে সেক্ষত্রে অবশ্যই আপনার পরিচয় গোপন রাখা হবে. আপনি- %s, বয়স- %s; আপনার প্রদানকৃত তথ্যাবলি উল্লিখিত কাজে ব্যবহার করতে দিতে সম্মত আছেন? সম্মত থাকলে - হ্যাঁ ঘরে টিক দিন.</string>
+    <string name="wrong_date_title">ডিভাইস এর তারিখ ঠিক নাই</string>
+    <string name="wrong_date_msg">আপনার ডিভাইস এর তারিখ ঠিক নাই। অনুগ্রহ করে সেটিংস থেকে তারিখ এবং সময় ঠিক করে নিন।</string>
 
     <string name="dialog_confirm_save_child">আমি %s, ব্র্যাকের স্বাস্থ্য পুষ্টি ও জনসংখ্যা কর্মসূচির একজন স্বাস্থ্যকর্মী। এই কর্মসূচি মা ও শিশুর প্রাথমিক স্বাস্থ্যসেবার পাশাপাশি অসংক্রামক রোগের প্রাথমিক চিকিৎসা সেবা প্রদান করে থাকে। এই সেবা কার্যক্রমের অংশই হিসেবে  আমরা আপনার এবং আপনার পরিবারের ব্যক্তিগত ও স্বাস্থ্য-বিষয়ক তথ্য সংগ্রহ রাখতে চাই। ব্র্যাক ও অন্যান্য সামাজিক উন্নয়ন সংস্থার প্রাথমিক স্বাস্থ্যসেবা,  সামাজিক উন্নয়ন, বিশ্লেষণ, প্রতিবেদন এবং গবেষণা কার্যক্রমের প্রয়োজনে ভবিষ্যতে এই তথ্য ব্যবহার করা হতে পারে। তবে সেক্ষত্রে অবশ্যই আপনার পরিচয় গোপন রাখা হবে. আপনি- %s, বয়স- %s বছর, জন্ম নিবন্ধন নাম্বার - %s; আপনার প্রদানকৃত তথ্যাবলি উল্লিখিত কাজে ব্যবহার করতে দিতে সম্মত আছেন? সম্মত থাকলে - হ্যাঁ ঘরে টিক দিন.</string>
     <string name="gps_not_found">NO GPS data found. Please try again</string>
@@ -360,5 +395,19 @@
     <string name="menu_browse_ss_info">Browse SS info</string>
     <string name="menu_notification_list">Notification</string>
     <string name="menu_payment">Payment</string>
+    <string name="gps_not_found">আপনার মোবাইল এর জিপিএস ডাটা পাওয়া যায়নি।  অনুগ্রহ করে জিপিএস অন রাখুন।  জিপিএস ডাটা পেতে সময় লাগতে পারে অনুগ্রহ করে অপেক্ষা করুন অথবা জিপিএস লোকেশন ছাড়া জমা দিন </string>
+   <string name="menu_history">History</string>
+   <string name="terms_condition">Terms and Conditions</string>
+    <string name="all_text">All</string>
+
+    <string name="confirm">নিশ্চিত</string>
+    <string name="not_confirm">নিশ্চিত নই</string>
+
+    <string name="payment_sync">পেমেন্ট অপশনে যাওয়ার আগে বর্তমানে থাকা হাউসহোল্ড এবং মেম্বার এর তথ্য সিংক করে নিন। অটোমেটিক্যালি ডাটা গুলো সিঙ্ক করার জন্যে নিচের সিংক বাটনে প্রেস করুন ।</string>
+    <string name="bill_pay">পে করুন</string>
+    <string name="no_internet_title">ইন্টারনেট সংযোগ নেই </string>
+    <string name="no_internet_msg">আপনার ডিভাইস  এর ইন্টারনেট  সংযোগ নেই। অনুগ্রহ করে ইন্টারনেট চালু রাখুন </string>
+    <string name="select_force_sync">আপনি কোন কোন সার্ভিস গুলা ফোর্স সিঙ্ক করতে চান সিলেক্ট করুন</string>
+    <string name="dump_data">আপনার কালেক্ট করা ডাটাতে কোনো সমস্যা আছে কিনা চেক করার জন্য ডাটাবেস টি ডাম্প করা দরকার।ডাম্প করতে চাইলে "ডাম্প ডাটাবেস" বাটন এ প্রেস করুন</string>
 
 </resources>

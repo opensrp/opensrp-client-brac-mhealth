@@ -181,7 +181,7 @@ public class LivePreference extends Preference  {
 
     }
     public void clearApplicationData() {
-        HnppApplication.getHNPPInstance().clearSharePreference();
+        HnppApplication.getHNPPInstance().clearSharePreference("");
         HnppApplication.getHNPPInstance().clearDatabase();
     }
 

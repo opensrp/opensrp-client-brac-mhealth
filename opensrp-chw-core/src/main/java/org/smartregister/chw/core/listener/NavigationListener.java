@@ -29,7 +29,7 @@ public class NavigationListener implements View.OnClickListener,NavigationSubMen
     public void onClick(View v) {
         if (v.getTag() instanceof String) {
             String tag = (String) v.getTag();
-            if (CoreConstants.DrawerMenu.CHILD_CLIENTS.equals(tag)) {
+          if (CoreConstants.DrawerMenu.CHILD_CLIENTS.equals(tag)) {
                 startRegisterActivity(getActivity(CoreConstants.REGISTERED_ACTIVITIES.CHILD_REGISTER_ACTIVITY));
             } else if (CoreConstants.DrawerMenu.ALL_FAMILIES.equals(tag)) {
                 startRegisterActivity(getActivity(CoreConstants.REGISTERED_ACTIVITIES.FAMILY_REGISTER_ACTIVITY));
@@ -66,13 +66,11 @@ public class NavigationListener implements View.OnClickListener,NavigationSubMen
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
     }
-    public void startRegisterActivityWithoutFinish(Class registerClass) {
+    public void startRegisterActivityWithOutClearTop(Class registerClass) {
         Intent intent = new Intent(activity, registerClass);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
     }
-
     protected Class getActivity(String key) {
         return navigationAdapter.getRegisteredActivities().get(key);
     }

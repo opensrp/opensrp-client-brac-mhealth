@@ -45,6 +45,9 @@ public class TargetFetchIntentService extends IntentService {
                     JSONObject object = jsonObjectLocation.getJSONObject(i);
                     TargetVsAchievementData ssModel =  new Gson().fromJson(object.toString(), TargetVsAchievementData.class);
                     if(ssModel != null){
+                        if(ssModel.getDay().equalsIgnoreCase("0")){
+                            ssModel.setDay("01");
+                        }
                         HnppApplication.getTargetRepository().addOrUpdate(ssModel);
                         timestamp = ssModel.getTimestamp();
                         Log.v("TARGET_FETCH","lasttime:"+timestamp);

@@ -48,6 +48,9 @@ public class GuestMemberAdapter extends RecyclerView.Adapter<GuestMemberViewHold
         viewHolder.textViewName.setText(context.getString(R.string.name,content.getName()));
         viewHolder.textViewName.append("\n"+context.getString(R.string.ss_name,content.getSsName()));
         viewHolder.textViewGender.setText(context.getString(R.string.gender_postfix,HnppConstants.getGender(content.getGender())));
+        if(!TextUtils.isEmpty(content.getPhoneNo())){
+            viewHolder.textViewGender.append(" , "+context.getString(R.string.phone_no,content.getPhoneNo()));
+        }
         if(content.getLastSubmissionDate()==0){
             viewHolder.textViewForumDate.setText(context.getString(R.string.last_submission_date,"--"));
         }else{

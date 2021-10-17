@@ -16,12 +16,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 import com.vijay.jsonwizard.utils.PermissionUtils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
@@ -37,6 +42,7 @@ import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.brac.hnpp.utils.MigrationSearchContentData;
+import org.smartregister.brac.hnpp.utils.OnDialogOptionSelect;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.core.activity.CoreFamilyProfileActivity;
 import org.smartregister.chw.core.activity.CoreFamilyProfileMenuActivity;
@@ -62,6 +68,7 @@ import java.util.Map;
 
 import timber.log.Timber;
 
+import static com.vijay.jsonwizard.constants.JsonFormConstants.FIELDS;
 import static org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity.REQUEST_HOME_VISIT;
 
 public class FamilyProfileActivity extends CoreFamilyProfileActivity {
@@ -69,12 +76,25 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
     public String moduleId;
     public String houseHoldId;
     public MigrationSearchContentData migrationSearchContentData;
+    private Handler handler;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         setupMenuOptions(menu);
         return true;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        handler = new Handler();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(handler!=null) handler.removeCallbacksAndMessages(null);
     }
 
     @Override
@@ -242,7 +262,6 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-       // super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == JsonFormUtils.REQUEST_CODE_GET_JSON && resultCode == RESULT_OK) {
             try {
                 String jsonString = data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON);
@@ -263,8 +282,8 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                     String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
 
                     String fullName = HnppApplication.getInstance().getContext().allSharedPreferences().getANMPreferredName(userName);
-
-                    if (form.getString(JsonFormUtils.ENCOUNTER_TYPE).equals(HnppConstants.EventType.CHILD_REGISTRATION)) {
+                    String encounterType = form.getString(JsonFormUtils.ENCOUNTER_TYPE);
+                    if (encounterType.equals(HnppConstants.EventType.CHILD_REGISTRATION)) {
                         generatedString = HnppJsonFormUtils.getValuesFromChildRegistrationForm(form);
                         title = String.format(getString(R.string.dialog_confirm_save_child), fullName, generatedString[0], generatedString[2], generatedString[1]);
 
@@ -274,11 +293,32 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
 
                     }
 
-                    Log.v("FORM_SAVE", "generatedString:" + generatedString);
-                    HnppConstants.showSaveFormConfirmationDialog(this, title, new Runnable() {
+                    HnppConstants.showSaveFormConfirmationDialog(this, title, new OnDialogOptionSelect() {
                         @Override
-                        public void run() {
-                            processJson(requestCode, resultCode, data);
+                        public void onClickYesButton() {
+
+                            try{
+                                JSONObject formWithConsent = new JSONObject(jsonString);
+                                JSONObject jobkect = formWithConsent.getJSONObject("step1");
+                                JSONArray field = jobkect.getJSONArray(FIELDS);
+                                HnppJsonFormUtils.addConsent(field,true);
+                                processForm(encounterType,formWithConsent.toString());
+                            }catch (JSONException je){
+                                je.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onClickNoButton() {
+                            try{
+                                JSONObject formWithConsent = new JSONObject(jsonString);
+                                JSONObject jobkect = formWithConsent.getJSONObject("step1");
+                                JSONArray field = jobkect.getJSONArray(FIELDS);
+                                HnppJsonFormUtils.addConsent(field,false);
+                                processForm(encounterType,formWithConsent.toString());
+                            }catch (JSONException je){
+                                je.printStackTrace();
+                            }
                         }
                     });
 
@@ -289,7 +329,8 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
             }
             HnppConstants.isViewRefresh = true;
         }
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT) {
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
+            showProgressDialog(R.string.please_wait_message);
             VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
 
             String jsonString = data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON);
@@ -301,24 +342,73 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                 String type = form.getString(JsonFormUtils.ENCOUNTER_TYPE);
                 type = HnppJsonFormUtils.getEncounterType(type);
 
-                visit = HnppJsonFormUtils.saveVisit(false, false, false, "", familyBaseEntityId, type, jsonStrings, "");
+                visit = HnppJsonFormUtils.saveVisit(false,false,false,"", familyBaseEntityId, type, jsonStrings, "");
+                if(visit!=null){
+                    hideProgressDialog();
+                    showServiceDoneDialog(true);
+
+
+                }else{
+                    hideProgressDialog();
+                    showServiceDoneDialog(false);
+                }
             } catch (Exception e) {
+                hideProgressDialog();
                 e.printStackTrace();
             }
-            if (familyHistoryFragment != null) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        familyHistoryFragment.onActivityResult(0, 0, null);
-                        mViewPager.setCurrentItem(3, true);
 
-                    }
-                }, 1000);
-            }
-            HnppConstants.isViewRefresh = true;
+
 
         }
 
+
+    }
+    private void processForm(String encounter_type, String jsonString){
+        if (encounter_type.equals(CoreConstants.EventType.CHILD_REGISTRATION)) {
+
+            presenter().saveChildForm(jsonString, false);
+
+        } else if (encounter_type.equals(Utils.metadata().familyMemberRegister.registerEventType)) {
+
+            String careGiver = presenter().saveChwFamilyMember(jsonString);
+            if (presenter().updatePrimaryCareGiver(getApplicationContext(), jsonString, familyBaseEntityId, careGiver)) {
+                setPrimaryCaregiver(careGiver);
+                refreshPresenter();
+                refreshMemberFragment(careGiver, null);
+            }
+
+            presenter().verifyHasPhone();
+        }
+    }
+    private void showServiceDoneDialog(boolean isSuccess){
+        Dialog dialog = new Dialog(this);
+        dialog.setCancelable(false);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_with_one_button);
+        TextView titleTv = dialog.findViewById(R.id.title_tv);
+        titleTv.setText(isSuccess?"সার্ভিসটি দেওয়া সম্পূর্ণ হয়েছে":"সার্ভিসটি দেওয়া সফল হয়নি। পুনরায় চেষ্টা করুন ");
+        Button ok_btn = dialog.findViewById(R.id.ok_btn);
+
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                if(isSuccess){
+                    if(familyHistoryFragment !=null){
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                familyHistoryFragment.onActivityResult(0,0,null);
+                                mViewPager.setCurrentItem(3,true);
+                                HnppConstants.isViewRefresh = true;
+                                presenter().refreshProfileView();
+                            }
+                        },2000);
+                    }
+                }
+            }
+        });
+        dialog.show();
 
     }
     private void processJson(int requestCode, int resultCode, Intent data){
@@ -415,7 +505,9 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
             @Override
             public void onPost(double latitude, double longitude) {
                 try{
+                    Map<String,String> hhByBaseEntityId = HnppDBUtils.getDetails(familyBaseEntityId,"ec_family");
                     JSONObject jsonForm = FormUtils.getInstance(getApplicationContext()).getFormJson(HnppConstants.JSON_FORMS.HOME_VISIT_FAMILY);
+                    HnppJsonFormUtils.updateHhVisitForm(jsonForm, hhByBaseEntityId);
                     ArrayList<String[]> memberList = HnppDBUtils.getAllMembersInHouseHold(familyBaseEntityId);
                     HnppJsonFormUtils.updateFormWithAllMemberName(jsonForm,memberList);
                     HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
@@ -433,9 +525,9 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        if (PermissionUtils.verifyPermissionGranted(permissions, grantResults, Manifest.permission.ACCESS_FINE_LOCATION)) {
-//            getGPSLocation();
-//        }
+        if (PermissionUtils.verifyPermissionGranted(permissions, grantResults, Manifest.permission.ACCESS_FINE_LOCATION)) {
+            getGPSLocation();
+        }
     }
     public void openProfile(String baseEntityId){
         CommonPersonObjectClient commonPersonObjectClient = clientObject(baseEntityId);
@@ -511,6 +603,14 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
     }
     private CommonPersonObjectClient clientObject(String baseEntityId) {
         CommonRepository commonRepository =Utils.context().commonrepository(Utils.metadata().familyMemberRegister.tableName);
+        final CommonPersonObject commonPersonObject = commonRepository.findByBaseEntityId(baseEntityId);
+        final CommonPersonObjectClient client =
+                new CommonPersonObjectClient(commonPersonObject.getCaseId(), commonPersonObject.getDetails(), "");
+        client.setColumnmaps(commonPersonObject.getColumnmaps());
+        return client;
+    }
+    private CommonPersonObjectClient getFamilyClientObject(String baseEntityId) {
+        CommonRepository commonRepository =Utils.context().commonrepository(Utils.metadata().familyRegister.tableName);
         final CommonPersonObject commonPersonObject = commonRepository.findByBaseEntityId(baseEntityId);
         final CommonPersonObjectClient client =
                 new CommonPersonObjectClient(commonPersonObject.getCaseId(), commonPersonObject.getDetails(), "");

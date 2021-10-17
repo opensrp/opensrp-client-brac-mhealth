@@ -31,12 +31,21 @@ public class MemberOtherServiceFragment extends Fragment implements OtherService
     public void setCommonPersonObjectClient(CommonPersonObjectClient commonPersonObjectClient){
         this.commonPersonObjectClient = commonPersonObjectClient;
     }
+    private boolean isStart = true;
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser && !isStart){
+            updateStaticView();
+        }
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recycler_view,null);
         clientsView = view.findViewById(R.id.recycler_view);
+        isStart = false;
         return view;
     }
 
@@ -44,7 +53,7 @@ public class MemberOtherServiceFragment extends Fragment implements OtherService
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         presenter = new MemberOtherServicePresenter(this);
-        updateStaticView();
+
     }
     public void updateStaticView(){
         presenter.fetchData(commonPersonObjectClient);

@@ -9,7 +9,7 @@ import org.smartregister.family.util.AppExecutors;
 
 import java.util.ArrayList;
 
-public class ForumTargetAchievementInteractor implements DashBoardContract.TargetInteractor {
+public class ForumTargetAchievementInteractor implements DashBoardContract.ForumTargetInteractor {
 
     private AppExecutors appExecutors;
     private ArrayList<TargetVsAchievementData> dashBoardDataArrayList;
@@ -33,12 +33,12 @@ public class ForumTargetAchievementInteractor implements DashBoardContract.Targe
     @Override
     public void fetchAllData(DashBoardContract.InteractorCallBack callBack, String day, String month, String year, String ssName) {
 
-        Runnable runnable = () -> {
-            fetchData(day,month,year,ssName);
-
-            appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
-        };
-        appExecutors.diskIO().execute(runnable);
+//        Runnable runnable = () -> {
+//            fetchData(day,month,year,ssName);
+//
+//            appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
+//        };
+//        appExecutors.diskIO().execute(runnable);
 
     }
 
@@ -116,7 +116,7 @@ public class ForumTargetAchievementInteractor implements DashBoardContract.Targe
             TargetVsAchievementData womenForum = model.getWomenForumTarget(day,month,year,ssName);
             TargetVsAchievementData avgWomenForum = model.getAvgWomenTarget(day,month,year,ssName);
             if(womenForum.getAchievementCount() !=0){
-                avgWomenForum.setAvgAchievmentCount(avgWomenForum.getAvgAchievmentCount() / womenForum.getAchievementCount());
+                womenForum.setAvgAchievmentCount(avgWomenForum.getAvgAchievmentCount() / womenForum.getAchievementCount());
 
             }
             womenForum.setAvgTargetCount(avgWomenForum.getAvgTargetCount());
@@ -156,8 +156,4 @@ public class ForumTargetAchievementInteractor implements DashBoardContract.Targe
         appExecutors.diskIO().execute(runnable);
     }
 
-    @Override
-    public void filterByFromToDate(String ssName, String fromDate, String toDate, DashBoardContract.InteractorCallBack callBack) {
-
-    }
 }

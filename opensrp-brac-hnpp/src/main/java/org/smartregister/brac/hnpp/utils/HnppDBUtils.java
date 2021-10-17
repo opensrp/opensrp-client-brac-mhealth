@@ -40,6 +40,52 @@ import timber.log.Timber;
 public class HnppDBUtils extends CoreChildUtils {
     private static final int STOCK_END_THRESHOLD = 2;
 
+    public static String getFirstName(String familyBaseEntityId){
+        String query = "select first_name from ec_family  where base_entity_id = '"+familyBaseEntityId+"'";
+        Cursor cursor = null;
+        String birthWeight="";
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                birthWeight = cursor.getString(0);
+            }
+
+        } catch (Exception e) {
+            Timber.e(e);
+
+        }
+        finally {
+            if(cursor !=null)cursor.close();
+        }
+        return birthWeight;
+    }
+
+    public static HashMap<String, String> getDetails(String baseEntityId, String tableName) {
+        HashMap<String, String> map = new HashMap<>();
+        String query = "select * from "+tableName+" where base_entity_id='" + baseEntityId + "'";
+
+        Cursor cursor =  CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        try {
+
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                int columncount = cursor.getColumnCount();
+                for(int i=0;i<columncount;i++){
+                    map.put(cursor.getColumnName(i),cursor.getString(i));
+                }
+                cursor.moveToNext();
+            }
+
+        } catch (Exception e) {
+
+        } finally {
+            if(cursor!=null)cursor.close();
+        }
+
+        return map;
+    }
+
     public static VisitInfo getVisitInfo(String eventType, String baseEntityId){
         String query = "select count(*) as count, max(visit_date) as v_date from ec_visit_log where base_entity_id ='"+baseEntityId+"' and visit_type ='"+eventType+"'";
         Cursor cursor = null;
@@ -86,7 +132,7 @@ public class HnppDBUtils extends CoreChildUtils {
         }
     }
     public static boolean isAvailableStock(String stockName){
-        String query = "select  product_name, (sum(stock_quantity) - sum(achievemnt_count)) as balance from stock_table where  product_name='"+stockName+"' group by product_name having balance>0";
+        String query = "select  product_name, (sum(coalesce(stock_quantity,0)) - sum(coalesce(achievemnt_count,0))) as balance from stock_table where  product_name='"+stockName+"' group by product_name having balance>0";
         Cursor cursor = null;
         boolean isAvailable = false;
         try {
@@ -114,7 +160,7 @@ public class HnppDBUtils extends CoreChildUtils {
         int month = calendar.get(Calendar.MONTH)+1;
         int year = calendar.get(Calendar.YEAR);
 
-        String query = "select  product_name, (sum(stock_quantity) - sum(achievemnt_count)) as balance from stock_table where "+ StockRepository.STOCK_TIMESTAMP+" < "+HnppConstants.getLongDateFormate(year+"",month+"")+" group by product_name having (sum(stock_quantity) - sum(achievemnt_count))<"+STOCK_END_THRESHOLD;
+        String query = "select  product_name, (sum(coalesce(stock_quantity,0)) - sum(coalesce(achievemnt_count,0))) as balance from stock_table where "+ StockRepository.STOCK_TIMESTAMP+" < "+HnppConstants.getLongDateFormatForToMonth(year+"",month+"")+" group by product_name having (sum(stock_quantity) - sum(achievemnt_count))<"+STOCK_END_THRESHOLD;
        Log.v("NOTIFICATION_JOB","getStockEnd:"+query);
         Cursor cursor = null;
         StringBuilder nameCount = new StringBuilder();
@@ -248,11 +294,13 @@ public class HnppDBUtils extends CoreChildUtils {
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 month = cursor.getInt(0);
-                cursor.close();
             }
 
         } catch (Exception e) {
             Timber.e(e);
+        }
+        finally {
+            if(cursor!=null)cursor.close();
         }
         if(month>= 18 && month <= 36) return HnppConstants.EVENT_TYPE.CHILD_VISIT_18_36;
         if(month>= 7 && month <= 24) return HnppConstants.EVENT_TYPE.CHILD_VISIT_7_24;
@@ -421,6 +469,32 @@ public class HnppDBUtils extends CoreChildUtils {
         return pClient;
 
     }
+    public static CommonPersonObjectClient getClientByBaseEntityId(String baseEntityId){
+        CommonPersonObjectClient pClient = null;
+        String query = "Select * FROM ec_family WHERE base_entity_id ='"+baseEntityId+"'";
+        CommonRepository commonRepository = Utils.context().commonrepository("ec_family");
+        Cursor cursor = null;
+        try {
+            //cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = commonRepository.rawCustomQueryForAdapter(query);
+            if (cursor != null && cursor.moveToFirst()) {
+                CommonPersonObject personObject = commonRepository.readAllcommonforCursorAdapter(cursor);
+                //personObject.setCaseId(baseEntityId);
+                pClient = new CommonPersonObjectClient(personObject.getCaseId(),
+                        personObject.getDetails(), "");
+                pClient.setColumnmaps(personObject.getColumnmaps());
+            }
+        } catch (Exception ex) {
+            Timber.e(ex, "CoreChildProfileInteractor --> updateChildCommonPerson");
+            ex.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return pClient;
+
+    }
     public static String getIsCorona(String baseEntityId){
         String query = "select ec_family_member.is_corona from ec_family_member LEFT JOIN ec_family ON  ec_family_member.relational_id = ec_family.id where ec_family_member.base_entity_id = '"+baseEntityId+"'" +
                 " and (strftime('%d',datetime('now')) - strftime('%d',datetime(last_home_visit/1000,'unixepoch','localtime'))) <= 14";
@@ -432,8 +506,9 @@ public class HnppDBUtils extends CoreChildUtils {
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 isCorona = cursor.getString(0);
-                cursor.close();
+
             }
+            if(cursor!=null)cursor.close();
 
             return isCorona;
         } catch (Exception e) {
@@ -452,9 +527,8 @@ public class HnppDBUtils extends CoreChildUtils {
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 birthWeight = cursor.getString(0);
-                cursor.close();
             }
-
+            if(cursor!=null)cursor.close();
             return birthWeight;
         } catch (Exception e) {
             Timber.e(e);
@@ -471,9 +545,8 @@ public class HnppDBUtils extends CoreChildUtils {
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 count = cursor.getInt(0);
-                cursor.close();
             }
-
+            if(cursor!=null)cursor.close();
             return count>0;
         } catch (Exception e) {
             Timber.e(e);
@@ -490,9 +563,8 @@ public class HnppDBUtils extends CoreChildUtils {
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 count = cursor.getInt(0);
-                cursor.close();
             }
-
+            if(cursor!=null)cursor.close();
             return count>0;
         } catch (Exception e) {
             Timber.e(e);
@@ -509,9 +581,8 @@ public class HnppDBUtils extends CoreChildUtils {
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 count = cursor.getInt(0);
-                cursor.close();
             }
-
+            if(cursor!=null)cursor.close();
             return count>0;
         } catch (Exception e) {
             Timber.e(e);
@@ -527,9 +598,8 @@ public class HnppDBUtils extends CoreChildUtils {
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 count = cursor.getInt(0);
-                cursor.close();
             }
-
+            if(cursor!=null)cursor.close();
             return count>0;
         } catch (Exception e) {
             Timber.e(e);
@@ -545,9 +615,8 @@ public class HnppDBUtils extends CoreChildUtils {
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 count = cursor.getInt(0);
-                cursor.close();
             }
-
+            if(cursor!=null)cursor.close();
             return count;
         } catch (Exception e) {
             Timber.e(e);
@@ -590,9 +659,8 @@ public class HnppDBUtils extends CoreChildUtils {
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 birthWeight = cursor.getString(0);
-                cursor.close();
             }
-
+            if(cursor!=null)cursor.close();
             return birthWeight;
         } catch (Exception e) {
             Timber.e(e);
@@ -866,9 +934,8 @@ public class HnppDBUtils extends CoreChildUtils {
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 motherName = cursor.getString(0);
-                cursor.close();
             }
-
+            if(cursor!=null)cursor.close();
             return motherName;
         } catch (Exception e) {
             Timber.e(e);
@@ -905,9 +972,8 @@ public class HnppDBUtils extends CoreChildUtils {
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 motherName = cursor.getString(0);
-                cursor.close();
             }
-
+            if(cursor!=null)cursor.close();
             return motherName;
         } catch (Exception e) {
             Timber.e(e);

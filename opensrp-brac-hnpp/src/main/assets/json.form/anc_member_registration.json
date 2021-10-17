@@ -130,6 +130,10 @@
           "value": "true",
           "err": "Equal or greater than 0"
         },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
         "v_numeric": {
           "value": "true",
           "err": "Equal or greater than 0"

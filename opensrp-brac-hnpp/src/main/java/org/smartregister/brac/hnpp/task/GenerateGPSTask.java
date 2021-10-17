@@ -19,6 +19,7 @@ import com.google.android.gms.location.LocationServices;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.listener.OnGpsDataGenerateListener;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 
 import static android.content.Context.LOCATION_SERVICE;
 
@@ -40,12 +41,11 @@ public class GenerateGPSTask  implements LocationListener, GoogleApiClient.Conne
     private Location lastLocation;
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        Log.v("GPS_DATA","onConnected");
+        Log.v("GPS_DATA","onConnected"+googleApiClient.isConnected());
         LocationRequest locationRequest = new LocationRequest();
         locationRequest.setInterval(5000);
         locationRequest.setFastestInterval(1000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
         LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
 
         lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
@@ -91,11 +91,13 @@ public class GenerateGPSTask  implements LocationListener, GoogleApiClient.Conne
         }
     }
     public void updateUi(){
+
         updateLocationViews(lastLocation);
     }
     private void updateLocationViews(Location location) {
         if(onGpsDataGenerateListener == null) return;
         if (location != null) {
+            HnppConstants.GPS_ATTEMPT_COUNT = 0;
             location.getProvider();
             latitude = location.getLatitude();
             longitude = location.getLongitude();
@@ -109,6 +111,11 @@ public class GenerateGPSTask  implements LocationListener, GoogleApiClient.Conne
             disconnectGoogleApiClient();
 
         }else{
+            HnppConstants.GPS_ATTEMPT_COUNT++;
+
+            if( HnppConstants.GPS_ATTEMPT_COUNT >= HnppConstants.DEFAULT_GPS_ATTEMPT){
+                HnppConstants.IS_MANDATORY_GPS = false;
+            }
             onGpsDataGenerateListener.hideProgress();
             onGpsDataGenerateListener.onGpsDataNotFound();
         }

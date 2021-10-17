@@ -31,6 +31,8 @@ import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.model.ForumDetails;
 import org.smartregister.brac.hnpp.repository.HnppChwRepository;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
+import org.smartregister.brac.hnpp.repository.StockRepository;
+import org.smartregister.brac.hnpp.service.VisitLogIntentService;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.repository.VisitRepository;
@@ -89,6 +91,29 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
     public static String[] monthStr = {"January","February","March","April","May","June","July","August","September","October","November","December"};
 
     public static String[] monthBanglaStr = {"জানুয়ারী","ফেব্রুয়ারী","মার্চ","এপ্রিল","মে","জুন","জুলাই","আগস্ট","সেপ্টেম্বর","অক্টোবর","নভেম্বর","ডিসেম্বর"};
+    public static JSONObject getVisitFormWithData(String eventJson, Context context){
+        JSONObject form_object = null;
+        try{
+            Event baseEvent = gson.fromJson(eventJson, Event.class);
+            String base_entity_id = baseEvent.getBaseEntityId();
+            HashMap<String,Object>form_details = VisitLogIntentService.getFormNamesFromEventObject(baseEvent);
+            ArrayList<String> encounter_types = (ArrayList<String>) form_details.get("form_name");
+            HashMap<String,String>details = (HashMap<String, String>) form_details.get("details");
+            final CommonPersonObjectClient client = new CommonPersonObjectClient(base_entity_id, details, "");
+            client.setColumnmaps(details);
+            form_object = VisitLogIntentService.loadFormFromAsset(encounter_types.get(0),context);
+            JSONObject stepOne = form_object.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+            JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+            for (int k = 0; k < jsonArray.length(); k++) {
+                VisitLogIntentService.populateValuesForFormObject(client, jsonArray.getJSONObject(k));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+
+        }
+        return form_object;
+
+    }
 
     public static void addRelationalIdAsGuest(JSONObject jsonForm){
         JSONObject stepOne = null;
@@ -105,6 +130,14 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             e.printStackTrace();
         }
 
+    }
+    public static int getMonthFromMonthString(String month){
+        for(int i=0;i<monthStr.length;i++){
+            if(monthStr[i].equalsIgnoreCase(month)){
+                return i+1;
+            }
+        }
+        return 0;
     }
     public static boolean isCurrentMonth(String month, String year){
         if(TextUtils.isEmpty(month) || TextUtils.isEmpty(year)){
@@ -188,11 +221,11 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
             Visit visit = NCUtils.eventToVisit(baseEvent, visitID);
             visit.setPreProcessedJson(new Gson().toJson(baseEvent));
-            try{
-                visit.setParentVisitID(visitRepository().getParentVisitEventID(visit.getBaseEntityId(), HnppConstants.EVENT_TYPE.SS_INFO, visit.getDate()));
-            }catch (Exception e){
-
-            }
+//            try{
+//                visit.setParentVisitID(visitRepository().getParentVisitEventID(visit.getBaseEntityId(), HnppConstants.EVENT_TYPE.SS_INFO, visit.getDate()));
+//            }catch (Exception e){
+//
+//            }
 
             visitRepository().addVisit(visit);
             JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(baseEvent));
@@ -217,7 +250,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
     }
     public static void makeReadOnlyFields(JSONObject jsonObject){
         try {
-            for(int i=1;i<8;i++){
+            for(int i=1;i<9;i++){
                 JSONObject steps = jsonObject.getJSONObject("step"+i);
                 JSONArray jsonArray = steps.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
                 for(int j=0;j<jsonArray.length();j++){
@@ -267,11 +300,11 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
             Visit visit = NCUtils.eventToVisit(baseEvent, visitID);
             visit.setPreProcessedJson(new Gson().toJson(baseEvent));
-           try{
-               visit.setParentVisitID(visitRepository().getParentVisitEventID(visit.getBaseEntityId(), eventType, visit.getDate()));
-           }catch (Exception e){
-
-           }
+//           try{
+//               visit.setParentVisitID(visitRepository().getParentVisitEventID(visit.getBaseEntityId(), eventType, visit.getDate()));
+//           }catch (Exception e){
+//
+//           }
 
             visitRepository().addVisit(visit);
             JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(baseEvent));
@@ -413,9 +446,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
         String derivedEncounterType = StringUtils.isBlank(parentEventType) ? encounterType : "";
         Event baseEvent = org.smartregister.chw.anc.util.JsonFormUtils.processVisitJsonForm(allSharedPreferences, memberID, derivedEncounterType, jsonString, getTableName());
-        if(encounterType.equalsIgnoreCase(org.smartregister.chw.anc.util.Constants.EVENT_TYPE.ANC_HOME_VISIT)){
-            prepareEvent(baseEvent);
-        }
+
         if(isComesFromIdentity){
             prepareIsIdentified(baseEvent);
         }else if(needVerified){
@@ -438,11 +469,12 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
             Visit visit = NCUtils.eventToVisit(baseEvent, visitID);
             visit.setPreProcessedJson(new Gson().toJson(baseEvent));
-            try{
-                visit.setParentVisitID(visitRepository().getParentVisitEventID(visit.getBaseEntityId(), parentEventType, visit.getDate()));
-            }catch (Exception e){
-
-            }
+//            try{
+//                visit.setParentVisitID(visitRepository().getParentVisitEventID(visit.getBaseEntityId(), parentEventType, visit.getDate()));
+//            }catch (Exception e){
+//                e.printStackTrace();
+//
+//            }
 
             visitRepository().addVisit(visit);
             return visit;
@@ -467,8 +499,11 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 return HnppConstants.EVENT_TYPE.NCD_PACKAGE;
             case HnppConstants.EVENT_TYPE.IYCF_PACKAGE:
                 return HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
-            case  HnppConstants.EVENT_TYPE.PNC_REGISTRATION:
-                return org.smartregister.chw.anc.util.Constants.EVENT_TYPE.PNC_HOME_VISIT;
+
+            case  HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour:
+                return HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour;
+            case  HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour:
+                return HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour;
             case  HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY:
                 return HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY;
             case  HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP:
@@ -502,15 +537,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
     private static String getTableName() {
         return org.smartregister.chw.anc.util.Constants.TABLES.ANC_MEMBERS;
     }
-    private static void prepareEvent(Event baseEvent) {
-        if (baseEvent != null) {
-            // add anc date obs and last
-            List<Object> list = new ArrayList<>();
-            list.add(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date()));
-            baseEvent.addObs(new Obs("concept", "text", "anc_visit_date", "",
-                    list, new ArrayList<>(), null, "anc_visit_date"));
-        }
-    }
+
     private static void prepareIsVerified(Event baseEvent, boolean isVerified , String notVerifyCause) {
         if (baseEvent != null) {
             // add anc date obs and last
@@ -770,6 +797,44 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         }
 
     }
+    public static void addAddToStockValue(JSONObject jsonForm){
+        try {
+            JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+            JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+            if(StockRepository.isEligable()){
+                updateFormField(jsonArray,"add_to_stock","5");
+            }else{
+                updateFormField(jsonArray,"add_to_stock","0");
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void addNcdSugerPressure(String baseEntityId, JSONObject jsonForm){
+        try {
+            String sugervalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(baseEntityId+"_SUGER");
+            String pressurevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(baseEntityId+"_PRESSURE");
+            if(sugervalue.isEmpty() && pressurevalue.isEmpty()) return;
+            Log.v("SUGER_TEST","addNcdSugerPressure>>>sugervalue:"+sugervalue+":pressurevalue:"+pressurevalue);
+            JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+            JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+            if(!TextUtils.isEmpty(sugervalue) && sugervalue.equalsIgnoreCase("yes")){
+                updateFormField(jsonArray,"suger_confirm_hospital","হ্যাঁ");
+                JSONObject formObject = org.smartregister.util.JsonFormUtils.getFieldJSONObject(jsonArray, "suger_confirm_hospital");
+                formObject.put(org.smartregister.family.util.JsonFormUtils.READ_ONLY, true);
+            }
+            if(!TextUtils.isEmpty(pressurevalue) && pressurevalue.equalsIgnoreCase("yes")){
+                updateFormField(jsonArray,"pressure_confirm_hospital","হ্যাঁ");
+                JSONObject formObject = org.smartregister.util.JsonFormUtils.getFieldJSONObject(jsonArray, "pressure_confirm_hospital");
+                formObject.put(org.smartregister.family.util.JsonFormUtils.READ_ONLY, true);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
     public static void addValueAtJsonForm(JSONObject jsonForm, String key, String value){
         try {
             JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
@@ -858,10 +923,10 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
             JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
             String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(baseEntityId+"_BRAC_PNC");
-            String preCountvalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(baseEntityId+"_TOTAL_ANC");
+//            String preCountvalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(baseEntityId+"_TOTAL_ANC");
 
             if(!isReadOnlyView) updateFormField(jsonArray, "brac_pnc", TextUtils.isEmpty(prevalue)?"0":prevalue);
-            updateFormField(jsonArray, "anc_count", TextUtils.isEmpty(preCountvalue)?"0":prevalue);
+//            updateFormField(jsonArray, "anc_count", TextUtils.isEmpty(preCountvalue)?"0":prevalue);
 
             int initVal = TextUtils.isEmpty(prevalue)?0:Integer.parseInt(prevalue);
             if(isReadOnlyView){
@@ -1120,25 +1185,15 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
     }
     public static JSONObject updateFormWithAllMemberName(JSONObject form , ArrayList<String[]> motherNameList) throws Exception{
         JSONArray field = fields(form, STEP1);
-        JSONObject hh_visit_members = getFieldJSONObject(field, "hh_visit_members");
         JSONObject corona_members = getFieldJSONObject(field, "corona_affected_members");
        // JSONObject corona_members_id = getFieldJSONObject(field, "corona_affected_id");
 
-        JSONArray jsonArray = hh_visit_members.getJSONArray("options");
         JSONArray jsonArrayCoronaMember = corona_members.getJSONArray("options");
        // JSONArray jsonArrayCoronaMemberIds = corona_members_id.getJSONArray("options");
         for(String[] optionList : motherNameList){
             String name = optionList[0];
             String ids = optionList[1];
             if(StringUtils.isEmpty(name))continue;
-            JSONObject item = new JSONObject();
-            item.put("key",name.replace(" ","_"));
-            item.put("text",name);
-            item.put("value",false);
-            item.put("openmrs_entity","concept");
-            item.put("openmrs_entity_id",name.replace(" ","_"));
-
-            jsonArray.put(item);
 
             JSONObject itemWithIds = new JSONObject();
             itemWithIds.put("key",name.replace(" ","_")+"#"+ids);
@@ -1159,14 +1214,6 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
            // jsonArrayCoronaMemberIds.put(itemId);
         }
 
-        JSONObject not_found = new JSONObject();
-        not_found.put("key","chk_nobody");
-        not_found.put("text","কাউকে পাওয়া যায়নি");
-        not_found.put("value",false);
-        not_found.put("openmrs_entity","concept");
-        not_found.put("openmrs_entity_id","chk_nobody");
-        jsonArray.put(not_found);
-
         return form;
 
 
@@ -1186,6 +1233,28 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         JSONObject longitude_field = getFieldJSONObject(field, "longitude");
         latitude_field.put(org.smartregister.family.util.JsonFormUtils.VALUE,latitude );
         longitude_field.put(org.smartregister.family.util.JsonFormUtils.VALUE,longitude );
+        return form;
+    }
+    public static JSONObject updateHhVisitForm(JSONObject form,Map<String,String> details) throws JSONException{
+        JSONObject stepOne = form.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+        JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            String key = jsonObject.getString(org.smartregister.family.util.JsonFormUtils.KEY);
+            if(key.equalsIgnoreCase("form_name")) continue;
+            String value = details.get(key);
+
+            Log.v("HH_VISIT","key:"+key+":value:"+value);
+
+            if(jsonObject.has("openmrs_choice_ids")&&jsonObject.getJSONObject("openmrs_choice_ids").length()>0){
+                value = processValueWithChoiceIdsForEdit(jsonObject,value);
+                jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,value);
+            }else{
+                jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,value);
+            }
+
+
+        }
         return form;
     }
 
@@ -1413,6 +1482,14 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             Timber.e(var9);
         }
         processAttributesWithChoiceIDsForSave(fields);
+    }
+    public static void addConsent(JSONArray fields,boolean isConsent){
+        try{
+            JSONObject isConsentObj = getFieldJSONObject(fields, "is_consent");
+            isConsentObj.put("value",isConsent?"1":"0");
+        }catch (Exception e){
+
+        }
     }
     public static String getDobWithToday(int age) {
         Calendar cal = Calendar.getInstance();

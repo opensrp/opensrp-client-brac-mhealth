@@ -13,6 +13,7 @@ import org.smartregister.domain.LoginResponse;
 import org.smartregister.immunization.job.VaccineServiceJob;
 import org.smartregister.job.PullUniqueIdsServiceJob;
 import org.smartregister.login.interactor.BaseLoginInteractor;
+
 import org.smartregister.view.contract.BaseLoginContract;
 
 import java.util.ArrayList;
@@ -33,10 +34,8 @@ public class LoginInteractor extends BaseLoginInteractor implements BaseLoginCon
 
     @Override
     protected void scheduleJobsPeriodically() {
-//        HnppSyncIntentServiceJob.scheduleJob(HnppSyncIntentServiceJob.TAG, TimeUnit.MINUTES.toMinutes(
+//        SyncServiceJob.scheduleJob(SyncServiceJob.TAG, TimeUnit.MINUTES.toMinutes(
 //                BuildConfig.DATA_SYNC_DURATION_MINUTES), getFlexValue(BuildConfig.DATA_SYNC_DURATION_MINUTES));
-//        NotificationGeneratorJob.scheduleJob(NotificationGeneratorJob.TAG, TimeUnit.MINUTES.toMinutes(
-//                BuildConfig.NOTIFICATION_GENERATE), getFlexValue(BuildConfig.NOTIFICATION_GENERATE));
 //
 //        VaccineRecurringServiceJob.scheduleJob(VaccineRecurringServiceJob.TAG, TimeUnit.MINUTES.toMinutes(
 //                BuildConfig.VACCINE_SYNC_PROCESSING_MINUTES), getFlexValue(BuildConfig.VACCINE_SYNC_PROCESSING_MINUTES));
@@ -47,9 +46,6 @@ public class LoginInteractor extends BaseLoginInteractor implements BaseLoginCon
 //        }catch (Exception e){
 //
 //        }
-////
-////        SyncTaskServiceJob.scheduleJob(SyncTaskServiceJob.TAG, TimeUnit.MINUTES.toMinutes(
-////                BuildConfig.DATA_SYNC_DURATION_MINUTES), getFlexValue(BuildConfig.DATA_SYNC_DURATION_MINUTES));
 
     }
 

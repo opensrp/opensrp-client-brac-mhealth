@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 import org.json.JSONArray;
@@ -43,6 +45,7 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
     private String baseEntityId;
     private boolean isStart = true;
     private boolean isGuestUser = false;
+    private ProgressBar client_list_progress;
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -67,6 +70,7 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recycler_view,null);
         clientsView = view.findViewById(R.id.recycler_view);
+        client_list_progress = view.findViewById(R.id.client_list_progress);
         isStart = false;
         return view;
     }
@@ -97,12 +101,12 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
 
     @Override
     public void showProgressBar() {
-
+        client_list_progress.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgressBar() {
-
+        client_list_progress.setVisibility(View.GONE);
     }
 
     @Override
@@ -122,13 +126,15 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
     private MemberHistoryAdapter.OnClickAdapter onClickAdapter = new MemberHistoryAdapter.OnClickAdapter() {
         @Override
         public void onClick(int position, MemberHistoryData content) {
+
             startFormActivity(content);
         }
     };
 
-    private void startFormActivity(MemberHistoryData content){
+    @Override
+    public void startFormWithVisitData(MemberHistoryData content, JSONObject jsonForm) {
         try {
-            JSONObject jsonForm = new JSONObject(content.getVisitDetails());
+            hideProgressBar();
             String eventType = content.getEventType();
             if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME)){
                 HnppDBUtils.populatePNCChildDetails(content.getBaseEntityId(),jsonForm);
@@ -142,14 +148,17 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
                     HnppJsonFormUtils.addLastAnc(jsonForm,baseEntityId,true);
                 }
 
-            } else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION) ||
-                    eventType.equalsIgnoreCase(CoreConstants.EventType.PNC_HOME_VISIT)){
+            } else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour) ||
+                    eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour)){
                 if(isGuestUser){
                     HnppJsonFormUtils.addNoOfPnc(jsonForm);
                 }else{
                     HnppJsonFormUtils.addLastPnc(jsonForm,baseEntityId,true);
                 }
 
+            }
+            if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.NCD_PACKAGE)){
+                HnppJsonFormUtils.addNcdSugerPressure(baseEntityId,jsonForm);
             }
             makeReadOnlyFields(jsonForm);
 
@@ -172,9 +181,14 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
             if (this != null) {
                 this.startActivity(intent);
             }
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
+    }
+    private void startFormActivity(MemberHistoryData content){
+        showProgressBar();
+        presenter.getVisitFormWithData(content);
 
     }
 

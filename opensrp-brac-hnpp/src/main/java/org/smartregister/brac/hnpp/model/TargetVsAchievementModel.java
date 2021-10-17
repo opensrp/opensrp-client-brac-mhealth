@@ -11,7 +11,10 @@ import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.TargetVsAchievementData;
 import org.smartregister.chw.core.application.CoreChwApplication;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TargetVsAchievementModel implements DashBoardContract.Model  {
 
@@ -71,153 +74,124 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
 
     }*/
     //PA
-    public TargetVsAchievementData getAdultForum(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.FORUM_ADULT,day,month,year,ssName);
-    }
-    public TargetVsAchievementData getAttendancAdultForum(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ADULT_FORUM_ATTENDANCE,day,month,year,ssName);
-    }
-    public TargetVsAchievementData getServiceCountAdultForum(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ADULT_FORUM_SERVICE_TAKEN,day,month,year,ssName);
-    }
-    public TargetVsAchievementData getMarkedPresbyopia(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.MARKED_PRESBYOPIA,day,month,year,ssName);
-    }
-    public TargetVsAchievementData getPresbyopiaCorrection(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.PRESBYOPIA_CORRECTION,day,month,year,ssName);
-    }
-    public TargetVsAchievementData getEstimateDiabetes(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ESTIMATE_DIABETES,day,month,year,ssName);
-    }
-    public TargetVsAchievementData getEstimateHBS(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ESTIMATE_HBP,day,month,year,ssName);
-    }
-    public TargetVsAchievementData getCataractSurgeryRefer(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CATARACT_SURGERY_REFER,day,month,year,ssName);
-    }
-    public TargetVsAchievementData getCataractSurgery(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CATARACT_SURGERY,day,month,year,ssName);
-    }
+//    public TargetVsAchievementData getAdultForum(String day, String month, String year,String ssName){
+//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.FORUM_ADULT,day,month,year,ssName);
+//    }
+//    public TargetVsAchievementData getAttendancAdultForum(String day, String month, String year,String ssName){
+//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ADULT_FORUM_ATTENDANCE,day,month,year,ssName);
+//    }
+//    public TargetVsAchievementData getServiceCountAdultForum(String day, String month, String year,String ssName){
+//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ADULT_FORUM_SERVICE_TAKEN,day,month,year,ssName);
+//    }
+//    public TargetVsAchievementData getAdultPackage(String day, String month, String year,String ssName){
+//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.NCD_BY_PA,day,month,year,ssName);
+//    }
+//    public TargetVsAchievementData getMarkedPresbyopia(String day, String month, String year,String ssName){
+//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.MARKED_PRESBYOPIA,day,month,year,ssName);
+//    }
+//    public TargetVsAchievementData getPresbyopiaCorrection(String day, String month, String year,String ssName){
+//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.PRESBYOPIA_CORRECTION,day,month,year,ssName);
+//    }
+//    public TargetVsAchievementData getEstimateDiabetes(String day, String month, String year,String ssName){
+//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ESTIMATE_DIABETES,day,month,year,ssName);
+//    }
+//    public TargetVsAchievementData getEstimateHBS(String day, String month, String year,String ssName){
+//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ESTIMATE_HBP,day,month,year,ssName);
+//    }
+//    public TargetVsAchievementData getCataractSurgeryRefer(String day, String month, String year,String ssName){
+//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CATARACT_SURGERY_REFER,day,month,year,ssName);
+//    }
+//    public TargetVsAchievementData getCataractSurgery(String day, String month, String year,String ssName){
+//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CATARACT_SURGERY,day,month,year,ssName);
+//    }
 
     //PA For DailyVisitFromToDate
 
-    public TargetVsAchievementData getAdultForum(String fromDate, String toDate,String ssName){
+    public TargetVsAchievementData getAdultForum(long fromDate, long toDate,String ssName){
         return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.FORUM_ADULT,fromDate,toDate,ssName);
     }
-    public TargetVsAchievementData getAttendancAdultForum(String fromDate, String toDate,String ssName){
+    public TargetVsAchievementData getAttendancAdultForum(long fromDate, long toDate,String ssName){
         return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ADULT_FORUM_ATTENDANCE,fromDate,toDate,ssName);
     }
-    public TargetVsAchievementData getServiceCountAdultForum(String fromDate, String toDate,String ssName){
+    public TargetVsAchievementData getServiceCountAdultForum(long fromDate, long toDate,String ssName){
         return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ADULT_FORUM_SERVICE_TAKEN,fromDate,toDate,ssName);
     }
-    public TargetVsAchievementData getMarkedPresbyopia(String fromDate, String toDate,String ssName){
+//    public TargetVsAchievementData getAdultPackage(long fromDate, long toDate,String ssName){
+//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.NCD_BY_PA,fromDate,toDate,ssName);
+//    }
+    public TargetVsAchievementData getMarkedPresbyopia(long fromDate, long toDate,String ssName){
         return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.MARKED_PRESBYOPIA,fromDate,toDate,ssName);
     }
-    public TargetVsAchievementData getPresbyopiaCorrection(String fromDate, String toDate,String ssName){
+    public TargetVsAchievementData getPresbyopiaCorrection(long fromDate, long toDate,String ssName){
         return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.PRESBYOPIA_CORRECTION,fromDate,toDate,ssName);
     }
-    public TargetVsAchievementData getEstimateDiabetes(String fromDate, String toDate,String ssName){
+    public TargetVsAchievementData getEstimateDiabetes(long fromDate, long toDate,String ssName){
         return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ESTIMATE_DIABETES,fromDate,toDate,ssName);
     }
-    public TargetVsAchievementData getEstimateHBS(String fromDate, String toDate,String ssName){
+    public TargetVsAchievementData getEstimateHBS(long fromDate, long toDate,String ssName){
         return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ESTIMATE_HBP,fromDate,toDate,ssName);
     }
-    public TargetVsAchievementData getCataractSurgeryRefer(String fromDate, String toDate,String ssName){
+    public TargetVsAchievementData getCataractSurgeryRefer(long fromDate, long toDate,String ssName){
         return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CATARACT_SURGERY_REFER,fromDate,toDate,ssName);
     }
-    public TargetVsAchievementData getCataractSurgery(String fromDate, String toDate,String ssName){
+    public TargetVsAchievementData getCataractSurgery(long fromDate, long toDate,String ssName){
         return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CATARACT_SURGERY,fromDate,toDate,ssName);
     }
 
     // DailyVisit Filter By FromToDate
-    public TargetVsAchievementData getHHVisitTarget(String fromDate, String toDate,String ssName){
+    public TargetVsAchievementData getHHVisitTarget(long fromDate, long toDate,String ssName){
         return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY,fromDate,toDate,ssName);
     }
-    public TargetVsAchievementData getElcoTarget(String fromDate, String toDate,String ssName){
+    public TargetVsAchievementData getElcoTarget(long fromDate, long toDate,String ssName){
         return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ELCO,fromDate,toDate,ssName);
     }
-    public TargetVsAchievementData getMethodUserTarget(String fromDate, String toDate,String ssName){
+    public TargetVsAchievementData getMethodUserTarget(long fromDate, long toDate,String ssName){
         return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.METHOD_USER,fromDate,toDate,ssName);
     }
-    public TargetVsAchievementData getAdoMethodUserTarget(String fromDate, String toDate,String ssName){
+    public TargetVsAchievementData getAdoMethodUserTarget(long fromDate, long toDate,String ssName){
         return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ADO_METHOD_USER,fromDate,toDate,ssName);
     }
-    public TargetVsAchievementData getPregnencyIdentiTarget(String fromDate, String toDate,String ssName){
+    public TargetVsAchievementData getPregnencyIdentiTarget(long fromDate, long toDate,String ssName){
         return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.PREGNANCY_IDENTIFIED,fromDate,toDate,ssName);
     }
-    public TargetVsAchievementData getDeliveryTarget(String fromDate, String toDate,String ssName){
+    public TargetVsAchievementData getDeliveryTarget(long fromDate, long toDate,String ssName){
         return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME,fromDate,toDate,ssName);
     }
-    public TargetVsAchievementData getInstitutionDeliveryTarget(String fromDate, String toDate,String ssName){
+    public TargetVsAchievementData getInstitutionDeliveryTarget(long fromDate, long toDate,String ssName){
         return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.INSTITUTIONALIZES_DELIVERY,fromDate,toDate,ssName);
     }
-    public TargetVsAchievementData get0to6ChildVisitTarget(String fromDate, String toDate,String ssName){
+    public TargetVsAchievementData get0to6ChildVisitTarget(long fromDate, long toDate,String ssName){
         return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CHILD_VISIT_0_6,fromDate,toDate,ssName);
     }
-    public TargetVsAchievementData get7to24ChildVisitTarget(String fromDate, String toDate,String ssName){
+    public TargetVsAchievementData get7to24ChildVisitTarget(long fromDate, long toDate,String ssName){
         return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CHILD_VISIT_7_24,fromDate,toDate,ssName);
     }
-    public TargetVsAchievementData get18to36ChildVisitTarget(String fromDate, String toDate,String ssName){
+    public TargetVsAchievementData get18to36ChildVisitTarget(long fromDate, long toDate,String ssName){
         return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CHILD_VISIT_18_36,fromDate,toDate,ssName);
     }
-    public TargetVsAchievementData get0to59ChildImmunizationTarget(String fromDate, String toDate,String ssName){
+    public TargetVsAchievementData get0to59ChildImmunizationTarget(long fromDate, long toDate,String ssName){
         return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CHILD_IMMUNIZATION_0_59,fromDate,toDate,ssName);
-    }
-
-    //
-    public TargetVsAchievementData getHHVisitTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY,day,month,year,ssName);
-    }
-    public TargetVsAchievementData getElcoTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ELCO,day,month,year,ssName);
-    }
-    public TargetVsAchievementData getMethodUserTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.METHOD_USER,day,month,year,ssName);
-    }
-    public TargetVsAchievementData getAdoMethodUserTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ADO_METHOD_USER,day,month,year,ssName);
-    }
-    public TargetVsAchievementData getPregnencyIdentiTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.PREGNANCY_IDENTIFIED,day,month,year,ssName);
-    }
-    public TargetVsAchievementData getDeliveryTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME,day,month,year,ssName);
-    }
-    public TargetVsAchievementData getInstitutionDeliveryTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.INSTITUTIONALIZES_DELIVERY,day,month,year,ssName);
-    }
-    public TargetVsAchievementData get0to6ChildVisitTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CHILD_VISIT_0_6,day,month,year,ssName);
-    }
-    public TargetVsAchievementData get7to24ChildVisitTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CHILD_VISIT_7_24,day,month,year,ssName);
-    }
-    public TargetVsAchievementData get18to36ChildVisitTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CHILD_VISIT_18_36,day,month,year,ssName);
-    }
-    public TargetVsAchievementData get0to59ChildImmunizationTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CHILD_IMMUNIZATION_0_59,day,month,year,ssName);
     }
 
     // service
 
-    public TargetVsAchievementData getAncServiceTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ANC_SERVICE,day,month,year,ssName);
+    public TargetVsAchievementData getAncServiceTarget(long fromDate, long toDate,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ANC_SERVICE,fromDate,toDate,ssName);
     }
-    public TargetVsAchievementData getPncServiceTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.PNC_SERVICE,day,month,year,ssName);
+    public TargetVsAchievementData getPncServiceTarget(long fromDate, long toDate,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.PNC_SERVICE,fromDate,toDate,ssName);
     }
-    public TargetVsAchievementData getNcdTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.NCD_PACKAGE,day,month,year,ssName);
+    public TargetVsAchievementData getNcdTarget(long fromDate, long toDate,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.NCD_PACKAGE,fromDate,toDate,ssName);
     }
-    public TargetVsAchievementData getIYCFTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.IYCF_PACKAGE,day,month,year,ssName);
+    public TargetVsAchievementData getIYCFTarget(long fromDate, long toDate,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.IYCF_PACKAGE,fromDate,toDate,ssName);
     }
-    public TargetVsAchievementData getWomenTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.WOMEN_PACKAGE,day,month,year,ssName);
+    public TargetVsAchievementData getWomenTarget(long fromDate, long toDate,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.WOMEN_PACKAGE,fromDate,toDate,ssName);
     }
-    public TargetVsAchievementData getAdoTarget(String day, String month, String year,String ssName){
-        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.GIRL_PACKAGE,day,month,year,ssName);
+    public TargetVsAchievementData getAdoTarget(long fromDate, long toDate,String ssName){
+        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.GIRL_PACKAGE,fromDate,toDate,ssName);
     }
     //forum
     public TargetVsAchievementData getAdoForumTarget(String day, String month, String year,String ssName){
@@ -257,7 +231,7 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
     public TargetVsAchievementData getTargetVsAchievmentByVisitType(String visitType,String day, String month, String year, String ssName){
         TargetVsAchievementData dashBoardData1 = new TargetVsAchievementData();
         //String query = "select sum(target_count) as target_count, sum(achievemnt_count) as achievemnt_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
-        String query = "select sum(achievemnt_count) as achievemnt_count,(select sum(target_count) from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,"") +") as target_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
+        String query = "select sum(coalesce(achievemnt_count,0)) as achievemnt_count,(select sum(coalesce(target_count,0)) from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,"") +") as target_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
 
         Log.v("TARGET_QUERY","query:"+query);
         Cursor cursor = null;
@@ -292,19 +266,31 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
 
         return dashBoardData1;
     }
-    public TargetVsAchievementData getTargetVsAchievmentByVisitType(String visitType,String fromDate,String toDate, String ssName){
+    public TargetVsAchievementData getTargetVsAchievmentByVisitType(String visitType,long fromDate,long toDate, String ssName){
+        String fromMonthStr = HnppConstants.getDateFormateFromLong(fromDate);
+        String toMonthStr = HnppConstants.getDateFormateFromLong(toDate);
         TargetVsAchievementData dashBoardData1 = new TargetVsAchievementData();
-        //String query = "select sum(target_count) as target_count, sum(achievemnt_count) as achievemnt_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
-       // String query = "select sum(achievemnt_count) as achievemnt_count,(select sum(target_count) from target_table where target_name ='"+ visitType+"'"+ getFilter(fromDate,toDate,"") +") as target_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
         String query = null;
-        if(TextUtils.isEmpty(ssName)){
-            query = "with t1 as (SELECT achievemnt_count, year || '"+"-"+"' || month || '"+"-"+"' || day as date, target_count, target_name from target_table) SELECT sum(achievemnt_count) as achievemnt_count, sum(target_count) as target_count from t1 WHERE target_name ='"+ visitType+"' and date BETWEEN '"+fromDate+"' and "+"'"+toDate+"' ORDER by date DESC";
+        String whereCluse = " where target_name ='"+visitType+"'";
+        if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_SERVICE)){
+            whereCluse = " where (target_name ='"+visitType+"' or target_name ='"+HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour+"')";
+        }
+        if(fromDate == -1 && toDate == -1){
+            if(TextUtils.isEmpty(ssName)){
+                query = "select sum(coalesce(target_count,0)) as target_count, sum(coalesce(achievemnt_count,0)) as achievemnt_count from target_table "+whereCluse;
+            }else{
+                query = "select sum(coalesce(target_count,0)) as target_count, sum(coalesce(achievemnt_count,0)) as achievemnt_count from target_table "+whereCluse+getSSCondition(ssName);
+            }
         }
         else{
-            query = "with t1 as (SELECT achievemnt_count, year || '"+"-"+"' || month || '"+"-"+"' || day as date, target_count, target_name, ss_name from target_table) SELECT sum(achievemnt_count) as achievemnt_count, sum(target_count) as target_count from t1 WHERE target_name ='"+ visitType+"' and ss_name ='"+ ssName+"' and date BETWEEN '"+fromDate+"' and "+"'"+toDate+"' ORDER by date DESC";
+            if(TextUtils.isEmpty(ssName)){
+                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, achievemnt_count, target_count, target_name from target_table)SELECT sum(coalesce(achievemnt_count,0)) as achievemnt_count, sum(coalesce(target_count,0)) as target_count from t1 "+whereCluse+getBetweenCondition(fromMonthStr,toMonthStr,"date");
+            }else{
+                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, achievemnt_count, target_count, target_name from target_table)SELECT sum(coalesce(achievemnt_count,0)) as achievemnt_count, sum(coalesce(target_count,0)) as target_count from t1 "+whereCluse+getSSCondition(ssName)+getBetweenCondition(fromMonthStr,toMonthStr,"date");
+            }
         }
+        Log.v("TARGET_VS_ACHIEV","query:"+query);
 
-        Log.v("TARGET_QUERY","query:"+query);
         Cursor cursor = null;
         try{
             // try {
@@ -337,10 +323,35 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
 
         return dashBoardData1;
     }
+    public String getSSCondition(String ssName){
+        String ssCondition;
+        ssCondition = " and "+HnppConstants.KEY.SS_NAME+" = '"+ssName+"'";
+        return ssCondition;
+    }
+    public String getBetweenCondition(String fromMonth, String toMonth, String compareDate){
+        StringBuilder build = new StringBuilder();
+        if(TextUtils.isEmpty(fromMonth)){
+            build.append(MessageFormat.format(" and {0} = {1} ",compareDate,"'"+toMonth+"'"));
+        }
+        else {
+            build.append(MessageFormat.format(" and {0} between {1} and {2} ",compareDate,"'"+fromMonth+"'","'"+toMonth+"'"));
+        }
+        return build.toString();
+    }
+    public String getBetweenCondition(long fromMonth, long toMonth, String compareDate){
+        String query = null;
+        if(fromMonth == -1){
+            query = " and "+compareDate+" ='"+toMonth+"'";
+        }
+        else {
+            query = " and ("+compareDate+" between '"+HnppConstants.getDateFormateFromLong(fromMonth)+"' and '"+HnppConstants.getDateFormateFromLong(toMonth)+"')";
+        }
+        return query;
+    }
     public TargetVsAchievementData getAvgTargetVsAchievmentByVisitType(String visitType,String day, String month, String year, String ssName){
         TargetVsAchievementData dashBoardData1 = new TargetVsAchievementData();
         //String query = "select sum(target_count) as target_count, sum(achievemnt_count) as achievemnt_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
-        String query = "select sum(achievemnt_count) as achievemnt_count,(select sum(target_count) from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,"") +") as target_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
+        String query = "select sum(coalesce(achievemnt_count,0)) as achievemnt_count,(select sum(coalesce(target_count,0)) from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,"") +") as target_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
 
         Log.v("TARGET_QUERY","avg query:"+query);
         Cursor cursor = null;
@@ -352,8 +363,6 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
                      dashBoardData1.setAvgTargetCount(cursor.getInt(cursor.getColumnIndex(TargetVsAchievementRepository.TARGET_COUNT)));
                      int achCount = cursor.getInt(cursor.getColumnIndex(TargetVsAchievementRepository.ACHIEVEMNT_COUNT));
                      dashBoardData1.setAvgAchievmentCount(achCount);
-
-
                      dashBoardData1.setEventType(visitType);
                      dashBoardData1.setTitle(HnppConstants.targetTypeMapping.get(dashBoardData1.getEventType()));
 

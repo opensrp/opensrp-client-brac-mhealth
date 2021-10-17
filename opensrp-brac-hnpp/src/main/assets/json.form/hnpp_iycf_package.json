@@ -59,6 +59,14 @@
         "value": "hnpp_iycf_package"
       },
       {
+        "key": "add_to_stock",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "add_to_stock",
+        "type": "hidden",
+        "value": "0"
+      },
+      {
         "key": "relational_id",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -580,7 +588,7 @@
         "key": "can_two_sound",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "can_walk",
+        "openmrs_entity_id": "can_two_sound",
         "openmrs_data_type": "",
         "type": "spinner",
         "hint": "দুইটি আলাদা শব্দ বলতে পারে কিনা?",

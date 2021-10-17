@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.provider;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -62,11 +63,11 @@ public class HnppFamilyRegisterProvider extends CoreRegisterProvider  {
     private View.OnClickListener onClickListener;
     private View.OnClickListener paginationClickListener;
 
-    private Context context;
+    private Activity context;
     private CommonRepository commonRepository;
     private ImageRenderHelper imageRenderHelper;
 
-    public HnppFamilyRegisterProvider(Context context, CommonRepository commonRepository, Set visibleColumns, View.OnClickListener onClickListener, View.OnClickListener paginationClickListener) {
+    public HnppFamilyRegisterProvider(Activity context, CommonRepository commonRepository, Set visibleColumns, View.OnClickListener onClickListener, View.OnClickListener paginationClickListener) {
         super(context, commonRepository, visibleColumns, onClickListener, paginationClickListener);
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.visibleColumns = visibleColumns;
@@ -139,11 +140,16 @@ public class HnppFamilyRegisterProvider extends CoreRegisterProvider  {
         String firstName = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.FIRST_NAME, true);
         setText(viewHolder.houseHoldName, context.getString(R.string.name,firstName));
         String houseHoldId = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.UNIQUE_ID, true);
-        if(!TextUtils.isEmpty(houseHoldId)){
-            houseHoldId = houseHoldId.replace(Constants.IDENTIFIER.FAMILY_SUFFIX,"")
-                    .replace(HnppConstants.IDENTIFIER.FAMILY_TEXT,"");
-            houseHoldId = houseHoldId.substring(houseHoldId.length() - HnppConstants.HOUSE_HOLD_ID_SUFFIX);
+        try{
+            if(!TextUtils.isEmpty(houseHoldId)){
+                houseHoldId = houseHoldId.replace(Constants.IDENTIFIER.FAMILY_SUFFIX,"")
+                        .replace(HnppConstants.IDENTIFIER.FAMILY_TEXT,"");
+                houseHoldId = houseHoldId.substring(houseHoldId.length() - HnppConstants.HOUSE_HOLD_ID_SUFFIX);
+            }
+        }catch (Exception e){
+
         }
+
         String serialNo = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.SERIAL_NO, true);
 //        if(!TextUtils.isEmpty(serialNo) && serialNo.length() > 2){
 //            serialNo = serialNo.substring(0,1)+"-"+serialNo.substring(1);
@@ -387,7 +393,7 @@ public class HnppFamilyRegisterProvider extends CoreRegisterProvider  {
         }
     }
     private class UpdateAsyncTask extends AsyncTask<Void, Void, Void> {
-        private final Context context;
+        private final Activity context;
         private final HouseHoldRegisterProvider viewHolder;
         private final String familyBaseEntityId;
 
@@ -396,7 +402,7 @@ public class HnppFamilyRegisterProvider extends CoreRegisterProvider  {
         private int ancWomanCount;
         private String totalMember;
 
-        private UpdateAsyncTask(Context context, HouseHoldRegisterProvider viewHolder, String familyBaseEntityId ,String totalMember) {
+        private UpdateAsyncTask(Activity context, HouseHoldRegisterProvider viewHolder, String familyBaseEntityId , String totalMember) {
             this.context = context;
             this.totalMember = totalMember;
             this.viewHolder = viewHolder;
@@ -414,6 +420,7 @@ public class HnppFamilyRegisterProvider extends CoreRegisterProvider  {
 
         @Override
         protected void onPostExecute(Void param) {
+            if(context==null || context.isFinishing()) return;
             // Update child Icon
 //            updateChildIcons(viewHolder, list, memberCount);
             updateChildIcons(viewHolder, list, ancWomanCount,memberCount,totalMember,familyBaseEntityId);

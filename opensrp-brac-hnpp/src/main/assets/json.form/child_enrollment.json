@@ -56,6 +56,14 @@
     "title": "৫ বছরের কম বয়সী শিশু যুক্ত করুন",
     "fields": [
       {
+        "key": "is_consent",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_consent",
+        "type": "hidden",
+        "value": "1"
+      },
+      {
         "key": "unique_id",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_identifier",
@@ -302,6 +310,10 @@
           "হ্যা সামান্য অসুবিধা হয়": "yes_little_trouble",
           "হ্যা অনেক অসুবিধা হয়": "yes_many_trouble",
           "একদমই পারি না": "cant"
+        },
+        "v_required": {
+          "value": true,
+          "err": "নির্বাচন করুন"
         },
         "relevance": {
           "rules-engine": {

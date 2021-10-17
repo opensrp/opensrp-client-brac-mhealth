@@ -30,27 +30,16 @@ public class ServiceTargetAchievmentPresenter implements DashBoardContract.Targe
 
     }
 
-    @Override
-    public void fetchDashBoardData(String day, String month, String year, String ssName) {
+
+    public void filterByFromToDate(long fromDate, long toDate, String ssName) {
         getView().showProgressBar();
-        if(month.equalsIgnoreCase("-1")) month ="";
-        if(year.equalsIgnoreCase("-1")) year ="";
-        //month = HnppConstants.addZeroForMonth(month);
-        interactor.fetchAllData(this,day,month,year,ssName);
+        interactor.filterByFromToDate(ssName,fromDate,toDate,this);
     }
 
-    @Override
-    public void filterData(String ssName, String day, String month, String year) {
+
+    public void filterByFromToMonth(long fromMonth, long toMonth, String ssName) {
         getView().showProgressBar();
-        if(month.equalsIgnoreCase("-1")) month ="";
-        if(year.equalsIgnoreCase("-1")) year ="";
-       // month = HnppConstants.addZeroForMonth(month);
-        interactor.filterData(ssName,day,month,year,this);
-    }
-
-    @Override
-    public void filterByFromToDate(String fromDate, String toDate, String ssName) {
-
+        interactor.filterByFromToMonth(ssName,fromMonth,toMonth,this);
     }
 
     @Override

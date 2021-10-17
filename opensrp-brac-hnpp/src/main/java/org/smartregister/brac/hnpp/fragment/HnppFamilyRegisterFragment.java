@@ -6,6 +6,10 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -30,6 +34,11 @@ import org.smartregister.domain.FetchStatus;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.Utils;
+import org.smartregister.receiver.SyncStatusBroadcastReceiver;
+
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class HnppFamilyRegisterFragment extends HnppBaseFamilyRegisterFragment implements View.OnClickListener {
@@ -193,11 +202,30 @@ public class HnppFamilyRegisterFragment extends HnppBaseFamilyRegisterFragment i
             openFilterDialog(false);
         }
     }
+    @Override
+    public void onSyncInProgress(FetchStatus fetchStatus) {
+        try{
+            if (!SyncStatusBroadcastReceiver.getInstance().isSyncing() && (FetchStatus.fetched.equals(fetchStatus) || FetchStatus.nothingFetched.equals(fetchStatus))) {
+                org.smartregister.util.Utils.showShortToast(getActivity(), getString(org.smartregister.chw.core.R.string.sync_complete));
+                refreshSyncProgressSpinner();
+            }
+        }catch (WindowManager.BadTokenException e){
+
+        }
+
+    }
 
 
     @Override
     public void onSyncComplete(FetchStatus fetchStatus) {
-        super.onSyncComplete(fetchStatus);
+        //super.onSyncComplete(fetchStatus);
+        try{
+            org.smartregister.util.Utils.showShortToast(getActivity(), getString(org.smartregister.chw.core.R.string.sync_complete));
+        }catch (WindowManager.BadTokenException e){
+            e.printStackTrace();
+        }
+        refreshSyncProgressSpinner();
+
         if(JobManager.instance().getAllJobRequestsForTag(PullHouseholdIdsServiceJob.TAG).isEmpty()){
             PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
         }

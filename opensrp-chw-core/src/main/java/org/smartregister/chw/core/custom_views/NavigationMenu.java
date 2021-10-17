@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -111,6 +112,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             if (instance == null) {
                 instance = new NavigationMenu();
+
             }
 
             SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(instance);
@@ -176,6 +178,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         }
         //
     }
+    Activity activityInstance;
 
     @Override
     public void prepareViews(Activity activity) {
@@ -223,9 +226,36 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         registerDashboard(activity);
 
         registerDeviceToDeviceSync(activity);
+        drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull View view, float v) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(@NonNull View view) {
+                Log.v("NAVIGATION_QUERY","onDrawerOpened>>>>>>>>>>>>>>>>>>"+activity);
+                if(activity != activityInstance){
+                    updateLastSyncTimeAndNavigationCount();
+                }
+                activityInstance = activity;
+
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View view) {
+                Log.v("NAVIGATION_QUERY","onDrawerOpened>>>>>>>>>>>>>>>>>>"+activity);
+                activityInstance = null;
+            }
+
+            @Override
+            public void onDrawerStateChanged(int i) {
+
+            }
+        });
         // update all actions
-        mPresenter.refreshLastSync();
-        mPresenter.refreshNavigationCount(activity);
+        //mPresenter.refreshLastSync();
+        //mPresenter.refreshNavigationCount(activity);
     }
 
 
@@ -253,8 +283,16 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
 
     @Override
     public void logout(Activity activity) {
-        Toast.makeText(activity.getApplicationContext(), activity.getResources().getText(R.string.action_log_out), Toast.LENGTH_SHORT).show();
-        application.forceLogout();
+        try{
+            if(activity !=null && !activity.isFinishing()){
+                Toast.makeText(activity, activity.getResources().getText(R.string.action_log_out), Toast.LENGTH_SHORT).show();
+
+            }
+            application.forceLogout();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     public void covid19(Activity activity) {
@@ -301,9 +339,14 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
 
     @Override
     public void displayToast(Activity activity, String message) {
-        if (activity != null) {
-            Toast.makeText(activity.getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+        try{
+            if (activity != null && !activity.isFinishing()) {
+                Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
     }
 
     private void registerDrawer(Activity parentActivity) {
@@ -375,15 +418,23 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         syncProgressBar = rootView.findViewById(R.id.pbSync);
 
         View.OnClickListener syncClicker = v -> {
-            Toast.makeText(parentActivity, parentActivity.getResources().getText(R.string.action_start_sync), Toast.LENGTH_SHORT).show();
-            mPresenter.sync(parentActivity);
+            if(parentActivity!=null && !parentActivity.isFinishing()){
+                try{
+                    Toast.makeText(parentActivity, parentActivity.getResources().getText(R.string.action_start_sync), Toast.LENGTH_SHORT).show();
+                    mPresenter.sync(parentActivity);
+                }catch (Exception e) {
+
+                }
+
+            }
+
         };
 
 
         tvSync.setOnClickListener(syncClicker);
         ivSync.setOnClickListener(syncClicker);
 
-        refreshSyncProgressSpinner();
+        //refreshSyncProgressSpinner();
     }
 
     private void registerLanguageSwitcher(final Activity context) {
@@ -480,8 +531,8 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         }
         return res;
     }
-    public void openDrawer(){
-        if(drawer !=null){
+    public void openDrawer() {
+        if (drawer != null) {
             drawer.openDrawer(GravityCompat.START);
         }
     }
@@ -509,7 +560,14 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         // refreshLastSync(new Date());
 
         if (activityWeakReference.get() != null && !activityWeakReference.get().isDestroyed()) {
-            mPresenter.refreshNavigationCount(activityWeakReference.get());
+            mPresenter.refreshNavigationCount();
+        }
+    }
+    public void updateLastSyncTimeAndNavigationCount(){
+        if(mPresenter!=null){
+            mPresenter.refreshLastSync();
+            mPresenter.refreshNavigationCount();
+            refreshSyncProgressSpinner();
         }
     }
 

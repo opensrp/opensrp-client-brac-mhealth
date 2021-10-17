@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.FamilyProfileActivity;
 import org.smartregister.brac.hnpp.activity.HnppChildProfileActivity;
@@ -23,6 +24,7 @@ import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.ProfileDueInfo;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
+import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.family.adapter.FamilyRecyclerViewCustomAdapter;
 import org.smartregister.family.fragment.BaseFamilyProfileDueFragment;
 import org.smartregister.family.util.Constants;
@@ -83,17 +85,24 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment imple
 
     @Override
     public void setupViews(View view) {
-       try {
-           super.setupViews(view);
+        try{
+            super.setupViews(view);
+        }catch (Exception e){
+            HnppApplication.getHNPPInstance().forceLogout();
+            return;
+        }
            isStart = false;
            otherServiceView = view.findViewById(R.id.other_option);
            emptyView = view.findViewById(R.id.empty_view);
            emptyView.setVisibility(View.GONE);
-       }catch (Exception e){
-           Toast.makeText(getActivity(),getString(R.string.fail_result),Toast.LENGTH_SHORT).show();
-       }
 
 
+
+    }
+
+    @Override
+    protected boolean isValidFilterForFts(CommonRepository commonRepository) {
+        return false;
     }
 
     @Override
@@ -103,7 +112,7 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment imple
         this.clientAdapter.setCurrentlimit(10);
         this.clientsView.setAdapter(this.clientAdapter);
         //this.clientsView.setVisibility(View.GONE);
-        updateStaticView();
+        //updateStaticView();
 
     }
     private void updateStaticView(){
@@ -119,6 +128,8 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment imple
 //            if(otherServiceView !=null) otherServiceView.setVisibility(View.GONE);
 //        }
     }
+
+
 
     private void addStaticView(){
         if(otherServiceView == null) return;

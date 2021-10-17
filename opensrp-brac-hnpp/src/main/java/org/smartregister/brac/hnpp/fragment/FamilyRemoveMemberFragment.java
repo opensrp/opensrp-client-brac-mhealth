@@ -6,16 +6,21 @@ import android.os.Bundle;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
+import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.FamilyRegisterActivity;
 import org.smartregister.brac.hnpp.activity.IndividualProfileRemoveJsonFormActivity;
 import org.smartregister.brac.hnpp.model.FamilyRemoveMemberModel;
 import org.smartregister.chw.core.activity.CoreFamilyRegisterActivity;
 import org.smartregister.chw.core.fragment.CoreFamilyProfileChangeDialog;
 import org.smartregister.chw.core.fragment.CoreFamilyRemoveMemberFragment;
+import org.smartregister.chw.core.fragment.FamilyRemoveMemberConfirmDialog;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.brac.hnpp.presenter.FamilyRemoveMemberPresenter;
 import org.smartregister.brac.hnpp.provider.HfFamilyRemoveMemberProvider;
+import org.smartregister.chw.core.utils.CoreJsonFormUtils;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
@@ -90,4 +95,39 @@ public class FamilyRemoveMemberFragment extends CoreFamilyRemoveMemberFragment {
         return FamilyRemoveMemberFragment.DIALOG_TAG;
     }
 
+    @Override
+    public void confirmRemove(JSONObject form) {
+        if (StringUtils.isNotBlank(memberName)) {
+            FamilyRemoveMemberConfirmDialog dialog;
+            if (processingFamily) {
+                dialog = FamilyRemoveMemberConfirmDialog.newInstance(
+                        String.format(getContext().getString(org.smartregister.chw.core.R.string.remove_warning_family), memberName, memberName)
+                );
+
+            } else {
+                String title ="";
+                JSONArray field = org.smartregister.util.JsonFormUtils.fields(form);
+                JSONObject removeReasonObj = org.smartregister.util.JsonFormUtils.getFieldJSONObject(field, "remove_reason");
+                try{
+                    String value = removeReasonObj.getString(CoreJsonFormUtils.VALUE);
+                    if(value.equalsIgnoreCase("মৃত্যু নিবন্ধন")){
+                        title = String.format(getString(org.smartregister.chw.core.R.string.confirm_remove_text), memberName);
+                    }else if(value.equalsIgnoreCase("স্থানান্তর")){
+                        title = String.format(getString(R.string.confirm_migrate_text), memberName);
+                    }else {
+                        title = String.format(getString(R.string.confirm_other_text), memberName);
+                    }
+                }catch (Exception e){
+
+                }
+                dialog = FamilyRemoveMemberConfirmDialog.newInstance(
+                        String.format(title, memberName)
+                );
+            }
+            if (getFragmentManager() != null) {
+                dialog.show(getFragmentManager(), getRemoveFamilyMemberDialogTag());
+                dialog.setOnRemove(() -> getPresenter().processRemoveForm(form));
+            }
+        }
+    }
 }

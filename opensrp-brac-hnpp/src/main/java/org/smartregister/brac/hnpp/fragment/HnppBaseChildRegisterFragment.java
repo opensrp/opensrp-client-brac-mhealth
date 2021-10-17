@@ -3,18 +3,23 @@ package org.smartregister.brac.hnpp.fragment;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
+import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.utils.FilterDialog;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
+import org.smartregister.chw.anc.util.DBConstants;
 import org.smartregister.chw.core.fragment.CoreChildRegisterFragment;
 import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
+import org.smartregister.domain.FetchStatus;
+import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -35,7 +40,12 @@ public class HnppBaseChildRegisterFragment extends CoreChildRegisterFragment imp
 
     @Override
     public void setupViews(View view) {
-        super.setupViews(view);
+        try{
+            super.setupViews(view);
+        }catch (Exception e){
+            HnppApplication.getHNPPInstance().forceLogout();
+            return;
+        }
         HnppConstants.updateAppBackground((view.findViewById(R.id.register_nav_bar_container)));
         HnppConstants.updateAppBackground(view.findViewById(org.smartregister.R.id.register_toolbar));
         RelativeLayout sortAndFilterView = view.findViewById(org.smartregister.chw.core.R.id.filter_sort_layout);
@@ -147,6 +157,38 @@ public class HnppBaseChildRegisterFragment extends CoreChildRegisterFragment imp
         filter(searchFilterString, "", DEFAULT_MAIN_CONDITION,false);
 
     }
+    @Override
+    public void onSyncInProgress(FetchStatus fetchStatus) {
+        try{
+            if (!SyncStatusBroadcastReceiver.getInstance().isSyncing() && (FetchStatus.fetched.equals(fetchStatus) || FetchStatus.nothingFetched.equals(fetchStatus))) {
+                org.smartregister.util.Utils.showShortToast(getActivity(), getString(org.smartregister.chw.core.R.string.sync_complete));
+                refreshSyncProgressSpinner();
+            }
+        }catch (WindowManager.BadTokenException e){
+
+        }
+
+    }
+    @Override
+    public void onSyncComplete(FetchStatus fetchStatus) {
+        try{
+            try{
+                org.smartregister.util.Utils.showShortToast(getActivity(), getString(org.smartregister.chw.core.R.string.sync_complete));
+            }catch (WindowManager.BadTokenException e){
+                e.printStackTrace();
+            }
+            refreshSyncProgressSpinner();
+            if (syncProgressBar != null) {
+                syncProgressBar.setVisibility(View.GONE);
+            }
+            if (syncButton != null) {
+                syncButton.setVisibility(View.GONE);
+            }
+        }catch (WindowManager.BadTokenException e){
+
+        }
+
+    }
     protected String visitType ="";
 
     @Override
@@ -156,6 +198,7 @@ public class HnppBaseChildRegisterFragment extends CoreChildRegisterFragment imp
             customFilter.append(MessageFormat.format(" and ( {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.FIRST_NAME, searchFilterString));
             customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.LAST_NAME, searchFilterString));
             customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.MIDDLE_NAME, searchFilterString));
+            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.PHONE_NUMBER, searchFilterString));
             customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.UNIQUE_ID, searchFilterString));
 
         }
@@ -219,6 +262,8 @@ public class HnppBaseChildRegisterFragment extends CoreChildRegisterFragment imp
             customFilter.append(MessageFormat.format(" and ( {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.FIRST_NAME, searchFilterString));
             customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.LAST_NAME, searchFilterString));
             customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.MIDDLE_NAME, searchFilterString));
+            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.PHONE_NUMBER, searchFilterString));
+
             customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.UNIQUE_ID, searchFilterString));
 
         }

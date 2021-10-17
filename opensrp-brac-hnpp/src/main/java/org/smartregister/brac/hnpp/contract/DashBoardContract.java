@@ -24,16 +24,23 @@ public interface DashBoardContract {
 
         void filterData(String ssName, String month , String year, DashBoardContract.InteractorCallBack callBack);
 
-
     }
     public interface TargetInteractor {
 
         ArrayList<TargetVsAchievementData> getTargetListData();
 
-        void fetchAllData(DashBoardContract.InteractorCallBack callBack, String day, String month, String year, String ssName);
+       // void fetchAllData(DashBoardContract.InteractorCallBack callBack, String day, String month, String year, String ssName);
+
+        //void filterData(String ssName, String day, String month, String year, DashBoardContract.InteractorCallBack callBack);
+
+    }
+    public interface ForumTargetInteractor {
+
+        ArrayList<TargetVsAchievementData> getTargetListData();
+
+         void fetchAllData(DashBoardContract.InteractorCallBack callBack, String day, String month, String year, String ssName);
 
         void filterData(String ssName, String day, String month, String year, DashBoardContract.InteractorCallBack callBack);
-        void filterByFromToDate(String ssName, String fromDate, String toDate, DashBoardContract.InteractorCallBack callBack);
 
     }
     public interface Model{
@@ -48,16 +55,19 @@ public interface DashBoardContract {
          void fetchDashBoardData();
 
          void filterData(String ssName, String month, String year);
-
          View getView();
 
     }
     public interface TargetPresenter{
 
+        View getView();
+
+    }
+    public interface ForumPresenter{
+
         void fetchDashBoardData(String day, String month, String year, String ssName);
 
         void filterData(String ssName, String day, String month, String year);
-        void filterByFromToDate(String fromDate, String toDate, String ssName);
         View getView();
 
     }

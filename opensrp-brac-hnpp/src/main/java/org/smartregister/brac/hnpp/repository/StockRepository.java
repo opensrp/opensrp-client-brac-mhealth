@@ -11,6 +11,8 @@ import net.sqlcipher.Cursor;
 import net.sqlcipher.database.SQLiteDatabase;
 
 import org.joda.time.DateTime;
+import org.smartregister.CoreLibrary;
+import org.smartregister.brac.hnpp.service.StockFetchIntentService;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.StockData;
@@ -44,13 +46,14 @@ public class StockRepository extends BaseRepository {
     public static final String ACHIEVEMNT_COUNT = "achievemnt_count";
     public static final String SS_NAME = "ss_name";
     public static final String BASE_ENTITY_ID = "base_entity_id";
+    public static final String FORM_SUBMISSION_ID = "form_submission_id";
 
 
 
     private static final String CREATE_STOCK_TABLE=
             "CREATE TABLE " + STOCK_TABLE + " (" +
                     ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                    STOCK_ID + " INTEGER , " +STOCK_PRODUCT_ID + " INTEGER , " +BASE_ENTITY_ID + " INTEGER , " +ACHIEVEMNT_COUNT + " INTEGER , " +STOCK_PRODUCT_NAME + " VARCHAR , " + STOCK_QUANTITY+ " INTEGER,"+
+                    STOCK_ID + " INTEGER , " +STOCK_PRODUCT_ID + " INTEGER , " +BASE_ENTITY_ID + " INTEGER , " +FORM_SUBMISSION_ID + " VARCHAR , " +ACHIEVEMNT_COUNT + " INTEGER , " +STOCK_PRODUCT_NAME + " VARCHAR , " + STOCK_QUANTITY+ " INTEGER,"+
                     YEAR + " VARCHAR, " +MONTH + " VARCHAR, " + ACHIEVEMNT_DAY+ " VARCHAR, "+STOCK_TIMESTAMP+" VARCHAR, "+SS_NAME+" VARCHAR, "+STOCK_EXPIREY_DATE+" VARCHAR, "+STOCK_RECEIVE_DATE+" VARCHAR ) ";
 
 
@@ -70,15 +73,16 @@ public class StockRepository extends BaseRepository {
     public void dropTable(){
         getWritableDatabase().execSQL("delete from "+getLocationTableName());
     }
-   public  void updateValue(String targetName, String day, String month, String year, String ssName, String baseEntityId,long timeStamp){
-        updateValue(targetName,day,month,year,ssName,baseEntityId,1,timeStamp);
+   public  void updateValue(String targetName, String day, String month, String year, String ssName, String baseEntityId,long timeStamp, String formSubmissionId){
+        updateValue(targetName,day,month,year,ssName,baseEntityId,1,timeStamp,formSubmissionId);
 
 //        getWritableDatabase().execSQL("update "+getLocationTableName()+" set achievemnt_count = achievemnt_count +1,"+DAY+" = "+day+" , "+MONTH+" = "+month+" , "+YEAR+" = "+year+" where "+TARGET_NAME+" = '"+targetName+"'");
     }
-    public  void updateValue(String productName, String day, String month, String year, String ssName, String baseEntityId, int count,long timeStamp){
+    public  void updateValue(String productName, String day, String month, String year, String ssName, String baseEntityId, int count,long timeStamp, String formSubmissionId){
         ContentValues contentValues = new ContentValues();
-        productName = getTargetName(productName,baseEntityId);
+        productName = getTargetName(productName);
         if(TextUtils.isEmpty(productName)) return;
+        //if(timeStamp>STOCK_DELETE_TIME) return;
         contentValues.put(BASE_ENTITY_ID, baseEntityId);
         contentValues.put(ACHIEVEMNT_DAY, day);
         contentValues.put(STOCK_PRODUCT_NAME, productName);
@@ -87,27 +91,32 @@ public class StockRepository extends BaseRepository {
         contentValues.put(YEAR, year);
         contentValues.put(MONTH, month);
         contentValues.put(SS_NAME, ssName);
+        contentValues.put(FORM_SUBMISSION_ID, formSubmissionId);
         SQLiteDatabase database = getWritableDatabase();
-        if(findUnique(database,productName,day,month,year,ssName,baseEntityId)){
-            Log.v("TARGET_INSERTED","update value:"+contentValues);
+        if(findUnique(database,productName,day,month,year,ssName,baseEntityId,formSubmissionId)){
+
             long inserted = database.insert(getLocationTableName(), null, contentValues);
+            Log.v("STOCK_FETCH","update value2:"+contentValues+":inserted:"+inserted);
+        }else{
+            Log.v("STOCK_FETCH","update value2:"+contentValues);
         }
 
 //        getWritableDatabase().execSQL("update "+getLocationTableName()+" set achievemnt_count = achievemnt_count +1,"+DAY+" = "+day+" , "+MONTH+" = "+month+" , "+YEAR+" = "+year+" where "+TARGET_NAME+" = '"+targetName+"'");
     }
-    public boolean findUnique(SQLiteDatabase db, String targetName, String day, String month, String year, String ssName, String baseEntityId) {
+    public boolean findUnique(SQLiteDatabase db, String targetName, String day, String month, String year, String ssName, String baseEntityId,String formSubmissionId) {
         SQLiteDatabase database = (db == null) ? getReadableDatabase() : db;
-        String selection = BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE + " and " + STOCK_PRODUCT_NAME + " = ? " + COLLATE_NOCASE+" and "+ACHIEVEMNT_DAY+" = ?"+COLLATE_NOCASE+" and "+MONTH+" = ?"+COLLATE_NOCASE+" and "+YEAR+" = ?"+COLLATE_NOCASE+" and "+SS_NAME+" = ?"+COLLATE_NOCASE;
-        String[] selectionArgs = new String[]{baseEntityId, targetName,day,month,year,ssName};
+        String selection = BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE + " and " + STOCK_PRODUCT_NAME + " = ? " + COLLATE_NOCASE+" and "+ACHIEVEMNT_DAY+" = ?"+COLLATE_NOCASE+" and "+MONTH+" = ?"+COLLATE_NOCASE+" and "+YEAR+" = ?"+COLLATE_NOCASE+" and "+SS_NAME+" = ?"+COLLATE_NOCASE+" and "+FORM_SUBMISSION_ID+" = ?"+COLLATE_NOCASE;
+        String[] selectionArgs = new String[]{baseEntityId, targetName,day,month,year,ssName,formSubmissionId};
         net.sqlcipher.Cursor cursor = database.query(getLocationTableName(), null, selection, selectionArgs, null, null, null, null);
         if(cursor!=null && cursor.getCount() > 0){
             cursor.close();
             return false;
         }
+        if(cursor!=null)cursor.close();
         return true;
     }
 
-     private String getTargetName(String targetName, String baseEntityId) {
+     public static String getTargetName(String targetName) {
         if(!TextUtils.isEmpty(targetName)){
             switch (targetName){
                 case HnppConstants.EventType.ANC_HOME_VISIT:
@@ -115,9 +124,8 @@ public class StockRepository extends BaseRepository {
                 case HnppConstants.EVENT_TYPE.ANC2_REGISTRATION:
                 case HnppConstants.EVENT_TYPE.ANC3_REGISTRATION:
                     return CoreConstants.EventType.ANC_HOME_VISIT;
-                case HnppConstants.EventType.PNC_HOME_VISIT:
-                case HnppConstants.EVENT_TYPE.PNC_REGISTRATION:
-                    return CoreConstants.EventType.PNC_HOME_VISIT;
+                case HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour:
+                    return HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour;
                 case HnppConstants.EVENT_TYPE.GIRL_PACKAGE:
                 case HnppConstants.EVENT_TYPE.IYCF_PACKAGE:
                 case HnppConstants.EVENT_TYPE.NCD_PACKAGE:
@@ -144,33 +152,56 @@ public class StockRepository extends BaseRepository {
         return "";
     }
     public  boolean isAvailableStock(String eventTyype){
-//        if(TextUtils.isEmpty(eventTyype)) return true;
-//        String targetName = getTargetName(eventTyype,"");
-//        if(!TextUtils.isEmpty(targetName)){
-//            return HnppDBUtils.isAvailableStock(targetName);
-//        }
+        if(TextUtils.isEmpty(eventTyype)) return true;
+        if(!isEligable()) return true;
+        String targetName = getTargetName(eventTyype);
+        if(!TextUtils.isEmpty(targetName)){
+            return HnppDBUtils.isAvailableStock(targetName);
+        }
         return true;
+    }
+    public static boolean isEligable(){
+        String lastSynTime = CoreLibrary.getInstance().context().allSharedPreferences().getPreference(StockFetchIntentService.LAST_SYNC_TIME);
+        if(!TextUtils.isEmpty(lastSynTime)){
+            return true;
+        }
+        return false;
     }
 
     public void addOrUpdate(StockData stockData) {
-       // if(!isExistData(stockData.getStockId())){
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(STOCK_ID, stockData.getStockId());
-            contentValues.put(STOCK_PRODUCT_ID, stockData.getProductId());
-            contentValues.put(STOCK_PRODUCT_NAME, stockData.getProductName());
-            contentValues.put(YEAR, stockData.getYear());
-            contentValues.put(MONTH, stockData.getMonth());
-            contentValues.put(STOCK_EXPIREY_DATE, stockData.getExpireyDate());
-            contentValues.put(STOCK_RECEIVE_DATE, stockData.getReceiveDate());
-            contentValues.put(STOCK_QUANTITY, stockData.getQuantity());
-            contentValues.put(STOCK_TIMESTAMP, stockData.getTimestamp());
+        if(TextUtils.isEmpty(stockData.getProductName())) return;
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(STOCK_ID, stockData.getStockId());
+        contentValues.put(STOCK_PRODUCT_ID, stockData.getProductId());
+        contentValues.put(STOCK_PRODUCT_NAME, stockData.getProductName());
+        contentValues.put(YEAR, stockData.getYear());
+        contentValues.put(MONTH, stockData.getMonth());
+        contentValues.put(STOCK_EXPIREY_DATE, stockData.getExpireyDate());
+        contentValues.put(STOCK_RECEIVE_DATE, stockData.getReceiveDate());
+        contentValues.put(STOCK_QUANTITY, stockData.getQuantity());
+        contentValues.put(STOCK_TIMESTAMP, stockData.getTimestamp());
+        if(!isExistData(stockData.getStockId())){
+
             long inserted = getWritableDatabase().insert(getLocationTableName(), null, contentValues);
             Log.v("STOCK_FETCH","inserterd:"+inserted);
-//        }else{
-//            Log.v("STOCK_FETCH","exists!!!!!!!!!");
-//        }
+        }else{
+
+            long updated = getWritableDatabase().update(getLocationTableName(),contentValues,STOCK_ID+" = "+stockData.getStockId(),null);
+            Log.v("STOCK_FETCH","exists!!!!!!!!!"+updated);
+        }
 
 
+    }
+    public boolean isExistStock(SQLiteDatabase db, String targetName, long timeStamp) {
+        SQLiteDatabase database = (db == null) ? getReadableDatabase() : db;
+        String selection = STOCK_PRODUCT_NAME + " = ? " + COLLATE_NOCASE+" and "+STOCK_TIMESTAMP+" = ?";
+        String[] selectionArgs = new String[]{targetName,timeStamp+""};
+        net.sqlcipher.Cursor cursor = database.query(getLocationTableName(), null, selection, selectionArgs, null, null, null, null);
+        if(cursor!=null && cursor.getCount() > 0){
+            cursor.close();
+            return true;
+        }
+        return false;
     }
     public boolean isExistData(int stockId){
         String sql = "select count(*) from "+getLocationTableName()+" where "+STOCK_ID+" = "+stockId;

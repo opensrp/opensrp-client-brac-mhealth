@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
@@ -112,31 +113,47 @@ public class CoreChildRegisterFragment extends BaseChwRegisterFragment implement
 
     @Override
     public void onSyncInProgress(FetchStatus fetchStatus) {
-        if (!SyncStatusBroadcastReceiver.getInstance().isSyncing() && (FetchStatus.fetched.equals(fetchStatus) || FetchStatus.nothingFetched.equals(fetchStatus)) && dueFilterActive && dueOnlyLayout != null) {
-            dueFilter(dueOnlyLayout);
-            Utils.showShortToast(getActivity(), getString(R.string.sync_complete));
-            refreshSyncProgressSpinner();
-        } else {
-            super.onSyncInProgress(fetchStatus);
+        try{
+            if (!SyncStatusBroadcastReceiver.getInstance().isSyncing() && (FetchStatus.fetched.equals(fetchStatus) || FetchStatus.nothingFetched.equals(fetchStatus)) && dueFilterActive && dueOnlyLayout != null) {
+                dueFilter(dueOnlyLayout);
+                if(getActivity()!=null && !getActivity().isFinishing()){
+                    org.smartregister.util.Utils.showShortToast(getActivity(), getString(R.string.sync_complete));
+                    refreshSyncProgressSpinner();
+                }
+
+            } else {
+               // super.onSyncInProgress(fetchStatus);
+            }
+        }catch (WindowManager.BadTokenException e){
+
         }
+
     }
 
     @Override
     public void onSyncComplete(FetchStatus fetchStatus) {
-        if (!SyncStatusBroadcastReceiver.getInstance().isSyncing() && (FetchStatus.fetched.equals(fetchStatus) || FetchStatus.nothingFetched.equals(fetchStatus)) && (dueFilterActive && dueOnlyLayout != null)) {
-            dueFilter(dueOnlyLayout);
-            Utils.showShortToast(getActivity(), getString(R.string.sync_complete));
-            refreshSyncProgressSpinner();
-        } else {
-            super.onSyncComplete(fetchStatus);
+        try{
+            if (!SyncStatusBroadcastReceiver.getInstance().isSyncing() && (FetchStatus.fetched.equals(fetchStatus) || FetchStatus.nothingFetched.equals(fetchStatus)) && (dueFilterActive && dueOnlyLayout != null)) {
+                dueFilter(dueOnlyLayout);
+                if(getActivity()!=null && !getActivity().isFinishing()){
+                    org.smartregister.util.Utils.showShortToast(getActivity(), getString(R.string.sync_complete));
+                    refreshSyncProgressSpinner();
+                }
+
+            } else {
+               // super.onSyncComplete(fetchStatus);
+            }
+
+            if (syncProgressBar != null) {
+                syncProgressBar.setVisibility(View.GONE);
+            }
+            if (syncButton != null) {
+                syncButton.setVisibility(View.GONE);
+            }
+        }catch (WindowManager.BadTokenException e){
+
         }
 
-        if (syncProgressBar != null) {
-            syncProgressBar.setVisibility(View.GONE);
-        }
-        if (syncButton != null) {
-            syncButton.setVisibility(View.GONE);
-        }
     }
 
     @Override

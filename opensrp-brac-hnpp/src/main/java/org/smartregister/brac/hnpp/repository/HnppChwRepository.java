@@ -8,12 +8,13 @@ import net.sqlcipher.database.SQLiteException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.smartregister.AllConstants;
+import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.chw.anc.repository.VisitDetailsRepository;
 import org.smartregister.chw.anc.repository.VisitRepository;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.repository.CoreChwRepository;
 import org.smartregister.brac.hnpp.BuildConfig;
-import org.smartregister.configurableviews.repository.ConfigurableViewsRepository;
+import org.smartregister.family.FamilyLibrary;
 import org.smartregister.immunization.ImmunizationLibrary;
 import org.smartregister.immunization.repository.RecurringServiceRecordRepository;
 import org.smartregister.immunization.repository.RecurringServiceTypeRepository;
@@ -38,13 +39,8 @@ public class HnppChwRepository extends CoreChwRepository {
     protected SQLiteDatabase writableDatabase;
     private Context context;
 
-    public HnppChwRepository(Context context,org.smartregister.Context openSRPContext) {
-        super(context,
-                AllConstants.DATABASE_NAME,
-                BuildConfig.DATABASE_VERSION,
-                openSRPContext.session(),
-                openSRPContext.commonFtsObject(),
-                openSRPContext.sharedRepositoriesArray());
+    public HnppChwRepository(Context context, org.smartregister.Context openSRPContext) {
+        super(context, AllConstants.DATABASE_NAME, BuildConfig.DATABASE_VERSION, openSRPContext.session(), HnppApplication.createCommonFtsObject(), openSRPContext.sharedRepositoriesArray());
         this.context = context;
     }
 
@@ -66,25 +62,23 @@ public class HnppChwRepository extends CoreChwRepository {
         RecurringServiceRecordRepository.createTable(database);
         RecurringServiceTypeRepository recurringServiceTypeRepository = ImmunizationLibrary.getInstance().recurringServiceTypeRepository();
         IMDatabaseUtils.populateRecurringServices(context, database, recurringServiceTypeRepository);
-
-        upgradeToVersion18(database);
-        upgradeToVersion19(database);
-        upgradeToVersion20(database);
-        upgradeToVersion21(database);
-        upgradeToVersion22(database);
-        upgradeToVersion25(database);
-        upgradeToVersion26(database);
-        upgradeToVersion27(database);
-        upgradeToVersion28(database);
-        upgradeToVersion29(database);
-        upgradeToVersion30(database);
-        upgradeToVersion31(database);
-        upgradeToVersion32(database);
-        upgradeToVersion33(database);
+        upgradeToVersion18(context,database);
+        upgradeToVersion19(context,database);
+        upgradeToVersion20(context,database);
+        upgradeToVersion21(context,database);
+        upgradeToVersion22(context,database);
+        upgradeToVersion25(context,database);
+        upgradeToVersion26(context,database);
+        upgradeToVersion27(context,database);
+        upgradeToVersion28(context,database);
+        upgradeToVersion29(context,database);
+        upgradeToVersion30(context,database);
+        upgradeToVersion31(context,database);
+        upgradeToVersion33(context,database);
     }
 
 
-   
+
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -165,6 +159,24 @@ public class HnppChwRepository extends CoreChwRepository {
                 case 33:
                     upgradeToVersion33(db);
                     break;
+                case 33:
+                    upgradeToVersion33(context,db);
+                    break;
+                case 34:
+                    upgradeToVersion34(context,db);
+                    break;
+                case 35:
+                    upgradeToVersion35(db);
+                    break;
+                case 36:
+                    upgradeToVersion36(db);
+                    break;
+                case 37:
+                    upgradeToVersion37(db);
+                    break;
+                case 38:
+                    upgradeToVersion38(db);
+                    break;
                 default:
                     break;
             }
@@ -210,6 +222,65 @@ public class HnppChwRepository extends CoreChwRepository {
         super.close();
     }
     private void upgradeToVersion20(SQLiteDatabase db) {
+    private void upgradeToVersion38(SQLiteDatabase db){
+        Log.v("DB_UPGRADE","upgradeToVersion38");
+        try{
+            db.execSQL("delete from stock_table");
+        }catch (Exception e){
+
+        }
+
+    }
+    private void upgradeToVersion37(SQLiteDatabase db){
+        try{
+            //db.execSQL("delete from ec_family_member_search");
+            //db.execSQL("delete from ec_family_search");
+            db.execSQL("update ec_visit_log set visit_json = null where event_type!='SS Form'");
+        }catch (Exception e){
+
+        }
+
+    }
+    private void upgradeToVersion36(SQLiteDatabase db){
+        FamilyLibrary.getInstance().context().allSharedPreferences().savePreference("IS_UPGRADED","1");
+        try{
+            db.execSQL("delete from stock_table");
+            db.execSQL("ALTER TABLE stock_table ADD COLUMN form_submission_id VARCHAR;");
+            db.execSQL("ALTER TABLE target_table ADD COLUMN form_submission_id VARCHAR;");
+        }catch (Exception e){
+
+        }
+
+    }
+    private void upgradeToVersion35(SQLiteDatabase db){
+        try {
+            Log.v("STOCK_FETCH","db delete");
+            db.execSQL("delete from stock_table where achievemnt_count is not null and achievement_day is not null and stock_timestamp<1628726400000");//12 august 2021
+
+        } catch (Exception e) {
+
+        }
+    }
+    private void upgradeToVersion34(Context context, SQLiteDatabase db) {
+        try {
+            Log.v("STOCK_FETCH","db delete");
+            db.execSQL("delete from stock_table where stock_quantity IS NOT NULL and achievemnt_count is null and stock_id is NOT null");
+
+        } catch (Exception e) {
+
+        }
+    }
+
+    private void upgradeToVersion33(Context context, SQLiteDatabase db) {
+        try {
+            PaymentHistoryRepository.createTable(db);
+
+        } catch (Exception e) {
+
+        }
+    }
+
+    private void upgradeToVersion20(Context context, SQLiteDatabase db) {
         try {
             db.execSQL("ALTER TABLE ec_child ADD COLUMN birth_id VARCHAR;");
 

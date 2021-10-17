@@ -1,6 +1,8 @@
 package org.smartregister.brac.hnpp.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,6 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,19 +26,26 @@ import com.vijay.jsonwizard.domain.Form;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.contract.GuestMemberContract;
 import org.smartregister.brac.hnpp.fragment.GuestMemberDueFragment;
 import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
+import org.smartregister.brac.hnpp.model.GuestMemberModel;
+import org.smartregister.brac.hnpp.presenter.GuestMemberPresenter;
+import org.smartregister.brac.hnpp.presenter.GuestMemberProfilePresenter;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
+import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.GuestMemberData;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
+import org.smartregister.brac.hnpp.utils.OnDialogOptionSelect;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.util.NCUtils;
@@ -57,13 +67,15 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.vijay.jsonwizard.constants.JsonFormConstants.FIELDS;
 import static org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity.REQUEST_HOME_VISIT;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.MEMBER_ID_SUFFIX;
 import static org.smartregister.brac.hnpp.utils.HnppJsonFormUtils.makeReadOnlyFields;
 import static org.smartregister.chw.anc.util.JsonFormUtils.updateFormField;
+import static org.smartregister.chw.core.utils.CoreJsonFormUtils.REQUEST_CODE_GET_JSON;
 import static org.smartregister.family.util.Constants.INTENT_KEY.BASE_ENTITY_ID;
 
-public class GuestMemberProfileActivity extends BaseProfileActivity implements View.OnClickListener{
+public class GuestMemberProfileActivity extends BaseProfileActivity implements GuestMemberContract.View,View.OnClickListener{
 
     String baseEntityId;
     private GuestMemberData guestMemberData;
@@ -72,6 +84,7 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements V
     private CircleImageView imageViewProfile;
     private ViewPager mViewPager;
     private ViewPagerAdapter adapter;
+    private GuestMemberProfilePresenter presenter;
 
     public static void startGuestMemberProfileActivity(Activity activity , String baseEntityId){
         Intent intent = new Intent(activity,GuestMemberProfileActivity.class);
@@ -92,6 +105,7 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements V
         setContentView(R.layout.activity_other_member_profile);
         baseEntityId = getIntent().getStringExtra(BASE_ENTITY_ID);
         guestMemberData = HnppDBUtils.getGuestMemberById(baseEntityId);
+        presenter = new GuestMemberProfilePresenter(this);
         updateTopBar();
         setProfileData();
 
@@ -136,6 +150,7 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements V
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.edit_member_btn:
+
                 //Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show();
                 CommonPersonObjectClient client = HnppDBUtils.createFromBaseEntityForGuestMember(baseEntityId);
                 startFormForEdit(client);
@@ -146,31 +161,41 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements V
 
 
     public void startFormForEdit(CommonPersonObjectClient client) {
-        try {
-            Intent intent = new Intent(this, GuestAddMemberJsonFormActivity.class);
-            //JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(HnppConstants.JSON_FORMS.GUEST_MEMBER_FORM);
-            JSONObject jsonForm = HnppJsonFormUtils.getAutoPopulatedJsonEditFormString(HnppConstants.JSON_FORMS.GUEST_MEMBER_FORM, this, client, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION);
-            String ssName = org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.SS_NAME, false);
-            String villageName = org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.VILLAGE_NAME, false);
-            HnppJsonFormUtils.updateFormWithSSName(jsonForm, SSLocationHelper.getInstance().getSsModels());
-            HnppJsonFormUtils.updateFormWithVillageName(jsonForm,ssName,villageName);
-            intent.putExtra(org.smartregister.chw.anc.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
-            Form form = new Form();
-            form.setWizard(false);
-            if(!HnppConstants.isReleaseBuild()){
-                form.setActionBarBackground(R.color.test_app_color);
+        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+            @Override
+            public void onPost(double latitude, double longitude) {
+                try {
+                    Intent intent = new Intent(GuestMemberProfileActivity.this, GuestAddMemberJsonFormActivity.class);
+                    //JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(HnppConstants.JSON_FORMS.GUEST_MEMBER_FORM);
+                    JSONObject jsonForm = HnppJsonFormUtils.getAutoPopulatedJsonEditFormString(HnppConstants.JSON_FORMS.GUEST_MEMBER_FORM, GuestMemberProfileActivity.this, client, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION);
+                    jsonForm.put(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE, HnppConstants.EVENT_TYPE.GUEST_MEMBER_UPDATE_REGISTRATION);
+                    jsonForm.put(org.smartregister.family.util.JsonFormUtils.ENTITY_ID,baseEntityId);
 
-            }else{
-                form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+                    String ssName = org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.SS_NAME, false);
+                    String villageName = org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.VILLAGE_NAME, false);
+                    HnppJsonFormUtils.updateFormWithSSName(jsonForm, SSLocationHelper.getInstance().getSsModels());
+                    HnppJsonFormUtils.updateFormWithVillageName(jsonForm,ssName,villageName);
+                    HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
+                    intent.putExtra(org.smartregister.chw.anc.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+                    Form form = new Form();
+                    form.setWizard(false);
+                    if(!HnppConstants.isReleaseBuild()){
+                        form.setActionBarBackground(R.color.test_app_color);
 
+                    }else{
+                        form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+
+                    }
+
+                    intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+
+                    startActivityForResult(intent, org.smartregister.chw.anc.util.Constants.REQUEST_CODE_GET_JSON);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+        });
 
-            intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
-
-            startActivityForResult(intent, org.smartregister.chw.anc.util.Constants.REQUEST_CODE_GET_JSON);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
     MemberHistoryFragment memberHistoryFragment;
     GuestMemberDueFragment memberDueFragment;
@@ -269,14 +294,22 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements V
             }catch (Exception e){
                 e.printStackTrace();
             }
+            try{
+                HnppJsonFormUtils.addAddToStockValue(jsonForm);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             jsonForm.put(JsonFormUtils.ENTITY_ID, baseEntityId);
             Intent intent;
              if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM_OOC) || formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM_OOC) || formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM_OOC)){
                 HnppJsonFormUtils.addNoOfAnc(jsonForm);
             }
-            else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM_OOC)){
-                HnppJsonFormUtils.addNoOfPnc(jsonForm);
-            }
+             else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM_BEFORE_48_HOUR_OOC)
+                     ||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM_AFTER_48_HOUR_OOC)){
+                 HnppJsonFormUtils.addNoOfPnc(jsonForm);
+                 int pncDay = FormApplicability.getDayPassPregnancyOutcome(baseEntityId);
+                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"pnc_day_passed", String.valueOf(pncDay));
+             }
             if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.BLOOD_TEST)){
                 if (guestMemberData.getGender().equalsIgnoreCase("F")) {
                     HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_women","true");
@@ -352,34 +385,115 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements V
         }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
             String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
-
+            showProgressDialog(R.string.please_wait_message);
 
             try {
-                saveRegistration(jsonString,"visits");
+                Visit visit = saveRegistration(jsonString,"visits");
+                if(visit!=null){
+                    hideProgressDialog();
+                    showServiceDoneDialog(true);
+
+
+                }else{
+                    hideProgressDialog();
+                    showServiceDoneDialog(false);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
+                hideProgressBar();
             }
-            if(memberHistoryFragment !=null){
-                new Handler().postDelayed(new Runnable() {
+
+
+        }
+        else if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_GET_JSON){
+            try {
+                String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
+                JSONObject form = new JSONObject(jsonString);
+                String[] generatedString;
+                String title;
+                String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
+
+                String fullName = HnppApplication.getInstance().getContext().allSharedPreferences().getANMPreferredName(userName);
+
+                generatedString = HnppJsonFormUtils.getValuesFromGuestRegistrationForm(form);
+                title = String.format(getString(R.string.dialog_confirm_save_guest),fullName,generatedString[0],generatedString[1]);
+
+
+                HnppConstants.showSaveFormConfirmationDialog(this, title, new OnDialogOptionSelect() {
                     @Override
-                    public void run() {
-//                        memberHistoryFragment.onActivityResult(0,0,null);
-                        mViewPager.setCurrentItem(1,true);
-                        if(memberDueFragment !=null){
-                            memberDueFragment.updateStaticView();
+                    public void onClickYesButton() {
+                        try{
+                            showProgressBar();
+                            JSONObject formWithConsent = new JSONObject(jsonString);
+                            JSONObject jobkect = formWithConsent.getJSONObject("step1");
+                            JSONArray field = jobkect.getJSONArray(FIELDS);
+                            HnppJsonFormUtils.addConsent(field,true);
+                            presenter.saveMember(formWithConsent.toString());
+                        }catch (JSONException je){
+
                         }
 
                     }
-                },2000);
-            }
 
+                    @Override
+                    public void onClickNoButton() {
+                        try{
+                            showProgressBar();
+                            JSONObject formWithConsent = new JSONObject(jsonString);
+                            JSONObject jobkect = formWithConsent.getJSONObject("step1");
+                            JSONArray field = jobkect.getJSONArray(FIELDS);
+                            HnppJsonFormUtils.addConsent(field,false);
+                            presenter.saveMember(formWithConsent.toString());
+                        }catch (JSONException je){
+
+                        }
+                    }
+                });
+
+            }catch (JSONException e){
+
+            }
         }
 
 
         super.onActivityResult(requestCode, resultCode, data);
 
     }
-    private void saveRegistration(final String jsonString, String table) throws Exception {
+    private void showServiceDoneDialog(boolean isSuccess){
+        Dialog dialog = new Dialog(this);
+        dialog.setCancelable(false);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_with_one_button);
+        TextView titleTv = dialog.findViewById(R.id.title_tv);
+        titleTv.setText(isSuccess?"সার্ভিসটি দেওয়া সম্পূর্ণ হয়েছে":"সার্ভিসটি দেওয়া সফল হয়নি। পুনরায় চেষ্টা করুন ");
+        Button ok_btn = dialog.findViewById(R.id.ok_btn);
+
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                if(isSuccess){
+                    if(memberHistoryFragment !=null){
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                hideProgressDialog();
+//                        memberHistoryFragment.onActivityResult(0,0,null);
+                                mViewPager.setCurrentItem(1,true);
+                                if(memberDueFragment !=null){
+                                    memberDueFragment.updateStaticView();
+                                }
+
+                            }
+                        },2000);
+                    }
+                }
+            }
+        });
+        dialog.show();
+
+    }
+    private Visit saveRegistration(final String jsonString, String table) throws Exception {
         AllSharedPreferences allSharedPreferences = AncLibrary.getInstance().context().allSharedPreferences();
         Event baseEvent = org.smartregister.chw.anc.util.JsonFormUtils.processJsonForm(allSharedPreferences, jsonString, table);
         JSONObject form = new JSONObject(jsonString);
@@ -404,7 +518,38 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements V
         }catch (Exception e){
             e.printStackTrace();
         }
+        return visit;
     }
 
 
+    @Override
+    public void showProgressBar() {
+
+    }
+
+    @Override
+    public void hideProgressBar() {
+
+    }
+
+    @Override
+    public void updateAdapter() {
+
+    }
+
+    @Override
+    public void updateSuccessfullyFetchMessage() {
+        guestMemberData = HnppDBUtils.getGuestMemberById(baseEntityId);
+        setProfileData();
+    }
+
+    @Override
+    public GuestMemberContract.Presenter getPresenter() {
+        return presenter;
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
+    }
 }

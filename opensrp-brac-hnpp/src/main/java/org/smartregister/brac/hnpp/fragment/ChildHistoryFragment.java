@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
@@ -36,6 +37,7 @@ public class ChildHistoryFragment extends Fragment implements MemberHistoryContr
     private RecyclerView clientsView;
     private String baseEntityId;
     private boolean isStart = true;
+    private ProgressBar client_list_progress;
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -63,6 +65,7 @@ public class ChildHistoryFragment extends Fragment implements MemberHistoryContr
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recycler_view,null);
         clientsView = view.findViewById(R.id.recycler_view);
+        client_list_progress = view.findViewById(R.id.client_list_progress);
         isStart = false;
         return view;
     }
@@ -91,12 +94,12 @@ public class ChildHistoryFragment extends Fragment implements MemberHistoryContr
 
     @Override
     public void showProgressBar() {
-
+        client_list_progress.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgressBar() {
-
+        client_list_progress.setVisibility(View.GONE);
     }
 
     @Override
@@ -127,9 +130,10 @@ public class ChildHistoryFragment extends Fragment implements MemberHistoryContr
         }
     };
 
-    private void startFormActivity(MemberHistoryData content){
+    @Override
+    public void startFormWithVisitData(MemberHistoryData content, JSONObject jsonForm) {
         try {
-            JSONObject jsonForm = new JSONObject(content.getVisitDetails());
+            hideProgressBar();
             makeReadOnlyFields(jsonForm);
 
             Intent intent = new Intent(getActivity(), HnppFormViewActivity.class);
@@ -151,9 +155,15 @@ public class ChildHistoryFragment extends Fragment implements MemberHistoryContr
             if (this != null) {
                 this.startActivity(intent);
             }
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
+    }
+
+    private void startFormActivity(MemberHistoryData content){
+        showProgressBar();
+        presenter.getVisitFormWithData(content);
 
     }
     public void makeReadOnlyFields(JSONObject jsonObject){

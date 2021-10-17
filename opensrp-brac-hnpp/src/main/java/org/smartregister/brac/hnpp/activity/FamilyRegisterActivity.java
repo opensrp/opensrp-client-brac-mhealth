@@ -63,6 +63,7 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
     private MigrationSearchContentData migrationSearchContentData;
     @Override
     public void onBackPressed() {
+        if(isFinishing()) return;
         new AlertDialog.Builder(this).setMessage(getString(R.string.exit_app_message))
                 .setTitle(getString(R.string.exit_app_title)).setCancelable(false)
                 .setPositiveButton(R.string.yes_button_label, new DialogInterface.OnClickListener() {
@@ -125,6 +126,9 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
 
                 HnppApplication.getHNPPInstance().getHnppNavigationModel());
         HnppApplication.getHNPPInstance().setupNavigation(hnppNavigationPresenter);
+        if(getIntent().getBooleanExtra(HnppConstants.KEY_NEED_TO_OPEN,false)){
+            navigationMenu.openDrawer();
+        }
         if(!HnppConstants.isPALogin()){
             ArrayList<SSModel> ssLocationForms = SSLocationHelper.getInstance().getSsModels();
             if(ssLocationForms.size() > 0){
@@ -146,20 +150,25 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
                 }
             });
         }else{
-            findViewById(R.id.simprints_identity).setVisibility(View.GONE);
-            findViewById(R.id.ss_info_browse).setVisibility(View.GONE);
-            findViewById(R.id.migration_view).setVisibility(View.GONE);
-            findViewById(R.id.sk_change).setVisibility(View.VISIBLE);
-            findViewById(R.id.sk_change).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(FamilyRegisterActivity.this, SkSelectionActivity.class);
-                    intent.putExtra(SkSelectionActivity.IS_COMES_FROM_UPDATE,true);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    overridePendingTransition(org.smartregister.chw.core.R.anim.slide_in_up, org.smartregister.chw.core.R.anim.slide_out_up);
-                }
-            });
+            try{
+                findViewById(R.id.simprints_identity).setVisibility(View.GONE);
+                findViewById(R.id.ss_info_browse).setVisibility(View.GONE);
+                findViewById(R.id.migration_view).setVisibility(View.GONE);
+                findViewById(R.id.sk_change).setVisibility(View.VISIBLE);
+                findViewById(R.id.sk_change).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(FamilyRegisterActivity.this, SkSelectionActivity.class);
+                        intent.putExtra(SkSelectionActivity.IS_COMES_FROM_UPDATE,true);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        overridePendingTransition(org.smartregister.chw.core.R.anim.slide_in_up, org.smartregister.chw.core.R.anim.slide_out_up);
+                    }
+                });
+            }catch (Exception e){
+
+            }
+
 
         }
 
@@ -192,6 +201,7 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
 
         registerReceiver(notificationBroadcastReceiver, intentFilter);
     }
+
     @Override
     public void startFormActivity(JSONObject jsonForm) {
         if(SSLocationHelper.getInstance().getSsModels().size() == 0){

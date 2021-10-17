@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.google.gson.Gson;
@@ -81,8 +82,9 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
     private static double longitude;
 
 
+
     public static void startHnppAncRegisterActivity(Activity activity, String memberBaseEntityID, String phoneNumber, String formName,
-                                                    String uniqueId, String familyBaseID, String family_name, String moName,double lat,double longi) {
+                                                    String uniqueId, String familyBaseID, String family_name, String moName, double lat, double longi) {
         Intent intent = new Intent(activity, org.smartregister.brac.hnpp.activity.HnppAncRegisterActivity.class);
         intent.putExtra(org.smartregister.chw.anc.util.Constants.ACTIVITY_PAYLOAD.BASE_ENTITY_ID, memberBaseEntityID);
         phone_number = phoneNumber;
@@ -99,29 +101,6 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
         activity.startActivityForResult(intent, Constants.REQUEST_CODE_GET_JSON);
     }
 
-    @Override
-    public void onBackPressed() {
-        switchToBaseFragment();
-        navigationMenu.openDrawer();
-    }
-
-    //    @Override
-//    public void onBackPressed() {
-//        new AlertDialog.Builder(this).setMessage(getString(R.string.exit_app_message))
-//                .setTitle(getString(R.string.exit_app_title)).setCancelable(false)
-//                .setPositiveButton(R.string.yes_button_label, new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int whichButton) {
-//                        Intent a = new Intent(Intent.ACTION_MAIN);
-//                        a.addCategory(Intent.CATEGORY_HOME);
-//                        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                        startActivity(a);
-//                        finish();
-//                    }
-//                }).setNegativeButton(R.string.no_button_label, new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int whichButton) {
-//            }
-//        }).show();
-//    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,6 +124,22 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
             }
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        Fragment fragment = findFragmentByPosition(currentPage);
+        if (fragment instanceof BaseRegisterFragment) {
+            setSelectedBottomBarMenuItem(org.smartregister.R.id.action_clients);
+            BaseRegisterFragment registerFragment = (BaseRegisterFragment) fragment;
+            if (registerFragment.onBackPressed()) {
+                return;
+            }
+        }
+
+        backToHomeScreen();
+        setSelectedBottomBarMenuItem(org.smartregister.R.id.action_clients);
+    }
+
     @Override
     protected void initializePresenter() {
         presenter = new BaseAncRegisterPresenter(this, new BaseAncRegisterModel(), new BaseAncRegisterInteractor());
@@ -268,6 +263,12 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
         Intent intent = new Intent(this, FamilyRegisterActivity.class);
         startActivity(intent);
         this.finish();
+    }
+    public void backToHomeScreen() {
+        Intent intent = new Intent(this, FamilyRegisterActivity.class);
+        intent.putExtra(HnppConstants.KEY_NEED_TO_OPEN,true);
+        startActivity(intent);
+        finish();
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

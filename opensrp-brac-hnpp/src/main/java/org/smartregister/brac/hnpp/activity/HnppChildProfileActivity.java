@@ -14,8 +14,11 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
@@ -26,6 +29,7 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.adapter.ReferralCardViewAdapter;
 import org.smartregister.brac.hnpp.custom_view.FamilyMemberFloatingMenu;
 import org.smartregister.brac.hnpp.fragment.ChildHistoryFragment;
@@ -350,6 +354,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if(handler!=null) handler.removeCallbacksAndMessages(null);
     }
 
     private void openMedicalHistoryScreen() {
@@ -443,6 +448,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     }
     public void openReferealFollowUp(ReferralFollowUpModel referralFollowUpModel) {
         HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onPost(double latitude, double longitude) {
                 try {
@@ -484,6 +490,10 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
 
     }
     public void startAnyFormActivity(String formName, int requestCode) {
+        if(!HnppApplication.getStockRepository().isAvailableStock(HnppConstants.formNameEventTypeMapping.get(formName))){
+            HnppConstants.showOneButtonDialog(this,getString(R.string.dialog_stock_sell_end),"");
+            return;
+        }
         HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
             @Override
             public void onPost(double latitude, double longitude) {
@@ -491,6 +501,11 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
                     JSONObject jsonForm = FormUtils.getInstance(HnppChildProfileActivity.this).getFormJson(formName);
                     try{
                         HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    try{
+                        HnppJsonFormUtils.addAddToStockValue(jsonForm);
                     }catch (Exception e){
                         e.printStackTrace();
                     }
@@ -564,7 +579,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
 
         }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
-
+            showProgressDialog(R.string.please_wait_message);
             VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
             String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
             Map<String, String> jsonStrings = new HashMap<>();
@@ -578,22 +593,20 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
 
 
                 visit = HnppJsonFormUtils.saveVisit(false,false,false,"", childBaseEntityId, type, jsonStrings, "");
+                if(visit!=null){
+                    hideProgressDialog();
+                    showServiceDoneDialog(true);
+
+
+                }else{
+                    hideProgressDialog();
+                    showServiceDoneDialog(false);
+                }
             } catch (Exception e) {
+                hideProgressBar();
                 e.printStackTrace();
             }
-            if(memberHistoryFragment !=null){
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-//                        memberHistoryFragment.onActivityResult(0,0,null);
-                        mViewPager.setCurrentItem(2,true);
-                        if(memberOtherServiceFragment !=null){
-                            memberOtherServiceFragment.updateStaticView();
-                        }
 
-                    }
-                },1000);
-            }
 
         }else if(resultCode == Activity.RESULT_OK && requestCode == org.smartregister.chw.anc.util.Constants.REQUEST_CODE_HOME_VISIT){
            if(mViewPager!=null) mViewPager.setCurrentItem(0,true);
@@ -602,6 +615,39 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
         }
 
         super.onActivityResult(requestCode, resultCode, data);
+
+    }
+    private void showServiceDoneDialog(boolean isSuccess){
+        Dialog dialog = new Dialog(this);
+        dialog.setCancelable(false);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_with_one_button);
+        TextView titleTv = dialog.findViewById(R.id.title_tv);
+        titleTv.setText(isSuccess?"সার্ভিসটি দেওয়া সম্পূর্ণ হয়েছে":"সার্ভিসটি দেওয়া সফল হয়নি। পুনরায় চেষ্টা করুন ");
+        Button ok_btn = dialog.findViewById(R.id.ok_btn);
+
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                if(isSuccess){
+                    if(memberHistoryFragment !=null){
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                hideProgressDialog();
+                                mViewPager.setCurrentItem(2,true);
+                                if(memberOtherServiceFragment !=null){
+                                    memberOtherServiceFragment.updateStaticView();
+                                }
+
+                            }
+                        },1000);
+                    }
+                }
+            }
+        });
+        dialog.show();
 
     }
 

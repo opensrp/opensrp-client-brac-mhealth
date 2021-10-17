@@ -5,11 +5,15 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.Settings;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import androidx.core.app.ActivityCompat;
 
 import android.telephony.TelephonyManager;
@@ -17,6 +21,11 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.common.collect.ImmutableMap;
@@ -35,6 +44,8 @@ import org.smartregister.brac.hnpp.activity.FamilyProfileActivity;
 import org.smartregister.brac.hnpp.activity.FamilyRegisterActivity;
 import org.smartregister.brac.hnpp.listener.OnGpsDataGenerateListener;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
+import org.smartregister.brac.hnpp.activity.TermAndConditionWebView;
+import org.smartregister.brac.hnpp.fragment.COVIDJsonFormFragment;
 import org.smartregister.brac.hnpp.model.Notification;
 import org.smartregister.brac.hnpp.task.GenerateGPSTask;
 import org.smartregister.chw.anc.util.Constants;
@@ -53,12 +64,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 
 public class HnppConstants extends CoreConstants {
+    public static boolean IS_MANDATORY_GPS = true;
+    public static int GPS_ATTEMPT_COUNT = 0;
+    public static final int DEFAULT_GPS_ATTEMPT = 3;
     public static final String ACTION_STOCK_COME = "ACTION_STOCK_COME";
     public static final String ACTION_STOCK_END = "ACTION_STOCK_END";
     public static final String ACTION_EDD = "ACTION_EDD";
@@ -80,12 +95,42 @@ public class HnppConstants extends CoreConstants {
     public static boolean isSortByLastVisit = false;
     public static boolean isViewRefresh = false;
     public static final String KEY_IS_SAME_MONTH = "is_same_month";
+    public static final String KEY_NEED_TO_OPEN = "need_to_open_drawer";
 
     public static SimpleDateFormat DDMMYY = new SimpleDateFormat("dd-MM-yyyy",Locale.getDefault());
+    public static SimpleDateFormat DDMMYYHM = new SimpleDateFormat("dd-MM-yyyy",Locale.getDefault());
     public enum VisitType {DUE, OVERDUE, LESS_TWENTY_FOUR, VISIT_THIS_MONTH, NOT_VISIT_THIS_MONTH, EXPIRY, VISIT_DONE}
     public enum HomeVisitType {GREEN, YELLOW, RED, BROWN}
     public enum SEARCH_TYPE {HH, ADO, WOMEN, CHILD,NCD,ADULT}
     public enum MIGRATION_TYPE {HH, Member}
+
+    public static boolean isConnectedToInternet(Context context) {
+        ConnectivityManager conMgr = null;
+        boolean connected = false;
+
+        try {
+            conMgr = (ConnectivityManager) context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+            connected = (conMgr.getActiveNetworkInfo() != null
+                    && conMgr.getActiveNetworkInfo().isAvailable() && conMgr
+                    .getActiveNetworkInfo().isConnected());
+            return connected;
+        } catch (Exception e) {
+            if (context == null) {
+                context = HnppApplication.getHNPPInstance();
+            }
+            if (conMgr == null) {
+                conMgr = (ConnectivityManager) context
+                        .getSystemService(Context.CONNECTIVITY_SERVICE);
+            }
+            if (conMgr != null) {
+                connected = (conMgr.getActiveNetworkInfo() != null
+                        && conMgr.getActiveNetworkInfo().isAvailable() && conMgr
+                        .getActiveNetworkInfo().isConnected());
+            }
+            return connected;
+        }
+    }
 
     public static void getGPSLocation(FamilyRegisterActivity activity, OnPostDataWithGps onPostDataWithGps){
 
@@ -111,7 +156,12 @@ public class HnppConstants extends CoreConstants {
 
             @Override
             public void onGpsDataNotFound() {
-                HnppConstants.showOneButtonDialog(activity,"",activity.getString(R.string.gps_not_found));
+                HnppConstants.showOneButtonDialog(activity, "", activity.getString(R.string.gps_not_found), new Runnable() {
+                    @Override
+                    public void run() {
+                       if(!IS_MANDATORY_GPS) onPostDataWithGps.onPost(0.0,0.0);
+                    }
+                });
             }
 
             @Override
@@ -125,7 +175,7 @@ public class HnppConstants extends CoreConstants {
             public void run() {
                 if(task!=null) task.updateUi();
             }
-        },2000);
+        },5000);
 
 
     }
@@ -142,18 +192,35 @@ public class HnppConstants extends CoreConstants {
         GenerateGPSTask task = new GenerateGPSTask(new OnGpsDataGenerateListener() {
             @Override
             public void showProgressBar(int message) {
-                activity.showProgressDialog(message);
+                try{
+                    activity.showProgressDialog(message);
+                }catch (Exception e){
+
+                }
             }
 
             @Override
             public void hideProgress() {
-                activity.hideProgressDialog();
+                try{
+                    activity.hideProgressDialog();
+                }catch (Exception e){
+
+                }
 
             }
 
             @Override
             public void onGpsDataNotFound() {
-                HnppConstants.showOneButtonDialog(activity,"",activity.getString(R.string.gps_not_found));
+                try{
+                    HnppConstants.showOneButtonDialog(activity, "", activity.getString(R.string.gps_not_found), new Runnable() {
+                        @Override
+                        public void run() {
+                            if(!IS_MANDATORY_GPS)onPostDataWithGps.onPost(0.0,0.0);
+                        }
+                    });
+                }catch (Exception e){
+
+                }
             }
 
             @Override
@@ -167,7 +234,7 @@ public class HnppConstants extends CoreConstants {
             public void run() {
                 if(task!=null) task.updateUi();
             }
-        },2000);
+        },5000);
 
 
     }
@@ -176,6 +243,11 @@ public class HnppConstants extends CoreConstants {
         if(TextUtils.isEmpty(month)) return "";
         if(month.length()==1) return "0"+month;
         return month;
+    }
+    public static String addZeroForDay(String day){
+        if(TextUtils.isEmpty(day)) return "";
+        if(day.length()==1) return "0"+day;
+        return day;
     }
     public class ANC_REGISTER_COLUMNS {
         public static final String LAST_MENSTRUAL_PERIOD = "last_menstrual_period";
@@ -203,6 +275,12 @@ public class HnppConstants extends CoreConstants {
         public static final int TYPE_REFERRAL_FOLLOW_UP = 8;
     }
 
+    public static String getPaymentIdFromUrl(String url){
+        String paymentId = "";
+        if(TextUtils.isEmpty(url)) return "";
+        paymentId= url.substring(url.indexOf("paymentID")+10,url.indexOf("&"));
+        return paymentId;
+    }
 
     public static boolean isNeedToShowEDDPopup(){
         String lastEddTimeStr =  org.smartregister.Context.getInstance().allSharedPreferences().getPreference("LAST_EDD_TIME");
@@ -232,9 +310,10 @@ public class HnppConstants extends CoreConstants {
         }
         return false;
     }
-    public static void showSaveFormConfirmationDialog(Context context,String title, Runnable runnable){
+    public static void showSaveFormConfirmationDialog(Context context,String title, OnDialogOptionSelect onDialogOptionSelect){
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
         dialog.setContentView(R.layout.save_confirm_dialog);
         TextView textViewTitle = dialog.findViewById(R.id.condirm_text);
         textViewTitle.setText(title);
@@ -242,13 +321,14 @@ public class HnppConstants extends CoreConstants {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                onDialogOptionSelect.onClickNoButton();
             }
         });
         dialog.findViewById(R.id.yes_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                runnable.run();
+                onDialogOptionSelect.onClickYesButton();
             }
         });
         dialog.show();
@@ -276,7 +356,94 @@ public class HnppConstants extends CoreConstants {
         });
         dialog.show();
     }
+    public static void showTermConditionDialog(Context context,String title, String text,Runnable runnable){
+        Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_with_term_condition);
+        TextView textViewTitle = dialog.findViewById(R.id.text_tv);
+        TextView titleTxt = dialog.findViewById(R.id.title_tv);
+        titleTxt.setText(title);
+        textViewTitle.setText(text);
+        CheckBox checkBox = dialog.findViewById(R.id.term_check);
+        LinearLayout payBtn = dialog.findViewById(R.id.bkash_pay);
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    payBtn.setAlpha(1.0f);
+                    payBtn.setEnabled(true);
+                }else{
+                    payBtn.setAlpha(0.3f);
+                    payBtn.setEnabled(false);
+                }
+            }
+        });
+        dialog.findViewById(R.id.term_text).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context, TermAndConditionWebView.class));
+            }
+        });
+        dialog.findViewById(R.id.close_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        payBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                runnable.run();
+            }
+        });
+        dialog.show();
+    }
+    public static void showButtonWithImageDialog(Context context, int type, String message, Runnable runnable){
+        Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_bkash_success);
+        ImageView imageView = dialog.findViewById(R.id.image);
+        TextView titleTxt = dialog.findViewById(R.id.title_tv);
+        TextView statusTxt = dialog.findViewById(R.id.status_tv);
+        TextView messageTxt = dialog.findViewById(R.id.text_tv);
+        if(type ==1){
+            titleTxt.setText("আপনার পেমেন্ট টি সফল হয়েছে");
+            imageView.setImageResource(R.drawable.success);
+            statusTxt.setText("Payment successfully");
+            statusTxt.setTextColor(context.getResources().getColor(R.color.alert_complete_green));
+            messageTxt.setText(message);
+            messageTxt.setTextColor(context.getResources().getColor(R.color.alert_complete_green));
+        }else if(type == 2){
+            titleTxt.setText("আপনার পেমেন্ট টি ফেইল্ড করেছে");
+            imageView.setImageResource(R.drawable.failure);
+            statusTxt.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
+            statusTxt.setText("Payment failed");
+            messageTxt.setText(message);
+            messageTxt.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
+        }else if(type == 3){
+            titleTxt.setText("আপনার পেমেন্ট টি বাতিল হয়েছে");
+            imageView.setImageResource(R.drawable.cancel);
+            statusTxt.setText("Payment cancel");
+            statusTxt.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
+            messageTxt.setText(message);
+            messageTxt.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
+        }
+
+
+        dialog.findViewById(R.id.ok_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                runnable.run();
+            }
+        });
+        dialog.show();
+    }
     public static void showOneButtonDialog(Context context,String title, String text){
+        showOneButtonDialog(context,title,text,null);
+    }
+    public static void showOneButtonDialog(Context context,String title, String text,Runnable runnable){
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_with_one_button);
@@ -288,6 +455,7 @@ public class HnppConstants extends CoreConstants {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+               if(runnable!=null) runnable.run();
             }
         });
         dialog.show();
@@ -336,6 +504,12 @@ public class HnppConstants extends CoreConstants {
         LocalDate expectedDeliveryDate = lastMenstrualPeriod.plusDays(280);
         int dayDiff = Days.daysBetween(lastMenstrualPeriod, expectedDeliveryDate).getDays();
         return dayDiff <=30;
+    }
+    public static boolean isWrongDate(){
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        if(year<2018) return true;
+        return false;
     }
     public static void appendLog(String text) {
         File logFile = new File("sdcard/log.file");
@@ -495,8 +669,8 @@ public class HnppConstants extends CoreConstants {
                 }
 
             }
-        }catch (Exception e){
-            e.printStackTrace();
+        }catch (SecurityException se){
+            se.printStackTrace();
         }
 
         return deviceId;
@@ -605,7 +779,11 @@ public class HnppConstants extends CoreConstants {
         public static final String  CHILD_REFERRAL = "hnpp_child_referral";
         public static final String  ELCO = "elco_register";
         public static final String  PNC_FORM = "hnpp_pnc_registration";
+        public static final String  PNC_FORM_BEFORE_48_HOUR = "hnpp_pnc_registration_before48_hour";
+        public static final String  PNC_FORM_AFTER_48_HOUR = "hnpp_pnc_registration_after48_hour";
         public static final String  PNC_FORM_OOC = "hnpp_pnc_registration_ooc";
+        public static final String  PNC_FORM_BEFORE_48_HOUR_OOC = "hnpp_pnc_registration_before48_hour_ooc";
+        public static final String  PNC_FORM_AFTER_48_HOUR_OOC = "hnpp_pnc_registration_after48_hour_ooc";
         public static final String  WOMEN_PACKAGE = "hnpp_women_package";
         public static final String  EYE_TEST = "eye_test";
         public static final String  BLOOD_TEST = "blood_test";
@@ -630,6 +808,7 @@ public class HnppConstants extends CoreConstants {
         public static final String FP_no_method_uses = "fp_no_method_user";
         public static final String ANC_OTHER_SOURCE = "anc_other_source";
         public static final String ANC_TT = "anc_tt";
+        public static final String OUTCOME_TT = "is_tt_completed";
         public static final String FEEDING_UPTO_6_MONTH = "feeding_6_month";
         public static final String PP_PILL = "contraceptive_pill";
         public static final String PP_CONDOM = "condom";
@@ -657,8 +836,12 @@ public class HnppConstants extends CoreConstants {
         public static final String ANC3_REGISTRATION_OOC = "ANC3 Registration OOC";
         public static final String ANC_REGISTRATION = "ANC Registration";
         public static final String UPDATE_ANC_REGISTRATION = "Update ANC Registration";
-        public static final String PNC_REGISTRATION = "PNC Registration";
-        public static final String PNC_REGISTRATION_OOC = "PNC Registration OOC";
+
+        public static final String PNC_REGISTRATION_BEFORE_48_hour = "PNC Visit Within 48_hr";
+        public static final String PNC_REGISTRATION_AFTER_48_hour = "PNC Visit After 48_hr";
+
+        public static final String PNC_REGISTRATION_BEFORE_48_hour_OOC = "PNC Visit Within 48_hr OOC";
+        public static final String PNC_REGISTRATION_AFTER_48_hour_OOC = "PNC Visit After 48_hr OOC";
         public static final String WOMEN_PACKAGE = "Women package";
         public static final String GIRL_PACKAGE = "Adolescent package";
         public static final String NCD_PACKAGE = "NCD package";//pa
@@ -702,7 +885,7 @@ public class HnppConstants extends CoreConstants {
         public static final String AVG_ATTEND_WOMEN_FORUM= "Avg Attendance (Women Forum)";
 
         //for PA target
-        public static final String ADULT_FORUM_ATTENDANCE = "Avg.Attendance (Adult Forum)";
+        public static final String ADULT_FORUM_ATTENDANCE = "Avg. Attendance (Adult Forum)";
         public static final String ADULT_FORUM_SERVICE_TAKEN = "Adult Forum Service Taken";
         public static final String MARKED_PRESBYOPIA = "Marked as presbyopia";
         public static final String PRESBYOPIA_CORRECTION = "Presbyopia correction";
@@ -710,9 +893,10 @@ public class HnppConstants extends CoreConstants {
         public static final String ESTIMATE_HBP = "Estimate HBP";
         public static final String CATARACT_SURGERY_REFER = "Cataract surgery refer";
         public static final String CATARACT_SURGERY = "Cataract surgery";
+        //public static final String NCD_BY_PA = "NCD by PA";
 
         //PA stock
-        public static final String ADULT_PACKAGE = "NCD package";
+
         public static final String GLASS = "glass";
         public static final String SUN_GLASS = "Sun glass";
         public static final String SV_1 = "Sv 1";
@@ -729,9 +913,12 @@ public class HnppConstants extends CoreConstants {
         //service
         public static final String ANC_SERVICE = "ANC Service";
         public static final String PNC_SERVICE = "PNC Service";
+        public static final String ANC_PACKAGE = "ANC package";
+        public static final String PNC_PACKAGE = "PNC package";
         public static final String GUEST_MEMBER_REGISTRATION = "OOC Member Registration";
+        public static final String GUEST_MEMBER_UPDATE_REGISTRATION = "OOC Member Update Registration";
     }
-    public static long getLongDateFormate(String year,String month){
+    public static long getLongDateFormatForFromMonth(String year,String month){
         String dateFormate = year+"-"+HnppConstants.addZeroForMonth(month)+"-01";
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         long startDate = System.currentTimeMillis();
@@ -742,6 +929,94 @@ public class HnppConstants extends CoreConstants {
             e.printStackTrace();
         }
         return startDate;
+    }
+    public static String getStringDateFormatForFromMonth(String year, String month){
+        return  year+"-"+HnppConstants.addZeroForMonth(month)+"-01";
+    }
+    public static String getStringDateFormatForToMonth(String year, String month){
+        return year+"-"+HnppConstants.addZeroForMonth(month)+"-"+getLastDateOfAMonth(month);
+    }
+    public static long getLongDateFormatForToMonth(String year,String month){
+        String dateFormate = year+"-"+HnppConstants.addZeroForMonth(month)+"-"+getLastDateOfAMonth(month);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        long startDate = System.currentTimeMillis();
+        try{
+            Date date = format.parse(dateFormate);
+            startDate = date.getTime();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return startDate;
+    }
+    public static String getLastDateOfAMonth(String month){
+        if (TextUtils.isEmpty(month)) return "";
+        int m = Integer.parseInt(month);
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.MONTH,m);
+        int lastDate = c.getActualMaximum(Calendar.DATE);
+        return HnppConstants.addZeroForMonth(lastDate+"");
+    }
+    public static long getLongDateFormate(String year,String month,String day){
+        String dateFormate = year+"-"+HnppConstants.addZeroForMonth(month)+"-"+HnppConstants.addZeroForDay(day);
+
+        Log.v("DAILY_TERGET","dateStr:"+dateFormate);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
+        long startDate = System.currentTimeMillis();
+        try{
+            Date date = format.parse(dateFormate);
+            startDate = date.getTime();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return startDate;
+    }
+    public static String getStringFormatedDate(String year,String month,String day){
+        return   year+"-"+HnppConstants.addZeroForMonth(month)+"-"+HnppConstants.addZeroForDay(day);
+
+    }
+    public static long getLongFromDateFormat(String dateTime){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        long milliseconds =0;
+        try{
+            Date d = format.parse(dateTime);
+            milliseconds  = d.getTime();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return milliseconds;
+    }
+    public static String getDateFormateFromLong(long dateTime){
+        Date date = new Date(dateTime);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = null;
+        try{
+            dateString = format.format(date);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return dateString;
+    }
+    public static String getDateWithHHMMFormateFromLong(long dateTime){
+        Date date = new Date(dateTime);
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+        String dateString = null;
+        try{
+            dateString = format.format(date);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return dateString;
+    }
+    public static String getDDMMYYYYFormateFromLong(long dateTime){
+        Date date = new Date(dateTime);
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        String dateString = null;
+        try{
+            dateString = format.format(date);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return dateString;
     }
     public static final Map<String,String> genderMapping = ImmutableMap.<String,String> builder()
             .put("নারী","F")
@@ -770,7 +1045,9 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ANC2_REGISTRATION,JSON_FORMS.ANC2_FORM)
             .put(EVENT_TYPE.ANC3_REGISTRATION,JSON_FORMS.ANC3_FORM)
             .put(EVENT_TYPE.ELCO,JSON_FORMS.ELCO)
-            .put(EVENT_TYPE.PNC_REGISTRATION,JSON_FORMS.PNC_FORM)
+
+            .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,JSON_FORMS.PNC_FORM_AFTER_48_HOUR)
+            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,JSON_FORMS.PNC_FORM_BEFORE_48_HOUR)
             .put(EVENT_TYPE.CHILD_INFO_EBF12,JSON_FORMS.CHILD_INFO_EBF12)
             .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,JSON_FORMS.CHILD_INFO_7_24_MONTHS)
             .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,JSON_FORMS.CHILD_INFO_25_MONTHS)
@@ -779,7 +1056,8 @@ public class HnppConstants extends CoreConstants {
             .put(JSON_FORMS.ANC1_FORM,EventType.ANC_HOME_VISIT)
             .put(JSON_FORMS.ANC2_FORM,EventType.ANC_HOME_VISIT)
             .put(JSON_FORMS.ANC3_FORM,EventType.ANC_HOME_VISIT)
-            .put(JSON_FORMS.PNC_FORM,EventType.PNC_HOME_VISIT)
+            .put(JSON_FORMS.PNC_FORM_AFTER_48_HOUR,EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour)
+            .put(JSON_FORMS.PNC_FORM_BEFORE_48_HOUR,EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour)
             .put(JSON_FORMS.NCD_PACKAGE,EVENT_TYPE.NCD_PACKAGE)
             .put(JSON_FORMS.IYCF_PACKAGE,EVENT_TYPE.IYCF_PACKAGE)
             .put(JSON_FORMS.WOMEN_PACKAGE,EVENT_TYPE.WOMEN_PACKAGE)
@@ -790,7 +1068,10 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ANC1_REGISTRATION,JSON_FORMS.ANC1_FORM_OOC)
             .put(EVENT_TYPE.ANC2_REGISTRATION,JSON_FORMS.ANC2_FORM_OOC)
             .put(EVENT_TYPE.ANC3_REGISTRATION,JSON_FORMS.ANC3_FORM_OOC)
-            .put(EVENT_TYPE.PNC_REGISTRATION,JSON_FORMS.PNC_FORM_OOC)
+
+            .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC,JSON_FORMS.PNC_FORM_AFTER_48_HOUR_OOC)
+            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC,JSON_FORMS.PNC_FORM_BEFORE_48_HOUR_OOC)
+
             .build();
     public static final Map<String,Integer> iconMapping = ImmutableMap.<String,Integer> builder()
             .put("গর্ভবতী পরিচর্যা-১ম ত্রিমাসিক",R.mipmap.ic_anc_pink)
@@ -798,7 +1079,11 @@ public class HnppConstants extends CoreConstants {
             .put("গর্ভবতী পরিচর্যা - ৩য় ত্রিমাসিক",R.mipmap.ic_anc_pink)
             .put("শারীরিক সমস্যা",R.mipmap.ic_anc_pink)
             .put( "পূর্বের গর্ভের ইতিহাস",R.mipmap.ic_anc_pink)
-            .put(EVENT_TYPE.PNC_REGISTRATION,R.drawable.sidemenu_pnc)
+
+            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,R.drawable.sidemenu_pnc)
+            .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,R.drawable.sidemenu_pnc)
+            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC,R.drawable.sidemenu_pnc)
+            .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC,R.drawable.sidemenu_pnc)
             .put(EVENT_TYPE.PREGNANCY_OUTCOME,R.drawable.sidemenu_pnc)
             .put(EVENT_TYPE.ANC1_REGISTRATION,R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.ANC2_REGISTRATION,R.mipmap.ic_anc_pink)
@@ -824,7 +1109,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.EYE_TEST,R.drawable.ic_eye)
             .put(EVENT_TYPE.IYCF_PACKAGE, R.drawable.child_girl_infant)
             .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,R.mipmap.ic_anc_pink)
-            .put(Constants.EVENT_TYPE.PNC_HOME_VISIT,R.drawable.sidemenu_pnc)
+
             .put(EVENT_TYPE.ENC_REGISTRATION,R.mipmap.ic_child)
             .put("Member referral",R.mipmap.ic_refer)
             .put(EVENT_TYPE.HOME_VISIT_FAMILY, R.mipmap.ic_icon_home)
@@ -882,7 +1167,11 @@ public class HnppConstants extends CoreConstants {
             .put( EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসবের ফলাফল")
             .put( EVENT_TYPE.PREGNANCY_OUTCOME_OOC,"প্রসবের ফলাফল")
             .put( JSON_FORMS.PNC_FORM,"প্রসবোত্তর পরিচর্যা")
-            .put( EVENT_TYPE.PNC_REGISTRATION,"প্রসবোত্তর পরিচর্যা")
+            .put( EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,"পি.এন.সি. (প্রথম ৪৮ ঘন্টা পর)")
+            .put( EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
+            .put( EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC,"পি.এন.সি. (প্রথম ৪৮ ঘন্টা পর)")
+            .put( EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
+            .put(Constants.EVENT_TYPE.PNC_HOME_VISIT,"প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি)")
             .put(EVENT_TYPE.WOMEN_PACKAGE,"নারী সেবা প্যাকেজ")
             .put(EVENT_TYPE.GIRL_PACKAGE, "কিশোরী সেবা প্যাকেজ")
             .put(EVENT_TYPE.NCD_PACKAGE, "অসংক্রামক রোগের সেবা")
@@ -909,7 +1198,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.FORUM_ADO,"কিশোরী ফোরাম")
             .put(EVENT_TYPE.FORUM_WOMEN,"নারী ফোরাম")
             .put(EVENT_TYPE.FORUM_CHILD,"শিশু ফোরাম")
-            .put(EVENT_TYPE.FORUM_NCD,"অসংক্রামক রোগের ফোরাম")
+            .put(EVENT_TYPE.FORUM_NCD,"সাধারণ ফোরাম")
             .put(EVENT_TYPE.FORUM_ADULT,"অ্যাডাল্ট ফোরাম")
             .build();
 
@@ -929,7 +1218,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.FORUM_ADO,"কিশোরী ফোরাম")
             .put(EVENT_TYPE.FORUM_WOMEN,"নারী ফোরাম")
             .put(EVENT_TYPE.FORUM_CHILD,"শিশু ফোরাম")
-            .put(EVENT_TYPE.FORUM_NCD,"অসংক্রামক রোগের ফোরাম")
+            .put(EVENT_TYPE.FORUM_NCD,"সাধারণ ফোরাম")
             .put(EVENT_TYPE.FORUM_ADULT,"অ্যাডাল্ট ফোরাম")
             .put(EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসব")
             .put(EVENT_TYPE.GIRL_PACKAGE,"কিশোরী সেবা")
@@ -937,11 +1226,15 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.IYCF_PACKAGE,"শিশু সেবা")
             .put(EVENT_TYPE.NCD_PACKAGE,"অসংক্রামক রোগের সেবা")
             .put(EVENT_TYPE.ANC_SERVICE,"গর্ভবতী সেবা")
-            .put(EVENT_TYPE.PNC_SERVICE,"প্রসব-পরবর্তী সেবা")
+            .put(EVENT_TYPE.PNC_SERVICE,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
+            .put(EVENT_TYPE.ANC_PACKAGE,"গর্ভবতী সেবা")
+            .put(EVENT_TYPE.PNC_PACKAGE,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
+            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,"প্রসব-পরবর্তী সেবা")
             .put(EVENT_TYPE.AVG_ATTEND_ADULT_FORUM,"অংশগ্রহণকারী সংখ্যা")
             .put(EVENT_TYPE.ADULT_FORUM_ATTENDANCE,"অংশগ্রহণকারী সংখ্যা")
+           // .put(EVENT_TYPE.NCD_BY_PA,"অসংক্রামক রোগের সেবা")
             .put(EVENT_TYPE.ADULT_FORUM_SERVICE_TAKEN,"সেবা গ্রহীতার সংখ্যা")
-            .put(EVENT_TYPE.MARKED_PRESBYOPIA,"চিন্নিত প্রেসবায়োপিয়া")
+            .put(EVENT_TYPE.MARKED_PRESBYOPIA,"চিহ্নিত প্রেসবায়োপিয়া")
             .put(EVENT_TYPE.PRESBYOPIA_CORRECTION,"প্রেসবায়োপিয়া কারেকশন")
             .put(EVENT_TYPE.ESTIMATE_DIABETES,"সম্ভাব্য ডায়াবেটিস")
             .put(EVENT_TYPE.ESTIMATE_HBP,"সম্ভাব্য উচ্চ রক্তচাপ")
@@ -953,17 +1246,18 @@ public class HnppConstants extends CoreConstants {
 
             .put(HnppConstants.EventType.FAMILY_REGISTRATION,"খানা রেজিস্ট্রেশন")
             .put(HnppConstants.EventType.FAMILY_MEMBER_REGISTRATION,"সদস্য রেজিস্ট্রেশন")
+            .put(EVENT_TYPE.HOME_VISIT_FAMILY,"খানা ভিজিট")
             .put(HnppConstants.EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,"সদস্য রেজিস্ট্রেশন")
             .put(EVENT_TYPE.ANC1_REGISTRATION,"গর্ভবতী পরিচর্যা - ১ম ত্রিমাসিক")
             .put(EVENT_TYPE.ANC2_REGISTRATION,"গর্ভবতী পরিচর্যা - ২য় ত্রিমাসিক")
             .put(EVENT_TYPE.ANC3_REGISTRATION,"গর্ভবতী পরিচর্যা - ৩য় ত্রিমাসিক")
             .put("ANC","গর্ভবতী পরিচর্যা(এএনসি)")
-            .put("pnc","প্রসবোত্তর পরিচর্যা(পিএনসি)")
+            .put("pnc","পূর্বের প্রসবোত্তর পরিচর্যা(পিএনসি)")
             .put(EVENT_TYPE.ELCO,"সক্ষম দম্পতি পরিদর্শন")
             .put(HnppConstants.EventType.CHILD_REGISTRATION,"শিশু রেজিস্ট্রেশন")
             .put(EVENT_TYPE.ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন")
             .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,"গর্ভবতী পরিচর্যা ভিজিট(এএনসি)")
-            .put(Constants.EVENT_TYPE.PNC_HOME_VISIT,"প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি)")
+
             .put(EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসব")
             .put(EVENT_TYPE.ENC_REGISTRATION, "নবজাতকের সেবা")
             .put(EVENT_TYPE.CHILD_FOLLOWUP,"শিশু ফলোআপ")
@@ -973,7 +1267,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.FORUM_ADO,"কিশোরী ফোরাম")
             .put(EVENT_TYPE.FORUM_WOMEN,"নারী ফোরাম")
             .put(EVENT_TYPE.FORUM_CHILD,"শিশু ফোরাম")
-            .put(EVENT_TYPE.FORUM_NCD,"অসংক্রামক রোগের ফোরাম")
+            .put(EVENT_TYPE.FORUM_NCD,"সাধারণ ফোরাম")
             .put(EVENT_TYPE.FORUM_ADULT,"অ্যাডাল্ট ফোরাম")
             .put(EVENT_TYPE.WOMEN_PACKAGE,"নারী সেবা প্যাকেজ")
             .put(EVENT_TYPE.GIRL_PACKAGE, "কিশোরী সেবা প্যাকেজ")
@@ -996,7 +1290,10 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)")
             .put("familyplanning_method_known", "পরিবার পরিকল্পনা পদ্ধতি ব্যবহারকারী")
             .put(EVENT_TYPE.ANC_SERVICE,"গর্ভবতী সেবা")
-            .put(EVENT_TYPE.PNC_SERVICE,"প্রসব-পরবর্তী সেবা")
+            .put(EVENT_TYPE.PNC_SERVICE,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
+            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
+            .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,"পি.এন.সি.(প্রথম ৪৮ ঘন্টা পর)")
+
             .build();
     //for dashboard countSummery
     public static final Map<String,String> countSummeryTypeMapping = ImmutableMap.<String,String> builder()
@@ -1006,8 +1303,11 @@ public class HnppConstants extends CoreConstants {
             .put(HnppConstants.EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,"সদস্য সংখ্যা")
             .put(HnppConstants.EventType.CHILD_REGISTRATION,"শিশু সংখ্যা")
             .put(EVENT_TYPE.ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন")
+            .put(EVENT_TYPE.HOME_VISIT_FAMILY,"খানা ভিজিট")
             .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,"গর্ভবতী পরিচর্যা ভিজিট(এএনসি)")
-            .put(Constants.EVENT_TYPE.PNC_HOME_VISIT,"প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি)")
+            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
+            .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,"পি.এন.সি.(প্রথম ৪৮ ঘন্টা পর)")
+
             .put(EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসব")
             .build();
 
@@ -1033,8 +1333,12 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.EYE_TEST,"চক্ষু পরীক্ষা")
             .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)")
             .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,"গর্ভবতী পরিচর্যা ভিজিট(এএনসি)")
-            .put(Constants.EVENT_TYPE.PNC_HOME_VISIT,"প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি)")
-            .put(EVENT_TYPE.PNC_REGISTRATION,"প্রসবোত্তর পরিচর্যা")
+
+
+            .put( EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,"পি.এন.সি. (প্রথম ৪৮ ঘন্টা পর)")
+            .put( EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
+            .put( EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC,"পি.এন.সি. (প্রথম ৪৮ ঘন্টা পর)")
+            .put( EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
             .put(EVENT_TYPE.ENC_REGISTRATION, "নবজাতকের সেবা")
             .put(EVENT_TYPE.HOME_VISIT_FAMILY, "খানা পরিদর্শন")
             .put(EventType.CHILD_HOME_VISIT, "শিশু হোম ভিজিট")
@@ -1056,10 +1360,10 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.FORUM_ADO,"কিশোরী ফোরাম")
             .put(EVENT_TYPE.FORUM_WOMEN,"নারী ফোরাম")
             .put(EVENT_TYPE.FORUM_CHILD,"শিশু ফোরাম")
-            .put(EVENT_TYPE.FORUM_NCD,"অসংক্রামক রোগের ফোরাম")
+            .put(EVENT_TYPE.FORUM_NCD,"সাধারণ ফোরাম")
             .put(EVENT_TYPE.FORUM_ADULT,"অ্যাডাল্ট ফোরাম")
             .put(EVENT_TYPE.ANC_SERVICE,"গর্ভবতী সেবা")
-            .put(EVENT_TYPE.PNC_SERVICE,"প্রসব-পরবর্তী সেবা")
+            .put(EVENT_TYPE.PNC_SERVICE,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
 
             .put(EVENT_TYPE.ANC1_REGISTRATION,"গর্ভবতী পরিচর্যা - ১ম ত্রিমাসিক")
             .put(EVENT_TYPE.ANC2_REGISTRATION,"গর্ভবতী পরিচর্যা - ২য় ত্রিমাসিক")
@@ -1078,6 +1382,7 @@ public class HnppConstants extends CoreConstants {
             .put("PCV 2","পিসিভি-২")
             .put("PCV 3","পিসিভি-৩")
             .put("BCG","বিসিজি")
+            .put("VITAMIN A1","ভিটামিন এ")
             .build();
     public static final Map<String,String> referealResonMapping = ImmutableMap.<String,String> builder()
             .put("child_problems","শিশু বিষয়ক সমস্যা")

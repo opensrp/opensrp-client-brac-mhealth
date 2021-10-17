@@ -8,7 +8,9 @@ import net.sqlcipher.database.SQLiteDatabase;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.smartregister.brac.hnpp.HnppApplication;
+import org.smartregister.brac.hnpp.job.HomeVisitServiceJob;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.anc.AncLibrary;
@@ -16,6 +18,7 @@ import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.domain.VisitDetail;
 import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.anc.util.DBConstants;
+import org.smartregister.chw.anc.util.JsonFormUtils;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.Utils;
@@ -132,14 +135,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                 }
                 processService(eventClient, serviceTable);
                 break;
-
-            case CoreConstants.EventType.CHILD_VISIT_NOT_DONE:
-                processVisitEvent(eventClient);
-                processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
-                break;
             case CoreConstants.EventType.ANC_HOME_VISIT:
-            case Constants.EVENT_TYPE.ANC_HOME_VISIT_NOT_DONE:
-            case Constants.EVENT_TYPE.ANC_HOME_VISIT_NOT_DONE_UNDO:
             case HnppConstants.EVENT_TYPE.ELCO:
             case HnppConstants.EVENT_TYPE.MEMBER_REFERRAL:
             case HnppConstants.EVENT_TYPE.WOMEN_REFERRAL:
@@ -150,10 +146,12 @@ public class HnppClientProcessor extends ClientProcessorForJava {
             case HnppConstants.EVENT_TYPE.WOMEN_PACKAGE:
             case HnppConstants.EVENT_TYPE.NCD_PACKAGE:
             case HnppConstants.EVENT_TYPE.IYCF_PACKAGE:
-            case HnppConstants.EVENT_TYPE.PNC_REGISTRATION:
+
+            case HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour:
+            case HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour:
             case HnppConstants.EVENT_TYPE.ENC_REGISTRATION:
             case HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY:
-            case Constants.EVENT_TYPE.PNC_HOME_VISIT:
+
             case HnppConstants.EVENT_TYPE.FORUM_CHILD:
             case HnppConstants.EVENT_TYPE.FORUM_WOMEN:
             case HnppConstants.EVENT_TYPE.FORUM_ADO:
@@ -204,6 +202,65 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                     processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
                 }
                 break;
+        }
+    }
+
+    @Override
+    public Boolean processCaseModel(Event event, Client client, List<String> createsCase) {
+        try {
+
+            if (createsCase == null || createsCase.isEmpty()) {
+                return false;
+            }
+            for (String clientType : createsCase) {
+                Table table = getColumnMappings(clientType);
+                List<Column> columns = table.columns;
+                String baseEntityId = client != null ? client.getBaseEntityId() : event != null ? event.getBaseEntityId() : null;
+
+                ContentValues contentValues = new ContentValues();
+                //Add the base_entity_id
+                contentValues.put("base_entity_id", baseEntityId);
+                contentValues.put("is_closed", 0);
+
+                for (Column colObject : columns) {
+                    processCaseModel(event, client, colObject, contentValues);
+                }
+
+                // Modify openmrs generated identifier, Remove hyphen if it exists
+                updateIdenitifier(contentValues);
+
+                // save the values to db
+                executeInsertStatement(contentValues, clientType);
+                updateRegisterCount(baseEntityId);
+            }
+
+            return true;
+        } catch (Exception e) {
+            Timber.e(e);
+
+            return null;
+        }
+    }
+
+    @Override
+    public void updateFTSsearch(String tableName, String entityId, ContentValues contentValues) {
+        //no need to implement
+    }
+
+    private void updateIdenitifier(ContentValues values) {
+        try {
+            for (String identifier : getOpenmrsGenIds()) {
+                Object value = values.get(identifier); //TODO
+                if (value != null) {
+                    String sValue = value.toString();
+                    if (value instanceof String && StringUtils.isNotBlank(sValue)) {
+                        values.remove(identifier);
+                        values.put(identifier, sValue.replace("-", ""));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Timber.e(e);
         }
     }
 
@@ -355,10 +412,10 @@ public class HnppClientProcessor extends ClientProcessorForJava {
             if (visit == null) {
                 visit = eventToVisit(baseEvent.getEvent());
 
-                if (StringUtils.isNotBlank(parentEventType) && !parentEventType.equalsIgnoreCase(visit.getVisitType())) {
-                    String parentVisitID = AncLibrary.getInstance().visitRepository().getParentVisitEventID(visit.getBaseEntityId(), parentEventType, visit.getDate());
-                    visit.setParentVisitID(parentVisitID);
-                }
+//                if (StringUtils.isNotBlank(parentEventType) && !parentEventType.equalsIgnoreCase(visit.getVisitType())) {
+//                    String parentVisitID = AncLibrary.getInstance().visitRepository().getParentVisitEventID(visit.getBaseEntityId(), parentEventType, visit.getDate());
+//                    visit.setParentVisitID(parentVisitID);
+//                }
 
                 if (database != null) {
                     AncLibrary.getInstance().visitRepository().addVisit(visit, database);
@@ -392,10 +449,10 @@ public class HnppClientProcessor extends ClientProcessorForJava {
             if (visit == null) {
                 visit = eventToVisit(baseEvent.getEvent());
 
-                if (StringUtils.isNotBlank(parentEventType) && !parentEventType.equalsIgnoreCase(visit.getVisitType())) {
-                    String parentVisitID = AncLibrary.getInstance().visitRepository().getParentVisitEventID(visit.getBaseEntityId(), parentEventType, visit.getDate());
-                    visit.setParentVisitID(parentVisitID);
-                }
+//                if (StringUtils.isNotBlank(parentEventType) && !parentEventType.equalsIgnoreCase(visit.getVisitType())) {
+//                    String parentVisitID = AncLibrary.getInstance().visitRepository().getParentVisitEventID(visit.getBaseEntityId(), parentEventType, visit.getDate());
+//                    visit.setParentVisitID(parentVisitID);
+//                }
 
                 if (database != null) {
                     AncLibrary.getInstance().visitRepository().addVisit(visit, database);
@@ -606,6 +663,12 @@ public class HnppClientProcessor extends ClientProcessorForJava {
 
     }
 
+    @Override
+    public void updateClientDetailsTable(Event event, Client client) {
+//        Timber.d("Started updateClientDetailsTable");
+//        event.addDetails("detailsUpdated", Boolean.TRUE.toString());
+//        Timber.d("Finished updateClientDetailsTable");
+    }
 
     private void processVisitEvent(List<EventClient> eventClients) {
         for (EventClient eventClient : eventClients) {

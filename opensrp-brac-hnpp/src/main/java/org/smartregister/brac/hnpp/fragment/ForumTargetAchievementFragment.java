@@ -32,10 +32,6 @@ public class ForumTargetAchievementFragment extends BaseDashBoardFragment {
         presenter.filterData(ssName,day+"",month+"",year+"");
     }
 
-    @Override
-    void filterByFromToDate() {
-
-    }
 
     @Override
     public void updateAdapter() {

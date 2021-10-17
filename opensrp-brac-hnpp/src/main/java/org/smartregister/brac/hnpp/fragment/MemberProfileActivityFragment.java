@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.model.MemberProfileActivityModel;
 import org.smartregister.brac.hnpp.presenter.MemberProfileActivityPresenter;
 import org.smartregister.brac.hnpp.provider.MemberActivityRegisterProvider;
@@ -56,7 +57,12 @@ public class MemberProfileActivityFragment extends BaseFamilyProfileActivityFrag
 
     @Override
     public void setupViews(android.view.View view) {
-        super.setupViews(view);
+        try{
+            super.setupViews(view);
+        }catch (Exception e){
+            HnppApplication.getHNPPInstance().forceLogout();
+            return;
+        }
     }
 
 }
