@@ -160,11 +160,23 @@ public class HnppChwRepository extends CoreChwRepository {
                 case 37:
                     upgradeToVersion37(db);
                     break;
+                case 38:
+                    upgradeToVersion38(db);
+                    break;
                 default:
                     break;
             }
             upgradeTo++;
         }
+    }
+    private void upgradeToVersion38(SQLiteDatabase db){
+        Log.v("DB_UPGRADE","upgradeToVersion38");
+        try{
+            db.execSQL("delete from stock_table");
+        }catch (Exception e){
+
+        }
+
     }
     private void upgradeToVersion37(SQLiteDatabase db){
         try{

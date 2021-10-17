@@ -803,7 +803,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
             JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
             if(StockRepository.isEligable()){
-                updateFormField(jsonArray,"add_to_stock","3");
+                updateFormField(jsonArray,"add_to_stock","5");
             }else{
                 updateFormField(jsonArray,"add_to_stock","0");
             }
