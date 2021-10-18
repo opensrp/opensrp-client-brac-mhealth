@@ -7,8 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.support.v4.app.Fragment;
 import android.view.View;
+
+import androidx.fragment.app.Fragment;
 
 import com.google.gson.Gson;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
@@ -272,7 +273,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        //super.onActivityResult(requestCode, resultCode, data);
         if (data == null) {
             finish();
         }

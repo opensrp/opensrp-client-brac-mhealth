@@ -25,6 +25,7 @@ import org.smartregister.chw.core.utils.Utils;
 import org.smartregister.clientandeventmodel.DateUtil;
 import org.smartregister.commonregistry.AllCommonsRepository;
 import org.smartregister.commonregistry.CommonFtsObject;
+import org.smartregister.domain.Client;
 import org.smartregister.domain.Event;
 import org.smartregister.domain.db.EventClient;
 import org.smartregister.domain.jsonmapping.ClientClassification;
@@ -204,6 +205,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                 break;
         }
     }
+
 
     @Override
     public Boolean processCaseModel(Event event, Client client, List<String> createsCase) {

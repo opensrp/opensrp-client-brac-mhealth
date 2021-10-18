@@ -81,10 +81,6 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         passwordText = findViewById(R.id.login_password_edit_text);
         userNameView = findViewById(R.id.login_user_name_view);
         passwordView = findViewById(R.id.login_password_view);
-//        if(BuildConfig.DEBUG){
-//            passwordText.setText("brac2019");
-//        }
-
 
         userNameText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -163,10 +159,10 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         mActivity = this;
         HnppConstants.updateAppBackgroundOnResume(findViewById(R.id.login_layout));
         if(!BuildConfig.DEBUG)isDeviceVerifyiedCheck();
-//        if(BuildConfig.DEBUG){
-//            userNameText.setText("01967889005");
-//            passwordText.setText("123456");
-//        }
+        if(BuildConfig.DEBUG){
+            userNameText.setText("testsk");
+            passwordText.setText("123456");
+        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

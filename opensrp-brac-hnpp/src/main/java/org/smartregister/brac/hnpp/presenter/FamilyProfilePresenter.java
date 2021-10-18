@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.presenter;
 
+import android.util.Log;
 import android.util.Pair;
 
 import org.apache.commons.lang3.StringUtils;
@@ -104,6 +105,26 @@ public class FamilyProfilePresenter extends CoreFamilyProfilePresenter {
     public void saveChildRegistration(Pair<Client, Event> pair, String jsonString, boolean isEditMode, CoreChildRegisterContract.InteractorCallBack callBack) {
         childRegisterInteractor.saveRegistration(pair, jsonString, isEditMode, this);
     }
+
+    @Override
+    public String saveChwFamilyMember(String jsonString) {
+        try {
+            getView().showProgressDialog(org.smartregister.family.R.string.saving_dialog_title);
+            Log.v("dsfasd","sdfasd");
+
+            FamilyEventClient familyEventClient = model.processMemberRegistration(jsonString, familyBaseEntityId);
+            if (familyEventClient == null) {
+                return null;
+            }
+
+            interactor.saveRegistration(familyEventClient, jsonString, false, this);
+            return familyEventClient.getClient().getBaseEntityId();
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return null;
+    }
+
     @Override
     public void saveChildForm(String jsonString, boolean isEditMode) {
         try {

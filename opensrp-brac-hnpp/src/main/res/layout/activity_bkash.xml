@@ -21,8 +21,8 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="10dp"
         android:src="@drawable/ic_arrow_back_white_24dp"
-        android:tint="@color/white"
-        android:contentDescription="TODO" />
+        android:contentDescription="TODO"
+        app:tint="@color/white" />
 
     <org.smartregister.view.customcontrols.CustomFontTextView
         android:id="@+id/textview_detail_two"

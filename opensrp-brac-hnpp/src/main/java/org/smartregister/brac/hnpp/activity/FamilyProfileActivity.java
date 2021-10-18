@@ -3,9 +3,11 @@ package org.smartregister.brac.hnpp.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
@@ -297,26 +299,26 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                         @Override
                         public void onClickYesButton() {
 
-                            try{
+                            try {
                                 JSONObject formWithConsent = new JSONObject(jsonString);
                                 JSONObject jobkect = formWithConsent.getJSONObject("step1");
                                 JSONArray field = jobkect.getJSONArray(FIELDS);
-                                HnppJsonFormUtils.addConsent(field,true);
-                                processForm(encounterType,formWithConsent.toString());
-                            }catch (JSONException je){
+                                HnppJsonFormUtils.addConsent(field, true);
+                                processForm(encounterType, formWithConsent.toString());
+                            } catch (JSONException je) {
                                 je.printStackTrace();
                             }
                         }
 
                         @Override
                         public void onClickNoButton() {
-                            try{
+                            try {
                                 JSONObject formWithConsent = new JSONObject(jsonString);
                                 JSONObject jobkect = formWithConsent.getJSONObject("step1");
                                 JSONArray field = jobkect.getJSONArray(FIELDS);
-                                HnppJsonFormUtils.addConsent(field,false);
-                                processForm(encounterType,formWithConsent.toString());
-                            }catch (JSONException je){
+                                HnppJsonFormUtils.addConsent(field, false);
+                                processForm(encounterType, formWithConsent.toString());
+                            } catch (JSONException je) {
                                 je.printStackTrace();
                             }
                         }
@@ -329,7 +331,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
             }
             HnppConstants.isViewRefresh = true;
         }
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT) {
             showProgressDialog(R.string.please_wait_message);
             VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
 
@@ -342,13 +344,13 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                 String type = form.getString(JsonFormUtils.ENCOUNTER_TYPE);
                 type = HnppJsonFormUtils.getEncounterType(type);
 
-                visit = HnppJsonFormUtils.saveVisit(false,false,false,"", familyBaseEntityId, type, jsonStrings, "");
-                if(visit!=null){
+                visit = HnppJsonFormUtils.saveVisit(false, false, false, "", familyBaseEntityId, type, jsonStrings, "");
+                if (visit != null) {
                     hideProgressDialog();
                     showServiceDoneDialog(true);
 
 
-                }else{
+                } else {
                     hideProgressDialog();
                     showServiceDoneDialog(false);
                 }
@@ -356,7 +358,6 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                 hideProgressDialog();
                 e.printStackTrace();
             }
-
 
 
         }

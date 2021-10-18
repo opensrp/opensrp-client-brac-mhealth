@@ -189,10 +189,11 @@ android {
             versionName "2.0.6.2_dev"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'true'
-            buildConfigField "String", 'opensrp_url_training', '"https://hnpptest1.mpower-social.com/opensrp/"'
-            buildConfigField "String", 'opensrp_url_live', '"https://hnpptest1.mpower-social.com/opensrp/"'
-//            buildConfigField "String", 'opensrp_url_training', '"http://hnpp.mpower-social.com/opensrp/"'
-//            buildConfigField "String", 'opensrp_url_live', '"http://hnpp.mpower-social.com/opensrp/"'
+//            buildConfigField "String", 'opensrp_url_training', '"https://hnpptest1.mpower-social.com/opensrp/"'
+//            buildConfigField "String", 'opensrp_url_live', '"https://hnpptest1.mpower-social.com/opensrp/"'
+            buildConfigField "String", 'opensrp_url_training', '"http://goldo.mpower-social.com/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"http://goldo.mpower-social.com/opensrp/"'
+
 //            buildConfigField "String", 'opensrp_url_training', '"http://hnppqa.mpower-social.com:8080/opensrp/"'
 //            buildConfigField "String", 'opensrp_url_live', '"http://hnppqa.mpower-social.com:8080/opensrp/"'
 

@@ -1,7 +1,10 @@
 package org.smartregister.chw.core.interactor;
 
 import android.database.Cursor;
+import android.text.TextUtils;
 import android.util.Log;
+
+import com.google.android.gms.vision.text.Text;
 
 import org.smartregister.chw.core.contract.CoreApplication;
 import org.smartregister.chw.core.contract.NavigationContract;
@@ -154,29 +157,16 @@ public class NavigationInteractor implements NavigationContract.Interactor {
             build.append(MessageFormat.format(" and {0}.{1} is null ", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED));
 
             mainCondition = build.toString();
+            Log.v("PNC_QUERY","pnc:"+mainCondition);
             if(tableName.equalsIgnoreCase("pnc_risk")){
                 tableName  = CoreConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME;
                 mainCondition = mainCondition + " "+ChildDBConstants.riskAncPatient();
                 Log.v("NAVIGATION_QUERY","query pnc_risk:"+mainCondition);
             }
-        } else if (tableName.equalsIgnoreCase(CoreConstants.TABLE_NAME.MALARIA_CONFIRMATION)) {
-            StringBuilder stb = new StringBuilder();
-
-            stb.append(MessageFormat.format(" inner join {0} ", CoreConstants.TABLE_NAME.FAMILY_MEMBER));
-            stb.append(MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.BASE_ENTITY_ID,
-                    CoreConstants.TABLE_NAME.MALARIA_CONFIRMATION, DBConstants.KEY.BASE_ENTITY_ID));
-
-            stb.append(MessageFormat.format(" inner join {0} ", CoreConstants.TABLE_NAME.FAMILY));
-            stb.append(MessageFormat.format(" on {0}.{1} = {2}.{3} ", CoreConstants.TABLE_NAME.FAMILY, DBConstants.KEY.BASE_ENTITY_ID,
-                    CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.RELATIONAL_ID));
-
-            stb.append(MessageFormat.format(" where {0}.{1} is null ", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED));
-            stb.append(MessageFormat.format(" and {0}.{1} = 1 ", CoreConstants.TABLE_NAME.MALARIA_CONFIRMATION, org.smartregister.chw.malaria.util.DBConstants.KEY.MALARIA));
-
-            mainCondition = stb.toString();
-        } else {
+        }else {
             mainCondition = " where 1 = 1 ";
         }
+        if(TextUtils.isEmpty(tableName)) return 0;
 
         try {
             SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder();

@@ -172,7 +172,7 @@ public class PaymentDetailsInteractor {
 
             HashMap<String,String> header = new HashMap<>();
             header.put("tokenno",token);
-            org.smartregister.domain.Response resp = httpAgent.post(url,finalobject.toString(),header);
+            org.smartregister.domain.Response resp = httpAgent.postWithHeader(url,finalobject.toString(),header);
             Log.v("PAYMENT_EXECUTE", "url:" + url+"payload:"+finalobject.toString()+":code:"+resp.status().displayValue());
 
             if (resp.isFailure()) {
@@ -209,7 +209,7 @@ public class PaymentDetailsInteractor {
             HashMap<String,String> header = new HashMap<>();
             header.put("tokenno",token);
 
-            org.smartregister.domain.Response resp = httpAgent.post(url,request.toString(),header);
+            org.smartregister.domain.Response resp = httpAgent.postWithHeader(url,request.toString(),header);
             if (resp.isFailure()) {
                 throw new NoHttpResponseException(PAYMENT_DETAILS_POST + " not returned data");
             }

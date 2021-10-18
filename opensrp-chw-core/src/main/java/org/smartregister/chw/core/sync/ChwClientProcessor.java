@@ -18,6 +18,7 @@ import org.smartregister.chw.core.utils.Utils;
 import org.smartregister.clientandeventmodel.DateUtil;
 import org.smartregister.commonregistry.AllCommonsRepository;
 import org.smartregister.commonregistry.CommonFtsObject;
+import org.smartregister.domain.Client;
 import org.smartregister.domain.Event;
 import org.smartregister.domain.db.EventClient;
 import org.smartregister.domain.jsonmapping.ClientClassification;
@@ -604,10 +605,9 @@ public class ChwClientProcessor extends ClientProcessorForJava {
 
     @Override
     public void updateClientDetailsTable(Event event, Client client) {
-//        Timber.d("Started updateClientDetailsTable");
-//        event.addDetails("detailsUpdated", Boolean.TRUE.toString());
-//        Timber.d("Finished updateClientDetailsTable");
+        //super.updateClientDetailsTable(event, client);
     }
+
 
     private void processVisitEvent(List<EventClient> eventClients) {
         for (EventClient eventClient : eventClients) {

@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import org.smartregister.brac.hnpp.adapter.TargetAchievementAdapter;
 import org.smartregister.brac.hnpp.presenter.TargetAchievmentPresenter;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 
 public class TargetAchievementFragment extends BaseDashBoardFragment {
 

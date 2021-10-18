@@ -12,8 +12,6 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.Settings;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
 import androidx.core.app.ActivityCompat;
 
 import android.telephony.TelephonyManager;
@@ -71,7 +69,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class HnppConstants extends CoreConstants {
-    public static boolean IS_MANDATORY_GPS = true;
+    public static boolean IS_MANDATORY_GPS = false;
     public static int GPS_ATTEMPT_COUNT = 0;
     public static final int DEFAULT_GPS_ATTEMPT = 3;
     public static final String ACTION_STOCK_COME = "ACTION_STOCK_COME";

@@ -62,19 +62,19 @@ public class HnppChwRepository extends CoreChwRepository {
         RecurringServiceRecordRepository.createTable(database);
         RecurringServiceTypeRepository recurringServiceTypeRepository = ImmunizationLibrary.getInstance().recurringServiceTypeRepository();
         IMDatabaseUtils.populateRecurringServices(context, database, recurringServiceTypeRepository);
-        upgradeToVersion18(context,database);
-        upgradeToVersion19(context,database);
-        upgradeToVersion20(context,database);
-        upgradeToVersion21(context,database);
-        upgradeToVersion22(context,database);
-        upgradeToVersion25(context,database);
-        upgradeToVersion26(context,database);
-        upgradeToVersion27(context,database);
-        upgradeToVersion28(context,database);
-        upgradeToVersion29(context,database);
-        upgradeToVersion30(context,database);
-        upgradeToVersion31(context,database);
-        upgradeToVersion33(context,database);
+        upgradeToVersion18(database);
+        upgradeToVersion19(database);
+        upgradeToVersion20(database);
+        upgradeToVersion21(database);
+        upgradeToVersion22(database);
+        upgradeToVersion25(database);
+        upgradeToVersion26(database);
+        upgradeToVersion27(database);
+        upgradeToVersion28(database);
+        upgradeToVersion29(database);
+        upgradeToVersion30(database);
+        upgradeToVersion31(database);
+        upgradeToVersion33(database);
     }
 
 
@@ -159,11 +159,8 @@ public class HnppChwRepository extends CoreChwRepository {
                 case 33:
                     upgradeToVersion33(db);
                     break;
-                case 33:
-                    upgradeToVersion33(context,db);
-                    break;
                 case 34:
-                    upgradeToVersion34(context,db);
+                    upgradeToVersion34(db);
                     break;
                 case 35:
                     upgradeToVersion35(db);
@@ -221,7 +218,6 @@ public class HnppChwRepository extends CoreChwRepository {
         }
         super.close();
     }
-    private void upgradeToVersion20(SQLiteDatabase db) {
     private void upgradeToVersion38(SQLiteDatabase db){
         Log.v("DB_UPGRADE","upgradeToVersion38");
         try{
@@ -261,7 +257,7 @@ public class HnppChwRepository extends CoreChwRepository {
 
         }
     }
-    private void upgradeToVersion34(Context context, SQLiteDatabase db) {
+    private void upgradeToVersion34(SQLiteDatabase db) {
         try {
             Log.v("STOCK_FETCH","db delete");
             db.execSQL("delete from stock_table where stock_quantity IS NOT NULL and achievemnt_count is null and stock_id is NOT null");
@@ -271,16 +267,7 @@ public class HnppChwRepository extends CoreChwRepository {
         }
     }
 
-    private void upgradeToVersion33(Context context, SQLiteDatabase db) {
-        try {
-            PaymentHistoryRepository.createTable(db);
-
-        } catch (Exception e) {
-
-        }
-    }
-
-    private void upgradeToVersion20(Context context, SQLiteDatabase db) {
+    private void upgradeToVersion20(SQLiteDatabase db) {
         try {
             db.execSQL("ALTER TABLE ec_child ADD COLUMN birth_id VARCHAR;");
 

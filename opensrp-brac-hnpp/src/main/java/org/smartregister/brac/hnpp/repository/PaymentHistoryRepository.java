@@ -43,7 +43,7 @@ public class PaymentHistoryRepository extends BaseRepository {
                     PAYMENT_STATUS+" VARCHAR, "+ PAYMENT_TIMESTAMP+" LONG ) ";
 
     public PaymentHistoryRepository(Repository repository) {
-        super(repository);
+        super();
     }
 
     protected String getLocationTableName() {

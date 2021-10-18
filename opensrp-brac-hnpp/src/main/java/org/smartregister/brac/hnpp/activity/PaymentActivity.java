@@ -1,8 +1,22 @@
 package org.smartregister.brac.hnpp.activity;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.adapter.PaymentAdapter;
 import org.smartregister.brac.hnpp.contract.PaymentContract;
@@ -80,7 +94,6 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
 //                },500);
                 payments = adapter.getPaymentWithoutZero();
                 totalPayable = adapter.getTotalPayableAmount();
-                Log.v("TOTAL_PAY","totalPayable:"+totalPayable+":payments:"+payments);
 
                 totalPriceTV.setText(totalPayable+"");
             }
