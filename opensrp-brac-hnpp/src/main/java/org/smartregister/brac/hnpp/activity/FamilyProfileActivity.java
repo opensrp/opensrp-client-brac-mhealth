@@ -4,22 +4,14 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationManager;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,15 +32,12 @@ import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.contract.MigrationContract;
 import org.smartregister.brac.hnpp.fragment.FamilyHistoryFragment;
 import org.smartregister.brac.hnpp.fragment.FamilyProfileDueFragment;
-import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
 import org.smartregister.brac.hnpp.interactor.MigrationInteractor;
 import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
-import org.smartregister.brac.hnpp.listener.OnGpsDataGenerateListener;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.model.HnppFamilyProfileModel;
-import org.smartregister.brac.hnpp.task.GenerateGPSTask;
-import org.smartregister.brac.hnpp.task.GenerateLatitudeLongitudeTask;
+import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
@@ -66,7 +55,6 @@ import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.family.adapter.ViewPagerAdapter;
-import org.smartregister.family.fragment.BaseFamilyProfileDueFragment;
 import org.smartregister.family.util.AppExecutors;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
@@ -271,6 +259,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
             this.startActivity(intent);
         }
     }
+    boolean isProcessing = false;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -342,38 +331,55 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
             HnppConstants.isViewRefresh = true;
         }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
+            if(isProcessing) return;
+            isProcessing = true;
             showProgressDialog(R.string.please_wait_message);
-            VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+            AppExecutors appExecutors = new AppExecutors();
+            Runnable runnable = () -> {
+                String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
 
-            String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
-            Map<String, String> jsonStrings = new HashMap<>();
-            jsonStrings.put("First",jsonString);
-            Visit visit = null;
-            try {
-                JSONObject form = new JSONObject(jsonString);
-                String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
-                type = HnppJsonFormUtils.getEncounterType(type);
+                boolean isSave = processAndSaveVisitForm(jsonString);
 
-                visit = HnppJsonFormUtils.saveVisit(false,false,false,"", familyBaseEntityId, type, jsonStrings, "");
-                if(visit!=null){
-                    hideProgressDialog();
-                    showServiceDoneDialog(true);
-
-
-                }else{
-                    hideProgressDialog();
-                    showServiceDoneDialog(false);
-                }
-            } catch (Exception e) {
-                hideProgressDialog();
-                e.printStackTrace();
-            }
-
-
+                appExecutors.mainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        isProcessing = false;
+                        if(isSave){
+                            hideProgressDialog();
+                            showServiceDoneDialog(true);
+                        }else {
+                            hideProgressDialog();
+                            showServiceDoneDialog(false);
+                        }
+                    }
+                });
+            };
+            appExecutors.diskIO().execute(runnable);
 
         }
 
+    }
+    private boolean processAndSaveVisitForm(String jsonString){
+        Map<String, String> jsonStrings = new HashMap<>();
+        jsonStrings.put("First",jsonString);
+        try {
+            JSONObject form = new JSONObject(jsonString);
+            String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
+            type = HnppJsonFormUtils.getEncounterType(type);
 
+            Visit visit = HnppJsonFormUtils.saveVisit(false,false,false,"", familyBaseEntityId, type, jsonStrings, "");
+            if(visit!=null){
+                HnppHomeVisitIntentService.processVisits();
+                VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+                return true;
+            }else{
+               return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
     private void processForm(String encounter_type, String jsonString){
         if (encounter_type.equals(CoreConstants.EventType.CHILD_REGISTRATION)) {

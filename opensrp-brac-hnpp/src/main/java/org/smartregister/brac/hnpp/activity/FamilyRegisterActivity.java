@@ -117,6 +117,7 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         navigationMenu = NavigationMenu.getInstance(this, null, null);
         notificationBroadcastReceiver = new NotificationBroadcastReceiver();
         hnppNavigationPresenter = new HnppNavigationPresenter(
@@ -190,7 +191,12 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
 
     }
 
-
+    @Override
+    protected void onResumption() {
+        super.onResumption();
+        NavigationMenu.getInstance(this, null, null).getNavigationAdapter()
+                .setSelectedView(CoreConstants.DrawerMenu.ALL_FAMILIES);
+    }
 
     @Override
     protected void onStart() {
@@ -359,19 +365,31 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
     private class NotificationBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(intent != null && intent.getAction().equalsIgnoreCase(HnppConstants.ACTION_STOCK_COME)){
-                String value = intent.getStringExtra(HnppConstants.EXTRA_STOCK_COME);
-               HnppConstants.showDialog(FamilyRegisterActivity.this,getString(R.string.menu_new_stock),value);
+            if(FamilyRegisterActivity.this.isFinishing()) return;
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try{
+                        if(intent != null && intent.getAction().equalsIgnoreCase(HnppConstants.ACTION_STOCK_COME)){
+                            String value = intent.getStringExtra(HnppConstants.EXTRA_STOCK_COME);
+                            HnppConstants.showDialog(FamilyRegisterActivity.this,getString(R.string.menu_new_stock),value);
 
-            }
-            if(intent != null && intent.getAction().equalsIgnoreCase(HnppConstants.ACTION_STOCK_END)){
-                String value = intent.getStringExtra(HnppConstants.EXTRA_STOCK_END);
-                HnppConstants.showDialog(FamilyRegisterActivity.this,getString(R.string.menu_end_stock),value);
-            }
-            if(intent != null && intent.getAction().equalsIgnoreCase(HnppConstants.ACTION_EDD)){
-                String value = intent.getStringExtra(HnppConstants.EXTRA_EDD);
-                HnppConstants.showDialog(FamilyRegisterActivity.this,getString(R.string.menu_edd_this_month),value);
-            }
+                        }
+                        if(intent != null && intent.getAction().equalsIgnoreCase(HnppConstants.ACTION_STOCK_END)){
+                            String value = intent.getStringExtra(HnppConstants.EXTRA_STOCK_END);
+                            HnppConstants.showDialog(FamilyRegisterActivity.this,getString(R.string.menu_end_stock),value);
+                        }
+                        if(intent != null && intent.getAction().equalsIgnoreCase(HnppConstants.ACTION_EDD)){
+                            String value = intent.getStringExtra(HnppConstants.EXTRA_EDD);
+                            HnppConstants.showDialog(FamilyRegisterActivity.this,getString(R.string.menu_edd_this_month),value);
+                        }
+                    }catch (Exception e){
+
+                    }
+                }
+            });
+
+
 
         }
     }

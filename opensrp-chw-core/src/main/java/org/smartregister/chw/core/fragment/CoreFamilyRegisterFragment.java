@@ -80,52 +80,6 @@ public abstract class CoreFamilyRegisterFragment extends BaseFamilyRegisterFragm
         super.filter(filterString, joinTableString, mainConditionString, qrCode);
     }
 
-    @Override
-    public void onSyncStart() {
-        super.onSyncStart();
-    }
-
-    @Override
-    public void onSyncInProgress(FetchStatus fetchStatus) {
-        try{
-            if (!SyncStatusBroadcastReceiver.getInstance().isSyncing() && (FetchStatus.fetched.equals(fetchStatus) || FetchStatus.nothingFetched.equals(fetchStatus)) && dueFilterActive && dueOnlyLayout != null) {
-                dueFilter(dueOnlyLayout);
-                if(getActivity()!=null && !getActivity().isFinishing()){
-                    org.smartregister.util.Utils.showShortToast(getActivity(), getString(R.string.sync_complete));
-                    refreshSyncProgressSpinner();
-                }
-
-            }
-        }catch (WindowManager.BadTokenException e){
-            e.printStackTrace();
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-    }
-
-    @Override
-    public void onSyncComplete(FetchStatus fetchStatus) {
-        try{
-            if (!SyncStatusBroadcastReceiver.getInstance().isSyncing() && (FetchStatus.fetched.equals(fetchStatus) || FetchStatus.nothingFetched.equals(fetchStatus)) && (dueFilterActive && dueOnlyLayout != null)) {
-                dueFilter(dueOnlyLayout);
-                if(getActivity()!=null && !getActivity().isFinishing()){
-                    org.smartregister.util.Utils.showShortToast(getActivity(), getString(R.string.sync_complete));
-                    refreshSyncProgressSpinner();
-                }
-
-            } else {
-                //super.onSyncComplete(fetchStatus);
-            }
-        }catch (WindowManager.BadTokenException e){
-            e.printStackTrace();
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-    }
 
     @Override
     public void onResume() {

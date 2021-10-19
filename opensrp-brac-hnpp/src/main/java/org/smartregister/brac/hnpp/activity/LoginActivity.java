@@ -38,6 +38,8 @@ import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.job.HnppPncCloseJob;
+import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
 import org.smartregister.brac.hnpp.job.MigrationFetchJob;
 import org.smartregister.brac.hnpp.job.NotificationGeneratorJob;
 import org.smartregister.brac.hnpp.job.PullGuestMemberIdServiceJob;
@@ -45,14 +47,18 @@ import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
 import org.smartregister.brac.hnpp.job.SSLocationFetchJob;
 import org.smartregister.brac.hnpp.job.StockFetchJob;
 import org.smartregister.brac.hnpp.job.TargetFetchJob;
+import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SaveDistrictTask;
 import org.smartregister.brac.hnpp.presenter.LoginPresenter;
 import org.smartregister.brac.hnpp.repository.DistrictListRepository;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.chw.core.job.VaccineRecurringServiceJob;
 import org.smartregister.domain.Response;
 import org.smartregister.exception.NoHttpResponseException;
 import org.smartregister.family.util.Constants;
+import org.smartregister.immunization.job.VaccineServiceJob;
+import org.smartregister.job.PullUniqueIdsServiceJob;
 import org.smartregister.service.HTTPAgent;
 import org.smartregister.task.SaveTeamLocationsTask;
 import org.smartregister.util.Utils;
@@ -397,7 +403,11 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         Intent intent = new Intent(this, FamilyRegisterActivity.class);
         intent.putExtra(Constants.INTENT_KEY.IS_REMOTE_LOGIN, remote);
         startActivity(intent);
-        try{
+        boolean isConnected = HnppConstants.isConnectedToInternet(this);
+        if(isConnected){
+            PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
+            SSLocationFetchJob.scheduleJobImmediately(SSLocationFetchJob.TAG);
+            HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
             PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
             if(!HnppConstants.isPALogin()){
                 SSLocationFetchJob.scheduleJobImmediately(SSLocationFetchJob.TAG);
@@ -405,14 +415,15 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             }
             TargetFetchJob.scheduleJobImmediately(TargetFetchJob.TAG);
             StockFetchJob.scheduleJobImmediately(StockFetchJob.TAG);
-
-
-        }catch (Exception e){
-
+            VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+            HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
+            VaccineServiceJob.scheduleJobImmediately(VaccineServiceJob.TAG);
+            VaccineRecurringServiceJob.scheduleJobImmediately(VaccineRecurringServiceJob.TAG);
+            if(HnppConstants.isPALogin() && SSLocationHelper.getInstance().getSsModels().size()==0){
+                startActivity(new Intent(this, SkSelectionActivity.class));
+            }
         }
-        if(HnppConstants.isPALogin() && SSLocationHelper.getInstance().getSsModels().size()==0){
-            startActivity(new Intent(this,SkSelectionActivity.class));
-        }
+
 
     }
 

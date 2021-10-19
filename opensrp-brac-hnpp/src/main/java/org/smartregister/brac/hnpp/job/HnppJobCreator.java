@@ -18,7 +18,6 @@ import org.smartregister.job.PlanIntentServiceJob;
 import org.smartregister.job.PullUniqueIdsServiceJob;
 import org.smartregister.job.SyncTaskServiceJob;
 import org.smartregister.job.ValidateSyncDataServiceJob;
-import org.smartregister.sync.intent.SyncIntentService;
 
 import timber.log.Timber;
 
@@ -34,8 +33,8 @@ public class HnppJobCreator implements JobCreator {
                 return new SSLocationFetchJob();
             case HnppSyncIntentServiceJob.TAG:
                 return new HnppSyncIntentServiceJob();
-            case HomeVisitServiceJob.TAG:
-                return new HomeVisitServiceJob();
+//            case HnppHomeVisitServiceJob.TAG:
+//                return new HnppHomeVisitServiceJob();
             case ExtendedSyncServiceJob.TAG:
                 return new ExtendedSyncServiceJob();
             case PullUniqueIdsServiceJob.TAG:

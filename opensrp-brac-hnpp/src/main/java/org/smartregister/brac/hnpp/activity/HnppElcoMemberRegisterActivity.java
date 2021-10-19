@@ -24,6 +24,7 @@ public class HnppElcoMemberRegisterActivity extends CoreChildRegisterActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         ArrayList<SSModel> ssLocationForms = SSLocationHelper.getInstance().getSsModels();
         if(ssLocationForms.size() > 0){
             boolean simPrintsEnable = ssLocationForms.get(0).simprints_enable;

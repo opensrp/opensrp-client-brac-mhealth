@@ -19,9 +19,10 @@ import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.model.FamilyRemoveMemberModel;
 import org.smartregister.brac.hnpp.presenter.FamilyRemoveMemberPresenter;
 import org.smartregister.brac.hnpp.provider.FamilyRemoveMemberProvider;
+import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
-import org.smartregister.chw.anc.util.DBConstants;
+import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.core.activity.CoreAncRegisterActivity;
 import org.smartregister.chw.core.activity.CoreFamilyRegisterActivity;
 import org.smartregister.chw.core.fragment.CoreFamilyProfileChangeDialog;
@@ -31,7 +32,6 @@ import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.CoreJsonFormUtils;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.JsonFormUtils;
-import org.smartregister.family.util.Utils;
 
 
 import java.util.HashMap;
@@ -146,8 +146,11 @@ public class IndividualProfileRemoveFragment extends CoreIndividualProfileRemove
                     Map<String, String> jsonStrings = new HashMap<>();
                     jsonStrings.put("First",form.toString());
 
-                    HnppJsonFormUtils.saveVisit(false,false,false,"", baseEntityId, type, jsonStrings, "");
-                    VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+                   Visit visit =  HnppJsonFormUtils.saveVisit(false,false,false,"", baseEntityId, type, jsonStrings, "");
+                   if(visit !=null){
+                       HnppHomeVisitIntentService.processVisits();
+                       VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+                   }
                 }catch (Exception e){
                     e.printStackTrace();
 

@@ -8,20 +8,13 @@ import net.sqlcipher.database.SQLiteDatabase;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
-import org.json.JSONObject;
-import org.smartregister.brac.hnpp.HnppApplication;
-import org.smartregister.brac.hnpp.job.HomeVisitServiceJob;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
-import org.smartregister.chw.anc.domain.VisitDetail;
-import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.anc.util.DBConstants;
-import org.smartregister.chw.anc.util.JsonFormUtils;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.utils.CoreConstants;
-import org.smartregister.chw.core.utils.Utils;
 import org.smartregister.clientandeventmodel.DateUtil;
 import org.smartregister.commonregistry.AllCommonsRepository;
 import org.smartregister.commonregistry.CommonFtsObject;
@@ -42,14 +35,11 @@ import org.smartregister.immunization.repository.VaccineRepository;
 import org.smartregister.immunization.service.intent.RecurringIntentService;
 import org.smartregister.immunization.service.intent.VaccineIntentService;
 import org.smartregister.sync.ClientProcessorForJava;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-
 import timber.log.Timber;
 
 import static org.smartregister.chw.anc.util.NCUtils.eventToVisit;
@@ -121,7 +111,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
     }
 
     protected void processEvents(ClientClassification clientClassification, Table vaccineTable, Table serviceTable, EventClient eventClient, Event event, String eventType) throws Exception {
-       long startTime = System.currentTimeMillis();
+        Log.v("PROCESS_EVENT","processEvents2>>"+eventType);
         switch (eventType) {
             case VaccineIntentService.EVENT_TYPE:
             case VaccineIntentService.EVENT_TYPE_OUT_OF_CATCHMENT:
@@ -164,6 +154,8 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                 case HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME:
             case HnppConstants.EVENT_TYPE.EYE_TEST:
             case HnppConstants.EVENT_TYPE.BLOOD_GROUP:
+            case CoreConstants.EventType.REMOVE_MEMBER:
+            case CoreConstants.EventType.REMOVE_CHILD:
                 if (eventClient.getEvent() == null) {
                     return;
                 }
@@ -176,18 +168,22 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                 }
                 processRemoveFamily(eventClient.getClient().getBaseEntityId(), event.getEventDate().toDate());
                 break;
-            case CoreConstants.EventType.REMOVE_MEMBER:
-                if (eventClient.getClient() == null) {
-                    return;
-                }
-                processRemoveMember(eventClient.getClient().getBaseEntityId(), event.getEventDate().toDate());
-                break;
-            case CoreConstants.EventType.REMOVE_CHILD:
-                if (eventClient.getClient() == null) {
-                    return;
-                }
-                processRemoveChild(eventClient.getClient().getBaseEntityId(), event.getEventDate().toDate());
-                break;
+//            case CoreConstants.EventType.REMOVE_MEMBER:
+//                if (eventClient.getClient() == null) {
+//                    return;
+//                }
+//                processVisitEvent(eventClient);
+//                processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
+//                processRemoveMember(eventClient.getClient().getBaseEntityId(), event.getEventDate().toDate());
+//                break;
+//            case CoreConstants.EventType.REMOVE_CHILD:
+//                if (eventClient.getClient() == null) {
+//                    return;
+//                }
+//                processVisitEvent(eventClient);
+//                processEvent(eventClient.getEvent(), eventClient.getClient(), clientClassification);
+//                processRemoveChild(eventClient.getClient().getBaseEntityId(), event.getEventDate().toDate());
+//                break;
 
             default:
                 if (eventClient.getClient() != null) {
@@ -573,7 +569,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
             CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.CHILD, values,
                     DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseEntityId});
 
-//            // clean fts table
+            // clean fts table
 //            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.CHILD), values,
 //                    CommonFtsObject.idColumn + "  = ?  ", new String[]{baseEntityId});
 
