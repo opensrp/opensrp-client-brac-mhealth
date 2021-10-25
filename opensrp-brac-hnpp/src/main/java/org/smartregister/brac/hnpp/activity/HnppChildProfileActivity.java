@@ -39,6 +39,7 @@ import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
 import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
+import org.smartregister.brac.hnpp.sync.FormParser;
 import org.smartregister.brac.hnpp.utils.ChildDBConstants;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
@@ -598,35 +599,26 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
         }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
             showProgressDialog(R.string.please_wait_message);
-            //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
-            String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
-            Map<String, String> jsonStrings = new HashMap<>();
-            jsonStrings.put("First",jsonString);
-            Visit visit = null;
-            try {
-                JSONObject form = new JSONObject(jsonString);
-                String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
-                type = HnppJsonFormUtils.getEncounterType(type);
-                // persist to database
+            AppExecutors appExecutors = new AppExecutors();
+            Runnable runnable = () -> {
+                String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
 
+                boolean isSave = processVisitFormAndSave(jsonString);
 
-                visit = HnppJsonFormUtils.saveVisit(false,false,false,"", childBaseEntityId, type, jsonStrings, "");
-                if(visit!=null){
-                    HnppHomeVisitIntentService.processVisits();
-                    VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
-                    hideProgressDialog();
-                    showServiceDoneDialog(true);
-
-
-                }else{
-                    hideProgressDialog();
-                    showServiceDoneDialog(false);
-                }
-            } catch (Exception e) {
-                hideProgressBar();
-                e.printStackTrace();
-            }
-
+                appExecutors.mainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(isSave){
+                            hideProgressDialog();
+                            showServiceDoneDialog(true);
+                        }else {
+                            hideProgressDialog();
+                            showServiceDoneDialog(false);
+                        }
+                    }
+                });
+            };
+            appExecutors.diskIO().execute(runnable);
 
         }else if(resultCode == Activity.RESULT_OK && requestCode == org.smartregister.chw.anc.util.Constants.REQUEST_CODE_HOME_VISIT){
            if(mViewPager!=null) mViewPager.setCurrentItem(0,true);
@@ -636,6 +628,30 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
 
         super.onActivityResult(requestCode, resultCode, data);
 
+    }
+    private boolean processVisitFormAndSave(String jsonString){
+
+        try {
+            JSONObject form = new JSONObject(jsonString);
+            String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
+            type = HnppJsonFormUtils.getEncounterType(type);
+            Map<String, String> jsonStrings = new HashMap<>();
+            jsonStrings.put("First",form.toString());
+
+            Visit visit = HnppJsonFormUtils.saveVisit(false,false,false,"", childBaseEntityId, type, jsonStrings, "");
+            if(visit!=null){
+                HnppHomeVisitIntentService.processVisits();
+                FormParser.processVisitLog(visit);
+                //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+                return true;
+
+            }else{
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
     private void showServiceDoneDialog(boolean isSuccess){
         Dialog dialog = new Dialog(this);

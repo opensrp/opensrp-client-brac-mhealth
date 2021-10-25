@@ -33,8 +33,8 @@ public class AdolescentMemberRegisterFragment extends HnppAllMemberRegisterFragm
     }
     @Override
     public void countExecute() {
-        visitType = "and ec_visit_log.visit_type ='Adolescent package'";
-        super.countExecute();
+//        visitType = "and ec_visit_log.visit_type ='Adolescent package'";
+//        super.countExecute();
     }
 
     @Override

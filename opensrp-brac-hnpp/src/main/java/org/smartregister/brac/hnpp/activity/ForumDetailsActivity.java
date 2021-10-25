@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -284,6 +285,8 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
                 SearchHHMemberActivity.startSearchActivity(this,mSelectedVillageName,mSelectedClasterName,fromType,hhMemberPropertyArrayList,RESULT_CODE_MEMBER);
 
                 break;
+            default:
+                break;
         }
 
     }
@@ -406,13 +409,15 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
 
     @Override
     public void showProgressBar() {
-
+        findViewById(R.id.submit_btn).setAlpha(0.3f);
+        findViewById(R.id.submit_btn).setEnabled(false);
         progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgressBar() {
-
+        findViewById(R.id.submit_btn).setAlpha(1.0f);
+        findViewById(R.id.submit_btn).setEnabled(true);
         progressBar.setVisibility(View.GONE);
     }
 

@@ -85,6 +85,8 @@ public class HnppClientProcessor extends ClientProcessorForJava {
             }
             Log.v("SYNC_URL", "processClient end >>"+(System.currentTimeMillis() - startTime));
             //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+            FormParser.makeVisitLog();
+            Log.v("SYNC_URL", "after parse >>"+(System.currentTimeMillis() - startTime));
 
         }
     }

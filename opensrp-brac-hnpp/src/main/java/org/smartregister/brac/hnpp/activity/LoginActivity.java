@@ -413,9 +413,9 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
                 SSLocationFetchJob.scheduleJobImmediately(SSLocationFetchJob.TAG);
                 MigrationFetchJob.scheduleJobImmediately(MigrationFetchJob.TAG);
             }
-            TargetFetchJob.scheduleJobImmediately(TargetFetchJob.TAG);
-            StockFetchJob.scheduleJobImmediately(StockFetchJob.TAG);
-            VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+//            TargetFetchJob.scheduleJobImmediately(TargetFetchJob.TAG);
+//            StockFetchJob.scheduleJobImmediately(StockFetchJob.TAG);
+          //  VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
             HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
             VaccineServiceJob.scheduleJobImmediately(VaccineServiceJob.TAG);
             VaccineRecurringServiceJob.scheduleJobImmediately(VaccineRecurringServiceJob.TAG);

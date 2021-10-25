@@ -362,7 +362,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
 
     @Override
     public void countExecute() {
-        super.countExecute();
+       // super.countExecute();
     }
 
     public void onEmptyRegisterCount(final boolean has_no_records) {

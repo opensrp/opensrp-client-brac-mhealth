@@ -36,6 +36,7 @@ import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.presenter.GuestMemberProfilePresenter;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
+import org.smartregister.brac.hnpp.sync.FormParser;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.GuestMemberData;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -48,6 +49,7 @@ import org.smartregister.chw.anc.util.NCUtils;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.adapter.ViewPagerAdapter;
+import org.smartregister.family.util.AppExecutors;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.Utils;
 import org.smartregister.repository.AllSharedPreferences;
@@ -366,33 +368,34 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
                             }
                         },2000);
                     }
+                    return;
                 }
             }
 
 
         }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
-            String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
             showProgressDialog(R.string.please_wait_message);
+            AppExecutors appExecutors = new AppExecutors();
+            Runnable runnable = () -> {
+                String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
 
-            try {
-                Visit visit = saveRegistration(jsonString,"visits");
-                if(visit!=null){
-                    HnppHomeVisitIntentService.processVisits();
-                    VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
-                    hideProgressDialog();
-                    showServiceDoneDialog(true);
+                boolean isSave = processVisits(jsonString);
 
-
-                }else{
-                    hideProgressDialog();
-                    showServiceDoneDialog(false);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                hideProgressBar();
-            }
-
+                appExecutors.mainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(isSave){
+                            hideProgressDialog();
+                            showServiceDoneDialog(true);
+                        }else {
+                            hideProgressDialog();
+                            showServiceDoneDialog(false);
+                        }
+                    }
+                });
+            };
+            appExecutors.diskIO().execute(runnable);
 
         }
         else if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_GET_JSON){
@@ -448,6 +451,20 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
 
         super.onActivityResult(requestCode, resultCode, data);
 
+    }
+    private boolean processVisits(String jsonString){
+        try{
+            Visit visit = saveRegistration(jsonString,"visits");
+            if(visit!=null){
+                FormParser.processVisitLog(visit);
+                return true;
+            }else{
+                return false;
+            }
+
+        }catch (Exception e){
+            return false;
+        }
     }
     private void showServiceDoneDialog(boolean isSuccess){
         Dialog dialog = new Dialog(this);

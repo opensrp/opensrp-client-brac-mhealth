@@ -44,6 +44,7 @@ import org.smartregister.brac.hnpp.model.ForceSyncModel;
 import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
+import org.smartregister.brac.hnpp.sync.FormParser;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -256,8 +257,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     }
     @Override
     protected void startPncRegister() {
-        HnppPncRegisterActivity.startHnppPncRegisterActivity(HnppFamilyOtherMemberProfileActivity.this, baseEntityId, PhoneNumber,
-                HnppConstants.JSON_FORMS.PNC_FORM, null, familyBaseEntityId, familyName);
+       // HnppPncRegisterActivity.startHnppPncRegisterActivity(HnppFamilyOtherMemberProfileActivity.this, baseEntityId);
     }
 
     @Override
@@ -717,7 +717,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 
 
                             }
-                        },1000);
+                        },500);
                     }
                 }
             }
@@ -885,7 +885,8 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             Visit visit = HnppJsonFormUtils.saveVisit(isComesFromIdentity,verificationNeeded, isVerified,checkedItem, baseEntityId, type, jsonStrings, "");
             if(visit!=null){
                 HnppHomeVisitIntentService.processVisits();
-                VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+                FormParser.processVisitLog(visit);
+                //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
                 return true;
 
             }else{

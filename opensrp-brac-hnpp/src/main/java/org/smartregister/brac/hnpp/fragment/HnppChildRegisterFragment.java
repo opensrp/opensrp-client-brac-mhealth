@@ -119,25 +119,42 @@ public class HnppChildRegisterFragment extends HnppBaseChildRegisterFragment imp
     }
     @Override
     public Loader<Cursor> onCreateLoader(int id, final Bundle args) {
-        switch (id) {
-            case LOADER_ID:
-                // Returns a new CursorLoader
-                return new CursorLoader(getActivity()) {
-                    @Override
-                    public Cursor loadInBackground() {
-                        // Count query
-                        if (args != null && args.getBoolean("count_execute")) {
-                            countExecute();
-                        }
-                        return commonRepository().rawCustomQueryForAdapter(filterandSortQuery());
+        if (id == LOADER_ID) {
+            return new CursorLoader(getActivity()) {
+                @Override
+                public Cursor loadInBackground() {
+                    // Count query
+                    final String COUNT = "count_execute";
+                    if (args != null && args.getBoolean(COUNT)) {
+                        countExecute();
                     }
-                };
-            default:
-                // An invalid id was passed in
-                return null;
+                    String query = filterandSortQuery();
+                    Cursor cursor = commonRepository().rawCustomQueryForAdapter(query);
+                    if(cursor!=null && clientAdapter !=null){
+                        setTotalCount(query);
+                    }
+                    return cursor;
+                }
+            };
         }
+        return super.onCreateLoader(id, args);
 
     }
+    private void setTotalCount(String query){
+        query = query.substring(0,query.indexOf("LIMIT"));
+        Cursor cursor = commonRepository().rawCustomQueryForAdapter(query+";");
+        if(cursor!=null){
+            clientAdapter.setTotalcount(cursor.getCount());
+            cursor.close();
+        }
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        super.onLoadFinished(loader, cursor);
+        setTotalPatients();
+    }
+
     @Override
     protected String getMainCondition() {
         return super.getMainCondition();
@@ -162,54 +179,54 @@ public class HnppChildRegisterFragment extends HnppBaseChildRegisterFragment imp
 
     @Override
     public void countExecute() {
-        StringBuilder customFilter = new StringBuilder();
-        if (StringUtils.isNotBlank(searchFilterString)) {
-            customFilter.append(MessageFormat.format(" and ( {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.CHILD, org.smartregister.chw.anc.util.DBConstants.KEY.FIRST_NAME, searchFilterString));
-            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.CHILD, HnppConstants.KEY.CHILD_MOTHER_NAME, searchFilterString));
-            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.CHILD, HnppConstants.KEY.CHILD_MOTHER_NAME_REGISTERED, searchFilterString));
-            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.CHILD, org.smartregister.chw.anc.util.DBConstants.KEY.UNIQUE_ID, searchFilterString));
-
-        }
-        if(!StringUtils.isEmpty(mSelectedClasterName)&&!StringUtils.isEmpty(mSelectedVillageName)){
-            customFilter.append(MessageFormat.format(" and ( {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
-            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ) ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
-
-        }else if(!StringUtils.isEmpty(mSelectedClasterName)){
-            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
-
-        }else if(!StringUtils.isEmpty(mSelectedVillageName)){
-            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
-        }
-
-        if(month!=-1){
-
-            customFilter.append(MessageFormat.format(" and {0} = {1} ", "strftime('%m', datetime(ec_visit_log.visit_date/1000,'unixepoch','localtime'))" ,"'"+HnppConstants.addZeroForMonth(month+"")+"'"));
-            customFilter.append(MessageFormat.format(" and {0} = {1} ", "strftime('%Y', datetime(ec_visit_log.visit_date/1000,'unixepoch','localtime'))" ,"'"+year+"'"));
-            if(!visitType.isEmpty()){
-                customFilter.append(visitType);
-            }
-            customFilter.append(" group by ec_child.base_entity_id");
-        }
-        String sql = "";
-        try {
-            if(month != -1){
-                int beforeIndex = mainSelect.indexOf("WHERE");
-                int length = mainSelect.length();
-                String lastPart = mainSelect.substring(beforeIndex,length);
-                String tempmainSelect = mainSelect.substring(0,beforeIndex);
-                sql = tempmainSelect+" inner join ec_visit_log on ec_child.base_entity_id = ec_visit_log.base_entity_id "+lastPart;
-            }else{
-                sql = mainSelect;
-            }
-            if (StringUtils.isNotBlank(customFilter)) {
-                sql = sql + customFilter;
-            }
-            List<String> ids = commonRepository().findSearchIds(sql);
-            clientAdapter.setTotalcount(ids.size());
-            Log.v("VIST_QUERY","count sql:"+sql);
-        } catch (Exception e) {
-            Timber.e(e);
-        }
+//        StringBuilder customFilter = new StringBuilder();
+//        if (StringUtils.isNotBlank(searchFilterString)) {
+//            customFilter.append(MessageFormat.format(" and ( {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.CHILD, org.smartregister.chw.anc.util.DBConstants.KEY.FIRST_NAME, searchFilterString));
+//            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.CHILD, HnppConstants.KEY.CHILD_MOTHER_NAME, searchFilterString));
+//            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.CHILD, HnppConstants.KEY.CHILD_MOTHER_NAME_REGISTERED, searchFilterString));
+//            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.CHILD, org.smartregister.chw.anc.util.DBConstants.KEY.UNIQUE_ID, searchFilterString));
+//
+//        }
+//        if(!StringUtils.isEmpty(mSelectedClasterName)&&!StringUtils.isEmpty(mSelectedVillageName)){
+//            customFilter.append(MessageFormat.format(" and ( {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
+//            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ) ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
+//
+//        }else if(!StringUtils.isEmpty(mSelectedClasterName)){
+//            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
+//
+//        }else if(!StringUtils.isEmpty(mSelectedVillageName)){
+//            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
+//        }
+//
+//        if(month!=-1){
+//
+//            customFilter.append(MessageFormat.format(" and {0} = {1} ", "strftime('%m', datetime(ec_visit_log.visit_date/1000,'unixepoch','localtime'))" ,"'"+HnppConstants.addZeroForMonth(month+"")+"'"));
+//            customFilter.append(MessageFormat.format(" and {0} = {1} ", "strftime('%Y', datetime(ec_visit_log.visit_date/1000,'unixepoch','localtime'))" ,"'"+year+"'"));
+//            if(!visitType.isEmpty()){
+//                customFilter.append(visitType);
+//            }
+//            customFilter.append(" group by ec_child.base_entity_id");
+//        }
+//        String sql = "";
+//        try {
+//            if(month != -1){
+//                int beforeIndex = mainSelect.indexOf("WHERE");
+//                int length = mainSelect.length();
+//                String lastPart = mainSelect.substring(beforeIndex,length);
+//                String tempmainSelect = mainSelect.substring(0,beforeIndex);
+//                sql = tempmainSelect+" inner join ec_visit_log on ec_child.base_entity_id = ec_visit_log.base_entity_id "+lastPart;
+//            }else{
+//                sql = mainSelect;
+//            }
+//            if (StringUtils.isNotBlank(customFilter)) {
+//                sql = sql + customFilter;
+//            }
+//            List<String> ids = commonRepository().findSearchIds(sql);
+//            clientAdapter.setTotalcount(ids.size());
+//            Log.v("VIST_QUERY","count sql:"+sql);
+//        } catch (Exception e) {
+//            Timber.e(e);
+//        }
     }
     @Override
     protected String filterandSortQuery() {

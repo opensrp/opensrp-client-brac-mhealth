@@ -49,6 +49,7 @@ public class HnppSyncIntentService extends SyncIntentService {
 
             if (httpAgent == null) {
                 complete(FetchStatus.fetchedFailed);
+                return;
             }
 
             String url = baseUrl + SYNC_URL;
@@ -94,7 +95,7 @@ public class HnppSyncIntentService extends SyncIntentService {
 
             if (resp.isFailure() && !resp.isUrlError() && !resp.isTimeoutError()) {
                 fetchFailed(count);
-                complete(FetchStatus.fetchedFailed);
+                //complete(FetchStatus.fetchedFailed);
                 return;
             }
 
@@ -107,10 +108,10 @@ public class HnppSyncIntentService extends SyncIntentService {
 
             if (eCount == 0) {
                 complete(FetchStatus.nothingFetched);
-                VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+                //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
             } else if (eCount < 0) {
                 fetchFailed(count);
-            } else if (eCount > 0) {
+            } else {
 
                 final Pair<Long, Long> serverVersionPair = getMinMaxServerVersions(jsonObject);
                 long lastServerVersion = serverVersionPair.second - 1;

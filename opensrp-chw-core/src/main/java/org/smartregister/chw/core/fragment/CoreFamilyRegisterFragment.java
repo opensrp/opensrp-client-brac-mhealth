@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
@@ -328,10 +329,30 @@ public abstract class CoreFamilyRegisterFragment extends BaseFamilyRegisterFragm
                         countExecute();
                     }
                     String query = (dueFilterActive ? dueFilterAndSortQuery() : defaultFilterAndSortQuery());
-                    return commonRepository().rawCustomQueryForAdapter(query);
+
+                    Cursor cursor = commonRepository().rawCustomQueryForAdapter(query);
+                    if(cursor!=null){
+
+                        if(clientAdapter!=null) setTotalCount(query);
+                    }
+                    return cursor;
                 }
             };
         }
         return super.onCreateLoader(id, args);
+    }
+    private void setTotalCount(String query){
+        query = query.substring(0,query.indexOf("LIMIT"));
+        Cursor cursor = commonRepository().rawCustomQueryForAdapter(query+";");
+        if(cursor!=null){
+            clientAdapter.setTotalcount(cursor.getCount());
+            cursor.close();
+        }
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        super.onLoadFinished(loader, cursor);
+        setTotalPatients();
     }
 }

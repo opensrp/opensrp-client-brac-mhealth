@@ -9,6 +9,7 @@ import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.contract.MemberHistoryContract;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.service.VisitLogIntentService;
+import org.smartregister.brac.hnpp.sync.FormParser;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
@@ -23,8 +24,6 @@ import org.smartregister.family.util.AppExecutors;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import static org.smartregister.brac.hnpp.service.VisitLogIntentService.getFormNamesFromEventObject;
 import static org.smartregister.util.JsonFormUtils.gson;
 
 public class FamilyHistoryInteractor implements MemberHistoryContract.Interactor {
@@ -46,7 +45,7 @@ public class FamilyHistoryInteractor implements MemberHistoryContract.Interactor
                 if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EventType.ANC_HOME_VISIT)){
                     String eventJson = visit.getJson();
                     Event baseEvent = gson.fromJson(eventJson, Event.class);
-                    HashMap<String,Object> form_details = getFormNamesFromEventObject(baseEvent);
+                    HashMap<String,Object> form_details = FormParser.getFormNamesFromEventObject(baseEvent);
                     ArrayList<String> encounter_types = (ArrayList<String>) form_details.get("form_name");
                     for(String eventType:encounter_types){
                         if(eventType.equalsIgnoreCase(content.getEventType())){
@@ -54,11 +53,11 @@ public class FamilyHistoryInteractor implements MemberHistoryContract.Interactor
                                 HashMap<String,String>details = (HashMap<String, String>) form_details.get("details");
                                 final CommonPersonObjectClient client = new CommonPersonObjectClient(visit.getBaseEntityId(), details, "");
                                 client.setColumnmaps(details);
-                                jsonForm = VisitLogIntentService.loadFormFromAsset(eventType,context);
+                                jsonForm = FormParser.loadFormFromAsset(eventType);
                                 JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
                                 JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
                                 for (int k = 0; k < jsonArray.length(); k++) {
-                                    VisitLogIntentService.populateValuesForFormObject(client, jsonArray.getJSONObject(k));
+                                    FormParser.populateValuesForFormObject(client, jsonArray.getJSONObject(k));
                                 }
                             }catch (Exception e){
 

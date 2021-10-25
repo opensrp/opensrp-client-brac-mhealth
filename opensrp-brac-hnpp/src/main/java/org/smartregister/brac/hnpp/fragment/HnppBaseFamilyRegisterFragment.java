@@ -69,7 +69,7 @@ public class HnppBaseFamilyRegisterFragment extends CoreFamilyRegisterFragment i
         if (getSearchCancelView() != null) {
             getSearchCancelView().setOnClickListener(this);
         }
-        setTotalPatients();
+        //setTotalPatients();
     }
     @Override
     public void onClick(View v) {
@@ -150,38 +150,38 @@ public class HnppBaseFamilyRegisterFragment extends CoreFamilyRegisterFragment i
 
     @Override
     public void countExecute() {
-        SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(mainSelect);
-        StringBuilder customFilter = new StringBuilder();
-        if (StringUtils.isNotBlank(searchFilterString)) {
-            customFilter.append(MessageFormat.format(" and ( {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.FIRST_NAME, searchFilterString));
-            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.SERIAL_NO, searchFilterString));
-            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY, DBConstants.KEY.PHONE_NUMBER, searchFilterString));
-            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.UNIQUE_ID, searchFilterString));
-
-        }
-        if(!StringUtils.isEmpty(mSelectedClasterName)&&!StringUtils.isEmpty(mSelectedVillageName)){
-            customFilter.append(MessageFormat.format(" and ( {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
-            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ) ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
-
-        }else if(!StringUtils.isEmpty(mSelectedClasterName)){
-            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
-
-        }else if(!StringUtils.isEmpty(mSelectedVillageName)){
-            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
-        }
-        String query = "";
-        try {
-            String sql = "";
-            sql = mainSelect;
-            if (StringUtils.isNotBlank(customFilter)) {
-                sql = sql + customFilter;
-            }
-            List<String> ids = commonRepository().findSearchIds(sql);
-            clientAdapter.setTotalcount(ids.size());
-
-        } catch (Exception e) {
-            Timber.e(e);
-        }
+//        SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(mainSelect);
+//        StringBuilder customFilter = new StringBuilder();
+//        if (StringUtils.isNotBlank(searchFilterString)) {
+//            customFilter.append(MessageFormat.format(" and ( {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.FIRST_NAME, searchFilterString));
+//            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.SERIAL_NO, searchFilterString));
+//            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY, DBConstants.KEY.PHONE_NUMBER, searchFilterString));
+//            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.UNIQUE_ID, searchFilterString));
+//
+//        }
+//        if(!StringUtils.isEmpty(mSelectedClasterName)&&!StringUtils.isEmpty(mSelectedVillageName)){
+//            customFilter.append(MessageFormat.format(" and ( {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
+//            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ) ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
+//
+//        }else if(!StringUtils.isEmpty(mSelectedClasterName)){
+//            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
+//
+//        }else if(!StringUtils.isEmpty(mSelectedVillageName)){
+//            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
+//        }
+//        String query = "";
+//        try {
+//            String sql = "";
+//            sql = mainSelect;
+//            if (StringUtils.isNotBlank(customFilter)) {
+//                sql = sql + customFilter;
+//            }
+//            List<String> ids = commonRepository().findSearchIds(sql);
+//            clientAdapter.setTotalcount(ids.size());
+//
+//        } catch (Exception e) {
+//            Timber.e(e);
+//        }
     }
 
 

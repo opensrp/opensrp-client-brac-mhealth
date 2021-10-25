@@ -34,8 +34,8 @@ public class WomenServiceRegisterFragment extends HnppAllMemberRegisterFragment 
 
     @Override
     public void countExecute() {
-        visitType = "and ec_visit_log.visit_type ='Women package'";
-        super.countExecute();
+//        visitType = "and ec_visit_log.visit_type ='Women package'";
+//        super.countExecute();
     }
 
     @Override

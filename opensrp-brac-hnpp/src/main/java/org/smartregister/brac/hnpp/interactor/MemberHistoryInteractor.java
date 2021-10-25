@@ -11,6 +11,7 @@ import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.contract.MemberHistoryContract;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.service.VisitLogIntentService;
+import org.smartregister.brac.hnpp.sync.FormParser;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.brac.hnpp.utils.MemberHistoryData;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.smartregister.brac.hnpp.service.VisitLogIntentService.getFormNamesFromEventObject;
+import static org.smartregister.brac.hnpp.sync.FormParser.getFormNamesFromEventObject;
 import static org.smartregister.util.JsonFormUtils.gson;
 
 public class MemberHistoryInteractor implements MemberHistoryContract.Interactor {
@@ -70,11 +71,11 @@ public class MemberHistoryInteractor implements MemberHistoryContract.Interactor
                                     HashMap<String,String>details = (HashMap<String, String>) form_details.get("details");
                                     final CommonPersonObjectClient client = new CommonPersonObjectClient(visit.getBaseEntityId(), details, "");
                                     client.setColumnmaps(details);
-                                    jsonForm = VisitLogIntentService.loadFormFromAsset(eventType,context);
+                                    jsonForm = FormParser.loadFormFromAsset(eventType);
                                     JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
                                     JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
                                     for (int k = 0; k < jsonArray.length(); k++) {
-                                        VisitLogIntentService.populateValuesForFormObject(client, jsonArray.getJSONObject(k));
+                                        FormParser.populateValuesForFormObject(client, jsonArray.getJSONObject(k));
                                     }
                                 }catch (Exception e){
 

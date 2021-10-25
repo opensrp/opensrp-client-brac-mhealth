@@ -38,6 +38,7 @@ import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.model.HnppFamilyProfileModel;
 import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
+import org.smartregister.brac.hnpp.sync.FormParser;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
@@ -370,7 +371,8 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
             Visit visit = HnppJsonFormUtils.saveVisit(false,false,false,"", familyBaseEntityId, type, jsonStrings, "");
             if(visit!=null){
                 HnppHomeVisitIntentService.processVisits();
-                VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+                FormParser.processVisitLog(visit);
+                //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
                 return true;
             }else{
                return false;

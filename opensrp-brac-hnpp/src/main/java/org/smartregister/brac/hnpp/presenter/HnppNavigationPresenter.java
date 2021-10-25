@@ -200,10 +200,12 @@ public class HnppNavigationPresenter extends NavigationPresenter {
 //            HnppHomeVisitServiceJob.scheduleJobImmediately(HnppHomeVisitServiceJob.TAG);
             HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
             PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
-            PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
-            VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
-            TargetFetchJob.scheduleJobImmediately(TargetFetchJob.TAG);
-            StockFetchJob.scheduleJobImmediately(StockFetchJob.TAG);
+//            PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
+            //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+//            TargetFetchJob.scheduleJobImmediately(TargetFetchJob.TAG);
+//            StockFetchJob.scheduleJobImmediately(StockFetchJob.TAG);
+
+            //NotificationGeneratorJob.scheduleJobImmediately(NotificationGeneratorJob.TAG);
         }
     }
 }

@@ -39,6 +39,8 @@ import org.smartregister.brac.hnpp.activity.SkSelectionActivity;
 import org.smartregister.brac.hnpp.job.HnppPncCloseJob;
 import org.smartregister.brac.hnpp.job.NotificationGeneratorJob;
 import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
+import org.smartregister.brac.hnpp.job.StockFetchJob;
+import org.smartregister.brac.hnpp.job.TargetFetchJob;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSLocations;
@@ -156,7 +158,7 @@ public class HnppFamilyRegisterFragment extends HnppBaseFamilyRegisterFragment i
         dueOnlyLayout.setVisibility(View.GONE);
         filterTextView.setOnClickListener(registerActionHandler);
 
-        setTotalPatients();
+        //setTotalPatients();
 //        TextView dueOnly = ((TextView)view.findViewById(org.smartregister.chw.core.R.id.due_only_text_view));
 //        dueOnly.setVisibility(View.VISIBLE);
     }
@@ -287,7 +289,6 @@ public class HnppFamilyRegisterFragment extends HnppBaseFamilyRegisterFragment i
 
                     } else if (fetchStatus.equals(FetchStatus.fetched) || fetchStatus.equals(FetchStatus.nothingFetched)) {
 
-                        setRefreshList(true);
                        // renderView();
                         showToast(getString(org.smartregister.R.string.sync_complete));
                         if(JobManager.instance().getAllJobRequestsForTag(PullHouseholdIdsServiceJob.TAG).isEmpty()){
@@ -301,8 +302,15 @@ public class HnppFamilyRegisterFragment extends HnppBaseFamilyRegisterFragment i
                         if(JobManager.instance().getAllJobRequestsForTag(HnppPncCloseJob.TAG).isEmpty()){
                             HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
                         }
-
+                        if(JobManager.instance().getAllJobRequestsForTag(TargetFetchJob.TAG).isEmpty()){
+                            TargetFetchJob.scheduleJobImmediately(TargetFetchJob.TAG);
+                        }
+                        if(JobManager.instance().getAllJobRequestsForTag(StockFetchJob.TAG).isEmpty()){
+                            StockFetchJob.scheduleJobImmediately(StockFetchJob.TAG);
+                        }
                         HnppConstants.isViewRefresh = true;
+                        setRefreshList(true);
+                        renderView();
 
                     } else if (fetchStatus.equals(FetchStatus.noConnection)) {
                         showToast(getString(org.smartregister.R.string.sync_failed_no_internet));
