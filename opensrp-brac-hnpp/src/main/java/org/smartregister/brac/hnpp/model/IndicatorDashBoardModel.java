@@ -574,6 +574,8 @@ public DashBoardData getVisitTypeSum(String title,String indicatorKey,String ssN
         }else if(indicatorKey.equalsIgnoreCase("member_count")){
             mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='member_count'";
             returnColumn = "sum("+IndicatorRepository.INDICATOR_VALUE+")";
+        }else if(indicatorKey.equalsIgnoreCase("preg_outcome")){
+            mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='preg_outcome' and instr("+IndicatorRepository.INDICATOR_VALUE+", 'born_alive_died') >0 ";
         }
         String query = null;
 
@@ -608,9 +610,6 @@ public DashBoardData getVisitTypeSum(String title,String indicatorKey,String ssN
                 query = MessageFormat.format("with t1 as (SELECT year||''-''||printf(''%02d'',month)||''-''||printf(''%02d'',day) as date,ss_name,indicator_name,indicator_value from {0})SELECT "+returnColumn+" as count from t1 {1} {2} {3}", IndicatorRepository.INDICATOR_TABLE,mainCondition,getSSCondition(ssName),getBetweenCondition(fromMonthStr,toMonthStr,"date"));
 
             }
-        }
-        if(indicatorKey.equalsIgnoreCase("delivery_method_general") || indicatorKey.equalsIgnoreCase("delivery_method_c_section")){
-            Log.v("WORK_SUMMERY","member_count:"+query);
         }
 
 

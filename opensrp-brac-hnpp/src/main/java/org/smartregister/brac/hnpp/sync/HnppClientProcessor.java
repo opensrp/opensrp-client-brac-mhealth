@@ -8,6 +8,7 @@ import net.sqlcipher.database.SQLiteDatabase;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
+import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.anc.AncLibrary;
@@ -85,8 +86,13 @@ public class HnppClientProcessor extends ClientProcessorForJava {
             }
             Log.v("SYNC_URL", "processClient end >>"+(System.currentTimeMillis() - startTime));
             //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
-            FormParser.makeVisitLog();
-            Log.v("SYNC_URL", "after parse >>"+(System.currentTimeMillis() - startTime));
+            long lastSyncTime = HnppApplication.getHNPPInstance().getEcSyncHelper().getLastCheckTimeStamp();
+            if(lastSyncTime == 0){
+                //only firsttime it'll parse data
+                FormParser.makeVisitLog();
+                Log.v("SYNC_URL", "after parse >>"+(System.currentTimeMillis() - startTime));
+            }
+
 
         }
     }

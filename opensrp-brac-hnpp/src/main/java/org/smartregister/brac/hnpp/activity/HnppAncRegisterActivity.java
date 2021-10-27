@@ -52,6 +52,7 @@ import org.smartregister.chw.core.utils.CoreJsonFormUtils;
 import org.smartregister.clientandeventmodel.Address;
 import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.clientandeventmodel.Event;
+import org.smartregister.domain.FetchStatus;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.util.AppExecutors;
 import org.smartregister.family.util.JsonFormUtils;
@@ -282,7 +283,6 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
         if(data == null){
             finish();
         }
-        JSONObject form = null;
         if (resultCode == Activity.RESULT_OK && requestCode == Constants.REQUEST_CODE_GET_JSON) {
 //            process the form
 
@@ -302,6 +302,10 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
                             if(!familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){
                                 HnppPncRegisterActivity.startHnppPncRegisterActivity(HnppAncRegisterActivity.this, baseEntityId);
                             }
+                        }else if(eventType.equalsIgnoreCase(Constants.EVENT_TYPE.ANC_REGISTRATION)){
+                            HnppConstants.isViewRefresh = true;
+                            refreshList(FetchStatus.fetched);
+
                         }
                         if(familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){
                             Intent intent = new Intent();
@@ -416,7 +420,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
-
+        FormParser.processVisitLog(visit);
         NCUtils.addEvent(allSharedPreferences, baseEvent);
         NCUtils.startClientProcessing();
     }

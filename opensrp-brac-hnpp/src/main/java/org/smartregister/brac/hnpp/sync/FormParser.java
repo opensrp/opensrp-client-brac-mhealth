@@ -260,6 +260,8 @@ public class FormParser {
                         }
                         if(HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)){
                             log.setFamilyId(base_entity_id);
+                            ssName = HnppDBUtils.getSSNameFromFamilyTable(base_entity_id);
+                            log.setSsName(ssName);
                         }else{
                             log.setFamilyId(HnppDBUtils.getFamilyIdFromBaseEntityId(base_entity_id));
                         }
@@ -412,7 +414,7 @@ public class FormParser {
         if(details.containsKey("add_to_stock")&&!StringUtils.isEmpty(details.get("add_to_stock"))) {
             String value = details.get("add_to_stock");
             Log.v("STOCK_ADD","isNeedToAddStockTable>>"+value);
-            if(!TextUtils.isEmpty(value) && value.equalsIgnoreCase("3")){
+            if(!TextUtils.isEmpty(value) && value.equalsIgnoreCase("5")){
                 return true;
 
             }
@@ -1713,6 +1715,12 @@ public class FormParser {
             String ssName = HnppDBUtils.getSSName(log.getBaseEntityId());
             log.setSsName(ssName);
         }
+        if(details.containsKey("no_of_hh_visit") && !StringUtils.isEmpty(details.get("no_of_hh_visit"))) {
+            String value = details.get("no_of_hh_visit");
+            if(!TextUtils.isEmpty(value)){
+                HnppApplication.getIndicatorRepository().updateValue("no_of_hh_visit",value,date,month+"",year+"",log.getSsName(),log.getBaseEntityId());
+            }
+        }
         if(details.containsKey("one_hour_after_birth") && !StringUtils.isEmpty(details.get("one_hour_after_birth"))) {
             String value = details.get("one_hour_after_birth");
             if(!TextUtils.isEmpty(value)){
@@ -1841,7 +1849,7 @@ public class FormParser {
                         log.setVisitJson(gson.toJson(forumDetails));
                         log.setFamilyId(forumDetails.place.getBaseEntityId());
 
-                        String ssName = HnppDBUtils.getSSName(visit.getBaseEntityId());
+                        String ssName = forumDetails.ssName;
                         log.setSsName(ssName);
                         long inserted = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
                         if(inserted != -1){
