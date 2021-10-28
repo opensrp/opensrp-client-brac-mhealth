@@ -27,83 +27,27 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
         if(day.equalsIgnoreCase("0")) {
             if(TextUtils.isEmpty(ssName)){
                 if(TextUtils.isEmpty(month)) return "";
-                return  " and month ="+month+" and year ="+year+"";
+                return  "  month ="+month+" and year ="+year+"";
             }
             else {
                 if(TextUtils.isEmpty(month)){
-                    return "and ss_name = '"+ssName+"'";
+                    return " ss_name = '"+ssName+"'";
                 }
-                return  " and month ="+month+" and year ="+year+" and ss_name = '"+ssName+"'";
+                return  "  month ="+month+" and year ="+year+" and ss_name = '"+ssName+"'";
             }
             
         }else{
             if(TextUtils.isEmpty(ssName)){
                 if(TextUtils.isEmpty(month)) return " and day ="+day+"";
-                return  " and day ="+day+" and month ="+month+" and year ="+year+"";
+                return  "  day ="+day+" and month ="+month+" and year ="+year+"";
             }
             else {
                 if(TextUtils.isEmpty(month)) return  " and day ="+day+" and ss_name ='"+ssName+"'";
-                return  " and day ="+day+" and month ="+month+" and year ="+year+" and ss_name ='"+ssName+"'";
+                return  "  day ="+day+" and month ="+month+" and year ="+year+" and ss_name ='"+ssName+"'";
             }
         }
         
     }
-   /* private String getFilter(String fromDate, String toDate, String ssName){
-        if(day.equalsIgnoreCase("0")) {
-            if(TextUtils.isEmpty(ssName)){
-                if(TextUtils.isEmpty(month)) return "";
-                return  " and month ="+month+" and year ="+year+"";
-            }
-            else {
-                if(TextUtils.isEmpty(month)){
-                    return "and ss_name = '"+ssName+"'";
-                }
-                return  " and month ="+month+" and year ="+year+" and ss_name = '"+ssName+"'";
-            }
-
-        }else{
-            if(TextUtils.isEmpty(ssName)){
-                if(TextUtils.isEmpty(month)) return " and day ="+day+"";
-                return  " and day ="+day+" and month ="+month+" and year ="+year+"";
-            }
-            else {
-                if(TextUtils.isEmpty(month)) return  " and day ="+day+" and ss_name ='"+ssName+"'";
-                return  " and day ="+day+" and month ="+month+" and year ="+year+" and ss_name ='"+ssName+"'";
-            }
-        }
-
-    }*/
-    //PA
-//    public TargetVsAchievementData getAdultForum(String day, String month, String year,String ssName){
-//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.FORUM_ADULT,day,month,year,ssName);
-//    }
-//    public TargetVsAchievementData getAttendancAdultForum(String day, String month, String year,String ssName){
-//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ADULT_FORUM_ATTENDANCE,day,month,year,ssName);
-//    }
-//    public TargetVsAchievementData getServiceCountAdultForum(String day, String month, String year,String ssName){
-//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ADULT_FORUM_SERVICE_TAKEN,day,month,year,ssName);
-//    }
-//    public TargetVsAchievementData getAdultPackage(String day, String month, String year,String ssName){
-//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.NCD_BY_PA,day,month,year,ssName);
-//    }
-//    public TargetVsAchievementData getMarkedPresbyopia(String day, String month, String year,String ssName){
-//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.MARKED_PRESBYOPIA,day,month,year,ssName);
-//    }
-//    public TargetVsAchievementData getPresbyopiaCorrection(String day, String month, String year,String ssName){
-//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.PRESBYOPIA_CORRECTION,day,month,year,ssName);
-//    }
-//    public TargetVsAchievementData getEstimateDiabetes(String day, String month, String year,String ssName){
-//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ESTIMATE_DIABETES,day,month,year,ssName);
-//    }
-//    public TargetVsAchievementData getEstimateHBS(String day, String month, String year,String ssName){
-//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.ESTIMATE_HBP,day,month,year,ssName);
-//    }
-//    public TargetVsAchievementData getCataractSurgeryRefer(String day, String month, String year,String ssName){
-//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CATARACT_SURGERY_REFER,day,month,year,ssName);
-//    }
-//    public TargetVsAchievementData getCataractSurgery(String day, String month, String year,String ssName){
-//        return getTargetVsAchievmentByVisitType(HnppConstants.EVENT_TYPE.CATARACT_SURGERY,day,month,year,ssName);
-//    }
 
     //PA For DailyVisitFromToDate
 
@@ -230,9 +174,8 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
     }
     public TargetVsAchievementData getTargetVsAchievmentByVisitType(String visitType,String day, String month, String year, String ssName){
         TargetVsAchievementData dashBoardData1 = new TargetVsAchievementData();
-        //String query = "select sum(target_count) as target_count, sum(achievemnt_count) as achievemnt_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
-        String query = "select sum(coalesce(achievemnt_count,0)) as achievemnt_count,(select sum(coalesce(target_count,0)) from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,"") +") as target_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
-
+        //String query = "select sum(coalesce(achievemnt_count,0)) as achievemnt_count,(select sum(coalesce(target_count,0)) from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,"") +") as target_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
+        String query = "select sum(coalesce(achievemnt_count,0)) as achievemnt_count,(select sum(coalesce(target_count,0)) from target_table where "+ getFilter(day,month,year,"") +") as target_count from target_table where "+ getFilter(day,month,year,ssName);
         Log.v("TARGET_QUERY","query:"+query);
         Cursor cursor = null;
         try{
@@ -266,27 +209,83 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
 
         return dashBoardData1;
     }
+    public ArrayList<TargetVsAchievementData> getTargetVsAchievment(String visitType,long fromDate,long toDate, String ssName){
+        String fromMonthStr = HnppConstants.getDateFormateFromLong(fromDate);
+        String toMonthStr = HnppConstants.getDateFormateFromLong(toDate);
+        ArrayList<TargetVsAchievementData> list = new ArrayList<TargetVsAchievementData>();
+        String query = null;
+        String whereCluse = " where ";
+        String groupBy = " group by target_name";
+        String selectColumes = "sum(coalesce(target_count,0)) as target_count, sum(coalesce(achievemnt_count,0)) as achievemnt_count, target_name";
+        if(fromDate == -1 && toDate == -1){
+            if(TextUtils.isEmpty(ssName)){
+                query = "select "+selectColumes+" from target_table "+groupBy;
+            }else{
+                query = "select "+selectColumes+" from target_table "+whereCluse+getSSCondition(ssName)+groupBy;
+            }
+        }
+        else{
+            if(TextUtils.isEmpty(ssName)){
+                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, achievemnt_count, target_count, target_name from target_table)SELECT "+selectColumes+" from t1 "+whereCluse+getBetweenCondition(fromMonthStr,toMonthStr,"date")+groupBy;
+            }else{
+                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, achievemnt_count, target_count, target_name from target_table)SELECT "+selectColumes+" from t1 "+whereCluse+getSSCondition(ssName)+getBetweenCondition(fromMonthStr,toMonthStr,"date")+groupBy;
+            }
+        }
+        Log.v("TARGET_VS_ACHIEV","query:"+query);
+
+        Cursor cursor = null;
+        try{
+            // try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() > 0){
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    TargetVsAchievementData dashBoardData1 = new TargetVsAchievementData();
+                    dashBoardData1.setTargetCount(cursor.getInt(cursor.getColumnIndex(TargetVsAchievementRepository.TARGET_COUNT)));
+                    dashBoardData1.setAchievementCount(cursor.getInt(cursor.getColumnIndex(TargetVsAchievementRepository.ACHIEVEMNT_COUNT)));
+                    //test
+                    //dashBoardData1.setAchievementCount(3);
+                    if(dashBoardData1.getTargetCount() != 0){
+                        int percentage = (int) ((dashBoardData1.getAchievementCount() * 100)/dashBoardData1.getTargetCount());
+                        dashBoardData1.setAchievementPercentage(percentage);
+                    }
+
+                    dashBoardData1.setEventType(cursor.getString(cursor.getColumnIndex(TargetVsAchievementRepository.TARGET_NAME)));
+                    dashBoardData1.setTitle(HnppConstants.targetTypeMapping.get(dashBoardData1.getEventType()));
+                    list.add(dashBoardData1);
+                    cursor.moveToNext();
+                }
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            if(cursor!=null) cursor.close();
+        }
+
+
+        return list;
+    }
     public TargetVsAchievementData getTargetVsAchievmentByVisitType(String visitType,long fromDate,long toDate, String ssName){
         String fromMonthStr = HnppConstants.getDateFormateFromLong(fromDate);
         String toMonthStr = HnppConstants.getDateFormateFromLong(toDate);
         TargetVsAchievementData dashBoardData1 = new TargetVsAchievementData();
         String query = null;
-        String whereCluse = " where target_name ='"+visitType+"'";
-        if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_SERVICE)){
-            whereCluse = " where (target_name ='"+visitType+"' or target_name ='"+HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour+"')";
-        }
+        String whereCluse = " where ";
+        String groupBy = " group by target_name";
+        String selectColumes = "sum(coalesce(target_count,0)) as target_count, sum(coalesce(achievemnt_count,0)) as achievemnt_count, target_name";
         if(fromDate == -1 && toDate == -1){
             if(TextUtils.isEmpty(ssName)){
-                query = "select sum(coalesce(target_count,0)) as target_count, sum(coalesce(achievemnt_count,0)) as achievemnt_count from target_table "+whereCluse;
+                query = "select "+selectColumes+" from target_table "+groupBy;
             }else{
-                query = "select sum(coalesce(target_count,0)) as target_count, sum(coalesce(achievemnt_count,0)) as achievemnt_count from target_table "+whereCluse+getSSCondition(ssName);
+                query = "select "+selectColumes+" from target_table "+whereCluse+getSSCondition(ssName)+groupBy;
             }
         }
         else{
             if(TextUtils.isEmpty(ssName)){
-                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, achievemnt_count, target_count, target_name from target_table)SELECT sum(coalesce(achievemnt_count,0)) as achievemnt_count, sum(coalesce(target_count,0)) as target_count from t1 "+whereCluse+getBetweenCondition(fromMonthStr,toMonthStr,"date");
+                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, achievemnt_count, target_count, target_name from target_table)SELECT "+selectColumes+" from t1 "+whereCluse+getBetweenCondition(fromMonthStr,toMonthStr,"date")+groupBy;
             }else{
-                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, achievemnt_count, target_count, target_name from target_table)SELECT sum(coalesce(achievemnt_count,0)) as achievemnt_count, sum(coalesce(target_count,0)) as target_count from t1 "+whereCluse+getSSCondition(ssName)+getBetweenCondition(fromMonthStr,toMonthStr,"date");
+                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, achievemnt_count, target_count, target_name from target_table)SELECT "+selectColumes+" from t1 "+whereCluse+getSSCondition(ssName)+getBetweenCondition(fromMonthStr,toMonthStr,"date")+groupBy;
             }
         }
         Log.v("TARGET_VS_ACHIEV","query:"+query);
@@ -325,16 +324,16 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
     }
     public String getSSCondition(String ssName){
         String ssCondition;
-        ssCondition = " and "+HnppConstants.KEY.SS_NAME+" = '"+ssName+"'";
+        ssCondition = " "+HnppConstants.KEY.SS_NAME+" = '"+ssName+"'";
         return ssCondition;
     }
     public String getBetweenCondition(String fromMonth, String toMonth, String compareDate){
         StringBuilder build = new StringBuilder();
         if(TextUtils.isEmpty(fromMonth)){
-            build.append(MessageFormat.format(" and {0} = {1} ",compareDate,"'"+toMonth+"'"));
+            build.append(MessageFormat.format(" {0} = {1} ",compareDate,"'"+toMonth+"'"));
         }
         else {
-            build.append(MessageFormat.format(" and {0} between {1} and {2} ",compareDate,"'"+fromMonth+"'","'"+toMonth+"'"));
+            build.append(MessageFormat.format(" {0} between {1} and {2} ",compareDate,"'"+fromMonth+"'","'"+toMonth+"'"));
         }
         return build.toString();
     }
@@ -351,7 +350,7 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
     public TargetVsAchievementData getAvgTargetVsAchievmentByVisitType(String visitType,String day, String month, String year, String ssName){
         TargetVsAchievementData dashBoardData1 = new TargetVsAchievementData();
         //String query = "select sum(target_count) as target_count, sum(achievemnt_count) as achievemnt_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
-        String query = "select sum(coalesce(achievemnt_count,0)) as achievemnt_count,(select sum(coalesce(target_count,0)) from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,"") +") as target_count from target_table where target_name ='"+ visitType+"'"+ getFilter(day,month,year,ssName);
+        String query = "select sum(coalesce(achievemnt_count,0)) as achievemnt_count,(select sum(coalesce(target_count,0)) from target_table where "+ getFilter(day,month,year,"") +") as target_count from target_table where "+ getFilter(day,month,year,ssName);
 
         Log.v("TARGET_QUERY","avg query:"+query);
         Cursor cursor = null;

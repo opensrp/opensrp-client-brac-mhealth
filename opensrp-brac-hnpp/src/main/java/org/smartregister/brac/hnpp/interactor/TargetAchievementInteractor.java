@@ -31,7 +31,10 @@ public class TargetAchievementInteractor implements DashBoardContract.TargetInte
     public void setData(TargetVsAchievementData targetVsAchievementData){
         if(targetVsAchievementData !=null) dashBoardDataArrayList.add(targetVsAchievementData);
     }
-
+    public void setArrayListData(ArrayList<TargetVsAchievementData> targetVsAchievementData){
+        dashBoardDataArrayList.clear();
+        if(targetVsAchievementData !=null) dashBoardDataArrayList.addAll(targetVsAchievementData);
+    }
 //    @Override
 //    public void fetchAllData(DashBoardContract.InteractorCallBack callBack, String day, String month, String year, String ssName) {
 //
@@ -85,17 +88,18 @@ public class TargetAchievementInteractor implements DashBoardContract.TargetInte
             setData(model.getCataractSurgery(fromDate,toDate,ssName));
             setData(model.getCataractSurgeryRefer(fromDate,toDate,ssName));
         }else{
-            setData(model.getHHVisitTarget(fromDate,toDate,ssName));
-            setData(model.getElcoTarget(fromDate,toDate,ssName));
-            setData(model.getMethodUserTarget(fromDate,toDate,ssName));
-            setData(model.getAdoMethodUserTarget(fromDate,toDate,ssName));
-            setData(model.getPregnencyIdentiTarget(fromDate,toDate,ssName));
-            setData(model.getDeliveryTarget(fromDate,toDate,ssName));
-            setData(model.getInstitutionDeliveryTarget(fromDate,toDate,ssName));
-            setData(model.get0to6ChildVisitTarget(fromDate,toDate,ssName));
-            setData(model.get7to24ChildVisitTarget(fromDate,toDate,ssName));
-            setData(model.get18to36ChildVisitTarget(fromDate,toDate,ssName));
-            setData(model.get0to59ChildImmunizationTarget(fromDate,toDate,ssName));
+           // setData(model.getHHVisitTarget(fromDate,toDate,ssName));
+//            setData(model.getElcoTarget(fromDate,toDate,ssName));
+//            setData(model.getMethodUserTarget(fromDate,toDate,ssName));
+//            setData(model.getAdoMethodUserTarget(fromDate,toDate,ssName));
+//            setData(model.getPregnencyIdentiTarget(fromDate,toDate,ssName));
+//            setData(model.getDeliveryTarget(fromDate,toDate,ssName));
+//            setData(model.getInstitutionDeliveryTarget(fromDate,toDate,ssName));
+//            setData(model.get0to6ChildVisitTarget(fromDate,toDate,ssName));
+//            setData(model.get7to24ChildVisitTarget(fromDate,toDate,ssName));
+//            setData(model.get18to36ChildVisitTarget(fromDate,toDate,ssName));
+//            setData(model.get0to59ChildImmunizationTarget(fromDate,toDate,ssName));
+            setArrayListData(model.getTargetVsAchievment("",fromDate,toDate,ssName));
         }
 
 
