@@ -16,7 +16,12 @@ public class TargetVsAchievementData extends DashBoardData {
     private int avgTargetCount;
     private int avgAchievmentCount;
     private int avgAchievementPercentage;
+    public TargetVsAchievementData(){
 
+    }
+    public TargetVsAchievementData(String eventType, String title){
+        super(eventType, title);
+    }
     public int getAchievementPercentage() {
         return achievementPercentage;
     }

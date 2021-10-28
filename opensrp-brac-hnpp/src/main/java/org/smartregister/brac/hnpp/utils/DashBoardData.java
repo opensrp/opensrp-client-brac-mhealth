@@ -9,8 +9,14 @@ public class DashBoardData implements Serializable {
     private int count;
     private String eventType;
     private String ssName;
+    public DashBoardData(){
 
+    }
 
+    public DashBoardData(String eventType, String title){
+        this.eventType = eventType;
+        this.title = title;
+    }
     public void setSsName(String ssName) {
         this.ssName = ssName;
     }
