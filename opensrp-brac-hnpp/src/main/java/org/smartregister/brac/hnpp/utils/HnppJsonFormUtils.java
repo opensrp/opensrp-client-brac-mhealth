@@ -126,6 +126,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
         FormTag formTag = formTag(Utils.getAllSharedPreferences());
         formTag.appVersionName = BuildConfig.VERSION_NAME;
+        formTag.formSubmissionId = generateRandomUUIDString();
         String baseEntityId = generateRandomUUIDString();
         JSONObject form = new JSONObject(jsonString);
         String ssName = getSSNameFromForm(form);
@@ -384,7 +385,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         return event;
     }
 
-    public static Visit saveVisit(boolean isComesFromIdentity,boolean needVerified,boolean isVerified, String notVerifyCause,String memberID, String encounterType,
+    public static synchronized Visit saveVisit(boolean isComesFromIdentity,boolean needVerified,boolean isVerified, String notVerifyCause,String memberID, String encounterType,
                             final Map<String, String> jsonString,
                             String parentEventType) throws Exception {
 
@@ -1174,6 +1175,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 String familyId = getString(jsonForm, "relational_id");
                 String entityId = getString(jsonForm, "entity_id");
                 if (StringUtils.isBlank(entityId)) {
+
                     entityId = generateRandomUUIDString();
                 }
 
@@ -1346,6 +1348,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             String entityId = getString(jsonForm, ENTITY_ID);
             String familyId = getString(jsonForm, "relational_id");
             if (StringUtils.isBlank(entityId)) {
+
                 entityId = generateRandomUUIDString();
             }
             String motherEntityId = updateMotherName(fields,familyId);
@@ -1452,6 +1455,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 JSONArray fields = (JSONArray)registrationFormParams.getRight();
                 String entityId = getString(jsonForm, "entity_id");
                 if (StringUtils.isBlank(entityId)) {
+
                     entityId = generateRandomUUIDString();
                 }
 

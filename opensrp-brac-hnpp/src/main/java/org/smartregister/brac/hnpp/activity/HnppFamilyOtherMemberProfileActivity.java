@@ -6,8 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Bundle;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.view.ViewPager;
@@ -30,12 +29,9 @@ import com.simprints.libsimprints.Tier;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.text.WordUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.custom_view.FamilyMemberFloatingMenu;
 import org.smartregister.brac.hnpp.fragment.HnppMemberProfileDueFragment;
@@ -70,8 +66,6 @@ import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.helper.ImageRenderHelper;
 import org.smartregister.simprint.SimPrintsConstantHelper;
-import org.smartregister.simprint.SimPrintsHelper;
-import org.smartregister.simprint.SimPrintsLibrary;
 import org.smartregister.simprint.SimPrintsVerification;
 import org.smartregister.simprint.SimPrintsVerifyActivity;
 import org.smartregister.util.FormUtils;
@@ -92,9 +86,6 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     public static final int REQUEST_HOME_VISIT = 5555;
     public static final int REQUEST_SIMPRINTS_VERIFY = 1222;
     public static final String IS_COMES_IDENTITY = "is_comes";
-   // public static final String SESSION_ID = "session_id";
-    //public static final String SELECTED_GU_ID = "selected_gu_id";
-    private static final int REQUEST_CODE_PREGNANCY_OUTCOME = 5556;
 
     private CustomFontTextView textViewDetails3;
     private String familyBaseEntityId;
@@ -214,8 +205,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     }
     @Override
     protected void startPncRegister() {
-        HnppPncRegisterActivity.startHnppPncRegisterActivity(HnppFamilyOtherMemberProfileActivity.this, baseEntityId, PhoneNumber,
-                HnppConstants.JSON_FORMS.PNC_FORM, null, familyBaseEntityId, familyName);
+       // HnppPncRegisterActivity.startHnppPncRegisterActivity(HnppFamilyOtherMemberProfileActivity.this, baseEntityId);
     }
 
     @Override

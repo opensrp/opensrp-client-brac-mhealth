@@ -2,12 +2,15 @@ package org.smartregister.brac.hnpp.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.bottomnavigation.LabelVisibilityMode;
 import android.support.design.widget.BottomNavigationView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
@@ -52,9 +55,11 @@ import org.smartregister.family.util.Utils;
 import org.smartregister.helper.BottomNavigationHelper;
 import org.smartregister.immunization.service.intent.RecurringIntentService;
 import org.smartregister.immunization.service.intent.VaccineIntentService;
+import org.smartregister.job.InValidateSyncDataServiceJob;
 import org.smartregister.simprint.SimPrintsLibrary;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.EventClientRepository;
+import org.smartregister.sync.intent.ValidateIntentService;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 
 
@@ -70,6 +75,7 @@ import static org.smartregister.chw.anc.util.JsonFormUtils.formTag;
 import static org.smartregister.util.JsonFormUtils.FIELDS;
 
 public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
+    private BroadcastReceiver notificationBroadcastReceiver;
 
     @Override
     public void onBackPressed() {
@@ -124,7 +130,7 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         navigationMenu = NavigationMenu.getInstance(this, null, null);
-
+        notificationBroadcastReceiver = new NotificationBroadcastReceiver();
         hnppNavigationPresenter = new HnppNavigationPresenter(
 
                 HnppApplication.getHNPPInstance(),
@@ -167,7 +173,14 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
 
 
     }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ValidateIntentService.ACTION_VALIDATION);
 
+        registerReceiver(notificationBroadcastReceiver, intentFilter);
+    }
     @Override
     public void startFormActivity(JSONObject jsonForm) {
         if(SSLocationHelper.getInstance().getSsModels().size() == 0){
@@ -295,4 +308,38 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
     protected BaseRegisterFragment getRegisterFragment() {
         return new HnppFamilyRegisterFragment();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(notificationBroadcastReceiver!=null)unregisterReceiver(notificationBroadcastReceiver);
+    }
+
+    private class NotificationBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(FamilyRegisterActivity.this.isFinishing()) return;
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try{
+
+                        if(intent != null && intent.getAction().equalsIgnoreCase(ValidateIntentService.ACTION_VALIDATION)){
+                            String value = intent.getStringExtra(ValidateIntentService.EXTRA_VALIDATION);
+                            if(!TextUtils.isEmpty(value) && !value.equalsIgnoreCase(ValidateIntentService.STATUS_FAILED)){
+                                InValidateSyncDataServiceJob.scheduleJobImmediately(InValidateSyncDataServiceJob.TAG);
+                            }
+                        }
+                    }catch (Exception e){
+
+                    }
+                }
+            });
+
+
+
+        }
+    }
+
+
 }

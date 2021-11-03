@@ -31,9 +31,13 @@ import org.smartregister.chw.core.presenter.NavigationPresenter;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.domain.Response;
 import org.smartregister.exception.NoHttpResponseException;
+import org.smartregister.family.util.Utils;
 import org.smartregister.job.PullUniqueIdsServiceJob;
 import org.smartregister.job.SyncServiceJob;
+import org.smartregister.repository.EventClientRepository;
 import org.smartregister.util.FormUtils;
+
+import java.util.List;
 
 public class HnppNavigationPresenter extends NavigationPresenter {
     public HnppNavigationPresenter(CoreApplication application, NavigationContract.View view, NavigationModel.Flavor modelFlavor) {
@@ -77,6 +81,14 @@ public class HnppNavigationPresenter extends NavigationPresenter {
         }catch (Exception e){
 
         }
+    }
+
+    @Override
+    public void updateUnSyncCount() {
+        EventClientRepository eventClientRepository = HnppApplication.getHNPPInstance().getEventClientRepository();
+        int cc = eventClientRepository.getUnSyncClientsCount();
+        int ec = eventClientRepository.getUnSyncEventsCount();
+        getNavigationView().updateUnSyncCount(cc+ec);
     }
 
     @Override

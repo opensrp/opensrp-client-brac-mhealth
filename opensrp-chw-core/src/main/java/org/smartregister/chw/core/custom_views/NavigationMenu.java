@@ -42,6 +42,7 @@ import org.smartregister.chw.core.presenter.NavigationPresenter;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.domain.FetchStatus;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
+import org.smartregister.repository.EventClientRepository;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
 import org.smartregister.util.LangUtils;
@@ -221,6 +222,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         // update all actions
         mPresenter.refreshLastSync();
         mPresenter.refreshNavigationCount(activity);
+
     }
 
 
@@ -237,6 +239,20 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
                 tvLastSyncTime.setVisibility(View.INVISIBLE);
             }
         }
+        mPresenter.updateUnSyncCount();
+    }
+
+    @Override
+    public void updateUnSyncCount(int count) {
+        try{
+            if(rootView !=null){
+                TextView tvLastSyncTime = rootView.findViewById(R.id.tvUnsyncCount);
+                tvLastSyncTime.setText(count+"");
+            }
+        }catch (Exception e){
+
+        }
+
     }
 
     @Override
@@ -245,6 +261,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
             tvLogout.setText(String.format("%s %s", activityWeakReference.get().getResources().getString(R.string.log_out_as), name));
         }
     }
+
 
     @Override
     public void logout(Activity activity) {
@@ -343,6 +360,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     private void registerSync(final Activity parentActivity) {
 
         TextView tvSync = rootView.findViewById(R.id.tvSync);
+        TextView tvUnsyncCount = rootView.findViewById(R.id.tvUnsyncCount);
         ivSync = rootView.findViewById(R.id.ivSyncIcon);
         syncProgressBar = rootView.findViewById(R.id.pbSync);
 
@@ -362,7 +380,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
 
         tvSync.setOnClickListener(syncClicker);
         ivSync.setOnClickListener(syncClicker);
-
+        tvUnsyncCount.setOnClickListener(syncClicker);
         refreshSyncProgressSpinner();
     }
 

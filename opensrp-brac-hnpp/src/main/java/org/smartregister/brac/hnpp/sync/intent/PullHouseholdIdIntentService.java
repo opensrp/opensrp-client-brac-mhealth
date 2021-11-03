@@ -64,7 +64,7 @@ public class PullHouseholdIdIntentService extends IntentService {
         if(vid.equalsIgnoreCase("-1")){
             return new JSONArray();
         }
-        String url = baseUrl + ID_URL + "?villageId=" + vid + "&username=" + userName+"&device_imei="+ HnppConstants.getDeviceImeiFromSharedPref()+"&uuid="+ JsonFormUtils.generateRandomUUIDString();
+        String url = baseUrl + ID_URL + "?villageId=" + vid + "&username=" + userName;
         Log.i(PullHouseholdIdIntentService.class.getName(), "URL: " + url);
 
         if (httpAgent == null) {

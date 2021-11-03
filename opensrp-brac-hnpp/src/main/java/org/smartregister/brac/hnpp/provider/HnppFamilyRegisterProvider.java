@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.provider;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -61,11 +62,11 @@ public class HnppFamilyRegisterProvider extends CoreRegisterProvider  {
     private View.OnClickListener onClickListener;
     private View.OnClickListener paginationClickListener;
 
-    private Context context;
+    private Activity context;
     private CommonRepository commonRepository;
     private ImageRenderHelper imageRenderHelper;
 
-    public HnppFamilyRegisterProvider(Context context, CommonRepository commonRepository, Set visibleColumns, View.OnClickListener onClickListener, View.OnClickListener paginationClickListener) {
+    public HnppFamilyRegisterProvider(Activity context, CommonRepository commonRepository, Set visibleColumns, View.OnClickListener onClickListener, View.OnClickListener paginationClickListener) {
         super(context, commonRepository, visibleColumns, onClickListener, paginationClickListener);
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.visibleColumns = visibleColumns;
@@ -391,7 +392,7 @@ public class HnppFamilyRegisterProvider extends CoreRegisterProvider  {
         }
     }
     private class UpdateAsyncTask extends AsyncTask<Void, Void, Void> {
-        private final Context context;
+        private final Activity context;
         private final HouseHoldRegisterProvider viewHolder;
         private final String familyBaseEntityId;
 
@@ -400,7 +401,7 @@ public class HnppFamilyRegisterProvider extends CoreRegisterProvider  {
         private int ancWomanCount;
         private String totalMember;
 
-        private UpdateAsyncTask(Context context, HouseHoldRegisterProvider viewHolder, String familyBaseEntityId ,String totalMember) {
+        private UpdateAsyncTask(Activity context, HouseHoldRegisterProvider viewHolder, String familyBaseEntityId ,String totalMember) {
             this.context = context;
             this.totalMember = totalMember;
             this.viewHolder = viewHolder;
@@ -420,6 +421,7 @@ public class HnppFamilyRegisterProvider extends CoreRegisterProvider  {
         protected void onPostExecute(Void param) {
             // Update child Icon
 //            updateChildIcons(viewHolder, list, memberCount);
+            if(context==null || context.isFinishing() ) return;
             updateChildIcons(viewHolder, list, ancWomanCount,memberCount,totalMember,familyBaseEntityId);
         }
     }

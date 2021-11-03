@@ -20,6 +20,8 @@ public interface NavigationContract {
 
         void displayCurrentUser();
 
+        void updateUnSyncCount();
+
         void sync(Activity activity);
         void covid19(Activity activity);
         void forceSync(Activity activity);
@@ -38,6 +40,8 @@ public interface NavigationContract {
         void logout(Activity activity);
 
         void refreshCount();
+
+        void updateUnSyncCount(int count);
 
         void displayToast(Activity activity, String message);
     }

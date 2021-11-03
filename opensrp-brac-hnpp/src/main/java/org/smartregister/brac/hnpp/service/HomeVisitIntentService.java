@@ -55,7 +55,7 @@ public class HomeVisitIntentService extends IntentService {
     protected void processVisits() throws Exception {
         processVisits(visitRepository, null);
     }
-    public static void processVisits(VisitRepository visitRepository,String baseEntityID) throws Exception {
+    public static synchronized void processVisits(VisitRepository visitRepository,String baseEntityID) throws Exception {
         Calendar calendar = Calendar.getInstance();
 
         List<Visit> visits = StringUtils.isNotBlank(baseEntityID) ?
