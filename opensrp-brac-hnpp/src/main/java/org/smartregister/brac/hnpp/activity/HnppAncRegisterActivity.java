@@ -282,8 +282,8 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
 
                         JSONObject familyIdObject = org.smartregister.util.JsonFormUtils.getFieldJSONObject(fields, DBConstants.KEY.RELATIONAL_ID);
                         String familyBaseEntityId = familyIdObject.getString(org.smartregister.chw.anc.util.JsonFormUtils.VALUE);
-                        pncForm = org.smartregister.chw.anc.util.JsonFormUtils.populatePNCForm(pncForm, fields, familyBaseEntityId);
-                        HnppJsonFormUtils.processAttributesWithChoiceIDsForSave(fields);
+                        //pncForm = org.smartregister.chw.anc.util.JsonFormUtils.populatePNCForm(pncForm, fields, familyBaseEntityId);
+                        HnppJsonFormUtils.processAttributesWithChoiceIDsForSave(fields,true);
                         if(!StringUtils.isEmpty(gender)){
                             if (pncForm != null) {
 

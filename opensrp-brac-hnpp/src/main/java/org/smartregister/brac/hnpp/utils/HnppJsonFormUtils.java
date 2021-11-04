@@ -3,9 +3,11 @@ package org.smartregister.brac.hnpp.utils;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Pair;
 
 import com.google.gson.Gson;
+import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.widgets.DatePickerFactory;
 
 import net.sqlcipher.database.SQLiteDatabase;
@@ -1234,6 +1236,9 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
     }
     public static JSONArray processAttributesWithChoiceIDsForSave(JSONArray fields) {
+        return processAttributesWithChoiceIDsForSave(fields,false);
+    }
+    public static JSONArray processAttributesWithChoiceIDsForSave(JSONArray fields,boolean needToHandleCheckBox) {
         for (int i = 0; i < fields.length(); i++) {
             try {
                 JSONObject fieldObject = fields.getJSONObject(i);
@@ -1242,9 +1247,18 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 if (fieldObject.has("openmrs_choice_ids")&&fieldObject.getJSONObject("openmrs_choice_ids").length()>0) {
                     if (fieldObject.has("value")) {
                         String valueEntered = fieldObject.getString("value");
+                        Log.v("PNC_FORM","processAttributesWithChoiceIDs>>"+valueEntered+":dd:"+fieldObject.getJSONObject("openmrs_choice_ids").get(valueEntered));
                         fieldObject.put("value", fieldObject.getJSONObject("openmrs_choice_ids").get(valueEntered));
                     }
                 }
+//                if(needToHandleCheckBox){
+//                    String type = fieldObject.getString(JsonFormConstants.TYPE);
+//                    if (type.equals(JsonFormConstants.CHECK_BOX)) {
+//                        // replace the options
+//                        fieldObject.put(JsonFormConstants.OPTIONS_FIELD_NAME, fieldObject.opt(JsonFormConstants.OPTIONS_FIELD_NAME));
+//                    }
+//                }
+
 //                    }
 //                }
             } catch (JSONException e) {
