@@ -18,6 +18,7 @@ public class ForumActivity extends SecuredActivity implements View.OnClickListen
         findViewById(R.id.adult_forum).setOnClickListener(this);
         findViewById(R.id.history_forum).setOnClickListener(this);
         findViewById(R.id.backBtn).setOnClickListener(this);
+        findViewById(R.id.adult_forum).setVisibility(View.GONE);
         HnppConstants.updateAppBackground(findViewById(R.id.action_bar));
 
     }

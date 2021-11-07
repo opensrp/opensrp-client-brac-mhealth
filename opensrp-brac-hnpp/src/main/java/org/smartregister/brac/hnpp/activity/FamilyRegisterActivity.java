@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.design.bottomnavigation.LabelVisibilityMode;
 import android.support.design.widget.BottomNavigationView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -45,6 +46,7 @@ import org.smartregister.brac.hnpp.listener.HnppFamilyBottomNavListener;
 import org.smartregister.clientandeventmodel.Address;
 import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.clientandeventmodel.Event;
+import org.smartregister.domain.FetchStatus;
 import org.smartregister.domain.db.EventClient;
 import org.smartregister.domain.tag.FormTag;
 import org.smartregister.family.FamilyLibrary;
@@ -59,6 +61,7 @@ import org.smartregister.job.InValidateSyncDataServiceJob;
 import org.smartregister.simprint.SimPrintsLibrary;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.EventClientRepository;
+import org.smartregister.sync.intent.InValidateIntentService;
 import org.smartregister.sync.intent.ValidateIntentService;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 
@@ -178,7 +181,7 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
         super.onStart();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ValidateIntentService.ACTION_VALIDATION);
-
+        intentFilter.addAction(InValidateIntentService.ACTION_INVALIDATION);
         registerReceiver(notificationBroadcastReceiver, intentFilter);
     }
     @Override
@@ -329,6 +332,13 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
                             if(!TextUtils.isEmpty(value) && !value.equalsIgnoreCase(ValidateIntentService.STATUS_FAILED)){
                                 InValidateSyncDataServiceJob.scheduleJobImmediately(InValidateSyncDataServiceJob.TAG);
                             }
+                        }
+                        if(intent != null && intent.getAction().equalsIgnoreCase(InValidateIntentService.ACTION_INVALIDATION)){
+                            String value = intent.getStringExtra(InValidateIntentService.EXTRA_INVALIDATION);
+                            if(!TextUtils.isEmpty(value) && !value.equalsIgnoreCase(ValidateIntentService.STATUS_NOTHING)){
+                                hnppNavigationPresenter.updateUnSyncCount();
+                            }
+
                         }
                     }catch (Exception e){
 

@@ -170,11 +170,11 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
             Visit visit = NCUtils.eventToVisit(baseEvent, visitID);
             visit.setPreProcessedJson(new Gson().toJson(baseEvent));
-            try{
-                visit.setParentVisitID(visitRepository().getParentVisitEventID(visit.getBaseEntityId(), HnppConstants.EVENT_TYPE.SS_INFO, visit.getDate()));
-            }catch (Exception e){
-
-            }
+//            try{
+//                visit.setParentVisitID(visitRepository().getParentVisitEventID(visit.getBaseEntityId(), HnppConstants.EVENT_TYPE.SS_INFO, visit.getDate()));
+//            }catch (Exception e){
+//
+//            }
 
             visitRepository().addVisit(visit);
             JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(baseEvent));
@@ -249,11 +249,11 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
             Visit visit = NCUtils.eventToVisit(baseEvent, visitID);
             visit.setPreProcessedJson(new Gson().toJson(baseEvent));
-           try{
-               visit.setParentVisitID(visitRepository().getParentVisitEventID(visit.getBaseEntityId(), eventType, visit.getDate()));
-           }catch (Exception e){
-
-           }
+//           try{
+//               visit.setParentVisitID(visitRepository().getParentVisitEventID(visit.getBaseEntityId(), eventType, visit.getDate()));
+//           }catch (Exception e){
+//
+//           }
 
             visitRepository().addVisit(visit);
             JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(baseEvent));
@@ -393,20 +393,21 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
         AllSharedPreferences allSharedPreferences = AncLibrary.getInstance().context().allSharedPreferences();
 
-        String derivedEncounterType = StringUtils.isBlank(parentEventType) ? encounterType : "";
-        Event baseEvent = org.smartregister.chw.anc.util.JsonFormUtils.processVisitJsonForm(allSharedPreferences, memberID, derivedEncounterType, jsonString, getTableName());
-        if(encounterType.equalsIgnoreCase(org.smartregister.chw.anc.util.Constants.EVENT_TYPE.ANC_HOME_VISIT)){
-            prepareEvent(baseEvent);
-        }
+        //String derivedEncounterType = StringUtils.isBlank(parentEventType) ? encounterType : "";
+        //Event baseEvent = org.smartregister.chw.anc.util.JsonFormUtils.processVisitJsonForm(allSharedPreferences, memberID, derivedEncounterType, jsonString, getTableName());
+        //
+        Triple<Boolean, JSONObject, JSONArray> registrationFormParams = validateParameters(jsonString.get("First"));
+        JSONObject jsonForm = (JSONObject)registrationFormParams.getMiddle();
+        JSONArray fields = (JSONArray)registrationFormParams.getRight();
+        Event baseEvent = org.smartregister.util.JsonFormUtils.createEvent(fields, getJSONObject(jsonForm, "metadata"), formTag(allSharedPreferences), memberID,encounterType,getTableName());
+
+        //
         if(isComesFromIdentity){
             prepareIsIdentified(baseEvent);
         }else if(needVerified){
                 prepareIsVerified(baseEvent,isVerified,notVerifyCause);
 
         }
-
-//        if (StringUtils.isBlank(parentEventType))
-//            prepareEvent(baseEvent);
 
         if (baseEvent != null) {
             baseEvent.setFormSubmissionId(JsonFormUtils.generateRandomUUIDString());
@@ -420,8 +421,6 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
             Visit visit = NCUtils.eventToVisit(baseEvent, visitID);
             visit.setPreProcessedJson(new Gson().toJson(baseEvent));
-            visit.setParentVisitID(visitRepository().getParentVisitEventID(visit.getBaseEntityId(), parentEventType, visit.getDate()));
-
             visitRepository().addVisit(visit);
             return visit;
         }
@@ -1141,6 +1140,19 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
                 }
                 break;
+            case "which_problem":
+                if(jsonObject.has("options")){
+                    String value = processValueWithChoiceIdsForEdit(jsonObject,org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(),
+                            "which_problem", false));
+                    if(StringUtils.isEmpty(value)){
+                        jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,new JSONArray());
+                    }else{
+                        jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,new JSONArray(value));
+                    }
+
+
+                }
+                break;
             default:
                 if(jsonObject.has("openmrs_choice_ids")&&jsonObject.getJSONObject("openmrs_choice_ids").length()>0){
                     String value = processValueWithChoiceIdsForEdit(jsonObject,org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(),
@@ -1247,7 +1259,6 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 if (fieldObject.has("openmrs_choice_ids")&&fieldObject.getJSONObject("openmrs_choice_ids").length()>0) {
                     if (fieldObject.has("value")) {
                         String valueEntered = fieldObject.getString("value");
-                        Log.v("PNC_FORM","processAttributesWithChoiceIDs>>"+valueEntered+":dd:"+fieldObject.getJSONObject("openmrs_choice_ids").get(valueEntered));
                         fieldObject.put("value", fieldObject.getJSONObject("openmrs_choice_ids").get(valueEntered));
                     }
                 }
@@ -1385,12 +1396,12 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 lookUpBaseEntityId = getString(lookUpJSONObject, "value");
             }
             if ("family".equals(lookUpEntityId) && StringUtils.isNotBlank(lookUpBaseEntityId)) {
+
                 Context context = HnppApplication.getInstance().getContext().applicationContext();
                 addRelationship(context, motherEntityId,lookUpBaseEntityId, baseClient);
-                SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
                 HnppChwRepository pathRepository = new HnppChwRepository(context, HnppApplication.getInstance().getContext());
                 EventClientRepository eventClientRepository = new EventClientRepository(pathRepository);
-                JSONObject clientjson = eventClientRepository.getClient(db, lookUpBaseEntityId);
+                JSONObject clientjson = eventClientRepository.getClient(eventClientRepository.getReadableDatabase(), lookUpBaseEntityId);
                 baseClient.setAddresses(updateWithSSLocation(clientjson));
             }
 

@@ -499,7 +499,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.FORUM_ADO,"কিশোরী ফোরাম")
             .put(EVENT_TYPE.FORUM_WOMEN,"নারী ফোরাম")
             .put(EVENT_TYPE.FORUM_CHILD,"শিশু ফোরাম")
-            .put(EVENT_TYPE.FORUM_NCD,"অসংক্রামক রোগের ফোরাম")
+            .put(EVENT_TYPE.FORUM_NCD,"সাধারণ ফোরাম")
             .put(EVENT_TYPE.FORUM_ADULT,"অ্যাডাল্ট ফোরাম")
             .build();
     //needed for dashboard
@@ -541,7 +541,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.FORUM_ADO,"কিশোরী ফোরাম")
             .put(EVENT_TYPE.FORUM_WOMEN,"নারী ফোরাম")
             .put(EVENT_TYPE.FORUM_CHILD,"শিশু ফোরাম")
-            .put(EVENT_TYPE.FORUM_NCD,"অসংক্রামক রোগের ফোরাম")
+            .put(EVENT_TYPE.FORUM_NCD,"সাধারণ ফোরাম")
             .put(EVENT_TYPE.FORUM_ADULT,"অ্যাডাল্ট ফোরাম")
             .put(EVENT_TYPE.ANC1_REGISTRATION,"গর্ভবতী পরিচর্যা - ১ম ত্রিমাসিক")
             .put(EVENT_TYPE.ANC2_REGISTRATION,"গর্ভবতী পরিচর্যা - ২য় ত্রিমাসিক")

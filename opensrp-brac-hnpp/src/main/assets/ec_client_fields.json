@@ -754,6 +754,13 @@
             "field": "attributes.breast_feeded"
 
           }
+        },
+        {
+          "column_name": "which_problem",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.which_problem"
+          }
         }
       ]
     },
