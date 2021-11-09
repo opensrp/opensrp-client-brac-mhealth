@@ -42,6 +42,7 @@ import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
+import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -62,6 +63,7 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.adapter.ViewPagerAdapter;
 import org.smartregister.family.fragment.BaseFamilyOtherMemberProfileFragment;
 import org.smartregister.family.model.BaseFamilyOtherMemberProfileActivityModel;
+import org.smartregister.family.util.AppExecutors;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.helper.ImageRenderHelper;
@@ -94,7 +96,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     private boolean isVerified,verificationNeeded;
     private String guId;
     private String moduleId;
-
+    private Handler handler;
 
     public boolean isNeedToVerify() {
         return verificationNeeded && !isVerified;
@@ -107,7 +109,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_other_member_profile);
-
+        handler = new Handler();
         Toolbar toolbar = findViewById(org.smartregister.family.R.id.family_toolbar);
         HnppConstants.updateAppBackground(toolbar);
         setSupportActionBar(toolbar);
@@ -558,7 +560,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             Toast.makeText(HnppFamilyOtherMemberProfileActivity.this,"Please select module id",Toast.LENGTH_LONG).show();
         }
     }
-
+    boolean isProcessing = false;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //ignoreSimprintCheck = false;
@@ -591,60 +593,133 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         }
         if(resultCode == Activity.RESULT_OK){
             //TODO: Need to check request code
-            VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
             HnppConstants.isViewRefresh = true;
 
         }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
+            if(isProcessing) return;
+            isProcessing = true;
+            showProgressDialog(R.string.please_wait_message);
+            AppExecutors appExecutors = new AppExecutors();
+            Runnable runnable = () -> {
+                String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
 
-//            String type = StringUtils.isBlank(parentEventType) ? getEncounterType() : getEncounterType();
-           // String type = HnppJsonFormUtils.getEncounterType();
-            String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
+                boolean isSave = processVisitFormAndSave(jsonString);
 
-            Visit visit = null;
-            try {
-            JSONObject form = new JSONObject(jsonString);
-            String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
-                type = HnppJsonFormUtils.getEncounterType(type);
-                Log.v("BRAC_","type:"+type);
-//                if(type.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION) ||
-//                        type.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION) ||
-//                        type.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
-//                    HnppJsonFormUtils.updateLastBracAnc(form,baseEntityId);
-//                }
-            // persist to database
-
-                Map<String, String> jsonStrings = new HashMap<>();
-                jsonStrings.put("First",form.toString());
-
-                visit = HnppJsonFormUtils.saveVisit(isComesFromIdentity,verificationNeeded, isVerified,checkedItem, baseEntityId, type, jsonStrings, "");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            if(memberHistoryFragment !=null){
-                new Handler().postDelayed(new Runnable() {
+                appExecutors.mainThread().execute(new Runnable() {
                     @Override
                     public void run() {
-//                        memberHistoryFragment.onActivityResult(0,0,null);
-                        mViewPager.setCurrentItem(2,true);
-                        if(profileMemberFragment !=null){
-                            profileMemberFragment.updateStaticView();
+                        isProcessing = false;
+                        if(isSave){
+                            hideProgressDialog();
+                            showServiceDoneDialog(true);
+                        }else {
+                            hideProgressDialog();
+                            showServiceDoneDialog(false);
                         }
-                        if(memberOtherServiceFragment !=null){
-                            memberOtherServiceFragment.updateStaticView();
-                        }
-
                     }
-                },1000);
-            }
+                });
+            };
+            appExecutors.diskIO().execute(runnable);
+        }
+        else if (resultCode == Activity.RESULT_OK && requestCode == org.smartregister.chw.anc.util.Constants.REQUEST_CODE_HOME_VISIT){
+            if(isProcessing) return;
+            isProcessing = true;
+            showProgressDialog(R.string.please_wait_message);
+            AppExecutors appExecutors = new AppExecutors();
+            Runnable runnable = () -> {
+
+                boolean isSave = processVisits();
+
+                appExecutors.mainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        isProcessing = false;
+                        if(isSave){
+                            hideProgressDialog();
+                            showServiceDoneDialog(true);
+                        }else {
+                            hideProgressDialog();
+                            showServiceDoneDialog(false);
+                        }
+                    }
+                });
+            };
+            appExecutors.diskIO().execute(runnable);
+
 
         }
-
-
-        super.onActivityResult(requestCode, resultCode, data);
+        //super.onActivityResult(requestCode, resultCode, data);
 
     }
+    private boolean processVisitFormAndSave(String jsonString){
 
+        try {
+            JSONObject form = new JSONObject(jsonString);
+            String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
+            type = HnppJsonFormUtils.getEncounterType(type);
+            Map<String, String> jsonStrings = new HashMap<>();
+            jsonStrings.put("First",form.toString());
+
+            Visit visit = HnppJsonFormUtils.saveVisit(isComesFromIdentity,verificationNeeded, isVerified,checkedItem, baseEntityId, type, jsonStrings, "");
+            if(visit!=null){
+                HnppHomeVisitIntentService.processVisits();
+                VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+                return true;
+
+            }else{
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    private boolean processVisits(){
+        try{
+            HnppHomeVisitIntentService.processVisits();
+            VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+    private void showServiceDoneDialog(boolean isSuccess){
+        Dialog dialog = new Dialog(this);
+        dialog.setCancelable(false);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_with_one_button);
+        TextView titleTv = dialog.findViewById(R.id.title_tv);
+        titleTv.setText(isSuccess?"সার্ভিসটি দেওয়া সম্পূর্ণ হয়েছে":"সার্ভিসটি দেওয়া সফল হয়নি। পুনরায় চেষ্টা করুন ");
+        Button ok_btn = dialog.findViewById(R.id.ok_btn);
+
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                if(isSuccess){
+                    if(memberHistoryFragment !=null){
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                hideProgressDialog();
+                                    if(profileMemberFragment !=null){
+                                        profileMemberFragment.updateStaticView();
+                                    }
+                                    if(memberOtherServiceFragment !=null){
+                                        memberOtherServiceFragment.updateStaticView();
+                                    }
+                                    mViewPager.setCurrentItem(2,true);
+
+                            }
+                        },500);
+                    }
+                }
+            }
+        });
+        dialog.show();
+
+    }
     @Override
     protected BaseProfileContract.Presenter getFamilyOtherMemberActivityPresenter(
             String familyBaseEntityId, String baseEntityId, String familyHead, String primaryCaregiver, String villageTown, String familyName) {
@@ -866,6 +941,10 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 //        Utils.startAsyncTask(new ConfirmIdentificationTask(sessionId,guId),null);
 //
 //    }
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(handler!=null) handler.removeCallbacksAndMessages(null);
+    }
 
 }

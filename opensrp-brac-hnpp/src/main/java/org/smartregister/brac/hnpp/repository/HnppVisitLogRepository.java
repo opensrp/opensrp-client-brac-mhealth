@@ -15,6 +15,7 @@ import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.VisitLog;
 import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.core.application.CoreChwApplication;
+import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.repository.BaseRepository;
 import org.smartregister.repository.Repository;
 import java.util.ArrayList;
@@ -283,27 +284,20 @@ public class HnppVisitLogRepository extends BaseRepository {
 
         return  false;
     }
-    public boolean isDoneWihinTwentyFourHours(String baseEntityId, String eventTpe) {
-        if(TextUtils.isEmpty(eventTpe)) return true;
-        String query ="";
-        if(eventTpe.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION) ||
-                eventTpe.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY)){
-            query  = "select event_type from ec_visit_log where (event_type ='"+HnppConstants.EVENT_TYPE.ANC1_REGISTRATION+"' OR event_type ='"+HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY+"') and base_entity_id ='"+baseEntityId+"' and (strftime('%d',datetime(visit_date/1000,'unixepoch','localtime')) = strftime('%d',datetime('now')))";
+    public boolean isDoneWihinTwentyFourHours(String baseEntityId, String eventType) {
+        if(TextUtils.isEmpty(eventType)) return true;
 
-        }else{
-            query = "select event_type from ec_visit_log where event_type ='"+eventTpe+"' and base_entity_id ='"+baseEntityId+"' and (strftime('%d',datetime(visit_date/1000,'unixepoch','localtime')) = strftime('%d',datetime('now')))";
-
-        }
-
-        String eventType="";
+        String visitType = getCorrespondingVisitType(eventType);
+        String query = "select visit_type from visits where visit_type ='"+visitType+"' and base_entity_id ='"+baseEntityId+"' and (strftime('%d',datetime(visit_date/1000,'unixepoch','localtime')) = strftime('%d',datetime('now')))";
+        Log.v("DUE_VISIT",""+query);
         android.database.Cursor cursor = null;
+        boolean isExist = false;
         try {
             cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()) {
-
-                    eventType = cursor.getString(0);
+                    isExist = true;
                     cursor.moveToNext();
 
                 }
@@ -314,7 +308,21 @@ public class HnppVisitLogRepository extends BaseRepository {
         finally {
             if(cursor!=null) cursor.close();
         }
-        return !TextUtils.isEmpty(eventType);
+        return isExist;
+    }
+    private String getCorrespondingVisitType(String eventType) {
+        switch (eventType){
+            case HnppConstants.EVENT_TYPE.ANC1_REGISTRATION:
+            case HnppConstants.EVENT_TYPE.ANC2_REGISTRATION:
+            case HnppConstants.EVENT_TYPE.ANC3_REGISTRATION:
+            case HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY:
+            case HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE:
+                return CoreConstants.EventType.ANC_HOME_VISIT;
+            case HnppConstants.EVENT_TYPE.PNC_REGISTRATION:
+                return CoreConstants.EventType.PNC_HOME_VISIT;
+            default:
+                return eventType;
+        }
     }
     public  ArrayList<String> getEventsWithin24Hours(String baseEntityId){
 

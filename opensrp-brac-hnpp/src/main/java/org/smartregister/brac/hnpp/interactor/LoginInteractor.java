@@ -5,7 +5,6 @@ import org.smartregister.brac.hnpp.job.HnppPncCloseJob;
 import org.smartregister.brac.hnpp.job.SSLocationFetchJob;
 import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
-import org.smartregister.brac.hnpp.job.HomeVisitServiceJob;
 import org.smartregister.chw.core.job.VaccineRecurringServiceJob;
 import org.smartregister.immunization.job.VaccineServiceJob;
 import org.smartregister.job.PullUniqueIdsServiceJob;
@@ -46,7 +45,6 @@ public class LoginInteractor extends BaseLoginInteractor implements BaseLoginCon
             PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
             SSLocationFetchJob.scheduleJobImmediately(SSLocationFetchJob.TAG);
             SyncServiceJob.scheduleJobImmediately(SyncServiceJob.TAG);
-            HomeVisitServiceJob.scheduleJobImmediately(HomeVisitServiceJob.TAG);
             VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
             HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
             VaccineServiceJob.scheduleJobImmediately(VaccineServiceJob.TAG);

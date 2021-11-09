@@ -18,7 +18,7 @@ buildscript {
 
 android {
     useLibrary 'org.apache.http.legacy'
-    compileSdkVersion 29
+    compileSdkVersion 30
     buildToolsVersion androidBuildToolsVersion
 
     compileOptions {
@@ -45,7 +45,7 @@ android {
         buildConfigField "String[]", "ALLOWED_LOCATION_LEVELS", '{"MOH Jhpiego Facility Name" , "Village"}'
         buildConfigField "String", 'DEFAULT_LOCATION', '"Village"'
         buildConfigField "boolean", 'SUPPORT_QR', 'false'
-        buildConfigField "int", "DATABASE_VERSION", '24'
+        buildConfigField "int", "DATABASE_VERSION", '38'
         buildConfigField "int", "DATA_SYNC_DURATION_MINUTES", '10'
         buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "1800000l"
         buildConfigField "boolean", "TIME_CHECK", "false"
@@ -120,19 +120,19 @@ android {
 //            buildConfigField "String", 'opensrp_url_live', '"https://mhealthtest.brac.net/opensrp/"'
         }
         normal{
-            versionCode 38
-            versionName "1.4.2"
+            versionCode 61
+            versionName "1.4.2_dev"
             dimension = 'baseDimension'
-//            buildConfigField "boolean", 'IS_TRAINING', 'true'
-//            buildConfigField "String", 'opensrp_url_training', '"http://hnppqa.mpower-social.com:8080/opensrp/"'
-//            buildConfigField "String", 'opensrp_url_live', '"http://hnppqa.mpower-social.com:8080/opensrp/"'
+            buildConfigField "boolean", 'IS_TRAINING', 'true'
+            buildConfigField "String", 'opensrp_url_training', '"http://hnppqa.mpower-social.com:8080/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"http://hnppqa.mpower-social.com:8080/opensrp/"'
 //            buildConfigField "boolean", 'IS_TRAINING', 'false'
 //            buildConfigField "String", 'opensrp_url_training', '"https://mhealth.brac.net/opensrp/"'
 //            buildConfigField "String", 'opensrp_url_live', '"https://mhealth.brac.net/opensrp/"'
 
-            buildConfigField "boolean", 'IS_TRAINING', 'true'
-            buildConfigField "String", 'opensrp_url_training', '"https://hnpptest1.mpower-social.com/opensrp/"'
-            buildConfigField "String", 'opensrp_url_live', '"https://hnpptest1.mpower-social.com/opensrp/"'
+//            buildConfigField "boolean", 'IS_TRAINING', 'true'
+//            buildConfigField "String", 'opensrp_url_training', '"https://hnpptest1.mpower-social.com/opensrp/"'
+//            buildConfigField "String", 'opensrp_url_live', '"https://hnpptest1.mpower-social.com/opensrp/"'
 
         }
     }

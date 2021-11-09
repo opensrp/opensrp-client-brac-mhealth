@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,6 +21,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
@@ -32,6 +37,7 @@ import org.smartregister.brac.hnpp.fragment.FamilyProfileDueFragment;
 import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.model.HnppFamilyProfileModel;
+import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
@@ -48,6 +54,7 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.family.adapter.ViewPagerAdapter;
 import org.smartregister.family.fragment.BaseFamilyProfileDueFragment;
+import org.smartregister.family.util.AppExecutors;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.JsonFormUtils;
@@ -66,7 +73,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
 
     public String moduleId;
     public String houseHoldId;
-
+    private Handler handler;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -86,7 +93,12 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         Toolbar toolbar = (Toolbar)this.findViewById(R.id.family_toolbar);
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
         HnppConstants.isViewRefresh = false;
-
+        handler = new Handler();
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(handler!=null) handler.removeCallbacksAndMessages(null);
     }
     @Override
     public void onBackPressed() {
@@ -160,7 +172,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
 
 
     }
-
+    boolean isProcessing = false;
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == JsonFormUtils.REQUEST_CODE_GET_JSON && resultCode == RESULT_OK) {
@@ -186,31 +198,30 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
             HnppConstants.isViewRefresh = true;
         }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
-            VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+            if(isProcessing) return;
+            isProcessing = true;
+            showProgressDialog(R.string.please_wait_message);
+            AppExecutors appExecutors = new AppExecutors();
+            Runnable runnable = () -> {
+                String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
 
-            String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
-            Map<String, String> jsonStrings = new HashMap<>();
-            jsonStrings.put("First",jsonString);
-            Visit visit = null;
-            try {
-                JSONObject form = new JSONObject(jsonString);
-                String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
-                type = HnppJsonFormUtils.getEncounterType(type);
+                boolean isSave = processAndSaveVisitForm(jsonString);
 
-                visit = HnppJsonFormUtils.saveVisit(false,false,false,"", familyBaseEntityId, type, jsonStrings, "");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            if(familyHistoryFragment !=null){
-                new Handler().postDelayed(new Runnable() {
+                appExecutors.mainThread().execute(new Runnable() {
                     @Override
                     public void run() {
-                        familyHistoryFragment.onActivityResult(0,0,null);
-                        mViewPager.setCurrentItem(3,true);
-
+                        isProcessing = false;
+                        if(isSave){
+                            hideProgressDialog();
+                            showServiceDoneDialog(true);
+                        }else {
+                            hideProgressDialog();
+                            showServiceDoneDialog(false);
+                        }
                     }
-                },1000);
-            }
+                });
+            };
+            appExecutors.diskIO().execute(runnable);
             HnppConstants.isViewRefresh = true;
 
         }
@@ -221,7 +232,59 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
     protected Class<? extends CoreFamilyRemoveMemberActivity> getFamilyRemoveMemberClass() {
         return FamilyRemoveMemberActivity.class;
     }
+    private boolean processAndSaveVisitForm(String jsonString){
+        Map<String, String> jsonStrings = new HashMap<>();
+        jsonStrings.put("First",jsonString);
+        try {
+            JSONObject form = new JSONObject(jsonString);
+            String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
+            type = HnppJsonFormUtils.getEncounterType(type);
 
+            Visit visit = HnppJsonFormUtils.saveVisit(false,false,false,"", familyBaseEntityId, type, jsonStrings, "");
+            if(visit!=null){
+                HnppHomeVisitIntentService.processVisits();
+                VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+                return true;
+            }else{
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+    private void showServiceDoneDialog(boolean isSuccess){
+        Dialog dialog = new Dialog(this);
+        dialog.setCancelable(false);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_with_one_button);
+        TextView titleTv = dialog.findViewById(R.id.title_tv);
+        titleTv.setText(isSuccess?"সার্ভিসটি দেওয়া সম্পূর্ণ হয়েছে":"সার্ভিসটি দেওয়া সফল হয়নি। পুনরায় চেষ্টা করুন ");
+        Button ok_btn = dialog.findViewById(R.id.ok_btn);
+
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                if(isSuccess){
+                    if(familyHistoryFragment !=null){
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                familyHistoryFragment.onActivityResult(0,0,null);
+                                mViewPager.setCurrentItem(3,true);
+                                HnppConstants.isViewRefresh = true;
+                                presenter().refreshProfileView();
+                            }
+                        },2000);
+                    }
+                }
+            }
+        });
+        dialog.show();
+
+    }
     @Override
     protected Class<? extends CoreFamilyProfileMenuActivity> getFamilyProfileMenuClass() {
         return FamilyProfileMenuActivity.class;
