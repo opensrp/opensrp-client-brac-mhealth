@@ -63,7 +63,8 @@ public class HnppDBUtils extends CoreChildUtils {
         ArrayList<ForumDetails> visitIds = new ArrayList<>();
         for(Map<String, String> valu : valus){
             ForumDetails forumDetails = JsonFormUtils.gson.fromJson(valu.get("visit_json"),ForumDetails.class);
-            visitIds.add(forumDetails);
+            if(forumDetails!=null)visitIds.add(forumDetails);
+
         }
         return visitIds;
 

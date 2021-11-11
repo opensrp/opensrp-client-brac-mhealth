@@ -79,7 +79,7 @@ public class SearchHHMemberActivity extends SecuredActivity implements View.OnCl
         }else{
             title.setText("সদস্য খুজুন");
         }
-
+        SearchHHMemberAdapter.selectedId.clear();
         presenter = new SearchHHMemberPresenter(this);
         if(previousList.size() > 0){
             presenter.updatePreviousSelectedList(previousList);

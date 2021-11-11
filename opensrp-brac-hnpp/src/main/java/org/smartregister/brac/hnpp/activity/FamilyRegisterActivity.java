@@ -57,11 +57,12 @@ import org.smartregister.family.util.Utils;
 import org.smartregister.helper.BottomNavigationHelper;
 import org.smartregister.immunization.service.intent.RecurringIntentService;
 import org.smartregister.immunization.service.intent.VaccineIntentService;
+import org.smartregister.job.ForceSyncDataServiceJob;
 import org.smartregister.job.InValidateSyncDataServiceJob;
 import org.smartregister.simprint.SimPrintsLibrary;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.EventClientRepository;
-import org.smartregister.sync.intent.InValidateIntentService;
+import org.smartregister.sync.intent.ForceSyncIntentService;
 import org.smartregister.sync.intent.ValidateIntentService;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 
@@ -181,7 +182,7 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
         super.onStart();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ValidateIntentService.ACTION_VALIDATION);
-        intentFilter.addAction(InValidateIntentService.ACTION_INVALIDATION);
+        intentFilter.addAction(ForceSyncIntentService.ACTION_SYNC);
         registerReceiver(notificationBroadcastReceiver, intentFilter);
     }
     @Override
@@ -330,12 +331,12 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity {
                         if(intent != null && intent.getAction().equalsIgnoreCase(ValidateIntentService.ACTION_VALIDATION)){
                             String value = intent.getStringExtra(ValidateIntentService.EXTRA_VALIDATION);
                             if(!TextUtils.isEmpty(value) && !value.equalsIgnoreCase(ValidateIntentService.STATUS_FAILED)){
-                                InValidateSyncDataServiceJob.scheduleJobImmediately(InValidateSyncDataServiceJob.TAG);
+                                ForceSyncDataServiceJob.scheduleJobImmediately(ForceSyncDataServiceJob.TAG);
                             }
                         }
-                        if(intent != null && intent.getAction().equalsIgnoreCase(InValidateIntentService.ACTION_INVALIDATION)){
-                            String value = intent.getStringExtra(InValidateIntentService.EXTRA_INVALIDATION);
-                            if(!TextUtils.isEmpty(value) && !value.equalsIgnoreCase(ValidateIntentService.STATUS_NOTHING)){
+                        if(intent != null && intent.getAction().equalsIgnoreCase(ForceSyncIntentService.ACTION_SYNC)){
+                            String value = intent.getStringExtra(ForceSyncIntentService.EXTRA_SYNC);
+                            if(!TextUtils.isEmpty(value) && !value.equalsIgnoreCase(ForceSyncIntentService.STATUS_NOTHING)){
                                 hnppNavigationPresenter.updateUnSyncCount();
                             }
 

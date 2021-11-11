@@ -168,7 +168,7 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
     private void forceSyncData() {
         invalidDataBroadcastReceiver = new InvalidSyncBroadcast();
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("FORCE_SYNC");
+        intentFilter.addAction(ForceSyncIntentService.ACTION_SYNC);
         registerReceiver(invalidDataBroadcastReceiver, intentFilter);
         showProgressDialog("ডাটা সিঙ্ক করা হচ্ছে....");
         ForceSyncDataServiceJob.scheduleJobImmediately(ForceSyncDataServiceJob.TAG);

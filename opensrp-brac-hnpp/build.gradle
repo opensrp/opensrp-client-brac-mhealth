@@ -120,15 +120,15 @@ android {
 //            buildConfigField "String", 'opensrp_url_live', '"https://mhealthtest.brac.net/opensrp/"'
         }
         normal{
-            versionCode 61
-            versionName "1.4.2_dev"
+            versionCode 38
+            versionName "1.4.2"
             dimension = 'baseDimension'
-            buildConfigField "boolean", 'IS_TRAINING', 'true'
-            buildConfigField "String", 'opensrp_url_training', '"http://hnppqa.mpower-social.com:8080/opensrp/"'
-            buildConfigField "String", 'opensrp_url_live', '"http://hnppqa.mpower-social.com:8080/opensrp/"'
-//            buildConfigField "boolean", 'IS_TRAINING', 'false'
-//            buildConfigField "String", 'opensrp_url_training', '"https://mhealth.brac.net/opensrp/"'
-//            buildConfigField "String", 'opensrp_url_live', '"https://mhealth.brac.net/opensrp/"'
+//            buildConfigField "boolean", 'IS_TRAINING', 'true'
+//            buildConfigField "String", 'opensrp_url_training', '"http://hnppqa.mpower-social.com:8080/opensrp/"'
+//            buildConfigField "String", 'opensrp_url_live', '"http://hnppqa.mpower-social.com:8080/opensrp/"'
+            buildConfigField "boolean", 'IS_TRAINING', 'false'
+            buildConfigField "String", 'opensrp_url_training', '"https://mhealth.brac.net/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"https://mhealth.brac.net/opensrp/"'
 
 //            buildConfigField "boolean", 'IS_TRAINING', 'true'
 //            buildConfigField "String", 'opensrp_url_training', '"https://hnpptest1.mpower-social.com/opensrp/"'
