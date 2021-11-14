@@ -12,6 +12,7 @@ import org.smartregister.chw.anc.repository.VisitDetailsRepository;
 import org.smartregister.chw.anc.repository.VisitRepository;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.brac.hnpp.BuildConfig;
+import org.smartregister.configurableviews.repository.ConfigurableViewsRepository;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.immunization.ImmunizationLibrary;
 import org.smartregister.immunization.repository.RecurringServiceRecordRepository;
@@ -128,10 +129,8 @@ public class HnppChwRepository extends Repository {
                 case 23:
                     upgradeToVersion23(context,db);
                     break;
-                case 24:
-                    upgradeToVersion24(context,db);
-                    break;
                 case 25:
+                    //FamilyLibrary.getInstance().context().allSharedPreferences().savePreference("IS_UPGRADED","1");
                     upgradeToVersion25(context,db);
                     break;
                 case 26:
@@ -199,7 +198,7 @@ public class HnppChwRepository extends Repository {
 
     }
     private void upgradeToVersion36(SQLiteDatabase db){
-        FamilyLibrary.getInstance().context().allSharedPreferences().savePreference("IS_UPGRADED","1");
+
         try{
             db.execSQL("delete from stock_table");
             db.execSQL("ALTER TABLE stock_table ADD COLUMN form_submission_id VARCHAR;");
@@ -271,28 +270,19 @@ public class HnppChwRepository extends Repository {
 
         }
     }
-    private void upgradeToVersion24(Context context, SQLiteDatabase db) {
-        try {
-            db.execSQL("ALTER TABLE ec_child ADD COLUMN which_problem VARCHAR;");
-
-        } catch (Exception e) {
-
-        }
-    }
-    private void upgradeToVersion24(Context context, SQLiteDatabase db) {
-        try {
-            db.execSQL("CREATE TABLE ec_guest_member (id VARCHAR,_id VARCHAR,base_entity_id VARCHAR,ss_name VARCHAR,village_name VARCHAR,village_id VARCHAR,unique_id VARCHAR,first_name VARCHAR,father_name VARCHAR,phone_number VARCHAR," +
-                    "is_birthday_known VARCHAR,dob VARCHAR,estimated_age VARCHAR,gender VARCHAR,dod VARCHAR,entity_type VARCHAR,date_removed VARCHAR,last_interacted_with LONG,is_closed VARCHAR" +
-                    ",details VARCHAR,relationalid VARCHAR)");
-        } catch (Exception e) {
-
-        }
-    }
     private void upgradeToVersion19(Context context, SQLiteDatabase db) {
         DistrictListRepository.createTable(db);
 
     }
     private void upgradeToVersion25(Context context, SQLiteDatabase db) {
+        try {
+            db.execSQL("CREATE TABLE ec_guest_member (id VARCHAR,_id VARCHAR,base_entity_id VARCHAR,ss_name VARCHAR,village_name VARCHAR,village_id VARCHAR,unique_id VARCHAR,first_name VARCHAR,father_name VARCHAR,phone_number VARCHAR," +
+                    "is_birthday_known VARCHAR,dob VARCHAR,estimated_age VARCHAR,gender VARCHAR,dod VARCHAR,entity_type VARCHAR,date_removed VARCHAR,last_interacted_with LONG,is_closed VARCHAR" +
+                    ",details VARCHAR,relationalid VARCHAR)");
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
         db.execSQL("ALTER TABLE ec_family_member ADD COLUMN risk_event_type VARCHAR;");
         db.execSQL("ALTER TABLE ec_child ADD COLUMN is_risk VARCHAR;");
         RiskDetailsRepository.createTable(db);

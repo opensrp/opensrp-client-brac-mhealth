@@ -114,7 +114,7 @@
                         android:textColor="@color/white"
                         android:textSize="18sp" />
                     <Button
-                        android:id="@+id/all_data_btn"
+                        android:id="@+id/compare_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:layout_marginLeft="10dp"
@@ -127,10 +127,11 @@
                         android:shadowDy="1"
                         android:shadowRadius="0.5"
                         android:textStyle="bold"
-                        android:text="সব ডাটা ফোর্স সিঙ্ক"
+                        android:text="ডাটা কম্পেয়ার উইথ সার্ভার"
                         android:textAllCaps="true"
                         android:textColor="@color/white"
                         android:textSize="18sp" />
+
 
 
                 </LinearLayout>
@@ -182,6 +183,24 @@
                 android:textColor="@color/white"
                 android:textSize="18sp" />
             <Button
+                android:id="@+id/sync_unsync_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/login_button_bg"
+                android:ems="10"
+                android:shadowColor="#ffffff"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="0.5"
+                android:textStyle="bold"
+                android:text="ফোর্স আনসিঙ্ক ডাটা "
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+            <Button
                 android:id="@+id/data_sync_by_id"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
@@ -199,24 +218,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
-            <Button
-                android:id="@+id/compare_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/red_button"
-                android:ems="10"
-                android:shadowColor="#ffffff"
-                android:shadowDx="0"
-                android:shadowDy="1"
-                android:shadowRadius="0.5"
-                android:textStyle="bold"
-                android:text="ডাটা কম্পেয়ার উইথ সার্ভার"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
+
 
         </LinearLayout>
     </ScrollView>
