@@ -269,6 +269,7 @@ public class HnppChwRepository extends CoreChwRepository {
                     "is_birthday_known VARCHAR,dob VARCHAR,estimated_age VARCHAR,gender VARCHAR,dod VARCHAR,entity_type VARCHAR,date_removed VARCHAR,last_interacted_with LONG,is_closed VARCHAR" +
                     ",details VARCHAR,relationalid VARCHAR)");
         } catch (Exception e) {
+            e.printStackTrace();
 
         }
         db.execSQL("ALTER TABLE ec_family_member ADD COLUMN risk_event_type VARCHAR;");
