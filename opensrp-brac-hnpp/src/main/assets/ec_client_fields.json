@@ -925,6 +925,13 @@
           "json_mapping": {
             "field": "attributes.trouble_seeing_hearing"
           }
+        },
+        {
+          "column_name": "which_problem",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.which_problem"
+          }
         }
       ]
     },

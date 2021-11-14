@@ -414,7 +414,8 @@ public class HnppDBUtils extends CoreChildUtils {
         ArrayList<ForumDetails> visitIds = new ArrayList<>();
         for(Map<String, String> valu : valus){
             ForumDetails forumDetails = JsonFormUtils.gson.fromJson(valu.get("visit_json"),ForumDetails.class);
-            visitIds.add(forumDetails);
+            if(forumDetails!=null)visitIds.add(forumDetails);
+
         }
         return visitIds;
 
@@ -679,7 +680,7 @@ public class HnppDBUtils extends CoreChildUtils {
                 "ec_child.breastfeeding_time," +
                 "ec_child.head_body_covered," +
                 "ec_child.physically_challenged," +
-                "ec_child.breast_feeded" +
+                "ec_child.breast_feeded," +"ec_child.which_problem" +
                 " from ec_child where ec_child.mother_entity_id = '"+baseEntityId+"' AND ec_child.entry_point = 'PNC'";
         Cursor cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         HashMap<String,String> child_details = new HashMap<>();
@@ -695,7 +696,7 @@ public class HnppDBUtils extends CoreChildUtils {
             child_details.put("head_body_covered",translateValues(cursor.getString(7)));
             child_details.put("physically_challenged",translateValues(cursor.getString(8)));
             child_details.put("breast_feeded",translateValues(cursor.getString(9)));
-
+            child_details.put("which_problem",translateValues(cursor.getString(10)));
             try {
                 JSONObject stepOne = jsonForm.getJSONObject(JsonFormUtils.STEP1);
                 JSONArray jsonArray = stepOne.getJSONArray(JsonFormUtils.FIELDS);
@@ -1097,8 +1098,7 @@ public class HnppDBUtils extends CoreChildUtils {
         columnList.add(tableName + "." + ChildDBConstants.KEY.HEAD_BODY_COVERED);
         columnList.add(tableName + "." + ChildDBConstants.KEY.PHYSICALLY_CHALLENGED);
         columnList.add(tableName + "." + ChildDBConstants.KEY.BREAST_FEEDED);
-
-
+        columnList.add(tableName + "." + ChildDBConstants.KEY.WHICH_PROBLEM);
 
         return columnList.toArray(new String[columnList.size()]);
     }

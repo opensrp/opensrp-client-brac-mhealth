@@ -1093,7 +1093,7 @@
       {
         "key": "which_problem",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
+        "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "which_problem",
         "type": "check_box",
         "label": "কোন ক্রুটি আছে?",

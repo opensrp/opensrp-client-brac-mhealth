@@ -43,6 +43,7 @@ import org.smartregister.chw.core.presenter.NavigationPresenter;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.domain.FetchStatus;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
+import org.smartregister.repository.EventClientRepository;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
 import org.smartregister.util.LangUtils;
@@ -274,6 +275,20 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
                 tvLastSyncTime.setVisibility(View.INVISIBLE);
             }
         }
+        mPresenter.updateUnSyncCount();
+    }
+
+    @Override
+    public void updateUnSyncCount(int count) {
+        try{
+            if(rootView !=null){
+                TextView tvLastSyncTime = rootView.findViewById(R.id.tvUnsyncCount);
+                tvLastSyncTime.setText(count+"");
+            }
+        }catch (Exception e){
+
+        }
+
     }
 
     @Override
@@ -416,6 +431,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     private void registerSync(final Activity parentActivity) {
 
         TextView tvSync = rootView.findViewById(R.id.tvSync);
+        TextView tvUnsyncCount = rootView.findViewById(R.id.tvUnsyncCount);
         ivSync = rootView.findViewById(R.id.ivSyncIcon);
         syncProgressBar = rootView.findViewById(R.id.pbSync);
 
@@ -435,6 +451,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
 
         tvSync.setOnClickListener(syncClicker);
         ivSync.setOnClickListener(syncClicker);
+        tvUnsyncCount.setOnClickListener(syncClicker);
 
         //refreshSyncProgressSpinner();
     }
@@ -543,18 +560,15 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     public void onSyncStart() {
         // set the sync icon to be a rotating menu
         refreshSyncProgressSpinner();
-        Timber.v("onSyncStart");
     }
 
     @Override
     public void onSyncInProgress(FetchStatus fetchStatus) {
         Timber.v("onSyncInProgress");
-
     }
 
     @Override
     public void onSyncComplete(FetchStatus fetchStatus) {
-        Timber.v("onSyncInProgress");
         // hide the rotating menu
         refreshSyncProgressSpinner();
         if (!fetchStatus.equals(FetchStatus.noConnection) && !fetchStatus.equals(FetchStatus.fetchedFailed)) {

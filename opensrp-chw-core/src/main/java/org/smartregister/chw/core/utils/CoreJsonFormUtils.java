@@ -593,6 +593,31 @@ public class CoreJsonFormUtils extends org.smartregister.family.util.JsonFormUti
                 Timber.e(e.toString());
             }
 
+           // JSONArray fields = new JSONArray();
+
+//            int x = 0;
+//            while (x < registrationFormParams.getRight().length()) {
+//                //JSONObject obj = registrationFormParams.getRight().getJSONObject(x);
+//                String myKey = registrationFormParams.getRight().getJSONObject(x).getString(KEY);
+//
+//                if (myKey.equalsIgnoreCase(CoreConstants.FORM_CONSTANTS.REMOVE_MEMBER_FORM.DATE_MOVED) ||
+//                        myKey.equalsIgnoreCase(CoreConstants.FORM_CONSTANTS.REMOVE_MEMBER_FORM.REASON)
+//                ) {
+//                    fields.put(registrationFormParams.getRight().get(x));
+//                }
+//                if (myKey.equalsIgnoreCase(CoreConstants.FORM_CONSTANTS.REMOVE_MEMBER_FORM.DATE_DIED)) {
+//                    fields.put(registrationFormParams.getRight().get(x));
+//                    try {
+//                        dod = dd_MM_yyyy.parse(registrationFormParams.getRight().getJSONObject(x).getString(VALUE));
+//                    } catch (Exception e) {
+//                        Timber.d(e.toString());
+//                    }
+//                }else{
+//                    fields.put(registrationFormParams.getRight().get(x));
+//                }
+//                x++;
+//            }
+
             String encounterType = getString(jsonObject, ENCOUNTER_TYPE);
 
             String eventType;

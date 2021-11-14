@@ -120,6 +120,7 @@ public class NavigationPresenter implements NavigationContract.Presenter {
     }
 
 
+
     @Override
     public void refreshLastSync() {
         // get last sync date
@@ -131,7 +132,12 @@ public class NavigationPresenter implements NavigationContract.Presenter {
         getNavigationView().refreshCurrentUser(mModel.getCurrentUser());
     }
 
-//    @Override
+    @Override
+    public void updateUnSyncCount() {
+
+    }
+
+    //    @Override
 //    public void sync(Activity activity) {
 //        CoreBasePncCloseJob.scheduleJobImmediately(CoreBasePncCloseJob.TAG);
 //        HomeVisitServiceJob.scheduleJobImmediately(HomeVisitServiceJob.TAG);

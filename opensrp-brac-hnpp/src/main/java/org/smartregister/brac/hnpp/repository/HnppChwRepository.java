@@ -11,7 +11,6 @@ import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.chw.anc.repository.VisitDetailsRepository;
 import org.smartregister.chw.anc.repository.VisitRepository;
 import org.smartregister.chw.core.application.CoreChwApplication;
-import org.smartregister.chw.core.repository.CoreChwRepository;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.immunization.ImmunizationLibrary;
@@ -22,8 +21,13 @@ import org.smartregister.immunization.repository.VaccineRepository;
 import org.smartregister.immunization.repository.VaccineTypeRepository;
 import org.smartregister.immunization.util.IMDatabaseUtils;
 import org.smartregister.repository.AlertRepository;
+import org.smartregister.repository.EventClientRepository;
+import org.smartregister.repository.LocationRepository;
+import org.smartregister.repository.Repository;
+import org.smartregister.repository.SettingsRepository;
+import org.smartregister.repository.UniqueIdRepository;
 
-public class HnppChwRepository extends CoreChwRepository {
+public class HnppChwRepository extends Repository {
     private Context context;
 
     public HnppChwRepository(Context context, org.smartregister.Context openSRPContext) {
@@ -38,9 +42,15 @@ public class HnppChwRepository extends CoreChwRepository {
     @Override
     public void onCreate(SQLiteDatabase database) {
         super.onCreate(database);
+        EventClientRepository.createTable(database, EventClientRepository.Table.client, EventClientRepository.client_column.values());
+        EventClientRepository.createTable(database, EventClientRepository.Table.event, EventClientRepository.event_column.values());
+        UniqueIdRepository.createTable(database);
+        SettingsRepository.onUpgrade(database);
+        ConfigurableViewsRepository.createTable(database);
+        LocationRepository.createTable(database);
+        onCreation(database);
     }
 
-    @Override
     protected void onCreation(SQLiteDatabase database) {
         SSLocationRepository.createTable(database);
         HouseholdIdRepository.createTable(database);
@@ -256,6 +266,14 @@ public class HnppChwRepository extends CoreChwRepository {
         try {
             db.execSQL("ALTER TABLE ec_family ADD COLUMN homestead_land VARCHAR;");
             db.execSQL("ALTER TABLE ec_family ADD COLUMN cultivable_land VARCHAR;");
+
+        } catch (Exception e) {
+
+        }
+    }
+    private void upgradeToVersion24(Context context, SQLiteDatabase db) {
+        try {
+            db.execSQL("ALTER TABLE ec_child ADD COLUMN which_problem VARCHAR;");
 
         } catch (Exception e) {
 

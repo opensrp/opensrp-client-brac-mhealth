@@ -410,6 +410,7 @@ public class HnppFamilyRegisterProvider extends CoreRegisterProvider  {
 
         @Override
         protected Void doInBackground(Void... params) {
+            if(context==null || context.isFinishing() ) return null;
             list = getChildren(familyBaseEntityId);
             memberCount = HnppApplication.ancRegisterRepository().getMemberCount(familyBaseEntityId);
             ancWomanCount = HnppApplication.ancRegisterRepository().getAncWomenCount(familyBaseEntityId);
@@ -422,6 +423,7 @@ public class HnppFamilyRegisterProvider extends CoreRegisterProvider  {
             if(context == null || context.isFinishing()) return;
             // Update child Icon
 //            updateChildIcons(viewHolder, list, memberCount);
+            if(context==null || context.isFinishing() ) return;
             updateChildIcons(viewHolder, list, ancWomanCount,memberCount,totalMember,familyBaseEntityId);
         }
     }
