@@ -284,6 +284,8 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
                 SearchHHMemberActivity.startSearchActivity(this,mSelectedVillageName,mSelectedClasterName,fromType,hhMemberPropertyArrayList,RESULT_CODE_MEMBER);
 
                 break;
+            default:
+                break;
         }
 
     }

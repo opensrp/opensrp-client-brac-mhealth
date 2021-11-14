@@ -41,11 +41,13 @@ import org.smartregister.exception.NoHttpResponseException;
 import org.smartregister.family.util.AppExecutors;
 import org.smartregister.job.CompareDataServiceJob;
 import org.smartregister.job.DataSyncByBaseEntityServiceJob;
+import org.smartregister.job.ForceSyncDataServiceJob;
 import org.smartregister.job.InValidateSyncDataServiceJob;
 import org.smartregister.family.util.AppExecutors;
 import org.smartregister.job.SyncServiceJob;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.repository.EventClientRepository;
+import org.smartregister.sync.intent.ForceSyncIntentService;
 import org.smartregister.view.activity.SecuredActivity;
 
 import java.io.BufferedWriter;
@@ -74,21 +76,22 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
     protected void onCreation() {
         setContentView(R.layout.activity_force_unsync);
         findViewById(R.id.invalid_data).setOnClickListener(v -> checkInvalidData());
+        findViewById(R.id.sync_unsync_btn).setOnClickListener( v -> forceSyncData() );
         findViewById(R.id.data_sync_by_id).setOnClickListener( v -> syncDataById() );
         findViewById(R.id.compare_btn).setOnClickListener( v -> compareData() );
         findViewById(R.id.close_btn).setOnClickListener(v -> finish());
         findViewById(R.id.permission_btn).setOnClickListener( v -> getServerResponse() );
-        findViewById(R.id.all_data_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(forseSyncAllData()){
-                    SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(ForceSyncActivity.this);
-
-                    showProgressDialog("আপনার ডাটাগুলো সার্ভার এর সাথে সিঙ্ক করা হচ্ছে ");
-                    HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
-                }
-            }
-        });
+//        findViewById(R.id.all_data_btn).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(forseSyncAllData()){
+//                    SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(ForceSyncActivity.this);
+//
+//                    showProgressDialog("আপনার ডাটাগুলো সার্ভার এর সাথে সিঙ্ক করা হচ্ছে ");
+//                    HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
+//                }
+//            }
+//        });
         findViewById(R.id.force_sync_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -281,7 +284,14 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
         showProgressDialog("ডাটা সিঙ্ক করা হচ্ছে....");
         DataSyncByBaseEntityServiceJob.scheduleJobImmediately(DataSyncByBaseEntityServiceJob.TAG);
     }
-
+    private void forceSyncData() {
+        invalidDataBroadcastReceiver = new InvalidSyncBroadcast();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ForceSyncIntentService.ACTION_SYNC);
+        registerReceiver(invalidDataBroadcastReceiver, intentFilter);
+        showProgressDialog("ডাটা সিঙ্ক করা হচ্ছে....");
+        ForceSyncDataServiceJob.scheduleJobImmediately(ForceSyncDataServiceJob.TAG);
+    }
     private void checkInvalidData() {
         EventClientRepository eventClientRepository = HnppApplication.getHNPPInstance().getEventClientRepository();
         List<JSONObject> invalidClients = eventClientRepository.getUnValidatedClients(100);
@@ -478,6 +488,10 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
             }
             if(intent != null && intent.getAction().equalsIgnoreCase("COMPARE_DATA")){
                 String value = intent.getStringExtra("EXTRA_COMPARE_DATA");
+                Toast.makeText(ForceSyncActivity.this,value,Toast.LENGTH_SHORT).show();
+            }
+            if(intent != null && intent.getAction().equalsIgnoreCase(ForceSyncIntentService.ACTION_SYNC)){
+                String value = intent.getStringExtra(ForceSyncIntentService.EXTRA_SYNC);
                 Toast.makeText(ForceSyncActivity.this,value,Toast.LENGTH_SHORT).show();
             }
         }

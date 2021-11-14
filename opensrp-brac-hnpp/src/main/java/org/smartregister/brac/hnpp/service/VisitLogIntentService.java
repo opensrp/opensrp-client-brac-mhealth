@@ -101,7 +101,14 @@ public class VisitLogIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        ArrayList<String> visit_ids = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().getVisitIds();
+        ArrayList<String> visit_ids ;
+//        String value = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference("IS_UPGRADED");
+//        if(TextUtils.isEmpty(value) || value.equalsIgnoreCase("1")){
+//            visit_ids = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().getVisitIdsForUpgration();
+//        }else{
+            visit_ids = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().getVisitIds();
+        //}
+
         for (int i = 0; i < visit_ids.size(); i++) {
             List<Visit> v = AncLibrary.getInstance().visitRepository().getVisitsByVisitId(visit_ids.get(i));
             //getANCRegistrationVisitsFromEvent(v);
@@ -314,8 +321,9 @@ public class VisitLogIntentService extends IntentService {
             }
         }
         processImmunization();
+        //FamilyLibrary.getInstance().context().allSharedPreferences().savePreference("IS_UPGRADED","0");
         //processAlreadySubmittedDataForStock();
-        processInstitutionalDeliveryForTarget();
+        //processInstitutionalDeliveryForTarget();
     }
 
     /**

@@ -437,7 +437,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         return event;
     }
 
-    public static Visit saveVisit(boolean isComesFromIdentity,boolean needVerified,boolean isVerified, String notVerifyCause,String memberID, String encounterType,
+    public static synchronized Visit saveVisit(boolean isComesFromIdentity,boolean needVerified,boolean isVerified, String notVerifyCause,String memberID, String encounterType,
                             final Map<String, String> jsonString,
                             String parentEventType) throws Exception {
 
