@@ -40,6 +40,8 @@ import org.smartregister.domain.Response;
 import org.smartregister.exception.NoHttpResponseException;
 import org.smartregister.job.PullUniqueIdsServiceJob;
 import org.smartregister.util.FormUtils;
+import org.smartregister.repository.EventClientRepository;
+
 
 public class HnppNavigationPresenter extends NavigationPresenter {
     public HnppNavigationPresenter(CoreApplication application, NavigationContract.View view, NavigationModel.Flavor modelFlavor) {
@@ -83,6 +85,15 @@ public class HnppNavigationPresenter extends NavigationPresenter {
         }catch (Exception e){
 
         }
+    }
+
+    @Override
+    public void updateUnSyncCount() {
+        EventClientRepository eventClientRepository = HnppApplication.getHNPPInstance().getEventClientRepository();
+        int cc = eventClientRepository.getUnSyncClientsCount();
+        int ec = eventClientRepository.getUnSyncEventsCount();
+        Log.v("UNSYNC_COUNT","cc>>"+cc+":ec>"+ec);
+        getNavigationView().updateUnSyncCount(cc+ec);
     }
 
     @Override
