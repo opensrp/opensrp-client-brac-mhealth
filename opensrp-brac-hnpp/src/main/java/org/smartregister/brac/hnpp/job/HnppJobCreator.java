@@ -11,6 +11,7 @@ import org.smartregister.brac.hnpp.sync.intent.HfSyncTaskIntentService;
 import org.smartregister.job.CompareDataServiceJob;
 import org.smartregister.job.DataSyncByBaseEntityServiceJob;
 import org.smartregister.job.ExtendedSyncServiceJob;
+import org.smartregister.job.ForceSyncDataServiceJob;
 import org.smartregister.job.ImageUploadServiceJob;
 import org.smartregister.job.InValidateSyncDataServiceJob;
 import org.smartregister.job.LocationStructureServiceJob;
@@ -47,6 +48,8 @@ public class HnppJobCreator implements JobCreator {
                 return new InValidateSyncDataServiceJob();
             case DataSyncByBaseEntityServiceJob.TAG:
                 return new DataSyncByBaseEntityServiceJob();
+            case ForceSyncDataServiceJob.TAG:
+                return new ForceSyncDataServiceJob();
             case CompareDataServiceJob.TAG:
                 return new CompareDataServiceJob();
             case ImageUploadServiceJob.TAG:

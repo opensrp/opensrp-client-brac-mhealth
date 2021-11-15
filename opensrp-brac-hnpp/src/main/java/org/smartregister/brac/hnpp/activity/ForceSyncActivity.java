@@ -105,7 +105,7 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
                 }
             }
         });
-        setServiceName();
+        //setServiceName();
         findViewById(R.id.dump_btn).setOnClickListener( v -> dumpDatabase() );
 
     }

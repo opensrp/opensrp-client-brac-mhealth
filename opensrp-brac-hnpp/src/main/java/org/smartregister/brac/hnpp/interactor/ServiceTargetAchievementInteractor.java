@@ -1,7 +1,5 @@
 package org.smartregister.brac.hnpp.interactor;
 
-import android.text.TextUtils;
-
 import org.smartregister.brac.hnpp.contract.DashBoardContract;
 import org.smartregister.brac.hnpp.model.TargetVsAchievementModel;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -30,29 +28,10 @@ public class ServiceTargetAchievementInteractor implements DashBoardContract.Tar
     public void setData(TargetVsAchievementData targetVsAchievementData){
         if(targetVsAchievementData !=null) dashBoardDataArrayList.add(targetVsAchievementData);
     }
-
-//    @Override
-//    public void fetchAllData(DashBoardContract.InteractorCallBack callBack, String day, String month, String year, String ssName) {
-//
-//        Runnable runnable = () -> {
-//            fetchData(day,month,year,ssName);
-//
-//            appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
-//        };
-//        appExecutors.diskIO().execute(runnable);
-//
-//    }
-
-//    @Override
-//    public void filterData(String ssName, String day, String month, String year,DashBoardContract.InteractorCallBack callBack) {
-//        dashBoardDataArrayList.clear();
-//        Runnable runnable = () -> {
-//            fetchData(day,month,year,ssName);
-//
-//            appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
-//        };
-//        appExecutors.diskIO().execute(runnable);
-//    }
+    public void setArrayListData(ArrayList<TargetVsAchievementData> targetVsAchievementData){
+        dashBoardDataArrayList.clear();
+        if(targetVsAchievementData !=null) dashBoardDataArrayList.addAll(targetVsAchievementData);
+    }
     public void filterByFromToDate(String ssName, long fromDate, long toDate, DashBoardContract.InteractorCallBack callBack) {
         dashBoardDataArrayList.clear();
         Runnable runnable = () -> {
@@ -74,12 +53,40 @@ public class ServiceTargetAchievementInteractor implements DashBoardContract.Tar
         appExecutors.diskIO().execute(runnable);
     }
     private void fetchDataByFromToFormat( long fromDate, long toDate, String ssName) {
-        setData(model.getAncServiceTarget(fromDate,toDate,ssName));
-        setData(model.getPncServiceTarget(fromDate,toDate,ssName));
-        setData(model.getNcdTarget(fromDate,toDate,ssName));
-        setData(model.getIYCFTarget(fromDate,toDate,ssName));
-        setData(model.getWomenTarget(fromDate,toDate,ssName));
-        setData(model.getAdoTarget(fromDate,toDate,ssName));
+        ArrayList<TargetVsAchievementData> initialList = getInitialTargetAchievement();
+        ArrayList<TargetVsAchievementData> outPutList = model.getTargetVsAchievment("",fromDate,toDate,ssName);
+        ArrayList<TargetVsAchievementData> finalResult = mergeArrayList(initialList,outPutList);
+        setArrayListData(finalResult);
     }
+    private ArrayList<TargetVsAchievementData> mergeArrayList(ArrayList<TargetVsAchievementData> initialList,ArrayList<TargetVsAchievementData> outputList){
+        ArrayList<TargetVsAchievementData> finalList = new ArrayList<>();
+        for(int i = 0 ;i < initialList.size() ;i++){
+            TargetVsAchievementData data =  isContain(initialList.get(i),outputList);
+            if(data != null){
+                finalList.add(data);
+            }else{
+                finalList.add(initialList.get(i));
+            }
+        }
+        return finalList;
+    }
+    private TargetVsAchievementData isContain(TargetVsAchievementData initial,ArrayList<TargetVsAchievementData> list){
+        for(int i = 0; i< list.size() ; i++){
+            if(list.get(i).getEventType().equalsIgnoreCase(initial.getEventType())){
+                return list.get(i);
+            }
+        }
+        return null;
+    }
+    private ArrayList<TargetVsAchievementData> getInitialTargetAchievement(){
+        ArrayList<TargetVsAchievementData> visitTypeList = new ArrayList<>();
+        visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.ANC_SERVICE,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.ANC_SERVICE)));
+        visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.PNC_SERVICE,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.PNC_SERVICE)));
+        visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.NCD_PACKAGE,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.NCD_PACKAGE)));
+        visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.IYCF_PACKAGE,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.IYCF_PACKAGE)));
+        visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.WOMEN_PACKAGE,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.WOMEN_PACKAGE)));
+        visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.GIRL_PACKAGE,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.GIRL_PACKAGE)));
 
+        return visitTypeList;
+    }
 }

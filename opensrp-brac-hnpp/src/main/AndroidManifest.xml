@@ -200,10 +200,7 @@
             android:name=".activity.HnppPncRiskRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
-        <activity
-            android:name=".activity.AncMemberProfileActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/HNPPTheme.NoActionBar" />
+
         <activity
             android:name="org.smartregister.chw.core.activity.CoreAncMemberProfileActivity"
             android:screenOrientation="portrait"
@@ -376,21 +373,14 @@
         <service android:name="org.smartregister.sync.intent.DatSyncByBaseEntityIntentService"/>
         <service android:name="org.smartregister.sync.intent.CompareDataIntentService"/>
         <service android:name="org.smartregister.sync.intent.InValidateIntentService" />
-<!--        <service android:name="org.smartregister.service.ImageUploadSyncService" />-->
-<!--        <service android:name="org.smartregister.chw.anc.intent.HomeVisitIntent" />-->
         <service android:name="org.smartregister.sync.intent.ForceSyncIntentService" />
         <service android:name="org.smartregister.service.ImageUploadSyncService" />
-<!--        <service android:name="org.smartregister.chw.anc.intent.HomeVisitIntent" />-->
         <service android:name="org.smartregister.sync.intent.LocationIntentService" />
-<!--        <service android:name=".sync.intent.HfSyncTaskIntentService" />-->
-<!--        <service android:name="org.smartregister.sync.intent.PlanIntentService" />-->
         <service android:name=".sync.intent.PullHouseholdIdIntentService" />
         <service android:name=".service.SSLocationFetchIntentService" />
-<!--        <service android:name=".service.HomeVisitIntentService" />-->
         <service android:name=".service.TargetFetchIntentService" />
         <service android:name=".service.MigrationFetchIntentService" />
         <service android:name=".service.StockFetchIntentService" />
-<!--        <service android:name=".service.HnppHomeVisitIntentService" />-->
         <service android:name=".service.VisitLogIntentService" />
         <service android:name=".service.HnppPncCloseDateIntent" />
         <service android:name=".service.GuestMemberIdIntentService" />
