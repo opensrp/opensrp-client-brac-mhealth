@@ -14,6 +14,8 @@ public class SSModel {
     public String username;
     @SerializedName("simprints_enable")
     public boolean simprints_enable = false;
+    @SerializedName("payment_enable")
+    public boolean payment_enable = true;
     public boolean is_selected = false;
     public ArrayList<SSLocations> locations = new ArrayList<>() ;
 

@@ -885,7 +885,7 @@ public class HnppDBUtils extends CoreChildUtils {
         return womenList;
     }
     public static ArrayList<String[]> getAllMembersInHouseHold(String familyID){
-        String query = "select first_name,base_entity_id from ec_family_member where relational_id = '"+familyID+"'";
+        String query = "select first_name,base_entity_id from ec_family_member where relational_id = '"+familyID+"' and date_removed is null";
         Cursor cursor = null;
         ArrayList<String[]> memberList = new ArrayList<>();
         try {

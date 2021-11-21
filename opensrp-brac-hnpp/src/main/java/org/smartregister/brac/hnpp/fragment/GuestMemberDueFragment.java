@@ -54,12 +54,13 @@ public class GuestMemberDueFragment extends Fragment implements View.OnClickList
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        handler = new Handler();
         updateStaticView();
     }
 
     public void updateStaticView() {
         // if(FormApplicability.isDueAnyForm(baseEntityId,eventType)){
-        handler = new Handler();
+
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {

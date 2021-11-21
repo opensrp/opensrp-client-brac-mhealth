@@ -75,6 +75,7 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
     private ViewPager mViewPager;
     private ViewPagerAdapter adapter;
     private GuestMemberProfilePresenter presenter;
+    private Handler handler;
 
     public static void startGuestMemberProfileActivity(Activity activity , String baseEntityId){
         Intent intent = new Intent(activity,GuestMemberProfileActivity.class);
@@ -93,12 +94,19 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_other_member_profile);
+        handler = new Handler();
         baseEntityId = getIntent().getStringExtra(BASE_ENTITY_ID);
         guestMemberData = HnppDBUtils.getGuestMemberById(baseEntityId);
         presenter = new GuestMemberProfilePresenter(this);
         updateTopBar();
         setProfileData();
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(handler!=null) handler.removeCallbacksAndMessages(null);
     }
 
     @Override
@@ -357,7 +365,7 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
                 String eventType = data.getStringExtra("event_type");
                 if (!TextUtils.isEmpty(eventType) && eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)) {
                     if(memberHistoryFragment !=null){
-                        new Handler().postDelayed(new Runnable() {
+                        handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 mViewPager.setCurrentItem(1,true);
@@ -481,7 +489,7 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
                 dialog.dismiss();
                 if(isSuccess){
                     if(memberHistoryFragment !=null){
-                        new Handler().postDelayed(new Runnable() {
+                        handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 hideProgressDialog();

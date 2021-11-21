@@ -15,10 +15,15 @@ public class HnppFamilyRegisterFragmentPresenter extends FamilyRegisterFragmentP
     }
     @Override
     public void processViewConfigurations() {
-        super.processViewConfigurations();
-        if (config.getSearchBarText() != null && getView() != null) {
-            getView().updateSearchBarHint(getView().getContext().getString(R.string.search_name_or_id));
+        try{
+            super.processViewConfigurations();
+            if (config.getSearchBarText() != null && getView() != null) {
+                getView().updateSearchBarHint(getView().getContext().getString(R.string.search_name_or_id));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
     }
 
     @Override

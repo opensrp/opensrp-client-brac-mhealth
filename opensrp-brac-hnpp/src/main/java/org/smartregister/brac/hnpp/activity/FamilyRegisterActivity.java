@@ -53,7 +53,7 @@ import org.smartregister.job.ForceSyncDataServiceJob;
 import org.smartregister.job.InValidateSyncDataServiceJob;
 import org.smartregister.simprint.SimPrintsLibrary;
 import org.smartregister.repository.EventClientRepository;
-import org.smartregister.sync.intent.ForceSyncIntentService;
+import org.smartregister.sync.intent.InValidateIntentService;
 import org.smartregister.sync.intent.ValidateIntentService;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 
@@ -146,6 +146,12 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
                 }else{
                     findViewById(R.id.simprints_identity).setVisibility(View.GONE);
                 }
+                boolean paymentEnable = ssLocationForms.get(0).payment_enable;
+                if(paymentEnable){
+                    findViewById(R.id.payment_view).setVisibility(View.VISIBLE);
+                }else{
+                    findViewById(R.id.payment_view).setVisibility(View.GONE);
+                }
             }
             findViewById(R.id.simprints_identity).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -211,7 +217,7 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
         intentFilter.addAction(HnppConstants.ACTION_STOCK_END);
         intentFilter.addAction(HnppConstants.ACTION_EDD);
         intentFilter.addAction(ValidateIntentService.ACTION_VALIDATION);
-        intentFilter.addAction(ForceSyncIntentService.ACTION_SYNC);
+        intentFilter.addAction(InValidateIntentService.ACTION_INVALIDATION);
         registerReceiver(notificationBroadcastReceiver, intentFilter);
     }
 
@@ -392,12 +398,12 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
                         if(intent != null && intent.getAction().equalsIgnoreCase(ValidateIntentService.ACTION_VALIDATION)){
                             String value = intent.getStringExtra(ValidateIntentService.EXTRA_VALIDATION);
                             if(!TextUtils.isEmpty(value) && !value.equalsIgnoreCase(ValidateIntentService.STATUS_FAILED)){
-                                ForceSyncDataServiceJob.scheduleJobImmediately(ForceSyncDataServiceJob.TAG);
+                                InValidateSyncDataServiceJob.scheduleJobImmediately(InValidateSyncDataServiceJob.TAG);
                             }
                         }
-                        if(intent != null && intent.getAction().equalsIgnoreCase(ForceSyncIntentService.ACTION_SYNC)){
-                            String value = intent.getStringExtra(ForceSyncIntentService.EXTRA_SYNC);
-                            if(!TextUtils.isEmpty(value) && !value.equalsIgnoreCase(ForceSyncIntentService.STATUS_NOTHING)){
+                        if(intent != null && intent.getAction().equalsIgnoreCase(InValidateIntentService.ACTION_INVALIDATION)){
+                            String value = intent.getStringExtra(InValidateIntentService.EXTRA_INVALIDATION);
+                            if(!TextUtils.isEmpty(value) && !value.equalsIgnoreCase(InValidateIntentService.STATUS_NOTHING)){
                                 hnppNavigationPresenter.updateUnSyncCount();
                             }
 

@@ -487,21 +487,24 @@ public class FormParser {
             case ANC3_REGISTRATION:
                 if(details.containsKey("other_source_anc_1")&&!StringUtils.isEmpty(details.get("other_source_anc_1"))) {
                     String value = details.get("other_source_anc_1");
+                    if(value!=null && !value.equalsIgnoreCase("brac")){
                         HnppApplication.getIndicatorRepository().updateValue(HnppConstants.INDICATOR.ANC_OTHER_SOURCE,"true",localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
-
-
+                    }
 
                 }
                 if(details.containsKey("other_source_anc_2")&&!StringUtils.isEmpty(details.get("other_source_anc_2"))) {
                     String value = details.get("other_source_anc_2");
-
+                    if(value!=null && !value.equalsIgnoreCase("brac")){
                         HnppApplication.getIndicatorRepository().updateValue(HnppConstants.INDICATOR.ANC_OTHER_SOURCE, "true", localDate.getDayOfMonth() + "", localDate.getMonthOfYear() + "", localDate.getYear() + "", log.getSsName(), log.getBaseEntityId());
+
+                    }
 
                 }
                 if(details.containsKey("other_source_anc_3")&&!StringUtils.isEmpty(details.get("other_source_anc_3"))) {
                     String value = details.get("other_source_anc_3");
-
+                    if(value!=null && !value.equalsIgnoreCase("brac")){
                         HnppApplication.getIndicatorRepository().updateValue(HnppConstants.INDICATOR.ANC_OTHER_SOURCE, "true", localDate.getDayOfMonth() + "", localDate.getMonthOfYear() + "", localDate.getYear() + "", log.getSsName(), log.getBaseEntityId());
+                    }
 
                 }
                 if(details.containsKey("vaccination_tt_dose_completed")&&!StringUtils.isEmpty(details.get("vaccination_tt_dose_completed"))) {

@@ -37,7 +37,8 @@ public class TargetAchievementInteractor implements DashBoardContract.TargetInte
         dashBoardDataArrayList.clear();
         if(targetVsAchievementData !=null) dashBoardDataArrayList.addAll(targetVsAchievementData);
     }
-    private void fetchDataByFromToFormat( long fromDate, long toDate, String ssName) {
+    private void fetchDataByFromToFormat( long fromDate, long toDate, String ssName, boolean isMonthWise) {
+        model.setMonthWise(isMonthWise);
         if(HnppConstants.isPALogin()){
             ArrayList<TargetVsAchievementData> initialList = getInitialTargetAchievementForPA();
             ArrayList<TargetVsAchievementData> outPutList = model.getTargetVsAchievment("",fromDate,toDate,ssName);
@@ -107,7 +108,7 @@ public class TargetAchievementInteractor implements DashBoardContract.TargetInte
     public void filterByFromToDate(String ssName, long fromDate, long toDate, DashBoardContract.InteractorCallBack callBack) {
         dashBoardDataArrayList.clear();
         Runnable runnable = () -> {
-            fetchDataByFromToFormat(fromDate, toDate, ssName);
+            fetchDataByFromToFormat(fromDate, toDate, ssName,false);
 
             appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
         };
@@ -118,7 +119,7 @@ public class TargetAchievementInteractor implements DashBoardContract.TargetInte
     public void filterByFromToMonth(String ssName, long fromMonth, long toMonth, DashBoardContract.InteractorCallBack callBack) {
         dashBoardDataArrayList.clear();
         Runnable runnable = () -> {
-            fetchDataByFromToFormat(fromMonth, toMonth, ssName);
+            fetchDataByFromToFormat(fromMonth, toMonth, ssName,true);
 
             appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
         };

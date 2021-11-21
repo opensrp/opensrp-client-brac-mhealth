@@ -294,22 +294,22 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
     }
     private void checkInvalidData() {
         EventClientRepository eventClientRepository = HnppApplication.getHNPPInstance().getEventClientRepository();
-        List<JSONObject> invalidClients = eventClientRepository.getUnValidatedClients(100);
-        List<JSONObject> invalidEvents = eventClientRepository.getUnValidatedEvents(100);
-        showInvalidCountDialog(invalidClients,invalidEvents);
+        int cc = eventClientRepository.getInvalidClientsCount();
+        int ec = eventClientRepository.getInvalidEventsCount();
+        showInvalidCountDialog(cc,ec);
 
 
     }
-    private void showInvalidCountDialog(List<JSONObject> invalidClients, List<JSONObject> invalidEvents ){
+    private void showInvalidCountDialog(int cc, int ec ){
         Dialog dialog = new Dialog(this);
         dialog.setCancelable(false);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_invalid_data);
         TextView countTxt = dialog.findViewById(R.id.count_tv);
         StringBuilder builder = new StringBuilder();
-        builder.append("No Of Invalid Client: "+invalidClients.size());
+        builder.append("No Of Invalid Client: "+cc);
         builder.append("\n");
-        builder.append("No Of Invalid Events: "+invalidEvents.size());
+        builder.append("No Of Invalid Events: "+ec);
         countTxt.setText(builder.toString());
 
 
@@ -324,7 +324,7 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
         syncBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(invalidClients.size()==0 && invalidEvents.size()==0){
+                if(cc==0 && ec==0){
                     Toast.makeText(ForceSyncActivity.this,"কোনো ইনভ্যালিড ডাটা পাওয়া যায়নি",Toast.LENGTH_SHORT).show();
                     return;
                 }

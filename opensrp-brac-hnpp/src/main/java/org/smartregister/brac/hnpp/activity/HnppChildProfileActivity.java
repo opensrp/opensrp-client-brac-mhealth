@@ -86,10 +86,12 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     public RelativeLayout referralRow;
     public RecyclerView referralRecyclerView;
     public CommonPersonObjectClient commonPersonObject;
+    Handler handler;
 
     @Override
     protected void onCreation() {
         super.onCreation();
+        handler = new Handler();
         initializePresenter();
         onClickFloatingMenu = getOnClickFloatingMenu(this, (HnppChildProfilePresenter) presenter);
         setupViews();
@@ -668,12 +670,13 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
                 dialog.dismiss();
                 if(isSuccess){
                     if(memberHistoryFragment !=null){
-                        new Handler().postDelayed(new Runnable() {
+                        handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 hideProgressDialog();
                                 mViewPager.setCurrentItem(2,true);
                                 if(memberOtherServiceFragment !=null){
+                                    memberOtherServiceFragment.setCommonPersonObjectClient(commonPersonObject);
                                     memberOtherServiceFragment.updateStaticView();
                                 }
 

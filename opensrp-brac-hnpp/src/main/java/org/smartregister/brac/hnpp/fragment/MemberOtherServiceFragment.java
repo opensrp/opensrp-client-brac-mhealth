@@ -53,7 +53,7 @@ public class MemberOtherServiceFragment extends Fragment implements OtherService
 
     }
     public void updateStaticView(){
-        presenter.fetchData(commonPersonObjectClient);
+        if(presenter!=null&& commonPersonObjectClient!=null)presenter.fetchData(commonPersonObjectClient);
     }
 
     @Override

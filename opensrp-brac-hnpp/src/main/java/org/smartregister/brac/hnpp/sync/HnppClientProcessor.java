@@ -231,6 +231,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                 // save the values to db
                 executeInsertStatement(contentValues, clientType);
                 updateRegisterCount(baseEntityId);
+                updateClientDetailsTable(event, client);
             }
 
             return true;
@@ -680,7 +681,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
     @Override
     public void updateClientDetailsTable(Event event, Client client) {
 //        Timber.d("Started updateClientDetailsTable");
-//        event.addDetails("detailsUpdated", Boolean.TRUE.toString());
+        event.addDetails("detailsUpdated", Boolean.TRUE.toString());
 //        Timber.d("Finished updateClientDetailsTable");
     }
 

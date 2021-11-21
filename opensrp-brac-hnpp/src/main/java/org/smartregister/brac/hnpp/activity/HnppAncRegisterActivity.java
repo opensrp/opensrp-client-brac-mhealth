@@ -130,6 +130,12 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
             }else{
                 findViewById(R.id.simprints_identity).setVisibility(View.GONE);
             }
+            boolean paymentEnable = ssLocationForms.get(0).payment_enable;
+            if(paymentEnable){
+                findViewById(R.id.payment_view).setVisibility(View.VISIBLE);
+            }else{
+                findViewById(R.id.payment_view).setVisibility(View.GONE);
+            }
         }
     }
 

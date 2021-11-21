@@ -44,18 +44,19 @@ public class TargetVsAchievementRepository extends BaseRepository {
     protected static final String YEAR = "year";
     protected static final String MONTH = "month";
     protected static final String DAY = "day";
-    protected static final String START_DATE = "star_date";
+    public static final String START_DATE = "star_date";
     protected static final String END_DATE = "end_date";
     public static final String FORM_SUBMISSION_ID = "form_submission_id";
+    public static final String IS_MONTH_DATE = "is_month_data";
 
 
     private static final String CREATE_TARGET_TABLE =
             "CREATE TABLE " + TARGET_TABLE + " (" +
                     ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                     TARGET_ID + " INTEGER , " +TARGET_NAME + " VARCHAR , " +FORM_SUBMISSION_ID + " VARCHAR , " + TARGET_COUNT+ " int default 0,"+
-                    YEAR + " VARCHAR, " + MONTH+ " VARCHAR, "+DAY+" VARCHAR, "+START_DATE+" VARCHAR, "+END_DATE+" VARCHAR ,"+ACHIEVEMNT_COUNT+" int default 0,"+SS_NAME+" VARCHAR,"+BASE_ENTITY_ID+" VARCHAR ) ";
+                    YEAR + " VARCHAR, " + MONTH+ " VARCHAR, "+DAY+" VARCHAR, "+START_DATE+" VARCHAR, "+END_DATE+" VARCHAR ,"+ACHIEVEMNT_COUNT+"int default 0,"+IS_MONTH_DATE+" int default 0,"+SS_NAME+" VARCHAR,"+BASE_ENTITY_ID+" VARCHAR ) ";
 
-
+    public static String ALTER_TABLE_IS_MONTH = " alter table "+TARGET_TABLE+" add column "+IS_MONTH_DATE+" int default 0;";
 
 
     public TargetVsAchievementRepository(Repository repository) {
@@ -158,6 +159,8 @@ public class TargetVsAchievementRepository extends BaseRepository {
         contentValues.put(DAY, targetVsAchievementData.getDay());
         contentValues.put(START_DATE, targetVsAchievementData.getStartDate());
         contentValues.put(END_DATE, targetVsAchievementData.getEndDate());
+        contentValues.put(IS_MONTH_DATE, targetVsAchievementData.getIsMonthData());
+
         if(!isExistData(targetVsAchievementData,"")){
 
             long inserted = getWritableDatabase().insert(getLocationTableName(), null, contentValues);
@@ -174,13 +177,14 @@ public class TargetVsAchievementRepository extends BaseRepository {
         String sql;
         if(TextUtils.isEmpty(formSubmissionId)){
             sql = "select count(*) from "+getLocationTableName()+" where "+TARGET_NAME+" = '"+targetVsAchievementData.getTargetName()+"' and "+YEAR+" ='"+targetVsAchievementData.getYear()+"'" +
-                    " and "+MONTH+" ='"+targetVsAchievementData.getMonth()+"' and "+DAY+" ='"+targetVsAchievementData.getDay()+"'";
+                    " and "+MONTH+" ='"+targetVsAchievementData.getMonth()+"' and "+DAY+" ='"+targetVsAchievementData.getDay()+"'and "+FORM_SUBMISSION_ID+" is null";
 
         }else{
             sql = "select count(*) from "+getLocationTableName()+" where "+TARGET_NAME+" = '"+targetVsAchievementData.getTargetName()+"' and "+YEAR+" ='"+targetVsAchievementData.getYear()+"'" +
                     " and "+MONTH+" ='"+targetVsAchievementData.getMonth()+"' and "+DAY+" ='"+targetVsAchievementData.getDay()+"' and "+FORM_SUBMISSION_ID+" ='"+formSubmissionId+"'";
 
         }
+
         Log.v("TARGET_FETCH","isExistData:"+sql);
         Cursor cursor = null;
         boolean isExist = false;

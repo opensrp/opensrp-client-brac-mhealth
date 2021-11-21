@@ -16,6 +16,8 @@ public class TargetVsAchievementData extends DashBoardData {
     private int avgTargetCount;
     private int avgAchievmentCount;
     private int avgAchievementPercentage;
+    private int isMonthData;
+
     public TargetVsAchievementData(){
 
     }
@@ -134,5 +136,13 @@ public class TargetVsAchievementData extends DashBoardData {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    public void setIsMonthData(int isMonthData) {
+        this.isMonthData = isMonthData;
+    }
+
+    public int getIsMonthData() {
+        return isMonthData;
     }
 }

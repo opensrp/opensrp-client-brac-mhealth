@@ -21,6 +21,11 @@ import java.util.regex.Pattern;
 public class TargetVsAchievementModel implements DashBoardContract.Model  {
 
     private Context context;
+    private boolean isMonthWise = false;
+
+    public void setMonthWise(boolean monthWise) {
+        isMonthWise = monthWise;
+    }
 
     public TargetVsAchievementModel(Context context){
         this.context = context;
@@ -84,19 +89,25 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
         String query = null;
         String whereCluse = " where ";
         String groupBy = " group by target_name";
-        String selectColumes = "sum(coalesce(target_count,0)) as target_count, sum(coalesce(achievemnt_count,0)) as achievemnt_count, target_name";
+        String selectColumes;
+        if(isMonthWise){
+            selectColumes ="sum(coalesce(target_count,0)) as target_count, sum(coalesce(achievemnt_count,0)) as achievemnt_count, target_name";
+        } else{
+            selectColumes ="sum(coalesce(target_count,0)) as target_count, sum(coalesce(achievemnt_count,0)) as achievemnt_count, target_name";
+
+        }
         if(fromDate == -1 && toDate == -1){
             if(TextUtils.isEmpty(ssName)){
-                query = "select "+selectColumes+" from target_table "+groupBy;
+                query = "select "+selectColumes+" from target_table "+getTargetCondition()+groupBy;
             }else{
-                query = "select "+selectColumes+" from target_table "+whereCluse+getSSCondition(ssName)+groupBy;
+                query = "select "+selectColumes+" from target_table "+whereCluse+getSSCondition(ssName)+getTargetCondition()+groupBy;
             }
         }
         else{
             if(TextUtils.isEmpty(ssName)){
-                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, achievemnt_count, target_count, target_name from target_table)SELECT "+selectColumes+" from t1 "+whereCluse+getBetweenCondition(fromMonthStr,toMonthStr,"date")+groupBy;
+                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, achievemnt_count, target_count, target_name from target_table)SELECT "+selectColumes+" from t1 "+whereCluse+getBetweenCondition(fromMonthStr,toMonthStr,"date")+getTargetCondition()+groupBy;
             }else{
-                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, achievemnt_count, target_count, target_name from target_table)SELECT "+selectColumes+" from t1 "+whereCluse+getSSCondition(ssName)+getBetweenCondition(fromMonthStr,toMonthStr,"date")+groupBy;
+                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, achievemnt_count, target_count, target_name from target_table)SELECT "+selectColumes+" from t1 "+whereCluse+getSSCondition(ssName)+getBetweenCondition(fromMonthStr,toMonthStr,"date")+getTargetCondition()+groupBy;
             }
         }
         Log.v("TARGET_VS_ACHIEV","query:"+query);
@@ -133,6 +144,9 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
 
 
         return list;
+    }
+    public String getTargetCondition(){
+        return isMonthWise?" and ("+TargetVsAchievementRepository.IS_MONTH_DATE +" = 1 or "+TargetVsAchievementRepository.START_DATE+" is null)":"";
     }
     public String getSSCondition(String ssName){
         String ssCondition;
@@ -174,7 +188,7 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
         }
         String whereCondition  = "("+builder.toString()+")";
         String groupBy = " group by target_name";
-        String query = "select sum(coalesce(achievemnt_count,0)) as achievemnt_count,target_name,(select sum(coalesce(target_count,0)) from target_table where "+ whereCondition+""+ getFilterWithAnd(day,month,year,"") +") as target_count from target_table where "+ whereCondition+""+ getFilterWithAnd(day,month,year,ssName)+groupBy;
+        String query = "select sum(coalesce(achievemnt_count,0)) as achievemnt_count,target_name,(select sum(coalesce(target_count,0)) from target_table where "+ whereCondition+""+ getFilterWithAnd(day,month,year,"") +groupBy+") as target_count from target_table where "+ whereCondition+""+ getFilterWithAnd(day,month,year,ssName)+groupBy;
         //String query = "select sum(coalesce(achievemnt_count,0)) as achievemnt_count,(select sum(coalesce(target_count,0)) from target_table where "+ getFilter(day,month,year,"") +") as target_count from target_table where "+ getFilter(day,month,year,ssName);
         Log.v("TARGET_QUERY","query:"+query);
         Cursor cursor = null;
@@ -224,7 +238,7 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
         }
         String whereCondition  = "("+builder.toString()+")";
         String groupBy = " group by target_name";
-        String query = "select sum(coalesce(achievemnt_count,0)) as achievemnt_count,target_name,(select sum(coalesce(target_count,0)) from target_table where "+ whereCondition+""+ getFilterWithAnd(day,month,year,"") +") as target_count from target_table where "+ whereCondition+""+ getFilterWithAnd(day,month,year,ssName)+groupBy;
+        String query = "select sum(coalesce(achievemnt_count,0)) as achievemnt_count,target_name,(select sum(coalesce(target_count,0)) from target_table where "+ whereCondition+""+ getFilterWithAnd(day,month,year,"") +groupBy+") as target_count from target_table where "+ whereCondition+""+ getFilterWithAnd(day,month,year,ssName)+groupBy;
 
         Log.v("TARGET_QUERY","avg query:"+query);
         Cursor cursor = null;

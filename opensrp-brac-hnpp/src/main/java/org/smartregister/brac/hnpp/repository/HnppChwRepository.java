@@ -172,10 +172,34 @@ public class HnppChwRepository extends Repository {
                 case 38:
                     upgradeToVersion38(db);
                     break;
+                case 39:
+                    upgradeToVersion39(db);
+                    break;
+                case 40:
+                    upgradeToVersion40(db);
+                    break;
                 default:
                     break;
             }
             upgradeTo++;
+        }
+    }
+    private void upgradeToVersion40(SQLiteDatabase db) {
+        Log.v("DB_UPGRADE","upgradeToVersion40");
+        try {
+            db.execSQL("update target_table set target_count = 0");
+            db.execSQL(TargetVsAchievementRepository.ALTER_TABLE_IS_MONTH);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+    }
+    private void upgradeToVersion39(SQLiteDatabase db) {
+        try {
+            db.execSQL("ALTER TABLE ec_child ADD COLUMN which_problem VARCHAR;");
+
+        } catch (Exception e) {
+
         }
     }
     private void upgradeToVersion38(SQLiteDatabase db){
