@@ -970,7 +970,6 @@ public class HnppConstants extends CoreConstants {
     }
     public static String getStringFormatedDate(String year,String month,String day){
         return   year+"-"+HnppConstants.addZeroForMonth(month)+"-"+HnppConstants.addZeroForDay(day);
-
     }
     public static long getLongFromDateFormat(String dateTime){
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");

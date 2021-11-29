@@ -37,17 +37,17 @@ public class TargetAchievementInteractor implements DashBoardContract.TargetInte
         dashBoardDataArrayList.clear();
         if(targetVsAchievementData !=null) dashBoardDataArrayList.addAll(targetVsAchievementData);
     }
-    private void fetchDataByFromToFormat( long fromDate, long toDate, String ssName, boolean isMonthWise) {
+    private void fetchDataByFromToFormat( String fromDate, String toDate, String ssName, boolean isMonthWise) {
         model.setMonthWise(isMonthWise);
         if(HnppConstants.isPALogin()){
             ArrayList<TargetVsAchievementData> initialList = getInitialTargetAchievementForPA();
-            ArrayList<TargetVsAchievementData> outPutList = model.getTargetVsAchievment("",fromDate,toDate,ssName);
+            ArrayList<TargetVsAchievementData> outPutList = model.getTargetVsAchievment(fromDate,toDate,ssName);
             ArrayList<TargetVsAchievementData> finalResult = mergeArrayList(initialList,outPutList);
             setArrayListData(finalResult);
 
         }else{
             ArrayList<TargetVsAchievementData> initialList = getInitialTargetAchievement();
-            ArrayList<TargetVsAchievementData> outPutList = model.getTargetVsAchievment("",fromDate,toDate,ssName);
+            ArrayList<TargetVsAchievementData> outPutList = model.getTargetVsAchievment(fromDate,toDate,ssName);
             ArrayList<TargetVsAchievementData> finalResult = mergeArrayList(initialList,outPutList);
             setArrayListData(finalResult);
         }
@@ -105,7 +105,7 @@ public class TargetAchievementInteractor implements DashBoardContract.TargetInte
 
         return visitTypeList;
     }
-    public void filterByFromToDate(String ssName, long fromDate, long toDate, DashBoardContract.InteractorCallBack callBack) {
+    public void filterByFromToDate(String ssName, String fromDate, String toDate, DashBoardContract.InteractorCallBack callBack) {
         dashBoardDataArrayList.clear();
         Runnable runnable = () -> {
             fetchDataByFromToFormat(fromDate, toDate, ssName,false);
@@ -116,7 +116,7 @@ public class TargetAchievementInteractor implements DashBoardContract.TargetInte
     }
 
 
-    public void filterByFromToMonth(String ssName, long fromMonth, long toMonth, DashBoardContract.InteractorCallBack callBack) {
+    public void filterByFromToMonth(String ssName, String fromMonth, String toMonth, DashBoardContract.InteractorCallBack callBack) {
         dashBoardDataArrayList.clear();
         Runnable runnable = () -> {
             fetchDataByFromToFormat(fromMonth, toMonth, ssName,true);

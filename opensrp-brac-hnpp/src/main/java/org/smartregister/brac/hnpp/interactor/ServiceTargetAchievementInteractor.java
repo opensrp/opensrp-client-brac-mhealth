@@ -32,9 +32,10 @@ public class ServiceTargetAchievementInteractor implements DashBoardContract.Tar
         dashBoardDataArrayList.clear();
         if(targetVsAchievementData !=null) dashBoardDataArrayList.addAll(targetVsAchievementData);
     }
-    public void filterByFromToDate(String ssName, long fromDate, long toDate, DashBoardContract.InteractorCallBack callBack) {
+    public void filterByFromToDate(String ssName, String fromDate, String toDate, DashBoardContract.InteractorCallBack callBack) {
         dashBoardDataArrayList.clear();
         Runnable runnable = () -> {
+            model.setMonthWise(false);
             fetchDataByFromToFormat(fromDate, toDate, ssName);
 
             appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
@@ -43,18 +44,19 @@ public class ServiceTargetAchievementInteractor implements DashBoardContract.Tar
     }
 
 
-    public void filterByFromToMonth(String ssName, long fromMonth, long toMonth, DashBoardContract.InteractorCallBack callBack) {
+    public void filterByFromToMonth(String ssName, String fromMonth, String toMonth, DashBoardContract.InteractorCallBack callBack) {
         dashBoardDataArrayList.clear();
         Runnable runnable = () -> {
+            model.setMonthWise(true);
             fetchDataByFromToFormat(fromMonth, toMonth, ssName);
 
             appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
         };
         appExecutors.diskIO().execute(runnable);
     }
-    private void fetchDataByFromToFormat( long fromDate, long toDate, String ssName) {
+    private void fetchDataByFromToFormat( String fromDate, String toDate, String ssName) {
         ArrayList<TargetVsAchievementData> initialList = getInitialTargetAchievement();
-        ArrayList<TargetVsAchievementData> outPutList = model.getTargetVsAchievment("",fromDate,toDate,ssName);
+        ArrayList<TargetVsAchievementData> outPutList = model.getTargetVsAchievment(fromDate,toDate,ssName);
         ArrayList<TargetVsAchievementData> finalResult = mergeArrayList(initialList,outPutList);
         setArrayListData(finalResult);
     }

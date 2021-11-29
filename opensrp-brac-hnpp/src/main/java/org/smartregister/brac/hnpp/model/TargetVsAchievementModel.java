@@ -82,35 +82,64 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
     }
     //forum
 
-    public ArrayList<TargetVsAchievementData> getTargetVsAchievment(String visitType,long fromDate,long toDate, String ssName){
-        String fromMonthStr = HnppConstants.getDateFormateFromLong(fromDate);
-        String toMonthStr = HnppConstants.getDateFormateFromLong(toDate);
+    public ArrayList<TargetVsAchievementData> getTargetVsAchievment(String fromDate,String toDate, String ssName){
+//        String fromMonthStr = HnppConstants.getDateFormateFromLong(fromDate);
+//        String toMonthStr = HnppConstants.getDateFormateFromLong(toDate);
         ArrayList<TargetVsAchievementData> list = new ArrayList<TargetVsAchievementData>();
         String query = null;
         String whereCluse = " where ";
         String groupBy = " group by target_name";
-        String selectColumes;
-        if(isMonthWise){
-            selectColumes ="sum(coalesce(target_count,0)) as target_count, sum(coalesce(achievemnt_count,0)) as achievemnt_count, target_name";
-        } else{
-            selectColumes ="sum(coalesce(target_count,0)) as target_count, sum(coalesce(achievemnt_count,0)) as achievemnt_count, target_name";
+        String selectColumes ="sum(coalesce(target_count,0)) as target_count, sum(coalesce("+TargetVsAchievementRepository.ACHIEVEMNT_COUNT+",0)) as "+TargetVsAchievementRepository.ACHIEVEMNT_COUNT+", target_name";
+        String targetSelectColumes ="sum(coalesce(target_count,0)) as target_count, target_name";
+        String achvSelectColumes ="sum(coalesce("+TargetVsAchievementRepository.ACHIEVEMNT_COUNT+",0)) as "+TargetVsAchievementRepository.ACHIEVEMNT_COUNT+", target_name";
 
-        }
-        if(fromDate == -1 && toDate == -1){
+        if(fromDate.isEmpty() && toDate.isEmpty()){
+//            if(TextUtils.isEmpty(ssName)){
+//                query = "select "+selectColumes+" from target_table "+getTargetConditionWithoutAnd()+groupBy;
+//            }else{
+//                query = "select "+selectColumes+" from target_table "+whereCluse+HnppConstants.KEY.SS_NAME+" = '"+ssName+"'"+getTargetCondition()+groupBy;
+//            }
             if(TextUtils.isEmpty(ssName)){
-                query = "select "+selectColumes+" from target_table "+getTargetCondition()+groupBy;
+                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, "+TargetVsAchievementRepository.ACHIEVEMNT_COUNT+", target_count, target_name,"+TargetVsAchievementRepository.IS_MONTH_DATE+","+TargetVsAchievementRepository.START_DATE+" from target_table)," +
+                        "t2 as (SELECT "+targetSelectColumes+" from t1 "+getTargetConditionWithoutAnd()+groupBy+")," +
+                        "t3 as (SELECT "+achvSelectColumes+" from t1 "+groupBy+")"+
+                        "select t2.target_count,t3."+TargetVsAchievementRepository.ACHIEVEMNT_COUNT+",t2.target_name from t2 left join t3 on t2.target_name = t3.target_name ";
+
             }else{
-                query = "select "+selectColumes+" from target_table "+whereCluse+getSSCondition(ssName)+getTargetCondition()+groupBy;
+                // query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, "+TargetVsAchievementRepository.ACHIEVEMNT_COUNT+", target_count, target_name,"+TargetVsAchievementRepository.IS_MONTH_DATE+","+TargetVsAchievementRepository.START_DATE+" from target_table)SELECT "+selectColumes+" from t1 "+whereCluse+getSSCondition(ssName)+getBetweenCondition(fromDate,toDate,"date")+getTargetCondition()+groupBy;
+                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, "+TargetVsAchievementRepository.ACHIEVEMNT_COUNT+", target_count, target_name,"+TargetVsAchievementRepository.IS_MONTH_DATE+","+TargetVsAchievementRepository.START_DATE+" from target_table)," +
+                        "t2 as (SELECT "+targetSelectColumes+" from t1 "+getTargetConditionWithoutAnd()+groupBy+")," +
+                        "t3 as (SELECT "+achvSelectColumes+" from t1 "+whereCluse+getSSConditionWithoutAnd(ssName)+groupBy+")"+
+                        "select t2.target_count,t3."+TargetVsAchievementRepository.ACHIEVEMNT_COUNT+",t2.target_name from t2 left join t3 on t2.target_name = t3.target_name ";
+
             }
         }
         else{
             if(TextUtils.isEmpty(ssName)){
-                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, achievemnt_count, target_count, target_name from target_table)SELECT "+selectColumes+" from t1 "+whereCluse+getBetweenCondition(fromMonthStr,toMonthStr,"date")+getTargetCondition()+groupBy;
+                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, "+TargetVsAchievementRepository.ACHIEVEMNT_COUNT+", target_count, target_name,"+TargetVsAchievementRepository.IS_MONTH_DATE+","+TargetVsAchievementRepository.START_DATE+" from target_table)," +
+                        "t2 as (SELECT "+targetSelectColumes+" from t1 "+whereCluse+getBetweenCondition(fromDate,toDate,"date")+getTargetCondition()+groupBy+")," +
+                        "t3 as (SELECT "+achvSelectColumes+" from t1 "+whereCluse+getBetweenCondition(fromDate,toDate,"date")+groupBy+")"+
+                        "select t2.target_count,t3."+TargetVsAchievementRepository.ACHIEVEMNT_COUNT+",t2.target_name from t2 left join t3 on t2.target_name = t3.target_name ";
+
             }else{
-                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, achievemnt_count, target_count, target_name from target_table)SELECT "+selectColumes+" from t1 "+whereCluse+getSSCondition(ssName)+getBetweenCondition(fromMonthStr,toMonthStr,"date")+getTargetCondition()+groupBy;
+               // query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, "+TargetVsAchievementRepository.ACHIEVEMNT_COUNT+", target_count, target_name,"+TargetVsAchievementRepository.IS_MONTH_DATE+","+TargetVsAchievementRepository.START_DATE+" from target_table)SELECT "+selectColumes+" from t1 "+whereCluse+getSSCondition(ssName)+getBetweenCondition(fromDate,toDate,"date")+getTargetCondition()+groupBy;
+                query = "with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, "+TargetVsAchievementRepository.ACHIEVEMNT_COUNT+", target_count, target_name,"+TargetVsAchievementRepository.IS_MONTH_DATE+","+TargetVsAchievementRepository.START_DATE+" from target_table)," +
+                        "t2 as (SELECT "+targetSelectColumes+" from t1 "+whereCluse+getBetweenCondition(fromDate,toDate,"date")+getTargetCondition()+groupBy+")," +
+                        "t3 as (SELECT "+achvSelectColumes+" from t1 "+whereCluse+getSSCondition(ssName)+getBetweenCondition(fromDate,toDate,"date")+groupBy+")"+
+                        "select t2.target_count,t3."+TargetVsAchievementRepository.ACHIEVEMNT_COUNT+",t2.target_name from t2 left join t3 on t2.target_name = t3.target_name ";
+
             }
         }
         Log.v("TARGET_VS_ACHIEV","query:"+query);
+        //target query
+        /*
+
+with t1 as (SELECT year||'-'||printf('%02d',month)||'-'||printf('%02d',day) as date,ss_name, achievemnt_count, target_count, target_name,is_month_data,star_date from target_table),
+t2 as (SELECT sum(coalesce(target_count,0)) as target_count,target_name from t1 where is_month_data = 1 and  date between '2021-11-01' and '2021-11-31' group by target_name),
+ t3 as (SELECT sum(coalesce(achievemnt_count,0)) as achievemnt_count, target_name from t1  where  ss_name = 'Moni(SS-2)' and  date between '2021-11-01' and '2021-11-31' group by target_name)
+select t2.target_count,t3.achievemnt_count,t2.target_name from t2 left join t3
+
+         */
 
         Cursor cursor = null;
         try{
@@ -146,11 +175,19 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
         return list;
     }
     public String getTargetCondition(){
-        return isMonthWise?" and ("+TargetVsAchievementRepository.IS_MONTH_DATE +" = 1 or "+TargetVsAchievementRepository.START_DATE+" is null)":"";
+        return isMonthWise?" and "+TargetVsAchievementRepository.IS_MONTH_DATE +" = 1":" and "+TargetVsAchievementRepository.IS_MONTH_DATE +" = 0";
+    }
+    public String getTargetConditionWithoutAnd(){
+        return isMonthWise?" where "+TargetVsAchievementRepository.IS_MONTH_DATE +" = 1":" where "+TargetVsAchievementRepository.IS_MONTH_DATE +" = 0";
     }
     public String getSSCondition(String ssName){
         String ssCondition;
         ssCondition = " "+HnppConstants.KEY.SS_NAME+" = '"+ssName+"' and ";
+        return ssCondition;
+    }
+    public String getSSConditionWithoutAnd(String ssName){
+        String ssCondition;
+        ssCondition = " "+HnppConstants.KEY.SS_NAME+" = '"+ssName+"'";
         return ssCondition;
     }
     public String getBetweenCondition(String fromMonth, String toMonth, String compareDate){
@@ -188,9 +225,21 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
         }
         String whereCondition  = "("+builder.toString()+")";
         String groupBy = " group by target_name";
-        String query = "select sum(coalesce(achievemnt_count,0)) as achievemnt_count,target_name,(select sum(coalesce(target_count,0)) from target_table where "+ whereCondition+""+ getFilterWithAnd(day,month,year,"") +groupBy+") as target_count from target_table where "+ whereCondition+""+ getFilterWithAnd(day,month,year,ssName)+groupBy;
-        //String query = "select sum(coalesce(achievemnt_count,0)) as achievemnt_count,(select sum(coalesce(target_count,0)) from target_table where "+ getFilter(day,month,year,"") +") as target_count from target_table where "+ getFilter(day,month,year,ssName);
+        //String query = "select sum(coalesce(achievemnt_count,0)) as achievemnt_count,target_name,(select sum(coalesce(target_count,0)) from target_table where "+ whereCondition+""+ getFilterWithAnd(day,month,year,"") +groupBy+") as target_count from target_table where "+ whereCondition+""+ getFilterWithAnd(day,month,year,ssName)+groupBy;
+        String query ="with t1 as(select sum(coalesce(target_count,0)) as target_count,target_name from target_table where "+whereCondition+"" +getFilterWithAnd(day,month,year,"")+groupBy+"),"+
+                "t2 as (select sum(coalesce(achievemnt_count,0)) as achievemnt_count,target_name from target_table " +
+                "where "+whereCondition+" "+getFilterWithAnd(day,month,year,ssName)+groupBy+")"+
+                "select t1.target_count,t2.achievemnt_count,t1.target_name from t2 left join t1 on t1.target_name = t2.target_name group by t1.target_name";
         Log.v("TARGET_QUERY","query:"+query);
+       /*
+       with t1 as(select sum(coalesce(target_count,0)) as target_count,target_name from target_table
+where ( target_name = 'Adolescent Forum' OR  target_name = 'NCD Forum' OR  target_name = 'Child Forum' OR  target_name = 'WOMEN Forum' OR  target_name = 'ADULT Forum')
+and month =11 and year =2021 group by target_name),
+t2 as (select sum(coalesce(achievemnt_count,0)) as achievemnt_count,target_name from target_table
+where ( target_name = 'Adolescent Forum' OR  target_name = 'NCD Forum' OR  target_name = 'Child Forum' OR  target_name = 'WOMEN Forum' OR  target_name = 'ADULT Forum')
+and month =11 and year =2021 group by target_name)
+select t1.target_count,t2.achievemnt_count,t1.target_name from t2 left join t1 on t1.target_name = t2.target_name group by t1.target_name
+        */
         Cursor cursor = null;
         try{
             // try {
@@ -238,8 +287,11 @@ public class TargetVsAchievementModel implements DashBoardContract.Model  {
         }
         String whereCondition  = "("+builder.toString()+")";
         String groupBy = " group by target_name";
-        String query = "select sum(coalesce(achievemnt_count,0)) as achievemnt_count,target_name,(select sum(coalesce(target_count,0)) from target_table where "+ whereCondition+""+ getFilterWithAnd(day,month,year,"") +groupBy+") as target_count from target_table where "+ whereCondition+""+ getFilterWithAnd(day,month,year,ssName)+groupBy;
-
+        //String query = "select sum(coalesce(achievemnt_count,0)) as achievemnt_count,target_name,(select sum(coalesce(target_count,0)) from target_table where "+ whereCondition+""+ getFilterWithAnd(day,month,year,"") +groupBy+") as target_count from target_table where "+ whereCondition+""+ getFilterWithAnd(day,month,year,ssName)+groupBy;
+        String query ="with t1 as(select sum(coalesce(target_count,0)) as target_count,target_name from target_table where "+whereCondition+"" +getFilterWithAnd(day,month,year,"")+groupBy+"),"+
+                "t2 as (select sum(coalesce(achievemnt_count,0)) as achievemnt_count,target_name from target_table " +
+                "where "+whereCondition+" "+getFilterWithAnd(day,month,year,ssName)+groupBy+")"+
+                "select t1.target_count,t2.achievemnt_count,t1.target_name from t2 left join t1 on t1.target_name = t2.target_name group by t1.target_name";
         Log.v("TARGET_QUERY","avg query:"+query);
         Cursor cursor = null;
          try {

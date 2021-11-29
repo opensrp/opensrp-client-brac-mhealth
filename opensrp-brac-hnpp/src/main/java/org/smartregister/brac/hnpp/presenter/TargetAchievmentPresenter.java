@@ -32,13 +32,13 @@ public class TargetAchievmentPresenter implements DashBoardContract.TargetPresen
 
     }
 
-    public void filterByFromToDate(long fromDate, long toDate, String ssName) {
+    public void filterByFromToDate(String fromDate, String toDate, String ssName) {
         getView().showProgressBar();
         interactor.filterByFromToDate(ssName,fromDate,toDate,this);
     }
 
 
-    public void filterByFromToMonth(long fromMonth, long toMonth, String ssName) {
+    public void filterByFromToMonth(String fromMonth, String toMonth, String ssName) {
         getView().showProgressBar();
         interactor.filterByFromToMonth(ssName,fromMonth,toMonth,this);
     }
