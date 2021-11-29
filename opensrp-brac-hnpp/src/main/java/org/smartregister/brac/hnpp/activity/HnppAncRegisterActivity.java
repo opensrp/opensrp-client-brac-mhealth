@@ -134,7 +134,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
             if(paymentEnable){
                 findViewById(R.id.payment_view).setVisibility(View.VISIBLE);
             }else{
-                findViewById(R.id.payment_view).setVisibility(View.GONE);
+                findViewById(R.id.payment_view).setVisibility(View.VISIBLE);
             }
         }
     }
