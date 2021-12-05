@@ -126,19 +126,19 @@ public class ForumTargetAchievementInteractor implements DashBoardContract.Forum
             womenForum.setAvgAchievementPercentage(avgWomenForum.getAvgAchievementPercentage());
             setData(womenForum);
 
-            TargetVsAchievementData adultForum = getSpecificForumData(HnppConstants.EVENT_TYPE.FORUM_ADULT);
-            TargetVsAchievementData avgAdultForum = getSpecificAvgForumData(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADULT_FORUM);
-            if(adultForum.getAchievementCount() != 0 ){
-                adultForum.setAvgAchievmentCount(avgAdultForum.getAvgAchievmentCount() /adultForum.getAchievementCount() );
-            }
-
-            adultForum.setAvgTargetCount(avgAdultForum.getAvgTargetCount());
-            if(avgAdultForum.getAvgTargetCount() != 0){
-                int percentage = (int) ((avgAdultForum.getAvgAchievmentCount() * 100)/avgAdultForum.getAvgTargetCount());
-                avgAdultForum.setAvgAchievementPercentage(percentage);
-            }
-            adultForum.setAvgAchievementPercentage(avgAdultForum.getAvgAchievementPercentage());
-            setData(adultForum);
+//            TargetVsAchievementData adultForum = getSpecificForumData(HnppConstants.EVENT_TYPE.FORUM_ADULT);
+//            TargetVsAchievementData avgAdultForum = getSpecificAvgForumData(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADULT_FORUM);
+//            if(adultForum.getAchievementCount() != 0 ){
+//                adultForum.setAvgAchievmentCount(avgAdultForum.getAvgAchievmentCount() /adultForum.getAchievementCount() );
+//            }
+//
+//            adultForum.setAvgTargetCount(avgAdultForum.getAvgTargetCount());
+//            if(avgAdultForum.getAvgTargetCount() != 0){
+//                int percentage = (int) ((avgAdultForum.getAvgAchievmentCount() * 100)/avgAdultForum.getAvgTargetCount());
+//                avgAdultForum.setAvgAchievementPercentage(percentage);
+//            }
+//            adultForum.setAvgAchievementPercentage(avgAdultForum.getAvgAchievementPercentage());
+//            setData(adultForum);
         }
 
 
@@ -226,7 +226,7 @@ public class ForumTargetAchievementInteractor implements DashBoardContract.Forum
             visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.FORUM_NCD,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.FORUM_NCD)));
             visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.FORUM_CHILD,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.FORUM_CHILD)));
             visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.FORUM_WOMEN,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.FORUM_WOMEN)));
-            visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.FORUM_ADULT,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.FORUM_ADULT)));
+            //visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.FORUM_ADULT,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.FORUM_ADULT)));
 
         }
 
@@ -239,8 +239,8 @@ public class ForumTargetAchievementInteractor implements DashBoardContract.Forum
         }else{
             visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADO_FORUM,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADO_FORUM)));
             visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.AVG_ATTEND_NCD_FORUM,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.AVG_ATTEND_NCD_FORUM)));
-            visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADULT_FORUM,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADULT_FORUM)));
-            visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.ADULT_FORUM_ATTENDANCE,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.ADULT_FORUM_ATTENDANCE)));
+           // visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADULT_FORUM,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADULT_FORUM)));
+           // visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.ADULT_FORUM_ATTENDANCE,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.ADULT_FORUM_ATTENDANCE)));
             visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.AVG_ATTEND_IYCF_FORUM,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.AVG_ATTEND_IYCF_FORUM)));
             visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.AVG_ATTEND_WOMEN_FORUM,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.AVG_ATTEND_WOMEN_FORUM)));
 

@@ -174,6 +174,7 @@ public class HnppNavigationPresenter extends NavigationPresenter {
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
+                if(activity==null || activity.isFinishing()) return;
                 if(o !=null ){
                     String status = (String)o;
                     showDialog(status,activity);

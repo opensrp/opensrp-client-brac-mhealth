@@ -143,7 +143,7 @@ android {
         }
         normal{
             versionCode 63
-            versionName "2.0.7.3_dev"
+            versionName "2.0.7"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'true'
             buildConfigField "String", 'opensrp_url_training', '"https://hnpptest1.mpower-social.com/opensrp/"'
@@ -155,8 +155,8 @@ android {
 
         }
         production{
-            versionCode 53
-            versionName "2.0.6.3"
+            versionCode 58
+            versionName "2.0.7"//2.0.6.4=2.0.7
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
             buildConfigField "String", 'opensrp_url_training', '"https://mhealth.brac.net/opensrp/"'

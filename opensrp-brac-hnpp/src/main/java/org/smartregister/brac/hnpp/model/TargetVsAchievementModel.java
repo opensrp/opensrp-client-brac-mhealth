@@ -175,10 +175,10 @@ select t2.target_count,t3.achievemnt_count,t2.target_name from t2 left join t3
         return list;
     }
     public String getTargetCondition(){
-        return isMonthWise?" and "+TargetVsAchievementRepository.IS_MONTH_DATE +" = 1":" and "+TargetVsAchievementRepository.IS_MONTH_DATE +" = 0";
+        return "";//isMonthWise?" and "+TargetVsAchievementRepository.IS_MONTH_DATE +" = 1":" and "+TargetVsAchievementRepository.IS_MONTH_DATE +" = 0";
     }
     public String getTargetConditionWithoutAnd(){
-        return isMonthWise?" where "+TargetVsAchievementRepository.IS_MONTH_DATE +" = 1":" where "+TargetVsAchievementRepository.IS_MONTH_DATE +" = 0";
+        return "";//isMonthWise?" where "+TargetVsAchievementRepository.IS_MONTH_DATE +" = 1":" where "+TargetVsAchievementRepository.IS_MONTH_DATE +" = 0";
     }
     public String getSSCondition(String ssName){
         String ssCondition;
