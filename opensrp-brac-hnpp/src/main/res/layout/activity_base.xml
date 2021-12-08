@@ -98,7 +98,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tvRegisters"
-                        android:layout_margin="15dp" />
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="15dp" />
 
                     <View
                         android:id="@+id/vDiv2"
@@ -423,7 +426,7 @@
                         </RelativeLayout>
                         <RelativeLayout
                             android:id="@+id/payment_view"
-                            android:visibility="visible"
+                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="60dp"
                             android:paddingStart="15dp"
