@@ -302,12 +302,12 @@ public class HnppFamilyRegisterFragment extends HnppBaseFamilyRegisterFragment i
                         if(JobManager.instance().getAllJobRequestsForTag(HnppPncCloseJob.TAG).isEmpty()){
                             HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
                         }
-                        if(JobManager.instance().getAllJobRequestsForTag(TargetFetchJob.TAG).isEmpty()){
+                        //if(JobManager.instance().getAllJobRequestsForTag(TargetFetchJob.TAG).isEmpty()){
                             TargetFetchJob.scheduleJobImmediately(TargetFetchJob.TAG);
-                        }
-                        if(JobManager.instance().getAllJobRequestsForTag(StockFetchJob.TAG).isEmpty()){
+                        //}
+                        //if(JobManager.instance().getAllJobRequestsForTag(StockFetchJob.TAG).isEmpty()){
                             StockFetchJob.scheduleJobImmediately(StockFetchJob.TAG);
-                        }
+                        //}
                         HnppConstants.isViewRefresh = true;
                         setRefreshList(true);
                         renderView();
