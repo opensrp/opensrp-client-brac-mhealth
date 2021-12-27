@@ -36,11 +36,14 @@ public class PaymentHistoryInteractor implements PaymentHistoryContract.Interact
         return totalPayment;
     }
 
-    private ArrayList<PaymentHistory> getPaymentServiceList(){
+    private ArrayList<PaymentHistory> getPaymentServiceList(boolean isNew){
         paymentHistoryArrayList.clear();
-        JSONArray jsonArray = getPaymentServiceJsonArrayList();
+        JSONArray jsonArray = getPaymentServiceJsonArrayList(isNew);
         long tempTimestamp = 0;
         if(jsonArray!=null){
+            if(jsonArray.length() >0 && isNew){
+                HnppApplication.getPaymentHistoryRepository().dropTable();
+            }
             for (int i = 0; i < jsonArray.length(); i++) {
                 try {
                     JSONObject object = jsonArray.getJSONObject(i);
@@ -78,10 +81,21 @@ public class PaymentHistoryInteractor implements PaymentHistoryContract.Interact
     }
 
     @Override
+    public void fetchAllData(PaymentHistoryContract.InteractorCallBack callBack) {
+        Runnable runnable = () -> {
+            getPaymentServiceList(true);
+
+            totalPayment = HnppApplication.getPaymentHistoryRepository().getTotalPayment("","");
+            appExecutors.mainThread().execute(callBack::fetchedSuccessfully);
+        };
+        appExecutors.diskIO().execute(runnable);
+    }
+
+    @Override
     public void fetchPaymentService(PaymentHistoryContract.InteractorCallBack callBack,boolean isLocal) {
         Runnable runnable = () -> {
             if(!isLocal){
-                getPaymentServiceList();
+                getPaymentServiceList(false);
             }else {
                 paymentHistoryArrayList.clear();
                 loadLocalData();
@@ -106,7 +120,7 @@ public class PaymentHistoryInteractor implements PaymentHistoryContract.Interact
         appExecutors.diskIO().execute(runnable);
     }
 
-    private JSONArray getPaymentServiceJsonArrayList() {
+    private JSONArray getPaymentServiceJsonArrayList(boolean isNew) {
         try {
             HTTPAgent httpAgent = CoreLibrary.getInstance().context().getHttpAgent();
             String baseUrl = CoreLibrary.getInstance().context().
@@ -119,7 +133,7 @@ public class PaymentHistoryInteractor implements PaymentHistoryContract.Interact
             if (TextUtils.isEmpty(userName)) {
                 return null;
             }
-            String lastHistorySyncTime = CoreLibrary.getInstance().context().allSharedPreferences().getPreference(LAST_PAYMENT_HISTORY_SYNC);
+            String lastHistorySyncTime = isNew? "":CoreLibrary.getInstance().context().allSharedPreferences().getPreference(LAST_PAYMENT_HISTORY_SYNC);
             if(TextUtils.isEmpty(lastHistorySyncTime)){
                 LocalDate currentDate = LocalDate.now();
                 LocalDate currentDateMinus6Months = currentDate.minusMonths(6);
