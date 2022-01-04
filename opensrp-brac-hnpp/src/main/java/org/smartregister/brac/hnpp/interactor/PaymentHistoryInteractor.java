@@ -110,7 +110,7 @@ public class PaymentHistoryInteractor implements PaymentHistoryContract.Interact
     public void filterByFromToDate(PaymentHistoryContract.InteractorCallBack callBack, String fromDate, String toDate) {
         Runnable runnable = () -> {
 
-                paymentHistoryArrayList.clear();
+            paymentHistoryArrayList.clear();
             ArrayList<PaymentHistory> paymentHistoryList =  HnppApplication.getPaymentHistoryRepository().getFilterPayment(fromDate,toDate);
             if(paymentHistoryList.size()>0)paymentHistoryArrayList.addAll(paymentHistoryList);
             totalPayment = HnppApplication.getPaymentHistoryRepository().getTotalPayment(fromDate,toDate);

@@ -422,7 +422,7 @@
                         </RelativeLayout>
                         <RelativeLayout
                             android:id="@+id/payment_view"
-                            android:visibility="gone"
+                            android:visibility="visible"
                             android:layout_width="match_parent"
                             android:layout_height="60dp"
                             android:paddingStart="15dp"
