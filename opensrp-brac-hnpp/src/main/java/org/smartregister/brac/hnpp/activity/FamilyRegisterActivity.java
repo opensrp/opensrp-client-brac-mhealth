@@ -125,13 +125,7 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
 
         navigationMenu = NavigationMenu.getInstance(this, null, null);
         notificationBroadcastReceiver = new NotificationBroadcastReceiver();
-        hnppNavigationPresenter = new HnppNavigationPresenter(
-
-                HnppApplication.getHNPPInstance(),
-
-                navigationMenu,
-
-                HnppApplication.getHNPPInstance().getHnppNavigationModel());
+        hnppNavigationPresenter = new HnppNavigationPresenter(HnppApplication.getHNPPInstance(),navigationMenu,HnppApplication.getHNPPInstance().getHnppNavigationModel());
         HnppApplication.getHNPPInstance().setupNavigation(hnppNavigationPresenter);
         if(getIntent().getBooleanExtra(HnppConstants.KEY_NEED_TO_OPEN,false)){
             navigationMenu.openDrawer();
@@ -150,7 +144,7 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
                 if(paymentEnable){
                     findViewById(R.id.payment_view).setVisibility(View.VISIBLE);
                 }else{
-                    findViewById(R.id.payment_view).setVisibility(View.VISIBLE);
+                    findViewById(R.id.payment_view).setVisibility(View.GONE);
                 }
             }
             findViewById(R.id.simprints_identity).setOnClickListener(new View.OnClickListener() {
@@ -164,6 +158,7 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
             });
         }else{
             try{
+                findViewById(R.id.payment_view).setVisibility(View.GONE);
                 findViewById(R.id.simprints_identity).setVisibility(View.GONE);
                 findViewById(R.id.ss_info_browse).setVisibility(View.GONE);
                 findViewById(R.id.migration_view).setVisibility(View.GONE);

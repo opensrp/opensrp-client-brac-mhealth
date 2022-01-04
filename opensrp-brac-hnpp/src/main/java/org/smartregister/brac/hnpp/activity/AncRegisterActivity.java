@@ -48,7 +48,7 @@ public class AncRegisterActivity extends CoreAncRegisterActivity {
             if(paymentEnable){
                 findViewById(R.id.payment_view).setVisibility(View.VISIBLE);
             }else{
-                findViewById(R.id.payment_view).setVisibility(View.VISIBLE);
+                findViewById(R.id.payment_view).setVisibility(View.GONE);
             }
         }
     }
