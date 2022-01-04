@@ -414,7 +414,7 @@
         "key": "age_at_death",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "",
+        "openmrs_entity_id": "age_at_death",
         "label": "Age at death",
         "hint": "Age at death",
         "type": "edit_text",

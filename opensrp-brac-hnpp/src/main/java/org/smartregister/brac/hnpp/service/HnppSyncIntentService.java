@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.smartregister.AllConstants;
 import org.smartregister.CoreLibrary;
 import org.smartregister.SyncConfiguration;
+import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.domain.FetchStatus;
@@ -48,6 +49,7 @@ public class HnppSyncIntentService extends SyncIntentService {
 
             if (httpAgent == null) {
                 complete(FetchStatus.fetchedFailed);
+                return;
             }
 
             String url = baseUrl + SYNC_URL;
@@ -88,10 +90,13 @@ public class HnppSyncIntentService extends SyncIntentService {
             if (resp.isTimeoutError()) {
                 FetchStatus.fetchedFailed.setDisplayValue(resp.status().displayValue());
                 complete(FetchStatus.fetchedFailed);
+                return;
             }
 
             if (resp.isFailure() && !resp.isUrlError() && !resp.isTimeoutError()) {
                 fetchFailed(count);
+                //complete(FetchStatus.fetchedFailed);
+                return;
             }
 
             JSONObject jsonObject = new JSONObject((String) resp.payload());
@@ -103,9 +108,10 @@ public class HnppSyncIntentService extends SyncIntentService {
 
             if (eCount == 0) {
                 complete(FetchStatus.nothingFetched);
+                //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
             } else if (eCount < 0) {
                 fetchFailed(count);
-            } else if (eCount > 0) {
+            } else {
 
                 final Pair<Long, Long> serverVersionPair = getMinMaxServerVersions(jsonObject);
                 long lastServerVersion = serverVersionPair.second - 1;
@@ -119,7 +125,7 @@ public class HnppSyncIntentService extends SyncIntentService {
                 //update sync time if all event client is save.
                 if(isSaved){
                     processClient(serverVersionPair);
-                    Log.v("SYNC_URL", "processClient done timediff:"+(System.currentTimeMillis() - startTime));
+                    Log.v("SYNC_URL", "processClient done timediff:"+(System.currentTimeMillis() - startTime)+"lastServerVersion:"+lastServerVersion);
 
                     ecSyncUpdater.updateLastSyncTimeStamp(lastServerVersion);
                 }
@@ -127,7 +133,11 @@ public class HnppSyncIntentService extends SyncIntentService {
             }
         } catch (Exception e) {
             Timber.e(e, "Fetch Retry Exception:  %s", e.getMessage());
-            fetchFailed(count);
+            try{
+                fetchFailed(count);
+            }catch (Exception ee){
+                ee.printStackTrace();
+            }
         }
     }
     @Override

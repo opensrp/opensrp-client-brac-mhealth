@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
@@ -28,10 +27,7 @@ import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.adapter.SkSelectionAdapter;
 import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
-import org.smartregister.brac.hnpp.job.HomeVisitServiceJob;
-import org.smartregister.brac.hnpp.job.SSLocationFetchJob;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
-import org.smartregister.brac.hnpp.location.SSLocations;
 import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.domain.FetchStatus;
@@ -288,7 +284,7 @@ public class SkSelectionActivity extends SecuredActivity implements View.OnClick
             public void onClick(View v) {
                 storeUserName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
                 SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(SkSelectionActivity.this);
-                HomeVisitServiceJob.scheduleJobImmediately(HomeVisitServiceJob.TAG);
+//                HnppHomeVisitServiceJob.scheduleJobImmediately(HnppHomeVisitServiceJob.TAG);
                 HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
                 showProgressDialog(getString(R.string.syncing));
 

@@ -223,7 +223,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "pneumonia_patient",
         "type": "edit_text",
-        "hint": "চিকিৎসাকৃত(এয়ামোক্সিসিলিন/কত্ৰিম সিরাপ দিয়ে) নিউমোনিয়া আক্রান্ত শিশুর সংখ্যা ",
+        "hint": "চিকিৎসাকৃত(এমোক্সিসিলিন/কোট্রিম সিরাপ দিয়ে) নিউমোনিয়া আক্রান্ত শিশুর সংখ্যা ",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"

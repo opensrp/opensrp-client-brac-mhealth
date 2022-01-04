@@ -19,7 +19,7 @@ public class SearchHHMemberAdapter extends RecyclerView.Adapter<SearchViewHolder
     private ArrayList<HHMemberProperty> contentList;
     private Context context;
     private OnClickAdapter onClickAdapter;
-    private ArrayList<String> selectedId = new ArrayList<>();
+    public static ArrayList<String> selectedId = new ArrayList<>();
     private String searchType;
 
     public SearchHHMemberAdapter(Context context, OnClickAdapter onClickAdapter, String searchType) {
@@ -37,6 +37,7 @@ public class SearchHHMemberAdapter extends RecyclerView.Adapter<SearchViewHolder
                 selectedId.add(pre.getId());
             }
         }
+
     }
 
     @NonNull

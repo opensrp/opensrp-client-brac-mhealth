@@ -11,6 +11,7 @@ import org.smartregister.brac.hnpp.sync.intent.HfSyncTaskIntentService;
 import org.smartregister.job.CompareDataServiceJob;
 import org.smartregister.job.DataSyncByBaseEntityServiceJob;
 import org.smartregister.job.ExtendedSyncServiceJob;
+import org.smartregister.job.ForceSyncDataServiceJob;
 import org.smartregister.job.ImageUploadServiceJob;
 import org.smartregister.job.InValidateSyncDataServiceJob;
 import org.smartregister.job.LocationStructureServiceJob;
@@ -18,7 +19,6 @@ import org.smartregister.job.PlanIntentServiceJob;
 import org.smartregister.job.PullUniqueIdsServiceJob;
 import org.smartregister.job.SyncTaskServiceJob;
 import org.smartregister.job.ValidateSyncDataServiceJob;
-import org.smartregister.sync.intent.SyncIntentService;
 
 import timber.log.Timber;
 
@@ -34,8 +34,8 @@ public class HnppJobCreator implements JobCreator {
                 return new SSLocationFetchJob();
             case HnppSyncIntentServiceJob.TAG:
                 return new HnppSyncIntentServiceJob();
-            case HomeVisitServiceJob.TAG:
-                return new HomeVisitServiceJob();
+//            case HnppHomeVisitServiceJob.TAG:
+//                return new HnppHomeVisitServiceJob();
             case ExtendedSyncServiceJob.TAG:
                 return new ExtendedSyncServiceJob();
             case PullUniqueIdsServiceJob.TAG:
@@ -48,6 +48,8 @@ public class HnppJobCreator implements JobCreator {
                 return new InValidateSyncDataServiceJob();
             case DataSyncByBaseEntityServiceJob.TAG:
                 return new DataSyncByBaseEntityServiceJob();
+            case ForceSyncDataServiceJob.TAG:
+                return new ForceSyncDataServiceJob();
             case CompareDataServiceJob.TAG:
                 return new CompareDataServiceJob();
             case ImageUploadServiceJob.TAG:

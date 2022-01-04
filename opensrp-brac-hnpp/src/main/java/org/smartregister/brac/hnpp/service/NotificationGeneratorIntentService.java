@@ -48,6 +48,7 @@ public class NotificationGeneratorIntentService extends IntentService {
     private void processStockEndNotification(){
         if(HnppConstants.isNeedToShowStockEndPopup()){
             StringBuilder nameCountBuilder = HnppDBUtils.getStockEnd();
+            Log.v("PROCESS_NOTI","nameCountBuilder.length()"+nameCountBuilder.length());
             if(nameCountBuilder!=null && nameCountBuilder.length()>0){
 
                 try{

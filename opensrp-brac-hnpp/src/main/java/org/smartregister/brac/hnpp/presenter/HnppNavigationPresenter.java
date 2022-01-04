@@ -20,11 +20,9 @@ import org.smartregister.brac.hnpp.activity.MigrationActivity;
 import org.smartregister.brac.hnpp.activity.NewDashBoardActivity;
 import org.smartregister.brac.hnpp.activity.NotificationActivity;
 import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
-import org.smartregister.brac.hnpp.job.HomeVisitServiceJob;
 import org.smartregister.brac.hnpp.activity.COVIDJsonFormActivity;
 import org.smartregister.brac.hnpp.activity.ForceSyncActivity;
 import org.smartregister.brac.hnpp.job.MigrationFetchJob;
-import org.smartregister.brac.hnpp.job.NotificationGeneratorJob;
 import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
 import org.smartregister.brac.hnpp.job.StockFetchJob;
 import org.smartregister.brac.hnpp.job.TargetFetchJob;
@@ -42,6 +40,8 @@ import org.smartregister.domain.Response;
 import org.smartregister.exception.NoHttpResponseException;
 import org.smartregister.job.PullUniqueIdsServiceJob;
 import org.smartregister.util.FormUtils;
+import org.smartregister.repository.EventClientRepository;
+
 
 public class HnppNavigationPresenter extends NavigationPresenter {
     public HnppNavigationPresenter(CoreApplication application, NavigationContract.View view, NavigationModel.Flavor modelFlavor) {
@@ -85,6 +85,15 @@ public class HnppNavigationPresenter extends NavigationPresenter {
         }catch (Exception e){
 
         }
+    }
+
+    @Override
+    public void updateUnSyncCount() {
+        EventClientRepository eventClientRepository = HnppApplication.getHNPPInstance().getEventClientRepository();
+        int cc = eventClientRepository.getInvalidClientsCount();
+        int ec = eventClientRepository.getInvalidEventsCount();
+        Log.v("UNSYNC_COUNT","cc>>"+cc+":ec>"+ec);
+        getNavigationView().updateUnSyncCount(cc+ec);
     }
 
     @Override
@@ -165,6 +174,7 @@ public class HnppNavigationPresenter extends NavigationPresenter {
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
+                if(activity==null || activity.isFinishing()) return;
                 if(o !=null ){
                     String status = (String)o;
                     showDialog(status,activity);
@@ -199,11 +209,11 @@ public class HnppNavigationPresenter extends NavigationPresenter {
             if(!HnppConstants.isPALogin()){
                 MigrationFetchJob.scheduleJobImmediately(MigrationFetchJob.TAG);
             }
-            HomeVisitServiceJob.scheduleJobImmediately(HomeVisitServiceJob.TAG);
+//            HnppHomeVisitServiceJob.scheduleJobImmediately(HnppHomeVisitServiceJob.TAG);
             HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
             PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
-            PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
-            VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+//            PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
+            //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
             TargetFetchJob.scheduleJobImmediately(TargetFetchJob.TAG);
             StockFetchJob.scheduleJobImmediately(StockFetchJob.TAG);
 

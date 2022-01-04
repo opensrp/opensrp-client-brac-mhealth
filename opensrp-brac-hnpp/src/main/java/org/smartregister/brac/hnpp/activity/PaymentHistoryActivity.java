@@ -101,7 +101,7 @@ public class PaymentHistoryActivity extends SecuredActivity implements View.OnCl
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.refreshIndicatorsIcon:
-                presenter.fetchPaymentService();
+                presenter.fetchAllData();
                 break;
             case R.id.clear_filter:
                 fromDateBtn.setText(getString(R.string.all_text));

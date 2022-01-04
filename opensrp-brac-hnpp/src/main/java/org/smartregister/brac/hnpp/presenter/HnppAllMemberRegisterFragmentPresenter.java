@@ -26,7 +26,7 @@ public class HnppAllMemberRegisterFragmentPresenter extends CoreChildRegisterFra
         getView().initializeQueryParams(CoreConstants.TABLE_NAME.FAMILY_MEMBER, countSelect, mainSelect);
         getView().initializeAdapter(visibleColumns);
 
-        getView().countExecute();
+       // getView().countExecute();
 
         getView().filterandSortInInitializeQueries();
     }

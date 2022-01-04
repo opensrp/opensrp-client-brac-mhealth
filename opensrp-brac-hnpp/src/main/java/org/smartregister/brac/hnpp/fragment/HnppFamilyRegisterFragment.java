@@ -1,11 +1,15 @@
 package org.smartregister.brac.hnpp.fragment;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.CursorLoader;
@@ -23,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.evernote.android.job.JobManager;
 
@@ -34,6 +39,8 @@ import org.smartregister.brac.hnpp.activity.SkSelectionActivity;
 import org.smartregister.brac.hnpp.job.HnppPncCloseJob;
 import org.smartregister.brac.hnpp.job.NotificationGeneratorJob;
 import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
+import org.smartregister.brac.hnpp.job.StockFetchJob;
+import org.smartregister.brac.hnpp.job.TargetFetchJob;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSLocations;
@@ -51,6 +58,7 @@ import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.cursoradapter.RecyclerViewPaginatedAdapter;
 import org.smartregister.domain.FetchStatus;
 import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
+import org.smartregister.domain.ResponseErrorStatus;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.Utils;
@@ -68,10 +76,17 @@ import static android.view.View.inflate;
 public class HnppFamilyRegisterFragment extends HnppBaseFamilyRegisterFragment implements View.OnClickListener {
 
     private MigrationSearchContentData migrationSearchContentData;
+    private Activity mActivity;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mActivity =(Activity) context;
+    }
 
     @Override
     public void initializeAdapter(Set<org.smartregister.configurableviews.model.View> visibleColumns) {
-        CoreRegisterProvider chwRegisterProvider = new HnppFamilyRegisterProvider(getActivity(), commonRepository(), visibleColumns, registerActionHandler, paginationViewHandler);
+        CoreRegisterProvider chwRegisterProvider = new HnppFamilyRegisterProvider(mActivity, commonRepository(), visibleColumns, registerActionHandler, paginationViewHandler);
         clientAdapter = new RecyclerViewPaginatedAdapter(null, chwRegisterProvider, context().commonrepository(this.tablename));
         clientAdapter.setCurrentlimit(20);
         clientsView.setAdapter(clientAdapter);
@@ -83,7 +98,8 @@ public class HnppFamilyRegisterFragment extends HnppBaseFamilyRegisterFragment i
 
     @Override
     protected void initializePresenter() {
-        if (getActivity() == null) {
+        if (mActivity == null || mActivity.isFinishing()) {
+            HnppApplication.getHNPPInstance().forceLogout();
             return;
         }
         presenter = new HnppFamilyRegisterFragmentPresenter(this, new HnppFamilyRegisterFragmentModel(), null);
@@ -91,7 +107,7 @@ public class HnppFamilyRegisterFragment extends HnppBaseFamilyRegisterFragment i
 
     @Override
     protected void goToPatientDetailActivity(CommonPersonObjectClient patient, boolean goToDuePage) {
-        Intent intent = new Intent(getActivity(), Utils.metadata().profileActivity);
+        Intent intent = new Intent(mActivity, Utils.metadata().profileActivity);
         intent.putExtra(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, patient.getCaseId());
         intent.putExtra(Constants.INTENT_KEY.FAMILY_HEAD, Utils.getValue(patient.getColumnmaps(), DBConstants.KEY.FAMILY_HEAD, false));
         intent.putExtra(Constants.INTENT_KEY.PRIMARY_CAREGIVER, Utils.getValue(patient.getColumnmaps(), DBConstants.KEY.PRIMARY_CAREGIVER, false));
@@ -142,7 +158,7 @@ public class HnppFamilyRegisterFragment extends HnppBaseFamilyRegisterFragment i
         dueOnlyLayout.setVisibility(View.GONE);
         filterTextView.setOnClickListener(registerActionHandler);
 
-        setTotalPatients();
+        //setTotalPatients();
 //        TextView dueOnly = ((TextView)view.findViewById(org.smartregister.chw.core.R.id.due_only_text_view));
 //        dueOnly.setVisibility(View.VISIBLE);
     }
@@ -199,7 +215,7 @@ public class HnppFamilyRegisterFragment extends HnppBaseFamilyRegisterFragment i
     public void onViewClicked(View view) {
         super.onViewClicked(view);
         if(view.getId() == R.id.sort_text_view || view.getId() == R.id.sort_by_image){
-            Dialog dialog = new Dialog(getActivity(), android.R.style.Theme_NoTitleBar_Fullscreen);
+            Dialog dialog = new Dialog(mActivity, android.R.style.Theme_NoTitleBar_Fullscreen);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(org.smartregister.family.R.color.customAppThemeBlue)));
             dialog.setContentView(R.layout.sort_options_dialog);
@@ -226,47 +242,144 @@ public class HnppFamilyRegisterFragment extends HnppBaseFamilyRegisterFragment i
             openFilterDialog(false);
         }
     }
+
     @Override
-    public void onSyncInProgress(FetchStatus fetchStatus) {
-        try{
-            if (!SyncStatusBroadcastReceiver.getInstance().isSyncing() && (FetchStatus.fetched.equals(fetchStatus) || FetchStatus.nothingFetched.equals(fetchStatus))) {
-                org.smartregister.util.Utils.showShortToast(getActivity(), getString(org.smartregister.chw.core.R.string.sync_complete));
-                refreshSyncProgressSpinner();
-            }
-        }catch (WindowManager.BadTokenException e){
-
-        }
-
+    protected void registerSyncStatusBroadcastReceiver() {
+        SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(this);
     }
 
+    @Override
+    protected void unregisterSyncStatusBroadcastReceiver() {
+        SyncStatusBroadcastReceiver.getInstance().removeSyncStatusListener(this);
+    }
+
+    @Override
+    public void onSyncStart() {
+        refreshSyncStatusViews(null);
+    }
+
+    @Override
+    public void onSyncInProgress(FetchStatus fetchStatus) {
+        refreshSyncStatusViews(fetchStatus);
+    }
 
     @Override
     public void onSyncComplete(FetchStatus fetchStatus) {
-        //super.onSyncComplete(fetchStatus);
-        try{
-            org.smartregister.util.Utils.showShortToast(getActivity(), getString(org.smartregister.chw.core.R.string.sync_complete));
-        }catch (WindowManager.BadTokenException e){
-            e.printStackTrace();
-        }
-        refreshSyncProgressSpinner();
-
-        if(JobManager.instance().getAllJobRequestsForTag(PullHouseholdIdsServiceJob.TAG).isEmpty()){
-            PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
-        }
-        if(JobManager.instance().getAllJobRequestsForTag(VisitLogServiceJob.TAG).isEmpty()){
-            VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
-        }
-        if(JobManager.instance().getAllJobRequestsForTag(NotificationGeneratorJob.TAG).isEmpty()){
-            NotificationGeneratorJob.scheduleJobImmediately(NotificationGeneratorJob.TAG);
-
-        }
-        //if we open this it'll cause the issue to remove from anc list
-       if(JobManager.instance().getAllJobRequestsForTag(HnppPncCloseJob.TAG).isEmpty()){
-            HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
-        }
-
-        HnppConstants.isViewRefresh = true;
+        refreshSyncStatusViews(fetchStatus);
     }
+
+    protected void refreshSyncStatusViews(FetchStatus fetchStatus) {
+        if(mActivity==null || mActivity.isFinishing()) return;
+            if (SyncStatusBroadcastReceiver.getInstance().isSyncing()) {
+              showToast(getString(org.smartregister.R.string.syncing));
+
+            } else {
+                if (fetchStatus != null) {
+
+                    if (fetchStatus.equals(FetchStatus.fetchedFailed)) {
+                        if(fetchStatus.displayValue().equals(ResponseErrorStatus.malformed_url.name())) {
+                            showToast(getString(org.smartregister.R.string.sync_failed_malformed_url));
+                        }
+                        else if (fetchStatus.displayValue().equals(ResponseErrorStatus.timeout.name())) {
+                            showToast(getString(org.smartregister.R.string.sync_failed_timeout_error));
+                        }
+                        else {
+                            showToast(getString(org.smartregister.R.string.sync_failed));
+                        }
+
+                    } else if (fetchStatus.equals(FetchStatus.fetched) || fetchStatus.equals(FetchStatus.nothingFetched)) {
+
+                       // renderView();
+                        showToast(getString(org.smartregister.R.string.sync_complete));
+                        if(JobManager.instance().getAllJobRequestsForTag(PullHouseholdIdsServiceJob.TAG).isEmpty()){
+                            PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
+                        }
+                        if(JobManager.instance().getAllJobRequestsForTag(NotificationGeneratorJob.TAG).isEmpty()){
+                            NotificationGeneratorJob.scheduleJobImmediately(NotificationGeneratorJob.TAG);
+
+                        }
+                        //if we open this it'll cause the issue to remove from anc list
+                        if(JobManager.instance().getAllJobRequestsForTag(HnppPncCloseJob.TAG).isEmpty()){
+                            HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
+                        }
+                        //if(JobManager.instance().getAllJobRequestsForTag(TargetFetchJob.TAG).isEmpty()){
+                            TargetFetchJob.scheduleJobImmediately(TargetFetchJob.TAG);
+                        //}
+                        //if(JobManager.instance().getAllJobRequestsForTag(StockFetchJob.TAG).isEmpty()){
+                            StockFetchJob.scheduleJobImmediately(StockFetchJob.TAG);
+                        //}
+                        HnppConstants.isViewRefresh = true;
+                        setRefreshList(true);
+                        renderView();
+
+                    } else if (fetchStatus.equals(FetchStatus.noConnection)) {
+                        showToast(getString(org.smartregister.R.string.sync_failed_no_internet));
+
+                    }
+                }
+                else{
+                    Timber.i("Fetch Status NULL");
+                }
+
+            }
+
+            refreshSyncProgressSpinner();
+    }
+    private void showToast(String message){
+        if(mActivity==null || mActivity.isFinishing()) return;
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    Utils.showShortToast(mActivity, message);
+                }catch (Exception e){
+
+                }
+            }
+        });
+    }
+
+    //    @Override
+//    public void onSyncInProgress(FetchStatus fetchStatus) {
+//        try{
+//            if (!SyncStatusBroadcastReceiver.getInstance().isSyncing() && (FetchStatus.fetched.equals(fetchStatus) || FetchStatus.nothingFetched.equals(fetchStatus))) {
+//                org.smartregister.util.Utils.showShortToast(mActivity, getString(org.smartregister.chw.core.R.string.sync_complete));
+//                refreshSyncProgressSpinner();
+//            }
+//        }catch (WindowManager.BadTokenException e){
+//
+//        }
+//
+//    }
+//
+//
+//    @Override
+//    public void onSyncComplete(FetchStatus fetchStatus) {
+//        //super.onSyncComplete(fetchStatus);
+//        try{
+//            org.smartregister.util.Utils.showShortToast(mActivity, getString(org.smartregister.chw.core.R.string.sync_complete));
+//        }catch (WindowManager.BadTokenException e){
+//            e.printStackTrace();
+//        }
+//        refreshSyncProgressSpinner();
+//
+//        if(JobManager.instance().getAllJobRequestsForTag(PullHouseholdIdsServiceJob.TAG).isEmpty()){
+//            PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
+//        }
+//        if(JobManager.instance().getAllJobRequestsForTag(VisitLogServiceJob.TAG).isEmpty()){
+//            VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+//        }
+//        if(JobManager.instance().getAllJobRequestsForTag(NotificationGeneratorJob.TAG).isEmpty()){
+//            NotificationGeneratorJob.scheduleJobImmediately(NotificationGeneratorJob.TAG);
+//
+//        }
+//        //if we open this it'll cause the issue to remove from anc list
+//       if(JobManager.instance().getAllJobRequestsForTag(HnppPncCloseJob.TAG).isEmpty()){
+//            HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
+//        }
+//
+//        HnppConstants.isViewRefresh = true;
+//    }
 
     @Override
     public void onResume() {
@@ -277,5 +390,11 @@ public class HnppFamilyRegisterFragment extends HnppBaseFamilyRegisterFragment i
             HnppApplication.getHNPPInstance().forceLogout();
             return;
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mActivity = null;
     }
 }

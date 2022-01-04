@@ -145,8 +145,8 @@ public class HnppElcoMemberRegisterFragment extends HnppBaseChildRegisterFragmen
 
     @Override
     public void countExecute() {
-        visitType = "and ec_visit_log.visit_type ='ELCO Registration'";
-        super.countExecute();
+//        visitType = "and ec_visit_log.visit_type ='ELCO Registration'";
+//        super.countExecute();
     }
 
     @Override
@@ -263,13 +263,25 @@ public class HnppElcoMemberRegisterFragment extends HnppBaseChildRegisterFragmen
                         countExecute();
                     }
                     String query = filterandSortQuery();
-                    return commonRepository().rawCustomQueryForAdapter(query);
+                    Cursor cursor = commonRepository().rawCustomQueryForAdapter(query);
+                    if(cursor !=null && clientAdapter !=null){
+                        setTotalCount(query);
+                    }
+                    return cursor;
                 }
             };
         }
         return super.onCreateLoader(id, args);
 
 
+    }
+    private void setTotalCount(String query){
+        query = query.substring(0,query.indexOf("LIMIT"));
+        Cursor cursor = commonRepository().rawCustomQueryForAdapter(query+";");
+        if(cursor!=null){
+            clientAdapter.setTotalcount(cursor.getCount());
+            cursor.close();
+        }
     }
     @Override
     protected int getToolBarTitle() {

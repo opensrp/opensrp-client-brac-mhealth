@@ -44,7 +44,7 @@ public class NewDashBoardActivity extends SecuredActivity implements View.OnClic
     @Override
     protected void onStart() {
         super.onStart();
-        VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+       // VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
     }
 
     private void loadCountSummeryFragment(int position){

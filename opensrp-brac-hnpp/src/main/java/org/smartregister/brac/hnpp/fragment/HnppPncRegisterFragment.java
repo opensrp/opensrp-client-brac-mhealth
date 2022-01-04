@@ -126,12 +126,6 @@ public class HnppPncRegisterFragment extends HnppBasePncRegisterFragment impleme
         switchViews(dueOnlyLayout, true);
     }
 
-    private void normalFilter(View dueOnlyLayout) {
-        filter(searchText(), "", getCondition());
-        dueOnlyLayout.setTag(null);
-        switchViews(dueOnlyLayout, false);
-    }
-
     protected void filter(String filterString, String joinTableString, String mainConditionString) {
         filters = filterString;
         joinTable = joinTableString;
@@ -158,9 +152,11 @@ public class HnppPncRegisterFragment extends HnppBasePncRegisterFragment impleme
     }
 
     protected String getCondition() {
-        return " " + HnppConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.DATE_REMOVED + " is null " +
-                "AND " + HnppConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME + "." + DBConstants.KEY.IS_CLOSED + " is 0 " +
-                "AND " + HnppConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.IS_CLOSED + " = '0' ";
+        return "";
+//        String q = " " + HnppConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.DATE_REMOVED + " is null " +
+//                "AND " + HnppConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME + "." + DBConstants.KEY.IS_CLOSED + " is 0 " +
+//                "AND " + HnppConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.IS_CLOSED + " = '0' ";
+//        return q;
     }
 
     @Override
@@ -243,7 +239,7 @@ public class HnppPncRegisterFragment extends HnppBasePncRegisterFragment impleme
         SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(sql);
         joinTables = new String[]{"ec_family"};
         StringBuilder customFilter = new StringBuilder();
-        String query = sql+" where " + getCondition();
+        String query = sql;//+" where " + getCondition();
         Log.v("VIST_QUERY","query>>"+query);
 
 
@@ -293,58 +289,10 @@ public class HnppPncRegisterFragment extends HnppBasePncRegisterFragment impleme
         return query;
     }
 
-//    @Override
-//    public void countExecute() {
-////        String query = mainSelect+" where " + getCondition();
-//
-//        Cursor c = null;
-//        try {
-//
-//            String query = "select count(*) from " + presenter().getMainTable() + " inner join " + HnppConstants.TABLE_NAME.FAMILY_MEMBER +
-//                    " on " + presenter().getMainTable() + "." + DBConstants.KEY.BASE_ENTITY_ID + " = " +
-//                    HnppConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.BASE_ENTITY_ID +
-//                    " inner join ec_family  on ec_family.base_entity_id = ec_family_member.relational_id "+
-//                    " where " + getCondition();
-//            joinTables = new String[]{"ec_family"};
-//            StringBuilder customFilter = new StringBuilder();
-//            if (StringUtils.isNotBlank(searchFilterString)) {
-//                customFilter.append(MessageFormat.format(" and ( {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.FIRST_NAME, searchFilterString));
-//                customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.LAST_NAME, searchFilterString));
-//                customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.MIDDLE_NAME, searchFilterString));
-//                customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.UNIQUE_ID, searchFilterString));
-//
-//            }
-//            if(!StringUtils.isEmpty(mSelectedClasterName)&&!StringUtils.isEmpty(mSelectedVillageName)){
-//                customFilter.append(MessageFormat.format(" and ( {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
-//                customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ) ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
-//
-//            }else if(!StringUtils.isEmpty(mSelectedClasterName)){
-//                customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
-//
-//            }else if(!StringUtils.isEmpty(mSelectedVillageName)){
-//                customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.VILLAGE_TOWN, mSelectedVillageName));
-//            }
-//
-//            if (StringUtils.isNotBlank(customFilter)) {
-//                query = query + customFilter;
-//            }
-//
-//            c = commonRepository().rawCustomQueryForAdapter(query);
-//            c.moveToFirst();
-//            clientAdapter.setTotalcount(c.getInt(0));
-//            Timber.v("total count here %s", clientAdapter.getTotalcount());
-//
-//            clientAdapter.setCurrentlimit(20);
-//            clientAdapter.setCurrentoffset(0);
-//
-//        } catch (Exception e) {
-//            Timber.e(e);
-//        } finally {
-//            if (c != null) {
-//                c.close();
-//            }
-//        }
-//    }
+    @Override
+    public void countExecute() {
+
+    }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
@@ -363,13 +311,27 @@ public class HnppPncRegisterFragment extends HnppBasePncRegisterFragment impleme
                         countExecute();
                     }
                     String query = defaultFilterAndSortQuery();
-                    return commonRepository().rawCustomQueryForAdapter(query);
+                    Log.v("PNCTEST","query>>"+query);
+
+                    Cursor cursor = commonRepository().rawCustomQueryForAdapter(query);
+                    if(cursor!=null && clientAdapter!=null){
+                        setTotalCount(query);
+                    }
+                    return cursor;
                 }
             };
         }
         return super.onCreateLoader(id, args);
 
 
+    }
+    private void setTotalCount(String query){
+        query = query.substring(0,query.indexOf("LIMIT"));
+        Cursor cursor = commonRepository().rawCustomQueryForAdapter(query+";");
+        if(cursor!=null){
+            clientAdapter.setTotalcount(cursor.getCount());
+            cursor.close();
+        }
     }
     protected int getToolBarTitle() {
         return R.string.menu_pnc_clients;

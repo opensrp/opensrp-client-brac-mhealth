@@ -10,7 +10,6 @@ import android.view.View;
 
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.fragment.ChildImmunizationFragment;
-import org.smartregister.brac.hnpp.job.HomeVisitServiceJob;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.immunization.domain.ServiceWrapper;
@@ -114,8 +113,8 @@ public class ChildVaccinationActivity extends SecuredActivity implements Vaccina
     public void onBackPressed() {
 
         if(isActionTaken){
-            HomeVisitServiceJob.scheduleJobImmediately(HomeVisitServiceJob.TAG);
             Intent intent = getIntent();
+            intent.putExtra("VACCINE_TAKEN",true);
             setResult(RESULT_OK, intent);
             finish();
         }else{

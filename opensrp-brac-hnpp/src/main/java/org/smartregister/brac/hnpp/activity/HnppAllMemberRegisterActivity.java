@@ -23,6 +23,7 @@ public class HnppAllMemberRegisterActivity extends CoreChildRegisterActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if(!HnppConstants.isPALogin()){
             ArrayList<SSModel> ssLocationForms = SSLocationHelper.getInstance().getSsModels();
             if(ssLocationForms.size() > 0){
@@ -40,6 +41,12 @@ public class HnppAllMemberRegisterActivity extends CoreChildRegisterActivity {
                     });
                 }else{
                     findViewById(R.id.simprints_identity).setVisibility(View.GONE);
+                }
+                boolean paymentEnable = ssLocationForms.get(0).payment_enable;
+                if(paymentEnable){
+                    findViewById(R.id.payment_view).setVisibility(View.VISIBLE);
+                }else{
+                    findViewById(R.id.payment_view).setVisibility(View.VISIBLE);
                 }
             }
         }else{

@@ -133,7 +133,12 @@ public class HnppAllMemberRegisterFragment extends HnppBaseChildRegisterFragment
                         if (args != null && args.getBoolean("count_execute")) {
                             countExecute();
                         }
-                        return commonRepository().rawCustomQueryForAdapter(filterandSortQuery());
+                        String query = filterandSortQuery();
+                        Cursor cursor = commonRepository().rawCustomQueryForAdapter(query);
+                        if(cursor!=null && clientAdapter!=null){
+                            setTotalCount(query);
+                        }
+                        return cursor;
                     }
                 };
             default:
@@ -142,7 +147,19 @@ public class HnppAllMemberRegisterFragment extends HnppBaseChildRegisterFragment
         }
 
     }
-
+    private void setTotalCount(String query){
+        query = query.substring(0,query.indexOf("LIMIT"));
+        Cursor cursor = commonRepository().rawCustomQueryForAdapter(query+";");
+        if(cursor!=null){
+            clientAdapter.setTotalcount(cursor.getCount());
+            cursor.close();
+        }
+    }
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        super.onLoadFinished(loader, cursor);
+        setTotalPatients();
+    }
 
     @Override
     public void onViewClicked(android.view.View view) {

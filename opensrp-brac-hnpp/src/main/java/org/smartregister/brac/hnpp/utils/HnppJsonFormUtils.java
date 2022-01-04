@@ -32,6 +32,7 @@ import org.smartregister.brac.hnpp.repository.HnppChwRepository;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.repository.StockRepository;
 import org.smartregister.brac.hnpp.service.VisitLogIntentService;
+import org.smartregister.brac.hnpp.sync.FormParser;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.repository.VisitRepository;
@@ -95,16 +96,16 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         try{
             Event baseEvent = gson.fromJson(eventJson, Event.class);
             String base_entity_id = baseEvent.getBaseEntityId();
-            HashMap<String,Object>form_details = VisitLogIntentService.getFormNamesFromEventObject(baseEvent);
+            HashMap<String,Object>form_details = FormParser.getFormNamesFromEventObject(baseEvent);
             ArrayList<String> encounter_types = (ArrayList<String>) form_details.get("form_name");
             HashMap<String,String>details = (HashMap<String, String>) form_details.get("details");
             final CommonPersonObjectClient client = new CommonPersonObjectClient(base_entity_id, details, "");
             client.setColumnmaps(details);
-            form_object = VisitLogIntentService.loadFormFromAsset(encounter_types.get(0),context);
+            form_object = FormParser.loadFormFromAsset(encounter_types.get(0));
             JSONObject stepOne = form_object.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
             JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
             for (int k = 0; k < jsonArray.length(); k++) {
-                VisitLogIntentService.populateValuesForFormObject(client, jsonArray.getJSONObject(k));
+                FormParser.populateValuesForFormObject(client, jsonArray.getJSONObject(k));
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -268,6 +269,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         FormTag formTag = formTag(Utils.getAllSharedPreferences());
         formTag.appVersionName = BuildConfig.VERSION_NAME;
         String baseEntityId = generateRandomUUIDString();
+        Log.v("FORUM_TEST","processAndSaveForum>>eventType:"+eventType+":baseEntityId:"+baseEntityId);
         Client baseClient = org.smartregister.util.JsonFormUtils.createBaseClient(new JSONArray(), formTag, baseEntityId);
         baseClient.setFirstName(eventType);
         baseClient.setLastName("Forum");
@@ -437,24 +439,27 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         return event;
     }
 
-    public static Visit saveVisit(boolean isComesFromIdentity,boolean needVerified,boolean isVerified, String notVerifyCause,String memberID, String encounterType,
+    public static synchronized Visit saveVisit(boolean isComesFromIdentity,boolean needVerified,boolean isVerified, String notVerifyCause,String memberID, String encounterType,
                             final Map<String, String> jsonString,
                             String parentEventType) throws Exception {
 
         AllSharedPreferences allSharedPreferences = AncLibrary.getInstance().context().allSharedPreferences();
 
-        String derivedEncounterType = StringUtils.isBlank(parentEventType) ? encounterType : "";
-        Event baseEvent = org.smartregister.chw.anc.util.JsonFormUtils.processVisitJsonForm(allSharedPreferences, memberID, derivedEncounterType, jsonString, getTableName());
+        //String derivedEncounterType = StringUtils.isBlank(parentEventType) ? encounterType : "";
+        //Event baseEvent = org.smartregister.chw.anc.util.JsonFormUtils.processVisitJsonForm(allSharedPreferences, memberID, derivedEncounterType, jsonString, getTableName());
+        //
+        Triple<Boolean, JSONObject, JSONArray> registrationFormParams = validateParameters(jsonString.get("First"));
+        JSONObject jsonForm = (JSONObject)registrationFormParams.getMiddle();
+        JSONArray fields = (JSONArray)registrationFormParams.getRight();
+        Event baseEvent = org.smartregister.util.JsonFormUtils.createEvent(fields, getJSONObject(jsonForm, "metadata"), formTag(allSharedPreferences), memberID,encounterType,getTableName());
 
+        //
         if(isComesFromIdentity){
             prepareIsIdentified(baseEvent);
         }else if(needVerified){
                 prepareIsVerified(baseEvent,isVerified,notVerifyCause);
 
         }
-
-//        if (StringUtils.isBlank(parentEventType))
-//            prepareEvent(baseEvent);
 
         if (baseEvent != null) {
             baseEvent.setFormSubmissionId(JsonFormUtils.generateRandomUUIDString());
@@ -468,13 +473,6 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
             Visit visit = NCUtils.eventToVisit(baseEvent, visitID);
             visit.setPreProcessedJson(new Gson().toJson(baseEvent));
-//            try{
-//                visit.setParentVisitID(visitRepository().getParentVisitEventID(visit.getBaseEntityId(), parentEventType, visit.getDate()));
-//            }catch (Exception e){
-//                e.printStackTrace();
-//
-//            }
-
             visitRepository().addVisit(visit);
             return visit;
         }

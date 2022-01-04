@@ -26,8 +26,7 @@ import java.util.ArrayList;
 
 public class HnppPncRegisterActivity extends AncRegisterActivity {
 
-    public static void startHnppPncRegisterActivity(Activity activity, String memberBaseEntityID, String phoneNumber, String formName,
-                                                    String uniqueId, String familyBaseID, String family_name) {
+    public static void startHnppPncRegisterActivity(Activity activity, String memberBaseEntityID) {
         Intent intent = new Intent(activity, org.smartregister.brac.hnpp.activity.HnppPncRegisterActivity.class);
         intent.putExtra(org.smartregister.chw.anc.util.Constants.ACTIVITY_PAYLOAD.BASE_ENTITY_ID, memberBaseEntityID);
 

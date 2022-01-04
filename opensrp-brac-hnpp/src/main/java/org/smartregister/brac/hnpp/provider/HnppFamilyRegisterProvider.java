@@ -401,7 +401,7 @@ public class HnppFamilyRegisterProvider extends CoreRegisterProvider  {
         private int ancWomanCount;
         private String totalMember;
 
-        private UpdateAsyncTask(Activity context, HouseHoldRegisterProvider viewHolder, String familyBaseEntityId , String totalMember) {
+        private UpdateAsyncTask(Activity context, HouseHoldRegisterProvider viewHolder, String familyBaseEntityId ,String totalMember) {
             this.context = context;
             this.totalMember = totalMember;
             this.viewHolder = viewHolder;
@@ -410,6 +410,7 @@ public class HnppFamilyRegisterProvider extends CoreRegisterProvider  {
 
         @Override
         protected Void doInBackground(Void... params) {
+            if(context==null || context.isFinishing() ) return null;
             list = getChildren(familyBaseEntityId);
             memberCount = HnppApplication.ancRegisterRepository().getMemberCount(familyBaseEntityId);
             ancWomanCount = HnppApplication.ancRegisterRepository().getAncWomenCount(familyBaseEntityId);
@@ -419,9 +420,10 @@ public class HnppFamilyRegisterProvider extends CoreRegisterProvider  {
 
         @Override
         protected void onPostExecute(Void param) {
-            if(context==null || context.isFinishing()) return;
+            if(context == null || context.isFinishing()) return;
             // Update child Icon
 //            updateChildIcons(viewHolder, list, memberCount);
+            if(context==null || context.isFinishing() ) return;
             updateChildIcons(viewHolder, list, ancWomanCount,memberCount,totalMember,familyBaseEntityId);
         }
     }

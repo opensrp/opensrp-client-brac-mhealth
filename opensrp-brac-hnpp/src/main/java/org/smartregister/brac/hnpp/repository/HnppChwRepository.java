@@ -11,8 +11,8 @@ import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.chw.anc.repository.VisitDetailsRepository;
 import org.smartregister.chw.anc.repository.VisitRepository;
 import org.smartregister.chw.core.application.CoreChwApplication;
-import org.smartregister.chw.core.repository.CoreChwRepository;
 import org.smartregister.brac.hnpp.BuildConfig;
+import org.smartregister.configurableviews.repository.ConfigurableViewsRepository;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.immunization.ImmunizationLibrary;
 import org.smartregister.immunization.repository.RecurringServiceRecordRepository;
@@ -22,8 +22,13 @@ import org.smartregister.immunization.repository.VaccineRepository;
 import org.smartregister.immunization.repository.VaccineTypeRepository;
 import org.smartregister.immunization.util.IMDatabaseUtils;
 import org.smartregister.repository.AlertRepository;
+import org.smartregister.repository.EventClientRepository;
+import org.smartregister.repository.LocationRepository;
+import org.smartregister.repository.Repository;
+import org.smartregister.repository.SettingsRepository;
+import org.smartregister.repository.UniqueIdRepository;
 
-public class HnppChwRepository extends CoreChwRepository {
+public class HnppChwRepository extends Repository {
     private Context context;
 
     public HnppChwRepository(Context context, org.smartregister.Context openSRPContext) {
@@ -38,9 +43,15 @@ public class HnppChwRepository extends CoreChwRepository {
     @Override
     public void onCreate(SQLiteDatabase database) {
         super.onCreate(database);
+        EventClientRepository.createTable(database, EventClientRepository.Table.client, EventClientRepository.client_column.values());
+        EventClientRepository.createTable(database, EventClientRepository.Table.event, EventClientRepository.event_column.values());
+        UniqueIdRepository.createTable(database);
+        SettingsRepository.onUpgrade(database);
+        ConfigurableViewsRepository.createTable(database);
+        LocationRepository.createTable(database);
+        onCreation(database);
     }
 
-    @Override
     protected void onCreation(SQLiteDatabase database) {
         SSLocationRepository.createTable(database);
         HouseholdIdRepository.createTable(database);
@@ -118,10 +129,8 @@ public class HnppChwRepository extends CoreChwRepository {
                 case 23:
                     upgradeToVersion23(context,db);
                     break;
-                case 24:
-                    upgradeToVersion24(context,db);
-                    break;
                 case 25:
+                    //FamilyLibrary.getInstance().context().allSharedPreferences().savePreference("IS_UPGRADED","1");
                     upgradeToVersion25(context,db);
                     break;
                 case 26:
@@ -163,10 +172,47 @@ public class HnppChwRepository extends CoreChwRepository {
                 case 38:
                     upgradeToVersion38(db);
                     break;
+                case 39:
+                    upgradeToVersion39(db);
+                    break;
+                case 40:
+                    upgradeToVersion40(db);
+                    break;
+                case 41:
+                    upgradeToVersion41(db);
+                    break;
                 default:
                     break;
             }
             upgradeTo++;
+        }
+    }
+    private void upgradeToVersion41(SQLiteDatabase db) {
+        Log.v("DB_UPGRADE","upgradeToVersion41");
+        try {
+            db.execSQL(SSLocationRepository.ALTER_PAYMENT);
+            db.execSQL(TargetVsAchievementRepository.ALTER_TABLE_IS_MONTH);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+    }
+    private void upgradeToVersion40(SQLiteDatabase db) {
+        Log.v("DB_UPGRADE","upgradeToVersion40");
+        try {
+            db.execSQL("update target_table set target_count = 0");
+            db.execSQL(TargetVsAchievementRepository.ALTER_TABLE_IS_MONTH);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+    }
+    private void upgradeToVersion39(SQLiteDatabase db) {
+        try {
+            db.execSQL("ALTER TABLE ec_child ADD COLUMN which_problem VARCHAR;");
+
+        } catch (Exception e) {
+
         }
     }
     private void upgradeToVersion38(SQLiteDatabase db){
@@ -189,7 +235,7 @@ public class HnppChwRepository extends CoreChwRepository {
 
     }
     private void upgradeToVersion36(SQLiteDatabase db){
-        FamilyLibrary.getInstance().context().allSharedPreferences().savePreference("IS_UPGRADED","1");
+
         try{
             db.execSQL("delete from stock_table");
             db.execSQL("ALTER TABLE stock_table ADD COLUMN form_submission_id VARCHAR;");
@@ -261,20 +307,19 @@ public class HnppChwRepository extends CoreChwRepository {
 
         }
     }
-    private void upgradeToVersion24(Context context, SQLiteDatabase db) {
-        try {
-            db.execSQL("CREATE TABLE ec_guest_member (id VARCHAR,_id VARCHAR,base_entity_id VARCHAR,ss_name VARCHAR,village_name VARCHAR,village_id VARCHAR,unique_id VARCHAR,first_name VARCHAR,father_name VARCHAR,phone_number VARCHAR," +
-                    "is_birthday_known VARCHAR,dob VARCHAR,estimated_age VARCHAR,gender VARCHAR,dod VARCHAR,entity_type VARCHAR,date_removed VARCHAR,last_interacted_with LONG,is_closed VARCHAR" +
-                    ",details VARCHAR,relationalid VARCHAR)");
-        } catch (Exception e) {
-
-        }
-    }
     private void upgradeToVersion19(Context context, SQLiteDatabase db) {
         DistrictListRepository.createTable(db);
 
     }
     private void upgradeToVersion25(Context context, SQLiteDatabase db) {
+        try {
+            db.execSQL("CREATE TABLE ec_guest_member (id VARCHAR,_id VARCHAR,base_entity_id VARCHAR,ss_name VARCHAR,village_name VARCHAR,village_id VARCHAR,unique_id VARCHAR,first_name VARCHAR,father_name VARCHAR,phone_number VARCHAR," +
+                    "is_birthday_known VARCHAR,dob VARCHAR,estimated_age VARCHAR,gender VARCHAR,dod VARCHAR,entity_type VARCHAR,date_removed VARCHAR,last_interacted_with LONG,is_closed VARCHAR" +
+                    ",details VARCHAR,relationalid VARCHAR)");
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
         db.execSQL("ALTER TABLE ec_family_member ADD COLUMN risk_event_type VARCHAR;");
         db.execSQL("ALTER TABLE ec_child ADD COLUMN is_risk VARCHAR;");
         RiskDetailsRepository.createTable(db);

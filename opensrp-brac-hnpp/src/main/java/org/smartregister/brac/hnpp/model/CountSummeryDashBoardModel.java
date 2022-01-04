@@ -641,12 +641,29 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
         String query;
         DashBoardData   dashBoardData1 = new DashBoardData();
 
-        if(TextUtils.isEmpty(ssName)){
-            query = "select count(*) as count from ec_family_member where date_removed is null and marital_status = 'Married' and gender = '"+gender+"' and (( julianday('now') - julianday(dob))/365) >="+startYear+" and  (( julianday('now') - julianday(dob))/365) <="+endYear;
-        }else{
-            query = MessageFormat.format("select count(*) as count from {0} {1} and marital_status = {2} and gender = {3} and {4} and  {5} ","ec_family_member",
-                    getFilterCondition(ssName,fromMonth,toMonth),"'Married'","'"+gender+"'","(( julianday('now') - julianday(dob))/365) >="+startYear+"","(( julianday('now') - julianday(dob))/365) <="+endYear+"");
+//        if(TextUtils.isEmpty(ssName)){
+//            query = "select count(*) as count from ec_family_member where date_removed is null and marital_status = 'Married' and gender = '"+gender+"' and (( julianday('now') - julianday(dob))/365) >="+startYear+" and  (( julianday('now') - julianday(dob))/365) <="+endYear;
+//        }else{
+//            query = MessageFormat.format("select count(*) as count from {0} {1} and marital_status = {2} and gender = {3} and {4} and  {5} ","ec_family_member",
+//                    getFilterCondition(ssName,fromMonth,toMonth),"'Married'","'"+gender+"'","(( julianday('now') - julianday(dob))/365) >="+startYear+"","(( julianday('now') - julianday(dob))/365) <="+endYear+"");
+//        }
+        //
+        if(fromMonth == -1 && toMonth == -1){
+            if(TextUtils.isEmpty(ssName)){
+                query = "select count(*) as count from ec_family_member where date_removed is null and marital_status = 'Married' and gender = '"+gender+"' and (( julianday('now') - julianday(dob))/365) >="+startYear+" and  (( julianday('now') - julianday(dob))/365) <="+endYear;
+            }else{
+                query = MessageFormat.format("select count(*) as count from {0} inner join {1} on {2}.{3} = {4}.{5} where {6}.{7} is null {8} and {9}",
+                        "ec_family_member",
+                        CoreConstants.TABLE_NAME.FAMILY,CoreConstants.TABLE_NAME.FAMILY, DBConstants.KEY.BASE_ENTITY_ID,
+                        CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.RELATIONAL_ID,
+                        CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED,getSSCondition(ssName),"marital_status = 'Married' and gender = '"+gender+"' and (( julianday('now') - julianday(dob))/365) >="+startYear+" and  (( julianday('now') - julianday(dob))/365) <="+endYear);
+            }
         }
+        else{
+            query = MessageFormat.format("select count(*) as count from {0}{1} and {2}", "ec_family_member", getFilterCondition(ssName,fromMonth,toMonth),"marital_status = 'Married' and gender = '"+gender+"' and (( julianday('now') - julianday(dob))/365) >="+startYear+" and  (( julianday('now') - julianday(dob))/365) <="+endYear);
+        }
+        Log.v("DASHBOARD_COUNT","query:"+query);
+        //
         Cursor cursor = null;
         // try {
         cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});

@@ -23,7 +23,7 @@ public class TargetFetchIntentService extends IntentService {
 
     private static final String LOCATION_FETCH = "/gettarget?";
     private static final String TAG = "TargetFetchIntentService";
-    private static final String LAST_SYNC_TIME = "last_target_sync";
+    private static final String LAST_SYNC_TIME = "last_sync_target";
 
     public TargetFetchIntentService() { super(TAG); }
     /**
@@ -47,6 +47,7 @@ public class TargetFetchIntentService extends IntentService {
                     if(ssModel != null){
                         if(ssModel.getDay().equalsIgnoreCase("0")){
                             ssModel.setDay("01");
+                            ssModel.setIsMonthData(1);
                         }
                         HnppApplication.getTargetRepository().addOrUpdate(ssModel);
                         timestamp = ssModel.getTimestamp();

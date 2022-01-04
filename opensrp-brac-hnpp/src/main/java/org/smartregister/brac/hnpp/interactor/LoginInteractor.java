@@ -1,21 +1,24 @@
 package org.smartregister.brac.hnpp.interactor;
 
-import org.smartregister.brac.hnpp.BuildConfig;
+import android.content.Intent;
+
+import org.smartregister.brac.hnpp.activity.SkSelectionActivity;
 import org.smartregister.brac.hnpp.job.HnppPncCloseJob;
 import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
-import org.smartregister.brac.hnpp.job.NotificationGeneratorJob;
+import org.smartregister.brac.hnpp.job.MigrationFetchJob;
 import org.smartregister.brac.hnpp.job.SSLocationFetchJob;
 import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
+import org.smartregister.brac.hnpp.job.StockFetchJob;
+import org.smartregister.brac.hnpp.job.TargetFetchJob;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
-import org.smartregister.brac.hnpp.job.HomeVisitServiceJob;
+import org.smartregister.brac.hnpp.location.SSLocationHelper;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.core.job.VaccineRecurringServiceJob;
 import org.smartregister.immunization.job.VaccineServiceJob;
 import org.smartregister.job.PullUniqueIdsServiceJob;
 import org.smartregister.login.interactor.BaseLoginInteractor;
 
 import org.smartregister.view.contract.BaseLoginContract;
-
-import java.util.concurrent.TimeUnit;
 
 
 public class LoginInteractor extends BaseLoginInteractor implements BaseLoginContract.Interactor {
@@ -42,20 +45,7 @@ public class LoginInteractor extends BaseLoginInteractor implements BaseLoginCon
 
     @Override
     protected void scheduleJobsImmediately() {
-        try{
-            PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
-            PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
-            SSLocationFetchJob.scheduleJobImmediately(SSLocationFetchJob.TAG);
-            HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
-            HomeVisitServiceJob.scheduleJobImmediately(HomeVisitServiceJob.TAG);
-            VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
-            HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
-            VaccineServiceJob.scheduleJobImmediately(VaccineServiceJob.TAG);
-            VaccineRecurringServiceJob.scheduleJobImmediately(VaccineRecurringServiceJob.TAG);
 
-        }catch (Exception e){
-
-        }
 
     }
 }

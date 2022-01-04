@@ -10,9 +10,9 @@ public class HnppRiskAncRegisterFragmentPresenter extends AncRegisterFragmentPre
     public HnppRiskAncRegisterFragmentPresenter(BaseAncRegisterFragmentContract.View view, BaseAncRegisterFragmentContract.Model model, String viewConfigurationIdentifier) {
         super(view, model, viewConfigurationIdentifier);
     }
-
-    @Override
-    public String getMainCondition() {
-        return super.getMainCondition()+" AND "+ CoreConstants.TABLE_NAME.FAMILY_MEMBER + ".is_risk = 'true'";
-    }
+//
+//    @Override
+//    public String getMainCondition() {
+//        return super.getMainCondition()+" AND "+ CoreConstants.TABLE_NAME.FAMILY_MEMBER + ".is_risk = 'true'";
+//    }
 }

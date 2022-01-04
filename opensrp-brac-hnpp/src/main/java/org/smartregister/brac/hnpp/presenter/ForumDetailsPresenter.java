@@ -1,5 +1,7 @@
 package org.smartregister.brac.hnpp.presenter;
 
+import android.util.Log;
+
 import org.smartregister.brac.hnpp.contract.ForumDetailsContract;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.model.ForumDetails;
@@ -51,13 +53,18 @@ public class ForumDetailsPresenter implements ForumDetailsContract.Presenter {
         processForum(HnppConstants.EVENT_TYPE.FORUM_ADULT,forumDetails);
     }
 
+    private boolean isProcessing = false;
     private void processForum(String eventType, ForumDetails forumDetails){
         view.showProgressBar();
+        if(isProcessing) return;
+        isProcessing = true;
         Runnable runnable = () -> {
             try {
+                Log.v("FORUM_TEST","processForum");
                 Visit visit = HnppJsonFormUtils.processAndSaveForum(eventType,forumDetails);
 
                 appExecutors.mainThread().execute(() ->{
+                    isProcessing = false;
                     view.hideProgressBar();
                     if(visit != null){
                         VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);

@@ -11,6 +11,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.bottomnavigation.LabelVisibilityMode;
 import android.support.design.widget.BottomNavigationView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -48,8 +49,12 @@ import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
 import org.smartregister.helper.BottomNavigationHelper;
+import org.smartregister.job.ForceSyncDataServiceJob;
+import org.smartregister.job.InValidateSyncDataServiceJob;
 import org.smartregister.simprint.SimPrintsLibrary;
 import org.smartregister.repository.EventClientRepository;
+import org.smartregister.sync.intent.InValidateIntentService;
+import org.smartregister.sync.intent.ValidateIntentService;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 
 
@@ -117,6 +122,7 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         navigationMenu = NavigationMenu.getInstance(this, null, null);
         notificationBroadcastReceiver = new NotificationBroadcastReceiver();
         hnppNavigationPresenter = new HnppNavigationPresenter(
@@ -139,6 +145,12 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
 
                 }else{
                     findViewById(R.id.simprints_identity).setVisibility(View.GONE);
+                }
+                boolean paymentEnable = ssLocationForms.get(0).payment_enable;
+                if(paymentEnable){
+                    findViewById(R.id.payment_view).setVisibility(View.VISIBLE);
+                }else{
+                    findViewById(R.id.payment_view).setVisibility(View.VISIBLE);
                 }
             }
             findViewById(R.id.simprints_identity).setOnClickListener(new View.OnClickListener() {
@@ -190,7 +202,12 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
 
     }
 
-
+    @Override
+    protected void onResumption() {
+        super.onResumption();
+        NavigationMenu.getInstance(this, null, null).getNavigationAdapter()
+                .setSelectedView(CoreConstants.DrawerMenu.ALL_FAMILIES);
+    }
 
     @Override
     protected void onStart() {
@@ -199,7 +216,8 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
         intentFilter.addAction(HnppConstants.ACTION_STOCK_COME);
         intentFilter.addAction(HnppConstants.ACTION_STOCK_END);
         intentFilter.addAction(HnppConstants.ACTION_EDD);
-
+        intentFilter.addAction(ValidateIntentService.ACTION_VALIDATION);
+        intentFilter.addAction(InValidateIntentService.ACTION_INVALIDATION);
         registerReceiver(notificationBroadcastReceiver, intentFilter);
     }
 
@@ -353,25 +371,50 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(notificationBroadcastReceiver);
+        if(notificationBroadcastReceiver!=null)unregisterReceiver(notificationBroadcastReceiver);
     }
 
     private class NotificationBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(intent != null && intent.getAction().equalsIgnoreCase(HnppConstants.ACTION_STOCK_COME)){
-                String value = intent.getStringExtra(HnppConstants.EXTRA_STOCK_COME);
-               HnppConstants.showDialog(FamilyRegisterActivity.this,getString(R.string.menu_new_stock),value);
+            if(FamilyRegisterActivity.this.isFinishing()) return;
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try{
+                        if(intent != null && intent.getAction().equalsIgnoreCase(HnppConstants.ACTION_STOCK_COME)){
+                            String value = intent.getStringExtra(HnppConstants.EXTRA_STOCK_COME);
+                            HnppConstants.showDialog(FamilyRegisterActivity.this,getString(R.string.menu_new_stock),value);
 
-            }
-            if(intent != null && intent.getAction().equalsIgnoreCase(HnppConstants.ACTION_STOCK_END)){
-                String value = intent.getStringExtra(HnppConstants.EXTRA_STOCK_END);
-                HnppConstants.showDialog(FamilyRegisterActivity.this,getString(R.string.menu_end_stock),value);
-            }
-            if(intent != null && intent.getAction().equalsIgnoreCase(HnppConstants.ACTION_EDD)){
-                String value = intent.getStringExtra(HnppConstants.EXTRA_EDD);
-                HnppConstants.showDialog(FamilyRegisterActivity.this,getString(R.string.menu_edd_this_month),value);
-            }
+                        }
+                        if(intent != null && intent.getAction().equalsIgnoreCase(HnppConstants.ACTION_STOCK_END)){
+                            String value = intent.getStringExtra(HnppConstants.EXTRA_STOCK_END);
+                            HnppConstants.showDialog(FamilyRegisterActivity.this,getString(R.string.menu_end_stock),value);
+                        }
+                        if(intent != null && intent.getAction().equalsIgnoreCase(HnppConstants.ACTION_EDD)){
+                            String value = intent.getStringExtra(HnppConstants.EXTRA_EDD);
+                            HnppConstants.showDialog(FamilyRegisterActivity.this,getString(R.string.menu_edd_this_month),value);
+                        }
+                        if(intent != null && intent.getAction().equalsIgnoreCase(ValidateIntentService.ACTION_VALIDATION)){
+                            String value = intent.getStringExtra(ValidateIntentService.EXTRA_VALIDATION);
+                            if(!TextUtils.isEmpty(value) && !value.equalsIgnoreCase(ValidateIntentService.STATUS_FAILED)){
+                                InValidateSyncDataServiceJob.scheduleJobImmediately(InValidateSyncDataServiceJob.TAG);
+                            }
+                        }
+                        if(intent != null && intent.getAction().equalsIgnoreCase(InValidateIntentService.ACTION_INVALIDATION)){
+                            String value = intent.getStringExtra(InValidateIntentService.EXTRA_INVALIDATION);
+                            if(!TextUtils.isEmpty(value) && !value.equalsIgnoreCase(InValidateIntentService.STATUS_NOTHING)){
+                                hnppNavigationPresenter.updateUnSyncCount();
+                            }
+
+                        }
+                    }catch (Exception e){
+
+                    }
+                }
+            });
+
+
 
         }
     }

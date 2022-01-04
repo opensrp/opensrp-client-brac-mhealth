@@ -499,6 +499,81 @@
         "read_only": true,
         "hint": "দ্রাঘিমা"
       },
+      {
+        "key": "which_problem",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "which_problem",
+        "type": "check_box",
+        "label": "কোন ক্রুটি আছে?",
+        "label_text_style": "bold",
+        "text_color": "#000000",
+        "exclusive": [
+
+        ],
+        "relevance": {
+          "step1:physically_challenged": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        },
+        "options": [
+          {
+            "key": "thot_kata",
+            "text": "ঠোঁটকাটা",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "thot_kata",
+            "openmrs_entity_parent": ""
+          },
+          {
+            "key": "talu_kata",
+            "text": "তালুকাটা",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "talu_kata",
+            "openmrs_entity_parent": ""
+          },
+          {
+            "key": "mugur_paa",
+            "text": "মুগুর পা",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "mugur_paa",
+            "openmrs_entity_parent": ""
+          },
+          {
+            "key": "other_option",
+            "text": "অন্যান্য",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "other_option"
+          }
+        ],
+        "v_required": {
+          "value": "true",
+          "err": "Please select problem"
+        }
+      },
+      {
+        "key": "problem_other",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "problem_other",
+        "type": "edit_text",
+        "hint": "লিখুন",
+        "relevance": {
+          "step1:which_problem": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "other_option"
+                ]
+              }
+            ]
+          }
+        }
+      },
 
       {
         "openmrs_entity_parent": "",

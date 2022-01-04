@@ -72,7 +72,7 @@ public class StockFetchIntentService extends IntentService {
                 }
             }
             if(jsonObjectLocation.length()>0){
-                if(nameCount != null && nameCount.length()>0){
+                if(nameCount.length() > 0){
                     HnppConstants.insertAtNotificationTable(" নতুন স্টক এসেছে",nameCount.toString());
                     intent = new Intent(HnppConstants.ACTION_STOCK_COME);
                     intent.putExtra(HnppConstants.EXTRA_STOCK_COME, nameCount.toString());

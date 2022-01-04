@@ -37,6 +37,7 @@ public class SSLocationRepository extends BaseRepository {
     protected static final String IS_SELECTED = "is_selected";
     protected static final String SS_ID = "ss_id";
     protected static final String IS_SIMPRINT_ENABLE = "simprints_enable";
+    protected static final String PAYMENT_ENABLE = "payment_enable";
     protected static final String GEOJSON = "geojson";
 
     protected static final String LOCATION_TABLE = "ss_location";
@@ -46,11 +47,12 @@ public class SSLocationRepository extends BaseRepository {
     private static final String CREATE_LOCATION_TABLE =
             "CREATE TABLE " + LOCATION_TABLE + " (" +
                     ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                    SS_NAME + " VARCHAR , " +IS_SIMPRINT_ENABLE + " VARCHAR , " +
+                    SS_NAME + " VARCHAR , " +IS_SIMPRINT_ENABLE + " VARCHAR , " +PAYMENT_ENABLE + " VARCHAR , " +
                     GEOJSON + " VARCHAR NOT NULL ) ";
 
     private static final String CREATE_LOCATION_NAME_INDEX = "CREATE INDEX "
             + LOCATION_TABLE + "_" + SS_NAME + "_ind ON " + LOCATION_TABLE + "(" + SS_NAME + ")";
+    public static final String ALTER_PAYMENT=" ALTER TABLE "+LOCATION_TABLE+" ADD COLUMN "+PAYMENT_ENABLE+" VARCHAR;";
 
 
     public SSLocationRepository(Repository repository) {
@@ -80,6 +82,7 @@ public class SSLocationRepository extends BaseRepository {
         contentValues.put(SS_NAME, ssModel.username.trim());
         contentValues.put(SS_ID, ssModel.ss_id);
         contentValues.put(IS_SIMPRINT_ENABLE, ssModel.simprints_enable);
+        contentValues.put(PAYMENT_ENABLE, ssModel.payment_enable);
         contentValues.put(GEOJSON, gson.toJson(ssModel.locations));
         long inserted = getWritableDatabase().replace(getLocationTableName(), null, contentValues);
 
@@ -215,6 +218,7 @@ public class SSLocationRepository extends BaseRepository {
         String skName= cursor.getString(cursor.getColumnIndex(SK_NAME));
         String skUserName= cursor.getString(cursor.getColumnIndex(SK_USER_NAME));
         String simprints = cursor.getString(cursor.getColumnIndex(IS_SIMPRINT_ENABLE));
+        String paymentEnable = cursor.getString(cursor.getColumnIndex(PAYMENT_ENABLE));
         String isSelected = cursor.getString(cursor.getColumnIndex(IS_SELECTED));
         SSModel ssModel = new SSModel();
         ssModel.username = name.trim();
@@ -222,6 +226,7 @@ public class SSLocationRepository extends BaseRepository {
         ssModel.skName = skName;
         ssModel.skUserName = skUserName;
         ssModel.simprints_enable = simprints != null && simprints.equalsIgnoreCase("1");
+        ssModel.payment_enable = paymentEnable != null && paymentEnable.equalsIgnoreCase("1");
         ssModel.is_selected = isSelected!=null && isSelected.equalsIgnoreCase("1");
         try {
             JSONArray jsonArray = new JSONArray(geoJson);

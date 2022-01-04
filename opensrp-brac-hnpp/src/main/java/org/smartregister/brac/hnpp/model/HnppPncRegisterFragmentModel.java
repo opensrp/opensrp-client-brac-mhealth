@@ -21,6 +21,8 @@ public class HnppPncRegisterFragmentModel extends BaseAncRegisterFragmentModel {
         queryBuilder.customJoin("INNER JOIN " + HnppConstants.TABLE_NAME.FAMILY + " ON  " + HnppConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.RELATIONAL_ID + " = " + HnppConstants.TABLE_NAME.FAMILY + "." + DBConstants.KEY.BASE_ENTITY_ID + " COLLATE NOCASE ");
         queryBuilder.customJoin("INNER JOIN " + HnppConstants.TABLE_NAME.ANC_MEMBER + " ON  " + tableName + "." + DBConstants.KEY.BASE_ENTITY_ID + " = " + HnppConstants.TABLE_NAME.ANC_MEMBER + "." + DBConstants.KEY.BASE_ENTITY_ID + " AND " + tableName + "." + HnppDBConstants.IS_CLOSED + " IS " + 0 + " AND " + tableName + "." + HnppDBConstants.DELIVERY_DATE + " IS NOT NULL COLLATE NOCASE ");
 
+        queryBuilder.customJoin(" AND " + HnppConstants.TABLE_NAME.FAMILY_MEMBER + "." + org.smartregister.chw.anc.util.DBConstants.KEY.DATE_REMOVED + " is null");
+
         return queryBuilder.mainCondition(mainCondition);
     }
 

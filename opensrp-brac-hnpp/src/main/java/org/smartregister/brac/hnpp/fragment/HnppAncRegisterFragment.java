@@ -245,13 +245,25 @@ public class HnppAncRegisterFragment extends HnppBaseAncRegisterFragment impleme
                         countExecute();
                     }
                     String query = defaultFilterAndSortQuery();
-                    return commonRepository().rawCustomQueryForAdapter(query);
+                    Cursor cursor = commonRepository().rawCustomQueryForAdapter(query);
+                    if(cursor!=null && clientAdapter!=null){
+                        setTotalCount(query);
+                    }
+                    return cursor;
                 }
             };
         }
         return super.onCreateLoader(id, args);
 
 
+    }
+    private void setTotalCount(String query){
+        query = query.substring(0,query.indexOf("LIMIT"));
+        Cursor cursor = commonRepository().rawCustomQueryForAdapter(query+";");
+        if(cursor!=null){
+            clientAdapter.setTotalcount(cursor.getCount());
+            cursor.close();
+        }
     }
     private static final String DUE_FILTER_TAG = "PRESSED";
 

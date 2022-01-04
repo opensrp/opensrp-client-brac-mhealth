@@ -22,7 +22,7 @@ public class ReferralFragmentPresenter extends BaseReferralFragmentPresenter {
         view.initializeQueryParams(CoreConstants.TABLE_NAME.CHILD, countSelect, mainSelect);
         view.initializeAdapter(new HashSet<>(), CoreConstants.TABLE_NAME.TASK);
 
-        view.countExecute();
+        //view.countExecute();
         view.filterandSortInInitializeQueries();
     }
 }

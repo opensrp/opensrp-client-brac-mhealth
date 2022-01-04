@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
@@ -80,47 +81,6 @@ public abstract class CoreFamilyRegisterFragment extends BaseFamilyRegisterFragm
         super.filter(filterString, joinTableString, mainConditionString, qrCode);
     }
 
-    @Override
-    public void onSyncInProgress(FetchStatus fetchStatus) {
-        try{
-            if (!SyncStatusBroadcastReceiver.getInstance().isSyncing() && (FetchStatus.fetched.equals(fetchStatus) || FetchStatus.nothingFetched.equals(fetchStatus)) && dueFilterActive && dueOnlyLayout != null) {
-                dueFilter(dueOnlyLayout);
-                if(getActivity()!=null && !getActivity().isFinishing()){
-                    org.smartregister.util.Utils.showShortToast(getActivity(), getString(R.string.sync_complete));
-                    refreshSyncProgressSpinner();
-                }
-
-            }
-        }catch (WindowManager.BadTokenException e){
-            e.printStackTrace();
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-    }
-
-    @Override
-    public void onSyncComplete(FetchStatus fetchStatus) {
-        try{
-            if (!SyncStatusBroadcastReceiver.getInstance().isSyncing() && (FetchStatus.fetched.equals(fetchStatus) || FetchStatus.nothingFetched.equals(fetchStatus)) && (dueFilterActive && dueOnlyLayout != null)) {
-                dueFilter(dueOnlyLayout);
-                if(getActivity()!=null && !getActivity().isFinishing()){
-                    org.smartregister.util.Utils.showShortToast(getActivity(), getString(R.string.sync_complete));
-                    refreshSyncProgressSpinner();
-                }
-
-            } else {
-                //super.onSyncComplete(fetchStatus);
-            }
-        }catch (WindowManager.BadTokenException e){
-            e.printStackTrace();
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-    }
 
     @Override
     public void onResume() {
@@ -369,10 +329,30 @@ public abstract class CoreFamilyRegisterFragment extends BaseFamilyRegisterFragm
                         countExecute();
                     }
                     String query = (dueFilterActive ? dueFilterAndSortQuery() : defaultFilterAndSortQuery());
-                    return commonRepository().rawCustomQueryForAdapter(query);
+
+                    Cursor cursor = commonRepository().rawCustomQueryForAdapter(query);
+                    if(cursor!=null){
+
+                        if(clientAdapter!=null) setTotalCount(query);
+                    }
+                    return cursor;
                 }
             };
         }
         return super.onCreateLoader(id, args);
+    }
+    private void setTotalCount(String query){
+        query = query.substring(0,query.indexOf("LIMIT"));
+        Cursor cursor = commonRepository().rawCustomQueryForAdapter(query+";");
+        if(cursor!=null){
+            clientAdapter.setTotalcount(cursor.getCount());
+            cursor.close();
+        }
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        super.onLoadFinished(loader, cursor);
+        setTotalPatients();
     }
 }

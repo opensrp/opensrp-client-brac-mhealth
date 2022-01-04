@@ -35,16 +35,17 @@
             android:text="@string/menu_history"
             android:textColor="@color/white"
             android:textSize="20sp" />
+
         <ImageView
             android:id="@+id/refreshIndicatorsIcon"
-            android:layout_alignParentRight="true"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:clickable="true"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:paddingRight="10dp"
+            android:clickable="true"
             android:contentDescription="Refresh indicators"
             android:focusable="true"
+            android:paddingRight="10dp"
             app:srcCompat="@mipmap/sidemenu_sync" />
     </RelativeLayout>
     <RelativeLayout

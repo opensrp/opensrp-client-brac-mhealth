@@ -27,6 +27,7 @@ public class MemberHistoryPresenter implements MemberHistoryContract.Presenter, 
 
     @Override
     public void fetchData(String baseEntityId) {
+        if(getView()!=null) getView().showProgressBar();
         interactor.fetchData(getView().getContext(),baseEntityId,this);
     }
 
@@ -44,7 +45,10 @@ public class MemberHistoryPresenter implements MemberHistoryContract.Presenter, 
     public void onUpdateList(ArrayList<MemberHistoryData> list) {
         this.data.clear();
         this.data = list;
-        if(getView() != null) getView().updateAdapter();
+        if(getView() != null) {
+            getView().hideProgressBar();
+            getView().updateAdapter();
+        }
     }
     @Override
     public void updateFormWithData(MemberHistoryData content, JSONObject jsonForm) {
