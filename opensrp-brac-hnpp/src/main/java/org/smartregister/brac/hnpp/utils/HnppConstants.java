@@ -79,6 +79,7 @@ public class HnppConstants extends CoreConstants {
     public static final String EXTRA_STOCK_COME = "EXTRA_STOCK_COME";
     public static final String EXTRA_STOCK_END = "EXTRA_STOCK_END";
     public static final String EXTRA_EDD = "EXTRA_EDD";
+    public static final long SIX_HOUR = 6*60*60*1000;//6 hr
     public static final long STOCK_END_DEFAULT_TIME = 6*60*60*1000;//6 hr
     public static final long EDD_DEFAULT_TIME = 6*60*60*1000;//6 hr
     public static final String TEST_GU_ID = "test";
@@ -918,11 +919,11 @@ public class HnppConstants extends CoreConstants {
     }
     public static long getLongDateFormatForFromMonth(String year,String month){
         String dateFormate = year+"-"+HnppConstants.addZeroForMonth(month)+"-01";
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
         long startDate = System.currentTimeMillis();
         try{
             Date date = format.parse(dateFormate);
-            startDate = date.getTime();
+            startDate = date.getTime()+SIX_HOUR;
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -936,11 +937,11 @@ public class HnppConstants extends CoreConstants {
     }
     public static long getLongDateFormatForToMonth(String year,String month){
         String dateFormate = year+"-"+HnppConstants.addZeroForMonth(month)+"-"+getLastDateOfAMonth(month);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
         long startDate = System.currentTimeMillis();
         try{
             Date date = format.parse(dateFormate);
-            startDate = date.getTime();
+            startDate = date.getTime()+SIX_HOUR;
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -950,7 +951,7 @@ public class HnppConstants extends CoreConstants {
         if (TextUtils.isEmpty(month)) return "";
         int m = Integer.parseInt(month);
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.MONTH,m);
+        c.set(Calendar.MONTH,m-1);
         int lastDate = c.getActualMaximum(Calendar.DATE);
         return HnppConstants.addZeroForMonth(lastDate+"");
     }

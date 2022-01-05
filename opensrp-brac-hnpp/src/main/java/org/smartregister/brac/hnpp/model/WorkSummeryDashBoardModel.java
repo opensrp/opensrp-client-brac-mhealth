@@ -390,12 +390,12 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
         }
         if(endDate==0){
 
-            mainCondition   = " where dayPass>="+startDate;
+            mainCondition   = " where dayPass>="+startDate+" and is_closed= 0";
             build.append(mainCondition);
 
         }else{
 
-            mainCondition = " where dayPass>="+startDate+" and dayPass<="+endDate+"";
+            mainCondition = " where dayPass>="+startDate+" and dayPass<="+endDate+""+" and is_closed= 0";
             build.append(mainCondition);
 
         }
