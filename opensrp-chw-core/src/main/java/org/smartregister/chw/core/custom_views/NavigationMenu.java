@@ -197,7 +197,6 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         migration_layout = rootView.findViewById(R.id.migration_view);
         payment_layout = rootView.findViewById(R.id.payment_view);
         dashboard_layout = rootView.findViewById(R.id.dashboard_view);
-
         recyclerView = rootView.findViewById(R.id.rvOptions);
         ivSync = rootView.findViewById(R.id.ivSyncIcon);
         syncProgressBar = rootView.findViewById(R.id.pbSync);

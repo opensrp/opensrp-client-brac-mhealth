@@ -182,6 +182,10 @@
           "value": true,
           "err": "Enter a valid Number"
         },
+        "v_max_length": {
+          "value": "1",
+          "err": "1 ডিজিটের বেশি দেওয়া যাবে না"
+        },
         "v_regex": {
           "value": "[0-9]*",
           "err": "দশমিক অনুমোদিত নয়"
@@ -209,6 +213,11 @@
         "v_numeric": {
           "value": true,
           "err": "Enter a valid Number"
+        },
+        "v_max_length": {
+          "value": "1",
+          "err": "1 ডিজিটের বেশি দেওয়া যাবে না",
+          "is_fixed_size":true
         },
         "v_regex": {
           "value": "[0-9]*",
@@ -246,6 +255,11 @@
             ]
           }
         },
+        "v_max_length": {
+          "value": "1",
+          "err": "1 ডিজিটের বেশি দেওয়া যাবে না",
+          "is_fixed_size":true
+        },
         "v_numeric": {
           "value": true,
           "err": "Enter a valid Number"
@@ -274,6 +288,11 @@
             ]
           }
         },
+        "v_max_length": {
+          "value": "1",
+          "err": "1 ডিজিটের বেশি দেওয়া যাবে না",
+          "is_fixed_size":true
+        },
         "v_numeric": {
           "value": true,
           "err": "Enter a valid Number"
@@ -294,6 +313,11 @@
         "v_numeric": {
           "value": true,
           "err": "Enter a valid Number"
+        },
+        "v_max_length": {
+          "value": "1",
+          "err": "1 ডিজিটের বেশি দেওয়া যাবে না",
+          "is_fixed_size":true
         },
         "v_regex": {
           "value": "[0-9]*",
@@ -939,6 +963,12 @@
           "value": "true",
           "err": "Enter a valid Number"
         },
+
+        "v_max_length": {
+          "value": "5",
+          "err": "5 ডিজিটের বেশি দেওয়া যাবে না",
+          "is_fixed_size":true
+        },
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
@@ -1009,6 +1039,11 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
+        },
+        "v_max_length": {
+          "value": "2",
+          "err": "2 ডিজিটের বেশি দেওয়া যাবে না",
+          "is_fixed_size":true
         },
         "v_required": {
           "value": true,

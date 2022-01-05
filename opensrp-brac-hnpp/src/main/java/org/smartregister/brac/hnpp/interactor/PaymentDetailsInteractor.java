@@ -14,6 +14,7 @@ import org.smartregister.brac.hnpp.contract.PaymentContract;
 import org.smartregister.brac.hnpp.model.Payment;
 import org.smartregister.family.util.AppExecutors;
 import org.smartregister.service.HTTPAgent;
+import org.smartregister.util.JsonFormUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -257,6 +258,7 @@ public class PaymentDetailsInteractor {
         finalobject.put("providerId", providerId);
         finalobject.put("totalAmount", givenAmount);
         finalobject.put("services", jsonArray);
+        finalobject.put("unique_id", JsonFormUtils.generateRandomUUIDString());
         return finalobject;
     }
 }

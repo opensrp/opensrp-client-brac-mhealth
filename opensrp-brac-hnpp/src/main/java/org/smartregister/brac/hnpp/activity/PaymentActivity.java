@@ -206,6 +206,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
     private void hideProgressDialog() {
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
+            dialog = null;
         }
         if(removeDialog !=null){
             syncBtn.setEnabled(true);
@@ -238,10 +239,12 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
                     @Override
                     public void run() {
                         payments = adapter.getPaymentWithoutZero();
+                        showProgressDialog("Please wait");
                         new PaymentDetailsInteractor(new AppExecutors()).paymentDetailsPost(payments, Integer.valueOf(totalPriceTV.getText().toString()), new PaymentContract.PaymentPostInteractorCallBack() {
 
                             @Override
                             public void onSuccess(ArrayList<String> responses) {
+                                hideProgressDialog();
                                 //Toast.makeText(PaymentActivity.this, "Successfully posted,Payment data", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(PaymentActivity.this,BkashActivity.class);
                                 intent.putExtra("url",responses.get(0));
@@ -253,6 +256,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
 
                             @Override
                             public void onFail(String message) {
+                                hideProgressDialog();
                                 Toast.makeText(PaymentActivity.this, message, Toast.LENGTH_SHORT).show();
 
 
@@ -260,7 +264,7 @@ public class PaymentActivity extends SecuredActivity implements View.OnClickList
 
                             @Override
                             public void onSuccess(String message) {
-
+                                hideProgressDialog();
                             }
                         });
 
