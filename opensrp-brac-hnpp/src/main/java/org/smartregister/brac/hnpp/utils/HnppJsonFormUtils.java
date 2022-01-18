@@ -995,10 +995,10 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
             if(StringUtils.isEmpty(entity_id)){
                 ArrayList<String> womenList = HnppDBUtils.getAllWomenInHouseHold(familyBaseEntityId);
-                HnppJsonFormUtils.updateFormWithMotherName(form,womenList);
+                HnppJsonFormUtils.updateFormWithMotherName(form,womenList,familyBaseEntityId);
             }else{
                 ArrayList<String> womenList = HnppDBUtils.getAllWomenInHouseHold(entity_id,familyBaseEntityId);
-                HnppJsonFormUtils.updateFormWithMotherName(form,womenList);
+                HnppJsonFormUtils.updateFormWithMotherName(form,womenList,familyBaseEntityId);
             }
 
         } catch (Exception e) {
@@ -1041,7 +1041,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 //        HouseholdId houseHoldId = HnppApplication.getHNPPInstance().getGuestMemberIdRepository().getNextHouseholdId(villageId);
 //        return houseHoldId.getOpenmrsId();
 //    }
-    public static JSONObject updateFormWithSimPrintsEnable(JSONObject form) throws Exception{
+    public static JSONObject updateFormWithSimPrintsEnable(JSONObject form,String baseEntityId) throws Exception{
 
         boolean simPrintsEnable = false;
         ArrayList<SSModel> ssLocationForms = SSLocationHelper.getInstance().getSsModels();
@@ -1051,6 +1051,11 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         JSONArray field = fields(form, STEP1);
         JSONObject simprintObj = getFieldJSONObject(field, SIMPRINTS_ENABLE);
         simprintObj.put(org.smartregister.family.util.JsonFormUtils.VALUE,simPrintsEnable);
+
+        String ssName =HnppDBUtils.getSSNameByHHID(baseEntityId);
+        Log.v("SS_NAME","ssName:"+ssName);
+        JSONObject ssNameObject = getFieldJSONObject(field, "ss_name");
+        ssNameObject.put(org.smartregister.family.util.JsonFormUtils.VALUE, ssName);
 
         return form;
 
@@ -1065,6 +1070,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         JSONArray field = fields(form, STEP1);
         JSONObject houseHoldIdObject = getFieldJSONObject(field, "house_hold_id");
         houseHoldIdObject.put(org.smartregister.family.util.JsonFormUtils.VALUE, houseHoldId);
+
         return form;
     }
     public static JSONObject updateFormWithSSName(JSONObject form, ArrayList<SSModel> ssLocationForms) throws Exception{
@@ -1167,7 +1173,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
 
     }
-    public static JSONObject updateFormWithMotherName(JSONObject form , ArrayList<String> motherNameList) throws Exception{
+    public static JSONObject updateFormWithMotherName(JSONObject form , ArrayList<String> motherNameList,String familyBaseEntityId) throws Exception{
 
         JSONArray jsonArray = new JSONArray();
         for(String name : motherNameList){
@@ -1178,6 +1184,13 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         JSONObject spinner = getFieldJSONObject(field, "mother_name");
 
         spinner.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);
+        String ssName =HnppDBUtils.getSSNameByHHID(familyBaseEntityId);
+        Log.v("SS_NAME","ssName:"+ssName+":familyId:"+familyBaseEntityId);
+        JSONObject ssNameObj = getFieldJSONObject(field, "ss_name");
+        ssNameObj.put("value",ssName);
+        String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
+        JSONObject providerIdObj = getFieldJSONObject(field, "provider_id");
+        providerIdObj.put("value",userName);
         return form;
 
 
@@ -1491,6 +1504,10 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         try{
             JSONObject isConsentObj = getFieldJSONObject(fields, "is_consent");
             isConsentObj.put("value",isConsent?"1":"0");
+            String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
+            Log.v("USER_NAME","addConsent>>>userName:"+userName);
+            JSONObject providerIdObj = getFieldJSONObject(fields, "provider_id");
+            providerIdObj.put("value",userName);
         }catch (Exception e){
 
         }

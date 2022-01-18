@@ -182,9 +182,7 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
 
             }
 
-
         }
-
 
         //HnppApplication.getInstance().notifyAppContextChange(); // initialize the language (bug in translation)
         action = getIntent().getStringExtra(CoreConstants.ACTIVITY_PAYLOAD.ACTION);

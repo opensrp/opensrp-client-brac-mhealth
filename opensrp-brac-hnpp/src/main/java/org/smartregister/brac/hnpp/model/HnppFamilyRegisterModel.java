@@ -62,6 +62,16 @@ public class HnppFamilyRegisterModel extends BaseFamilyRegisterModel {
             }catch (Exception e){
 
             }
+            try{
+                String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
+
+                JSONObject providerIdObj = getFieldJSONObject(field, "provider_id");
+                providerIdObj.put("value",userName);
+                Log.v("USER_NAME","userName:"+userName);
+            }catch (Exception e){
+                e.printStackTrace();
+
+            }
             List<FamilyEventClient> familyEventClientList = new ArrayList<>();
 
             if(jsonObject.has(org.smartregister.family.util.JsonFormUtils.STEP2)){

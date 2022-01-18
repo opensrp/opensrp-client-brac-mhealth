@@ -19,6 +19,7 @@ import org.smartregister.brac.hnpp.activity.DFSActivity;
 import org.smartregister.brac.hnpp.activity.MigrationActivity;
 import org.smartregister.brac.hnpp.activity.NewDashBoardActivity;
 import org.smartregister.brac.hnpp.activity.NotificationActivity;
+import org.smartregister.brac.hnpp.job.DataDeleteJob;
 import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
 import org.smartregister.brac.hnpp.activity.COVIDJsonFormActivity;
 import org.smartregister.brac.hnpp.activity.ForceSyncActivity;
@@ -216,6 +217,7 @@ public class HnppNavigationPresenter extends NavigationPresenter {
             //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
             TargetFetchJob.scheduleJobImmediately(TargetFetchJob.TAG);
             StockFetchJob.scheduleJobImmediately(StockFetchJob.TAG);
+            DataDeleteJob.scheduleJobImmediately(DataDeleteJob.TAG);
 
             //NotificationGeneratorJob.scheduleJobImmediately(NotificationGeneratorJob.TAG);
         }

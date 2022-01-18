@@ -37,7 +37,7 @@ public class HnppChildRegisterModel extends CoreChildRegisterModel {
             makeReadOnlyFields(form);
         }
         ArrayList<String> womenList = HnppDBUtils.getAllWomenInHouseHold(familyBaseEntityId);
-        HnppJsonFormUtils.updateFormWithMotherName(form,womenList);
+        HnppJsonFormUtils.updateFormWithMotherName(form,womenList,familyBaseEntityId);
         HnppJsonFormUtils.updateFormWithMemberId(form,houseHoldId,familyBaseEntityId);
         return HnppJsonFormUtils.updateChildFormWithMetaData(form, houseHoldId,familyBaseEntityId);
     }

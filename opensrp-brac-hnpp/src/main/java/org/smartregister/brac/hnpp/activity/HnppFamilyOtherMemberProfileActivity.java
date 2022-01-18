@@ -476,7 +476,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                     JSONObject form = HnppJsonFormUtils.getAutoPopulatedJsonEditFormString(CoreConstants.JSON_FORM.getFamilyMemberRegister(), HnppFamilyOtherMemberProfileActivity.this, client, Utils.metadata().familyMemberRegister.updateEventType);
                     String moduleId = HnppDBUtils.getModuleId(familyHead);
                     HnppJsonFormUtils.updateFormWithModuleId(form,moduleId,familyBaseEntityId);
-                    HnppJsonFormUtils.updateFormWithSimPrintsEnable(form);
+                    HnppJsonFormUtils.updateFormWithSimPrintsEnable(form,familyHead);
                     if(HnppConstants.isPALogin()){
                         makeReadOnlyFields(form);
                     }

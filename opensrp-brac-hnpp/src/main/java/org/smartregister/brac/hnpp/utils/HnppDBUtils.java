@@ -26,6 +26,7 @@ import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
+import org.smartregister.view.contract.Visits;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -348,6 +349,26 @@ public class HnppDBUtils extends CoreChildUtils {
         }
         if(TextUtils.isEmpty(birthWeight)){
             birthWeight = getSSNameFromGuestTable(baseEntityId);
+        }
+        return birthWeight;
+    }
+    public static String getSSNameByHHID(String hhBaseEntityId){
+        String query = "select ss_name from ec_family where base_entity_id = '"+hhBaseEntityId+"'";
+        Cursor cursor = null;
+        String birthWeight="";
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                birthWeight = cursor.getString(0);
+            }
+
+        } catch (Exception e) {
+            Timber.e(e);
+
+        }
+        finally {
+            if(cursor !=null)cursor.close();
         }
         return birthWeight;
     }
@@ -818,6 +839,29 @@ public class HnppDBUtils extends CoreChildUtils {
             String lmp = "SELECT gender,marital_status FROM ec_family_member where base_entity_id = ? ";
             List<Map<String, String>> valus = AbstractDao.readData(lmp, new String[]{baseEntityId});
             return valus;
+    }
+    public static String getVisitIdByFormSubmissionId(String formSubmissionId){
+        String query = " select visit_id from visits where form_submission_id='"+formSubmissionId+"'";
+        Cursor cursor = null;
+        String visitId="";
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() > 0){
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    visitId = cursor.getString(0);
+                    cursor.moveToNext();
+                }
+
+            }
+
+        } catch (Exception e) {
+            Timber.e(e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return visitId;
     }
 
 

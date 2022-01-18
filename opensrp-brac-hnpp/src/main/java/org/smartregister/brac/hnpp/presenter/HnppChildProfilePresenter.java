@@ -101,7 +101,7 @@ public class HnppChildProfilePresenter extends CoreChildProfilePresenter {
 
 
             ArrayList<String> womenList = HnppDBUtils.getAllWomenInHouseHold(familyID);
-            HnppJsonFormUtils.updateFormWithMotherName(form,womenList);
+            HnppJsonFormUtils.updateFormWithMotherName(form,womenList,familyID);
             if (!StringUtils.isBlank(client.getColumnmaps().get(ChildDBConstants.KEY.RELATIONAL_ID))) {
                 JSONObject metaDataJson = form.getJSONObject("metadata");
                 JSONObject lookup = metaDataJson.getJSONObject("look_up");

@@ -36,7 +36,7 @@ public class TargetAchievementFragment extends BaseDashBoardFragment {
         }
         if(fromMonth != -1 && toMonth != -1) {
             fromDateStr = HnppConstants.getStringFormatedDate(String.valueOf(fromYear),String.valueOf(fromMonth),String.valueOf(fromDay));
-            toDateStr = HnppConstants.getStringFormatedDate(String.valueOf(year),String.valueOf(month),String.valueOf(day));
+            toDateStr = HnppConstants.getStringFormatedDate(String.valueOf(toYear),String.valueOf(toMonth),String.valueOf(toDay));
 
         }
 
