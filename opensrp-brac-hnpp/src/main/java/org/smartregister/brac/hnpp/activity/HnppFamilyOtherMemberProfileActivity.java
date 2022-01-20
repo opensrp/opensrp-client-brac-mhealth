@@ -444,9 +444,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             }
             intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
             intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
-            if (this != null) {
-                this.startActivityForResult(intent, requestCode);
-            }
+            startActivityForResult(intent, requestCode);
 
         }catch (Exception e){
 

@@ -106,8 +106,9 @@ public class GenerateGPSTask  implements LocationListener, GoogleApiClient.Conne
                 onGpsDataGenerateListener.onGpsDataNotFound();
             }else {
                 onGpsDataGenerateListener.onGpsData(latitude,longitude);
+                onGpsDataGenerateListener = null;
             }
-            disconnectGoogleApiClient();
+
 
         }else{
             HnppConstants.GPS_ATTEMPT_COUNT++;
@@ -117,6 +118,8 @@ public class GenerateGPSTask  implements LocationListener, GoogleApiClient.Conne
             }
             onGpsDataGenerateListener.hideProgress();
             onGpsDataGenerateListener.onGpsDataNotFound();
+            onGpsDataGenerateListener = null;
         }
+        disconnectGoogleApiClient();
     }
 }

@@ -195,10 +195,10 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
         return getVisitTypeCount(HnppConstants.EVENT_TYPE.ANC_REGISTRATION,ssName,fromMonth,toMonth);
     }
     public DashBoardData getFirstTrimsterRegisterCount(String ssName, long fromMonth, long toMonth){
-        return getANcTrimesterCount("প্রথম ট্রাইসেমিস্টার-এ সনাক্ত",ssName,fromMonth,toMonth,1,106);
+        return getANcTrimesterCount("প্রথম ট্রাইসেমিস্টার-এ সনাক্ত",ssName,fromMonth,toMonth,1,107);
     }
     public DashBoardData getSecondTrimsterRegisterCount(String ssName, long fromMonth, long toMonth){
-        return getANcTrimesterCount("দ্বিতীয় ট্রাইসেমিস্টার-এ সনাক্ত",ssName,fromMonth,toMonth,107,169);
+        return getANcTrimesterCount("দ্বিতীয় ট্রাইসেমিস্টার-এ সনাক্ত",ssName,fromMonth,toMonth,107,170);
     }
     public DashBoardData getThirdTrimsterRegisterCount(String ssName, long fromMonth, long toMonth){
         return getANcTrimesterCount("তৃতীয় ট্রাইসেমিস্টার-এ সনাক্ত",ssName,fromMonth,toMonth,170,0);
@@ -315,6 +315,7 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
         }
 
 
+
         Cursor cursor = null;
         // try {
         cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
@@ -376,7 +377,7 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
     }
 
     public DashBoardData getANcTrimesterCount(String title,String ssName, long fromMonth, long toMonth,int startDate,int endDate){
-        String compareDate = "ec_anc_register."+DBConstants.KEY.LAST_INTERACTED_WITH;
+        String compareDate = "ec_visit_log.visit_date";
         DashBoardData dashBoardData1 = new DashBoardData();
         String mainCondition = "";
 
@@ -388,14 +389,17 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
 
             build.append(mainCondition);
         }
+        build.append(MessageFormat.format(" inner join {0} ", "ec_visit_log"));
+        build.append(MessageFormat.format(" on {0}.{1} = {2}.{3} ", "ec_visit_log", DBConstants.KEY.BASE_ENTITY_ID,
+                CoreConstants.TABLE_NAME.ANC_MEMBER, DBConstants.KEY.BASE_ENTITY_ID));
         if(endDate==0){
 
-            mainCondition   = " where dayPass>="+startDate+" and is_closed= 0";
+            mainCondition   = " where dayPass>="+startDate+" and ec_anc_register.is_closed= 0 and ec_visit_log.event_type='ANC Registration'";
             build.append(mainCondition);
 
         }else{
 
-            mainCondition = " where dayPass>="+startDate+" and dayPass<="+endDate+""+" and is_closed= 0";
+            mainCondition = " where dayPass>="+startDate+" and dayPass<"+endDate+""+" and ec_anc_register.is_closed= 0 and ec_visit_log.event_type='ANC Registration'";
             build.append(mainCondition);
 
         }
@@ -403,17 +407,17 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
         String query;
         if(fromMonth == -1 && toMonth == -1){
             if(TextUtils.isEmpty(ssName)){
-                query = MessageFormat.format("select count(*) as count,{2} from {0} {1}", "ec_anc_register", build.toString(),getDateFormate());
+                query = MessageFormat.format("select count(*) as count,{2} from {0} {1}", "ec_anc_register", build.toString(),getDateFormate(toMonth));
             }else{
-                query = MessageFormat.format("select count(*) as count,{3} from {0} {1} {2}", "ec_anc_register", build.toString(),getSSCondition(ssName),getDateFormate());
+                query = MessageFormat.format("select count(*) as count,{3} from {0} {1} {2}", "ec_anc_register", build.toString(),getSSCondition(ssName,"ec_family"),getDateFormate(toMonth));
 
             }
         }
         else{
             if(TextUtils.isEmpty(ssName)){
-                query = MessageFormat.format("select count(*) as count,{3} from {0} {1} {2}", "ec_anc_register", build.toString(), getBetweenCondition(fromMonth,toMonth,compareDate),getDateFormate());
+                query = MessageFormat.format("select count(*) as count,{3} from {0} {1} {2}", "ec_anc_register", build.toString(), getBetweenCondition(fromMonth,toMonth,compareDate),getDateFormate(toMonth));
             }else{
-                query = MessageFormat.format("select count(*) as count,{4} from {0} {1} {2} {3}", "ec_anc_register", build.toString(),getSSCondition(ssName),getBetweenCondition(fromMonth,toMonth,compareDate),getDateFormate());
+                query = MessageFormat.format("select count(*) as count,{4} from {0} {1} {2} {3}", "ec_anc_register", build.toString(),getSSCondition(ssName,"ec_family"),getBetweenCondition(fromMonth,toMonth,compareDate),getDateFormate(toMonth));
 
             }
         }
@@ -428,28 +432,40 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
         Log.v("ANC_TRIMESTER","anc_trimester:"+query);
 
         Cursor cursor = null;
-        // try {
-        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
-        if(cursor !=null && cursor.getCount() > 0){
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
+        try{
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() > 0){
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
 
-                dashBoardData1.setCount(cursor.getInt(0));
-                dashBoardData1.setTitle(title);
-                dashBoardData1.setImageSource(R.mipmap.ic_anc_pink);
+                    dashBoardData1.setCount(cursor.getInt(0));
+                    dashBoardData1.setTitle(title);
+                    dashBoardData1.setImageSource(R.mipmap.ic_anc_pink);
 
-                cursor.moveToNext();
+                    cursor.moveToNext();
+                }
+
             }
-            cursor.close();
 
+        }catch (Exception e){
+            e.printStackTrace();
         }
-
+        finally {
+            if(cursor!=null) cursor.close();
+        }
 
         return dashBoardData1;
     }
+    /*
+    This difference from provided date formate like (yyyy-mm-dd)-lmp,currentDateMonthYear= yyyy+"-"+mm+"-"+today
+     */
 
-    private String getDateFormate() {
-        return "(julianday() - julianday(substr(last_menstrual_period, 7, 4)||'-'||substr(last_menstrual_period, 4, 2)||'-'||substr(last_menstrual_period, 1, 2))) as dayPass";
+    private String getDateFormate(long toMonth) {
+        String endDate = HnppConstants.getDatefromLongDate(toMonth);
+        String q = "(julianday('"+endDate+"') - julianday(substr(last_menstrual_period, 7, 4)||'-'||substr(last_menstrual_period, 4, 2)||'-'||substr(last_menstrual_period, 1, 2))) as dayPass";
+        Log.v("ANC_TRIMESTER","q>>"+q);
+
+        return q;
     }
 
 

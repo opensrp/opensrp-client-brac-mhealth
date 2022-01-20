@@ -97,7 +97,18 @@ public class HnppConstants extends CoreConstants {
     public static final String KEY_NEED_TO_OPEN = "need_to_open_drawer";
 
     public static SimpleDateFormat DDMMYY = new SimpleDateFormat("dd-MM-yyyy",Locale.getDefault());
+    public static SimpleDateFormat YYYYMM = new SimpleDateFormat("yyyy-MM",Locale.getDefault());
     public static SimpleDateFormat DDMMYYHM = new SimpleDateFormat("dd-MM-yyyy",Locale.getDefault());
+
+    public static String getDatefromLongDate(long toMonth) {
+        Calendar calendar = Calendar.getInstance();
+        String date = calendar.get(Calendar.DAY_OF_MONTH)+"";
+        String yymm = YYYYMM.format(new Date(toMonth==-1?System.currentTimeMillis():toMonth));
+        String returnDate = yymm+"-"+date;
+        Log.v("ANC_TRIMESTER","returnDate:"+returnDate);
+        return returnDate;
+    }
+
     public enum VisitType {DUE, OVERDUE, LESS_TWENTY_FOUR, VISIT_THIS_MONTH, NOT_VISIT_THIS_MONTH, EXPIRY, VISIT_DONE}
     public enum HomeVisitType {GREEN, YELLOW, RED, BROWN}
     public enum SEARCH_TYPE {HH, ADO, WOMEN, CHILD,NCD,ADULT}
@@ -131,7 +142,7 @@ public class HnppConstants extends CoreConstants {
         }
     }
 
-    public static void getGPSLocation(FamilyRegisterActivity activity, OnPostDataWithGps onPostDataWithGps){
+    public static void getGPSLocation(FamilyRegisterActivity activity,final OnPostDataWithGps onPostDataWithGps){
 
 
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
@@ -172,7 +183,7 @@ public class HnppConstants extends CoreConstants {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(task!=null) task.updateUi();
+                task.updateUi();
             }
         },5000);
 
