@@ -197,7 +197,7 @@ public class GuestMemberModel extends JsonFormUtils implements GuestMemberContra
     public void loadData() {
         guestMemberDataArrayList.clear();
         String query =  "select ec_guest_member.base_entity_id,ec_guest_member.unique_id,ec_guest_member.first_name,ec_guest_member.ss_name,ec_guest_member.dob,ec_guest_member.gender,ec_guest_member.phone_number from ec_guest_member " +
-         " where ec_guest_member.date_removed is null order by ec_guest_member.last_interacted_with desc ";
+         " where ec_guest_member.date_removed is null group by ec_guest_member.unique_id order by ec_guest_member.last_interacted_with desc ";
         Cursor cursor = null;
         try{
             cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
