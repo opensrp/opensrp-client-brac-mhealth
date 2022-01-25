@@ -82,6 +82,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import timber.log.Timber;
 
@@ -112,6 +113,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     public void onBackPressed() {
         finish();
     }
+    AppExecutors appExecutors = new AppExecutors();
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_other_member_profile);
@@ -676,8 +678,10 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         dialog.show();
 
     }
+    Dialog dialog;
     private void showServiceDoneDialog(boolean isSuccess){
-        Dialog dialog = new Dialog(this);
+        if(dialog!=null) return;
+        dialog = new Dialog(this);
         dialog.setCancelable(false);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_with_one_button);
@@ -689,6 +693,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                dialog = null;
+                isProcessingHV = false;
+                isProcessingANCVisit = false;
                 if(isSuccess){
                     if(memberHistoryFragment !=null){
                         handler.postDelayed(new Runnable() {
@@ -731,8 +738,8 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             Toast.makeText(HnppFamilyOtherMemberProfileActivity.this,"Please select module id",Toast.LENGTH_LONG).show();
         }
     }
-    boolean isProcessing = false;
-
+    boolean isProcessingHV = false;
+    boolean isProcessingANCVisit = false;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //ignoreSimprintCheck = false;
@@ -768,20 +775,24 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 
         }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
-            if(isProcessing) return;
-            isProcessing = true;
-            showProgressDialog(R.string.please_wait_message);
-            AppExecutors appExecutors = new AppExecutors();
-            Runnable runnable = () -> {
-                String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
+            if(isProcessingHV) return;
 
-                boolean isSave = processVisitFormAndSave(jsonString);
+            AtomicBoolean isSave = new AtomicBoolean(false);
+            showProgressDialog(R.string.please_wait_message);
+
+            Runnable runnable = () -> {
+                if(!isProcessingHV){
+                    isProcessingHV = true;
+                    String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
+                    String formSubmissionId = JsonFormUtils.generateRandomUUIDString();
+                    String visitId = JsonFormUtils.generateRandomUUIDString();
+                    isSave.set(processVisitFormAndSave(jsonString,formSubmissionId,visitId));
+                }
 
                 appExecutors.mainThread().execute(new Runnable() {
                     @Override
                     public void run() {
-                        isProcessing = false;
-                        if(isSave){
+                        if(isSave.get()){
                             hideProgressDialog();
                             showServiceDoneDialog(true);
                         }else {
@@ -792,21 +803,22 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                 });
             };
             appExecutors.diskIO().execute(runnable);
+
         }
        else if (resultCode == Activity.RESULT_OK && requestCode == org.smartregister.chw.anc.util.Constants.REQUEST_CODE_HOME_VISIT){
-            if(isProcessing) return;
-            isProcessing = true;
-           showProgressDialog(R.string.please_wait_message);
-           AppExecutors appExecutors = new AppExecutors();
+            if(isProcessingANCVisit) return;
+            AtomicBoolean isSave = new AtomicBoolean(false);
+            showProgressDialog(R.string.please_wait_message);
             Runnable runnable = () -> {
-
-                boolean isSave = processVisits();
+                if(!isProcessingANCVisit){
+                    isProcessingANCVisit = true;
+                    isSave.set(processVisits());
+                }
 
                 appExecutors.mainThread().execute(new Runnable() {
                     @Override
                     public void run() {
-                        isProcessing = false;
-                        if(isSave){
+                        if(isSave.get()){
                             hideProgressDialog();
                             showServiceDoneDialog(true);
                         }else {
@@ -817,7 +829,6 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                 });
             };
             appExecutors.diskIO().execute(runnable);
-
 
         }
         else if(resultCode == RESULT_OK && requestCode == org.smartregister.family.util.JsonFormUtils.REQUEST_CODE_GET_JSON){
@@ -871,7 +882,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
        // super.onActivityResult(requestCode, resultCode, data);
 
     }
-    private boolean processVisitFormAndSave(String jsonString){
+    private boolean processVisitFormAndSave(String jsonString,String formSubmissionId, String visitId){
 
         try {
             JSONObject form = new JSONObject(jsonString);
@@ -880,7 +891,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             Map<String, String> jsonStrings = new HashMap<>();
             jsonStrings.put("First",form.toString());
 
-            Visit visit = HnppJsonFormUtils.saveVisit(isComesFromIdentity,verificationNeeded, isVerified,checkedItem, baseEntityId, type, jsonStrings, "");
+            Visit visit = HnppJsonFormUtils.saveVisit(isComesFromIdentity,verificationNeeded, isVerified,checkedItem, baseEntityId, type, jsonStrings, "",formSubmissionId,visitId);
             if(visit!=null){
                 HnppHomeVisitIntentService.processVisits();
                 FormParser.processVisitLog(visit);

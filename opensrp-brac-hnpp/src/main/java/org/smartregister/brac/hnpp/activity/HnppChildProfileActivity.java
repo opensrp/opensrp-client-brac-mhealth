@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,7 +36,6 @@ import org.smartregister.brac.hnpp.custom_view.FamilyMemberFloatingMenu;
 import org.smartregister.brac.hnpp.fragment.ChildHistoryFragment;
 import org.smartregister.brac.hnpp.fragment.HnppChildProfileDueFragment;
 import org.smartregister.brac.hnpp.fragment.MemberOtherServiceFragment;
-import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
 import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
@@ -74,6 +74,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import timber.log.Timber;
 
@@ -87,6 +88,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     public RecyclerView referralRecyclerView;
     public CommonPersonObjectClient commonPersonObject;
     Handler handler;
+    AppExecutors appExecutors = new AppExecutors();
 
     @Override
     protected void onCreation() {
@@ -575,13 +577,13 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
 
 
     }
+    boolean isProcessing = false;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK){
             HnppConstants.isViewRefresh = true;
             if(data!=null && data.getBooleanExtra("VACCINE_TAKEN",false)){
 
-                    AppExecutors appExecutors = new AppExecutors();
                     appExecutors.diskIO().execute(new Runnable() {
                         @Override
                         public void run() {
@@ -600,17 +602,21 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
 
         }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
+            if(isProcessing) return;
+            AtomicBoolean isSave = new AtomicBoolean(false);
             showProgressDialog(R.string.please_wait_message);
-            AppExecutors appExecutors = new AppExecutors();
             Runnable runnable = () -> {
-                String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
-
-                boolean isSave = processVisitFormAndSave(jsonString);
-
+                if(!isProcessing){
+                    isProcessing = true;
+                    String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
+                    String formSubmissionId = JsonFormUtils.generateRandomUUIDString();
+                    String visitId = JsonFormUtils.generateRandomUUIDString();
+                    isSave.set(processVisitFormAndSave(jsonString,formSubmissionId,visitId));
+                }
                 appExecutors.mainThread().execute(new Runnable() {
                     @Override
                     public void run() {
-                        if(isSave){
+                        if(isSave.get()){
                             hideProgressDialog();
                             showServiceDoneDialog(true);
                         }else {
@@ -631,7 +637,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
     }
-    private boolean processVisitFormAndSave(String jsonString){
+    private boolean processVisitFormAndSave(String jsonString, String formSubmissionid, String visitId){
 
         try {
             JSONObject form = new JSONObject(jsonString);
@@ -640,7 +646,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
             Map<String, String> jsonStrings = new HashMap<>();
             jsonStrings.put("First",form.toString());
 
-            Visit visit = HnppJsonFormUtils.saveVisit(false,false,false,"", childBaseEntityId, type, jsonStrings, "");
+            Visit visit = HnppJsonFormUtils.saveVisit(false,false,false,"", childBaseEntityId, type, jsonStrings, "",formSubmissionid,visitId);
             if(visit!=null){
                 HnppHomeVisitIntentService.processVisits();
                 FormParser.processVisitLog(visit);
@@ -655,8 +661,10 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
         }
         return false;
     }
+    Dialog dialog;
     private void showServiceDoneDialog(boolean isSuccess){
-        Dialog dialog = new Dialog(this);
+        if(dialog != null) return;
+        dialog = new Dialog(this);
         dialog.setCancelable(false);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_with_one_button);
@@ -668,6 +676,8 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                dialog = null;
+                isProcessing = false;
                 if(isSuccess){
                     if(memberHistoryFragment !=null){
                         handler.postDelayed(new Runnable() {

@@ -66,6 +66,7 @@ import org.smartregister.util.FormUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import timber.log.Timber;
 
@@ -78,6 +79,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
     public String houseHoldId;
     public MigrationSearchContentData migrationSearchContentData;
     private Handler handler;
+    AppExecutors appExecutors = new AppExecutors();
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -333,25 +335,23 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
             if(isProcessing) return;
-            isProcessing = true;
+            AtomicBoolean isSave = new AtomicBoolean(false);
             showProgressDialog(R.string.please_wait_message);
-            AppExecutors appExecutors = new AppExecutors();
             Runnable runnable = () -> {
-                String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
-
-                boolean isSave = processAndSaveVisitForm(jsonString);
-
-                appExecutors.mainThread().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        isProcessing = false;
-                        if(isSave){
-                            hideProgressDialog();
-                            showServiceDoneDialog(true);
-                        }else {
-                            hideProgressDialog();
-                            showServiceDoneDialog(false);
-                        }
+                if(!isProcessing){
+                    isProcessing = true;
+                    String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
+                    String formSubmissionId = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
+                    String visitId = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
+                    isSave.set(processAndSaveVisitForm(jsonString,formSubmissionId,visitId));
+                }
+                appExecutors.mainThread().execute(() -> {
+                    if(isSave.get()){
+                        hideProgressDialog();
+                        showServiceDoneDialog(true);
+                    }else {
+                        hideProgressDialog();
+                        showServiceDoneDialog(false);
                     }
                 });
             };
@@ -360,7 +360,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         }
 
     }
-    private boolean processAndSaveVisitForm(String jsonString){
+    private boolean processAndSaveVisitForm(String jsonString, String formSubmissionId, String visitId){
         Map<String, String> jsonStrings = new HashMap<>();
         jsonStrings.put("First",jsonString);
         try {
@@ -368,7 +368,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
             String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
             type = HnppJsonFormUtils.getEncounterType(type);
 
-            Visit visit = HnppJsonFormUtils.saveVisit(false,false,false,"", familyBaseEntityId, type, jsonStrings, "");
+            Visit visit = HnppJsonFormUtils.saveVisit(false,false,false,"", familyBaseEntityId, type, jsonStrings, "",formSubmissionId,visitId);
             if(visit!=null){
                 HnppHomeVisitIntentService.processVisits();
                 FormParser.processVisitLog(visit);
@@ -400,8 +400,10 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
             presenter().verifyHasPhone();
         }
     }
+    Dialog dialog;
     private void showServiceDoneDialog(boolean isSuccess){
-        Dialog dialog = new Dialog(this);
+        if(dialog!=null) return;
+        dialog = new Dialog(this);
         dialog.setCancelable(false);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_with_one_button);
@@ -413,6 +415,8 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                dialog = null;
+                isProcessing = false;
                 if(isSuccess){
                     if(familyHistoryFragment !=null){
                         handler.postDelayed(new Runnable() {

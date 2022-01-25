@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.interactor;
 import android.content.Context;
 import android.text.TextUtils;
 
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.format.DateTimeFormat;
@@ -18,9 +19,13 @@ import org.smartregister.brac.hnpp.utils.HnppHomeVisitActionHelper;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.chw.anc.contract.BaseAncHomeVisitContract;
 import org.smartregister.chw.anc.domain.MemberObject;
+import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.interactor.BaseAncHomeVisitInteractor;
 import org.smartregister.chw.anc.model.BaseAncHomeVisitAction;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.smartregister.brac.hnpp.utils.FormApplicability.getLmp;
 
@@ -32,6 +37,7 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
     private boolean sIsIdentify,sNeedVerified,sIsVerify;
     private  String sNotVerifyText;
     private double latitude,longitude;
+    private boolean isProcessing;
 
     public HnppAncHomeVisitInteractor(boolean isIdentify,boolean needVerified,boolean isVerify, String notVerifyText,double lat,double lng){
         sIsIdentify = isIdentify;
@@ -127,6 +133,55 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
 
         appExecutors.diskIO().execute(runnable);
     }
+
+    @Override
+    public void submitVisit(boolean editMode, String memberID, Map<String, BaseAncHomeVisitAction> map, BaseAncHomeVisitContract.InteractorCallBack callBack) {
+        if(isProcessing) return;
+        AtomicBoolean isSave = new AtomicBoolean(false);
+        final Runnable runnable = () -> {
+            try {
+                if(!isProcessing) {
+                    isProcessing = true;
+                    String formSubmissionId = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
+                    String visitId = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
+                    isSave.set(submitVisit(memberID, map,formSubmissionId,visitId)!=null);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            appExecutors.mainThread().execute(() -> {
+                callBack.onSubmitted(isSave.get());
+                isProcessing = false;
+            });
+        };
+
+        appExecutors.diskIO().execute(runnable);
+    }
+    private Visit submitVisit(final String memberID, final Map<String, BaseAncHomeVisitAction> map,String formSubmissionId, String visitId){
+        // create a map of the different types
+
+        Map<String, String> combinedJsons = new HashMap<>();
+        // aggregate forms to be processed
+        for (Map.Entry<String, BaseAncHomeVisitAction> entry : map.entrySet()) {
+            String json = entry.getValue().getJsonPayload();
+            if (StringUtils.isNotBlank(json)) {
+                combinedJsons.put(entry.getKey(), json);
+            }
+        }
+
+        String type = StringUtils.isBlank("") ? getEncounterType() : getEncounterType();
+
+        // persist to database
+        Visit visit = null;
+        try {
+            visit = HnppJsonFormUtils.saveVisit(memberID, type, combinedJsons,formSubmissionId,visitId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return visit;
+    }
+
     public void addHeightField(String baseEntityId, String formName, JSONObject jsonForm) {
         if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM)||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM)||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM)) {
             HnppVisitLogRepository visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();

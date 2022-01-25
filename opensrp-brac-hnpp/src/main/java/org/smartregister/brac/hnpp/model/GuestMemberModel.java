@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Triple;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.contract.GuestMemberContract;
@@ -117,6 +118,7 @@ public class GuestMemberModel extends JsonFormUtils implements GuestMemberContra
             formTag.appVersionName = BuildConfig.VERSION_NAME;
             Client baseClient = org.smartregister.util.JsonFormUtils.createBaseClient(fields,formTag , entityId);
             baseClient.setLastName(GUEST_MEMBER_REGISTRATION);
+            baseClient.addAttribute("provider_id", CoreLibrary.getInstance().context().allSharedPreferences().fetchRegisteredANM());
             Event baseEvent = org.smartregister.util.JsonFormUtils.createEvent(fields, getJSONObject(jsonForm, METADATA), formTag, entityId, getString(jsonForm, ENCOUNTER_TYPE), CoreConstants.TABLE_NAME.CHILD);
             tagSyncMetadata(getAllSharedPreferences(), baseEvent);
             String encounterType = getString(jsonForm, ENCOUNTER_TYPE);

@@ -8,7 +8,6 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
-import com.vijay.jsonwizard.activities.JsonFormActivity;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
@@ -80,15 +79,29 @@ public class HnppHomeVisitActivity extends BaseAncHomeVisitActivity {
             }
         }).show();
     }
+    boolean isClick = false;
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.close) {
             onBackPressed();
         } else if (v.getId() == R.id.customFontTextViewSubmit) {
-            submitVisit();
+            if(!isClick){
+                isClick = true;
+                submitVisit();
+            }
         }
     }
 
+    @Override
+    public void submittedAndClose() {
+        super.submittedAndClose();
+    }
+
+    @Override
+    public void displayToast(String message) {
+        //super.displayToast(message);
+        isClick = false;
+    }
 
     @Override
     public void startFormActivity(JSONObject jsonForm) {

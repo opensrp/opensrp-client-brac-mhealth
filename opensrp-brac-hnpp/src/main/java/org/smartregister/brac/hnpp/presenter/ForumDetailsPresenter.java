@@ -17,6 +17,7 @@ import org.smartregister.family.util.AppExecutors;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ForumDetailsPresenter implements ForumDetailsContract.Presenter {
     AppExecutors appExecutors;
@@ -57,16 +58,20 @@ public class ForumDetailsPresenter implements ForumDetailsContract.Presenter {
     private void processForum(String eventType, ForumDetails forumDetails){
         view.showProgressBar();
         if(isProcessing) return;
-        isProcessing = true;
+        AtomicBoolean isSave = new AtomicBoolean(false);
         Runnable runnable = () -> {
             try {
                 Log.v("FORUM_TEST","processForum");
-                Visit visit = HnppJsonFormUtils.processAndSaveForum(eventType,forumDetails);
+                if(!isProcessing){
+                    isProcessing = true;
+                    isSave.set(HnppJsonFormUtils.processAndSaveForum(eventType,forumDetails)!=null);
+                }
+
 
                 appExecutors.mainThread().execute(() ->{
                     isProcessing = false;
                     view.hideProgressBar();
-                    if(visit != null){
+                    if(isSave.get()){
                         VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
                         view.showSuccessMessage("জমা দেয়া হয়েছে");
 

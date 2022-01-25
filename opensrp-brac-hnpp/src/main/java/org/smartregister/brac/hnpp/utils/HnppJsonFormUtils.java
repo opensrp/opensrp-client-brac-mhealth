@@ -74,6 +74,7 @@ import java.util.Map;
 import timber.log.Timber;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.smartregister.chw.anc.util.JsonFormUtils.HOME_VISIT_GROUP;
 import static org.smartregister.chw.anc.util.JsonFormUtils.updateFormField;
 import static org.smartregister.chw.anc.util.NCUtils.getClientProcessorForJava;
 import static org.smartregister.chw.anc.util.NCUtils.getSyncHelper;
@@ -441,7 +442,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
     public static synchronized Visit saveVisit(boolean isComesFromIdentity,boolean needVerified,boolean isVerified, String notVerifyCause,String memberID, String encounterType,
                             final Map<String, String> jsonString,
-                            String parentEventType) throws Exception {
+                            String parentEventType,String formSubmissionId,String visitId) throws Exception {
 
         AllSharedPreferences allSharedPreferences = AncLibrary.getInstance().context().allSharedPreferences();
 
@@ -462,13 +463,13 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         }
 
         if (baseEvent != null) {
-            baseEvent.setFormSubmissionId(JsonFormUtils.generateRandomUUIDString());
+            baseEvent.setFormSubmissionId(formSubmissionId);
             org.smartregister.chw.anc.util.JsonFormUtils.tagEvent(allSharedPreferences, baseEvent);
             String visitID ="";
             if(!TextUtils.isEmpty(baseEvent.getEventId())){
                 visitID = baseEvent.getEventId();
             }else{
-                visitID = JsonFormUtils.generateRandomUUIDString();
+                visitID = visitId;
             }
 
             Visit visit = NCUtils.eventToVisit(baseEvent, visitID);
@@ -477,6 +478,75 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             return visit;
         }
         return null;
+    }
+    public static synchronized Visit saveVisit(String memberID, String encounterType,final Map<String, String> jsonString,String formSubmissionId,String visitId) throws Exception {
+
+        AllSharedPreferences allSharedPreferences = AncLibrary.getInstance().context().allSharedPreferences();
+//        Triple<Boolean, JSONObject, JSONArray> registrationFormParams = validateParameters(jsonString.get("First"));
+//        JSONObject jsonForm = (JSONObject)registrationFormParams.getMiddle();
+//        JSONArray fields = (JSONArray)registrationFormParams.getRight();
+//        Event baseEvent = org.smartregister.util.JsonFormUtils.createEvent(fields, getJSONObject(jsonForm, "metadata"), formTag(allSharedPreferences), memberID,encounterType,getTableName());
+        Event baseEvent = processVisitJsonForm(allSharedPreferences, memberID, encounterType, jsonString, getTableName());
+
+        if (baseEvent != null) {
+            baseEvent.setFormSubmissionId(formSubmissionId);
+            org.smartregister.chw.anc.util.JsonFormUtils.tagEvent(allSharedPreferences, baseEvent);
+            String visitID ="";
+            if(!TextUtils.isEmpty(baseEvent.getEventId())){
+                visitID = baseEvent.getEventId();
+            }else{
+                visitID = visitId;
+            }
+
+            Visit visit = NCUtils.eventToVisit(baseEvent, visitID);
+            visit.setPreProcessedJson(new Gson().toJson(baseEvent));
+            visitRepository().addVisit(visit);
+            return visit;
+        }
+        return null;
+    }
+    public static Event processVisitJsonForm(AllSharedPreferences allSharedPreferences, String entityId, String encounterType, Map<String, String> jsonStrings, String tableName) {
+
+        // aggregate all the fields into 1 payload
+        JSONObject jsonForm = null;
+        JSONObject metadata = null;
+
+        List<JSONObject> fields_obj = new ArrayList<>();
+
+        for (Map.Entry<String, String> map : jsonStrings.entrySet()) {
+            Triple<Boolean, JSONObject, JSONArray> registrationFormParams = validateParameters(map.getValue());
+
+            if (!registrationFormParams.getLeft()) {
+                return null;
+            }
+
+            if (jsonForm == null) {
+                jsonForm = registrationFormParams.getMiddle();
+            }
+
+            if (metadata == null) {
+                metadata = getJSONObject(jsonForm, METADATA);
+            }
+
+            // add all the fields to the event while injecting a new variable for grouping
+            JSONArray local_fields = registrationFormParams.getRight();
+            int x = 0;
+            while (local_fields.length() > x) {
+                try {
+                    JSONObject obj = local_fields.getJSONObject(x);
+                    obj.put(HOME_VISIT_GROUP, map.getKey());
+                    fields_obj.add(obj);
+                } catch (JSONException e) {
+                    Timber.e(e);
+                }
+                x++;
+            }
+        }
+
+        JSONArray fields = new JSONArray(fields_obj);
+        String derivedEncounterType = StringUtils.isBlank(encounterType) ? getString(jsonForm, ENCOUNTER_TYPE) : encounterType;
+
+        return org.smartregister.util.JsonFormUtils.createEvent(fields, metadata, formTag(allSharedPreferences), entityId, derivedEncounterType, tableName);
     }
     public static String getEncounterType(String formEncounterType) {
         switch (formEncounterType){

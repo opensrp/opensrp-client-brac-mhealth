@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
@@ -65,6 +66,8 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.MEMBER_ID_SUFFIX;
 import static org.smartregister.chw.core.utils.CoreJsonFormUtils.REQUEST_CODE_GET_JSON;
 import static org.smartregister.family.util.Constants.INTENT_KEY.BASE_ENTITY_ID;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 public class GuestMemberProfileActivity extends BaseProfileActivity implements GuestMemberContract.View,View.OnClickListener{
 
     String baseEntityId;
@@ -76,6 +79,8 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
     private ViewPagerAdapter adapter;
     private GuestMemberProfilePresenter presenter;
     private Handler handler;
+    AppExecutors appExecutors = new AppExecutors();
+    private boolean isProcessing = false;
 
     public static void startGuestMemberProfileActivity(Activity activity , String baseEntityId){
         Intent intent = new Intent(activity,GuestMemberProfileActivity.class);
@@ -383,17 +388,21 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
 
         }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
+            if(isProcessing) return;
+            AtomicBoolean isSave = new AtomicBoolean(false);
             showProgressDialog(R.string.please_wait_message);
-            AppExecutors appExecutors = new AppExecutors();
             Runnable runnable = () -> {
-                String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
-
-                boolean isSave = processVisits(jsonString);
-
+                if(!isProcessing){
+                    isProcessing = true;
+                    String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
+                    String formSubmissionId = JsonFormUtils.generateRandomUUIDString();
+                    String visitId = JsonFormUtils.generateRandomUUIDString();
+                    isSave.set(processVisits(jsonString,formSubmissionId,visitId));
+                }
                 appExecutors.mainThread().execute(new Runnable() {
                     @Override
                     public void run() {
-                        if(isSave){
+                        if(isSave.get()){
                             hideProgressDialog();
                             showServiceDoneDialog(true);
                         }else {
@@ -460,9 +469,9 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
         super.onActivityResult(requestCode, resultCode, data);
 
     }
-    private boolean processVisits(String jsonString){
+    private boolean processVisits(String jsonString,String formSubmissionId, String visitId){
         try{
-            Visit visit = saveRegistration(jsonString,"visits");
+            Visit visit = saveRegistration(jsonString,"visits",formSubmissionId,visitId);
             if(visit!=null){
                 FormParser.processVisitLog(visit);
                 return true;
@@ -474,8 +483,10 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
             return false;
         }
     }
+    Dialog dialog;
     private void showServiceDoneDialog(boolean isSuccess){
-        Dialog dialog = new Dialog(this);
+        if(dialog !=null) return;
+        dialog = new Dialog(this);
         dialog.setCancelable(false);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_with_one_button);
@@ -487,6 +498,8 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                isProcessing = false;
+                dialog = null;
                 if(isSuccess){
                     if(memberHistoryFragment !=null){
                         handler.postDelayed(new Runnable() {
@@ -508,20 +521,21 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
         dialog.show();
 
     }
-    private Visit saveRegistration(final String jsonString, String table) throws Exception {
+    private Visit saveRegistration(final String jsonString, String table, String formSubmissionId, String visitId) throws Exception {
         AllSharedPreferences allSharedPreferences = AncLibrary.getInstance().context().allSharedPreferences();
         Event baseEvent = org.smartregister.chw.anc.util.JsonFormUtils.processJsonForm(allSharedPreferences, jsonString, table);
         JSONObject form = new JSONObject(jsonString);
         String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
         type = HnppJsonFormUtils.getEncounterType(type);
         baseEvent.setEntityType(type);
-        //NCUtils.addEvent(allSharedPreferences, baseEvent);
+        baseEvent.setFormSubmissionId(formSubmissionId);
+        NCUtils.addEvent(allSharedPreferences, baseEvent);
        // NCUtils.startClientProcessing();
         String visitID ="";
         if(!TextUtils.isEmpty(baseEvent.getEventId())){
             visitID = baseEvent.getEventId();
         }else{
-            visitID = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
+            visitID = visitId;
         }
 
         Visit visit =null;

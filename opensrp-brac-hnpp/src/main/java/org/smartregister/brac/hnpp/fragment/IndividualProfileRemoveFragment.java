@@ -145,8 +145,9 @@ public class IndividualProfileRemoveFragment extends CoreIndividualProfileRemove
                     type = HnppJsonFormUtils.getEncounterType(type);
                     Map<String, String> jsonStrings = new HashMap<>();
                     jsonStrings.put("First",form.toString());
-
-                   Visit visit =  HnppJsonFormUtils.saveVisit(false,false,false,"", baseEntityId, type, jsonStrings, "");
+                    String formSubmissionId = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
+                    String visitId = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
+                   Visit visit =  HnppJsonFormUtils.saveVisit(false,false,false,"", baseEntityId, type, jsonStrings, "",formSubmissionId,visitId);
                    if(visit !=null){
                        HnppHomeVisitIntentService.processVisits();
                        VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);

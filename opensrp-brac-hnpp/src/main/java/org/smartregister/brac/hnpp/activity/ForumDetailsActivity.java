@@ -258,6 +258,8 @@ public class ForumDetailsActivity extends SecuredActivity implements View.OnClic
             case R.id.submit_btn:
                 ForumDetails forumDetails = getForumDetails();
                 if(forumDetails !=null){
+                    v.setAlpha(0.3f);
+                    v.setEnabled(false);
                     if(fromType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.CHILD.toString())){
                         presenter.processChildForumEvent(forumDetails);
                     }else if(fromType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.WOMEN.toString())){
