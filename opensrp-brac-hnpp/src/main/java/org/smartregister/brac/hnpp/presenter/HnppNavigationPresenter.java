@@ -91,8 +91,8 @@ public class HnppNavigationPresenter extends NavigationPresenter {
     @Override
     public void updateUnSyncCount() {
         EventClientRepository eventClientRepository = HnppApplication.getHNPPInstance().getEventClientRepository();
-        int cc = eventClientRepository.getInvalidClientsCount();
-        int ec = eventClientRepository.getInvalidEventsCount();
+        int cc = eventClientRepository.getUnSyncClientsCount();
+        int ec = eventClientRepository.getUnSyncEventsCount();
         Log.v("UNSYNC_COUNT","cc>>"+cc+":ec>"+ec);
         getNavigationView().updateUnSyncCount(cc+ec);
     }

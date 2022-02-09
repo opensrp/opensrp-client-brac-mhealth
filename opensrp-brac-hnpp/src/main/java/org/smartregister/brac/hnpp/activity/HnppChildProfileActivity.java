@@ -457,6 +457,12 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
             @Override
             public void onPost(double latitude, double longitude) {
                 try {
+                    if(TextUtils.isEmpty(childBaseEntityId)){
+                        Toast.makeText(HnppChildProfileActivity.this, "baseentityid null", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                    HnppConstants.appendLog("SAVE_VISIT", "openReferealFollowUp>>childBaseEntityId:"+childBaseEntityId);
+
                     JSONObject jsonForm = FormUtils.getInstance(HnppChildProfileActivity.this).getFormJson(HnppConstants.JSON_FORMS.REFERREL_FOLLOWUP);
                     jsonForm.put(JsonFormUtils.ENTITY_ID, childBaseEntityId);
                     try{
@@ -484,7 +490,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
                     }
                     intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
                     intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
-                     startActivityForResult(intent, REQUEST_HOME_VISIT);
+                    startActivityForResult(intent, REQUEST_HOME_VISIT);
 
                 }catch (Exception e){
 
@@ -503,6 +509,12 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
             @Override
             public void onPost(double latitude, double longitude) {
                 try {
+                    if(TextUtils.isEmpty(childBaseEntityId)){
+                        Toast.makeText(HnppChildProfileActivity.this, "baseentityid null", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                    HnppConstants.appendLog("SAVE_VISIT", "open form>>childBaseEntityId:"+childBaseEntityId+":formName:"+formName);
+
                     JSONObject jsonForm = FormUtils.getInstance(HnppChildProfileActivity.this).getFormJson(formName);
                     try{
                         HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
@@ -567,7 +579,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
                     }
                     intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
                     intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
-                     startActivityForResult(intent, requestCode);
+                    startActivityForResult(intent, requestCode);
 
                 }catch (Exception e){
 
@@ -580,6 +592,10 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     boolean isProcessing = false;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(TextUtils.isEmpty(childBaseEntityId)){
+            Toast.makeText(HnppChildProfileActivity.this, "baseentityid null", Toast.LENGTH_SHORT).show();
+            finish();
+        }
         if (resultCode == Activity.RESULT_OK){
             HnppConstants.isViewRefresh = true;
             if(data!=null && data.getBooleanExtra("VACCINE_TAKEN",false)){
@@ -611,6 +627,8 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
                     String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
                     String formSubmissionId = JsonFormUtils.generateRandomUUIDString();
                     String visitId = JsonFormUtils.generateRandomUUIDString();
+                    HnppConstants.appendLog("SAVE_VISIT", "save form>>childBaseEntityId:"+childBaseEntityId+":formSubmissionId:"+formSubmissionId);
+
                     isSave.set(processVisitFormAndSave(jsonString,formSubmissionId,visitId));
                 }
                 appExecutors.mainThread().execute(new Runnable() {
@@ -639,17 +657,21 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     }
     private boolean processVisitFormAndSave(String jsonString, String formSubmissionid, String visitId){
 
+        if(TextUtils.isEmpty(childBaseEntityId)) return false;
         try {
             JSONObject form = new JSONObject(jsonString);
             String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
             type = HnppJsonFormUtils.getEncounterType(type);
             Map<String, String> jsonStrings = new HashMap<>();
             jsonStrings.put("First",form.toString());
+            HnppConstants.appendLog("SAVE_VISIT", "save form>>childBaseEntityId:"+childBaseEntityId+":type:"+type);
 
             Visit visit = HnppJsonFormUtils.saveVisit(false,false,false,"", childBaseEntityId, type, jsonStrings, "",formSubmissionid,visitId);
             if(visit!=null){
                 HnppHomeVisitIntentService.processVisits();
                 FormParser.processVisitLog(visit);
+                HnppConstants.appendLog("SAVE_VISIT", "processVisitLog done:"+formSubmissionid+":type:"+type);
+
                 //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
                 return true;
 
@@ -657,7 +679,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
                 return false;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            HnppConstants.appendLog("SAVE_VISIT","exception processVisitFormAndSave >>"+e.getMessage());
         }
         return false;
     }

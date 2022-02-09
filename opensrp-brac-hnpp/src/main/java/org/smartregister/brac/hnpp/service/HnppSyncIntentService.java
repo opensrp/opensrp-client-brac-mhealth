@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.smartregister.AllConstants;
 import org.smartregister.CoreLibrary;
 import org.smartregister.SyncConfiguration;
+import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -25,7 +26,7 @@ import java.util.Map;
 import timber.log.Timber;
 
 public class HnppSyncIntentService extends SyncIntentService {
-    protected boolean isEmptyToAdd = false;
+    protected boolean isEmptyToAdd = true;
 
 
     @Override
@@ -43,9 +44,21 @@ public class HnppSyncIntentService extends SyncIntentService {
             if (baseUrl.endsWith("/")) {
                 baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf("/"));
             }
+            long requestedTimeStamp  = 0;
 
             Long lastSyncDatetime = ecSyncUpdater.getLastSyncTimeStamp();
-            Timber.i("LAST SYNC DT %s", new DateTime(lastSyncDatetime));
+            if(lastSyncDatetime>requestedTimeStamp){
+                requestedTimeStamp = lastSyncDatetime;
+            }
+            HnppConstants.appendLog("SYNC_URL", "lastSyncDatetime:"+lastSyncDatetime+":requestedTimeStamp:"+requestedTimeStamp+":isEmptyToAdd:"+isEmptyToAdd);
+
+            //if(requestedTimeStamp<lastSync) requested = lastsynctime
+            if(!isEmptyToAdd){
+                if(lastSyncDatetime< requestedTimeStamp){
+                    isEmptyToAdd = true;
+                }
+            }
+            // requested<lastsync{ isEmptyToAdd = false else isEmptyToAdd = true}
 
             if (httpAgent == null) {
                 complete(FetchStatus.fetchedFailed);
@@ -102,9 +115,7 @@ public class HnppSyncIntentService extends SyncIntentService {
             JSONObject jsonObject = new JSONObject((String) resp.payload());
 
             int eCount = fetchNumberOfEvents(jsonObject);
-            long startTime = System.currentTimeMillis();
-            Log.v("SYNC_URL", "response comes.eCount:"+eCount);
-            Timber.i("Parse Network Event Count: %s", eCount);
+            HnppConstants.appendLog("SYNC_URL", "response comed eCount:"+eCount);
 
             if (eCount == 0) {
                 complete(FetchStatus.nothingFetched);
@@ -118,21 +129,25 @@ public class HnppSyncIntentService extends SyncIntentService {
                 if (eCount < getEventPullLimit()) {
                     lastServerVersion = serverVersionPair.second;
                 }
-                Log.v("SYNC_URL", "parse for lastServerVersion:"+eCount+":timediff:"+(System.currentTimeMillis() - startTime));
                 boolean isSaved = ecSyncUpdater.saveAllClientsAndEvents(jsonObject);
-                Log.v("SYNC_URL", "isSaved:"+isSaved+":timediff:"+(System.currentTimeMillis() - startTime));
+                HnppConstants.appendLog("SYNC_URL", "isSaved:"+isSaved+":lastServerVersion:"+lastServerVersion);
 
                 //update sync time if all event client is save.
                 if(isSaved){
                     processClient(serverVersionPair);
-                    Log.v("SYNC_URL", "processClient done timediff:"+(System.currentTimeMillis() - startTime)+"lastServerVersion:"+lastServerVersion);
+                    HnppConstants.appendLog("SYNC_URL", "after processClient lastServerVersion:"+lastServerVersion+":requested:"+lastSyncDatetime+":original requestedtime:"+requestedTimeStamp);
 
-                    ecSyncUpdater.updateLastSyncTimeStamp(lastServerVersion);
+                  if(lastServerVersion>requestedTimeStamp){
+                      HnppConstants.appendLog("SYNC_URL", "updateLastSyncTimeStamp lastServerVersion:"+lastServerVersion);
+
+                      ecSyncUpdater.updateLastSyncTimeStamp(lastServerVersion);
+                  }
                 }
                 fetchRetry(0);
             }
         } catch (Exception e) {
             Timber.e(e, "Fetch Retry Exception:  %s", e.getMessage());
+            HnppConstants.appendLog("SYNC_URL","exception "+e.getMessage());
             try{
                 fetchFailed(count);
             }catch (Exception ee){
@@ -148,8 +163,8 @@ public class HnppSyncIntentService extends SyncIntentService {
 
         while (keepSyncing) {
             try {
-                Log.v("SYNC_URL", "pushECToServer");
                 Map<String, Object> pendingEvents = db.getUnSyncedEvents(EVENT_PUSH_LIMIT);
+                HnppConstants.appendLog("SYNC_URL", "pushECToServer:"+pendingEvents.size());
 
                 if (pendingEvents.isEmpty()) {
                     return;
@@ -172,17 +187,16 @@ public class HnppSyncIntentService extends SyncIntentService {
                 String add_url =  MessageFormat.format("{0}/{1}",
                         baseUrl,
                         ADD_URL);
-                Log.v("SYNC_URL", add_url);
                 Response<String> response = httpAgent.post(add_url
                         ,
                         jsonPayload);
+                HnppConstants.appendLog("SYNC_URL", "pushECToServer:response comes"+response);
                 if (response.isFailure()) {
-                    Timber.e("Events sync failed.");
-                    Log.v("SYNC_URL", "Events sync failed.");
+                    HnppConstants.appendLog("SYNC_URL", "pushECToServer:response response.isFailure");
                     return;
                 }
                 db.markEventsAsSynced(pendingEvents);
-                Log.v("SYNC_URL", "Events synced successfully.");
+                HnppConstants.appendLog("SYNC_URL", "pushECToServer:markEventsAsSynced");
             } catch (Exception e) {
                 Timber.e(e);
             }

@@ -44,6 +44,7 @@ import org.smartregister.job.DataSyncByBaseEntityServiceJob;
 import org.smartregister.job.ForceSyncDataServiceJob;
 import org.smartregister.job.InValidateSyncDataServiceJob;
 import org.smartregister.family.util.AppExecutors;
+import org.smartregister.job.ServerVersionNullIntentServiceJob;
 import org.smartregister.job.SyncServiceJob;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.repository.EventClientRepository;
@@ -75,7 +76,7 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_force_unsync);
-        findViewById(R.id.invalid_data).setOnClickListener(v -> checkInvalidData());
+        findViewById(R.id.invalid_data).setOnClickListener(v -> checkServerVersionNullData());
         findViewById(R.id.sync_unsync_btn).setOnClickListener( v -> forceSyncData() );
         findViewById(R.id.data_sync_by_id).setOnClickListener( v -> syncDataById() );
         findViewById(R.id.compare_btn).setOnClickListener( v -> compareData() );
@@ -295,12 +296,20 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
     private void checkInvalidData() {
         EventClientRepository eventClientRepository = HnppApplication.getHNPPInstance().getEventClientRepository();
         int cc = eventClientRepository.getInvalidClientsCount();
-        int ec = eventClientRepository.getInvalidEventsCount();
-        showInvalidCountDialog(cc,ec);
+        int ec = eventClientRepository.getInvalidEventsCount(false);
+        showInvalidCountDialog(cc,ec,false);
 
 
     }
-    private void showInvalidCountDialog(int cc, int ec ){
+    private void checkServerVersionNullData() {
+        EventClientRepository eventClientRepository = HnppApplication.getHNPPInstance().getEventClientRepository();
+        int cc = eventClientRepository.getInvalidClientsCount();
+        int ec = eventClientRepository.getInvalidEventsCount(true);
+        showInvalidCountDialog(cc,ec,true);
+
+
+    }
+    private void showInvalidCountDialog(int cc, int ec,boolean isFromServerCheck ){
         Dialog dialog = new Dialog(this);
         dialog.setCancelable(false);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -334,7 +343,13 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
                 registerReceiver(invalidDataBroadcastReceiver, intentFilter);
                 showProgressDialog("ইনভ্যালিড ডাটা সিঙ্ক করা হচ্ছে....");
                 dialog.dismiss();
-                InValidateSyncDataServiceJob.scheduleJobImmediately(InValidateSyncDataServiceJob.TAG);
+                SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(ForceSyncActivity.this);
+
+                if(isFromServerCheck){
+                    ServerVersionNullIntentServiceJob.scheduleJobImmediately(ServerVersionNullIntentServiceJob.TAG);
+                }else{
+                    InValidateSyncDataServiceJob.scheduleJobImmediately(InValidateSyncDataServiceJob.TAG);
+                }
             }
         });
         dialog.show();
@@ -435,7 +450,7 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
         if(dialog == null){
             dialog = new ProgressDialog(this);
             dialog.setMessage(message);
-            dialog.setCancelable(false);
+            dialog.setCancelable(true);
             dialog.show();
         }
 
@@ -443,6 +458,7 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
     private void hideProgressDialog(){
         if(dialog !=null && dialog.isShowing()){
             dialog.dismiss();
+            dialog = null;
         }
     }
     @Override
@@ -477,10 +493,13 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
     private class InvalidSyncBroadcast extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
+            if(isFinishing()) return;
             hideProgressDialog();
             if(intent != null && intent.getAction().equalsIgnoreCase("INVALID_SYNC")){
                 String value = intent.getStringExtra("EXTRA_INVALID_SYNC");
                 Toast.makeText(ForceSyncActivity.this,value,Toast.LENGTH_SHORT).show();
+                showProgressDialog("ডাটা সিঙ্ক করা হচ্ছে....");
+                HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
             }
             if(intent != null && intent.getAction().equalsIgnoreCase("DATA_SYNC")){
                 String value = intent.getStringExtra("EXTRA_DATA_SYNC");

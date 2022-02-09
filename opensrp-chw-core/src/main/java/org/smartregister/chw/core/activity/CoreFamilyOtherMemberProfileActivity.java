@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -296,6 +297,7 @@ public abstract class CoreFamilyOtherMemberProfileActivity extends BaseFamilyOth
         familyName = getIntent().getStringExtra(Constants.INTENT_KEY.FAMILY_NAME);
         PhoneNumber = commonPersonObject.getColumnmaps().get(CoreConstants.JsonAssets.FAMILY_MEMBER.PHONE_NUMBER);
         presenter = getFamilyOtherMemberActivityPresenter(familyBaseEntityId, baseEntityId, familyHead, primaryCaregiver, villageTown, familyName);
+        Log.v("BASE_ENTITY_ID","familyBaseEntityId:"+familyBaseEntityId+":baseEntityId:"+baseEntityId);
     }
 
     @Override

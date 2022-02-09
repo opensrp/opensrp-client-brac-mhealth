@@ -176,6 +176,8 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             openAsReadOnlyMode(jsonForm);
             return;
         }
+        HnppConstants.appendLog("SAVE_VISIT","start familyMemberFormActivity>>>baseEntityId:"+baseEntityId);
+
         Intent intent = new Intent(this, org.smartregister.family.util.Utils.metadata().familyMemberFormActivity);
         intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
 
@@ -381,11 +383,11 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             }
         });
 
-
-
     }
     private void processJsonForm(String formName,int requestCode,double latitude, double longitude){
         try {
+            HnppConstants.appendLog("SAVE_VISIT","processJsonForm>>>formName:"+formName);
+
             JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
             HnppJsonFormUtils.addEDDField(formName,jsonForm,baseEntityId);
             try{
@@ -742,7 +744,12 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     boolean isProcessingANCVisit = false;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //ignoreSimprintCheck = false;
+        Log.v("BASE_ENTITY_ID","familyBaseEntityId:"+familyBaseEntityId+":baseEntityId:"+baseEntityId);
+
+        if(TextUtils.isEmpty(baseEntityId)){
+            Toast.makeText(this,"BaseEntityId should not be empty",Toast.LENGTH_SHORT).show();
+            finish();
+        }
         if(requestCode == REQUEST_SIMPRINTS_VERIFY ){
             if(resultCode == Activity.RESULT_OK){
                 SimPrintsVerification verifyResults = (SimPrintsVerification) data.getSerializableExtra(SimPrintsConstantHelper.INTENT_DATA);
@@ -786,6 +793,8 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                     String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
                     String formSubmissionId = JsonFormUtils.generateRandomUUIDString();
                     String visitId = JsonFormUtils.generateRandomUUIDString();
+                    HnppConstants.appendLog("SAVE_VISIT","isProcessingHV>>>baseEntityId:"+baseEntityId+":formSubmissionId:"+formSubmissionId);
+
                     isSave.set(processVisitFormAndSave(jsonString,formSubmissionId,visitId));
                 }
 
@@ -810,6 +819,8 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             AtomicBoolean isSave = new AtomicBoolean(false);
             showProgressDialog(R.string.please_wait_message);
             Runnable runnable = () -> {
+                HnppConstants.appendLog("SAVE_VISIT","isProcessingANCVisit>>>baseEntityId:"+baseEntityId);
+
                 if(!isProcessingANCVisit){
                     isProcessingANCVisit = true;
                     isSave.set(processVisits());
@@ -884,25 +895,30 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     }
     private boolean processVisitFormAndSave(String jsonString,String formSubmissionId, String visitId){
 
+        if(TextUtils.isEmpty(baseEntityId)) return false;
         try {
             JSONObject form = new JSONObject(jsonString);
             String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
             type = HnppJsonFormUtils.getEncounterType(type);
             Map<String, String> jsonStrings = new HashMap<>();
             jsonStrings.put("First",form.toString());
+            HnppConstants.appendLog("SAVE_VISIT","baseEntityId:"+baseEntityId+":formSubmissionId:"+formSubmissionId);
 
             Visit visit = HnppJsonFormUtils.saveVisit(isComesFromIdentity,verificationNeeded, isVerified,checkedItem, baseEntityId, type, jsonStrings, "",formSubmissionId,visitId);
+
             if(visit!=null){
                 HnppHomeVisitIntentService.processVisits();
                 FormParser.processVisitLog(visit);
-                //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+                HnppConstants.appendLog("SAVE_VISIT","processVisitLog done formSubmissionId:"+formSubmissionId+":type:"+type);
+
                 return true;
 
             }else{
                 return false;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            HnppConstants.appendLog("SAVE_VISIT","processVisitLog exception occured :"+e.getMessage());
+
         }
         return false;
     }
@@ -984,6 +1000,8 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             public void onPost(double latitude, double longitude) {
                 Intent intent = new Intent(HnppFamilyOtherMemberProfileActivity.this, HnppAncJsonFormActivity.class);
                 try{
+                    HnppConstants.appendLog("SAVE_VISIT","openCoronaIndividualForm>>>baseEntityId:"+baseEntityId);
+
                     JSONObject jsonForm = FormUtils.getInstance(HnppFamilyOtherMemberProfileActivity.this).getFormJson(HnppConstants.JSON_FORMS.CORONA_INDIVIDUAL);
 
 
@@ -1017,6 +1035,11 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 
     }
     public void openServiceForms(String formName){
+
+        if(TextUtils.isEmpty(baseEntityId)){
+            Toast.makeText(this,"BaseEntityId should not be empty",Toast.LENGTH_SHORT).show();
+            finish();
+        }
         startAnyFormActivity(formName,REQUEST_HOME_VISIT);
     }
     public void openRefereal() {
@@ -1040,7 +1063,13 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onPost(double latitude, double longitude) {
+                if(TextUtils.isEmpty(baseEntityId)){
+                    Toast.makeText(HnppFamilyOtherMemberProfileActivity.this, "baseentity id null", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
                 try {
+                    HnppConstants.appendLog("SAVE_VISIT","openREFERREL_FOLLOWUPForm>>>baseEntityId:"+baseEntityId);
+
                     JSONObject jsonForm = FormUtils.getInstance(HnppFamilyOtherMemberProfileActivity.this).getFormJson(HnppConstants.JSON_FORMS.REFERREL_FOLLOWUP);
                     jsonForm.put(JsonFormUtils.ENTITY_ID, baseEntityId);
                     try{
@@ -1057,24 +1086,20 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                     form.setWizard(false);
                     if(!HnppConstants.isReleaseBuild()){
                         form.setActionBarBackground(R.color.test_app_color);
-
                     }else{
                         form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
                     }
-
                     intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
                     intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
                     referralFollowUpModel = null;
-                     startActivityForResult(intent, REQUEST_HOME_VISIT);
+                    startActivityForResult(intent, REQUEST_HOME_VISIT);
 
                 }catch (Exception e){
 
                 }
             }
         });
-
-
 
     }
 

@@ -136,6 +136,12 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
 
     @Override
     public void submitVisit(boolean editMode, String memberID, Map<String, BaseAncHomeVisitAction> map, BaseAncHomeVisitContract.InteractorCallBack callBack) {
+        HnppConstants.appendLog("SAVE_VISIT","submitVisit>>>memberID:"+memberID+":isProcessing:"+isProcessing);
+
+        if(TextUtils.isEmpty(memberID)){
+           callBack.onSubmitted(false);
+           return;
+       }
         if(isProcessing) return;
         AtomicBoolean isSave = new AtomicBoolean(false);
         final Runnable runnable = () -> {
@@ -144,6 +150,8 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
                     isProcessing = true;
                     String formSubmissionId = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
                     String visitId = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
+                    HnppConstants.appendLog("SAVE_VISIT","submitVisit>>>memberID:"+memberID+":formSubmissionId:"+formSubmissionId);
+
                     isSave.set(submitVisit(memberID, map,formSubmissionId,visitId)!=null);
                 }
             } catch (Exception e) {
@@ -171,6 +179,7 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
         }
 
         String type = StringUtils.isBlank("") ? getEncounterType() : getEncounterType();
+        HnppConstants.appendLog("SAVE_VISIT","submitVisit>>>memberID:"+memberID+":formSubmissionId:"+formSubmissionId+":type:"+type);
 
         // persist to database
         Visit visit = null;

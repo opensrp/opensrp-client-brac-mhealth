@@ -471,10 +471,13 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             }else{
                 visitID = visitId;
             }
+            HnppConstants.appendLog("SAVE_VISIT","saveVisit>>>baseEntityId:"+baseEvent.getBaseEntityId()+":formSubmissionId:"+baseEvent.getFormSubmissionId()+":baseEvent:"+baseEvent.getEntityType());
 
             Visit visit = NCUtils.eventToVisit(baseEvent, visitID);
             visit.setPreProcessedJson(new Gson().toJson(baseEvent));
             visitRepository().addVisit(visit);
+            HnppConstants.appendLog("SAVE_VISIT","added to visit>>>baseEntityId:"+baseEvent.getBaseEntityId()+":formSubmissionId:"+baseEvent.getFormSubmissionId()+":baseEvent:"+baseEvent.getEntityType());
+
             return visit;
         }
         return null;
@@ -497,6 +500,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             }else{
                 visitID = visitId;
             }
+            HnppConstants.appendLog("SAVE_VISIT","submitVisit>>>saveVisit>>memberID:"+baseEvent.getBaseEntityId()+":formSubmissionId:"+baseEvent.getFormSubmissionId()+":type:"+baseEvent.getEventType());
 
             Visit visit = NCUtils.eventToVisit(baseEvent, visitID);
             visit.setPreProcessedJson(new Gson().toJson(baseEvent));

@@ -45,7 +45,7 @@ android {
         buildConfigField "String[]", "ALLOWED_LOCATION_LEVELS", '{"MOH Jhpiego Facility Name" , "Village"}'
         buildConfigField "String", 'DEFAULT_LOCATION', '"Village"'
         buildConfigField "boolean", 'SUPPORT_QR', 'false'
-        buildConfigField "int", "DATABASE_VERSION", '41'
+        buildConfigField "int", "DATABASE_VERSION", '45'
         buildConfigField "int", "DATA_SYNC_DURATION_MINUTES", '10'
         buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "1800000l"
         buildConfigField "boolean", "TIME_CHECK", "false"
@@ -67,6 +67,7 @@ android {
             buildConfigField "int", "OPENMRS_UNIQUE_ID_SOURCE", '1'
             buildConfigField "boolean", "TIME_CHECK", "true"
             buildConfigField "int", "DATA_SYNC_DURATION_MINUTES", '90'
+            buildConfigField "int", "INVALID_SYNC_DURATION_MINUTES", '360'
             buildConfigField "int", "MISSING_DATA_MINUTES", '360'
             buildConfigField "int", "VACCINE_SYNC_PROCESSING_MINUTES", '30'
             buildConfigField "int", "IMAGE_UPLOAD_MINUTES", '180'
@@ -79,7 +80,7 @@ android {
         }
 
         debug {
-
+            buildConfigField "int", "INVALID_SYNC_DURATION_MINUTES", '15'
             buildConfigField "int", "OPENMRS_UNIQUE_ID_INITIAL_BATCH_SIZE", '250'
             buildConfigField "int", "OPENMRS_UNIQUE_ID_BATCH_SIZE", '15'
             buildConfigField "int", "OPENMRS_UNIQUE_ID_SOURCE", '2'
@@ -155,8 +156,8 @@ android {
 
         }
         production{
-            versionCode 63
-            versionName "2.0.8"//2.0.6.4=2.0.7
+            versionCode 64
+            versionName "2.0.8.1"//2.0.6.4=2.0.7
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
             buildConfigField "String", 'opensrp_url_training', '"https://mhealth.brac.net/opensrp/"'

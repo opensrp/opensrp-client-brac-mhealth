@@ -58,6 +58,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -67,6 +69,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 public class HnppConstants extends CoreConstants {
     public static boolean IS_MANDATORY_GPS = true;
@@ -99,6 +102,80 @@ public class HnppConstants extends CoreConstants {
     public static SimpleDateFormat DDMMYY = new SimpleDateFormat("dd-MM-yyyy",Locale.getDefault());
     public static SimpleDateFormat YYYYMM = new SimpleDateFormat("yyyy-MM",Locale.getDefault());
     public static SimpleDateFormat DDMMYYHM = new SimpleDateFormat("dd-MM-yyyy",Locale.getDefault());
+
+    public static void deleteLogFile(){
+        Context context= HnppApplication.getInstance().getApplicationContext();
+        String path = context.getExternalFilesDir(null) + "/hnpp_log";
+        File directory = new File(path);
+        File[] files = directory.listFiles();
+        if(files!=null){
+         for(int i = 0; i< Objects.requireNonNull(files).length; i++){
+            if(files.length>3){
+                if(i<3){
+                    File f = new File(directory + "/" + files[i].getName());
+                    boolean isDeleted = deleteDirectory(f.getAbsoluteFile());
+                    Log.v("LOG_FILE", " for delete FileName: isDeleted" + isDeleted + ":" + f.getAbsolutePath());
+
+                }
+            }
+        }
+        }
+
+    }
+    static boolean deleteDirectory(File path) {
+        if(path.exists()) {
+            File[] files = path.listFiles();
+            if (files == null) {
+                return false;
+            }
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    deleteDirectory(file);
+                } else {
+                    boolean wasSuccessful = file.delete();
+                    if (wasSuccessful) {
+                        Log.i("Deleted ", "successfully");
+                    }
+                }
+            }
+        }
+        return(path.delete());
+    }
+    public static void appendLog(String TAG,String text) {
+        try{
+             deleteLogFile();
+            Context context= HnppApplication.getInstance().getApplicationContext();
+            String saveText = TAG + new DateTime(System.currentTimeMillis())+" >>> "+ text;
+            Calendar calender = Calendar.getInstance();
+            int year = calender.get(Calendar.YEAR);
+            int month = calender.get(Calendar.MONTH)+1;
+            int day = calender.get(Calendar.DAY_OF_MONTH);
+            String fileNameDayWise = year+""+addZeroForDay(month+"")+""+addZeroForDay(day+"");
+            Log.v("LOG_FILE","fileNameDayWise:"+fileNameDayWise);
+
+            File f = new File(context.getExternalFilesDir(null) + "/hnpp_log/"+fileNameDayWise);
+            if (!f.exists()) {
+                f.mkdirs();
+            }
+            File logFile = new File(context.getExternalFilesDir(null) + "/hnpp_log/"+fileNameDayWise+"/"+"log.file");
+            if (!logFile.exists()) {
+                try {
+                    logFile.createNewFile();
+                } catch (IOException ee) {
+                    Log.e(TAG, ee.getMessage());
+                }
+            }
+            //BufferedWriter for performance, true to set append to file flag
+            BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true));
+            buf.append(saveText);
+            buf.newLine();
+            buf.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
 
     public static String getDatefromLongDate(long toMonth) {
         Calendar calendar = Calendar.getInstance();
@@ -520,25 +597,6 @@ public class HnppConstants extends CoreConstants {
         int year = calendar.get(Calendar.YEAR);
         if(year<2018) return true;
         return false;
-    }
-    public static void appendLog(String text) {
-        File logFile = new File("sdcard/log.file");
-        if (!logFile.exists()) {
-            try {
-                logFile.createNewFile();
-            }
-            catch (IOException e) {
-            }
-        }
-        try {
-            //BufferedWriter for performance, true to set append to file flag
-            BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true));
-            buf.append(text);
-            buf.newLine();
-            buf.close();
-        } catch (IOException e) {
-
-        }
     }
 
     public static String getHomeVisitStatus(long lastHomeVisit , String dateCreatedStr){

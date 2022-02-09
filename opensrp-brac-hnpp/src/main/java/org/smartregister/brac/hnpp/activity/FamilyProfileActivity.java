@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -361,6 +362,9 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
 
     }
     private boolean processAndSaveVisitForm(String jsonString, String formSubmissionId, String visitId){
+        if(TextUtils.isEmpty(familyBaseEntityId)){
+            return false;
+        }
         Map<String, String> jsonStrings = new HashMap<>();
         jsonStrings.put("First",jsonString);
         try {
@@ -555,6 +559,14 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
     }
     public void openProfile(String baseEntityId){
         CommonPersonObjectClient commonPersonObjectClient = clientObject(baseEntityId);
+        if(TextUtils.isEmpty(familyBaseEntityId)){
+            Toast.makeText(this,"BaseEntityId showing empty",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(TextUtils.isEmpty(commonPersonObjectClient.getCaseId())){
+            Toast.makeText(this,"BaseEntityId showing empty",Toast.LENGTH_SHORT).show();
+            return;
+        }
         String dobString = Utils.getDuration(Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOB, false));
         Integer yearOfBirth = CoreChildUtils.dobStringToYear(dobString);
         if (yearOfBirth != null && yearOfBirth > 5) {
@@ -565,6 +577,10 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
 
     }
     public void startHHFormActivity(JSONObject jsonForm, int requestCode) {
+        if(TextUtils.isEmpty(familyBaseEntityId)){
+            Toast.makeText(this,"BaseEntityId showing empty",Toast.LENGTH_SHORT).show();
+            return;
+        }
         try {
             jsonForm.put(org.smartregister.util.JsonFormUtils.ENTITY_ID, familyBaseEntityId);
             Intent intent;
