@@ -85,6 +85,8 @@ public interface CoreChildProfileContract {
         void updateAfterBackgroundProcessed();
 
         void setClientTasks(Set<Task> taskList);
+
+        void errorOccured(String message);
     }
 
     interface Presenter extends BaseProfileContract.Presenter {

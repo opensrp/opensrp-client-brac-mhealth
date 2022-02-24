@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
@@ -580,5 +581,11 @@ public class CoreChildProfileActivity extends BaseProfileActivity implements Cor
 
     public Activity getStartActivity() {
         return startActivity;
+    }
+
+    @Override
+    public void errorOccured(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        finish();
     }
 }

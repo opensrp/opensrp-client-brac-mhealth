@@ -429,7 +429,7 @@ public class HnppVisitLogRepository extends BaseRepository {
         if(TextUtils.isEmpty(eventType)) return true;
 
         String visitType = getCorrespondingVisitType(eventType);
-        String query = "select visit_type from visits where visit_type ='"+visitType+"' and base_entity_id ='"+baseEntityId+"' and (strftime('%d',datetime(visit_date/1000,'unixepoch','localtime')) = strftime('%d',datetime('now')))";
+        String query = "select visit_type from visits where visit_type ='"+visitType+"' and base_entity_id ='"+baseEntityId+"' and ((strftime('%s',datetime('now')) - strftime('%s',datetime(visit_date/1000,'unixepoch','localtime')))/3600)<24";
         Log.v("DUE_VISIT",""+query);
         android.database.Cursor cursor = null;
         boolean isExist = false;

@@ -3,10 +3,12 @@ package org.smartregister.brac.hnpp.service;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
@@ -48,7 +50,7 @@ public class HnppHomeVisitIntentService{//} extends IntentService {
 //        }
 //    }
 
-    public static synchronized void processVisits() throws Exception {
+    public static synchronized void processVisits() {
         Calendar calendar = Calendar.getInstance();
         VisitRepository visitRepository = AncLibrary.getInstance().visitRepository();
         List<Visit> visits = visitRepository.getAllUnSynced(calendar.getTime().getTime());
@@ -59,12 +61,19 @@ public class HnppHomeVisitIntentService{//} extends IntentService {
                 Event baseEvent = new Gson().fromJson(v.getPreProcessedJson(), Event.class);
                 AllSharedPreferences allSharedPreferences = AncLibrary.getInstance().context().allSharedPreferences();
                 JsonFormUtils.tagEvent(allSharedPreferences, baseEvent);
-               // NCUtils.addEvent(allSharedPreferences, baseEvent);
-                JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(baseEvent));
-                getSyncHelper().addEvent(baseEvent.getBaseEntityId(), eventJson);
-                // process details
+                JSONObject eventJson = null;
+                try {
+                    eventJson = new JSONObject(JsonFormUtils.gson.toJson(baseEvent));
+                    getSyncHelper().addEvent(baseEvent.getBaseEntityId(), eventJson);
+                    // process details
+                    Log.v("FORUM_TEST","processVisits>>eventType:"+baseEvent.getEventType()+":visitId:"+v.getVisitId());
 
-                visitRepository.completeProcessing(v.getVisitId());
+                    visitRepository.completeProcessing(v.getVisitId());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.v("FORUM_TEST","processVisits>>exception"+e.getMessage());
+                }
+
             }
         }
 

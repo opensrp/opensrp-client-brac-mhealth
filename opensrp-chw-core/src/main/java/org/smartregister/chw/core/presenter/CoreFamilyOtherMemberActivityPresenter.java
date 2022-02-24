@@ -139,6 +139,7 @@ public abstract class CoreFamilyOtherMemberActivityPresenter extends BaseFamilyO
 
             FamilyEventClient familyEventClient = profileModel.processUpdateMemberRegistration(jsonString, familyBaseEntityId);
             if (familyEventClient == null) {
+                getView().hideProgressDialog();
                 return;
             }
             profileInteractor.saveRegistration(familyEventClient, jsonString, true, this);

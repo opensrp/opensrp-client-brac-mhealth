@@ -229,16 +229,17 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 //            }
 
             visitRepository().addVisit(visit);
+            visitRepository().completeProcessing(visit.getVisitId());
             JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(baseEvent));
             getSyncHelper().addEvent(baseClient.getBaseEntityId(), eventJson);
-            List<EventClient> eventClientList = new ArrayList();
-            org.smartregister.domain.db.Event domainEvent = org.smartregister.family.util.JsonFormUtils.gson.fromJson(eventJson.toString(), org.smartregister.domain.db.Event.class);
-            org.smartregister.domain.db.Client domainClient = org.smartregister.family.util.JsonFormUtils.gson.fromJson(clientJson.toString(), org.smartregister.domain.db.Client.class);
-            eventClientList.add(new EventClient(domainEvent, domainClient));
+//            List<EventClient> eventClientList = new ArrayList();
+//            org.smartregister.domain.db.Event domainEvent = org.smartregister.family.util.JsonFormUtils.gson.fromJson(eventJson.toString(), org.smartregister.domain.db.Event.class);
+//            org.smartregister.domain.db.Client domainClient = org.smartregister.family.util.JsonFormUtils.gson.fromJson(clientJson.toString(), org.smartregister.domain.db.Client.class);
+//            eventClientList.add(new EventClient(domainEvent, domainClient));
 
             long lastSyncTimeStamp = Utils.getAllSharedPreferences().fetchLastUpdatedAtDate(0);
             Date lastSyncDate = new Date(lastSyncTimeStamp);
-            getClientProcessorForJava().processClient(eventClientList);
+//            getClientProcessorForJava().processClient(eventClientList);
             Utils.getAllSharedPreferences().saveLastUpdatedAtDate(lastSyncDate.getTime());
             return visit;
         }
@@ -309,16 +310,19 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 //           }
 
             visitRepository().addVisit(visit);
+            visitRepository().completeProcessing(visit.getVisitId());
             JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(baseEvent));
+            Log.v("FORUM_TEST","addEvent>>eventType:"+baseClient.getBaseEntityId()+":eventJson:"+eventJson);
+
             getSyncHelper().addEvent(baseClient.getBaseEntityId(), eventJson);
-            List<EventClient> eventClientList = new ArrayList();
-            org.smartregister.domain.db.Event domainEvent = org.smartregister.family.util.JsonFormUtils.gson.fromJson(eventJson.toString(), org.smartregister.domain.db.Event.class);
-            org.smartregister.domain.db.Client domainClient = org.smartregister.family.util.JsonFormUtils.gson.fromJson(clientJson.toString(), org.smartregister.domain.db.Client.class);
-            eventClientList.add(new EventClient(domainEvent, domainClient));
+//            List<EventClient> eventClientList = new ArrayList();
+//            org.smartregister.domain.db.Event domainEvent = org.smartregister.family.util.JsonFormUtils.gson.fromJson(eventJson.toString(), org.smartregister.domain.db.Event.class);
+//            org.smartregister.domain.db.Client domainClient = org.smartregister.family.util.JsonFormUtils.gson.fromJson(clientJson.toString(), org.smartregister.domain.db.Client.class);
+//            eventClientList.add(new EventClient(domainEvent, domainClient));
 
             long lastSyncTimeStamp = Utils.getAllSharedPreferences().fetchLastUpdatedAtDate(0);
             Date lastSyncDate = new Date(lastSyncTimeStamp);
-            getClientProcessorForJava().processClient(eventClientList);
+//            getClientProcessorForJava().processClient(eventClientList);
             Utils.getAllSharedPreferences().saveLastUpdatedAtDate(lastSyncDate.getTime());
             return visit;
         }
@@ -1103,7 +1107,10 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         }
 
         int memberCount = HnppApplication.ancRegisterRepository().getMemberCountWithoutRemove(familyBaseEntityId);
-        memberId.put(org.smartregister.family.util.JsonFormUtils.VALUE, houseHoldId+memberCountWithZero(memberCount+1));
+        String uniqueId = houseHoldId+memberCountWithZero(memberCount+1);
+        Log.v("INVALID_REQ","updateFormWithMemberId>>houseHoldId:"+houseHoldId+":memberCount:"+memberCount+":uniqueId:"+uniqueId);
+        HnppConstants.appendLog("INVALID_REQ","updateFormWithMemberId>>houseHoldId:"+houseHoldId+":memberCount:"+memberCount+":uniqueId:"+uniqueId);
+        memberId.put(org.smartregister.family.util.JsonFormUtils.VALUE, uniqueId);
         return form;
     }
     public static String getUniqueMemberId(String familyBaseEntityId) {
@@ -1526,6 +1533,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 if (StringUtils.isBlank(entityId)) {
                     entityId = generateRandomUUIDString();
                 }
+                HnppConstants.appendLog("INVALID_REQ","processFamilyMemberForm entity_id:"+entityId+":familyId:"+familyId);
 
                 lastInteractedWith(fields);
                 dobEstimatedUpdateFromAge(fields);
@@ -1737,6 +1745,10 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 EventClientRepository eventClientRepository = new EventClientRepository(pathRepository);
                 JSONObject clientjson = eventClientRepository.getClient(db, lookUpBaseEntityId);
                 baseClient.setAddresses(updateWithSSLocation(clientjson));
+            }
+            if(baseClient.getAddresses().size() == 0 || TextUtils.isEmpty(lookUpBaseEntityId))
+            {
+                return null;
             }
 
             return Pair.create(baseClient, baseEvent);

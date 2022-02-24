@@ -59,4 +59,24 @@ public class HnppSyncConfiguration extends SyncConfiguration {
     public boolean disableActionService() {
         return true;
     }
+
+    @Override
+    public void setReadTimeout(int readTimeout) {
+        super.setReadTimeout(5*60000);
+    }
+
+    @Override
+    public void setConnectTimeout(int connectTimeout) {
+        super.setConnectTimeout(5*60000);
+    }
+
+    @Override
+    public int getConnectTimeout() {
+        return 5*60000;
+    }
+
+    @Override
+    public int getReadTimeout() {
+        return 5*60000;
+    }
 }

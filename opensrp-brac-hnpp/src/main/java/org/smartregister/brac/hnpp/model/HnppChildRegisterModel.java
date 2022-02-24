@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.model;
 
+import android.text.TextUtils;
 import android.util.Pair;
 
 import org.json.JSONObject;
@@ -30,7 +31,7 @@ public class HnppChildRegisterModel extends CoreChildRegisterModel {
     @Override
     public JSONObject getFormAsJson(String formName, String entityId, String currentLocationId, String familyID) throws Exception {
         JSONObject form = getFormUtils().getFormJson(formName);
-        if (form == null) {
+        if (form == null || TextUtils.isEmpty(familyBaseEntityId)) {
             return null;
         }
         if(HnppConstants.isPALogin()){

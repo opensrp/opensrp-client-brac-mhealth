@@ -84,6 +84,7 @@ public class HnppConstants extends CoreConstants {
     public static final String EXTRA_EDD = "EXTRA_EDD";
     public static final long SIX_HOUR = 6*60*60*1000;//6 hr
     public static final long STOCK_END_DEFAULT_TIME = 6*60*60*1000;//6 hr
+    public static final long INVALID_CALL_DEFAULT_TIME = 2*60*60*1000;//6 hr
     public static final long EDD_DEFAULT_TIME = 6*60*60*1000;//6 hr
     public static final String TEST_GU_ID = "test";
     public static final float VERIFY_THRESHOLD = 20;
@@ -104,12 +105,13 @@ public class HnppConstants extends CoreConstants {
     public static SimpleDateFormat DDMMYYHM = new SimpleDateFormat("dd-MM-yyyy",Locale.getDefault());
 
     public static void deleteLogFile(){
-        Context context= HnppApplication.getInstance().getApplicationContext();
+        try{
+             Context context= HnppApplication.getInstance().getApplicationContext();
         String path = context.getExternalFilesDir(null) + "/hnpp_log";
         File directory = new File(path);
         File[] files = directory.listFiles();
         if(files!=null){
-         for(int i = 0; i< Objects.requireNonNull(files).length; i++){
+         for(int i = 0; i< files.length; i++){
             if(files.length>3){
                 if(i<3){
                     File f = new File(directory + "/" + files[i].getName());
@@ -120,6 +122,10 @@ public class HnppConstants extends CoreConstants {
             }
         }
         }
+        }catch (Exception e){
+
+        }
+
 
     }
     static boolean deleteDirectory(File path) {
@@ -143,7 +149,6 @@ public class HnppConstants extends CoreConstants {
     }
     public static void appendLog(String TAG,String text) {
         try{
-             deleteLogFile();
             Context context= HnppApplication.getInstance().getApplicationContext();
             String saveText = TAG + new DateTime(System.currentTimeMillis())+" >>> "+ text;
             Calendar calender = Calendar.getInstance();
@@ -378,6 +383,20 @@ public class HnppConstants extends CoreConstants {
         long diff = System.currentTimeMillis() - Long.parseLong(lastEddTimeStr);
         if(diff > EDD_DEFAULT_TIME){
             org.smartregister.Context.getInstance().allSharedPreferences().savePreference("LAST_EDD_TIME",System.currentTimeMillis()+"");
+
+            return true;
+        }
+        return false;
+    }
+    public static boolean isNeedToCallInvalidApi(){
+        String lastInvalidTimeStr =  org.smartregister.Context.getInstance().allSharedPreferences().getPreference("INVALID_LAST_TIME");
+        if(TextUtils.isEmpty(lastInvalidTimeStr)){
+            org.smartregister.Context.getInstance().allSharedPreferences().savePreference("INVALID_LAST_TIME",System.currentTimeMillis()+"");
+            return true;
+        }
+        long diff = System.currentTimeMillis() - Long.parseLong(lastInvalidTimeStr);
+        if(diff > INVALID_CALL_DEFAULT_TIME){
+            org.smartregister.Context.getInstance().allSharedPreferences().savePreference("INVALID_LAST_TIME",System.currentTimeMillis()+"");
 
             return true;
         }

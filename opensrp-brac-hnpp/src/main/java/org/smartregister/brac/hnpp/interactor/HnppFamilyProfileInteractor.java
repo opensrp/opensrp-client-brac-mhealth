@@ -6,11 +6,19 @@ import android.text.TextUtils;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.contract.FamilyProfileExtendedContract;
 import org.smartregister.chw.core.interactor.CoreFamilyProfileInteractor;
+import org.smartregister.family.contract.FamilyProfileContract;
+import org.smartregister.family.domain.FamilyEventClient;
 
 import timber.log.Timber;
 
 public class HnppFamilyProfileInteractor extends CoreFamilyProfileInteractor {
     private String phoneNumber;
+
+    @Override
+    public void saveRegistration(FamilyEventClient familyEventClient, String jsonString, boolean isEditMode, FamilyProfileContract.InteractorCallBack callBack) {
+        super.saveRegistration(familyEventClient, jsonString, isEditMode, callBack);
+    }
+
     @Override
     public void verifyHasPhone(String familyID, FamilyProfileExtendedContract.PresenterCallBack profilePresenter) {
         Runnable runnable = () -> {

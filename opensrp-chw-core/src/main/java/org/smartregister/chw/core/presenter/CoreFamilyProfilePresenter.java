@@ -1,6 +1,7 @@
 package org.smartregister.chw.core.presenter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Pair;
 
 import org.apache.commons.lang3.StringUtils;
@@ -125,13 +126,18 @@ public abstract class CoreFamilyProfilePresenter extends BaseFamilyProfilePresen
 
     @Override
     public String saveChwFamilyMember(String jsonString) {
+        org.smartregister.util.Utils.appendLog("SAVE_VISIT","saveChwFamilyMember>>familyBaseEntityId:"+familyBaseEntityId);
+
+        if(TextUtils.isEmpty(familyBaseEntityId)) return null;
         try {
             getView().showProgressDialog(org.smartregister.family.R.string.saving_dialog_title);
 
             FamilyEventClient familyEventClient = model.processMemberRegistration(jsonString, familyBaseEntityId);
             if (familyEventClient == null) {
+                getView().hideProgressDialog();
                 return null;
             }
+            org.smartregister.util.Utils.appendLog("SAVE_VISIT","familyEventClient>>baseentityid:"+familyEventClient.getClient().getBaseEntityId());
 
             interactor.saveRegistration(familyEventClient, jsonString, false, this);
             return familyEventClient.getClient().getBaseEntityId();

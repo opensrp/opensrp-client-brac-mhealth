@@ -1040,9 +1040,13 @@
           "value": "true",
           "err": "Enter a valid Number"
         },
+        "v_min": {
+          "value": "1",
+          "err": "সংখ্যাটি 1 এর বড় হতে হবে"
+        },
         "v_max_length": {
-          "value": "2",
-          "err": "2 ডিজিটের বেশি দেওয়া যাবে না",
+          "value": "4",
+          "err": "4 ডিজিটের বেশি দেওয়া যাবে না",
           "is_fixed_size":true
         },
         "v_required": {

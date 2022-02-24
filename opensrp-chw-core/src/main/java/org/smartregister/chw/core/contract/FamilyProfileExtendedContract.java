@@ -31,6 +31,8 @@ public interface FamilyProfileExtendedContract {
 
         void updateHasPhone(boolean hasPhone);
 
+        void errorOccured(String message);
+
     }
 
     interface PresenterCallBack {

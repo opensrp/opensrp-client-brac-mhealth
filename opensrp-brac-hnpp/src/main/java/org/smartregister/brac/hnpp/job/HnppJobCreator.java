@@ -17,7 +17,6 @@ import org.smartregister.job.InValidateSyncDataServiceJob;
 import org.smartregister.job.LocationStructureServiceJob;
 import org.smartregister.job.PlanIntentServiceJob;
 import org.smartregister.job.PullUniqueIdsServiceJob;
-import org.smartregister.job.ServerVersionNullIntentServiceJob;
 import org.smartregister.job.SyncTaskServiceJob;
 import org.smartregister.job.ValidateSyncDataServiceJob;
 
@@ -79,8 +78,6 @@ public class HnppJobCreator implements JobCreator {
                 return new NotificationGeneratorJob();
             case DataDeleteJob.TAG:
                 return new DataDeleteJob();
-            case ServerVersionNullIntentServiceJob.TAG:
-                return new ServerVersionNullIntentServiceJob();
             default:
                 Timber.d("Please create job and specify the right job tag");
                 return null;

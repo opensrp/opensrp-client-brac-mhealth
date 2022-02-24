@@ -282,6 +282,10 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                     presenter().updateFamilyRegister(jsonString);
                     presenter().verifyHasPhone();
                 }else {
+                    if(TextUtils.isEmpty(familyBaseEntityId)){
+                        Toast.makeText(this,"familyBaseEntityId no found",Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
                     String[] generatedString;
                     String title;
                     String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
@@ -395,6 +399,10 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         } else if (encounter_type.equals(Utils.metadata().familyMemberRegister.registerEventType)) {
 
             String careGiver = presenter().saveChwFamilyMember(jsonString);
+            if(TextUtils.isEmpty(careGiver) || TextUtils.isEmpty(familyBaseEntityId)){
+                Toast.makeText(this,"familyBaseEntityId null,Failed to save. try again",Toast.LENGTH_SHORT).show();
+                return;
+            }
             if (presenter().updatePrimaryCareGiver(getApplicationContext(), jsonString, familyBaseEntityId, careGiver)) {
                 setPrimaryCaregiver(careGiver);
                 refreshPresenter();
@@ -656,5 +664,12 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                 new CommonPersonObjectClient(commonPersonObject.getCaseId(), commonPersonObject.getDetails(), "");
         client.setColumnmaps(commonPersonObject.getColumnmaps());
         return client;
+    }
+
+    @Override
+    public void errorOccured(String message) {
+
+        Toast.makeText(FamilyProfileActivity.this, message, Toast.LENGTH_SHORT).show();
+        finish();
     }
 }

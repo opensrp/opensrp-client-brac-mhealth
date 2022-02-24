@@ -81,6 +81,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                 if (eventType == null) {
                     continue;
                 }
+                Log.v("FORUM_TEST","processEvents>>eventType:"+eventType);
 
                 processEvents(clientClassification, vaccineTable, serviceTable, eventClient, event, eventType);
             }

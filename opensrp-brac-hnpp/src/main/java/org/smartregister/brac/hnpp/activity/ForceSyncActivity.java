@@ -43,9 +43,6 @@ import org.smartregister.job.CompareDataServiceJob;
 import org.smartregister.job.DataSyncByBaseEntityServiceJob;
 import org.smartregister.job.ForceSyncDataServiceJob;
 import org.smartregister.job.InValidateSyncDataServiceJob;
-import org.smartregister.family.util.AppExecutors;
-import org.smartregister.job.ServerVersionNullIntentServiceJob;
-import org.smartregister.job.SyncServiceJob;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.repository.EventClientRepository;
 import org.smartregister.sync.intent.ForceSyncIntentService;
@@ -76,7 +73,7 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_force_unsync);
-        findViewById(R.id.invalid_data).setOnClickListener(v -> checkServerVersionNullData());
+        findViewById(R.id.invalid_data).setOnClickListener(v -> checkInvalidData());
         findViewById(R.id.sync_unsync_btn).setOnClickListener( v -> forceSyncData() );
         findViewById(R.id.data_sync_by_id).setOnClickListener( v -> syncDataById() );
         findViewById(R.id.compare_btn).setOnClickListener( v -> compareData() );
@@ -296,34 +293,47 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
     private void checkInvalidData() {
         EventClientRepository eventClientRepository = HnppApplication.getHNPPInstance().getEventClientRepository();
         int cc = eventClientRepository.getInvalidClientsCount();
-        int ec = eventClientRepository.getInvalidEventsCount(false);
+        int ec = eventClientRepository.getInvalidEventsCount();
         showInvalidCountDialog(cc,ec,false);
 
 
     }
-    private void checkServerVersionNullData() {
-        EventClientRepository eventClientRepository = HnppApplication.getHNPPInstance().getEventClientRepository();
-        int cc = eventClientRepository.getInvalidClientsCount();
-        int ec = eventClientRepository.getInvalidEventsCount(true);
-        showInvalidCountDialog(cc,ec,true);
-
-
-    }
+//    private void checkServerVersionNullData() {
+//        EventClientRepository eventClientRepository = HnppApplication.getHNPPInstance().getEventClientRepository();
+//        int cc = eventClientRepository.getInvalidClientsCount();
+//        int ec = eventClientRepository.getInvalidEventsCount(true);
+//        showInvalidCountDialog(cc,ec,true);
+//
+//
+//    }
     private void showInvalidCountDialog(int cc, int ec,boolean isFromServerCheck ){
         Dialog dialog = new Dialog(this);
         dialog.setCancelable(false);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_invalid_data);
-        TextView countTxt = dialog.findViewById(R.id.count_tv);
-        StringBuilder builder = new StringBuilder();
-        builder.append("No Of Invalid Client: "+cc);
-        builder.append("\n");
-        builder.append("No Of Invalid Events: "+ec);
-        countTxt.setText(builder.toString());
-
-
+        TextView ccountTxt = dialog.findViewById(R.id.client_count_tv);
+        ccountTxt.setText("No Of Invalid Client: "+cc);
+        TextView ecountTxt = dialog.findViewById(R.id.event_count_tv);
+        ecountTxt.setText("No Of Invalid Event: "+ec);
+        Button clientShowBtn = dialog.findViewById(R.id.client_btn);
+        Button eventShowBtn = dialog.findViewById(R.id.event_btn);
         Button syncBtn = dialog.findViewById(R.id.invalid_sync_btn);
         Button closeBtn = dialog.findViewById(R.id.close_btn);
+
+        clientShowBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                InvalidDataDisplayActivity.startInvalidActivity(InvalidDataDisplayActivity.TYPE_CLIENT,ForceSyncActivity.this);
+            }
+        });
+        eventShowBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                InvalidDataDisplayActivity.startInvalidActivity(InvalidDataDisplayActivity.TYPE_EVENT,ForceSyncActivity.this);
+
+            }
+        });
+
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -344,12 +354,8 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
                 showProgressDialog("ইনভ্যালিড ডাটা সিঙ্ক করা হচ্ছে....");
                 dialog.dismiss();
                 SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(ForceSyncActivity.this);
+                InValidateSyncDataServiceJob.scheduleJobImmediately(InValidateSyncDataServiceJob.TAG);
 
-                if(isFromServerCheck){
-                    ServerVersionNullIntentServiceJob.scheduleJobImmediately(ServerVersionNullIntentServiceJob.TAG);
-                }else{
-                    InValidateSyncDataServiceJob.scheduleJobImmediately(InValidateSyncDataServiceJob.TAG);
-                }
             }
         });
         dialog.show();
@@ -493,26 +499,31 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
     private class InvalidSyncBroadcast extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(isFinishing()) return;
-            hideProgressDialog();
-            if(intent != null && intent.getAction().equalsIgnoreCase("INVALID_SYNC")){
-                String value = intent.getStringExtra("EXTRA_INVALID_SYNC");
-                Toast.makeText(ForceSyncActivity.this,value,Toast.LENGTH_SHORT).show();
-                showProgressDialog("ডাটা সিঙ্ক করা হচ্ছে....");
-                HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
+            try{
+                if(isFinishing()) return;
+                hideProgressDialog();
+                if(intent != null && intent.getAction().equalsIgnoreCase("INVALID_SYNC")){
+                    String value = intent.getStringExtra("EXTRA_INVALID_SYNC");
+                    Toast.makeText(ForceSyncActivity.this,value,Toast.LENGTH_SHORT).show();
+                    showProgressDialog("ডাটা সিঙ্ক করা হচ্ছে....");
+                    HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
+                }
+                if(intent != null && intent.getAction().equalsIgnoreCase("DATA_SYNC")){
+                    String value = intent.getStringExtra("EXTRA_DATA_SYNC");
+                    Toast.makeText(ForceSyncActivity.this,value,Toast.LENGTH_SHORT).show();
+                }
+                if(intent != null && intent.getAction().equalsIgnoreCase("COMPARE_DATA")){
+                    String value = intent.getStringExtra("EXTRA_COMPARE_DATA");
+                    Toast.makeText(ForceSyncActivity.this,value,Toast.LENGTH_SHORT).show();
+                }
+                if(intent != null && intent.getAction().equalsIgnoreCase(ForceSyncIntentService.ACTION_SYNC)){
+                    String value = intent.getStringExtra(ForceSyncIntentService.EXTRA_SYNC);
+                    Toast.makeText(ForceSyncActivity.this,value,Toast.LENGTH_SHORT).show();
+                }
+            }catch (Exception e){
+
             }
-            if(intent != null && intent.getAction().equalsIgnoreCase("DATA_SYNC")){
-                String value = intent.getStringExtra("EXTRA_DATA_SYNC");
-                Toast.makeText(ForceSyncActivity.this,value,Toast.LENGTH_SHORT).show();
-            }
-            if(intent != null && intent.getAction().equalsIgnoreCase("COMPARE_DATA")){
-                String value = intent.getStringExtra("EXTRA_COMPARE_DATA");
-                Toast.makeText(ForceSyncActivity.this,value,Toast.LENGTH_SHORT).show();
-            }
-            if(intent != null && intent.getAction().equalsIgnoreCase(ForceSyncIntentService.ACTION_SYNC)){
-                String value = intent.getStringExtra(ForceSyncIntentService.EXTRA_SYNC);
-                Toast.makeText(ForceSyncActivity.this,value,Toast.LENGTH_SHORT).show();
-            }
+
         }
     }
 }

@@ -342,9 +342,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
                     updateUniqueId(fields);
                 }
                 try{
-                    Log.v("TIME_CAL","diff1:"+(System.currentTimeMillis() - startTime));
                     saveRegistration(form.toString(), HnppConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME);
-                    Log.v("TIME_CAL","diff2:"+(System.currentTimeMillis() - startTime));
                     String motherBaseId = form.optString(Constants.JSON_FORM_EXTRA.ENTITY_TYPE);
                     JSONArray fields = org.smartregister.util.JsonFormUtils.fields(form);
                     String gender = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"gender");
@@ -362,16 +360,11 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
                         if(!StringUtils.isEmpty(gender)){
                             if (pncForm != null) {
                                 if(familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){
-                                    Log.v("TIME_CAL","diff3:"+(System.currentTimeMillis() - startTime));
                                     processChild(fields, allSharedPreferences, childBaseEntityId, motherBaseId, motherBaseId);
-                                    Log.v("TIME_CAL","diff4:"+(System.currentTimeMillis() - startTime));
                                     saveRegistration(pncForm.toString(), "ec_guest_member");
                                 }else{
-                                    Log.v("TIME_CAL","diff3:"+(System.currentTimeMillis() - startTime));
                                     processChild(fields, allSharedPreferences, childBaseEntityId, familyBaseEntityId, motherBaseId);
-                                    Log.v("TIME_CAL","diff4:"+(System.currentTimeMillis() - startTime));
                                     saveRegistration(pncForm.toString(), EC_CHILD);
-                                    Log.v("TIME_CAL","diff5:"+(System.currentTimeMillis() - startTime));
                                     NCUtils.saveVaccineEvents(fields, childBaseEntityId);
                                 }
 

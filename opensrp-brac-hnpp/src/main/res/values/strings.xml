@@ -386,4 +386,5 @@
     <string name="select_force_sync">আপনি কোন কোন সার্ভিস গুলা ফোর্স সিঙ্ক করতে চান সিলেক্ট করুন</string>
     <string name="dump_data">আপনার কালেক্ট করা ডাটাতে কোনো সমস্যা আছে কিনা চেক করার জন্য ডাটাবেস টি ডাম্প করা দরকার।ডাম্প করতে চাইলে "ডাম্প ডাটাবেস" বাটন এ প্রেস করুন</string>
     <string name="dialog_title">আপনি কি নিশ্চিত এই স্থানান্তর এর সম্পর্কে?</string>
+    <string name="error_unable_to_start_form">পুনরায় চেষ্টা করুন</string>
 </resources>

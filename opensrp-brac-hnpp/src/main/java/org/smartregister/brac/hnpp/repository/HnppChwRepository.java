@@ -184,12 +184,6 @@ public class HnppChwRepository extends Repository {
                 case 41:
                     upgradeToVersion41(db);
                     break;
-                case 42:
-                    InValidateSyncDataServiceJob.scheduleJob(InValidateSyncDataServiceJob.TAG, TimeUnit.MINUTES.toMinutes(BuildConfig.INVALID_SYNC_DURATION_MINUTES),15l);
-                    break;
-                case 45:
-                    upgradeToVersion45(db);
-                    break;
                 default:
                     break;
             }
@@ -206,18 +200,7 @@ public class HnppChwRepository extends Repository {
 
         }
     }
-    private void upgradeToVersion45(SQLiteDatabase db){
 
-        try {
-            db.execSQL("update event set serverVersion = null,eventId = null where formSubmissionId ='7f9c6b23-87d5-4667-ba7a-40cc83618791'");
-            db.execSQL("update event set serverVersion = null,eventId = null where formSubmissionId ='a9cf9bab-ac9e-4e90-b3e2-7a0fb8654db5'");
-            db.execSQL("update event set serverVersion = null,eventId = null where formSubmissionId ='f2966cef-74ef-4392-8619-19ef0815e3d0'");
-            db.execSQL("update client set validationStatus = 'Invalid' where baseEntityId='3d7e52af-3330-476a-8123-af7d5ab227ff'");
-        } catch (Exception e) {
-            e.printStackTrace();
-
-        }
-    }
     private void upgradeToVersion40(SQLiteDatabase db) {
         Log.v("DB_UPGRADE","upgradeToVersion40");
         try {

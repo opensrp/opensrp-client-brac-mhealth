@@ -35,7 +35,7 @@ public class DataDeleteIntentService extends IntentService {
     private static final String ALL_DATA = "all_data";
     private static final String HH = "households";
     private static final String MEMBER = "members";
-    private static final String SERVER_VERSION = "serverVersion";
+    private static final String SERVER_VERSION = "server_version";
     private static final String DELETE_FETCH = "/rest/event/deleting?";
     private static final String TAG = "DataDeleteIntentService";
     public static final String LAST_SYNC_TIME = "delete_last_sync_time";

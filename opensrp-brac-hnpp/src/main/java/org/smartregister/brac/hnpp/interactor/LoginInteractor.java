@@ -26,8 +26,7 @@ public class LoginInteractor extends BaseLoginInteractor implements BaseLoginCon
 //        }catch (Exception e){
 //
 //        }
-        InValidateSyncDataServiceJob.scheduleJob(InValidateSyncDataServiceJob.TAG, TimeUnit.MINUTES.toMinutes(BuildConfig.INVALID_SYNC_DURATION_MINUTES), getFlexValue(BuildConfig
-                .INVALID_SYNC_DURATION_MINUTES));
+
 
     }
 

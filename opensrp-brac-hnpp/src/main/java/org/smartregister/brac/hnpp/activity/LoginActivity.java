@@ -28,6 +28,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.evernote.android.job.JobManager;
 import com.vijay.jsonwizard.utils.PermissionUtils;
 
 import org.apache.commons.lang3.StringUtils;
@@ -58,6 +59,7 @@ import org.smartregister.domain.Response;
 import org.smartregister.exception.NoHttpResponseException;
 import org.smartregister.family.util.Constants;
 import org.smartregister.immunization.job.VaccineServiceJob;
+import org.smartregister.job.InValidateSyncDataServiceJob;
 import org.smartregister.job.PullUniqueIdsServiceJob;
 import org.smartregister.service.HTTPAgent;
 import org.smartregister.task.SaveTeamLocationsTask;
@@ -70,6 +72,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 public class LoginActivity extends BaseLoginActivity implements BaseLoginContract.View {
     public static final String TAG = BaseLoginActivity.class.getCanonicalName();
@@ -413,17 +416,19 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
                 SSLocationFetchJob.scheduleJobImmediately(SSLocationFetchJob.TAG);
                 MigrationFetchJob.scheduleJobImmediately(MigrationFetchJob.TAG);
             }
-//            TargetFetchJob.scheduleJobImmediately(TargetFetchJob.TAG);
-//            StockFetchJob.scheduleJobImmediately(StockFetchJob.TAG);
-          //  VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
             HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
             VaccineServiceJob.scheduleJobImmediately(VaccineServiceJob.TAG);
             VaccineRecurringServiceJob.scheduleJobImmediately(VaccineRecurringServiceJob.TAG);
             if(HnppConstants.isPALogin() && SSLocationHelper.getInstance().getSsModels().size()==0){
                 startActivity(new Intent(this, SkSelectionActivity.class));
             }
+
+        }
+        if(HnppConstants.isNeedToCallInvalidApi()){
+            InValidateSyncDataServiceJob.scheduleJob(InValidateSyncDataServiceJob.TAG, TimeUnit.MINUTES.toMinutes(BuildConfig.INVALID_SYNC_DURATION_MINUTES),15l);
         }
 
+        HnppConstants.deleteLogFile();
 
     }
 

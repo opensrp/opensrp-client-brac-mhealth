@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.presenter;
 
+import android.text.TextUtils;
 import android.util.Pair;
 
 import org.apache.commons.lang3.StringUtils;
@@ -87,6 +88,10 @@ public class FamilyProfilePresenter extends CoreFamilyProfilePresenter {
             childRegisterInteractor.getNextUniqueId(triple, this, familyBaseEntityId);
             return;
         }
+        if(TextUtils.isEmpty(familyBaseEntityId)){
+            getView().errorOccured("familyBaseEntityId null");
+            return;
+        }
 
         JSONObject form = childProfileModel.getFormAsJson(formName, entityId, currentLocationId, familyBaseEntityId);
         getView().startFormActivity(form);
@@ -99,6 +104,8 @@ public class FamilyProfilePresenter extends CoreFamilyProfilePresenter {
 
             Pair<Client, Event> pair = getChildRegisterModel().processRegistration(jsonString);
             if (pair == null) {
+                getView().hideProgressDialog();
+                getView().errorOccured("Failed to save");
                 return;
             }
             saveChildRegistration(pair, jsonString, isEditMode, this);
@@ -114,6 +121,7 @@ public class FamilyProfilePresenter extends CoreFamilyProfilePresenter {
         List<FamilyEventClient> familyEventClientList = new HnppFamilyRegisterModel().processRegistration(jsonString);
         if (familyEventClientList == null || familyEventClientList.isEmpty()) {
             if (getView() != null) getView().hideProgressDialog();
+            if (getView() != null) getView().errorOccured("Failed to save");
             return;
         }
 

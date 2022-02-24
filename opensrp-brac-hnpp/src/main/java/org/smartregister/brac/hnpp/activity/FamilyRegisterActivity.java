@@ -59,6 +59,7 @@ import org.smartregister.view.fragment.BaseRegisterFragment;
 
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import timber.log.Timber;
 
@@ -393,12 +394,14 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
                             String value = intent.getStringExtra(HnppConstants.EXTRA_EDD);
                             HnppConstants.showDialog(FamilyRegisterActivity.this,getString(R.string.menu_edd_this_month),value);
                         }
-//                        if(intent != null && intent.getAction().equalsIgnoreCase(ValidateIntentService.ACTION_VALIDATION)){
-//                            String value = intent.getStringExtra(ValidateIntentService.EXTRA_VALIDATION);
-//                            if(!TextUtils.isEmpty(value) && !value.equalsIgnoreCase(ValidateIntentService.STATUS_FAILED)){
-//                                InValidateSyncDataServiceJob.scheduleJobImmediately(InValidateSyncDataServiceJob.TAG);
-//                            }
-//                        }
+                        if(intent != null && intent.getAction().equalsIgnoreCase(ValidateIntentService.ACTION_VALIDATION)){
+                            String value = intent.getStringExtra(ValidateIntentService.EXTRA_VALIDATION);
+                            if(!TextUtils.isEmpty(value) && !value.equalsIgnoreCase(ValidateIntentService.STATUS_FAILED)){
+                                if(HnppConstants.isNeedToCallInvalidApi()){
+                                    InValidateSyncDataServiceJob.scheduleJobImmediately(InValidateSyncDataServiceJob.TAG);
+                                }
+                            }
+                        }
                         if(intent != null && intent.getAction().equalsIgnoreCase(InValidateIntentService.ACTION_INVALIDATION)){
                             String value = intent.getStringExtra(InValidateIntentService.EXTRA_INVALIDATION);
                             if(!TextUtils.isEmpty(value) && !value.equalsIgnoreCase(InValidateIntentService.STATUS_NOTHING)){

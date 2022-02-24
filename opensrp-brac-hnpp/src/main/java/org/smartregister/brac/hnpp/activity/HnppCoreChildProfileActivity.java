@@ -91,4 +91,9 @@ public class HnppCoreChildProfileActivity extends CoreChildProfileActivity {
         if(!StringUtils.isEmpty(id)&&id.length()>=MEMBER_ID_SUFFIX)
         textViewId.setText("ID:"+id.substring(id.length() - MEMBER_ID_SUFFIX));
     }
+
+    @Override
+    public void errorOccured(String message) {
+        super.errorOccured(message);
+    }
 }

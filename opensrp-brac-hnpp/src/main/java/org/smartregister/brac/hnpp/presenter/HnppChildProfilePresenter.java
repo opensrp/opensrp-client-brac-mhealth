@@ -121,6 +121,8 @@ public class HnppChildProfilePresenter extends CoreChildProfilePresenter {
         getView().showProgressDialog(R.string.updating);
         Pair<Client, Event> pair = new HnppChildRegisterModel(houseHoldId,familyID).processRegistration(jsonString);
         if (pair == null) {
+            getView().hideProgressDialog();
+            getView().errorOccured("Failed to save");
             return;
         }
 
