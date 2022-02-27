@@ -1,39 +1,22 @@
 package org.smartregister.brac.hnpp.activity;
-
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.net.http.SslError;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.gson.Gson;
-
-import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.contract.PaymentContract;
 import org.smartregister.brac.hnpp.interactor.PaymentDetailsInteractor;
-import org.smartregister.brac.hnpp.model.PaymentHistory;
-import org.smartregister.brac.hnpp.model.PaymentRequest;
-import org.smartregister.brac.hnpp.utils.BkashJavaScriptInterface;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.family.util.AppExecutors;
-import org.smartregister.service.HTTPAgent;
 import org.smartregister.view.activity.SecuredActivity;
 
 import java.util.ArrayList;
@@ -97,9 +80,9 @@ public class BkashActivity extends SecuredActivity implements View.OnClickListen
 
     private class CheckoutWebViewClient extends WebViewClient {
 
-        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-            handler.proceed();
-        }
+//        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+//            handler.proceed();
+//        }
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {

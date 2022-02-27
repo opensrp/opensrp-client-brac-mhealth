@@ -103,7 +103,7 @@
         "openmrs_entity_id": "diabetes",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "ডায়বেটিস আছে কিনা?",
+        "hint": "ডায়াবেটিস আছে কিনা?",
         "values": [
           "হ্যাঁ",
           "না"

@@ -93,7 +93,7 @@
           },
           {
             "key": "diabetics",
-            "text": "ডায়বেটিস",
+            "text": "ডায়াবেটিস",
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "diabetics"

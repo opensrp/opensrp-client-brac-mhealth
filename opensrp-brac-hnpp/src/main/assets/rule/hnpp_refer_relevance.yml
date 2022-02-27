@@ -37,7 +37,7 @@ actions:
 name: step1_advice_toaster_diabetis_child
 description: advice_toaster_eye
 priority: 1
-condition: "step1_cause_of_referral_child.equals('ডায়বেটিস')"
+condition: "step1_cause_of_referral_child.equals('ডায়াবেটিস')"
 actions:
   - "isRelevant = true"
 ---
@@ -100,14 +100,14 @@ actions:
 name: step1_advice_toaster_diabetis_all
 description: advice_toaster_diabetis
 priority: 1
-condition: "step1_cause_of_referral_all.equals('ডায়বেটিস')"
+condition: "step1_cause_of_referral_all.equals('ডায়াবেটিস')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_advice_toaster_diabetis_woman
 description: advice_toaster_diabetis
 priority: 1
-condition: "step1_cause_of_referral_woman.equals('ডায়বেটিস')"
+condition: "step1_cause_of_referral_woman.equals('ডায়াবেটিস')"
 actions:
   - "isRelevant = true"
 ---

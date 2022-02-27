@@ -1476,7 +1476,7 @@ public class HnppConstants extends CoreConstants {
             .put("delivery_problems","প্রসবে সমস্যা")
             .put("pnc_problem","প্রসব পরবর্তী সমস্যা")
             .put("problems_eyes","চোখে সমস্যা")
-            .put("diabetes","ডায়বেটিস")
+            .put("diabetes","ডায়াবেটিস")
             .put("high_blood_pressure","উচ্চ রক্তচাপ")
             .put("problems_with_birth_control","জন্মবিরতিকরণ পদ্ধতি সংক্রান্ত সমস্যা")
             .put("cataract_problem","চোখে ক্যাটারেক্ট (ছানি) সমস্যা")
