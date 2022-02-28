@@ -84,7 +84,7 @@ public class HnppConstants extends CoreConstants {
     public static final String EXTRA_EDD = "EXTRA_EDD";
     public static final long SIX_HOUR = 6*60*60*1000;//6 hr
     public static final long STOCK_END_DEFAULT_TIME = 6*60*60*1000;//6 hr
-    public static final long INVALID_CALL_DEFAULT_TIME = 2*60*60*1000;//6 hr
+    public static final long INVALID_CALL_DEFAULT_TIME = 30*60*1000;//30 mint
     public static final long EDD_DEFAULT_TIME = 6*60*60*1000;//6 hr
     public static final String TEST_GU_ID = "test";
     public static final float VERIFY_THRESHOLD = 20;
@@ -106,7 +106,7 @@ public class HnppConstants extends CoreConstants {
 
     public static void deleteLogFile(){
         try{
-             Context context= HnppApplication.getInstance().getApplicationContext();
+        Context context= HnppApplication.getInstance().getApplicationContext();
         String path = context.getExternalFilesDir(null) + "/hnpp_log";
         File directory = new File(path);
         File[] files = directory.listFiles();
@@ -125,7 +125,6 @@ public class HnppConstants extends CoreConstants {
         }catch (Exception e){
 
         }
-
 
     }
     static boolean deleteDirectory(File path) {
@@ -1007,11 +1006,25 @@ public class HnppConstants extends CoreConstants {
     }
     public static long getLongDateFormatForFromMonth(String year,String month){
         String dateFormate = year+"-"+HnppConstants.addZeroForMonth(month)+"-01";
+
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
         long startDate = System.currentTimeMillis();
         try{
             Date date = format.parse(dateFormate);
             startDate = date.getTime()+SIX_HOUR;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return startDate;
+    }
+    public static long getLongDateFormatForStock(String year,String month){
+        String dateFormate = year+"-"+HnppConstants.addZeroForMonth(month)+"-01";
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
+        long startDate = System.currentTimeMillis();
+        try{
+            Date date = format.parse(dateFormate);
+            startDate = date.getTime();
         }catch (Exception e){
             e.printStackTrace();
         }

@@ -111,10 +111,10 @@ public class StockDetailsModel implements StockDetailsContract.Model{
                     StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.BF_2_5+"' or " +
                     StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.BF_3+"' or " +
                     StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.SUN_GLASS+"')" +
-                    "and "+StockRepository.STOCK_TIMESTAMP+" < "+HnppConstants.getLongDateFormatForFromMonth(year,month);//47809000= 1970/01/01
+                    "and "+StockRepository.STOCK_TIMESTAMP+" < "+HnppConstants.getLongDateFormatForStock(year,month);//47809000= 1970/01/01
         }
         else {
-            query = "select sum(coalesce("+ StockRepository.STOCK_QUANTITY+",0)) as count, sum(coalesce("+StockRepository.ACHIEVEMNT_COUNT+",0)) as acount from "+StockRepository.STOCK_TABLE+" where "+StockRepository.STOCK_PRODUCT_NAME+" = '"+visitType+"' and "+StockRepository.STOCK_TIMESTAMP+" < "+HnppConstants.getLongDateFormatForFromMonth(year,month);//47809000= 1970/01/01
+            query = "select sum(coalesce("+ StockRepository.STOCK_QUANTITY+",0)) as count, sum(coalesce("+StockRepository.ACHIEVEMNT_COUNT+",0)) as acount from "+StockRepository.STOCK_TABLE+" where "+StockRepository.STOCK_PRODUCT_NAME+" = '"+visitType+"' and "+StockRepository.STOCK_TIMESTAMP+" < "+HnppConstants.getLongDateFormatForStock(year,month);//47809000= 1970/01/01
         }
         Log.v("LAST_BALANCE_STOCK","query:"+query);
 
