@@ -400,7 +400,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
 
             String careGiver = presenter().saveChwFamilyMember(jsonString);
             if(TextUtils.isEmpty(careGiver) || TextUtils.isEmpty(familyBaseEntityId)){
-                Toast.makeText(this,"familyBaseEntityId null,Failed to save. try again",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,getString(R.string.address_not_found),Toast.LENGTH_LONG).show();
                 return;
             }
             if (presenter().updatePrimaryCareGiver(getApplicationContext(), jsonString, familyBaseEntityId, careGiver)) {

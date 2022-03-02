@@ -150,8 +150,8 @@ public class NavigationPresenter implements NavigationContract.Presenter {
 //    }
     @Override
     public void sync(Activity activity) {
-        SyncServiceJob.scheduleJobImmediately(SyncServiceJob.TAG);
-        PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
+//        SyncServiceJob.scheduleJobImmediately(SyncServiceJob.TAG);
+//        PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
 
     }
 

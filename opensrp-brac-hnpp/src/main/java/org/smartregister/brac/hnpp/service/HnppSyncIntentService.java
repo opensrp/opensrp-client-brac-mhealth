@@ -180,7 +180,7 @@ public class HnppSyncIntentService extends SyncIntentService {
 
         while (keepSyncing) {
             try {
-                Map<String, Object> pendingEvents = db.getUnSyncedEvents(EVENT_PUSH_LIMIT);
+                Map<String, Object> pendingEvents = db.getUnSyncedEventsClients(EVENT_PUSH_LIMIT);
                 HnppConstants.appendLog("SYNC_URL", "pushECToServer:"+pendingEvents.size());
 
                 if (pendingEvents.isEmpty()) {

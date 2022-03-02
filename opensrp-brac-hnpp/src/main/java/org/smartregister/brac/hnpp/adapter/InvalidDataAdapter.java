@@ -1,11 +1,16 @@
 package org.smartregister.brac.hnpp.adapter;
 
+import static org.smartregister.brac.hnpp.activity.InvalidDataDisplayActivity.TYPE_CLIENT;
+import static org.smartregister.brac.hnpp.activity.InvalidDataDisplayActivity.TYPE_EVENT;
+
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.model.ForumDetails;
@@ -20,11 +25,13 @@ public class InvalidDataAdapter extends RecyclerView.Adapter<InvalidDataAdapter.
     private ArrayList<InvalidDataModel> contentList;
     private Context context;
     private OnClickAdapter onClickAdapter;
+    private int type;
 
-    public InvalidDataAdapter(Context context, OnClickAdapter onClickAdapter) {
+    public InvalidDataAdapter(Context context, OnClickAdapter onClickAdapter, int type) {
         this.context = context;
         this.onClickAdapter = onClickAdapter;
         contentList = new ArrayList<>();
+        this.type = type;
     }
 
     public void setData(ArrayList<InvalidDataModel> contentList) {
@@ -35,24 +42,48 @@ public class InvalidDataAdapter extends RecyclerView.Adapter<InvalidDataAdapter.
     @NonNull
     @Override
     public InvalidDataViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new InvalidDataViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.invalid_client_view_content, null));
+        if(type == TYPE_CLIENT){
+            return new InvalidDataViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.invalid_client_view_content, null));
+        }else if(type == TYPE_EVENT){
+            return new InvalidDataViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.invalid_event_view_content, null));
+
+        }
+        return null;
 
     }
 
     @Override
     public void onBindViewHolder(@NonNull final InvalidDataViewHolder viewHolder, int position) {
+
         final InvalidDataModel content = contentList.get(position);
         try{
             viewHolder.textViewDate.setText(content.date.getYear()+"-"+content.date.getMonthOfYear()+"-"+content.date.getDayOfMonth());
         }catch (Exception e){
 
         }
-        viewHolder.textViewName.setText(content.firstName);
+        if(content.needToDelete){
+            viewHolder.imageViewDelete.setVisibility(View.VISIBLE);
+        }else {
+            viewHolder.imageViewDelete.setVisibility(View.GONE);
+        }
+        if(type==TYPE_CLIENT){
+            viewHolder.textViewName.setText(content.firstName);
+            viewHolder.textViewUniqueId.setText(content.unique_id);
+            viewHolder.textViewAddress.setText(content.address);
+            viewHolder.textViewBaseEntityId.setText(content.baseEntityId);
+        }else{
+            viewHolder.textViewBaseEntityId.setText(content.formSubmissionId);
+        }
         viewHolder.textViewEventName.setText(content.eventType);
         viewHolder.textViewErrorCause.setText(content.errorCause);
-        viewHolder.textViewUniqueId.setText(content.unique_id);
-        viewHolder.textViewAddress.setText(content.address);
-        viewHolder.textViewBaseEntityId.setText(content.baseEntityId);
+        viewHolder.textViewAction.setText(content.action);
+
+        viewHolder.imageViewDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickAdapter.onDelete(position,content);
+            }
+        });
         viewHolder.itemView.setOnClickListener(v -> onClickAdapter.onClick(position, content));
     }
 
@@ -64,9 +95,12 @@ public class InvalidDataAdapter extends RecyclerView.Adapter<InvalidDataAdapter.
 
     public interface OnClickAdapter {
         void onClick(int position, InvalidDataModel content);
+        void onDelete(int position, InvalidDataModel content);
     }
     public static class InvalidDataViewHolder extends RecyclerView.ViewHolder{
-        public CustomFontTextView textViewDate,textViewName,textViewEventName,textViewErrorCause,textViewUniqueId,textViewAddress,textViewBaseEntityId;
+        public TextView textViewDate,textViewName,textViewEventName,textViewErrorCause,textViewUniqueId,
+                textViewAddress,textViewBaseEntityId,textViewAction;
+        public ImageView imageViewDelete;
 
         public InvalidDataViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -77,6 +111,8 @@ public class InvalidDataAdapter extends RecyclerView.Adapter<InvalidDataAdapter.
             textViewUniqueId = itemView.findViewById(R.id.unique_id_tv);
             textViewAddress = itemView.findViewById(R.id.address_tv);
             textViewBaseEntityId = itemView.findViewById(R.id.base_entity_id);
+            textViewAction = itemView.findViewById(R.id.action_tv);
+            imageViewDelete = itemView.findViewById(R.id.delete_btn);
         }
     }
 }

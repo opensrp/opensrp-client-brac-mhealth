@@ -109,11 +109,23 @@ public class HnppFamilyRegisterModel extends BaseFamilyRegisterModel {
             familyClient.addRelationship(Utils.metadata().familyRegister.familyHeadRelationKey, familyEventClient.getClient().getBaseEntityId());
             familyClient.addRelationship(Utils.metadata().familyRegister.familyCareGiverRelationKey, familyEventClient.getClient().getBaseEntityId());
             List<Address> listAddress = new ArrayList<>();
-            listAddress.add(SSLocationHelper.getInstance().getSSAddress(ss));
+            if(ss==null){
+                JSONObject ssNameObj = getFieldJSONObject(field, "SS_Name");
+                String ssName =ssNameObj.getString(VALUE);
+                SSLocations ss1 = HnppApplication.getSSLocationRepository().getSSLocationStr(ssName);
+                HnppConstants.appendLog("ADDRESS","ssName:"+ssName+"ss1>>"+ss1);
+                listAddress.add(SSLocationHelper.getInstance().getSSAddress(ss1));
+            }else {
+                HnppConstants.appendLog("ADDRESS","ss>>"+ss);
+                listAddress.add(SSLocationHelper.getInstance().getSSAddress(ss));
+            }
             familyClient.setAddresses(listAddress);
+            familyEventClient.setClient(familyClient);
             familyEventClientList.add(familyEventClient);
 
-            //familyEventClientList.add(headEventClient);
+            if(listAddress.size() == 0){
+                return null;
+            }
             return familyEventClientList;
 
         }catch (Exception e){

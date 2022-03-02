@@ -122,7 +122,7 @@ public class HnppChildProfilePresenter extends CoreChildProfilePresenter {
         Pair<Client, Event> pair = new HnppChildRegisterModel(houseHoldId,familyID).processRegistration(jsonString);
         if (pair == null) {
             getView().hideProgressDialog();
-            getView().errorOccured("Failed to save");
+            getView().errorOccured("হাউসহোল্ড এড্রেস খুঁজে পাওয়া যায়নি। হাউসহোল্ড এডিট করুন");
             return;
         }
 

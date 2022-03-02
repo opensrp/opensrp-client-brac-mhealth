@@ -148,6 +148,7 @@ public class HnppConstants extends CoreConstants {
     }
     public static void appendLog(String TAG,String text) {
         try{
+            Log.v(TAG,text);
             Context context= HnppApplication.getInstance().getApplicationContext();
             String saveText = TAG + new DateTime(System.currentTimeMillis())+" >>> "+ text;
             Calendar calender = Calendar.getInstance();
@@ -155,7 +156,6 @@ public class HnppConstants extends CoreConstants {
             int month = calender.get(Calendar.MONTH)+1;
             int day = calender.get(Calendar.DAY_OF_MONTH);
             String fileNameDayWise = year+""+addZeroForDay(month+"")+""+addZeroForDay(day+"");
-            Log.v("LOG_FILE","fileNameDayWise:"+fileNameDayWise);
 
             File f = new File(context.getExternalFilesDir(null) + "/hnpp_log/"+fileNameDayWise);
             if (!f.exists()) {
@@ -394,6 +394,7 @@ public class HnppConstants extends CoreConstants {
             return true;
         }
         long diff = System.currentTimeMillis() - Long.parseLong(lastInvalidTimeStr);
+        Log.v("INVALID_REQ","diff:"+diff);
         if(diff > INVALID_CALL_DEFAULT_TIME){
             org.smartregister.Context.getInstance().allSharedPreferences().savePreference("INVALID_LAST_TIME",System.currentTimeMillis()+"");
 
@@ -1015,6 +1016,7 @@ public class HnppConstants extends CoreConstants {
         }catch (Exception e){
             e.printStackTrace();
         }
+        Log.v("LAST_BALANCE_STOCK","getLongDateFormatForFromMonth>>dateFormate:"+dateFormate+":startDate:"+startDate+":minus:"+(startDate-SIX_HOUR)+"");
         return startDate;
     }
     public static long getLongDateFormatForStock(String year,String month){

@@ -396,6 +396,7 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
                         }
                         if(intent != null && intent.getAction().equalsIgnoreCase(ValidateIntentService.ACTION_VALIDATION)){
                             String value = intent.getStringExtra(ValidateIntentService.EXTRA_VALIDATION);
+                            Log.v("INVALID_REQ","ACTION_VALIDATION value:"+value);
                             if(!TextUtils.isEmpty(value) && !value.equalsIgnoreCase(ValidateIntentService.STATUS_FAILED)){
                                 if(HnppConstants.isNeedToCallInvalidApi()){
                                     InValidateSyncDataServiceJob.scheduleJobImmediately(InValidateSyncDataServiceJob.TAG);

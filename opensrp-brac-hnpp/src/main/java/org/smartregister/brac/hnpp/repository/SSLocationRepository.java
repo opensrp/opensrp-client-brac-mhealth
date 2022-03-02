@@ -145,6 +145,29 @@ public class SSLocationRepository extends BaseRepository {
         }
         return locations;
     }
+    public SSLocations getSSLocationStr(String ssName) {
+        android.database.Cursor cursor = null;
+        try {
+            cursor = getWritableDatabase().rawQuery("select geojson from ss_location where ss_name ='"+ssName+"'",null);
+            if (cursor.moveToNext()) {
+                String jsonEventStr = (cursor.getString(0));
+                JSONArray jsonArray = new JSONArray(jsonEventStr);
+                SSLocations locations = null;
+                for(int i = 0; i <jsonArray.length();i++){
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    locations = new Gson().fromJson(jsonObject.toString(), SSLocations.class);
+                }
+                return locations;
+            }
+        } catch (Exception e) {
+            Log.e(getClass().getName(), "Exception", e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return null;
+    }
     public ArrayList<SSModel> getAllSelectedSS(String userName) {
         Cursor cursor = null;
         ArrayList<SSModel> locations = new ArrayList<>();

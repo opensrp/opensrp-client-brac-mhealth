@@ -12,6 +12,10 @@ public class InvalidDataModel {
     public String eventType;
     public String errorCause;
     public String unique_id;
+    public String action;
+    public String syncStatus;
+    public boolean needToDelete;
+    public int rowId;
     public Client client;
     public Event event;
     public DateTime date;

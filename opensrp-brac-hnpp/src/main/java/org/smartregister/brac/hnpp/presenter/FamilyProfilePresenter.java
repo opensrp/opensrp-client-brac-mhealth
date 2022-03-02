@@ -105,7 +105,7 @@ public class FamilyProfilePresenter extends CoreFamilyProfilePresenter {
             Pair<Client, Event> pair = getChildRegisterModel().processRegistration(jsonString);
             if (pair == null) {
                 getView().hideProgressDialog();
-                getView().errorOccured("Failed to save");
+                getView().errorOccured("হাউসহোল্ড এড্রেস খুঁজে পাওয়া যায়নি। হাউসহোল্ড এডিট করুন");
                 return;
             }
             saveChildRegistration(pair, jsonString, isEditMode, this);
@@ -121,7 +121,7 @@ public class FamilyProfilePresenter extends CoreFamilyProfilePresenter {
         List<FamilyEventClient> familyEventClientList = new HnppFamilyRegisterModel().processRegistration(jsonString);
         if (familyEventClientList == null || familyEventClientList.isEmpty()) {
             if (getView() != null) getView().hideProgressDialog();
-            if (getView() != null) getView().errorOccured("Failed to save");
+            if (getView() != null) getView().errorOccured("হাউসহোল্ড এড্রেস খুঁজে পাওয়া যায়নি। হাউসহোল্ড এডিট করুন");
             return;
         }
 

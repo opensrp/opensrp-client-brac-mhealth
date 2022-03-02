@@ -288,6 +288,7 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
         intentFilter.addAction(ForceSyncIntentService.ACTION_SYNC);
         registerReceiver(invalidDataBroadcastReceiver, intentFilter);
         showProgressDialog("ডাটা সিঙ্ক করা হচ্ছে....");
+        SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(ForceSyncActivity.this);
         ForceSyncDataServiceJob.scheduleJobImmediately(ForceSyncDataServiceJob.TAG);
     }
     private void checkInvalidData() {
@@ -323,12 +324,14 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
         clientShowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                dialog.dismiss();
                 InvalidDataDisplayActivity.startInvalidActivity(InvalidDataDisplayActivity.TYPE_CLIENT,ForceSyncActivity.this);
             }
         });
         eventShowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                dialog.dismiss();
                 InvalidDataDisplayActivity.startInvalidActivity(InvalidDataDisplayActivity.TYPE_EVENT,ForceSyncActivity.this);
 
             }
@@ -438,18 +441,6 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
         return false;
     }
 
-    private boolean forseSyncAllData() {
-        try{
-            SQLiteDatabase db = CoreChwApplication.getInstance().getRepository().getReadableDatabase();
-            db.execSQL("UPDATE client set syncStatus='Unsynced' where syncStatus='Synced'");
-            db.execSQL("UPDATE event set syncStatus='Unsynced',serverVersion= 0");
-            return true;
-
-        }catch (Exception e){
-            e.printStackTrace();
-            return false;
-        }
-    }
 
     private ProgressDialog dialog;
     private void showProgressDialog(String message){
@@ -493,8 +484,8 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
     public void onSyncComplete(FetchStatus fetchStatus) {
 
         hideProgressDialog();
-        Toast.makeText(this,getString(R.string.sync_complete),Toast.LENGTH_SHORT).show();
-        finish();
+        Toast.makeText(this,"সিঙ্ক কমপ্লিট। আরো ইনভ্যালিড ডাটা থাকলে সিঙ্ক করুন",Toast.LENGTH_SHORT).show();
+        //finish();
     }
     private class InvalidSyncBroadcast extends BroadcastReceiver {
         @Override
@@ -519,6 +510,8 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
                 if(intent != null && intent.getAction().equalsIgnoreCase(ForceSyncIntentService.ACTION_SYNC)){
                     String value = intent.getStringExtra(ForceSyncIntentService.EXTRA_SYNC);
                     Toast.makeText(ForceSyncActivity.this,value,Toast.LENGTH_SHORT).show();
+                    showProgressDialog("ডাটা সিঙ্ক করা হচ্ছে....");
+                    HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
                 }
             }catch (Exception e){
 
