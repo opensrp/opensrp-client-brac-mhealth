@@ -80,9 +80,6 @@ public class BkashActivity extends SecuredActivity implements View.OnClickListen
 
     private class CheckoutWebViewClient extends WebViewClient {
 
-//        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-//            handler.proceed();
-//        }
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
