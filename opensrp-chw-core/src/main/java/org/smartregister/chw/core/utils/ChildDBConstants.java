@@ -22,7 +22,7 @@ public class ChildDBConstants {
         return " AND ec_family_member.is_risk = 'true'";
     }
     public static String riskElcoFilterWithTableName(){
-        String query = " ((( julianday('now') - julianday(ec_family_member.dob))/365) >" + 10 + ")";
+        String query = " ((( julianday('now') - julianday(ec_family_member.dob))/365) >" + 13 + ")";
         String query2 = " ((( julianday('now') - julianday(ec_family_member.dob))/365) <" + 50 + ")";
         String married = " ec_family_member.marital_status = 'Married' and ec_family_member.gender = 'F'";
         return query+" AND "+query2 +" AND "+married +riskAncPatient()+ " AND "+CoreConstants.TABLE_NAME.FAMILY_MEMBER+"."+DBConstants.KEY.BASE_ENTITY_ID+" " +
@@ -30,7 +30,7 @@ public class ChildDBConstants {
                 " and ec_family_member.base_entity_id  NOT IN (select ec_pregnancy_outcome.base_entity_id from ec_pregnancy_outcome where ec_pregnancy_outcome.is_closed = '0' group by ec_pregnancy_outcome.base_entity_id)";
     }
     public static String riskElcoFilter(){
-        String query = " ((( julianday('now') - julianday(dob))/365) >" + 10 + ")";
+        String query = " ((( julianday('now') - julianday(dob))/365) >" + 13 + ")";
         String query2 = " ((( julianday('now') - julianday(dob))/365) <" + 50 + ")";
         String married = " marital_status = 'Married' and gender = 'F'";
         return query+" AND "+query2 +" AND "+married +riskAncPatient()+ " AND "+CoreConstants.TABLE_NAME.FAMILY_MEMBER+"."+DBConstants.KEY.BASE_ENTITY_ID+" " +
