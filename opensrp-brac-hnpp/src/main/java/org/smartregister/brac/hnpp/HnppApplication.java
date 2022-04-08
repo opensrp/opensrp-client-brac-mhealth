@@ -44,6 +44,7 @@ import org.smartregister.brac.hnpp.repository.RiskDetailsRepository;
 import org.smartregister.brac.hnpp.repository.SSLocationRepository;
 import org.smartregister.brac.hnpp.repository.HouseholdIdRepository;
 import org.smartregister.brac.hnpp.repository.StockRepository;
+import org.smartregister.brac.hnpp.repository.SurveyHistoryRepository;
 import org.smartregister.brac.hnpp.repository.TargetVsAchievementRepository;
 import org.smartregister.brac.hnpp.sync.HnppClientProcessor;
 import org.smartregister.brac.hnpp.sync.HnppSyncConfiguration;
@@ -99,6 +100,7 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
     private static StockRepository stockRepository;
     private static CommonFtsObject commonFtsObject = null;
     private EventClientRepository eventClientRepository;
+    private static SurveyHistoryRepository surveyHistoryRepository;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -225,7 +227,7 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
     }
     public void clearSharePreference(String previousName){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        preferences.edit().clear().commit();
+        preferences.edit().clear().apply();
         //need to set the username at loginscreen
         HnppApplication.getInstance().getContext().allSharedPreferences().updateANMUserName(previousName);
     }
@@ -324,6 +326,12 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
             stockRepository = new StockRepository(getInstance().getRepository());
         }
         return stockRepository;
+    }
+    public static SurveyHistoryRepository getSurveyHistoryRepository() {
+        if ( surveyHistoryRepository == null) {
+            surveyHistoryRepository = new SurveyHistoryRepository(getInstance().getRepository());
+        }
+        return surveyHistoryRepository;
     }
     public void setOpenSRPUrl() {
         AllSharedPreferences preferences = Utils.getAllSharedPreferences();

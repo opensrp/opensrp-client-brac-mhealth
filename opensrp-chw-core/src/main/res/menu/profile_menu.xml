@@ -25,6 +25,16 @@
         android:enabled="true"
         android:title="@string/change_primary_caregiver"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_hh_survey"
+        android:enabled="true"
+        android:title="@string/hh_survey"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_survey_history"
+        android:enabled="true"
+        android:title="@string/survey_history"
+        app:showAsAction="never" />
 
 </menu>
 

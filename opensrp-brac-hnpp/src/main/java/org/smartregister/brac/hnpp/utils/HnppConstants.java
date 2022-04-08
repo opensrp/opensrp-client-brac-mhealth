@@ -1,9 +1,17 @@
 package org.smartregister.brac.hnpp.utils;
 
+import static org.smartregister.brac.hnpp.utils.HnppConstants.SURVEY_KEY.DATA;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.SURVEY_KEY.PACKAGE_NAME;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.SURVEY_KEY.TYPE_KEY;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.SURVEY_KEY.USER_NAME;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.SURVEY_KEY.USER_PASSWORD;
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,6 +19,7 @@ import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
@@ -44,12 +53,17 @@ import org.smartregister.brac.hnpp.listener.OnGpsDataGenerateListener;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.activity.TermAndConditionWebView;
 import org.smartregister.brac.hnpp.fragment.COVIDJsonFormFragment;
+import org.smartregister.brac.hnpp.location.SSLocationHelper;
+import org.smartregister.brac.hnpp.location.SSLocations;
 import org.smartregister.brac.hnpp.model.Notification;
 import org.smartregister.brac.hnpp.task.GenerateGPSTask;
 import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.Utils;
+import org.smartregister.clientandeventmodel.Address;
 import org.smartregister.family.util.DBConstants;
+import org.smartregister.family.util.JsonFormUtils;
+import org.smartregister.repository.AllSettings;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.util.FormUtils;
 import org.smartregister.view.activity.BaseProfileActivity;
@@ -67,6 +81,7 @@ import java.util.Date;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
@@ -101,6 +116,7 @@ public class HnppConstants extends CoreConstants {
     public static final String KEY_NEED_TO_OPEN = "need_to_open_drawer";
 
     public static SimpleDateFormat DDMMYY = new SimpleDateFormat("dd-MM-yyyy",Locale.getDefault());
+    public static SimpleDateFormat HHMM = new SimpleDateFormat("HH:mm",Locale.getDefault());
     public static SimpleDateFormat YYYYMM = new SimpleDateFormat("yyyy-MM",Locale.getDefault());
     public static SimpleDateFormat DDMMYYHM = new SimpleDateFormat("dd-MM-yyyy",Locale.getDefault());
 
@@ -1004,6 +1020,100 @@ public class HnppConstants extends CoreConstants {
         public static final String PNC_PACKAGE = "PNC package";
         public static final String GUEST_MEMBER_REGISTRATION = "OOC Member Registration";
         public static final String GUEST_MEMBER_UPDATE_REGISTRATION = "OOC Member Update Registration";
+    }
+    public static final class SURVEY_KEY{
+        public static final String USER_NAME = "user_name";
+        public static final String USER_PASSWORD = "password_string";
+        public static final String SURVEY_ACTION = "android.intent.action.SURVEY";
+        public static String HH_TYPE = "hh";
+        public static String MM_TYPE = "mm";
+        public static String VIEW_MODE = "view";
+        public static String TYPE_KEY = "type";
+        public static String CHILD_TYPE = "child";
+        public static String DATA = "data";
+        public static String PACKAGE_NAME = "org.smartregister.brac.hnpp.survey";
+        public static String ACTIVITY_NAME = PACKAGE_NAME+".view.MainActivity_";
+        public static final int HH_SURVEY_REQUEST_CODE = 123;
+        public static final int MM_SURVEY_REQUEST_CODE = 1233;
+
+    }
+    public static Intent passToSurveyApp(String type,String data, Context context){
+        String userName =  HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
+        AllSettings allSettings = org.smartregister.Context.getInstance().allSettings();
+        String passwordText = allSettings.fetchANMPassword();
+        Log.v("passToSurveyApp","providerId:"+userName+":passwordText:"+passwordText);
+        Intent intent = new Intent();
+        intent.setAction(SURVEY_KEY.SURVEY_ACTION);
+        intent.setComponent(new ComponentName(PACKAGE_NAME, SURVEY_KEY.ACTIVITY_NAME));
+        intent.putExtra(TYPE_KEY, type);
+        intent.putExtra(DATA,  data);
+        intent.putExtra(USER_NAME,userName);
+        intent.putExtra(USER_PASSWORD,passwordText);
+        return intent;
+    }
+    public static Intent viewModeSurveyApp(String type,String data, Context context){
+        String userName =  HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
+        AllSettings allSettings = org.smartregister.Context.getInstance().allSettings();
+        String passwordText = allSettings.fetchANMPassword();
+        Log.v("passToSurveyApp","providerId:"+userName+":passwordText:"+passwordText);
+        Intent intent = new Intent();
+        intent.setAction(SURVEY_KEY.SURVEY_ACTION);
+        intent.setComponent(new ComponentName(PACKAGE_NAME, SURVEY_KEY.ACTIVITY_NAME));
+        intent.putExtra(TYPE_KEY, type);
+        intent.putExtra(DATA,  data);
+        intent.putExtra(USER_NAME,userName);
+        intent.putExtra(USER_PASSWORD,passwordText);
+        return intent;
+    }
+    public static JSONObject populateHHData(String familyBaseEntityId){
+        JSONObject hhObject;
+        try{
+            Map<String,String> hhData = HnppDBUtils.getDetails(familyBaseEntityId,"ec_family");
+            SSLocations ss = SSLocationHelper.getInstance().getSSLocationBySSName(hhData.get("ss_name"));
+            JSONObject addressJson = new JSONObject(JsonFormUtils.gson.toJson(ss));
+            if(addressJson.length()<3) return null;
+            hhObject = new JSONObject(hhData);
+            hhObject.put("address",addressJson);
+            Log.v("passToSurveyApp","populateHHData>>"+hhObject);
+            return hhObject;
+        }catch (Exception e){
+            e.printStackTrace();
+
+        }
+        return null;
+    }
+    public static JSONObject populateMemberData(String memberBaseEntityId){
+        JSONObject hhObject;
+        try{
+            Map<String,String> hhData = HnppDBUtils.getDetails(memberBaseEntityId,"ec_family_member");
+            String ssName = HnppDBUtils.getSSName(memberBaseEntityId);
+            SSLocations ss = SSLocationHelper.getInstance().getSSLocationBySSName(ssName);
+            JSONObject addressJson = new JSONObject(JsonFormUtils.gson.toJson(ss));
+            if(addressJson.length()<3) return null;
+            hhObject = new JSONObject(hhData);
+            hhObject.put("address",addressJson);
+            Log.v("passToSurveyApp","populateMemberData>>"+hhObject);
+            return hhObject;
+        }catch (Exception e){
+
+        }
+        return null;
+    }
+    public static JSONObject viewSurveyForm(String type,String formId, String uuid,String baseEntityId){
+        JSONObject hhObject;
+        try{
+            Map<String,String> hhData = new HashMap<>();
+            hhData.put("form_id",formId);
+            hhData.put("type",type);
+            hhData.put("uuid",uuid);
+            hhData.put("base_entity_id",baseEntityId);
+            hhObject = new JSONObject(hhData);
+            Log.v("passToSurveyApp","populateMemberData>>"+hhObject);
+            return hhObject;
+        }catch (Exception e){
+
+        }
+        return null;
     }
     public static long getLongDateFormatForFromMonth(String year,String month){
         String dateFormate = year+"-"+HnppConstants.addZeroForMonth(month)+"-01";
