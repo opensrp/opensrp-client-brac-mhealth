@@ -13,6 +13,8 @@ import net.sqlcipher.database.SQLiteDatabase;
 import org.joda.time.DateTime;
 import org.smartregister.brac.hnpp.model.Notification;
 import org.smartregister.brac.hnpp.model.Survey;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.TargetVsAchievementData;
 import org.smartregister.repository.BaseRepository;
 import org.smartregister.repository.LocationRepository;
@@ -105,14 +107,21 @@ public class SurveyHistoryRepository extends BaseRepository {
         }
         return isExist;
     }
-    public void addOrUpdate(Survey survey) {
+    public void addOrUpdate(Survey survey, String type) {
         if(!isExistData(survey.uuid)){
+            String ssName = "";
+            if(type.equalsIgnoreCase(HnppConstants.SURVEY_KEY.HH_TYPE)){
+               ssName = HnppDBUtils.getSSNameByHHID(survey.baseEntityId);
+            }else if(type.equalsIgnoreCase(HnppConstants.SURVEY_KEY.MM_TYPE)){
+                ssName = HnppDBUtils.getSSName(survey.baseEntityId);
+            }
+
             ContentValues contentValues = new ContentValues();
             contentValues.put(FORM_NAME, survey.formName);
             contentValues.put(UUID, survey.uuid);
             contentValues.put(BASE_ENTITY_ID, survey.baseEntityId);
             contentValues.put(DATE, survey.dateTime);
-            contentValues.put(SS_NAME, survey.ssName);
+            contentValues.put(SS_NAME, ssName);
             contentValues.put(TIME_STAMP, survey.timestamp);
             contentValues.put(SURVEY_TYPE, survey.type);
             contentValues.put(FORM_ID, survey.formId);

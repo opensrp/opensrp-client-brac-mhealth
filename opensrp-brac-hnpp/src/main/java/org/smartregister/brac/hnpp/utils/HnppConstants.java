@@ -2,9 +2,12 @@ package org.smartregister.brac.hnpp.utils;
 
 import static org.smartregister.brac.hnpp.utils.HnppConstants.SURVEY_KEY.DATA;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.SURVEY_KEY.PACKAGE_NAME;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.SURVEY_KEY.SURVEY_REQUEST_ACTION;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.SURVEY_KEY.TYPE_KEY;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.SURVEY_KEY.USER_NAME;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.SURVEY_KEY.USER_PASSWORD;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.SURVEY_KEY.VIEW_MODE;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.SURVEY_KEY.VIEW_REQUEST_ACTION;
 
 import android.Manifest;
 import android.app.Activity;
@@ -1024,7 +1027,7 @@ public class HnppConstants extends CoreConstants {
     public static final class SURVEY_KEY{
         public static final String USER_NAME = "user_name";
         public static final String USER_PASSWORD = "password_string";
-        public static final String SURVEY_ACTION = "android.intent.action.SURVEY";
+        public static final String USER_FIRST_NAME = "password_string";
         public static String HH_TYPE = "hh";
         public static String MM_TYPE = "mm";
         public static String VIEW_MODE = "view";
@@ -1032,36 +1035,39 @@ public class HnppConstants extends CoreConstants {
         public static String CHILD_TYPE = "child";
         public static String DATA = "data";
         public static String PACKAGE_NAME = "org.smartregister.brac.hnpp.survey";
-        public static String ACTIVITY_NAME = PACKAGE_NAME+".view.MainActivity_";
+        public static final String SURVEY_REQUEST_ACTION = "org.smartregister.brac.hnpp.survey.SURVEY_REQUEST";
+        public static final String VIEW_REQUEST_ACTION = "org.smartregister.brac.hnpp.survey.VIEW_REQUEST";
         public static final int HH_SURVEY_REQUEST_CODE = 123;
         public static final int MM_SURVEY_REQUEST_CODE = 1233;
+        public static final int VIEW_SURVEY_REQUEST_CODE = 1235;
 
     }
     public static Intent passToSurveyApp(String type,String data, Context context){
         String userName =  HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
+        String firstName =  HnppApplication.getInstance().getContext().allSharedPreferences().getANMPreferredName(userName);
         AllSettings allSettings = org.smartregister.Context.getInstance().allSettings();
         String passwordText = allSettings.fetchANMPassword();
-        Log.v("passToSurveyApp","providerId:"+userName+":passwordText:"+passwordText);
         Intent intent = new Intent();
-        intent.setAction(SURVEY_KEY.SURVEY_ACTION);
-        intent.setComponent(new ComponentName(PACKAGE_NAME, SURVEY_KEY.ACTIVITY_NAME));
+        intent.setAction(SURVEY_REQUEST_ACTION);
         intent.putExtra(TYPE_KEY, type);
         intent.putExtra(DATA,  data);
         intent.putExtra(USER_NAME,userName);
+        intent.putExtra(SURVEY_KEY.USER_FIRST_NAME,firstName);
         intent.putExtra(USER_PASSWORD,passwordText);
         return intent;
     }
-    public static Intent viewModeSurveyApp(String type,String data, Context context){
+    public static Intent viewModeSurveyApp(String data){
         String userName =  HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
+        String firstName =  HnppApplication.getInstance().getContext().allSharedPreferences().getANMPreferredName(userName);
         AllSettings allSettings = org.smartregister.Context.getInstance().allSettings();
         String passwordText = allSettings.fetchANMPassword();
         Log.v("passToSurveyApp","providerId:"+userName+":passwordText:"+passwordText);
         Intent intent = new Intent();
-        intent.setAction(SURVEY_KEY.SURVEY_ACTION);
-        intent.setComponent(new ComponentName(PACKAGE_NAME, SURVEY_KEY.ACTIVITY_NAME));
-        intent.putExtra(TYPE_KEY, type);
+        intent.setAction(VIEW_REQUEST_ACTION);
+        intent.putExtra(TYPE_KEY, VIEW_MODE);
         intent.putExtra(DATA,  data);
         intent.putExtra(USER_NAME,userName);
+        intent.putExtra(SURVEY_KEY.USER_FIRST_NAME,firstName);
         intent.putExtra(USER_PASSWORD,passwordText);
         return intent;
     }

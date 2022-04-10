@@ -36,7 +36,7 @@ public class SurveyHistoryAdapter extends RecyclerView.Adapter<SurveyHistoryAdap
     @NonNull
     @Override
     public SurveyHistoryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        @SuppressLint("InflateParams") SurveyHistoryViewHolder viewHolder = new SurveyHistoryViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.survey_tabuler_view_header, null));
+        @SuppressLint("InflateParams") SurveyHistoryViewHolder viewHolder = new SurveyHistoryViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.survey_tabuler_view_content, null));
         return viewHolder;
 
     }

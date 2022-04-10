@@ -906,6 +906,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     }
     private boolean processSurveyResponse(Intent data){
         String response = data.getStringExtra(HnppConstants.SURVEY_KEY.DATA);
+        Log.v("SURVEY_APP","response processSurveyResponse:"+response);
         try{
             JSONObject jsonObject = new JSONObject(response);
             String form_name = jsonObject.getString("form_name");
@@ -918,9 +919,8 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                 time_stamp = Long.parseLong(jsonObject.getString("time_stamp"));
             }
             String form_id = jsonObject.optString("form_id");
-            String ssName = HnppDBUtils.getSSName(baseEntityId);
+
             Survey survey = new Survey();
-            survey.ssName = ssName;
             survey.formName = form_name;
             survey.formId = form_id;
             survey.uuid = uuid;
@@ -928,7 +928,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             survey.baseEntityId = baseEntityId;
             survey.dateTime = date_time;
             survey.type = HnppConstants.SURVEY_KEY.MM_TYPE;
-            HnppApplication.getSurveyHistoryRepository().addOrUpdate(survey);
+            HnppApplication.getSurveyHistoryRepository().addOrUpdate(survey,HnppConstants.SURVEY_KEY.MM_TYPE);
             return true;
 
         }catch (Exception e){
@@ -1006,6 +1006,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                 try{
                     JSONObject mmObj = HnppConstants.populateMemberData(baseEntityId);
                     Intent intent = HnppConstants.passToSurveyApp(HnppConstants.SURVEY_KEY.MM_TYPE, mmObj.toString(), this);
+                    Log.v("SURVEY_APP","request:"+intent.getExtras().toString());
                     startActivityForResult(intent, HnppConstants.SURVEY_KEY.MM_SURVEY_REQUEST_CODE);
 
                 }catch (ActivityNotFoundException activityNotFoundException){
@@ -1015,7 +1016,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                 }
                 return true;
             case R.id.action_survey_history:
-                SurveyHistoryActivity.startSurveyHistoryActivity(this,HnppConstants.SURVEY_KEY.MM_TYPE);
+                SurveyHistoryActivity.startSurveyHistoryActivity(this,HnppConstants.SURVEY_KEY.MM_TYPE,baseEntityId);
                 return true;
         }
 

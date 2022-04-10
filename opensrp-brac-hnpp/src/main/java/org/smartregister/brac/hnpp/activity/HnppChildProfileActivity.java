@@ -1,7 +1,9 @@
 package org.smartregister.brac.hnpp.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
@@ -38,6 +40,7 @@ import org.smartregister.brac.hnpp.fragment.HnppChildProfileDueFragment;
 import org.smartregister.brac.hnpp.fragment.MemberOtherServiceFragment;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
+import org.smartregister.brac.hnpp.model.Survey;
 import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
 import org.smartregister.brac.hnpp.sync.FormParser;
 import org.smartregister.brac.hnpp.utils.ChildDBConstants;
@@ -319,6 +322,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
 
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NotNull MenuItem item) {
         switch (item.getItemId()) {
@@ -331,7 +335,22 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
             case R.id.action_remove_member:
                 removeIndividualProfile();
                 return true;
+            case R.id.action_mm_survey:
+                try{
+                    JSONObject mmObj = HnppConstants.populateMemberData(childBaseEntityId);
+                    Intent intent = HnppConstants.passToSurveyApp(HnppConstants.SURVEY_KEY.MM_TYPE, mmObj.toString(), this);
+                    Log.v("SURVEY_APP","request:"+intent.getExtras().toString());
+                    startActivityForResult(intent, HnppConstants.SURVEY_KEY.MM_SURVEY_REQUEST_CODE);
 
+                }catch (ActivityNotFoundException activityNotFoundException){
+                    Toast.makeText(this,"App not installed",Toast.LENGTH_SHORT).show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                return true;
+            case R.id.action_survey_history:
+                SurveyHistoryActivity.startSurveyHistoryActivity(this,HnppConstants.SURVEY_KEY.MM_TYPE,childBaseEntityId);
+                return true;
             default:
                 break;
         }
@@ -376,6 +395,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
         //ChildHomeVisitActivity.startMe(this, memberObject, isEditMode, ChildHomeVisitActivity.class);
     }
 
+    @SuppressLint("NonConstantResourceId")
     public OnClickFloatingMenu getOnClickFloatingMenu(final Activity activity, final HnppChildProfilePresenter presenter) {
         return viewId -> {
             switch (viewId) {
@@ -651,9 +671,50 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
         } else if(resultCode == Activity.RESULT_OK && requestCode == ChildVaccinationActivity.VACCINE_REQUEST_CODE){
             profileMemberFragment.setUserVisibleHint(true);
         }
+        else if(resultCode == Activity.RESULT_OK && requestCode == HnppConstants.SURVEY_KEY.MM_SURVEY_REQUEST_CODE){
+            if(processSurveyResponse(data)){
+                Toast.makeText(this,"Survey done",Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(this,"Fail to Survey",Toast.LENGTH_SHORT).show();
+            }
 
+
+        }
         super.onActivityResult(requestCode, resultCode, data);
 
+    }
+    private boolean processSurveyResponse(Intent data){
+        String response = data.getStringExtra(HnppConstants.SURVEY_KEY.DATA);
+        Log.v("SURVEY_APP","response processSurveyResponse:"+response);
+        try{
+            JSONObject jsonObject = new JSONObject(response);
+            String form_name = jsonObject.getString("form_name");
+            String date_time = jsonObject.getString("date");
+            String uuid = jsonObject.getString("uuid");
+            Long time_stamp;
+            try{
+                time_stamp = jsonObject.getLong("time_stamp");
+            }catch (Exception e){
+                time_stamp = Long.parseLong(jsonObject.getString("time_stamp"));
+            }
+            String form_id = jsonObject.optString("form_id");
+
+            Survey survey = new Survey();
+            survey.formName = form_name;
+            survey.formId = form_id;
+            survey.uuid = uuid;
+            survey.timestamp = time_stamp;
+            survey.baseEntityId = childBaseEntityId;
+            survey.dateTime = date_time;
+            survey.type = HnppConstants.SURVEY_KEY.MM_TYPE;
+            HnppApplication.getSurveyHistoryRepository().addOrUpdate(survey,HnppConstants.SURVEY_KEY.MM_TYPE);
+            return true;
+
+        }catch (Exception e){
+            e.printStackTrace();
+
+        }
+        return false;
     }
     private boolean processVisitFormAndSave(String jsonString, String formSubmissionid, String visitId){
 

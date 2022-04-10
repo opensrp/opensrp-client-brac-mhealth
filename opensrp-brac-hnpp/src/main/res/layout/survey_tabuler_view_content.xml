@@ -7,6 +7,7 @@
 
     <LinearLayout
         android:orientation="horizontal"
+        android:weightSum="3"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <TextView
@@ -16,10 +17,10 @@
             android:gravity="center"
             android:layout_margin="1dp"
             android:textColor="@color/text_blue"
-            android:autoLink="all"
             android:background="@color/white"
             android:layout_gravity="center_vertical"
-            android:layout_width="100dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="match_parent"/>
         <TextView
             android:id="@+id/date"
@@ -29,7 +30,8 @@
             android:textColor="@color/black"
             android:layout_gravity="center_vertical"
             android:background="@color/white"
-            android:layout_width="150dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="match_parent"/>
         <TextView
             android:id="@+id/time"
@@ -39,7 +41,8 @@
             android:textColor="@color/black"
             android:layout_gravity="center_vertical"
             android:background="@color/white"
-            android:layout_width="150dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="match_parent"/>
 
     </LinearLayout>

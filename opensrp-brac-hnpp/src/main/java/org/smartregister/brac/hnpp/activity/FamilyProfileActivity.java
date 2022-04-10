@@ -15,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -100,10 +101,11 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                 try{
                     JSONObject mmObj = HnppConstants.populateHHData(familyBaseEntityId);
                     Intent intent = HnppConstants.passToSurveyApp(HnppConstants.SURVEY_KEY.HH_TYPE, mmObj.toString(), this);
-                    //startActivityForResult(intent, HnppConstants.SURVEY_KEY.HH_SURVEY_REQUEST_CODE);
-                    Intent intent1 = new Intent();
-                    intent1.putExtra("data","{\"form_name\":\"hh_form\",\"date\":\"22-04-22\",\"time\":\"12:30\",\"uuid\":\"327c0e24-54ea-4e1b-9692-8cc4f219e19b\",\"time_stamp\":231231244444}");
-                    processSurveyResponse(intent1);
+                    Log.v("SURVEY_APP","request:"+intent.getExtras().toString());
+                    startActivityForResult(intent, HnppConstants.SURVEY_KEY.HH_SURVEY_REQUEST_CODE);
+//                    Intent intent1 = new Intent();
+//                    intent1.putExtra("data","{\"form_name\":\"hh_form\",\"date\":\"22-04-22\",\"time\":\"12:30\",\"uuid\":\"327c0e24-54ea-4e1b-9692-8cc4f219e19b\",\"time_stamp\":231231244444}");
+//                    processSurveyResponse(intent1);
                 }catch (ActivityNotFoundException activityNotFoundException){
                     Toast.makeText(this,"App not installed",Toast.LENGTH_SHORT).show();
                 }catch (Exception e){
@@ -111,7 +113,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                 }
                 return true;
             case R.id.action_survey_history:
-                SurveyHistoryActivity.startSurveyHistoryActivity(this,HnppConstants.SURVEY_KEY.HH_TYPE);
+                SurveyHistoryActivity.startSurveyHistoryActivity(this,HnppConstants.SURVEY_KEY.HH_TYPE,familyBaseEntityId);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -415,16 +417,15 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                 time_stamp = Long.parseLong(jsonObject.getString("time_stamp"));
             }
             String form_id = jsonObject.optString("form_id");
-            String ssName = HnppDBUtils.getSSNameByHHID(familyBaseEntityId);
+
             Survey survey = new Survey();
-            survey.ssName = ssName;
             survey.formName = form_name;
             survey.formId = form_id;
             survey.uuid = uuid;
             survey.timestamp = time_stamp;
             survey.baseEntityId = familyBaseEntityId;
             survey.dateTime = date_time;
-            HnppApplication.getSurveyHistoryRepository().addOrUpdate(survey);
+            HnppApplication.getSurveyHistoryRepository().addOrUpdate(survey,HnppConstants.SURVEY_KEY.HH_TYPE);
             return true;
 
         }catch (Exception e){
