@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.joda.time.DateTime;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.model.Survey;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -36,7 +37,7 @@ public class SurveyHistoryAdapter extends RecyclerView.Adapter<SurveyHistoryAdap
     @NonNull
     @Override
     public SurveyHistoryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        @SuppressLint("InflateParams") SurveyHistoryViewHolder viewHolder = new SurveyHistoryViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.survey_tabuler_view_content, null));
+       SurveyHistoryViewHolder viewHolder = new SurveyHistoryViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.survey_tabuler_view_content, viewGroup,false));
         return viewHolder;
 
     }
@@ -45,14 +46,17 @@ public class SurveyHistoryAdapter extends RecyclerView.Adapter<SurveyHistoryAdap
     public void onBindViewHolder(@NonNull final SurveyHistoryViewHolder viewHolder, int position) {
         final Survey content = contentList.get(position);
         viewHolder.textViewFormName.setText(content.formName);
+        viewHolder.textViewDate.setText("-");
+        viewHolder.textViewTime.setText("-");
         try{
-            Date d = new Date(content.dateTime);
-            String aa = HnppConstants.DDMMYY.format(d);
-            String time = HnppConstants.HHMM.format(d);
-            viewHolder.textViewDate.setText(aa);
-            viewHolder.textViewTime.setText(time);
+            String[] dt = content.dateTime.split(" ");
+//            DateTime d = new DateTime(content.dateTime);
+//            String aa = HnppConstants.YYMMDD.format(d);
+//            String time = HnppConstants.HHMM.format(d);
+            viewHolder.textViewDate.setText(dt[0]);
+            viewHolder.textViewTime.setText(dt[1]);
         }catch (Exception e){
-
+            e.printStackTrace();
         }
 
         viewHolder.itemView.setOnClickListener(v -> onClickAdapter.onClick(position, content));

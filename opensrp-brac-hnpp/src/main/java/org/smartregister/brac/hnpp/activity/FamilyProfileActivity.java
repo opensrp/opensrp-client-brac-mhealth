@@ -103,8 +103,9 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                     Intent intent = HnppConstants.passToSurveyApp(HnppConstants.SURVEY_KEY.HH_TYPE, mmObj.toString(), this);
                     Log.v("SURVEY_APP","request:"+intent.getExtras().toString());
                     startActivityForResult(intent, HnppConstants.SURVEY_KEY.HH_SURVEY_REQUEST_CODE);
+
 //                    Intent intent1 = new Intent();
-//                    intent1.putExtra("data","{\"form_name\":\"hh_form\",\"date\":\"22-04-22\",\"time\":\"12:30\",\"uuid\":\"327c0e24-54ea-4e1b-9692-8cc4f219e19b\",\"time_stamp\":231231244444}");
+//                    intent1.putExtra("data","{\"form_name\":\"hh_form\",\"date\":\"2022-04-11 15:30:32\",\"uuid\":\"327c0e24-54ea-4e1b-9692-8cc4f219e19b\",\"time_stamp\":231231244444}");
 //                    processSurveyResponse(intent1);
                 }catch (ActivityNotFoundException activityNotFoundException){
                     Toast.makeText(this,"App not installed",Toast.LENGTH_SHORT).show();

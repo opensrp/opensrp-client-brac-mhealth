@@ -5,7 +5,7 @@ import android.util.Log;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.clientandeventmodel.Address;
-
+import org.smartregister.brac.hnpp.model.SkLocation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -77,6 +77,25 @@ public class SSLocationHelper {
         }
         Log.v("SSLocationHelper","getSelectedVillageId: villageIds:"+villageids);
         return villageids;
+    }
+    public SkLocation getSkLocation(){
+        SkLocation sklocation = new SkLocation();
+        ArrayList<String> villageids = new ArrayList<>();
+        String districtId = "";
+        if(ssModels !=null && ssModels.size()>0){
+            for(SSModel ssModel : ssModels){
+
+                for (SSLocations ssLocations : ssModel.locations){
+                    villageids.add(ssLocations.village.id+"");
+                    districtId = ssLocations.district.id+"";
+                }
+            }
+            sklocation.villageId = villageids;
+            sklocation.districtId = districtId;
+
+        }
+        Log.v("SSLocationHelper","sklocation: sklocation:"+sklocation);
+        return sklocation;
     }
     public SSLocations getSSLocationBySSName(String ssName){
         for(SSModel ssModel : ssModels){

@@ -1,9 +1,11 @@
 package org.smartregister.brac.hnpp.activity;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.HnppApplication;
@@ -52,9 +54,16 @@ public class SurveyHistoryActivity extends SecuredActivity {
         SurveyHistoryAdapter adapter = new SurveyHistoryAdapter(this, new SurveyHistoryAdapter.OnClickAdapter() {
             @Override
             public void onClick(int position, Survey content) {
-                JSONObject mmObj = HnppConstants.viewSurveyForm(type,content.formId,content.uuid,baseEntityId);
-                Intent intent = HnppConstants.viewModeSurveyApp(mmObj.toString());
-                startActivityForResult(intent, HnppConstants.SURVEY_KEY.VIEW_SURVEY_REQUEST_CODE);
+                try{
+                    JSONObject mmObj = HnppConstants.viewSurveyForm(type,content.formId,content.uuid,baseEntityId);
+                    Intent intent = HnppConstants.viewModeSurveyApp(mmObj.toString(),SurveyHistoryActivity.this);
+                    startActivityForResult(intent, HnppConstants.SURVEY_KEY.VIEW_SURVEY_REQUEST_CODE);
+                }catch (ActivityNotFoundException activityNotFoundException){
+                    Toast.makeText(SurveyHistoryActivity.this, "App not install", Toast.LENGTH_SHORT).show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
             }
         });
         adapter.setData(surveyArrayList);
