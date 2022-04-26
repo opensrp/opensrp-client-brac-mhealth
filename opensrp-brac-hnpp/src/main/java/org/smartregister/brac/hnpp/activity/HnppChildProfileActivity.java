@@ -38,6 +38,7 @@ import org.smartregister.brac.hnpp.custom_view.FamilyMemberFloatingMenu;
 import org.smartregister.brac.hnpp.fragment.ChildHistoryFragment;
 import org.smartregister.brac.hnpp.fragment.HnppChildProfileDueFragment;
 import org.smartregister.brac.hnpp.fragment.MemberOtherServiceFragment;
+import org.smartregister.brac.hnpp.job.SurveyHistoryJob;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
 import org.smartregister.brac.hnpp.model.Survey;
@@ -349,6 +350,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
                 }
                 return true;
             case R.id.action_survey_history:
+                if(HnppConstants.isNeedToCallSurveyHistoryApi()){
+                    SurveyHistoryJob.scheduleJobImmediately(SurveyHistoryJob.TAG);
+                }
                 SurveyHistoryActivity.startSurveyHistoryActivity(this,HnppConstants.SURVEY_KEY.MM_TYPE,childBaseEntityId);
                 return true;
             default:

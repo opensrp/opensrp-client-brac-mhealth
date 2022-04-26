@@ -38,6 +38,7 @@ import org.smartregister.brac.hnpp.custom_view.FamilyMemberFloatingMenu;
 import org.smartregister.brac.hnpp.fragment.HnppMemberProfileDueFragment;
 import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
 import org.smartregister.brac.hnpp.fragment.MemberOtherServiceFragment;
+import org.smartregister.brac.hnpp.job.SurveyHistoryJob;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
@@ -1016,6 +1017,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                 }
                 return true;
             case R.id.action_survey_history:
+                if(HnppConstants.isNeedToCallSurveyHistoryApi()){
+                    SurveyHistoryJob.scheduleJobImmediately(SurveyHistoryJob.TAG);
+                }
                 SurveyHistoryActivity.startSurveyHistoryActivity(this,HnppConstants.SURVEY_KEY.MM_TYPE,baseEntityId);
                 return true;
         }

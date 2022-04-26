@@ -23,9 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SurveyHistoryIntentService extends IntentService {
-    public static final String SURVEY_URL = "/rest/event/survey_history?";
+    public static final String SURVEY_URL = "/rest/client/survey_history?";
     public static final String LAST_SYNC_TIME = "last_survey_time";
-    public static final String TIME_STAMP = "last_survey_time";
+    public static final String TIME_STAMP = "time_stamp";
     private static final String TAG = SurveyHistoryIntentService.class.getCanonicalName();
 
     public SurveyHistoryIntentService() {
@@ -34,11 +34,15 @@ public class SurveyHistoryIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        fetchRetry(0);
+    }
+    private void fetchRetry(int count){
         try {
 
             JSONArray historyArrayObj = fetchSurveyHistory();
             if (historyArrayObj != null && historyArrayObj.length()>0) {
                 parseResponse(historyArrayObj);
+                fetchRetry(0);
             }
         } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
@@ -66,9 +70,10 @@ public class SurveyHistoryIntentService extends IntentService {
         if(TextUtils.isEmpty(lastSynTime)){
             lastSynTime ="0";
         }
+        long lastTime = Long.parseLong(lastSynTime);
         //testing
-        String url = baseUrl + SURVEY_URL + TIME_STAMP+"="+lastSynTime;
-        Log.v("DataDelete","getLocationList>>url:"+url);
+        String url = baseUrl + SURVEY_URL + TIME_STAMP+"="+lastTime;
+        Log.v("SURVEY_HISTORY","getLocationList>>url:"+url);
         Response resp = httpAgent.fetch(url);
         if (resp.isFailure()) {
             throw new NoHttpResponseException(url + " not returned data");
@@ -103,6 +108,7 @@ public class SurveyHistoryIntentService extends IntentService {
                     survey.baseEntityId = baseEntityId;
                     survey.dateTime = date_time;
                     survey.type = type;
+
                     HnppApplication.getSurveyHistoryRepository().addOrUpdate(survey,type);
 
                 }catch (Exception e){

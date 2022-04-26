@@ -108,6 +108,7 @@ public class HnppConstants extends CoreConstants {
     public static final long STOCK_END_DEFAULT_TIME = 6*60*60*1000;//6 hr
     public static final long INVALID_CALL_DEFAULT_TIME = 30*60*1000;//30 mint
     public static final long EDD_DEFAULT_TIME = 6*60*60*1000;//6 hr
+    public static final long SURVEY_HISTORY_DEFAULT_TIME = 12*60*60*1000;//6 hr
     public static final String TEST_GU_ID = "test";
     public static final float VERIFY_THRESHOLD = 20;
     public static final String MODULE_ID_TRAINING = "TRAINING";
@@ -420,6 +421,21 @@ public class HnppConstants extends CoreConstants {
         Log.v("INVALID_REQ","diff:"+diff);
         if(diff > INVALID_CALL_DEFAULT_TIME){
             org.smartregister.Context.getInstance().allSharedPreferences().savePreference("INVALID_LAST_TIME",System.currentTimeMillis()+"");
+
+            return true;
+        }
+        return false;
+    }
+    public static boolean isNeedToCallSurveyHistoryApi(){
+        String surveyHistoryTimeStr =  org.smartregister.Context.getInstance().allSharedPreferences().getPreference("SURVEY_LAST_TIME");
+        if(TextUtils.isEmpty(surveyHistoryTimeStr)){
+            org.smartregister.Context.getInstance().allSharedPreferences().savePreference("SURVEY_LAST_TIME",System.currentTimeMillis()+"");
+            return true;
+        }
+        long diff = System.currentTimeMillis() - Long.parseLong(surveyHistoryTimeStr);
+        Log.v("SURVEY_HISTORY","diff:"+diff);
+        if(diff > SURVEY_HISTORY_DEFAULT_TIME){
+            org.smartregister.Context.getInstance().allSharedPreferences().savePreference("SURVEY_LAST_TIME",System.currentTimeMillis()+"");
 
             return true;
         }

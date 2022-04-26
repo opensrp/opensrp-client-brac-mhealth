@@ -47,6 +47,7 @@ import org.smartregister.brac.hnpp.job.PullGuestMemberIdServiceJob;
 import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
 import org.smartregister.brac.hnpp.job.SSLocationFetchJob;
 import org.smartregister.brac.hnpp.job.StockFetchJob;
+import org.smartregister.brac.hnpp.job.SurveyHistoryJob;
 import org.smartregister.brac.hnpp.job.TargetFetchJob;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
@@ -269,6 +270,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
 
             Utils.startAsyncTask(new SaveDistrictTask(), null);
             PullGuestMemberIdServiceJob.scheduleJobImmediately(PullGuestMemberIdServiceJob.TAG);
+            SurveyHistoryJob.scheduleJobImmediately(SurveyHistoryJob.TAG);
 
         }
 

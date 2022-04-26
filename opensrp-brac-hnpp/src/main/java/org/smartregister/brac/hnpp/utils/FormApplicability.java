@@ -308,9 +308,10 @@ public class FormApplicability {
         if(HnppConstants.isPALogin()) return false;
         return isWomen && age>=10 && age <=19;
     }
+    //feedback comes from naimul vai to add the age limit 14 to 49
     public static boolean isWomenPackageApplicable(String baseEntityId , int age, boolean isWomen){
         if(HnppConstants.isPALogin()) return false;
-        return isWomen && age >14 && !isPragnent(baseEntityId,age);
+        return isWomen && age >14 && age <50 && !isPragnent(baseEntityId,age);
     }
 
     public static boolean isPragnent(String baseEntityId, int age) {
@@ -325,7 +326,7 @@ public class FormApplicability {
     }
 
     public static boolean isNcdApplicable(int age){
-        return age >=18;
+        return age >=18 && age<50;
     }
 
     private static long getDayDifference(LocalDate date1, LocalDate date2) {
