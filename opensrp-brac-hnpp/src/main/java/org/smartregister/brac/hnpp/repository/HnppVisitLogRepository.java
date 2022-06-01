@@ -471,6 +471,7 @@ public class HnppVisitLogRepository extends BaseRepository {
 
     public boolean isDoneWihinChildInfoLogic(String baseEntityId, String eventTpe) {
         if(TextUtils.isEmpty(eventTpe)) return true;
+        if(isDoneWihinTwentyFourHours(baseEntityId,eventTpe)) return true;
         String query ="";
         if(eventTpe.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12) ||
                 eventTpe.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS)){

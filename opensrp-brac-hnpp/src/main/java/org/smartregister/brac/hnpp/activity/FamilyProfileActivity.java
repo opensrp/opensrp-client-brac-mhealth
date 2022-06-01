@@ -377,6 +377,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
             AtomicBoolean isSave = new AtomicBoolean(false);
             showProgressDialog(R.string.please_wait_message);
             Runnable runnable = () -> {
+                Log.v("SAVE_VISIT","isProcessing>>"+isProcessing);
                 if(!isProcessing){
                     isProcessing = true;
                     String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
@@ -385,6 +386,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                     isSave.set(processAndSaveVisitForm(jsonString,formSubmissionId,visitId));
                 }
                 appExecutors.mainThread().execute(() -> {
+                    isProcessing = false;
                     if(isSave.get()){
                         hideProgressDialog();
                         showServiceDoneDialog(true);
@@ -392,9 +394,16 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                         hideProgressDialog();
                         showServiceDoneDialog(false);
                     }
+
                 });
             };
             appExecutors.diskIO().execute(runnable);
+//            try{
+//                Thread.sleep(5000);
+//            }catch (Exception e){
+//
+//            }
+//            appExecutors.diskIO().execute(runnable);
 
         }
         else if(resultCode == Activity.RESULT_OK && requestCode == HnppConstants.SURVEY_KEY.HH_SURVEY_REQUEST_CODE){
@@ -503,7 +512,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                 dialog.dismiss();
                 dialog = null;
                 isProcessing = false;
-                if(isSuccess){
+                //if(isSuccess){
                     if(familyHistoryFragment !=null){
                         handler.postDelayed(new Runnable() {
                             @Override
@@ -514,7 +523,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                                 presenter().refreshProfileView();
                             }
                         },2000);
-                    }
+                   // }
                 }
             }
         });

@@ -193,7 +193,7 @@ public class HnppDBUtils extends CoreChildUtils {
     public static StringBuilder getEddThisMonth(){
         String query = "select ec_family_member.first_name, edd,STRFTIME('%Y', datetime('now')) as nowYear,STRFTIME('%m', datetime('now')) as nowMonth,substr(edd, 7, 4) as year,substr(edd, 4, 2) as month from ec_anc_register " +
                 "inner join ec_family_member on ec_family_member.base_entity_id = ec_anc_register.base_entity_id " +
-                "where year=nowYear and month = nowMonth order by ec_anc_register.last_interacted_with DESC";
+                "where year=nowYear and month = nowMonth order by ec_anc_register.edd ASC";
         Log.v("NOTIFICATION_JOB","getEddThisMonth:"+query);
         Cursor cursor = null;
         StringBuilder nameCount = new StringBuilder();
@@ -304,8 +304,8 @@ public class HnppDBUtils extends CoreChildUtils {
             if(cursor!=null)cursor.close();
         }
         if(month>= 18 && month <= 36) return HnppConstants.EVENT_TYPE.CHILD_VISIT_18_36;
-        if(month>= 7 && month <= 24) return HnppConstants.EVENT_TYPE.CHILD_VISIT_7_24;
-        if(month>= 0 && month <= 6) return HnppConstants.EVENT_TYPE.CHILD_VISIT_0_6;
+        if(month>= 6 && month < 24) return HnppConstants.EVENT_TYPE.CHILD_VISIT_7_24;
+        if(month>= 0 && month < 6) return HnppConstants.EVENT_TYPE.CHILD_VISIT_0_6;
         return "";
 
     }

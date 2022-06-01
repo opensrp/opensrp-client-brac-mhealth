@@ -765,7 +765,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
                 dialog.dismiss();
                 dialog = null;
                 isProcessing = false;
-                if(isSuccess){
+                //if(isSuccess){
                     if(memberHistoryFragment !=null){
                         handler.postDelayed(new Runnable() {
                             @Override
@@ -780,7 +780,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
                             }
                         },1000);
                     }
-                }
+                //}
             }
         });
         dialog.show();

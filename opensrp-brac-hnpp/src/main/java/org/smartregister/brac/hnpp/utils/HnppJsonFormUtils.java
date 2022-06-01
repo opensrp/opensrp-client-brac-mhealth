@@ -207,7 +207,6 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         updateFormWithSSNameOnly(jsonForm,ssName);
         Event baseEvent = org.smartregister.util.JsonFormUtils.createEvent(fields, getJSONObject(jsonForm, "metadata"), formTag, baseEntityId,HnppConstants.EVENT_TYPE.SS_INFO,"visits");
 
-
        // Event baseEvent = org.smartregister.chw.anc.util.JsonFormUtils.processVisitJsonForm(Utils.getAllSharedPreferences(), baseEntityId, HnppConstants.EVENT_TYPE.SS_INFO, jsonStrings, "visits");
 
         if (baseEvent != null) {
@@ -222,12 +221,6 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
             Visit visit = NCUtils.eventToVisit(baseEvent, visitID);
             visit.setPreProcessedJson(new Gson().toJson(baseEvent));
-//            try{
-//                visit.setParentVisitID(visitRepository().getParentVisitEventID(visit.getBaseEntityId(), HnppConstants.EVENT_TYPE.SS_INFO, visit.getDate()));
-//            }catch (Exception e){
-//
-//            }
-
             visitRepository().addVisit(visit);
             visitRepository().completeProcessing(visit.getVisitId());
             JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(baseEvent));
@@ -266,11 +259,12 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         }
     }
 
-    public static Visit processAndSaveForum(String eventType, ForumDetails forumDetails) throws Exception{
-
+    public static Visit processAndSaveForum(String eventType, ForumDetails forumDetails,String baseEntityId) throws Exception{
+        if(!FormApplicability.isDueAnyForm(baseEntityId,eventType)){
+            return null;
+        }
         FormTag formTag = formTag(Utils.getAllSharedPreferences());
         formTag.appVersionName = BuildConfig.VERSION_NAME;
-        String baseEntityId = generateRandomUUIDString();
         Log.v("FORUM_TEST","processAndSaveForum>>eventType:"+eventType+":baseEntityId:"+baseEntityId);
         Client baseClient = org.smartregister.util.JsonFormUtils.createBaseClient(new JSONArray(), formTag, baseEntityId);
         baseClient.setFirstName(eventType);
@@ -447,6 +441,10 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
     public static synchronized Visit saveVisit(boolean isComesFromIdentity,boolean needVerified,boolean isVerified, String notVerifyCause,String memberID, String encounterType,
                             final Map<String, String> jsonString,
                             String parentEventType,String formSubmissionId,String visitId) throws Exception {
+        Log.v("SAVE_VISIT","saveVisit>>");
+        if(!FormApplicability.isDueAnyForm(memberID,encounterType)){
+            return null;
+        }
 
         AllSharedPreferences allSharedPreferences = AncLibrary.getInstance().context().allSharedPreferences();
 
@@ -487,7 +485,9 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         return null;
     }
     public static synchronized Visit saveVisit(String memberID, String encounterType,final Map<String, String> jsonString,String formSubmissionId,String visitId) throws Exception {
-
+        if(!FormApplicability.isDueAnyForm(memberID,encounterType)){
+            return null;
+        }
         AllSharedPreferences allSharedPreferences = AncLibrary.getInstance().context().allSharedPreferences();
 //        Triple<Boolean, JSONObject, JSONArray> registrationFormParams = validateParameters(jsonString.get("First"));
 //        JSONObject jsonForm = (JSONObject)registrationFormParams.getMiddle();
@@ -1273,8 +1273,15 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         JSONObject providerIdObj = getFieldJSONObject(field, "provider_id");
         providerIdObj.put("value",userName);
         return form;
-
-
+    }
+    public static void updateProviderIdAtClient(JSONArray field,String familyBaseEntityId) throws Exception{
+        String ssName =HnppDBUtils.getSSNameByHHID(familyBaseEntityId);
+        Log.v("SS_NAME","ssName:"+ssName+":familyId:"+familyBaseEntityId);
+        JSONObject ssNameObj = getFieldJSONObject(field, "ss_name");
+        ssNameObj.put("value",ssName);
+        String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
+        JSONObject providerIdObj = getFieldJSONObject(field, "provider_id");
+        providerIdObj.put("value",userName);
     }
     public static JSONObject updateFormWithAllMemberName(JSONObject form , ArrayList<String[]> motherNameList) throws Exception{
         JSONArray field = fields(form, STEP1);

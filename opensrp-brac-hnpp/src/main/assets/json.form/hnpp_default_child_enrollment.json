@@ -56,6 +56,20 @@
     "title": "৫ বছরের কম বয়সী শিশু যুক্ত করুন",
     "fields": [
       {
+        "key": "ss_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "ss_name",
+        "type": "hidden"
+      },
+      {
+        "key": "provider_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "provider_id",
+        "type": "hidden"
+      },
+      {
         "key": "unique_id",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_identifier",

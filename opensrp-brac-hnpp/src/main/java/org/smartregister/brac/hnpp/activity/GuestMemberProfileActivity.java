@@ -500,7 +500,7 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
                 dialog.dismiss();
                 isProcessing = false;
                 dialog = null;
-                if(isSuccess){
+                //if(isSuccess){
                     if(memberHistoryFragment !=null){
                         handler.postDelayed(new Runnable() {
                             @Override
@@ -515,7 +515,7 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
                             }
                         },2000);
                     }
-                }
+               // }
             }
         });
         dialog.show();

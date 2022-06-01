@@ -72,6 +72,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import timber.log.Timber;
@@ -221,7 +222,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
     }
 
     private int getDaysFromDate(String date){
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
         Date past,now;
         int days=0;
         try {
@@ -342,7 +343,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
                     updateUniqueId(fields);
                 }
                 try{
-                    saveRegistration(form.toString(), HnppConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME);
+
                     String motherBaseId = form.optString(Constants.JSON_FORM_EXTRA.ENTITY_TYPE);
                     JSONArray fields = org.smartregister.util.JsonFormUtils.fields(form);
                     String gender = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"gender");
@@ -357,6 +358,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
                         String familyBaseEntityId = familyIdObject.getString(org.smartregister.chw.anc.util.JsonFormUtils.VALUE);
                         pncForm = org.smartregister.chw.anc.util.JsonFormUtils.populatePNCForm(pncForm, fields, familyBaseEntityId);
                         HnppJsonFormUtils.processAttributesWithChoiceIDsForSave(fields);
+                        HnppJsonFormUtils.updateProviderIdAtClient(fields,familyBaseEntityId);
                         if(!StringUtils.isEmpty(gender)){
                             if (pncForm != null) {
                                 if(familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){
@@ -372,6 +374,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
                         }
 
                     }
+                    saveRegistration(form.toString(), HnppConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME);
                 }catch (Exception e){
                     e.printStackTrace();
 

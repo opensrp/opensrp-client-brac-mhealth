@@ -702,7 +702,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                 dialog = null;
                 isProcessingHV = false;
                 isProcessingANCVisit = false;
-                if(isSuccess){
+               // if(isSuccess){
                     if(memberHistoryFragment !=null){
                         handler.postDelayed(new Runnable() {
                             @Override
@@ -730,7 +730,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                             }
                         },500);
                     }
-                }
+              //  }
             }
         });
         dialog.show();
