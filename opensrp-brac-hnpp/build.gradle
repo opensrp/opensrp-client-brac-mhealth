@@ -156,8 +156,8 @@ android {
 
         }
         production{
-            versionCode 74
-            versionName "2.0.9"//2.0.6.4=2.0.7
+            versionCode 75
+            versionName "2.0.10"//2.0.6.4=2.0.7
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
             buildConfigField "String", 'opensrp_url_training', '"https://mhealth.brac.net/opensrp/"'
