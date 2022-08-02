@@ -18,7 +18,7 @@ buildscript {
 
 android {
     useLibrary 'org.apache.http.legacy'
-    compileSdkVersion 29
+    compileSdkVersion 30
     buildToolsVersion androidBuildToolsVersion
 
     compileOptions {
@@ -125,8 +125,10 @@ android {
             dimension = 'baseDimension'
             applicationIdSuffix ".patraining"
             buildConfigField "boolean", 'IS_TRAINING', 'true'
-            buildConfigField "String", 'opensrp_url_training', '"http://mhealthtest.brac.net:8080/opensrp/"'
-            buildConfigField "String", 'opensrp_url_live', '"http://mhealthtest.brac.net:8080/opensrp/"'
+            buildConfigField "String", 'opensrp_url_training', '"https://hnpptest1.mpower-social.com/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"https://hnpptest1.mpower-social.com/opensrp/"'
+//            buildConfigField "String", 'opensrp_url_training', '"http://mhealthtest.brac.net:8080/opensrp/"'
+//            buildConfigField "String", 'opensrp_url_live', '"http://mhealthtest.brac.net:8080/opensrp/"'
         }
 
         training{

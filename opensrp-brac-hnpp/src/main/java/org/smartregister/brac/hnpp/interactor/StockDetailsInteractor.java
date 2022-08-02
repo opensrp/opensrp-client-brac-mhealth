@@ -31,6 +31,9 @@ public class StockDetailsInteractor implements StockDetailsContract.Interactor {
             if(productName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.NCD_PACKAGE)){
                 addToDashBoardList(model.getAdultPackageStockData(month,year));
             }
+//            else if(productName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.BLOOD_GROUP)){
+//                addToDashBoardList(model.getBloodGroupStockData(month,year));
+//            }
             else if(productName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GLASS)){
                 addToDashBoardList(model.getTotalGlassStockData(month,year));
             }

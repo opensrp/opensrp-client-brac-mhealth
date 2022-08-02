@@ -65,7 +65,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "add_to_stock",
         "type": "hidden",
-        "value": "0"
+        "value": "1"
       },
       {
         "key": "relational_id",

@@ -144,6 +144,8 @@ public class StockRepository extends BaseRepository {
                 case HnppConstants.EVENT_TYPE.BF_2_5:
                 case HnppConstants.EVENT_TYPE.BF_3:
                     return targetName;
+//                case HnppConstants.EVENT_TYPE.BLOOD_GROUP:
+//                    return targetName;
 
             }
 

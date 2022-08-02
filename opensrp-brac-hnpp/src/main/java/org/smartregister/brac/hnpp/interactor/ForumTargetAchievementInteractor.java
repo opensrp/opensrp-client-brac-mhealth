@@ -53,8 +53,8 @@ public class ForumTargetAchievementInteractor implements DashBoardContract.Forum
             fetchForumDataByFromToFormat(ssName,day,month,year);
             fetchAvgForumDataByFromToFormat(ssName,day,month,year);
 
-            TargetVsAchievementData adoForum = getSpecificForumData(HnppConstants.EVENT_TYPE.FORUM_ADO);
-            TargetVsAchievementData avgAdoForum = getSpecificAvgForumData(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADO_FORUM);
+            TargetVsAchievementData adoForum = getSpecificForumData(HnppConstants.EVENT_TYPE.FORUM_ADULT);
+            TargetVsAchievementData avgAdoForum = getSpecificAvgForumData(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADULT_FORUM);
             if(adoForum.getAchievementCount() !=0){
                 adoForum.setAvgAchievmentCount(avgAdoForum.getAvgAchievmentCount()/adoForum.getAchievementCount());
 

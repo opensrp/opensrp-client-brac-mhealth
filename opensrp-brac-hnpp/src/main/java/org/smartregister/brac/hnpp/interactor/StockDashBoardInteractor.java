@@ -52,6 +52,7 @@ public class StockDashBoardInteractor implements DashBoardContract.Interactor {
         Log.v("STOCK_DETAILS","sdfasdf"+month+":year:"+year);
         if(HnppConstants.isPALogin()){
             addToDashBoardList(model.getAdultPackageStockData(month,year));
+//            addToDashBoardList(model.getBloodGroupStockData(month,year));
             addToDashBoardList(model.getTotalGlassStockData(month,year));
             addToDashBoardList(model.getSunGlassStockData(month,year));
             addToDashBoardList(model.getSV1StockData(month,year));

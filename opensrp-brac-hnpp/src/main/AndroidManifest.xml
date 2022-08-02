@@ -92,6 +92,7 @@
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
+            android:exported="true"
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.Login"

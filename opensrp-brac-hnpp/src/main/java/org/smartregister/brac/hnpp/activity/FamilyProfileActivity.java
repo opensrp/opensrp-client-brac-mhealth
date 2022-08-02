@@ -577,7 +577,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         viewPager.setAdapter(adapter);
         if (getIntent().getBooleanExtra(CoreConstants.INTENT_KEY.SERVICE_DUE, false) ||
                 getIntent().getBooleanExtra(Constants.INTENT_KEY.GO_TO_DUE_PAGE, false)) {
-            viewPager.setCurrentItem(1);
+            if(!HnppConstants.isPALogin()) viewPager.setCurrentItem(1);
         }
 
         return viewPager;
