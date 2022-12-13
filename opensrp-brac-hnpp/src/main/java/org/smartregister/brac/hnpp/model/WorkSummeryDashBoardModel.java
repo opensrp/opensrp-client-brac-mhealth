@@ -270,52 +270,88 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
         public DashBoardData getVisitTypeCount(String visitType, String ssName, long fromMonth, long toMonth){
         DashBoardData dashBoardData1 = new DashBoardData();
         String mainCondition = "", ssCondition;
-        if(visitType.equalsIgnoreCase("ANC")){
-            mainCondition = "where (event_type = '"+ HnppConstants.EVENT_TYPE.ANC1_REGISTRATION+"' or event_type ='"+ HnppConstants.EVENT_TYPE.ANC2_REGISTRATION+"' or event_type ='"+ HnppConstants.EVENT_TYPE.ANC3_REGISTRATION+"')";
-        }else if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)){
-            mainCondition = "where event_type = '"+ HnppConstants.EVENT_TYPE.ANC1_REGISTRATION+"'";
-        }
-        else if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION)){
-            mainCondition = "where event_type = '"+ HnppConstants.EVENT_TYPE.ANC2_REGISTRATION+"'" ;
-        }
-        else if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
-            mainCondition = "where event_type = '"+ HnppConstants.EVENT_TYPE.ANC3_REGISTRATION+"'" ;
-        }
-        else if(visitType.equalsIgnoreCase("pnc")){ // todo
-            mainCondition = "where (visit_type = 'PNC Registration' or visit_type = '"+HnppConstants.EventType.PNC_HOME_VISIT+"')" ;
+        String query = null;
+
+        //to check anc registration count
+        if(visitType.equals(HnppConstants.EVENT_TYPE.ANC_REGISTRATION)){
+            String mainCon = "";
+            String whereAnd = "where";
+            if(!TextUtils.isEmpty(ssName)){
+                mainCon = "inner join ec_family on ec_family.base_entity_id = ec_anc_register.relational_id where ec_family.ss_name = '"+ssName+"' ";
+                whereAnd = "and";
+            }
+
+            mainCon += whereAnd+" ec_anc_register.last_menstrual_period NOTNULL and ec_anc_register.is_closed = 0";
+
+            String compareDate = "ec_anc_register.last_interacted_with";
+
+            query = MessageFormat.format("select count(*) as count from {0} {1} {2}", "ec_anc_register", mainCon, getBetweenCondition(fromMonth,toMonth,compareDate));
 
 
-        }else if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY)){
+        }/*else if(visitType.equals(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME)){
+            String mainCon = "";
+            String whereAnd = "where";
+            if(!TextUtils.isEmpty(ssName)){
+                mainCon = "inner join ec_family on ec_family.base_entity_id = ec_pregnancy_outcome.base_entity_id where ec_family.ss_name = '"+ssName+"' ";
+                whereAnd = "and";
+            }
 
-           if(!TextUtils.isEmpty(ssName)){
-               mainCondition = "inner join ec_family on ec_family.base_entity_id = ec_visit_log.family_id";
-           }
+            mainCon += whereAnd+" ec_pregnancy_outcome.is_closed = 0";
 
-            mainCondition += " where visit_type ='"+visitType+"'";
-        }
-        else{
-            mainCondition= " where visit_type ='"+visitType+"'";
-        }
-        String query = null, compareDate = "visit_date";
-        if(fromMonth == -1 && toMonth == -1){
-            if(TextUtils.isEmpty(ssName)){
-                query = MessageFormat.format("select count(*) as count from {0} {1}", "ec_visit_log", mainCondition);
-            }else{
-                query = MessageFormat.format("select count(*) as count from {0} {1} {2}", "ec_visit_log", mainCondition,visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY)?getSSCondition(ssName,"ec_family"):getSSCondition(ssName));
+            String compareDate = "ec_pregnancy_outcome.last_interacted_with";
+            //query = "select count(*) from ec_anc_register where is_closed = 0 and last_menstrual_period NOTNULL and last_interacted_with between "+ fromMonth +" and "+ toMonth;
 
+            query = MessageFormat.format("select count(*) as count from {0} {1} {2}", "ec_pregnancy_outcome", mainCon, getBetweenCondition(fromMonth,toMonth,compareDate));
+
+        }*/
+            else{
+                if(visitType.equalsIgnoreCase("ANC")){
+                mainCondition = "where (event_type = '"+ HnppConstants.EVENT_TYPE.ANC1_REGISTRATION+"' or event_type ='"+ HnppConstants.EVENT_TYPE.ANC2_REGISTRATION+"' or event_type ='"+ HnppConstants.EVENT_TYPE.ANC3_REGISTRATION+"')";
+            }else if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)){
+                mainCondition = "where event_type = '"+ HnppConstants.EVENT_TYPE.ANC1_REGISTRATION+"'";
+            }
+            else if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION)){
+                mainCondition = "where event_type = '"+ HnppConstants.EVENT_TYPE.ANC2_REGISTRATION+"'" ;
+            }
+            else if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
+                mainCondition = "where event_type = '"+ HnppConstants.EVENT_TYPE.ANC3_REGISTRATION+"'" ;
+            }
+            else if(visitType.equalsIgnoreCase("pnc")){ // todo
+                mainCondition = "where (visit_type = 'PNC Registration' or visit_type = '"+HnppConstants.EventType.PNC_HOME_VISIT+"')" ;
+
+
+            }else if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY)){
+
+                if(!TextUtils.isEmpty(ssName)){
+                    mainCondition = "inner join ec_family on ec_family.base_entity_id = ec_visit_log.family_id";
+                }
+
+                mainCondition += " where visit_type ='"+visitType+"'";
+            }
+            else{
+                mainCondition= " where visit_type ='"+visitType+"'";
+            }
+            String compareDate = "visit_date";
+            if(fromMonth == -1 && toMonth == -1){
+                if(TextUtils.isEmpty(ssName)){
+                    query = MessageFormat.format("select count(*) as count from {0} {1}", "ec_visit_log", mainCondition);
+                }else{
+                    query = MessageFormat.format("select count(*) as count from {0} {1} {2}", "ec_visit_log", mainCondition,visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY)?getSSCondition(ssName,"ec_family"):getSSCondition(ssName));
+
+                }
+            }
+            else{
+                if(TextUtils.isEmpty(ssName)){
+                    query = MessageFormat.format("select count(*) as count from {0} {1} {2}", "ec_visit_log", mainCondition, getBetweenCondition(fromMonth,toMonth,compareDate));
+                }else{
+                    query = MessageFormat.format("select count(*) as count from {0} {1} {2} {3}", "ec_visit_log", mainCondition,visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY)?getSSCondition(ssName,"ec_family"):getSSCondition(ssName),getBetweenCondition(fromMonth,toMonth,compareDate));
+
+                }
             }
         }
-        else{
-            if(TextUtils.isEmpty(ssName)){
-                query = MessageFormat.format("select count(*) as count from {0} {1} {2}", "ec_visit_log", mainCondition, getBetweenCondition(fromMonth,toMonth,compareDate));
-            }else{
-                query = MessageFormat.format("select count(*) as count from {0} {1} {2} {3}", "ec_visit_log", mainCondition,visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY)?getSSCondition(ssName,"ec_family"):getSSCondition(ssName),getBetweenCondition(fromMonth,toMonth,compareDate));
-
-            }
-        }
 
 
-
+        Log.d("PREGNENCY:  ",ssName+"   "+ query);
         Cursor cursor = null;
         // try {
         cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
@@ -377,7 +413,8 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
     }
 
     public DashBoardData getANcTrimesterCount(String title,String ssName, long fromMonth, long toMonth,int startDate,int endDate){
-        String compareDate = "ec_visit_log.visit_date";
+        //String compareDate = "ec_visit_log.visit_date";
+        String compareDate = "ec_anc_register.last_interacted_with";
         DashBoardData dashBoardData1 = new DashBoardData();
         String mainCondition = "";
 
@@ -389,17 +426,19 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
 
             build.append(mainCondition);
         }
-        build.append(MessageFormat.format(" inner join {0} ", "ec_visit_log"));
-        build.append(MessageFormat.format(" on {0}.{1} = {2}.{3} ", "ec_visit_log", DBConstants.KEY.BASE_ENTITY_ID,
-                CoreConstants.TABLE_NAME.ANC_MEMBER, DBConstants.KEY.BASE_ENTITY_ID));
+        //build.append(MessageFormat.format(" inner join {0} ", "ec_visit_log"));
+       /* build.append(MessageFormat.format(" on {0}.{1} = {2}.{3} ", "ec_visit_log", DBConstants.KEY.BASE_ENTITY_ID,
+                CoreConstants.TABLE_NAME.ANC_MEMBER, DBConstants.KEY.BASE_ENTITY_ID));*/
         if(endDate==0){
 
-            mainCondition   = " where dayPass>="+startDate+" and ec_anc_register.is_closed= 0 and ec_visit_log.event_type='ANC Registration'";
+           // mainCondition   = " where dayPass>="+startDate+" and ec_anc_register.is_closed= 0 and ec_visit_log.event_type='ANC Registration' and ec_anc_register.last_menstrual_period NOTNULL";
+            mainCondition   = " where dayPass>="+startDate+" and ec_anc_register.is_closed= 0 and ec_anc_register.last_menstrual_period NOTNULL";
+
             build.append(mainCondition);
 
         }else{
 
-            mainCondition = " where dayPass>="+startDate+" and dayPass<"+endDate+""+" and ec_anc_register.is_closed= 0 and ec_visit_log.event_type='ANC Registration'";
+            mainCondition = " where dayPass>="+startDate+" and dayPass<"+endDate+""+" and ec_anc_register.is_closed= 0 and ec_anc_register.last_menstrual_period NOTNULL";
             build.append(mainCondition);
 
         }
@@ -422,6 +461,8 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
             }
         }
 
+        //query += " group by ec_anc_register.id";
+
 
 //        if(TextUtils.isEmpty(ssName) && TextUtils.isEmpty(month)){
 //            query = MessageFormat.format("select count(*) as count,{2} from {0} {1}", "ec_anc_register", mainCondition,getDateFormate());
@@ -429,7 +470,7 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
 //            query = MessageFormat.format("select count(*) as count,{2} from {0} {1}", "ec_anc_register", getTrimesterFilterCondition(ssName,month,year,mainCondition),getDateFormate());
 //
 //        }
-        Log.v("ANC_TRIMESTER","anc_trimester:"+query);
+
 
         Cursor cursor = null;
         try{
