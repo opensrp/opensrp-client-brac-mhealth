@@ -443,7 +443,11 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                             String parentEventType,String formSubmissionId,String visitId) throws Exception {
         Log.v("SAVE_VISIT","saveVisit>>");
         if(!FormApplicability.isDueAnyForm(memberID,encounterType)){
-            return null;
+            //passing emptyVisit object with zero id
+            //this will trigger when visit already exist
+            Visit emptyVisit = new Visit();
+            emptyVisit.setVisitId("0");
+            return emptyVisit;
         }
 
         AllSharedPreferences allSharedPreferences = AncLibrary.getInstance().context().allSharedPreferences();
@@ -477,10 +481,13 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
             Visit visit = NCUtils.eventToVisit(baseEvent, visitID);
             visit.setPreProcessedJson(new Gson().toJson(baseEvent));
-            visitRepository().addVisit(visit);
-            HnppConstants.appendLog("SAVE_VISIT","added to visit>>>baseEntityId:"+baseEvent.getBaseEntityId()+":formSubmissionId:"+baseEvent.getFormSubmissionId()+":baseEvent:"+baseEvent.getEntityType());
+            if( visitRepository().getVisitByFormSubmissionID(formSubmissionId)==null){
+                visitRepository().addVisit(visit);
+                HnppConstants.appendLog("SAVE_VISIT","added to visit>>>baseEntityId:"+baseEvent.getBaseEntityId()+":formSubmissionId:"+baseEvent.getFormSubmissionId()+":baseEvent:"+baseEvent.getEntityType());
 
-            return visit;
+                return visit;
+            }
+
         }
         return null;
     }
