@@ -76,6 +76,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 import static com.vijay.jsonwizard.constants.JsonFormConstants.FIELDS;
@@ -295,7 +300,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
 //            process the form
 
             showProgressDialog(R.string.please_wait);
-            AppExecutors appExecutors = new AppExecutors();
+/*            AppExecutors appExecutors = new AppExecutors();
             Runnable runnable = () -> {
                 String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
 
@@ -333,9 +338,69 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
                     }
                 });
             };
-            appExecutors.diskIO().execute(runnable);
+            appExecutors.diskIO().execute(runnable);*/
+
+
+            executeQuery(data)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<String>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(String eventType) {
+                            hideProgressDialog();
+                            if (eventType.equalsIgnoreCase(Constants.EVENT_TYPE.PREGNANCY_OUTCOME)) {
+
+                                // HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
+                                if(!familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){
+                                    HnppPncRegisterActivity.startHnppPncRegisterActivity(HnppAncRegisterActivity.this, baseEntityId);
+                                }
+                            }else if(eventType.equalsIgnoreCase(Constants.EVENT_TYPE.ANC_REGISTRATION)){
+                                // HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
+                                HnppConstants.isViewRefresh = true;
+                                refreshList(FetchStatus.fetched);
+
+                            }
+                            if(familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){
+                                Intent intent = new Intent();
+                                intent.putExtra("event_type",HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION);
+                                setResult(RESULT_OK, intent);
+                                finish();
+                            }
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
         }
 
+    }
+    Observable<String> executeQuery( Intent data){
+        return  Observable.create(e->{
+            String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
+
+            String eventType = processVisitFormAndSave(jsonString);
+
+            SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+            //database.execSQL(sql1);
+            String sql = "UPDATE ec_anc_register SET is_closed = 1 WHERE ec_anc_register.base_entity_id IN " +
+                    "(select ec_pregnancy_outcome.base_entity_id from ec_pregnancy_outcome where ec_pregnancy_outcome.is_closed = 0) ";
+
+            database.execSQL(sql);
+            e.onNext(eventType);
+        });
     }
     private String processVisitFormAndSave(String jsonString){
         String encounter_type = "";

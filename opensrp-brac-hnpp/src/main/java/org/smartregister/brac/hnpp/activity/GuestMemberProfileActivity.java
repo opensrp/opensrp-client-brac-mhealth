@@ -59,6 +59,12 @@ import org.smartregister.util.JsonFormUtils;
 import org.smartregister.view.activity.BaseProfileActivity;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.vijay.jsonwizard.constants.JsonFormConstants.FIELDS;
 import static org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity.REQUEST_HOME_VISIT;
@@ -391,28 +397,42 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
             if(isProcessing) return;
             AtomicBoolean isSave = new AtomicBoolean(false);
             showProgressDialog(R.string.please_wait_message);
-            Runnable runnable = () -> {
-                if(!isProcessing){
-                    isProcessing = true;
-                    String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
-                    String formSubmissionId = JsonFormUtils.generateRandomUUIDString();
-                    String visitId = JsonFormUtils.generateRandomUUIDString();
-                    isSave.set(processVisits(jsonString,formSubmissionId,visitId));
-                }
-                appExecutors.mainThread().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(isSave.get()){
-                            hideProgressDialog();
-                            showServiceDoneDialog(true);
-                        }else {
-                            hideProgressDialog();
-                            showServiceDoneDialog(false);
+
+            isProcessing = true;
+            String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
+            String formSubmissionId = JsonFormUtils.generateRandomUUIDString();
+            String visitId = JsonFormUtils.generateRandomUUIDString();
+
+            processVisits(jsonString,formSubmissionId,visitId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Boolean>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
                         }
-                    }
-                });
-            };
-            appExecutors.diskIO().execute(runnable);
+
+                        @Override
+                        public void onNext(Boolean aBoolean) {
+                            isSave.set(aBoolean);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            hideProgressDialog();
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            if(isSave.get()){
+                                hideProgressDialog();
+                                showServiceDoneDialog(true);
+                            }else {
+                                hideProgressDialog();
+                                //showServiceDoneDialog(false);
+                            }
+                        }
+                    });
 
         }
         else if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_GET_JSON){
@@ -469,19 +489,22 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
         super.onActivityResult(requestCode, resultCode, data);
 
     }
-    private boolean processVisits(String jsonString,String formSubmissionId, String visitId){
-        try{
-            Visit visit = saveRegistration(jsonString,"visits",formSubmissionId,visitId);
-            if(visit!=null){
-                FormParser.processVisitLog(visit);
-                return true;
-            }else{
-                return false;
-            }
+    private Observable<Boolean> processVisits(String jsonString, String formSubmissionId, String visitId){
+        return Observable.create(e-> {
+            try{
+                Visit visit = saveRegistration(jsonString,"visits",formSubmissionId,visitId);
+                if(visit!=null){
+                    FormParser.processVisitLog(visit);
+                    e.onNext(true);
+                    e.onComplete();
+                }else{
+                    e.onNext(false);
+                }
 
-        }catch (Exception e){
-            return false;
-        }
+            }catch (Exception ex){
+                e.onNext(false);
+            }
+        });
     }
     Dialog dialog;
     private void showServiceDoneDialog(boolean isSuccess){
