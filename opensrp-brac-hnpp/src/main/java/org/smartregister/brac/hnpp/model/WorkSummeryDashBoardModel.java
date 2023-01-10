@@ -432,13 +432,13 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
         if(endDate==0){
 
            // mainCondition   = " where dayPass>="+startDate+" and ec_anc_register.is_closed= 0 and ec_visit_log.event_type='ANC Registration' and ec_anc_register.last_menstrual_period NOTNULL";
-            mainCondition   = " where dayPass>="+startDate+" and ec_anc_register.is_closed= 0 and ec_anc_register.last_menstrual_period NOTNULL";
+            mainCondition   = " where dayPass>="+startDate+" and ec_anc_register.is_closed= 0 and ec_anc_register.last_menstrual_period NOT NULL";
 
             build.append(mainCondition);
 
         }else{
 
-            mainCondition = " where dayPass>="+startDate+" and dayPass<"+endDate+""+" and ec_anc_register.is_closed= 0 and ec_anc_register.last_menstrual_period NOTNULL";
+            mainCondition = " where dayPass>="+startDate+" and dayPass<"+endDate+""+" and ec_anc_register.is_closed= 0 and ec_anc_register.last_menstrual_period NOT NULL";
             build.append(mainCondition);
 
         }
