@@ -10,7 +10,7 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.2'
+        classpath 'com.android.tools.build:gradle:3.4.3'
         classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2'
         classpath 'io.fabric.tools:gradle:1.30.0'
     }
@@ -149,6 +149,7 @@ android {
             versionName "3.0.0_dev"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'true'
+            //buildConfigField "String", 'opensrp_url_training', '"https://hnpptest1.mpower-social.com/opensrp/"'
             buildConfigField "String", 'opensrp_url_training', '"https://hnpptest1.mpower-social.com/opensrp/"'
             buildConfigField "String", 'opensrp_url_live', '"https://hnpptest1.mpower-social.com/opensrp/"'
 //            buildConfigField "String", 'opensrp_url_training', '"http://hnpp.mpower-social.com/opensrp/"'

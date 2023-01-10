@@ -47,6 +47,7 @@ import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.anc.util.DBConstants;
 import org.smartregister.chw.anc.util.NCUtils;
 import org.smartregister.chw.core.activity.CoreAncRegisterActivity;
+import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.CoreJsonFormUtils;
 import org.smartregister.clientandeventmodel.Address;
@@ -300,16 +301,24 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
 
                 String eventType = processVisitFormAndSave(jsonString);
 
+                SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+                //database.execSQL(sql1);
+                String sql = "UPDATE ec_anc_register SET is_closed = 1 WHERE ec_anc_register.base_entity_id IN " +
+                        "(select ec_pregnancy_outcome.base_entity_id from ec_pregnancy_outcome where ec_pregnancy_outcome.is_closed = 0) ";
+
+                database.execSQL(sql);
                 appExecutors.mainThread().execute(new Runnable() {
                     @Override
                     public void run() {
                         hideProgressDialog();
                         if (eventType.equalsIgnoreCase(Constants.EVENT_TYPE.PREGNANCY_OUTCOME)) {
-                            HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
+
+                           // HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
                             if(!familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){
                                 HnppPncRegisterActivity.startHnppPncRegisterActivity(HnppAncRegisterActivity.this, baseEntityId);
                             }
                         }else if(eventType.equalsIgnoreCase(Constants.EVENT_TYPE.ANC_REGISTRATION)){
+                           // HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
                             HnppConstants.isViewRefresh = true;
                             refreshList(FetchStatus.fetched);
 
@@ -325,8 +334,6 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
                 });
             };
             appExecutors.diskIO().execute(runnable);
-
-
         }
 
     }
@@ -426,6 +433,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
         NCUtils.addEvent(allSharedPreferences, baseEvent);
         NCUtils.startClientProcessing();
     }
+
     private void processChild(JSONArray fields, AllSharedPreferences allSharedPreferences, String entityId, String familyBaseEntityId, String motherBaseId) {
         try {
             Client pncChild = org.smartregister.util.JsonFormUtils.createBaseClient(fields, org.smartregister.chw.anc.util.JsonFormUtils.formTag(allSharedPreferences), entityId);
