@@ -55,19 +55,19 @@
     "title": "করোনা ভাইরাস সংক্রান্ত জরিপ",
     "fields": [
       {
-        "key": "ss_name",
+        "key": "ward_name",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "SS_Name",
+        "openmrs_entity_id": "ward_name",
         "type": "spinner",
-        "hint": "স্বাস্থ্য সেবিকার নামঃ",
+        "hint": "ওয়ার্ডের নাম:",
         "values": [
         ],
         "openmrs_choice_ids": {
         },
         "v_required": {
           "value": "true",
-          "err": "স্বাস্থ্য সেবিকার নাম নির্বাচন করুন"
+          "err": "ওয়ার্ডের নাম নির্বাচন করুন"
         },
         "v_required": {
           "value": true,

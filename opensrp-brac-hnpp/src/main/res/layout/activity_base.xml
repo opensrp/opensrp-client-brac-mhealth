@@ -246,7 +246,7 @@
                                 android:layout_alignParentStart="true"
                                 android:layout_centerVertical="true"
                                 android:scaleType="centerInside"
-                                android:src="@drawable/ic_fingerprint_id" />
+                                android:src="@drawable/icon_search" />
 
                             <TextView
                                 android:id="@+id/tv_sim"
@@ -330,6 +330,7 @@
                         </RelativeLayout>
                         <RelativeLayout
                             android:id="@+id/ss_info_browse"
+                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="60dp"
                             android:paddingStart="15dp"
@@ -420,6 +421,38 @@
                                 android:layout_toRightOf="@+id/migration_img"
                                 android:fontFamily="sans-serif"
                                 android:text="স্থানান্তর"
+                                android:textColor="@color/white"
+                                android:textSize="20sp" />
+
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:id="@+id/rlIconLang"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:paddingStart="15dp"
+                            android:paddingLeft="15dp"
+                            android:paddingBottom="15dp">
+
+                            <ImageView
+                                android:id="@+id/ivIconLang"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:scaleType="centerInside"
+                                app:srcCompat="@drawable/ic_nav_language" />
+
+                            <TextView
+                                android:id="@+id/tvLang"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_toEndOf="@+id/ivIconLang"
+                                android:layout_toRightOf="@+id/ivIconLang"
+                                android:fontFamily="sans-serif"
+                                android:text="বাংলা"
                                 android:textColor="@color/white"
                                 android:textSize="20sp" />
 

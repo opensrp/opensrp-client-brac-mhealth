@@ -4,6 +4,55 @@
       "name": "ec_family",
       "columns": [
         {
+          "column_name": "claster",
+          "type": "Client",
+          "json_mapping": {
+            "field": "claster"
+          }
+        },
+        {
+          "column_name": "primary_caregiver",
+          "type": "Client",
+          "json_mapping": {
+            "field": "primary_caregiver"
+          }
+        },
+        {
+          "column_name": "serial_no",
+          "type": "Client",
+          "json_mapping": {
+            "field": "serial_no"
+          }
+        },
+        {
+          "column_name": "family_head",
+          "type": "Client",
+          "json_mapping": {
+            "field": "firstName"
+          }
+        },
+        {
+          "column_name": "module_id",
+          "type": "Client",
+          "json_mapping": {
+            "field": "module_id"
+          }
+        },
+        {
+          "column_name": "village_town",
+          "type": "Client",
+          "json_mapping": {
+            "field": "village_name"
+          }
+        },
+        {
+          "column_name": "village_name",
+          "type": "Client",
+          "json_mapping": {
+            "field": "village_name"
+          }
+        },
+        {
           "column_name": "base_entity_id",
           "type": "Client",
           "json_mapping": {
@@ -18,38 +67,31 @@
           }
         },
         {
-          "column_name": "serial_no",
+          "column_name": "block_name",
           "type": "Client",
           "json_mapping": {
-            "field": "attributes.serial_no"
+            "field": "attributes.block_Name"
           }
         },
         {
-          "column_name": "ss_name",
+          "column_name": "ward_name",
           "type": "Client",
           "json_mapping": {
-            "field": "attributes.SS_Name"
+            "field": "attributes.ward_name"
           }
         },
         {
-          "column_name": "village_name",
+          "column_name": "member_count",
           "type": "Client",
           "json_mapping": {
-            "field": "attributes.Village_Name"
+            "field": "attributes.member_count"
           }
         },
         {
-          "column_name": "claster",
+          "column_name": "camp_type",
           "type": "Client",
           "json_mapping": {
-            "field": "attributes.Cluster"
-          }
-        },
-        {
-          "column_name": "house_hold_type",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.HH_Type"
+            "field": "attributes.camp_type"
           }
         },
         {
@@ -59,7 +101,13 @@
             "field": "firstName"
           }
         },
-
+        {
+          "column_name": "last_name",
+          "type": "Client",
+          "json_mapping": {
+            "field": "lastName"
+          }
+        },
         {
           "column_name": "phone_number",
           "type": "Client",
@@ -71,14 +119,98 @@
           "column_name": "member_count",
           "type": "Client",
           "json_mapping": {
-            "field": "attributes.Number_of_HH_Member"
+            "field": "attributes.member_count"
           }
         },
         {
-          "column_name": "has_latrine",
+          "column_name": "household_type",
           "type": "Client",
           "json_mapping": {
-            "field": "attributes.Has_Latrine"
+            "field": "attributes.household_type"
+          }
+        },
+        {
+          "column_name": "latrine_structure",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.latrine_structure"
+          }
+        },
+        {
+          "column_name": "water_source",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.water_source"
+          }
+        },
+        {
+          "column_name": "water_other",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.water_other"
+          }
+        },
+        {
+          "column_name": "financial_status",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.financial_status"
+          }
+        },
+        {
+          "column_name": "finance_other",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.finance_other"
+          }
+        },
+        {
+          "column_name": "monthly_expenditure",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.monthly_expenditure"
+          }
+        },
+        {
+          "column_name": "nearby_health_facility",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.nearby_health_facility"
+          }
+        },
+        {
+          "column_name": "facility_other",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.facility_other"
+          }
+        },
+        {
+          "column_name": "health_facility_distance",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.health_facility_distance"
+          }
+        },
+        {
+          "column_name": "health_care_center",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.health_care_center"
+          }
+        },
+        {
+          "column_name": "community_clinic",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.community_clinic"
+          }
+        },
+        {
+          "column_name": "clinic_distance",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.clinic_distance"
           }
         },
         {
@@ -90,20 +222,6 @@
           }
         },
         {
-          "column_name": "family_head",
-          "type": "Client",
-          "json_mapping": {
-            "field": "relationships.family_head"
-          }
-        },
-        {
-          "column_name": "primary_caregiver",
-          "type": "Client",
-          "json_mapping": {
-            "field": "relationships.primary_caregiver"
-          }
-        },
-        {
           "column_name": "last_interacted_with",
           "type": "Event",
           "json_mapping": {
@@ -111,117 +229,127 @@
           }
         },
         {
-          "column_name": "module_id",
+          "column_name": "block_id",
           "type": "Client",
           "json_mapping": {
-            "field": "attributes.module_id"
+            "field": "attributes.block_id"
           }
         },
         {
-          "column_name": "village_id",
+          "column_name": "ward_id",
           "type": "Client",
           "json_mapping": {
-            "field": "attributes.village_id"
+            "field": "attributes.ward_id"
           }
         },
         {
-          "column_name": "date_removed",
+          "column_name": "present_address_bangla",
           "type": "Client",
           "json_mapping": {
-            "field": "attributes.dateRemoved"
+            "field": "attributes.present_address_bangla"
           }
         },
         {
-          "column_name": "last_name",
+          "column_name": "post_office_present",
           "type": "Client",
           "json_mapping": {
-            "field": "lastName"
+            "field": "attributes.post_office_present"
           }
         },
         {
-          "column_name": "village_town",
+          "column_name": "is_permanent_address",
           "type": "Client",
           "json_mapping": {
-            "field": "addresses.cityVillage"
+            "field": "attributes.is_permanent_address"
           }
         },
         {
-          "column_name": "landmark",
+          "column_name": "permanent_address",
           "type": "Client",
           "json_mapping": {
-            "field": "addresses.landmark"
+            "field": "attributes.permanent_address"
           }
         },
         {
-          "column_name": "nearest_facility",
+          "column_name": "village_name",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.village"
+          }
+        },
+        {
+          "column_name": "post_office_permanent",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.post_office_permanent"
+          }
+        },
+        {
+          "column_name": "latrine_structure",
           "type": "Event",
           "json_mapping": {
             "field": "obs.fieldCode",
-            "concept": "162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            "concept": "bd437fcc-f42f-40a6-8baf-b3d3af725ad4"
           }
         },
+        {
+          "column_name": "water_source",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.water_source"
+          }
+        },
+        {
+          "column_name": "water_other",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.water_other"
 
-        {
-          "column_name": "occupation",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.hh_occupation"
-          }
-        },
-        {
-          "column_name": "occupation_other",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.hh_occupation_other"
           }
         },
         {
           "column_name": "financial_status",
           "type": "Client",
           "json_mapping": {
-            "field": "attributes.hh_financial_status"
+            "field": "attributes.financial_status"
           }
         },
         {
-          "column_name": "list_of_assets",
+          "column_name": "monthly_expenditure",
           "type": "Client",
           "json_mapping": {
-            "field": "attributes.hh_list_of_assets"
+            "field": "attributes.monthly_expenditure"
           }
         },
         {
-          "column_name": "floor_material",
+          "column_name": "nearby_health_facility",
           "type": "Client",
           "json_mapping": {
-            "field": "attributes.hh_floor_material"
+            "field": "attributes.nearby_health_facility"
           }
         },
         {
-          "column_name": "wall_material",
+          "column_name": "health_facility_distance",
           "type": "Client",
           "json_mapping": {
-            "field": "attributes.hh_wall_material"
+            "field": "attributes.health_facility_distance"
           }
         },
+
         {
-          "column_name": "roof_material",
+          "column_name": "latrine_other",
           "type": "Client",
           "json_mapping": {
-            "field": "attributes.hh_roof_material"
+            "field": "attributes.latrine_other"
+
           }
         },
+
         {
-          "column_name": "homestead_land",
+          "column_name": "date_removed",
           "type": "Client",
           "json_mapping": {
-            "field": "attributes.homestead_land"
-          }
-        },
-        {
-          "column_name": "cultivable_land",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.cultivable_land"
+            "field": "attributes.dateRemoved"
           }
         },
         {
@@ -498,17 +626,17 @@
           }
         },
         {
-          "column_name": "ss_name",
+          "column_name": "block_name",
           "type": "Client",
           "json_mapping": {
-            "field": "attributes.SS_Name"
+            "field": "attributes.block_Name"
           }
         },
         {
-          "column_name": "village_name",
+          "column_name": "ward_name",
           "type": "Client",
           "json_mapping": {
-            "field": "addresses.cityVillage"
+            "field": "attributes.ward_name"
           }
         },
         {

@@ -227,7 +227,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         registerPayment(activity);
         registerDashboard(activity);
 
-        registerDeviceToDeviceSync(activity);
+        //registerDeviceToDeviceSync(activity);
         drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(@NonNull View view, float v) {

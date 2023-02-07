@@ -27,12 +27,12 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/action_hh_survey"
-        android:enabled="true"
+        android:enabled="false"
         android:title="@string/hh_survey"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_survey_history"
-        android:enabled="true"
+        android:enabled="false"
         android:title="@string/survey_history"
         app:showAsAction="never" />
 

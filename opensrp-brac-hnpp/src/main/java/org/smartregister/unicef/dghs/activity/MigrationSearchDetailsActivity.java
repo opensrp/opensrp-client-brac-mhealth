@@ -1,0 +1,412 @@
+package org.smartregister.unicef.dghs.activity;
+
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Intent;
+import android.content.Context;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.smartregister.unicef.dghs.R;
+import org.smartregister.unicef.dghs.adapter.SearchMigrationAdapter;
+import org.smartregister.unicef.dghs.contract.MigrationContract;
+import org.smartregister.unicef.dghs.contract.SearchDetailsContract;
+import org.smartregister.unicef.dghs.holder.SearchMigrationViewHolder;
+import org.smartregister.unicef.dghs.interactor.MigrationInteractor;
+import org.smartregister.unicef.dghs.job.HnppSyncIntentServiceJob;
+import org.smartregister.unicef.dghs.model.Migration;
+import org.smartregister.unicef.dghs.presenter.SearchDetailsPresenter;
+import org.smartregister.unicef.dghs.utils.HnppConstants;
+import org.smartregister.unicef.dghs.utils.MigrationSearchContentData;
+import org.smartregister.family.util.AppExecutors;
+import org.smartregister.family.util.Utils;
+import org.smartregister.view.activity.SecuredActivity;
+
+public class MigrationSearchDetailsActivity extends SecuredActivity implements View.OnClickListener, SearchDetailsContract.View {
+    public static final String EXTRA_SEARCH_CONTENT = "extra_search_content";
+
+    protected RecyclerView recyclerView;
+    private ProgressBar progressBar;
+    private TextView titleTextView;
+    private EditText editTextSearch;
+    ImageView crossBtn;
+    private SearchDetailsPresenter presenter;
+    private SearchMigrationAdapter adapter;
+
+    private MigrationSearchContentData migrationSearchContentData;
+
+    public static void startMigrationSearchActivity(Activity activity, MigrationSearchContentData migrationSearchContentData){
+        Intent intent = new Intent(activity,MigrationSearchDetailsActivity.class);
+        intent.putExtra(EXTRA_SEARCH_CONTENT,migrationSearchContentData);
+        activity.startActivity(intent);
+    }
+
+    @Override
+    protected void onCreation() {
+        setContentView(R.layout.activity_migration_search_details);
+        HnppConstants.updateAppBackground(findViewById(R.id.action_bar));
+        titleTextView = findViewById(R.id.textview_detail_two);
+        editTextSearch = findViewById(R.id.search_edit_text);
+        crossBtn = findViewById(R.id.cross_btn);
+        crossBtn.setOnClickListener(this);
+        findViewById(R.id.sort_btn).setOnClickListener(this);
+        findViewById(R.id.backBtn).setOnClickListener(this);
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        progressBar = findViewById(R.id.progress_bar);
+
+        migrationSearchContentData =(MigrationSearchContentData) getIntent().getSerializableExtra(EXTRA_SEARCH_CONTENT);
+
+        presenter = new SearchDetailsPresenter(this);
+        if(migrationSearchContentData !=null){
+            if(migrationSearchContentData.getMigrationType().equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.Member.name())){
+                titleTextView.setText(getString(R.string.member_migration));
+            }else {
+                titleTextView.setText(getString(R.string.hh_migration));
+            }
+            presenter.fetchData(migrationSearchContentData.getMigrationType(),migrationSearchContentData.getDistrictId(),migrationSearchContentData.getVillageId(), migrationSearchContentData.getGender(),migrationSearchContentData.getStartAge(), migrationSearchContentData.getAge());
+        }
+        editTextSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(!TextUtils.isEmpty(s.toString())){
+                    crossBtn.setVisibility(View.VISIBLE);
+                }else{
+                    crossBtn.setVisibility(View.GONE);
+                }
+                presenter.search(s.toString());
+
+
+            }
+        });
+
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.backBtn:
+                finish();
+                break;
+            case R.id.cross_btn:
+                editTextSearch.setText("");
+                break;
+        }
+    }
+    @Override
+    protected void onResumption() {
+
+    }
+
+    @Override
+    public SearchDetailsContract.Presenter getPresenter() {
+        return presenter;
+    }
+
+    @Override
+    public void showProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void updateAdapter() {
+        adapter = new SearchMigrationAdapter(this, new SearchMigrationAdapter.OnClickAdapter() {
+            @Override
+            public void onItemClick(SearchMigrationViewHolder viewHolder, int adapterPosition, Migration content) {
+                content.cityVillage = content.addresses.get(0).getCityVillage();
+                showDetailsDialog(content);
+            }
+
+            @Override
+            public void onClick(SearchMigrationViewHolder viewHolder, int adapterPosition, Migration content) {
+                PopupMenu popup = new PopupMenu(getContext(), viewHolder.imageViewMenu);
+                popup.inflate(R.menu.popup_menu);
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @SuppressLint("NonConstantResourceId")
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.migration_menu:
+                                migrationSearchContentData.setBaseEntityId(content.baseEntityId);
+                                openFamilyListActivity();
+                                return true;
+                            case R.id.migration_details:
+                                content.cityVillage = content.addresses.get(0).getCityVillage();
+
+                                showDetailsDialog(content);
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
+                //displaying the popup
+                popup.show();
+            }
+
+        });
+        adapter.setData(presenter.getMemberList());
+        recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL));
+    }
+    private void openFamilyListActivity(){
+        if(migrationSearchContentData.getMigrationType().equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.HH.name())){
+            //showSSDialog();
+            return;
+        }
+        Intent intent = new Intent(this, FamilyRegisterActivity.class);
+        intent.putExtra(MigrationSearchDetailsActivity.EXTRA_SEARCH_CONTENT,migrationSearchContentData);
+        startActivity(intent);
+
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
+    }
+
+    private void showDetailsDialog(Migration content){
+        Dialog dialog = new Dialog(this, android.R.style.Theme_NoTitleBar_Fullscreen);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.migration_member_details_dialog);
+        TextView textViewName = dialog.findViewById(R.id.name_TV);
+        TextView textViewVillage = dialog.findViewById(R.id.village_TV);
+        TextView textViewPhoneNo = dialog.findViewById(R.id.phone_no_TV);
+        if(migrationSearchContentData.getMigrationType().equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.Member.name())){
+            textViewName.setText(this.getString(R.string.name,content.firstName));
+            textViewVillage.setText(content.cityVillage);
+            StringBuilder builder = new StringBuilder();
+            if(!TextUtils.isEmpty(content.birthdate)){
+                builder.append(this.getString(R.string.age, Utils.getDuration(content.birthdate))+"\n");
+
+            }
+            if(!TextUtils.isEmpty(content.gender)){
+                builder.append(this.getString(R.string.gender_postfix, HnppConstants.getGender(content.gender))+"\n");
+
+            }
+            if(!TextUtils.isEmpty(content.attributes.Mobile_Number)){
+                builder.append(this.getString(R.string.phone_no,content.attributes.Mobile_Number)+"\n");
+
+            }
+            if(!TextUtils.isEmpty(content.attributes.nationalId)){
+                builder.append(this.getString(R.string.nid,content.attributes.nationalId)+"\n");
+            }
+            if(!TextUtils.isEmpty(content.attributes.birthRegistrationID)){
+                builder.append(this.getString(R.string.bid,content.attributes.birthRegistrationID));
+            }
+            if(builder.length()>0){
+                textViewPhoneNo.setVisibility(View.VISIBLE);
+                textViewPhoneNo.setText(builder.toString());
+            }
+        }else {
+            textViewName.setText(this.getString(R.string.house_hold_head_name,content.firstName));
+            StringBuilder builder = new StringBuilder();
+            if(!TextUtils.isEmpty(content.attributes.BLOCK_NAME)){
+                builder.append(this.getString(R.string.ss_name,content.attributes.BLOCK_NAME)+"\n");
+
+            }
+            if(!TextUtils.isEmpty(content.attributes.Number_of_HH_Member)){
+                builder.append(this.getString(R.string.member_count,content.attributes.Number_of_HH_Member)+"\n");
+
+            }
+            if(!TextUtils.isEmpty(content.attributes.HOH_Phone_Number)){
+                builder.append(this.getString(R.string.phone_no,content.attributes.HOH_Phone_Number)+"\n");
+
+            }
+            if(!TextUtils.isEmpty(content.attributes.nationalId)){
+                builder.append(this.getString(R.string.nid,content.attributes.nationalId)+"\n");
+            }
+            if(!TextUtils.isEmpty(content.attributes.birthRegistrationID)){
+                builder.append(this.getString(R.string.bid,content.attributes.birthRegistrationID));
+            }
+            if(builder.length()>0){
+                textViewPhoneNo.setVisibility(View.VISIBLE);
+                textViewPhoneNo.setText(builder.toString());
+            }
+            textViewVillage.setText(content.cityVillage);
+        }
+
+        dialog.findViewById(R.id.cross_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.migration_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                migrationSearchContentData.setBaseEntityId(content.baseEntityId);
+                openFamilyListActivity();
+            }
+        });
+        dialog.show();
+
+    }
+    ArrayAdapter<String> villageSpinnerArrayAdapter;
+    String mSelectedVillageName,mSelectedSSName,mSelectedVillageId;
+//    private void showSSDialog(){
+//        ArrayList<String> ssSpinnerArray = new ArrayList<>();
+//
+//        ArrayList<String> villageSpinnerArray = new ArrayList<>();
+//        ArrayList<String> villageIdArray = new ArrayList<>();
+//
+//        ArrayList<SSModel> ssLocationForms = GeoLocationHelper.getInstance().getSsModels();
+//        for (SSModel ssModel : ssLocationForms) {
+//            ssSpinnerArray.add(ssModel.username);
+//        }
+//
+//        ArrayAdapter<String> ssSpinnerArrayAdapter = new ArrayAdapter<String>
+//                (this, android.R.layout.simple_spinner_item,
+//                        ssSpinnerArray){
+//            @Override
+//            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+//                convertView = super.getDropDownView(position, convertView,
+//                        parent);
+//
+//                AppCompatTextView appCompatTextView = (AppCompatTextView)convertView;
+//                appCompatTextView.setGravity(Gravity.CENTER_VERTICAL);
+//                appCompatTextView.setHeight(100);
+//
+//                return convertView;
+//            }
+//        };
+//
+//         villageSpinnerArrayAdapter = new ArrayAdapter<String>
+//                (this, android.R.layout.simple_spinner_item,
+//                        villageSpinnerArray){
+//            @Override
+//            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+//                convertView = super.getDropDownView(position, convertView,
+//                        parent);
+//                AppCompatTextView appCompatTextView = (AppCompatTextView)convertView;
+//                appCompatTextView.setGravity(Gravity.CENTER_VERTICAL);
+//                appCompatTextView.setHeight(100);
+//                return convertView;
+//            }
+//        };
+//
+//
+//        Dialog dialog = new Dialog(this, android.R.style.Theme_NoTitleBar_Fullscreen);
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(org.smartregister.family.R.color.customAppThemeBlue)));
+//        dialog.setContentView(R.layout.dialog_ss_selection);
+//        Spinner ss_spinner = dialog.findViewById(R.id.ss_filter_spinner);
+//        Spinner village_spinner = dialog.findViewById(R.id.village_filter_spinner);
+//        village_spinner.setAdapter(villageSpinnerArrayAdapter);
+//        ss_spinner.setAdapter(ssSpinnerArrayAdapter);
+////        ss_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+////            @Override
+////            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+////                if (position != -1) {
+////                    villageSpinnerArray.clear();
+////                    villageIdArray.clear();
+////                    ArrayList<GeoLocation> ssLocations = GeoLocationHelper.getInstance().getSsModels().get(position).locations;
+////                    for (GeoLocation geoLocation1 : ssLocations) {
+////                        villageSpinnerArray.add(geoLocation1.village.name.trim());
+////                        villageIdArray.add(geoLocation1.village.id+"");
+////                    }
+////                    villageSpinnerArrayAdapter = new ArrayAdapter<String>
+////                            (MigrationSearchDetailsActivity.this, android.R.layout.simple_spinner_item,
+////                                    villageSpinnerArray);
+////                    village_spinner.setAdapter(villageSpinnerArrayAdapter);
+////                    mSelectedSSName = ssSpinnerArray.get(position);
+////                }
+////            }
+////
+////            @Override
+////            public void onNothingSelected(AdapterView<?> parent) {
+////
+////            }
+////        });
+//        village_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                if (position != -1) {
+//                    mSelectedVillageName = villageSpinnerArray.get(position);
+//                    mSelectedVillageId = villageIdArray.get(position);
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
+//        Button proceed = dialog.findViewById(R.id.filter_apply_button);
+//        proceed.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                migrationSearchContentData.setBlockName(mSelectedSSName);
+//                migrationSearchContentData.setBlockId(Integer.parseInt(mSelectedVillageId));
+//                migrateHH();
+//                //dialog.dismiss();
+//            }
+//        });
+//        dialog.show();
+//    }
+
+    private void migrateHH() {
+        HnppConstants.showDialogWithAction(this,getString(R.string.dialog_title), "", new Runnable() {
+            @Override
+            public void run() {
+                new MigrationInteractor(new AppExecutors()).migrateHH(migrationSearchContentData, new MigrationContract.MigrationPostInteractorCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        Toast.makeText(MigrationSearchDetailsActivity.this,"Successfully migrated,Syncing data",Toast.LENGTH_SHORT).show();
+                        HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
+                        Intent intent = new Intent(MigrationSearchDetailsActivity.this, FamilyRegisterActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+
+                    }
+
+                    @Override
+                    public void onFail() {
+                        Toast.makeText(MigrationSearchDetailsActivity.this,"Fail to migrate",Toast.LENGTH_SHORT).show();
+
+
+                    }
+                });
+
+            }
+        });
+
+
+    }
+
+}

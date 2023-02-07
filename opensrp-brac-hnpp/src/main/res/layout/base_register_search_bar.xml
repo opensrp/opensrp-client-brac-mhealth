@@ -46,6 +46,7 @@
 
     <RelativeLayout
         android:id="@+id/filter_sort_layout"
+        android:visibility="invisible"
         android:layout_width="0dp"
         android:layout_height="@dimen/ec_main_header_search_layout_height"
         android:layout_marginEnd="@dimen/register_search_bar_margin"
@@ -89,19 +90,19 @@
             android:textSize="@dimen/default_font_size_search_bar" />
 
         <TextView
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:id="@+id/filter_text_view"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
-            android:foregroundTint="@color/white"
+            android:drawableEnd="@drawable/ic_icon_filter"
             android:drawableRight="@drawable/ic_icon_filter"
             android:drawablePadding="@dimen/register_search_bar_min_margin"
-            android:drawableEnd="@drawable/ic_icon_filter"
             android:ellipsize="end"
+            android:foregroundTint="@color/white"
             android:gravity="center"
             android:maxLines="1"
             android:text="ফিল্টার"

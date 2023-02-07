@@ -56,10 +56,10 @@
     "next": "step2",
     "fields": [
       {
-        "key": "module_id",
+        "key": "block_id",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "module_id",
+        "openmrs_entity_id": "block_id",
         "type": "hidden"
       },
       {
@@ -70,42 +70,42 @@
         "type": "hidden"
       },
       {
-        "key": "village_id",
+        "key": "ward_id",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "village_id",
+        "openmrs_entity_id": "ward_id",
         "type": "hidden"
       },
       {
-        "key": "ss_name",
+        "key": "ward_name",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "SS_Name",
+        "openmrs_entity_id": "ward_name",
         "type": "spinner",
-        "hint": "স্বাস্থ্য সেবিকার নামঃ",
+        "hint": "ওয়ার্ডের নাম:",
         "values": [
         ],
         "openmrs_choice_ids": {
         },
         "v_required": {
           "value": "true",
-          "err": "স্বাস্থ্য সেবিকার নাম নির্বাচন করুন"
+          "err": "ওয়ার্ডের নাম নির্বাচন করুন"
         }
       },
       {
-        "key": "village_name",
+        "key": "block_name",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "Village_Name",
+        "openmrs_entity_id": "block_name",
         "type": "spinner",
-        "hint": "গ্রামের নামঃ",
+        "hint": "ব্লকের নাম:",
         "values": [
         ],
         "openmrs_choice_ids": {
         },
         "v_required": {
           "value": "true",
-          "err": "গ্রামের নাম নির্বাচন করুন"
+          "err": "ব্লকের নাম নির্বাচন করুন"
         },
         "relevance": {
           "rules-engine": {
@@ -116,47 +116,127 @@
         }
       },
       {
-        "key": "claster",
+        "key": "present_address_bangla",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "Cluster",
-        "type": "spinner",
-        "hint": "ক্লাস্টার",
-        "values": [
-          "ক্লাস্টার ১",
-          "ক্লাস্টার ২",
-          "ক্লাস্টার ৩",
-          "ক্লাস্টার ৪"
-        ],
-        "openmrs_choice_ids": {
-          "ক্লাস্টার ১":"1st_Cluster",
-          "ক্লাস্টার ২":"2nd_Cluster",
-          "ক্লাস্টার ৩":"3rd_Cluster",
-          "ক্লাস্টার ৪":"4th_Cluster"
+        "openmrs_entity_id": "present_address_bangla",
+        "type": "edit_text",
+        "hint": "বর্তমান ঠিকানা(বাংলায়)",
+        "v_regex": {
+          "value": "[^A-Za-z0-9]*",
+          "err": "বাংলায় লিখুন"
         },
         "v_required": {
-          "value": "true",
-          "err": "ক্লাস্টার নির্বাচন করুন"
+          "value": false,
+          "err": "Please type address"
         }
       },
       {
-        "key": "house_hold_type",
+        "key": "post_office_present",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "HH_Type",
+        "openmrs_entity_id": "post_office_present",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "v_regex": {
+          "value": "[^A-Za-z0-9]*",
+          "err": "৪০ অক্ষরের ভিতরে বাংলায় লিখুন"
+        },
+        "hint": "ডাকঘর(বাংলায়)",
+        "v_required": {
+          "value": false,
+          "err": "Please enter post office"
+        }
+      },
+      {
+        "key": "is_permanent_address",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "is_permanent_address",
+        "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "খানার ধরণ",
+        "hint": "স্থায়ী ঠিকানা কি একই",
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
         "values": [
-          "BRAC VO",
-          "NVO"
+          "হ্যাঁ",
+          "না"
         ],
         "openmrs_choice_ids": {
-          "BRAC VO": "BRAC VO",
-          "NVO": "NVO"
-        },
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+      {
+        "key": "permanent_address",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "permanent_address",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "look_up": "true",
+        "hint": "স্থায়ী ঠিকানা(ইউনিয়ন)",
         "v_required": {
-          "value": "true",
-          "err": "খানার ধরণ নির্বাচন করুন"
+          "value": true,
+          "err": "ইউনিয়ন এর নামের অক্ষর ইংরেজিতে লিখুন "
+        },
+        "v_regex": {
+          "value": "[A-Za-z0-9.,() ]*",
+          "err": "Please select from the list"
+        },
+        "relevance": {
+          "step1:is_permanent_address": {
+            "type": "string",
+            "ex": "equalTo(., \"না\")"
+          }
+        }
+      },
+      {
+        "key": "village",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "village",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "v_required": {
+          "value": false,
+          "err": "Please enter village"
+        },
+        "v_regex": {
+          "value": "[^A-Za-z0-9]{1,40}$",
+          "err": "৪০ অক্ষরের ভিতরে বাংলায় লিখুন"
+        },
+        "hint": "গ্রাম(বাংলায়)",
+        "relevance": {
+          "step1:is_permanent_address": {
+            "type": "string",
+            "ex": "equalTo(., \"না\")"
+          }
+        }
+      },
+      {
+        "key": "post_office_permanent",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "post_office_permanent",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "ডাকঘর স্থায়ী(বাংলায়)",
+        "v_required": {
+          "value": false,
+          "err": "৪০ অক্ষরের ভিতরে বাংলায় লিখুন"
+        },
+        "v_regex": {
+          "value": "[^A-Za-z0-9]{1,40}$",
+          "err": "৪০ অক্ষরের ভিতরে বাংলায় লিখুন"
+        },
+        "relevance": {
+          "step1:is_permanent_address": {
+            "type": "string",
+            "ex": "equalTo(., \"না\")"
+          }
         }
       },
       {
@@ -173,25 +253,29 @@
         }
       },
       {
-        "key": "serial_no",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "serial_no",
-        "type": "edit_text",
-        "hint": "সিরিয়াল নাম্বার",
-        "value": "H",
-        "v_regex": {
-          "value": "H[0-9\\/]*",
-          "err": "H দিয়ে শুরু করতে হবে এরপর যে কোন নাম্বার অথবা / দিন অথবা শুধু H লিখুন"
-        }
-      },
-      {
         "key": "firstName",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person",
         "openmrs_entity_id": "first_name",
         "type": "edit_text",
-        "hint": "খানা প্রধানের নাম",
+        "hint": "পরিবারের প্রধানের নাম এর প্রথম অংশ (ইংরেজীতে)",
+        "edit_type": "name",
+        "v_required": {
+          "value": "true",
+          "err": "খানা প্রধানের নাম লিখুন"
+        },
+        "v_regex": {
+          "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
+          "err": "একটি বৈধ নাম লিখুন"
+        }
+      },
+      {
+        "key": "last_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person",
+        "openmrs_entity_id": "last_name",
+        "type": "edit_text",
+        "hint": "পরিবারের প্রধানের নাম এর শেষ অংশ (ইংরেজীতে)",
         "edit_type": "name",
         "v_required": {
           "value": "true",
@@ -236,7 +320,7 @@
         "key": "member_count",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "Number_of_HH_Member",
+        "openmrs_entity_id": "member_count",
         "type": "edit_text",
         "hint": "খানার মোট সদস্য সংখ্যা",
         "v_numeric": {
@@ -258,22 +342,53 @@
         }
       },
       {
-        "key": "has_latrine",
+        "key": "household_type",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "Has_Latrine",
+        "openmrs_entity_id": "household_type",
+        "openmrs_data_type": "Coded",
         "type": "spinner",
-        "hint": "খানায় স্যানিটারি ল্যাট্রিন আছে কিনা?",
+        "hint": "আপনার বাসস্থানের ধরণ কি?",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "কাচা",
+          "সেমি পাকা",
+          "পাকা"
         ],
         "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+          "কাচা": "Raw",
+          "সেমি পাকা" : "Semi_concrete",
+          "পাকা" : "Concrete"
         },
         "v_required": {
-          "value": "true",
+          "value": "false",
+          "err": "Please answer the question"
+        }
+      },
+      {
+        "key": "latrine_structure",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "latrine_structure",
+        "type": "spinner",
+        "hint": "খানার সদস্যগন কি ধরনের ল্যাট্রিন ব্যবহার করেন?",
+        "values": [
+          "স্যানিটারী",
+          "পাকা",
+          "কাচা",
+          "খােলা জায়গা",
+          "ঝোপ জংগল",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "স্যানিটারী": "Sanitary",
+          "পাকা": "Construction",
+          "কাচা": "UnderConstruction",
+          "খােলা জায়গা": "OpenArea",
+          "ঝোপ জংগল" : "Bush",
+          "অন্যান্য": "Latrine_others"
+        },
+        "v_required": {
+          "value": "false",
           "err": "স্যানিটারি ল্যাট্রিন নির্বাচন করুন"
         }
       }
@@ -284,54 +399,53 @@
     "title": "খানা নিবন্ধন",
     "previous": "step1",
     "fields": [
-
       {
-        "key": "occupation",
+        "key": "water_source",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "hh_occupation",
+        "openmrs_entity_id": "water_source",
         "type": "spinner",
-        "hint": "খানা প্রধানের পেশাঃ",
+        "hint": "আপনার পরিবারের প্রধান খাবার পানির উৎস কি?",
         "values": [
-          "কৃষি কাজ",
-          "গার্মেন্টস কর্মী",
-          "চাকুরি",
-          "প্রযুক্তিগত কর্মী (যেমন: ড্রাইভার/ ইলেকট্রিশিয়ান/ওয়েল্ডিং/মেকানিকস/রং মিস্ত্রি/রাজমিস্ত্রি)",
-          "দিন মজুর",
-          "বিক্রেতা/দোকানদার/সবজি বা মাছ বিক্রেতা/খুচরা বিক্রেতা/মোবাইল কার্ড বিক্রেতা",
-          "ব্যবসায়ী",
-          "বৈদেশিক কাজ/ কর্মী",
-          "স্ব-নিযুক্ত",
-          "বেকার",
+          "টিউবওয়েল (লাল)",
+          "টিউবওয়েল (সবুজ)",
+          "টিউবওয়েল (আর্সেনিক পরিক্ষা করা হয়নি)",
+          "বৃষ্টির পানি",
+          "নদী/খাল",
+          "ট্যাপ",
+          "কুয়া/ইন্দারা",
+          "পুকুর/ভোৰা",
           "অন্যান্য"
         ],
         "openmrs_choice_ids": {
-          "কৃষি কাজ": "farmer",
-          "গার্মেন্টস কর্মী": "textile",
-          "চাকুরি": "service",
-          "প্রযুক্তিগত কর্মী (যেমন: ড্রাইভার/ ইলেকট্রিশিয়ান/ওয়েল্ডিং/মেকানিকস/রং মিস্ত্রি/রাজমিস্ত্রি)": "technician",
-          "দিন মজুর": "labour",
-          "বিক্রেতা/দোকানদার/সবজি বা মাছ বিক্রেতা/খুচরা বিক্রেতা/মোবাইল কার্ড বিক্রেতা": "shopkeeper",
-          "ব্যবসায়ী": "businessman",
-          "বৈদেশিক কাজ/ কর্মী": "expatriate",
-          "স্ব-নিযুক্ত": "selfemployed",
-          "বেকার":"unemployed",
-          "অন্যান্য": "other"
+          "টিউবওয়েল (লাল)": "red_tube_well",
+          "টিউবওয়েল (সবুজ)" : "Green_tube_well",
+          "টিউবওয়েল (আর্সেনিক পরিক্ষা করা হয়নি)" : "NO_arsenic_test_tube_well",
+          "বৃষ্টির পানি" : "Rain_water",
+          "নদী/খাল" : "River_or_canal",
+          "ট্যাপ" : "Tap",
+          "কুয়া/ইন্দারা" : "Well_or_indira",
+          "পুকুর/ভোৰা" : "Pond",
+          "অন্যান্য" : "Others_water_source"
         },
         "v_required": {
-          "value": "true",
-          "err": " পেশা নির্বাচন করুন"
+          "value": "false",
+          "err": "Please answer the question"
         }
       },
       {
-        "key": "occupation_other",
+        "key": "water_other",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "hh_occupation_other",
+        "openmrs_entity_id": "water_other",
         "type": "edit_text",
-        "hint": "লিখুন",
+        "hint": "অন্যান্য পানির উৎস",
+        "v_required": {
+          "value": false,
+          "err": "Please Type Water Source"
+        },
         "relevance": {
-          "step2:occupation": {
+          "step1:water_source": {
             "type": "string",
             "ex": "equalTo(., \"অন্যান্য\")"
           }
@@ -341,173 +455,252 @@
         "key": "financial_status",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "hh_financial_status",
+        "openmrs_entity_id": "financial_status",
         "type": "spinner",
-        "hint": "খানার আর্থিক অবস্থাঃ",
-        "openmrs_data_type": "text",
+        "hint": "আপনার পরিবারের আর্থিক অবস্থা কি?",
         "values": [
-          "মাসিক আয় ৬০০০ টাকার কম",
-          "মাসিক আয় ৭০০০ টাকার কম",
-          "মাসিক আয় ৭০০১ - ১২০০০ টাকার মধ্যে",
-          "মাসিক আয় ১২০০০ টাকার ঊর্ধ্বে"
-
+          "সর্বদা অভাব অনটন",
+          "সাময়িক অভাব অনটন",
+          "আয়-ব্যয় সমান",
+          "সচ্ছল",
+          "সঞ্চয় হয়",
+          "অন্যান্য"
         ],
         "openmrs_choice_ids": {
-          "মাসিক আয় ৬০০০ টাকার কম": "less_than_6K",
-          "মাসিক আয় ৭০০০ টাকার কম": "less_than_7K",
-          "মাসিক আয় ৭০০১ - ১২০০০ টাকার মধ্যে": "7K_to_12K",
-          "মাসিক আয় ১২০০০ টাকার ঊর্ধ্বে": "more_than_12K"
+          "সর্বদা অভাব অনটন": "always_hand_to_mouth",
+          "সাময়িক অভাব অনটন" : "Somtimes_hand_to_mouth",
+          "আয়-ব্যয় সমান" : "Income_and_expenditure_equal",
+          "সচ্ছল" : "Solvent",
+          "সঞ্চয় হয়" : "Can_save",
+          "অন্যান্য" : "Others_financial_status"
 
         },
         "v_required": {
-          "value": "true",
-          "err": " আর্থিক অবস্থা নির্বাচন করুন"
+          "value": "false",
+          "err": "Please answer the question"
         }
       },
       {
-        "key": "list_of_assets",
+        "key": "finance_other",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "hh_list_of_assets",
-        "openmrs_data_type": "text",
-        "type": "check_box",
-        "label": "সম্পদের তালিকা",
-        "exclusive": [
-          "chk_none"
-        ],
-        "options": [
-          {
-            "key": "Television",
-            "text": "টেলিভিশন",
-            "value": false,
-            "openmrs_choice_id": "Television"
-          },
-          {
-            "key": "Refridgarator",
-            "text": "রেফ্রিজারেটর",
-            "value": false,
-            "openmrs_choice_id": "Refridgarator"
-          },
-          {
-            "key": "Closet",
-            "text": "আলমারি/ওয়ারড্রব",
-            "value": false,
-            "openmrs_choice_id": "Closet"
-          },
-          {
-            "key": "Electric_Fan",
-            "text": "বৈদ্যুতিক ফ্যান",
-            "value": false,
-            "openmrs_choice_id": "Electric_Fan"
-          },
-          {
-            "key": "chk_none",
-            "text": "কোনোটিই নেই",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "chk_none"
+        "openmrs_entity_id": "finance_other",
+        "type": "edit_text",
+        "hint": "আর্থিক অবস্থা অন্যান্য",
+        "v_required": {
+          "value": false,
+          "err": "Please Type Financial Status"
+        },
+        "relevance": {
+          "step1:financial_status": {
+            "type": "string",
+            "ex": "equalTo(., \"অন্যান্য\")"
           }
-        ],
-        "v_required": {
-          "value": "true",
-          "err": " সম্পদের তালিকা নির্বাচন করুন"
         }
       },
       {
-        "key": "floor_material",
+        "key": "monthly_expenditure",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "hh_floor_material",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "মেঝে কি দিয়ে তৈরি",
-        "values": [
-          "সিমেন্ট",
-          "বালি/কাদা",
-          "অন্যান্য"
-        ],
-        "openmrs_choice_ids": {
-          "সিমেন্ট": "cement",
-          "বালি/কাদা":"sand",
-          "অন্যান্য": "other"
-        },
-        "v_required": {
-          "value": "true",
-          "err": " কি দিয়ে তৈরি নির্বাচন করুন"
-        }
-      },
-      {
-        "key": "wall_material",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "hh_wall_material",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "দেয়াল কি দিয়ে তৈরি",
-        "values": [
-          "ইট",
-          "টিন",
-          "মাটি",
-          "অন্যান্য"
-        ],
-        "openmrs_choice_ids": {
-          "ইট": "brick",
-          "টিন": "tin",
-          "মাটি" : "soil",
-          "অন্যান্য": "other"
-        },
-        "v_required": {
-          "value": "true",
-          "err": " কি দিয়ে তৈরি নির্বাচন করুন"
-        }
-      },
-      {
-        "key": "roof_material",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "hh_roof_material",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "ছাদ কি দিয়ে তৈরি",
-        "values": [
-          "ইট",
-          "টিন",
-          "বাঁশ",
-          "অন্যান্য"
-        ],
-        "openmrs_choice_ids": {
-          "ইট": "brick",
-          "টিন": "tin",
-          "বাঁশ": "bamboo",
-          "অন্যান্য": "other"
-        },
-        "v_required": {
-          "value": "true",
-          "err": " কি দিয়ে তৈরি নির্বাচন করুন"
-        }
-      },
-      {
-        "key": "homestead_land",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "homestead_land",
+        "openmrs_entity_id": "monthly_expenditure",
+        "openmrs_data_type": "Numeric",
         "type": "edit_text",
-        "hint": "বসত জমির পরিমাণ কত শতাংশ",
+        "hint": "পরিবারের আনুমানিক মাসিক ব্যয় কত? (টাকা) ",
+        "v_required": {
+          "value": "false",
+          "err": "Please enter the amount"
+        },
         "v_numeric": {
           "value": "true",
-          "err": "Enter a valid Number"
+          "err": "Enter a valid amount"
         }
       },
       {
-        "key": "cultivable_land",
+        "key": "nearby_health_facility",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "cultivable_land",
+        "openmrs_entity_id": "nearby_health_facility",
+        "type": "spinner",
+        "hint": "নিকটবর্তী স্বাস্থ্য সেবা কেন্দ্র কোনটি?",
+        "values": [
+          "কমিউনিটি ক্লিনিক",
+          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র",
+          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র",
+          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
+          "মা ও শিশু কল্যাণ কেন্দ্র",
+          "১০ শয্যা বিশিষ্ট হাসপাতাল",
+          "২০ শয্যা বিশিষ্ট হাসপাতাল",
+          "উপজেলা স্বাস্থ্য কমপ্লেক্স",
+          "বেসরকারী ক্লিনিক/হাসপাতাল",
+          "এনজিও",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "কমিউনিটি ক্লিনিক": "Community_Clinic",
+          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র": "Union_Sub_Center",
+          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র":"Union_Family_Welfare_Center",
+          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র":"Union_Health_and_Family_Welfare_Center",
+          "মা ও শিশু কল্যাণ কেন্দ্র":"Metarnal_and_Child_Wellfare_Center",
+          "১০ শয্যা বিশিষ্ট হাসপাতাল":"10_Bed_Hospital",
+          "২০ শয্যা বিশিষ্ট হাসপাতাল":"20_Beds_Hospital",
+          "উপজেলা স্বাস্থ্য কমপ্লেক্স":"Upazila_Health_Complex",
+          "বেসরকারী ক্লিনিক/হাসপাতাল":"Private_Clinic_and_Hospital",
+          "এনজিও":"Non-governmental_Organization",
+          "অন্যান্য":"Others_Health_Facility"
+        },
+        "v_required": {
+          "value": "false",
+          "err": "Please answer the question"
+        }
+      },
+      {
+        "key": "facility_other",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "facility_other",
         "type": "edit_text",
-        "hint": "চাষের যোগ্য জমির পরিমাণ কত শতাংশ",
-        "v_numeric": {
-          "value": "true",
-          "err": "Enter a valid Number"
+        "hint": "অন্যান্য স্বাস্থ্য সেবা কেন্দ্র",
+        "v_required": {
+          "value": false,
+          "err": "Please Type Facility Name"
+        },
+        "relevance": {
+          "step1:nearby_health_facility": {
+            "type": "string",
+            "ex": "equalTo(., \"অন্যান্য\")"
+          }
+        }
+      },
+      {
+        "key": "health_facility_distance",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "health_facility_distance",
+        "type": "spinner",
+        "hint": "নিকটবর্তী স্বাস্থ্য সেবা কেন্দ্রের আনুমানিক দুরত্ব কত কিঃ মিঃ",
+        "values": [
+          "৫০০ মিটারের কম",
+          "৫০০ মিটার থেকে ১ কিলোমিটার",
+          "১ কিলোমিটার থেকে ২ কিলোমিটার",
+          "২ কিলোমিটার থেকে ৩ কিলোমিটার",
+          "৩ কিলোমিটারের বেশী"
+        ],
+        "openmrs_choice_ids": {
+          "৫০০ মিটারের কম":"Less_Than_500_Meters",
+          "৫০০ মিটার থেকে ১ কিলোমিটার":"500_Meters_to_1_KM",
+          "১ কিলোমিটার থেকে ২ কিলোমিটার":"1_KM_to_2_KM",
+          "২ কিলোমিটার থেকে ৩ কিলোমিটার":"2_KM_to_3_KM",
+          "৩ কিলোমিটারের বেশী":"More_Than_3_KM"
+        },
+        "v_required": {
+          "value": "false",
+          "err": "Please answer the question"
+        }
+      },
+      {
+        "key": "health_care_center",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "health_care_center",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "পরিবারের সদস্যগন সাধারনত কোন স্বাস্থ্য সেবা কেন্দ্র থেকে স্বাস্থ্য সেবা নিয়ে থাকেন?",
+        "values": [
+          "কমিউনিটি ক্লিনিক",
+          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র",
+          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র",
+          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
+          "মা ও শিশু কল্যাণ কেন্দ্র",
+          "১০ শয্যা বিশিষ্ট হাসপাতাল",
+          "২০ শয্যা বিশিষ্ট হাসপাতাল",
+          "উপজেলা স্বাস্থ্য কমপ্লেক্স",
+          "সদর হাসপাতাল",
+          "মেডিকেল কলেজ হাসপাতাল",
+          "বেসরকারী ক্লিনিক/হাসপাতাল",
+          "এনজিও",
+          "বিশেষায়িত হাসপাতাল",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "কমিউনিটি ক্লিনিক":"Community_Clinic",
+          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র":"Union_Sub_Center",
+          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র":"Union_Family_Welfare_Center",
+          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র":"Union_Health_and_Family_Welfare_Center",
+          "মা ও শিশু কল্যাণ কেন্দ্র":"Metarnal_and_Child_Wellfare_Center",
+          "১০ শয্যা বিশিষ্ট হাসপাতাল":"10_Bed_Hospital",
+          "২০ শয্যা বিশিষ্ট হাসপাতাল":"20_Beds_Hospital",
+          "উপজেলা স্বাস্থ্য কমপ্লেক্স":"Upazila_Health_Complex",
+          "সদর হাসপাতাল":"District_Hospital",
+          "মেডিকেল কলেজ হাসপাতাল":"Medical_College_and_Hospital",
+          "বেসরকারী ক্লিনিক/হাসপাতাল":"Private_Clinic_and_Hospital",
+          "এনজিও":"Non-governmental_Organization",
+          "বিশেষায়িত হাসপাতাল":"Specialized_Hospital",
+          "অন্যান্য":"thers_Family_Health_Center"
+        },
+        "v_required": {
+          "value": "false",
+          "err": "Please answer the question"
+        }
+      },
+      {
+        "key": "health_care_center_other",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "health_care_center_other",
+        "type": "edit_text",
+        "hint": "অন্যান্য স্বাস্থ্য সেবা কেন্দ্র",
+        "v_required": {
+          "value": false,
+          "err": "Please Type Facility Name"
+        },
+        "v_regex": {
+          "value": "[^A-Za-z0-9]*",
+          "err": "Please enter a valid Facility Name"
+        },
+        "relevance": {
+          "step1:Family_Members_Health_Services_From_Health_Care_Center": {
+            "type": "string",
+            "ex": "equalTo(., \"অন্যান্য\")"
+          }
+        }
+      },
+      {
+        "key": "community_clinic",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "community_clinic",
+        "type": "edit_text",
+        "hint": "আপনার নিকটবর্তী কমিউনিটি ক্লিনিকটির নাম কি?",
+        "v_required": {
+          "value": "false",
+          "err": "Please enter the value"
+        }
+      },
+      {
+        "key": "clinic_distance",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "clinic_distance",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "নিকটবর্তী কমিউনিটি ক্লিনিকের আনুমানিক দুরত্ব কত কিঃ মিঃ",
+        "values": [
+          "৫০০ মিটারের কম",
+          "৫০০ মিটার থেকে ১ কিলোমিটার",
+          "১ কিলোমিটার থেকে ২ কিলোমিটার",
+          "২ কিলোমিটার থেকে ৩ কিলোমিটার",
+          "৩ কিলোমিটারের বেশী"
+        ],
+        "openmrs_choice_ids": {
+          "৫০০ মিটারের কম":"Less_Than_500_Meters",
+          "৫০০ মিটার থেকে ১ কিলোমিটার":"500_Meters_to_1_KM",
+          "১ কিলোমিটার থেকে ২ কিলোমিটার":"1_KM_to_2_KM",
+          "২ কিলোমিটার থেকে ৩ কিলোমিটার":"2_KM_to_3_KM",
+          "৩ কিলোমিটারের বেশী":"More_Than_3_KM"
+        },
+        "v_required": {
+          "value": "false",
+          "err": "Please answer the question"
         }
       },
       {
@@ -547,7 +740,7 @@
         "text_color": "#FFFFFF",
         "text_size": "22px",
         "label_text_style": "bold",
-        "name": "                    সব তথ্য পূরণ করা হলে জমা দিন"
+        "name": " সব তথ্য পূরণ করা হলে জমা দিন"
       },
       {
         "key": "spacer",

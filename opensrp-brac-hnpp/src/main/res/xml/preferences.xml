@@ -12,7 +12,7 @@
             android:dialogMessage="Enter Base Server Url"
             android:persistent="true" />
 
-<!--        <org.smartregister.brac.hnpp.widget.LivePreference-->
+<!--        <org.smartregister.unicef.dghs.widget.LivePreference-->
 <!--            android:title="Operation"-->
 <!--            android:key="change_pin"-->
 <!--            android:enabled="false"-->
@@ -26,7 +26,7 @@
             android:persistent="true" />
         <EditTextPreference
             android:key="IMEI_NO"
-            android:title="IMEI"
+            android:title="Device ID"
             android:selectable="false"
             android:editable="false"
             android:summary="Defines the base server url that handles requests"
