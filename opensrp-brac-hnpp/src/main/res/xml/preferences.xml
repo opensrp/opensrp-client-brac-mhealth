@@ -25,8 +25,8 @@
             android:summary="Defines the base server url that handles requests"
             android:persistent="true" />
         <EditTextPreference
-            android:key="IMEI_NO"
-            android:title="IMEI"
+            android:key="DEVICE_ID"
+            android:title="Device Id"
             android:selectable="false"
             android:editable="false"
             android:summary="Defines the base server url that handles requests"
