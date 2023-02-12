@@ -892,14 +892,15 @@ public class HnppDBUtils extends CoreChildUtils {
         return getNameMobile(familyID,"ec_family");
     }
     public static String[] getNameMobile(String familyID,String tableName){
-        String query = "select first_name,phone_number from "+tableName+" where base_entity_id = '"+familyID+"'";
+        String query = "select first_name,last_name,phone_number from "+tableName+" where base_entity_id = '"+familyID+"'";
         Cursor cursor = null;
-        String[] nameNumber = new String[2];
+        String[] nameNumber = new String[3];
         try {
             cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             cursor.moveToFirst();
             nameNumber[0] = cursor.getString(0);
             nameNumber[1] = cursor.getString(1);
+            nameNumber[2] = cursor.getString(2);
         } catch (Exception e) {
             Timber.e(e);
         } finally {
@@ -907,6 +908,22 @@ public class HnppDBUtils extends CoreChildUtils {
                 cursor.close();
         }
         return nameNumber;
+    }
+    public static String getChampType(String familyID){
+        String query = "select camp_type from ec_family where base_entity_id = '"+familyID+"'";
+        Cursor cursor = null;
+        String champType ="";
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor.moveToFirst();
+            champType = cursor.getString(0);
+        } catch (Exception e) {
+            Timber.e(e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return champType;
     }
     public static ArrayList<String> getAllWomenInHouseHold(String familyID){
         String query = "select first_name from ec_family_member where (gender = 'নারী' OR gender = 'F') and ((marital_status != 'অবিবাহিত' AND marital_status != 'Unmarried') and marital_status IS NOT NULL) and relational_id = '"+familyID+"'";
@@ -1108,7 +1125,7 @@ public class HnppDBUtils extends CoreChildUtils {
         columnList.add(familyMemberTable + "." + DBConstants.KEY.MIDDLE_NAME + " as " + ChildDBConstants.KEY.FAMILY_MIDDLE_NAME);
         columnList.add(familyMemberTable + "." + ChildDBConstants.PHONE_NUMBER + " as " + ChildDBConstants.KEY.FAMILY_MEMBER_PHONENUMBER);
         columnList.add(familyMemberTable + "." + ChildDBConstants.OTHER_PHONE_NUMBER + " as " + ChildDBConstants.KEY.FAMILY_MEMBER_PHONENUMBER_OTHER);
-//        columnList.add(familyTable + "." + DBConstants.KEY.VILLAGE_TOWN + " as " + ChildDBConstants.KEY.FAMILY_HOME_ADDRESS);
+//        columnList.add(familyTable + "." + HnppConstants.KEY.VILLAGE_NAME + " as " + ChildDBConstants.KEY.FAMILY_HOME_ADDRESS);
         columnList.add(familyTable + "." + ChildDBConstants.PHONE_NUMBER);
         columnList.add(tableName + "." + DBConstants.KEY.LAST_NAME);
         columnList.add(tableName + "." + DBConstants.KEY.UNIQUE_ID);
@@ -1116,32 +1133,20 @@ public class HnppDBUtils extends CoreChildUtils {
         columnList.add(tableName + "." + DBConstants.KEY.DOB);
         columnList.add(tableName + "." + org.smartregister.family.util.Constants.JSON_FORM_KEY.DOB_UNKNOWN);
         columnList.add(tableName + "." + ChildDBConstants.KEY.LAST_HOME_VISIT);
-        columnList.add(tableName + "." + ChildDBConstants.KEY.VISIT_NOT_DONE);
-        columnList.add(tableName + "." + ChildDBConstants.KEY.CHILD_BF_HR);
-        columnList.add(tableName + "." + ChildDBConstants.KEY.CHILD_PHYSICAL_CHANGE);
-        columnList.add(tableName + "." + ChildDBConstants.KEY.BIRTH_CERT);
-        columnList.add(tableName + "." + ChildDBConstants.KEY.BIRTH_CERT_ISSUE_DATE);
-        columnList.add(tableName + "." + ChildDBConstants.KEY.BIRTH_CERT_NUMBER);
-        columnList.add(tableName + "." + ChildDBConstants.KEY.BIRTH_CERT_NOTIFIICATION);
-        columnList.add(tableName + "." + ChildDBConstants.KEY.ILLNESS_DATE);
-        columnList.add(tableName + "." + ChildDBConstants.KEY.ILLNESS_DESCRIPTION);
         columnList.add(tableName + "." + ChildDBConstants.KEY.DATE_CREATED);
-        columnList.add(tableName + "." + ChildDBConstants.KEY.ILLNESS_ACTION);
-        columnList.add(tableName + "." + ChildDBConstants.KEY.VACCINE_CARD);
         columnList.add(tableName + "." + HnppConstants.KEY.RELATION_WITH_HOUSEHOLD);
         columnList.add(tableName + "." + HnppConstants.KEY.CHILD_MOTHER_NAME);
         columnList.add(tableName + "." + HnppConstants.KEY.CHILD_MOTHER_NAME_REGISTERED);
         columnList.add(tableName + "." + HnppConstants.KEY.BLOOD_GROUP);
         columnList.add(tableName + "." + ChildDBConstants.KEY.MOTHER_ENTITY_ID);
 
-        columnList.add(tableName + "." + ChildDBConstants.KEY.BIRTH_WEIGHT_TAKEN);
-        columnList.add(tableName + "." + ChildDBConstants.KEY.BIRTH_WEIGHT);
-        columnList.add(tableName + "." + ChildDBConstants.KEY.CHLOROHEXADIN);
-        columnList.add(tableName + "." + ChildDBConstants.KEY.BREASTFEEDING_TIME);
-        columnList.add(tableName + "." + ChildDBConstants.KEY.HEAD_BODY_COVERED);
-        columnList.add(tableName + "." + ChildDBConstants.KEY.PHYSICALLY_CHALLENGED);
-        columnList.add(tableName + "." + ChildDBConstants.KEY.BREAST_FEEDED);
-        columnList.add(tableName + "." + ChildDBConstants.KEY.WHICH_PROBLEM);
+//        columnList.add(tableName + "." + ChildDBConstants.KEY.BIRTH_WEIGHT_TAKEN);
+//        columnList.add(tableName + "." + ChildDBConstants.KEY.BIRTH_WEIGHT);
+//        columnList.add(tableName + "." + ChildDBConstants.KEY.CHLOROHEXADIN);
+//        columnList.add(tableName + "." + ChildDBConstants.KEY.BREASTFEEDING_TIME);
+//        columnList.add(tableName + "." + ChildDBConstants.KEY.HEAD_BODY_COVERED);
+//        columnList.add(tableName + "." + ChildDBConstants.KEY.PHYSICALLY_CHALLENGED);
+//        columnList.add(tableName + "." + ChildDBConstants.KEY.BREAST_FEEDED);
 
         return columnList.toArray(new String[columnList.size()]);
     }

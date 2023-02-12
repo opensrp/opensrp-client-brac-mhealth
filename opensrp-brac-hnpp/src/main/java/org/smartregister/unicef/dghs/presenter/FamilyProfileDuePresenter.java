@@ -24,7 +24,7 @@ public class FamilyProfileDuePresenter extends BaseFamilyProfileDuePresenter {
 
     @Override
     public String getDefaultSortQuery() {
-        return ChildDBConstants.KEY.LAST_HOME_VISIT + ", " + ChildDBConstants.KEY.VISIT_NOT_DONE + " ASC ";
+        return ChildDBConstants.KEY.LAST_HOME_VISIT +  " ASC ";
     }
 
 

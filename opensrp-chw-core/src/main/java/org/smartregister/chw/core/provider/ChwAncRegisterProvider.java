@@ -1,5 +1,6 @@
 package org.smartregister.chw.core.provider;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -16,7 +17,6 @@ import org.smartregister.chw.anc.provider.AncRegisterProvider;
 import org.smartregister.chw.anc.util.DBConstants;
 import org.smartregister.chw.core.R;
 import org.smartregister.chw.core.application.CoreChwApplication;
-import org.smartregister.chw.core.interactor.CoreChildProfileInteractor;
 import org.smartregister.chw.core.utils.ChwDBConstants;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.HomeVisitUtil;
@@ -51,15 +51,15 @@ public class ChwAncRegisterProvider extends AncRegisterProvider {
 
     private void updateDueColumn(Context context, RegisterViewHolder viewHolder, VisitSummary visitSummary) {
         viewHolder.dueButton.setVisibility(View.VISIBLE);
-        if (visitSummary.getVisitStatus().equalsIgnoreCase(CoreChildProfileInteractor.VisitType.DUE.name())) {
+        if (visitSummary.getVisitStatus().equalsIgnoreCase(CoreConstants.VisitType.DUE.name())) {
             setVisitButtonDueStatus(context, viewHolder.dueButton);
-        } else if (visitSummary.getVisitStatus().equalsIgnoreCase(CoreChildProfileInteractor.VisitType.OVERDUE.name())) {
+        } else if (visitSummary.getVisitStatus().equalsIgnoreCase(CoreConstants.VisitType.OVERDUE.name())) {
             setVisitButtonOverdueStatus(context, viewHolder.dueButton, visitSummary.getNoOfMonthDue());
-        } else if (visitSummary.getVisitStatus().equalsIgnoreCase(CoreChildProfileInteractor.VisitType.LESS_TWENTY_FOUR.name())) {
+        } else if (visitSummary.getVisitStatus().equalsIgnoreCase(CoreConstants.VisitType.LESS_TWENTY_FOUR.name())) {
             setVisitLessTwentyFourView(context, viewHolder.dueButton);
-        } else if (visitSummary.getVisitStatus().equalsIgnoreCase(CoreChildProfileInteractor.VisitType.VISIT_THIS_MONTH.name())) {
+        } else if (visitSummary.getVisitStatus().equalsIgnoreCase(CoreConstants.VisitType.VISIT_THIS_MONTH.name())) {
             setVisitAboveTwentyFourView(context, viewHolder.dueButton);
-        } else if (visitSummary.getVisitStatus().equalsIgnoreCase(CoreChildProfileInteractor.VisitType.NOT_VISIT_THIS_MONTH.name())) {
+        } else if (visitSummary.getVisitStatus().equalsIgnoreCase(CoreConstants.VisitType.NOT_VISIT_THIS_MONTH.name())) {
             setVisitNotDone(context, viewHolder.dueButton);
         }
     }
@@ -71,6 +71,7 @@ public class ChwAncRegisterProvider extends AncRegisterProvider {
         dueButton.setOnClickListener(onClickListener);
     }
 
+    @SuppressLint("StringFormatMatches")
     private void setVisitButtonOverdueStatus(Context context, Button dueButton, String lastVisitDays) {
         dueButton.setTextColor(context.getResources().getColor(R.color.white));
         if (TextUtils.isEmpty(lastVisitDays)) {
@@ -100,6 +101,7 @@ public class ChwAncRegisterProvider extends AncRegisterProvider {
         dueButton.setOnClickListener(null);
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class UpdateAsyncTask extends AsyncTask<Void, Void, Void> {
         private final RegisterViewHolder viewHolder;
         private final CommonPersonObjectClient pc;
@@ -145,7 +147,7 @@ public class ChwAncRegisterProvider extends AncRegisterProvider {
         @Override
         protected void onPostExecute(Void param) {
             // Update status column
-            if (visitSummary != null && !visitSummary.getVisitStatus().equalsIgnoreCase(CoreChildProfileInteractor.VisitType.EXPIRY.name())) {
+            if (visitSummary != null && !visitSummary.getVisitStatus().equalsIgnoreCase(CoreConstants.VisitType.EXPIRY.name())) {
                 updateDueColumn(context, viewHolder, visitSummary);
             }
         }

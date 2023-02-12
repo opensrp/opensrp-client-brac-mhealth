@@ -38,6 +38,7 @@ import org.smartregister.unicef.dghs.custom_view.FamilyMemberFloatingMenu;
 import org.smartregister.unicef.dghs.fragment.ChildHistoryFragment;
 import org.smartregister.unicef.dghs.fragment.HnppChildProfileDueFragment;
 import org.smartregister.unicef.dghs.fragment.MemberOtherServiceFragment;
+import org.smartregister.unicef.dghs.listener.OnClickFloatingMenu;
 import org.smartregister.unicef.dghs.listener.OnPostDataWithGps;
 import org.smartregister.unicef.dghs.model.ReferralFollowUpModel;
 import org.smartregister.unicef.dghs.model.Survey;
@@ -51,14 +52,10 @@ import org.smartregister.unicef.dghs.utils.HouseHoldInfo;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.util.DBConstants;
 import org.smartregister.chw.anc.util.NCUtils;
-import org.smartregister.chw.core.activity.CoreChildMedicalHistoryActivity;
 import org.smartregister.chw.core.activity.CoreUpcomingServicesActivity;
-import org.smartregister.chw.core.custom_views.CoreFamilyMemberFloatingMenu;
 import org.smartregister.chw.core.fragment.FamilyCallDialogFragment;
 import org.smartregister.chw.core.job.VaccineRecurringServiceJob;
-import org.smartregister.chw.core.listener.OnClickFloatingMenu;
 import org.smartregister.chw.core.model.CoreChildProfileModel;
-import org.smartregister.chw.core.presenter.CoreChildProfilePresenter;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.presenter.HnppChildProfilePresenter;
@@ -85,7 +82,6 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import rx.Scheduler;
 import timber.log.Timber;
 
 import static org.smartregister.unicef.dghs.activity.HnppFamilyOtherMemberProfileActivity.REQUEST_HOME_VISIT;
@@ -93,7 +89,7 @@ import static org.smartregister.chw.anc.util.JsonFormUtils.updateFormField;
 import static org.smartregister.util.JsonFormUtils.getFieldJSONObject;
 
 public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
-    public CoreFamilyMemberFloatingMenu familyFloatingMenu;
+    public FamilyMemberFloatingMenu familyFloatingMenu;
     public RelativeLayout referralRow;
     public RecyclerView referralRecyclerView;
     public CommonPersonObjectClient commonPersonObject;
@@ -373,13 +369,14 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     }
 
     private void openMedicalHistoryScreen() {
-        Map<String, Date> vaccine = ((HnppChildProfilePresenter) presenter()).getVaccineList();
-        CoreChildMedicalHistoryActivity.startMedicalHistoryActivity(this, ((CoreChildProfilePresenter) presenter()).getChildClient(), patientName, lastVisitDay,
-                ((HnppChildProfilePresenter) presenter()).getDateOfBirth(), new LinkedHashMap<>(vaccine), CoreChildMedicalHistoryActivity.class);
+//        Map<String, Date> vaccine = ((HnppChildProfilePresenter) presenter()).getVaccineList();
+//        CoreChildMedicalHistoryActivity.startMedicalHistoryActivity(this, ((CoreChildProfilePresenter) presenter()).getChildClient(), patientName, lastVisitDay,
+//                ((HnppChildProfilePresenter) presenter()).getDateOfBirth(), new LinkedHashMap<>(vaccine), CoreChildMedicalHistoryActivity.class);
+//
     }
 
     private void openUpcomingServicePage() {
-        CoreUpcomingServicesActivity.startUpcomingServicesActivity(this, ((CoreChildProfilePresenter) presenter()).getChildClient());
+        CoreUpcomingServicesActivity.startUpcomingServicesActivity(this, ((HnppChildProfilePresenter) presenter()).getChildClient());
     }
     public void openVisitHomeScreen(boolean isEditMode) {
         ChildVaccinationActivity.startChildVaccinationActivity(this,this.getIntent().getExtras(),commonPersonObject);
@@ -793,7 +790,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
 
         }
         intent.putExtra(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, familyId);
-        intent.putExtra(Constants.INTENT_KEY.VILLAGE_TOWN, Utils.getValue(commonPersonObject, DBConstants.KEY.VILLAGE_TOWN, false));
+        intent.putExtra(Constants.INTENT_KEY.VILLAGE_TOWN, Utils.getValue(commonPersonObject, HnppConstants.KEY.VILLAGE_NAME, false));
 
         intent.putExtra(CoreConstants.INTENT_KEY.SERVICE_DUE, true);
         startActivity(intent);

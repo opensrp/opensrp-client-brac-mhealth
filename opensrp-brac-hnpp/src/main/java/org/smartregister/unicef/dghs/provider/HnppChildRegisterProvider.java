@@ -85,11 +85,11 @@ public class HnppChildRegisterProvider extends CoreChildRegisterProvider {
             viewHolder.textViewParentName.setText(viewHolder.textViewParentName.getText()+", "+context.getString(R.string.serial_no,serialNo));
 
         }
-        String ssName = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.BLOCK_NAME, true);
-        if(!TextUtils.isEmpty(ssName)){
-            viewHolder.textViewChildName.setText(viewHolder.textViewChildName.getText()+", "+context.getString(R.string.ss_name,ssName));
-
-        }
+//        String ssName = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.BLOCK_NAME, true);
+//        if(!TextUtils.isEmpty(ssName)){
+//            viewHolder.textViewChildName.setText(viewHolder.textViewChildName.getText()+", "+context.getString(R.string.ss_name,ssName));
+//
+//        }
         viewHolder.profileImage.setVisibility(View.VISIBLE);
         viewHolder.profileImage.setImageResource(org.smartregister.family.R.mipmap.ic_child);
         viewHolder.textViewAddressGender.setTextColor(ContextCompat.getColor(context, android.R.color.black));
@@ -113,7 +113,8 @@ public class HnppChildRegisterProvider extends CoreChildRegisterProvider {
 
     @Override
     public void setAddressAndGender(CommonPersonObjectClient pc, RegisterViewHolder viewHolder) {
-        String address = Utils.getValue(pc.getColumnmaps(), ChildDBConstants.KEY.FAMILY_HOME_ADDRESS, true);
+        String address = Utils.getValue(pc.getColumnmaps(),  HnppConstants.KEY.BLOCK_NAME, true);
+
         String gender = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.GENDER, true);
         fillValue(viewHolder.textViewAddressGender, gender + " \u00B7 " + address);
     }

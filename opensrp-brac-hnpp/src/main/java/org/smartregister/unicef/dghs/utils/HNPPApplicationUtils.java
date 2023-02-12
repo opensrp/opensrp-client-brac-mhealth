@@ -61,7 +61,7 @@ public class HNPPApplicationUtils {
                 return new String[]{DBConstants.KEY.DOB, DBConstants.KEY.DOD,
                         DBConstants.KEY.LAST_INTERACTED_WITH, DBConstants.KEY.DATE_REMOVED};
             case CoreConstants.TABLE_NAME.CHILD:
-                return new String[]{ChildDBConstants.KEY.LAST_HOME_VISIT, ChildDBConstants.KEY.VISIT_NOT_DONE, DBConstants.KEY
+                return new String[]{ChildDBConstants.KEY.LAST_HOME_VISIT, DBConstants.KEY
                         .LAST_INTERACTED_WITH, ChildDBConstants.KEY.DATE_CREATED, DBConstants.KEY.DATE_REMOVED, DBConstants.KEY.DOB};
             default:
                 return null;

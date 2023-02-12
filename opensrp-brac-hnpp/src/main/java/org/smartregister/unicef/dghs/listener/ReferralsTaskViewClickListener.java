@@ -27,7 +27,7 @@ public class ReferralsTaskViewClickListener implements View.OnClickListener {
 
     private void goToClientProfile() {
         if (getTaskFocus().equals(CoreConstants.TASKS_FOCUS.SICK_CHILD)) {
-            HnppChildProfileActivity.startMe(getReferralTaskViewActivity(), false, new MemberObject(getCommonPersonObjectClient()), HnppChildProfileActivity.class);
+            HnppChildProfileActivity.startMe(getReferralTaskViewActivity(), "",false, new MemberObject(getCommonPersonObjectClient()), HnppChildProfileActivity.class);
         }
     }
 

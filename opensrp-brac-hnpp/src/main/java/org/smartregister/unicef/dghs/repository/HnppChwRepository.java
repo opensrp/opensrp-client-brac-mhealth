@@ -69,7 +69,6 @@ public class HnppChwRepository extends Repository {
         IMDatabaseUtils.populateRecurringServices(context, database, recurringServiceTypeRepository);
         upgradeToVersion18(context,database);
         upgradeToVersion19(context,database);
-        upgradeToVersion20(context,database);
         upgradeToVersion21(context,database);
         upgradeToVersion22(context,database);
         upgradeToVersion25(context,database);
@@ -110,18 +109,11 @@ public class HnppChwRepository extends Repository {
                 case 19:
                     upgradeToVersion19(context, db);
                     break;
-                case 20:
-                    upgradeToVersion20(context,db);
-                    break;
                 case 21:
                     upgradeToVersion21(context,db);
                     break;
                 case 22:
                     upgradeToVersion22(context,db);
-                    break;
-                case 25:
-                    //FamilyLibrary.getInstance().context().allSharedPreferences().savePreference("IS_UPGRADED","1");
-                    upgradeToVersion25(context,db);
                     break;
                 case 26:
                     upgradeToVersion26(context,db);
@@ -155,9 +147,6 @@ public class HnppChwRepository extends Repository {
                     break;
                 case 38:
                     upgradeToVersion38(db);
-                    break;
-                case 39:
-                    upgradeToVersion39(db);
                     break;
                 case 40:
                     upgradeToVersion40(db);
@@ -198,14 +187,7 @@ public class HnppChwRepository extends Repository {
 
         }
     }
-    private void upgradeToVersion39(SQLiteDatabase db) {
-        try {
-            db.execSQL("ALTER TABLE ec_child ADD COLUMN which_problem VARCHAR;");
 
-        } catch (Exception e) {
-
-        }
-    }
     private void upgradeToVersion38(SQLiteDatabase db){
         Log.v("DB_UPGRADE","upgradeToVersion38");
         try{
@@ -264,14 +246,6 @@ public class HnppChwRepository extends Repository {
         }
     }
 
-    private void upgradeToVersion20(Context context, SQLiteDatabase db) {
-        try {
-            db.execSQL("ALTER TABLE ec_child ADD COLUMN birth_id VARCHAR;");
-
-        } catch (Exception e) {
-
-        }
-    }
     private void upgradeToVersion21(Context context, SQLiteDatabase db) {
         try {
             db.execSQL("ALTER TABLE ec_visit_log ADD COLUMN pregnant_status VARCHAR;");
@@ -381,12 +355,12 @@ public class HnppChwRepository extends Repository {
             RecurringServiceTypeRepository recurringServiceTypeRepository = ImmunizationLibrary.getInstance().recurringServiceTypeRepository();
             IMDatabaseUtils.populateRecurringServices(context, db, recurringServiceTypeRepository);
 
-            db.execSQL("ALTER TABLE ec_child ADD COLUMN birth_weight_taken VARCHAR;");
-            db.execSQL("ALTER TABLE ec_child ADD COLUMN birth_weight VARCHAR;");
-            db.execSQL("ALTER TABLE ec_child ADD COLUMN chlorohexadin VARCHAR;");
-            db.execSQL("ALTER TABLE ec_child ADD COLUMN breastfeeding_time VARCHAR;");
-            db.execSQL("ALTER TABLE ec_child ADD COLUMN head_body_covered VARCHAR;");
-            db.execSQL("ALTER TABLE ec_child ADD COLUMN breast_feeded VARCHAR;");
+//            db.execSQL("ALTER TABLE ec_child ADD COLUMN birth_weight_taken VARCHAR;");
+//            db.execSQL("ALTER TABLE ec_child ADD COLUMN birth_weight VARCHAR;");
+//            db.execSQL("ALTER TABLE ec_child ADD COLUMN chlorohexadin VARCHAR;");
+//            db.execSQL("ALTER TABLE ec_child ADD COLUMN breastfeeding_time VARCHAR;");
+//            db.execSQL("ALTER TABLE ec_child ADD COLUMN head_body_covered VARCHAR;");
+//            db.execSQL("ALTER TABLE ec_child ADD COLUMN breast_feeded VARCHAR;");
             db.execSQL("ALTER TABLE ec_pregnancy_outcome ADD COLUMN delivery_time VARCHAR;");
             db.execSQL("ALTER TABLE ec_pregnancy_outcome ADD COLUMN no_born_alive VARCHAR;");
             db.execSQL("ALTER TABLE ec_pregnancy_outcome ADD COLUMN other_delivery_place VARCHAR;");

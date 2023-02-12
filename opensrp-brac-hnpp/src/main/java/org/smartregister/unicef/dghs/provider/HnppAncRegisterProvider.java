@@ -87,7 +87,7 @@ public class HnppAncRegisterProvider extends ChwAncRegisterProvider {
         }
         String ssName = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.BLOCK_NAME, true);
         if (!TextUtils.isEmpty(ssName))viewHolder.patientAge.append(context.getString(R.string.ss_name,ssName));
-        viewHolder.villageTown.setText(Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.VILLAGE_TOWN, true));
+        viewHolder.villageTown.setText(Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.VILLAGE_NAME, true));
 
         // add patient listener
         viewHolder.patientColumn.setOnClickListener(onClickListener);

@@ -1,5 +1,6 @@
 package org.smartregister.chw.core.provider;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -104,6 +105,7 @@ public abstract class CoreRegisterProvider extends FamilyRegisterProvider {
         dueButton.setOnClickListener(null);
     }
 
+    @SuppressLint("StringFormatMatches")
     protected void setVisitButtonOverdueStatus(Context context, Button dueButton, String lastVisitDays) {
         dueButton.setTextColor(context.getResources().getColor(R.color.white));
         if (TextUtils.isEmpty(lastVisitDays)) {
@@ -125,7 +127,7 @@ public abstract class CoreRegisterProvider extends FamilyRegisterProvider {
 
     protected List<Map<String, String>> getChildren(String familyEntityId) {
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
-        queryBUilder.SelectInitiateMainTable(CoreConstants.TABLE_NAME.CHILD, new String[]{DBConstants.KEY.BASE_ENTITY_ID, DBConstants.KEY.GENDER, ChildDBConstants.KEY.LAST_HOME_VISIT, ChildDBConstants.KEY.VISIT_NOT_DONE, ChildDBConstants.KEY.DATE_CREATED, DBConstants.KEY.DOB});
+        queryBUilder.SelectInitiateMainTable(CoreConstants.TABLE_NAME.CHILD, new String[]{DBConstants.KEY.BASE_ENTITY_ID, DBConstants.KEY.GENDER, ChildDBConstants.KEY.LAST_HOME_VISIT, ChildDBConstants.KEY.DATE_CREATED, DBConstants.KEY.DOB});
         queryBUilder.mainCondition(String.format(" %s is null AND %s = '%s' AND %s ",
                 DBConstants.KEY.DATE_REMOVED,
                 DBConstants.KEY.RELATIONAL_ID,

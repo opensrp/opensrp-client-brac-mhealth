@@ -51,7 +51,7 @@ public class HnppFamilyRegisterModel extends BaseFamilyRegisterModel {
             JSONObject jobkect = jsonObject.getJSONObject("step1");
             JSONArray field = jobkect.getJSONArray(FIELDS);
             JSONObject blockIdIdObj = getFieldJSONObject(field, "block_id");
-            String blockId = blockIdIdObj.getString("block_id");
+            String blockId = blockIdIdObj.getString("value");
             Log.v("HH_REGISTER","processRegistration:blockId:"+blockId);
             try{
 

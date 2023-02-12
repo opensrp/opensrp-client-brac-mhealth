@@ -34,7 +34,7 @@ public class HnppElcoMemberRegisterFragmentModel extends CoreChildRegisterFragme
         columnList.add(familyMemberTable + "." + DBConstants.KEY.BASE_ENTITY_ID);
         columnList.add(familyMemberTable + "." + DBConstants.KEY.RELATIONAL_ID +" as "+ChildDBConstants.KEY.RELATIONAL_ID);
         columnList.add(familyMemberTable + "." +DBConstants.KEY.ENTITY_TYPE);
-        columnList.add(familyTable + "." + DBConstants.KEY.VILLAGE_TOWN +" as "+HnppConstants.KEY.VILLAGE_NAME);
+        columnList.add(familyTable + "." + HnppConstants.KEY.VILLAGE_NAME +" as "+HnppConstants.KEY.VILLAGE_NAME);
         columnList.add(familyMemberTable + "." + DBConstants.KEY.UNIQUE_ID);
         columnList.add(familyMemberTable + "." + DBConstants.KEY.GENDER);
         columnList.add(familyMemberTable + "." + DBConstants.KEY.DOB);

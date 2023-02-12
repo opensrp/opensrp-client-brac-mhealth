@@ -134,7 +134,8 @@ public class HnppFamilyRegisterProvider extends CoreRegisterProvider  {
     private void populatePatientColumn(CommonPersonObjectClient pc, SmartRegisterClient client, final HouseHoldRegisterProvider viewHolder) {
 
         String firstName = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.FIRST_NAME, true);
-        setText(viewHolder.houseHoldName, context.getString(R.string.name,firstName));
+        String LastName = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.LAST_NAME, true);
+        setText(viewHolder.houseHoldName, context.getString(R.string.name,firstName+" "+LastName));
         String houseHoldId = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.UNIQUE_ID, true);
         try{
             if(!TextUtils.isEmpty(houseHoldId)){

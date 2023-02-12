@@ -40,6 +40,7 @@ import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import org.joda.time.Months;
 import org.joda.time.format.DateTimeFormat;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.unicef.dghs.BuildConfig;
@@ -803,8 +804,8 @@ public class HnppConstants extends CoreConstants {
         public static final String BLOCK_ID = "block_id";
         public static final String IS_RISK = "is_risk";
         public static final String SERIAL_NO = "serial_no";
-        public static final String CHILD_MOTHER_NAME_REGISTERED = "mother_name";
-        public static final String CHILD_MOTHER_NAME = "Mother_Guardian_First_Name_english";
+        public static final String CHILD_MOTHER_NAME_REGISTERED = "mother_name_bangla";
+        public static final String CHILD_MOTHER_NAME = "mother_name_english";
         public static final String GENDER = "gender";
         public static final String NATIONAL_ID = "national_id";
         public static final String BIRTH_ID = "birth_id";
@@ -1026,6 +1027,16 @@ public class HnppConstants extends CoreConstants {
 
 
     }
+    public static JSONArray CAMP_TYPE_JSON_ARR
+            = new JSONArray()
+            .put( "Outreach 1")
+            .put( "Outreach 2")
+            .put( "Outreach 3")
+            .put( "Outreach 4")
+            .put( "Outreach 5")
+            .put( "Outreach 6")
+            .put( "Outreach 7")
+            .put( "Outreach 8");
     public static JSONObject viewSurveyForm(String type,String formId, String uuid,String baseEntityId){
         JSONObject hhObject;
         try{

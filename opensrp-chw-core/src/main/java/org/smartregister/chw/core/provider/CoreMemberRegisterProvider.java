@@ -1,5 +1,6 @@
 package org.smartregister.chw.core.provider;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -62,7 +63,7 @@ public class CoreMemberRegisterProvider extends FamilyMemberRegisterProvider {
 
     private Map<String, String> getChildDetails(String baseEntityId) {
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
-        queryBUilder.SelectInitiateMainTable(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.CHILD), new String[]{CommonFtsObject.idColumn, ChildDBConstants.KEY.LAST_HOME_VISIT, ChildDBConstants.KEY.VISIT_NOT_DONE, ChildDBConstants.KEY.DATE_CREATED});
+        queryBUilder.SelectInitiateMainTable(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.CHILD), new String[]{CommonFtsObject.idColumn, ChildDBConstants.KEY.LAST_HOME_VISIT, ChildDBConstants.KEY.DATE_CREATED});
         String query = queryBUilder.mainCondition(String.format(" %s is null AND %s = '%s' AND %s ",
                 DBConstants.KEY.DATE_REMOVED,
                 CommonFtsObject.idColumn,
@@ -104,10 +105,9 @@ public class CoreMemberRegisterProvider extends FamilyMemberRegisterProvider {
 
     private ChildVisit retrieveChildVisitList(Map<String, String> map) {
         String lastVisitDate = map.get(ChildDBConstants.KEY.LAST_HOME_VISIT);
-        String visitNotDone = map.get(ChildDBConstants.KEY.VISIT_NOT_DONE);
         String strDateCreated = map.get(ChildDBConstants.KEY.DATE_CREATED);
         TextUtils.isEmpty(lastVisitDate);
-        TextUtils.isEmpty(visitNotDone);
+        TextUtils.isEmpty("");
         TextUtils.isEmpty(strDateCreated);
         return null;// CoreChildUtils.getChildVisitStatus(context, rules, dobString, lastVisit, visitNot, dateCreated);
     }
@@ -132,6 +132,7 @@ public class CoreMemberRegisterProvider extends FamilyMemberRegisterProvider {
     // Inner classes
     ////////////////////////////////////////////////////////////////
 
+    @SuppressLint("StaticFieldLeak")
     private class UpdateAsyncTask extends AsyncTask<Void, Void, Void> {
         private final FamilyMemberRegisterProvider.RegisterViewHolder viewHolder;
         private final CommonPersonObjectClient pc;

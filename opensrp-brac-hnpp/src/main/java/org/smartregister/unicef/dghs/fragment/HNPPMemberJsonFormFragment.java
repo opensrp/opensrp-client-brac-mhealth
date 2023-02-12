@@ -1,5 +1,6 @@
 package org.smartregister.unicef.dghs.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -65,18 +66,30 @@ public class HNPPMemberJsonFormFragment extends JsonWizardFormFragment {
         }
        // hideKeyBoard();
     }
-    private String family_name = "",phone_no = "";
+    private String family_first_name = "",family_last_name = "",phone_no = "";
+    @SuppressLint("StaticFieldLeak")
     private void processHouseholdName(final int position){
         Utils.startAsyncTask(new AsyncTask() {
 
             @Override
             protected Object doInBackground(Object[] objects) {
                 JSONObject formObject = getJsonApi().getmJSONObject();
-                if(StringUtils.isEmpty(family_name)){
+                if(StringUtils.isEmpty(family_first_name)){
 
-                    if (formObject.has("family_name")) {
+                    if (formObject.has("first_name")) {
                         try {
-                            family_name = formObject.getString("family_name");
+                            family_first_name = formObject.getString("first_name");
+                        } catch (JSONException e) {
+
+                        }
+                    }
+
+                }
+                if(StringUtils.isEmpty(family_last_name)){
+
+                    if (formObject.has("last_name")) {
+                        try {
+                            family_last_name = formObject.getString("last_name");
                         } catch (JSONException e) {
 
                         }
@@ -99,21 +112,26 @@ public class HNPPMemberJsonFormFragment extends JsonWizardFormFragment {
                 return null;
             }
 
+
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
-                if(TextUtils.isEmpty(family_name) && TextUtils.isEmpty(phone_no)) return;
+                if(TextUtils.isEmpty(family_first_name) &&TextUtils.isEmpty(family_last_name) && TextUtils.isEmpty(phone_no)) return;
                     Collection<View> formdataviews =  getJsonApi().getFormDataViews();
                     MaterialEditText first_name_view = null;
+                MaterialEditText last_name_view = null;
                 MaterialEditText phone_number_view = null;
                 Iterator<View> iterator = formdataviews.iterator();
 
                 // while loop
                 while (iterator.hasNext()) {
-                    View field_view = iterator.next();
+                     View field_view = iterator.next();
                     if (field_view instanceof MaterialEditText) {
-                        if (((MaterialEditText) field_view).getFloatingLabelText()!=null&&((MaterialEditText) field_view).getFloatingLabelText().toString().trim().equalsIgnoreCase("সদস্যের নাম")) {
+                        if (((MaterialEditText) field_view).getFloatingLabelText()!=null&&((MaterialEditText) field_view).getFloatingLabelText().toString().trim().equalsIgnoreCase("নামের প্রথম অংশ (ইংরেজীতে)")) {
                             first_name_view = ((MaterialEditText) field_view);
+                        }
+                        else if (((MaterialEditText) field_view).getFloatingLabelText()!=null&&((MaterialEditText) field_view).getFloatingLabelText().toString().trim().equalsIgnoreCase("নামের শেষ অংশ (ইংরেজীতে)")) {
+                            last_name_view = ((MaterialEditText) field_view);
                         }
                         else if (((MaterialEditText) field_view).getFloatingLabelText()!=null&&((MaterialEditText) field_view).getFloatingLabelText().toString().trim().equalsIgnoreCase("মোবাইল নম্বর")) {
                             phone_number_view = ((MaterialEditText) field_view);
@@ -125,10 +143,23 @@ public class HNPPMemberJsonFormFragment extends JsonWizardFormFragment {
                 if(first_name_view!=null){
 
                     if(position == 0){
-                        first_name_view.setText(family_name);
+                        first_name_view.setText(family_first_name);
                         first_name_view.setEnabled(false);
                     }else{
                         first_name_view.setEnabled(true);
+                    }
+
+//                        else if(first_name_view.getText().toString().equalsIgnoreCase(family_name)){
+//                            first_name_view.setText("");
+//                        }
+                }
+                if(last_name_view!=null){
+
+                    if(position == 0){
+                        last_name_view.setText(family_last_name);
+                        last_name_view.setEnabled(false);
+                    }else{
+                        last_name_view.setEnabled(true);
                     }
 
 //                        else if(first_name_view.getText().toString().equalsIgnoreCase(family_name)){

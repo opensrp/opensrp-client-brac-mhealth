@@ -111,8 +111,6 @@ public class ChildDBConstants {
         return "(( " +
                 "IFNULL(STRFTIME('%Y%m%d%H%M%S', datetime((" + KEY.LAST_HOME_VISIT + ")/1000,'unixepoch')),0) " +
                 "< STRFTIME('%Y%m%d%H%M%S', datetime('now','start of month')) " +
-                "AND IFNULL(STRFTIME('%Y%m%d%H%M%S', datetime((" + KEY.VISIT_NOT_DONE + ")/1000,'unixepoch')),0) " +
-                "< STRFTIME('%Y%m%d%H%M%S', datetime('now','start of month')) " +
                 " ))";
     }
 
@@ -154,7 +152,6 @@ public class ChildDBConstants {
 
     public static final class KEY {
         //public static final String VISIT_STATUS = "visit_status";
-        public static final String VISIT_NOT_DONE = "visit_not_done";
         public static final String LAST_HOME_VISIT = "last_home_visit";
         public static final String DATE_CREATED = "date_created";
         public static final String RELATIONAL_ID = "relationalid";
@@ -195,16 +192,5 @@ public class ChildDBConstants {
         public static final String PHYSICALLY_CHALLENGED = "physically_challenged";
         public static final String BREAST_FEEDED = "breast_feeded";
 
-        public static final String WHICH_PROBLEM = "which_problem";
-
-
-
-
-
-
-
-
-        // Family child visit status
-        //public static final String CHILD_VISIT_STATUS = "child_visit_status";
     }
 }

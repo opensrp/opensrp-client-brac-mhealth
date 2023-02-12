@@ -21,7 +21,6 @@ import org.apache.commons.lang3.text.WordUtils;
 import org.jeasy.rules.api.Rules;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
-import org.smartregister.chw.core.interactor.CoreChildProfileInteractor;
 import org.smartregister.chw.core.model.ChildVisit;
 import org.smartregister.chw.core.provider.ChwAncRegisterProvider;
 import org.smartregister.chw.core.utils.ChildDBConstants;
@@ -170,9 +169,9 @@ public class HnppFamilyDueRegisterProvider implements RecyclerViewProvider<HnppF
     private void updateDueColumn(DueViewHolder viewHolder, ChildVisit childVisit) {
         if (childVisit != null) {
             viewHolder.status.setVisibility(View.VISIBLE);
-            if (childVisit.getVisitStatus().equalsIgnoreCase(CoreChildProfileInteractor.VisitType.DUE.name())) {
+            if (childVisit.getVisitStatus().equalsIgnoreCase(CoreConstants.VisitType.DUE.name())) {
                 viewHolder.status.setImageResource(org.smartregister.chw.core.utils.Utils.getDueProfileImageResourceIDentifier());
-            } else if (childVisit.getVisitStatus().equalsIgnoreCase(CoreChildProfileInteractor.VisitType.OVERDUE.name())) {
+            } else if (childVisit.getVisitStatus().equalsIgnoreCase(CoreConstants.VisitType.OVERDUE.name())) {
                 viewHolder.status.setImageResource(org.smartregister.chw.core.utils.Utils.getOverDueProfileImageResourceIDentifier());
             } else {
                 viewHolder.status.setVisibility(View.INVISIBLE);

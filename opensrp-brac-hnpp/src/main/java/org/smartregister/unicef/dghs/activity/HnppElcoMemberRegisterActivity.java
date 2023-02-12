@@ -1,25 +1,16 @@
 package org.smartregister.unicef.dghs.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.View;
-
 import org.smartregister.unicef.dghs.BuildConfig;
-import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.fragment.HnppElcoMemberRegisterFragment;
 import org.smartregister.unicef.dghs.listener.HnppFamilyBottomNavListener;
-import org.smartregister.unicef.dghs.location.GeoLocationHelper;
-import org.smartregister.unicef.dghs.location.SSModel;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
-import org.smartregister.chw.core.activity.CoreChildRegisterActivity;
 import org.smartregister.chw.core.custom_views.NavigationMenu;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 
-import java.util.ArrayList;
-
-public class HnppElcoMemberRegisterActivity extends CoreChildRegisterActivity {
+public class HnppElcoMemberRegisterActivity extends ChildRegisterActivity {
 
     @Override
     protected BaseRegisterFragment getRegisterFragment() {

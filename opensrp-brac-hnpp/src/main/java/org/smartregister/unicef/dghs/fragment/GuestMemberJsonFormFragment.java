@@ -226,7 +226,7 @@ public class GuestMemberJsonFormFragment extends JsonWizardFormFragment {
                 ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());
                 for (int i = 0; i < formdataviews.size(); i++) {
                     if (formdataviews.get(i) instanceof MaterialEditText) {
-                        if (!TextUtils.isEmpty(((MaterialEditText) formdataviews.get(i)).getFloatingLabelText()) && ((MaterialEditText) formdataviews.get(i)).getFloatingLabelText().toString().trim().equalsIgnoreCase("নাম্বার")) {
+                        if (!TextUtils.isEmpty(((MaterialEditText) formdataviews.get(i)).getFloatingLabelText()) && ((MaterialEditText) formdataviews.get(i)).getFloatingLabelText().toString().trim().equalsIgnoreCase("খানা নাম্বার")) {
                             ((MaterialEditText) formdataviews.get(i)).setText(unique_id);
                             try {
                                 JSONObject villageId = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "block_id");

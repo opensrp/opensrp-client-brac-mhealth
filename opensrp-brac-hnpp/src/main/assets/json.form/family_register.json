@@ -116,6 +116,22 @@
         }
       },
       {
+        "key": "camp_type",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "camp_type",
+        "type": "spinner",
+        "hint": "ক্যাম্পেইন টাইপ নির্বাচন করুন",
+        "values": [
+        ],
+        "openmrs_choice_ids": {
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Please answer the question"
+        }
+      },
+      {
         "key": "present_address_bangla",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
@@ -147,6 +163,24 @@
           "value": false,
           "err": "Please enter post office"
         }
+      },
+      {
+        "key": "village",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "village",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "গ্রাম(বাংলায়)",
+        "v_required": {
+          "value": false,
+          "err": "Please enter village"
+        },
+        "v_regex": {
+          "value": "[^A-Za-z0-9]*",
+          "err": "৪০ অক্ষরের ভিতরে বাংলায় লিখুন"
+        }
+
       },
       {
         "key": "is_permanent_address",
@@ -193,29 +227,7 @@
           }
         }
       },
-      {
-        "key": "village",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "village",
-        "openmrs_data_type": "text",
-        "type": "edit_text",
-        "v_required": {
-          "value": false,
-          "err": "Please enter village"
-        },
-        "v_regex": {
-          "value": "[^A-Za-z0-9]{1,40}$",
-          "err": "৪০ অক্ষরের ভিতরে বাংলায় লিখুন"
-        },
-        "hint": "গ্রাম(বাংলায়)",
-        "relevance": {
-          "step1:is_permanent_address": {
-            "type": "string",
-            "ex": "equalTo(., \"না\")"
-          }
-        }
-      },
+
       {
         "key": "post_office_permanent",
         "openmrs_entity_parent": "",

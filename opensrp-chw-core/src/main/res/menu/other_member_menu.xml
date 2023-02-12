@@ -46,16 +46,16 @@
         android:enabled="true"
         android:title="@string/malaria_diagnosis"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/action_mm_survey"
-        android:enabled="true"
-        android:title="@string/mm_survey"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_survey_history"
-        android:enabled="true"
-        android:title="@string/survey_history"
-        app:showAsAction="never" />
+<!--    <item-->
+<!--        android:id="@+id/action_mm_survey"-->
+<!--        android:enabled="false"-->
+<!--        android:title="@string/mm_survey"-->
+<!--        app:showAsAction="never" />-->
+<!--    <item-->
+<!--        android:id="@+id/action_survey_history"-->
+<!--        android:enabled="false"-->
+<!--        android:title="@string/survey_history"-->
+<!--        app:showAsAction="never" />-->
 
 
 </menu>

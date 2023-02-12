@@ -1,5 +1,6 @@
 package org.smartregister.chw.core.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +20,6 @@ import org.smartregister.chw.core.R;
 import org.smartregister.chw.core.adapter.MemberAdapter;
 import org.smartregister.chw.core.contract.FamilyChangeContract;
 import org.smartregister.chw.core.domain.FamilyMember;
-import org.smartregister.chw.core.listener.FloatingMenuListener;
 import org.smartregister.chw.core.listener.MemberAdapterListener;
 import org.smartregister.chw.core.presenter.CoreFamilyChangePresenter;
 import org.smartregister.chw.core.utils.CoreConstants;
@@ -100,6 +100,7 @@ public abstract class CoreFamilyProfileChangeHead extends Fragment implements Vi
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void refreshMembersView(List<FamilyMember> familyMembers) {
         if (familyMembers != null) {
@@ -126,11 +127,11 @@ public abstract class CoreFamilyProfileChangeHead extends Fragment implements Vi
         Intent returnIntent = new Intent();
         if (StringUtils.isNotBlank(familyHeadID)) {
             returnIntent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_HEAD, familyHeadID);
-            FloatingMenuListener.getInstance(getActivity(), familyID);
+            //FloatingMenuListener.getInstance(getActivity(), familyID);
         }
         if (StringUtils.isNotBlank(careGiverID)) {
             returnIntent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.PRIMARY_CAREGIVER, careGiverID);
-            FloatingMenuListener.getInstance(getActivity(), familyID);
+           // FloatingMenuListener.getInstance(getActivity(), familyID);
         }
         getActivity().setResult(Activity.RESULT_OK, returnIntent);
         close();

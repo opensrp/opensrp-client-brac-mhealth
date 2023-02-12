@@ -1,5 +1,6 @@
 package org.smartregister.unicef.dghs.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -139,7 +140,7 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment imple
 
         otherServiceView.setVisibility(View.VISIBLE);
         if(FormApplicability.isDueHHVisit(familyBaseEntityId)){
-            View homeVisitView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+            @SuppressLint("InflateParams") View homeVisitView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
             ImageView image1 = homeVisitView.findViewById(R.id.image_view);
             TextView name1 =  homeVisitView.findViewById(R.id.patient_name_age);
             homeVisitView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
@@ -153,13 +154,14 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment imple
 
         updateDueView();
     }
+    @SuppressLint("SetTextI18n")
     private void updateDueView(){
         ArrayList<ProfileDueInfo> getAllMemberDueInfo = HnppDBUtils.getDueListByFamilyId(familyBaseEntityId);
         for(ProfileDueInfo profileDueInfo : getAllMemberDueInfo){
             if(TextUtils.isEmpty(profileDueInfo.getEventType())){
                 continue;
             }
-            View homeVisitView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+            @SuppressLint("InflateParams") View homeVisitView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
             ImageView image1 = homeVisitView.findViewById(R.id.image_view);
             TextView name1 =  homeVisitView.findViewById(R.id.patient_name_age);
             homeVisitView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
@@ -188,6 +190,7 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment imple
         }
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onViewClicked(View view) {
         super.onViewClicked(view);
@@ -210,7 +213,7 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment imple
     public void goToChildProfileActivity(View view) {
         if (view.getTag() instanceof CommonPersonObjectClient) {
             CommonPersonObjectClient patient = (CommonPersonObjectClient) view.getTag();
-            HnppChildProfileActivity.startMe(getActivity(), true, new MemberObject(patient), HnppChildProfileActivity.class);
+            HnppChildProfileActivity.startMe(getActivity(),familyBaseEntityId, true, new MemberObject(patient), HnppChildProfileActivity.class);
         }
 
     }

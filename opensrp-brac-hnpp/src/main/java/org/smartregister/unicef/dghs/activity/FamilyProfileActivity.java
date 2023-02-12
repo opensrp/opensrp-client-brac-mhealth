@@ -8,19 +8,24 @@ import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Pair;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,16 +33,26 @@ import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 import com.vijay.jsonwizard.utils.PermissionUtils;
 
+import org.apache.commons.lang3.StringUtils;
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.chw.core.contract.FamilyProfileExtendedContract;
+import org.smartregister.chw.core.event.PermissionEvent;
+import org.smartregister.domain.FetchStatus;
+import org.smartregister.family.activity.BaseFamilyProfileActivity;
+import org.smartregister.family.fragment.BaseFamilyProfileMemberFragment;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.contract.MigrationContract;
+import org.smartregister.unicef.dghs.custom_view.FamilyFloatingMenu;
+import org.smartregister.unicef.dghs.custom_view.FamilyMemberFloatingMenu;
 import org.smartregister.unicef.dghs.fragment.FamilyHistoryFragment;
 import org.smartregister.unicef.dghs.fragment.FamilyProfileDueFragment;
 import org.smartregister.unicef.dghs.interactor.MigrationInteractor;
 import org.smartregister.unicef.dghs.job.HnppSyncIntentServiceJob;
+import org.smartregister.unicef.dghs.listener.FloatingMenuListener;
 import org.smartregister.unicef.dghs.listener.OnPostDataWithGps;
 import org.smartregister.unicef.dghs.model.HnppFamilyProfileModel;
 import org.smartregister.unicef.dghs.model.Survey;
@@ -49,7 +64,6 @@ import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
 import org.smartregister.unicef.dghs.utils.MigrationSearchContentData;
 import org.smartregister.unicef.dghs.utils.OnDialogOptionSelect;
 import org.smartregister.chw.anc.domain.Visit;
-import org.smartregister.chw.core.activity.CoreFamilyProfileActivity;
 import org.smartregister.chw.core.activity.CoreFamilyProfileMenuActivity;
 import org.smartregister.chw.core.activity.CoreFamilyRemoveMemberActivity;
 import org.smartregister.chw.core.utils.CoreChildUtils;
@@ -73,6 +87,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -83,19 +98,165 @@ import timber.log.Timber;
 import static com.vijay.jsonwizard.constants.JsonFormConstants.FIELDS;
 import static org.smartregister.unicef.dghs.activity.HnppFamilyOtherMemberProfileActivity.REQUEST_HOME_VISIT;
 
-public class FamilyProfileActivity extends CoreFamilyProfileActivity {
+public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements FamilyProfileExtendedContract.View{
 
     public String moduleId;
     public String houseHoldId;
     public MigrationSearchContentData migrationSearchContentData;
     private Handler handler;
-    AppExecutors appExecutors = new AppExecutors();
+    protected String familyBaseEntityId;
+    protected String familyHead;
+    protected String primaryCaregiver;
+    protected String familyName;
+    protected FamilyFloatingMenu familyFloatingMenu;
+
+    @Override
+    protected void onResumption() {
+        super.onResumption();
+        FloatingMenuListener.getInstance(this, presenter().familyBaseEntityId());
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(org.smartregister.chw.core.R.menu.profile_menu, menu);
         setupMenuOptions(menu);
+        MenuItem addMember = menu.findItem(org.smartregister.chw.core.R.id.add_member);
+        if (addMember != null) {
+            addMember.setVisible(false);
+        }
+
+
+
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        int i = item.getItemId();
+        if (i == org.smartregister.chw.core.R.id.action_family_details) {
+            startFormForEdit();
+        } else if (i == org.smartregister.chw.core.R.id.action_remove_member) {
+            Intent frm_intent = new Intent(this, getFamilyRemoveMemberClass());
+            frm_intent.putExtra(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, getFamilyBaseEntityId());
+            frm_intent.putExtra(Constants.INTENT_KEY.FAMILY_HEAD, familyHead);
+            frm_intent.putExtra(Constants.INTENT_KEY.PRIMARY_CAREGIVER, primaryCaregiver);
+            startActivityForResult(frm_intent, CoreConstants.ProfileActivityResults.CHANGE_COMPLETED);
+        } else if (i == org.smartregister.chw.core.R.id.action_change_head) {
+            Intent fh_intent = new Intent(this, getFamilyProfileMenuClass());
+            fh_intent.putExtra(Constants.INTENT_KEY.BASE_ENTITY_ID, getFamilyBaseEntityId());
+            fh_intent.putExtra(CoreFamilyProfileMenuActivity.MENU, CoreConstants.MenuType.ChangeHead);
+            startActivityForResult(fh_intent, CoreConstants.ProfileActivityResults.CHANGE_COMPLETED);
+        } else if (i == org.smartregister.chw.core.R.id.action_change_care_giver) {
+            Intent pc_intent = new Intent(this, getFamilyProfileMenuClass());
+            pc_intent.putExtra(Constants.INTENT_KEY.BASE_ENTITY_ID, getFamilyBaseEntityId());
+            pc_intent.putExtra(CoreFamilyProfileMenuActivity.MENU, CoreConstants.MenuType.ChangePrimaryCare);
+            startActivityForResult(pc_intent, CoreConstants.ProfileActivityResults.CHANGE_COMPLETED);
+        } else {
+            super.onOptionsItemSelected(item);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void refreshMemberList(FetchStatus fetchStatus) {
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            for (int i = 0; i < adapter.getCount(); i++) {
+                refreshList(adapter.getItem(i));
+            }
+        } else {
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(() -> {
+                for (int i = 0; i < adapter.getCount(); i++) {
+                    refreshList(adapter.getItem(i));
+                }
+            });
+        }
+    }
+
+    @Override
+    public FamilyProfileExtendedContract.Presenter presenter() {
+        return (FamilyProfilePresenter) presenter;
+    }
+
+    protected void setPrimaryCaregiver(String caregiver) {
+        if (StringUtils.isNotBlank(caregiver)) {
+            this.primaryCaregiver = caregiver;
+            getIntent().putExtra(Constants.INTENT_KEY.PRIMARY_CAREGIVER, caregiver);
+        }
+    }
+
+
+    protected void refreshMemberFragment(String careGiverID, String familyHeadID) {
+        BaseFamilyProfileMemberFragment memberFragment = this.getProfileMemberFragment();
+        if (memberFragment != null) {
+            if (StringUtils.isNotBlank(careGiverID)) {
+                memberFragment.setPrimaryCaregiver(careGiverID);
+            }
+            if (StringUtils.isNotBlank(familyHeadID)) {
+                memberFragment.setFamilyHead(familyHeadID);
+            }
+            refreshMemberList(FetchStatus.fetched);
+        }
+    }
+
+    protected void setFamilyHead(String head) {
+        if (StringUtils.isNotBlank(head)) {
+            this.familyHead = head;
+            getIntent().putExtra(Constants.INTENT_KEY.FAMILY_HEAD, head);
+        }
+    }
+
+
+    public void startFormForEdit() {
+        if (familyBaseEntityId != null) {
+            presenter().fetchProfileData();
+        }
+    }
+
+
+    public String getFamilyBaseEntityId() {
+        return familyBaseEntityId;
+    }
+
+
+    @Override
+    public void startChildForm(String formName, String entityId, String metadata, String currentLocationId) throws Exception {
+        presenter().startChildForm(formName, entityId, metadata, currentLocationId);
+    }
+
+    @Override
+    public void updateHasPhone(boolean hasPhone) {
+        if (familyFloatingMenu != null) {
+            familyFloatingMenu.reDraw(hasPhone);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        // If request is cancelled, the result arrays are empty.
+        if (requestCode == org.smartregister.util.PermissionUtils.PHONE_STATE_PERMISSION_REQUEST_CODE) {
+            boolean granted = (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED);
+            if (granted) {
+                PermissionEvent event = new PermissionEvent(requestCode, granted);
+                EventBus.getDefault().post(event);
+            } else {
+                Toast.makeText(this, getText(org.smartregister.chw.core.R.string.allow_calls_denied), Toast.LENGTH_LONG).show();
+            }
+        }
+        if (PermissionUtils.verifyPermissionGranted(permissions, grantResults, Manifest.permission.ACCESS_FINE_LOCATION)) {
+            getGPSLocation();
+        }
+    }
+
+    public void updateDueCount(final int dueCount) {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(() -> adapter.updateCount(Pair.create(1, dueCount)));
     }
 
     @Override
@@ -110,9 +271,24 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         if(handler!=null) handler.removeCallbacksAndMessages(null);
     }
 
+    @SuppressLint("RtlHardcoded")
     @Override
     protected void setupViews() {
         super.setupViews();
+        CircleImageView profileView = findViewById(org.smartregister.chw.core.R.id.imageview_profile);
+        profileView.setBorderWidth(2);
+
+        // add floating menu
+        familyFloatingMenu = new FamilyFloatingMenu(this);
+        LinearLayout.LayoutParams linearLayoutParams =
+                new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+        familyFloatingMenu.setGravity(Gravity.BOTTOM | Gravity.RIGHT);
+        addContentView(familyFloatingMenu, linearLayoutParams);
+        familyFloatingMenu.setClickListener(
+                FloatingMenuListener.getInstance(this, presenter().familyBaseEntityId())
+        );
         HnppConstants.updateAppBackground(findViewById(R.id.family_toolbar));
         if(HnppConstants.isPALogin()){
             familyFloatingMenu.setVisibility(View.GONE);
@@ -162,12 +338,10 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
     public void onBackPressed() {
         finish();
     }
-    @Override
     protected void refreshPresenter() {
         presenter = new FamilyProfilePresenter(this, new HnppFamilyProfileModel(familyName,moduleId,houseHoldId,familyBaseEntityId),houseHoldId, familyBaseEntityId, familyHead, primaryCaregiver, familyName);
     }
 
-    @Override
     protected void refreshList(Fragment fragment) {
         if (fragment instanceof FamilyProfileMemberFragment) {
             FamilyProfileMemberFragment familyProfileMemberFragment = ((FamilyProfileMemberFragment) fragment);
@@ -175,10 +349,6 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                 familyProfileMemberFragment.refreshListView();
             }
         }
-    }
-    @Override
-    public void startFormForEdit() {
-        super.startFormForEdit();
     }
 
     @Override
@@ -516,20 +686,21 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
     protected Class<? extends CoreFamilyRemoveMemberActivity> getFamilyRemoveMemberClass() {
         return FamilyRemoveMemberActivity.class;
     }
 
-    @Override
     protected Class<? extends CoreFamilyProfileMenuActivity> getFamilyProfileMenuClass() {
-        return FamilyProfileMenuActivity.class;
+        return null;
     }
     HnppFamilyProfileModel model;
 
     @Override
     protected void initializePresenter() {
-        super.initializePresenter();
+        familyBaseEntityId = getIntent().getStringExtra(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID);
+        familyHead = getIntent().getStringExtra(Constants.INTENT_KEY.FAMILY_HEAD);
+        primaryCaregiver = getIntent().getStringExtra(Constants.INTENT_KEY.PRIMARY_CAREGIVER);
+        familyName = getIntent().getStringExtra(Constants.INTENT_KEY.FAMILY_NAME);
         moduleId = getIntent().getStringExtra(HnppConstants.KEY.MODULE_ID);
         houseHoldId = getIntent().getStringExtra(DBConstants.KEY.UNIQUE_ID);
         model = new HnppFamilyProfileModel(familyName,moduleId,houseHoldId,familyBaseEntityId);
@@ -622,13 +793,6 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         });
 
 
-    }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (PermissionUtils.verifyPermissionGranted(permissions, grantResults, Manifest.permission.ACCESS_FINE_LOCATION)) {
-            getGPSLocation();
-        }
     }
     public void openProfile(String baseEntityId){
         CommonPersonObjectClient commonPersonObjectClient = clientObject(baseEntityId);

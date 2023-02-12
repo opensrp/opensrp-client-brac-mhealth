@@ -218,7 +218,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
                 if(o instanceof String){
                     String str = (String)o;
                     if(!TextUtils.isEmpty(str)){
-                        HnppApplication.getHNPPInstance().getGuestMemberIdRepository().insertVillageId(blockIdList.get(index));
+                        HnppApplication.getHNPPInstance().getHouseholdIdRepository().insertVillageId(blockIdList.get(index));
                         PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
                         showNewIdRetriveaPopup();
                         return;
@@ -231,10 +231,13 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
                         if (!TextUtils.isEmpty(((MaterialEditText) formdataviews.get(i)).getFloatingLabelText()) && ((MaterialEditText) formdataviews.get(i)).getFloatingLabelText().toString().trim().equalsIgnoreCase("খানা নাম্বার")) {
                             ((MaterialEditText) formdataviews.get(i)).setText(unique_id);
                             try {
-                                JSONObject villageId = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "block_id");
+                                JSONArray jsonArray = getStep("step1").getJSONArray("fields");
+                                JSONObject villageId = getFieldJSONObject(jsonArray, "block_id");
                                 villageId.put("value", blockIdList.get(index));
-                                JSONObject wardIdObj = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "ward_id");
+                                JSONObject wardIdObj = getFieldJSONObject(jsonArray, "ward_id");
                                 wardIdObj.put("value", selectedWardId);
+                                JSONObject blockName = getFieldJSONObject(jsonArray, "block_name");
+                                blockName.put("value", blockNameList.get(index));
 //                                if (hhid != null) {
 //                                    getStep("step1").put("hhid", hhid.getOpenmrsId());
 //                                }

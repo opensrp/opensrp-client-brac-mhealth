@@ -41,7 +41,6 @@ import org.json.JSONObject;
 import org.smartregister.chw.core.R;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.contract.FamilyCallDialogContract;
-import org.smartregister.chw.core.custom_views.CoreFamilyMemberFloatingMenu;
 import org.smartregister.chw.core.fragment.CopyToClipboardDialog;
 import org.smartregister.clientandeventmodel.Obs;
 import org.smartregister.commonregistry.CommonPersonObject;
@@ -450,27 +449,6 @@ public abstract class Utils extends org.smartregister.family.util.Utils {
         return "";
     }
 
-    public static void redrawWithOption(CoreFamilyMemberFloatingMenu menu, boolean has_phone) {
-        TextView callTextView = menu.findViewById(R.id.CallTextView);
-        TextView callTextViewHint = menu.findViewById(R.id.CallTextViewHint);
-
-        if (has_phone) {
-
-            callTextViewHint.setVisibility(GONE);
-            menu.getCallLayout().setOnClickListener(menu);
-            callTextView.setTypeface(null, Typeface.NORMAL);
-            callTextView.setTextColor(menu.getResources().getColor(android.R.color.black));
-            ((FloatingActionButton) menu.findViewById(R.id.callFab)).getDrawable().setAlpha(255);
-
-        } else {
-
-            callTextViewHint.setVisibility(VISIBLE);
-            menu.getCallLayout().setOnClickListener(null);
-            callTextView.setTypeface(null, Typeface.ITALIC);
-            callTextView.setTextColor(menu.getResources().getColor(R.color.grey));
-            ((FloatingActionButton) menu.findViewById(R.id.callFab)).getDrawable().setAlpha(122);
-        }
-    }
 
     public static boolean isWomanOfReproductiveAge(CommonPersonObjectClient commonPersonObject) {
         if (commonPersonObject == null) {

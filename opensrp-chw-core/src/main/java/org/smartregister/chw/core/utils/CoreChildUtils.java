@@ -148,7 +148,6 @@ public abstract class CoreChildUtils {
         columnList.add(tableName + "." + DBConstants.KEY.DOB);
         columnList.add(tableName + "." + org.smartregister.family.util.Constants.JSON_FORM_KEY.DOB_UNKNOWN);
         columnList.add(tableName + "." + ChildDBConstants.KEY.LAST_HOME_VISIT);
-        columnList.add(tableName + "." + ChildDBConstants.KEY.VISIT_NOT_DONE);
         columnList.add(tableName + "." + ChildDBConstants.KEY.CHILD_BF_HR);
         columnList.add(tableName + "." + ChildDBConstants.KEY.CHILD_PHYSICAL_CHANGE);
         columnList.add(tableName + "." + ChildDBConstants.KEY.BIRTH_CERT);

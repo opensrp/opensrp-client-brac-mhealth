@@ -35,7 +35,7 @@ public class HnppChildRegisterFragmentModel extends CoreChildRegisterFragmentMod
         columnList.add(familyMemberTable + "." + DBConstants.KEY.MIDDLE_NAME + " as " + ChildDBConstants.KEY.FAMILY_MIDDLE_NAME);
         columnList.add(familyMemberTable + "." + ChildDBConstants.PHONE_NUMBER + " as " + ChildDBConstants.KEY.FAMILY_MEMBER_PHONENUMBER);
         columnList.add(familyMemberTable + "." + ChildDBConstants.OTHER_PHONE_NUMBER + " as " + ChildDBConstants.KEY.FAMILY_MEMBER_PHONENUMBER_OTHER);
-        columnList.add(familyTable + "." + DBConstants.KEY.VILLAGE_TOWN + " as " + ChildDBConstants.KEY.FAMILY_HOME_ADDRESS);
+        columnList.add(familyTable + "." + HnppConstants.KEY.VILLAGE_NAME + " as " + ChildDBConstants.KEY.FAMILY_HOME_ADDRESS);
         columnList.add(tableName + "." + DBConstants.KEY.LAST_NAME);
         columnList.add(tableName + "." + DBConstants.KEY.UNIQUE_ID);
         columnList.add(tableName + "." + DBConstants.KEY.GENDER);
@@ -43,7 +43,6 @@ public class HnppChildRegisterFragmentModel extends CoreChildRegisterFragmentMod
         columnList.add(familyTable+ "." + HnppConstants.KEY.BLOCK_NAME);
         columnList.add(familyTable + "." + HnppConstants.KEY.SERIAL_NO);
         columnList.add(tableName + "." + ChildDBConstants.KEY.LAST_HOME_VISIT);
-        columnList.add(tableName + "." + ChildDBConstants.KEY.VISIT_NOT_DONE);
         columnList.add(familyTable + "." + DBConstants.KEY.UNIQUE_ID + " as " + HnppConstants.KEY.HOUSE_HOLD_ID);
         columnList.add(familyTable + "." + DBConstants.KEY.FIRST_NAME + " as " + HnppConstants.KEY.HOUSE_HOLD_NAME);
         columnList.add(tableName + "." + HnppConstants.KEY.CHILD_MOTHER_NAME);

@@ -17,7 +17,6 @@ import org.smartregister.chw.core.R;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.contract.AncMemberProfileContract;
 import org.smartregister.chw.core.interactor.CoreAncMemberProfileInteractor;
-import org.smartregister.chw.core.interactor.CoreChildProfileInteractor;
 import org.smartregister.chw.core.presenter.CoreAncMemberProfilePresenter;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.HomeVisitUtil;
@@ -86,7 +85,7 @@ public abstract class CoreAncMemberProfileActivity extends BaseAncMemberProfileA
         String visitStatus = visitSummary.getVisitStatus();
 
         if (!visitStatus.equalsIgnoreCase(CoreConstants.VISIT_STATE.DUE) &&
-                !visitStatus.equalsIgnoreCase(CoreChildProfileInteractor.VisitType.OVERDUE.name())) {
+                !visitStatus.equalsIgnoreCase(CoreConstants.VisitType.OVERDUE.name())) {
             textview_record_anc_visit.setVisibility(View.GONE);
             view_anc_record.setVisibility(View.GONE);
             textViewAncVisitNot.setVisibility(View.GONE);

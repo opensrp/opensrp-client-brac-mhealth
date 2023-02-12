@@ -10,12 +10,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +27,8 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,12 +38,19 @@ import com.vijay.jsonwizard.domain.Form;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.chw.core.contract.FamilyOtherMemberProfileExtendedContract;
+import org.smartregister.chw.core.fragment.CoreFamilyOtherMemberProfileFragment;
+import org.smartregister.commonregistry.CommonPersonObject;
+import org.smartregister.commonregistry.CommonRepository;
+import org.smartregister.family.activity.BaseFamilyOtherMemberProfileActivity;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.custom_view.FamilyMemberFloatingMenu;
 import org.smartregister.unicef.dghs.fragment.HnppMemberProfileDueFragment;
 import org.smartregister.unicef.dghs.fragment.MemberHistoryFragment;
 import org.smartregister.unicef.dghs.fragment.MemberOtherServiceFragment;
 import org.smartregister.unicef.dghs.job.VisitLogServiceJob;
+import org.smartregister.unicef.dghs.listener.FloatingMenuListener;
+import org.smartregister.unicef.dghs.listener.OnClickFloatingMenu;
 import org.smartregister.unicef.dghs.listener.OnPostDataWithGps;
 import org.smartregister.unicef.dghs.model.ReferralFollowUpModel;
 import org.smartregister.unicef.dghs.repository.HnppVisitLogRepository;
@@ -51,9 +64,6 @@ import org.smartregister.unicef.dghs.utils.HouseHoldInfo;
 import org.smartregister.unicef.dghs.utils.OnDialogOptionSelect;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.anc.domain.Visit;
-import org.smartregister.chw.core.activity.CoreFamilyOtherMemberProfileActivity;
-import org.smartregister.chw.core.activity.CoreFamilyProfileActivity;
-import org.smartregister.chw.core.custom_views.CoreFamilyMemberFloatingMenu;
 import org.smartregister.chw.core.fragment.FamilyCallDialogFragment;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.Utils;
@@ -89,7 +99,7 @@ import static com.vijay.jsonwizard.constants.JsonFormConstants.FIELDS;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.MEMBER_ID_SUFFIX;
 import static org.smartregister.unicef.dghs.utils.HnppJsonFormUtils.makeReadOnlyFields;
 
-public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberProfileActivity {
+public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfileActivity  implements FamilyOtherMemberProfileExtendedContract.View {
     public static final int REQUEST_HOME_VISIT = 5555;
     public static final String IS_COMES_IDENTITY = "is_comes";
 
@@ -101,7 +111,16 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     private String guId;
     private String moduleId;
     private Handler handler;
-
+    protected FamilyMemberFloatingMenu familyFloatingMenu;
+    protected String baseEntityId;
+    protected String familyHead;
+    protected String primaryCaregiver;
+    protected String familyName;
+    protected String PhoneNumber;
+    protected CommonPersonObjectClient commonPersonObject;
+    protected OnClickFloatingMenu onClickFloatingMenu;
+    private TextView textViewFamilyHas;
+    private RelativeLayout layoutFamilyHasRow;
 
     public boolean isNeedToVerify() {
         return verificationNeeded && !isVerified;
@@ -117,7 +136,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         setContentView(R.layout.activity_other_member_profile);
         handler = new Handler();
         Toolbar toolbar = findViewById(org.smartregister.family.R.id.family_toolbar);
-        HnppConstants.updateAppBackground(toolbar);
+       // HnppConstants.updateAppBackground(toolbar);
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
@@ -137,12 +156,17 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         HnppConstants.isViewRefresh = false;
     }
 
-    @Override
     public void startFormForEdit(Integer title_resource) {
-        super.startFormForEdit(title_resource);
+        CommonRepository commonRepository = org.smartregister.family.util.Utils.context().commonrepository(org.smartregister.family.util.Utils.metadata().familyMemberRegister.tableName);
+
+        final CommonPersonObject personObject = commonRepository.findByBaseEntityId(commonPersonObject.getCaseId());
+        final CommonPersonObjectClient client =
+                new CommonPersonObjectClient(personObject.getCaseId(), personObject.getDetails(), "");
+        client.setColumnmaps(personObject.getColumnmaps());
+
+        startEditMemberJsonForm(title_resource, client);
     }
 
-    @Override
     public void startFormActivity(JSONObject jsonForm) {
         if(HnppConstants.isPALogin()){
             openAsReadOnlyMode(jsonForm);
@@ -166,6 +190,33 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
 
         startActivityForResult(intent, org.smartregister.family.util.JsonFormUtils.REQUEST_CODE_GET_JSON);
+    }
+    @Override
+    public void refreshList() {
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            for (int i = 0; i < adapter.getCount(); i++) {
+                refreshList(adapter.getItem(i));
+            }
+        } else {
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(() -> {
+                for (int i = 0; i < adapter.getCount(); i++) {
+                    refreshList(adapter.getItem(i));
+                }
+            });
+        }
+    }
+    protected void refreshList(Fragment fragment) {
+        if (fragment instanceof CoreFamilyOtherMemberProfileFragment) {
+            CoreFamilyOtherMemberProfileFragment familyOtherMemberProfileFragment = ((CoreFamilyOtherMemberProfileFragment) fragment);
+            if (familyOtherMemberProfileFragment.presenter() != null) {
+                familyOtherMemberProfileFragment.refreshListView();
+            }
+        }
+    }
+    @Override
+    public Context getContext() {
+        return this;
     }
     private void openAsReadOnlyMode(JSONObject jsonForm){
         Intent intent = new Intent(this, HnppFormViewActivity.class);
@@ -227,16 +278,20 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(org.smartregister.chw.core.R.menu.other_member_menu, menu);
         this.menu = menu;
+        MenuItem addMember = menu.findItem(org.smartregister.chw.core.R.id.add_member);
+        if (addMember != null) {
+            addMember.setVisible(false);
+        }
+
         setupMenuOptions(menu);
         return true;
     }
-    @Override
     protected void startPncRegister() {
        // HnppPncRegisterActivity.startHnppPncRegisterActivity(HnppFamilyOtherMemberProfileActivity.this, baseEntityId);
     }
 
-    @Override
     public void startAncRegister() {
         HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
             @Override
@@ -246,8 +301,6 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             }
         });
     }
-
-    @Override
     public void startMalariaRegister() {
         HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
             @Override
@@ -258,10 +311,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         });
      }
 
-
-
-    @Override
-    protected void removeIndividualProfile() {
+     protected void removeIndividualProfile() {
         Timber.d("Remove member action is not required in HF");
         IndividualProfileRemoveActivity.startIndividualProfileActivity(HnppFamilyOtherMemberProfileActivity.this,
                 commonPersonObject, familyBaseEntityId, familyHead, primaryCaregiver, FamilyRegisterActivity.class.getCanonicalName());
@@ -270,6 +320,27 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
     @Override
     protected void setupViews() {
         super.setupViews();
+
+        TextView toolbarTitle = findViewById(org.smartregister.chw.core.R.id.toolbar_title);
+        toolbarTitle.setText(String.format(getString(org.smartregister.chw.core.R.string.return_to_family_name), presenter().getFamilyName()));
+
+        TabLayout tabLayout = findViewById(org.smartregister.chw.core.R.id.tabs);
+        tabLayout.setSelectedTabIndicatorHeight(0);
+
+        findViewById(org.smartregister.chw.core.R.id.viewpager).setVisibility(View.GONE);
+
+        // add floating menu
+        familyFloatingMenu = getFamilyMemberFloatingMenu();
+        LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        familyFloatingMenu.setGravity(Gravity.BOTTOM | Gravity.END);
+        addContentView(familyFloatingMenu, linearLayoutParams);
+
+        familyFloatingMenu.setClickListener(onClickFloatingMenu);
+        textViewFamilyHas = findViewById(org.smartregister.chw.core.R.id.textview_family_has);
+        layoutFamilyHasRow = findViewById(org.smartregister.chw.core.R.id.family_has_row);
+
+        layoutFamilyHasRow.setOnClickListener(this);
         findViewById(org.smartregister.chw.core.R.id.viewpager).setVisibility(View.VISIBLE);
 
         textViewDetails3 = findViewById(R.id.textview_detail_three);
@@ -278,7 +349,16 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         familyFloatingMenu.hideFab();
 
     }
+    @Override
+    protected void onResumption() {
+        super.onResumption();
+        FloatingMenuListener.getInstance(this, presenter().getFamilyBaseEntityId());
+    }
 
+    @Override
+    public HnppFamilyOtherMemberActivityPresenter presenter() {
+        return (HnppFamilyOtherMemberActivityPresenter) presenter;
+    }
     @SuppressLint("SetTextI18n")
     @Override
     public void setProfileDetailThree(String detailThree) {
@@ -435,7 +515,6 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             }
         }
     }
-    @Override
     protected void startEditMemberJsonForm(Integer title_resource, CommonPersonObjectClient client) {
         HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
             @Override
@@ -816,17 +895,13 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         });
 
     }
-
-    @Override
     protected BaseProfileContract.Presenter getFamilyOtherMemberActivityPresenter(
             String familyBaseEntityId, String baseEntityId, String familyHead, String primaryCaregiver, String villageTown, String familyName) {
         this.familyBaseEntityId = familyBaseEntityId;
         return new HnppFamilyOtherMemberActivityPresenter(this, new BaseFamilyOtherMemberProfileActivityModel(),
                 null, familyBaseEntityId, baseEntityId, familyHead, primaryCaregiver, villageTown, familyName);
     }
-
-    @Override
-    protected CoreFamilyMemberFloatingMenu getFamilyMemberFloatingMenu() {
+    protected FamilyMemberFloatingMenu getFamilyMemberFloatingMenu() {
         if (familyFloatingMenu == null) {
             prepareFab();
         }
@@ -841,25 +916,35 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                 startPncRegister();
                 return true;
             case R.id.action_pregnancy_out_come:
+            case R.id.action_malaria_registration:
                 startMalariaRegister();
+                return true;
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            case R.id.action_anc_registration:
+                startAncRegister();
+                return true;
+            case R.id.action_registration:
+                startFormForEdit(org.smartregister.chw.core.R.string.edit_member_form_title);
+                return true;
+            case R.id.action_remove_member:
+                removeIndividualProfile();
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
-    @Override
     protected Context getFamilyOtherMemberProfileActivity() {
         return HnppFamilyOtherMemberProfileActivity.this;
     }
 
-    @Override
-    protected Class<? extends CoreFamilyProfileActivity> getFamilyProfileActivity() {
+    protected Class<? extends FamilyProfileActivity> getFamilyProfileActivity() {
         return FamilyProfileActivity.class;
     }
 
-    @Override
     public void openFamilyDueTab() {
-        Intent intent = new Intent(this, getFamilyProfileActivity());
+        Intent intent = new Intent(this, FamilyProfileActivity.class);
         intent.putExtras(getIntent().getExtras());
         HouseHoldInfo houseHoldInfo = HnppDBUtils.getHouseHoldInfo(familyBaseEntityId);
         if(houseHoldInfo !=null){
@@ -876,7 +961,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 
     @Override
     public void updateHasPhone(boolean hasPhone) {
-        super.updateHasPhone(hasPhone);
+        if (familyFloatingMenu != null) {
+            familyFloatingMenu.redrawWithOption(familyFloatingMenu,hasPhone);
+        }
         if (!hasPhone) {
             familyFloatingMenu.hideFab();
         }
@@ -1009,15 +1096,22 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 
     @Override
     protected void initializePresenter() {
-        super.initializePresenter();
+        commonPersonObject = (CommonPersonObjectClient) getIntent().getSerializableExtra(CoreConstants.INTENT_KEY.CHILD_COMMON_PERSON);
+        familyBaseEntityId = getIntent().getStringExtra(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID);
+        baseEntityId = getIntent().getStringExtra(Constants.INTENT_KEY.BASE_ENTITY_ID);
+        familyHead = getIntent().getStringExtra(Constants.INTENT_KEY.FAMILY_HEAD);
+        primaryCaregiver = getIntent().getStringExtra(Constants.INTENT_KEY.PRIMARY_CAREGIVER);
+        String villageTown = getIntent().getStringExtra(Constants.INTENT_KEY.VILLAGE_TOWN);
+        familyName = getIntent().getStringExtra(Constants.INTENT_KEY.FAMILY_NAME);
+        PhoneNumber = commonPersonObject.getColumnmaps().get(CoreConstants.JsonAssets.FAMILY_MEMBER.PHONE_NUMBER);
+        presenter = getFamilyOtherMemberActivityPresenter(familyBaseEntityId, baseEntityId, familyHead, primaryCaregiver, villageTown, familyName);
+        Log.v("BASE_ENTITY_ID","familyBaseEntityId:"+familyBaseEntityId+":baseEntityId:"+baseEntityId);
         onClickFloatingMenu = viewId -> {
             if (viewId == R.id.call_layout) {
                 FamilyCallDialogFragment.launchDialog(this, familyBaseEntityId);
             }
         };
     }
-
-    @Override
     protected BaseFamilyOtherMemberProfileFragment getFamilyOtherMemberProfileFragment() {
         return FamilyOtherMemberProfileFragment.newInstance(getIntent().getExtras());
     }

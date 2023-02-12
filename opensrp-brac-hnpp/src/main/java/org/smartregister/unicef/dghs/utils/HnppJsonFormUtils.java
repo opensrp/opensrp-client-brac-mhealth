@@ -1,5 +1,7 @@
 package org.smartregister.unicef.dghs.utils;
 
+import static com.vijay.jsonwizard.utils.FormUtils.getFieldJSONObject;
+
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -24,6 +26,7 @@ import org.smartregister.AllConstants;
 import org.smartregister.CoreLibrary;
 import org.smartregister.unicef.dghs.BuildConfig;
 import org.smartregister.unicef.dghs.HnppApplication;
+import org.smartregister.unicef.dghs.location.BlockLocation;
 import org.smartregister.unicef.dghs.location.GeoLocation;
 import org.smartregister.unicef.dghs.location.WardLocation;
 import org.smartregister.unicef.dghs.model.ForumDetails;
@@ -68,6 +71,7 @@ import timber.log.Timber;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.smartregister.chw.anc.util.JsonFormUtils.HOME_VISIT_GROUP;
 import static org.smartregister.chw.anc.util.JsonFormUtils.updateFormField;
+import static org.smartregister.unicef.dghs.utils.HnppConstants.CAMP_TYPE_JSON_ARR;
 
 /**
  * Created by keyman on 13/11/2018.
@@ -76,6 +80,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
     public static final String METADATA = "metadata";
     public static final String WARD_NAME = "ward_name";
     public static final String BLOCK_NAME = "block_name";
+    public static final String CHAMP_TYPE = "camp_type";
     public static final String SIMPRINTS_ENABLE = "simprints_enable";
     public static final String VILLAGE_NAME = "village_name";
     public static final String ENCOUNTER_TYPE = "encounter_type";
@@ -759,6 +764,19 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             e.printStackTrace();
         }
     }
+    public static JSONObject updateFormWithChampType(JSONObject form, JSONArray campTypeArr) {
+        try {
+            JSONObject stepOne = form.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+            JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+            JSONObject camp_types = getFieldJSONObject(jsonArray, "camp_type");
+            camp_types.put(org.smartregister.family.util.JsonFormUtils.VALUES,campTypeArr);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return form;
+    }
     public static void addNcdSugerPressure(String baseEntityId, JSONObject jsonForm){
         try {
             String sugervalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(baseEntityId+"_SUGER");
@@ -923,35 +941,37 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
     }
     public static JSONObject updateFormWithModuleId(JSONObject form,String moduleId, String familyBaseEntityId) throws JSONException {
-        JSONArray field = fields(form, STEP1);
-        JSONObject fingerPrint = getFieldJSONObject(field, "finger_print");
-        fingerPrint.put("project_id", HnppConstants.getSimPrintsProjectId());
-        fingerPrint.put("user_id",CoreLibrary.getInstance().context().allSharedPreferences().fetchRegisteredANM());
-        fingerPrint.put("module_id",moduleId);
         try{
             String[] familyData = HnppDBUtils.getNameMobileFromFamily(familyBaseEntityId);
             if(familyData.length >0){
-                form.put("family_name",familyData[0]);
-                form.put("phone_no",familyData[1]);
+                form.put("first_name",familyData[0]);
+                form.put("last_name",familyData[1]);
+                form.put("phone_no",familyData[2]);
             }
         }catch (Exception e){
 
         }
+//
+//        String entity_id = form.getString("entity_id");
+//        try {
+//
+//            if(StringUtils.isEmpty(entity_id)){
+//                ArrayList<String> womenList = HnppDBUtils.getAllWomenInHouseHold(familyBaseEntityId);
+//                HnppJsonFormUtils.updateFormWithMotherName(form,womenList,familyBaseEntityId);
+//            }else{
+//                ArrayList<String> womenList = HnppDBUtils.getAllWomenInHouseHold(entity_id,familyBaseEntityId);
+//                HnppJsonFormUtils.updateFormWithMotherName(form,womenList,familyBaseEntityId);
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        JSONArray field = fields(form, STEP1);
 
-        String entity_id = form.getString("entity_id");
-        try {
-
-            if(StringUtils.isEmpty(entity_id)){
-                ArrayList<String> womenList = HnppDBUtils.getAllWomenInHouseHold(familyBaseEntityId);
-                HnppJsonFormUtils.updateFormWithMotherName(form,womenList,familyBaseEntityId);
-            }else{
-                ArrayList<String> womenList = HnppDBUtils.getAllWomenInHouseHold(entity_id,familyBaseEntityId);
-                HnppJsonFormUtils.updateFormWithMotherName(form,womenList,familyBaseEntityId);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        String champtype =HnppDBUtils.getChampType(familyBaseEntityId);
+        Log.v("champtype","champtype:"+champtype);
+        JSONObject champtypeObject = getFieldJSONObject(field, CHAMP_TYPE);
+        champtypeObject.put(org.smartregister.family.util.JsonFormUtils.VALUE, champtype);
         form.put("relational_id", familyBaseEntityId);
 
         return form;
@@ -1016,6 +1036,11 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         JSONObject houseHoldIdObject = getFieldJSONObject(field, "house_hold_id");
         houseHoldIdObject.put(org.smartregister.family.util.JsonFormUtils.VALUE, houseHoldId);
 
+        String champtype =HnppDBUtils.getChampType(familyBaseEntityId);
+        Log.v("champtype","champtype:"+champtype);
+        JSONObject champtypeObject = getFieldJSONObject(field, CHAMP_TYPE);
+        champtypeObject.put(org.smartregister.family.util.JsonFormUtils.VALUE, champtype);
+
         return form;
     }
     public static JSONObject updateFormWithWardName(JSONObject form, ArrayList<WardLocation> geoLocations) throws Exception{
@@ -1028,6 +1053,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         JSONObject spinner = getFieldJSONObject(field, WARD_NAME);
 
         spinner.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);
+        updateFormWithChampType(form,CAMP_TYPE_JSON_ARR);
         return form;
 
 
@@ -1060,11 +1086,12 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
     public static JSONObject updateFormWithWardBlockName(JSONObject form,String wardId, String blockName, String blockId) throws Exception{
 
+        Log.v("GEO_LOCATION","updateFormWithWardBlockName>wardId:"+wardId+":blockName:"+blockName+":blockId:"+blockId);
         JSONArray jsonArray = new JSONArray();
 
-        ArrayList<GeoLocation> blockListByWard = HnppApplication.getGeoLocationRepository().getAllBlockByWardId(wardId);
+        ArrayList<BlockLocation> blockListByWard = HnppApplication.getGeoLocationRepository().getOnlyBlockLocationByWardId(wardId);
         for(int i = 0; i< blockListByWard.size(); i++){
-            GeoLocation geoLocation1 = blockListByWard.get(i);
+            BlockLocation geoLocation1 = blockListByWard.get(i);
             jsonArray.put(geoLocation1.block.name);
         }
         JSONObject step1 = form.getJSONObject(STEP1);
@@ -1087,15 +1114,15 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
     }
     public static JSONObject updateFormWithMotherName(JSONObject form , ArrayList<String> motherNameList,String familyBaseEntityId) throws Exception{
 
-        JSONArray jsonArray = new JSONArray();
-        for(String name : motherNameList){
-            jsonArray.put(name);
-        }
-        jsonArray.put("মাতা রেজিস্টার্ড নয়");
+//        JSONArray jsonArray = new JSONArray();
+//        for(String name : motherNameList){
+//            jsonArray.put(name);
+//        }
+//        jsonArray.put("মাতা রেজিস্টার্ড নয়");
         JSONArray field = fields(form, STEP1);
-        JSONObject spinner = getFieldJSONObject(field, "mother_name");
+//        JSONObject spinner = getFieldJSONObject(field, HnppConstants.KEY.CHILD_MOTHER_NAME);
 
-        spinner.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);
+//        spinner.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);
         String ssName =HnppDBUtils.getBlockNameByHHID(familyBaseEntityId);
         Log.v("SS_NAME","ssName:"+ssName+":familyId:"+familyBaseEntityId);
         JSONObject ssNameObj = getFieldJSONObject(field, "block_name");
@@ -1253,7 +1280,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 break;
             case "village_name":
                 jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,
-                        org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(),DBConstants.KEY.VILLAGE_TOWN, false));
+                        org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(),HnppConstants.KEY.VILLAGE_NAME, false));
 
                 break;
             case Constants.JSON_FORM_KEY.DOB:
@@ -1288,25 +1315,30 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                         org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(),DBConstants.KEY.PHONE_NUMBER, false));
 
              break;
-            case "mother_guardian_first_name_english":
+            case "mother_name_english":
                 jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,
                         org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(),HnppConstants.KEY.CHILD_MOTHER_NAME, false));
 
                 break;
-            case "mother_name":
-                String motherNameAlter = Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.CHILD_MOTHER_NAME_REGISTERED, false);
-                if(!TextUtils.isEmpty(motherNameAlter) && motherNameAlter.equalsIgnoreCase("মাতা রেজিস্টার্ড নয়")){
-                    jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,motherNameAlter);
-                }else{
-                    String motherEntityId = Utils.getValue(client.getColumnmaps(), ChildDBConstants.KEY.MOTHER_ENTITY_ID, false);
-                    String relationId = Utils.getValue(client.getColumnmaps(), ChildDBConstants.KEY.RELATIONAL_ID, false);
-                    String motherName = Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.CHILD_MOTHER_NAME, false);
-
-                    motherName = HnppDBUtils.getMotherName(motherEntityId,relationId,motherName);
-                    jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,motherName);
-                }
+            case "mother_name_bangla":
+                jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,
+                        org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(),HnppConstants.KEY.CHILD_MOTHER_NAME_REGISTERED, false));
 
                 break;
+//            case "mother_name":
+//                String motherNameAlter = Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.CHILD_MOTHER_NAME_REGISTERED, false);
+//                if(!TextUtils.isEmpty(motherNameAlter) && motherNameAlter.equalsIgnoreCase("মাতা রেজিস্টার্ড নয়")){
+//                    jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,motherNameAlter);
+//                }else{
+//                    String motherEntityId = Utils.getValue(client.getColumnmaps(), ChildDBConstants.KEY.MOTHER_ENTITY_ID, false);
+//                    String relationId = Utils.getValue(client.getColumnmaps(), ChildDBConstants.KEY.RELATIONAL_ID, false);
+//                    String motherName = Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.CHILD_MOTHER_NAME, false);
+//
+//                    motherName = HnppDBUtils.getMotherName(motherEntityId,relationId,motherName);
+//                    jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,motherName);
+//                }
+//
+//                break;
 
             case "sex":
                 if(jsonObject.has("openmrs_choice_ids")&&jsonObject.getJSONObject("openmrs_choice_ids").length()>0){
@@ -1375,7 +1407,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
                 lastInteractedWith(fields);
                 dobEstimatedUpdateFromAge(fields);
-                String motherEntityId = updateMotherName(fields,familyId);
+
 
                 FormTag formTag = formTag(allSharedPreferences);
                 formTag.appVersionName = BuildConfig.VERSION_NAME;
@@ -1384,8 +1416,14 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                     baseClient.addRelationship(Utils.metadata().familyMemberRegister.familyRelationKey, familyBaseEntityId);
                 }
 
-                Context context = HnppApplication.getInstance().getContext().applicationContext();
-                addRelationship(context, motherEntityId,familyId, baseClient);
+                try{
+                    String motherEntityId = updateMotherName(fields,familyId);
+                    Context context = HnppApplication.getInstance().getContext().applicationContext();
+                    addRelationship(context, motherEntityId,familyId, baseClient);
+                }catch (Exception e){
+
+                }
+
                 Event baseEvent = org.smartregister.util.JsonFormUtils.createEvent(fields, getJSONObject(jsonForm, "metadata"), formTag, entityId, encounterType, Utils.metadata().familyMemberRegister.tableName);
                 tagSyncMetadata(allSharedPreferences, baseEvent);
 
@@ -1672,7 +1710,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 FormTag formTag = formTag(allSharedPreferences);
                 formTag.appVersionName = BuildConfig.VERSION_NAME;
                 Client baseClient = org.smartregister.util.JsonFormUtils.createBaseClient(fields, formTag, entityId);
-                baseClient.setLastName("Family");
+               // baseClient.setLastName("Family");
                 baseClient.setBirthdate(new Date(0L));
                 baseClient.setGender("Male");
                 Event baseEvent = org.smartregister.util.JsonFormUtils.createEvent(fields, getJSONObject(jsonForm, "metadata"), formTag, entityId, Utils.metadata().familyRegister.registerEventType, Utils.metadata().familyRegister.tableName);

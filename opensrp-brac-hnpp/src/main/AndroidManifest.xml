@@ -142,7 +142,7 @@
             android:label="@string/title_family_detail"
             android:parentActivityName=".activity.FamilyRegisterActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/FamilyTheme.NoActionBar">
+            android:theme="@style/HNPPTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.smartregister.unicef.dghs.activity.FamilyProfileActivity" />
@@ -231,11 +231,11 @@
                 android:resource="@xml/captured_images_path" />
         </provider>
 
-        <activity
-            android:name=".activity.AboveFiveChildProfileActivity"
-            android:label="@string/child_details"
-            android:screenOrientation="portrait"
-            android:theme="@style/HNPPTheme.NoActionBar" />
+<!--        <activity-->
+<!--            android:name=".activity.AboveFiveChildProfileActivity"-->
+<!--            android:label="@string/child_details"-->
+<!--            android:screenOrientation="portrait"-->
+<!--            android:theme="@style/HNPPTheme.NoActionBar" />-->
         <activity android:name="org.smartregister.chw.core.activity.ChwP2pModeSelectActivity" />
         <activity
             android:name=".activity.HNPPJsonFormActivity"

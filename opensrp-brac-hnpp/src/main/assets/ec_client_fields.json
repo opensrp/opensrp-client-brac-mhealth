@@ -70,7 +70,7 @@
           "column_name": "block_name",
           "type": "Client",
           "json_mapping": {
-            "field": "attributes.block_Name"
+            "field": "attributes.block_name"
           }
         },
         {
@@ -386,46 +386,45 @@
           }
         },
         {
+          "column_name": "block_name",
+          "type": "Client",
+          "json_mapping": {
+            "field": "block_name"
+          }
+        },
+        {
+          "column_name": "block_id",
+          "type": "Client",
+          "json_mapping": {
+            "field": "block_id"
+          }
+        },
+        {
+          "column_name": "ward_name",
+          "type": "Client",
+          "json_mapping": {
+            "field": "ward_name"
+          }
+        },
+        {
+          "column_name": "provider_id",
+          "type": "Client",
+          "json_mapping": {
+            "field": "provider_id"
+          }
+        },
+        {
+          "column_name": "provider_id",
+          "type": "Client",
+          "json_mapping": {
+            "field": "provider_id"
+          }
+        },
+        {
           "column_name": "unique_id",
           "type": "Client",
           "json_mapping": {
             "field": "identifiers.opensrp_id"
-          }
-        },
-        {
-          "column_name": "first_name",
-          "type": "Client",
-          "json_mapping": {
-            "field": "firstName"
-          }
-        },
-
-        {
-          "column_name": "relation_with_household_head",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.Relation_with_HOH"
-          }
-        },
-        {
-          "column_name": "mother_name",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.mother_name"
-          }
-        },
-        {
-          "column_name": "Mother_Guardian_First_Name_english",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.motherNameEnglish"
-          }
-        },
-        {
-          "column_name": "phone_number",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.Mobile_Number"
           }
         },
         {
@@ -450,12 +449,105 @@
           }
         },
         {
-          "column_name": "voter_id",
+          "column_name": "epi_card_number",
           "type": "Client",
           "json_mapping": {
-            "field": "attributes.Voter_Registration_Number"
+            "field": "attributes.epicardnumber"
           }
         },
+        {
+          "column_name": "camp_type",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.camp_type"
+          }
+        },
+        {
+          "column_name": "relation_with_household_head",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.Relation_with_HOH"
+          }
+        },
+        {
+          "column_name": "relation_other_relative",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.relation_other_relative"
+          }
+        },
+        {
+          "column_name": "relation_other_non_relative",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.relation_other_non_relative"
+          }
+        },
+        {
+          "column_name": "first_name",
+          "type": "Client",
+          "json_mapping": {
+            "field": "firstName"
+          }
+        },
+        {
+          "column_name": "last_name",
+          "type": "Client",
+          "json_mapping": {
+            "field": "lastName"
+          }
+        },
+
+        {
+          "column_name": "mother_name",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.mother_name"
+          }
+        },
+        {
+          "column_name": "member_name_bengla",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.member_name_bengla"
+          }
+        },
+        {
+          "column_name": "mother_name_english",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.mother_name_english"
+          }
+        },
+        {
+          "column_name": "mother_name_bangla",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.mother_name_bangla"
+          }
+        },
+        {
+          "column_name": "father_name_english",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.father_name_english"
+          }
+        },
+        {
+          "column_name": "father_name_bangla",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.father_name_bangla"
+          }
+        },
+        {
+          "column_name": "phone_number",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.Mobile_Number"
+          }
+        },
+
         {
           "column_name": "is_birthday_known",
           "type": "Client",
@@ -492,12 +584,132 @@
           }
         },
         {
-          "column_name": "pregnant_status",
+          "column_name": "spouse_name_english",
           "type": "Client",
           "json_mapping": {
-            "field": "attributes.Pregnancy_Status"
+            "field": "attributes.spouse_name_english"
           }
         },
+        {
+          "column_name": "spouse_name_bangla",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.spouse_name_bangla"
+          }
+        },
+        {
+          "column_name": "disability",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.disability"
+          }
+        },
+        {
+          "column_name": "disability_type",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.disability_type"
+          }
+        },
+        {
+          "column_name": "ethnicity",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.ethnicity"
+          }
+        },
+        {
+          "column_name": "ethnicity_other",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.ethnicity_other"
+          }
+        },
+        {
+          "column_name": "education_qualification",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.education_qualification"
+          }
+        },
+        {
+          "column_name": "education_other",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.education_other"
+          }
+        },
+        {
+          "column_name": "occupation_category",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.occupation_category"
+          }
+        },
+        {
+          "column_name": "technical_professionals",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.technical_professionals"
+          }
+        },
+        {
+          "column_name": "labor_service",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.labor_service"
+          }
+        },
+        {
+          "column_name": "unskilled_labor",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.unskilled_labor"
+          }
+        },
+        {
+          "column_name": "daily_workers",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.daily_workers"
+          }
+        },
+        {
+          "column_name": "home_based_manufacturing",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.home_based_manufacturing"
+          }
+        },
+        {
+          "column_name": "business",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.business"
+          }
+        },
+        {
+          "column_name": "domestic_servant",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.domestic_servant"
+          }
+        },
+        {
+          "column_name": "religion",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.religion"
+          }
+        },
+        {
+          "column_name": "religion_other",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.religion_other"
+          }
+        },
+
         {
           "column_name": "blood_group",
           "type": "Client",
@@ -506,31 +718,66 @@
           }
         },
         {
+          "column_name": "has_disease",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.has_disease"
+          }
+        },
+        {
+          "column_name": "disease_Type",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.disease_Type"
+          }
+        },
+        {
+          "column_name": "comm_disease",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.comm_disease"
+          }
+        },
+        {
+          "column_name": "non_comnta_disease",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.non_comnta_disease"
+          }
+        },
+        {
+          "column_name": "illness_information",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.illness_information"
+          }
+        },
+        {
+          "column_name": "illness_other",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.illness_other"
+          }
+        },
+        {
+          "column_name": "risky_habits",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.risky_habits"
+          }
+        },
+        {
+          "column_name": "habits_other",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.habits_other"
+          }
+        },
+        {
           "column_name": "finger_print",
           "type": "Client",
           "json_mapping": {
             "field": "attributes.Fingerprint"
-          }
-        },
-        {
-          "column_name": "difficulty_seeing_hearing",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.difficulty_seeing_hearing"
-          }
-        },
-        {
-          "column_name": "difficulty_walking_up_down",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.difficulty_walking_up_down"
-          }
-        },
-        {
-          "column_name": "trouble_remembering_concentrating",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.trouble_remembering_concentrating"
           }
         },
         {
@@ -589,13 +836,6 @@
           "type": "Client",
           "json_mapping": {
             "field": "middleName"
-          }
-        },
-        {
-          "column_name": "last_name",
-          "type": "Client",
-          "json_mapping": {
-            "field": "lastName"
           }
         },
         {
@@ -779,14 +1019,6 @@
           }
         },
         {
-          "column_name": "entry_point",
-          "type": "Event",
-          "json_mapping": {
-            "field": "obs.fieldCode",
-            "concept": "entry_point"
-          }
-        },
-        {
           "column_name": "first_name",
           "type": "Client",
           "json_mapping": {
@@ -808,6 +1040,41 @@
           }
         },
         {
+          "column_name": "member_name_bengla",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.member_name_bengla"
+          }
+        },
+        {
+          "column_name": "mother_name_english",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.mother_name_english"
+          }
+        },
+        {
+          "column_name": "mother_name_bangla",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.mother_name_bangla"
+          }
+        },
+        {
+          "column_name": "father_name_english",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.father_name_english"
+          }
+        },
+        {
+          "column_name": "father_name_bangla",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.father_name_bangla"
+          }
+        },
+        {
           "column_name": "relation_with_household_head",
           "type": "Client",
           "json_mapping": {
@@ -819,20 +1086,6 @@
           "type": "Client",
           "json_mapping": {
             "field": "attributes.birthRegistrationID"
-          }
-        },
-        {
-          "column_name": "Mother_Guardian_First_Name_english",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.motherNameEnglish"
-          }
-        },
-        {
-          "column_name": "mother_name",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.mother_name"
           }
         },
         {
@@ -854,13 +1107,6 @@
           "type": "Client",
           "json_mapping": {
             "field": "attributes.Blood_Group"
-          }
-        },
-        {
-          "column_name": "trouble_seeing_hearing",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.trouble_seeing_hearing"
           }
         },
         {
@@ -889,14 +1135,6 @@
           }
         },
         {
-          "column_name": "visit_not_done",
-          "type": "Event",
-          "json_mapping": {
-            "field": "obs.fieldCode",
-            "formSubmissionField": "visit_not_done"
-          }
-        },
-        {
           "column_name": "date_removed",
           "type": "Client",
           "json_mapping": {
@@ -915,86 +1153,6 @@
           "type": "Client",
           "json_mapping": {
             "field": "birthdateApprox"
-          }
-        },
-        {
-          "column_name": "early_bf_1hr",
-          "type": "Event",
-          "json_mapping": {
-            "field": "obs.fieldCode",
-            "concept": "161543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-          }
-        },
-        {
-          "column_name": "physically_challenged",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.physically_challenged"
-
-          }
-        },
-        {
-          "column_name": "birth_cert",
-          "type": "Event",
-          "json_mapping": {
-            "field": "obs.fieldCode",
-            "concept": "165406AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-          }
-        }
-      ,{
-          "column_name": "birth_cert_issue_date",
-          "type": "Event",
-          "json_mapping": {
-            "field": "obs.fieldCode",
-            "concept": "164129AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-          }
-        },
-        {
-          "column_name": "birth_cert_num",
-          "type": "Event",
-          "json_mapping": {
-            "field": "obs.fieldCode",
-            "concept": "162052AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-          }
-        },
-        {
-          "column_name": "birth_notification",
-          "type": "Event",
-          "json_mapping": {
-            "field": "obs.fieldCode",
-            "formSubmissionField": "birth_notification"
-          }
-        },
-        {
-          "column_name": "date_of_illness",
-          "type": "Event",
-          "json_mapping": {
-            "field": "obs.fieldCode",
-            "concept": "1730AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-          }
-        },
-        {
-          "column_name": "illness_description",
-          "type": "Event",
-          "json_mapping": {
-            "field": "obs.fieldCode",
-            "concept": "1390AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-          }
-        },
-        {
-          "column_name": "action_taken",
-          "type": "Event",
-          "json_mapping": {
-            "field": "obs.fieldCode",
-            "concept": "164378AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-          }
-        },
-        {
-          "column_name": "vaccine_card",
-          "type": "Event",
-          "json_mapping": {
-            "field": "obs.fieldCode",
-            "formSubmissionField": "vaccine_card"
           }
         },
 
@@ -1023,6 +1181,30 @@
           }
         },
         {
+          "column_name": "Skin_to_Skin_contact",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.Skin_to_Skin_contact"
+
+          }
+        },
+        {
+          "column_name": "Visible_birth_defect",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.Visible_birth_defect"
+
+          }
+        },
+        {
+          "column_name": "Counselling_on_Newborn_danger",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.Counselling_on_Newborn_danger"
+
+          }
+        },
+        {
           "column_name": "breastfeeding_time",
           "type": "Client",
           "json_mapping": {
@@ -1045,20 +1227,6 @@
           "json_mapping": {
             "field": "attributes.breast_feeded"
 
-          }
-        },
-        {
-          "column_name": "trouble_seeing_hearing",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.trouble_seeing_hearing"
-          }
-        },
-        {
-          "column_name": "which_problem",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.which_problem"
           }
         }
       ]

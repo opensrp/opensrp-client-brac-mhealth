@@ -4,15 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import org.apache.commons.lang3.StringUtils;
-import org.smartregister.unicef.dghs.activity.AboveFiveChildProfileActivity;
 import org.smartregister.unicef.dghs.activity.HnppChildProfileActivity;
 import org.smartregister.unicef.dghs.activity.HnppFamilyOtherMemberProfileActivity;
 import org.smartregister.unicef.dghs.model.HNPPFamilyProfileMemberModel;
 import org.smartregister.unicef.dghs.presenter.HnppBaseFamilyProfileMemberPresenter;
 import org.smartregister.chw.anc.domain.MemberObject;
-import org.smartregister.chw.core.activity.CoreAboveFiveChildProfileActivity;
-import org.smartregister.chw.core.activity.CoreChildProfileActivity;
-import org.smartregister.chw.core.fragment.CoreFamilyProfileMemberFragment;
 import org.smartregister.chw.core.provider.CoreMemberRegisterProvider;
 import org.smartregister.unicef.dghs.provider.HNPPMemberRegisterProvider;
 import org.smartregister.chw.core.utils.ChildDBConstants;
@@ -28,11 +24,14 @@ import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.Utils;
 import org.smartregister.util.StringUtil;
 
+import java.util.HashMap;
 import java.util.Set;
 
 import static org.smartregister.unicef.dghs.activity.HnppFamilyOtherMemberProfileActivity.IS_COMES_IDENTITY;
 
-public class FamilyProfileMemberFragment extends CoreFamilyProfileMemberFragment {
+import timber.log.Timber;
+
+public class FamilyProfileMemberFragment extends BaseFamilyProfileMemberFragment {
 
     public static BaseFamilyProfileMemberFragment newInstance(Bundle bundle) {
         Bundle args = bundle;
@@ -51,7 +50,19 @@ public class FamilyProfileMemberFragment extends CoreFamilyProfileMemberFragment
         this.clientAdapter.setCurrentlimit(20);
         this.clientsView.setAdapter(this.clientAdapter);
     }
-
+    @Override
+    protected void onViewClicked(android.view.View view) {
+        super.onViewClicked(view);
+        int i = view.getId();
+        if (i == org.smartregister.chw.core.R.id.patient_column) {
+            if (view.getTag() != null && view.getTag(org.smartregister.family.R.id.VIEW_ID) == CLICK_VIEW_NORMAL) {
+                goToProfileActivity(view);
+            }
+        } else if (i == org.smartregister.chw.core.R.id.next_arrow && view.getTag() != null &&
+                view.getTag(org.smartregister.family.R.id.VIEW_ID) == CLICK_VIEW_NEXT_ARROW) {
+            goToProfileActivity(view);
+        }
+    }
     @Override
     protected void initializePresenter() {
         String familyBaseEntityId = getArguments().getString(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID);
@@ -59,7 +70,6 @@ public class FamilyProfileMemberFragment extends CoreFamilyProfileMemberFragment
         String primaryCareGiver = getArguments().getString(Constants.INTENT_KEY.PRIMARY_CAREGIVER);
         presenter = new HnppBaseFamilyProfileMemberPresenter(this, new HNPPFamilyProfileMemberModel(), null, familyBaseEntityId, familyHead, primaryCareGiver);
     }
-    @Override
     public void goToProfileActivity(android.view.View view) {
         if (view.getTag() instanceof CommonPersonObjectClient) {
             CommonPersonObjectClient commonPersonObjectClient = (CommonPersonObjectClient) view.getTag();
@@ -75,7 +85,6 @@ public class FamilyProfileMemberFragment extends CoreFamilyProfileMemberFragment
 
         }
     }
-    @Override
     public void goToOtherMemberProfileActivity(CommonPersonObjectClient patient) {
         String DOD = Utils.getValue(patient.getColumnmaps(), DBConstants.KEY.DOD, false);
         if(StringUtils.isEmpty(DOD)){
@@ -90,7 +99,6 @@ public class FamilyProfileMemberFragment extends CoreFamilyProfileMemberFragment
         }
 
     }
-    @Override
     public void goToChildProfileActivity(CommonPersonObjectClient patient) {
         String DOD = Utils.getValue(patient.getColumnmaps(), DBConstants.KEY.DOD, false);
         if(StringUtils.isEmpty(DOD)){
@@ -113,19 +121,16 @@ public class FamilyProfileMemberFragment extends CoreFamilyProfileMemberFragment
         }
 
     }
-
     @Override
+    public void setAdvancedSearchFormData(HashMap<String, String> hashMap) {
+        Timber.v("setAdvancedSearchFormData");
+    }
     protected Class<?> getFamilyOtherMemberProfileActivityClass() {
         return HnppFamilyOtherMemberProfileActivity.class;
     }
 
-    @Override
-    protected Class<? extends CoreChildProfileActivity> getChildProfileActivityClass() {
+    protected Class<? extends HnppChildProfileActivity> getChildProfileActivityClass() {
         return HnppChildProfileActivity.class;
     }
 
-    @Override
-    protected Class<? extends CoreAboveFiveChildProfileActivity> getAboveFiveChildProfileActivityClass() {
-        return AboveFiveChildProfileActivity.class;
-    }
 }
