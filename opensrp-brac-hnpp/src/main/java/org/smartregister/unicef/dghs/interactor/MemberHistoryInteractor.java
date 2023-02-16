@@ -18,7 +18,7 @@ import org.smartregister.unicef.dghs.utils.MemberHistoryData;
 import org.smartregister.unicef.dghs.utils.VisitLog;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
-import org.smartregister.chw.core.application.CoreChwApplication;
+
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.commonregistry.CommonPersonObjectClient;

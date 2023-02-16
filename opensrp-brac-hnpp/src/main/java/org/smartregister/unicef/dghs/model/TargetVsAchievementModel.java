@@ -5,11 +5,12 @@ import android.database.Cursor;
 import android.text.TextUtils;
 import android.util.Log;
 
+import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.contract.DashBoardContract;
 import org.smartregister.unicef.dghs.repository.TargetVsAchievementRepository;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.TargetVsAchievementData;
-import org.smartregister.chw.core.application.CoreChwApplication;
+
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -141,7 +142,7 @@ select t2.target_count,t3.achievemnt_count,t2.target_name from t2 left join t3
         Cursor cursor = null;
         try{
             // try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() > 0){
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()) {
@@ -240,7 +241,7 @@ select t1.target_count,t2.achievemnt_count,t1.target_name from t2 left join t1 o
         Cursor cursor = null;
         try{
             // try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() > 0){
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()) {
@@ -292,7 +293,7 @@ select t1.target_count,t2.achievemnt_count,t1.target_name from t2 left join t1 o
         Log.v("TARGET_QUERY","avg query:"+query);
         Cursor cursor = null;
          try {
-             cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+             cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
              if (cursor != null && cursor.getCount() > 0) {
                  cursor.moveToFirst();
                  while (!cursor.isAfterLast()) {

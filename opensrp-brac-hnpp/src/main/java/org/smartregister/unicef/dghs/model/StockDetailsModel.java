@@ -4,12 +4,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
+import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.contract.StockDetailsContract;
 import org.smartregister.unicef.dghs.repository.StockRepository;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.StockData;
 import org.smartregister.unicef.dghs.utils.StockDetailsData;
-import org.smartregister.chw.core.application.CoreChwApplication;
+
 import org.smartregister.chw.core.utils.CoreConstants;
 
 import java.text.SimpleDateFormat;
@@ -123,7 +124,7 @@ public class StockDetailsModel implements StockDetailsContract.Model{
 
         Cursor cursor = null;
         // try {
-        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         if(cursor !=null && cursor.getCount() > 0){
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -167,7 +168,7 @@ public class StockDetailsModel implements StockDetailsContract.Model{
 
         Cursor cursor = null;
         // try {
-        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         if(cursor !=null && cursor.getCount() > 0){
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {

@@ -386,6 +386,27 @@
           }
         },
         {
+          "column_name": "is_risk",
+          "type": "Client",
+          "json_mapping": {
+            "field": "is_risk"
+          }
+        },
+        {
+          "column_name": "is_corona",
+          "type": "Client",
+          "json_mapping": {
+            "field": "is_corona"
+          }
+        },
+        {
+          "column_name": "risk_event_type",
+          "type": "Client",
+          "json_mapping": {
+            "field": "risk_event_type"
+          }
+        },
+        {
           "column_name": "block_name",
           "type": "Client",
           "json_mapping": {
@@ -991,6 +1012,13 @@
           }
         },
         {
+          "column_name": "is_risk",
+          "type": "Client",
+          "json_mapping": {
+            "field": "is_risk"
+          }
+        },
+        {
           "column_name": "unique_id",
           "type": "Client",
           "json_mapping": {
@@ -1060,6 +1088,7 @@
             "field": "attributes.mother_name_bangla"
           }
         },
+
         {
           "column_name": "father_name_english",
           "type": "Client",
@@ -1139,6 +1168,88 @@
           "type": "Client",
           "json_mapping": {
             "field": "attributes.dateRemoved"
+          }
+        },
+        {
+          "column_name": "child_weight",
+          "type": "Client",
+          "json_mapping": {
+            "field": "child_weight"
+          }
+        },
+        {
+          "column_name": "child_height",
+          "type": "Client",
+          "json_mapping": {
+            "field": "child_height"
+          }
+        },
+        {
+          "column_name": "child_muac",
+          "type": "Client",
+          "json_mapping": {
+            "field": "child_muac"
+          }
+        },
+        {
+          "column_name": "child_status",
+          "type": "Client",
+          "json_mapping": {
+            "field": "child_status"
+          }
+        },
+        {
+          "column_name": "is_refered",
+          "type": "Client",
+          "json_mapping": {
+            "field": "is_refered"
+          }
+        },
+        {
+          "column_name": "last_vaccine_date",
+          "type": "Client",
+          "json_mapping": {
+            "field": "last_vaccine_date"
+          }
+        },
+        {
+          "column_name": "last_vaccine_name",
+          "type": "Client",
+          "json_mapping": {
+            "field": "last_vaccine_name"
+          }
+        },
+
+        {
+          "column_name": "has_edema",
+          "type": "Client",
+          "json_mapping": {
+            "field": "has_edema"
+          }
+        },
+
+        {
+          "column_name": "muac_status",
+          "type": "Client",
+          "json_mapping": {
+            "field": "muac_status"
+          }
+        },
+
+        {
+          "column_name": "height_status",
+          "type": "Client",
+          "json_mapping": {
+            "field": "height_status"
+          }
+        },
+
+
+        {
+          "column_name": "weight_status",
+          "type": "Client",
+          "json_mapping": {
+            "field": "weight_status"
           }
         },
         {
@@ -1309,6 +1420,13 @@
           "type": "Event",
           "json_mapping": {
             "field": "baseEntityId"
+          }
+        },
+        {
+          "column_name": "height",
+          "type": "Event",
+          "json_mapping": {
+            "field": "height"
           }
         },
         {

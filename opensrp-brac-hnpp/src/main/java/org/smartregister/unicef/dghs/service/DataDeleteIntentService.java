@@ -15,8 +15,9 @@ import org.json.JSONObject;
 import org.smartregister.AllConstants;
 import org.smartregister.CoreLibrary;
 import org.smartregister.R;
+import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.utils.HnppDBUtils;
-import org.smartregister.chw.core.application.CoreChwApplication;
+
 import org.smartregister.domain.Response;
 import org.smartregister.repository.EventClientRepository;
 import org.smartregister.service.HTTPAgent;
@@ -83,7 +84,7 @@ public class DataDeleteIntentService extends IntentService {
             //da54f146-81d9-41c8-a9ea-aae2e434d26e-test"],"serverVersion":1642325679000,"members":["59188799-39d7-4c3a-9a86-20f52e54506a","c4de7552-9c58-410c-9329-a520b2f9f0fb"],"households":["bd42029e-cba0-40f6-81a6-5c7a36cbc588","3d7e52af-3330-476a-8123-af7d5ab227ff"],"events":["1cc2f544-2b5a-4d77-9774-390f6b1b455e","87d240ff-aa37-4cef-b0ed-10d2ea1a7f3a","bbd878b1-cb98-4d31-ac00-5224d1327f04"]}
 //           String test ="{\"all_data\":[\"3a5d5800-bf02-4d33-8c09-58e81a1ffaf4-test\",\"da54f146-81d9-41c8-a9ea-aae2e434d26e-test\"],\"serverVersion\":1642325679000,\"members\":[\"c1377ea8-ab6c-4b11-8bbd-6d36ce3cac54-test\",\"9d376051-a0b1-4a0c-8712-01167dc6cfd6-test\"],\"households\":[],\"events\":[\"0ea01098-41b6-4ecb-8c14-1fdefc2c0655-test\"]}";
 //            JSONObject results = new JSONObject(test);
-            db = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+            db = HnppApplication.getInstance().getRepository().getWritableDatabase();
             if (results.has(HH)){
                 JSONArray validHHClient = results.getJSONArray(HH);
                 StringBuilder builder = new StringBuilder();

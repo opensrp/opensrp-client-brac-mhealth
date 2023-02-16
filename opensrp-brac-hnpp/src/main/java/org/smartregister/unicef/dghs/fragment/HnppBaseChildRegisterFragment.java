@@ -7,15 +7,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import org.apache.commons.lang3.StringUtils;
 import org.smartregister.chw.core.contract.CoreChildRegisterFragmentContract;
-import org.smartregister.chw.core.custom_views.NavigationMenu;
 import org.smartregister.chw.core.model.CoreChildRegisterFragmentModel;
 import org.smartregister.chw.core.presenter.CoreChildRegisterFragmentPresenter;
 import org.smartregister.chw.core.provider.CoreChildRegisterProvider;
@@ -28,6 +25,7 @@ import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.activity.ChildRegisterActivity;
 import org.smartregister.unicef.dghs.activity.HnppChildProfileActivity;
+import org.smartregister.unicef.dghs.nativation.view.NavigationMenu;
 import org.smartregister.unicef.dghs.utils.FilterDialog;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
@@ -39,14 +37,10 @@ import org.smartregister.view.activity.BaseRegisterActivity;
 import org.smartregister.view.customcontrols.CustomFontTextView;
 import org.smartregister.view.customcontrols.FontVariant;
 import org.smartregister.view.fragment.BaseRegisterFragment;
-
 import java.text.MessageFormat;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
-
 import timber.log.Timber;
-
 import static android.view.View.inflate;
 
 public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implements android.view.View.OnClickListener, CoreChildRegisterFragmentContract.View{

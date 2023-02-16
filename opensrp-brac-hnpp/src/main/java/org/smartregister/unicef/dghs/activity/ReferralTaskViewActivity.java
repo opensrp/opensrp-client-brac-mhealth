@@ -17,7 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
-import org.smartregister.chw.core.application.CoreChwApplication;
+
 import org.smartregister.chw.core.utils.ChildDBConstants;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.unicef.dghs.BuildConfig;
@@ -299,7 +299,7 @@ public class ReferralTaskViewActivity extends SecuredActivity {
         currentTask.setStatus(Task.TaskStatus.COMPLETED);
         currentTask.setBusinessStatus(CoreConstants.BUSINESS_STATUS.COMPLETE);
         currentTask.setSyncStatus(BaseRepository.TYPE_Unsynced);
-        CoreChwApplication.getInstance().getTaskRepository().addOrUpdate(currentTask);
+        //HnppApplication.getInstance().getTaskRepository().addOrUpdate(currentTask);
     }
 
     public String getBaseEntityId() {

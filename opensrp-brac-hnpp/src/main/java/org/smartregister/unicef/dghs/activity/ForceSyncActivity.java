@@ -33,7 +33,7 @@ import org.smartregister.unicef.dghs.job.HnppSyncIntentServiceJob;
 import org.smartregister.unicef.dghs.model.ForceSyncModel;
 import org.smartregister.unicef.dghs.repository.HnppChwRepository;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
-import org.smartregister.chw.core.application.CoreChwApplication;
+
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.domain.FetchStatus;
 import org.smartregister.domain.Response;
@@ -196,7 +196,7 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
 
 //        String query = "select count(eventType) as count, eventType group by eventType";
 //        // try {
-//        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+//        cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
 //        if(cursor !=null && cursor.getCount() > 0){
 //            cursor.moveToFirst();
 //            while (!cursor.isAfterLast()) {
@@ -518,7 +518,7 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
             String condition = adapter.getSelectedServiceQuery();
             if(!TextUtils.isEmpty(condition)){
                 try{
-                    SQLiteDatabase db = CoreChwApplication.getInstance().getRepository().getReadableDatabase();
+                    SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
                     String query = "UPDATE event set syncStatus='Unsynced' where "+condition;
                     Log.v("UNSYNC_DATA","query>>"+query);
                     db.execSQL(query);

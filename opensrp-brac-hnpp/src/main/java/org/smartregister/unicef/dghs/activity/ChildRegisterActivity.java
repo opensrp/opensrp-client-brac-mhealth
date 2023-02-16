@@ -4,16 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.bottomnavigation.LabelVisibilityMode;
 import android.support.v4.app.Fragment;
-import android.view.View;
-
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
-
 import org.json.JSONObject;
 import org.smartregister.AllConstants;
-import org.smartregister.chw.core.activity.CoreFamilyRegisterActivity;
 import org.smartregister.chw.core.contract.CoreChildRegisterContract;
-import org.smartregister.chw.core.custom_views.NavigationMenu;
 import org.smartregister.chw.core.listener.CoreBottomNavigationListener;
 import org.smartregister.chw.core.model.CoreChildRegisterModel;
 import org.smartregister.chw.core.utils.CoreConstants;
@@ -21,6 +16,7 @@ import org.smartregister.helper.BottomNavigationHelper;
 import org.smartregister.unicef.dghs.BuildConfig;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.listener.HnppFamilyBottomNavListener;
+import org.smartregister.unicef.dghs.nativation.view.NavigationMenu;
 import org.smartregister.unicef.dghs.presenter.HnppChildRegisterPresenter;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.fragment.HnppChildRegisterFragment;
@@ -31,7 +27,6 @@ import org.smartregister.view.activity.BaseRegisterActivity;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 import java.util.Arrays;
 import java.util.List;
-
 import timber.log.Timber;
 
 public class ChildRegisterActivity extends BaseRegisterActivity implements CoreChildRegisterContract.View {

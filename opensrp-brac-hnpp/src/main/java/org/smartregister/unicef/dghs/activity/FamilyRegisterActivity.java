@@ -10,9 +10,9 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.bottomnavigation.LabelVisibilityMode;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
@@ -20,20 +20,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
+import org.smartregister.family.activity.BaseFamilyRegisterActivity;
+import org.smartregister.family.model.BaseFamilyRegisterModel;
+import org.smartregister.family.presenter.BaseFamilyRegisterPresenter;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.listener.OnPostDataWithGps;
 import org.smartregister.unicef.dghs.location.GeoLocationHelper;
 import org.smartregister.unicef.dghs.listener.HnppBottomNavigationListener;
-import org.smartregister.unicef.dghs.location.SSModel;
 import org.smartregister.unicef.dghs.model.HnppFamilyRegisterModel;
+import org.smartregister.unicef.dghs.nativation.view.NavigationMenu;
 import org.smartregister.unicef.dghs.presenter.FamilyRegisterPresenter;
-import org.smartregister.unicef.dghs.presenter.HnppNavigationPresenter;
+import org.smartregister.unicef.dghs.nativation.presenter.HnppNavigationPresenter;
 import org.smartregister.unicef.dghs.repository.HnppChwRepository;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
 import org.smartregister.unicef.dghs.utils.MigrationSearchContentData;
-import org.smartregister.chw.core.activity.CoreFamilyRegisterActivity;
-import org.smartregister.chw.core.custom_views.NavigationMenu;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.unicef.dghs.BuildConfig;
 import org.smartregister.unicef.dghs.R;
@@ -54,15 +55,22 @@ import org.smartregister.sync.intent.ValidateIntentService;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 
 
-import java.util.ArrayList;
-
 import timber.log.Timber;
 
 import static org.smartregister.util.JsonFormUtils.FIELDS;
 
-public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
+public class FamilyRegisterActivity extends BaseFamilyRegisterActivity {
     private BroadcastReceiver notificationBroadcastReceiver;
     private MigrationSearchContentData migrationSearchContentData;
+    protected String action = null;
+    @Override
+    protected void initializePresenter() {
+        presenter = new FamilyRegisterPresenter(this, new HnppFamilyRegisterModel());
+    }
+    @Override
+    protected Fragment[] getOtherFragments() {
+        return new Fragment[0];
+    }
     @Override
     public void onBackPressed() {
         if(isFinishing()) return;
@@ -117,7 +125,11 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        try{
+            super.onCreate(savedInstanceState);
+        }catch (Exception e){
+
+        }
 
         navigationMenu = NavigationMenu.getInstance(this, null, null);
         notificationBroadcastReceiver = new NotificationBroadcastReceiver();
@@ -151,7 +163,11 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
 
     @Override
     protected void onResumption() {
-        super.onResumption();
+        try{
+            super.onResumption();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         NavigationMenu.getInstance(this, null, null).getNavigationAdapter()
                 .setSelectedView(CoreConstants.DrawerMenu.ALL_FAMILIES);
     }
@@ -300,13 +316,13 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
         }
 
     }
-    FamilyRegisterPresenter presenter;
-
-    @Override
-    public FamilyRegisterContract.Presenter presenter() {
-        presenter = new FamilyRegisterPresenter(this,new HnppFamilyRegisterModel());
-        return presenter;
-    }
+//    FamilyRegisterPresenter presenter;
+//
+//    @Override
+//    public FamilyRegisterPresenter presenter() {
+//        presenter = new FamilyRegisterPresenter(this,new HnppFamilyRegisterModel());
+//        return presenter;
+//    }
     HnppFamilyRegisterFragment hnppFamilyRegisterFragment;
 
     @Override

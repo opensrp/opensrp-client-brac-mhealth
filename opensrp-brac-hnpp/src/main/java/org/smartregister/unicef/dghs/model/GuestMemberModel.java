@@ -18,7 +18,7 @@ import org.smartregister.unicef.dghs.location.GeoLocationHelper;
 import org.smartregister.unicef.dghs.location.GeoLocation;
 import org.smartregister.unicef.dghs.repository.GuestMemberIdRepository;
 import org.smartregister.unicef.dghs.utils.GuestMemberData;
-import org.smartregister.chw.core.application.CoreChwApplication;
+
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.clientandeventmodel.Address;
 import org.smartregister.clientandeventmodel.Client;
@@ -192,7 +192,7 @@ public class GuestMemberModel extends JsonFormUtils implements GuestMemberContra
          " where ec_guest_member.date_removed is null group by ec_guest_member.unique_id order by ec_guest_member.last_interacted_with desc ";
         Cursor cursor = null;
         try{
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()) {
@@ -225,7 +225,7 @@ public class GuestMemberModel extends JsonFormUtils implements GuestMemberContra
         long latestVisitDate = 0;
         // try {
         try{
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() > 0){
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()) {

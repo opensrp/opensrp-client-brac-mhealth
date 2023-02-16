@@ -43,11 +43,16 @@ import org.smartregister.chw.core.fragment.CoreFamilyOtherMemberProfileFragment;
 import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.family.activity.BaseFamilyOtherMemberProfileActivity;
+import org.smartregister.immunization.domain.ServiceWrapper;
+import org.smartregister.immunization.domain.VaccineWrapper;
+import org.smartregister.immunization.listener.ServiceActionListener;
+import org.smartregister.immunization.listener.VaccinationActionListener;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.custom_view.FamilyMemberFloatingMenu;
 import org.smartregister.unicef.dghs.fragment.HnppMemberProfileDueFragment;
 import org.smartregister.unicef.dghs.fragment.MemberHistoryFragment;
 import org.smartregister.unicef.dghs.fragment.MemberOtherServiceFragment;
+import org.smartregister.unicef.dghs.fragment.WomanImmunizationFragment;
 import org.smartregister.unicef.dghs.job.VisitLogServiceJob;
 import org.smartregister.unicef.dghs.listener.FloatingMenuListener;
 import org.smartregister.unicef.dghs.listener.OnClickFloatingMenu;
@@ -82,6 +87,8 @@ import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
 import org.smartregister.view.contract.BaseProfileContract;
 import org.smartregister.view.customcontrols.CustomFontTextView;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,7 +106,7 @@ import static com.vijay.jsonwizard.constants.JsonFormConstants.FIELDS;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.MEMBER_ID_SUFFIX;
 import static org.smartregister.unicef.dghs.utils.HnppJsonFormUtils.makeReadOnlyFields;
 
-public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfileActivity  implements FamilyOtherMemberProfileExtendedContract.View {
+public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfileActivity  implements FamilyOtherMemberProfileExtendedContract.View, VaccinationActionListener, ServiceActionListener {
     public static final int REQUEST_HOME_VISIT = 5555;
     public static final String IS_COMES_IDENTITY = "is_comes";
 
@@ -374,6 +381,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
     MemberOtherServiceFragment memberOtherServiceFragment;
     MemberHistoryFragment memberHistoryFragment;
     HnppMemberProfileDueFragment profileMemberFragment;
+    WomanImmunizationFragment womanImmunizationFragment;
     ViewPager mViewPager;
     String gender = "";
     String maritalStatus ="";
@@ -382,7 +390,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
         this.mViewPager = viewPager;
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         List<Map<String,String>> genderMaritalStatus = HnppDBUtils.getGenderMaritalStatus(baseEntityId);
-        if(genderMaritalStatus != null && genderMaritalStatus.size()>0) {
+        if(genderMaritalStatus.size()>0) {
             gender = genderMaritalStatus.get(0).get("gender");
             maritalStatus = genderMaritalStatus.get(0).get("marital_status");
             commonPersonObject.getColumnmaps().put("gender", gender);
@@ -397,13 +405,26 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
         memberOtherServiceFragment = new MemberOtherServiceFragment();
         memberHistoryFragment = MemberHistoryFragment.getInstance(this.getIntent().getExtras());
         memberOtherServiceFragment.setCommonPersonObjectClient(commonPersonObject);
+        womanImmunizationFragment = WomanImmunizationFragment.newInstance(this.getIntent().getExtras());
+        womanImmunizationFragment.setChildDetails(commonPersonObject);
         adapter.addFragment(memberOtherServiceFragment, this.getString(R.string.other_service).toUpperCase());
-        adapter.addFragment(memberHistoryFragment, this.getString(R.string.activity).toUpperCase());
-        if(!HnppConstants.isPALogin()){
-            viewPager.setOffscreenPageLimit(3);
+
+        if(FormApplicability.isWomenImmunizationApplicable(commonPersonObject)){
+            adapter.addFragment(womanImmunizationFragment, this.getString(R.string.immunization).toUpperCase());
+            if(!HnppConstants.isPALogin()){
+                viewPager.setOffscreenPageLimit(4);
+            }else{
+                viewPager.setOffscreenPageLimit(3);
+            }
         }else{
-            viewPager.setOffscreenPageLimit(2);
+            if(!HnppConstants.isPALogin()){
+                viewPager.setOffscreenPageLimit(3);
+            }else{
+                viewPager.setOffscreenPageLimit(2);
+            }
         }
+
+        adapter.addFragment(memberHistoryFragment, this.getString(R.string.activity).toUpperCase());
         viewPager.setAdapter(adapter);
         return viewPager;
     }
@@ -1171,5 +1192,34 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
     protected void onDestroy() {
         super.onDestroy();
         if(handler!=null) handler.removeCallbacksAndMessages(null);
+    }
+    @Override
+    public void onGiveToday(ServiceWrapper serviceWrapper, View view) {
+        if(womanImmunizationFragment!=null) womanImmunizationFragment.onGiveToday(serviceWrapper,view);
+    }
+
+    @Override
+    public void onGiveEarlier(ServiceWrapper serviceWrapper, View view) {
+        if(womanImmunizationFragment!=null) womanImmunizationFragment.onGiveEarlier(serviceWrapper,view);
+    }
+
+    @Override
+    public void onUndoService(ServiceWrapper serviceWrapper, View view) {
+        if(womanImmunizationFragment!=null) womanImmunizationFragment.onUndoService(serviceWrapper,view);
+    }
+
+    @Override
+    public void onVaccinateToday(ArrayList<VaccineWrapper> arrayList, View view) {
+        if(womanImmunizationFragment!=null) womanImmunizationFragment.onVaccinateToday(arrayList,view);
+    }
+
+    @Override
+    public void onVaccinateEarlier(ArrayList<VaccineWrapper> arrayList, View view) {
+        if(womanImmunizationFragment!=null) womanImmunizationFragment.onVaccinateEarlier(arrayList,view);
+    }
+
+    @Override
+    public void onUndoVaccination(VaccineWrapper vaccineWrapper, View view) {
+        if(womanImmunizationFragment!=null) womanImmunizationFragment.onUndoVaccination(vaccineWrapper,view);
     }
 }

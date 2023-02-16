@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
@@ -24,6 +25,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.AllConstants;
 import org.smartregister.CoreLibrary;
+
+import org.smartregister.chw.core.domain.FamilyMember;
+import org.smartregister.family.util.JsonFormUtils;
+import org.smartregister.growthmonitoring.GrowthMonitoringLibrary;
+import org.smartregister.repository.BaseRepository;
+import org.smartregister.sync.helper.ECSyncHelper;
 import org.smartregister.unicef.dghs.BuildConfig;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.location.BlockLocation;
@@ -59,11 +66,13 @@ import org.smartregister.util.AssetHandler;
 import org.smartregister.util.FormUtils;
 import org.smartregister.view.LocationPickerView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import timber.log.Timber;
@@ -84,10 +93,155 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
     public static final String SIMPRINTS_ENABLE = "simprints_enable";
     public static final String VILLAGE_NAME = "village_name";
     public static final String ENCOUNTER_TYPE = "encounter_type";
-
+    public static final String TITLE = "title";
     public static String[] monthStr = {"January","February","March","April","May","June","July","August","September","October","November","December"};
 
     public static String[] monthBanglaStr = {"জানুয়ারী","ফেব্রুয়ারী","মার্চ","এপ্রিল","মে","জুন","জুলাই","আগস্ট","সেপ্টেম্বর","অক্টোবর","নভেম্বর","ডিসেম্বর"};
+    public static final String REFEREL_EVENT_TYPE = "Referral Clinic";
+    public static Pair<List<Client>, List<Event>> processFamilyUpdateRelations(HnppApplication HnppApplication, Context context, FamilyMember familyMember, String lastLocationId) throws Exception {
+        List<Client> clients = new ArrayList<>();
+        List<Event> events = new ArrayList<>();
+
+
+        ECSyncHelper syncHelper = HnppApplication.getEcSyncHelper();
+        JSONObject clientObject = syncHelper.getClient(familyMember.getFamilyID());
+        Client familyClient = syncHelper.convert(clientObject, Client.class);
+        if (familyClient == null) {
+            String birthDate = clientObject.getString("birthdate");
+            if (StringUtils.isNotBlank(birthDate)) {
+                birthDate = birthDate.replace("-00:44:30", getTimeZone());
+                clientObject.put("birthdate", birthDate);
+            }
+
+            familyClient = syncHelper.convert(clientObject, Client.class);
+        }
+
+        Map<String, List<String>> relationships = familyClient.getRelationships();
+
+        if (familyMember.getPrimaryCareGiver()) {
+            relationships.put(CoreConstants.RELATIONSHIP.PRIMARY_CAREGIVER, toStringList(familyMember.getMemberID()));
+            familyClient.setRelationships(relationships);
+        }
+
+        if (familyMember.getFamilyHead()) {
+            relationships.put(CoreConstants.RELATIONSHIP.FAMILY_HEAD, toStringList(familyMember.getMemberID()));
+            familyClient.setRelationships(relationships);
+        }
+
+        clients.add(familyClient);
+
+
+        JSONObject metadata = FormUtils.getInstance(context)
+                .getFormJson(org.smartregister.chw.core.utils.Utils.metadata().familyRegister.formName)
+                .getJSONObject(org.smartregister.family.util.JsonFormUtils.METADATA);
+
+        metadata.put(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_LOCATION, lastLocationId);
+
+        FormTag formTag = new FormTag();
+        formTag.providerId = org.smartregister.chw.core.utils.Utils.context().allSharedPreferences().fetchRegisteredANM();
+        formTag.appVersion = FamilyLibrary.getInstance().getApplicationVersion();
+        formTag.databaseVersion = FamilyLibrary.getInstance().getDatabaseVersion();
+
+        Event eventFamily = createEvent(new JSONArray(), metadata, formTag, familyMember.getFamilyID(),
+                CoreConstants.EventType.UPDATE_FAMILY_RELATIONS, org.smartregister.chw.core.utils.Utils.metadata().familyRegister.tableName);
+        tagSyncMetadata(org.smartregister.chw.core.utils.Utils.context().allSharedPreferences(), eventFamily);
+
+
+        Event eventMember = createEvent(new JSONArray(), metadata, formTag, familyMember.getMemberID(),
+                CoreConstants.EventType.UPDATE_FAMILY_MEMBER_RELATIONS,
+                org.smartregister.chw.core.utils.Utils.metadata().familyMemberRegister.tableName);
+        tagSyncMetadata(org.smartregister.chw.core.utils.Utils.context().allSharedPreferences(), eventMember);
+
+        eventMember.addObs(new Obs("concept", "text", CoreConstants.FORM_CONSTANTS.CHANGE_CARE_GIVER.PHONE_NUMBER.CODE, "",
+                toList(familyMember.getPhone()), new ArrayList<>(), null, DBConstants.KEY.PHONE_NUMBER));
+
+        eventMember.addObs(new Obs("concept", "text", CoreConstants.FORM_CONSTANTS.CHANGE_CARE_GIVER.OTHER_PHONE_NUMBER.CODE, CoreConstants.FORM_CONSTANTS.CHANGE_CARE_GIVER.OTHER_PHONE_NUMBER.PARENT_CODE,
+                toList(familyMember.getOtherPhone()), new ArrayList<>(), null, DBConstants.KEY.OTHER_PHONE_NUMBER));
+
+        eventMember.addObs(new Obs("concept", "text", CoreConstants.FORM_CONSTANTS.CHANGE_CARE_GIVER.HIGHEST_EDU_LEVEL.CODE, "",
+                toList(getEducationLevels(context).get(familyMember.getEduLevel())), toList(familyMember.getEduLevel()), null, DBConstants.KEY.HIGHEST_EDU_LEVEL));
+
+
+        events.add(eventFamily);
+        events.add(eventMember);
+
+        return Pair.create(clients, events);
+    }
+
+    public static boolean updateClientStatusAsEvent(Context context,String baseEntityId, String attributeName, Object attributeValue, String entityType, String eventType) {
+        try {
+
+            ECSyncHelper syncHelper = HnppApplication.getHNPPInstance().getEcSyncHelper();
+
+
+            Date date = new Date();
+            EventClientRepository db = FamilyLibrary.getInstance().context().getEventClientRepository();
+
+
+            JSONObject client = db.getClientByBaseEntityId(baseEntityId);
+            AllSharedPreferences allSharedPreferences = GrowthMonitoringLibrary.getInstance().context()
+                    .allSharedPreferences();
+
+            Event event = (Event) new Event()
+                    .withBaseEntityId(baseEntityId)
+                    .withEventDate(new Date())
+                    .withEventType(eventType)
+                    .withLocationId(allSharedPreferences.fetchCurrentLocality())
+                    .withProviderId(allSharedPreferences.fetchRegisteredANM())
+                    .withEntityType(entityType)
+                    .withFormSubmissionId(JsonFormUtils.generateRandomUUIDString())
+                    .withDateCreated(new Date());
+            event.addObs((new Obs()).withFormSubmissionField(attributeName).withValue(attributeValue).withFieldCode(attributeName).withFieldType("formsubmissionField").withFieldDataType("text").withParentCode("").withHumanReadableValues(new ArrayList<Object>()));
+
+
+            addMetaData(context, event, date);
+            JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(event));
+            db.addEvent(baseEntityId, eventJson);
+            long lastSyncTimeStamp = allSharedPreferences.fetchLastUpdatedAtDate(0);
+            Date lastSyncDate = new Date(lastSyncTimeStamp);
+            FamilyLibrary.getInstance().getClientProcessorForJava().getInstance(context).processClient(syncHelper.getEvents(lastSyncDate, BaseRepository.TYPE_Unsynced));
+            allSharedPreferences.saveLastUpdatedAtDate(lastSyncDate.getTime());
+
+            return true;
+
+
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+        }
+        return false;
+    }
+    public static Event addMetaData(Context context, Event event, Date start) throws JSONException {
+        SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+
+        Map<String, String> metaFields = new HashMap<>();
+        metaFields.put("deviceid", "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        metaFields.put("end", "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        metaFields.put("start", "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        Calendar calendar = Calendar.getInstance();
+
+        String end = DATE_TIME_FORMAT.format(calendar.getTime());
+
+        Obs obs = new Obs();
+        obs.setFieldCode("163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        obs.setValue(DATE_TIME_FORMAT.format(start));
+        obs.setFieldType("concept");
+        obs.setFieldDataType("start");
+        event.addObs(obs);
+
+
+        obs.setFieldCode("163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        obs.setValue(end);
+        obs.setFieldDataType("end");
+        event.addObs(obs);
+
+        TelephonyManager mTelephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+
+        obs.setFieldCode("163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        obs.setValue("");
+        obs.setFieldDataType("deviceid");
+        event.addObs(obs);
+        return event;
+    }
     public static JSONObject getVisitFormWithData(String eventJson, Context context){
         JSONObject form_object = null;
         try{

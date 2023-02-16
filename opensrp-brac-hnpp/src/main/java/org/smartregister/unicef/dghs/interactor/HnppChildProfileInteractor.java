@@ -11,13 +11,7 @@ import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.smartregister.chw.core.application.CoreChwApplication;
-import org.smartregister.chw.core.dao.AlertDao;
-import org.smartregister.chw.core.enums.ImmunizationState;
-import org.smartregister.chw.core.utils.ChwServiceSchedule;
-import org.smartregister.chw.core.utils.CoreJsonFormUtils;
-import org.smartregister.chw.core.utils.CoreReferralUtils;
-import org.smartregister.chw.core.utils.VaccineScheduleUtil;
+
 import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.commonregistry.CommonRepository;
@@ -37,6 +31,10 @@ import org.smartregister.repository.BaseRepository;
 import org.smartregister.repository.UniqueIdRepository;
 import org.smartregister.sync.ClientProcessorForJava;
 import org.smartregister.sync.helper.ECSyncHelper;
+import org.smartregister.unicef.dghs.HnppApplication;
+import org.smartregister.unicef.dghs.dao.AlertDao;
+import org.smartregister.unicef.dghs.enums.ImmunizationState;
+import org.smartregister.unicef.dghs.utils.ChwServiceSchedule;
 import org.smartregister.unicef.dghs.utils.HnppDBUtils;
 import org.smartregister.chw.core.contract.CoreChildProfileContract;
 import org.smartregister.chw.core.utils.ChildDBConstants;
@@ -46,6 +44,8 @@ import org.smartregister.chw.core.utils.Utils;
 import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.util.DBConstants;
+import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
+import org.smartregister.unicef.dghs.utils.VaccineScheduleUtil;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.ImageUtils;
 import org.smartregister.view.LocationPickerView;
@@ -221,7 +221,7 @@ public class HnppChildProfileInteractor implements CoreChildProfileContract.Inte
             VaccineScheduleUtil.updateOfflineAlerts(childBaseEntityId, dob, CoreConstants.SERVICE_GROUPS.CHILD);
             ChwServiceSchedule.updateOfflineAlerts(childBaseEntityId, dob, CoreConstants.SERVICE_GROUPS.CHILD);
 
-            List<Vaccine> vaccines = CoreChwApplication.getInstance().vaccineRepository().findByEntityId(childBaseEntityId); // add vaccines given to the user
+            List<Vaccine> vaccines = HnppApplication.getInstance().vaccineRepository().findByEntityId(childBaseEntityId); // add vaccines given to the user
             Map<String, Date> receivedVaccines = VaccinatorUtils.receivedVaccines(vaccines);
             setVaccineList(receivedVaccines);
             List<Alert> alertList = AlertDao.getActiveAlerts(childBaseEntityId);
@@ -275,8 +275,8 @@ public class HnppChildProfileInteractor implements CoreChildProfileContract.Inte
     }
     @Override
     public void getClientTasks(String planId, String baseEntityId, CoreChildProfileContract.InteractorCallBack callback) {
-        Set<Task> taskList = CoreChwApplication.getInstance().getTaskRepository().getTasksByEntityAndStatus(planId, baseEntityId, Task.TaskStatus.READY);
-        callback.setClientTasks(taskList);
+       // Set<Task> taskList = HnppApplication.getInstance().getTaskRepository().getTasksByEntityAndStatus(planId, baseEntityId, Task.TaskStatus.READY);
+       // callback.setClientTasks(taskList);
     }
     @Override
     public void saveRegistration(final Pair<Client, Event> pair, final String jsonString, final boolean isEditMode, final CoreChildProfileContract.InteractorCallBack callBack) {
@@ -363,7 +363,7 @@ public class HnppChildProfileInteractor implements CoreChildProfileContract.Inte
                 JSONObject stepOne = form.getJSONObject(JsonFormUtils.STEP1);
 
                 if (StringUtils.isNotBlank(title)) {
-                    stepOne.put(CoreJsonFormUtils.TITLE, title);
+                    stepOne.put(HnppJsonFormUtils.TITLE, title);
                 }
                 JSONArray jsonArray = stepOne.getJSONArray(JsonFormUtils.FIELDS);
                 for (int i = 0; i < jsonArray.length(); i++) {
@@ -389,7 +389,7 @@ public class HnppChildProfileInteractor implements CoreChildProfileContract.Inte
 
     @Override
     public void createSickChildEvent(AllSharedPreferences allSharedPreferences, String jsonString) throws Exception {
-        CoreReferralUtils.createReferralEvent(allSharedPreferences, jsonString, CoreConstants.TABLE_NAME.CHILD_REFERRAL, getChildBaseEntityId());
+      //  CoreReferralUtils.createReferralEvent(allSharedPreferences, jsonString, CoreConstants.TABLE_NAME.CHILD_REFERRAL, getChildBaseEntityId());
     }
 
     @Override

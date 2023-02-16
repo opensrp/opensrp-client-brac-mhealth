@@ -1,5 +1,6 @@
 package org.smartregister.unicef.dghs;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -11,6 +12,15 @@ import org.jetbrains.annotations.NotNull;
 import org.smartregister.AllConstants;
 import org.smartregister.Context;
 import org.smartregister.CoreLibrary;
+import org.smartregister.chw.core.helper.RulesEngineHelper;
+import org.smartregister.chw.core.repository.AncRegisterRepository;
+import org.smartregister.chw.core.sync.ChwClientProcessor;
+import org.smartregister.commonregistry.AllCommonsRepository;
+import org.smartregister.growthmonitoring.GrowthMonitoringLibrary;
+import org.smartregister.immunization.repository.VaccineRepository;
+import org.smartregister.repository.LocationRepository;
+import org.smartregister.sync.ClientProcessorForJava;
+import org.smartregister.sync.helper.ECSyncHelper;
 import org.smartregister.unicef.dghs.activity.AdoMemberRegisterActivity;
 import org.smartregister.unicef.dghs.activity.AdultMemberRegisterActivity;
 import org.smartregister.unicef.dghs.activity.AdultRiskRegisterActivity;
@@ -27,9 +37,11 @@ import org.smartregister.unicef.dghs.activity.HnppPncRegisterActivity;
 import org.smartregister.unicef.dghs.activity.HnppPncRiskRegisterActivity;
 import org.smartregister.unicef.dghs.activity.IYCFRegisterActivity;
 import org.smartregister.unicef.dghs.activity.WomenServiceRegisterActivity;
-import org.smartregister.unicef.dghs.custom_view.HnppNavigationTopView;
+import org.smartregister.unicef.dghs.nativation.view.HnppNavigationTopView;
+import org.smartregister.unicef.dghs.nativation.view.NavigationMenu;
+import org.smartregister.unicef.dghs.job.ZScoreRefreshServiceJob;
 import org.smartregister.unicef.dghs.listener.HnppNavigationListener;
-import org.smartregister.unicef.dghs.presenter.HnppNavigationPresenter;
+import org.smartregister.unicef.dghs.nativation.presenter.HnppNavigationPresenter;
 import org.smartregister.unicef.dghs.location.GeoLocationHelper;
 import org.smartregister.unicef.dghs.repository.GeoLocationRepository;
 import org.smartregister.unicef.dghs.repository.GuestMemberIdRepository;
@@ -47,15 +59,13 @@ import org.smartregister.unicef.dghs.sync.HnppSyncConfiguration;
 import org.smartregister.unicef.dghs.utils.HNPPApplicationUtils;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.chw.anc.AncLibrary;
-import org.smartregister.chw.core.application.CoreChwApplication;
+
 import org.smartregister.chw.core.contract.CoreApplication;
-import org.smartregister.chw.core.custom_views.NavigationMenu;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.unicef.dghs.activity.ChildRegisterActivity;
 import org.smartregister.unicef.dghs.activity.FamilyProfileActivity;
 import org.smartregister.unicef.dghs.activity.FamilyRegisterActivity;
-import org.smartregister.unicef.dghs.activity.ReferralRegisterActivity;
-import org.smartregister.unicef.dghs.custom_view.HnppNavigationMenu;
+import org.smartregister.unicef.dghs.nativation.view.HnppNavigationMenu;
 import org.smartregister.unicef.dghs.job.HnppJobCreator;
 import org.smartregister.unicef.dghs.model.HnppNavigationModel;
 import org.smartregister.chw.pnc.PncLibrary;
@@ -75,14 +85,17 @@ import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.EventClientRepository;
 import org.smartregister.repository.Repository;
 import org.smartregister.util.Utils;
+import org.smartregister.view.activity.DrishtiApplication;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import timber.log.Timber;
 
-public class HnppApplication extends CoreChwApplication implements CoreApplication {
+public class HnppApplication extends DrishtiApplication implements CoreApplication {
 
     private HouseholdIdRepository householdIdRepository;
     private GuestMemberIdRepository guestMemberIdRepository;
@@ -96,6 +109,15 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
     private static StockRepository stockRepository;
     private static CommonFtsObject commonFtsObject = null;
     private EventClientRepository eventClientRepository;
+    @SuppressLint("StaticFieldLeak")
+    private static ClientProcessorForJava clientProcessor;
+    private static AncRegisterRepository ancRegisterRepository;
+    public JsonSpecHelper jsonSpecHelper;
+    private LocationRepository locationRepository;
+    private ECSyncHelper ecSyncHelper;
+    private String password;
+
+    private RulesEngineHelper rulesEngineHelper;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -119,6 +141,8 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
         ConfigurableViewsLibrary.init(context, getRepository());
         FamilyLibrary.init(context, getRepository(), getMetadata(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
         ImmunizationLibrary.init(context, getRepository(), null, BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
+        GrowthMonitoringLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
+        ZScoreRefreshServiceJob.scheduleJobImmediately(ZScoreRefreshServiceJob.TAG);
         initOfflineSchedules();
         LocationHelper.init(new ArrayList<>(Arrays.asList(BuildConfig.ALLOWED_LOCATION_LEVELS)), BuildConfig.DEFAULT_LOCATION);
         //ReportingLibrary.init(context, getRepository(), null, BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
@@ -130,11 +154,89 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
         FamilyLibrary.getInstance().setClientProcessorForJava(HnppClientProcessor.getInstance(getApplicationContext()));
 
     }
+    public static JsonSpecHelper getJsonSpecHelper() {
+        return getInstance().jsonSpecHelper;
+    }
+    public static AncRegisterRepository ancRegisterRepository() {
+        if (ancRegisterRepository == null) {
+            ancRegisterRepository = new AncRegisterRepository(getInstance().getRepository());
+        }
+        return ancRegisterRepository;
+    }
+    public static Locale getCurrentLocale() {
+        return mInstance == null ? Locale.getDefault() : mInstance.getResources().getConfiguration().locale;
+    }
+    @Override
+    public String getPassword() {
+        if (password == null) {
+            String username = getContext().allSharedPreferences().fetchRegisteredANM();
+            password = getContext().userService().getGroupId(username);
+        }
+        return password;
+    }
+
+
+    public static ClientProcessorForJava getClientProcessor(android.content.Context context) {
+        if (clientProcessor == null) {
+            clientProcessor = ChwClientProcessor.getInstance(context);
+        }
+        return clientProcessor;
+    }
+    public VaccineRepository vaccineRepository() {
+        return ImmunizationLibrary.getInstance().vaccineRepository();
+    }
+
+    public LocationRepository getLocationRepository() {
+        if (locationRepository == null) {
+            locationRepository = new LocationRepository(getRepository());
+        }
+        return locationRepository;
+    }
+
+    @Override
+    public void saveLanguage(String language) {
+        HnppApplication.getInstance().getContext().allSharedPreferences().saveLanguagePreference(language);
+    }
+
+    @Override
+    public Context getContext() {
+        return context;
+    }
+
+
+    @Override
+    public ECSyncHelper getEcSyncHelper() {
+        if (ecSyncHelper == null) {
+            ecSyncHelper = ECSyncHelper.getInstance(getApplicationContext());
+        }
+        return ecSyncHelper;
+    }
+    @Override
+    public void notifyAppContextChange() {
+        Locale current = getApplicationContext().getResources().getConfiguration().locale;
+        saveLanguage(current.getLanguage());
+        CoreConstants.JSON_FORM.setLocaleAndAssetManager(current, getAssets());
+        FamilyLibrary.getInstance().setMetadata(getMetadata());
+    }
+
+    @Override
+    public RulesEngineHelper getRulesEngineHelper() {
+        if (rulesEngineHelper == null) {
+            rulesEngineHelper = new RulesEngineHelper(getApplicationContext());
+        }
+        return rulesEngineHelper;
+    }
+
+    public AllCommonsRepository getAllCommonsRepository(String table) {
+        return HnppApplication.getInstance().getContext().allCommonsRepositoryobjects(table);
+    }
     public void initOfflineSchedules() {
         try {
             List<VaccineGroup> childVaccines = VaccinatorUtils.getSupportedVaccines(this);
             List<Vaccine> specialVaccines = VaccinatorUtils.getSpecialVaccines(this);
             VaccineSchedule.init(childVaccines, specialVaccines, "child");
+            List<VaccineGroup> womanVaccines = VaccinatorUtils.getSupportedWomanVaccines(this);
+            VaccineSchedule.init(womanVaccines, null, "woman");
         } catch (Exception e) {
             Log.e("HnppApplication", Log.getStackTraceString(e));
         }
@@ -181,7 +283,6 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
 //        startActivity(intent);
 //        context.userService().logoutSession();
     }
-    @Override
     public void forceLogout() {
         GeoLocationHelper.clearLocation();
         Intent intent = new Intent(this,org.smartregister.unicef.dghs.activity.LoginActivity.class);
@@ -226,7 +327,9 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
         //need to set the username at loginscreen
         HnppApplication.getInstance().getContext().allSharedPreferences().updateANMUserName(previousName);
     }
-
+    public static synchronized HnppApplication getInstance() {
+        return (HnppApplication) mInstance;
+    }
     public @NotNull Map<String, Class> getRegisteredActivities() {
         Map<String, Class> registeredActivities = new HashMap<>();
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.ANC_REGISTER_ACTIVITY, HnppAncRegisterActivity.class);
@@ -235,7 +338,7 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.ELCO_REGISTER_ACTIVITY, HnppElcoMemberRegisterActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.CHILD_REGISTER_ACTIVITY, ChildRegisterActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.PNC_REGISTER_ACTIVITY, HnppPncRegisterActivity.class);
-        registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.REFERRALS_REGISTER_ACTIVITY, ReferralRegisterActivity.class);
+//        registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.REFERRALS_REGISTER_ACTIVITY, ReferralRegisterActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.MALARIA_REGISTER_ACTIVITY, FamilyRegisterActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.GUEST_MEMBER_ACTIVITY, GuestMemberActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.ANC_RISK_REGISTER_ACTIVITY, HnppAncRiskRegisterActivity.class);

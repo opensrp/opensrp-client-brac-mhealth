@@ -124,12 +124,7 @@ public class HnppFamilyRegisterFragment extends HnppBaseFamilyRegisterFragment i
             getSearchView().setCompoundDrawablesWithIntrinsicBounds(org.smartregister.family.R.drawable.ic_action_search, 0, 0, 0);
         }
 
-        dueOnlyLayout.setVisibility(View.GONE);
         filterTextView.setOnClickListener(registerActionHandler);
-
-        //setTotalPatients();
-//        TextView dueOnly = ((TextView)view.findViewById(org.smartregister.chw.core.R.id.due_only_text_view));
-//        dueOnly.setVisibility(View.VISIBLE);
     }
 
     @Override

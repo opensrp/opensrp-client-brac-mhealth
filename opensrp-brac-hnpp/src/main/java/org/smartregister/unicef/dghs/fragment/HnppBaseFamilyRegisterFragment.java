@@ -1,5 +1,7 @@
 package org.smartregister.unicef.dghs.fragment;
 
+import android.annotation.SuppressLint;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,22 +10,27 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
+import org.smartregister.chw.core.model.FamilyRegisterFramentModel;
+import org.smartregister.family.fragment.BaseFamilyRegisterFragment;
 import org.smartregister.unicef.dghs.R;
+import org.smartregister.unicef.dghs.nativation.view.NavigationMenu;
+import org.smartregister.unicef.dghs.presenter.HnppFamilyRegisterFragmentPresenter;
 import org.smartregister.unicef.dghs.utils.FilterDialog;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
 import org.smartregister.chw.anc.util.DBConstants;
-import org.smartregister.chw.core.fragment.CoreFamilyRegisterFragment;
 import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
+import org.smartregister.view.activity.BaseRegisterActivity;
 
 import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.List;
 
 import timber.log.Timber;
 
 import static android.view.View.inflate;
 
-public class HnppBaseFamilyRegisterFragment extends CoreFamilyRegisterFragment implements View.OnClickListener{
+public class HnppBaseFamilyRegisterFragment extends BaseFamilyRegisterFragment implements View.OnClickListener{
     protected final String DEFAULT_MAIN_CONDITION = "date_removed is null";
     String searchFilterString = "";
     protected String mSelectedVillageName, mSelectedClasterName;
@@ -32,10 +39,34 @@ public class HnppBaseFamilyRegisterFragment extends CoreFamilyRegisterFragment i
     private RelativeLayout clusterView,monthFilterView;
     private ViewGroup clients_header_layout;
     protected int month =-1,year =-1;
+    private View view;
+    @Override
+    protected void initializePresenter() {
+        if (getActivity() == null) {
+            return;
+        }
 
+        String viewConfigurationIdentifier = ((BaseRegisterActivity) getActivity()).getViewIdentifiers().get(0);
+        presenter = new HnppFamilyRegisterFragmentPresenter(this, new FamilyRegisterFramentModel(), viewConfigurationIdentifier);
+    }
+    @Override
+    public void setAdvancedSearchFormData(HashMap<String, String> hashMap) {
+        //TODO
+        Timber.d("setAdvancedSearchFormData unimplemented");
+    }
+    @Override
+    protected String getMainCondition() {
+        return presenter().getMainCondition();
+    }
+
+    @Override
+    protected String getDefaultSortQuery() {
+        return presenter().getDefaultSortQuery();
+    }
     @Override
     public void setupViews(View view) {
         super.setupViews(view);
+        this.view = view;
         HnppConstants.updateAppBackground((view.findViewById(R.id.register_nav_bar_container)));
         HnppConstants.updateAppBackground(view.findViewById(org.smartregister.R.id.register_toolbar));
         RelativeLayout sortAndFilterView = view.findViewById(org.smartregister.chw.core.R.id.filter_sort_layout);
@@ -50,7 +81,7 @@ public class HnppBaseFamilyRegisterFragment extends CoreFamilyRegisterFragment i
             getSearchView().setBackgroundResource(org.smartregister.family.R.color.white);
             getSearchView().setCompoundDrawablesWithIntrinsicBounds(org.smartregister.family.R.drawable.ic_action_search, 0, 0, 0);
         }
-        dueOnlyLayout.setVisibility(View.GONE);
+        view.findViewById(org.smartregister.chw.core.R.id.due_only_layout).setVisibility(View.GONE);
         filterTextView.setOnClickListener(registerActionHandler);
         clients_header_layout = view.findViewById(org.smartregister.chw.core.R.id.clients_header_layout);
         View filterView = inflate(getContext(), R.layout.filter_top_view, clients_header_layout);
@@ -71,6 +102,17 @@ public class HnppBaseFamilyRegisterFragment extends CoreFamilyRegisterFragment i
         }
         //setTotalPatients();
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Toolbar toolbar = view.findViewById(org.smartregister.R.id.register_toolbar);
+        toolbar.setContentInsetsAbsolute(0, 0);
+        toolbar.setContentInsetsRelative(0, 0);
+        toolbar.setContentInsetStartWithNavigation(0);
+        NavigationMenu.getInstance(getActivity(), null, toolbar);
+    }
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
         super.onViewClicked(v);
@@ -184,8 +226,6 @@ public class HnppBaseFamilyRegisterFragment extends CoreFamilyRegisterFragment i
 //        }
     }
 
-
-    @Override
     protected String defaultFilterAndSortQuery() {
         Sortqueries = getDefaultSortQuery();
         SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(mainSelect);

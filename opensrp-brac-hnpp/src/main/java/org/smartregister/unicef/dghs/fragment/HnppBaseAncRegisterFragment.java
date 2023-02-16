@@ -1,5 +1,6 @@
 package org.smartregister.unicef.dghs.fragment;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,16 +10,10 @@ import android.widget.TextView;
 import org.apache.commons.lang3.StringUtils;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
+import org.smartregister.unicef.dghs.nativation.view.NavigationMenu;
 import org.smartregister.unicef.dghs.utils.FilterDialog;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
-import org.smartregister.chw.anc.util.DBConstants;
-import org.smartregister.chw.core.custom_views.NavigationMenu;
-
-import java.text.MessageFormat;
-import java.util.List;
-
-import timber.log.Timber;
 
 import static android.view.View.inflate;
 
@@ -79,6 +74,7 @@ public class HnppBaseAncRegisterFragment extends AncRegisterFragment implements 
         NavigationMenu.getInstance(getActivity(), null, view.findViewById(org.smartregister.R.id.register_toolbar));
 
     }
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
         super.onViewClicked(v);

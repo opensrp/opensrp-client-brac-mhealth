@@ -65,7 +65,6 @@ import org.smartregister.unicef.dghs.utils.MigrationSearchContentData;
 import org.smartregister.unicef.dghs.utils.OnDialogOptionSelect;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.core.activity.CoreFamilyProfileMenuActivity;
-import org.smartregister.chw.core.activity.CoreFamilyRemoveMemberActivity;
 import org.smartregister.chw.core.utils.CoreChildUtils;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.unicef.dghs.fragment.FamilyProfileMemberFragment;
@@ -686,7 +685,7 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    protected Class<? extends CoreFamilyRemoveMemberActivity> getFamilyRemoveMemberClass() {
+    protected Class<? extends FamilyRemoveMemberActivity> getFamilyRemoveMemberClass() {
         return FamilyRemoveMemberActivity.class;
     }
 

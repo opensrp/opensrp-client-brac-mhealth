@@ -4,11 +4,12 @@ import android.database.Cursor;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 
-import org.smartregister.chw.core.application.CoreChwApplication;
+
 import org.smartregister.chw.core.contract.FamilyProfileExtendedContract;
 import org.smartregister.family.contract.FamilyProfileContract;
 import org.smartregister.family.domain.FamilyEventClient;
 import org.smartregister.family.util.AppExecutors;
+import org.smartregister.unicef.dghs.HnppApplication;
 
 import timber.log.Timber;
 
@@ -48,7 +49,7 @@ public class HnppFamilyProfileInteractor extends org.smartregister.family.intera
             Cursor cursor = null;
             String phone="";
             try {
-                cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+                cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
                 if(cursor !=null && cursor.getCount() >0){
                     cursor.moveToFirst();
                     phone = cursor.getString(0);

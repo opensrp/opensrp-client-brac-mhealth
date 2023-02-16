@@ -30,7 +30,7 @@ import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.util.DBConstants;
 import org.smartregister.chw.anc.util.NCUtils;
-import org.smartregister.chw.core.application.CoreChwApplication;
+
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.clientandeventmodel.Obs;
@@ -95,7 +95,7 @@ public class FormParser {
             }
         }
         processImmunization();
-        //processAlreadySubmittedDataForStock();
+        processGMP();
         processInstitutionalDeliveryForTarget();
     }
     public static void processVisitLog(Visit visit){
@@ -387,7 +387,7 @@ public class FormParser {
 //
 //                    }
 //                }
-//                SQLiteDatabase db = CoreChwApplication.getInstance().getRepository().getReadableDatabase();
+//                SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
 //
 //                db.execSQL("UPDATE visits set processed='1' where visit_id='"+visit.getVisitId()+"'");
 //                Log.v("STOCK_ADD","processAlreadySubmittedDataForStock>>done");
@@ -1940,11 +1940,72 @@ public class FormParser {
             }
         }
     }
+    private static void processGMP(){
+        List<Visit> v = getGMPVisitsFromEvent();
+        for(Visit visit : v){
+            String eventJson = visit.getJson();
+            if(!StringUtils.isEmpty(eventJson)){
+                try{
+                    Event baseEvent = gson.fromJson(eventJson, Event.class);
+                    String base_entity_id = baseEvent.getBaseEntityId();
+                    VisitLog log = new VisitLog();
+                    log.setVisitId(visit.getVisitId());
+                    log.setVisitType(visit.getVisitType());
+                    log.setBaseEntityId(base_entity_id);
 
+                    log.setVisitDate(visit.getDate().getTime());
+                    log.setEventType(visit.getVisitType());
+                    log.setVisitJson(eventJson);
+                    String ssName = HnppDBUtils.getBlockName(base_entity_id);
+                    Log.v("GMP","ssname:"+ssName);
+                    log.setBlockName(ssName);
+                    log.setFamilyId(HnppDBUtils.getFamilyIdFromBaseEntityId(base_entity_id));
+                    long rowId = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
+                    Log.v("GMP","rowId:"+rowId);
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
     private static List<Visit> getImmunizationVisitsFromEvent() {
         List<Visit> v = new ArrayList<>();
         String query = "SELECT event.baseEntityId,event.eventId, event.json,event.eventType FROM event WHERE (event.eventType = 'Vaccination' OR event.eventType = 'Recurring Service') AND event.eventId NOT IN (Select ec_visit_log.visit_id from ec_visit_log)";
-        Cursor cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        Cursor cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        try{
+            if(cursor !=null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    String baseEntityId = cursor.getString(0);
+                    String eventId = cursor.getString(1);
+                    String json = cursor.getString(2);
+                    String eventType = cursor.getString(3);
+                    Event baseEvent = gson.fromJson(json, Event.class);
+
+                    try {
+                        Visit visit = NCUtils.eventToVisit(baseEvent, eventId);
+                        v.add(visit);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    cursor.moveToNext();
+                }
+                cursor.close();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            if(cursor !=null) cursor.close();
+        }
+
+        return v;
+    }
+    private static List<Visit> getGMPVisitsFromEvent() {
+        List<Visit> v = new ArrayList<>();
+        String query = "SELECT event.baseEntityId,event.eventId, event.json,event.eventType FROM event WHERE (event.eventType = 'Height Monitoring' OR event.eventType = 'Weight Monitoring' OR event.eventType = 'MUAC Monitoring') AND event.eventId NOT IN (Select ec_visit_log.visit_id from ec_visit_log)";
+        Cursor cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         try{
             if(cursor !=null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -2233,7 +2294,7 @@ public class FormParser {
             return;
         }
 
-        AllCommonsRepository commonsRepository = CoreChwApplication.getInstance().getAllCommonsRepository(CoreConstants.TABLE_NAME.FAMILY_MEMBER);
+        AllCommonsRepository commonsRepository = HnppApplication.getInstance().getAllCommonsRepository(CoreConstants.TABLE_NAME.FAMILY_MEMBER);
         if (commonsRepository != null) {
 
             ContentValues values = new ContentValues();
@@ -2241,11 +2302,11 @@ public class FormParser {
             values.put(DBConstants.KEY.DOD, dod);
             values.put("is_closed", 1);
 
-            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.FAMILY_MEMBER, values,
+            HnppApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.FAMILY_MEMBER, values,
                     DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseEntityId});
 
             // clean fts table
-            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER), values,
+            HnppApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER), values,
                     " object_id  = ?  ", new String[]{baseEntityId});
 
             // Utils.context().commonrepository(CoreConstants.TABLE_NAME.FAMILY_MEMBER).populateSearchValues(baseEntityId, DBConstants.KEY.DATE_REMOVED, new SimpleDateFormat("yyyy-MM-dd").format(eventDate), null);
@@ -2261,7 +2322,7 @@ public class FormParser {
             return;
         }
 
-        AllCommonsRepository commonsRepository = CoreChwApplication.getInstance().getAllCommonsRepository(CoreConstants.TABLE_NAME.CHILD);
+        AllCommonsRepository commonsRepository = HnppApplication.getInstance().getAllCommonsRepository(CoreConstants.TABLE_NAME.CHILD);
         if (commonsRepository != null) {
 
             ContentValues values = new ContentValues();
@@ -2269,13 +2330,13 @@ public class FormParser {
             values.put(DBConstants.KEY.DOD, dod);
             values.put("is_closed", 1);
 
-            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.CHILD, values,
+            HnppApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.CHILD, values,
                     DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseEntityId});
-            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.FAMILY_MEMBER, values,
+            HnppApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.FAMILY_MEMBER, values,
                     DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseEntityId});
 
             // clean fts table
-            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.CHILD), values,
+            HnppApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.CHILD), values,
                     CommonFtsObject.idColumn + "  = ?  ", new String[]{baseEntityId});
 
             // Utils.context().commonrepository(CoreConstants.TABLE_NAME.CHILD).populateSearchValues(baseEntityId, DBConstants.KEY.DATE_REMOVED, new SimpleDateFormat("yyyy-MM-dd").format(eventDate), null);

@@ -5,12 +5,13 @@ import android.database.Cursor;
 import android.text.TextUtils;
 import android.util.Log;
 
+import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.contract.DashBoardContract;
 import org.smartregister.unicef.dghs.utils.ChildDBConstants;
 import org.smartregister.unicef.dghs.utils.DashBoardData;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
-import org.smartregister.chw.core.application.CoreChwApplication;
+
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.family.util.DBConstants;
 
@@ -137,7 +138,7 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
         }
         Cursor cursor = null;
         // try {
-        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         if(cursor !=null && cursor.getCount() > 0){
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -184,7 +185,7 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
         Log.v("COUNT_QUERY","getHHCount:"+query);
         Cursor cursor = null;
         // try {
-        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         if(cursor !=null && cursor.getCount() > 0){
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -230,7 +231,7 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
 
         Cursor cursor = null;
         // try {
-        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         if(cursor !=null && cursor.getCount() > 0){
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -286,7 +287,7 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
 
         Cursor cursor = null;
         // try {
-        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         if(cursor !=null && cursor.getCount() > 0){
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -341,7 +342,7 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
 
         Cursor cursor = null;
         // try {
-        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         if(cursor !=null && cursor.getCount() > 0){
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -406,7 +407,7 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
         DashBoardData dashBoardData1 = new DashBoardData();
         Cursor cursor = null;
         // try {
-        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         if(cursor !=null && cursor.getCount() > 0){
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -433,7 +434,7 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
         DashBoardData dashBoardData1 = new DashBoardData();
         Cursor cursor = null;
         // try {
-        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         if(cursor !=null && cursor.getCount() > 0){
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -521,7 +522,7 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
         Log.v("Child_QUERY","title:"+query);
         Cursor cursor = null;
         // try {
-        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         if(cursor !=null && cursor.getCount() > 0){
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -565,7 +566,7 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
 
         Cursor cursor = null;
         // try {
-        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         if(cursor !=null && cursor.getCount() > 0){
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -609,7 +610,7 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
         Log.v("COUNT_QUERY","count:"+query);
         Cursor cursor;
         // try {
-        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         if(cursor !=null && cursor.getCount() > 0){
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -661,7 +662,7 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
         //
         Cursor cursor = null;
         // try {
-        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         if(cursor !=null && cursor.getCount() > 0){
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {

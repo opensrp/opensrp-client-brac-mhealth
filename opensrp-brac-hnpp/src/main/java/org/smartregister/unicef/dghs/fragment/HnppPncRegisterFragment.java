@@ -11,14 +11,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import org.apache.commons.lang3.StringUtils;
+import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.activity.HnppFamilyOtherMemberProfileActivity;
 import org.smartregister.unicef.dghs.model.HnppPncRegisterFragmentModel;
+import org.smartregister.unicef.dghs.nativation.view.NavigationMenu;
 import org.smartregister.unicef.dghs.provider.HnppPncRegisterProvider;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.chw.anc.util.DBConstants;
-import org.smartregister.chw.core.application.CoreChwApplication;
-import org.smartregister.chw.core.custom_views.NavigationMenu;
+
 import org.smartregister.chw.core.utils.ChildDBConstants;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.pnc.presenter.BasePncRegisterFragmentPresenter;
@@ -28,11 +29,9 @@ import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
 import org.smartregister.family.util.Constants;
 import org.smartregister.view.customcontrols.CustomFontTextView;
 import org.smartregister.view.customcontrols.FontVariant;
-
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Set;
-
 import timber.log.Timber;
 
 public class HnppPncRegisterFragment extends HnppBasePncRegisterFragment implements View.OnClickListener {
@@ -159,7 +158,7 @@ public class HnppPncRegisterFragment extends HnppBasePncRegisterFragment impleme
     @Override
     protected void openProfile(CommonPersonObjectClient client) {
 
-        HashMap<String, String> detailsMap = CoreChwApplication.ancRegisterRepository().getFamilyNameAndPhone(org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(), org.smartregister.family.util.DBConstants.KEY.FAMILY_HEAD, false));
+        HashMap<String, String> detailsMap = HnppApplication.ancRegisterRepository().getFamilyNameAndPhone(org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(), org.smartregister.family.util.DBConstants.KEY.FAMILY_HEAD, false));
 
         String familyName = "";
         String familyHeadPhone = "";

@@ -5,7 +5,7 @@ import static org.smartregister.util.Utils.getName;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Triple;
 import org.smartregister.chw.anc.util.NCUtils;
-import org.smartregister.chw.core.application.CoreChwApplication;
+
 import org.smartregister.chw.core.contract.FamilyProfileExtendedContract;
 import org.smartregister.chw.core.interactor.CoreFamilyInteractor;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
@@ -13,6 +13,7 @@ import org.smartregister.family.domain.FamilyEventClient;
 import org.smartregister.family.presenter.BaseFamilyOtherMemberProfileActivityPresenter;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.Utils;
+import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.model.HnppFamilyProfileModel;
 import org.smartregister.chw.core.contract.FamilyOtherMemberProfileExtendedContract;
 import org.smartregister.unicef.dghs.interactor.HnppFamilyInteractor;
@@ -30,7 +31,7 @@ import timber.log.Timber;
 public class HnppFamilyOtherMemberActivityPresenter extends BaseFamilyOtherMemberProfileActivityPresenter implements FamilyOtherMemberProfileExtendedContract.Presenter, FamilyProfileContract.InteractorCallBack, FamilyProfileExtendedContract.PresenterCallBack {
     protected FamilyProfileContract.Interactor profileInteractor;
     protected FamilyProfileContract.Model profileModel;
-    protected CoreFamilyInteractor familyInteractor;
+    protected HnppFamilyInteractor familyInteractor;
     private WeakReference<FamilyOtherMemberProfileExtendedContract.View> viewReference;
     private String familyBaseEntityId;
     private String familyName;
@@ -80,7 +81,7 @@ public class HnppFamilyOtherMemberActivityPresenter extends BaseFamilyOtherMembe
             String ageStr = org.smartregister.family.util.Utils.getTranslatedDate(org.smartregister.family.util.Utils.getDuration(dob),getView().getContext());
 
             this.getView().setProfileName(MessageFormat.format("{0}, {1}", getName(getName(firstName, middleName), lastName), ageStr));
-            String gestationAge = CoreChwApplication.ancRegisterRepository().getGaIfAncWoman(client.getCaseId());
+            String gestationAge = HnppApplication.ancRegisterRepository().getGaIfAncWoman(client.getCaseId());
             if (gestationAge != null) {
                 this.getView().setProfileDetailOne(NCUtils.gestationAgeString(gestationAge, viewReference.get().getContext(), true));
             }

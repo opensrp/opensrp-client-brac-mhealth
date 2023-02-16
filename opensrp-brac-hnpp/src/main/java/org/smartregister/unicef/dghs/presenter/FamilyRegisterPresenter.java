@@ -17,7 +17,6 @@ public class FamilyRegisterPresenter extends BaseFamilyRegisterPresenter  {
         super(view, model);
         interactor  = new HnppFamilyRegisterInteractor();
     }
-
     @Override
     public void saveForm(String jsonString, boolean isEditMode) {
         try {

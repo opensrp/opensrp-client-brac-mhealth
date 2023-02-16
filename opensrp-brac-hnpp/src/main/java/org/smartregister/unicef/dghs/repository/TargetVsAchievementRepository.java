@@ -56,8 +56,6 @@ public class TargetVsAchievementRepository extends BaseRepository {
                     TARGET_ID + " INTEGER , " +TARGET_NAME + " VARCHAR , " +FORM_SUBMISSION_ID + " VARCHAR , " + TARGET_COUNT+ " int default 0,"+
                     YEAR + " VARCHAR, " + MONTH+ " VARCHAR, "+DAY+" VARCHAR, "+START_DATE+" VARCHAR, "+END_DATE+" VARCHAR ,"+ACHIEVEMNT_COUNT+" int default 0,"+IS_MONTH_DATE+" int default 0,"+SS_NAME+" VARCHAR,"+BASE_ENTITY_ID+" VARCHAR ) ";
 
-    public static String ALTER_TABLE_IS_MONTH = " alter table "+TARGET_TABLE+" add column "+IS_MONTH_DATE+" int default 0;";
-
 
     public TargetVsAchievementRepository(Repository repository) {
         super(repository);

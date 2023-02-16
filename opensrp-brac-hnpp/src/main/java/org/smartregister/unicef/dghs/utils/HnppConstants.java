@@ -813,6 +813,7 @@ public class HnppConstants extends CoreConstants {
         public static final String BLOOD_GROUP = "blood_group";
         public static final String LAST_HOME_VISIT = "last_home_visit";
         public static final String DATE_CREATED = "date_created";
+        public static final String BIRTH_WEIGHT = "birth_weight";
     }
 
     public static class IDENTIFIER {
@@ -1178,6 +1179,7 @@ public class HnppConstants extends CoreConstants {
             .build();
     public static final Map<String,String> vaccineNameMapping = ImmutableMap.<String,String> builder()
             .put("bcg","বিসিজি")
+            .put("opv_0","পোলিও-0")
             .put("opv_1","পোলিও-১")
             .put("pcv_1","পিসিভি-১")
             .put("penta_1","পেন্টা-১")

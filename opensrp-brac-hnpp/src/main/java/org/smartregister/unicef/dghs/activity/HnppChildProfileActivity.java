@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -32,10 +34,22 @@ import com.vijay.jsonwizard.domain.Form;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.smartregister.growthmonitoring.domain.HeightWrapper;
+import org.smartregister.growthmonitoring.domain.MUACWrapper;
+import org.smartregister.growthmonitoring.domain.WeightWrapper;
+import org.smartregister.growthmonitoring.listener.HeightActionListener;
+import org.smartregister.growthmonitoring.listener.MUACActionListener;
+import org.smartregister.growthmonitoring.listener.WeightActionListener;
+import org.smartregister.immunization.domain.ServiceWrapper;
+import org.smartregister.immunization.domain.VaccineWrapper;
+import org.smartregister.immunization.listener.ServiceActionListener;
+import org.smartregister.immunization.listener.VaccinationActionListener;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.adapter.ReferralCardViewAdapter;
 import org.smartregister.unicef.dghs.custom_view.FamilyMemberFloatingMenu;
 import org.smartregister.unicef.dghs.fragment.ChildHistoryFragment;
+import org.smartregister.unicef.dghs.fragment.ChildImmunizationFragment;
+import org.smartregister.unicef.dghs.fragment.GMPFragment;
 import org.smartregister.unicef.dghs.fragment.HnppChildProfileDueFragment;
 import org.smartregister.unicef.dghs.fragment.MemberOtherServiceFragment;
 import org.smartregister.unicef.dghs.listener.OnClickFloatingMenu;
@@ -69,6 +83,7 @@ import org.smartregister.family.util.Utils;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -88,14 +103,14 @@ import static org.smartregister.unicef.dghs.activity.HnppFamilyOtherMemberProfil
 import static org.smartregister.chw.anc.util.JsonFormUtils.updateFormField;
 import static org.smartregister.util.JsonFormUtils.getFieldJSONObject;
 
-public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
+public class HnppChildProfileActivity extends HnppCoreChildProfileActivity implements WeightActionListener, HeightActionListener, MUACActionListener, VaccinationActionListener, ServiceActionListener {
     public FamilyMemberFloatingMenu familyFloatingMenu;
     public RelativeLayout referralRow;
     public RecyclerView referralRecyclerView;
     public CommonPersonObjectClient commonPersonObject;
     Handler handler;
     AppExecutors appExecutors = new AppExecutors();
-
+    private ImageView imageView;
     @Override
     protected void onCreation() {
         super.onCreation();
@@ -108,7 +123,13 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
         Toolbar toolbar = (Toolbar)this.findViewById(R.id.collapsing_toolbar);
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
     }
+    public void updateProfileIconColor(int color,String text){
 
+        if(!TextUtils.isEmpty(text)){
+            imageView .setColorFilter(ContextCompat.getColor(this, color), android.graphics.PorterDuff.Mode.MULTIPLY);
+
+        }
+    }
     @Override
     public void onBackPressed() {
         finish();
@@ -213,6 +234,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     @Override
     protected void setupViews() {
         super.setupViews();
+        imageView = findViewById(R.id.imageview_profile);
         HnppConstants.updateAppBackground(findViewById(org.smartregister.chw.core.R.id.collapsing_toolbar));
         initializeTasksRecyclerView();
         View recordVisitPanel = findViewById(R.id.record_visit_panel);
@@ -256,6 +278,8 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     MemberOtherServiceFragment memberOtherServiceFragment;
     ChildHistoryFragment memberHistoryFragment;
     HnppChildProfileDueFragment profileMemberFragment;
+    ChildImmunizationFragment childImmunizationFragment;
+    GMPFragment growthFragment;
     ViewPager mViewPager;
     protected ViewPagerAdapter adapter;
     @Override
@@ -274,12 +298,18 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
             memberHistoryFragment = ChildHistoryFragment.getInstance(this.getIntent().getExtras());
             memberHistoryFragment.setBaseEntityId(childBaseEntityId);
             memberOtherServiceFragment.setCommonPersonObjectClient(commonPersonObject);
+            childImmunizationFragment = ChildImmunizationFragment.newInstance(this.getIntent().getExtras());
+            childImmunizationFragment.setChildDetails(commonPersonObject);
+            growthFragment = GMPFragment.newInstance(this.getIntent().getExtras());
+            growthFragment.setChildDetails(commonPersonObject);
+            adapter.addFragment(childImmunizationFragment, this.getString(R.string.immunization).toUpperCase());
+            adapter.addFragment(growthFragment, this.getString(R.string.gmp).toUpperCase());
             adapter.addFragment(memberOtherServiceFragment, this.getString(R.string.other_service).toUpperCase());
             adapter.addFragment(memberHistoryFragment, this.getString(R.string.activity).toUpperCase());
             if(HnppConstants.isPALogin()){
                 viewPager.setOffscreenPageLimit(2);
             }else{
-                viewPager.setOffscreenPageLimit(3);
+                viewPager.setOffscreenPageLimit(4);
             }
 
 
@@ -380,6 +410,10 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     }
     public void openVisitHomeScreen(boolean isEditMode) {
         ChildVaccinationActivity.startChildVaccinationActivity(this,this.getIntent().getExtras(),commonPersonObject);
+        //ChildHomeVisitActivity.startMe(this, memberObject, isEditMode, ChildHomeVisitActivity.class);
+    }
+    public void openGMPScreen() {
+        ChildGMPActivity.startGMPActivity(this,this.getIntent().getExtras(),commonPersonObject);
         //ChildHomeVisitActivity.startMe(this, memberObject, isEditMode, ChildHomeVisitActivity.class);
     }
 
@@ -794,5 +828,55 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
 
         intent.putExtra(CoreConstants.INTENT_KEY.SERVICE_DUE, true);
         startActivity(intent);
+    }
+    @Override
+    public void onHeightTaken(HeightWrapper heightWrapper) {
+        if(growthFragment!=null){
+            growthFragment.onHeightTaken(heightWrapper);
+        }
+    }
+
+    @Override
+    public void onMUACTaken(MUACWrapper muacWrapper) {
+        if(growthFragment!=null){
+            growthFragment.onMUACTaken(muacWrapper);
+        }
+    }
+
+    @Override
+    public void onWeightTaken(WeightWrapper weightWrapper) {
+        if(growthFragment!=null){
+            growthFragment.onWeightTaken(weightWrapper);
+        }
+    }
+
+    @Override
+    public void onGiveToday(ServiceWrapper serviceWrapper, View view) {
+        childImmunizationFragment.onGiveToday(serviceWrapper,view);
+    }
+
+    @Override
+    public void onGiveEarlier(ServiceWrapper serviceWrapper, View view) {
+        childImmunizationFragment.onGiveEarlier(serviceWrapper,view);
+    }
+
+    @Override
+    public void onUndoService(ServiceWrapper serviceWrapper, View view) {
+        childImmunizationFragment.onUndoService(serviceWrapper,view);
+    }
+
+    @Override
+    public void onVaccinateToday(ArrayList<VaccineWrapper> arrayList, View view) {
+        childImmunizationFragment.onVaccinateToday(arrayList,view);
+    }
+
+    @Override
+    public void onVaccinateEarlier(ArrayList<VaccineWrapper> arrayList, View view) {
+        childImmunizationFragment.onVaccinateEarlier(arrayList,view);
+    }
+
+    @Override
+    public void onUndoVaccination(VaccineWrapper vaccineWrapper, View view) {
+        childImmunizationFragment.onUndoVaccination(vaccineWrapper,view);
     }
 }

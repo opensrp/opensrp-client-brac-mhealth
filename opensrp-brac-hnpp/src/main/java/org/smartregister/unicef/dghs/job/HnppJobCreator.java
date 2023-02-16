@@ -78,6 +78,14 @@ public class HnppJobCreator implements JobCreator {
                 return new NotificationGeneratorJob();
             case DataDeleteJob.TAG:
                 return new DataDeleteJob();
+            case ZScoreRefreshServiceJob.TAG:
+                return new ZScoreRefreshServiceJob();
+            case HeightIntentServiceJob.TAG:
+                return new HeightIntentServiceJob();
+            case MuactIntentServiceJob.TAG:
+                return new MuactIntentServiceJob();
+            case WeightIntentServiceJob.TAG:
+                return new WeightIntentServiceJob();
             default:
                 Timber.d("Please create job and specify the right job tag");
                 return null;

@@ -12,8 +12,6 @@ import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.model.ReferralFollowUpModel;
-import org.smartregister.unicef.dghs.repository.HnppVisitLogRepository;
-import org.smartregister.chw.core.dao.AbstractDao;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.util.Utils;
 import org.smartregister.util.DateUtil;
@@ -148,6 +146,12 @@ public class FormApplicability {
         }
         return "";
     }
+    public static boolean isWomenImmunizationApplicable(CommonPersonObjectClient commonPersonObject){
+        if(getGender(commonPersonObject).trim().equalsIgnoreCase("F") && getAge(commonPersonObject)>=15){
+            return true;
+        }
+        return false;
+    }
     public static boolean isElco(int age){
         return age >= 14 && age < 50;
     }
@@ -173,7 +177,7 @@ public class FormApplicability {
 
     public static String getLmp(String baseEntityId){
         String lmp = "SELECT last_menstrual_period FROM ec_anc_register where base_entity_id = ? ";
-        List<Map<String, String>> valus = AbstractDao.readData(lmp, new String[]{baseEntityId});
+        List<Map<String, String>> valus = HnppDBUtils.readData(lmp, new String[]{baseEntityId});
         if(valus.size()>0){
             return valus.get(0).get("last_menstrual_period");
         }
@@ -184,7 +188,7 @@ public class FormApplicability {
     public static boolean isClosedANC(String baseEntityId){
         String DeliveryDateSql = "SELECT is_closed FROM ec_anc_register where base_entity_id = ? ";
 
-        List<Map<String, String>> valus = AbstractDao.readData(DeliveryDateSql, new String[]{baseEntityId});
+        List<Map<String, String>> valus = HnppDBUtils.readData(DeliveryDateSql, new String[]{baseEntityId});
 
         if(valus.size() > 0){
             if("1".equalsIgnoreCase(valus.get(0).get("is_closed"))){
@@ -198,7 +202,7 @@ public class FormApplicability {
     public static boolean isClosedPregnancyOutCome(String baseEntityId){
         String DeliveryDateSql = "SELECT is_closed FROM ec_pregnancy_outcome where base_entity_id = ? ";
 
-        List<Map<String, String>> valus = AbstractDao.readData(DeliveryDateSql, new String[]{baseEntityId});
+        List<Map<String, String>> valus = HnppDBUtils.readData(DeliveryDateSql, new String[]{baseEntityId});
 
         if(valus.size() > 0){
             if("1".equalsIgnoreCase(valus.get(0).get("is_closed"))){
@@ -214,7 +218,7 @@ public class FormApplicability {
         int dayPass = -1;
         String DeliveryDateSql = "SELECT delivery_date FROM ec_pregnancy_outcome where base_entity_id = ? ";
 
-        List<Map<String, String>> valus = AbstractDao.readData(DeliveryDateSql, new String[]{baseEntityId});
+        List<Map<String, String>> valus = HnppDBUtils.readData(DeliveryDateSql, new String[]{baseEntityId});
         if(valus.size() > 0&&valus.get(0).get("delivery_date")!=null){
             dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(valus.get(0).get("delivery_date")), new DateTime()).getDays();
 
@@ -338,7 +342,7 @@ public class FormApplicability {
     public static int getHourPassPregnancyOutcome(String baseEntityId){
         int hoursPassed = -1;
         String DeliveryDateSql = "SELECT delivery_date, delivery_time FROM ec_pregnancy_outcome where base_entity_id = ? ";
-        List<Map<String, String>> valus = AbstractDao.readData(DeliveryDateSql, new String[]{baseEntityId});
+        List<Map<String, String>> valus = HnppDBUtils.readData(DeliveryDateSql, new String[]{baseEntityId});
         if( valus.size() > 0 && valus.get(0).get("delivery_date")!= null && valus.get(0).get("delivery_time")!= null ){
             String day = valus.get(0).get("delivery_date");
             String time = valus.get(0).get("delivery_time");

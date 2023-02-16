@@ -1,18 +1,11 @@
 package org.smartregister.unicef.dghs.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-
-import org.smartregister.unicef.dghs.location.GeoLocationHelper;
-import org.smartregister.unicef.dghs.location.SSModel;
-import org.smartregister.chw.core.activity.CoreAncRegisterActivity;
+import org.smartregister.chw.anc.activity.BaseAncRegisterActivity;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.helper.BottomNavigationHelper;
 
-import java.util.ArrayList;
-
-public class AncRegisterActivity extends CoreAncRegisterActivity {
+public class AncRegisterActivity extends BaseAncRegisterActivity {
     @Override
     public void onRegistrationSaved(boolean isEdit) {
         /*if (hasChildRegistration) {

@@ -58,12 +58,12 @@
                     android:gravity="center_horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/imageview_profile"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
                         android:layout_width="@dimen/client_profile_pic_width"
                         android:layout_height="@dimen/client_profile_pic_height"
+                        android:layout_centerInParent="true"
                         app:civ_border_color="#FFFFFFFF"
                         app:civ_border_width="2dp" />
 

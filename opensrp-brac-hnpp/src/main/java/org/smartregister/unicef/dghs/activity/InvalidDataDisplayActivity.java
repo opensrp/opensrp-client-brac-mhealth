@@ -15,7 +15,7 @@ import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.adapter.InvalidDataAdapter;
 import org.smartregister.unicef.dghs.model.InvalidDataModel;
-import org.smartregister.chw.core.application.CoreChwApplication;
+
 import org.smartregister.domain.db.Client;
 import org.smartregister.domain.db.Event;
 import org.smartregister.family.util.AppExecutors;
@@ -175,7 +175,7 @@ public class InvalidDataDisplayActivity extends SecuredActivity {
 
             @Override
             public void onDelete(int position, InvalidDataModel content) {
-                SQLiteDatabase db = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+                SQLiteDatabase db = HnppApplication.getInstance().getRepository().getWritableDatabase();
                 Log.v("DELETE_UUUU","rowid>>>"+content.rowId);
 
                 if(content.client!=null){

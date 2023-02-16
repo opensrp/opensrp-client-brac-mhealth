@@ -8,7 +8,7 @@ import android.widget.TextView;
 import org.apache.commons.lang3.text.WordUtils;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
-import org.smartregister.chw.core.application.CoreChwApplication;
+
 import org.smartregister.family.util.Utils;
 
 import java.util.ArrayList;
@@ -101,7 +101,7 @@ public class SearchHHMemberModel {
         String query = "Select first_name,base_entity_id,unique_id from ec_family where village_town = '"+village+"' and date_removed is null";
         Cursor cursor = null;
         hhList.clear();
-        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         if(cursor !=null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -122,7 +122,7 @@ public class SearchHHMemberModel {
                 " AND gender = 'F' and ec_family.village_town = '"+village+"'";
         Cursor cursor = null;
         adoArrayList.clear();
-        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         if(cursor !=null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -146,7 +146,7 @@ public class SearchHHMemberModel {
                 " AND gender = 'F' and ec_family.village_town = '"+village+"' ";
         Cursor cursor = null;
         womenArrayList.clear();
-        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         if(cursor !=null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -171,7 +171,7 @@ public class SearchHHMemberModel {
 
         Cursor cursor = null;
         childArrayList.clear();
-        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         if(cursor !=null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -194,7 +194,7 @@ public class SearchHHMemberModel {
                 " and ec_family.village_town = '"+village+"'";
         Cursor cursor = null;
         ncdArrayList.clear();
-        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         if(cursor !=null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {

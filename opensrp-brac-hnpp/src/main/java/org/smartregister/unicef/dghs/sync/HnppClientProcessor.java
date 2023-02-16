@@ -1,5 +1,6 @@
 package org.smartregister.unicef.dghs.sync;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.util.Log;
@@ -7,18 +8,30 @@ import android.util.Log;
 import net.sqlcipher.database.SQLiteDatabase;
 
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
 import org.json.JSONException;
+import org.json.JSONObject;
+import org.smartregister.growthmonitoring.GrowthMonitoringLibrary;
+import org.smartregister.growthmonitoring.domain.Height;
+import org.smartregister.growthmonitoring.domain.MUAC;
+import org.smartregister.growthmonitoring.domain.Weight;
+import org.smartregister.growthmonitoring.domain.ZScore;
+import org.smartregister.growthmonitoring.repository.HeightRepository;
+import org.smartregister.growthmonitoring.repository.MUACRepository;
+import org.smartregister.growthmonitoring.repository.WeightRepository;
+import org.smartregister.growthmonitoring.service.intent.HeightIntentService;
+import org.smartregister.growthmonitoring.service.intent.MuacIntentService;
+import org.smartregister.growthmonitoring.service.intent.WeightIntentService;
 import org.smartregister.unicef.dghs.HnppApplication;
-import org.smartregister.unicef.dghs.job.VisitLogServiceJob;
+import org.smartregister.unicef.dghs.job.MuactIntentServiceJob;
+import org.smartregister.unicef.dghs.utils.GrowthUtil;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.util.DBConstants;
-import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.clientandeventmodel.DateUtil;
 import org.smartregister.commonregistry.AllCommonsRepository;
-import org.smartregister.commonregistry.CommonFtsObject;
 import org.smartregister.domain.db.Client;
 import org.smartregister.domain.db.Event;
 import org.smartregister.domain.db.EventClient;
@@ -44,6 +57,7 @@ import java.util.List;
 import timber.log.Timber;
 
 import static org.smartregister.chw.anc.util.NCUtils.eventToVisit;
+import static java.lang.Float.parseFloat;
 
 
 public class HnppClientProcessor extends ClientProcessorForJava {
@@ -51,6 +65,9 @@ public class HnppClientProcessor extends ClientProcessorForJava {
     private ClientClassification classification;
     private Table vaccineTable;
     private Table serviceTable;
+    private Table heightTable;
+    private Table weightTable;
+    private Table muacTable;
     public HnppClientProcessor(Context context) {
         super(context);
     }
@@ -67,8 +84,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
         long startTime = System.currentTimeMillis();
         Log.v("SYNC_URL", "processClient started");
         ClientClassification clientClassification = getClassification();
-        Table vaccineTable = getVaccineTable();
-        Table serviceTable = getServiceTable();
+
 
         if (!eventClients.isEmpty()) {
             for (EventClient eventClient : eventClients) {
@@ -83,7 +99,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                 }
                 Log.v("FORUM_TEST","processEvents>>eventType:"+eventType);
 
-                processEvents(clientClassification, vaccineTable, serviceTable, eventClient, event, eventType);
+                processEvents(clientClassification,eventClient, event, eventType);
             }
             Log.v("SYNC_URL", "processClient end >>"+(System.currentTimeMillis() - startTime));
             //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
@@ -118,22 +134,47 @@ public class HnppClientProcessor extends ClientProcessorForJava {
         }
         return serviceTable;
     }
+    private Table getHeightTable() {
+        if (heightTable == null) {
+            heightTable = assetJsonToJava("ec_client_height.json", Table.class);
+        }
+        return heightTable;
+    }
+    private Table getWeightTable() {
+        if (weightTable == null) {
+            weightTable = assetJsonToJava("ec_client_weight.json", Table.class);
+        }
+        return weightTable;
+    }
 
-    protected void processEvents(ClientClassification clientClassification, Table vaccineTable, Table serviceTable, EventClient eventClient, Event event, String eventType) throws Exception {
+    public Table getMuacTable() {
+        if (muacTable == null) {
+            muacTable = assetJsonToJava("ec_client_muac.json", Table.class);
+        }
+        return muacTable;
+    }
+
+    protected void processEvents(ClientClassification clientClassification, EventClient eventClient, Event event, String eventType) throws Exception {
         Log.v("PROCESS_EVENT","processEvents2>>"+eventType);
         switch (eventType) {
             case VaccineIntentService.EVENT_TYPE:
             case VaccineIntentService.EVENT_TYPE_OUT_OF_CATCHMENT:
-                if (vaccineTable == null) {
-                    return;
-                }
-                processVaccine(eventClient, vaccineTable, eventType.equals(VaccineIntentService.EVENT_TYPE_OUT_OF_CATCHMENT));
+                processVaccine(eventClient, getVaccineTable(), eventType.equals(VaccineIntentService.EVENT_TYPE_OUT_OF_CATCHMENT));
                 break;
             case RecurringIntentService.EVENT_TYPE:
-                if (serviceTable == null) {
-                    return;
-                }
-                processService(eventClient, serviceTable);
+                processService(eventClient, getServiceTable());
+                break;
+            case HeightIntentService.EVENT_TYPE:
+            case HeightIntentService.EVENT_TYPE_OUT_OF_CATCHMENT:
+                processHeight(eventClient, getHeightTable(),eventType.equals(HeightIntentService.EVENT_TYPE_OUT_OF_CATCHMENT));
+                break;
+            case WeightIntentService.EVENT_TYPE:
+            case WeightIntentService.EVENT_TYPE_OUT_OF_CATCHMENT:
+                processWeight(eventClient, getWeightTable(),eventType.equals(WeightIntentService.EVENT_TYPE_OUT_OF_CATCHMENT));
+                break;
+            case MuacIntentService.EVENT_TYPE:
+            case MuacIntentService.EVENT_TYPE_OUT_OF_CATCHMENT:
+                processMUAC(eventClient, getMuacTable(),eventType.equals(MuacIntentService.EVENT_TYPE_OUT_OF_CATCHMENT));
                 break;
             case CoreConstants.EventType.ANC_HOME_VISIT:
             case HnppConstants.EVENT_TYPE.ELCO:
@@ -283,10 +324,10 @@ public class HnppClientProcessor extends ClientProcessorForJava {
 
             // updateFamilyRelations the values to db
             if (contentValues != null && contentValues.size() > 0) {
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 Date date = simpleDateFormat.parse(contentValues.getAsString(VaccineRepository.DATE));
 
-                VaccineRepository vaccineRepository = CoreChwApplication.getInstance().vaccineRepository();
+                VaccineRepository vaccineRepository = HnppApplication.getInstance().vaccineRepository();
                 Vaccine vaccineObj = new Vaccine();
                 vaccineObj.setBaseEntityId(contentValues.getAsString(VaccineRepository.BASE_ENTITY_ID));
                 vaccineObj.setName(contentValues.getAsString(VaccineRepository.NAME));
@@ -390,6 +431,179 @@ public class HnppClientProcessor extends ClientProcessorForJava {
             return null;
         }
     }
+    private Boolean processHeight(EventClient height,Table heightTable, boolean outOfCatchment) throws Exception {
+
+        try {
+
+            if (height == null || height.getEvent() == null) {
+                return false;
+            }
+
+            if (heightTable == null) {
+                return false;
+            }
+
+            ContentValues contentValues = processCaseModel(height, heightTable);
+            Log.v("CLIENT_PROCESSOR","processHeight>>"+height);
+            Log.v("CLIENT_PROCESSOR","processHeight>>"+contentValues);
+
+            // save the values to db
+            if (contentValues != null && contentValues.size() > 0) {
+
+                HeightRepository heightRepository = GrowthMonitoringLibrary.getInstance().getHeightRepository();
+                Height heightObj = new Height();
+                heightObj.setBaseEntityId(contentValues.getAsString(HeightRepository.BASE_ENTITY_ID));
+                if (contentValues.containsKey(HeightRepository.CM)) {
+                    heightObj.setCm(parseFloat(contentValues.getAsString(HeightRepository.CM)));
+                }
+                try{
+                    String eventDateStr = contentValues.getAsString(HeightRepository.DATE);
+                    Date date = getDate(eventDateStr);
+                    heightObj.setDate(date);
+                }catch (Exception e){
+
+                }
+                heightObj.setZScore(Double.parseDouble(contentValues.getAsString(HeightRepository.Z_SCORE)));
+                heightObj.setAnmId(contentValues.getAsString(HeightRepository.ANMID));
+                heightObj.setLocationId(contentValues.getAsString(HeightRepository.LOCATIONID));
+                heightObj.setSyncStatus(HeightRepository.TYPE_Synced);
+                heightObj.setFormSubmissionId(height.getEvent().getFormSubmissionId());
+                try{
+                    heightObj.setEventId(height.getEvent().getEventId());
+                    String createdAtString = contentValues.getAsString(HeightRepository.CREATED_AT);
+                    Date createdAt = getDate(createdAtString);
+                    heightObj.setCreatedAt(createdAt);
+                }catch (Exception e){
+
+                }
+                heightObj.setOutOfCatchment(outOfCatchment ? 1 : 0);
+                heightRepository.add(heightObj);
+                String heightText = ZScore.getZScoreText(heightObj.getZScore());
+                GrowthUtil.updateLastHeight(heightObj.getCm(),heightObj.getBaseEntityId(),heightText);
+            }
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    private Boolean processWeight(EventClient weight,Table weightTable, boolean outOfCatchment) throws Exception {
+
+        try {
+
+            if (weight == null || weight.getEvent() == null) {
+                return false;
+            }
+
+            if (weightTable == null) {
+                return false;
+            }
+
+            ContentValues contentValues = processCaseModel(weight, weightTable);
+
+            // save the values to db
+            if (contentValues != null && contentValues.size() > 0) {
+
+                WeightRepository weightRepository = GrowthMonitoringLibrary.getInstance().weightRepository();
+                Weight weightObj = new Weight();
+                weightObj.setBaseEntityId(contentValues.getAsString(WeightRepository.BASE_ENTITY_ID));
+                if (contentValues.containsKey(WeightRepository.KG)) {
+                    weightObj.setKg(parseFloat(contentValues.getAsString(WeightRepository.KG)));
+                }
+                try{
+                    String eventDateStr = contentValues.getAsString(WeightRepository.DATE);
+                    Date date = getDate(eventDateStr);
+                    weightObj.setDate(date);
+                }catch (Exception e){
+
+                }
+                weightObj.setZScore(contentValues.getAsDouble(WeightRepository.Z_SCORE));
+                weightObj.setAnmId(contentValues.getAsString(WeightRepository.ANMID));
+                weightObj.setLocationId(contentValues.getAsString(WeightRepository.LOCATIONID));
+                weightObj.setSyncStatus(WeightRepository.TYPE_Synced);
+                weightObj.setFormSubmissionId(weight.getEvent().getFormSubmissionId());
+                try{
+                    weightObj.setEventId(weight.getEvent().getEventId());
+                    String createdAtString = contentValues.getAsString(WeightRepository.CREATED_AT);
+                    Date createdAt = getDate(createdAtString);
+                    weightObj.setCreatedAt(createdAt);
+                }catch (Exception e){
+
+                }
+                weightObj.setOutOfCatchment(outOfCatchment ? 1 : 0);
+                Log.v("WEIGHT","taken>>>>"+weightObj.getKg());
+
+                double zScore = ZScore.roundOff(weightObj.getZScore());
+                String weightText = ZScore.getZScoreText(zScore);
+                weightRepository.add(weightObj);
+                //need to update child table
+                GrowthUtil.updateLastWeight(weightObj.getKg(),weightObj.getBaseEntityId(),weightText);
+            }
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    private Boolean processMUAC(EventClient muac,Table muacTable, boolean outOfCatchment) throws Exception {
+
+        try {
+
+            if (muac == null || muac.getEvent() == null) {
+                return false;
+            }
+
+            if (muacTable == null) {
+                return false;
+            }
+
+            ContentValues contentValues = processCaseModel(muac, muacTable);
+
+            // save the values to db
+            if (contentValues != null && contentValues.size() > 0) {
+
+
+                MUACRepository muacRepository = GrowthMonitoringLibrary.getInstance().getMuacRepository();
+                MUAC muacObj = new MUAC();
+                muacObj.setBaseEntityId(contentValues.getAsString(MUACRepository.BASE_ENTITY_ID));
+                if (contentValues.containsKey(MUACRepository.CM)) {
+                    muacObj.setCm(parseFloat(contentValues.getAsString(MUACRepository.CM)));
+                }
+                try{
+                    String eventDateStr = contentValues.getAsString(MUACRepository.DATE);
+                    Date date = getDate(eventDateStr);
+                    muacObj.setDate(date);
+                }catch (Exception e){
+
+                }
+                muacObj.setAnmId(contentValues.getAsString(MUACRepository.ANMID));
+                muacObj.setLocationId(contentValues.getAsString(MUACRepository.LOCATIONID));
+                muacObj.setSyncStatus(MUACRepository.TYPE_Synced);
+                muacObj.setFormSubmissionId(muac.getEvent().getFormSubmissionId());
+                try{
+                    muacObj.setEventId(muac.getEvent().getEventId());
+                    String createdAtString = contentValues.getAsString(MUACRepository.CREATED_AT);
+                    Date createdAt = getDate(createdAtString);
+                    muacObj.setCreatedAt(createdAt);
+                }catch (Exception e){
+
+                }
+                muacObj.setOutOfCatchment(outOfCatchment ? 1 : 0);
+                muacObj.setEdemaValue(contentValues.getAsString(MUACRepository.EDEMA_VALUE));
+                String status = ZScore.getMuacText(muacObj.getCm());
+
+                muacRepository.add(muacObj);
+                GrowthUtil.updateLastMuac(muacObj.getCm(),muacObj.getBaseEntityId(),status,muacObj.getEdemaValue());
+            }
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 
     // possible to delegate
@@ -432,7 +646,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
 //                    case HnppConstants.EVENT_TYPE.WOMEN_PACKAGE:
 //                    case HnppConstants.EVENT_TYPE.NCD_PACKAGE:
 //                    case HnppConstants.EVENT_TYPE.IYCF_PACKAGE:
-//                        SQLiteDatabase db = CoreChwApplication.getInstance().getRepository().getReadableDatabase();
+//                        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
 //                        String event = (new JSONObject(JsonFormUtils.gson.toJson(baseEvent.getEvent())).toString());
 //                        db.execSQL("UPDATE visits set processed='2',visit_json ='"+event+"' where visit_id='"+visit.getVisitId()+"' and processed ='1'");
 //                        Log.v("STOCK_ADD","updated:"+visit.getVisitId());
@@ -488,6 +702,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
      *
      * @param familyID
      */
+    @SuppressLint("SimpleDateFormat")
     protected void processRemoveFamily(String familyID, Date eventDate) {
 
         Date myEventDate = eventDate;
@@ -499,35 +714,36 @@ public class HnppClientProcessor extends ClientProcessorForJava {
             return;
         }
 
-        AllCommonsRepository commonsRepository = CoreChwApplication.getInstance().getAllCommonsRepository(CoreConstants.TABLE_NAME.FAMILY);
+        AllCommonsRepository commonsRepository = HnppApplication.getInstance().getAllCommonsRepository(CoreConstants.TABLE_NAME.FAMILY);
         if (commonsRepository != null) {
 
             ContentValues values = new ContentValues();
             values.put(DBConstants.KEY.DATE_REMOVED, new SimpleDateFormat("yyyy-MM-dd").format(myEventDate));
             values.put("is_closed", 1);
 
-            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.FAMILY, values,
+            HnppApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.FAMILY, values,
                     DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{familyID});
 
-            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.CHILD, values,
+            HnppApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.CHILD, values,
                     DBConstants.KEY.RELATIONAL_ID + " = ?  ", new String[]{familyID});
 
-            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.FAMILY_MEMBER, values,
+            HnppApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.FAMILY_MEMBER, values,
                     DBConstants.KEY.RELATIONAL_ID + " = ?  ", new String[]{familyID});
 
             // clean fts table
-//            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY), values,
+//            HnppApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY), values,
 //                    CommonFtsObject.idColumn + " = ?  ", new String[]{familyID});
 //
-//            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.CHILD), values,
+//            HnppApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.CHILD), values,
 //                    String.format(" %s in (select base_entity_id from %s where relational_id = ? )  ", CommonFtsObject.idColumn, CoreConstants.TABLE_NAME.CHILD), new String[]{familyID});
 //
-//            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER), values,
+//            HnppApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER), values,
 //                    String.format(" %s in (select base_entity_id from %s where relational_id = ? )  ", CommonFtsObject.idColumn, CoreConstants.TABLE_NAME.FAMILY_MEMBER), new String[]{familyID});
 
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     protected void processRemoveMember(String baseEntityId, Date eventDate) {
 
         Date myEventDate = eventDate;
@@ -539,18 +755,18 @@ public class HnppClientProcessor extends ClientProcessorForJava {
             return;
         }
 
-        AllCommonsRepository commonsRepository = CoreChwApplication.getInstance().getAllCommonsRepository(CoreConstants.TABLE_NAME.FAMILY_MEMBER);
+        AllCommonsRepository commonsRepository = HnppApplication.getInstance().getAllCommonsRepository(CoreConstants.TABLE_NAME.FAMILY_MEMBER);
         if (commonsRepository != null) {
 
             ContentValues values = new ContentValues();
             values.put(DBConstants.KEY.DATE_REMOVED, new SimpleDateFormat("yyyy-MM-dd").format(myEventDate));
             values.put("is_closed", 1);
 
-            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.FAMILY_MEMBER, values,
+            HnppApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.FAMILY_MEMBER, values,
                     DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseEntityId});
 
             // clean fts table
-//            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER), values,
+//            HnppApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER), values,
 //                    " object_id  = ?  ", new String[]{baseEntityId});
 
             // Utils.context().commonrepository(CoreConstants.TABLE_NAME.FAMILY_MEMBER).populateSearchValues(baseEntityId, DBConstants.KEY.DATE_REMOVED, new SimpleDateFormat("yyyy-MM-dd").format(eventDate), null);
@@ -558,6 +774,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     protected void processRemoveChild(String baseEntityId, Date eventDate) {
 
         Date myEventDate = eventDate;
@@ -569,18 +786,18 @@ public class HnppClientProcessor extends ClientProcessorForJava {
             return;
         }
 
-        AllCommonsRepository commonsRepository = CoreChwApplication.getInstance().getAllCommonsRepository(CoreConstants.TABLE_NAME.CHILD);
+        AllCommonsRepository commonsRepository = HnppApplication.getInstance().getAllCommonsRepository(CoreConstants.TABLE_NAME.CHILD);
         if (commonsRepository != null) {
 
             ContentValues values = new ContentValues();
             values.put(DBConstants.KEY.DATE_REMOVED, new SimpleDateFormat("yyyy-MM-dd").format(myEventDate));
             values.put("is_closed", 1);
 
-            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.CHILD, values,
+            HnppApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.CHILD, values,
                     DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseEntityId});
 
             // clean fts table
-//            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.CHILD), values,
+//            HnppApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.CHILD), values,
 //                    CommonFtsObject.idColumn + "  = ?  ", new String[]{baseEntityId});
 
             // Utils.context().commonrepository(CoreConstants.TABLE_NAME.CHILD).populateSearchValues(baseEntityId, DBConstants.KEY.DATE_REMOVED, new SimpleDateFormat("yyyy-MM-dd").format(eventDate), null);
@@ -613,7 +830,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
         }
         return null;
     }
-
+    @SuppressLint("SimpleDateFormat")
     private Date getDate(String eventDateStr) {
         Date date = null;
         if (StringUtils.isNotBlank(eventDateStr)) {

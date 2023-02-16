@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.TextView;
 
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.fragment.ChildImmunizationFragment;
@@ -54,6 +55,7 @@ public class ChildVaccinationActivity extends SecuredActivity implements Vaccina
             findViewById(R.id.action_bar).setBackgroundResource(org.smartregister.family.R.color.customAppThemeBlue);
 
         }
+        ((TextView)findViewById(R.id.textview_detail_two)).setText(getString(R.string.immunization));
         findViewById(R.id.backBtn).setOnClickListener(v -> onBackPressed());
 
     }

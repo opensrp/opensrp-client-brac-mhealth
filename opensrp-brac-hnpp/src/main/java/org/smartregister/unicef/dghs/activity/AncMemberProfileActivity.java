@@ -21,7 +21,7 @@
 //import org.smartregister.chw.anc.util.DBConstants;
 //import org.smartregister.chw.anc.util.NCUtils;
 //import org.smartregister.chw.core.activity.CoreAncMemberProfileActivity;
-//import org.smartregister.chw.core.application.CoreChwApplication;
+//
 //import org.smartregister.chw.core.utils.CoreConstants;
 //import org.smartregister.chw.core.utils.CoreJsonFormUtils;
 //import org.smartregister.unicef.dghs.R;
@@ -124,7 +124,7 @@
 //                    AllSharedPreferences allSharedPreferences = org.smartregister.util.Utils.getAllSharedPreferences();
 //                    Event baseEvent = org.smartregister.chw.anc.util.JsonFormUtils.processJsonForm(allSharedPreferences, jsonString, Constants.TABLES.ANC_MEMBERS);
 //                    NCUtils.processEvent(baseEvent.getBaseEntityId(), new JSONObject(org.smartregister.chw.anc.util.JsonFormUtils.gson.toJson(baseEvent)));
-//                    AllCommonsRepository commonsRepository = CoreChwApplication.getInstance().getAllCommonsRepository(CoreConstants.TABLE_NAME.ANC_MEMBER);
+//                    AllCommonsRepository commonsRepository = HnppApplication.getInstance().getAllCommonsRepository(CoreConstants.TABLE_NAME.ANC_MEMBER);
 //
 //                    JSONArray field = org.smartregister.util.JsonFormUtils.fields(form);
 //                    JSONObject phoneNumberObject = org.smartregister.util.JsonFormUtils.getFieldJSONObject(field, DBConstants.KEY.PHONE_NUMBER);
@@ -133,7 +133,7 @@
 //                    if (commonsRepository != null) {
 //                        ContentValues values = new ContentValues();
 //                        values.put(DBConstants.KEY.PHONE_NUMBER, phoneNumber);
-//                        CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.ANC_MEMBER, values, DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseEntityId});
+//                        HnppApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.ANC_MEMBER, values, DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseEntityId});
 //                    }
 //
 //                }

@@ -8,7 +8,7 @@
 //import org.smartregister.unicef.dghs.repository.StockRepository;
 //import org.smartregister.unicef.dghs.utils.DashBoardData;
 //import org.smartregister.unicef.dghs.utils.HnppConstants;
-//import org.smartregister.chw.core.application.CoreChwApplication;
+//
 //
 //public class StockDashBoardModel implements DashBoardContract.Model {
 //
@@ -47,7 +47,7 @@
 //
 //        Cursor cursor = null;
 //        // try {
-//        cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+//        cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
 //        if(cursor !=null && cursor.getCount() > 0){
 //            cursor.moveToFirst();
 //            while (!cursor.isAfterLast()) {

@@ -1,5 +1,6 @@
 package org.smartregister.unicef.dghs.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -51,7 +52,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
     private static final int TAG_ENC= 333;
     private static final int TAG_CHILD_DUE= 444;
     private static final int TAG_OPEN_CORONA = 88888;
-
+    private static final int TAG_OPEN_GMP = 99999;
     private int dueCount = 0;
     private View emptyView;
     private String familyName;
@@ -167,6 +168,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         return super.getMainCondition();
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onViewClicked(View view) {
         super.onViewClicked(view);
@@ -356,7 +358,15 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                 otherServiceView.addView(referelView);
             }
 
-
+            View referelView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due, null);
+            ImageView imageReferel = referelView.findViewById(R.id.image_view);
+            TextView nameReferel = referelView.findViewById(R.id.patient_name_age);
+            referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+            imageReferel.setImageResource(R.drawable.ic_icon_growth_chart);
+            nameReferel.setText("গ্রোথ মনিটরিং");
+            referelView.setTag(TAG_OPEN_GMP);
+            referelView.setOnClickListener(this);
+            otherServiceView.addView(referelView);
 
     }
 
@@ -420,6 +430,12 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                     if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
                         activity.openCoronaIndividualForm();
+                    }
+                    break;
+                case TAG_OPEN_GMP:
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                        activity.openGMPScreen();
                     }
                     break;
                 case TAG_CHILD_INFO_EBF12:

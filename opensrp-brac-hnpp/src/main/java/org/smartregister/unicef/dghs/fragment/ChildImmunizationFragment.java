@@ -1,5 +1,6 @@
 package org.smartregister.unicef.dghs.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Triple;
 import org.joda.time.DateTime;
+import org.smartregister.chw.core.job.VaccineRecurringServiceJob;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.job.VisitLogServiceJob;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
@@ -59,13 +61,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
 import static org.smartregister.util.Utils.getName;
 
 public class ChildImmunizationFragment extends BaseProfileFragment {
-    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
+    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
 
     public void setChildDetails(CommonPersonObjectClient childDetails){
         this.childDetails = childDetails;
@@ -351,13 +354,13 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
     }
 
     private void addVaccineUndoDialogFragment(VaccineGroup vaccineGroup, VaccineWrapper vaccineWrapper) {
-        FragmentTransaction ft = mActivity.getFragmentManager().beginTransaction();
-        Fragment prev = mActivity.getFragmentManager().findFragmentByTag(DIALOG_TAG);
-        if (prev != null) {
-            ft.remove(prev);
-        }
-
-        ft.addToBackStack(null);
+//        FragmentTransaction ft = mActivity.getFragmentManager().beginTransaction();
+//        Fragment prev = mActivity.getFragmentManager().findFragmentByTag(DIALOG_TAG);
+//        if (prev != null) {
+//            ft.remove(prev);
+//        }
+//
+//        ft.addToBackStack(null);
         vaccineGroup.setModalOpen(true);
 
         UndoVaccinationDialogFragment undoVaccinationDialogFragment = UndoVaccinationDialogFragment.newInstance(vaccineWrapper);
@@ -365,13 +368,13 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
     }
 
     private void addServiceUndoDialogFragment(ServiceGroup serviceGroup, ServiceWrapper serviceWrapper) {
-        FragmentTransaction ft = mActivity.getFragmentManager().beginTransaction();
-        Fragment prev = mActivity.getFragmentManager().findFragmentByTag(DIALOG_TAG);
-        if (prev != null) {
-            ft.remove(prev);
-        }
-
-        ft.addToBackStack(null);
+//        FragmentTransaction ft = mActivity.getFragmentManager().beginTransaction();
+//        Fragment prev = mActivity.getFragmentManager().findFragmentByTag(DIALOG_TAG);
+//        if (prev != null) {
+//            ft.remove(prev);
+//        }
+//
+//        ft.addToBackStack(null);
         serviceGroup.setModalOpen(true);
 
         UndoServiceDialogFragment undoServiceDialogFragment = UndoServiceDialogFragment.newInstance(serviceWrapper);
@@ -402,13 +405,13 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
 
     public void addVaccinationDialogFragment(ArrayList<VaccineWrapper> vaccineWrappers, VaccineGroup vaccineGroup) {
 
-        FragmentTransaction ft = mActivity.getFragmentManager().beginTransaction();
-        Fragment prev = mActivity.getFragmentManager().findFragmentByTag(DIALOG_TAG);
-        if (prev != null) {
-            ft.remove(prev);
-        }
-
-        ft.addToBackStack(null);
+//        FragmentTransaction ft = mActivity.getFragmentManager().beginTransaction();
+//        Fragment prev = mActivity.getFragmentManager().findFragmentByTag(DIALOG_TAG);
+//        if (prev != null) {
+//            ft.remove(prev);
+//        }
+//
+//        ft.addToBackStack(null);
         vaccineGroup.setModalOpen(true);
         String dobString = org.smartregister.util.Utils.getValue(childDetails.getColumnmaps(), "dob", false);
         Date dob = Calendar.getInstance().getTime();
@@ -427,13 +430,13 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
 
     public void addServiceDialogFragment(ServiceWrapper serviceWrapper, ServiceGroup serviceGroup) {
 
-        FragmentTransaction ft = mActivity.getFragmentManager().beginTransaction();
-        Fragment prev = mActivity.getFragmentManager().findFragmentByTag(DIALOG_TAG);
-        if (prev != null) {
-            ft.remove(prev);
-        }
-
-        ft.addToBackStack(null);
+//        FragmentTransaction ft = mActivity.getFragmentManager().beginTransaction();
+//        Fragment prev = mActivity.getFragmentManager().findFragmentByTag(DIALOG_TAG);
+//        if (prev != null) {
+//            ft.remove(prev);
+//        }
+//
+//        ft.addToBackStack(null);
         serviceGroup.setModalOpen(true);
         String dobString = org.smartregister.util.Utils.getValue(childDetails.getColumnmaps(), "dob", false);
         DateTime dob = DateTime.now();
@@ -526,14 +529,11 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
     }
 
     public void startServices() {
-        Intent vaccineIntent = new Intent(mActivity, VaccineIntentService.class);
-        mActivity.startService(vaccineIntent);
-
-        Intent serviceIntent = new Intent(mActivity, RecurringIntentService.class);
-        mActivity.startService(serviceIntent);
+        VaccineRecurringServiceJob.scheduleJobImmediately(VaccineRecurringServiceJob.TAG);
 
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class SaveVaccinesTask extends AsyncTask<VaccineWrapper, Void, Pair<ArrayList<VaccineWrapper>, List<Vaccine>>> {
 
         private View view;
@@ -608,6 +608,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
         return null;
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class UpdateViewTask extends AsyncTask<Void, Void, Map<String, NamedObject<?>>> {
 
         private VaccineRepository vaccineRepository;
@@ -739,6 +740,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class UndoVaccineTask extends AsyncTask<Void, Void, Void> {
 
         private VaccineWrapper tag;
@@ -902,6 +904,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
     }
 
 
+    @SuppressLint("StaticFieldLeak")
     public class SaveServiceTask extends AsyncTask<ServiceWrapper, Void, Triple<ArrayList<ServiceWrapper>, List<ServiceRecord>, List<Alert>>> {
 
         private View view;
@@ -949,6 +952,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class UndoServiceTask extends AsyncTask<Void, Void, Void> {
 
         private View view;

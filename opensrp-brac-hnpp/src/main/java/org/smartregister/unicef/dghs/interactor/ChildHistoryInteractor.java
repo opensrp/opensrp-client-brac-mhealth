@@ -17,7 +17,7 @@ import org.smartregister.unicef.dghs.utils.MemberHistoryData;
 import org.smartregister.unicef.dghs.utils.VisitLog;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
-import org.smartregister.chw.core.application.CoreChwApplication;
+
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.clientandeventmodel.Obs;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
@@ -126,7 +126,7 @@ public class ChildHistoryInteractor implements MemberHistoryContract.Interactor 
     private ArrayList<MemberHistoryData> getImmunizationData(String baseEntityId){
         ArrayList<MemberHistoryData> memberHistoryDataList = new ArrayList<>();
         String query = "select eventType,eventDate,json  from event where (eventType = 'Vaccination' or eventType = 'Recurring Service') and baseEntityId = '"+baseEntityId+"'  order by eventDate desc";
-        Cursor cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        Cursor cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         if(cursor !=null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {

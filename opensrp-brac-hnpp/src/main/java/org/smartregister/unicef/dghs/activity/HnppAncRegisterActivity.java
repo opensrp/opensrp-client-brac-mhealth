@@ -17,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.chw.anc.activity.BaseAncRegisterActivity;
 import org.smartregister.unicef.dghs.BuildConfig;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
@@ -38,8 +39,7 @@ import org.smartregister.chw.anc.presenter.BaseAncRegisterPresenter;
 import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.anc.util.DBConstants;
 import org.smartregister.chw.anc.util.NCUtils;
-import org.smartregister.chw.core.activity.CoreAncRegisterActivity;
-import org.smartregister.chw.core.application.CoreChwApplication;
+
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.CoreJsonFormUtils;
 import org.smartregister.clientandeventmodel.Address;
@@ -73,7 +73,7 @@ import static com.vijay.jsonwizard.constants.JsonFormConstants.STEP1;
 import static org.smartregister.chw.anc.util.Constants.TABLES.EC_CHILD;
 
 
-public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
+public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
 
     private HnppVisitLogRepository visitLogRepository;
     private static String motherName;
@@ -81,7 +81,11 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
     private static double latitude;
     private static double longitude;
 
-
+    protected static String phone_number;
+    protected static String form_name;
+    protected static String unique_id;
+    protected static String familyBaseEntityId;
+    protected static String familyName;
 
     public static void startHnppAncRegisterActivity(Activity activity, String memberBaseEntityID, String phoneNumber, String formName,
                                                     String uniqueId, String familyBaseID, String family_name, String moName, double lat, double longi) {
@@ -100,7 +104,12 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
         intent.putExtra(Constants.ACTIVITY_PAYLOAD.TABLE_NAME, getFormTable());
         activity.startActivityForResult(intent, Constants.REQUEST_CODE_GET_JSON);
     }
-
+    public static String getFormTable() {
+        if (form_name != null && form_name.equals(CoreConstants.JSON_FORM.getAncRegistration())) {
+            return CoreConstants.TABLE_NAME.ANC_MEMBER;
+        }
+        return CoreConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME;
+    }
     @Override
     public void onBackPressed() {
         Fragment fragment = findFragmentByPosition(currentPage);
@@ -261,7 +270,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
 
                 String eventType = processVisitFormAndSave(jsonString);
 
-                SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+                SQLiteDatabase database = HnppApplication.getInstance().getRepository().getWritableDatabase();
                 //database.execSQL(sql1);
                 String sql = "UPDATE ec_anc_register SET is_closed = 1 WHERE ec_anc_register.base_entity_id IN " +
                         "(select ec_pregnancy_outcome.base_entity_id from ec_pregnancy_outcome where ec_pregnancy_outcome.is_closed = 0) ";
@@ -348,7 +357,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
 
             String eventType = processVisitFormAndSave(jsonString);
 
-            SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+            SQLiteDatabase database = HnppApplication.getInstance().getRepository().getWritableDatabase();
             //database.execSQL(sql1);
             String sql = "UPDATE ec_anc_register SET is_closed = 1 WHERE ec_anc_register.base_entity_id IN " +
                     "(select ec_pregnancy_outcome.base_entity_id from ec_pregnancy_outcome where ec_pregnancy_outcome.is_closed = 0) ";

@@ -40,7 +40,7 @@ import org.smartregister.unicef.dghs.sync.FormParser;
 //import org.smartregister.chw.anc.domain.VisitDetail;
 //import org.smartregister.chw.anc.util.DBConstants;
 //import org.smartregister.chw.anc.util.NCUtils;
-//import org.smartregister.chw.core.application.CoreChwApplication;
+//
 //import org.smartregister.chw.core.utils.CoreConstants;
 //import org.smartregister.clientandeventmodel.Event;
 //import org.smartregister.clientandeventmodel.Obs;
@@ -407,7 +407,7 @@ public class VisitLogIntentService extends IntentService {
 ////
 ////                    }
 ////                }
-////                SQLiteDatabase db = CoreChwApplication.getInstance().getRepository().getReadableDatabase();
+////                SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
 ////
 ////                db.execSQL("UPDATE visits set processed='1' where visit_id='"+visit.getVisitId()+"'");
 ////                Log.v("STOCK_ADD","processAlreadySubmittedDataForStock>>done");
@@ -1958,7 +1958,7 @@ public class VisitLogIntentService extends IntentService {
 //    private List<Visit> getImmunizationVisitsFromEvent() {
 //        List<Visit> v = new ArrayList<>();
 //        String query = "SELECT event.baseEntityId,event.eventId, event.json,event.eventType FROM event WHERE (event.eventType = 'Vaccination' OR event.eventType = 'Recurring Service') AND event.eventId NOT IN (Select ec_visit_log.visit_id from ec_visit_log)";
-//        Cursor cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+//        Cursor cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
 //        try{
 //            if(cursor !=null && cursor.getCount() > 0) {
 //                cursor.moveToFirst();
@@ -2246,7 +2246,7 @@ public class VisitLogIntentService extends IntentService {
 //            return;
 //        }
 //
-//        AllCommonsRepository commonsRepository = CoreChwApplication.getInstance().getAllCommonsRepository(CoreConstants.TABLE_NAME.FAMILY_MEMBER);
+//        AllCommonsRepository commonsRepository = HnppApplication.getInstance().getAllCommonsRepository(CoreConstants.TABLE_NAME.FAMILY_MEMBER);
 //        if (commonsRepository != null) {
 //
 //            ContentValues values = new ContentValues();
@@ -2254,11 +2254,11 @@ public class VisitLogIntentService extends IntentService {
 //            values.put(DBConstants.KEY.DOD, dod);
 //            values.put("is_closed", 1);
 //
-//            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.FAMILY_MEMBER, values,
+//            HnppApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.FAMILY_MEMBER, values,
 //                    DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseEntityId});
 //
 //            // clean fts table
-//            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER), values,
+//            HnppApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER), values,
 //                    " object_id  = ?  ", new String[]{baseEntityId});
 //
 //            // Utils.context().commonrepository(CoreConstants.TABLE_NAME.FAMILY_MEMBER).populateSearchValues(baseEntityId, DBConstants.KEY.DATE_REMOVED, new SimpleDateFormat("yyyy-MM-dd").format(eventDate), null);
@@ -2273,7 +2273,7 @@ public class VisitLogIntentService extends IntentService {
 //            return;
 //        }
 //
-//        AllCommonsRepository commonsRepository = CoreChwApplication.getInstance().getAllCommonsRepository(CoreConstants.TABLE_NAME.CHILD);
+//        AllCommonsRepository commonsRepository = HnppApplication.getInstance().getAllCommonsRepository(CoreConstants.TABLE_NAME.CHILD);
 //        if (commonsRepository != null) {
 //
 //            ContentValues values = new ContentValues();
@@ -2281,13 +2281,13 @@ public class VisitLogIntentService extends IntentService {
 //            values.put(DBConstants.KEY.DOD, dod);
 //            values.put("is_closed", 1);
 //
-//            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.CHILD, values,
+//            HnppApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.CHILD, values,
 //                    DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseEntityId});
-//            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.FAMILY_MEMBER, values,
+//            HnppApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.FAMILY_MEMBER, values,
 //                    DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseEntityId});
 //
 //            // clean fts table
-//            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.CHILD), values,
+//            HnppApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.CHILD), values,
 //                    CommonFtsObject.idColumn + "  = ?  ", new String[]{baseEntityId});
 //
 //            // Utils.context().commonrepository(CoreConstants.TABLE_NAME.CHILD).populateSearchValues(baseEntityId, DBConstants.KEY.DATE_REMOVED, new SimpleDateFormat("yyyy-MM-dd").format(eventDate), null);

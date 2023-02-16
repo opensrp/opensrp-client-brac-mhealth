@@ -1,6 +1,7 @@
 package org.smartregister.unicef.dghs.utils;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.text.TextUtils;
 import android.util.Log;
@@ -8,17 +9,21 @@ import android.util.Log;
 import net.sqlcipher.database.SQLiteDatabase;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jeasy.rules.api.Rules;
+import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import org.smartregister.chw.core.model.ChildVisit;
+import org.smartregister.chw.core.rule.HomeAlertRule;
+import org.smartregister.chw.core.utils.CoreConstants;
+import org.smartregister.unicef.dghs.HnppApplication;
+import org.smartregister.unicef.dghs.dao.AbstractDao;
 import org.smartregister.unicef.dghs.model.ForumDetails;
 import org.smartregister.unicef.dghs.model.VisitInfo;
 import org.smartregister.unicef.dghs.repository.StockRepository;
-import org.smartregister.chw.core.application.CoreChwApplication;
-import org.smartregister.chw.core.dao.AbstractDao;
-import org.smartregister.chw.core.utils.ChildDBConstants;
-import org.smartregister.chw.core.utils.CoreChildUtils;
-import org.smartregister.chw.core.utils.CoreConstants;
+
 import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.commonregistry.CommonRepository;
@@ -38,15 +43,57 @@ import java.util.Map;
 
 import timber.log.Timber;
 
-public class HnppDBUtils extends CoreChildUtils {
+public class HnppDBUtils {
     private static final int STOCK_END_THRESHOLD = 2;
+    public static ChildVisit getChildVisitStatus(Context context, String yearOfBirth, long lastVisitDate, long visitNotDate, long dateCreated) {
+        HomeAlertRule homeAlertRule = new HomeAlertRule(context, yearOfBirth, lastVisitDate, visitNotDate, dateCreated);
+        HnppApplication.getInstance().getRulesEngineHelper().getButtonAlertStatus(homeAlertRule, CoreConstants.RULE_FILE.HOME_VISIT);
+        return getChildVisitStatus(homeAlertRule, lastVisitDate);
+    }
+    public static ChildVisit getChildVisitStatus(HomeAlertRule homeAlertRule, long lastVisitDate) {
+        ChildVisit childVisit = new ChildVisit();
+        childVisit.setVisitStatus(homeAlertRule.buttonStatus);
+        childVisit.setNoOfMonthDue(homeAlertRule.noOfMonthDue);
+        childVisit.setLastVisitDays(homeAlertRule.noOfDayDue);
+        childVisit.setLastVisitMonthName(homeAlertRule.visitMonthName);
+        childVisit.setLastVisitTime(lastVisitDate);
+        return childVisit;
+    }
+    public static List<Map<String, String>> readData(String query, String[] selectionArgs) {
+        List<Map<String, String>> list = new ArrayList<>();
+        Cursor cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, selectionArgs);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Map<String, String> res = new HashMap<>();
+            for (int i = 0; i < cursor.getColumnCount(); i++) {
+                res.put(cursor.getColumnName(i), getCursorValue(cursor, i));
+            }
+            list.add(res);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return list;
+    }
+    @Nullable
+    protected static String getCursorValue(Cursor c, int column_index) {
+        return c.getType(column_index) == Cursor.FIELD_TYPE_NULL ? null : c.getString(column_index);
+    }
 
+    @Nullable
+    protected static String getCursorValue(Cursor c, String column_name) {
+        return c.getType(c.getColumnIndex(column_name)) == Cursor.FIELD_TYPE_NULL ? null : c.getString(c.getColumnIndex(column_name));
+    }
+
+    @Nullable
+    protected static Long getCursorLongValue(Cursor c, String column_name) {
+        return c.getType(c.getColumnIndex(column_name)) == Cursor.FIELD_TYPE_NULL ? null : c.getLong(c.getColumnIndex(column_name));
+    }
     public static String getFirstName(String familyBaseEntityId){
         String query = "select first_name from ec_family  where base_entity_id = '"+familyBaseEntityId+"'";
         Cursor cursor = null;
         String birthWeight="";
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 birthWeight = cursor.getString(0);
@@ -66,7 +113,7 @@ public class HnppDBUtils extends CoreChildUtils {
         HashMap<String, String> map = new HashMap<>();
         String query = "select * from "+tableName+" where base_entity_id='" + baseEntityId + "'";
 
-        Cursor cursor =  CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        Cursor cursor =  HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         try {
 
             cursor.moveToFirst();
@@ -92,7 +139,7 @@ public class HnppDBUtils extends CoreChildUtils {
         Cursor cursor = null;
         VisitInfo visitInfo = new VisitInfo();
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 visitInfo.setVisitCount(cursor.getInt(0));
@@ -112,7 +159,7 @@ public class HnppDBUtils extends CoreChildUtils {
 
     public static void updateMigratedOrRejectedHH(String base_entity_id){
         try{
-            SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+            SQLiteDatabase database = HnppApplication.getInstance().getRepository().getWritableDatabase();
             String sql = "update ec_family set "+DBConstants.KEY.DATE_REMOVED+" = '1' where " +
                     "base_entity_id = '"+base_entity_id+"' ;";
             database.execSQL(sql);
@@ -123,7 +170,7 @@ public class HnppDBUtils extends CoreChildUtils {
     }
     public static void updateMigratedOrRejectedMember(String base_entity_id){
         try{
-            SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+            SQLiteDatabase database = HnppApplication.getInstance().getRepository().getWritableDatabase();
             String sql = "update ec_family_member set "+DBConstants.KEY.DATE_REMOVED+" = '1' where " +
                     "base_entity_id = '"+base_entity_id+"' ;";
             database.execSQL(sql);
@@ -137,7 +184,7 @@ public class HnppDBUtils extends CoreChildUtils {
         Cursor cursor = null;
         boolean isAvailable = false;
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()) {
@@ -166,7 +213,7 @@ public class HnppDBUtils extends CoreChildUtils {
         Cursor cursor = null;
         StringBuilder nameCount = new StringBuilder();
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() > 0){
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()) {
@@ -198,7 +245,7 @@ public class HnppDBUtils extends CoreChildUtils {
         Cursor cursor = null;
         StringBuilder nameCount = new StringBuilder();
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() > 0){
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()) {
@@ -220,7 +267,7 @@ public class HnppDBUtils extends CoreChildUtils {
     }
     public static void updateBloodGroup(String base_entity_id, String value){
         try{
-            SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+            SQLiteDatabase database = HnppApplication.getInstance().getRepository().getWritableDatabase();
             String sql = "update ec_family_member set blood_group = '"+value+"' where " +
                     "base_entity_id = '"+base_entity_id+"' ;";
             database.execSQL(sql);
@@ -235,7 +282,7 @@ public class HnppDBUtils extends CoreChildUtils {
         Cursor cursor = null;
         boolean isAdo = false;
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 String d  = cursor.getString(0);
@@ -261,7 +308,7 @@ public class HnppDBUtils extends CoreChildUtils {
         GuestMemberData guestMemberData = null;
         Cursor cursor = null;
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 guestMemberData = new GuestMemberData();
                 cursor.moveToFirst();
@@ -291,7 +338,7 @@ public class HnppDBUtils extends CoreChildUtils {
         Cursor cursor = null;
         int month = 0;
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 month = cursor.getInt(0);
@@ -314,7 +361,7 @@ public class HnppDBUtils extends CoreChildUtils {
         Cursor cursor = null;
         String birthWeight="";
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 birthWeight = cursor.getString(0);
@@ -334,7 +381,7 @@ public class HnppDBUtils extends CoreChildUtils {
         Cursor cursor = null;
         String blockName="";
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 blockName = cursor.getString(0);
@@ -357,7 +404,7 @@ public class HnppDBUtils extends CoreChildUtils {
         Cursor cursor = null;
         String birthWeight="";
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 birthWeight = cursor.getString(0);
@@ -377,7 +424,7 @@ public class HnppDBUtils extends CoreChildUtils {
         Cursor cursor = null;
         String blockName="";
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 blockName = cursor.getString(0);
@@ -395,7 +442,7 @@ public class HnppDBUtils extends CoreChildUtils {
     }
     public static void updateCoronaFamilyMember(String base_entity_id, String value){
         try{
-            SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+            SQLiteDatabase database = HnppApplication.getInstance().getRepository().getWritableDatabase();
             String sql = "update ec_family_member set is_corona = '"+value+"' where " +
                     "base_entity_id = '"+base_entity_id+"' ;";
             database.execSQL(sql);
@@ -406,7 +453,7 @@ public class HnppDBUtils extends CoreChildUtils {
     }
     public static void updateIsRiskFamilyMember(String base_entity_id, String value, String eventType){
         try{
-            SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+            SQLiteDatabase database = HnppApplication.getInstance().getRepository().getWritableDatabase();
             String sql = "update ec_family_member set is_risk = '"+value+"', risk_event_type ='"+eventType+"' where " +
                     "base_entity_id = '"+base_entity_id+"' ;";
             database.execSQL(sql);
@@ -417,7 +464,7 @@ public class HnppDBUtils extends CoreChildUtils {
     }
     public static void updateIsRiskChild(String base_entity_id, String value){
         try{
-            SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+            SQLiteDatabase database = HnppApplication.getInstance().getRepository().getWritableDatabase();
             String sql = "update ec_child set is_risk = '"+value+"' where " +
                     "base_entity_id = '"+base_entity_id+"' ;";
             database.execSQL(sql);
@@ -471,7 +518,7 @@ public class HnppDBUtils extends CoreChildUtils {
         CommonRepository commonRepository = Utils.context().commonrepository("ec_guest_member");
         Cursor cursor = null;
         try {
-            //cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            //cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             cursor = commonRepository.rawCustomQueryForAdapter(query);
             if (cursor != null && cursor.moveToFirst()) {
                 CommonPersonObject personObject = commonRepository.readAllcommonforCursorAdapter(cursor);
@@ -497,7 +544,7 @@ public class HnppDBUtils extends CoreChildUtils {
         CommonRepository commonRepository = Utils.context().commonrepository("ec_family");
         Cursor cursor = null;
         try {
-            //cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            //cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             cursor = commonRepository.rawCustomQueryForAdapter(query);
             if (cursor != null && cursor.moveToFirst()) {
                 CommonPersonObject personObject = commonRepository.readAllcommonforCursorAdapter(cursor);
@@ -524,7 +571,7 @@ public class HnppDBUtils extends CoreChildUtils {
         Cursor cursor = null;
         String isCorona="";
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 isCorona = cursor.getString(0);
@@ -545,7 +592,7 @@ public class HnppDBUtils extends CoreChildUtils {
         Cursor cursor = null;
         String birthWeight="";
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 birthWeight = cursor.getString(0);
@@ -563,7 +610,7 @@ public class HnppDBUtils extends CoreChildUtils {
         Cursor cursor = null;
         int count=0;
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 count = cursor.getInt(0);
@@ -581,7 +628,7 @@ public class HnppDBUtils extends CoreChildUtils {
         Cursor cursor = null;
         int count=0;
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 count = cursor.getInt(0);
@@ -599,7 +646,7 @@ public class HnppDBUtils extends CoreChildUtils {
         Cursor cursor = null;
         int count=0;
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 count = cursor.getInt(0);
@@ -616,7 +663,7 @@ public class HnppDBUtils extends CoreChildUtils {
         Cursor cursor = null;
         int count=0;
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 count = cursor.getInt(0);
@@ -633,7 +680,7 @@ public class HnppDBUtils extends CoreChildUtils {
         Cursor cursor = null;
         int count=0;
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 count = cursor.getInt(0);
@@ -651,7 +698,7 @@ public class HnppDBUtils extends CoreChildUtils {
         Cursor cursor = null;
         IdentityModel identityModel = new IdentityModel();
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 identityModel.setBaseEntityId(cursor.getString(0));
@@ -677,7 +724,7 @@ public class HnppDBUtils extends CoreChildUtils {
         Cursor cursor = null;
         String birthWeight="";
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 birthWeight = cursor.getString(0);
@@ -703,7 +750,7 @@ public class HnppDBUtils extends CoreChildUtils {
                 "ec_child.physically_challenged," +
                 "ec_child.breast_feeded," +"ec_child.which_problem" +
                 " from ec_child where ec_child.mother_entity_id = '"+baseEntityId+"' AND ec_child.entry_point = 'PNC'";
-        Cursor cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        Cursor cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         HashMap<String,String> child_details = new HashMap<>();
         if(cursor !=null && cursor.getCount() > 0) {
             cursor.moveToFirst();
@@ -760,7 +807,7 @@ public class HnppDBUtils extends CoreChildUtils {
         String query = "select base_entity_id,gender,marital_status,first_name,dob from ec_family_member where relational_id = '"+familyId+"' and date_removed is null";
         Cursor cursor = null;
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() > 0){
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()) {
@@ -845,7 +892,7 @@ public class HnppDBUtils extends CoreChildUtils {
         Cursor cursor = null;
         String visitId="";
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() > 0){
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()) {
@@ -870,7 +917,7 @@ public class HnppDBUtils extends CoreChildUtils {
         Cursor cursor = null;
         String entityId="";
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() > 0){
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()) {
@@ -896,7 +943,7 @@ public class HnppDBUtils extends CoreChildUtils {
         Cursor cursor = null;
         String[] nameNumber = new String[3];
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             cursor.moveToFirst();
             nameNumber[0] = cursor.getString(0);
             nameNumber[1] = cursor.getString(1);
@@ -914,7 +961,7 @@ public class HnppDBUtils extends CoreChildUtils {
         Cursor cursor = null;
         String champType ="";
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             cursor.moveToFirst();
             champType = cursor.getString(0);
         } catch (Exception e) {
@@ -930,7 +977,7 @@ public class HnppDBUtils extends CoreChildUtils {
         Cursor cursor = null;
         ArrayList<String> womenList = new ArrayList<>();
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 String name = cursor.getString(0);
@@ -950,7 +997,7 @@ public class HnppDBUtils extends CoreChildUtils {
         Cursor cursor = null;
         ArrayList<String[]> memberList = new ArrayList<>();
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 String[] strs = new String[2];
@@ -972,7 +1019,7 @@ public class HnppDBUtils extends CoreChildUtils {
         Cursor cursor = null;
         ArrayList<String> womenList = new ArrayList<>();
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 String name = cursor.getString(0);
@@ -992,7 +1039,7 @@ public class HnppDBUtils extends CoreChildUtils {
         Cursor cursor = null;
         String motherName="";
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 motherName = cursor.getString(0);
@@ -1009,7 +1056,7 @@ public class HnppDBUtils extends CoreChildUtils {
         Cursor cursor = null;
         String motherName="";
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 motherName = cursor.getString(0);
@@ -1030,7 +1077,7 @@ public class HnppDBUtils extends CoreChildUtils {
         Cursor cursor = null;
         String motherName="";
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 motherName = cursor.getString(0);
@@ -1046,7 +1093,7 @@ public class HnppDBUtils extends CoreChildUtils {
         String query = "select first_name,unique_id,module_id,family_head,primary_caregiver from ec_family where base_entity_id = '"+familyBaseEntityId+"'";
         Cursor cursor = null;
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 HouseHoldInfo houseHoldInfo = new HouseHoldInfo();
@@ -1071,7 +1118,7 @@ public class HnppDBUtils extends CoreChildUtils {
         String query = "select module_id from ec_family where base_entity_id = '"+familyId+"'";
         Cursor cursor = null;
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 String name = cursor.getString(0);

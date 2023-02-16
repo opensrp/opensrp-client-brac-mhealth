@@ -9,13 +9,14 @@ import net.sqlcipher.SQLException;
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteException;
 
+import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.model.ReferralFollowUpModel;
 import org.smartregister.unicef.dghs.utils.ANCRegister;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.VisitLog;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.util.Constants;
-import org.smartregister.chw.core.application.CoreChwApplication;
+
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.repository.BaseRepository;
 import org.smartregister.repository.Repository;
@@ -41,7 +42,8 @@ public class HnppVisitLogRepository extends BaseRepository {
     public static final String BLOCK_NAME = "block_name";
 
     public static final String[] TABLE_COLUMNS = {VISIT_ID, VISIT_TYPE,FAMILY_ID, BASE_ENTITY_ID, VISIT_DATE,EVENT_TYPE,VISIT_JSON,PREGNANT_STATUS,BLOCK_NAME};
-    private static final String VISIT_LOG_SQL = "CREATE TABLE ec_visit_log (visit_id VARCHAR,visit_type VARCHAR,base_entity_id VARCHAR NOT NULL,family_id VARCHAR NOT NULL,visit_date VARCHAR,event_type VARCHAR,visit_json TEXT,pregnant_status VARCHAR,block_name VARCHAR)";
+    private static final String VISIT_LOG_SQL = "CREATE TABLE ec_visit_log (visit_id VARCHAR,visit_type VARCHAR,base_entity_id VARCHAR NOT NULL,refer_reason VARCHAR,refer_place VARCHAR" +
+            "family_id VARCHAR NOT NULL,visit_date VARCHAR,event_type VARCHAR,visit_json TEXT,pregnant_status VARCHAR,block_name VARCHAR)";
 
     public HnppVisitLogRepository(Repository repository) {
         super(repository);
@@ -280,7 +282,7 @@ public class HnppVisitLogRepository extends BaseRepository {
         //String query = "select "+BASE_ENTITY_ID+","+REFER_REASON+","+REFER_PLACE+" from "+ VISIT_LOG_TABLE_NAME +" where base_entity_id ='"+baseEntityId+"' and "+EVENT_TYPE+" = '"+HnppConstants.EVENT_TYPE.MEMBER_REFERRAL+"'";
         android.database.Cursor cursor = null;
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()) {
@@ -433,7 +435,7 @@ public class HnppVisitLogRepository extends BaseRepository {
         android.database.Cursor cursor = null;
         boolean isExist = false;
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()) {
@@ -485,7 +487,7 @@ public class HnppVisitLogRepository extends BaseRepository {
         String eventType="";
         android.database.Cursor cursor = null;
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()) {
@@ -510,7 +512,7 @@ public class HnppVisitLogRepository extends BaseRepository {
         String query = "select event_type from ec_visit_log where base_entity_id ='"+baseEntityId+"' and (strftime('%d',datetime(visit_date/1000,'unixepoch')) = strftime('%d',datetime('now')))";
         android.database.Cursor cursor = null;
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()) {

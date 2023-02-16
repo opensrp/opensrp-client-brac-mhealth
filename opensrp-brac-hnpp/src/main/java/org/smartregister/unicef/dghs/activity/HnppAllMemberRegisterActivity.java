@@ -5,8 +5,8 @@ import android.support.v4.app.Fragment;
 import org.smartregister.unicef.dghs.BuildConfig;
 import org.smartregister.unicef.dghs.fragment.HnppAllMemberRegisterFragment;
 import org.smartregister.unicef.dghs.listener.HnppFamilyBottomNavListener;
+import org.smartregister.unicef.dghs.nativation.view.NavigationMenu;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
-import org.smartregister.chw.core.custom_views.NavigationMenu;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 
