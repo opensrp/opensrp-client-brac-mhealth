@@ -53,10 +53,13 @@ public class MigrationActivity extends SecuredActivity implements View.OnClickLi
                 finish();
                 break;
             case R.id.migration_member_btn:
-                showDetailsDialog(HnppConstants.MIGRATION_TYPE.Member.name());
+                MigrationFilterSearchActivity.startMigrationFilterActivity(MigrationActivity.this,HnppConstants.MIGRATION_TYPE.Member.name());
+                //showDetailsDialog(HnppConstants.MIGRATION_TYPE.Member.name());
                 break;
             case R.id.migration_khana_btn:
-                showDetailsDialog(HnppConstants.MIGRATION_TYPE.HH.name());
+//                showDetailsDialog(HnppConstants.MIGRATION_TYPE.HH.name());
+                MigrationFilterSearchActivity.startMigrationFilterActivity(MigrationActivity.this,HnppConstants.MIGRATION_TYPE.HH.name());
+
                 break;
         }
     }

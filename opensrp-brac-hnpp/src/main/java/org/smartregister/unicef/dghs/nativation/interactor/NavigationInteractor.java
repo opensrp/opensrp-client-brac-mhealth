@@ -47,7 +47,7 @@ public class NavigationInteractor implements NavigationContract.Interactor {
         if (callback != null) {
             appExecutors.diskIO().execute(() -> {
                 try {
-                    final Integer finalCount = getCount(tableName);
+                    final Integer finalCount = 0;//getCount(tableName);
                     appExecutors.mainThread().execute(() -> callback.onResult(finalCount));
                 } catch (final Exception e) {
                     appExecutors.mainThread().execute(() -> callback.onError(e));

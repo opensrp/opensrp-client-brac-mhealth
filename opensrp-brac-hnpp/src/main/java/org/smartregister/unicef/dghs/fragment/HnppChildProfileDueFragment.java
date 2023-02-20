@@ -358,15 +358,15 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                 otherServiceView.addView(referelView);
             }
 
-            View referelView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due, null);
-            ImageView imageReferel = referelView.findViewById(R.id.image_view);
-            TextView nameReferel = referelView.findViewById(R.id.patient_name_age);
-            referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-            imageReferel.setImageResource(R.drawable.ic_icon_growth_chart);
-            nameReferel.setText("গ্রোথ মনিটরিং");
-            referelView.setTag(TAG_OPEN_GMP);
-            referelView.setOnClickListener(this);
-            otherServiceView.addView(referelView);
+//            View referelView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due, null);
+//            ImageView imageReferel = referelView.findViewById(R.id.image_view);
+//            TextView nameReferel = referelView.findViewById(R.id.patient_name_age);
+//            referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+//            imageReferel.setImageResource(R.drawable.ic_icon_growth_chart);
+//            nameReferel.setText("গ্রোথ মনিটরিং");
+//            referelView.setTag(TAG_OPEN_GMP);
+//            referelView.setOnClickListener(this);
+//            otherServiceView.addView(referelView);
 
     }
 

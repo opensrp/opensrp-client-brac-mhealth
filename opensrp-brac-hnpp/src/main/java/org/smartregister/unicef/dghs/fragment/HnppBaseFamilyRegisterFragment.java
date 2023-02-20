@@ -1,6 +1,8 @@
 package org.smartregister.unicef.dghs.fragment;
 
 import android.annotation.SuppressLint;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -8,7 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+import android.database.Cursor;
+import android.os.Bundle;
 import org.apache.commons.lang3.StringUtils;
 import org.smartregister.chw.core.model.FamilyRegisterFramentModel;
 import org.smartregister.family.fragment.BaseFamilyRegisterFragment;
@@ -77,10 +80,14 @@ public class HnppBaseFamilyRegisterFragment extends BaseFamilyRegisterFragment i
         filterTextView.setText(getString(R.string.filter));
         View searchBarLayout = view.findViewById(org.smartregister.family.R.id.search_bar_layout);
         searchBarLayout.setBackgroundResource(org.smartregister.family.R.color.customAppThemeBlue);
-        if (getSearchView() != null) {
-            getSearchView().setBackgroundResource(org.smartregister.family.R.color.white);
-            getSearchView().setCompoundDrawablesWithIntrinsicBounds(org.smartregister.family.R.drawable.ic_action_search, 0, 0, 0);
-        }
+//        if (getSearchView() != null) {
+//            getSearchView().setBackgroundResource(org.smartregister.family.R.color.white);
+//            getSearchView().setCompoundDrawablesWithIntrinsicBounds(org.smartregister.family.R.drawable.ic_action_search, 0, 0, 0);
+//        }
+
+        searchBarLayout.setBackgroundResource(R.color.primary);
+        searchBarLayout.setPadding(searchBarLayout.getPaddingLeft(), searchBarLayout.getPaddingTop(), searchBarLayout.getPaddingRight(), (int) org.smartregister.chw.core.utils.Utils.convertDpToPixel(10, getActivity()));
+
         view.findViewById(org.smartregister.chw.core.R.id.due_only_layout).setVisibility(View.GONE);
         filterTextView.setOnClickListener(registerActionHandler);
         clients_header_layout = view.findViewById(org.smartregister.chw.core.R.id.clients_header_layout);
@@ -192,40 +199,72 @@ public class HnppBaseFamilyRegisterFragment extends BaseFamilyRegisterFragment i
 
     @Override
     public void countExecute() {
-//        SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(mainSelect);
-//        StringBuilder customFilter = new StringBuilder();
-//        if (StringUtils.isNotBlank(searchFilterString)) {
-//            customFilter.append(MessageFormat.format(" and ( {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.FIRST_NAME, searchFilterString));
-//            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.SERIAL_NO, searchFilterString));
-//            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY, DBConstants.KEY.PHONE_NUMBER, searchFilterString));
-//            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.UNIQUE_ID, searchFilterString));
-//
-//        }
-//        if(!StringUtils.isEmpty(mSelectedClasterName)&&!StringUtils.isEmpty(mSelectedVillageName)){
-//            customFilter.append(MessageFormat.format(" and ( {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.VILLAGE_NAME, mSelectedVillageName));
-//            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ) ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
-//
-//        }else if(!StringUtils.isEmpty(mSelectedClasterName)){
-//            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
-//
-//        }else if(!StringUtils.isEmpty(mSelectedVillageName)){
-//            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.VILLAGE_NAME, mSelectedVillageName));
-//        }
-//        String query = "";
-//        try {
-//            String sql = "";
-//            sql = mainSelect;
-//            if (StringUtils.isNotBlank(customFilter)) {
-//                sql = sql + customFilter;
-//            }
-//            List<String> ids = commonRepository().findSearchIds(sql);
-//            clientAdapter.setTotalcount(ids.size());
-//
-//        } catch (Exception e) {
-//            Timber.e(e);
-//        }
-    }
+        SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(mainSelect);
+        StringBuilder customFilter = new StringBuilder();
+        if (StringUtils.isNotBlank(searchFilterString)) {
+            customFilter.append(MessageFormat.format(" and ( {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.FIRST_NAME, searchFilterString));
+            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.SERIAL_NO, searchFilterString));
+            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.FAMILY, DBConstants.KEY.PHONE_NUMBER, searchFilterString));
+            customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.FAMILY, org.smartregister.chw.anc.util.DBConstants.KEY.UNIQUE_ID, searchFilterString));
 
+        }
+        if(!StringUtils.isEmpty(mSelectedClasterName)&&!StringUtils.isEmpty(mSelectedVillageName)){
+            customFilter.append(MessageFormat.format(" and ( {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.VILLAGE_NAME, mSelectedVillageName));
+            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ) ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
+
+        }else if(!StringUtils.isEmpty(mSelectedClasterName)){
+            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
+
+        }else if(!StringUtils.isEmpty(mSelectedVillageName)){
+            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.VILLAGE_NAME, mSelectedVillageName));
+        }
+        String query = "";
+        try {
+            String sql = "";
+            sql = mainSelect;
+            if (StringUtils.isNotBlank(customFilter)) {
+                sql = sql + customFilter;
+            }
+            List<String> ids = commonRepository().findSearchIds(sql);
+            clientAdapter.setTotalcount(ids.size());
+
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+    }
+        @SuppressLint("StaticFieldLeak")
+        @Override
+    public Loader<Cursor> onCreateLoader(int id, final Bundle args) {
+        if (id == LOADER_ID) {
+            return new CursorLoader(getActivity()) {
+                @Override
+                public Cursor loadInBackground() {
+                    // Count query
+                    final String COUNT = "count_execute";
+                    if (args != null && args.getBoolean(COUNT)) {
+                        countExecute();
+                    }
+                    String query =  defaultFilterAndSortQuery();
+
+                    Cursor cursor = commonRepository().rawCustomQueryForAdapter(query);
+                    if(cursor!=null){
+
+                        if(clientAdapter!=null) setTotalCount(query);
+                    }
+                    return cursor;
+                }
+            };
+        }
+        return super.onCreateLoader(id, args);
+    }
+        private void setTotalCount(String query){
+        query = query.substring(0,query.indexOf("LIMIT"));
+        Cursor cursor = commonRepository().rawCustomQueryForAdapter(query+";");
+        if(cursor!=null){
+            clientAdapter.setTotalcount(cursor.getCount());
+            cursor.close();
+        }
+    }
     protected String defaultFilterAndSortQuery() {
         Sortqueries = getDefaultSortQuery();
         SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(mainSelect);

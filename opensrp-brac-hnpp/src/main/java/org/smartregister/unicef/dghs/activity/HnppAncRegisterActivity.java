@@ -25,6 +25,7 @@ import org.smartregister.unicef.dghs.fragment.HnppAncRegisterFragment;
 import org.smartregister.unicef.dghs.listener.HnppFamilyBottomNavListener;
 import org.smartregister.unicef.dghs.location.GeoLocationHelper;
 import org.smartregister.unicef.dghs.location.SSModel;
+import org.smartregister.unicef.dghs.nativation.view.NavigationMenu;
 import org.smartregister.unicef.dghs.repository.HnppVisitLogRepository;
 import org.smartregister.unicef.dghs.sync.FormParser;
 import org.smartregister.unicef.dghs.utils.ANCRegister;
@@ -104,8 +105,28 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
         intent.putExtra(Constants.ACTIVITY_PAYLOAD.TABLE_NAME, getFormTable());
         activity.startActivityForResult(intent, Constants.REQUEST_CODE_GET_JSON);
     }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        NavigationMenu.getInstance(this, null, null);
+    }
+
+    @Override
+    public String getRegistrationForm() {
+        return form_name;
+    }
+
+    @Override
+    protected void onResumption() {
+        super.onResumption();
+        NavigationMenu menu = NavigationMenu.getInstance(this, null, null);
+        if (menu != null) {
+            menu.getNavigationAdapter()
+                    .setSelectedView(CoreConstants.DrawerMenu.ANC);
+        }
+    }
     public static String getFormTable() {
-        if (form_name != null && form_name.equals(CoreConstants.JSON_FORM.getAncRegistration())) {
+        if (form_name != null && form_name.equals(HnppConstants.JSON_FORMS.ANC_FORM)) {
             return CoreConstants.TABLE_NAME.ANC_MEMBER;
         }
         return CoreConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME;
@@ -323,7 +344,7 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
                                 if(!familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){
                                     HnppPncRegisterActivity.startHnppPncRegisterActivity(HnppAncRegisterActivity.this, baseEntityId);
                                 }
-                            }else if(eventType.equalsIgnoreCase(Constants.EVENT_TYPE.ANC_REGISTRATION)){
+                            }else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_REGISTRATION)){
                                 // HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
                                 HnppConstants.isViewRefresh = true;
                                 refreshList(FetchStatus.fetched);
@@ -419,7 +440,7 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
 
 
             }
-            else if (encounter_type.equalsIgnoreCase(Constants.EVENT_TYPE.ANC_REGISTRATION)) {
+            else if (encounter_type.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_REGISTRATION)) {
                 try{
                     saveRegistration(form.toString(), HnppConstants.TABLE_NAME.ANC_MEMBER);
                 }catch (Exception e){
@@ -504,9 +525,16 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
     }
     @Override
     public void onRegistrationSaved(boolean isEdit) {
-
+        finish();
+        startRegisterActivity(HnppAncRegisterActivity.class);
     }
-
+    private void startRegisterActivity(Class registerClass) {
+        Intent intent = new Intent(this, registerClass);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        this.startActivity(intent);
+        this.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+        this.finish();
+    }
     public static void updateUniqueId(JSONArray fields){
         boolean has_delivery_date = false;
         for(int i=0;i<fields.length();i++){
@@ -538,5 +566,48 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
                 }
             }
         }
+    }
+   public static String getPhoneNumber() {
+        return phone_number;
+    }
+
+    public static void setPhoneNumber(String phNo) {
+        phone_number = phNo;
+    }
+
+    public static String getFormName() {
+        return form_name;
+    }
+
+    public static void setFormName(String formName) {
+        form_name = formName;
+    }
+
+    public static String getUniqueId() {
+        return unique_id;
+    }
+
+    public static void setUniqueId(String uniqueId) {
+        unique_id = uniqueId;
+    }
+
+    public static String getFamilyBaseEntityId() {
+        return familyBaseEntityId;
+    }
+
+    public static void setFamilyBaseEntityId(String baseEntityId) {
+        familyBaseEntityId = baseEntityId;
+    }
+
+    public static String getFamilyName() {
+        return familyName;
+    }
+
+    public static void setFamilyName(String name) {
+       familyName = name;
+    }
+    @Override
+    public String getFormRegistrationEvent() {
+        return HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
     }
 }

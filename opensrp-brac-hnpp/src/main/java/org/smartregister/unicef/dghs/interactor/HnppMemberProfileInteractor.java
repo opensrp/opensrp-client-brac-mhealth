@@ -14,6 +14,7 @@ import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.activity.HnppFamilyOtherMemberProfileActivity;
 import org.smartregister.unicef.dghs.contract.HnppMemberProfileContract;
 import org.smartregister.unicef.dghs.contract.OtherServiceContract;
+import org.smartregister.unicef.dghs.fragment.HnppMemberProfileDueFragment;
 import org.smartregister.unicef.dghs.model.ReferralFollowUpModel;
 import org.smartregister.unicef.dghs.utils.FormApplicability;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
@@ -31,7 +32,6 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
     public static final int TAG_OPEN_FAMILY = 111;
     public static final int TAG_OPEN_REFEREAL = 222;
     private static final int TAG_OPEN_CORONA = 88888;
-    private static final int TAG_OPEN_ANC_REGISTRATION= 555;
 
     private AppExecutors appExecutors;
 
@@ -41,7 +41,7 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
     String eventType = "";
     private ArrayList<MemberProfileDueData> getOtherService(CommonPersonObjectClient commonPersonObjectClient,String baseEntityId) {
         ArrayList<MemberProfileDueData> memberProfileDueDataArrayList = new ArrayList<>();
-        try{
+        //try{
             String gender = org.smartregister.util.Utils.getValue(commonPersonObjectClient.getColumnmaps(), "gender", false);
             String maritalStatus  = org.smartregister.util.Utils.getValue(commonPersonObjectClient.getColumnmaps(), "marital_status", false);
             if(gender.equalsIgnoreCase("F") && maritalStatus.equalsIgnoreCase("Married")){
@@ -49,18 +49,28 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                 memberProfileDueData.setType(TAG_OPEN_ANC1);
                 //if women
                 eventType = FormApplicability.getDueFormForMarriedWomen(baseEntityId,FormApplicability.getAge(commonPersonObjectClient));
-                if(FormApplicability.isDueAnyForm(baseEntityId,eventType) && !TextUtils.isEmpty(eventType)){
+                if(!eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ELCO) && FormApplicability.isDueAnyForm(baseEntityId,eventType) && !TextUtils.isEmpty(eventType)){
                     memberProfileDueData.setTitle(HnppConstants.visitEventTypeMapping.get(eventType));
                     memberProfileDueData.setImageSource(HnppConstants.iconMapping.get(eventType));
                     memberProfileDueData.setEventType(eventType);
                     memberProfileDueDataArrayList.add(memberProfileDueData);
                 }
 
-                if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ELCO) && FormApplicability.isPregnant(baseEntityId)){
+                if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ELCO)// && FormApplicability.isPregnant(baseEntityId)
+                ){
                     MemberProfileDueData memberProfileDueData2 = new MemberProfileDueData();
                     memberProfileDueData2.setImageSource(R.drawable.childrow_family);
-                    memberProfileDueData2.setType(TAG_OPEN_ANC_REGISTRATION);
-                    memberProfileDueData2.setTitle("গর্ভবতী রেজিস্ট্রেশন");
+                    memberProfileDueData2.setType(HnppMemberProfileDueFragment.TAG_OPEN_ANC_REGISTRATION);
+                    memberProfileDueData2.setImageSource(HnppConstants.iconMapping.get(HnppConstants.EVENT_TYPE.ANC_REGISTRATION));
+                    memberProfileDueData2.setTitle(HnppConstants.visitEventTypeMapping.get(HnppConstants.EVENT_TYPE.ANC_REGISTRATION));
+                    memberProfileDueDataArrayList.add(memberProfileDueData2);
+                }
+                if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)
+                        || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
+                    MemberProfileDueData memberProfileDueData2 = new MemberProfileDueData();
+                    memberProfileDueData2.setImageSource(HnppConstants.iconMapping.get(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME));
+                    memberProfileDueData2.setType(HnppMemberProfileDueFragment.TAG_OPEN_DELIVERY);
+                    memberProfileDueData2.setTitle(HnppConstants.visitEventTypeMapping.get(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME));
                     memberProfileDueDataArrayList.add(memberProfileDueData2);
                 }
             }
@@ -100,9 +110,10 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                 memberProfileDueData.setType(TAG_OPEN_CORONA);
                 memberProfileDueDataArrayList.add(memberProfileDueData);
             }
-        }catch (Exception e){
-
-        }
+//        }catch (Exception e){
+//            e.printStackTrace();
+//
+//        }
 
         return memberProfileDueDataArrayList;
     }

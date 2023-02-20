@@ -253,7 +253,7 @@
     <string name="set">জমা দিন</string>
     <string name="undo_record_vaccination">আপনি কি আনডু করতে চান</string>
     <string name="change_service_date">তারিখ পরিবর্তন করুন</string>
-    <string name="birth">জন্ম</string>
+<!--    <string name="birth">জন্ম</string>-->
     <string name="yes_undo_vaccination">হ্যাঁ ভ্যাকসিন আনডু করতে চাই</string>
     <string name="no_go_back">না, ফিরে যাও</string>
     <string name="service">সার্ভিস</string>
@@ -290,30 +290,42 @@
     <string name="make_active">Make Active</string>
 
     <!-- Immunization Names-->
-    <string name="fifteen_yrs">After 15 years</string>
-    <string name="four_wks">4 Weeks after TD 1</string>
-    <string name="ten_wks">26 Weeks after TD 2</string>
-    <string name="fourteen_weeks">1 year after TD 3</string>
-    <string name="nine_months">1 year after TD 4</string>
+    <string name="_15_yrs">১৫ বছর পর</string>
+    <string name="_4_wks">টিডি ১ দেয়ার ৪ সপ্তাহ পর</string>
+    <string name="_10_wks">টিডি ২ দেয়ার ২৬ সপ্তাহ পর</string>
+    <string name="_14_wks">টিডি ৩ দেয়ার ১ বছর পর</string>
+    <string name="_9_mnths">টিডি ৪ দেয়ার ১ বছর পর</string>
+    <string name="td_1">টিডি ১</string>
+    <string name="td_2">টিডি ২</string>
+    <string name="td_3">টিডি ৩</string>
+    <string name="td_4">টিডি ৪</string>
+    <string name="td_5">টিডি ৫</string>
+    <string name="tt_1">টিডি ১</string>
+    <string name="tt_2">টিডি ২</string>
+    <string name="tt_3">টিডি ৩</string>
+    <string name="tt_4">টিডি ৪</string>
+    <string name="tt_5">টিডি ৫</string>
     <string name="bcg">বিসিজি</string>
     <string name="hepb">HepB</string>
     <string name="opv_0">পোলিও-0</string>
     <string name="opv_1">পোলিও-১</string>
     <string name="pcv_1">পিসিভি-১</string>
     <string name="penta_1">পেন্টা-১</string>
-    <string name="rota_1">রোটা 1</string>
+    <string name="rota_1">রোটা ১</string>
     <string name="opv_2">পোলিও-২</string>
     <string name="pcv_2">পিসিভি-২</string>
     <string name="penta_2">পেন্টা-২</string>
-    <string name="rota_2">রোটা 2</string>
+    <string name="rota_2">রোটা ২</string>
     <string name="opv_3">পোলিও-৩</string>
     <string name="ipv">আই পি ভি</string>
     <string name="pcv_3">পিসিভি-৩</string>
     <string name="penta_3">পেন্টা-৩</string>
+    <string name="fipv_1">এফইপিভি-১</string>
+    <string name="fipv_2">এফইপিভি-২</string>
     <string name="meningococcal">Meningococcal</string>
     <string name="yellow_fever">Yellow Fever</string>
-    <string name="mr_1">MR 1</string>
-    <string name="mr_2">MR 2</string>
+    <string name="mr_1">এম আর ১</string>
+    <string name="mr_2">এম আর ২</string>
     <string name="vit_a_1">Vit A 6 Months</string>
     <string name="vit_a_2">Vit A 12 Months</string>
 
@@ -326,6 +338,13 @@
     <string name="_9_months">৯ মাস</string>
     <string name="_18_months">১৮ মাস</string>
 
+    <string name="birth">জন্মের সময়</string>
+    <string name="six_wks">৬ সপ্তাহ</string>
+    <string name="ten_wks">১০ সপ্তাহ</string>
+    <string name="fourteen_weeks">১৪ সপ্তাহ</string>
+    <string name="eighteen_weeks">১৮ সপ্তাহ</string>
+    <string name="nine_months">৯ মাস</string>
+    <string name="eighteen_months">১৮ মাস</string>
     <string name="expired">মেয়াদোত্তীর্ণ</string>
     <string name="expired_colon">মেয়াদোত্তীর্ণ: %1$s</string>
 

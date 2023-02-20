@@ -63,8 +63,8 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
     private static final int TAG_OPEN_FAMILY = 111;
     private static final int TAG_OPEN_REFEREAL = 222;
     private static final int TAG_OPEN_CORONA = 88888;
-    private static final int TAG_OPEN_ANC_REGISTRATION= 555;
-
+    public static final int TAG_OPEN_ANC_REGISTRATION= 555;
+    public static final int TAG_OPEN_DELIVERY = 6666;
     private String baseEntityId;
     private LinearLayout otherServiceView;
     private ProgressBar loadingProgressBar;
@@ -298,6 +298,12 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
                         activity.openRefereal();
                     }
                     break;
+                case TAG_OPEN_DELIVERY:
+                    if (mActivity != null && mActivity instanceof HnppFamilyOtherMemberProfileActivity) {
+                        HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) mActivity;
+                        activity.startMalariaRegister();
+                    }
+                    break;
                 case TAG_OPEN_ANC1:
                     if (mActivity != null && mActivity instanceof HnppFamilyOtherMemberProfileActivity) {
                         HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) mActivity;
@@ -366,6 +372,12 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
                         }else {
                             activity.openHomeVisitSingleForm(eventTypeFormNameMapping.get(eventType));
                         }
+                    }
+                    break;
+                case TAG_OPEN_DELIVERY:
+                    if (mActivity != null && mActivity instanceof HnppFamilyOtherMemberProfileActivity) {
+                        HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) mActivity;
+                        activity.startMalariaRegister();
                     }
                     break;
             }

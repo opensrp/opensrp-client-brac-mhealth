@@ -378,7 +378,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
         }
 
     }
-    MemberOtherServiceFragment memberOtherServiceFragment;
+//    MemberOtherServiceFragment memberOtherServiceFragment;
     MemberHistoryFragment memberHistoryFragment;
     HnppMemberProfileDueFragment profileMemberFragment;
     WomanImmunizationFragment womanImmunizationFragment;
@@ -402,19 +402,19 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
             adapter.addFragment(profileMemberFragment, this.getString(R.string.due).toUpperCase());
         }
 
-        memberOtherServiceFragment = new MemberOtherServiceFragment();
+//        memberOtherServiceFragment = new MemberOtherServiceFragment();
         memberHistoryFragment = MemberHistoryFragment.getInstance(this.getIntent().getExtras());
-        memberOtherServiceFragment.setCommonPersonObjectClient(commonPersonObject);
+//        memberOtherServiceFragment.setCommonPersonObjectClient(commonPersonObject);
         womanImmunizationFragment = WomanImmunizationFragment.newInstance(this.getIntent().getExtras());
         womanImmunizationFragment.setChildDetails(commonPersonObject);
-        adapter.addFragment(memberOtherServiceFragment, this.getString(R.string.other_service).toUpperCase());
+//        adapter.addFragment(memberOtherServiceFragment, this.getString(R.string.other_service).toUpperCase());
 
         if(FormApplicability.isWomenImmunizationApplicable(commonPersonObject)){
             adapter.addFragment(womanImmunizationFragment, this.getString(R.string.immunization).toUpperCase());
             if(!HnppConstants.isPALogin()){
-                viewPager.setOffscreenPageLimit(4);
-            }else{
                 viewPager.setOffscreenPageLimit(3);
+            }else{
+                viewPager.setOffscreenPageLimit(2);
             }
         }else{
             if(!HnppConstants.isPALogin()){
@@ -681,14 +681,14 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
                                     if(profileMemberFragment !=null){
                                         profileMemberFragment.updateStaticView();
                                     }
-                                    if(memberOtherServiceFragment !=null){
-                                        memberOtherServiceFragment.updateStaticView();
-                                    }
+//                                    if(memberOtherServiceFragment !=null){
+//                                        memberOtherServiceFragment.updateStaticView();
+//                                    }
                                     mViewPager.setCurrentItem(2,true);
                                 }else{
-                                    if(memberOtherServiceFragment !=null){
-                                        memberOtherServiceFragment.updateStaticView();
-                                    }
+//                                    if(memberOtherServiceFragment !=null){
+//                                        memberOtherServiceFragment.updateStaticView();
+//                                    }
                                     mViewPager.setCurrentItem(1,true);
 
                                 }

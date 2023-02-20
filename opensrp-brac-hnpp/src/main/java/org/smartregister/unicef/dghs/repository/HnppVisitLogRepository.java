@@ -43,7 +43,7 @@ public class HnppVisitLogRepository extends BaseRepository {
 
     public static final String[] TABLE_COLUMNS = {VISIT_ID, VISIT_TYPE,FAMILY_ID, BASE_ENTITY_ID, VISIT_DATE,EVENT_TYPE,VISIT_JSON,PREGNANT_STATUS,BLOCK_NAME};
     private static final String VISIT_LOG_SQL = "CREATE TABLE ec_visit_log (visit_id VARCHAR,visit_type VARCHAR,base_entity_id VARCHAR NOT NULL,refer_reason VARCHAR,refer_place VARCHAR" +
-            "family_id VARCHAR NOT NULL,visit_date VARCHAR,event_type VARCHAR,visit_json TEXT,pregnant_status VARCHAR,block_name VARCHAR)";
+            ",family_id VARCHAR NOT NULL,visit_date VARCHAR,event_type VARCHAR,visit_json TEXT,pregnant_status VARCHAR,block_name VARCHAR)";
 
     public HnppVisitLogRepository(Repository repository) {
         super(repository);
@@ -412,7 +412,7 @@ public class HnppVisitLogRepository extends BaseRepository {
     }
     public boolean isPregnantFromElco(String baseEntityId){
         SQLiteDatabase database = getReadableDatabase();
-        String selection = BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE+" and "+EVENT_TYPE+" = ?"+COLLATE_NOCASE;
+        String selection = BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE+" and "+EVENT_TYPE+" = ? or event_type is null"+COLLATE_NOCASE;
         String[] selectionArgs = new String[]{baseEntityId, HnppConstants.EVENT_TYPE.ELCO};
         net.sqlcipher.Cursor cursor = database.query(VISIT_LOG_TABLE_NAME, TABLE_COLUMNS, selection, selectionArgs, null, null, VISIT_DATE + " DESC",1+"");
         ArrayList<VisitLog> visits = getAllVisitLog(cursor);

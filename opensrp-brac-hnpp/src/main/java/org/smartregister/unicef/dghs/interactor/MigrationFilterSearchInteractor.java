@@ -16,6 +16,7 @@ import org.smartregister.family.util.AppExecutors;
 import org.smartregister.service.HTTPAgent;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MigrationFilterSearchInteractor implements MigrationContract.Interactor {
     private AppExecutors appExecutors;
@@ -40,7 +41,7 @@ public class MigrationFilterSearchInteractor implements MigrationContract.Intera
         districtArrayList.clear();
         JSONArray jsonArray = getDistrictList();
 
-        for (int i = 0; i < jsonArray.length(); i++) {
+        for (int i = 0; i < Objects.requireNonNull(jsonArray).length(); i++) {
             try {
                 JSONObject object = jsonArray.getJSONObject(i);
                 BaseLocation district = new Gson().fromJson(object.toString(), BaseLocation.class);

@@ -85,6 +85,8 @@ public class WomanImmunizationFragment extends BaseProfileFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        List<org.smartregister.immunization.domain.jsonmapping.VaccineGroup> womanVaccines = VaccinatorUtils.getSupportedWomanVaccines(mActivity);
+        VaccineSchedule.init(womanVaccines, null, "woman");
     }
 
     @Override

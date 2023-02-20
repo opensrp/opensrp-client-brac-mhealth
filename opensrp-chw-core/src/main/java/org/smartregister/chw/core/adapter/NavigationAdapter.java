@@ -64,7 +64,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.My
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         NavigationOption model = navigationOptionList.get(position);
         holder.tvName.setText(context.getResources().getText(model.getTitleID()));
-        if(model.getRegisterCount()>=0){
+        if(model.getRegisterCount()>0){
             holder.tvCount.setVisibility(View.VISIBLE);
         }else{
             holder.tvCount.setVisibility(View.INVISIBLE);
@@ -86,6 +86,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.My
         }
         if(model.isNeedToExpand()){
             holder.expandIcon.setVisibility(View.VISIBLE);
+            holder.sTvCount.setVisibility(View.GONE);
             holder.sTvName.setText(model.getNavigationSubModel().getSubTitle());
             holder.sTvCount.setText(model.getNavigationSubModel().getSubCount()+"");
             boolean expanded = model.isExpanded();

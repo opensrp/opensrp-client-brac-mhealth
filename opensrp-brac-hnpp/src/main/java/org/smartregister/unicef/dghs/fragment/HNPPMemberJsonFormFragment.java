@@ -170,7 +170,7 @@ public class HNPPMemberJsonFormFragment extends JsonWizardFormFragment {
 
                     if(position == 0){
                         phone_number_view.setText(phone_no);
-                        phone_number_view.setEnabled(false);
+                        if(!phone_no.isEmpty())phone_number_view.setEnabled(false);
                     }else{
                         phone_number_view.setEnabled(true);
                     }

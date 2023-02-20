@@ -275,7 +275,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         }
 
     }
-    MemberOtherServiceFragment memberOtherServiceFragment;
+//    MemberOtherServiceFragment memberOtherServiceFragment;
     ChildHistoryFragment memberHistoryFragment;
     HnppChildProfileDueFragment profileMemberFragment;
     ChildImmunizationFragment childImmunizationFragment;
@@ -294,22 +294,22 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
             adapter.addFragment(profileMemberFragment, this.getString(R.string.due).toUpperCase());
         }
 
-            memberOtherServiceFragment = new MemberOtherServiceFragment();
+//            memberOtherServiceFragment = new MemberOtherServiceFragment();
             memberHistoryFragment = ChildHistoryFragment.getInstance(this.getIntent().getExtras());
             memberHistoryFragment.setBaseEntityId(childBaseEntityId);
-            memberOtherServiceFragment.setCommonPersonObjectClient(commonPersonObject);
+//            memberOtherServiceFragment.setCommonPersonObjectClient(commonPersonObject);
             childImmunizationFragment = ChildImmunizationFragment.newInstance(this.getIntent().getExtras());
             childImmunizationFragment.setChildDetails(commonPersonObject);
             growthFragment = GMPFragment.newInstance(this.getIntent().getExtras());
             growthFragment.setChildDetails(commonPersonObject);
             adapter.addFragment(childImmunizationFragment, this.getString(R.string.immunization).toUpperCase());
             adapter.addFragment(growthFragment, this.getString(R.string.gmp).toUpperCase());
-            adapter.addFragment(memberOtherServiceFragment, this.getString(R.string.other_service).toUpperCase());
+//            adapter.addFragment(memberOtherServiceFragment, this.getString(R.string.other_service).toUpperCase());
             adapter.addFragment(memberHistoryFragment, this.getString(R.string.activity).toUpperCase());
             if(HnppConstants.isPALogin()){
                 viewPager.setOffscreenPageLimit(2);
             }else{
-                viewPager.setOffscreenPageLimit(4);
+                viewPager.setOffscreenPageLimit(3);
             }
 
 
@@ -796,10 +796,10 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                             public void run() {
                                 hideProgressDialog();
                                 mViewPager.setCurrentItem(2,true);
-                                if(memberOtherServiceFragment !=null){
-                                    memberOtherServiceFragment.setCommonPersonObjectClient(commonPersonObject);
-                                    memberOtherServiceFragment.updateStaticView();
-                                }
+//                                if(memberOtherServiceFragment !=null){
+//                                    memberOtherServiceFragment.setCommonPersonObjectClient(commonPersonObject);
+//                                    memberOtherServiceFragment.updateStaticView();
+//                                }
 
                             }
                         },1000);
