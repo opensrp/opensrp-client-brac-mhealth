@@ -7,7 +7,9 @@ import android.text.TextUtils;
 import android.view.View;
 
 import org.apache.commons.lang3.text.WordUtils;
+import org.smartregister.growthmonitoring.domain.ZScore;
 import org.smartregister.unicef.dghs.R;
+import org.smartregister.unicef.dghs.utils.GrowthUtil;
 import org.smartregister.unicef.dghs.utils.HnppDBUtils;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.chw.core.holders.RegisterViewHolder;
@@ -17,6 +19,8 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.Utils;
+import org.smartregister.util.OpenSRPImageLoader;
+import org.smartregister.view.activity.DrishtiApplication;
 import org.smartregister.view.contract.SmartRegisterClient;
 
 import java.util.Set;
@@ -63,35 +67,40 @@ public class HnppChildRegisterProvider extends CoreChildRegisterProvider {
         String lastName = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.LAST_NAME, true);
         String childName = org.smartregister.util.Utils.getName(firstName, middleName + " " + lastName);
         String houseHoldHead = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.HOUSE_HOLD_NAME, true);
-
-        if(TextUtils.isEmpty(motherName)){
-            viewHolder.textViewChildName.setText(context.getString(R.string.house_hold_head_name,houseHoldHead));
-
-        }else{
-            fillValue(viewHolder.textViewChildName, WordUtils.capitalize(parentName));
-        }
-
         String dobString = Utils.getDuration(Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.DOB, false));
-        //dobString = dobString.contains("y") ? dobString.substring(0, dobString.indexOf("y")) : dobString;
-        fillValue(viewHolder.textViewParentName, WordUtils.capitalize(childName) + " " + context.getResources().getString(org.smartregister.chw.core.R.string.age, WordUtils.capitalize(Utils.getTranslatedDate(dobString, context))));
-        String serialNo = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.SERIAL_NO, true);
-//        if(!TextUtils.isEmpty(serialNo) && serialNo.length() > 2){
-//            serialNo = serialNo.substring(0,1)+"-"+serialNo.substring(1);
-//        }else
-        if(serialNo.isEmpty() || serialNo.equalsIgnoreCase("H")){
-            serialNo="";
-        }
-        if(!TextUtils.isEmpty(serialNo)){
-            viewHolder.textViewParentName.setText(viewHolder.textViewParentName.getText()+", "+context.getString(R.string.serial_no,serialNo));
+        viewHolder.textViewChildName.setText(context.getResources().getString(org.smartregister.chw.core.R.string.age, WordUtils.capitalize(Utils.getTranslatedDate(dobString, context))));
 
+        String muacStatus = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.MUAC_STATUS, true);
+        String heightStatus = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.HEIGHT_STATUS, true);
+        String weightStatus = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.WEIGHT_STATUS, true);
+        viewHolder.childStatusImage.setColorFilter(ContextCompat.getColor(context,getChildStatusColor(getChildStatus(muacStatus,weightStatus,heightStatus))));
+
+        fillValue(viewHolder.textViewParentName, WordUtils.capitalize(childName));
+
+        String weightValue = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.CHILD_WEIGHT, true);
+        String heightValue = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.CHILD_HEIGHT, true);
+        String vaccineName = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.LAST_VACCINE_NAME, true);
+        String vaccineDate = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.LAST_VACCINE_DATE, true);
+        StringBuilder builder = new StringBuilder();
+        if(!TextUtils.isEmpty(weightValue)){
+            builder.append("W:"+weightValue+" kg ");
+            builder.append("\n");
         }
-//        String ssName = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.BLOCK_NAME, true);
-//        if(!TextUtils.isEmpty(ssName)){
-//            viewHolder.textViewChildName.setText(viewHolder.textViewChildName.getText()+", "+context.getString(R.string.ss_name,ssName));
-//
-//        }
+        if(!TextUtils.isEmpty(heightValue)){
+            builder.append("H:"+heightValue+" cm");
+        }
+        viewHolder.textViewWeight.setText(builder.toString());
+        StringBuilder builder2 = new StringBuilder();
+        if(!TextUtils.isEmpty(vaccineName)){
+            builder2.append(vaccineName);
+        }
+        if(!TextUtils.isEmpty(vaccineDate)){
+            builder2.append(context.getString(R.string.given_at)+vaccineDate);
+        }
+        viewHolder.textViewLastVaccine.setText(builder2.toString());
         viewHolder.profileImage.setVisibility(View.VISIBLE);
         viewHolder.profileImage.setImageResource(org.smartregister.family.R.mipmap.ic_child);
+
         viewHolder.textViewAddressGender.setTextColor(ContextCompat.getColor(context, android.R.color.black));
 
         setAddressAndGender(pc, viewHolder);
@@ -106,6 +115,14 @@ public class HnppChildRegisterProvider extends CoreChildRegisterProvider {
         }
 
     }
+    private int getChildStatusColor(String child_status) {
+        return ZScore.getZscoreColorByText(child_status);
+    }
+    private String getChildStatus(String muac_status, String weight_status, String height_status){
+        String finalStatus = GrowthUtil.getOverallChildStatus(muac_status,weight_status,height_status);
+        return finalStatus;
+
+    }
 
     protected void populateLastColumn(CommonPersonObjectClient pc, RegisterViewHolder viewHolder) {
       //  Utils.startAsyncTask(new UpdateLastAsyncTask(context, commonRepository, viewHolder, pc.entityId(), onClickListener), null);
@@ -117,6 +134,14 @@ public class HnppChildRegisterProvider extends CoreChildRegisterProvider {
 
         String gender = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.GENDER, true);
         fillValue(viewHolder.textViewAddressGender, gender + " \u00B7 " + address);
+        if(gender.equals("F")) {
+            viewHolder.profileImage.setTag(org.smartregister.R.id.entity_id, pc.entityId());
+            DrishtiApplication.getCachedImageLoaderInstance().getImageByClientId(pc.entityId(), OpenSRPImageLoader.getStaticImageListener(viewHolder.profileImage, R.drawable.child_boy_infant, R.drawable.child_boy_infant));
+        }
+        else {
+            viewHolder.profileImage.setTag(org.smartregister.R.id.entity_id, pc.entityId());
+            DrishtiApplication.getCachedImageLoaderInstance().getImageByClientId(pc.entityId(), OpenSRPImageLoader.getStaticImageListener(viewHolder.profileImage, R.drawable.child_girl_infant, R.drawable.child_girl_infant));
+        }
     }
 
     @Override

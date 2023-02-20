@@ -814,6 +814,15 @@ public class HnppConstants extends CoreConstants {
         public static final String LAST_HOME_VISIT = "last_home_visit";
         public static final String DATE_CREATED = "date_created";
         public static final String BIRTH_WEIGHT = "birth_weight";
+        public static final String WEIGHT_STATUS = "weight_status";
+        public static final String HEIGHT_STATUS = "height_status";
+        public static final String MUAC_STATUS = "muac_status";
+        public static final String LAST_VACCINE_NAME = "last_vaccine_name";
+        public static final String LAST_VACCINE_DATE = "last_vaccine_date";
+        public static final String CHILD_MUAC = "child_muac";
+        public static final String CHILD_HEIGHT = "child_height";
+        public static final String CHILD_WEIGHT = "child_weight";
+        public static final String CHILD_STATUS = "child_status";
     }
 
     public static class IDENTIFIER {

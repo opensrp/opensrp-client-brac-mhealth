@@ -31,12 +31,6 @@
               "reference": "dob",
               "offset": "+2y"
             }
-          ],
-          "conditions": [
-            {
-              "type": "not_given",
-              "vaccine": "OPV 3"
-            }
           ]
         }
       },
@@ -103,42 +97,6 @@
             {
               "reference": "dob",
               "offset": "+2y"
-            }
-          ]
-        }
-      },
-      {
-        "name": "fIPV 1",
-        "type": "fIPV",
-        "openmrs_date": {
-          "parent_entity": "1422AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "entity": "concept",
-          "entity_id": "1410AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-        },
-        "openmrs_calculate": {
-          "parent_entity": "1422AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "entity": "concept",
-          "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "calculation": 1
-        },
-        "schedule": {
-          "due": [
-            {
-              "reference": "dob",
-              "offset": "+42d",
-              "window": "+28d"
-            }
-          ],
-          "expiry": [
-            {
-              "reference": "dob",
-              "offset": "+2y"
-            }
-          ],
-          "conditions": [
-            {
-              "type": "not_given",
-              "vaccine": "fIPV 2"
             }
           ]
         }
@@ -331,36 +289,6 @@
               "prerequisite": "OPV 2",
               "offset": "+28d",
               "window": "+10d"
-            }
-          ],
-          "expiry": [
-            {
-              "reference": "dob",
-              "offset": "+2y"
-            }
-          ]
-        }
-      },
-      {
-        "name": "fIPV 2",
-        "type": "fIPV",
-        "openmrs_date": {
-          "parent_entity": "1422AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "entity": "concept",
-          "entity_id": "1410AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-        },
-        "openmrs_calculate": {
-          "parent_entity": "1422AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "entity": "concept",
-          "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "calculation": 2
-        },
-        "schedule": {
-          "due": [
-            {
-              "reference": "dob",
-              "offset": "+98d",
-              "window": "+14d"
             }
           ],
           "expiry": [

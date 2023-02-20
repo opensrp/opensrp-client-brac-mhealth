@@ -134,7 +134,8 @@ public class HnppNavigationPresenter extends NavigationPresenter {
 
     @Override
     public void sync(Activity activity) {
-      userStatusCheck(activity);
+        startServices();
+      if(!BuildConfig.DEBUG)userStatusCheck(activity);
     }
     private io.reactivex.Observable<String> updateUserStatus(){
         return  io.reactivex.Observable.create(e->{
@@ -218,19 +219,19 @@ public class HnppNavigationPresenter extends NavigationPresenter {
             });
 
         }else{
-            if(!HnppConstants.isPALogin()){
-                MigrationFetchJob.scheduleJobImmediately(MigrationFetchJob.TAG);
-            }
-//            HnppHomeVisitServiceJob.scheduleJobImmediately(HnppHomeVisitServiceJob.TAG);
-            HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
-            PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
-//            PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
-            //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
-            TargetFetchJob.scheduleJobImmediately(TargetFetchJob.TAG);
-            StockFetchJob.scheduleJobImmediately(StockFetchJob.TAG);
-            DataDeleteJob.scheduleJobImmediately(DataDeleteJob.TAG);
 
+            startServices();
             //NotificationGeneratorJob.scheduleJobImmediately(NotificationGeneratorJob.TAG);
         }
+    }
+    private void startServices(){
+        if(!HnppConstants.isPALogin()){
+            MigrationFetchJob.scheduleJobImmediately(MigrationFetchJob.TAG);
+        }
+        HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
+        PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
+        TargetFetchJob.scheduleJobImmediately(TargetFetchJob.TAG);
+        StockFetchJob.scheduleJobImmediately(StockFetchJob.TAG);
+        DataDeleteJob.scheduleJobImmediately(DataDeleteJob.TAG);
     }
 }

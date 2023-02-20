@@ -51,6 +51,7 @@ import org.smartregister.immunization.util.VaccinatorUtils;
 import org.smartregister.immunization.view.ServiceGroup;
 import org.smartregister.immunization.view.VaccineGroup;
 import org.smartregister.service.AlertService;
+import org.smartregister.unicef.dghs.utils.GrowthUtil;
 import org.smartregister.util.DateUtil;
 import org.smartregister.view.fragment.BaseProfileFragment;
 
@@ -493,6 +494,9 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
         vaccine.setChildLocationId("testChildLocationId");
         vaccineRepository.add(vaccine);
         tag.setDbKey(vaccine.getId());
+        if(tag.getDbKey()!=null){
+            GrowthUtil.updateLastVaccineDate(childDetails.entityId(),DATE_FORMAT.format(vaccine.getDate()),vaccine.getName());
+        }
     }
 
     private void updateVaccineGroupViews(View view, final ArrayList<VaccineWrapper> wrappers, List<Vaccine> vaccineList) {
