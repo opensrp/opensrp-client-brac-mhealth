@@ -75,7 +75,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     private RelativeLayout migration_layout;
     private RelativeLayout payment_layout;
     private RelativeLayout dashboard_layout;
-
+    private RelativeLayout updateLocation;
     private View rootView = null;
     private ImageView ivSync;
     private ProgressBar syncProgressBar;
@@ -187,6 +187,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         tvCovid19 = rootView.findViewById(R.id.covid19);
         tvForceSync = rootView.findViewById(R.id.tvForceSync);
         ss_info_browse = rootView.findViewById(R.id.ss_info_browse);
+        updateLocation = rootView.findViewById(R.id.update_location);
         notification_layout = rootView.findViewById(R.id.notification_view);
         migration_layout = rootView.findViewById(R.id.migration_view);
         payment_layout = rootView.findViewById(R.id.payment_view);
@@ -216,6 +217,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         registerCovid19(activity);
         registerForceSync(activity);
         registerBrowseSSInfo(activity);
+        registerUpdateLocation(activity);
         registerNotification(activity);
         registerMigration(activity);
         registerPayment(activity);
@@ -327,6 +329,11 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
             mPresenter.browseNotification(activity);
         }
     }
+    public void browseUpdateLocation(Activity activity) {
+        if(mPresenter!=null){
+            mPresenter.updateLocation(activity);
+        }
+    }
     public void browseMigration(Activity activity) {
         if(mPresenter!=null){
             mPresenter.browseMigration(activity);
@@ -404,6 +411,10 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     private void registerBrowseSSInfo(final Activity parentActivity){
         mPresenter.displayCurrentUser();
         ss_info_browse.setOnClickListener(v -> browseSSInfo(parentActivity));
+    }
+    private void registerUpdateLocation(final Activity parentActivity){
+        mPresenter.displayCurrentUser();
+        updateLocation.setOnClickListener(v -> browseUpdateLocation(parentActivity));
     }
     private void registerNotification(final Activity parentActivity){
         mPresenter.displayCurrentUser();

@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
 import org.smartregister.unicef.dghs.BuildConfig;
 import org.smartregister.unicef.dghs.HnppApplication;
+import org.smartregister.unicef.dghs.activity.BlockUpdateActivity;
 import org.smartregister.unicef.dghs.activity.DFSActivity;
 import org.smartregister.unicef.dghs.activity.MigrationActivity;
 import org.smartregister.unicef.dghs.activity.NewDashBoardActivity;
@@ -116,6 +117,11 @@ public class HnppNavigationPresenter extends NavigationPresenter {
     @Override
     public void browseNotification(Activity activity) {
         activity.startActivity(new Intent(activity, NotificationActivity.class));
+    }
+
+    @Override
+    public void updateLocation(Activity activity) {
+        activity.startActivity(new Intent(activity, BlockUpdateActivity.class));
     }
 
     @Override

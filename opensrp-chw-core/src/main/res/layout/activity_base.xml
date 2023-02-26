@@ -358,6 +358,38 @@
 
                         </RelativeLayout>
                         <RelativeLayout
+                            android:id="@+id/update_location"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:paddingStart="15dp"
+                            android:paddingLeft="15dp"
+                            android:paddingBottom="15dp">
+
+                            <ImageView
+                                android:id="@+id/ivUpdateLocation"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:scaleType="centerInside"
+                                android:src="@drawable/ic_icon_location" />
+
+                            <TextView
+                                android:id="@+id/tvUpdateLocation"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_toEndOf="@+id/ivUpdateLocation"
+                                android:layout_toRightOf="@+id/ivUpdateLocation"
+                                android:fontFamily="sans-serif"
+                                android:text=""
+                                android:textColor="@color/white"
+                                android:textSize="20sp" />
+
+                        </RelativeLayout>
+                        <RelativeLayout
                             android:id="@+id/notification_view"
                             android:layout_width="match_parent"
                             android:layout_height="60dp"

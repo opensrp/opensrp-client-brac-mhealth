@@ -75,6 +75,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class HnppConstants extends CoreConstants {
+    public static final String LOCATION_UPDATED = "location_updated";
     public static boolean IS_MANDATORY_GPS = true;
     public static int GPS_ATTEMPT_COUNT = 0;
     public static final int DEFAULT_GPS_ATTEMPT = 1;

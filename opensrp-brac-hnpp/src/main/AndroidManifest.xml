@@ -46,12 +46,12 @@
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
-            android:name=".activity.BkashActivity"
+            android:name=".activity.BlockUpdateActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
-            android:name=".activity.SurveyHistoryActivity"
+            android:name=".activity.BkashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
@@ -180,10 +180,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name=".activity.ReferralRegisterActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/HNPPTheme.NoActionBar" />
-        <activity
             android:name=".activity.ReferralTaskViewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
@@ -209,11 +205,6 @@
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
             android:name=".activity.HnppPncRiskRegisterActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/HNPPTheme.NoActionBar" />
-
-        <activity
-            android:name="org.smartregister.chw.core.activity.CoreAncMemberProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
 
@@ -291,10 +282,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name=".activity.SkSelectionActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/HNPPTheme.NoActionBar" />
-        <activity
             android:name=".activity.AdultMemberRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
@@ -322,10 +309,6 @@
             android:name=".activity.NewDashBoardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <activity
-            android:name=".activity.SimprintsIdentityActivity"
-            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".activity.GuestMemberActivity"

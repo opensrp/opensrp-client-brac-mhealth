@@ -168,6 +168,11 @@ public class NavigationPresenter implements NavigationContract.Presenter {
     }
 
     @Override
+    public void updateLocation(Activity activity) {
+
+    }
+
+    @Override
     public void browseMigration(Activity activity) {
 
     }

@@ -27,6 +27,7 @@ public interface NavigationContract {
         void forceSync(Activity activity);
         void browseSSInfo(Activity activity);
         void browseNotification(Activity activity);
+        void updateLocation(Activity activity);
         void browseMigration(Activity activity);
         void browsePayment(Activity activity);
         void browseDashboard(Activity activity);

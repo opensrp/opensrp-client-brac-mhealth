@@ -1068,7 +1068,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
                     }catch (Exception e){
 
                     }
-                    HnppJsonFormUtils.addReferrelReasonPlaceField(jsonForm,referralFollowUpModel.getReferralReason(),referralFollowUpModel.getReferralPlace());
+                    //HnppJsonFormUtils.addReferrelReasonPlaceField(jsonForm,referralFollowUpModel.getReferralReason(),referralFollowUpModel.getReferralPlace());
                     Intent intent;
                     intent = new Intent(HnppFamilyOtherMemberProfileActivity.this, HnppAncJsonFormActivity.class);
                     intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
