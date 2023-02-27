@@ -1,5 +1,6 @@
 package org.smartregister.unicef.dghs.service;
 
+import android.content.Intent;
 import android.util.Log;
 import android.util.Pair;
 
@@ -8,6 +9,7 @@ import org.json.JSONObject;
 import org.smartregister.AllConstants;
 import org.smartregister.CoreLibrary;
 import org.smartregister.SyncConfiguration;
+import org.smartregister.unicef.dghs.activity.BlockUpdateActivity;
 import org.smartregister.unicef.dghs.location.GeoLocationHelper;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.domain.FetchStatus;
@@ -100,7 +102,12 @@ public class HnppSyncIntentService extends SyncIntentService {
             }
 
             JSONObject jsonObject = new JSONObject((String) resp.payload());
-
+            if(jsonObject.has("msg")&&jsonObject.getString("msg").equalsIgnoreCase("Block not found")){
+                Intent i = new Intent(this, BlockUpdateActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+                return;
+            }
             int eCount = fetchNumberOfEvents(jsonObject);
             Log.v("INVALID_REQ","response comed eCount:"+eCount);
             HnppConstants.appendLog("SYNC_URL", "response comed eCount:"+eCount);

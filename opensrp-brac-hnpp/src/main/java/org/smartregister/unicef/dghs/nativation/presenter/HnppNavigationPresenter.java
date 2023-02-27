@@ -3,7 +3,6 @@ package org.smartregister.unicef.dghs.nativation.presenter;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
@@ -12,6 +11,7 @@ import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
+import org.smartregister.chw.core.model.NavigationOption;
 import org.smartregister.unicef.dghs.BuildConfig;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.activity.BlockUpdateActivity;
@@ -26,9 +26,9 @@ import org.smartregister.unicef.dghs.activity.ForceSyncActivity;
 import org.smartregister.unicef.dghs.job.MigrationFetchJob;
 import org.smartregister.unicef.dghs.job.StockFetchJob;
 import org.smartregister.unicef.dghs.job.TargetFetchJob;
+import org.smartregister.unicef.dghs.nativation.interactor.NavigationInteractor;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.chw.anc.util.JsonFormUtils;
-import org.smartregister.chw.core.contract.CoreApplication;
 import org.smartregister.chw.core.contract.NavigationContract;
 import org.smartregister.chw.core.model.NavigationModel;
 import org.smartregister.chw.core.utils.CoreConstants;
@@ -38,22 +38,63 @@ import org.smartregister.job.PullUniqueIdsServiceJob;
 import org.smartregister.util.FormUtils;
 import org.smartregister.repository.EventClientRepository;
 
+import java.lang.ref.WeakReference;
+import java.util.HashMap;
+import java.util.List;
+
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import rx.Observable;
+import timber.log.Timber;
 
 
-public class HnppNavigationPresenter extends NavigationPresenter {
-    public HnppNavigationPresenter(CoreApplication application, NavigationContract.View view, NavigationModel.Flavor modelFlavor) {
-        super(application, view, modelFlavor);
+public class HnppNavigationPresenter implements NavigationContract.Presenter {
+
+    private NavigationContract.Model mModel;
+    private NavigationContract.Interactor mInteractor;
+    private WeakReference<NavigationContract.View> mView;
+    protected HashMap<String, String> tableMap = new HashMap<>();
+
+    public HnppNavigationPresenter(HnppApplication application, NavigationContract.View view, NavigationModel.Flavor modelFlavor) {
+        mView = new WeakReference<>(view);
+
+        mInteractor = NavigationInteractor.getInstance();
+        mInteractor.setApplication(application);
+
+        mModel = NavigationModel.getInstance();
+        mModel.setNavigationFlavor(modelFlavor);
+
+        initialize();
     }
 
-    @Override
     protected void initialize() {
-        super.initialize();
+        tableMap.put(CoreConstants.DrawerMenu.ALL_FAMILIES, CoreConstants.TABLE_NAME.FAMILY);
+        tableMap.put(CoreConstants.DrawerMenu.ALL_MEMBER,  CoreConstants.TABLE_NAME.FAMILY_MEMBER);
+        tableMap.put(CoreConstants.DrawerMenu.ELCO_CLIENT,"test");
+        tableMap.put(CoreConstants.DrawerMenu.ADULT,"adult");
+        tableMap.put(CoreConstants.DrawerMenu.ADO,"ado");
+        tableMap.put(CoreConstants.DrawerMenu.IYCF,"iycf");
+        tableMap.put(CoreConstants.DrawerMenu.WOMEN,"women");
+        tableMap.put(CoreConstants.DrawerMenu.FORUM,"");
+        tableMap.put(CoreConstants.DrawerMenu.GUEST_MEMBER,"");
+        tableMap.put(CoreConstants.DrawerMenu.CHILD_CLIENTS, CoreConstants.TABLE_NAME.CHILD);
+        tableMap.put(CoreConstants.DrawerMenu.ANC_CLIENTS, CoreConstants.TABLE_NAME.ANC_MEMBER);
+        tableMap.put(CoreConstants.DrawerMenu.ANC, CoreConstants.TABLE_NAME.ANC_MEMBER);
+        tableMap.put(CoreConstants.DrawerMenu.ANC_RISK, "anc_risk");
+        tableMap.put(CoreConstants.DrawerMenu.PNC_RISK, "pnc_risk");
+        tableMap.put(CoreConstants.DrawerMenu.ELCO_RISK, "elco_risk");
+        tableMap.put(CoreConstants.DrawerMenu.CHILD_RISK, "child_risk");
+        tableMap.put(CoreConstants.DrawerMenu.ADULT_RISK, "adult_risk");
+        tableMap.put(CoreConstants.DrawerMenu.PNC, CoreConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME);
+        tableMap.put(CoreConstants.DrawerMenu.REFERRALS, CoreConstants.TABLE_NAME.TASK);
+        tableMap.put(CoreConstants.DrawerMenu.MALARIA, CoreConstants.TABLE_NAME.MALARIA_CONFIRMATION);
         tableMap.put(CoreConstants.DrawerMenu.ALL_MEMBER, CoreConstants.TABLE_NAME.FAMILY_MEMBER);
+    }
+    @Override
+    public List<NavigationOption> getOptions() {
+        return mModel.getNavigationItems();
     }
 
     @Override
@@ -240,4 +281,61 @@ public class HnppNavigationPresenter extends NavigationPresenter {
         StockFetchJob.scheduleJobImmediately(StockFetchJob.TAG);
         DataDeleteJob.scheduleJobImmediately(DataDeleteJob.TAG);
     }
+    @Override
+    public NavigationContract.View getNavigationView() {
+        return mView.get();
+    }
+    @Override
+    public void refreshNavigationCount() {
+
+        int x = 0;
+        while (x < mModel.getNavigationItems().size()) {
+
+            final int finalX = x;
+            NavigationOption option = mModel.getNavigationItems().get(x);
+            if(option.isNeedToExpand()){
+                mInteractor.getRegisterCount(tableMap.get(option.getNavigationSubModel().getType()), new NavigationContract.InteractorCallback<Integer>() {
+                    @Override
+                    public void onResult(Integer result) {
+                        mModel.getNavigationItems().get(finalX).getNavigationSubModel().setSubCount(result);
+                        getNavigationView().refreshCount();
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+
+                    }
+                });
+            }
+            mInteractor.getRegisterCount(tableMap.get(option.getMenuTitle()), new NavigationContract.InteractorCallback<Integer>() {
+                @Override
+                public void onResult(Integer result) {
+                    mModel.getNavigationItems().get(finalX).setRegisterCount(result);
+                    getNavigationView().refreshCount();
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    // getNavigationView().displayToast(activity, "Error retrieving count for " + tableMap.get(mModel.getNavigationItems().get(finalX).getMenuTitle()));
+                    Timber.e("Error retrieving count for %s", tableMap.get(mModel.getNavigationItems().get(finalX).getMenuTitle()));
+                }
+            });
+            x++;
+        }
+
+    }
+
+
+
+    @Override
+    public void refreshLastSync() {
+        // get last sync date
+        getNavigationView().refreshLastSync(mInteractor.sync());
+    }
+
+    @Override
+    public void displayCurrentUser() {
+        getNavigationView().refreshCurrentUser(mModel.getCurrentUser());
+    }
+
 }

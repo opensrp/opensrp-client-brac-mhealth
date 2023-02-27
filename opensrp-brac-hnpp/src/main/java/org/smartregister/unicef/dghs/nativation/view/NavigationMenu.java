@@ -37,7 +37,7 @@ import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.domain.FetchStatus;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.unicef.dghs.HnppApplication;
-import org.smartregister.unicef.dghs.nativation.presenter.NavigationPresenter;
+import org.smartregister.unicef.dghs.nativation.presenter.HnppNavigationPresenter;
 import org.smartregister.util.LangUtils;
 import org.smartregister.util.PermissionUtils;
 
@@ -95,7 +95,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         NavigationMenu.showDeviceToDeviceSync = showDeviceToDeviceSync;
         NavigationMenu.navigationListener = new NavigationListener();
     }
-    public static void setupNavigationMenu(NavigationListener navigationListener, NavigationPresenter presenter, HnppApplication application, FlavorTop topFlavor, Flavour menuFlavor,
+    public static void setupNavigationMenu(NavigationListener navigationListener, HnppNavigationPresenter presenter, HnppApplication application, FlavorTop topFlavor, Flavour menuFlavor,
                                            NavigationModel.Flavor modelFlavor, Map<String, Class> registeredActivities, boolean showDeviceToDeviceSync) {
         NavigationMenu.application = application;
         NavigationMenu.topFlavor = topFlavor;
@@ -127,7 +127,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
             toolbar = myToolbar;
             parentView = myParentView;
             if(mPresenter == null){
-                mPresenter = new NavigationPresenter(application, this, modelFlavor);
+                mPresenter = new HnppNavigationPresenter(application, this, modelFlavor);
             }
 
             prepareViews(activity);
