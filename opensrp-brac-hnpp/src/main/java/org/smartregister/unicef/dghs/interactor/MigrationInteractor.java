@@ -128,7 +128,7 @@ public class MigrationInteractor  {
             return null;
         }
         baseClient.addIdentifier("opensrp_id",unique_id);
-
+        GeoLocationHelper.getInstance().addGeolocationIds(ss,baseClient);
         List<Address> listAddress = new ArrayList<>();
         listAddress.add(GeoLocationHelper.getInstance().getSSAddress(ss));
         baseClient.setAddresses(listAddress);
@@ -163,6 +163,7 @@ public class MigrationInteractor  {
 
         List<Address> listAddress = new ArrayList<>();
         listAddress.add(GeoLocationHelper.getInstance().getSSAddress(ss));
+        GeoLocationHelper.getInstance().addGeolocationIds(ss,baseClient);
         baseClient.setAddresses(listAddress);
 
         return baseClient;

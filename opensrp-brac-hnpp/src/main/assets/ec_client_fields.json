@@ -417,7 +417,7 @@
           "column_name": "block_id",
           "type": "Client",
           "json_mapping": {
-            "field": "block_id"
+            "field": "attributes.block_id"
           }
         },
         {
@@ -894,6 +894,13 @@
           }
         },
         {
+          "column_name": "block_id",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.block_id"
+          }
+        },
+        {
           "column_name": "ward_name",
           "type": "Client",
           "json_mapping": {
@@ -1009,6 +1016,13 @@
           "type": "Client",
           "json_mapping": {
             "field": "baseEntityId"
+          }
+        },
+        {
+          "column_name": "block_id",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.block_id"
           }
         },
         {

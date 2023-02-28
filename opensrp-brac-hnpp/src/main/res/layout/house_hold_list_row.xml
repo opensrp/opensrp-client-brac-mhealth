@@ -129,6 +129,7 @@
         android:layout_height="@dimen/member_profile_pic_width" />
     <LinearLayout
         android:id="@+id/member_icon_layout"
+        android:background="@drawable/grey_left_border"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -157,6 +158,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
+                android:layout_marginTop="5dp"
                 android:textColor="@color/light_grey_text"
                 android:textSize="@dimen/register_list_desc_size"
                 />
@@ -179,6 +181,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
+                android:layout_marginTop="5dp"
                 android:textColor="@color/light_grey_text"
                 android:textSize="@dimen/register_list_desc_size"
                 />
@@ -201,12 +204,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
+                android:layout_marginTop="5dp"
                 android:textColor="@color/light_grey_text"
                 android:textSize="@dimen/register_list_desc_size"
                 />
         </LinearLayout>
 
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/due_button_wrapper"
         android:layout_width="100dp"
@@ -214,14 +219,14 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:visibility="visible"
         android:background="@drawable/grey_left_border"
-        android:paddingBottom="@dimen/register_list_top_bottom_padding"
-        android:paddingEnd="@dimen/register_list_item_padding"
-        android:paddingLeft="@dimen/register_list_item_padding"
-        android:paddingRight="@dimen/register_list_item_padding"
         android:paddingStart="@dimen/register_list_item_padding"
-        android:paddingTop="@dimen/register_list_top_bottom_padding">
+        android:paddingLeft="@dimen/register_list_item_padding"
+        android:paddingTop="@dimen/register_list_top_bottom_padding"
+        android:paddingEnd="@dimen/register_list_item_padding"
+        android:paddingRight="@dimen/register_list_item_padding"
+        android:paddingBottom="@dimen/register_list_top_bottom_padding"
+        android:visibility="gone">
 
         <Button
             android:id="@+id/due_button"

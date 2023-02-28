@@ -52,6 +52,7 @@ import org.smartregister.immunization.view.ServiceGroup;
 import org.smartregister.immunization.view.VaccineGroup;
 import org.smartregister.service.AlertService;
 import org.smartregister.unicef.dghs.utils.GrowthUtil;
+import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.util.DateUtil;
 import org.smartregister.view.fragment.BaseProfileFragment;
 
@@ -464,7 +465,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
         backgroundTask.setVaccineRepository(vaccineRepository);
         backgroundTask.setView(view);
         org.smartregister.util.Utils.startAsyncTask(backgroundTask, arrayTags);
-
+        HnppConstants.isViewRefresh = true;
     }
 
     private void saveVaccine(VaccineRepository vaccineRepository, VaccineWrapper tag) {

@@ -129,13 +129,10 @@ android {
             versionName "3.0.0_dev"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'true'
-            //buildConfigField "String", 'opensrp_url_training', '"https://hnpptest1.mpower-social.com/opensrp/"'
-            buildConfigField "String", 'opensrp_url_training', '"http://opensrpha.mpower-social.com:8080/opensrp/"'
-            buildConfigField "String", 'opensrp_url_live', '"http://opensrpha.mpower-social.com:8080/opensrp/"'
-//            buildConfigField "String", 'opensrp_url_training', '"http://hnpp.mpower-social.com/opensrp/"'
-//            buildConfigField "String", 'opensrp_url_live', '"http://hnpp.mpower-social.com/opensrp/"'
-//            buildConfigField "String", 'opensrp_url_training', '"http://hnppqa.mpower-social.com:8080/opensrp/"'
-//            buildConfigField "String", 'opensrp_url_live', '"http://hnppqa.mpower-social.com:8080/opensrp/"'
+            buildConfigField "String", 'opensrp_url_training', '"http://192.168.23.24:8080/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"http://192.168.23.24:8080/opensrp/"'
+//            buildConfigField "String", 'opensrp_url_training', '"http://opensrpha.mpower-social.com:8080/opensrp/"'
+//            buildConfigField "String", 'opensrp_url_live', '"http://opensrpha.mpower-social.com:8080/opensrp/"'
 
         }
         production{

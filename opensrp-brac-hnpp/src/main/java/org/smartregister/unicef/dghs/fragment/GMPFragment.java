@@ -332,6 +332,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         String text = refreshEditHeightLayout(true);
         updateProfileColor();
         showGMPDialog(text,2);
+        HnppConstants.isViewRefresh = true;
     }
 
     @Override
@@ -370,6 +371,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         String text = refreshEditMuacLayout(true);
         updateProfileColor();
         showGMPDialog(text,3);
+        HnppConstants.isViewRefresh = true;
     }
 
     @Override
@@ -421,6 +423,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
             String text = refreshEditWeightLayout(true);
             showGMPDialog(text,1);
             updateProfileColor();
+            HnppConstants.isViewRefresh = true;
         }
     }
     private void showGMPDialog(String text, int type){

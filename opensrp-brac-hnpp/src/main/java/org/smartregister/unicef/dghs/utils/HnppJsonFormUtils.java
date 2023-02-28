@@ -35,6 +35,7 @@ import org.smartregister.unicef.dghs.BuildConfig;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.location.BlockLocation;
 import org.smartregister.unicef.dghs.location.GeoLocation;
+import org.smartregister.unicef.dghs.location.GeoLocationHelper;
 import org.smartregister.unicef.dghs.location.WardLocation;
 import org.smartregister.unicef.dghs.model.ForumDetails;
 import org.smartregister.unicef.dghs.repository.HnppChwRepository;
@@ -89,6 +90,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
     public static final String METADATA = "metadata";
     public static final String WARD_NAME = "ward_name";
     public static final String BLOCK_NAME = "block_name";
+    public static final String BLOCK_ID = "block_id";
     public static final String CHAMP_TYPE = "camp_type";
     public static final String SIMPRINTS_ENABLE = "simprints_enable";
     public static final String VILLAGE_NAME = "village_name";
@@ -1166,16 +1168,17 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 //        HouseholdId houseHoldId = HnppApplication.getHNPPInstance().getGuestMemberIdRepository().getNextHouseholdId(villageId);
 //        return houseHoldId.getOpenmrsId();
 //    }
-    public static JSONObject updateFormWithSimPrintsEnable(JSONObject form,String baseEntityId) throws Exception{
+    public static JSONObject updateFormWithBlockInformation(JSONObject form,String baseEntityId) throws Exception{
 
 
         JSONArray field = fields(form, STEP1);
 
-        String ssName =HnppDBUtils.getBlockNameByHHID(baseEntityId);
-        Log.v("BLOCK_NAME","BLOCK_NAME:"+ssName);
-        JSONObject ssNameObject = getFieldJSONObject(field, BLOCK_NAME);
-        ssNameObject.put(org.smartregister.family.util.JsonFormUtils.VALUE, ssName);
-
+        BaseLocation blocks =HnppDBUtils.getBlocksHHID(baseEntityId);
+        Log.v("BLOCK_NAME","BLOCK_NAME:"+blocks.name+":"+blocks.id);
+        JSONObject blockNameObject = getFieldJSONObject(field, BLOCK_NAME);
+        blockNameObject.put(org.smartregister.family.util.JsonFormUtils.VALUE, blocks.name);
+        JSONObject ssIdObject = getFieldJSONObject(field, BLOCK_ID);
+        ssIdObject.put(org.smartregister.family.util.JsonFormUtils.VALUE, blocks.id);
         return form;
 
 
@@ -1277,20 +1280,32 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 //        JSONObject spinner = getFieldJSONObject(field, HnppConstants.KEY.CHILD_MOTHER_NAME);
 
 //        spinner.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);
-        String ssName =HnppDBUtils.getBlockNameByHHID(familyBaseEntityId);
-        Log.v("SS_NAME","ssName:"+ssName+":familyId:"+familyBaseEntityId);
-        JSONObject ssNameObj = getFieldJSONObject(field, "block_name");
-        ssNameObj.put("value",ssName);
+        BaseLocation blocks =HnppDBUtils.getBlocksHHID(familyBaseEntityId);
+        Log.v("SS_NAME","updateFormWithMotherName:"+blocks.name+":blockId:"+blocks.id);
+        JSONObject blockNameObj = getFieldJSONObject(field, BLOCK_NAME);
+        blockNameObj.put("value",blocks.name);
+        try{
+            JSONObject blockIdObj = getFieldJSONObject(field, BLOCK_ID);
+            blockIdObj.put("value",blocks.id);
+        }catch (Exception e){
+
+        }
         String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
         JSONObject providerIdObj = getFieldJSONObject(field, "provider_id");
         providerIdObj.put("value",userName);
         return form;
     }
     public static void updateProviderIdAtClient(JSONArray field,String familyBaseEntityId) throws Exception{
-        String ssName =HnppDBUtils.getBlockNameByHHID(familyBaseEntityId);
-        Log.v("SS_NAME","ssName:"+ssName+":familyId:"+familyBaseEntityId);
-        JSONObject ssNameObj = getFieldJSONObject(field, "block_name");
-        ssNameObj.put("value",ssName);
+        BaseLocation blocks =HnppDBUtils.getBlocksHHID(familyBaseEntityId);
+        Log.v("SS_NAME","ssName:"+blocks+":familyId:"+familyBaseEntityId);
+        JSONObject blockNameObj = getFieldJSONObject(field, BLOCK_NAME);
+        blockNameObj.put("value",blocks.name);
+        try{
+            JSONObject blockIdObj = getFieldJSONObject(field, BLOCK_ID);
+            blockIdObj.put("value",blocks.id);
+        }catch (Exception e){
+
+        }
         String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
         JSONObject providerIdObj = getFieldJSONObject(field, "provider_id");
         providerIdObj.put("value",userName);
@@ -1561,15 +1576,17 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
                 lastInteractedWith(fields);
                 dobEstimatedUpdateFromAge(fields);
-
-
                 FormTag formTag = formTag(allSharedPreferences);
                 formTag.appVersionName = BuildConfig.VERSION_NAME;
                 Client baseClient = org.smartregister.util.JsonFormUtils.createBaseClient(fields, formTag, entityId);
                 if (baseClient != null && !baseClient.getBaseEntityId().equals(familyBaseEntityId)) {
                     baseClient.addRelationship(Utils.metadata().familyMemberRegister.familyRelationKey, familyBaseEntityId);
                 }
-
+                JSONObject blockIdIdObj = getFieldJSONObject(fields, "block_id");
+                String blockId = blockIdIdObj.getString("value");
+                Log.v("MEMBER_REGISTER","processFamilyMemberForm:blockId:"+blockId);
+                GeoLocation selectedLocation = HnppApplication.getGeoLocationRepository().getLocationByBlock(blockId);
+                GeoLocationHelper.getInstance().addGeolocationIds(selectedLocation,baseClient);
                 try{
                     String motherEntityId = updateMotherName(fields,familyId);
                     Context context = HnppApplication.getInstance().getContext().applicationContext();
@@ -1577,13 +1594,11 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 }catch (Exception e){
 
                 }
-
                 Event baseEvent = org.smartregister.util.JsonFormUtils.createEvent(fields, getJSONObject(jsonForm, "metadata"), formTag, entityId, encounterType, Utils.metadata().familyMemberRegister.tableName);
                 tagSyncMetadata(allSharedPreferences, baseEvent);
-
                 String entity_id = baseClient.getBaseEntityId();
                 updateFormSubmissionID(encounterType,entity_id,baseEvent);
-
+                baseEvent.setIdentifiers(GeoLocationHelper.getInstance().getGeoIdentifier(selectedLocation));
                 return new FamilyEventClient(baseClient, baseEvent);
             }
         } catch (Exception var10) {

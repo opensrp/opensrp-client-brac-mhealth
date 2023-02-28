@@ -142,7 +142,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
     protected void onCreation() {
         setContentView(R.layout.activity_other_member_profile);
         handler = new Handler();
-        Toolbar toolbar = findViewById(org.smartregister.family.R.id.family_toolbar);
+        Toolbar toolbar = findViewById(R.id.family_toolbar);
        // HnppConstants.updateAppBackground(toolbar);
         setSupportActionBar(toolbar);
 
@@ -152,8 +152,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
             actionBar.setTitle("");
         }
 
-        appBarLayout = findViewById(org.smartregister.family.R.id.toolbar_appbarlayout);
-
+        appBarLayout = findViewById(R.id.toolbar_appbarlayout);
         imageRenderHelper = new ImageRenderHelper(this);
 
         initializePresenter();
@@ -544,7 +543,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
                     JSONObject form = HnppJsonFormUtils.getAutoPopulatedJsonEditFormString(CoreConstants.JSON_FORM.getFamilyMemberRegister(), HnppFamilyOtherMemberProfileActivity.this, client, Utils.metadata().familyMemberRegister.updateEventType);
                     String moduleId = HnppDBUtils.getModuleId(familyHead);
                     HnppJsonFormUtils.updateFormWithModuleId(form,moduleId,familyBaseEntityId);
-                    HnppJsonFormUtils.updateFormWithSimPrintsEnable(form,familyHead);
+                    HnppJsonFormUtils.updateFormWithBlockInformation(form,familyHead);
                     if(HnppConstants.isPALogin()){
                         makeReadOnlyFields(form);
                     }

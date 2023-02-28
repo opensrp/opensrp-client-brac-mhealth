@@ -207,6 +207,12 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
             FadingCircle circle = new FadingCircle();
             syncProgressBar.setIndeterminateDrawable(circle);
         }
+        rootView.findViewById(R.id.announceIm).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.sendAlert(activity);
+            }
+        });
 
         // register all objects
         registerDrawer(activity);

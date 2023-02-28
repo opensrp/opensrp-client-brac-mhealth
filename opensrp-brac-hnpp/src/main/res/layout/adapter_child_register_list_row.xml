@@ -107,16 +107,14 @@
             android:layout_gravity="right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
             android:src="@drawable/child"
-            android:tint="@color/vaccine_red_bg_end" />
+            android:layout_marginEnd="20dp" />
         <org.smartregister.view.customcontrols.CustomFontTextView
             android:id="@+id/weight_tv"
             style="@style/CustomFontTextViewStyle.ClientList.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="w:2kg h:13cm"
             android:textColor="@android:color/black"
             android:textSize="14sp" />
         <org.smartregister.view.customcontrols.CustomFontTextView
@@ -125,7 +123,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="bcg given at 21/10/21"
             android:textColor="@color/dark_grey"
             android:textSize="12sp" />
     </LinearLayout>

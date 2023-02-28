@@ -20,6 +20,7 @@ import org.smartregister.chw.core.rule.HomeAlertRule;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.dao.AbstractDao;
+import org.smartregister.unicef.dghs.location.GeoLocation;
 import org.smartregister.unicef.dghs.model.ForumDetails;
 import org.smartregister.unicef.dghs.model.VisitInfo;
 import org.smartregister.unicef.dghs.repository.StockRepository;
@@ -399,15 +400,17 @@ public class HnppDBUtils {
         }
         return blockName;
     }
-    public static String getBlockNameByHHID(String hhBaseEntityId){
-        String query = "select block_name from ec_family where base_entity_id = '"+hhBaseEntityId+"'";
+    public static BaseLocation getBlocksHHID(String hhBaseEntityId){
+        String query = "select block_name,block_id from ec_family where base_entity_id = '"+hhBaseEntityId+"'";
         Cursor cursor = null;
-        String birthWeight="";
+        BaseLocation blocksLocation = new BaseLocation();
         try {
             cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
-                birthWeight = cursor.getString(0);
+                blocksLocation.name = cursor.getString(0);
+                int bid= Double.valueOf(cursor.getString(1)).intValue();
+                blocksLocation.id = bid;
             }
 
         } catch (Exception e) {
@@ -417,7 +420,7 @@ public class HnppDBUtils {
         finally {
             if(cursor !=null)cursor.close();
         }
-        return birthWeight;
+        return blocksLocation;
     }
     public static String getBlockNameFromGuestTable(String baseEntityId){
         String query = "select block_name from ec_guest_member where base_entity_id = '"+baseEntityId+"'";

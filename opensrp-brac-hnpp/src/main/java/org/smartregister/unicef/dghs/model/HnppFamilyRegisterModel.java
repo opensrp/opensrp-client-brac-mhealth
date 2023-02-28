@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.location.GeoLocationHelper;
 import org.smartregister.unicef.dghs.location.GeoLocation;
@@ -108,6 +109,10 @@ public class HnppFamilyRegisterModel extends BaseFamilyRegisterModel {
                 listAddress.add(GeoLocationHelper.getInstance().getSSAddress(selectedLocation));
             }
             familyClient.setAddresses(listAddress);
+
+            GeoLocationHelper.getInstance().addGeolocationIds(selectedLocation,familyClient);
+            Event event = familyEventClient.getEvent();
+            event.setIdentifiers(GeoLocationHelper.getInstance().getGeoIdentifier(selectedLocation));
             familyEventClient.setClient(familyClient);
             familyEventClientList.add(familyEventClient);
 

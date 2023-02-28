@@ -141,7 +141,7 @@ public class GeoLocationRepository extends BaseRepository {
         Log.v("BLOCK_LOCATION","locations>>>"+locations);
         return locations;
     }
-    public ArrayList<GeoLocation> getAllBlockByWardId(String wardId) {
+    public ArrayList<GeoLocation> getLocationByWardId(String wardId) {
         Cursor cursor = null;
         ArrayList<GeoLocation> locations = new ArrayList<>();
         try {

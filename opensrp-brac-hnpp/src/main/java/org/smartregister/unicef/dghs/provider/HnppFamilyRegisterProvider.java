@@ -149,7 +149,7 @@ public class HnppFamilyRegisterProvider extends CoreRegisterProvider  {
 
         String phoneNo = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.PHONE_NUMBER, true);
         if(!phoneNo.isEmpty()){
-            setText(viewHolder.mobileNumber,phoneNo);
+            setText(viewHolder.mobileNumber,context.getString(R.string.phone_no,phoneNo));
         }
         String lastHomeVisitStr = Utils.getValue(pc.getColumnmaps(),HnppConstants.KEY.LAST_HOME_VISIT,false);
         String dateCreated = Utils.getValue(pc.getColumnmaps(),HnppConstants.KEY.DATE_CREATED,false);

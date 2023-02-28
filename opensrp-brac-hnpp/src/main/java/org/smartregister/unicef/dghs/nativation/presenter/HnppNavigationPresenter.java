@@ -1,14 +1,18 @@
 package org.smartregister.unicef.dghs.nativation.presenter;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
 import org.smartregister.chw.core.model.NavigationOption;
@@ -92,6 +96,44 @@ public class HnppNavigationPresenter implements NavigationContract.Presenter {
         tableMap.put(CoreConstants.DrawerMenu.MALARIA, CoreConstants.TABLE_NAME.MALARIA_CONFIRMATION);
         tableMap.put(CoreConstants.DrawerMenu.ALL_MEMBER, CoreConstants.TABLE_NAME.FAMILY_MEMBER);
     }
+
+    @Override
+    public void sendAlert(Activity activity) {
+        sendAlertForVaccine().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(String res) {
+                        alertResponse = res;
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(activity,e.getMessage(),Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                            new AlertDialog.Builder(activity)
+                                    .setTitle("Alert!")
+                                    .setMessage(alertResponse)
+                                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                        }
+                                    }).show();
+
+                    }
+                });
+    }
+
     @Override
     public List<NavigationOption> getOptions() {
         return mModel.getNavigationItems();
@@ -184,6 +226,33 @@ public class HnppNavigationPresenter implements NavigationContract.Presenter {
         startServices();
       if(!BuildConfig.DEBUG)userStatusCheck(activity);
     }
+    private io.reactivex.Observable<String> sendAlertForVaccine(){
+        return  io.reactivex.Observable.create(e->{
+                    try {
+                        String baseUrl = CoreLibrary.getInstance().context().
+                                configuration().dristhiBaseURL();
+                        String endString = "/";
+                        if (baseUrl.endsWith(endString)) {
+                            baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf(endString));
+                        }
+                        String url = baseUrl + "/rest/event/announcement";
+                        Log.v("USER_STATUS","url:"+url);
+                        Response resp = CoreLibrary.getInstance().context().getHttpAgent().fetch(url);
+                        if (resp.isFailure()) {
+                            e.onError(new NoHttpResponseException("no route found"));
+                            e.onComplete();
+                            return;
+                        }
+                        e.onNext(new JSONObject(resp.payload().toString()).getString("msg"));
+                        e.onComplete();
+                    } catch (Exception ex) {
+                        e.onNext(ex.getMessage());//error
+                        e.onComplete();
+                    }
+
+                }
+        );
+    }
     private io.reactivex.Observable<String> updateUserStatus(){
         return  io.reactivex.Observable.create(e->{
                     try {
@@ -216,7 +285,7 @@ public class HnppNavigationPresenter implements NavigationContract.Presenter {
                 }
         );
     }
-    String response = "";
+    String response = "",alertResponse = "";
     private void userStatusCheck(Activity activity){
 
         updateUserStatus()
