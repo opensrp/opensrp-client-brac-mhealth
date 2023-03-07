@@ -65,7 +65,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "add_to_stock",
         "type": "hidden",
-        "value": "0"
+        "value": "1"
       },
       {
         "key": "relational_id",
@@ -102,39 +102,7 @@
         }
 
       },
-      {
-        "key": "glasses_type",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "glasses_type",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "চশমার ধরণ",
-        "values": [
-          "সিঙ্গেল ভিশন",
-          "বাই -ফোকাল",
-          "সানগ্লাস",
-          "চশমা নেয় নি"
-        ],
-        "openmrs_choice_ids": {
-          "সিঙ্গেল ভিশন": "sv",
-          "বাই -ফোকাল": "bf",
-          "সানগ্লাস": "sg",
-          "চশমা নেয় নি": "no_glass_taken"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_eye_relevance.yml"
-            }
-          }
-        }
 
-      },
       {
         "key": "power",
         "openmrs_entity_parent": "",
@@ -170,6 +138,7 @@
         }
 
       },
+
       {
         "key": "is_need_glasses",
         "openmrs_entity_parent": "",
@@ -185,6 +154,24 @@
         "openmrs_choice_ids": {
           "হ্যাঁ": "yes",
           "না": "no"
+        }
+
+      },
+      {
+        "key": "glasses_type_presbiopia",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "glasses_type_presbiopia",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "চশমার ধরণ",
+        "values": [
+          "সিঙ্গেল ভিশন",
+          "বাই -ফোকাল"
+        ],
+        "openmrs_choice_ids": {
+          "সিঙ্গেল ভিশন": "sv",
+          "বাই -ফোকাল": "bf"
         },
         "v_required": {
           "value": true,
@@ -199,7 +186,33 @@
         }
 
       },
+      {
+        "key": "glasses_type_all",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "glasses_type_all",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "চশমার ধরণ",
+        "values": [
+          "সানগ্লাস"
+        ],
+        "openmrs_choice_ids": {
+          "সানগ্লাস": "sg"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_eye_relevance.yml"
+            }
+          }
+        }
 
+      },
       {
         "key": "glasses_sell",
         "openmrs_entity_parent": "",
@@ -219,17 +232,10 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
-        },
-
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_eye_relevance.yml"
-            }
-          }
         }
 
       },
+
       {
         "key": "first_glass_user",
         "openmrs_entity_parent": "",

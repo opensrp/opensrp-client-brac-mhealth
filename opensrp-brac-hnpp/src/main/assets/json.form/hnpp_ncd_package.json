@@ -371,10 +371,6 @@
         "openmrs_choice_ids": {
           "হ্যাঁ": "yes",
           "না": "no"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
         }
 
       },
@@ -393,10 +389,6 @@
         "openmrs_choice_ids": {
           "হ্যাঁ": "yes",
           "না": "no"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
         },
         "relevance": {
           "rules-engine": {
@@ -535,10 +527,6 @@
         "openmrs_choice_ids": {
           "হ্যাঁ": "yes",
           "না": "no"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
         }
 
       },
@@ -557,10 +545,6 @@
         "openmrs_choice_ids": {
           "হ্যাঁ": "yes",
           "না": "no"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
         },
         "relevance": {
           "rules-engine": {

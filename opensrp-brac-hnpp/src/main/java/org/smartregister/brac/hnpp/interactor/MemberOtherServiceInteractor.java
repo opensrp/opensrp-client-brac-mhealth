@@ -128,7 +128,13 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
             otherServiceData2.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_GIRL_PACKAGE);
             otherServiceDataList.add(otherServiceData2);
         }
-
+        if(FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.EYE_TEST)){
+            OtherServiceData otherServiceData = new OtherServiceData();
+            otherServiceData.setImageSource(R.drawable.ic_eye);
+            otherServiceData.setTitle("চক্ষু পরীক্ষা");
+            otherServiceData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_EYE);
+            otherServiceDataList.add(otherServiceData);
+        }
         if(FormApplicability.isIycfApplicable(day) && FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.IYCF_PACKAGE)){
             OtherServiceData otherServiceData4 = new OtherServiceData();
             otherServiceData4.setImageSource(R.drawable.ic_child);

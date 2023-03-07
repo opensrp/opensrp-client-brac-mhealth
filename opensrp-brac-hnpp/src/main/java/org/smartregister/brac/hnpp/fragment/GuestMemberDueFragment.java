@@ -152,14 +152,15 @@ public class GuestMemberDueFragment extends Fragment implements View.OnClickList
             otherServiceData4.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_IYCF);
             otherServiceDataList.add(otherServiceData4);
         }
-        if(HnppConstants.isPALogin()){
-            if(FormApplicability.isDueAnyForm(guestMemberData.getBaseEntityId(),HnppConstants.EVENT_TYPE.EYE_TEST)){
+
+        if(FormApplicability.isDueAnyForm(guestMemberData.getBaseEntityId(),HnppConstants.EVENT_TYPE.EYE_TEST)){
                 OtherServiceData otherServiceData = new OtherServiceData();
                 otherServiceData.setImageSource(R.drawable.ic_eye);
                 otherServiceData.setTitle("চক্ষু পরীক্ষা");
                 otherServiceData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_EYE);
                 otherServiceDataList.add(otherServiceData);
-            }
+        }
+        if(HnppConstants.isPALogin()){
             if( FormApplicability.isDueAnyForm(guestMemberData.getBaseEntityId(),HnppConstants.EVENT_TYPE.BLOOD_GROUP)){
                 OtherServiceData otherServiceData = new OtherServiceData();
                 otherServiceData.setImageSource(R.drawable.ic_blood);

@@ -780,15 +780,13 @@ public class FormParser {
 
                 }
             }
-            if(details.containsKey("glasses_type") && !StringUtils.isEmpty(details.get("glasses_type"))) {
-                String known = details.get("glasses_type");
+            if(details.containsKey("glasses_type_presbiopia") && !StringUtils.isEmpty(details.get("glasses_type_presbiopia"))) {
+                String known = details.get("glasses_type_presbiopia");
                 if(!TextUtils.isEmpty(known) && known.equalsIgnoreCase("sv")){
                     if(details.containsKey("power") && !StringUtils.isEmpty(details.get("power"))) {
                         String power = details.get("power");
                         if(!TextUtils.isEmpty(power)) {
-                            if(details.containsKey("add_to_stock") && !StringUtils.isEmpty(details.get("add_to_stock"))) {
-                                String add_to_stock = details.get("add_to_stock");
-                                if (!TextUtils.isEmpty(add_to_stock) && add_to_stock.equalsIgnoreCase("1")) {
+
                                     LocalDate localDate = new LocalDate(visit.getVisitDate());
 
                                     switch (power){
@@ -808,23 +806,16 @@ public class FormParser {
                                             HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SV_3,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate(),formSubmissionId);
                                             break;
 
-                                    }
-                                }
                             }
-
-
                         }
 
-                        }
+                    }
 
                 }
                 else  if(!TextUtils.isEmpty(known) && known.equalsIgnoreCase("bf")){
                     if(details.containsKey("power") && !StringUtils.isEmpty(details.get("power"))) {
                         String power = details.get("power");
                         if(!TextUtils.isEmpty(power)) {
-                            if(details.containsKey("add_to_stock") && !StringUtils.isEmpty(details.get("add_to_stock"))) {
-                                String add_to_stock = details.get("add_to_stock");
-                                if (!TextUtils.isEmpty(add_to_stock) && add_to_stock.equalsIgnoreCase("1")) {
                                     LocalDate localDate = new LocalDate(visit.getVisitDate());
 
                                     switch (power){
@@ -844,8 +835,6 @@ public class FormParser {
                                             HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.BF_3,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate(),formSubmissionId);
                                             break;
 
-                                    }
-                                }
                             }
 
 
@@ -854,15 +843,12 @@ public class FormParser {
                     }
 
                 }
-                else  if(!TextUtils.isEmpty(known) && known.equalsIgnoreCase("sg")){
-                    if(details.containsKey("add_to_stock") && !StringUtils.isEmpty(details.get("add_to_stock"))) {
-                        String add_to_stock = details.get("add_to_stock");
-                        if (!TextUtils.isEmpty(add_to_stock) && add_to_stock.equalsIgnoreCase("1")) {
-                            LocalDate localDate = new LocalDate(visit.getVisitDate());
-                            HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SUN_GLASS,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate(),formSubmissionId);
-
-                        }
-                    }
+            }
+            if(details.containsKey("glasses_type_all") && !StringUtils.isEmpty(details.get("glasses_type_all"))) {
+                String glasses_type_all = details.get("glasses_type_all");
+                if (!TextUtils.isEmpty(glasses_type_all) && glasses_type_all.equalsIgnoreCase("sg")) {
+                    LocalDate localDate = new LocalDate(visit.getVisitDate());
+                    HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.SUN_GLASS,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate(),formSubmissionId);
 
                 }
             }
