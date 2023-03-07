@@ -23,6 +23,7 @@ import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.fragment.HnppAncRegisterFragment;
 import org.smartregister.unicef.dghs.listener.HnppFamilyBottomNavListener;
+import org.smartregister.unicef.dghs.location.GeoLocation;
 import org.smartregister.unicef.dghs.location.GeoLocationHelper;
 import org.smartregister.unicef.dghs.location.SSModel;
 import org.smartregister.unicef.dghs.nativation.view.NavigationMenu;
@@ -72,6 +73,7 @@ import timber.log.Timber;
 import static com.vijay.jsonwizard.constants.JsonFormConstants.FIELDS;
 import static com.vijay.jsonwizard.constants.JsonFormConstants.STEP1;
 import static org.smartregister.chw.anc.util.Constants.TABLES.EC_CHILD;
+import static org.smartregister.unicef.dghs.utils.HnppJsonFormUtils.BLOCK_ID;
 
 
 public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
@@ -156,15 +158,8 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
 
         try {
             visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
-            ANCRegister ancRegister = null;
-            if (form_name != null && form_name.equals(HnppConstants.JSON_FORMS.ANC_FORM)) {
-                ancRegister = visitLogRepository.getLastANCRegister(getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.BASE_ENTITY_ID));
-            }
-            try{
-                HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
+            HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,familyBaseEntityId);
+
             Form form = new Form();
             if(!HnppConstants.isReleaseBuild()){
                 form.setActionBarBackground(R.color.test_app_color);
@@ -193,6 +188,8 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
 
             startActivityForResult(intent, JsonFormUtils.REQUEST_CODE_GET_JSON);
         } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -463,8 +460,11 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
     private void saveRegistration(final String jsonString, String table) throws Exception {
         AllSharedPreferences allSharedPreferences = AncLibrary.getInstance().context().allSharedPreferences();
         Event baseEvent = org.smartregister.chw.anc.util.JsonFormUtils.processJsonForm(allSharedPreferences, jsonString, table);
-
-
+        JSONObject form = new JSONObject(jsonString);
+        JSONArray fields = org.smartregister.util.JsonFormUtils.fields(form);
+        String blockId = org.smartregister.util.JsonFormUtils.getFieldValue(fields,BLOCK_ID);
+        GeoLocation selectedLocation = HnppApplication.getGeoLocationRepository().getLocationByBlock(blockId);
+        baseEvent.setIdentifiers(GeoLocationHelper.getInstance().getGeoIdentifier(selectedLocation));
         String visitID ="";
         if(!TextUtils.isEmpty(baseEvent.getEventId())){
             visitID = baseEvent.getEventId();

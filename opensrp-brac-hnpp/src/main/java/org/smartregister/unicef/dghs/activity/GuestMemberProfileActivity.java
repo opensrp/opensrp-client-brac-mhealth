@@ -184,7 +184,7 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
                     String wardId = org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.WARD_ID, false);
                     HnppJsonFormUtils.updateFormWithWardName(jsonForm, GeoLocationHelper.getInstance().getWardList());
                     HnppJsonFormUtils.updateFormWithWardBlockName(jsonForm,wardId,blockName,blockId);
-                    HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
+                    HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,"");
                     intent.putExtra(org.smartregister.chw.anc.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
                     Form form = new Form();
                     form.setWizard(false);
@@ -299,7 +299,7 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
             HnppJsonFormUtils.addEDDField(formName,jsonForm,baseEntityId);
             HnppJsonFormUtils.addRelationalIdAsGuest(jsonForm);
             try{
-                HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
+                HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,baseEntityId);
             }catch (Exception e){
                 e.printStackTrace();
             }

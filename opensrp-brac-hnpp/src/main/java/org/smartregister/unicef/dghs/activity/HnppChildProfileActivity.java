@@ -508,7 +508,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                     JSONObject jsonForm = FormUtils.getInstance(HnppChildProfileActivity.this).getFormJson(HnppConstants.JSON_FORMS.REFERREL_FOLLOWUP);
                     jsonForm.put(JsonFormUtils.ENTITY_ID, childBaseEntityId);
                     try{
-                        HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
+                        HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,getFamilyBaseId());
                     }catch (Exception e){
                         e.printStackTrace();
                     }
@@ -542,6 +542,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
 
 
     }
+    private String getFamilyBaseId(){
+        return ((HnppChildProfilePresenter)presenter).getFamilyID();
+    }
     public void startAnyFormActivity(String formName, int requestCode) {
         if(!HnppApplication.getStockRepository().isAvailableStock(HnppConstants.formNameEventTypeMapping.get(formName))){
             HnppConstants.showOneButtonDialog(this,getString(R.string.dialog_stock_sell_end),"");
@@ -559,7 +562,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
 
                     JSONObject jsonForm = FormUtils.getInstance(HnppChildProfileActivity.this).getFormJson(formName);
                     try{
-                        HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
+                        HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,getFamilyBaseId());
                     }catch (Exception e){
                         e.printStackTrace();
                     }

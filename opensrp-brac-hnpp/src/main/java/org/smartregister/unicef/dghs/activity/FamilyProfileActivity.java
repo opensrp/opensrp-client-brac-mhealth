@@ -391,7 +391,7 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
                     public void onPost(double latitude, double longitude) {
                         try{
                             Intent intent = new Intent(FamilyProfileActivity.this, Utils.metadata().familyMemberFormActivity);
-                            HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
+                            HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,familyBaseEntityId);
                             intent.putExtra("json", jsonForm.toString());
                             Form form = new Form();
                             if(!HnppConstants.isReleaseBuild()){
@@ -781,7 +781,7 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
                     HnppJsonFormUtils.updateHhVisitForm(jsonForm, hhByBaseEntityId);
                     ArrayList<String[]> memberList = HnppDBUtils.getAllMembersInHouseHold(familyBaseEntityId);
                     HnppJsonFormUtils.updateFormWithAllMemberName(jsonForm,memberList);
-                    HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
+                    HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,familyBaseEntityId);
                     startHHFormActivity(jsonForm,REQUEST_HOME_VISIT);
 
                 }catch (Exception e){

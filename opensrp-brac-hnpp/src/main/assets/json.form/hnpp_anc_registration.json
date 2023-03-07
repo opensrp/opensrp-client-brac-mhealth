@@ -66,6 +66,20 @@
         "type": "hidden"
       },
       {
+        "key": "block_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "block_name",
+        "type": "hidden"
+      },
+      {
+        "key": "block_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "block_id",
+        "type": "hidden"
+      },
+      {
         "key": "last_menstrual_period",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -248,8 +262,7 @@
         "type": "edit_text",
         "read_only": true,
         "hint": "দ্রাঘিমা"
-      }
-    ,
+      },
       {
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
@@ -260,7 +273,7 @@
         "text_color": "#FFFFFF",
         "text_size": "22px",
         "label_text_style": "bold",
-        "name": "                    সব তথ্য পূরণ করা হলে জমা দিন"
+        "name": "সব তথ্য পূরণ করা হলে জমা দিন"
       },
       {
         "key": "spacer",
