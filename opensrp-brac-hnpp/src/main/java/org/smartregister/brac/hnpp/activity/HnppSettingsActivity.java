@@ -65,10 +65,10 @@ public class HnppSettingsActivity extends PreferenceActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (PermissionUtils.verifyPermissionGranted(permissions, grantResults, Manifest.permission.READ_PHONE_STATE)) {
+       /* if (PermissionUtils.verifyPermissionGranted(permissions, grantResults, Manifest.permission.READ_PHONE_STATE)) {
 
-            fragment.updateData(true);
-        }
+            fragment.updateData();
+        }*/
     }
 
     public static class MyPreferenceFragment extends PreferenceFragment implements SyncStatusBroadcastReceiver.SyncStatusListener {
@@ -79,16 +79,16 @@ public class HnppSettingsActivity extends PreferenceActivity {
             super.onViewCreated(view, savedInstanceState);
 
         }
-        public void updateData(boolean fromPermission){
-            if(fromPermission){
+        public void updateData(){
+       /*     if(fromPermission){
                 mTelephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
 
-            }
+            }*/
             Preference editTextPref = (EditTextPreference) findPreference("APP_VERSION");
             editTextPref.setSummary(BuildConfig.VERSION_NAME);
-            Preference editTextPref2 = (EditTextPreference) findPreference("IMEI_NO");
-            String devieImei = HnppConstants.getDeviceId(mTelephonyManager,getActivity(),true);
-            editTextPref2.setSummary(devieImei);
+            Preference editTextPref2 = (EditTextPreference) findPreference("DEVICE_ID");
+            String deviceId = HnppConstants.getDeviceId(getActivity(),true);
+            editTextPref2.setSummary(deviceId);
         }
 
         @SuppressLint("HardwareIds")
@@ -99,7 +99,7 @@ public class HnppSettingsActivity extends PreferenceActivity {
             SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(this);
             addPreferencesFromResource(R.xml.preferences);
             livePreference =(LivePreference) findPreference("change_pin");
-            updateData(false);
+            updateData();
             Preference baseUrlPreference = findPreference("DRISHTI_BASE_URL");
             if (baseUrlPreference != null) {
                 final EditTextPreference baseUrlEditTextPreference = (EditTextPreference) baseUrlPreference;
@@ -162,7 +162,7 @@ public class HnppSettingsActivity extends PreferenceActivity {
                     }
                 });
             }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+           /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_PHONE_STATE)
                         != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions((Activity) getActivity(), new String[]{
@@ -173,8 +173,8 @@ public class HnppSettingsActivity extends PreferenceActivity {
                 }
             } else {
                 mTelephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-            }
-            updateData(false);
+            }*/
+            updateData();
         }
 
         private void updateUrl(String baseUrl) {

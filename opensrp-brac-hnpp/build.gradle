@@ -18,7 +18,7 @@ buildscript {
 
 android {
     useLibrary 'org.apache.http.legacy'
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion androidBuildToolsVersion
 
     compileOptions {
@@ -35,13 +35,13 @@ android {
     defaultConfig {
         applicationId "org.smartregister.brac.hnpp"
         minSdkVersion 18
-        targetSdkVersion 30
+        targetSdkVersion 31
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
 
-        buildConfigField "String", "SIMPRINT_PROJECT_ID_TRAINING",'"pcmqBbcaB4xWvfRHRELG"'
-        buildConfigField "String", "SIMPRINT_PROJECT_ID_RELEASE",'"pcmqBbcaB4xWvfRHRELG"'
+        buildConfigField "String", "SIMPRINT_PROJECT_ID_TRAINING", '"pcmqBbcaB4xWvfRHRELG"'
+        buildConfigField "String", "SIMPRINT_PROJECT_ID_RELEASE", '"pcmqBbcaB4xWvfRHRELG"'
         buildConfigField "String[]", "ALLOWED_LOCATION_LEVELS", '{"MOH Jhpiego Facility Name" , "Village"}'
         buildConfigField "String", 'DEFAULT_LOCATION', '"Village"'
         buildConfigField "boolean", 'SUPPORT_QR', 'false'
@@ -54,6 +54,12 @@ android {
         buildConfigField "long", "BUILD_TIMESTAMP", System.currentTimeMillis() + "L"
         buildConfigField "boolean", "IS_SYNC_SETTINGS", "false"
         buildConfigField "int", "NOTIFICATION_GENERATE", '360'
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath = false
+            }
+        }
     }
 
     buildTypes {
@@ -181,6 +187,7 @@ dependencies {
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.google.code.gson:gson:2.8.5'
+
     api('org.smartregister:opensrp-client-simprints:2.1.0-SNAPSHOT@aar') {
         transitive = true
         exclude group: 'com.android.support', module: 'appcompat-v7'
