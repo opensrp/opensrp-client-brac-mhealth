@@ -280,9 +280,10 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
 
     public void isDeviceVerifyiedCheck() {
         if(HnppConstants.isDeviceVerified()){
+           // Log.d("IMEI_URL","verified");
             return;
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+      /*  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
                     != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions((Activity) this, new String[]{
@@ -293,9 +294,10 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             }
         } else {
             mTelephonyManager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-        }
-        String devieImei = HnppConstants.getDeviceId(mTelephonyManager,this,false);
-        if(TextUtils.isEmpty(devieImei)){
+        }*/
+        String deviceId = HnppConstants.getDeviceId(this,false);
+        Log.d("deviceId",deviceId);
+        if(TextUtils.isEmpty(deviceId)){
             android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(LoginActivity.this).create();
             alertDialog.setTitle("এই ডিভাইস টির IMEI পাওয়া যাইনি");
             alertDialog.setCancelable(false);
@@ -326,7 +328,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
                 }
                  try {
                     // baseUrl = "http://mhealthtest.brac.net:8080/opensrp";
-                            String url = baseUrl + "/deviceverify/get?imei=" + devieImei;
+                            String url = baseUrl + "/deviceverify/get?imei=" + deviceId;
                             Log.v("IMEI_URL","url:"+url);
                             Response resp = CoreLibrary.getInstance().context().getHttpAgent().fetchWithoutAuth(url);
                             if (resp.isFailure()) {
@@ -346,10 +348,10 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
                 super.onPostExecute(o);
                 if(o !=null ){
                     String status = (String)o;
-                    showDialog(status,devieImei);
+                    showDialog(status,deviceId);
 
                 }else{
-                    showDialog("",devieImei);
+                    showDialog("",deviceId);
                 }
 
             }
@@ -357,7 +359,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
     }
     private void showDialog(String status, String devieImei){
         hideProgressDialog();
-        Log.v("IMEI_URL","showDialog:"+status);
+        Log.v("IMEI_URL","showDialog:"+status+devieImei);
         if(TextUtils.isEmpty(status) || !status.equalsIgnoreCase("true")){
             HnppConstants.updateDeviceVerified(false,devieImei);
             android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(LoginActivity.this).create();
@@ -371,6 +373,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             if (mActivity != null)
                 alertDialog.show();
         }else{
+            Log.v("devieImei",devieImei);
             HnppConstants.updateDeviceVerified(true,devieImei);
         }
     }

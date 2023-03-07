@@ -123,6 +123,7 @@
             android:roundIcon="@drawable/ic_launcher_round"
             android:screenOrientation="portrait"
             android:theme="@style/ChwTheme.Login"
+            android:exported="true"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
