@@ -1,6 +1,7 @@
 package org.smartregister.brac.hnpp.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -24,6 +25,7 @@ public class MemberOtherServiceFragment extends Fragment implements OtherService
     private MemberOtherServicePresenter presenter;
     private RecyclerView clientsView;
     private CommonPersonObjectClient commonPersonObjectClient;
+    private Handler handler;
 
     public void setCommonPersonObjectClient(CommonPersonObjectClient commonPersonObjectClient){
         this.commonPersonObjectClient = commonPersonObjectClient;
@@ -50,10 +52,18 @@ public class MemberOtherServiceFragment extends Fragment implements OtherService
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         presenter = new MemberOtherServicePresenter(this);
-
+        handler = new Handler();
+        updateStaticView();
     }
     public void updateStaticView(){
-        if(presenter!=null&& commonPersonObjectClient!=null)presenter.fetchData(commonPersonObjectClient);
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(presenter!=null&& commonPersonObjectClient!=null)presenter.fetchData(commonPersonObjectClient);
+            }
+        },500);
+
     }
 
     @Override
@@ -71,6 +81,12 @@ public class MemberOtherServiceFragment extends Fragment implements OtherService
         OtherServiceAdapter adapter = new OtherServiceAdapter(getActivity(),onClickAdapter);
         adapter.setData(presenter.getData());
         this.clientsView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if(handler != null) handler.removeCallbacksAndMessages(null);
     }
 
     @Override

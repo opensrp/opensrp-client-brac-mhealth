@@ -414,10 +414,14 @@ public class FormParser {
         if(details.containsKey("add_to_stock")&&!StringUtils.isEmpty(details.get("add_to_stock"))) {
             String value = details.get("add_to_stock");
             Log.v("STOCK_ADD","isNeedToAddStockTable>>"+value);
-            if(!TextUtils.isEmpty(value) && value.equalsIgnoreCase("5")){
-                return true;
+            if(TextUtils.isEmpty(value)) return false;
 
+            if(HnppConstants.isPALogin()){
+                return !value.equalsIgnoreCase("0");
+            }else{
+                return value.equalsIgnoreCase("5");
             }
+
 
         }
         return false;
@@ -772,7 +776,7 @@ public class FormParser {
                     HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.PRESBYOPIA_CORRECTION,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),formSubmissionId);
                     if(details.containsKey("add_to_stock") && !StringUtils.isEmpty(details.get("add_to_stock"))) {
                         String add_to_stock = details.get("add_to_stock");
-                        if (!TextUtils.isEmpty(add_to_stock) && add_to_stock.equalsIgnoreCase("1")) {
+                        if (!TextUtils.isEmpty(add_to_stock) && !add_to_stock.equalsIgnoreCase("0")) {
                             HnppApplication.getStockRepository().updateValue(HnppConstants.EVENT_TYPE.GLASS,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",visit.getSsName(),visit.getBaseEntityId(),visit.getVisitDate(),formSubmissionId);
 
                         }

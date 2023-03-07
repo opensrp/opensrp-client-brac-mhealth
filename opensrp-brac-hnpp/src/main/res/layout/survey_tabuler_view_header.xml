@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:background="@color/black"
+    android:layout_width="match_parent"
+    android:layout_height="50dp">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/form_name"
+            android:text="Form Name"
+            android:padding="10dp"
+            android:gravity="center"
+            android:layout_margin="1dp"
+            android:textColor="@color/black"
+            android:background="@color/white"
+            android:layout_gravity="center_vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:id="@+id/date"
+            android:text="Date"
+            android:padding="10dp"
+            android:gravity="center"
+            android:layout_margin="1dp"
+            android:textColor="@color/black"
+            android:layout_gravity="center_vertical"
+            android:background="@color/white"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:id="@+id/time"
+            android:text="time"
+            android:padding="10dp"
+            android:gravity="center"
+            android:layout_margin="1dp"
+            android:textColor="@color/black"
+            android:layout_gravity="center_vertical"
+            android:background="@color/white"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -78,6 +78,8 @@ public class HnppJobCreator implements JobCreator {
                 return new NotificationGeneratorJob();
             case DataDeleteJob.TAG:
                 return new DataDeleteJob();
+            case SurveyHistoryJob.TAG:
+                return new SurveyHistoryJob();
             default:
                 Timber.d("Please create job and specify the right job tag");
                 return null;

@@ -1,9 +1,11 @@
 package org.smartregister.brac.hnpp.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,9 +38,11 @@ import org.smartregister.brac.hnpp.fragment.FamilyHistoryFragment;
 import org.smartregister.brac.hnpp.fragment.FamilyProfileDueFragment;
 import org.smartregister.brac.hnpp.interactor.MigrationInteractor;
 import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
+import org.smartregister.brac.hnpp.job.SurveyHistoryJob;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.model.HnppFamilyProfileModel;
+import org.smartregister.brac.hnpp.model.Survey;
 import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
 import org.smartregister.brac.hnpp.sync.FormParser;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -87,6 +92,37 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         super.onCreateOptionsMenu(menu);
         setupMenuOptions(menu);
         return true;
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_hh_survey:
+                try{
+                    JSONObject mmObj = HnppConstants.populateHHData(familyBaseEntityId);
+                    Intent intent = HnppConstants.passToSurveyApp(HnppConstants.SURVEY_KEY.HH_TYPE, mmObj.toString(), this);
+                    Log.v("SURVEY_APP","request:"+intent.getExtras().toString());
+                    startActivityForResult(intent, HnppConstants.SURVEY_KEY.HH_SURVEY_REQUEST_CODE);
+
+//                    Intent intent1 = new Intent();
+//                    intent1.putExtra("data","{\"form_name\":\"hh_form\",\"date\":\"2022-04-11 15:30:32\",\"uuid\":\"327c0e24-54ea-4e1b-9692-8cc4f219e19b\",\"time_stamp\":231231244444}");
+//                    processSurveyResponse(intent1);
+                }catch (ActivityNotFoundException activityNotFoundException){
+                    Toast.makeText(this,"App not installed",Toast.LENGTH_SHORT).show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                return true;
+            case R.id.action_survey_history:
+                if(HnppConstants.isNeedToCallSurveyHistoryApi()){
+                    SurveyHistoryJob.scheduleJobImmediately(SurveyHistoryJob.TAG);
+                }
+                SurveyHistoryActivity.startSurveyHistoryActivity(this,HnppConstants.SURVEY_KEY.HH_TYPE,familyBaseEntityId);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -157,8 +193,6 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
     protected void refreshPresenter() {
         presenter = new FamilyProfilePresenter(this, new HnppFamilyProfileModel(familyName,moduleId,houseHoldId,familyBaseEntityId),houseHoldId, familyBaseEntityId, familyHead, primaryCaregiver, familyName);
     }
-
-
 
     @Override
     protected void refreshList(Fragment fragment) {
@@ -338,11 +372,12 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
             }
             HnppConstants.isViewRefresh = true;
         }
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
+        else if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
             if(isProcessing) return;
             AtomicBoolean isSave = new AtomicBoolean(false);
             showProgressDialog(R.string.please_wait_message);
             Runnable runnable = () -> {
+                Log.v("SAVE_VISIT","isProcessing>>"+isProcessing);
                 if(!isProcessing){
                     isProcessing = true;
                     String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
@@ -351,6 +386,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                     isSave.set(processAndSaveVisitForm(jsonString,formSubmissionId,visitId));
                 }
                 appExecutors.mainThread().execute(() -> {
+                    isProcessing = false;
                     if(isSave.get()){
                         hideProgressDialog();
                         showServiceDoneDialog(true);
@@ -358,12 +394,59 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                         hideProgressDialog();
                         showServiceDoneDialog(false);
                     }
+
                 });
             };
             appExecutors.diskIO().execute(runnable);
+//            try{
+//                Thread.sleep(5000);
+//            }catch (Exception e){
+//
+//            }
+//            appExecutors.diskIO().execute(runnable);
+
+        }
+        else if(resultCode == Activity.RESULT_OK && requestCode == HnppConstants.SURVEY_KEY.HH_SURVEY_REQUEST_CODE){
+            if(processSurveyResponse(data)){
+                Toast.makeText(this,"Survey done",Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(this,"Fail to Survey",Toast.LENGTH_SHORT).show();
+            }
+
 
         }
 
+    }
+    private boolean processSurveyResponse(Intent data){
+        String response = data.getStringExtra(HnppConstants.SURVEY_KEY.DATA);
+        try{
+            JSONObject jsonObject = new JSONObject(response);
+            String form_name = jsonObject.getString("form_name");
+            String date_time = jsonObject.getString("date");
+            String uuid = jsonObject.getString("uuid");
+            Long time_stamp;
+            try{
+                time_stamp = jsonObject.getLong("time_stamp");
+            }catch (Exception e){
+                time_stamp = Long.parseLong(jsonObject.getString("time_stamp"));
+            }
+            String form_id = jsonObject.optString("form_id");
+
+            Survey survey = new Survey();
+            survey.formName = form_name;
+            survey.formId = form_id;
+            survey.uuid = uuid;
+            survey.timestamp = time_stamp;
+            survey.baseEntityId = familyBaseEntityId;
+            survey.dateTime = date_time;
+            HnppApplication.getSurveyHistoryRepository().addOrUpdate(survey,HnppConstants.SURVEY_KEY.HH_TYPE);
+            return true;
+
+        }catch (Exception e){
+            e.printStackTrace();
+
+        }
+        return false;
     }
     private boolean processAndSaveVisitForm(String jsonString, String formSubmissionId, String visitId){
         if(TextUtils.isEmpty(familyBaseEntityId)){
@@ -429,7 +512,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                 dialog.dismiss();
                 dialog = null;
                 isProcessing = false;
-                if(isSuccess){
+                //if(isSuccess){
                     if(familyHistoryFragment !=null){
                         handler.postDelayed(new Runnable() {
                             @Override
@@ -440,7 +523,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                                 presenter().refreshProfileView();
                             }
                         },2000);
-                    }
+                   // }
                 }
             }
         });
@@ -494,7 +577,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         viewPager.setAdapter(adapter);
         if (getIntent().getBooleanExtra(CoreConstants.INTENT_KEY.SERVICE_DUE, false) ||
                 getIntent().getBooleanExtra(Constants.INTENT_KEY.GO_TO_DUE_PAGE, false)) {
-            viewPager.setCurrentItem(1);
+            if(!HnppConstants.isPALogin()) viewPager.setCurrentItem(1);
         }
 
         return viewPager;

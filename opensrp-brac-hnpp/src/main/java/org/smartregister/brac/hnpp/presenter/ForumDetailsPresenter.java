@@ -1,5 +1,7 @@
 package org.smartregister.brac.hnpp.presenter;
 
+import static org.smartregister.util.JsonFormUtils.generateRandomUUIDString;
+
 import android.util.Log;
 
 import org.smartregister.brac.hnpp.contract.ForumDetailsContract;
@@ -64,7 +66,8 @@ public class ForumDetailsPresenter implements ForumDetailsContract.Presenter {
                 Log.v("FORUM_TEST","processForum");
                 if(!isProcessing){
                     isProcessing = true;
-                    isSave.set(HnppJsonFormUtils.processAndSaveForum(eventType,forumDetails)!=null);
+                    String baseEntityId = generateRandomUUIDString();
+                    isSave.set(HnppJsonFormUtils.processAndSaveForum(eventType,forumDetails,baseEntityId)!=null);
                 }
 
 

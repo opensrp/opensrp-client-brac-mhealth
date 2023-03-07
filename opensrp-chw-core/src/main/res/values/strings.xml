@@ -344,4 +344,7 @@
     <string name="vitamin_a_number_dose">Vitamin A %s dose</string>
 
     <string name="return_to_task_details">Return to Referral details</string>
+    <string name="hh_survey">HH survey</string>
+    <string name="mm_survey">Member survey</string>
+    <string name="survey_history">Survey history</string>
 </resources>

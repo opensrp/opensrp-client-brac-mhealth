@@ -388,4 +388,7 @@
     <string name="dialog_title">আপনি কি নিশ্চিত এই স্থানান্তর এর সম্পর্কে?</string>
     <string name="error_unable_to_start_form">পুনরায় চেষ্টা করুন</string>
     <string name="address_not_found">হাউসহোল্ড এড্রেস খুঁজে পাওয়া যায়নি। হাউসহোল্ড এডিট করুন</string>
+    <string name="hh_survey">খানা সার্ভে</string>
+    <string name="mm_survey">সদস্য সার্ভে</string>
+    <string name="survey_history">সার্ভে ইতিহাস</string>
 </resources>

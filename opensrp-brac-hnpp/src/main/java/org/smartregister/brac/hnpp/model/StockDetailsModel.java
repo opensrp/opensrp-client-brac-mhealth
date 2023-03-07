@@ -32,6 +32,9 @@ public class StockDetailsModel implements StockDetailsContract.Model{
     public StockDetailsData getAdultPackageStockData(String month, String year){
         return getStockData(HnppConstants.EVENT_TYPE.NCD_PACKAGE,month,year,getLastBalance(HnppConstants.EVENT_TYPE.NCD_PACKAGE,month,year));
     }
+//    public StockDetailsData getBloodGroupStockData(String month, String year){
+//        return getStockData(HnppConstants.EVENT_TYPE.BLOOD_GROUP,month,year,getLastBalance(HnppConstants.EVENT_TYPE.BLOOD_GROUP,month,year));
+//    }
     public StockDetailsData getTotalGlassStockData(String month, String year){
         return getStockData(HnppConstants.EVENT_TYPE.GLASS,month,year,getLastBalance(HnppConstants.EVENT_TYPE.GLASS,month,year));
     }
