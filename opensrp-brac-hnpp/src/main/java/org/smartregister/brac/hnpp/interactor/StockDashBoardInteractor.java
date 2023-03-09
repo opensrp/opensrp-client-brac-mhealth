@@ -53,28 +53,28 @@ public class StockDashBoardInteractor implements DashBoardContract.Interactor {
         if(HnppConstants.isPALogin()){
             addToDashBoardList(model.getAdultPackageStockData(month,year));
 //            addToDashBoardList(model.getBloodGroupStockData(month,year));
-            addToDashBoardList(model.getTotalGlassStockData(month,year));
-            addToDashBoardList(model.getSunGlassStockData(month,year));
-            addToDashBoardList(model.getSV1StockData(month,year));
-            addToDashBoardList(model.getSV1_5StockData(month,year));
-            addToDashBoardList(model.getSV2StockData(month,year));
-            addToDashBoardList(model.getSV2_5StockData(month,year));
-            addToDashBoardList(model.getSV3StockData(month,year));
-            addToDashBoardList(model.getBF1StockData(month,year));
-            addToDashBoardList(model.getBF1_5StockData(month,year));
-            addToDashBoardList(model.getBF2StockData(month,year));
-            addToDashBoardList(model.getBF2_5StockData(month,year));
-            addToDashBoardList(model.getBF3StockData(month,year));
         }else{
             addToDashBoardList(model.getAncStockData(month,year));
             addToDashBoardList(model.getPncStockData(month,year));
-
             addToDashBoardList(model.getNcdServiceStockData(month,year));
             addToDashBoardList(model.getWomenServiceStockData(month,year));
             addToDashBoardList(model.getAdoServiceStockData(month,year));
             addToDashBoardList(model.getChildServiceStockData(month,year));
+
         }
 
+        addToDashBoardList(model.getTotalGlassStockData(month,year));
+        addToDashBoardList(model.getSunGlassStockData(month,year));
+        addToDashBoardList(model.getSV1StockData(month,year));
+        addToDashBoardList(model.getSV1_5StockData(month,year));
+        addToDashBoardList(model.getSV2StockData(month,year));
+        addToDashBoardList(model.getSV2_5StockData(month,year));
+        addToDashBoardList(model.getSV3StockData(month,year));
+        addToDashBoardList(model.getBF1StockData(month,year));
+        addToDashBoardList(model.getBF1_5StockData(month,year));
+        addToDashBoardList(model.getBF2StockData(month,year));
+        addToDashBoardList(model.getBF2_5StockData(month,year));
+        addToDashBoardList(model.getBF3StockData(month,year));
 
     }
 

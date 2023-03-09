@@ -23,6 +23,6 @@ actions:
 name: step1_first_glass_user
 description: present condition
 priority: 1
-condition: "(!step1_exam_result.equalsIgnoreCase('প্রেসবায়োপিয়া'))"
+condition: "(step1_exam_result.equalsIgnoreCase('প্রেসবায়োপিয়া'))"
 actions:
   - "isRelevant = true"

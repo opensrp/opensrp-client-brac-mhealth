@@ -466,6 +466,14 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
         if (baseEvent != null) {
             baseEvent.setFormSubmissionId(formSubmissionId);
+            try{
+                Map<String,String> villageIds = new HashMap<>();
+                villageIds.put("village_id",HnppDBUtils.getVillageIdByBaseEntityId(baseEvent.getBaseEntityId()));
+                baseEvent.setIdentifiers(villageIds);
+            }catch (Exception e){
+
+            }
+
             org.smartregister.chw.anc.util.JsonFormUtils.tagEvent(allSharedPreferences, baseEvent);
             String visitID ="";
             if(!TextUtils.isEmpty(baseEvent.getEventId())){
@@ -497,6 +505,14 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
         if (baseEvent != null) {
             baseEvent.setFormSubmissionId(formSubmissionId);
+            try{
+                Map<String,String> villageIds = new HashMap<>();
+                villageIds.put("village_id",HnppDBUtils.getVillageIdByBaseEntityId(baseEvent.getBaseEntityId()));
+                baseEvent.setIdentifiers(villageIds);
+            }catch (Exception e){
+
+            }
+
             org.smartregister.chw.anc.util.JsonFormUtils.tagEvent(allSharedPreferences, baseEvent);
             String visitID ="";
             if(!TextUtils.isEmpty(baseEvent.getEventId())){

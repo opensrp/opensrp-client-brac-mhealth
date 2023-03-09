@@ -129,11 +129,11 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
             otherServiceDataList.add(otherServiceData2);
         }
         if(FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.EYE_TEST)){
-            OtherServiceData otherServiceData = new OtherServiceData();
-            otherServiceData.setImageSource(R.drawable.ic_eye);
-            otherServiceData.setTitle("চক্ষু পরীক্ষা");
-            otherServiceData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_EYE);
-            otherServiceDataList.add(otherServiceData);
+            OtherServiceData otherServiceDataEye = new OtherServiceData();
+            otherServiceDataEye.setImageSource(R.drawable.ic_eye);
+            otherServiceDataEye.setTitle("চক্ষু পরীক্ষা");
+            otherServiceDataEye.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_EYE);
+            otherServiceDataList.add(otherServiceDataEye);
         }
         if(FormApplicability.isIycfApplicable(day) && FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.IYCF_PACKAGE)){
             OtherServiceData otherServiceData4 = new OtherServiceData();

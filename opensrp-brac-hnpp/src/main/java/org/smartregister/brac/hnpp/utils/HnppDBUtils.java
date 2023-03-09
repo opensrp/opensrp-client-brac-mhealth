@@ -538,6 +538,23 @@ public class HnppDBUtils extends CoreChildUtils {
         }
         return isCorona;
     }
+    public static String getVillageIdByBaseEntityId(String baseEntityId){
+     String query ="Select ec_family.village_id FROM ec_family_member LEFT JOIN ec_family ON  ec_family_member.relational_id = ec_family.id COLLATE NOCASE  WHERE  ec_family_member.base_entity_id = '"+baseEntityId+"'";
+        Cursor cursor = null;
+        String villageId="";
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                villageId = cursor.getString(0);
+            }
+            if(cursor!=null)cursor.close();
+            return villageId;
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return villageId;
+    }
 
 
     public static String getGuid(String baseEntityId){

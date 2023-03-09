@@ -29,7 +29,7 @@ import java.util.Map;
 public class FormApplicability {
 
     public static boolean isDueHHVisit(String baseEntityId){
-        return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneWihinTwentyFourHours(baseEntityId, HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY);
+        return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneHHVisit(baseEntityId);
 
     }
     public static boolean isDueAnyForm(String baseEntityId, String eventType){

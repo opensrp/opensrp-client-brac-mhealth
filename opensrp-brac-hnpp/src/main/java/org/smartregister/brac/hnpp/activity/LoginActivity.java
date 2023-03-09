@@ -362,7 +362,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         Log.v("IMEI_URL","showDialog:"+status+devieImei);
         if(TextUtils.isEmpty(status) || !status.equalsIgnoreCase("true")){
             HnppConstants.updateDeviceVerified(false,devieImei);
-            android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(LoginActivity.this).create();
+            android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(mActivity).create();
             alertDialog.setTitle("এই ডিভাইস টি রেজিস্টার করা হয় নি।ডিভাইস id:"+devieImei);
             alertDialog.setCancelable(false);
 

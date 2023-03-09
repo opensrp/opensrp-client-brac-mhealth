@@ -124,10 +124,10 @@ public class HnppConstants extends CoreConstants {
     public static final String KEY_IS_SAME_MONTH = "is_same_month";
     public static final String KEY_NEED_TO_OPEN = "need_to_open_drawer";
 
-    public static SimpleDateFormat DDMMYY = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-    public static SimpleDateFormat HHMM = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
-    public static SimpleDateFormat YYYYMM = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
-    public static SimpleDateFormat YYMMDD = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    public static SimpleDateFormat DDMMYY = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+    public static SimpleDateFormat HHMM = new SimpleDateFormat("HH:mm:ss", Locale.US);
+    public static SimpleDateFormat YYYYMM = new SimpleDateFormat("yyyy-MM", Locale.US);
+    public static SimpleDateFormat YYMMDD = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
     public static void deleteLogFile() {
 //        try{
