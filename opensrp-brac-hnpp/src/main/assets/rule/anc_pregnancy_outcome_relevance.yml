@@ -21,10 +21,17 @@ condition: "step1_preg_outcome == 'born_alive' || step1_preg_outcome == 'still_b
 actions:
   - "isRelevant = true"
 ---
-name: step1_delivery_assistance
-description: delivery_assistance relevance
+name: step1_delivery_place
+description: delivery_place relevance
 priority: 1
 condition: "step1_preg_outcome == 'born_alive' || step1_preg_outcome == 'still_born'"
+actions:
+  - "isRelevant = true"
+---
+name: step1_csba_trained
+description: csba_trained relevance
+priority: 1
+condition: "step1_place_of_delivery == 'বাড়িতে' || step1_place_of_delivery == 'কমিউনিটি ক্লিনিক'"
 actions:
   - "isRelevant = true"
 ---

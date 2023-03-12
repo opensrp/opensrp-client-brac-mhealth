@@ -198,6 +198,36 @@
         }
       },
       {
+        "key":"mother_vital",
+        "openmrs_entity_parent":"",
+        "openmrs_entity":"concept",
+        "openmrs_entity_id":"mother_vital",
+        "openmrs_data_type":"text",
+        "type":"spinner",
+        "hint":"মায়ের অবস্থা",
+        "values":[
+          "সুস্থ আছেন",
+          "অসুস্থ",
+          "মারা গেছেন"
+        ],
+        "openmrs_choice_ids":{
+          "সুস্থ আছেন":"alive",
+          "অসুস্থ":"sick",
+          "মারা গেছেন":"dead"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive","still_born","born_alive_died"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
         "key": "no_born_alive",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -262,7 +292,34 @@
           }
         }
       },
-
+      {
+        "key":"still_birth_type",
+        "openmrs_entity_parent":"",
+        "openmrs_entity":"concept",
+        "openmrs_entity_id":"still_birth_type",
+        "openmrs_data_type":"text",
+        "type":"spinner",
+        "hint":"মৃত বাচ্চা জন্মের ধরণ",
+        "values":[
+          "ক্ষয় হওয়া",
+          "তরতাজা"
+        ],
+        "openmrs_choice_ids":{
+          "ক্ষয় হওয়া":"macereted",
+          "তরতাজা":"fresh"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "still_born"
+                ]
+              }
+            ]
+          }
+        }
+      },
       {
         "key": "no_miscarriage",
         "openmrs_entity_parent": "",
@@ -402,6 +459,32 @@
         ]
       },
       {
+        "key": "miscarriage_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "miscarriage_date",
+        "type": "date_picker",
+        "hint": "গর্ভপাতের তারিখ",
+        "expanded": false,
+        "max_date": "today",
+        "min_date": "",
+        "v_required": {
+          "value": "true",
+          "err": "Please enter date the woman delivered"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "miscarriage"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
         "key": "type_miscarriage",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -476,90 +559,6 @@
         }
       },
       {
-        "key":"place_of_delivery",
-        "openmrs_entity_parent":"",
-        "openmrs_entity":"",
-        "openmrs_entity_id":"place_of_delivery",
-        "openmrs_data_type":"text",
-        "type":"spinner",
-        "hint":"কোথায় প্রসব করানো হয়ছে?",
-        "values":[
-          "মেডিকেল কলেজ হাসপাতাল",
-          "জেলা হাসপাতাল",
-          "উপজেলা হাসপাতাল",
-          "মা ও শিশু কল্যাণ কেন্দ্র",
-          "উপজেলা স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র / উপজেলা সব-সেন্টার",
-          "কমিউনিটি ক্লিনিক",
-          "বেসরকারি হাসপাতাল/ এন.জি.ও. ক্লিনিক",
-          "বাড়ি",
-          "চা বাগান ফ্যাসিলিটি",
-          "নিজস্ব কেন্দ্র",
-          "অন্যান্য"
-        ],
-        "openmrs_choice_ids":{
-          "মেডিকেল কলেজ হাসপাতাল":"Medical College Hospital" ,
-          "জেলা হাসপাতাল": "District Hospital",
-          "উপজেলা হাসপাতাল": "UpazilaHospital",
-          "মা ও শিশু কল্যাণ কেন্দ্র": "MCWC",
-          "উপজেলা স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র / উপজেলা সব-সেন্টার": "UH & FWC / USC",
-          "কমিউনিটি ক্লিনিক": "Community Clinic",
-          "বেসরকারি হাসপাতাল/ এন.জি.ও. ক্লিনিক": "Private Hospital / NGO clinic",
-          "বাড়ি": "Home",
-          "চা বাগান ফ্যাসিলিটি": "Tea Garden Facility",
-          "নিজস্ব কেন্দ্র": "Own Facility",
-          "অন্যান্য": "Others"
-        },
-        "relevance": {
-          "step1:preg_outcome": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "born_alive","still_born"
-                ]
-              }
-            ]
-          }
-        }
-      },
-      {
-        "key":"delivery_conducted_by",
-        "openmrs_entity_parent":"",
-        "openmrs_entity":"",
-        "openmrs_entity_id":"delivery_conducted_by",
-        "openmrs_data_type":"text",
-        "type":"spinner",
-        "hint":"কার দ্বারা প্রসব পরিচালিত হয়েছে?",
-        "values":[
-          "ডাক্তার",
-          "নার্স",
-          "প্রশিক্ষিত ধাত্রী",
-          "সি.এস.বি.এ.",
-          "এফ.ডাব্লিউ.ভি.",
-          "এস.এ.সি.এম.ও",
-          "অন্যান্য"
-        ],
-        "openmrs_choice_ids":{
-          "ডাক্তার": "Doctor",
-          "নার্স": "Nurse",
-          "প্রশিক্ষিত ধাত্রী": "Midwife",
-          "সি.এস.বি.এ.": "CSBA",
-          "এফ.ডাব্লিউ.ভি.": "FWV",
-          "এস.এ.সি.এম.ও": "SACMO",
-          "অন্যান্য": "Others"
-        },
-        "relevance": {
-          "step1:preg_outcome": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "born_alive","still_born"
-                ]
-              }
-            ]
-          }
-        }
-      },
-      {
         "key":"type_of_delivery",
         "openmrs_entity_parent":"",
         "openmrs_entity":"",
@@ -590,13 +589,131 @@
         }
       },
       {
-        "key": "pnc_received",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "pnc_received",
-        "openmrs_data_type": "select one",
-        "type": "spinner",
-        "hint": "জন্মদানের পর ৪৮ ঘন্টার মধ্যে গর্ভপরবর্তী সেবা (পি.এন.সি.) পেয়েছে কিনা?",
+        "key":"place_of_delivery",
+        "openmrs_entity_parent":"",
+        "openmrs_entity":"",
+        "openmrs_entity_id":"place_of_delivery",
+        "openmrs_data_type":"text",
+        "type":"spinner",
+        "hint":"প্রসবের স্থান",
+        "values":[
+          "বাড়িতে",
+          "কমিউনিটি ক্লিনিক",
+          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র",
+          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র",
+          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
+          "মা ও শিশু কল্যাণ কেন্দ্র",
+          "১০ শয্যা বিশিষ্ট হাসপাতাল",
+          "২০ শয্যা বিশিষ্ট হাসপাতাল",
+          "উপজেলা স্বাস্থ্য কমপ্লেক্স",
+          "সদর হাসপাতাল",
+          "মেডিকেল কলেজ হাসপাতাল",
+          "বেসরকারী ক্লিনিক/হাসপাতাল",
+          "এনজিও",
+          "বিশেষায়িত হাসপাতাল",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids":{
+          "বাড়িতে": "Home",
+          "কমিউনিটি ক্লিনিক": "Community Clinic",
+          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র": "Union_Sub_Center",
+          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র":"Union_Family_Welfare_Center",
+          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র": "Union_Health_and_Family_Welfare_Center",
+          "মা ও শিশু কল্যাণ কেন্দ্র": "MCWC",
+          "১০ শয্যা বিশিষ্ট হাসপাতাল": "10_Bed_Hospital",
+          "২০ শয্যা বিশিষ্ট হাসপাতাল": "20_Beds_Hospital",
+          "উপজেলা স্বাস্থ্য কমপ্লেক্স": "Upazila_Health_Complex",
+          "সদর হাসপাতাল": "District_Hospital",
+          "মেডিকেল কলেজ হাসপাতাল":"Medical_College_and_Hospital" ,
+          "বেসরকারী ক্লিনিক/হাসপাতাল": "Private_Clinic_and_Hospital",
+          "এনজিও": "Non-governmental_Organization",
+          "বিশেষায়িত হাসপাতাল": "Specialized_Hospital",
+          "অন্যান্য": "Others"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive","still_born"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "key":"delivery_conducted_by_home",
+        "openmrs_entity_parent":"",
+        "openmrs_entity":"",
+        "openmrs_entity_id":"delivery_conducted_by_home",
+        "openmrs_data_type":"text",
+        "type":"spinner",
+        "hint":"প্রসবে সহায়তাকারী",
+        "values":[
+          "কেউ না",
+          "আত্মীয়-স্বজন",
+          "প্রতিবেশী",
+          "অপ্রশিক্ষিত দাই",
+          "প্র্রশিক্ষিত দাই",
+          "এনজিও কর্মী",
+          "এফ.ডব্লিউ.এ/এইচ.এ",
+          "এফ.ডাব্লিউ.ভি.",
+          "অন্যান্য_কেউ"
+        ],
+        "openmrs_choice_ids":{
+          "কেউ না": "nobody",
+          "আত্মীয়-স্বজন": "Relatives",
+          "প্রতিবেশী": "Neighbor",
+          "অপ্রশিক্ষিত দাই": "Traditional_birth_Attendent",
+          "প্র্রশিক্ষিত দাই": "Trained_birth_Attendent",
+          "এনজিও কর্মী": "NGO_Workers",
+          "এফ.ডব্লিউ.এ/এইচ.এ": "fwa_ha",
+          "এফ.ডাব্লিউ.ভি.": "FWV",
+          "অন্যান্য_কেউ": "others_anyone"
+        },
+        "relevance": {
+          "step1:place_of_delivery": {
+            "type": "string",
+            "ex": "equalTo(., \"বাড়িতে\")"
+          }
+        }
+      },
+      {
+        "key":"delivery_conducted_by_cc",
+        "openmrs_entity_parent":"",
+        "openmrs_entity":"",
+        "openmrs_entity_id":"delivery_conducted_by_cc",
+        "openmrs_data_type":"text",
+        "type":"spinner",
+        "hint":"প্রসবে সহায়তাকারী",
+        "values":[
+          "সিএইচসিপি",
+          "স্বাস্থ্য সহকারী",
+          "এফ.ডব্লিউ.এ",
+          "অন্যান্য_কেউ"
+        ],
+        "openmrs_choice_ids":{
+          "সিএইচসিপি": "CHCP",
+          "স্বাস্থ্য সহকারী": "Health_Assistant",
+          "এফ.ডব্লিউ.এ": "fwa",
+          "অন্যান্য_কেউ": "others_anyone"
+        },
+        "relevance": {
+          "step1:place_of_delivery": {
+            "type": "string",
+            "ex": "equalTo(., \"কমিউনিটি ক্লিনিক\")"
+          }
+        }
+      },
+      {
+        "key":"csba_trained",
+        "openmrs_entity_parent":"",
+        "openmrs_entity":"",
+        "openmrs_entity_id":"csba_trained",
+        "openmrs_data_type":"text",
+        "type":"spinner",
+        "hint":"প্রসবে সহায়তাকারী সিএসবিএ প্রশিক্ষণপ্রাপ্ত কিনা?",
         "values": [
           "হ্যাঁ",
           "না"
@@ -604,10 +721,6 @@
         "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "Please select one option"
         },
         "relevance": {
           "rules-engine": {
@@ -617,6 +730,8 @@
           }
         }
       },
+
+
       {
         "key":"Partograph_used",
         "openmrs_entity_parent":"",
@@ -730,34 +845,6 @@
         }
       },
       {
-        "key": "delivery_method_c_section",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "delivery_method",
-        "openmrs_data_type": "select one",
-        "type": "spinner",
-        "hint": "প্রসবের পদ্ধতি",
-        "values": [
-          "স্বাভাবিক",
-          "সিজারিয়ান"
-        ],
-        "openmrs_choice_ids": {
-          "স্বাভাবিক": "normal",
-          "সিজারিয়ান": "c_section"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "Please select one option"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
-            }
-          }
-        }
-      },
-      {
         "key": "delivery_complication",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -837,6 +924,7 @@
           }
         }
       },
+
 
       {
         "key": "baby_label",
