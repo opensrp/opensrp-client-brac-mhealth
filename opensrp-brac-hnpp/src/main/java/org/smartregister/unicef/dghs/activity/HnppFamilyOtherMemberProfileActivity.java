@@ -2,11 +2,8 @@ package org.smartregister.unicef.dghs.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
@@ -51,7 +48,6 @@ import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.custom_view.FamilyMemberFloatingMenu;
 import org.smartregister.unicef.dghs.fragment.HnppMemberProfileDueFragment;
 import org.smartregister.unicef.dghs.fragment.MemberHistoryFragment;
-import org.smartregister.unicef.dghs.fragment.MemberOtherServiceFragment;
 import org.smartregister.unicef.dghs.fragment.WomanImmunizationFragment;
 import org.smartregister.unicef.dghs.job.VisitLogServiceJob;
 import org.smartregister.unicef.dghs.listener.FloatingMenuListener;
@@ -104,7 +100,7 @@ import timber.log.Timber;
 
 import static com.vijay.jsonwizard.constants.JsonFormConstants.FIELDS;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.MEMBER_ID_SUFFIX;
-import static org.smartregister.unicef.dghs.utils.HnppJsonFormUtils.makeReadOnlyFields;
+import static org.smartregister.unicef.dghs.utils.HnppConstants.getLastDateOfAMonth;
 
 public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfileActivity  implements FamilyOtherMemberProfileExtendedContract.View, VaccinationActionListener, ServiceActionListener {
     public static final int REQUEST_HOME_VISIT = 5555;
@@ -457,7 +453,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
             JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
             HnppJsonFormUtils.addEDDField(formName,jsonForm,baseEntityId);
             try{
-                HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
+                HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,familyBaseEntityId);
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -542,13 +538,10 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
                 try {
                     JSONObject form = HnppJsonFormUtils.getAutoPopulatedJsonEditFormString(CoreConstants.JSON_FORM.getFamilyMemberRegister(), HnppFamilyOtherMemberProfileActivity.this, client, Utils.metadata().familyMemberRegister.updateEventType);
                     String moduleId = HnppDBUtils.getModuleId(familyHead);
-                    HnppJsonFormUtils.updateFormWithModuleId(form,moduleId,familyBaseEntityId);
-                    HnppJsonFormUtils.updateFormWithBlockInformation(form,familyHead);
-                    if(HnppConstants.isPALogin()){
-                        makeReadOnlyFields(form);
-                    }
+                    HnppJsonFormUtils.updateFormWithChampType(form,moduleId,familyBaseEntityId);
+
                     try{
-                        HnppJsonFormUtils.updateLatitudeLongitude(form,latitude,longitude);
+                        HnppJsonFormUtils.updateLatitudeLongitude(form,latitude,longitude,familyBaseEntityId);
                     }catch (Exception e){
 
                     }
@@ -1010,7 +1003,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
 
                     }
                     try{
-                        HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
+                        HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,familyBaseEntityId);
                     }catch (Exception e){
                         e.printStackTrace();
 
@@ -1063,7 +1056,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
                     JSONObject jsonForm = FormUtils.getInstance(HnppFamilyOtherMemberProfileActivity.this).getFormJson(HnppConstants.JSON_FORMS.REFERREL_FOLLOWUP);
                     jsonForm.put(JsonFormUtils.ENTITY_ID, baseEntityId);
                     try{
-                        HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
+                        HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,familyBaseEntityId);
                     }catch (Exception e){
 
                     }

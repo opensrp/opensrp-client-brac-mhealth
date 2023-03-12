@@ -59,6 +59,20 @@
         "value": "hnpp_anc2_registration"
       },
       {
+        "key": "block_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "block_name",
+        "type": "hidden"
+      },
+      {
+        "key": "block_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "block_id",
+        "type": "hidden"
+      },
+      {
         "key": "add_to_stock",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -135,1234 +149,268 @@
         }
       },
       {
-        "key": "other_label_1",
-        "type": "label",
-        "text": "পূর্বের এ এন সি সেবার তথ্য",
-        "has_bg": true,
-        "left_padding": "20dp",
-        "right_padding": "20dp",
-        "text_size": "25sp",
-        "text_color": "#000000",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "relevance": {
-          "step1:diff": {
-            "type": "numeric",
-            "ex": "greaterThanEqualTo(., \"2\")"
-          }
-        }
+        "key":"service_provider",
+        "openmrs_entity_parent":"",
+        "openmrs_entity":"",
+        "openmrs_entity_id":"service_provider",
+        "openmrs_data_type":"text",
+        "type":"spinner",
+        "hidden":true,
+        "hint":"আপনাকে কে পরিষেবা সরবরাহ করেছিল?",
+        "values":["Doctor", "Nurse","Midwife","CSBA","CHCP","HA","FWA","FWV","Others"],
+        "openmrs_choice_ids":{"Doctor": "Doctor", "Nurse": "Nurse","Midwife": "Midwife","CSBA": "CSBA","CHCP": "CHCP","HA": "HA","FWA": "FWA","FWV": "FWV","Others": "Others"}
       },
       {
-        "key": "other_anc_no_1",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "other_anc_no_1",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "পূর্বের এ এন সি সেবার সিরিয়াল নম্বর",
-        "values": [
-
-        ],
-        "openmrs_choice_ids": {
-
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "step1:diff": {
-            "type": "numeric",
-            "ex": "greaterThanEqualTo(., \"2\")"
-          }
-        }
-      },
-      {
-        "key": "greter_anc_1",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "label",
-        "has_bg": true,
-        "left_padding": "20dp",
-        "right_padding": "20dp",
-        "text_size": "25sp",
-        "text_color": "#FF0000",
-        "text": "* এবারে নেয়া এ.এন.সি. নম্বর থেকে কম হবে.",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "match_anc_1",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "label",
-        "has_bg": true,
-        "left_padding": "20dp",
-        "right_padding": "20dp",
-        "text_size": "25sp",
-        "text_color": "#FF0000",
-        "text": "* এ.এন.সি. নম্বর গুলো আলাদা হবে ",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_advice_relevance.yml"
-            }
-          }
-        }
-      },
-
-      {
-        "key": "other_source_anc_1",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "other_source_anc_1",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "উৎস",
-        "values": [
-          "সরকারি",
-          "অন্যান্য"
-        ],
-        "openmrs_choice_ids": {
-          "সরকারি": "Govt",
-          "অন্যান্য": "other"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "step1:diff": {
-            "type": "numeric",
-            "ex": "greaterThanEqualTo(., \"2\")"
-          }
-        }
-      },
-      {
-        "key": "other_label_2",
-        "type": "label",
-        "text": "পূর্বের এ এন সি সেবার তথ্য",
-        "has_bg": true,
-        "left_padding": "20dp",
-        "right_padding": "20dp",
-        "text_size": "25sp",
-        "text_color": "#000000",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "relevance": {
-          "step1:diff": {
-            "type": "numeric",
-            "ex": "greaterThanEqualTo(., \"3\")"
-          }
-        }
-      },
-
-      {
-        "key": "other_anc_no_2",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "other_anc_no_2",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "পূর্বের এ এন সি সেবার সিরিয়াল নম্বর",
-        "values": [
-
-        ],
-        "openmrs_choice_ids": {
-
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "step1:diff": {
-            "type": "numeric",
-            "ex": "greaterThanEqualTo(., \"3\")"
-          }
-        }
-      },
-      {
-        "key": "greter_anc_2",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "label",
-        "has_bg": true,
-        "left_padding": "20dp",
-        "right_padding": "20dp",
-        "text_size": "25sp",
-        "text_color": "#FF0000",
-        "text": "* এবারে নেয়া এ.এন.সি. নম্বর থেকে কম হবে.",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "match_anc_2",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "label",
-        "has_bg": true,
-        "left_padding": "20dp",
-        "right_padding": "20dp",
-        "text_size": "25sp",
-        "text_color": "#FF0000",
-        "text": "* এ.এন.সি. নম্বর গুলো আলাদা হবে",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "other_source_anc_2",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "other_source_anc_2",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "উৎস",
-        "values": [
-          "সরকারি",
-          "অন্যান্য"
-        ],
-        "openmrs_choice_ids": {
-          "সরকারি": "Govt",
-          "অন্যান্য": "other"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "step1:diff": {
-            "type": "numeric",
-            "ex": "greaterThanEqualTo(., \"3\")"
-          }
-        }
-      },
-      {
-        "key": "other_label_3",
-        "type": "label",
-        "text": "পূর্বের এ এন সি সেবার তথ্য",
-        "has_bg": true,
-        "left_padding": "20dp",
-        "right_padding": "20dp",
-        "text_size": "25sp",
-        "text_color": "#000000",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "relevance": {
-          "step1:diff": {
-            "type": "numeric",
-            "ex": "greaterThanEqualTo(., \"4\")"
-          }
-        }
-      },
-      {
-        "key": "other_anc_no_3",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "other_anc_no_3",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "পূর্বের এ এন সি সেবার সিরিয়াল নম্বর",
-        "values": [
-
-        ],
-        "openmrs_choice_ids": {
-
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "step1:diff": {
-            "type": "numeric",
-            "ex": "greaterThanEqualTo(., \"4\")"
-          }
-        }
-      },
-      {
-        "key": "greter_anc_3",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "label",
-        "has_bg": true,
-        "left_padding": "20dp",
-        "right_padding": "20dp",
-        "text_size": "25sp",
-        "text_color": "#FF0000",
-        "text": "* এবারে নেয়া এ.এন.সি. নম্বর থেকে কম হবে.",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "match_anc_3",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "label",
-        "has_bg": true,
-        "left_padding": "20dp",
-        "right_padding": "20dp",
-        "text_size": "25sp",
-        "text_color": "#FF0000",
-        "text": "* এ.এন.সি. নম্বর গুলো আলাদা হবে",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "other_source_anc_3",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "other_source_anc_3",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "উৎস",
-        "values": [
-          "সরকারি",
-          "অন্যান্য"
-        ],
-        "openmrs_choice_ids": {
-          "সরকারি": "Govt",
-          "অন্যান্য": "other"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "step1:diff": {
-            "type": "numeric",
-            "ex": "greaterThanEqualTo(., \"4\")"
-          }
-        }
-      },
-      {
-        "key": "height",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "height",
-        "type": "edit_text",
-        "hint": "মায়ের উচ্চতা (সে.মি.)",
-        "read_only": "true",
-        "v_numeric": {
-          "value": "true",
-          "err": "Enter a valid Number"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
-      },
-      {
-        "key": "weight",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "weight",
-        "type": "edit_text",
-        "hint": "ওজন(কেজি)",
-        "v_numeric": {
-          "value": "true",
-          "err": "Enter a valid Number"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "calculation": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_bmi_calculation_rule.yml"
-            }
-          }
-        },
-        "v_min": {
-          "value": "30",
-          "err": "30 এর সমান বা 30 এর বেশি হতে হবে"
-        }
-      },
-      {
-        "key": "bmi",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "bmi",
-        "type": "edit_text",
-        "hint": "বি.এম.আই",
-        "editable": false,
-        "v_numeric": {
-          "value": "true",
-          "err": "Enter a valid Number"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "calculation": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_bmi_calculation_rule.yml"
-            }
-          }
-        },
-        "v_min": {
-          "value": "20",
-          "err": "20 এর সমান বা 20 এর বেশি হতে হবে"
+        "key":"Weight",
+        "openmrs_entity_parent":"",
+        "openmrs_entity":"",
+        "openmrs_entity_id":"Weight",
+        "openmrs_data_type":"text",
+        "type":"edit_text",
+        "hint":"আপনার ওজন(কেজি)",
+        "v_numeric":{
+          "value":"true",
+          "err":"Enter a valid Number"
         },
         "v_max": {
-          "value": "50",
-          "err": "50 এর সমান বা 50 এর কম হওয়া উচিত"
+          "value": "200",
+          "err": "200 এর কম হওয়া উচিত"
         }
       },
       {
-        "key": "advice_toaster_1",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "নিয়মিত সুষম খাদ্য সহ বাড়তি আমিষ জাতীয় খাদ্য গ্রহণ করা প্রয়োজন",
-        "text_color": "#1199F9",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "advice_toaster_2",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "নিয়মিত সুষম খাদ্য গ্রহণ করা প্রয়োজন",
-        "text_color": "#1199F9",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "body_temperature",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "body_temperature",
-        "type": "edit_text",
-        "hint": "তাপমাত্রা (ফারেনহাইট )",
-        "v_numeric": {
-          "value": "true",
-          "err": "Enter a valid Number"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "v_min": {
-          "value": "90",
-          "err": "90 এর সমান বা 90 এর বেশি হতে হবে"
+        "key":"Height",
+        "openmrs_entity_parent":"",
+        "openmrs_entity":"",
+        "openmrs_entity_id":"Height",
+        "openmrs_data_type":"text",
+        "type":"edit_text",
+        "hint":"আপনার উচ্চতা(সে.মি.)",
+        "v_numeric":{
+          "value":"true",
+          "err":"Enter a valid Number"
         },
         "v_max": {
-          "value": "110",
-          "err": "110 এর সমান বা 110 এর কম হওয়া উচিত"
+          "value": "250",
+          "err": "250 এর কম হওয়া উচিত"
         }
       },
       {
-        "key": "advice_toaster_3",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "ভরা পেটে প্যারাসিটামল গ্রহণ করুন এবং বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
-        "text_color": "#1199F9",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "advice_toaster_95",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
-        "text_color": "#FF0000",
-        "text_size": "20sp",
-        "toaster_type": "problem",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "pulse_rate",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "pulse_rate",
-        "type": "edit_text",
-        "hint": "নাড়ির গতি(প্রতি মিনিটে )",
-        "label_info_text": "নাড়ির গতি রেঞ্জ ৬০ থেকে ১০০ থাকবে",
-        "v_numeric": {
-          "value": "true",
-          "err": "Enter a valid Number"
+        "key":"Systolic",
+        "openmrs_entity_parent":"",
+        "openmrs_entity":"",
+        "openmrs_entity_id":"Systolic",
+        "openmrs_data_type":"text",
+        "type":"edit_text",
+        "hint":"আপনার সিস্টোলিক রক্তচাপ",
+        "v_numeric":{
+          "value":"true",
+          "err":"Enter a valid Number"
         },
-        "v_regex": {
-          "value": "[0-9]*",
-          "err": "দশমিক অনুমোদিত নয়"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
+        "v_max": {
+          "value": "400",
+          "err": "400 এর কম হওয়া উচিত"
         }
       },
       {
-        "key": "advice_toaster_pulse",
+        "key":"diastolic",
+        "openmrs_entity_parent":"",
+        "openmrs_entity":"",
+        "openmrs_entity_id":"diastolic",
+        "openmrs_data_type":"text",
+        "type":"edit_text",
+        "hint":"আপনার ডায়াস্টোলিক রক্তচাপ",
+        "v_numeric":{
+          "value":"true",
+          "err":"Enter a valid Number"
+        },
+        "v_max": {
+          "value": "400",
+          "err": "400 এর কম হওয়া উচিত"
+        }
+      },
+      {
+        "key":"Temperature",
+        "openmrs_entity_parent":"",
+        "openmrs_entity":"",
+        "openmrs_entity_id":"Temperature",
+        "openmrs_data_type":"text",
+        "type":"edit_text",
+        "hint":"আপনার শরীরের তাপমাত্রা",
+        "v_numeric":{
+          "value":"true",
+          "err":"Enter a valid Number"
+        }
+      },
+      {
+        "key": "Clinical_Anemia",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
-        "text_color": "#FF0000",
-        "text_size": "20sp",
-        "toaster_type": "problem",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "pregnancy_symptoms",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "pregnancy_symptoms",
-        "type": "check_box",
-        "label": "নিচের সমস্যাগুলো আছে কিনা?",
-        "exclusive": [
-          "chk_none"
+        "openmrs_entity_id": "Clinical_Anemia",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "আপনার ক্লিনিকাল রক্তসল্পতা আছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
         ],
-        "options": [
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+      {
+        "key": "Hb_tested",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Hb_tested",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "আপনার হেপাটাইটিস বি পরীক্ষা হয়েছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+      {
+        "key": "Hb_tested",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Hb_tested",
+        "openmrs_data_type":"text",
+        "type":"edit_text",
+        "hint": "আপনার হেপাটাইটিস বি পরীক্ষার ফলাফল"
+      },
+      {
+        "key": "Urine_Albumin",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Urine_Albumin",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "আপনার প্রস্রাবের অ্যালবুমিন পরীক্ষা হয়েছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+      {
+        "key": "Urine_Albumin_result",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Urine_Albumin_result",
+        "openmrs_data_type":"text",
+        "type":"edit_text",
+        "hint": "আপনার প্রস্রাবের অ্যালবুমিন পরীক্ষার ফলাফল"
+      },
+      {
+        "key": "Urine_sugar_tested",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Urine_sugar_tested",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "আপনার প্রস্রাবে গ্লুকোজের মাত্রা পরীক্ষা হয়েছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+      {
+        "key": "Urine_sugar_result",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Urine_sugar_result",
+        "openmrs_data_type":"text",
+        "type":"edit_text",
+        "hint": "আপনার প্রস্রাবে গ্লুকোজের মাত্রা পরীক্ষার ফলাফল"
+      },
+      {
+        "key": "ultra_sound_tested",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "ultra_sound_tested",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "আপনার আল্ট্রাসাউন্ড স্ক্যান হয়েছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+      {
+        "key":"TT_TD_Immunization",
+        "openmrs_entity_parent":"",
+        "openmrs_entity":"",
+        "openmrs_entity_id":"TT_TD_Immunization",
+        "openmrs_data_type":"text",
+        "type":"check_box",
+        "label":"আপনি কোন কোন টিটি/টিডি টিকা গ্রহন করেছেন?",
+        "exclusive":[
+          "No"
+        ],
+        "options":[
           {
-            "key": "unconscious_state",
-            "text": "অচেতন অবস্থা",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "unconscious_state"
+            "key":"No",
+            "text":"কোনোটিই না",
+            "value":"false",
+            "openmrs_choice_id":"No"
           },
           {
-            "key": "dyspnoea_chest_pain",
-            "text": "শ্বাসকষ্ট/ বুকে ব্যথা",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "dyspnoea_chest_pain"
+            "key":"TT_td_1_Complete",
+            "text":"টিটি/টিডি-১ সম্পন্ন",
+            "value":"false",
+            "openmrs_choice_id":"TT_td_1_Complete"
           },
           {
-            "key": "fatigue",
-            "text": "দাঁড়িয়ে থাকলে দুর্বল লাগে",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "fatigue"
+            "key":"TT_td_2_Complete",
+            "text":"টিটি/টিডি-২ সম্পন্ন",
+            "value":"false",
+            "openmrs_choice_id":"TT_td_2_Complete"
           },
           {
-            "key": "over_sweating",
-            "text": "অতিরিক্ত ঘামানো",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "over_sweating"
+            "key":"TT_td_3_Complete",
+            "text":"টিটি/টিডি-৩ সম্পন্ন",
+            "value":"false",
+            "openmrs_choice_id":"TT_td_3_Complete"
           },
           {
-            "key": "cold_intelorant",
-            "text": "ঠান্ডা সহ্য করতে না পারা",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "cold_intelorant"
+            "key":"TT_td_4_Complete",
+            "text":"টিটি/টিডি-৪ সম্পন্ন",
+            "value":"false",
+            "openmrs_choice_id":"TT_td_4_Complete"
           },
           {
-            "key": "obesity",
-            "text": "অতিরিক্ত ওজন বৃদ্ধি",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "obesity"
-          },
-          {
-            "key": "chk_none",
-            "text": "কোনটিই নয়",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "chk_none"
+            "key":"TT_td_5_Complete",
+            "text":"টিটি/টিডি-৫ সম্পন্ন",
+            "value":"false",
+            "openmrs_choice_id":"TT_td_5_Complete"
           }
         ]
       },
       {
-        "key": "advice_toaster_problem",
+        "key": "Danger_Sign_reported",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
-        "text_color": "#FF0000",
-        "text_size": "20sp",
-        "toaster_type": "problem",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "enabled_label",
-        "type": "label",
-        "text":"রক্তচাপ",
-        "has_bg": true,
-        "left_padding": "20dp",
-        "right_padding": "20dp",
-        "text_size": "25sp",
-        "text_color": "#000000",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": ""
-      },
-      {
-        "key": "blood_pressure_systolic",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "blood_pressure_systolic",
-        "type": "edit_text",
-        "hint": "সিস্টোলিক",
-        "v_numeric": {
-          "value": "true",
-          "err": "Enter a valid Number"
-        },
-        "v_regex": {
-          "value": "[0-9]*",
-          "err": "দশমিক অনুমোদিত নয়"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
-      },
-      {
-        "key": "advice_toaster_systolic",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
-        "text_color": "#FF0000",
-        "text_size": "20sp",
-        "toaster_type": "problem",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "advice_toaster_systolic_less",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "বেশি বেশি সুষম খাবার গ্রহণ করুন এবং ডাক্তারের পরামর্শ নিন",
-        "text_color": "#FF0000",
-        "text_size": "20sp",
-        "toaster_type": "problem",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "blood_pressure_diastolic",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "blood_pressure_diastolic",
-        "type": "edit_text",
-        "hint": "ডায়াস্টোলিক",
-        "v_numeric": {
-          "value": "true",
-          "err": "Enter a valid Number"
-        },
-        "v_regex": {
-          "value": "[0-9]*",
-          "err": "দশমিক অনুমোদিত নয়"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
-      },
-      {
-        "key": "advice_toaster_diastolic",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
-        "text_color": "#FF0000",
-        "text_size": "20sp",
-        "toaster_type": "problem",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "advice_toaster_diastolic_less",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "বেশি বেশি সুষম খাবার গ্রহণ করুন এবং ডাক্তারের পরামর্শ নিন",
-        "text_color": "#FF0000",
-        "text_size": "20sp",
-        "toaster_type": "problem",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "spacer",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "spacer",
-        "type": "spacer",
-        "spacer_height": "15sp"
-      },
-      {
-        "key": "uterus_length",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "uterus_length",
-        "type": "edit_text",
-        "hint": "জরায়ুর উচ্চতা(সে.মি.)",
-        "v_numeric": {
-          "value": "true",
-          "err": "Enter a valid Number"
-        },
-        "v_regex": {
-          "value": "[0-9]*",
-          "err": "দশমিক অনুমোদিত নয়"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "v_min": {
-          "value": "0",
-          "err": "100 এর কম হতে হবে"
-        },
-        "v_max": {
-          "value": "99",
-          "err": "100 এর কম হতে হবে"
-        }
-      },
-      {
-        "key": "has_edema",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "has_edema",
+        "openmrs_entity_id": "Danger_Sign_reported",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "ইডিমা",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
-      },
-      {
-        "key": "advice_toaster_has_edema",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
-        "text_color": "#FF0000",
-        "text_size": "20sp",
-        "toaster_type": "problem",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "number_of_iron_medication",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "number_of_iron_medication",
-        "type": "edit_text",
-        "hint": "গতমাসে কয়টি আয়রন বড়ি খেয়েছেন?",
-        "v_numeric": {
-          "value": "true",
-          "err": "Enter a valid Number"
-        },
-        "v_regex": {
-          "value": "[0-9]*",
-          "err": "দশমিক অনুমোদিত নয়"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
-      },
-      {
-        "key": "number_of_calcium_medication",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "number_of_calcium_medication",
-        "type": "edit_text",
-        "hint": "গতমাসে কয়টি ক্যালসিয়াম বড়ি খেয়েছেন?",
-        "v_numeric": {
-          "value": "true",
-          "err": "Enter a valid Number"
-        },
-        "v_regex": {
-          "value": "[0-9]*",
-          "err": "দশমিক অনুমোদিত নয়"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
-      },
-      {
-        "key": "vaccination_tt_dose_completed",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "vaccination_tt_dose_completed",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "আপনার কি টিটি/টিডি টিকা ডোজ সম্পূর্ণ করা আছে? ",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
-      },
-      {
-        "key": "last_tt_vaccination_given",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "last_tt_vaccination_given",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "সর্বশেষ টিটি/টিডি টিকা কোনটি দেয়া হয়েছে?",
-        "values": [
-          "টিটি/টিডি-১",
-          "টিটি/টিডি-২",
-          "টিটি/টিডি-৩",
-          "টিটি/টিডি-৪",
-          "টিটি/টিডি-৫",
-          "একটিও না",
-          "জানা নেই "
-        ],
-        "openmrs_choice_ids": {
-          "টিটি/টিডি-১": "tt1",
-          "টিটি/টিডি-২": "tt2",
-          "টিটি/টিডি-৩": "tt3",
-          "টিটি/টিডি-৪": "tt4",
-          "টিটি/টিডি-৫": "tt5",
-          "একটিও না": "none",
-          "জানা নেই ": "unknown"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "step1:vaccination_tt_dose_completed": {
-            "type": "string",
-            "ex": "equalTo(., \"না\")"
-          }
-        }
-      },
-      {
-        "key": "advice_toaster_tt",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "নিকটবর্তী ইপিআই সেন্টার থেকে টিটি টিকা সম্পন্ন করুন",
-        "text_color": "#1199F9",
-        "toaster_type": "info",
-        "relevance": {
-          "step1:vaccination_tt_dose_completed": {
-            "type": "string",
-            "ex": "equalTo(., \"না\")"
-          }
-        }
-      },
-      {
-        "key": "enabled_label",
-        "type": "label",
-        "text":"গ্লুকোজ(mmol/l) - রক্ত পরীক্ষা ",
-        "has_bg": true,
-        "left_padding": "20dp",
-        "right_padding": "20dp",
-        "text_size": "25sp",
-        "text_color": "#000000",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": ""
-      },
-      {
-        "key": "blood_sugar_test_condition",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "blood_sugar_test_condition",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "কোন অবস্থায় পরীক্ষা করছেন?",
-        "values": [
-          "ফাস্টিং",
-          "রেন্ডম"
-        ],
-        "openmrs_choice_ids": {
-          "ফাস্টিং": "fasting",
-          "রেন্ডম": "random"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
-      },
-      {
-        "key": "fasting_blood_sugar",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "fasting_blood_sugar",
-        "type": "edit_text",
-        "hint": "ফাস্টিং",
-        "v_numeric": {
-          "value": "true",
-          "err": "Enter a valid Number"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
-        ,
-        "relevance": {
-          "step1:blood_sugar_test_condition": {
-            "type": "string",
-            "ex": "equalTo(., \"ফাস্টিং\")"
-          }
-        }
-      },
-      {
-        "key": "advice_toaster_fasting",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
-        "text_color": "#FF0000",
-        "text_size": "20sp",
-        "toaster_type": "problem",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "random_blood_sugar",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "random_blood_sugar",
-        "type": "edit_text",
-        "hint": "রেন্ডম",
-        "v_numeric": {
-          "value": "true",
-          "err": "Enter a valid Number"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-        "step1:blood_sugar_test_condition": {
-          "type": "string",
-          "ex": "equalTo(., \"রেন্ডম\")"
-        }
-      }
-      },
-      {
-        "key": "advice_toaster_random",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
-        "text_color": "#FF0000",
-        "text_size": "20sp",
-        "toaster_type": "problem",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "spacer",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "spacer",
-        "type": "spacer",
-        "spacer_height": "15sp"
-      },
-      {
-        "key": "hemoglobin_test",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "hemoglobin_test",
-        "type": "edit_text",
-        "hint": "হিমোগ্লোবিন(gm/dl) - রক্ত পরীক্ষা",
-        "v_numeric": {
-          "value": "true",
-          "err": "Enter a valid Number"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
-      },
-      {
-        "key": "advice_toaster_4",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "আয়রনসমৃদ্ধ ডায়েটের জন্য যেমন মাছ-মাংস,লিভার, সবুজ শাক  এবং রঙ্গীন ফল এবং শাকসবজি খান, আয়রন ফলিক এসিড গ্রহণ করুন এবং স্যান্ডেল ব্যবহার করুন ",
-        "text_color": "#1199F9",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "advice_toaster_hemoglobin_test",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
-        "text_color": "#FF0000",
-        "text_size": "20sp",
-        "toaster_type": "problem",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "albumin_test",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "albumin_test",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "প্রস্রাব পরীক্ষায় অ্যালবুমিন আছে কিনা",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
-      },
-      {
-        "key": "advice_toaster_albumin_test",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
-        "text_color": "#FF0000",
-        "text_size": "20sp",
-        "toaster_type": "problem",
-        "relevance": {
-          "step1:albumin_test": {
-            "type": "string",
-            "ex": "equalTo(., \"হ্যাঁ\")"
-          }
-        }
-      },
-      {
-        "key": "advice_toaster_5",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "সম্পূর্ণ বিশ্রামে থাকবেন, লবন খাবেন না এবং পা উপর করে শুয়ে থাকবেন",
-        "text_color": "#1199F9",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_advice_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "albumin_toaster_3",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "প্রি-একলেম্পসিয়া",
-        "text_color": "#CF0800",
-        "toaster_type": "problem",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_risk_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "bilirubin_test",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "bilirubin_test",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "প্রস্রাব পরীক্ষায় বিলিরুবিন আছে কি না",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
-      },
-      {
-        "key": "advice_toaster_bilirubin_test",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
-        "text_color": "#FF0000",
-        "text_size": "20sp",
-        "toaster_type": "problem",
-        "relevance": {
-          "step1:bilirubin_test": {
-            "type": "string",
-            "ex": "equalTo(., \"হ্যাঁ\")"
-          }
-        }
-      },
-      {
-        "key": "has_other_complication",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "has_other_complication",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "অন্যান্য উপসর্গ / অসুবিধা / জটিলতা আছে কিনা ?",
+        "hint": "আপনি কী আপনার জটিলতা সম্পর্কে জানিয়েছিলেন?",
         "values": [
           "হ্যাঁ",
           "না"
@@ -1373,21 +421,77 @@
         }
       },
       {
-        "key": "other_complication",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "other_complication",
-        "type": "edit_text",
-        "hint": "লিখুন ",
-        "relevance": {
-          "step1:has_other_complication": {
-            "type": "string",
-            "ex": "equalTo(., \"হ্যাঁ\")"
+        "key":"Denger_Signs_During_Pregnancy",
+        "openmrs_entity_parent":"",
+        "openmrs_entity":"",
+        "openmrs_entity_id":"Denger_Signs_During_Pregnancy",
+        "openmrs_data_type":"text",
+        "type":"check_box",
+        "label":"আপনার জটিলতা সমূহ নির্ধারণ করুন",
+        "exclusive":[
+          "No_Denger_Sign"
+        ],
+        "options":[
+          {
+            "key":"Bleeding_Through_Birth_Canal",
+            "text":"যোনিপথে রক্তক্ষরণ",
+            "value":"false",
+            "openmrs_choice_id":"Bleeding_Through_Birth_Canal"
+          },
+          {
+            "key":"Convulsion",
+            "text":"খিঁচুনি ",
+            "value":"false",
+            "openmrs_choice_id":"Convulsion"
+          },
+          {
+            "key":"High_Temperature_102_Degree_or_More",
+            "text":"উচ্চ তাপমাত্রা ১০২ ডিগ্রি বা তদূর্ধ্ব",
+            "value":"false",
+            "openmrs_choice_id":"High_Temperature_102_Degree_or_More"
+          },
+          {
+            "key":"Weakness_Blurred_vision",
+            "text":"দুর্বলতা, চোখে ঝাপসা দেখা ",
+            "value":"false",
+            "openmrs_choice_id":"Weakness_Blurred_vision"
+          },
+          {
+            "key":"Prolonged_Delivery_or_Child_Coming_Out_Before",
+            "text":"প্রলম্বিত প্রসব/ বাচ্চা আগে বের হওয়া ",
+            "value":"false",
+            "openmrs_choice_id":"Prolonged_Delivery_or_Child_Coming_Out_Before"
+          },
+
+          {
+            "key":"No_Denger_Sign",
+            "text":"কোনোটিই নেই ",
+            "value":"false",
+            "openmrs_choice_id":"No_Denger_Sign"
           }
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
+        ],
+        "relevance": {
+          "step1:Danger_Sign_reported": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "counselling_provide",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "counselling_provide",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "আপনাকে কাউন্সেলিং (পুষ্টি, জন্ম পরিকল্পনা, ইবিএফ, ইএনসি, টিকাদান সংক্রান্ত) প্রদান করা হয়েছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
         }
       },
       {

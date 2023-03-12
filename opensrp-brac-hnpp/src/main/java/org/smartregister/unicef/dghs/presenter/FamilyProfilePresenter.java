@@ -94,14 +94,10 @@ public class FamilyProfilePresenter extends BaseFamilyProfilePresenter implement
             public void onPost(double latitude, double longitude) {
                 try {
                     JSONObject form = HnppJsonFormUtils.getAutoPopulatedJsonEditFormString(CoreConstants.JSON_FORM.getFamilyDetailsRegister(), getView().getApplicationContext(), client, Utils.metadata().familyRegister.updateEventType);
-                    String wardId = org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.WARD_ID, false);
-                    String blockId = org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.BLOCK_ID, false);
-                    String blockName = org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.BLOCK_NAME, false);
                     HnppJsonFormUtils.updateFormWithWardName(form, HnppApplication.getGeoLocationRepository().getAllWard());
-                    HnppJsonFormUtils.updateFormWithWardBlockName(form,wardId,blockName,blockId);
                     if(HnppConstants.isPALogin())makeReadOnlyFields(form);
                     try{
-                        HnppJsonFormUtils.updateLatitudeLongitudeFamily(form,latitude,longitude);
+                        HnppJsonFormUtils.updateLatitudeLongitude(form,latitude,longitude,familyBaseEntityId);
                     }catch (Exception e){
 
                     }

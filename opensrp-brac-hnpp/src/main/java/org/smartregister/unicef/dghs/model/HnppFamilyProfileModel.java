@@ -46,7 +46,7 @@ public class HnppFamilyProfileModel extends CoreFamilyProfileModel {
             return null;
         }
         HnppJsonFormUtils.updateFormWithMemberId(form,houseHoldId,familyBaseEntityId);
-        HnppJsonFormUtils.updateFormWithModuleId(form,moduleId,familyBaseEntityId);
+        HnppJsonFormUtils.updateFormWithChampType(form,moduleId,familyBaseEntityId);
         HnppJsonFormUtils.updateFormWithBlockInformation(form,familyBaseEntityId);
         if(HnppConstants.isPALogin()){
             makeReadOnlyFields(form);

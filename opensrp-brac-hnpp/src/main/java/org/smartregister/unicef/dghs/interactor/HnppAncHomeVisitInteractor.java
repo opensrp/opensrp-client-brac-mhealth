@@ -81,7 +81,7 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
 
                     }
                     try{
-                        HnppJsonFormUtils.updateLatitudeLongitude(jsonPayload,latitude,longitude);
+                        HnppJsonFormUtils.updateLatitudeLongitude(jsonPayload,latitude,longitude,memberObject.getFamilyBaseEntityId());
                     }catch (Exception e){
 
                     }

@@ -483,7 +483,10 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         JSONObject jsonForm = (JSONObject)registrationFormParams.getMiddle();
         JSONArray fields = (JSONArray)registrationFormParams.getRight();
         Event baseEvent = org.smartregister.util.JsonFormUtils.createEvent(fields, getJSONObject(jsonForm, "metadata"), formTag(allSharedPreferences), memberID,encounterType,getTableName());
-
+        //save identifier
+        String blockId = org.smartregister.util.JsonFormUtils.getFieldValue(fields,BLOCK_ID);
+        GeoLocation selectedLocation = HnppApplication.getGeoLocationRepository().getLocationByBlock(blockId);
+        baseEvent.setIdentifiers(GeoLocationHelper.getInstance().getGeoIdentifier(selectedLocation));
         //
         if(isComesFromIdentity){
             prepareIsIdentified(baseEvent);
@@ -1096,7 +1099,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             }
 
     }
-    public static JSONObject updateFormWithModuleId(JSONObject form,String moduleId, String familyBaseEntityId) throws JSONException {
+    public static JSONObject updateFormWithChampType(JSONObject form, String moduleId, String familyBaseEntityId) throws JSONException {
         try{
             String[] familyData = HnppDBUtils.getNameMobileFromFamily(familyBaseEntityId);
             if(familyData.length >0){
@@ -1351,12 +1354,13 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         org.smartregister.chw.anc.util.JsonFormUtils.getRegistrationForm(jsonObject, baseEntityID, locationId);
         return jsonObject;
     }
-    public static JSONObject updateLatitudeLongitude(JSONObject form,double latitude, double longitude) throws JSONException {
+    public static JSONObject updateLatitudeLongitude(JSONObject form,double latitude, double longitude, String familyBaseEntityId) throws Exception {
         JSONArray field = fields(form, STEP1);
         JSONObject latitude_field = getFieldJSONObject(field, "latitude");
         JSONObject longitude_field = getFieldJSONObject(field, "longitude");
         latitude_field.put(org.smartregister.family.util.JsonFormUtils.VALUE,latitude );
         longitude_field.put(org.smartregister.family.util.JsonFormUtils.VALUE,longitude );
+        if(!familyBaseEntityId.isEmpty())updateFormWithBlockInformation(form,familyBaseEntityId);
         return form;
     }
     public static JSONObject updateLatitudeLongitudeFamily(JSONObject form,double latitude, double longitude) throws JSONException {
