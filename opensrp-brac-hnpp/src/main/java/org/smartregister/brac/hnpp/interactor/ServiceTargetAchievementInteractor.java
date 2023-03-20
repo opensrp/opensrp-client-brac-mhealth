@@ -88,7 +88,7 @@ public class ServiceTargetAchievementInteractor implements DashBoardContract.Tar
         visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.IYCF_PACKAGE,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.IYCF_PACKAGE)));
         visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.WOMEN_PACKAGE,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.WOMEN_PACKAGE)));
         visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.GIRL_PACKAGE,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.GIRL_PACKAGE)));
-
+        visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.EYE_TEST,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.EYE_TEST)));
         return visitTypeList;
     }
 }

@@ -1518,7 +1518,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour, "প্রসব-পরবর্তী সেবা")
             .put(EVENT_TYPE.AVG_ATTEND_ADULT_FORUM, "অংশগ্রহণকারী সংখ্যা")
             .put(EVENT_TYPE.ADULT_FORUM_ATTENDANCE, "অংশগ্রহণকারী সংখ্যা")
-            // .put(EVENT_TYPE.NCD_BY_PA,"অসংক্রামক রোগের সেবা")
+            .put(EVENT_TYPE.EYE_TEST, "চক্ষু পরীক্ষা")
             .put(EVENT_TYPE.ADULT_FORUM_SERVICE_TAKEN, "সেবা গ্রহীতার সংখ্যা")
             .put(EVENT_TYPE.MARKED_PRESBYOPIA, "চিহ্নিত প্রেসবায়োপিয়া")
             .put(EVENT_TYPE.PRESBYOPIA_CORRECTION, "প্রেসবায়োপিয়া কারেকশন")

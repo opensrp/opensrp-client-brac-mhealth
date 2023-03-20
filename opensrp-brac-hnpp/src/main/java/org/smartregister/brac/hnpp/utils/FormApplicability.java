@@ -326,7 +326,10 @@ public class FormApplicability {
     }
 
     public static boolean isNcdApplicable(int age){
-        return age >=18 && age<50;
+        //return age >=18 && age<50;
+        //client wants "NCD-NCD সেবা 18 বছর থেকে 49 বছরের মধ্যে দেয়া যায় কিন্তু এই বয়স সীমার (18-49) বাইরে NCD সেবা দেওয়া যায় না
+        //"
+        return age >=18;
     }
 
     private static long getDayDifference(LocalDate date1, LocalDate date2) {
