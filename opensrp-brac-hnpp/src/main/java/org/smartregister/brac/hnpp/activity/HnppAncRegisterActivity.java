@@ -50,6 +50,8 @@ import org.smartregister.chw.core.activity.CoreAncRegisterActivity;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.CoreJsonFormUtils;
+import org.smartregister.chw.pnc.PncLibrary;
+import org.smartregister.chw.pnc.util.PncUtil;
 import org.smartregister.clientandeventmodel.Address;
 import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.clientandeventmodel.Event;
@@ -302,11 +304,14 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
                 String eventType = processVisitFormAndSave(jsonString);
 
                 SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
-                //database.execSQL(sql1);
-                String sql = "UPDATE ec_anc_register SET is_closed = 1 WHERE ec_anc_register.base_entity_id IN " +
-                        "(select ec_pregnancy_outcome.base_entity_id from ec_pregnancy_outcome where ec_pregnancy_outcome.is_closed = 0) ";
+                if(eventType.equalsIgnoreCase(Constants.EVENT_TYPE.ANC_REGISTRATION)){
+                    String sql = "UPDATE ec_anc_register SET is_closed = 1 WHERE ec_anc_register.base_entity_id IN " +
+                            "(select ec_pregnancy_outcome.base_entity_id from ec_pregnancy_outcome where ec_pregnancy_outcome.is_closed = 0) ";
 
-                database.execSQL(sql);
+                    database.execSQL(sql);
+                }
+
+                PncUtil.updatePregancyOutcome(42, PncLibrary.getInstance().getPncCloseDateRepository());
                 appExecutors.mainThread().execute(new Runnable() {
                     @Override
                     public void run() {

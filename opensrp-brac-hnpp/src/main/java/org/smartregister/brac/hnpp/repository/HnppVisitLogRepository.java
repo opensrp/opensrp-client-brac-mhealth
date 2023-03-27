@@ -449,6 +449,30 @@ public class HnppVisitLogRepository extends BaseRepository {
         }
         return isExist;
     }
+    public boolean isDoneElcoVisit(String baseEntityId) {
+
+        String query = "select visit_type from visits where visit_type ='"+HnppConstants.EVENT_TYPE.ELCO+"' and base_entity_id ='"+baseEntityId+"' and ((strftime('%s',datetime('now')) - strftime('%s',datetime(visit_date/1000,'unixepoch','localtime')))/3600)<24*360";
+        Log.v("DUE_VISIT",""+query);
+        android.database.Cursor cursor = null;
+        boolean isExist = false;
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    isExist = true;
+                    cursor.moveToNext();
+
+                }
+            }
+        }catch (Exception e){
+
+        }
+        finally {
+            if(cursor!=null) cursor.close();
+        }
+        return isExist;
+    }
     public boolean isDoneWihinTwentyFourHours(String baseEntityId, String eventType) {
         if(TextUtils.isEmpty(eventType)) return true;
 

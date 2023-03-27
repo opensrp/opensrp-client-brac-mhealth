@@ -421,66 +421,6 @@
         "openmrs_entity_id": ""
       },
       {
-        "key": "blood_sugar_test_condition",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "blood_sugar_test_condition",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "কোন অবস্থায় পরীক্ষা করছেন?",
-        "values": [
-          "ফাস্টিং",
-          "রেন্ডম"
-        ],
-        "openmrs_choice_ids": {
-          "ফাস্টিং": "fasting",
-          "রেন্ডম": "random"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
-      },
-      {
-        "key": "fasting_blood_sugar",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "fasting_blood_sugar",
-        "type": "edit_text",
-        "hint": "ফাস্টিং (খাওয়ার ৮ ঘন্টা পর)",
-        "v_numeric": {
-          "value": "true",
-          "err": "Enter a valid Number"
-        },
-        "v_regex": {
-          "value": "[0-9]*['.']?[0-9]*",
-          "err": "নাম্বার টাইপ হতে হবে"
-        },
-        "relevance": {
-          "step1:blood_sugar_test_condition": {
-            "type": "string",
-            "ex": "equalTo(., \"ফাস্টিং\")"
-          }
-        }
-      },
-      {
-        "key": "glucose_toaster_1",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "চিনি এবং শর্করা জাতীয় খাবার কমাতে হবে, নিয়মিত ব্যায়াম করতে হবে।  তাছাড়াও নিয়মিত পরীক্ষা করতে হবে",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_ncd_package_relevance.yml"
-            }
-          }
-        }
-      },
-      {
         "key": "random_blood_sugar",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -495,12 +435,10 @@
           "value": "[0-9]*['.']?[0-9]*",
           "err": "নাম্বার টাইপ হতে হবে"
         },
-        "relevance": {
-          "step1:blood_sugar_test_condition": {
-            "type": "string",
-            "ex": "equalTo(., \"রেন্ডম\")"
-          }
-        }
+        "v_required": {
+        "value": true,
+        "err": "প্রশ্নের উত্তর দিন"
+      }
       },
 
       {

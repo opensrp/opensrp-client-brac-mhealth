@@ -20,6 +20,7 @@ public class HnppPncCloseDateIntent extends CoreChwPncCloseDateIntent {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+
         try {
             SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
             String sql = "UPDATE ec_anc_register SET is_closed = 1 WHERE ec_anc_register.base_entity_id IN " +

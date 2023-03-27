@@ -67,7 +67,14 @@
         "openmrs_entity_id": "relational_id",
         "type": "hidden"
       },
-
+      {
+        "key": "unique_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "opensrp_id",
+        "type": "hidden",
+        "value": ""
+      },
 
       {
         "key": "preg_outcome",

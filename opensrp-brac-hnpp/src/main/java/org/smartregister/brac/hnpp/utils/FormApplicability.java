@@ -32,6 +32,10 @@ public class FormApplicability {
         return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneHHVisit(baseEntityId);
 
     }
+    public static boolean isDueElcoVisit(String baseEntityId){
+        return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneElcoVisit(baseEntityId);
+
+    }
     public static boolean isDueAnyForm(String baseEntityId, String eventType){
         return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneWihinTwentyFourHours(baseEntityId, eventType);
 
@@ -91,7 +95,7 @@ public class FormApplicability {
                     }
                 }
                 if(isClosedANC(baseEntityId)){
-                    if(isElco(age)){
+                    if(isElco(age) && isDueElcoVisit(baseEntityId)){
                         return HnppConstants.EVENT_TYPE.ELCO;
                     }
                 }
@@ -101,7 +105,7 @@ public class FormApplicability {
                 return "";
             }
 
-        if(isElco(age)){
+        if(isElco(age)&& isDueElcoVisit(baseEntityId)){
             return HnppConstants.EVENT_TYPE.ELCO;
         }
         return "";

@@ -1048,7 +1048,7 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "breastfeeding_time",
         "type": "edit_text",
-        "hint": "প্রসবের কত ঘণ্টা পর মায়ের দুধ খাওয়ানো হয়েছে?",
+        "hint": "প্রসবের কত ঘণ্টার মধ্যে মায়ের বুকের দুধ খাওয়ানো হয়েছে ?",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
