@@ -50,10 +50,17 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                 //if women
                 eventType = FormApplicability.getDueFormForMarriedWomen(baseEntityId,FormApplicability.getAge(commonPersonObjectClient));
                 if(!eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ELCO) && FormApplicability.isDueAnyForm(baseEntityId,eventType) && !TextUtils.isEmpty(eventType)){
-                    memberProfileDueData.setTitle(HnppConstants.visitEventTypeMapping.get(eventType));
-                    memberProfileDueData.setImageSource(HnppConstants.iconMapping.get(eventType));
-                    memberProfileDueData.setEventType(eventType);
+                    if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT)){
+                        memberProfileDueData.setTitle(FormApplicability.getANCTitle(baseEntityId));
+                        memberProfileDueData.setImageSource(R.mipmap.ic_anc_pink);
+                        memberProfileDueData.setEventType(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT);
+                    }else{
+                        memberProfileDueData.setTitle(HnppConstants.visitEventTypeMapping.get(eventType));
+                        memberProfileDueData.setImageSource(HnppConstants.iconMapping.get(eventType));
+                        memberProfileDueData.setEventType(eventType);
+                    }
                     memberProfileDueDataArrayList.add(memberProfileDueData);
+
                 }
 
                 if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ELCO)// && FormApplicability.isPregnant(baseEntityId)
@@ -65,8 +72,10 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                     memberProfileDueData2.setTitle(HnppConstants.visitEventTypeMapping.get(HnppConstants.EVENT_TYPE.ANC_REGISTRATION));
                     memberProfileDueDataArrayList.add(memberProfileDueData2);
                 }
-                if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)
-                        || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
+//                if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)
+
+                if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT)
+                        ){
                     MemberProfileDueData memberProfileDueData2 = new MemberProfileDueData();
                     memberProfileDueData2.setImageSource(HnppConstants.iconMapping.get(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME));
                     memberProfileDueData2.setType(HnppMemberProfileDueFragment.TAG_OPEN_DELIVERY);

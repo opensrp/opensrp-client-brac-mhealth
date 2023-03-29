@@ -60,7 +60,7 @@ public class HNPPMemberJsonFormFragment extends JsonWizardFormFragment {
         if(position == -1)
             return;
         if (parent instanceof MaterialSpinner) {
-            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase("খানা প্রধান এই সদস্যের কি হয়?")) {
+            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase("খানা প্রধানের সাথে সম্পর্ক")) {
                 processHouseholdName(position);
             }
         }

@@ -140,8 +140,8 @@ android {
             versionName "2.0.10"//2.0.6.4=2.0.7
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
-            buildConfigField "String", 'opensrp_url_training', '"http://opensrpha.mpower-social.com:8080/opensrp/"'
-            buildConfigField "String", 'opensrp_url_live', '"http://opensrpha.mpower-social.com:8080/opensrp/"'
+            buildConfigField "String", 'opensrp_url_training', '"http://unicef-ha.mpower-social.com/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"http://unicef-ha.mpower-social.com/opensrp/"'
         }
     }
 

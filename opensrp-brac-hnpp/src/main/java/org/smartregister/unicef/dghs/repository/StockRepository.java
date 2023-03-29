@@ -120,12 +120,9 @@ public class StockRepository extends BaseRepository {
         if(!TextUtils.isEmpty(targetName)){
             switch (targetName){
                 case HnppConstants.EventType.ANC_HOME_VISIT:
-                case HnppConstants.EVENT_TYPE.ANC1_REGISTRATION:
-                case HnppConstants.EVENT_TYPE.ANC2_REGISTRATION:
-                case HnppConstants.EVENT_TYPE.ANC3_REGISTRATION:
                     return CoreConstants.EventType.ANC_HOME_VISIT;
-                case HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour:
-                    return HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour;
+                case HnppConstants.EVENT_TYPE.PNC_REGISTRATION:
+                    return HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
                 case HnppConstants.EVENT_TYPE.GIRL_PACKAGE:
                 case HnppConstants.EVENT_TYPE.IYCF_PACKAGE:
                 case HnppConstants.EVENT_TYPE.NCD_PACKAGE:

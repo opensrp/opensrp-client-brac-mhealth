@@ -1,5 +1,7 @@
 package org.smartregister.unicef.dghs.utils;
 
+import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.ANC_HOME_VISIT;
+
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -81,9 +83,12 @@ public class FormApplicability {
                 int pncDay = getDayPassPregnancyOutcome(baseEntityId);
                 if(pncDay != -1&&!isClosedPregnancyOutCome(baseEntityId)){
                     if(pncDay<=41){
+                        return HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
+
                         //todo prosober current datetime - prosober_date+prosober_time>48hr = PNC AFTER else PNC WITHIN 48
-                        return getHourPassPregnancyOutcome(baseEntityId) > 48 ?
-                                HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour : HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour;
+//                        return getHourPassPregnancyOutcome(baseEntityId) > 48 ?
+//                                HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour : HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour;
+//
                     }else{
                         return HnppConstants.EVENT_TYPE.ELCO;
                     }
@@ -94,7 +99,7 @@ public class FormApplicability {
                     }
                 }
                 else{
-                    return getANCEvent(dayPass);
+                    return ANC_HOME_VISIT;//getANCEvent(dayPass);
                 }
                 return "";
             }
@@ -110,9 +115,10 @@ public class FormApplicability {
             int dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(lmp), new DateTime()).getDays();
             int pncDay = getDayPassPregnancyOutcome(baseEntityId);
             if(pncDay != -1&&!isClosedPregnancyOutCome(baseEntityId)){
-                if(pncDay<=41){
-                    return getHourPassPregnancyOutcome(baseEntityId) > 48 ?
-                            HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC : HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC;
+                if(pncDay<=41) {
+                    return HnppConstants.EVENT_TYPE.PNC_REGISTRATION_OOC;
+//                    return getHourPassPregnancyOutcome(baseEntityId) > 48 ?
+//                            HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC : HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC;
                 }else{
                     return HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
                 }
@@ -123,7 +129,7 @@ public class FormApplicability {
                 }
             }
             else{
-                return getANCEvent(dayPass);
+                return ANC_HOME_VISIT;//getANCEvent(dayPass);
             }
             return "";
         }
@@ -133,16 +139,65 @@ public class FormApplicability {
         }
         return "";
     }
-    public static String getANCEvent(int dayPass){
+    public static String getANCTitle(String baseEntityId){
+        String lmp = getLmp(baseEntityId);
+        int dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(lmp), new DateTime()).getDays();
+
         if(dayPass > 1 && dayPass <= 84){
             //first trimester
-            return HnppConstants.EVENT_TYPE.ANC1_REGISTRATION;
-        }else if(dayPass > 84 && dayPass <= 168){
+            return HnppConstants.getAncTitle(1)[0];
+        }else if(dayPass > 84 && dayPass <= 140){
 
-            return HnppConstants.EVENT_TYPE.ANC2_REGISTRATION;
-        }else if(dayPass > 168){
+            return HnppConstants.getAncTitle(2)[0];
+        }else if(dayPass > 140 && dayPass <= 182){
 
-            return HnppConstants.EVENT_TYPE.ANC3_REGISTRATION;
+            return HnppConstants.getAncTitle(3)[0];
+        }else if(dayPass > 182 && dayPass <= 210){
+
+            return HnppConstants.getAncTitle(4)[0];
+        }else if(dayPass > 210 && dayPass <= 238){
+
+            return HnppConstants.getAncTitle(5)[0];
+        }else if(dayPass > 238 && dayPass <= 252){
+
+            return HnppConstants.getAncTitle(6)[0];
+        }else if(dayPass > 252 && dayPass <= 266){
+
+            return HnppConstants.getAncTitle(7)[0];
+        }else if(dayPass > 266 && dayPass <= 280){
+
+            return HnppConstants.getAncTitle(8)[0];
+        }
+        return "";
+    }
+    public static String getANCType(String baseEntityId){
+        String lmp = getLmp(baseEntityId);
+        int dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(lmp), new DateTime()).getDays();
+
+        if(dayPass > 1 && dayPass <= 84){
+            //first trimester
+            return HnppConstants.getAncTitle(1)[1];
+        }else if(dayPass > 84 && dayPass <= 140){
+
+            return HnppConstants.getAncTitle(2)[1];
+        }else if(dayPass > 140 && dayPass <= 182){
+
+            return HnppConstants.getAncTitle(3)[1];
+        }else if(dayPass > 182 && dayPass <= 210){
+
+            return HnppConstants.getAncTitle(4)[1];
+        }else if(dayPass > 210 && dayPass <= 238){
+
+            return HnppConstants.getAncTitle(5)[1];
+        }else if(dayPass > 238 && dayPass <= 252){
+
+            return HnppConstants.getAncTitle(6)[1];
+        }else if(dayPass > 252 && dayPass <= 266){
+
+            return HnppConstants.getAncTitle(7)[1];
+        }else if(dayPass > 266 && dayPass <= 280){
+
+            return HnppConstants.getAncTitle(8)[1];
         }
         return "";
     }
@@ -247,7 +302,7 @@ public class FormApplicability {
     }
 
     public static boolean isFirstTimeAnc(String baseEntityId){
-        return HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isFirstTime(baseEntityId);
+        return false;//HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isFirstTime(baseEntityId);
 
     }
     public static boolean isWomanOfReproductiveAge(CommonPersonObjectClient commonPersonObject) {
@@ -320,9 +375,8 @@ public class FormApplicability {
 
     public static boolean isPragnent(String baseEntityId, int age) {
         String eventType = getDueFormForMarriedWomen(baseEntityId,age);
-        if(!TextUtils.isEmpty(eventType) && (eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)
-                || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION)
-                || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION))){
+        if(!TextUtils.isEmpty(eventType) && (eventType.equalsIgnoreCase(ANC_HOME_VISIT)
+                )){
             return true;
         }
         return false;

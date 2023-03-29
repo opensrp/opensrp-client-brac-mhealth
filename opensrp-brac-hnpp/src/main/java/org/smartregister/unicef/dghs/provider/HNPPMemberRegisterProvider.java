@@ -78,7 +78,7 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
         CommonPersonObjectClient pc = (CommonPersonObjectClient)client;
         if (this.visibleColumns.isEmpty()) {
             this.populatePatientColumn(pc, client, viewHolder);
-            this.populateIdentifierColumn(pc, viewHolder);
+//            this.populateIdentifierColumn(pc, viewHolder);
         }
        // super.getView(cursor, client, viewHolder);
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) viewHolder.profile.getLayoutParams();
@@ -178,6 +178,11 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
                 viewHolder.nextArrow.performClick();
             }
         });
+        viewHolder.primaryCaregiver.setOnClickListener(new View.OnClickListener() {
+            public void onClick(android.view.View v) {
+                viewHolder.primaryCaregiver.performClick();
+            }
+        });
         viewHolder.profile.setOnClickListener(new View.OnClickListener() {
             public void onClick(android.view.View v) {
                 viewHolder.patientColumn.performClick();
@@ -189,24 +194,29 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
             }
         });
         if (StringUtils.isNotBlank(dod) || StringUtils.isNotBlank(dateRemoved)) {
-
             android.view.View patient = viewHolder.patientColumn;
             patient.setClickable(false);
             android.view.View nextArrow = viewHolder.nextArrow;
             nextArrow.setClickable(false);
-
 
         }else{
             android.view.View patient = viewHolder.patientColumn;
             attachPatientOnclickListener(patient, client);
             android.view.View nextArrow = viewHolder.nextArrow;
             attachNextArrowOnclickListener(nextArrow, client);
+            android.view.View addChild = viewHolder.primaryCaregiver;
+            attachAddChildOnclickListener(addChild, client);
         }
        if(gender_key.equalsIgnoreCase("F")){
            int age = FormApplicability.getAge(pc);
            if (updateAsyncTask == null) {
                new UpdateAsyncTask(viewHolder).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,baseEntityId,age+"");
            }
+           if(FormApplicability.isElco(age)){
+               viewHolder.primaryCaregiver.setVisibility(View.VISIBLE);
+               viewHolder.primaryCaregiver.setText(Html.fromHtml(this.context.getString(R.string.add_child)));
+           }
+
 
        }
 
@@ -216,6 +226,11 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
         view.setOnClickListener(this.onClickListener);
         view.setTag(client);
         view.setTag(org.smartregister.family.R.id.VIEW_ID, "click_next_arrow");
+    }
+    private void attachAddChildOnclickListener(android.view.View view, SmartRegisterClient client) {
+        view.setOnClickListener(this.onClickListener);
+        view.setTag(client);
+        view.setTag(org.smartregister.family.R.id.VIEW_ID, "click_add_child");
     }
     private void attachPatientOnclickListener(View view, SmartRegisterClient client) {
         view.setOnClickListener(onClickListener);
@@ -273,6 +288,7 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
         }else{
             viewHolder.nextArrow.setVisibility(View.GONE);
         }
+
     }
 
 }

@@ -89,7 +89,6 @@
           "due": [
             {
               "reference": "dob",
-              "offset": "+42d",
               "window": "+10d"
             }
           ],
@@ -119,7 +118,6 @@
           "due": [
             {
               "reference": "dob",
-              "offset": "+42d",
               "window": "+28d"
             }
           ],
@@ -155,7 +153,6 @@
           "due": [
             {
               "reference": "dob",
-              "offset": "+42d",
               "window": "+10d"
             }
           ],
@@ -185,7 +182,6 @@
           "due": [
             {
               "reference": "dob",
-              "offset": "+42d",
               "window": "+10d"
             }
           ],

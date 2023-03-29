@@ -467,12 +467,14 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
             if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.GIRL_PACKAGE)){
                 HnppJsonFormUtils.addMaritalStatus(jsonForm,maritalStatus);
             }
-            else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM) || formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM) || formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM)){
-                HnppJsonFormUtils.addLastAnc(jsonForm,baseEntityId,false);
-            } else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM)||
-               formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM_AFTER_48_HOUR)
-                    ||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM_BEFORE_48_HOUR)  ){
-                HnppJsonFormUtils.addLastPnc(jsonForm,baseEntityId,false);
+            else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC_VISIT_FORM)){
+                String lmpDate = HnppDBUtils.getLmpDate(baseEntityId);
+                String date = HnppConstants.getScheduleLmpDate(lmpDate,1);
+                HnppJsonFormUtils.changeFormTitle(jsonForm,FormApplicability.getANCTitle(baseEntityId));
+                HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"anc_type", FormApplicability.getANCType(baseEntityId));
+                HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"schedule_date", date);
+                HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
+            } else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM)){
                 int pncDay = FormApplicability.getDayPassPregnancyOutcome(baseEntityId);
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"pnc_day_passed", String.valueOf(pncDay));
             }
@@ -513,6 +515,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
             startActivityForResult(intent, requestCode);
 
         }catch (Exception e){
+            e.printStackTrace();
 
         }
     }
@@ -802,42 +805,51 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
             try{
                 JSONObject form = new JSONObject(jsonString);
                 if (form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE).equals(org.smartregister.family.util.Utils.metadata().familyMemberRegister.updateEventType)) {
-                    String[] generatedString;
-                    String title;
-                    String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
+                    try{
+                        JSONObject formWithConsent = new JSONObject(jsonString);
+                        presenter().updateFamilyMember(formWithConsent.toString());
+                    }catch (JSONException je){
+                        je.printStackTrace();
+                    }
 
-                    String fullName = HnppApplication.getInstance().getContext().allSharedPreferences().getANMPreferredName(userName);
-                    generatedString = HnppJsonFormUtils.getValuesFromRegistrationForm(form);
-                    title = String.format(getString(R.string.dialog_confirm_save),fullName,generatedString[0],generatedString[2],generatedString[1]);
-
-                    HnppConstants.showSaveFormConfirmationDialog(this, title, new OnDialogOptionSelect() {
-                        @Override
-                        public void onClickYesButton() {
-
-                            try{
-                                JSONObject formWithConsent = new JSONObject(jsonString);
-                                JSONObject jobkect = formWithConsent.getJSONObject("step1");
-                                JSONArray field = jobkect.getJSONArray(FIELDS);
-                                HnppJsonFormUtils.addConsent(field,true);
-                                presenter().updateFamilyMember(formWithConsent.toString());
-                            }catch (JSONException je){
-                                je.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void onClickNoButton() {
-                            try{
-                                JSONObject formWithConsent = new JSONObject(jsonString);
-                                JSONObject jobkect = formWithConsent.getJSONObject("step1");
-                                JSONArray field = jobkect.getJSONArray(FIELDS);
-                                HnppJsonFormUtils.addConsent(field,false);
-                                presenter().updateFamilyMember(formWithConsent.toString());
-                            }catch (JSONException je){
-                                je.printStackTrace();
-                            }
-                        }
-                    });
+//
+//                    String[] generatedString;
+//                    String title;
+//                    String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
+//
+//                    String fullName = HnppApplication.getInstance().getContext().allSharedPreferences().getANMPreferredName(userName);
+//                    generatedString = HnppJsonFormUtils.getValuesFromRegistrationForm(form);
+//                    title = String.format(getString(R.string.dialog_confirm_save),fullName,generatedString[0],generatedString[2],generatedString[1]);
+//
+//                    HnppConstants.showSaveFormConfirmationDialog(this, title, new OnDialogOptionSelect() {
+//                        @Override
+//                        public void onClickYesButton() {
+//
+//                            try{
+//                                JSONObject formWithConsent = new JSONObject(jsonString);
+//                                JSONObject jobkect = formWithConsent.getJSONObject("step1");
+//                                JSONArray field = jobkect.getJSONArray(FIELDS);
+//                                HnppJsonFormUtils.addConsent(field,true);
+//                                presenter().updateFamilyMember(formWithConsent.toString());
+//                            }catch (JSONException je){
+//                                je.printStackTrace();
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onClickNoButton() {
+//                            try{
+//                                JSONObject formWithConsent = new JSONObject(jsonString);
+//                                JSONObject jobkect = formWithConsent.getJSONObject("step1");
+//                                JSONArray field = jobkect.getJSONArray(FIELDS);
+//                                HnppJsonFormUtils.addConsent(field,false);
+//                                presenter().updateFamilyMember(formWithConsent.toString());
+//                            }catch (JSONException je){
+//                                je.printStackTrace();
+//                            }
+//                        }
+//                    });
+//
                 }
 
             }catch (Exception e){
@@ -1162,9 +1174,9 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
 
     }
     public void updatePregnancyOutcomeVisible(String eventType){
+//        if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)
 
-        if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)
-        || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
+        if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT)){
             menu.findItem(R.id.action_pregnancy_out_come).setVisible(true);
         }else{
             menu.findItem(R.id.action_pregnancy_out_come).setVisible(false);

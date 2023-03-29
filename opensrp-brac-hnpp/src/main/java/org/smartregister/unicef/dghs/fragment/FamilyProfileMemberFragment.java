@@ -2,8 +2,10 @@ package org.smartregister.unicef.dghs.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import org.apache.commons.lang3.StringUtils;
+import org.smartregister.unicef.dghs.activity.FamilyProfileActivity;
 import org.smartregister.unicef.dghs.activity.HnppChildProfileActivity;
 import org.smartregister.unicef.dghs.activity.HnppFamilyOtherMemberProfileActivity;
 import org.smartregister.unicef.dghs.model.HNPPFamilyProfileMemberModel;
@@ -62,6 +64,10 @@ public class FamilyProfileMemberFragment extends BaseFamilyProfileMemberFragment
                 view.getTag(org.smartregister.family.R.id.VIEW_ID) == CLICK_VIEW_NEXT_ARROW) {
             goToProfileActivity(view);
         }
+        else if (i == org.smartregister.chw.core.R.id.primary_caregiver&& view.getTag() != null &&
+                view.getTag(org.smartregister.family.R.id.VIEW_ID) == "click_add_child") {
+            openChildForm(view);
+        }
     }
     @Override
     protected void initializePresenter() {
@@ -83,6 +89,20 @@ public class FamilyProfileMemberFragment extends BaseFamilyProfileMemberFragment
                 }
             }
 
+        }
+    }
+    public void openChildForm(android.view.View view){
+        if(view.getTag() instanceof CommonPersonObjectClient){
+            CommonPersonObjectClient commonPersonObjectClient = (CommonPersonObjectClient) view.getTag();
+            String entityId = Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.BASE_ENTITY_ID, false);
+            if(getActivity() instanceof FamilyProfileActivity){
+                FamilyProfileActivity activity = (FamilyProfileActivity) getActivity();
+                try{
+                    activity.startChildFromWithMotherInfo(entityId);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
         }
     }
     public void goToOtherMemberProfileActivity(CommonPersonObjectClient patient) {

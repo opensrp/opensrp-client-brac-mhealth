@@ -43,6 +43,7 @@ import org.smartregister.unicef.dghs.job.ZScoreRefreshServiceJob;
 import org.smartregister.unicef.dghs.listener.HnppNavigationListener;
 import org.smartregister.unicef.dghs.nativation.presenter.HnppNavigationPresenter;
 import org.smartregister.unicef.dghs.location.GeoLocationHelper;
+import org.smartregister.unicef.dghs.repository.CampRepository;
 import org.smartregister.unicef.dghs.repository.GeoLocationRepository;
 import org.smartregister.unicef.dghs.repository.GuestMemberIdRepository;
 import org.smartregister.unicef.dghs.repository.HnppChwRepository;
@@ -101,6 +102,7 @@ public class HnppApplication extends DrishtiApplication implements CoreApplicati
     private GuestMemberIdRepository guestMemberIdRepository;
     private HnppVisitLogRepository hnppVisitLogRepository;
     private static GeoLocationRepository geoLocationRepository;
+    private static CampRepository campRepository;
     private static RiskDetailsRepository riskDetailsRepository;
     private static TargetVsAchievementRepository targetVsAchievementRepository;
     private static IndicatorRepository indicatorRepository;
@@ -391,6 +393,12 @@ public class HnppApplication extends DrishtiApplication implements CoreApplicati
             geoLocationRepository = new GeoLocationRepository(getInstance().getRepository());
         }
         return geoLocationRepository;
+    }
+    public static CampRepository getCampRepository() {
+        if ( campRepository == null) {
+            campRepository = new CampRepository(getInstance().getRepository());
+        }
+        return campRepository;
     }
     public static RiskDetailsRepository getRiskDetailsRepository() {
         if ( riskDetailsRepository == null) {

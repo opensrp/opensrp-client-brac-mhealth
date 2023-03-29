@@ -114,10 +114,10 @@
         "key": "no_prev_preg",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "1438AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "no_prev_preg",
         "type": "edit_text",
         "edit_type": "number",
-        "hint": "সর্বমোট গর্ভসংখ্যা (এই গর্ভ সহ)",
+        "hint": "কতবার অন্তঃসত্ত্বা হয়েছেন (এই গর্ভ সহ)",
         "v_required": {
           "value": "true",
           "err": "সংখ্যাটি 0 এর চেয়ে সমান বা বড় হতে হবে"
@@ -160,7 +160,7 @@
         "openmrs_entity_id": "164894AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "type": "edit_text",
         "edit_type": "number",
-        "hint": "জীবিত বাচ্চার সংখ্যা",
+        "hint": "কতজন জীবিত সন্তান জন্ম হয়েছে?",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -212,7 +212,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "height",
-        "type": "edit_text",
+        "type": "hidden",
         "hint": "মায়ের উচ্চতা (সে.মি.)",
         "v_numeric": {
           "value": "true",
@@ -228,19 +228,357 @@
         }
       },
       {
-        "key": "risk_toaster_2",
+        "key": "c_section_history",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন ",
-        "text_size": "22px",
-        "text_color": "#FF0000",
-        "toaster_type": "problem",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "c_section_history",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "সিজারের ইতিহাস আছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_risk_relevance.yml"
+              "rules-file": "anc_member_registration_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "miscarage_history",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "miscarage_history",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "গর্ভপাতের ইতিহাস আছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_member_registration_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "still_birth_history",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "still_birth_history",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "মৃত জন্মের ইতিহাস আছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_member_registration_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "still_birth",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "still_birth",
+        "type": "edit_text",
+        "edit_type": "number",
+        "hint": "কতটি মৃত জন্ম ?",
+        "v_required": {
+          "value": "true",
+          "err": "সংখ্যাটি 0 এর চেয়ে সমান বা বড় হতে হবে"
+        },
+        "v_regex": {
+          "value": "([1-9]|10)\\s*",
+          "err": "গর্ভের সংখ্যা লিমিট হবে ১-১০"
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "সংখ্যাটি 0 এর চেয়ে সমান বা বড় হতে হবে"
+        },
+        "v_min": {
+          "value": "1",
+          "err": "সংখ্যাটি 0 এর চেয়ে সমান বা বড় হতে হবে"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_member_registration_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "high_pressure_history",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "high_pressure_history",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "পূর্ববর্তী গর্ভধারনের সময়ে উচ্চ রক্তচাপের ইতিহাস আছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_member_registration_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "aph_history",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "aph_history",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "প্রাক-প্রসবকালীন রক্তক্ষরণের ইতিহাস আছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_member_registration_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "obstructed_history",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "obstructed_history",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "বিলম্বিত প্রসবের ইতিহাস আছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_member_registration_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "pph_history",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "pph_history",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "প্রসবোত্তর রক্তক্ষরণের ইতিহাস আছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_member_registration_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "temperature_history",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "temperature_history",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "পূর্ববর্তী গর্ভধারনের সময়ে শরীরে উচ্চ তাপমাত্রার ইতিহাস আছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_member_registration_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "diabetes_history",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "diabetes_history",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "পূর্ববর্তী গর্ভধারনের সময়ে ডায়াবেটিসের ইতিহাস আছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_member_registration_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "thallasamia_history",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "thallasamia_history",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "থ্যালাসেমিয়ার ইতিহাস আছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+      {
+        "key": "mental_health_history",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "mental_health_history",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "মানসিক স্বাস্থ্য জনিত সমস্যা আছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+      {
+        "key":"History_Of_TT_TD",
+        "openmrs_entity_parent":"",
+        "openmrs_entity":"",
+        "openmrs_entity_id":"History_Of_TT_TD",
+        "openmrs_data_type":"text",
+        "type":"check_box",
+        "label":"আপনি কোন কোন টিটি/টিডি টিকা গ্রহন করেছেন?",
+        "exclusive":[
+          "No"
+        ],
+        "options":[
+          {
+            "key":"No",
+            "text":"কোনোটিই না",
+            "value":"false",
+            "openmrs_choice_id":"No"
+          },
+          {
+            "key":"TT_td_1_Complete",
+            "text":"টিটি/টিডি-১ সম্পন্ন",
+            "value":"false",
+            "openmrs_choice_id":"TT_td_1_Complete"
+          },
+          {
+            "key":"TT_td_2_Complete",
+            "text":"টিটি/টিডি-২ সম্পন্ন",
+            "value":"false",
+            "openmrs_choice_id":"TT_td_2_Complete"
+          },
+          {
+            "key":"TT_td_3_Complete",
+            "text":"টিটি/টিডি-৩ সম্পন্ন",
+            "value":"false",
+            "openmrs_choice_id":"TT_td_3_Complete"
+          },
+          {
+            "key":"TT_td_4_Complete",
+            "text":"টিটি/টিডি-৪ সম্পন্ন",
+            "value":"false",
+            "openmrs_choice_id":"TT_td_4_Complete"
+          },
+          {
+            "key":"TT_td_5_Complete",
+            "text":"টিটি/টিডি-৫ সম্পন্ন",
+            "value":"false",
+            "openmrs_choice_id":"TT_td_5_Complete"
+          }
+        ]
+      },
+      {
+        "key": "convulsion_history",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "convulsion_history",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "পূর্ববর্তী গর্ভধারনের সময়ে খিচুনীর ইতিহাস আছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_member_registration_relevance.yml"
             }
           }
         }
@@ -262,26 +600,6 @@
         "type": "edit_text",
         "read_only": true,
         "hint": "দ্রাঘিমা"
-      },
-      {
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "key": "section",
-        "type": "section_label",
-        "section_background": "#3797ca",
-        "text_color": "#FFFFFF",
-        "text_size": "22px",
-        "label_text_style": "bold",
-        "name": "সব তথ্য পূরণ করা হলে জমা দিন"
-      },
-      {
-        "key": "spacer",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "spacer",
-        "type": "spacer",
-        "spacer_height": "20dp"
       }
     ]
   }

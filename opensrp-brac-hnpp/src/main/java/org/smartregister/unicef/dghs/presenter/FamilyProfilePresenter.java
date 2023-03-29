@@ -19,6 +19,7 @@ import org.smartregister.unicef.dghs.location.GeoLocationHelper;
 import org.smartregister.unicef.dghs.model.HnppChildRegisterModel;
 import org.smartregister.unicef.dghs.model.HnppFamilyRegisterModel;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
+import org.smartregister.unicef.dghs.utils.HnppDBUtils;
 import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
 import org.smartregister.chw.core.contract.FamilyProfileExtendedContract;
 import org.smartregister.chw.core.model.CoreChildRegisterModel;
@@ -31,11 +32,14 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.contract.FamilyProfileContract;
 import org.smartregister.family.domain.FamilyEventClient;
 import org.smartregister.family.util.DBConstants;
+import org.smartregister.util.FormUtils;
 import org.smartregister.view.LocationPickerView;
 import org.smartregister.view.activity.BaseProfileActivity;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import timber.log.Timber;
 
@@ -108,6 +112,16 @@ public class FamilyProfilePresenter extends BaseFamilyProfilePresenter implement
             }
         });
 
+    }
+    public void startChildFromWithMotherInfo(String motherEntityId) throws Exception {
+        JSONObject form = FormUtils.getInstance(org.smartregister.family.util.Utils.context().applicationContext()).getFormJson(CoreConstants.JSON_FORM.getChildRegister());
+        Map<String, String> womenInfo = HnppDBUtils.getMotherName(motherEntityId);
+
+        HnppJsonFormUtils.updateFormWithMotherName(form,womenInfo.get("first_name")+" "+womenInfo.get("last_name"),womenInfo.get("member_name_bengla"),motherEntityId,familyBaseEntityId);
+        HnppJsonFormUtils.updateFormWithBlockInfo(form,familyBaseEntityId);
+        HnppJsonFormUtils.updateFormWithMemberId(form,houseHoldId,familyBaseEntityId);
+        HnppJsonFormUtils.updateChildFormWithMetaData(form, houseHoldId,familyBaseEntityId);
+        getView().startFormActivity(form);
     }
 
     @Override

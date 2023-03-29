@@ -52,7 +52,7 @@
     <string name="menu_guest_member">বহিরাগত সেবা</string>
     <string name="guest_member">বহিরাগত সদস্য</string>
     <string name="menu_simprints">সদস্য খুঁজি</string>
-    <string name="unique_id_form_field">খানা নাম্বার</string>
+    <string name="unique_id_form_field">সিস্টেম নাম্বার</string>
     <string name="ss_name_form_field">ওয়ার্ডের নাম:</string>
     <string name="ss_year">বছর নির্বাচন করুন</string>
     <string name="ss_month">মাস নির্বাচন করুন</string>
@@ -469,4 +469,6 @@
     <string name="over_12m_23m">শিশুটির বয়সের তুলনায় ওজন বেশি। শিশুকে মায়ের দুধের পাশাপাশি ১ বাটি করে দিনে তিন বার মূল খাবার এবং ১-২ বার ঘরে তৈরি পুষ্টিকর নাস্তা দিন। এর বাইরে পিজ্জা, বার্গার, চিপস, ফ্রেঞ্চফ্রাই, চকলেট, অন্যান্য প্যাকেটজাত খাবার এবং রঙিন জুস বা কোল্ড ড্রিংক বা এনার্জি ড্রিংক ইত্যাদি দিবেন না।</string>
     <string name="grow_filter">বৃদ্ধি ফিল্টারিং</string>
     <string name="given_at">দিয়েছে</string>
+    <string name="total_unregister_child">+Child: %1$s</string>
+    <string name="add_child"><![CDATA[<b><font color=#f70d1a>+Add Child</font></b>]]></string>
 </resources>

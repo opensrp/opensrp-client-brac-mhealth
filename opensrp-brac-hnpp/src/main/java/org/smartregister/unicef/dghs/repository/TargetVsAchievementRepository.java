@@ -128,12 +128,9 @@ public class TargetVsAchievementRepository extends BaseRepository {
 
     private String getTargetName(String targetName, String baseEntityId) {
         if(!TextUtils.isEmpty(targetName)){
-            if(targetName.equalsIgnoreCase(HnppConstants.EventType.ANC_HOME_VISIT)
-                    || targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)
-                || targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION)
-                    || targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
+            if(targetName.equalsIgnoreCase(HnppConstants.EventType.ANC_HOME_VISIT)){
                 targetName = HnppConstants.EVENT_TYPE.ANC_SERVICE;
-            }else if(targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour)){
+            }else if(targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION)){
                 targetName = HnppConstants.EVENT_TYPE.PNC_SERVICE;
             } else if(targetName.equalsIgnoreCase(HnppConstants.EventType.ANC_REGISTRATION)){
                 targetName = HnppConstants.EVENT_TYPE.PREGNANCY_IDENTIFIED;

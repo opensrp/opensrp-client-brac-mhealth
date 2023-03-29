@@ -1,5 +1,6 @@
 package org.smartregister.unicef.dghs.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -65,7 +66,7 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_recycler_view,null);
+        @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.fragment_recycler_view,null);
         clientsView = view.findViewById(R.id.recycler_view);
         client_list_progress = view.findViewById(R.id.client_list_progress);
         isStart = false;
@@ -136,21 +137,11 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
             if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME)){
                 HnppDBUtils.populatePNCChildDetails(content.getBaseEntityId(),jsonForm);
             }
-            if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION) ||
-                    eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION)
-                    || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
+            if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT)){
                 if(isGuestUser){
                     HnppJsonFormUtils.addNoOfAnc(jsonForm);
                 }else{
                     HnppJsonFormUtils.addLastAnc(jsonForm,baseEntityId,true);
-                }
-
-            } else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour) ||
-                    eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour)){
-                if(isGuestUser){
-                    HnppJsonFormUtils.addNoOfPnc(jsonForm);
-                }else{
-                    HnppJsonFormUtils.addLastPnc(jsonForm,baseEntityId,true);
                 }
 
             }

@@ -1,16 +1,14 @@
 package org.smartregister.unicef.dghs.task;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 
+import org.smartregister.unicef.dghs.dao.VisitDao;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
-import org.smartregister.chw.anc.provider.AncRegisterProvider;
-import org.smartregister.chw.core.dao.VisitDao;
-import org.smartregister.chw.core.utils.CoreConstants;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -18,6 +16,7 @@ import java.util.Locale;
 import provider.PncRegisterProvider;
 
 public class UpdatePncLastServiceInfoTask extends AsyncTask<Void, Void, Void> {
+    @SuppressLint("StaticFieldLeak")
     private final Context context;
     private final PncRegisterProvider.RegisterViewHolder viewHolder;
     private final String baseEntityId;
@@ -35,7 +34,7 @@ public class UpdatePncLastServiceInfoTask extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... params) {
         //commonPersonObject = commonRepository.findByBaseEntityId(baseEntityId);
 
-        String[] returnValue = VisitDao.getVisitInfo(baseEntityId, HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour);
+        String[] returnValue = VisitDao.getVisitInfo(baseEntityId, HnppConstants.EVENT_TYPE.PNC_REGISTRATION,HnppConstants.EVENT_TYPE.PNC_REGISTRATION);
         if(returnValue.length>0){
             lastVisit = returnValue[1];
             totalServiceCount =  returnValue[0];

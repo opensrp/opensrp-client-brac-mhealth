@@ -56,13 +56,10 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
             try {
 
                 Context context = view.getContext();
-                String lmp = getLmp(memberObject.getBaseEntityId());
-                int dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(lmp), new DateTime()).getDays();
-                String eventType = FormApplicability.getANCEvent(dayPass);
-                String formName = HnppConstants.eventTypeFormNameMapping.get(eventType);
-                String title1 = HnppConstants.visitEventTypeMapping.get(formName);
-                String title2 = HnppConstants.visitEventTypeMapping.get(HnppConstants.JSON_FORMS.GENERAL_DISEASE);
-                String title3 = HnppConstants.visitEventTypeMapping.get(HnppConstants.JSON_FORMS.PREGNANCY_HISTORY);
+                String formName = HnppConstants.JSON_FORMS.ANC_VISIT_FORM;
+                String title1 = FormApplicability.getANCTitle(memberObject.getBaseEntityId());
+//                String title2 = HnppConstants.visitEventTypeMapping.get(HnppConstants.JSON_FORMS.GENERAL_DISEASE);
+//                String title3 = HnppConstants.visitEventTypeMapping.get(HnppConstants.JSON_FORMS.PREGNANCY_HISTORY);
                 ANC1_FORMHelper = new HnppHomeVisitActionHelper();
                 BaseAncHomeVisitAction ANC1_FORM = new BaseAncHomeVisitAction.Builder(context,title1 )
                         .withOptional(false)
@@ -89,36 +86,36 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                GENERAL_DISEASEHelper = new HnppHomeVisitActionHelper();
-                BaseAncHomeVisitAction GENERAL_DISEASE = new BaseAncHomeVisitAction.Builder(context,title2 )
-                        .withOptional(false)
-                        .withFormName(HnppConstants.JSON_FORMS.GENERAL_DISEASE)
-                        .withHelper(GENERAL_DISEASEHelper)
-                        .build();
-                try {
-                    JSONObject jsonPayload = new JSONObject(GENERAL_DISEASE.getJsonPayload());
-                    GENERAL_DISEASE.setJsonPayload(jsonPayload.toString());
-
-                }catch (Exception e){
-
-                }
-
-                PREGNANCY_HISTORYHelper = new HnppHomeVisitActionHelper();
-
-                BaseAncHomeVisitAction PREGNANCY_HISTORY = new BaseAncHomeVisitAction.Builder(context, title3)
-                        .withOptional(false)
-                        .withFormName(HnppConstants.JSON_FORMS.PREGNANCY_HISTORY)
-                        .withHelper(PREGNANCY_HISTORYHelper)
-                        .build();
-                try {
-                    JSONObject jsonPayload = new JSONObject(PREGNANCY_HISTORY.getJsonPayload());
-                    PREGNANCY_HISTORY.setJsonPayload(jsonPayload.toString());
-                }catch (Exception e){
-
-                }
-
-                actionList.put(title3, PREGNANCY_HISTORY);
-                actionList.put(title2, GENERAL_DISEASE);
+//                GENERAL_DISEASEHelper = new HnppHomeVisitActionHelper();
+//                BaseAncHomeVisitAction GENERAL_DISEASE = new BaseAncHomeVisitAction.Builder(context,title2 )
+//                        .withOptional(false)
+//                        .withFormName(HnppConstants.JSON_FORMS.GENERAL_DISEASE)
+//                        .withHelper(GENERAL_DISEASEHelper)
+//                        .build();
+//                try {
+//                    JSONObject jsonPayload = new JSONObject(GENERAL_DISEASE.getJsonPayload());
+//                    GENERAL_DISEASE.setJsonPayload(jsonPayload.toString());
+//
+//                }catch (Exception e){
+//
+//                }
+//
+//                PREGNANCY_HISTORYHelper = new HnppHomeVisitActionHelper();
+//
+//                BaseAncHomeVisitAction PREGNANCY_HISTORY = new BaseAncHomeVisitAction.Builder(context, title3)
+//                        .withOptional(false)
+//                        .withFormName(HnppConstants.JSON_FORMS.PREGNANCY_HISTORY)
+//                        .withHelper(PREGNANCY_HISTORYHelper)
+//                        .build();
+//                try {
+//                    JSONObject jsonPayload = new JSONObject(PREGNANCY_HISTORY.getJsonPayload());
+//                    PREGNANCY_HISTORY.setJsonPayload(jsonPayload.toString());
+//                }catch (Exception e){
+//
+//                }
+//
+//                actionList.put(title3, PREGNANCY_HISTORY);
+//                actionList.put(title2, GENERAL_DISEASE);
                 actionList.put(title1, ANC1_FORM);
 
 
@@ -192,7 +189,7 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
     }
 
     public void addHeightField(String baseEntityId, String formName, JSONObject jsonForm) {
-        if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM)||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM)||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM)) {
+        if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC_VISIT_FORM)) {
             HnppVisitLogRepository visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
             String heightValue = visitLogRepository.getHeight(baseEntityId);
             if(!TextUtils.isEmpty(heightValue)){
@@ -200,7 +197,7 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
                 try {
                     stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
                     JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
-                    updateFormField(jsonArray,"height",heightValue);
+                    updateFormField(jsonArray,"Height",heightValue);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -210,7 +207,7 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
         }
     }
     public void addEDDField(String baseEntityId, String formName, JSONObject jsonForm){
-        if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM)||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM)||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM)){
+        if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC_VISIT_FORM)){
             JSONObject stepOne = null;
             try {
                 HnppVisitLogRepository visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();

@@ -86,6 +86,8 @@ public class HnppJobCreator implements JobCreator {
                 return new MuactIntentServiceJob();
             case WeightIntentServiceJob.TAG:
                 return new WeightIntentServiceJob();
+            case CampFetchJob.TAG:
+                return new CampFetchJob();
             default:
                 Timber.d("Please create job and specify the right job tag");
                 return null;

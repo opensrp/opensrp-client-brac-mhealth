@@ -662,7 +662,9 @@ public class HnppDBUtils {
         return count>0;
     }
     public static boolean isAncRisk(String baseEntityId){
-        String query = "select count(*) from ec_family_member where base_entity_id = '"+baseEntityId+"' and is_risk ='true' and (risk_event_type ='"+ HnppConstants.EVENT_TYPE.ANC_REGISTRATION +"' OR risk_event_type ='"+ HnppConstants.EventType.ANC_HOME_VISIT +"' OR risk_event_type ='"+ HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY +"' OR risk_event_type ='"+ HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE +"')";
+        //String query = "select count(*) from ec_family_member where base_entity_id = '"+baseEntityId+"' and is_risk ='true' and (risk_event_type ='"+ HnppConstants.EVENT_TYPE.ANC_REGISTRATION +"' OR risk_event_type ='"+ HnppConstants.EventType.ANC_HOME_VISIT +"' OR risk_event_type ='"+ HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY +"' OR risk_event_type ='"+ HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE +"')";
+        String query = "select count(*) from ec_family_member where base_entity_id = '"+baseEntityId+"' and is_risk ='true' and (risk_event_type ='"+ HnppConstants.EVENT_TYPE.ANC_REGISTRATION +"' OR risk_event_type ='"+ HnppConstants.EventType.ANC_HOME_VISIT +"' )";
+
         Cursor cursor = null;
         int count=0;
         try {
@@ -1207,4 +1209,16 @@ public class HnppDBUtils {
         return TextUtils.isEmpty(mName)?motherName:mName;
     }
 
+    public static String getLmpDate(String baseEntityId) {
+        String lmp = "SELECT last_menstrual_period FROM ec_anc_register where base_entity_id = ? ";
+        List<Map<String, String>> valus = AbstractDao.readData(lmp, new String[]{baseEntityId});
+
+        return valus.get(0).get("last_menstrual_period");
+    }
+    public static Map<String, String> getMotherName(String baseEntityId) {
+        String mem = "SELECT first_name,last_name,member_name_bengla FROM ec_family_member where base_entity_id = ? ";
+        List<Map<String, String>> valus = AbstractDao.readData(mem, new String[]{baseEntityId});
+
+        return valus.get(0);
+    }
 }

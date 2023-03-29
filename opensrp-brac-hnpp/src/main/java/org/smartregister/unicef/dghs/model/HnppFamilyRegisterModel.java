@@ -41,6 +41,7 @@ public class HnppFamilyRegisterModel extends BaseFamilyRegisterModel {
         if(HnppConstants.isPALogin()){
             makeReadOnlyFields(form);
         }
+        HnppJsonFormUtils.addValueAtJsonForm(form,"registration_date", HnppConstants.getTodayDate());
         HnppJsonFormUtils.updateFormWithWardName(form, HnppApplication.getGeoLocationRepository().getAllWard());
         return HnppJsonFormUtils.getFormAsJson(form, formName, entityId, currentLocationId);
     }

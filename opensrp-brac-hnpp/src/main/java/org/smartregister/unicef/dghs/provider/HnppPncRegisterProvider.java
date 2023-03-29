@@ -1,5 +1,6 @@
 package org.smartregister.unicef.dghs.provider;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.text.TextUtils;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.smartregister.unicef.dghs.R;
+import org.smartregister.unicef.dghs.task.UpdateBornChildCountTask;
 import org.smartregister.unicef.dghs.task.UpdatePncLastServiceInfoTask;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.HnppDBUtils;
@@ -39,6 +41,7 @@ public class HnppPncRegisterProvider extends PncRegisterProvider {
         return new HnppPncRegisterViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void getView(Cursor cursor, SmartRegisterClient client, RegisterViewHolder viewHolder1) {
         super.getView(cursor, client, new HnppPncRegisterViewHolder(viewHolder1.itemView));
@@ -60,11 +63,10 @@ public class HnppPncRegisterProvider extends PncRegisterProvider {
         String ssName = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.BLOCK_NAME, true);
         if (!TextUtils.isEmpty(ssName))viewHolder.pncDay.append(context.getString(R.string.ss_name,ssName));
         viewHolder.dueButton.setVisibility(View.GONE);
-        viewHolder.dueButton.setOnClickListener(null);
-        org.smartregister.family.util.Utils.startAsyncTask(new UpdatePncLastServiceInfoTask(context,viewHolder, pc.entityId()), null);
+        viewHolder.dueButton.setOnClickListener(onClickListener);
+       // org.smartregister.family.util.Utils.startAsyncTask(new UpdateBornChildCountTask(context,viewHolder, pc.entityId()), null);
 
-        if(HnppDBUtils.isRisk(baseEntityId, HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour)||
-                HnppDBUtils.isRisk(baseEntityId, HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour)){
+        if(HnppDBUtils.isRisk(baseEntityId, HnppConstants.EVENT_TYPE.PNC_REGISTRATION)){
             viewHolder.riskView.setVisibility(View.VISIBLE);
         }else{
             viewHolder.riskView.setVisibility(View.GONE);

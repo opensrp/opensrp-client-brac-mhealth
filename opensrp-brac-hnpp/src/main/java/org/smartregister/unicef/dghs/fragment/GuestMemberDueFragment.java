@@ -1,5 +1,6 @@
 package org.smartregister.unicef.dghs.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -79,7 +80,7 @@ public class GuestMemberDueFragment extends Fragment implements View.OnClickList
         otherServiceView.setVisibility(View.VISIBLE);
         if(!HnppConstants.isPALogin()){
             if(guestMemberData.getGender().equalsIgnoreCase("F")){
-                View anc1View = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+                @SuppressLint("InflateParams") View anc1View = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
                 ImageView imageanc1View = anc1View.findViewById(R.id.image_view);
                 TextView nameanc1View =  anc1View.findViewById(R.id.patient_name_age);
                 anc1View.setTag(TAG_OPEN_ANC1);
@@ -94,13 +95,15 @@ public class GuestMemberDueFragment extends Fragment implements View.OnClickList
 
                         otherServiceView.addView(anc1View);
                     }
-                    if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)
-                            || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
-                        View ancRegistration = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+//                    if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)
+
+                    if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT)
+                            ){
+                        @SuppressLint("InflateParams") View ancRegistration = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
                         ImageView image = ancRegistration.findViewById(R.id.image_view);
                         TextView name =  ancRegistration.findViewById(R.id.patient_name_age);
                         ancRegistration.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-                        image.setImageResource(HnppConstants.iconMapping.get(eventType));
+                        image.setImageResource(HnppConstants.iconMapping.get(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME));
                         name.setText(HnppConstants.visitEventTypeMapping.get(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME));
                         ancRegistration.setTag(TAG_OPEN_DELIVERY);
                         ancRegistration.setOnClickListener(this);
@@ -170,7 +173,7 @@ public class GuestMemberDueFragment extends Fragment implements View.OnClickList
         }
         if(otherServiceDataList.size()>0){
             for(OtherServiceData otherServiceData : otherServiceDataList){
-                View serviceLayout = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+                @SuppressLint("InflateParams") View serviceLayout = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
                 ImageView imgFollowup = serviceLayout.findViewById(R.id.image_view);
                 TextView nReferel =  serviceLayout.findViewById(R.id.patient_name_age);
                 TextView lastVisitRow = serviceLayout.findViewById(R.id.last_visit);

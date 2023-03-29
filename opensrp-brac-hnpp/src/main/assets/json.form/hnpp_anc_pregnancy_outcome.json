@@ -260,6 +260,68 @@
         }
       },
       {
+        "key": "gender",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "gender",
+        "type": "spinner",
+        "hint": "নবজাতকের লিঙ্গ",
+        "values": [
+          "পুরুষ",
+          "নারী",
+          "তৃতীয় লিঙ্গ"
+        ],
+        "openmrs_choice_ids": {
+          "পুরুষ": "M",
+          "নারী":"F",
+          "তৃতীয় লিঙ্গ": "O"
+        },
+        "v_required": {
+          "value": true,
+          "err": "লিঙ্গ প্রবেশ করুন"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "key": "permanent_address",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "permanent_address",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "look_up": "true",
+        "hint": "প্রসবের ঠিকানা(ইউনিয়ন)",
+        "v_required": {
+          "value": true,
+          "err": "ইউনিয়ন এর নামের অক্ষর ইংরেজিতে লিখুন "
+        },
+        "v_regex": {
+          "value": "[A-Za-z0-9.,() ]*",
+          "err": "Please select from the list"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
         "key": "no_still_born",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -385,78 +447,6 @@
           "value": "[0-9]*",
           "err": "দশমিক অনুমোদিত নয়"
         }
-      },
-      {
-        "key": "no_anc_at_pregnant",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "no_anc_at_pregnant",
-        "openmrs_data_type": "select one",
-        "type": "edit_text",
-        "hint": "গর্ভবতী অবস্থায় মোট কয়টি এ.এন .সি. সেবা নিয়েছে?",
-        "v_numeric": {
-          "value": true,
-          "err": "Enter a valid Number"
-        },
-        "v_max_length": {
-          "value": "1",
-          "err": "1 ডিজিটের বেশি দেওয়া যাবে না",
-          "is_fixed_size":true
-        },
-        "v_regex": {
-          "value": "[0-9]*",
-          "err": "দশমিক অনুমোদিত নয়"
-        }
-      },
-      {
-        "key":"History_Of_TT_TD",
-        "openmrs_entity_parent":"",
-        "openmrs_entity":"",
-        "openmrs_entity_id":"History_Of_TT_TD",
-        "openmrs_data_type":"text",
-        "type":"check_box",
-        "label":"আপনি কোন কোন টিটি/টিডি টিকা গ্রহন করেছেন?",
-        "exclusive":[
-          "No"
-        ],
-        "options":[
-          {
-            "key":"No",
-            "text":"কোনোটিই না",
-            "value":"false",
-            "openmrs_choice_id":"No"
-          },
-          {
-            "key":"TT_td_1_Complete",
-            "text":"টিটি/টিডি-১ সম্পন্ন",
-            "value":"false",
-            "openmrs_choice_id":"TT_td_1_Complete"
-          },
-          {
-            "key":"TT_td_2_Complete",
-            "text":"টিটি/টিডি-২ সম্পন্ন",
-            "value":"false",
-            "openmrs_choice_id":"TT_td_2_Complete"
-          },
-          {
-            "key":"TT_td_3_Complete",
-            "text":"টিটি/টিডি-৩ সম্পন্ন",
-            "value":"false",
-            "openmrs_choice_id":"TT_td_3_Complete"
-          },
-          {
-            "key":"TT_td_4_Complete",
-            "text":"টিটি/টিডি-৪ সম্পন্ন",
-            "value":"false",
-            "openmrs_choice_id":"TT_td_4_Complete"
-          },
-          {
-            "key":"TT_td_5_Complete",
-            "text":"টিটি/টিডি-৫ সম্পন্ন",
-            "value":"false",
-            "openmrs_choice_id":"TT_td_5_Complete"
-          }
-        ]
       },
       {
         "key": "miscarriage_date",
@@ -730,8 +720,6 @@
           }
         }
       },
-
-
       {
         "key":"Partograph_used",
         "openmrs_entity_parent":"",
@@ -925,433 +913,6 @@
         }
       },
 
-
-      {
-        "key": "baby_label",
-        "type": "label",
-        "text": "নবজাতকের তথ্য",
-        "has_bg": true,
-        "left_padding": "20dp",
-        "right_padding": "20dp",
-        "text_size": "15sp",
-        "text_color": "#000000",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "relevance": {
-          "step1:preg_outcome": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "born_alive"
-                ]
-              }
-            ]
-          }
-        }
-      },
-      {
-        "key": "add_child",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "add_child",
-        "openmrs_data_type": "select one",
-        "type": "hidden",
-        "hint": "শিশু নিবন্ধন",
-        "values": [
-          "1",
-          "2+"
-        ],
-        "openmrs_choice_ids": {
-          "1": "1",
-          "2+": "2"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "Please select one option"
-        }
-      },
-      {
-        "key": "temp_unique_id",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "temp_unique_id",
-        "type": "hidden"
-      },
-      {
-        "key": "temp_name",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "temp_name",
-        "type": "hidden"
-      },
-      {
-        "key": "unique_id",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_identifier",
-        "openmrs_entity_id": "opensrp_id",
-        "type": "hidden",
-        "value": ""
-      },
-      {
-        "key": "first_name",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person",
-        "openmrs_entity_id": "first_name",
-        "type": "edit_text",
-        "hint": "নামের প্রথম অংশ (ইংরেজীতে)",
-        "edit_type": "name",
-        "v_required": {
-          "value": "true",
-          "err": "নাম লিখুন"
-        },
-        "v_regex": {
-          "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
-          "err": "একটি বৈধ নাম লিখুন"
-        },
-        "calculation": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_outcome_calculation.yml"
-            }
-          }
-        },
-        "relevance": {
-          "step1:preg_outcome": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "born_alive"
-                ]
-              }
-            ]
-          }
-        }
-      },
-      {
-        "key": "last_name",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person",
-        "openmrs_entity_id": "last_name",
-        "type": "edit_text",
-        "hint": "নামের শেষ অংশ (ইংরেজীতে)",
-        "edit_type": "name",
-        "v_required": {
-          "value": "true",
-          "err": "Please enter the last name"
-        },
-        "v_regex": {
-          "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
-          "err": "Please enter a valid name"
-        }
-      },
-      {
-        "key": "dob",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person",
-        "openmrs_entity_id": "birthdate",
-        "type": "hidden",
-        "calculation": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_outcome_calculation.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "gender",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person",
-        "openmrs_entity_id": "gender",
-        "type": "spinner",
-        "hint": "লিঙ্গ",
-        "values": [
-          "পুরুষ",
-          "নারী",
-          "তৃতীয় লিঙ্গ"
-        ],
-        "openmrs_choice_ids": {
-          "পুরুষ": "M",
-          "নারী":"F",
-          "তৃতীয় লিঙ্গ": "O"
-        },
-        "v_required": {
-          "value": true,
-          "err": "লিঙ্গ প্রবেশ করুন"
-        },
-        "relevance": {
-          "step1:preg_outcome": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "born_alive"
-                ]
-              }
-            ]
-          }
-        }
-      },
-      {
-        "key": "relation_with_household_head",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "Relation_with_HOH",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "খানা প্রধান এই সদস্যের কি হয়?",
-        "values": [
-          "মা/আম্মা",
-          "বাবা/আব্বা",
-          "দাদা",
-          "দাদি",
-          "নানা",
-          "নানী",
-          "অতিথি",
-          "অন্যান্য"
-        ],
-        "openmrs_choice_ids": {
-          "মা/আম্মা":"Mother",
-          "বাবা/আব্বা":"Father",
-          "দাদা":"Grandpa",
-          "দাদি":"Grandma",
-          "নানা":"Grandfather",
-          "নানী":"Grandmother",
-          "অতিথি" : "Guest",
-          "অন্যান্য": "Others"
-        },
-        "v_required": {
-          "value": true,
-          "err": "সম্পর্ক নির্বাচন করুন"
-        },
-        "relevance": {
-          "step1:preg_outcome": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "born_alive"
-                ]
-              }
-            ]
-          }
-        }
-      },
-      {
-        "key": "birth_weight_taken",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "birth_weight_taken",
-        "openmrs_data_type": "select one",
-        "type": "spinner",
-        "hint": "জন্মকালীন ওজন নেওয়া হয়েছে?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "Please select one option"
-        },
-        "relevance": {
-          "step1:preg_outcome": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "born_alive"
-                ]
-              }
-            ]
-          }
-        }
-      },
-      {
-        "key": "birth_weight",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "birth_weight",
-        "type": "edit_text",
-        "hint": "জন্মকালীন ওজন(কেজি)",
-        "v_numeric": {
-          "value": "true",
-          "err": "Enter a valid Number"
-        },
-
-        "v_max_length": {
-          "value": "5",
-          "err": "5 ডিজিটের বেশি দেওয়া যাবে না",
-          "is_fixed_size":true
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "step1:birth_weight_taken": {
-            "type": "string",
-            "ex": "equalTo(., \"হ্যাঁ\")"
-          }
-        }
-      },
-      {
-        "key": "head_body_covered",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "head_body_covered",
-        "openmrs_data_type": "select one",
-        "type": "spinner",
-        "hint": "নবজাতক জন্মের সাথে সাথে তাকে মোড়ানো এবং আবৃত করা হয়েছিল?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "breastfeeding_time",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "breastfeeding_time",
-        "openmrs_data_type": "select one",
-        "type": "spinner",
-        "hint": "প্রসবের ১ ঘন্টার মধ্যে নবজাতককে বুকের দুধ খাওয়ানো হয়েছিল?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "chlorohexadin",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "chlorohexadin",
-        "openmrs_data_type": "select one",
-        "type": "spinner",
-        "hint": "প্রসবকালীন সময়ে সিএইচএক্স(৭.১%) ব্যবহৃত হয়েছিল? ",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "Skin_to_Skin_contact",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "Skin_to_Skin_contact",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "নবজাতক জন্মের ১ ঘন্টার মধ্যে তাকে মায়ের বুকে লাগানো হয়েছিল?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "Visible_birth_defect",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "Visible_birth_defect",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "আপনার নবজাতকের দৃশ্যমান জন্মগত ত্রুটি আছে?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "Counselling_on_Newborn_danger",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "Counselling_on_Newborn_danger",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "আপনাকে নবজাতকের আসন্ন ঝুকি সমূহ এবং ইএনসি সংক্রান্ত কাউন্সেলিং প্রদান করা হয়েছে?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
-        }
-      },
       {
         "key": "latitude",
         "openmrs_entity_parent": "",
@@ -1369,27 +930,6 @@
         "type": "edit_text",
         "read_only": true,
         "hint": "দ্রাঘিমা"
-      }
-    ,
-      {
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "key": "section",
-        "type": "section_label",
-        "section_background": "#3797ca",
-        "text_color": "#FFFFFF",
-        "text_size": "22px",
-        "label_text_style": "bold",
-        "name": "সব তথ্য পূরণ করা হলে জমা দিন"
-      },
-      {
-        "key": "spacer",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "spacer",
-        "type": "spacer",
-        "spacer_height": "20dp"
       }
     ]
   }

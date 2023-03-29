@@ -10,6 +10,8 @@ import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import org.apache.commons.lang3.StringUtils;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
@@ -47,8 +49,15 @@ public class HnppPncRegisterFragment extends HnppBasePncRegisterFragment impleme
 
           openFilterDialog(true);
         }
+      if(view.getId() == R.id.due_button){
+          Toast.makeText(getActivity(),"Open child register",Toast.LENGTH_LONG).show();
+      }
     }
 
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+    }
 
     @Override
     protected void onResumption() {

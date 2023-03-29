@@ -40,6 +40,17 @@ public class VisitDao extends AbstractDao {
         return strs;
 
     }
+    public static String getNoOfBornChild(String baseEntityId){
+        String lmp = "SELECT no_born_alive FROM ec_pregnancy_outcome where base_entity_id = ? ";
+        List<Map<String, String>> valus = AbstractDao.readData(lmp, new String[]{baseEntityId});
+        String value = "";
+        if(valus.size()>0){
+            value =  valus.get(0).get("no_born_alive");
+        }
+
+        return value;
+
+    }
 
     @Nullable
     public static Map<String, VisitSummary> getVisitSummary(String baseEntityID) {

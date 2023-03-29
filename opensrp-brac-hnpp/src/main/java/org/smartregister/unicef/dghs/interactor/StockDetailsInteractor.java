@@ -76,7 +76,7 @@ public class StockDetailsInteractor implements StockDetailsContract.Interactor {
             if(productName.equalsIgnoreCase(CoreConstants.EventType.ANC_HOME_VISIT)){
                 addToDashBoardList(model.getAncStockData(month,year));
             }
-            else if(productName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour)){
+            else if(productName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION)){
                 addToDashBoardList(model.getPncStockData(month,year));
             }
             else if(productName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GIRL_PACKAGE)){

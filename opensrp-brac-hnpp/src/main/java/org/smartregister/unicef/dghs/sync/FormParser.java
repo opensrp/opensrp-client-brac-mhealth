@@ -46,14 +46,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.ANC1_REGISTRATION;
-import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.ANC1_REGISTRATION_OOC;
-import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.ANC2_REGISTRATION;
-import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.ANC2_REGISTRATION_OOC;
-import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.ANC3_REGISTRATION;
-import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.ANC3_REGISTRATION_OOC;
-import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE;
-import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
+//import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE;
+//import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
+import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.ANC_HOME_VISIT;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.BLOOD_GROUP;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP;
@@ -69,10 +64,8 @@ import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.HOME_
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.MEMBER_REFERRAL;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.NCD_PACKAGE;
-import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour;
-import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC;
-import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour;
-import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC;
+import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
+import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION_OOC;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME_OOC;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP;
@@ -125,21 +118,6 @@ public class FormParser {
                         if(encounter_type.equalsIgnoreCase(PREGNANCY_OUTCOME_OOC)){
                             encounter_type = PREGNANCY_OUTCOME;
                         }
-                        else if(encounter_type.equalsIgnoreCase(ANC1_REGISTRATION_OOC)){
-                            encounter_type = ANC1_REGISTRATION;
-                        }
-                        else if(encounter_type.equalsIgnoreCase(ANC2_REGISTRATION_OOC)){
-                            encounter_type = ANC2_REGISTRATION;
-                        }
-                        else if(encounter_type.equalsIgnoreCase(ANC3_REGISTRATION_OOC)){
-                            encounter_type = ANC3_REGISTRATION;
-                        }
-                        else if(encounter_type.equalsIgnoreCase(PNC_REGISTRATION_BEFORE_48_hour_OOC)){
-                            encounter_type = PNC_REGISTRATION_BEFORE_48_hour;
-                        }
-                        else if(encounter_type.equalsIgnoreCase(PNC_REGISTRATION_AFTER_48_hour_OOC)){
-                            encounter_type = PNC_REGISTRATION_AFTER_48_hour;
-                        }
                         if(encounter_type.equalsIgnoreCase(HOME_VISIT_FAMILY)){
                             JSONObject form_object = loadFormFromAsset(encounter_type);
                             JSONObject stepOne = form_object.getJSONObject(JsonFormUtils.STEP1);
@@ -182,65 +160,9 @@ public class FormParser {
                             }
 
                         }
-                        if(ANC1_REGISTRATION.equalsIgnoreCase(encounter_type) || ANC2_REGISTRATION.equalsIgnoreCase(encounter_type)
-                                || ANC3_REGISTRATION.equalsIgnoreCase(encounter_type) || CoreConstants.EventType.ANC_HOME_VISIT.equalsIgnoreCase(encounter_type)){
-                            if(details.containsKey("brac_anc") && !StringUtils.isEmpty(details.get("brac_anc"))){
-                                String ancValue = details.get("brac_anc");
-                                String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(base_entity_id+"_BRAC_ANC");
-                                if(!TextUtils.isEmpty(prevalue)){
-                                    try{
-                                        int lastValue = Integer.parseInt(prevalue);
-                                        int ancValueInt = Integer.parseInt(ancValue);
-                                        if(ancValueInt >= lastValue){
+                        if(CoreConstants.EventType.ANC_HOME_VISIT.equalsIgnoreCase(encounter_type)){
 
-                                            FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",(ancValueInt+1)+"");
-                                        }
-                                    }catch (NumberFormatException ne){
-
-                                    }
-
-                                }else{
-                                    FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",1+"");
-                                }
-                            }
                             updateAncHomeVisitRisk(encounter_type,base_entity_id,details);
-                        }
-
-                        if(PNC_REGISTRATION_BEFORE_48_hour.equalsIgnoreCase(encounter_type)||
-                                PNC_REGISTRATION_AFTER_48_hour.equalsIgnoreCase(encounter_type)){
-                            if(details.containsKey("brac_pnc") && !StringUtils.isEmpty(details.get("brac_pnc"))){
-                                String ancValue = details.get("brac_pnc");
-                                String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(base_entity_id+"_BRAC_PNC");
-                                if(!TextUtils.isEmpty(prevalue)){
-                                    try{
-                                        int lastValue = Integer.parseInt(prevalue);
-                                        int ancValueInt = Integer.parseInt(ancValue);
-                                        if(ancValueInt >= lastValue){
-                                            FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_PNC",(ancValueInt+1)+"");
-                                        }
-                                    }catch (NumberFormatException e){
-
-                                    }
-
-                                }else{
-                                    FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_PNC",1+"");
-                                }
-                            }
-                            if(details.containsKey("total_anc") && !StringUtils.isEmpty(details.get("brac_pnc"))){
-                                String ancValue = details.get("total_anc");
-                                try{
-                                    if(!TextUtils.isEmpty(ancValue)){
-                                        int count = Integer.parseInt(ancValue);
-                                        FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_TOTAL_ANC",count+"");
-
-                                    }
-                                }catch (NumberFormatException ne){
-
-                                }
-
-                            }
-
-                            updatePncRisk(base_entity_id,details, encounter_type );
                         }
                         if(ANC_REGISTRATION.equalsIgnoreCase(encounter_type)){
                             FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",0+"");
@@ -250,15 +172,15 @@ public class FormParser {
                         if(IYCF_PACKAGE.equalsIgnoreCase(encounter_type)){
                             updateIYCFRisk(base_entity_id,details);
                         }
-                        if(ANC_GENERAL_DISEASE.equalsIgnoreCase(encounter_type)){
-                            updatePhysicalProblemRisk(base_entity_id,details);
-                        }
+//                        if(ANC_GENERAL_DISEASE.equalsIgnoreCase(encounter_type)){
+//                            updatePhysicalProblemRisk(base_entity_id,details);
+//                        }
                         if(NCD_PACKAGE.equalsIgnoreCase(encounter_type)){
                             updateNcdPackageRisk(base_entity_id,details);
                         }
-                        if(ANC_PREGNANCY_HISTORY.equalsIgnoreCase(encounter_type)){
-                            updatePreviousHistoryRisk(base_entity_id,details);
-                        }
+//                        if(ANC_PREGNANCY_HISTORY.equalsIgnoreCase(encounter_type)){
+//                            updatePreviousHistoryRisk(base_entity_id,details);
+//                        }
                         if(HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)){
                             log.setFamilyId(base_entity_id);
                             ssName = HnppDBUtils.getBlockNameFromFamilyTable(base_entity_id);
@@ -270,10 +192,8 @@ public class FormParser {
                         if(isInserted!=-1){
                             Log.d(FormParser.class.getSimpleName(), "Encounter type: "+ encounter_type);
                             LocalDate localDate = new LocalDate(visit.getDate().getTime());
-                            if(!encounter_type.equalsIgnoreCase(PNC_REGISTRATION_AFTER_48_hour)){
-                                HnppApplication.getTargetRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id,formSubmissionId);
+                            HnppApplication.getTargetRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id,formSubmissionId);
 
-                            }
                             if(ELCO.equalsIgnoreCase(encounter_type)){
                                 updateFamilyPlanning(log,details,formSubmissionId);
                             }
@@ -486,61 +406,6 @@ public class FormParser {
 
                 }
                     break;
-            case HnppConstants.EventType.ANC_HOME_VISIT:
-            case ANC1_REGISTRATION:
-            case ANC2_REGISTRATION:
-            case ANC3_REGISTRATION:
-                if(details.containsKey("other_source_anc_1")&&!StringUtils.isEmpty(details.get("other_source_anc_1"))) {
-                    String value = details.get("other_source_anc_1");
-                    if(value!=null && !value.equalsIgnoreCase("brac")){
-                        HnppApplication.getIndicatorRepository().updateValue(HnppConstants.INDICATOR.ANC_OTHER_SOURCE,"true",localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getBlockName(),log.getBaseEntityId());
-                    }
-
-                }
-                if(details.containsKey("other_source_anc_2")&&!StringUtils.isEmpty(details.get("other_source_anc_2"))) {
-                    String value = details.get("other_source_anc_2");
-                    if(value!=null && !value.equalsIgnoreCase("brac")){
-                        HnppApplication.getIndicatorRepository().updateValue(HnppConstants.INDICATOR.ANC_OTHER_SOURCE, "true", localDate.getDayOfMonth() + "", localDate.getMonthOfYear() + "", localDate.getYear() + "", log.getBlockName(), log.getBaseEntityId());
-
-                    }
-
-                }
-                if(details.containsKey("other_source_anc_3")&&!StringUtils.isEmpty(details.get("other_source_anc_3"))) {
-                    String value = details.get("other_source_anc_3");
-                    if(value!=null && !value.equalsIgnoreCase("brac")){
-                        HnppApplication.getIndicatorRepository().updateValue(HnppConstants.INDICATOR.ANC_OTHER_SOURCE, "true", localDate.getDayOfMonth() + "", localDate.getMonthOfYear() + "", localDate.getYear() + "", log.getBlockName(), log.getBaseEntityId());
-                    }
-
-                }
-                if(details.containsKey("vaccination_tt_dose_completed")&&!StringUtils.isEmpty(details.get("vaccination_tt_dose_completed"))) {
-                    String value = details.get("vaccination_tt_dose_completed");
-                    HnppApplication.getIndicatorRepository().updateValue(HnppConstants.INDICATOR.ANC_TT,value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getBlockName(),log.getBaseEntityId());
-
-                }
-                if(details.containsKey("last_tt_vaccination_given")&&!StringUtils.isEmpty(details.get("last_tt_vaccination_given"))) {
-                    String value = details.get("last_tt_vaccination_given");
-                    if(!TextUtils.isEmpty(value)){
-                        if(value.equalsIgnoreCase("tt1") || value.equalsIgnoreCase("tt2") || value.equalsIgnoreCase("tt3")
-                         || value.equalsIgnoreCase("tt4")){
-                            HnppApplication.getIndicatorRepository().updateValue(HnppConstants.INDICATOR.ANC_TT,"yes",localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getBlockName(),log.getBaseEntityId());
-
-                        }
-
-                    }
-
-                }
-
-                break;
-            case PNC_REGISTRATION_AFTER_48_hour:
-            case PNC_REGISTRATION_BEFORE_48_hour:
-
-                if(details.containsKey("number_of_pnc")&&!StringUtils.isEmpty(details.get("number_of_pnc"))) {
-                    String value = details.get("number_of_pnc");
-                    HnppApplication.getIndicatorRepository().updateValue("number_of_pnc",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getBlockName(),log.getBaseEntityId());
-
-                }
-                break;
-
             case WOMEN_REFERRAL:
                 if(details.containsKey("cause_of_referral_woman")&&!StringUtils.isEmpty(details.get("cause_of_referral_woman"))) {
                     String value = details.get("cause_of_referral_woman");
@@ -1222,211 +1087,178 @@ public class FormParser {
             HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"false",HnppConstants.EventType.ANC_HOME_VISIT);
         }
     }
-    private static void updatePncRisk(String baseEntityId, HashMap<String, String> details, String encounter_type){
-        if(details.containsKey("excess_bleeding") && !StringUtils.isEmpty(details.get("excess_bleeding"))){
-            String eb = details.get("excess_bleeding");
-            if(!TextUtils.isEmpty(eb) && eb.equalsIgnoreCase("yes")){
-                    RiskyModel riskyModel = new RiskyModel();
-                    riskyModel.riskyValue = eb;
-                    riskyModel.riskyKey = "excess_bleeding";
-                    riskyModel.eventType = encounter_type;
-                    riskyModel.baseEntityId = baseEntityId;
-                    HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                    HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",encounter_type);
-                    return;
 
-            }
-        }
-        if(details.containsKey("obsessive_compulsive_disorder") && !StringUtils.isEmpty(details.get("obsessive_compulsive_disorder"))){
-            String obs = details.get("obsessive_compulsive_disorder");
-            if(!TextUtils.isEmpty(obs) && obs.equalsIgnoreCase("yes")){
-                    RiskyModel riskyModel = new RiskyModel();
-                    riskyModel.riskyValue = obs;
-                    riskyModel.riskyKey = "obsessive_compulsive_disorder";
-                    riskyModel.eventType = encounter_type;
-                    riskyModel.baseEntityId = baseEntityId;
-                    HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                    HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",encounter_type);
-                    return;
-
-
-            }
-        }
-        HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"false",PNC_REGISTRATION_BEFORE_48_hour); // todo
-
-    }
-
-    private static void updatePhysicalProblemRisk(String baseEntityId,HashMap<String,String>details){
-        if(details.containsKey("high_blood_pressure") && !StringUtils.isEmpty(details.get("high_blood_pressure"))){
-            String eb = details.get("high_blood_pressure");
-            if(!TextUtils.isEmpty(eb) && eb.equalsIgnoreCase("yes")){
-                RiskyModel riskyModel = new RiskyModel();
-                riskyModel.riskyValue = eb;
-                riskyModel.riskyKey = "high_blood_pressure";
-                riskyModel.eventType = ANC_GENERAL_DISEASE;
-                riskyModel.baseEntityId = baseEntityId;
-                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE);
-                return;
-
-            }
-        }
-        if(details.containsKey("diabetes") && !StringUtils.isEmpty(details.get("diabetes"))){
-            String obs = details.get("diabetes");
-            if(!TextUtils.isEmpty(obs) && obs.equalsIgnoreCase("yes")){
-                RiskyModel riskyModel = new RiskyModel();
-                riskyModel.riskyValue = obs;
-                riskyModel.riskyKey = "diabetes";
-                riskyModel.eventType = HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE;
-                riskyModel.baseEntityId = baseEntityId;
-                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE);
-                return;
-
-
-            }
-        }
-        if(details.containsKey("heart_disease") && !StringUtils.isEmpty(details.get("heart_disease"))){
-            String obs = details.get("heart_disease");
-            if(!TextUtils.isEmpty(obs) && obs.equalsIgnoreCase("yes")){
-                RiskyModel riskyModel = new RiskyModel();
-                riskyModel.riskyValue = obs;
-                riskyModel.riskyKey = "heart_disease";
-                riskyModel.eventType = HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE;
-                riskyModel.baseEntityId = baseEntityId;
-                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE);
-                return;
-
-
-            }
-        }
-        if(details.containsKey("asthma") && !StringUtils.isEmpty(details.get("asthma"))){
-            String obs = details.get("asthma");
-            if(!TextUtils.isEmpty(obs) && obs.equalsIgnoreCase("yes")){
-                RiskyModel riskyModel = new RiskyModel();
-                riskyModel.riskyValue = obs;
-                riskyModel.riskyKey = "asthma";
-                riskyModel.eventType = HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE;
-                riskyModel.baseEntityId = baseEntityId;
-                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE);
-                return;
-
-
-            }
-        }
-        if(details.containsKey("kidney_disease") && !StringUtils.isEmpty(details.get("kidney_disease"))){
-            String obs = details.get("kidney_disease");
-            if(!TextUtils.isEmpty(obs) && obs.equalsIgnoreCase("yes")){
-                RiskyModel riskyModel = new RiskyModel();
-                riskyModel.riskyValue = obs;
-                riskyModel.riskyKey = "kidney_disease";
-                riskyModel.eventType = HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE;
-                riskyModel.baseEntityId = baseEntityId;
-                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE);
-                return;
-
-
-            }
-        }
-        if(details.containsKey("tuberculosis") && !StringUtils.isEmpty(details.get("tuberculosis"))){
-            String obs = details.get("tuberculosis");
-            if(!TextUtils.isEmpty(obs) && obs.equalsIgnoreCase("yes")){
-                RiskyModel riskyModel = new RiskyModel();
-                riskyModel.riskyValue = obs;
-                riskyModel.riskyKey = "tuberculosis";
-                riskyModel.eventType = HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE;
-                riskyModel.baseEntityId = baseEntityId;
-                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE);
-                return;
-
-
-            }
-        }
-        HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"false",HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE);
-
-    }
-    private static void updatePreviousHistoryRisk(String baseEntityId,HashMap<String,String>details){
-        if(details.containsKey("abortion_mr") && !StringUtils.isEmpty(details.get("abortion_mr"))){
-            String eb = details.get("abortion_mr");
-            if(!TextUtils.isEmpty(eb) && eb.equalsIgnoreCase("yes")){
-                RiskyModel riskyModel = new RiskyModel();
-                riskyModel.riskyValue = eb;
-                riskyModel.riskyKey = "abortion_mr";
-                riskyModel.eventType = ANC_PREGNANCY_HISTORY;
-                riskyModel.baseEntityId = baseEntityId;
-                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY);
-                return;
-
-            }
-        }
-        if(details.containsKey("still_birth") && !StringUtils.isEmpty(details.get("still_birth"))){
-            String obs = details.get("still_birth");
-            if(!TextUtils.isEmpty(obs) && obs.equalsIgnoreCase("yes")){
-                RiskyModel riskyModel = new RiskyModel();
-                riskyModel.riskyValue = obs;
-                riskyModel.riskyKey = "still_birth";
-                riskyModel.eventType = HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
-                riskyModel.baseEntityId = baseEntityId;
-                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY);
-                return;
-
-
-            }
-        }
-        if(details.containsKey("c_section") && !StringUtils.isEmpty(details.get("c_section"))){
-            String obs = details.get("c_section");
-            if(!TextUtils.isEmpty(obs) && obs.equalsIgnoreCase("yes")){
-                RiskyModel riskyModel = new RiskyModel();
-                riskyModel.riskyValue = obs;
-                riskyModel.riskyKey = "c_section";
-                riskyModel.eventType =HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
-                riskyModel.baseEntityId = baseEntityId;
-                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY);
-                return;
-
-
-            }
-        }
-        if(details.containsKey("obsessive_compulsive_disorder") && !StringUtils.isEmpty(details.get("obsessive_compulsive_disorder"))){
-            String obs = details.get("obsessive_compulsive_disorder");
-            if(!TextUtils.isEmpty(obs) && obs.equalsIgnoreCase("yes")){
-                RiskyModel riskyModel = new RiskyModel();
-                riskyModel.riskyValue = obs;
-                riskyModel.riskyKey = "obsessive_compulsive_disorder";
-                riskyModel.eventType = HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
-                riskyModel.baseEntityId = baseEntityId;
-                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY);
-                return;
-
-
-            }
-        }
-        if(details.containsKey("postnatal_bleeding") && !StringUtils.isEmpty(details.get("postnatal_bleeding"))){
-            String obs = details.get("postnatal_bleeding");
-            if(!TextUtils.isEmpty(obs) && obs.equalsIgnoreCase("yes")){
-                RiskyModel riskyModel = new RiskyModel();
-                riskyModel.riskyValue = obs;
-                riskyModel.riskyKey = "postnatal_bleeding";
-                riskyModel.eventType = HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
-                riskyModel.baseEntityId = baseEntityId;
-                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY);
-                return;
-
-
-            }
-        }
-        HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"false",HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY);
-
-    }
+//    private static void updatePhysicalProblemRisk(String baseEntityId,HashMap<String,String>details){
+//        if(details.containsKey("high_blood_pressure") && !StringUtils.isEmpty(details.get("high_blood_pressure"))){
+//            String eb = details.get("high_blood_pressure");
+//            if(!TextUtils.isEmpty(eb) && eb.equalsIgnoreCase("yes")){
+//                RiskyModel riskyModel = new RiskyModel();
+//                riskyModel.riskyValue = eb;
+//                riskyModel.riskyKey = "high_blood_pressure";
+//                riskyModel.eventType = ANC_GENERAL_DISEASE;
+//                riskyModel.baseEntityId = baseEntityId;
+//                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+//                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE);
+//                return;
+//
+//            }
+//        }
+//        if(details.containsKey("diabetes") && !StringUtils.isEmpty(details.get("diabetes"))){
+//            String obs = details.get("diabetes");
+//            if(!TextUtils.isEmpty(obs) && obs.equalsIgnoreCase("yes")){
+//                RiskyModel riskyModel = new RiskyModel();
+//                riskyModel.riskyValue = obs;
+//                riskyModel.riskyKey = "diabetes";
+//                riskyModel.eventType = HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE;
+//                riskyModel.baseEntityId = baseEntityId;
+//                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+//                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE);
+//                return;
+//
+//
+//            }
+//        }
+//        if(details.containsKey("heart_disease") && !StringUtils.isEmpty(details.get("heart_disease"))){
+//            String obs = details.get("heart_disease");
+//            if(!TextUtils.isEmpty(obs) && obs.equalsIgnoreCase("yes")){
+//                RiskyModel riskyModel = new RiskyModel();
+//                riskyModel.riskyValue = obs;
+//                riskyModel.riskyKey = "heart_disease";
+//                riskyModel.eventType = HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE;
+//                riskyModel.baseEntityId = baseEntityId;
+//                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+//                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE);
+//                return;
+//
+//
+//            }
+//        }
+//        if(details.containsKey("asthma") && !StringUtils.isEmpty(details.get("asthma"))){
+//            String obs = details.get("asthma");
+//            if(!TextUtils.isEmpty(obs) && obs.equalsIgnoreCase("yes")){
+//                RiskyModel riskyModel = new RiskyModel();
+//                riskyModel.riskyValue = obs;
+//                riskyModel.riskyKey = "asthma";
+//                riskyModel.eventType = HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE;
+//                riskyModel.baseEntityId = baseEntityId;
+//                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+//                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE);
+//                return;
+//
+//
+//            }
+//        }
+//        if(details.containsKey("kidney_disease") && !StringUtils.isEmpty(details.get("kidney_disease"))){
+//            String obs = details.get("kidney_disease");
+//            if(!TextUtils.isEmpty(obs) && obs.equalsIgnoreCase("yes")){
+//                RiskyModel riskyModel = new RiskyModel();
+//                riskyModel.riskyValue = obs;
+//                riskyModel.riskyKey = "kidney_disease";
+//                riskyModel.eventType = HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE;
+//                riskyModel.baseEntityId = baseEntityId;
+//                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+//                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE);
+//                return;
+//
+//
+//            }
+//        }
+//        if(details.containsKey("tuberculosis") && !StringUtils.isEmpty(details.get("tuberculosis"))){
+//            String obs = details.get("tuberculosis");
+//            if(!TextUtils.isEmpty(obs) && obs.equalsIgnoreCase("yes")){
+//                RiskyModel riskyModel = new RiskyModel();
+//                riskyModel.riskyValue = obs;
+//                riskyModel.riskyKey = "tuberculosis";
+//                riskyModel.eventType = HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE;
+//                riskyModel.baseEntityId = baseEntityId;
+//                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+//                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE);
+//                return;
+//
+//
+//            }
+//        }
+//        HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"false",HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE);
+//
+//    }
+//    private static void updatePreviousHistoryRisk(String baseEntityId,HashMap<String,String>details){
+//        if(details.containsKey("abortion_mr") && !StringUtils.isEmpty(details.get("abortion_mr"))){
+//            String eb = details.get("abortion_mr");
+//            if(!TextUtils.isEmpty(eb) && eb.equalsIgnoreCase("yes")){
+//                RiskyModel riskyModel = new RiskyModel();
+//                riskyModel.riskyValue = eb;
+//                riskyModel.riskyKey = "abortion_mr";
+//                riskyModel.eventType = ANC_PREGNANCY_HISTORY;
+//                riskyModel.baseEntityId = baseEntityId;
+//                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+//                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY);
+//                return;
+//
+//            }
+//        }
+//        if(details.containsKey("still_birth") && !StringUtils.isEmpty(details.get("still_birth"))){
+//            String obs = details.get("still_birth");
+//            if(!TextUtils.isEmpty(obs) && obs.equalsIgnoreCase("yes")){
+//                RiskyModel riskyModel = new RiskyModel();
+//                riskyModel.riskyValue = obs;
+//                riskyModel.riskyKey = "still_birth";
+//                riskyModel.eventType = HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
+//                riskyModel.baseEntityId = baseEntityId;
+//                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+//                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY);
+//                return;
+//
+//
+//            }
+//        }
+//        if(details.containsKey("c_section") && !StringUtils.isEmpty(details.get("c_section"))){
+//            String obs = details.get("c_section");
+//            if(!TextUtils.isEmpty(obs) && obs.equalsIgnoreCase("yes")){
+//                RiskyModel riskyModel = new RiskyModel();
+//                riskyModel.riskyValue = obs;
+//                riskyModel.riskyKey = "c_section";
+//                riskyModel.eventType =HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
+//                riskyModel.baseEntityId = baseEntityId;
+//                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+//                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY);
+//                return;
+//
+//
+//            }
+//        }
+//        if(details.containsKey("obsessive_compulsive_disorder") && !StringUtils.isEmpty(details.get("obsessive_compulsive_disorder"))){
+//            String obs = details.get("obsessive_compulsive_disorder");
+//            if(!TextUtils.isEmpty(obs) && obs.equalsIgnoreCase("yes")){
+//                RiskyModel riskyModel = new RiskyModel();
+//                riskyModel.riskyValue = obs;
+//                riskyModel.riskyKey = "obsessive_compulsive_disorder";
+//                riskyModel.eventType = HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
+//                riskyModel.baseEntityId = baseEntityId;
+//                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+//                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY);
+//                return;
+//
+//
+//            }
+//        }
+//        if(details.containsKey("postnatal_bleeding") && !StringUtils.isEmpty(details.get("postnatal_bleeding"))){
+//            String obs = details.get("postnatal_bleeding");
+//            if(!TextUtils.isEmpty(obs) && obs.equalsIgnoreCase("yes")){
+//                RiskyModel riskyModel = new RiskyModel();
+//                riskyModel.riskyValue = obs;
+//                riskyModel.riskyKey = "postnatal_bleeding";
+//                riskyModel.eventType = HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
+//                riskyModel.baseEntityId = baseEntityId;
+//                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+//                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY);
+//                return;
+//
+//
+//            }
+//        }
+//        HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"false",HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY);
+//
+//    }
 
     private static void updateElcoRisk(String baseEntityId,HashMap<String,String>details){
         if(details.containsKey("complications_known") && !StringUtils.isEmpty(details.get("complications_known"))){
@@ -2120,29 +1952,14 @@ public class FormParser {
     public static JSONObject loadFormFromAsset(String encounter_type) {
         String form_name = "";
         switch (encounter_type) {
-            case ANC_PREGNANCY_HISTORY:
-                form_name = HnppConstants.JSON_FORMS.PREGNANCY_HISTORY + ".json";
-                break;
-            case ANC_GENERAL_DISEASE:
-                form_name = HnppConstants.JSON_FORMS.GENERAL_DISEASE + ".json";
-                break;
-            case ANC1_REGISTRATION:
-                form_name = HnppConstants.JSON_FORMS.ANC1_FORM + ".json";
-                break;
-            case ANC1_REGISTRATION_OOC:
-                form_name = HnppConstants.JSON_FORMS.ANC1_FORM_OOC + ".json";
-                break;
-            case ANC2_REGISTRATION:
-                form_name = HnppConstants.JSON_FORMS.ANC2_FORM + ".json";
-                break;
-            case ANC2_REGISTRATION_OOC:
-                form_name = HnppConstants.JSON_FORMS.ANC2_FORM_OOC + ".json";
-                break;
-            case ANC3_REGISTRATION:
-                form_name = HnppConstants.JSON_FORMS.ANC3_FORM + ".json";
-                break;
-            case ANC3_REGISTRATION_OOC:
-                form_name = HnppConstants.JSON_FORMS.ANC3_FORM_OOC + ".json";
+//            case ANC_PREGNANCY_HISTORY:
+//                form_name = HnppConstants.JSON_FORMS.PREGNANCY_HISTORY + ".json";
+//                break;
+//            case ANC_GENERAL_DISEASE:
+//                form_name = HnppConstants.JSON_FORMS.GENERAL_DISEASE + ".json";
+//                break;
+            case ANC_HOME_VISIT:
+                form_name = HnppConstants.JSON_FORMS.ANC_VISIT_FORM + ".json";
                 break;
             case MEMBER_REFERRAL:
                 form_name = HnppConstants.isPALogin()? HnppConstants.JSON_FORMS.MEMBER_REFERRAL + "_pa.json":HnppConstants.JSON_FORMS.MEMBER_REFERRAL + ".json";
@@ -2153,18 +1970,11 @@ public class FormParser {
             case HnppConstants.EVENT_TYPE.CHILD_REFERRAL:
                 form_name = HnppConstants.JSON_FORMS.CHILD_REFERRAL + ".json";
                 break;
-            case PNC_REGISTRATION_AFTER_48_hour:
-                form_name = HnppConstants.JSON_FORMS.PNC_FORM_AFTER_48_HOUR + ".json";
+            case PNC_REGISTRATION:
+                form_name = HnppConstants.JSON_FORMS.PNC_FORM+ ".json";
                 break;
-            case PNC_REGISTRATION_BEFORE_48_hour:
-                form_name = HnppConstants.JSON_FORMS.PNC_FORM_BEFORE_48_HOUR + ".json";
-                break;
-
-            case PNC_REGISTRATION_BEFORE_48_hour_OOC:
-                form_name = HnppConstants.JSON_FORMS.PNC_FORM_BEFORE_48_HOUR_OOC + ".json";
-                break;
-            case PNC_REGISTRATION_AFTER_48_hour_OOC:
-                form_name = HnppConstants.JSON_FORMS.PNC_FORM_AFTER_48_HOUR_OOC + ".json";
+            case PNC_REGISTRATION_OOC:
+                form_name = HnppConstants.JSON_FORMS.PNC_FORM_OOC + ".json";
                 break;
             case ELCO:
                 form_name = HnppConstants.JSON_FORMS.ELCO + ".json";

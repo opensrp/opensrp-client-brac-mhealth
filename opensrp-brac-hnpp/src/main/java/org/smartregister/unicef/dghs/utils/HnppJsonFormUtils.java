@@ -34,6 +34,7 @@ import org.smartregister.sync.helper.ECSyncHelper;
 import org.smartregister.unicef.dghs.BuildConfig;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.location.BlockLocation;
+import org.smartregister.unicef.dghs.location.CampModel;
 import org.smartregister.unicef.dghs.location.GeoLocation;
 import org.smartregister.unicef.dghs.location.GeoLocationHelper;
 import org.smartregister.unicef.dghs.location.WardLocation;
@@ -608,11 +609,8 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 return HnppConstants.EVENT_TYPE.NCD_PACKAGE;
             case HnppConstants.EVENT_TYPE.IYCF_PACKAGE:
                 return HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
-
-            case  HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour:
-                return HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour;
-            case  HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour:
-                return HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour;
+            case  HnppConstants.EVENT_TYPE.PNC_REGISTRATION:
+                return HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
             case  HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY:
                 return HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY;
             case  HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP:
@@ -680,12 +678,8 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         }
     }
     public static void addEDDField(String formName,JSONObject jsonForm,String baseEntityId){
-        if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM)
-                ||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM_OOC)
-                ||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM)
-                ||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM_OOC)
-                ||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM_OOC)
-                ||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM)){
+        if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC_VISIT_FORM)
+                ||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC_VISIT_FORM_OOC)){
             JSONObject stepOne = null;
             try {
                 HnppVisitLogRepository visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
@@ -970,6 +964,16 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         }
 
     }
+    public static void changeFormTitle(JSONObject jsonForm, String value){
+        try {
+            JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+            stepOne.put("title",value);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
     public static void addNoOfAnc(JSONObject jsonForm){
         try {
 
@@ -1211,9 +1215,15 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         }
         JSONArray field = fields(form, STEP1);
         JSONObject spinner = getFieldJSONObject(field, WARD_NAME);
-
+        JSONArray campJsonArray = new JSONArray();
+        ArrayList<CampModel> campModels = HnppApplication.getCampRepository().getAllCamp();
+        for (CampModel campModel:campModels){
+            campJsonArray.put(campModel.type+","+campModel.centerName);
+        }
         spinner.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);
-        updateFormWithChampType(form,CAMP_TYPE_JSON_ARR);
+        updateFormWithChampType(form,campJsonArray);
+
+
         return form;
 
 
@@ -1272,17 +1282,33 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
 
     }
-    public static JSONObject updateFormWithMotherName(JSONObject form , ArrayList<String> motherNameList,String familyBaseEntityId) throws Exception{
+    public static JSONObject updateFormWithMotherName(JSONObject form , String motherNameEnglish,String motherNameBangla,String motherBaseEntityId,String familyBaseEntityId) throws Exception{
 
-//        JSONArray jsonArray = new JSONArray();
-//        for(String name : motherNameList){
-//            jsonArray.put(name);
-//        }
-//        jsonArray.put("মাতা রেজিস্টার্ড নয়");
         JSONArray field = fields(form, STEP1);
-//        JSONObject spinner = getFieldJSONObject(field, HnppConstants.KEY.CHILD_MOTHER_NAME);
 
-//        spinner.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);
+        JSONObject blockNameObj = getFieldJSONObject(field, "mother_name_english");
+        blockNameObj.put("value",motherNameEnglish);
+        try{
+            JSONObject blockIdObj = getFieldJSONObject(field, "mother_name_bangla");
+            blockIdObj.put("value",motherNameBangla);
+        }catch (Exception e){
+
+        }
+        JSONObject metaDataJson = form.getJSONObject("metadata");
+        JSONObject lookup = metaDataJson.getJSONObject("look_up");
+        lookup.put("entity_id", "mother");
+        lookup.put("value", motherBaseEntityId);
+
+        lookup.put("entity_id", "family");
+        lookup.put("value", familyBaseEntityId);
+        String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
+        JSONObject providerIdObj = getFieldJSONObject(field, "provider_id");
+        providerIdObj.put("value",userName);
+        return form;
+    }
+    public static JSONObject updateFormWithBlockInfo(JSONObject form ,String familyBaseEntityId) throws Exception{
+
+        JSONArray field = fields(form, STEP1);
         BaseLocation blocks =HnppDBUtils.getBlocksHHID(familyBaseEntityId);
         Log.v("SS_NAME","updateFormWithMotherName:"+blocks.name+":blockId:"+blocks.id);
         JSONObject blockNameObj = getFieldJSONObject(field, BLOCK_NAME);

@@ -19,6 +19,7 @@ import android.widget.EditText;
 import org.smartregister.unicef.dghs.BuildConfig;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
+import org.smartregister.unicef.dghs.job.CampFetchJob;
 import org.smartregister.unicef.dghs.job.HnppPncCloseJob;
 import org.smartregister.unicef.dghs.job.HnppSyncIntentServiceJob;
 import org.smartregister.unicef.dghs.job.MigrationFetchJob;
@@ -137,10 +138,10 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         findViewById(R.id.login_login_btn).setAlpha(1.0f);
         mActivity = this;
         HnppConstants.updateAppBackgroundOnResume(findViewById(R.id.login_layout));
-        if(BuildConfig.DEBUG){
-            userNameText.setText("doli@ha.5");//userNameText.setText("baby@ha.4");
-            passwordText.setText("Mis@4321");
-        }
+//        if(BuildConfig.DEBUG){
+//            userNameText.setText("doli@ha.5");//userNameText.setText("baby@ha.4");
+//            passwordText.setText("Mis@4321");
+//        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -259,9 +260,9 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
             PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
             if(!HnppConstants.isPALogin()){
-                SSLocationFetchJob.scheduleJobImmediately(SSLocationFetchJob.TAG);
                 MigrationFetchJob.scheduleJobImmediately(MigrationFetchJob.TAG);
             }
+            CampFetchJob.scheduleJobImmediately(CampFetchJob.TAG);
             HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
             VaccineServiceJob.scheduleJobImmediately(VaccineServiceJob.TAG);
             VaccineRecurringServiceJob.scheduleJobImmediately(VaccineRecurringServiceJob.TAG);

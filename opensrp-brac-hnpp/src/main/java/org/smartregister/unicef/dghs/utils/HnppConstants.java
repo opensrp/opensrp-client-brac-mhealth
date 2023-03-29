@@ -66,6 +66,7 @@ import org.smartregister.view.activity.BaseProfileActivity;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -633,6 +634,79 @@ public class HnppConstants extends CoreConstants {
         int dayDiff = Days.daysBetween(lastMenstrualPeriod, expectedDeliveryDate).getDays();
         return dayDiff <=30;
     }
+    public static String getScheduleLmpDate(String lmp, int noOfAnc){
+        DateTime lmpDate = DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(lmp);
+
+        LocalDate lastMenstrualPeriod = new LocalDate(lmpDate);
+        LocalDate expectedDeliveryDate;
+        switch (noOfAnc){
+            case 2: expectedDeliveryDate= lastMenstrualPeriod.plusDays(140);
+                break;
+            case 3: expectedDeliveryDate= lastMenstrualPeriod.plusDays(182);
+                break;
+            case 4: expectedDeliveryDate= lastMenstrualPeriod.plusDays(210);
+                break;
+            case 5: expectedDeliveryDate= lastMenstrualPeriod.plusDays(238);
+                break;
+            case 6: expectedDeliveryDate= lastMenstrualPeriod.plusDays(252);
+                break;
+            case 7: expectedDeliveryDate= lastMenstrualPeriod.plusDays(266);
+                break;
+            case 8: expectedDeliveryDate= lastMenstrualPeriod.plusDays(280);
+                break;
+            default:
+                expectedDeliveryDate= lastMenstrualPeriod.plusDays(84);
+                break;
+
+        }
+
+        return  DateTimeFormat.forPattern("dd-MM-yyyy").print(expectedDeliveryDate);
+    }
+    public static String[] getAncTitle(int noOfAnc){
+        String[] ancType = new String[2];
+        switch (noOfAnc){
+            case 1:
+                ancType[0]="গর্ভবতী পরিচর্যা - ১ম";
+                ancType[1] = "ANC -1";
+                return ancType;
+            case 2:
+                ancType[0]="গর্ভবতী পরিচর্যা - ২য়";
+                ancType[1] = "ANC -2";
+                return ancType;
+            case 3:
+                ancType[0]="গর্ভবতী পরিচর্যা - ৩য়";
+                ancType[1] = "ANC -3";
+                return ancType;
+            case 4:
+                ancType[0]="গর্ভবতী পরিচর্যা - ৪র্থ";
+                ancType[1] = "ANC -4";
+                return ancType;
+            case 5:
+                ancType[0]="গর্ভবতী পরিচর্যা - ৫ম";
+                ancType[1] = "ANC -5";
+                return ancType;
+            case 6:
+                ancType[0]="গর্ভবতী পরিচর্যা - ৬ষ্ঠ";
+                ancType[1] = "ANC -6";
+                return ancType;
+            case 7:
+                ancType[0]="গর্ভবতী পরিচর্যা - ৭ম";
+                ancType[1] = "ANC -7";
+                return ancType;
+            case 8:
+                ancType[0]="গর্ভবতী পরিচর্যা - ৮ম";
+                ancType[1] = "ANC -8";
+                return ancType;
+            default:
+                ancType[0]="গর্ভবতী পরিচর্যা";
+                ancType[1] = "ANC";
+                return ancType;
+        }
+    }
+    public static String getTodayDate(){
+        String today = DateTime.now().toString("dd-MM-yyyy");
+        return  today;
+    }
     public static boolean isWrongDate(){
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -865,14 +939,10 @@ public class HnppConstants extends CoreConstants {
         public static final String  DANGER_SIGNS = "anc_hv_danger_signs";
 
         public static final String  ANC_FORM = "hnpp_anc_registration";
-        public static final String  ANC1_FORM = "hnpp_anc1_registration";
-        public static final String  ANC1_FORM_OOC = "hnpp_anc1_registration_ooc";
-        public static final String  ANC2_FORM = "hnpp_anc2_registration";
-        public static final String  ANC2_FORM_OOC = "hnpp_anc2_registration_ooc";
-        public static final String  ANC3_FORM = "hnpp_anc3_registration";
-        public static final String  ANC3_FORM_OOC = "hnpp_anc3_registration_ooc";
-        public static final String  GENERAL_DISEASE = "hnpp_anc_general_disease";
-        public static final String  PREGNANCY_HISTORY = "hnpp_anc_pregnancy_history";
+        public static final String  ANC_VISIT_FORM = "hnpp_anc_home_visit";
+        public static final String  ANC_VISIT_FORM_OOC = "hnpp_anc_home_visit_ooc";
+//        public static final String  GENERAL_DISEASE = "hnpp_anc_general_disease";
+//        public static final String  PREGNANCY_HISTORY = "hnpp_anc_pregnancy_history";
         public static final String  PREGNANCY_OUTCOME = "hnpp_anc_pregnancy_outcome";
         public static final String  PREGNANCY_OUTCOME_OOC = "hnpp_anc_pregnancy_outcome_ooc";
         public static final String  MEMBER_REFERRAL = "hnpp_member_referral";
@@ -881,11 +951,7 @@ public class HnppConstants extends CoreConstants {
         public static final String  CHILD_REFERRAL = "hnpp_child_referral";
         public static final String  ELCO = "elco_register";
         public static final String  PNC_FORM = "hnpp_pnc_registration";
-        public static final String  PNC_FORM_BEFORE_48_HOUR = "hnpp_pnc_registration_before48_hour";
-        public static final String  PNC_FORM_AFTER_48_HOUR = "hnpp_pnc_registration_after48_hour";
         public static final String  PNC_FORM_OOC = "hnpp_pnc_registration_ooc";
-        public static final String  PNC_FORM_BEFORE_48_HOUR_OOC = "hnpp_pnc_registration_before48_hour_ooc";
-        public static final String  PNC_FORM_AFTER_48_HOUR_OOC = "hnpp_pnc_registration_after48_hour_ooc";
         public static final String  WOMEN_PACKAGE = "hnpp_women_package";
         public static final String  EYE_TEST = "eye_test";
         public static final String  BLOOD_TEST = "blood_test";
@@ -928,22 +994,14 @@ public class HnppConstants extends CoreConstants {
         public static final String MEMBER_REFERRAL = "Member Referral";
         public static final String WOMEN_REFERRAL = "Women Referral";
         public static final String CHILD_REFERRAL = "Child Referral";
-        public static final String ANC_PREGNANCY_HISTORY = "ANC Pregnancy History";
-        public static final String ANC_GENERAL_DISEASE = "ANC General Disease";
-        public static final String ANC1_REGISTRATION = "ANC1 Registration";
-        public static final String ANC1_REGISTRATION_OOC = "ANC1 Registration OOC";
-        public static final String ANC2_REGISTRATION = "ANC2 Registration";
-        public static final String ANC2_REGISTRATION_OOC = "ANC2 Registration OOC";
-        public static final String ANC3_REGISTRATION = "ANC3 Registration";
-        public static final String ANC3_REGISTRATION_OOC = "ANC3 Registration OOC";
+//        public static final String ANC_PREGNANCY_HISTORY = "ANC Pregnancy History";
+//        public static final String ANC_GENERAL_DISEASE = "ANC General Disease";
+        public static final String ANC_HOME_VISIT= "ANC Home Visit";
+        public static final String ANC_HOME_VISIT_OOC= "ANC Home Visit OOC";
         public static final String ANC_REGISTRATION = "ANC Registration";
         public static final String UPDATE_ANC_REGISTRATION = "Update ANC Registration";
-
-        public static final String PNC_REGISTRATION_BEFORE_48_hour = "PNC Visit Within 48_hr";
-        public static final String PNC_REGISTRATION_AFTER_48_hour = "PNC Visit After 48_hr";
-
-        public static final String PNC_REGISTRATION_BEFORE_48_hour_OOC = "PNC Visit Within 48_hr OOC";
-        public static final String PNC_REGISTRATION_AFTER_48_hour_OOC = "PNC Visit After 48_hr OOC";
+        public static final String PNC_REGISTRATION = "PNC Home Visit";
+        public static final String PNC_REGISTRATION_OOC = "PNC Home Visit OOC";
         public static final String WOMEN_PACKAGE = "Women package";
         public static final String GIRL_PACKAGE = "Adolescent package";
         public static final String NCD_PACKAGE = "NCD package";//pa
@@ -1208,23 +1266,18 @@ public class HnppConstants extends CoreConstants {
             .build();
     public static final Map<String,String> eventTypeFormNameMapping = ImmutableMap.<String,String> builder()
             .put(EVENT_TYPE.ANC_REGISTRATION,JSON_FORMS.ANC_FORM)
-            .put(EVENT_TYPE.ANC1_REGISTRATION,JSON_FORMS.ANC1_FORM)
-            .put(EVENT_TYPE.ANC2_REGISTRATION,JSON_FORMS.ANC2_FORM)
-            .put(EVENT_TYPE.ANC3_REGISTRATION,JSON_FORMS.ANC3_FORM)
+            .put(EVENT_TYPE.ANC_HOME_VISIT,JSON_FORMS.ANC_VISIT_FORM)
             .put(EVENT_TYPE.ELCO,JSON_FORMS.ELCO)
-
-            .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,JSON_FORMS.PNC_FORM_AFTER_48_HOUR)
-            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,JSON_FORMS.PNC_FORM_BEFORE_48_HOUR)
+            .put(EVENT_TYPE.PNC_REGISTRATION,JSON_FORMS.PNC_FORM)
+            .put(EVENT_TYPE.PNC_REGISTRATION_OOC,JSON_FORMS.PNC_FORM_OOC)
             .put(EVENT_TYPE.CHILD_INFO_EBF12,JSON_FORMS.CHILD_INFO_EBF12)
             .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,JSON_FORMS.CHILD_INFO_7_24_MONTHS)
             .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,JSON_FORMS.CHILD_INFO_25_MONTHS)
             .build();
     public static final Map<String,String> formNameEventTypeMapping = ImmutableMap.<String,String> builder()
-            .put(JSON_FORMS.ANC1_FORM,EventType.ANC_HOME_VISIT)
-            .put(JSON_FORMS.ANC2_FORM,EventType.ANC_HOME_VISIT)
-            .put(JSON_FORMS.ANC3_FORM,EventType.ANC_HOME_VISIT)
-            .put(JSON_FORMS.PNC_FORM_AFTER_48_HOUR,EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour)
-            .put(JSON_FORMS.PNC_FORM_BEFORE_48_HOUR,EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour)
+            .put(JSON_FORMS.ANC_VISIT_FORM,EventType.ANC_HOME_VISIT)
+            .put(JSON_FORMS.PNC_FORM,EVENT_TYPE.PNC_REGISTRATION)
+            .put(JSON_FORMS.PNC_FORM_OOC,EVENT_TYPE.PNC_REGISTRATION_OOC)
             .put(JSON_FORMS.NCD_PACKAGE,EVENT_TYPE.NCD_PACKAGE)
             .put(JSON_FORMS.IYCF_PACKAGE,EVENT_TYPE.IYCF_PACKAGE)
             .put(JSON_FORMS.WOMEN_PACKAGE,EVENT_TYPE.WOMEN_PACKAGE)
@@ -1232,12 +1285,8 @@ public class HnppConstants extends CoreConstants {
             .build();
     public static final Map<String,String> guestEventTypeFormNameMapping = ImmutableMap.<String,String> builder()
             .put(EVENT_TYPE.ANC_REGISTRATION,JSON_FORMS.ANC_FORM)
-            .put(EVENT_TYPE.ANC1_REGISTRATION,JSON_FORMS.ANC1_FORM_OOC)
-            .put(EVENT_TYPE.ANC2_REGISTRATION,JSON_FORMS.ANC2_FORM_OOC)
-            .put(EVENT_TYPE.ANC3_REGISTRATION,JSON_FORMS.ANC3_FORM_OOC)
-
-            .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC,JSON_FORMS.PNC_FORM_AFTER_48_HOUR_OOC)
-            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC,JSON_FORMS.PNC_FORM_BEFORE_48_HOUR_OOC)
+            .put(EVENT_TYPE.ANC_HOME_VISIT,JSON_FORMS.ANC_VISIT_FORM)
+            .put(EVENT_TYPE.PNC_REGISTRATION_OOC,JSON_FORMS.PNC_FORM_OOC)
 
             .build();
     public static final Map<String,Integer> iconMapping = ImmutableMap.<String,Integer> builder()
@@ -1246,17 +1295,11 @@ public class HnppConstants extends CoreConstants {
             .put("গর্ভবতী পরিচর্যা - ৩য় ত্রিমাসিক",R.mipmap.ic_anc_pink)
             .put("শারীরিক সমস্যা",R.mipmap.ic_anc_pink)
             .put( "পূর্বের গর্ভের ইতিহাস",R.mipmap.ic_anc_pink)
-
-            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,R.drawable.sidemenu_pnc)
-            .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,R.drawable.sidemenu_pnc)
-            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC,R.drawable.sidemenu_pnc)
-            .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC,R.drawable.sidemenu_pnc)
+            .put(EVENT_TYPE.PNC_REGISTRATION,R.drawable.sidemenu_pnc)
+            .put(EVENT_TYPE.PNC_REGISTRATION_OOC,R.drawable.sidemenu_pnc)
             .put(EVENT_TYPE.PREGNANCY_OUTCOME,R.drawable.sidemenu_pnc)
-            .put(EVENT_TYPE.ANC1_REGISTRATION,R.mipmap.ic_anc_pink)
-            .put(EVENT_TYPE.ANC2_REGISTRATION,R.mipmap.ic_anc_pink)
-            .put(EVENT_TYPE.ANC3_REGISTRATION,R.mipmap.ic_anc_pink)
-            .put(EVENT_TYPE.ANC_GENERAL_DISEASE,R.mipmap.ic_anc_pink)
-            .put(EVENT_TYPE.ANC_PREGNANCY_HISTORY,R.mipmap.ic_anc_pink)
+//            .put(EVENT_TYPE.ANC_GENERAL_DISEASE,R.mipmap.ic_anc_pink)
+//            .put(EVENT_TYPE.ANC_PREGNANCY_HISTORY,R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.ANC_REGISTRATION,R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.UPDATE_ANC_REGISTRATION,R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.ELCO,R.drawable.ic_elco)
@@ -1315,30 +1358,21 @@ public class HnppConstants extends CoreConstants {
     //need to show the title at row/option
     public static final Map<String,String> visitEventTypeMapping = ImmutableMap.<String,String> builder()
             .put(EVENT_TYPE.ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন")
-            .put(EVENT_TYPE.ANC1_REGISTRATION,"গর্ভবতী পরিচর্যা - ১ম ত্রিমাসিক")
-            .put(EVENT_TYPE.ANC2_REGISTRATION,"গর্ভবতী পরিচর্যা - ২য় ত্রিমাসিক")
-            .put(EVENT_TYPE.ANC3_REGISTRATION,"গর্ভবতী পরিচর্যা - ৩য় ত্রিমাসিক")
-            .put(EVENT_TYPE.ANC_GENERAL_DISEASE,"শারীরিক সমস্যা")
-            .put(EVENT_TYPE.ANC_PREGNANCY_HISTORY,"পূর্বের গর্ভের ইতিহাস")
+//            .put(EVENT_TYPE.ANC_GENERAL_DISEASE,"শারীরিক সমস্যা")
+//            .put(EVENT_TYPE.ANC_PREGNANCY_HISTORY,"পূর্বের গর্ভের ইতিহাস")
             .put(EVENT_TYPE.ELCO,"সক্ষম দম্পতি পরিদর্শন")
             .put(JSON_FORMS.ANC_FORM,"গর্ভবতী পরিচর্যা")
-            .put(JSON_FORMS.ANC1_FORM,"গর্ভবতী পরিচর্যা - ১ম ত্রিমাসিক")
-            .put(JSON_FORMS.ANC2_FORM,"গর্ভবতী পরিচর্যা - ২য় ত্রিমাসিক")
-            .put(JSON_FORMS.ANC3_FORM,"গর্ভবতী পরিচর্যা - ৩য় ত্রিমাসিক")
-            .put(JSON_FORMS.GENERAL_DISEASE,"শারীরিক সমস্যা")
+//            .put(JSON_FORMS.GENERAL_DISEASE,"শারীরিক সমস্যা")
             .put(EVENT_TYPE.MEMBER_REFERRAL,"রেফারেল")
             .put(EVENT_TYPE.WOMEN_REFERRAL,"রেফারেল")
             .put(EVENT_TYPE.CHILD_REFERRAL,"রেফারেল")
             .put("Member referral","রেফারেল")
-            .put( JSON_FORMS.PREGNANCY_HISTORY,"পূর্বের গর্ভের ইতিহাস")
+//            .put( JSON_FORMS.PREGNANCY_HISTORY,"পূর্বের গর্ভের ইতিহাস")
             .put( EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসবের ফলাফল")
             .put( EVENT_TYPE.PREGNANCY_OUTCOME_OOC,"প্রসবের ফলাফল")
             .put( JSON_FORMS.PNC_FORM,"প্রসবোত্তর পরিচর্যা")
-            .put( EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,"পি.এন.সি. (প্রথম ৪৮ ঘন্টা পর)")
-            .put( EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
-            .put( EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC,"পি.এন.সি. (প্রথম ৪৮ ঘন্টা পর)")
-            .put( EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
-            .put(Constants.EVENT_TYPE.PNC_HOME_VISIT,"প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি)")
+            .put( EVENT_TYPE.PNC_REGISTRATION_OOC,"প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি)")
+            .put( EVENT_TYPE.PNC_REGISTRATION,"প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি)")
             .put(EVENT_TYPE.WOMEN_PACKAGE,"নারী সেবা প্যাকেজ")
             .put(EVENT_TYPE.GIRL_PACKAGE, "কিশোরী সেবা প্যাকেজ")
             .put(EVENT_TYPE.NCD_PACKAGE, "অসংক্রামক রোগের সেবা")
@@ -1396,7 +1430,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.PNC_SERVICE,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
             .put(EVENT_TYPE.ANC_PACKAGE,"গর্ভবতী সেবা")
             .put(EVENT_TYPE.PNC_PACKAGE,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
-            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,"প্রসব-পরবর্তী সেবা")
+            .put(EVENT_TYPE.PNC_REGISTRATION,"প্রসব-পরবর্তী সেবা")
             .put(EVENT_TYPE.AVG_ATTEND_ADULT_FORUM,"অংশগ্রহণকারী সংখ্যা")
             .put(EVENT_TYPE.ADULT_FORUM_ATTENDANCE,"অংশগ্রহণকারী সংখ্যা")
            // .put(EVENT_TYPE.NCD_BY_PA,"অসংক্রামক রোগের সেবা")
@@ -1415,9 +1449,6 @@ public class HnppConstants extends CoreConstants {
             .put(HnppConstants.EventType.FAMILY_MEMBER_REGISTRATION,"সদস্য রেজিস্ট্রেশন")
             .put(EVENT_TYPE.HOME_VISIT_FAMILY,"খানা ভিজিট")
             .put(HnppConstants.EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,"সদস্য রেজিস্ট্রেশন")
-            .put(EVENT_TYPE.ANC1_REGISTRATION,"গর্ভবতী পরিচর্যা - ১ম ত্রিমাসিক")
-            .put(EVENT_TYPE.ANC2_REGISTRATION,"গর্ভবতী পরিচর্যা - ২য় ত্রিমাসিক")
-            .put(EVENT_TYPE.ANC3_REGISTRATION,"গর্ভবতী পরিচর্যা - ৩য় ত্রিমাসিক")
             .put("ANC","গর্ভবতী পরিচর্যা(এএনসি)")
             .put("pnc","পূর্বের প্রসবোত্তর পরিচর্যা(পিএনসি)")
             .put(EVENT_TYPE.ELCO,"সক্ষম দম্পতি পরিদর্শন")
@@ -1458,8 +1489,7 @@ public class HnppConstants extends CoreConstants {
             .put("familyplanning_method_known", "পরিবার পরিকল্পনা পদ্ধতি ব্যবহারকারী")
             .put(EVENT_TYPE.ANC_SERVICE,"গর্ভবতী সেবা")
             .put(EVENT_TYPE.PNC_SERVICE,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
-            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
-            .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,"পি.এন.সি.(প্রথম ৪৮ ঘন্টা পর)")
+            .put(EVENT_TYPE.PNC_REGISTRATION,"পি.এন.সি")
 
             .build();
     //for dashboard countSummery
@@ -1472,9 +1502,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন")
             .put(EVENT_TYPE.HOME_VISIT_FAMILY,"খানা ভিজিট")
             .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,"গর্ভবতী পরিচর্যা ভিজিট(এএনসি)")
-            .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
-            .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,"পি.এন.সি.(প্রথম ৪৮ ঘন্টা পর)")
-
+            .put(EVENT_TYPE.PNC_REGISTRATION,"পি.এন.সি.")
             .put(EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসব")
             .build();
 
@@ -1500,12 +1528,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.EYE_TEST,"চক্ষু পরীক্ষা")
             .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)")
             .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,"গর্ভবতী পরিচর্যা ভিজিট(এএনসি)")
-
-
-            .put( EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour,"পি.এন.সি. (প্রথম ৪৮ ঘন্টা পর)")
-            .put( EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
-            .put( EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC,"পি.এন.সি. (প্রথম ৪৮ ঘন্টা পর)")
-            .put( EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
+            .put( EVENT_TYPE.PNC_REGISTRATION,"পি.এন.সি.")
             .put(EVENT_TYPE.ENC_REGISTRATION, "নবজাতকের সেবা")
             .put(EVENT_TYPE.HOME_VISIT_FAMILY, "খানা পরিদর্শন")
             .put(EventType.CHILD_HOME_VISIT, "শিশু হোম ভিজিট")
@@ -1531,10 +1554,6 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.FORUM_ADULT,"অ্যাডাল্ট ফোরাম")
             .put(EVENT_TYPE.ANC_SERVICE,"গর্ভবতী সেবা")
             .put(EVENT_TYPE.PNC_SERVICE,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
-
-            .put(EVENT_TYPE.ANC1_REGISTRATION,"গর্ভবতী পরিচর্যা - ১ম ত্রিমাসিক")
-            .put(EVENT_TYPE.ANC2_REGISTRATION,"গর্ভবতী পরিচর্যা - ২য় ত্রিমাসিক")
-            .put(EVENT_TYPE.ANC3_REGISTRATION,"গর্ভবতী পরিচর্যা - ৩য় ত্রিমাসিক")
             .put("Guest Member Registration","বহিরাগত রেজিস্ট্রেশন")
             .put("OOC Member Registration","বহিরাগত রেজিস্ট্রেশন")
             .build();

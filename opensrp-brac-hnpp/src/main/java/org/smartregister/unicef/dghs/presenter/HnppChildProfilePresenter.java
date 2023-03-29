@@ -29,6 +29,7 @@ import org.smartregister.family.util.Utils;
 import org.smartregister.util.FormUtils;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Set;
 import static org.smartregister.unicef.dghs.utils.HnppJsonFormUtils.makeReadOnlyFields;
 
@@ -114,9 +115,7 @@ public class HnppChildProfilePresenter implements CoreChildProfileContract.Prese
 
             form = HnppJsonFormUtils.getAutoPopulatedJsonEditFormString(CoreConstants.JSON_FORM.getChildRegister(), getView().getApplicationContext(), client, CoreConstants.EventType.UPDATE_CHILD_REGISTRATION);
 
-
-            ArrayList<String> womenList = HnppDBUtils.getAllWomenInHouseHold(familyID);
-            HnppJsonFormUtils.updateFormWithMotherName(form,womenList,familyID);
+            HnppJsonFormUtils.updateFormWithBlockInfo(form,familyID);
             if (!StringUtils.isBlank(client.getColumnmaps().get(ChildDBConstants.KEY.RELATIONAL_ID))) {
                 JSONObject metaDataJson = form.getJSONObject("metadata");
                 JSONObject lookup = metaDataJson.getJSONObject("look_up");

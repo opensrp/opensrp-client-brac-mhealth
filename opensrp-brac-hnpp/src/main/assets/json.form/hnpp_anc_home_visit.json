@@ -1,6 +1,6 @@
 {
   "count": "1",
-  "encounter_type": "ANC2 Registration",
+  "encounter_type": "ANC Home Visit",
   "entity_id": "",
   "metadata": {
     "start": {
@@ -47,16 +47,16 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "গর্ভবতী পরিচর্যা - ২য় ত্রিমাসিক",
+    "title": "গর্ভবতী পরিচর্যা",
     "fields": [
       {
         "key": "form_name",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "ANC2 Registration",
+        "openmrs_entity_id": "ANC Home Visit",
         "openmrs_data_type": "text",
         "type": "hidden",
-        "value": "hnpp_anc2_registration"
+        "value": "hnpp_anc_home_visit"
       },
       {
         "key": "block_name",
@@ -88,6 +88,15 @@
         "type": "hidden"
       },
       {
+        "key": "anc_type",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "anc_type",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "ANC সেবা"
+      },
+      {
         "key": "edd",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -97,68 +106,22 @@
         "hint": "সম্ভাব্য প্রসবের তারিখ"
       },
       {
-        "key": "brac_anc",
+        "key": "schedule_date",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "brac_anc",
+        "openmrs_entity_id": "schedule_date",
         "type": "edit_text",
         "read_only": true,
-
-        "edit_type": "number",
-        "hint": "এই গর্ভে পূর্ববর্তী এ.এন.সি. সেবা কয় নম্বর এ.এন.সি. ছিল?",
-        "v_numeric": {
-          "value": "true",
-          "err": "Equal or greater than 0"
-        },
-        "v_min": {
-          "value": "0",
-          "err": "Number must be equal or greater than 0"
-        }
+        "hint": "সেবা গ্রহণের নির্ধারিত তারিখ"
       },
       {
-        "key": "number_of_anc",
+        "key": "service_taken_date",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "number_of_anc",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "কত নম্বর গর্ভবতী পরিচর্যা সেবা (এ.এন.সি.)?",
-        "values": [
-
-        ],
-        "openmrs_choice_ids": {
-
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
-      },
-      {
-        "key": "diff",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "hidden",
-        "calculation": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_anc_calculation_rule.yml"
-            }
-          }
-        }
-      },
-      {
-        "key":"service_provider",
-        "openmrs_entity_parent":"",
-        "openmrs_entity":"",
-        "openmrs_entity_id":"service_provider",
-        "openmrs_data_type":"text",
-        "type":"spinner",
-        "hidden":true,
-        "hint":"আপনাকে কে পরিষেবা সরবরাহ করেছিল?",
-        "values":["Doctor", "Nurse","Midwife","CSBA","CHCP","HA","FWA","FWV","Others"],
-        "openmrs_choice_ids":{"Doctor": "Doctor", "Nurse": "Nurse","Midwife": "Midwife","CSBA": "CSBA","CHCP": "CHCP","HA": "HA","FWA": "FWA","FWV": "FWV","Others": "Others"}
+        "openmrs_entity_id": "service_taken_date",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "সেবা গ্রহণের তারিখ"
       },
       {
         "key":"Weight",
@@ -171,10 +134,6 @@
         "v_numeric":{
           "value":"true",
           "err":"Enter a valid Number"
-        },
-        "v_max": {
-          "value": "200",
-          "err": "200 এর কম হওয়া উচিত"
         }
       },
       {
@@ -188,10 +147,6 @@
         "v_numeric":{
           "value":"true",
           "err":"Enter a valid Number"
-        },
-        "v_max": {
-          "value": "250",
-          "err": "250 এর কম হওয়া উচিত"
         }
       },
       {
@@ -259,6 +214,19 @@
         }
       },
       {
+        "key":"Hemoglobin",
+        "openmrs_entity_parent":"",
+        "openmrs_entity":"",
+        "openmrs_entity_id":"Hemoglobin",
+        "openmrs_data_type":"text",
+        "type":"edit_text",
+        "hint":"হিমোগ্লোবিন পরীক্ষার ফলাফল (gm/dl)",
+        "v_numeric":{
+          "value":"true",
+          "err":"Enter a valid Number"
+        }
+      },
+      {
         "key": "Hb_tested",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
@@ -307,8 +275,26 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "Urine_Albumin_result",
         "openmrs_data_type":"text",
-        "type":"edit_text",
-        "hint": "আপনার প্রস্রাবের অ্যালবুমিন পরীক্ষার ফলাফল"
+        "type": "spinner",
+        "hint": "প্রস্রাবের অ্যালবুমিন পরীক্ষার ফলাফল",
+        "values": [
+          "১+",
+          "২+",
+          "৩+",
+          "স্বাভাবিক ফলাফল"
+        ],
+        "openmrs_choice_ids": {
+          "১+": "1+",
+          "২+": "2+",
+          "৩+": "3+",
+          "স্বাভাবিক ফলাফল": "Normal"
+        },
+        "relevance": {
+          "step1:Urine_Albumin": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
       },
       {
         "key": "Urine_sugar_tested",
@@ -410,7 +396,7 @@
         "openmrs_entity_id": "Danger_Sign_reported",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "আপনি কী আপনার জটিলতা সম্পর্কে জানিয়েছিলেন?",
+        "hint": "আপনার কি কোন গর্ভকালীন বিপদচিহ্ন আছে?",
         "values": [
           "হ্যাঁ",
           "না"
@@ -439,23 +425,30 @@
             "openmrs_choice_id":"Bleeding_Through_Birth_Canal"
           },
           {
+            "key":"Weakness_Blurred_vision",
+            "text":"ঝাপসা দৃষ্টি / গুরুতর মাথাব্যথা",
+            "value":"false",
+            "openmrs_choice_id":"Weakness_Blurred_vision"
+          },
+          {
+            "key":"high_blood_pressure",
+            "text":"উচ্চ রক্তচাপ",
+            "value":"false",
+            "openmrs_choice_id":"high_blood_pressure"
+          },
+          {
             "key":"Convulsion",
-            "text":"খিঁচুনি ",
+            "text":"এক্লাম্পসিয়া/খিঁচুনি",
             "value":"false",
             "openmrs_choice_id":"Convulsion"
           },
           {
             "key":"High_Temperature_102_Degree_or_More",
-            "text":"উচ্চ তাপমাত্রা ১০২ ডিগ্রি বা তদূর্ধ্ব",
+            "text":"জ্বর",
             "value":"false",
             "openmrs_choice_id":"High_Temperature_102_Degree_or_More"
           },
-          {
-            "key":"Weakness_Blurred_vision",
-            "text":"দুর্বলতা, চোখে ঝাপসা দেখা ",
-            "value":"false",
-            "openmrs_choice_id":"Weakness_Blurred_vision"
-          },
+
           {
             "key":"Prolonged_Delivery_or_Child_Coming_Out_Before",
             "text":"প্রলম্বিত প্রসব/ বাচ্চা আগে বের হওয়া ",
@@ -465,7 +458,7 @@
 
           {
             "key":"No_Denger_Sign",
-            "text":"কোনোটিই নেই ",
+            "text":"অন্যান্য",
             "value":"false",
             "openmrs_choice_id":"No_Denger_Sign"
           }
@@ -478,13 +471,67 @@
         }
       },
       {
+        "key": "Danger_Sign_Other",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Danger_Sign_Other",
+        "openmrs_data_type":"text",
+        "type":"edit_text",
+        "hint": "অন্যান্য জটিলতা লিখুন",
+        "relevance": {
+          "step1:Denger_Signs_During_Pregnancy": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "No_Denger_Sign"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "key": "calcium_tablet",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "calcium_tablet",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "ক্যালসিয়াম ট্যাবলেট  বিতরণ করা হয়েছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+      {
+        "key": "ifa_distributed",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "ifa_distributed",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "আইএফএ বিতরণ করা হয়েছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+      {
         "key": "counselling_provide",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "counselling_provide",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "আপনাকে কাউন্সেলিং (পুষ্টি, জন্ম পরিকল্পনা, ইবিএফ, ইএনসি, টিকাদান সংক্রান্ত) প্রদান করা হয়েছে?",
+        "hint": "কাউন্সেলিং (পুষ্টি, জন্ম পরিকল্পনা, ইবিএফ, ইএনসি, টিকাদান সংক্রান্ত) প্রদান করা হয়েছে? ",
         "values": [
           "হ্যাঁ",
           "না"
@@ -573,27 +620,6 @@
         "type": "edit_text",
         "read_only": true,
         "hint": "দ্রাঘিমা"
-      }
-    ,
-      {
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "key": "section",
-        "type": "section_label",
-        "section_background": "#3797ca",
-        "text_color": "#FFFFFF",
-        "text_size": "22px",
-        "label_text_style": "bold",
-        "name": "                    সব তথ্য পূরণ করা হলে জমা দিন"
-      },
-      {
-        "key": "spacer",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "spacer",
-        "type": "spacer",
-        "spacer_height": "20dp"
       }
     ]
   }

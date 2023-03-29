@@ -73,7 +73,7 @@ public class HnppChwRepository extends Repository {
         HeightZScoreRepository.createTable(database);
         ZScoreRepository.createTable(database);
         MUACRepository.createTable(database);
-
+        CampRepository.createTable(database);
         DistrictListRepository.createTable(database);
         TargetVsAchievementRepository.createTable(database);
         NotificationRepository.createTable(database);

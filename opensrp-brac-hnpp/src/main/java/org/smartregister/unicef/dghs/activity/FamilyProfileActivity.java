@@ -225,6 +225,9 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
     public void startChildForm(String formName, String entityId, String metadata, String currentLocationId) throws Exception {
         presenter().startChildForm(formName, entityId, metadata, currentLocationId);
     }
+    public void startChildFromWithMotherInfo(String motherEntityId) throws Exception {
+        ((FamilyProfilePresenter)presenter).startChildFromWithMotherInfo(motherEntityId);
+    }
 
     @Override
     public void updateHasPhone(boolean hasPhone) {
@@ -462,51 +465,58 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
                         Toast.makeText(this,"familyBaseEntityId no found",Toast.LENGTH_SHORT).show();
                         finish();
                     }
-                    String[] generatedString;
-                    String title;
-                    String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
-
-                    String fullName = HnppApplication.getInstance().getContext().allSharedPreferences().getANMPreferredName(userName);
-                    String encounterType = form.getString(JsonFormUtils.ENCOUNTER_TYPE);
-                    if (encounterType.equals(HnppConstants.EventType.CHILD_REGISTRATION)) {
-                        generatedString = HnppJsonFormUtils.getValuesFromChildRegistrationForm(form);
-                        title = String.format(getString(R.string.dialog_confirm_save_child),fullName,generatedString[0],generatedString[2],generatedString[1]);
-
-                    }else {
-                        generatedString = HnppJsonFormUtils.getValuesFromRegistrationForm(form);
-                         title = String.format(getString(R.string.dialog_confirm_save),fullName,generatedString[0],generatedString[2],generatedString[1]);
-
+                    try{
+                        String encounterType = form.getString(JsonFormUtils.ENCOUNTER_TYPE);
+                        JSONObject formWithConsent = new JSONObject(jsonString);
+                        processForm(encounterType,formWithConsent.toString());
+                    }catch (JSONException je){
+                        je.printStackTrace();
                     }
-
-                    HnppConstants.showSaveFormConfirmationDialog(this, title, new OnDialogOptionSelect() {
-                        @Override
-                        public void onClickYesButton() {
-
-                            try{
-                                JSONObject formWithConsent = new JSONObject(jsonString);
-                                JSONObject jobkect = formWithConsent.getJSONObject("step1");
-                                JSONArray field = jobkect.getJSONArray(FIELDS);
-                                HnppJsonFormUtils.addConsent(field,true);
-                                processForm(encounterType,formWithConsent.toString());
-                            }catch (JSONException je){
-                                je.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void onClickNoButton() {
-                            try{
-                                JSONObject formWithConsent = new JSONObject(jsonString);
-                                JSONObject jobkect = formWithConsent.getJSONObject("step1");
-                                JSONArray field = jobkect.getJSONArray(FIELDS);
-                                HnppJsonFormUtils.addConsent(field,false);
-                                processForm(encounterType,formWithConsent.toString());
-                            }catch (JSONException je){
-                                je.printStackTrace();
-                            }
-                        }
-                    });
-
+//                    String[] generatedString;
+//                    String title;
+//                    String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
+//
+//                    String fullName = HnppApplication.getInstance().getContext().allSharedPreferences().getANMPreferredName(userName);
+//                    String encounterType = form.getString(JsonFormUtils.ENCOUNTER_TYPE);
+//                    if (encounterType.equals(HnppConstants.EventType.CHILD_REGISTRATION)) {
+//                        generatedString = HnppJsonFormUtils.getValuesFromChildRegistrationForm(form);
+//                        title = String.format(getString(R.string.dialog_confirm_save_child),fullName,generatedString[0],generatedString[2],generatedString[1]);
+//
+//                    }else {
+//                        generatedString = HnppJsonFormUtils.getValuesFromRegistrationForm(form);
+//                         title = String.format(getString(R.string.dialog_confirm_save),fullName,generatedString[0],generatedString[2],generatedString[1]);
+//
+//                    }
+//
+//                    HnppConstants.showSaveFormConfirmationDialog(this, title, new OnDialogOptionSelect() {
+//                        @Override
+//                        public void onClickYesButton() {
+//
+//                            try{
+//                                JSONObject formWithConsent = new JSONObject(jsonString);
+//                                JSONObject jobkect = formWithConsent.getJSONObject("step1");
+//                                JSONArray field = jobkect.getJSONArray(FIELDS);
+//                                HnppJsonFormUtils.addConsent(field,true);
+//                                processForm(encounterType,formWithConsent.toString());
+//                            }catch (JSONException je){
+//                                je.printStackTrace();
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onClickNoButton() {
+//                            try{
+//                                JSONObject formWithConsent = new JSONObject(jsonString);
+//                                JSONObject jobkect = formWithConsent.getJSONObject("step1");
+//                                JSONArray field = jobkect.getJSONArray(FIELDS);
+//                                HnppJsonFormUtils.addConsent(field,false);
+//                                processForm(encounterType,formWithConsent.toString());
+//                            }catch (JSONException je){
+//                                je.printStackTrace();
+//                            }
+//                        }
+//                    });
+//
 
                 }
             } catch (Exception e) {

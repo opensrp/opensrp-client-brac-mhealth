@@ -185,7 +185,7 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
            forceSyncModelArrayList.add(forceSyncModel3);
 
            ForceSyncModel forceSyncModel4 = new ForceSyncModel();
-           forceSyncModel4.eventType = HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour;
+           forceSyncModel4.eventType = HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
            forceSyncModel4.title = HnppConstants.workSummeryTypeMapping.get(forceSyncModel4.eventType);
            forceSyncModelArrayList.add(forceSyncModel4);
 

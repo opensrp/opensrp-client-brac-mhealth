@@ -62,6 +62,13 @@
         "type": "hidden"
       },
       {
+        "key": "block_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "block_id",
+        "type": "hidden"
+      },
+      {
         "key": "entry_point",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -81,15 +88,18 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person",
         "openmrs_entity_id": "first_name",
-        "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "নাম",
-        "expanded": false,
-        "edit_type": "name",
-        "v_required": {
-          "value": "true",
-          "err": "নাম লিখুন"
-        }
+        "hint": "নামের প্রথম অংশ (ইংরেজীতে)",
+        "edit_type": "name"
+      },
+      {
+        "key": "last_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person",
+        "openmrs_entity_id": "last_name",
+        "type": "edit_text",
+        "hint": "নামের শেষ অংশ (ইংরেজীতে)",
+        "edit_type": "name"
       },
       {
         "key": "dob",
@@ -114,10 +124,6 @@
           "পুরুষ": "M",
           "নারী":"F",
           "তৃতীয় লিঙ্গ": "O"
-        },
-        "v_required": {
-          "value": true,
-          "err": "লিঙ্গ প্রবেশ করুন"
         }
       },
       {
@@ -135,6 +141,7 @@
           "দাদি",
           "নানা",
           "নানী",
+          "অতিথি",
           "অন্যান্য"
         ],
         "openmrs_choice_ids": {
@@ -144,11 +151,8 @@
           "দাদি":"Grandma",
           "নানা":"Grandfather",
           "নানী":"Grandmother",
+          "অতিথি" : "Guest",
           "অন্যান্য": "Others"
-        },
-        "v_required": {
-          "value": true,
-          "err": "সম্পর্ক নির্বাচন করুন"
         }
       },
       {
@@ -166,10 +170,6 @@
         "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "Please select one option"
         }
       },
       {
@@ -178,53 +178,7 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "birth_weight",
         "type": "edit_text",
-        "hint": "জন্মকালীন ওজন(কেজি)",
-        "v_numeric": {
-          "value": "true",
-          "err": "Enter a valid Number"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
-      },
-
-      {
-        "key": "chlorohexadin",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "chlorohexadin",
-        "openmrs_data_type": "select one",
-        "type": "spinner",
-        "hint": "নাভিতে ৭.১% ক্লোরোহেক্সিডিন দেয়া হয়েছে কিনা?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "Please select one option"
-        }
-      },
-      {
-        "key": "breastfeeding_time",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "breastfeeding_time",
-        "type": "edit_text",
-        "hint": "প্রসবের কত ঘণ্টা পর মায়ের দুধ খাওয়ানো হয়েছে?",
-        "v_numeric": {
-          "value": "true",
-          "err": "Enter a valid Number"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
+        "hint": "জন্মকালীন ওজন(কেজি)"
       },
       {
         "key": "head_body_covered",
@@ -233,7 +187,7 @@
         "openmrs_entity_id": "head_body_covered",
         "openmrs_data_type": "select one",
         "type": "spinner",
-        "hint": "শিশুর মাথা সহ শরীর মোড়ানো হয়েছে কিনা ?",
+        "hint": "নবজাতক জন্মের সাথে সাথে তাকে মোড়ানো এবং আবৃত করা হয়েছিল?",
         "values": [
           "হ্যাঁ",
           "না"
@@ -241,20 +195,16 @@
         "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "Please select one option"
         }
       },
       {
-        "key": "physically_challenged",
+        "key": "breastfeeding_time",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "physically_challenged",
+        "openmrs_entity_id": "breastfeeding_time",
         "openmrs_data_type": "select one",
         "type": "spinner",
-        "hint": "শিশুর জন্ম গত ক্রুটি আছে কিনা?",
+        "hint": "প্রসবের ১ ঘন্টার মধ্যে নবজাতককে বুকের দুধ খাওয়ানো হয়েছিল?",
         "values": [
           "হ্যাঁ",
           "না"
@@ -262,85 +212,74 @@
         "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "Please select one option"
         }
       },
       {
-        "key": "which_problem",
+        "key": "chlorohexadin",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "which_problem",
-        "type": "check_box",
-        "label": "কোন ক্রুটি আছে?",
-        "label_text_style": "bold",
-        "text_color": "#000000",
-        "exclusive": [
-
+        "openmrs_entity_id": "chlorohexadin",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "প্রসবকালীন সময়ে সিএইচএক্স(৭.১%) ব্যবহৃত হয়েছিল? ",
+        "values": [
+          "হ্যাঁ",
+          "না"
         ],
-        "relevance": {
-          "step1:physically_challenged": {
-            "type": "string",
-            "ex": "equalTo(., \"হ্যাঁ\")"
-          }
-        },
-        "options": [
-          {
-            "key": "thot_kata",
-            "text": "ঠোঁটকাটা",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "thot_kata",
-            "openmrs_entity_parent": ""
-          },
-          {
-            "key": "talu_kata",
-            "text": "তালুকাটা",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "talu_kata",
-            "openmrs_entity_parent": ""
-          },
-          {
-            "key": "mugur_paa",
-            "text": "মুগুর পা",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "mugur_paa",
-            "openmrs_entity_parent": ""
-          },
-          {
-            "key": "other_option",
-            "text": "অন্যান্য",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "other_option"
-          }
-        ],
-        "v_required": {
-          "value": "true",
-          "err": "Please select problem"
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
         }
       },
       {
-        "key": "problem_other",
+        "key": "Skin_to_Skin_contact",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "problem_other",
-        "type": "edit_text",
-        "hint": "লিখুন",
-        "relevance": {
-          "step1:which_problem": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "other_option"
-                ]
-              }
-            ]
-          }
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "Skin_to_Skin_contact",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "নবজাতক জন্মের ১ ঘন্টার মধ্যে তাকে মায়ের বুকে লাগানো হয়েছিল?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+      {
+        "key": "Visible_birth_defect",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "Visible_birth_defect",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "আপনার নবজাতকের দৃশ্যমান জন্মগত ত্রুটি আছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+      {
+        "key": "Counselling_on_Newborn_danger",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "Counselling_on_Newborn_danger",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "আপনাকে নবজাতকের আসন্ন ঝুকি সমূহ এবং ইএনসি সংক্রান্ত কাউন্সেলিং প্রদান করা হয়েছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
         }
       }
     ]

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 
 import com.google.gson.Gson;
@@ -175,7 +176,7 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
             JSONArray jsonArray = stepOne.getJSONArray(JsonFormUtils.FIELDS);
             updateFormField(jsonArray, DBConstants.KEY.UNIQUE_ID, unique_id);
             updateFormField(jsonArray, DBConstants.KEY.TEMP_UNIQUE_ID, unique_id);
-            updateFormField(jsonArray, "temp_name", motherName+" এর বাবু");
+            updateFormField(jsonArray, "temp_name", "Baby of "+motherName+"");
             updateMinDate(jsonArray);
             updateFormField(jsonArray, CoreConstants.JsonAssets.FAM_NAME, familyName);
             updateFormField(jsonArray, CoreConstants.JsonAssets.FAMILY_MEMBER.PHONE_NUMBER, phone_number);
@@ -402,32 +403,33 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
                     JSONArray fields = org.smartregister.util.JsonFormUtils.fields(form);
                     String gender = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"gender");
 
-                    JSONObject uniqueID = org.smartregister.util.JsonFormUtils.getFieldJSONObject(fields, DBConstants.KEY.UNIQUE_ID);
-                    if (StringUtils.isNotBlank(uniqueID.optString(org.smartregister.chw.anc.util.JsonFormUtils.VALUE))) {
-                        String childBaseEntityId = org.smartregister.chw.anc.util.JsonFormUtils.generateRandomUUIDString();
-                        AllSharedPreferences allSharedPreferences = ImmunizationLibrary.getInstance().context().allSharedPreferences();
-                        JSONObject pncForm =getFormAsJson(Constants.FORMS.PNC_CHILD_REGISTRATION, childBaseEntityId, getLocationID());
-
-                        JSONObject familyIdObject = org.smartregister.util.JsonFormUtils.getFieldJSONObject(fields, DBConstants.KEY.RELATIONAL_ID);
-                        String familyBaseEntityId = familyIdObject.getString(org.smartregister.chw.anc.util.JsonFormUtils.VALUE);
-                        pncForm = org.smartregister.chw.anc.util.JsonFormUtils.populatePNCForm(pncForm, fields, familyBaseEntityId);
-                        HnppJsonFormUtils.processAttributesWithChoiceIDsForSave(fields);
-                        HnppJsonFormUtils.updateProviderIdAtClient(fields,familyBaseEntityId);
-                        if(!StringUtils.isEmpty(gender)){
-                            if (pncForm != null) {
-                                if(familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){
-                                    processChild(fields, allSharedPreferences, childBaseEntityId, motherBaseId, motherBaseId);
-                                    saveRegistration(pncForm.toString(), "ec_guest_member");
-                                }else{
-                                    processChild(fields, allSharedPreferences, childBaseEntityId, familyBaseEntityId, motherBaseId);
-                                    saveRegistration(pncForm.toString(), EC_CHILD);
-                                    NCUtils.saveVaccineEvents(fields, childBaseEntityId);
-                                }
-
-                            }
-                        }
-
-                    }
+//                    JSONObject uniqueID = org.smartregister.util.JsonFormUtils.getFieldJSONObject(fields, DBConstants.KEY.UNIQUE_ID);
+//                    if (StringUtils.isNotBlank(uniqueID.optString(org.smartregister.chw.anc.util.JsonFormUtils.VALUE))) {
+//                        String childBaseEntityId = org.smartregister.chw.anc.util.JsonFormUtils.generateRandomUUIDString();
+//                        AllSharedPreferences allSharedPreferences = ImmunizationLibrary.getInstance().context().allSharedPreferences();
+//                        JSONObject pncForm =getFormAsJson(Constants.FORMS.PNC_CHILD_REGISTRATION, childBaseEntityId, getLocationID());
+//
+//                        JSONObject familyIdObject = org.smartregister.util.JsonFormUtils.getFieldJSONObject(fields, DBConstants.KEY.RELATIONAL_ID);
+//                        String familyBaseEntityId = familyIdObject.getString(org.smartregister.chw.anc.util.JsonFormUtils.VALUE);
+//                        pncForm = org.smartregister.chw.anc.util.JsonFormUtils.populatePNCForm(pncForm, fields, familyBaseEntityId);
+//                        HnppJsonFormUtils.processAttributesWithChoiceIDsForSave(fields);
+//                        HnppJsonFormUtils.updateProviderIdAtClient(fields,familyBaseEntityId);
+//                        if(!StringUtils.isEmpty(gender)){
+//                            if (pncForm != null) {
+//                                if(familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){
+//                                    processChild(fields, allSharedPreferences, childBaseEntityId, motherBaseId, motherBaseId);
+//                                    saveRegistration(pncForm.toString(), "ec_guest_member");
+//                                }else{
+//                                    processChild(fields, allSharedPreferences, childBaseEntityId, familyBaseEntityId, motherBaseId);
+//                                    saveRegistration(pncForm.toString(), EC_CHILD);
+//                                    NCUtils.saveVaccineEvents(fields, childBaseEntityId);
+//                                }
+//
+//                            }
+//                        }
+//
+//                    }
+//
                     saveRegistration(form.toString(), HnppConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME);
                 }catch (Exception e){
                     e.printStackTrace();
@@ -463,6 +465,7 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
         JSONObject form = new JSONObject(jsonString);
         JSONArray fields = org.smartregister.util.JsonFormUtils.fields(form);
         String blockId = org.smartregister.util.JsonFormUtils.getFieldValue(fields,BLOCK_ID);
+        Log.v("saveRegistration","saveRegistration>>>blockId:"+blockId);
         GeoLocation selectedLocation = HnppApplication.getGeoLocationRepository().getLocationByBlock(blockId);
         baseEvent.setIdentifiers(GeoLocationHelper.getInstance().getGeoIdentifier(selectedLocation));
         String visitID ="";

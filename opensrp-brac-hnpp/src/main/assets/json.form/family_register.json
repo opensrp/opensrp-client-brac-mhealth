@@ -115,22 +115,7 @@
           }
         }
       },
-      {
-        "key": "camp_type",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "camp_type",
-        "type": "spinner",
-        "hint": "ক্যাম্পেইন টাইপ নির্বাচন করুন",
-        "values": [
-        ],
-        "openmrs_choice_ids": {
-        },
-        "v_required": {
-          "value": "true",
-          "err": "Please answer the question"
-        }
-      },
+
       {
         "key": "present_address_bangla",
         "openmrs_entity_parent": "",
@@ -240,10 +225,6 @@
           "value": false,
           "err": "৪০ অক্ষরের ভিতরে বাংলায় লিখুন"
         },
-        "v_regex": {
-          "value": "[^A-Za-z0-9]{1,40}$",
-          "err": "৪০ অক্ষরের ভিতরে বাংলায় লিখুন"
-        },
         "relevance": {
           "step1:is_permanent_address": {
             "type": "string",
@@ -251,18 +232,14 @@
           }
         }
       },
+
       {
-        "key": "unique_id",
+        "key": "household_id",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person_identifier",
-        "openmrs_entity_id": "opensrp_id",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "household_id",
         "type": "edit_text",
-        "hint": "খানা নাম্বার",
-        "read_only": true,
-        "v_numeric": {
-          "value": "false",
-          "err": "একটি বৈধ আইডি লিখুন"
-        }
+        "hint": "খানার আইডি"
       },
       {
         "key": "firstName",
@@ -299,34 +276,42 @@
         }
       },
       {
-        "key": "contact_phone_number",
+        "key": "unique_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_identifier",
+        "openmrs_entity_id": "opensrp_id",
+        "type": "edit_text",
+        "hint": "সিস্টেম নাম্বার",
+        "read_only": true,
+        "v_numeric": {
+          "value": "false",
+          "err": "একটি বৈধ আইডি লিখুন"
+        }
+      },
+      {
+        "key": "camp_type",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "HOH_Phone_Number",
-        "openmrs_data_type": "text",
-        "type": "edit_text",
-        "hint": "খানা প্রধানের মোবাইল নম্বর",
+        "openmrs_entity_id": "camp_type",
+        "type": "spinner",
+        "hint": "কেন্দ্রের নাম নির্বাচন করুন",
+        "values": [
+        ],
+        "openmrs_choice_ids": {
+        },
         "v_required": {
-          "value": true,
-          "err": "11 ডিজিটের মোবাইল নম্বর লিখুন"
-        },
-        "v_numeric": {
           "value": "true",
-          "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
-        },
-        "v_regex": {
-          "value": "0|(01[1-9][0-9]{8})|\s*",
-          "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
-        },
-        "v_max_length": {
-          "value": "11",
-          "err": "11 ডিজিটের মোবাইল নম্বর লিখুন",
-          "is_fixed_size":true
-        },
-        "v_min_length": {
-          "value": "1",
-          "err": "11 ডিজিটের মোবাইল নম্বর লিখুন"
+          "err": "Please answer the question"
         }
+      },
+      {
+        "key": "registration_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "registration_date",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "রেজিস্ট্রেশনের তারিখ"
       },
       {
         "key": "member_count",
@@ -354,6 +339,37 @@
         }
       },
       {
+        "key": "contact_phone_number",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "HOH_Phone_Number",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "পরিবারের মোবাইল নম্বর",
+        "v_required": {
+          "value": true,
+          "err": "11 ডিজিটের মোবাইল নম্বর লিখুন"
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
+        },
+        "v_regex": {
+          "value": "0|(01[1-9][0-9]{8})|\s*",
+          "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
+        },
+        "v_max_length": {
+          "value": "11",
+          "err": "11 ডিজিটের মোবাইল নম্বর লিখুন",
+          "is_fixed_size":true
+        },
+        "v_min_length": {
+          "value": "1",
+          "err": "11 ডিজিটের মোবাইল নম্বর লিখুন"
+        }
+      },
+
+      {
         "key": "household_type",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
@@ -367,9 +383,9 @@
           "পাকা"
         ],
         "openmrs_choice_ids": {
-          "কাচা": "Raw",
-          "সেমি পাকা" : "Semi_concrete",
-          "পাকা" : "Concrete"
+          "কাচা": "Mud-Built",
+          "সেমি পাকা" : "Semi Brick Built",
+          "পাকা" : "Brick built"
         },
         "v_required": {
           "value": "false",
@@ -382,7 +398,7 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "latrine_structure",
         "type": "spinner",
-        "hint": "খানার সদস্যগন কি ধরনের ল্যাট্রিন ব্যবহার করেন?",
+        "hint": "আপনার সদস্যগণ কি ধরণের ল্যাট্রিন ব্যবহার করে?",
         "values": [
           "স্যানিটারী",
           "পাকা",
@@ -393,17 +409,29 @@
         ],
         "openmrs_choice_ids": {
           "স্যানিটারী": "Sanitary",
-          "পাকা": "Construction",
-          "কাচা": "UnderConstruction",
-          "খােলা জায়গা": "OpenArea",
-          "ঝোপ জংগল" : "Bush",
-          "অন্যান্য": "Latrine_others"
-        },
-        "v_required": {
-          "value": "false",
-          "err": "স্যানিটারি ল্যাট্রিন নির্বাচন করুন"
+          "পাকা": "pakka-latrine",
+          "কাচা": "rudimentary",
+          "খােলা জায়গা": "open area",
+          "ঝোপ জংগল" : "shrub",
+          "অন্যান্য": "Other latrines"
+        }
+      },
+
+      {
+        "key": "other_latrine",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "other_latrine",
+        "type": "edit_text",
+        "hint": "অন্যান্য ধরণের ল্যাট্রিন",
+        "relevance": {
+          "step1:latrine_structure": {
+            "type": "string",
+            "ex": "regex(., \"অন্যান্য\")"
+          }
         }
       }
+
 
     ]
   },
@@ -430,19 +458,15 @@
           "অন্যান্য"
         ],
         "openmrs_choice_ids": {
-          "টিউবওয়েল (লাল)": "red_tube_well",
-          "টিউবওয়েল (সবুজ)" : "Green_tube_well",
-          "টিউবওয়েল (আর্সেনিক পরিক্ষা করা হয়নি)" : "NO_arsenic_test_tube_well",
-          "বৃষ্টির পানি" : "Rain_water",
-          "নদী/খাল" : "River_or_canal",
+          "টিউবওয়েল (লাল)": "Tubewell(red)",
+          "টিউবওয়েল (সবুজ)" : "Tubewell(green)",
+          "টিউবওয়েল (আর্সেনিক পরিক্ষা করা হয়নি)" : "No Arsenic test tubewell",
+          "বৃষ্টির পানি" : "Rain Water",
+          "নদী/খাল" : "River/Canal",
           "ট্যাপ" : "Tap",
-          "কুয়া/ইন্দারা" : "Well_or_indira",
+          "কুয়া/ইন্দারা" : "Well/indira",
           "পুকুর/ভোৰা" : "Pond",
-          "অন্যান্য" : "Others_water_source"
-        },
-        "v_required": {
-          "value": "false",
-          "err": "Please answer the question"
+          "অন্যান্য" : "Other water sources"
         }
       },
       {
@@ -479,17 +503,13 @@
           "অন্যান্য"
         ],
         "openmrs_choice_ids": {
-          "সর্বদা অভাব অনটন": "always_hand_to_mouth",
-          "সাময়িক অভাব অনটন" : "Somtimes_hand_to_mouth",
-          "আয়-ব্যয় সমান" : "Income_and_expenditure_equal",
+          "সর্বদা অভাব অনটন": "Always hand to mouth",
+          "সাময়িক অভাব অনটন" : "Sometimes hand to mouth",
+          "আয়-ব্যয় সমান" : "Income and expenditure equal",
           "সচ্ছল" : "Solvent",
-          "সঞ্চয় হয়" : "Can_save",
-          "অন্যান্য" : "Others_financial_status"
+          "সঞ্চয় হয়" : "Can save",
+          "অন্যান্য" : "Other financial status"
 
-        },
-        "v_required": {
-          "value": "false",
-          "err": "Please answer the question"
         }
       },
       {
@@ -543,26 +563,28 @@
           "১০ শয্যা বিশিষ্ট হাসপাতাল",
           "২০ শয্যা বিশিষ্ট হাসপাতাল",
           "উপজেলা স্বাস্থ্য কমপ্লেক্স",
+          "সদর হাসপাতাল",
+          "মেডিকেল কলেজ হাসপাতাল",
           "বেসরকারী ক্লিনিক/হাসপাতাল",
           "এনজিও",
+          "বিশেষায়িত হাসপাতাল",
           "অন্যান্য"
         ],
         "openmrs_choice_ids": {
-          "কমিউনিটি ক্লিনিক": "Community_Clinic",
-          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র": "Union_Sub_Center",
-          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র":"Union_Family_Welfare_Center",
-          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র":"Union_Health_and_Family_Welfare_Center",
-          "মা ও শিশু কল্যাণ কেন্দ্র":"Metarnal_and_Child_Wellfare_Center",
-          "১০ শয্যা বিশিষ্ট হাসপাতাল":"10_Bed_Hospital",
-          "২০ শয্যা বিশিষ্ট হাসপাতাল":"20_Beds_Hospital",
-          "উপজেলা স্বাস্থ্য কমপ্লেক্স":"Upazila_Health_Complex",
-          "বেসরকারী ক্লিনিক/হাসপাতাল":"Private_Clinic_and_Hospital",
-          "এনজিও":"Non-governmental_Organization",
-          "অন্যান্য":"Others_Health_Facility"
-        },
-        "v_required": {
-          "value": "false",
-          "err": "Please answer the question"
+          "কমিউনিটি ক্লিনিক": "Community Clinic",
+          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র": "Union Sub-center (USC)",
+          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র":"UFWC (Union Family Welfare Center)",
+          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র":"UH & FWC",
+          "মা ও শিশু কল্যাণ কেন্দ্র":"Maternal & Child Welfate Center",
+          "১০ শয্যা বিশিষ্ট হাসপাতাল":"10 Bed Hospital",
+          "২০ শয্যা বিশিষ্ট হাসপাতাল":"20 Bed Hospital",
+          "উপজেলা স্বাস্থ্য কমপ্লেক্স":"UHC",
+          "সদর হাসপাতাল": "District Hospital",
+          "মেডিকেল কলেজ হাসপাতাল": "Medical College Hospital",
+          "বেসরকারী ক্লিনিক/হাসপাতাল":"Private Hospital / NGO clinic",
+          "এনজিও":"Non-governmental Organization",
+          "বিশেষায়িত হাসপাতাল": "Specialized Hospital",
+          "অন্যান্য":"Other health facilities"
         }
       },
       {
@@ -598,15 +620,11 @@
           "৩ কিলোমিটারের বেশী"
         ],
         "openmrs_choice_ids": {
-          "৫০০ মিটারের কম":"Less_Than_500_Meters",
-          "৫০০ মিটার থেকে ১ কিলোমিটার":"500_Meters_to_1_KM",
-          "১ কিলোমিটার থেকে ২ কিলোমিটার":"1_KM_to_2_KM",
-          "২ কিলোমিটার থেকে ৩ কিলোমিটার":"2_KM_to_3_KM",
-          "৩ কিলোমিটারের বেশী":"More_Than_3_KM"
-        },
-        "v_required": {
-          "value": "false",
-          "err": "Please answer the question"
+          "৫০০ মিটারের কম":"Less than 500 meter",
+          "৫০০ মিটার থেকে ১ কিলোমিটার":"500 meter to 1km",
+          "১ কিলোমিটার থেকে ২ কিলোমিটার":"1km to 2 km",
+          "২ কিলোমিটার থেকে ৩ কিলোমিটার":"2km to 3km",
+          "৩ কিলোমিটারের বেশী":"More than 3km"
         }
       },
       {
@@ -634,24 +652,20 @@
           "অন্যান্য"
         ],
         "openmrs_choice_ids": {
-          "কমিউনিটি ক্লিনিক":"Community_Clinic",
-          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র":"Union_Sub_Center",
-          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র":"Union_Family_Welfare_Center",
-          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র":"Union_Health_and_Family_Welfare_Center",
-          "মা ও শিশু কল্যাণ কেন্দ্র":"Metarnal_and_Child_Wellfare_Center",
-          "১০ শয্যা বিশিষ্ট হাসপাতাল":"10_Bed_Hospital",
-          "২০ শয্যা বিশিষ্ট হাসপাতাল":"20_Beds_Hospital",
-          "উপজেলা স্বাস্থ্য কমপ্লেক্স":"Upazila_Health_Complex",
-          "সদর হাসপাতাল":"District_Hospital",
-          "মেডিকেল কলেজ হাসপাতাল":"Medical_College_and_Hospital",
-          "বেসরকারী ক্লিনিক/হাসপাতাল":"Private_Clinic_and_Hospital",
-          "এনজিও":"Non-governmental_Organization",
-          "বিশেষায়িত হাসপাতাল":"Specialized_Hospital",
-          "অন্যান্য":"thers_Family_Health_Center"
-        },
-        "v_required": {
-          "value": "false",
-          "err": "Please answer the question"
+          "কমিউনিটি ক্লিনিক":"Community Clinic",
+          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র":"Union Sub-center (USC)",
+          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র":"UFWC (Union Family Welfare Center)",
+          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র":"UH & FWC",
+          "মা ও শিশু কল্যাণ কেন্দ্র":"Maternal & Child Welfate Center",
+          "১০ শয্যা বিশিষ্ট হাসপাতাল":"10 Bed Hospital",
+          "২০ শয্যা বিশিষ্ট হাসপাতাল":"20 Bed Hospital",
+          "উপজেলা স্বাস্থ্য কমপ্লেক্স":"UHC",
+          "সদর হাসপাতাল":"District Hospital",
+          "মেডিকেল কলেজ হাসপাতাল":"Medical College Hospital",
+          "বেসরকারী ক্লিনিক/হাসপাতাল":"Private Hospital / NGO clinic",
+          "এনজিও":"NGO",
+          "বিশেষায়িত হাসপাতাল":"Specialized Hospital",
+          "অন্যান্য":"Other health facilities"
         }
       },
       {
@@ -670,7 +684,7 @@
           "err": "Please enter a valid Facility Name"
         },
         "relevance": {
-          "step1:Family_Members_Health_Services_From_Health_Care_Center": {
+          "step1:health_care_center": {
             "type": "string",
             "ex": "equalTo(., \"অন্যান্য\")"
           }
@@ -704,16 +718,20 @@
           "৩ কিলোমিটারের বেশী"
         ],
         "openmrs_choice_ids": {
-          "৫০০ মিটারের কম":"Less_Than_500_Meters",
-          "৫০০ মিটার থেকে ১ কিলোমিটার":"500_Meters_to_1_KM",
-          "১ কিলোমিটার থেকে ২ কিলোমিটার":"1_KM_to_2_KM",
-          "২ কিলোমিটার থেকে ৩ কিলোমিটার":"2_KM_to_3_KM",
-          "৩ কিলোমিটারের বেশী":"More_Than_3_KM"
-        },
-        "v_required": {
-          "value": "false",
-          "err": "Please answer the question"
+          "৫০০ মিটারের কম":"Less than 500 meter",
+          "৫০০ মিটার থেকে ১ কিলোমিটার":"500 meter to 1km",
+          "১ কিলোমিটার থেকে ২ কিলোমিটার":"1km to 2 km",
+          "২ কিলোমিটার থেকে ৩ কিলোমিটার":"2km to 3km",
+          "৩ কিলোমিটারের বেশী":"More than 3km"
         }
+      },
+      {
+        "key": "name_info",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "name_info",
+        "type": "edit_text",
+        "hint": "তথ্য প্রদানকারীর নাম:"
       },
       {
         "key": "gps",
@@ -741,27 +759,8 @@
         "type": "edit_text",
         "read_only": true,
         "hint": "দ্রাঘিমা"
-      },
-      {
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "key": "section",
-        "type": "section_label",
-        "section_background": "#3797ca",
-        "text_color": "#FFFFFF",
-        "text_size": "22px",
-        "label_text_style": "bold",
-        "name": " সব তথ্য পূরণ করা হলে জমা দিন"
-      },
-      {
-        "key": "spacer",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "spacer",
-        "type": "spacer",
-        "spacer_height": "20dp"
       }
+
     ]
   }
 }

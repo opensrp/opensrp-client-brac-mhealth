@@ -36,3 +36,80 @@ priority: 1
 condition: "step1_no_prev_preg >= 1"
 actions:
   - "isRelevant = true"
+---
+name: step1_c_section_history
+description: c_section_history relevance
+priority: 1
+condition: "step1_no_prev_preg > 1"
+actions:
+  - "isRelevant = true"
+---
+name: step1_miscarage_history
+description: miscarage_history relevance
+priority: 1
+condition: "step1_no_prev_preg > 1"
+actions:
+  - "isRelevant = true"
+---
+name: step1_still_birth_history
+description: still_birth_history relevance
+priority: 1
+condition: "step1_no_prev_preg > 1"
+actions:
+  - "isRelevant = true"
+---
+name: step1_high_pressure_history
+description: high_pressure_history relevance
+priority: 1
+condition: "step1_no_prev_preg > 1"
+actions:
+  - "isRelevant = true"
+---
+name: step1_aph_history
+description: aph_history relevance
+priority: 1
+condition: "step1_no_prev_preg > 1"
+actions:
+  - "isRelevant = true"
+---
+name: step1_obstructed_history
+description: obstructed_history relevance
+priority: 1
+condition: "step1_no_prev_preg > 1"
+actions:
+  - "isRelevant = true"
+---
+name: step1_pph_history
+description: pph_history relevance
+priority: 1
+condition: "step1_no_prev_preg > 1"
+actions:
+  - "isRelevant = true"
+---
+name: step1_temperature_history
+description: temperature_history relevance
+priority: 1
+condition: "step1_no_prev_preg > 1"
+actions:
+  - "isRelevant = true"
+---
+name: step1_diabetes_history
+description: diabetes_history relevance
+priority: 1
+condition: "step1_no_prev_preg > 1"
+actions:
+  - "isRelevant = true"
+---
+name: step1_diabetes_history
+description: diabetes_history relevance
+priority: 1
+condition: "step1_no_prev_preg > 1"
+actions:
+  - "isRelevant = true"
+---
+name: step1_still_birth
+description: still_birth relevance
+priority: 1
+condition: "step1_still_birth_history== 'হ্যাঁ' || step1_still_birth_history== 'Yes'"
+actions:
+  - "isRelevant = true"

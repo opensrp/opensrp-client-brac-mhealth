@@ -203,17 +203,12 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
         return getANcTrimesterCount("তৃতীয় ট্রাইসেমিস্টার-এ সনাক্ত",ssName,fromMonth,toMonth,170,0);
     }
     public DashBoardData getAnc1Count(String ssName,long fromMonth, long toMonth){
-        return getVisitTypeCount(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION,ssName,fromMonth,toMonth);
+        return getVisitTypeCount(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT,ssName,fromMonth,toMonth);
     }
     public DashBoardData getHHVisitCount(String ssName,long fromMonth, long toMonth){
         return getVisitTypeCount(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY,ssName,fromMonth,toMonth);
     }
-    public DashBoardData getAnc2Count(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION,ssName,fromMonth,toMonth);
-    }
-    public DashBoardData getAnc3Count(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION,ssName,fromMonth,toMonth);
-    }
+
     public DashBoardData getElcoCount(String ssName, long fromMonth, long toMonth){
         return getVisitTypeCount(HnppConstants.EVENT_TYPE.ELCO,ssName,fromMonth,toMonth);
     }
@@ -260,10 +255,10 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
         return getVisitTypeCount(HnppConstants.EVENT_TYPE.FORUM_ADULT,ssName,fromMonth,toMonth);
     }
     public DashBoardData getPncBefore48Count(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,ssName,fromMonth,toMonth);
+        return getVisitTypeCount(HnppConstants.EVENT_TYPE.PNC_REGISTRATION,ssName,fromMonth,toMonth);
     }
     public DashBoardData getPncAfter48Count(String ssName, long fromMonth, long toMonth) {
-        return getVisitTypeCount(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour, ssName, fromMonth, toMonth);
+        return getVisitTypeCount(HnppConstants.EVENT_TYPE.PNC_REGISTRATION, ssName, fromMonth, toMonth);
     }
 
         public DashBoardData getVisitTypeCount(String visitType, String ssName, long fromMonth, long toMonth){
@@ -305,15 +300,9 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
         }*/
             else{
                 if(visitType.equalsIgnoreCase("ANC")){
-                mainCondition = "where (event_type = '"+ HnppConstants.EVENT_TYPE.ANC1_REGISTRATION+"' or event_type ='"+ HnppConstants.EVENT_TYPE.ANC2_REGISTRATION+"' or event_type ='"+ HnppConstants.EVENT_TYPE.ANC3_REGISTRATION+"')";
-            }else if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)){
-                mainCondition = "where event_type = '"+ HnppConstants.EVENT_TYPE.ANC1_REGISTRATION+"'";
-            }
-            else if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION)){
-                mainCondition = "where event_type = '"+ HnppConstants.EVENT_TYPE.ANC2_REGISTRATION+"'" ;
-            }
-            else if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
-                mainCondition = "where event_type = '"+ HnppConstants.EVENT_TYPE.ANC3_REGISTRATION+"'" ;
+                mainCondition = "where (event_type = '"+ HnppConstants.EVENT_TYPE.ANC_HOME_VISIT+"' )";
+            }else if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT)){
+                mainCondition = "where event_type = '"+ HnppConstants.EVENT_TYPE.ANC_HOME_VISIT+"'";
             }
             else if(visitType.equalsIgnoreCase("pnc")){ // todo
                 mainCondition = "where (visit_type = 'PNC Registration' or visit_type = '"+HnppConstants.EventType.PNC_HOME_VISIT+"')" ;
