@@ -43,10 +43,10 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
         return getVisitTypeCount("পিল ব্যবহারকারী","familyplanning_method","contraceptive_pill",ssName,fromMonth,toMonth);
     }
     public DashBoardData getFillFromSS(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("স্বাস্থ্যসেবিকা থেকে পিল ব্যবহারকারী","distribution_location","brac_health_worker",ssName,fromMonth,toMonth);
+        return getVisitTypeCount("স্বাস্থ্যসেবিকা থেকে পিল,কনডম ব্যবহারকারী","distribution_location","brac_health_worker",ssName,fromMonth,toMonth);
     }
     public DashBoardData getFillFromOther(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("অন্যান্য উৎস থেকে পিল ব্যবহারকারী","distribution_other","other",ssName,fromMonth,toMonth);
+        return getVisitTypeCount("অন্যান্য উৎস থেকে পিল,কনডম ব্যবহারকারী","distribution_other","other",ssName,fromMonth,toMonth);
     }
     public DashBoardData getCondomUser(String ssName, long fromMonth, long toMonth){
         return getVisitTypeCount("কনডম ব্যবহারকারী","familyplanning_method","condom",ssName,fromMonth,toMonth);
