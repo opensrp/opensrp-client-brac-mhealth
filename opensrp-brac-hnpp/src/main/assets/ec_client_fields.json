@@ -903,6 +903,76 @@
       "name": "ec_guest_member",
       "columns": [
         {
+          "column_name": "block_name",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.block_name"
+          }
+        },
+        {
+          "column_name": "ward_name",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.ward_name"
+          }
+        },
+        {
+          "column_name": "present_address_bangla",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.present_address_bangla"
+          }
+        },
+        {
+          "column_name": "post_office_present",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.post_office_present"
+          }
+        },
+        {
+          "column_name": "village",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.village"
+          }
+        },
+        {
+          "column_name": "is_permanent_address",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.is_permanent_address"
+          }
+        },
+        {
+          "column_name": "permanent_address",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.permanent_address"
+          }
+        },
+        {
+          "column_name": "post_office_permanent",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.post_office_permanent"
+          }
+        },
+        {
+          "column_name": "last_vaccine_date",
+          "type": "Client",
+          "json_mapping": {
+            "field": "last_vaccine_date"
+          }
+        },
+        {
+          "column_name": "last_vaccine_name",
+          "type": "Client",
+          "json_mapping": {
+            "field": "last_vaccine_name"
+          }
+        },
+        {
           "column_name": "base_entity_id",
           "type": "Client",
           "json_mapping": {
@@ -948,14 +1018,21 @@
           "column_name": "first_name",
           "type": "Client",
           "json_mapping": {
-            "field": "firstName"
+            "field": "first_name"
           }
         },
         {
-          "column_name": "father_name",
+          "column_name": "last_name",
           "type": "Client",
           "json_mapping": {
-            "field": "attributes.father_name"
+            "field": "last_name"
+          }
+        },
+        {
+          "column_name": "father_name_english",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.father_name_english"
           }
         },
         {
@@ -984,6 +1061,13 @@
           "type": "Client",
           "json_mapping": {
             "field": "attributes.age"
+          }
+        },
+        {
+          "column_name": "Marital_Status",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.Marital_Status"
           }
         },
         {

@@ -188,7 +188,7 @@ public class GuestMemberModel extends JsonFormUtils implements GuestMemberContra
     @Override
     public void loadData() {
         guestMemberDataArrayList.clear();
-        String query =  "select ec_guest_member.base_entity_id,ec_guest_member.unique_id,ec_guest_member.first_name,ec_guest_member.ss_name,ec_guest_member.dob,ec_guest_member.gender,ec_guest_member.phone_number from ec_guest_member " +
+        String query =  "select ec_guest_member.base_entity_id,ec_guest_member.unique_id,ec_guest_member.first_name,ec_guest_member.last_name,ec_guest_member.ss_name,ec_guest_member.dob,ec_guest_member.gender,ec_guest_member.phone_number from ec_guest_member " +
          " where ec_guest_member.date_removed is null group by ec_guest_member.unique_id order by ec_guest_member.last_interacted_with desc ";
         Cursor cursor = null;
         try{
@@ -200,7 +200,9 @@ public class GuestMemberModel extends JsonFormUtils implements GuestMemberContra
                     GuestMemberData guestMemberData = new GuestMemberData();
                     guestMemberData.setBaseEntityId(cursor.getString(cursor.getColumnIndex("base_entity_id")));
                     guestMemberData.setMemberId(cursor.getString(cursor.getColumnIndex("unique_id")));
-                    guestMemberData.setName(cursor.getString(cursor.getColumnIndex("first_name")));
+                    String firstName = cursor.getString(cursor.getColumnIndex("first_name"));
+                    String lastName = cursor.getString(cursor.getColumnIndex("last_name"));
+                    guestMemberData.setName(firstName+" "+lastName);
                     guestMemberData.setSsName(cursor.getString(cursor.getColumnIndex("ss_name")));
                     guestMemberData.setDob(cursor.getString(cursor.getColumnIndex("dob")));
                     guestMemberData.setGender(cursor.getString(cursor.getColumnIndex("gender")));

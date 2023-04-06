@@ -7,6 +7,7 @@ import com.evernote.android.job.Job;
 import com.evernote.android.job.JobCreator;
 
 import org.smartregister.chw.core.job.VaccineRecurringServiceJob;
+import org.smartregister.immunization.job.VaccineServiceJob;
 import org.smartregister.unicef.dghs.sync.intent.HfSyncTaskIntentService;
 import org.smartregister.job.CompareDataServiceJob;
 import org.smartregister.job.DataSyncByBaseEntityServiceJob;
@@ -56,6 +57,8 @@ public class HnppJobCreator implements JobCreator {
                 return new ImageUploadServiceJob();
             case VaccineRecurringServiceJob.TAG:
                 return new VaccineRecurringServiceJob();
+            case VaccineServiceJob.TAG:
+                return new VaccineServiceJob();
             case LocationStructureServiceJob.TAG:
                 return new LocationStructureServiceJob();
             case SyncTaskServiceJob.TAG:

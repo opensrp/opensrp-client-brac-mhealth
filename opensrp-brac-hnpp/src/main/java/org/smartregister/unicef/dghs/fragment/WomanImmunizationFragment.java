@@ -220,67 +220,67 @@ public class WomanImmunizationFragment extends BaseProfileFragment {
         ageTV.setText(String.format("%s: %s", "Age", formattedAge));
     }
 
-    private void updateServiceViews(Map<String, List<ServiceType>> serviceTypeMap, List<ServiceRecord> serviceRecordList, List<Alert> alerts) {
-
-        Map<String, List<ServiceType>> foundServiceTypeMap = new LinkedHashMap<>();
-        if (serviceGroups == null) {
-            for (String type : serviceTypeMap.keySet()) {
-                if (foundServiceTypeMap.containsKey(type)) {
-                    continue;
-                }
-
-                for (ServiceRecord serviceRecord : serviceRecordList) {
-                    if (serviceRecord.getSyncStatus().equals(RecurringServiceTypeRepository.TYPE_Unsynced)) {
-                        if (serviceRecord.getType().equals(type)) {
-                            foundServiceTypeMap.put(type, serviceTypeMap.get(type));
-                            break;
-                        }
-                    }
-                }
-
-                if (foundServiceTypeMap.containsKey(type)) {
-                    continue;
-                }
-
-                for (Alert a : alerts) {
-                    if (StringUtils.containsIgnoreCase(a.scheduleName(), type)
-                            || StringUtils.containsIgnoreCase(a.visitCode(), type)) {
-                        foundServiceTypeMap.put(type, serviceTypeMap.get(type));
-                        break;
-                    }
-                }
-
-            }
-
-            if (foundServiceTypeMap.isEmpty()) {
-                return;
-            }
-
-
-            serviceGroups = new ArrayList<>();
-            LinearLayout serviceGroupCanvasLL = (LinearLayout) view.findViewById(R.id.service_group_canvas_ll);
-
-            ServiceGroup curGroup = new ServiceGroup(mActivity);
-            curGroup.setChildActive(isChildActive);
-            curGroup.setData(childDetails, foundServiceTypeMap, serviceRecordList, alerts);
-            curGroup.setOnServiceClickedListener(new ServiceGroup.OnServiceClickedListener() {
-                @Override
-                public void onClick(ServiceGroup serviceGroup, ServiceWrapper
-                        serviceWrapper) {
-                    addServiceDialogFragment(serviceWrapper, serviceGroup);
-                }
-            });
-            curGroup.setOnServiceUndoClickListener(new ServiceGroup.OnServiceUndoClickListener() {
-                @Override
-                public void onUndoClick(ServiceGroup serviceGroup, ServiceWrapper serviceWrapper) {
-                    addServiceUndoDialogFragment(serviceGroup, serviceWrapper);
-                }
-            });
-            serviceGroupCanvasLL.addView(curGroup);
-            serviceGroups.add(curGroup);
-        }
-
-    }
+//    private void updateServiceViews(Map<String, List<ServiceType>> serviceTypeMap, List<ServiceRecord> serviceRecordList, List<Alert> alerts) {
+//
+//        Map<String, List<ServiceType>> foundServiceTypeMap = new LinkedHashMap<>();
+//        if (serviceGroups == null) {
+//            for (String type : serviceTypeMap.keySet()) {
+//                if (foundServiceTypeMap.containsKey(type)) {
+//                    continue;
+//                }
+//
+//                for (ServiceRecord serviceRecord : serviceRecordList) {
+//                    if (serviceRecord.getSyncStatus().equals(RecurringServiceTypeRepository.TYPE_Unsynced)) {
+//                        if (serviceRecord.getType().equals(type)) {
+//                            foundServiceTypeMap.put(type, serviceTypeMap.get(type));
+//                            break;
+//                        }
+//                    }
+//                }
+//
+//                if (foundServiceTypeMap.containsKey(type)) {
+//                    continue;
+//                }
+//
+//                for (Alert a : alerts) {
+//                    if (StringUtils.containsIgnoreCase(a.scheduleName(), type)
+//                            || StringUtils.containsIgnoreCase(a.visitCode(), type)) {
+//                        foundServiceTypeMap.put(type, serviceTypeMap.get(type));
+//                        break;
+//                    }
+//                }
+//
+//            }
+//
+//            if (foundServiceTypeMap.isEmpty()) {
+//                return;
+//            }
+//
+//
+//            serviceGroups = new ArrayList<>();
+//            LinearLayout serviceGroupCanvasLL = (LinearLayout) view.findViewById(R.id.service_group_canvas_ll);
+//
+//            ServiceGroup curGroup = new ServiceGroup(mActivity);
+//            curGroup.setChildActive(isChildActive);
+//            curGroup.setData(childDetails, foundServiceTypeMap, serviceRecordList, alerts);
+//            curGroup.setOnServiceClickedListener(new ServiceGroup.OnServiceClickedListener() {
+//                @Override
+//                public void onClick(ServiceGroup serviceGroup, ServiceWrapper
+//                        serviceWrapper) {
+//                    addServiceDialogFragment(serviceWrapper, serviceGroup);
+//                }
+//            });
+//            curGroup.setOnServiceUndoClickListener(new ServiceGroup.OnServiceUndoClickListener() {
+//                @Override
+//                public void onUndoClick(ServiceGroup serviceGroup, ServiceWrapper serviceWrapper) {
+//                    addServiceUndoDialogFragment(serviceGroup, serviceWrapper);
+//                }
+//            });
+//            serviceGroupCanvasLL.addView(curGroup);
+//            serviceGroups.add(curGroup);
+//        }
+//
+//    }
 
     private void updateVaccinationViews(List<Vaccine> vaccineList, List<Alert> alerts) {
 
@@ -701,7 +701,7 @@ public class WomanImmunizationFragment extends BaseProfileFragment {
 
             }
 
-            updateServiceViews(serviceTypeMap, serviceRecords, alertList);
+            //updateServiceViews(serviceTypeMap, serviceRecords, alertList);
             updateVaccinationViews(vaccineList, alertList);
         }
 
@@ -711,13 +711,13 @@ public class WomanImmunizationFragment extends BaseProfileFragment {
             if (!TextUtils.isEmpty(dobString)) {
                 DateTime dateTime = new DateTime(dobString);
                 VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), dateTime, "woman");
-                ServiceSchedule.updateOfflineAlerts(childDetails.entityId(), dateTime);
+//                ServiceSchedule.updateOfflineAlerts(childDetails.entityId(), dateTime);
             }
 
             List<Vaccine> vaccineList = new ArrayList<>();
 
             Map<String, List<ServiceType>> serviceTypeMap = new LinkedHashMap<>();
-            List<ServiceRecord> serviceRecords = new ArrayList<>();
+//            List<ServiceRecord> serviceRecords = new ArrayList<>();
 
             List<Alert> alertList = new ArrayList<>();
             if (vaccineRepository != null) {
@@ -725,22 +725,22 @@ public class WomanImmunizationFragment extends BaseProfileFragment {
 
             }
 
-            if (recurringServiceRecordRepository != null) {
-                serviceRecords = recurringServiceRecordRepository.findByEntityId(childDetails.entityId());
-            }
+//            if (recurringServiceRecordRepository != null) {
+//                serviceRecords = recurringServiceRecordRepository.findByEntityId(childDetails.entityId());
+//            }
 
-            if (recurringServiceTypeRepository != null) {
-                List<ServiceType> serviceTypes = recurringServiceTypeRepository.fetchAll();
-                for (ServiceType serviceType : serviceTypes) {
-                    String type = serviceType.getType();
-                    List<ServiceType> serviceTypeList = serviceTypeMap.get(type);
-                    if (serviceTypeList == null) {
-                        serviceTypeList = new ArrayList<>();
-                    }
-                    serviceTypeList.add(serviceType);
-                    serviceTypeMap.put(type, serviceTypeList);
-                }
-            }
+//            if (recurringServiceTypeRepository != null) {
+//                List<ServiceType> serviceTypes = recurringServiceTypeRepository.fetchAll();
+//                for (ServiceType serviceType : serviceTypes) {
+//                    String type = serviceType.getType();
+//                    List<ServiceType> serviceTypeList = serviceTypeMap.get(type);
+//                    if (serviceTypeList == null) {
+//                        serviceTypeList = new ArrayList<>();
+//                    }
+//                    serviceTypeList.add(serviceType);
+//                    serviceTypeMap.put(type, serviceTypeList);
+//                }
+//            }
 
             if (alertService != null) {
                 alertList = alertService.findByEntityId(childDetails.entityId());
@@ -751,11 +751,11 @@ public class WomanImmunizationFragment extends BaseProfileFragment {
             NamedObject<List<Vaccine>> vaccineNamedObject = new NamedObject<>(Vaccine.class.getName(), vaccineList);
             map.put(vaccineNamedObject.name, vaccineNamedObject);
 
-            NamedObject<Map<String, List<ServiceType>>> serviceTypeNamedObject = new NamedObject<>(ServiceType.class.getName(), serviceTypeMap);
-            map.put(serviceTypeNamedObject.name, serviceTypeNamedObject);
-
-            NamedObject<List<ServiceRecord>> serviceRecordNamedObject = new NamedObject<>(ServiceRecord.class.getName(), serviceRecords);
-            map.put(serviceRecordNamedObject.name, serviceRecordNamedObject);
+//            NamedObject<Map<String, List<ServiceType>>> serviceTypeNamedObject = new NamedObject<>(ServiceType.class.getName(), serviceTypeMap);
+//            map.put(serviceTypeNamedObject.name, serviceTypeNamedObject);
+//
+//            NamedObject<List<ServiceRecord>> serviceRecordNamedObject = new NamedObject<>(ServiceRecord.class.getName(), serviceRecords);
+//            map.put(serviceRecordNamedObject.name, serviceRecordNamedObject);
 
             NamedObject<List<Alert>> alertsNamedObject = new NamedObject<>(Alert.class.getName(), alertList);
             map.put(alertsNamedObject.name, alertsNamedObject);

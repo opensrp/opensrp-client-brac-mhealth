@@ -92,13 +92,13 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                 memberProfileDueDataArrayList.add(memberProfileDueData);
             }
 
-            {
-                MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
-                memberProfileDueData.setImageSource(R.mipmap.ic_refer);
-                memberProfileDueData.setTitle("রেফারেল");
-                memberProfileDueData.setType(TAG_OPEN_REFEREAL);
-                memberProfileDueDataArrayList.add(memberProfileDueData);
-            }
+//            {
+//                MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
+//                memberProfileDueData.setImageSource(R.mipmap.ic_refer);
+//                memberProfileDueData.setTitle("রেফারেল");
+//                memberProfileDueData.setType(TAG_OPEN_REFEREAL);
+//                memberProfileDueDataArrayList.add(memberProfileDueData);
+//            }
 
             ArrayList<ReferralFollowUpModel> getList = FormApplicability.getReferralFollowUp(baseEntityId);
             for(ReferralFollowUpModel referralFollowUpModel : getList){

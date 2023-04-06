@@ -1794,6 +1794,9 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 entityId = generateRandomUUIDString();
             }
             String motherEntityId = updateMotherName(fields,familyId);
+            JSONObject blockIdIdObj = getFieldJSONObject(fields, "block_id");
+            String blockId = blockIdIdObj.getString("value");
+            Log.v("HH_REGISTER","processChildRegistrationForm:blockId:"+blockId);
             lastInteractedWith(fields);
             dobUnknownUpdateFromAge(fields);
             processAttributesWithChoiceIDsForSave(fields);
@@ -1821,6 +1824,9 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 JSONObject clientjson = eventClientRepository.getClient(db, lookUpBaseEntityId);
                 baseClient.setAddresses(updateWithSSLocation(clientjson));
             }
+            GeoLocation selectedLocation = HnppApplication.getGeoLocationRepository().getLocationByBlock(blockId);
+            GeoLocationHelper.getInstance().addGeolocationIds(selectedLocation,baseClient);
+            baseEvent.setIdentifiers(GeoLocationHelper.getInstance().getGeoIdentifier(selectedLocation));
             if(baseClient.getAddresses().size() == 0 || TextUtils.isEmpty(lookUpBaseEntityId))
             {
                 return null;

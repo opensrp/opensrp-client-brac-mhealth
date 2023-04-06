@@ -13,6 +13,7 @@ import org.smartregister.Context;
 import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.event.Listener;
 import org.smartregister.unicef.dghs.fragment.HNPPJsonFormFragment;
+import org.smartregister.unicef.dghs.fragment.HnppAncJsonFormFragment;
 
 import java.util.HashMap;
 import java.util.List;
@@ -75,6 +76,11 @@ public class LookUpTextWatcher implements TextWatcher {
         Listener<HashMap<CommonPersonObject, List<CommonPersonObject>>> listener = null;
         if (formFragment instanceof HNPPJsonFormFragment) {
             HNPPJsonFormFragment pathJsonFormFragment = (HNPPJsonFormFragment) formFragment;
+            context = pathJsonFormFragment.context();
+            listener = pathJsonFormFragment.motherLookUpListener();
+        }
+        if (formFragment instanceof HnppAncJsonFormFragment) {
+            HnppAncJsonFormFragment pathJsonFormFragment = (HnppAncJsonFormFragment) formFragment;
             context = pathJsonFormFragment.context();
             listener = pathJsonFormFragment.motherLookUpListener();
         }

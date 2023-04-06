@@ -2,7 +2,7 @@
   {
     "name": "After 15 years",
     "id": "_15_Yrs",
-    "days_after_birth_due": 0,
+    "days_after_birth_due": 5475,
     "vaccines": [
       {
         "name": "TT 1",
@@ -33,7 +33,7 @@
   {
     "name": "4 Weeks after TD 1",
     "id": "_4_Wks",
-    "days_after_birth_due": 28,
+    "days_after_birth_due": 5503,
     "vaccines": [
       {
         "name": "TT 2",
@@ -65,7 +65,7 @@
   {
     "name": "26 Weeks after TD 2",
     "id": "_10_Wks",
-    "days_after_birth_due": 180,
+    "days_after_birth_due": 5685,
     "vaccines": [
       {
         "name": "TT 3",
@@ -97,7 +97,7 @@
   {
     "name": "1 year after TD 3",
     "id": "_14_Wks",
-    "days_after_birth_due": 98,
+    "days_after_birth_due": 6050,
     "vaccines": [
       {
         "name": "TT 4",
@@ -118,7 +118,7 @@
             {
               "reference": "prerequisite",
               "prerequisite": "TT 3",
-              "offset": "+364d",
+              "offset": "+365d",
               "window": "+14d"
             }
           ]
@@ -129,7 +129,7 @@
   {
     "name": "1 year after TD 4",
     "id": "_9_mnths",
-    "days_after_birth_due": 274,
+    "days_after_birth_due": 6415,
     "vaccines": [
       {
         "name": "TT 5",
@@ -150,7 +150,7 @@
             {
               "reference": "prerequisite",
               "prerequisite": "TT 4",
-              "offset": "+364d",
+              "offset": "+365d",
               "window": "+14d"
             }
           ]

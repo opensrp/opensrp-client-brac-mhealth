@@ -2,8 +2,6 @@ package org.smartregister.unicef.dghs.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -11,6 +9,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
@@ -24,6 +24,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Triple;
 import org.joda.time.DateTime;
 import org.smartregister.chw.core.job.VaccineRecurringServiceJob;
+import org.smartregister.family.FamilyLibrary;
+import org.smartregister.immunization.fragment.VaccinationEditDialogFragment;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.job.VisitLogServiceJob;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
@@ -54,10 +56,12 @@ import org.smartregister.service.AlertService;
 import org.smartregister.unicef.dghs.utils.GrowthUtil;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.util.DateUtil;
+import org.smartregister.util.Utils;
 import org.smartregister.view.fragment.BaseProfileFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -334,7 +338,15 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
         curGroup.setOnVaccineUndoClickListener(new VaccineGroup.OnVaccineUndoClickListener() {
             @Override
             public void onUndoClick(VaccineGroup vaccineGroup, VaccineWrapper vaccine) {
-                addVaccineUndoDialogFragment(vaccineGroup, vaccine);
+                addVaccineUndoDialogFragment(vaccineGroup, Arrays.asList(vaccine));
+            }
+        });
+        curGroup.setOnVaccineInvalidClickListener(new VaccineGroup.OnVaccineInvalidClickListener() {
+            @Override
+            public void onInvalidClick(VaccineGroup vaccineGroup, VaccineWrapper vaccine) {
+                vaccine.setInvalid(true);
+//                vaccineGroup.setInvalid(true);
+                addVaccineUndoDialogFragment(vaccineGroup, Arrays.asList(vaccine));
             }
         });
 
@@ -355,18 +367,38 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
         vaccineGroups.add(curGroup);
     }
 
-    private void addVaccineUndoDialogFragment(VaccineGroup vaccineGroup, VaccineWrapper vaccineWrapper) {
-//        FragmentTransaction ft = mActivity.getFragmentManager().beginTransaction();
-//        Fragment prev = mActivity.getFragmentManager().findFragmentByTag(DIALOG_TAG);
+    private void addVaccineUndoDialogFragment(VaccineGroup vaccineGroup, List<VaccineWrapper> vaccineWrappers) {
+////        FragmentTransaction ft = mActivity.getFragmentManager().beginTransaction();
+////        Fragment prev = mActivity.getFragmentManager().findFragmentByTag(DIALOG_TAG);
+////        if (prev != null) {
+////            ft.remove(prev);
+////        }
+////
+////        ft.addToBackStack(null);
+//        vaccineGroup.setModalOpen(true);
+//
+//        UndoVaccinationDialogFragment undoVaccinationDialogFragment = UndoVaccinationDialogFragment.newInstance(vaccineWrapper);
+//        undoVaccinationDialogFragment.show(getChildFragmentManager(), DIALOG_TAG);
+//        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+//        Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag(DIALOG_TAG);
 //        if (prev != null) {
 //            ft.remove(prev);
 //        }
-//
 //        ft.addToBackStack(null);
-        vaccineGroup.setModalOpen(true);
 
-        UndoVaccinationDialogFragment undoVaccinationDialogFragment = UndoVaccinationDialogFragment.newInstance(vaccineWrapper);
-        undoVaccinationDialogFragment.show(getChildFragmentManager(), DIALOG_TAG);
+        String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
+        Date dob = Calendar.getInstance().getTime();
+        if (!TextUtils.isEmpty(dobString)) {
+            DateTime dateTime = new DateTime(dobString);
+            dob = dateTime.toDate();
+        }
+
+        List<Vaccine> vaccineList = ImmunizationLibrary.getInstance().vaccineRepository()
+                .findByEntityId(childDetails.entityId());
+        if (vaccineList == null) vaccineList = new ArrayList<>();
+
+        VaccinationEditDialogFragment vaccinationDialogFragment = VaccinationEditDialogFragment.newInstance(getActivity(), dob, vaccineList, vaccineWrappers, vaccineGroup, true);
+        vaccinationDialogFragment.show(getChildFragmentManager(), DIALOG_TAG);
     }
 
     private void addServiceUndoDialogFragment(ServiceGroup serviceGroup, ServiceWrapper serviceWrapper) {
@@ -478,6 +510,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
         if (tag.getDbKey() != null) {
             vaccine = vaccineRepository.find(tag.getDbKey());
         }
+        if(tag.isInvalid()) vaccine.setInvalid(true);
         vaccine.setBaseEntityId(childDetails.entityId());
         vaccine.setName(tag.getName());
         vaccine.setDate(tag.getUpdatedVaccineDate().toDate());
@@ -489,9 +522,10 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
         } else {
             vaccine.setCalculation(-1);
         }
+        String anm = FamilyLibrary.getInstance().context().allSharedPreferences().fetchRegisteredANM();
 
-        vaccine.setTeam("testTeam");
-        vaccine.setTeamId("testTeamId");
+        vaccine.setTeam(FamilyLibrary.getInstance().context().allSharedPreferences().fetchDefaultTeam(anm));
+        vaccine.setTeamId(FamilyLibrary.getInstance().context().allSharedPreferences().fetchDefaultTeamId(anm));
         vaccine.setChildLocationId("testChildLocationId");
         vaccineRepository.add(vaccine);
         tag.setDbKey(vaccine.getId());

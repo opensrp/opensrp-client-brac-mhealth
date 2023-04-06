@@ -42,6 +42,7 @@ import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.family.activity.BaseFamilyOtherMemberProfileActivity;
 import org.smartregister.immunization.domain.ServiceWrapper;
 import org.smartregister.immunization.domain.VaccineWrapper;
+import org.smartregister.immunization.job.VaccineServiceJob;
 import org.smartregister.immunization.listener.ServiceActionListener;
 import org.smartregister.immunization.listener.VaccinationActionListener;
 import org.smartregister.unicef.dghs.HnppApplication;
@@ -1215,15 +1216,18 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
     @Override
     public void onVaccinateToday(ArrayList<VaccineWrapper> arrayList, View view) {
         if(womanImmunizationFragment!=null) womanImmunizationFragment.onVaccinateToday(arrayList,view);
+        VaccineServiceJob.scheduleJobImmediately(VaccineServiceJob.TAG);
     }
 
     @Override
     public void onVaccinateEarlier(ArrayList<VaccineWrapper> arrayList, View view) {
         if(womanImmunizationFragment!=null) womanImmunizationFragment.onVaccinateEarlier(arrayList,view);
+        VaccineServiceJob.scheduleJobImmediately(VaccineServiceJob.TAG);
     }
 
     @Override
     public void onUndoVaccination(VaccineWrapper vaccineWrapper, View view) {
         if(womanImmunizationFragment!=null) womanImmunizationFragment.onUndoVaccination(vaccineWrapper,view);
+        VaccineServiceJob.scheduleJobImmediately(VaccineServiceJob.TAG);
     }
 }

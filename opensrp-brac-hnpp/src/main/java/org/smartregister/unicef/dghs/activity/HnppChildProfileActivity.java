@@ -42,6 +42,7 @@ import org.smartregister.growthmonitoring.listener.MUACActionListener;
 import org.smartregister.growthmonitoring.listener.WeightActionListener;
 import org.smartregister.immunization.domain.ServiceWrapper;
 import org.smartregister.immunization.domain.VaccineWrapper;
+import org.smartregister.immunization.job.VaccineServiceJob;
 import org.smartregister.immunization.listener.ServiceActionListener;
 import org.smartregister.immunization.listener.VaccinationActionListener;
 import org.smartregister.unicef.dghs.HnppApplication;
@@ -871,15 +872,21 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
     @Override
     public void onVaccinateToday(ArrayList<VaccineWrapper> arrayList, View view) {
         childImmunizationFragment.onVaccinateToday(arrayList,view);
+        VaccineServiceJob.scheduleJobImmediately(VaccineServiceJob.TAG);
+
     }
 
     @Override
     public void onVaccinateEarlier(ArrayList<VaccineWrapper> arrayList, View view) {
         childImmunizationFragment.onVaccinateEarlier(arrayList,view);
+        VaccineServiceJob.scheduleJobImmediately(VaccineServiceJob.TAG);
+
     }
 
     @Override
     public void onUndoVaccination(VaccineWrapper vaccineWrapper, View view) {
         childImmunizationFragment.onUndoVaccination(vaccineWrapper,view);
+        VaccineServiceJob.scheduleJobImmediately(VaccineServiceJob.TAG);
+
     }
 }

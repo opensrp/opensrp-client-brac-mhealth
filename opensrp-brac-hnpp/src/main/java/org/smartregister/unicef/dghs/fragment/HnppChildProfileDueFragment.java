@@ -240,21 +240,21 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         String dobString = Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOB, false);
         Date dob = Utils.dobStringToDate(dobString);
         long day = FormApplicability.getDay(commonPersonObjectClient);
-        boolean isEnc = FormApplicability.isEncVisible(dob);
-        if(isEnc){
-            if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.ENC_REGISTRATION)){
-                View encView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
-                ImageView image1 = encView.findViewById(R.id.image_view);
-                TextView name1 =  encView.findViewById(R.id.patient_name_age);
-                encView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-                image1.setImageResource(R.mipmap.ic_child);
-                name1.setText("নবজাতকের সেবা");
-                encView.setTag(TAG_ENC);
-                encView.setOnClickListener(this);
-                otherServiceView.addView(encView);
-            }
-
-        }
+//        boolean isEnc = FormApplicability.isEncVisible(dob);
+//        if(isEnc){
+//            if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.ENC_REGISTRATION)){
+//                View encView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+//                ImageView image1 = encView.findViewById(R.id.image_view);
+//                TextView name1 =  encView.findViewById(R.id.patient_name_age);
+//                encView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+//                image1.setImageResource(R.mipmap.ic_child);
+//                name1.setText("নবজাতকের সেবা");
+//                encView.setTag(TAG_ENC);
+//                encView.setOnClickListener(this);
+//                otherServiceView.addView(encView);
+//            }
+//
+//        }
 
 
         View familyView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
@@ -267,96 +267,96 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         familyView.setOnClickListener(this);
         otherServiceView.addView(familyView);
 
-        {
-            View referelView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
-            ImageView imageReferel = referelView.findViewById(R.id.image_view);
-            TextView nameReferel =  referelView.findViewById(R.id.patient_name_age);
-            referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-            imageReferel.setImageResource(R.mipmap.ic_refer);
-            nameReferel.setText("রেফেরেল");
-            referelView.setTag(TAG_OPEN_REFEREAL);
-            referelView.setOnClickListener(this);
-            otherServiceView.addView(referelView);
-        }
-        if(!isEnc){
-            if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP)){
-                View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
-                ImageView fImg = followupView.findViewById(R.id.image_view);
-                TextView fName =  followupView.findViewById(R.id.patient_name_age);
-                followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-                fImg.setImageResource(iconMapping.get(HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP));
-                fName.setText(eventTypeMapping.get(HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP));
-                followupView.setTag(TAG_CHILD_FOLLOWUP);
-                followupView.setOnClickListener(this);
-                otherServiceView.addView(followupView);
-            }
+//        {
+//            View referelView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+//            ImageView imageReferel = referelView.findViewById(R.id.image_view);
+//            TextView nameReferel =  referelView.findViewById(R.id.patient_name_age);
+//            referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+//            imageReferel.setImageResource(R.mipmap.ic_refer);
+//            nameReferel.setText("রেফেরেল");
+//            referelView.setTag(TAG_OPEN_REFEREAL);
+//            referelView.setOnClickListener(this);
+//            otherServiceView.addView(referelView);
+//        }
+//        if(!isEnc){
+//            if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP)){
+//                View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+//                ImageView fImg = followupView.findViewById(R.id.image_view);
+//                TextView fName =  followupView.findViewById(R.id.patient_name_age);
+//                followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+//                fImg.setImageResource(iconMapping.get(HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP));
+//                fName.setText(eventTypeMapping.get(HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP));
+//                followupView.setTag(TAG_CHILD_FOLLOWUP);
+//                followupView.setOnClickListener(this);
+//                otherServiceView.addView(followupView);
+//            }
+//
+//        }
+//        eventType = FormApplicability.isDueChildInfo(day);
+//        if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12) && FormApplicability.isDueChildInfoForm(baseEntityId,eventType)){
+//            childInfo1View = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+//            ImageView fImg = childInfo1View.findViewById(R.id.image_view);
+//            TextView fName =  childInfo1View.findViewById(R.id.patient_name_age);
+//            childInfo1View.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+//            fImg.setImageResource(iconMapping.get(eventType));
+//            fName.setText(eventTypeMapping.get(eventType));
+//            childInfo1View.setTag(TAG_CHILD_INFO_EBF12);
+//            childInfo1View.setOnClickListener(this);
+//            otherServiceView.addView(childInfo1View);
+//        }
+//        else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS) && FormApplicability.isDueChildInfoForm(baseEntityId,eventType)){
+//            childInfo2View = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+//            ImageView fImg = childInfo2View.findViewById(R.id.image_view);
+//            TextView fName =  childInfo2View.findViewById(R.id.patient_name_age);
+//            childInfo2View.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+//            fImg.setImageResource(iconMapping.get(eventType));
+//            fName.setText(eventTypeMapping.get(eventType));
+//            childInfo2View.setTag(TAG_CHILD_INFO_7_24_months);
+//            childInfo2View.setOnClickListener(this);
+//            otherServiceView.addView(childInfo2View);
+//        }
+//        else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS) && FormApplicability.isDueChildInfoForm(baseEntityId,eventType)){
+//            childInfo3View = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+//            ImageView fImg = childInfo3View.findViewById(R.id.image_view);
+//            TextView fName =  childInfo3View.findViewById(R.id.patient_name_age);
+//            childInfo3View.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+//            fImg.setImageResource(iconMapping.get(eventType));
+//            fName.setText(eventTypeMapping.get(eventType));
+//            childInfo3View.setTag(TAG_CHILD_INFO_25_months);
+//            childInfo3View.setOnClickListener(this);
+//            otherServiceView.addView(childInfo3View);
+//        }
 
-        }
-        eventType = FormApplicability.isDueChildInfo(day);
-        if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12) && FormApplicability.isDueChildInfoForm(baseEntityId,eventType)){
-            childInfo1View = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
-            ImageView fImg = childInfo1View.findViewById(R.id.image_view);
-            TextView fName =  childInfo1View.findViewById(R.id.patient_name_age);
-            childInfo1View.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-            fImg.setImageResource(iconMapping.get(eventType));
-            fName.setText(eventTypeMapping.get(eventType));
-            childInfo1View.setTag(TAG_CHILD_INFO_EBF12);
-            childInfo1View.setOnClickListener(this);
-            otherServiceView.addView(childInfo1View);
-        }
-        else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS) && FormApplicability.isDueChildInfoForm(baseEntityId,eventType)){
-            childInfo2View = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
-            ImageView fImg = childInfo2View.findViewById(R.id.image_view);
-            TextView fName =  childInfo2View.findViewById(R.id.patient_name_age);
-            childInfo2View.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-            fImg.setImageResource(iconMapping.get(eventType));
-            fName.setText(eventTypeMapping.get(eventType));
-            childInfo2View.setTag(TAG_CHILD_INFO_7_24_months);
-            childInfo2View.setOnClickListener(this);
-            otherServiceView.addView(childInfo2View);
-        }
-        else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS) && FormApplicability.isDueChildInfoForm(baseEntityId,eventType)){
-            childInfo3View = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
-            ImageView fImg = childInfo3View.findViewById(R.id.image_view);
-            TextView fName =  childInfo3View.findViewById(R.id.patient_name_age);
-            childInfo3View.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-            fImg.setImageResource(iconMapping.get(eventType));
-            fName.setText(eventTypeMapping.get(eventType));
-            childInfo3View.setTag(TAG_CHILD_INFO_25_months);
-            childInfo3View.setOnClickListener(this);
-            otherServiceView.addView(childInfo3View);
-        }
-
-        ArrayList<ReferralFollowUpModel> getList = FormApplicability.getReferralFollowUp(baseEntityId);
-
-        for(ReferralFollowUpModel referralFollowUpModel : getList){
-
-            View referrelFollowUp = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
-            ImageView imgFollowup = referrelFollowUp.findViewById(R.id.image_view);
-            TextView nReferel =  referrelFollowUp.findViewById(R.id.patient_name_age);
-            TextView lastVisitRow = referrelFollowUp.findViewById(R.id.last_visit);
-            lastVisitRow.setVisibility(View.VISIBLE);
-            referrelFollowUp.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-            imgFollowup.setImageResource(iconMapping.get(HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP));
-            nReferel.setText(eventTypeMapping.get(HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP));
-            lastVisitRow.setText(referralFollowUpModel.getReferralReason());
-            referrelFollowUp.setTag(referralFollowUpModel);
-            referrelFollowUp.setOnClickListener(this);
-            otherServiceView.addView(referrelFollowUp);
-
-        }
-
-            if (FormApplicability.isDueCoronaForm(baseEntityId)) {
-                View referelView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due, null);
-                ImageView imageReferel = referelView.findViewById(R.id.image_view);
-                TextView nameReferel = referelView.findViewById(R.id.patient_name_age);
-                referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-                imageReferel.setImageResource(R.drawable.ic_virus);
-                nameReferel.setText("করোনা তথ্য");
-                referelView.setTag(TAG_OPEN_CORONA);
-                referelView.setOnClickListener(this);
-                otherServiceView.addView(referelView);
-            }
+//        ArrayList<ReferralFollowUpModel> getList = FormApplicability.getReferralFollowUp(baseEntityId);
+//
+//        for(ReferralFollowUpModel referralFollowUpModel : getList){
+//
+//            View referrelFollowUp = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+//            ImageView imgFollowup = referrelFollowUp.findViewById(R.id.image_view);
+//            TextView nReferel =  referrelFollowUp.findViewById(R.id.patient_name_age);
+//            TextView lastVisitRow = referrelFollowUp.findViewById(R.id.last_visit);
+//            lastVisitRow.setVisibility(View.VISIBLE);
+//            referrelFollowUp.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+//            imgFollowup.setImageResource(iconMapping.get(HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP));
+//            nReferel.setText(eventTypeMapping.get(HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP));
+//            lastVisitRow.setText(referralFollowUpModel.getReferralReason());
+//            referrelFollowUp.setTag(referralFollowUpModel);
+//            referrelFollowUp.setOnClickListener(this);
+//            otherServiceView.addView(referrelFollowUp);
+//
+//        }
+//
+//            if (FormApplicability.isDueCoronaForm(baseEntityId)) {
+//                View referelView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due, null);
+//                ImageView imageReferel = referelView.findViewById(R.id.image_view);
+//                TextView nameReferel = referelView.findViewById(R.id.patient_name_age);
+//                referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+//                imageReferel.setImageResource(R.drawable.ic_virus);
+//                nameReferel.setText("করোনা তথ্য");
+//                referelView.setTag(TAG_OPEN_CORONA);
+//                referelView.setOnClickListener(this);
+//                otherServiceView.addView(referelView);
+//            }
 
 //            View referelView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due, null);
 //            ImageView imageReferel = referelView.findViewById(R.id.image_view);

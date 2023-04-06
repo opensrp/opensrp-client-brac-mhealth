@@ -64,7 +64,9 @@ public class HnppPncRegisterProvider extends PncRegisterProvider {
         if (!TextUtils.isEmpty(ssName))viewHolder.pncDay.append(context.getString(R.string.ss_name,ssName));
         viewHolder.dueButton.setVisibility(View.GONE);
         viewHolder.dueButton.setOnClickListener(onClickListener);
-       // org.smartregister.family.util.Utils.startAsyncTask(new UpdateBornChildCountTask(context,viewHolder, pc.entityId()), null);
+        org.smartregister.family.util.Utils.startAsyncTask(new UpdatePncLastServiceInfoTask(context,viewHolder, pc.entityId()), null);
+
+        // org.smartregister.family.util.Utils.startAsyncTask(new UpdateBornChildCountTask(context,viewHolder, pc.entityId()), null);
 
         if(HnppDBUtils.isRisk(baseEntityId, HnppConstants.EVENT_TYPE.PNC_REGISTRATION)){
             viewHolder.riskView.setVisibility(View.VISIBLE);

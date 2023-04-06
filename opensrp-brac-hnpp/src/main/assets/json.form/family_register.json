@@ -115,7 +115,6 @@
           }
         }
       },
-
       {
         "key": "present_address_bangla",
         "openmrs_entity_parent": "",
@@ -212,7 +211,6 @@
           }
         }
       },
-
       {
         "key": "post_office_permanent",
         "openmrs_entity_parent": "",

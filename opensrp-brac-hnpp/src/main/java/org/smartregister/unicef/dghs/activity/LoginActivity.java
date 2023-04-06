@@ -138,10 +138,10 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         findViewById(R.id.login_login_btn).setAlpha(1.0f);
         mActivity = this;
         HnppConstants.updateAppBackgroundOnResume(findViewById(R.id.login_layout));
-//        if(BuildConfig.DEBUG){
-//            userNameText.setText("doli@ha.5");//userNameText.setText("baby@ha.4");
-//            passwordText.setText("Mis@4321");
-//        }
+        if(BuildConfig.DEBUG){
+            userNameText.setText("doli@ha.5");//userNameText.setText("baby@ha.4");
+            passwordText.setText("Mis@4321");
+        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -264,7 +264,6 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             }
             CampFetchJob.scheduleJobImmediately(CampFetchJob.TAG);
             HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
-            VaccineServiceJob.scheduleJobImmediately(VaccineServiceJob.TAG);
             VaccineRecurringServiceJob.scheduleJobImmediately(VaccineRecurringServiceJob.TAG);
 
 

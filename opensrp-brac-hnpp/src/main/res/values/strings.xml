@@ -5,6 +5,11 @@
         <item>পুরুষ</item>
         <item>তৃতীয় লিঙ্গ</item>
     </string-array>
+    <string-array name="edema_value">
+        <item>না</item>
+        <item>হ্যাঁ</item>
+
+    </string-array>
     <string name="due_visit">সর্বশেষ সেবা গ্রহণের তারিখ \n %1$s \n সংখ্যা: %2$s</string>
     <string name="gender_prompt">লিঙ্গ বাছাই করুন</string>
     <string name="logo">logo</string>
@@ -471,4 +476,11 @@
     <string name="given_at">দিয়েছে</string>
     <string name="total_unregister_child">+Child: %1$s</string>
     <string name="add_child"><![CDATA[<b><font color=#f70d1a>+Add Child</font></b>]]></string>
+    <string name="kg">কেজি</string>
+    <string name="cm">সেঃমিঃ</string>
+    <string name="muac_taken_today">আজ MUAC নেওয়া হয়েছে</string>
+    <string name="weight_taken_today">আজ ওজন নেওয়া হয়েছে </string>
+    <string name="weight_taken_earlier">পূর্বে ওজন নেওয়া হয়েছে </string>
+    <string name="height_taken_today">আজ উচ্চতা নেওয়া হয়েছে </string>
+    <string name="height_taken_earlier">পূর্বে উচ্চতা নেওয়া হয়েছে</string>
 </resources>

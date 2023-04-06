@@ -177,6 +177,15 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment imple
             ((TextView)homeVisitView.findViewById(R.id.last_visit)).setVisibility(View.VISIBLE);
             ((TextView)homeVisitView.findViewById(R.id.last_visit)).setText(getString(R.string.boyos)+":"+profileDueInfo.getAge());
             homeVisitView.setTag(TAG_PROFILE);
+            homeVisitView.findViewById(R.id.due_button_wrapper).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (getActivity() != null && getActivity() instanceof FamilyProfileActivity) {
+                        FamilyProfileActivity activity = (FamilyProfileActivity) getActivity();
+                        activity.openProfile(profileDueInfo.getBaseEntityId());
+                    }
+                }
+            });
             homeVisitView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
