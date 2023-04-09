@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 
 import net.sqlcipher.database.SQLiteDatabase;
-import net.sqlcipher.database.SQLiteException;
 
 import org.smartregister.AllConstants;
 import org.smartregister.growthmonitoring.repository.HeightRepository;
@@ -18,7 +17,6 @@ import org.smartregister.chw.anc.repository.VisitRepository;
 
 import org.smartregister.unicef.dghs.BuildConfig;
 import org.smartregister.configurableviews.repository.ConfigurableViewsRepository;
-import org.smartregister.family.FamilyLibrary;
 import org.smartregister.immunization.ImmunizationLibrary;
 import org.smartregister.immunization.repository.RecurringServiceRecordRepository;
 import org.smartregister.immunization.repository.RecurringServiceTypeRepository;
@@ -26,15 +24,12 @@ import org.smartregister.immunization.repository.VaccineNameRepository;
 import org.smartregister.immunization.repository.VaccineRepository;
 import org.smartregister.immunization.repository.VaccineTypeRepository;
 import org.smartregister.immunization.util.IMDatabaseUtils;
-import org.smartregister.job.InValidateSyncDataServiceJob;
 import org.smartregister.repository.AlertRepository;
 import org.smartregister.repository.EventClientRepository;
 import org.smartregister.repository.LocationRepository;
 import org.smartregister.repository.Repository;
 import org.smartregister.repository.SettingsRepository;
 import org.smartregister.repository.UniqueIdRepository;
-
-import java.util.concurrent.TimeUnit;
 
 public class HnppChwRepository extends Repository {
     private Context context;
@@ -82,7 +77,7 @@ public class HnppChwRepository extends Repository {
         RiskDetailsRepository.createTable(database);
         IndicatorRepository.createTable(database);
         PaymentHistoryRepository.createTable(database);
-        GeoLocationRepository.createTable(database);
+        HALocationRepository.createTable(database);
         VaccineRepository.createTable(database);
         VaccineNameRepository.createTable(database);
         VaccineTypeRepository.createTable(database);

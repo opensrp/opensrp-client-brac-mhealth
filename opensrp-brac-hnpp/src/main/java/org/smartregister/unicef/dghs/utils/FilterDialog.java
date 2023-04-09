@@ -22,8 +22,7 @@ import android.widget.TextView;
 import com.whiteelephant.monthpicker.MonthPickerDialog;
 
 import org.smartregister.unicef.dghs.R;
-import org.smartregister.unicef.dghs.location.GeoLocationHelper;
-import org.smartregister.unicef.dghs.location.GeoLocation;
+import org.smartregister.unicef.dghs.location.HALocationHelper;
 import org.smartregister.unicef.dghs.location.SSModel;
 import org.smartregister.unicef.dghs.location.WardLocation;
 
@@ -54,7 +53,7 @@ public class FilterDialog {
         clasterList.add(0,"সকল");
 
         if(!HnppConstants.isPALogin()){
-            ArrayList<WardLocation> ssLocationForms = GeoLocationHelper.getInstance().getWardList();
+            ArrayList<WardLocation> ssLocationForms = HALocationHelper.getInstance().getWardList();
 
             for (WardLocation ssModel : ssLocationForms) {
                 ssSpinnerArray.add(ssModel.ward.name);

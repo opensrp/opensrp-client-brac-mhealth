@@ -13,12 +13,7 @@ import org.joda.time.DateTime;
 import org.smartregister.repository.BaseRepository;
 import org.smartregister.repository.LocationRepository;
 import org.smartregister.repository.Repository;
-import org.smartregister.unicef.dghs.location.BaseLocation;
-import org.smartregister.unicef.dghs.location.BlockLocation;
 import org.smartregister.unicef.dghs.location.CampModel;
-import org.smartregister.unicef.dghs.location.GeoLocation;
-import org.smartregister.unicef.dghs.location.SSModel;
-import org.smartregister.unicef.dghs.location.WardLocation;
 import org.smartregister.util.DateTimeTypeConverter;
 
 import java.util.ArrayList;

@@ -28,10 +28,7 @@ import com.vijay.jsonwizard.customviews.MaterialSpinner;
 import com.vijay.jsonwizard.fragments.JsonWizardFormFragment;
 import com.vijay.jsonwizard.presenters.JsonFormFragmentPresenter;
 import com.vijay.jsonwizard.viewstates.JsonFormFragmentViewState;
-import com.vijay.jsonwizard.widgets.DatePickerFactory;
 
-import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,16 +40,13 @@ import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.domain.HouseholdId;
 import org.smartregister.unicef.dghs.interactor.HnppJsonFormInteractor;
-import org.smartregister.unicef.dghs.job.PullGuestMemberIdServiceJob;
 import org.smartregister.unicef.dghs.job.PullHouseholdIdsServiceJob;
 import org.smartregister.unicef.dghs.location.BlockLocation;
-import org.smartregister.unicef.dghs.location.GeoLocationHelper;
-import org.smartregister.unicef.dghs.location.GeoLocation;
+import org.smartregister.unicef.dghs.location.HALocationHelper;
+import org.smartregister.unicef.dghs.location.HALocation;
 import org.smartregister.unicef.dghs.location.WardLocation;
 import org.smartregister.unicef.dghs.lookup.MotherLookUpSmartClientsProvider;
-import org.smartregister.unicef.dghs.repository.GuestMemberIdRepository;
 import org.smartregister.unicef.dghs.repository.HouseholdIdRepository;
-import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.util.Utils;
 
 import java.util.ArrayList;
@@ -326,7 +320,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
 
             @Override
             protected Object doInBackground(Object[] objects) {
-                WardLocation wardLocation = GeoLocationHelper.getInstance().getWardList().get(index);
+                WardLocation wardLocation = HALocationHelper.getInstance().getWardList().get(index);
                 selectedWardId = wardLocation.ward.id+"";
                 ArrayList<BlockLocation> blockLocations = HnppApplication.getGeoLocationRepository().getOnlyBlockLocationByWardId(wardLocation.ward.id+"");
                 for(BlockLocation geoLocation1 : blockLocations){
@@ -410,8 +404,8 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
 //                    return blockIdList.get(index);
 //                }
                 @SuppressLint("DefaultLocale") String id = String.format("%04d", new Random().nextInt(10000));
-                GeoLocation geoLocation = HnppApplication.getGeoLocationRepository().getLocationByBlock(blockIdList.get(index));
-                unique_id = GeoLocationHelper.getInstance().generateHouseHoldId(geoLocation,id);// hhid.getOpenmrsId() + "");
+                HALocation HALocation = HnppApplication.getGeoLocationRepository().getLocationByBlock(blockIdList.get(index));
+                unique_id = HALocationHelper.getInstance().generateHouseHoldId(HALocation,id);// hhid.getOpenmrsId() + "");
 
                 return null;
             }

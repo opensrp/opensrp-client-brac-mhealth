@@ -3,7 +3,7 @@ package org.smartregister.unicef.dghs.location;
 
 import java.io.Serializable;
 
-public class GeoLocation implements Serializable {
+public class HALocation implements Serializable {
     public BaseLocation country;
     public BaseLocation division;
     public BaseLocation district;

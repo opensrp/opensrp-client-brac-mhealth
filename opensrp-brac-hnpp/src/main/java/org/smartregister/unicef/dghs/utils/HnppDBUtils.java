@@ -1,6 +1,5 @@
 package org.smartregister.unicef.dghs.utils;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.text.TextUtils;
@@ -9,7 +8,6 @@ import android.util.Log;
 import net.sqlcipher.database.SQLiteDatabase;
 
 import org.apache.commons.lang3.StringUtils;
-import org.jeasy.rules.api.Rules;
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,7 +18,6 @@ import org.smartregister.chw.core.rule.HomeAlertRule;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.dao.AbstractDao;
-import org.smartregister.unicef.dghs.location.GeoLocation;
 import org.smartregister.unicef.dghs.model.ForumDetails;
 import org.smartregister.unicef.dghs.model.VisitInfo;
 import org.smartregister.unicef.dghs.repository.StockRepository;
@@ -32,11 +29,9 @@ import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
-import org.smartregister.view.contract.Visits;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;

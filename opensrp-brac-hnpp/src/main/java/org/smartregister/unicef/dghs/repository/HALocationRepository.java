@@ -15,7 +15,7 @@ import org.smartregister.repository.LocationRepository;
 import org.smartregister.repository.Repository;
 import org.smartregister.unicef.dghs.location.BaseLocation;
 import org.smartregister.unicef.dghs.location.BlockLocation;
-import org.smartregister.unicef.dghs.location.GeoLocation;
+import org.smartregister.unicef.dghs.location.HALocation;
 import org.smartregister.unicef.dghs.location.SSModel;
 import org.smartregister.unicef.dghs.location.WardLocation;
 import org.smartregister.util.DateTimeTypeConverter;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
 /**
  * Created by mahmud on 11/23/18.
  */
-public class GeoLocationRepository extends BaseRepository {
+public class HALocationRepository extends BaseRepository {
 
     protected static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
             .registerTypeAdapter(DateTime.class, new DateTimeTypeConverter()).create();
@@ -45,7 +45,7 @@ public class GeoLocationRepository extends BaseRepository {
     protected static final String BLOCK_GEO = "block_geo";
     protected static final String WARD_ID = "ward_id";
     protected static final String WARD_GEO = "ward_geo";
-    protected static final String LOCATION_TABLE = "geo_location";
+    protected static final String LOCATION_TABLE = "ha_location";
 
 
     private static final String CREATE_LOCATION_TABLE =
@@ -63,7 +63,7 @@ public class GeoLocationRepository extends BaseRepository {
 //            + LOCATION_TABLE + "_" + SS_NAME + "_ind ON " + LOCATION_TABLE + "(" + SS_NAME + ")";
 
 
-    public GeoLocationRepository(Repository repository) {
+    public HALocationRepository(Repository repository) {
         super(repository);
     }
 
@@ -141,9 +141,9 @@ public class GeoLocationRepository extends BaseRepository {
         Log.v("BLOCK_LOCATION","locations>>>"+locations);
         return locations;
     }
-    public ArrayList<GeoLocation> getLocationByWardId(String wardId) {
+    public ArrayList<HALocation> getLocationByWardId(String wardId) {
         Cursor cursor = null;
-        ArrayList<GeoLocation> locations = new ArrayList<>();
+        ArrayList<HALocation> locations = new ArrayList<>();
         try {
             cursor = getReadableDatabase().rawQuery("SELECT ward_id,ward_geo FROM " + getLocationTableName()+" where "+WARD_ID+" = '"+wardId+"' group by "+BLOCK_ID, null);
             while (cursor.moveToNext()) {
@@ -158,13 +158,13 @@ public class GeoLocationRepository extends BaseRepository {
         return locations;
     }
 
-    public GeoLocation getLocationByBlock(String blockId) {
+    public HALocation getLocationByBlock(String blockId) {
         Cursor cursor = null;
-        GeoLocation geoLocation = null;
+        HALocation HALocation = null;
         try {
             cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getLocationTableName()+" where "+BLOCK_ID+" = '"+blockId+"' group by "+BLOCK_ID, null);
             while (cursor.moveToNext()) {
-                geoLocation = readCursor(cursor);
+                HALocation = readCursor(cursor);
             }
         } catch (Exception e) {
             Log.e(LocationRepository.class.getCanonicalName(), e.getMessage(), e);
@@ -172,10 +172,10 @@ public class GeoLocationRepository extends BaseRepository {
             if (cursor != null)
                 cursor.close();
         }
-        return geoLocation;
+        return HALocation;
     }
 
-    protected GeoLocation readCursor(Cursor cursor) {
+    protected HALocation readCursor(Cursor cursor) {
         String countryId = cursor.getString(cursor.getColumnIndex(COUNTRY_ID));
         String countryGeo = cursor.getString(cursor.getColumnIndex(COUNTRY_GEO));
         String divisionId = cursor.getString(cursor.getColumnIndex(DIVISION_ID));
@@ -190,7 +190,7 @@ public class GeoLocationRepository extends BaseRepository {
         String wardGeo = cursor.getString(cursor.getColumnIndex(WARD_GEO));
         String blockId = cursor.getString(cursor.getColumnIndex(BLOCK_ID));
         String blockGeo = cursor.getString(cursor.getColumnIndex(BLOCK_GEO));
-        GeoLocation ssModel = new GeoLocation();
+        HALocation ssModel = new HALocation();
         ssModel.country = gson.fromJson(countryGeo, BaseLocation.class);
         ssModel.division = gson.fromJson(divisionGeo, BaseLocation.class);
         ssModel.district = gson.fromJson(districtGeo, BaseLocation.class);

@@ -2,6 +2,20 @@
 name: step1_block_name
 description: after ss name select
 priority: 1
-condition: "!step1_ward_name.contains('ওয়ার্ডের নাম:')"
+condition: "!step1_ward_name.contains('New ward')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_old_ward
+description: after union
+priority: 1
+condition: "!step1_union_zone.contains('Union/Zone')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_ward_name
+description: after old ward
+priority: 1
+condition: "!step1_old_ward.contains('Old ward')"
 actions:
   - "isRelevant = true"

@@ -10,7 +10,6 @@ import org.smartregister.AllConstants;
 import org.smartregister.CoreLibrary;
 import org.smartregister.SyncConfiguration;
 import org.smartregister.unicef.dghs.activity.BlockUpdateActivity;
-import org.smartregister.unicef.dghs.location.GeoLocationHelper;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.domain.FetchStatus;
 import org.smartregister.domain.Response;
@@ -19,7 +18,6 @@ import org.smartregister.sync.helper.ECSyncHelper;
 import org.smartregister.sync.intent.SyncIntentService;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Map;
 
 import timber.log.Timber;

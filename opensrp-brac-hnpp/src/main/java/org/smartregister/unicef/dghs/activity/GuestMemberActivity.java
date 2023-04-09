@@ -3,52 +3,35 @@ package org.smartregister.unicef.dghs.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.adapter.GuestMemberAdapter;
 import org.smartregister.unicef.dghs.contract.GuestMemberContract;
 import org.smartregister.unicef.dghs.listener.OnPostDataWithGps;
-import org.smartregister.unicef.dghs.location.GeoLocationHelper;
-import org.smartregister.unicef.dghs.location.SSModel;
+import org.smartregister.unicef.dghs.location.HALocationHelper;
 import org.smartregister.unicef.dghs.presenter.GuestMemberPresenter;
 import org.smartregister.unicef.dghs.utils.GuestMemberData;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
-import org.smartregister.unicef.dghs.utils.OnDialogOptionSelect;
 import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.util.FormUtils;
 import org.smartregister.view.activity.BaseProfileActivity;
-
-import java.util.ArrayList;
-
-import static com.vijay.jsonwizard.constants.JsonFormConstants.FIELDS;
 
 public class GuestMemberActivity extends BaseProfileActivity implements GuestMemberContract.View, View.OnClickListener {
 
@@ -182,7 +165,7 @@ public class GuestMemberActivity extends BaseProfileActivity implements GuestMem
                         try{
                             Intent intent = new Intent(GuestMemberActivity.this, GuestAddMemberJsonFormActivity.class);
                             JSONObject jsonForm = FormUtils.getInstance(GuestMemberActivity.this).getFormJson(HnppConstants.JSON_FORMS.GUEST_MEMBER_FORM);
-                            HnppJsonFormUtils.updateFormWithWardName(jsonForm, GeoLocationHelper.getInstance().getWardList());
+                            HnppJsonFormUtils.updateFormWithWardName(jsonForm, HALocationHelper.getInstance().getWardList());
                             HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,"");
                             intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
                             Form form = new Form();

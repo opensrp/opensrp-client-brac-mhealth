@@ -126,12 +126,6 @@
               "reference": "dob",
               "offset": "+2y"
             }
-          ],
-          "conditions": [
-            {
-              "type": "not_given",
-              "vaccine": "fIPV 2"
-            }
           ]
         }
       },
@@ -348,7 +342,8 @@
         "schedule": {
           "due": [
             {
-              "reference": "dob",
+              "reference": "prerequisite",
+              "prerequisite": "fIPV 1",
               "offset": "+98d",
               "window": "+14d"
             }
@@ -463,9 +458,9 @@
     ]
   },
   {
-    "name": "18 Months",
+    "name": "15 Months",
     "id": "Eighteen_Months",
-    "days_after_birth_due": 548,
+    "days_after_birth_due": 455,
     "vaccines": [
       {
         "name": "MR 2",

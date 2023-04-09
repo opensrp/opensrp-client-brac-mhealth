@@ -14,8 +14,8 @@ import org.smartregister.CoreLibrary;
 import org.smartregister.unicef.dghs.BuildConfig;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.contract.GuestMemberContract;
-import org.smartregister.unicef.dghs.location.GeoLocationHelper;
-import org.smartregister.unicef.dghs.location.GeoLocation;
+import org.smartregister.unicef.dghs.location.HALocationHelper;
+import org.smartregister.unicef.dghs.location.HALocation;
 import org.smartregister.unicef.dghs.repository.GuestMemberIdRepository;
 import org.smartregister.unicef.dghs.utils.GuestMemberData;
 
@@ -121,7 +121,7 @@ public class GuestMemberModel extends JsonFormUtils implements GuestMemberContra
             JSONObject jobkect = jsonObject.getJSONObject("step1");
             String blockId = jobkect.getString("block_id");
             String ward_id = jobkect.getString("ward_id");
-            GeoLocation ss = HnppApplication.getGeoLocationRepository().getLocationByBlock(blockId);
+            HALocation ss = HnppApplication.getGeoLocationRepository().getLocationByBlock(blockId);
             JSONArray field = jobkect.getJSONArray(FIELDS);
             try{
                 String hhid = jobkect.getString( "hhid");
@@ -132,7 +132,7 @@ public class GuestMemberModel extends JsonFormUtils implements GuestMemberContra
 
             }
             List<Address> listAddress = new ArrayList<>();
-            listAddress.add(GeoLocationHelper.getInstance().getSSAddress(ss));
+            listAddress.add(HALocationHelper.getInstance().getSSAddress(ss));
             baseClient.setAddresses(listAddress);
 
             return Pair.create(baseClient, baseEvent);

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.View;
 
 import com.google.gson.Gson;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
@@ -24,13 +23,11 @@ import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.fragment.HnppAncRegisterFragment;
 import org.smartregister.unicef.dghs.listener.HnppFamilyBottomNavListener;
-import org.smartregister.unicef.dghs.location.GeoLocation;
-import org.smartregister.unicef.dghs.location.GeoLocationHelper;
-import org.smartregister.unicef.dghs.location.SSModel;
+import org.smartregister.unicef.dghs.location.HALocation;
+import org.smartregister.unicef.dghs.location.HALocationHelper;
 import org.smartregister.unicef.dghs.nativation.view.NavigationMenu;
 import org.smartregister.unicef.dghs.repository.HnppVisitLogRepository;
 import org.smartregister.unicef.dghs.sync.FormParser;
-import org.smartregister.unicef.dghs.utils.ANCRegister;
 import org.smartregister.unicef.dghs.utils.FormApplicability;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
@@ -51,7 +48,6 @@ import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.domain.FetchStatus;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.util.JsonFormUtils;
-import org.smartregister.immunization.ImmunizationLibrary;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.EventClientRepository;
 import org.smartregister.view.fragment.BaseRegisterFragment;
@@ -73,7 +69,6 @@ import timber.log.Timber;
 
 import static com.vijay.jsonwizard.constants.JsonFormConstants.FIELDS;
 import static com.vijay.jsonwizard.constants.JsonFormConstants.STEP1;
-import static org.smartregister.chw.anc.util.Constants.TABLES.EC_CHILD;
 import static org.smartregister.unicef.dghs.utils.HnppJsonFormUtils.BLOCK_ID;
 
 
@@ -466,8 +461,8 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
         JSONArray fields = org.smartregister.util.JsonFormUtils.fields(form);
         String blockId = org.smartregister.util.JsonFormUtils.getFieldValue(fields,BLOCK_ID);
         Log.v("saveRegistration","saveRegistration>>>blockId:"+blockId);
-        GeoLocation selectedLocation = HnppApplication.getGeoLocationRepository().getLocationByBlock(blockId);
-        baseEvent.setIdentifiers(GeoLocationHelper.getInstance().getGeoIdentifier(selectedLocation));
+        HALocation selectedLocation = HnppApplication.getGeoLocationRepository().getLocationByBlock(blockId);
+        baseEvent.setIdentifiers(HALocationHelper.getInstance().getGeoIdentifier(selectedLocation));
         String visitID ="";
         if(!TextUtils.isEmpty(baseEvent.getEventId())){
             visitID = baseEvent.getEventId();

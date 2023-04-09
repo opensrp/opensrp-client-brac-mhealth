@@ -8,8 +8,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.unicef.dghs.HnppApplication;
-import org.smartregister.unicef.dghs.location.GeoLocationHelper;
-import org.smartregister.unicef.dghs.location.GeoLocation;
+import org.smartregister.unicef.dghs.location.HALocationHelper;
+import org.smartregister.unicef.dghs.location.HALocation;
 import org.smartregister.unicef.dghs.repository.HouseholdIdRepository;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
@@ -26,7 +26,6 @@ import timber.log.Timber;
 
 import static org.smartregister.unicef.dghs.utils.HnppJsonFormUtils.makeReadOnlyFields;
 import static org.smartregister.util.JsonFormUtils.FIELDS;
-import static org.smartregister.util.JsonFormUtils.VALUE;
 import static org.smartregister.util.JsonFormUtils.getFieldJSONObject;
 
 public class HnppFamilyRegisterModel extends BaseFamilyRegisterModel {
@@ -103,17 +102,17 @@ public class HnppFamilyRegisterModel extends BaseFamilyRegisterModel {
             familyClient.addRelationship(Utils.metadata().familyRegister.familyHeadRelationKey, familyEventClient.getClient().getBaseEntityId());
             familyClient.addRelationship(Utils.metadata().familyRegister.familyCareGiverRelationKey, familyEventClient.getClient().getBaseEntityId());
             List<Address> listAddress = new ArrayList<>();
-            GeoLocation selectedLocation = HnppApplication.getGeoLocationRepository().getLocationByBlock(blockId);
+            HALocation selectedLocation = HnppApplication.getGeoLocationRepository().getLocationByBlock(blockId);
             if(selectedLocation == null){
                 return null;
             }else{
-                listAddress.add(GeoLocationHelper.getInstance().getSSAddress(selectedLocation));
+                listAddress.add(HALocationHelper.getInstance().getSSAddress(selectedLocation));
             }
             familyClient.setAddresses(listAddress);
 
-            GeoLocationHelper.getInstance().addGeolocationIds(selectedLocation,familyClient);
+            HALocationHelper.getInstance().addGeolocationIds(selectedLocation,familyClient);
             Event event = familyEventClient.getEvent();
-            event.setIdentifiers(GeoLocationHelper.getInstance().getGeoIdentifier(selectedLocation));
+            event.setIdentifiers(HALocationHelper.getInstance().getGeoIdentifier(selectedLocation));
             familyEventClient.setClient(familyClient);
             familyEventClientList.add(familyEventClient);
 

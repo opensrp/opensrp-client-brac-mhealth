@@ -91,19 +91,7 @@
         "type": "hidden",
         "value": "1"
       },
-      {
-        "key": "unique_id",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_identifier",
-        "openmrs_entity_id": "opensrp_id",
-        "type": "edit_text",
-        "hint": "সিস্টেম নম্বর",
-        "read_only": true,
-        "v_numeric": {
-          "value": "false",
-          "err": "Please enter a valid ID"
-        }
-      },
+
       {
         "key": "id_avail",
         "openmrs_entity_parent": "",
@@ -366,6 +354,28 @@
             "ex": "equalTo(., \"অন্যান্য অনাত্মীয়\")"
           }
         }
+      },
+      {
+        "key": "unique_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_identifier",
+        "openmrs_entity_id": "opensrp_id",
+        "type": "edit_text",
+        "hint": "সিস্টেম নম্বর",
+        "read_only": true,
+        "v_numeric": {
+          "value": "false",
+          "err": "Please enter a valid ID"
+        }
+      },
+      {
+        "key": "shr_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_identifier",
+        "openmrs_entity_id": "shr_id",
+        "type": "edit_text",
+        "hint": "শেয়ারড হেলথ রেকর্ড আই ডি",
+        "read_only": true
       },
       {
         "key": "first_name",

@@ -17,7 +17,7 @@ public class SSModel {
     @SerializedName("payment_enable")
     public boolean payment_enable = false;
     public boolean is_selected = false;
-    public ArrayList<GeoLocation> locations = new ArrayList<>() ;
+    public ArrayList<HALocation> locations = new ArrayList<>() ;
 
 
 }

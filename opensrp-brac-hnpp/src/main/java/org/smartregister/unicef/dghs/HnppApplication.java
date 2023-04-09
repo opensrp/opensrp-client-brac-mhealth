@@ -42,9 +42,10 @@ import org.smartregister.unicef.dghs.nativation.view.NavigationMenu;
 import org.smartregister.unicef.dghs.job.ZScoreRefreshServiceJob;
 import org.smartregister.unicef.dghs.listener.HnppNavigationListener;
 import org.smartregister.unicef.dghs.nativation.presenter.HnppNavigationPresenter;
-import org.smartregister.unicef.dghs.location.GeoLocationHelper;
+import org.smartregister.unicef.dghs.location.HALocationHelper;
 import org.smartregister.unicef.dghs.repository.CampRepository;
-import org.smartregister.unicef.dghs.repository.GeoLocationRepository;
+import org.smartregister.unicef.dghs.repository.GlobalLocationRepository;
+import org.smartregister.unicef.dghs.repository.HALocationRepository;
 import org.smartregister.unicef.dghs.repository.GuestMemberIdRepository;
 import org.smartregister.unicef.dghs.repository.HnppChwRepository;
 import org.smartregister.unicef.dghs.repository.HnppVisitLogRepository;
@@ -101,7 +102,8 @@ public class HnppApplication extends DrishtiApplication implements CoreApplicati
     private HouseholdIdRepository householdIdRepository;
     private GuestMemberIdRepository guestMemberIdRepository;
     private HnppVisitLogRepository hnppVisitLogRepository;
-    private static GeoLocationRepository geoLocationRepository;
+    private static HALocationRepository HALocationRepository;
+    private static GlobalLocationRepository globalLocationRepository;
     private static CampRepository campRepository;
     private static RiskDetailsRepository riskDetailsRepository;
     private static TargetVsAchievementRepository targetVsAchievementRepository;
@@ -286,7 +288,7 @@ public class HnppApplication extends DrishtiApplication implements CoreApplicati
 //        context.userService().logoutSession();
     }
     public void forceLogout() {
-        GeoLocationHelper.clearLocation();
+        HALocationHelper.clearLocation();
         Intent intent = new Intent(this,org.smartregister.unicef.dghs.activity.LoginActivity.class);
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -297,7 +299,7 @@ public class HnppApplication extends DrishtiApplication implements CoreApplicati
     }
     public void forceLogoutForRemoteLogin() {
         JobManager.instance().cancelAll();
-        GeoLocationHelper.clearLocation();
+        HALocationHelper.clearLocation();
         Intent intent = new Intent(this,org.smartregister.unicef.dghs.activity.LoginActivity.class);
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -310,7 +312,7 @@ public class HnppApplication extends DrishtiApplication implements CoreApplicati
     public void appSwitch() {
         Runtime.getRuntime().exit(0);
         //System.exit(0);
-        GeoLocationHelper.clearLocation();
+        HALocationHelper.clearLocation();
         Intent intent = new Intent(this,org.smartregister.unicef.dghs.activity.LoginActivity.class);
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -388,11 +390,17 @@ public class HnppApplication extends DrishtiApplication implements CoreApplicati
         return guestMemberIdRepository;
     }
 
-    public static GeoLocationRepository getGeoLocationRepository() {
-        if ( geoLocationRepository == null) {
-            geoLocationRepository = new GeoLocationRepository(getInstance().getRepository());
+    public static HALocationRepository getGeoLocationRepository() {
+        if ( HALocationRepository == null) {
+            HALocationRepository = new HALocationRepository(getInstance().getRepository());
         }
-        return geoLocationRepository;
+        return HALocationRepository;
+    }
+    public static GlobalLocationRepository getGlobalLocationRepository() {
+        if ( globalLocationRepository == null) {
+            globalLocationRepository = new GlobalLocationRepository(getInstance().getRepository());
+        }
+        return globalLocationRepository;
     }
     public static CampRepository getCampRepository() {
         if ( campRepository == null) {

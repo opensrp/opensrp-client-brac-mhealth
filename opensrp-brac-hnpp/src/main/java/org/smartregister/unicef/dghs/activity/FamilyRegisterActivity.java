@@ -21,11 +21,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
 import org.smartregister.family.activity.BaseFamilyRegisterActivity;
-import org.smartregister.family.model.BaseFamilyRegisterModel;
-import org.smartregister.family.presenter.BaseFamilyRegisterPresenter;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.listener.OnPostDataWithGps;
-import org.smartregister.unicef.dghs.location.GeoLocationHelper;
+import org.smartregister.unicef.dghs.location.HALocationHelper;
 import org.smartregister.unicef.dghs.listener.HnppBottomNavigationListener;
 import org.smartregister.unicef.dghs.model.HnppFamilyRegisterModel;
 import org.smartregister.unicef.dghs.nativation.view.NavigationMenu;
@@ -42,7 +40,6 @@ import org.smartregister.unicef.dghs.fragment.HnppFamilyRegisterFragment;
 import org.smartregister.unicef.dghs.listener.HnppFamilyBottomNavListener;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.domain.tag.FormTag;
-import org.smartregister.family.contract.FamilyRegisterContract;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
@@ -186,7 +183,7 @@ public class FamilyRegisterActivity extends BaseFamilyRegisterActivity {
 
     @Override
     public void startFormActivity(JSONObject jsonForm) {
-        if(GeoLocationHelper.getInstance().getWardList().size() == 0){
+        if(HALocationHelper.getInstance().getWardList().size() == 0){
             Toast.makeText(this,"কোনো ওয়ার্ড লোকেশন পাওয়া যায়নি . পুনরায় লগইন করুন",Toast.LENGTH_LONG).show();
             return;
         }

@@ -34,8 +34,7 @@ import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.activity.NewDashBoardActivity;
 import org.smartregister.unicef.dghs.adapter.DashBoardAdapter;
 import org.smartregister.unicef.dghs.contract.DashBoardContract;
-import org.smartregister.unicef.dghs.location.GeoLocationHelper;
-import org.smartregister.unicef.dghs.location.SSModel;
+import org.smartregister.unicef.dghs.location.HALocationHelper;
 import org.smartregister.unicef.dghs.location.WardLocation;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
@@ -256,7 +255,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
     private void loadSSList(){
         ArrayList<String> ssSpinnerArray = new ArrayList<>();
         ssSpinnerArray.add(getString(R.string.all_text));
-        ArrayList<WardLocation> ssLocationForms = GeoLocationHelper.getInstance().getWardList();
+        ArrayList<WardLocation> ssLocationForms = HALocationHelper.getInstance().getWardList();
         for (WardLocation ssModel : ssLocationForms) {
             ssSpinnerArray.add(ssModel.ward.name);
         }

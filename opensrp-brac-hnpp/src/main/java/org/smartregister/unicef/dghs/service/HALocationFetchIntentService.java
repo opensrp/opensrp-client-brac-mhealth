@@ -15,23 +15,23 @@ import org.smartregister.CoreLibrary;
 import org.smartregister.domain.Response;
 import org.smartregister.service.HTTPAgent;
 import org.smartregister.unicef.dghs.HnppApplication;
-import org.smartregister.unicef.dghs.location.GeoLocationHelper;
+import org.smartregister.unicef.dghs.location.HALocationHelper;
 import org.smartregister.unicef.dghs.location.SSModel;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 
-public class GeoLocationFetchIntentService extends IntentService {
+public class HALocationFetchIntentService extends IntentService {
 
     private static final String LOCATION_FETCH = "/provider/location-tree?";
     private static final String PA_LOCATION_FETCH = "/pa-provider/location-tree?";
     private static final String TAG = "SSLocation";
 
-    public GeoLocationFetchIntentService() { super(TAG); }
+    public HALocationFetchIntentService() { super(TAG); }
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
      *
      * @param name Used to name the worker thread, important only for debugging.
      */
-    public GeoLocationFetchIntentService(String name) {
+    public HALocationFetchIntentService(String name) {
         super(name);
     }
 
@@ -51,7 +51,7 @@ public class GeoLocationFetchIntentService extends IntentService {
                     e.printStackTrace();
                 }
             }
-            GeoLocationHelper.getInstance().updateWardList();
+            HALocationHelper.getInstance().updateWardList();
         }
     }
 

@@ -1,7 +1,5 @@
 package org.smartregister.unicef.dghs.utils;
 
-import static com.vijay.jsonwizard.utils.FormUtils.getFieldJSONObject;
-
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -24,7 +22,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.AllConstants;
-import org.smartregister.CoreLibrary;
 
 import org.smartregister.chw.core.domain.FamilyMember;
 import org.smartregister.family.util.JsonFormUtils;
@@ -35,8 +32,8 @@ import org.smartregister.unicef.dghs.BuildConfig;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.location.BlockLocation;
 import org.smartregister.unicef.dghs.location.CampModel;
-import org.smartregister.unicef.dghs.location.GeoLocation;
-import org.smartregister.unicef.dghs.location.GeoLocationHelper;
+import org.smartregister.unicef.dghs.location.HALocation;
+import org.smartregister.unicef.dghs.location.HALocationHelper;
 import org.smartregister.unicef.dghs.location.WardLocation;
 import org.smartregister.unicef.dghs.model.ForumDetails;
 import org.smartregister.unicef.dghs.repository.HnppChwRepository;
@@ -47,7 +44,6 @@ import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.repository.VisitRepository;
 import org.smartregister.chw.anc.util.NCUtils;
-import org.smartregister.chw.core.utils.ChildDBConstants;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.CoreJsonFormUtils;
 import org.smartregister.clientandeventmodel.Address;
@@ -82,7 +78,6 @@ import timber.log.Timber;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.smartregister.chw.anc.util.JsonFormUtils.HOME_VISIT_GROUP;
 import static org.smartregister.chw.anc.util.JsonFormUtils.updateFormField;
-import static org.smartregister.unicef.dghs.utils.HnppConstants.CAMP_TYPE_JSON_ARR;
 
 /**
  * Created by keyman on 13/11/2018.
@@ -486,8 +481,8 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         Event baseEvent = org.smartregister.util.JsonFormUtils.createEvent(fields, getJSONObject(jsonForm, "metadata"), formTag(allSharedPreferences), memberID,encounterType,getTableName());
         //save identifier
         String blockId = org.smartregister.util.JsonFormUtils.getFieldValue(fields,BLOCK_ID);
-        GeoLocation selectedLocation = HnppApplication.getGeoLocationRepository().getLocationByBlock(blockId);
-        baseEvent.setIdentifiers(GeoLocationHelper.getInstance().getGeoIdentifier(selectedLocation));
+        HALocation selectedLocation = HnppApplication.getGeoLocationRepository().getLocationByBlock(blockId);
+        baseEvent.setIdentifiers(HALocationHelper.getInstance().getGeoIdentifier(selectedLocation));
         //
         if(isComesFromIdentity){
             prepareIsIdentified(baseEvent);
@@ -1615,8 +1610,8 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 JSONObject blockIdIdObj = getFieldJSONObject(fields, "block_id");
                 String blockId = blockIdIdObj.getString("value");
                 Log.v("MEMBER_REGISTER","processFamilyMemberForm:blockId:"+blockId);
-                GeoLocation selectedLocation = HnppApplication.getGeoLocationRepository().getLocationByBlock(blockId);
-                GeoLocationHelper.getInstance().addGeolocationIds(selectedLocation,baseClient);
+                HALocation selectedLocation = HnppApplication.getGeoLocationRepository().getLocationByBlock(blockId);
+                HALocationHelper.getInstance().addGeolocationIds(selectedLocation,baseClient);
                 try{
                     String motherEntityId = updateMotherName(fields,familyId);
                     Context context = HnppApplication.getInstance().getContext().applicationContext();
@@ -1628,7 +1623,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 tagSyncMetadata(allSharedPreferences, baseEvent);
                 String entity_id = baseClient.getBaseEntityId();
                 updateFormSubmissionID(encounterType,entity_id,baseEvent);
-                baseEvent.setIdentifiers(GeoLocationHelper.getInstance().getGeoIdentifier(selectedLocation));
+                baseEvent.setIdentifiers(HALocationHelper.getInstance().getGeoIdentifier(selectedLocation));
                 return new FamilyEventClient(baseClient, baseEvent);
             }
         } catch (Exception var10) {
@@ -1824,9 +1819,9 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 JSONObject clientjson = eventClientRepository.getClient(db, lookUpBaseEntityId);
                 baseClient.setAddresses(updateWithSSLocation(clientjson));
             }
-            GeoLocation selectedLocation = HnppApplication.getGeoLocationRepository().getLocationByBlock(blockId);
-            GeoLocationHelper.getInstance().addGeolocationIds(selectedLocation,baseClient);
-            baseEvent.setIdentifiers(GeoLocationHelper.getInstance().getGeoIdentifier(selectedLocation));
+            HALocation selectedLocation = HnppApplication.getGeoLocationRepository().getLocationByBlock(blockId);
+            HALocationHelper.getInstance().addGeolocationIds(selectedLocation,baseClient);
+            baseEvent.setIdentifiers(HALocationHelper.getInstance().getGeoIdentifier(selectedLocation));
             if(baseClient.getAddresses().size() == 0 || TextUtils.isEmpty(lookUpBaseEntityId))
             {
                 return null;

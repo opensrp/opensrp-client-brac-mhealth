@@ -374,7 +374,8 @@
         <service android:name="org.smartregister.service.ImageUploadSyncService" />
         <service android:name="org.smartregister.sync.intent.LocationIntentService" />
         <service android:name=".sync.intent.PullHouseholdIdIntentService" />
-        <service android:name=".service.GeoLocationFetchIntentService" />
+        <service android:name=".service.HALocationFetchIntentService" />
+        <service android:name=".service.GlobalLocationFetchIntentService" />
         <service android:name=".service.TargetFetchIntentService" />
         <service android:name=".service.MigrationFetchIntentService" />
         <service android:name=".service.StockFetchIntentService" />

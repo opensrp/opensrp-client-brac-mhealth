@@ -12,10 +12,9 @@ import org.smartregister.CoreLibrary;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.contract.MigrationContract;
 import org.smartregister.unicef.dghs.domain.HouseholdId;
-import org.smartregister.unicef.dghs.location.GeoLocationHelper;
-import org.smartregister.unicef.dghs.location.GeoLocation;
+import org.smartregister.unicef.dghs.location.HALocationHelper;
+import org.smartregister.unicef.dghs.location.HALocation;
 import org.smartregister.unicef.dghs.repository.HouseholdIdRepository;
-import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.HnppDBUtils;
 import org.smartregister.unicef.dghs.utils.MigrationSearchContentData;
 import org.smartregister.clientandeventmodel.Address;
@@ -118,7 +117,7 @@ public class MigrationInteractor  {
             String ssName = HnppDBUtils.getBlockNameFromFamilyTable(migrationSearchContentData.getFamilyBaseEntityId());
             migrationSearchContentData.setBlockName(ssName);
         }
-        GeoLocation ss = HnppApplication.getGeoLocationRepository().getLocationByBlock(migrationSearchContentData.getBlockId()+"");
+        HALocation ss = HnppApplication.getGeoLocationRepository().getLocationByBlock(migrationSearchContentData.getBlockId()+"");
         if(ss==null){
             return null;
         }
@@ -128,9 +127,9 @@ public class MigrationInteractor  {
             return null;
         }
         baseClient.addIdentifier("opensrp_id",unique_id);
-        GeoLocationHelper.getInstance().addGeolocationIds(ss,baseClient);
+        HALocationHelper.getInstance().addGeolocationIds(ss,baseClient);
         List<Address> listAddress = new ArrayList<>();
-        listAddress.add(GeoLocationHelper.getInstance().getSSAddress(ss));
+        listAddress.add(HALocationHelper.getInstance().getSSAddress(ss));
         baseClient.setAddresses(listAddress);
 
         return baseClient;
@@ -153,7 +152,7 @@ public class MigrationInteractor  {
         baseClient.addAttribute("ward_name",migrationSearchContentData.getWardName());
         baseClient.addAttribute("block_id",migrationSearchContentData.getBlockId());
 
-        GeoLocation ss = HnppApplication.getGeoLocationRepository().getLocationByBlock(migrationSearchContentData.getBlockId()+"");
+        HALocation ss = HnppApplication.getGeoLocationRepository().getLocationByBlock(migrationSearchContentData.getBlockId()+"");
 
         String unique_id = generateHHId(ss);
         if(unique_id.isEmpty()){
@@ -162,24 +161,24 @@ public class MigrationInteractor  {
         baseClient.addIdentifier("opensrp_id",unique_id);
 
         List<Address> listAddress = new ArrayList<>();
-        listAddress.add(GeoLocationHelper.getInstance().getSSAddress(ss));
-        GeoLocationHelper.getInstance().addGeolocationIds(ss,baseClient);
+        listAddress.add(HALocationHelper.getInstance().getSSAddress(ss));
+        HALocationHelper.getInstance().addGeolocationIds(ss,baseClient);
         baseClient.setAddresses(listAddress);
 
         return baseClient;
     }
 
-    private String generateHHId(GeoLocation geoLocation) {
+    private String generateHHId(HALocation HALocation) {
         String unique_id = "";
 
 
         HouseholdIdRepository householdIdRepo = HnppApplication.getHNPPInstance().getHouseholdIdRepository();
-        String block_id = String.valueOf(geoLocation.block.id);
+        String block_id = String.valueOf(HALocation.block.id);
         HouseholdId hhid = householdIdRepo.getNextHouseholdId(block_id);
         if(hhid == null){
             return "";
         }
-        unique_id = GeoLocationHelper.getInstance().generateHouseHoldId(geoLocation, hhid.getOpenmrsId() + "");
+        unique_id = HALocationHelper.getInstance().generateHouseHoldId(HALocation, hhid.getOpenmrsId() + "");
 
         return unique_id;
     }

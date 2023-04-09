@@ -31,8 +31,8 @@ import org.smartregister.unicef.dghs.domain.HouseholdId;
 import org.smartregister.unicef.dghs.interactor.HnppJsonFormInteractor;
 import org.smartregister.unicef.dghs.job.PullGuestMemberIdServiceJob;
 import org.smartregister.unicef.dghs.location.BlockLocation;
-import org.smartregister.unicef.dghs.location.GeoLocationHelper;
-import org.smartregister.unicef.dghs.location.GeoLocation;
+import org.smartregister.unicef.dghs.location.HALocationHelper;
+import org.smartregister.unicef.dghs.location.HALocation;
 import org.smartregister.unicef.dghs.location.WardLocation;
 import org.smartregister.unicef.dghs.repository.GuestMemberIdRepository;
 import org.smartregister.util.Utils;
@@ -121,7 +121,7 @@ public class GuestMemberJsonFormFragment extends JsonWizardFormFragment {
             protected Object doInBackground(Object[] objects) {
                 blockNameList.clear();
                 blockIdList.clear();
-                WardLocation wardLocation = GeoLocationHelper.getInstance().getWardList().get(index);
+                WardLocation wardLocation = HALocationHelper.getInstance().getWardList().get(index);
                 ArrayList<BlockLocation> blockLocations = HnppApplication.getGeoLocationRepository().getOnlyBlockLocationByWardId(wardLocation.ward.id+"");
                 for(BlockLocation geoLocation1 : blockLocations){
                     blockNameList.add(geoLocation1.block.name);
@@ -204,8 +204,8 @@ public class GuestMemberJsonFormFragment extends JsonWizardFormFragment {
                 if(hhid == null){
                     return blockIdList.get(index);
                 }
-                GeoLocation geoLocation = HnppApplication.getGeoLocationRepository().getLocationByBlock(blockIdList.get(index));
-                unique_id = GeoLocationHelper.getInstance().generateHouseHoldId(geoLocation, hhid.getOpenmrsId() + "");
+                HALocation HALocation = HnppApplication.getGeoLocationRepository().getLocationByBlock(blockIdList.get(index));
+                unique_id = HALocationHelper.getInstance().generateHouseHoldId(HALocation, hhid.getOpenmrsId() + "");
 
                 return null;
             }

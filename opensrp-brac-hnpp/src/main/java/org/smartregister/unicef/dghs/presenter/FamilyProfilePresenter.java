@@ -10,12 +10,10 @@ import org.json.JSONObject;
 import org.smartregister.chw.core.contract.CoreChildRegisterContract;
 import org.smartregister.chw.core.domain.FamilyMember;
 import org.smartregister.chw.core.interactor.CoreChildRegisterInteractor;
-import org.smartregister.chw.core.model.CoreChildProfileModel;
 import org.smartregister.chw.core.utils.CoreJsonFormUtils;
 import org.smartregister.family.presenter.BaseFamilyProfilePresenter;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.listener.OnPostDataWithGps;
-import org.smartregister.unicef.dghs.location.GeoLocationHelper;
 import org.smartregister.unicef.dghs.model.HnppChildRegisterModel;
 import org.smartregister.unicef.dghs.model.HnppFamilyRegisterModel;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
@@ -31,13 +29,11 @@ import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.contract.FamilyProfileContract;
 import org.smartregister.family.domain.FamilyEventClient;
-import org.smartregister.family.util.DBConstants;
 import org.smartregister.util.FormUtils;
 import org.smartregister.view.LocationPickerView;
 import org.smartregister.view.activity.BaseProfileActivity;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

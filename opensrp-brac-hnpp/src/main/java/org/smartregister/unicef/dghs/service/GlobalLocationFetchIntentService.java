@@ -15,17 +15,21 @@ import org.smartregister.CoreLibrary;
 import org.smartregister.domain.Response;
 import org.smartregister.service.HTTPAgent;
 import org.smartregister.unicef.dghs.HnppApplication;
-import org.smartregister.unicef.dghs.location.CampModel;
+import org.smartregister.unicef.dghs.model.GlobalLocationModel;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 
-public class CampFetchIntentService extends IntentService {
+public class GlobalLocationFetchIntentService extends IntentService {
 
-    private static final String LOCATION_FETCH = "/get_camp?";
-    private static final String TAG = "CampFetch";
+    private static final String LOCATION_FETCH = "/all_locations?";
+    private static final String TAG = "SSLocation";
 
-    public CampFetchIntentService() { super(TAG); }
-
-    public CampFetchIntentService(String name) {
+    public GlobalLocationFetchIntentService() { super(TAG); }
+    /**
+     * Creates an IntentService.  Invoked by your subclass's constructor.
+     *
+     * @param name Used to name the worker thread, important only for debugging.
+     */
+    public GlobalLocationFetchIntentService(String name) {
         super(name);
     }
 
@@ -33,13 +37,13 @@ public class CampFetchIntentService extends IntentService {
     protected void onHandleIntent( Intent intent) {
         JSONArray jsonObjectLocation = getLocationList();
         if(jsonObjectLocation!=null){
-            if(!HnppConstants.isPALogin())HnppApplication.getCampRepository().dropTable();
+            if(!HnppConstants.isPALogin())HnppApplication.getGlobalLocationRepository().dropTable();
             for(int i=0;i<jsonObjectLocation.length();i++){
                 try {
                     JSONObject object = jsonObjectLocation.getJSONObject(i);
-                    CampModel ssModel =  new Gson().fromJson(object.toString(), CampModel.class);
+                    GlobalLocationModel ssModel =  new Gson().fromJson(object.toString(), GlobalLocationModel.class);
                     if(ssModel != null){
-                        HnppApplication.getCampRepository().addOrUpdate(ssModel);
+                        HnppApplication.getGlobalLocationRepository().addOrUpdate(ssModel);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -70,7 +74,7 @@ public class CampFetchIntentService extends IntentService {
                 return null;
             }
             //testing
-            String url = baseUrl + LOCATION_FETCH + "username=" + userName;
+            String url = baseUrl + LOCATION_FETCH + "id=0";
             Log.v("LOCATION_FETCH","getLocationList>>url:"+url);
             Response resp = httpAgent.fetch(url);
             if (resp.isFailure()) {
