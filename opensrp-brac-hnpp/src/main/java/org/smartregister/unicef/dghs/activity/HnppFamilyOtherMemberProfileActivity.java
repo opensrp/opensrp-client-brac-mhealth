@@ -428,10 +428,10 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
     int requestedRequestCode;
 
     public void startAnyFormActivity(String formName, int requestCode) {
-        if(!HnppApplication.getStockRepository().isAvailableStock(HnppConstants.formNameEventTypeMapping.get(formName))){
-            HnppConstants.showOneButtonDialog(this,getString(R.string.dialog_stock_sell_end),"");
-            return;
-        }
+//        if(!HnppApplication.getStockRepository().isAvailableStock(HnppConstants.formNameEventTypeMapping.get(formName))){
+//            HnppConstants.showOneButtonDialog(this,getString(R.string.dialog_stock_sell_end),"");
+//            return;
+//        }
         requestedFormName = formName;
         requestedRequestCode = requestCode;
         getGPSLocation(formName,requestCode);
@@ -439,12 +439,12 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
 
     }
     private void getGPSLocation(String formName,int requestCode){
-        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
-            @Override
-            public void onPost(double latitude, double longitude) {
-                processJsonForm(formName,requestCode,latitude,longitude);
-            }
-        });
+//        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+//            @Override
+//            public void onPost(double latitude, double longitude) {
+                processJsonForm(formName,requestCode,0.0,0.0);
+//            }
+//        });
 
     }
     private void processJsonForm(String formName,int requestCode,double latitude, double longitude){
@@ -453,11 +453,11 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
 
             JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
             HnppJsonFormUtils.addEDDField(formName,jsonForm,baseEntityId);
-            try{
-                HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,familyBaseEntityId);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
+//            try{
+//                HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,familyBaseEntityId);
+//            }catch (Exception e){
+//                e.printStackTrace();
+//            }
             try{
                 HnppJsonFormUtils.addAddToStockValue(jsonForm);
             }catch (Exception e){
@@ -536,25 +536,25 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
         }
     }
     protected void startEditMemberJsonForm(Integer title_resource, CommonPersonObjectClient client) {
-        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
-            @Override
-            public void onPost(double latitude, double longitude) {
+//        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+//            @Override
+//            public void onPost(double latitude, double longitude) {
                 try {
-                    JSONObject form = HnppJsonFormUtils.getAutoPopulatedJsonEditFormString(CoreConstants.JSON_FORM.getFamilyMemberRegister(), HnppFamilyOtherMemberProfileActivity.this, client, Utils.metadata().familyMemberRegister.updateEventType);
+                    JSONObject form = HnppJsonFormUtils.getAutoPopulatedJsonEditFormString(HnppConstants.JSON_FORM.getFamilyMemberDetailsRegister(), HnppFamilyOtherMemberProfileActivity.this, client, Utils.metadata().familyMemberRegister.updateEventType);
                     String moduleId = HnppDBUtils.getModuleId(familyHead);
                     HnppJsonFormUtils.updateFormWithChampType(form,moduleId,familyBaseEntityId);
-
-                    try{
-                        HnppJsonFormUtils.updateLatitudeLongitude(form,latitude,longitude,familyBaseEntityId);
-                    }catch (Exception e){
-
-                    }
+//
+//                    try{
+//                        HnppJsonFormUtils.updateLatitudeLongitude(form,latitude,longitude,familyBaseEntityId);
+//                    }catch (Exception e){
+//
+//                    }
                     startFormActivity(form);
                 } catch (Exception e) {
                     Timber.e(e);
                 }
-            }
-        });
+//            }
+//        });
 
 
     }
@@ -1042,6 +1042,10 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
             finish();
         }
         startAnyFormActivity(formName,REQUEST_HOME_VISIT);
+    }
+    public void openMemberProfileUpdate() {
+        startAnyFormActivity(HnppConstants.JSON_FORMS.MEMBER_PROFILE_VISIT,REQUEST_HOME_VISIT);
+
     }
     public void openRefereal() {
         if(gender.equalsIgnoreCase("F")){

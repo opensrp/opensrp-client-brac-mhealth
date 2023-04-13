@@ -55,6 +55,7 @@ import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.CHILD
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12;
+import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.CHILD_PROFILE_VISIT;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.ELCO;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.ENC_REGISTRATION;
@@ -62,6 +63,7 @@ import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.EYE_T
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.GIRL_PACKAGE;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
+import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.MEMBER_PROFILE_VISIT;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.MEMBER_REFERRAL;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.NCD_PACKAGE;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
@@ -210,6 +212,12 @@ public class FormParser {
                             }
                             if (HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)){
                                 processHHVisitForm(details,log);
+                            }
+                            if (MEMBER_PROFILE_VISIT.equalsIgnoreCase(encounter_type)){
+                                processProfileFromVisitForm(details,log,true);
+                            }
+                            if (CHILD_PROFILE_VISIT.equalsIgnoreCase(encounter_type)){
+                                processProfileFromVisitForm(details,log,false);
                             }
                             if(CORONA_INDIVIDUAL.equalsIgnoreCase(encounter_type)){
                                 HnppDBUtils.updateCoronaFamilyMember(base_entity_id,"false");
@@ -362,7 +370,21 @@ public class FormParser {
         }
 
     }
+    private static void processProfileFromVisitForm(HashMap<String, String> details, VisitLog log, boolean isMember) {
+        try{
+            ContentValues values = new ContentValues();
+            HashMap<String, String> mapWithTable = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().tableHasColumn(details);
+            for(String key: mapWithTable.keySet()){
+                values.put(key,mapWithTable.get(key));
+            }
 
+            HnppApplication.getHNPPInstance().getHnppVisitLogRepository().updateProfileFromVisit(values,log.getBaseEntityId(),isMember);
+
+        }catch (Exception e){
+
+        }
+
+    }
     private static void processSimprintsVerification(VisitLog log, HashMap<String, String> details) {
         if(details.containsKey("is_verified")&&!StringUtils.isEmpty(details.get("is_verified"))) {
             LocalDate localDate = new LocalDate(log.getVisitDate());
@@ -1996,6 +2018,12 @@ public class FormParser {
                 break;
             case HOME_VISIT_FAMILY:
                 form_name = HnppConstants.JSON_FORMS.HOME_VISIT_FAMILY + ".json";
+                break;
+            case CHILD_PROFILE_VISIT:
+                form_name = HnppConstants.JSON_FORMS.CHILD_PROFILE_VISIT + ".json";
+                break;
+            case MEMBER_PROFILE_VISIT:
+                form_name = HnppConstants.JSON_FORMS.MEMBER_PROFILE_VISIT + ".json";
                 break;
             case REFERREL_FOLLOWUP:
                 form_name = HnppConstants.JSON_FORMS.REFERREL_FOLLOWUP + ".json";

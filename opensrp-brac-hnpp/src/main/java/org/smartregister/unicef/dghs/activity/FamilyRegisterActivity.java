@@ -183,16 +183,16 @@ public class FamilyRegisterActivity extends BaseFamilyRegisterActivity {
 
     @Override
     public void startFormActivity(JSONObject jsonForm) {
-        if(HALocationHelper.getInstance().getWardList().size() == 0){
-            Toast.makeText(this,"কোনো ওয়ার্ড লোকেশন পাওয়া যায়নি . পুনরায় লগইন করুন",Toast.LENGTH_LONG).show();
+        if(HALocationHelper.getInstance().getUnionList().size() == 0){
+            Toast.makeText(this,"কোনো লোকেশন পাওয়া যায়নি . পুনরায় লগইন করুন",Toast.LENGTH_LONG).show();
             return;
         }
-        HnppConstants.getGPSLocation(FamilyRegisterActivity.this, new OnPostDataWithGps() {
-            @Override
-            public void onPost(double latitude, double longitude) {
+//        HnppConstants.getGPSLocation(FamilyRegisterActivity.this, new OnPostDataWithGps() {
+//            @Override
+//            public void onPost(double latitude, double longitude) {
                 try{
                     Intent intent = new Intent(FamilyRegisterActivity.this, Utils.metadata().familyFormActivity);
-                    HnppJsonFormUtils.updateLatitudeLongitudeFamily(jsonForm,latitude,longitude);
+                   // HnppJsonFormUtils.updateLatitudeLongitudeFamily(jsonForm,latitude,longitude);
                     intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
                     Form form = new Form();
                     form.setName(getString(R.string.add_family));
@@ -219,9 +219,9 @@ public class FamilyRegisterActivity extends BaseFamilyRegisterActivity {
                     e.printStackTrace();
                 }
 
-
-            }
-        });
+//
+//            }
+//        });
 
     }
 

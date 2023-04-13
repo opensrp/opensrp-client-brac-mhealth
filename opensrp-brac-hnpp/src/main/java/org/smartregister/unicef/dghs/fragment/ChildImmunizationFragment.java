@@ -4,13 +4,12 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
@@ -20,13 +19,25 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Triple;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.common.PDStream;
+import org.apache.pdfbox.pdmodel.font.PDFont;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.joda.time.DateTime;
 import org.smartregister.chw.core.job.VaccineRecurringServiceJob;
+import org.smartregister.domain.FetchStatus;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.immunization.fragment.VaccinationEditDialogFragment;
+import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.unicef.dghs.R;
+import org.smartregister.unicef.dghs.activity.PaymentActivity;
+import org.smartregister.unicef.dghs.activity.WebViewActivity;
+import org.smartregister.unicef.dghs.job.HnppSyncIntentServiceJob;
 import org.smartregister.unicef.dghs.job.VisitLogServiceJob;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.domain.Alert;
@@ -59,6 +70,16 @@ import org.smartregister.util.DateUtil;
 import org.smartregister.util.Utils;
 import org.smartregister.view.fragment.BaseProfileFragment;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,7 +94,7 @@ import java.util.Random;
 
 import static org.smartregister.util.Utils.getName;
 
-public class ChildImmunizationFragment extends BaseProfileFragment {
+public class ChildImmunizationFragment extends BaseProfileFragment implements  SyncStatusBroadcastReceiver.SyncStatusListener {
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
 
     public void setChildDetails(CommonPersonObjectClient childDetails){
@@ -141,9 +162,94 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
 
         View fragmentView = inflater.inflate(R.layout.immunization_activity_main, container, false);
         this.view = fragmentView;
+        fragmentView.findViewById(R.id.showTikaCardBtn).setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("StaticFieldLeak")
+            @Override
+            public void onClick(View v) {
+                SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(ChildImmunizationFragment.this);
+                HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
+
+
+//                Utils.startAsyncTask(new AsyncTask() {
+//                    @Override
+//                    protected void onPostExecute(Object o) {
+//                        super.onPostExecute(o);
+//                        if(o instanceof String){
+//                            String pdfFilePath = (String)o;
+//                            openPDF(pdfFilePath);
+//                        }
+//
+//                    }
+//
+//                    @Override
+//                    protected Object doInBackground(Object[] objects) {
+//                        try {
+//                            String htmlUrl = "http://unicef-ha.mpower-social.com/opensrp-dashboard/people/mobile/e9c1679c-6651-4bf3-a1ab-a180752ce124-pros/vaccine-card.html";
+//                            File htmlFile = new File(htmlUrl);
+//                            String filePath = mActivity.getExternalFilesDir(null) + "/vaccine";
+//                            File file = new File(filePath);
+//                            if(!file.exists()){
+//                                file.mkdir();
+//                            }
+//                            String pdfFilePath = (file.getAbsolutePath() + "/"+ "vaccine_card.pdf");
+//                            Log.v("VACCINE_CARD","vaccine_file>>"+pdfFilePath);
+//                            String html = FileUtils.readFileToString(htmlFile, "UTF-8");
+//
+//                            // Create PDF document
+//                            PDDocument document = new PDDocument();
+//                            PDPage page = new PDPage();
+//                            document.addPage(page);
+//
+//                            // Create font
+//                            PDFont font = PDType1Font.HELVETICA_BOLD;
+//
+//                            // Create stream for HTML file
+//                            PDStream stream = new PDStream(document);
+//                            OutputStream outputStream = stream.createOutputStream();
+//                            outputStream.write(html.getBytes("UTF-8"));
+//                            outputStream.close();
+//
+//                            // Convert HTML to PDF
+//                            PDFTextStripper pdfStripper = new PDFTextStripper();
+//                            pdfStripper.setSortByPosition(true);
+//                            pdfStripper.setStartPage(0);
+//                            pdfStripper.setEndPage(Integer.MAX_VALUE);
+//                            String parsedText = pdfStripper.getText(document);
+//                            Writer dummy = new OutputStreamWriter(new ByteArrayOutputStream());
+//                            pdfStripper.writeText(document, dummy);
+//
+//                            // Save PDF file
+//                            document.save(pdfFilePath);
+//                            document.close();
+//
+//                            return pdfFilePath;
+//
+//
+//                        } catch (MalformedURLException e) {
+//                            e.printStackTrace();
+//                            return null;
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                            return null;
+//                        }
+//                    }
+//                },null);
+
+            }
+        });
 //        cia = new ChildImmunizationFragment(fragmentView,mActivity);
         return fragmentView;
     }
+
+    private void openPDF(String pdfFilePath) {
+        File file = new File(pdfFilePath);
+        Uri uri = FileProvider.getUriForFile(mActivity,"org.smartregister.unicef.dghs.fileprovider",file);
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(uri, "application/pdf");
+        startActivity(intent);
+    }
+
     // Data
 //    private CommonPersonObjectClient childDetails = Utils.dummyDetatils();
     private CommonPersonObjectClient childDetails;
@@ -206,7 +312,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
         String childId = "";
         if (isDataOk()) {
             name = constructChildName();
-            childId = org.smartregister.util.Utils.getValue(childDetails.getColumnmaps(), "zeir_id", false);
+            childId = org.smartregister.util.Utils.getValue(childDetails.getColumnmaps(), "unique_id", false);
         }
 
         TextView nameTV = (TextView) view.findViewById(R.id.name_tv);
@@ -569,6 +675,23 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
 
     public void startServices() {
         VaccineRecurringServiceJob.scheduleJobImmediately(VaccineRecurringServiceJob.TAG);
+
+    }
+
+    @Override
+    public void onSyncStart() {
+
+    }
+
+    @Override
+    public void onSyncInProgress(FetchStatus fetchStatus) {
+
+    }
+
+    @Override
+    public void onSyncComplete(FetchStatus fetchStatus) {
+        String childId = org.smartregister.util.Utils.getValue(childDetails.getColumnmaps(), "base_entity_id", false);
+        startActivity(new Intent(mActivity, WebViewActivity.class).putExtra("BASE_ENTITY_ID",childId));
 
     }
 

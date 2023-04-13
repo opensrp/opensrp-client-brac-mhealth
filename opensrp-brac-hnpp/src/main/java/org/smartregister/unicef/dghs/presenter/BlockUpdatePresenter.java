@@ -13,11 +13,7 @@ import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
 import org.smartregister.family.util.AppExecutors;
 import org.smartregister.service.HTTPAgent;
-import org.smartregister.unicef.dghs.HnppApplication;
-import org.smartregister.unicef.dghs.activity.BlockUpdateActivity;
 import org.smartregister.unicef.dghs.contract.BlockUpdateContract;
-import org.smartregister.unicef.dghs.contract.NotificationContract;
-import org.smartregister.unicef.dghs.model.Notification;
 import org.smartregister.unicef.dghs.utils.Node;
 
 import java.util.ArrayList;

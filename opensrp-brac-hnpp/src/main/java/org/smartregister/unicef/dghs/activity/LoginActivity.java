@@ -20,6 +20,7 @@ import org.smartregister.unicef.dghs.BuildConfig;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.job.CampFetchJob;
+import org.smartregister.unicef.dghs.job.GlobalLocationFetchJob;
 import org.smartregister.unicef.dghs.job.HnppPncCloseJob;
 import org.smartregister.unicef.dghs.job.HnppSyncIntentServiceJob;
 import org.smartregister.unicef.dghs.job.MigrationFetchJob;
@@ -139,8 +140,8 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         mActivity = this;
         HnppConstants.updateAppBackgroundOnResume(findViewById(R.id.login_layout));
         if(BuildConfig.DEBUG){
-            userNameText.setText("doli@ha.5");//userNameText.setText("baby@ha.4");
-            passwordText.setText("Mis@4321");
+            userNameText.setText("pros");//userNameText.setText("baby@ha.4");
+            passwordText.setText("123456");
         }
     }
     @Override
@@ -257,6 +258,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         if(isConnected){
             PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
             SSLocationFetchJob.scheduleJobImmediately(SSLocationFetchJob.TAG);
+            GlobalLocationFetchJob.scheduleJobImmediately(GlobalLocationFetchJob.TAG);
             HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
             PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
             if(!HnppConstants.isPALogin()){

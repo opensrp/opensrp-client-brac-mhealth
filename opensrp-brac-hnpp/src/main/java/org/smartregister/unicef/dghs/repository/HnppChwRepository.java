@@ -78,6 +78,7 @@ public class HnppChwRepository extends Repository {
         IndicatorRepository.createTable(database);
         PaymentHistoryRepository.createTable(database);
         HALocationRepository.createTable(database);
+        GlobalLocationRepository.createTable(database);
         VaccineRepository.createTable(database);
         VaccineNameRepository.createTable(database);
         VaccineTypeRepository.createTable(database);

@@ -165,7 +165,7 @@ public class GuestMemberActivity extends BaseProfileActivity implements GuestMem
                         try{
                             Intent intent = new Intent(GuestMemberActivity.this, GuestAddMemberJsonFormActivity.class);
                             JSONObject jsonForm = FormUtils.getInstance(GuestMemberActivity.this).getFormJson(HnppConstants.JSON_FORMS.GUEST_MEMBER_FORM);
-                            HnppJsonFormUtils.updateFormWithWardName(jsonForm, HALocationHelper.getInstance().getWardList());
+                            HnppJsonFormUtils.updateFormWithUnionName(jsonForm, HALocationHelper.getInstance().getUnionList());
                             HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,"");
                             intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
                             Form form = new Form();

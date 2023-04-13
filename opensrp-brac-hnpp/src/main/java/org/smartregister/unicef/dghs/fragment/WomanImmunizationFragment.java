@@ -126,6 +126,7 @@ public class WomanImmunizationFragment extends BaseProfileFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View fragmentView = inflater.inflate(R.layout.immunization_activity_main, container, false);
+        fragmentView.findViewById(R.id.showTikaCardBtn).setVisibility(View.GONE);
         this.view = fragmentView;
 //        cia = new WomanImmunizationFragment(fragmentView,getActivity());
         return fragmentView;

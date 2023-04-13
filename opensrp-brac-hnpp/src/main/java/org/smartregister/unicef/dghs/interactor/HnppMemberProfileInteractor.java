@@ -83,7 +83,13 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                     memberProfileDueDataArrayList.add(memberProfileDueData2);
                 }
             }
-
+            {
+                MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
+                memberProfileDueData.setImageSource(R.drawable.rowavatar_member);
+                memberProfileDueData.setTitle("প্রোফাইল আপডেট");
+                memberProfileDueData.setType(HnppMemberProfileDueFragment.TAG_OPEN_MEMBER_PROFILE_UPDATE);
+                memberProfileDueDataArrayList.add(memberProfileDueData);
+            }
             {
                 MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
                 memberProfileDueData.setImageSource(R.drawable.childrow_family);
@@ -91,6 +97,7 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                 memberProfileDueData.setType(TAG_OPEN_FAMILY);
                 memberProfileDueDataArrayList.add(memberProfileDueData);
             }
+
 
 //            {
 //                MemberProfileDueData memberProfileDueData = new MemberProfileDueData();

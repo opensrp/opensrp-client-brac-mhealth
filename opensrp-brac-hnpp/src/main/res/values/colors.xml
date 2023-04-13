@@ -14,5 +14,7 @@
     <color name="record_weight_grey_bg_end">#ebebeb</color>
     <color name="record_weight_grey_bg_st">#f4f4f4</color>
     <color name="record_weight_grey_bg_stk">#d8d8d8</color>
-    <color name="snackbar_background_yellow">#FFED18</color>
+    <color name="tika_card_bg">#AD1F2A</color>
+
+    <color name="quick_check_red">#EC5B47</color>
 </resources>

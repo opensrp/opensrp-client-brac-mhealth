@@ -69,7 +69,16 @@ public class HnppVisitLogRepository extends BaseRepository {
 
         }
     }
+    public void updateProfileFromVisit(ContentValues values,String base_entity_id,boolean isMember){
+        try{
+            SQLiteDatabase database = getWritableDatabase();
+            String selection = "base_entity_id = '"+base_entity_id+"'";
+            int isUpdated = database.update(isMember?"ec_family_member":"ec_child",values,selection,null);
+        }catch(Exception e){
+            e.printStackTrace();
 
+        }
+    }
     /*
         This method reshape the multiple question input abc,xye output like ["abc","xyz"]
      */

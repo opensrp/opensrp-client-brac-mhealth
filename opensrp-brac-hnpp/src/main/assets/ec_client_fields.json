@@ -97,6 +97,97 @@
           }
         },
         {
+          "column_name": "union_zone",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.union_zone"
+          }
+        },
+        {
+          "column_name": "old_ward",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.old_ward"
+          }
+        },
+        {
+          "column_name": "village",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.village"
+          }
+        },
+        {
+          "column_name": "holding_no",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.holding_no"
+          }
+        },
+        {
+          "column_name": "division_per",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.division_per"
+          }
+        },
+        {
+          "column_name": "district_per",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.district_per"
+          }
+        },
+        {
+          "column_name": "upazila_per",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.upazila_per"
+          }
+        },
+        {
+          "column_name": "union_per",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.union_per"
+          }
+        },
+        {
+          "column_name": "old_ward_per",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.old_ward_per"
+          }
+        },
+        {
+          "column_name": "new_ward_per",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.new_ward_per"
+          }
+        },
+        {
+          "column_name": "block_per",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.block_per"
+          }
+        },
+        {
+          "column_name": "village_per",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.village_per"
+          }
+        },
+        {
+          "column_name": "holding_no_per",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.holding_no_per"
+          }
+        },
+        {
           "column_name": "member_count",
           "type": "Client",
           "json_mapping": {
@@ -237,11 +328,10 @@
           }
         },
         {
-          "column_name": "gps",
-          "type": "Event",
+          "column_name": "geopoint",
+          "type": "Client",
           "json_mapping": {
-            "field": "obs.fieldCode",
-            "concept": "163277AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            "field": "attributes.geopoint"
           }
         },
         {
@@ -258,13 +348,7 @@
             "field": "attributes.block_id"
           }
         },
-        {
-          "column_name": "ward_id",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.ward_id"
-          }
-        },
+
         {
           "column_name": "present_address_bangla",
           "type": "Client",
@@ -469,6 +553,13 @@
           "type": "Client",
           "json_mapping": {
             "field": "identifiers.opensrp_id"
+          }
+        },
+        {
+          "column_name": "shr_id",
+          "type": "Client",
+          "json_mapping": {
+            "field": "identifiers.shr_id"
           }
         },
         {
@@ -896,6 +987,13 @@
           "json_mapping": {
             "field": "birthdateApprox"
           }
+        },
+        {
+          "column_name": "geopoint",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.geopoint"
+          }
         }
       ]
     },
@@ -1119,6 +1217,55 @@
       "name": "ec_child",
       "columns": [
         {
+          "column_name": "illness_information",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.illness_information"
+          }
+        },
+        {
+          "column_name": "illness_other",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.illness_other"
+          }
+        },
+        {
+          "column_name": "has_disease",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.has_disease"
+          }
+        },
+        {
+          "column_name": "disease_Type_2m",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.disease_Type_2m"
+          }
+        },
+        {
+          "column_name": "disease_Type_2m_5y",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.disease_Type_2m_5y"
+          }
+        },
+        {
+          "column_name": "religion",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.religion"
+          }
+        },
+        {
+          "column_name": "religion_other",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.religion_other"
+          }
+        },
+        {
           "column_name": "base_entity_id",
           "type": "Client",
           "json_mapping": {
@@ -1144,6 +1291,13 @@
           "type": "Client",
           "json_mapping": {
             "field": "identifiers.opensrp_id"
+          }
+        },
+        {
+          "column_name": "shr_id",
+          "type": "Client",
+          "json_mapping": {
+            "field": "identifiers.shr_id"
           }
         },
         {
@@ -1340,7 +1494,20 @@
             "field": "last_vaccine_name"
           }
         },
-
+        {
+          "column_name": "disability",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.disability"
+          }
+        },
+        {
+          "column_name": "disability_type",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.disability_type"
+          }
+        },
         {
           "column_name": "has_edema",
           "type": "Client",
@@ -1459,6 +1626,13 @@
           "json_mapping": {
             "field": "attributes.breast_feeded"
 
+          }
+        },
+        {
+          "column_name": "geopoint",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.geopoint"
           }
         }
       ]

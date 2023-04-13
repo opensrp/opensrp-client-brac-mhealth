@@ -389,12 +389,12 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
                     openAsReadOnlyMode(jsonForm);
                     return;
                 }
-                HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
-                    @Override
-                    public void onPost(double latitude, double longitude) {
-                        try{
+//                HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+//                    @Override
+//                    public void onPost(double latitude, double longitude) {
+//                        try{
                             Intent intent = new Intent(FamilyProfileActivity.this, Utils.metadata().familyMemberFormActivity);
-                            HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,familyBaseEntityId);
+                            //HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,familyBaseEntityId);
                             intent.putExtra("json", jsonForm.toString());
                             Form form = new Form();
                             if(!HnppConstants.isReleaseBuild()){
@@ -407,12 +407,12 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
                             form.setWizard(false);
                             intent.putExtra("form", form);
                             startActivityForResult(intent, 2244);
-                        }catch (Exception e){
+//                        }catch (Exception e){
+//
+//                        }
 
-                        }
-
-                    }
-                });
+//                    }
+//                });
 
             }
         }catch (Exception e){
@@ -783,24 +783,22 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
 
     }
     private void getGPSLocation(){
-        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
-            @Override
-            public void onPost(double latitude, double longitude) {
+//        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+//            @Override
+//            public void onPost(double latitude, double longitude) {
                 try{
                     Map<String,String> hhByBaseEntityId = HnppDBUtils.getDetails(familyBaseEntityId,"ec_family");
                     JSONObject jsonForm = FormUtils.getInstance(getApplicationContext()).getFormJson(HnppConstants.JSON_FORMS.HOME_VISIT_FAMILY);
                     HnppJsonFormUtils.updateHhVisitForm(jsonForm, hhByBaseEntityId);
-                    ArrayList<String[]> memberList = HnppDBUtils.getAllMembersInHouseHold(familyBaseEntityId);
-                    HnppJsonFormUtils.updateFormWithAllMemberName(jsonForm,memberList);
-                    HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,familyBaseEntityId);
+//                    HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,familyBaseEntityId);
                     startHHFormActivity(jsonForm,REQUEST_HOME_VISIT);
 
                 }catch (Exception e){
                     e.printStackTrace();
                     hideProgressDialog();
                 }
-            }
-        });
+//            }
+//        });
 
 
     }

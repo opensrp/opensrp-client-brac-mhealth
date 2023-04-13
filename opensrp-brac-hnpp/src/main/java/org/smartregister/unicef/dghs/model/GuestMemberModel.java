@@ -121,7 +121,7 @@ public class GuestMemberModel extends JsonFormUtils implements GuestMemberContra
             JSONObject jobkect = jsonObject.getJSONObject("step1");
             String blockId = jobkect.getString("block_id");
             String ward_id = jobkect.getString("ward_id");
-            HALocation ss = HnppApplication.getGeoLocationRepository().getLocationByBlock(blockId);
+            HALocation ss = HnppApplication.getHALocationRepository().getLocationByBlock(blockId);
             JSONArray field = jobkect.getJSONArray(FIELDS);
             try{
                 String hhid = jobkect.getString( "hhid");

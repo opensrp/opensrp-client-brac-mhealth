@@ -78,6 +78,16 @@
                     android:text="Birth Date"/>
             </LinearLayout>
         </LinearLayout>
+        <Button
+            android:id="@+id/showTikaCardBtn"
+            android:text="@string/show_tika_card"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:layout_margin="5dp"
+            android:textColor="@color/white"
+            android:background="@color/tika_card_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <org.smartregister.view.customcontrols.CustomFontTextView
             style="@style/CustomFontTextViewStyle.ClientList"

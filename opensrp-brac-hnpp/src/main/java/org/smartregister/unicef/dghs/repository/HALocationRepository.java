@@ -45,6 +45,8 @@ public class HALocationRepository extends BaseRepository {
     protected static final String BLOCK_GEO = "block_geo";
     protected static final String WARD_ID = "ward_id";
     protected static final String WARD_GEO = "ward_geo";
+    protected static final String OLD_WARD_ID = "old_ward_id";
+    protected static final String OLD_WARD_GEO = "old_ward_geo";
     protected static final String LOCATION_TABLE = "ha_location";
 
 
@@ -56,6 +58,7 @@ public class HALocationRepository extends BaseRepository {
                     DISTRICT_ID + " INTEGER , " +DISTRICT_GEO + " VARCHAR , " +
                     UPAZILA_ID + " INTEGER , " +UPAZILA_GEO + " VARCHAR , " +
                     UNION_ID + " INTEGER , " +UNION_GEO + " VARCHAR , " +
+                    OLD_WARD_ID + " INTEGER , " +OLD_WARD_GEO + " VARCHAR , " +
                     BLOCK_ID + " INTEGER , " +BLOCK_GEO + " VARCHAR , " +
                     WARD_ID + " INTEGER , " +WARD_GEO + " VARCHAR  ) ";
 
@@ -98,20 +101,78 @@ public class HALocationRepository extends BaseRepository {
         contentValues.put(WARD_GEO,  gson.toJson(ssModel.locations.get(0).ward));
         contentValues.put(BLOCK_ID, ssModel.locations.get(0).block.id);
         contentValues.put(BLOCK_GEO,  gson.toJson(ssModel.locations.get(0).block));
+        contentValues.put(OLD_WARD_ID, ssModel.locations.get(0).old_ward.id);
+        contentValues.put(OLD_WARD_GEO,  gson.toJson(ssModel.locations.get(0).old_ward));
         long inserted = getWritableDatabase().replace(getLocationTableName(), null, contentValues);
 
 
     }
-
-    public ArrayList<WardLocation> getAllWard() {
+    public ArrayList<WardLocation> getAllUnion() {
         Cursor cursor = null;
         ArrayList<WardLocation> locations = new ArrayList<>();
         try {
-            String sql = "SELECT ward_id,ward_geo FROM " + getLocationTableName()+" group by "+WARD_ID;
+            String sql = "SELECT union_id,union_geo FROM " + getLocationTableName()+" group by "+UNION_ID;
+            Log.v("BLOCK_LOCATION","getAllWard>>>"+sql);
+            cursor = getReadableDatabase().rawQuery(sql, null);
+            while (cursor.moveToNext()) {
+                locations.add(readUnionCursor(cursor));
+            }
+        } catch (Exception e) {
+            Log.e(LocationRepository.class.getCanonicalName(), e.getMessage(), e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        Log.v("BLOCK_LOCATION","getAllWard>>>"+locations);
+        return locations;
+    }
+    public ArrayList<WardLocation> getOldWardByUnionId(int unionId) {
+        Cursor cursor = null;
+        ArrayList<WardLocation> locations = new ArrayList<>();
+        try {
+            String sql = "SELECT old_ward_id,old_ward_geo FROM " + getLocationTableName()+" where "+UNION_ID+" = '"+unionId+"' group by "+OLD_WARD_ID;
+            Log.v("BLOCK_LOCATION","getAllWard>>>"+sql);
+            cursor = getReadableDatabase().rawQuery(sql, null);
+            while (cursor.moveToNext()) {
+                locations.add(readOldWardCursor(cursor));
+            }
+        } catch (Exception e) {
+            Log.e(LocationRepository.class.getCanonicalName(), e.getMessage(), e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        Log.v("BLOCK_LOCATION","getAllWard>>>"+locations);
+        return locations;
+    }
+    public ArrayList<WardLocation> getAllWardByOldWardId(int oldWardId) {
+        Cursor cursor = null;
+        ArrayList<WardLocation> locations = new ArrayList<>();
+        try {
+            String sql = "SELECT ward_id,ward_geo FROM " + getLocationTableName()+" where "+OLD_WARD_ID+" = '"+oldWardId+"' group by "+WARD_ID;
             Log.v("BLOCK_LOCATION","getAllWard>>>"+sql);
             cursor = getReadableDatabase().rawQuery(sql, null);
             while (cursor.moveToNext()) {
                 locations.add(readWardCursor(cursor));
+            }
+        } catch (Exception e) {
+            Log.e(LocationRepository.class.getCanonicalName(), e.getMessage(), e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        Log.v("BLOCK_LOCATION","getAllWard>>>"+locations);
+        return locations;
+    }
+    public ArrayList<BlockLocation> getBlock(int newWardId) {
+        Cursor cursor = null;
+        ArrayList<BlockLocation> locations = new ArrayList<>();
+        try {
+            String sql = "SELECT block_id,block_geo FROM " + getLocationTableName()+" where "+WARD_ID+" = '"+newWardId+"' group by "+WARD_ID;
+            Log.v("BLOCK_LOCATION","getAllWard>>>"+sql);
+            cursor = getReadableDatabase().rawQuery(sql, null);
+            while (cursor.moveToNext()) {
+                locations.add(readBlockCursor(cursor));
             }
         } catch (Exception e) {
             Log.e(LocationRepository.class.getCanonicalName(), e.getMessage(), e);
@@ -190,6 +251,7 @@ public class HALocationRepository extends BaseRepository {
         String wardGeo = cursor.getString(cursor.getColumnIndex(WARD_GEO));
         String blockId = cursor.getString(cursor.getColumnIndex(BLOCK_ID));
         String blockGeo = cursor.getString(cursor.getColumnIndex(BLOCK_GEO));
+        String oldWardGeo = cursor.getString(cursor.getColumnIndex(OLD_WARD_GEO));
         HALocation ssModel = new HALocation();
         ssModel.country = gson.fromJson(countryGeo, BaseLocation.class);
         ssModel.division = gson.fromJson(divisionGeo, BaseLocation.class);
@@ -198,7 +260,22 @@ public class HALocationRepository extends BaseRepository {
         ssModel.union = gson.fromJson(unionGeo, BaseLocation.class);
         ssModel.ward = gson.fromJson(wardGeo, BaseLocation.class);
         ssModel.block = gson.fromJson(blockGeo, BaseLocation.class);
+        ssModel.old_ward = gson.fromJson(oldWardGeo, BaseLocation.class);
         return ssModel;
+    }
+    private WardLocation readUnionCursor(Cursor cursor){
+        String uId = cursor.getString(cursor.getColumnIndex(UNION_ID));
+        String uGeo = cursor.getString(cursor.getColumnIndex(UNION_GEO));
+        WardLocation wardLocation = new WardLocation();
+        wardLocation.ward = gson.fromJson(uGeo, BaseLocation.class);
+        return wardLocation;
+    }
+    private WardLocation readOldWardCursor(Cursor cursor){
+        String uId = cursor.getString(cursor.getColumnIndex(OLD_WARD_ID));
+        String uGeo = cursor.getString(cursor.getColumnIndex(OLD_WARD_GEO));
+        WardLocation wardLocation = new WardLocation();
+        wardLocation.ward = gson.fromJson(uGeo, BaseLocation.class);
+        return wardLocation;
     }
     private WardLocation readWardCursor(Cursor cursor){
         String wardId = cursor.getString(cursor.getColumnIndex(WARD_ID));

@@ -69,9 +69,23 @@ condition: "helper.formatDate(step1_dob,'d') > 41"
 actions:
   - "isRelevant = true"
 ---
-name: step1_birth_id
-description: birth_id
+name: step1_birth_weight_taken
+description: birth_weight_taken
 priority: 1
-condition: "helper.formatDate(step1_dob,'d') > 41"
+condition: "helper.formatDate(step1_dob,'d') <= 41"
+actions:
+  - "isRelevant = true"
+---
+name: step1_disease_Type_2m_5y
+description: disease_Type_2m_5y
+priority: 1
+condition: "helper.formatDate(step1_dob,'d') > 60 && helper.formatDate(step1_dob,'y') <5"
+actions:
+  - "isRelevant = true"
+---
+name: step1_disease_Type_2m
+description: disease_Type_2m
+priority: 1
+condition: "helper.formatDate(step1_dob,'d') < 60"
 actions:
   - "isRelevant = true"

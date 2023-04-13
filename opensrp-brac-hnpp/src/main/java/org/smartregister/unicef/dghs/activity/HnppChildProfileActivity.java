@@ -455,6 +455,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
     public void openEnc() {
         startAnyFormActivity(HnppConstants.JSON_FORMS.ENC_REGISTRATION,REQUEST_HOME_VISIT);
     }
+    public void openChildProfileVisit() {
+        startAnyFormActivity(HnppConstants.JSON_FORMS.CHILD_PROFILE_VISIT,REQUEST_HOME_VISIT);
+    }
     public void openRefereal() {
         startAnyFormActivity(HnppConstants.JSON_FORMS.CHILD_REFERRAL,REQUEST_HOME_VISIT);
     }
@@ -547,13 +550,13 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         return ((HnppChildProfilePresenter)presenter).getFamilyID();
     }
     public void startAnyFormActivity(String formName, int requestCode) {
-        if(!HnppApplication.getStockRepository().isAvailableStock(HnppConstants.formNameEventTypeMapping.get(formName))){
-            HnppConstants.showOneButtonDialog(this,getString(R.string.dialog_stock_sell_end),"");
-            return;
-        }
-        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
-            @Override
-            public void onPost(double latitude, double longitude) {
+//        if(!HnppApplication.getStockRepository().isAvailableStock(HnppConstants.formNameEventTypeMapping.get(formName))){
+//            HnppConstants.showOneButtonDialog(this,getString(R.string.dialog_stock_sell_end),"");
+//            return;
+//        }
+//        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+//            @Override
+//            public void onPost(double latitude, double longitude) {
                 try {
                     if(TextUtils.isEmpty(childBaseEntityId)){
                         Toast.makeText(HnppChildProfileActivity.this, "baseentityid null", Toast.LENGTH_SHORT).show();
@@ -562,11 +565,11 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                     HnppConstants.appendLog("SAVE_VISIT", "open form>>childBaseEntityId:"+childBaseEntityId+":formName:"+formName);
 
                     JSONObject jsonForm = FormUtils.getInstance(HnppChildProfileActivity.this).getFormJson(formName);
-                    try{
-                        HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,getFamilyBaseId());
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
+//                    try{
+//                        HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,getFamilyBaseId());
+//                    }catch (Exception e){
+//                        e.printStackTrace();
+//                    }
                     try{
                         HnppJsonFormUtils.addAddToStockValue(jsonForm);
                     }catch (Exception e){
@@ -605,6 +608,15 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
 
                         updateFormField(jsonArray,"dob",dobFormate);
                     }
+                    else if(HnppConstants.JSON_FORMS.CHILD_PROFILE_VISIT.equalsIgnoreCase(formName)){
+                        JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+                        JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+                        String DOB = ((HnppChildProfilePresenter) presenter).getDateOfBirth();
+                        Date date = Utils.dobStringToDate(DOB);
+                        String dobFormate = HnppConstants.DDMMYY.format(date);
+
+                        updateFormField(jsonArray,"dob",dobFormate);
+                    }
                     if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.BLOOD_TEST)){
                         if(gender.equalsIgnoreCase("F")){
                             HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_women","true");
@@ -630,8 +642,8 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                 }catch (Exception e){
 
                 }
-            }
-        });
+//            }
+//        });
 
 
     }
@@ -799,7 +811,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                             @Override
                             public void run() {
                                 hideProgressDialog();
-                                mViewPager.setCurrentItem(2,true);
+                                mViewPager.setCurrentItem(3,true);
 //                                if(memberOtherServiceFragment !=null){
 //                                    memberOtherServiceFragment.setCommonPersonObjectClient(commonPersonObject);
 //                                    memberOtherServiceFragment.updateStaticView();

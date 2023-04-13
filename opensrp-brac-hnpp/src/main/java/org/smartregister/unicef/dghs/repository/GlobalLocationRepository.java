@@ -28,17 +28,21 @@ import java.util.ArrayList;
  */
 public class GlobalLocationRepository extends BaseRepository {
     public enum LOCATION_TAG {
-        DIVISION(1),
-        DISTRICT(2),
-        UPAZILA(3),
-        UNION(4),
-        WARD(5),
-        BLOCK(6),
-        COUNTRY(0),
-        OLD_WARD(7);
+        DIVISION(11),
+        DISTRICT(12),
+        UPAZILA(13),
+        UNION(14),
+        WARD(15),
+        BLOCK(16),
+        COUNTRY(10),
+        OLD_WARD(17);
         int value;
         private LOCATION_TAG(int val) {
             this.value = val;
+        }
+
+        public int getValue() {
+            return value;
         }
     }
     protected static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")

@@ -255,7 +255,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
     private void loadSSList(){
         ArrayList<String> ssSpinnerArray = new ArrayList<>();
         ssSpinnerArray.add(getString(R.string.all_text));
-        ArrayList<WardLocation> ssLocationForms = HALocationHelper.getInstance().getWardList();
+        ArrayList<WardLocation> ssLocationForms = HALocationHelper.getInstance().getUnionList();
         for (WardLocation ssModel : ssLocationForms) {
             ssSpinnerArray.add(ssModel.ward.name);
         }

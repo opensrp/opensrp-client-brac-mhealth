@@ -32,6 +32,14 @@ public class FormApplicability {
         return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneWihinTwentyFourHours(baseEntityId, HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY);
 
     }
+    public static boolean isDueChildProfileVisit(String baseEntityId){
+        return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneWihinTwentyFourHours(baseEntityId, HnppConstants.EVENT_TYPE.CHILD_PROFILE_VISIT);
+
+    }
+    public static boolean isDueMemberProfileVisit(String baseEntityId){
+        return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneWihinTwentyFourHours(baseEntityId, HnppConstants.EVENT_TYPE.MEMBER_PROFILE_VISIT);
+
+    }
     public static boolean isDueAnyForm(String baseEntityId, String eventType){
         return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneWihinTwentyFourHours(baseEntityId, eventType);
 

@@ -30,12 +30,13 @@ import org.smartregister.repository.BaseRepository;
 import org.smartregister.sync.helper.ECSyncHelper;
 import org.smartregister.unicef.dghs.BuildConfig;
 import org.smartregister.unicef.dghs.HnppApplication;
-import org.smartregister.unicef.dghs.location.BlockLocation;
 import org.smartregister.unicef.dghs.location.CampModel;
 import org.smartregister.unicef.dghs.location.HALocation;
 import org.smartregister.unicef.dghs.location.HALocationHelper;
 import org.smartregister.unicef.dghs.location.WardLocation;
 import org.smartregister.unicef.dghs.model.ForumDetails;
+import org.smartregister.unicef.dghs.model.GlobalLocationModel;
+import org.smartregister.unicef.dghs.repository.GlobalLocationRepository;
 import org.smartregister.unicef.dghs.repository.HnppChwRepository;
 import org.smartregister.unicef.dghs.repository.HnppVisitLogRepository;
 import org.smartregister.unicef.dghs.repository.StockRepository;
@@ -85,6 +86,7 @@ import static org.smartregister.chw.anc.util.JsonFormUtils.updateFormField;
 public class HnppJsonFormUtils extends CoreJsonFormUtils {
     public static final String METADATA = "metadata";
     public static final String WARD_NAME = "ward_name";
+    public static final String UNION_ZONE = "union_zone";
     public static final String BLOCK_NAME = "block_name";
     public static final String BLOCK_ID = "block_id";
     public static final String CHAMP_TYPE = "camp_type";
@@ -481,37 +483,35 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         Event baseEvent = org.smartregister.util.JsonFormUtils.createEvent(fields, getJSONObject(jsonForm, "metadata"), formTag(allSharedPreferences), memberID,encounterType,getTableName());
         //save identifier
         String blockId = org.smartregister.util.JsonFormUtils.getFieldValue(fields,BLOCK_ID);
-        HALocation selectedLocation = HnppApplication.getGeoLocationRepository().getLocationByBlock(blockId);
+        if(TextUtils.isEmpty(blockId)){
+            BaseLocation blocks =HnppDBUtils.getBlocksHHID(memberID);
+            blockId = blocks.id+"";
+            if(blockId.isEmpty() || blockId.equals("0")){
+                blockId =  HnppDBUtils.getBlocksIdFromMember(memberID);
+            }
+        }
+        Log.v("SAVE_VISIT","blockId>>>"+blockId);
+        HALocation selectedLocation = HnppApplication.getHALocationRepository().getLocationByBlock(blockId);
         baseEvent.setIdentifiers(HALocationHelper.getInstance().getGeoIdentifier(selectedLocation));
-        //
-        if(isComesFromIdentity){
-            prepareIsIdentified(baseEvent);
-        }else if(needVerified){
-                prepareIsVerified(baseEvent,isVerified,notVerifyCause);
+        baseEvent.setFormSubmissionId(formSubmissionId);
+        org.smartregister.chw.anc.util.JsonFormUtils.tagEvent(allSharedPreferences, baseEvent);
+        String visitID ="";
+        if(!TextUtils.isEmpty(baseEvent.getEventId())){
+            visitID = baseEvent.getEventId();
+        }else{
+            visitID = visitId;
+        }
+        HnppConstants.appendLog("SAVE_VISIT","saveVisit>>>baseEntityId:"+baseEvent.getBaseEntityId()+":formSubmissionId:"+baseEvent.getFormSubmissionId()+":baseEvent:"+baseEvent.getEntityType());
 
+        Visit visit = NCUtils.eventToVisit(baseEvent, visitID);
+        visit.setPreProcessedJson(new Gson().toJson(baseEvent));
+        if( visitRepository().getVisitByFormSubmissionID(formSubmissionId)==null){
+            visitRepository().addVisit(visit);
+            HnppConstants.appendLog("SAVE_VISIT","added to visit>>>baseEntityId:"+baseEvent.getBaseEntityId()+":formSubmissionId:"+baseEvent.getFormSubmissionId()+":baseEvent:"+baseEvent.getEntityType());
+
+            return visit;
         }
 
-        if (baseEvent != null) {
-            baseEvent.setFormSubmissionId(formSubmissionId);
-            org.smartregister.chw.anc.util.JsonFormUtils.tagEvent(allSharedPreferences, baseEvent);
-            String visitID ="";
-            if(!TextUtils.isEmpty(baseEvent.getEventId())){
-                visitID = baseEvent.getEventId();
-            }else{
-                visitID = visitId;
-            }
-            HnppConstants.appendLog("SAVE_VISIT","saveVisit>>>baseEntityId:"+baseEvent.getBaseEntityId()+":formSubmissionId:"+baseEvent.getFormSubmissionId()+":baseEvent:"+baseEvent.getEntityType());
-
-            Visit visit = NCUtils.eventToVisit(baseEvent, visitID);
-            visit.setPreProcessedJson(new Gson().toJson(baseEvent));
-            if( visitRepository().getVisitByFormSubmissionID(formSubmissionId)==null){
-                visitRepository().addVisit(visit);
-                HnppConstants.appendLog("SAVE_VISIT","added to visit>>>baseEntityId:"+baseEvent.getBaseEntityId()+":formSubmissionId:"+baseEvent.getFormSubmissionId()+":baseEvent:"+baseEvent.getEntityType());
-
-                return visit;
-            }
-
-        }
         return null;
     }
     public static synchronized Visit saveVisit(String memberID, String encounterType,final Map<String, String> jsonString,String formSubmissionId,String visitId) throws Exception {
@@ -608,6 +608,10 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 return HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
             case  HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY:
                 return HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY;
+            case  HnppConstants.EVENT_TYPE.MEMBER_PROFILE_VISIT:
+                return HnppConstants.EVENT_TYPE.MEMBER_PROFILE_VISIT;
+            case  HnppConstants.EVENT_TYPE.CHILD_PROFILE_VISIT:
+                return HnppConstants.EVENT_TYPE.CHILD_PROFILE_VISIT;
             case  HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP:
                 return HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP;
             case  HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP:
@@ -925,6 +929,19 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
         return form;
     }
+    public static JSONObject updateFormWithDivision(JSONObject form, JSONArray divisionList) {
+        try {
+            JSONObject stepOne = form.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+            JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+            JSONObject camp_types = getFieldJSONObject(jsonArray, "division_per");
+            camp_types.put(org.smartregister.family.util.JsonFormUtils.VALUES,divisionList);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return form;
+    }
     public static void addNcdSugerPressure(String baseEntityId, JSONObject jsonForm){
         try {
             String sugervalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(baseEntityId+"_SUGER");
@@ -1202,66 +1219,40 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
         return form;
     }
-    public static JSONObject updateFormWithWardName(JSONObject form, ArrayList<WardLocation> geoLocations) throws Exception{
+    public static JSONObject updateFormWithUnionName(JSONObject form, ArrayList<WardLocation> geoLocations) throws Exception{
 
         JSONArray jsonArray = new JSONArray();
         for(WardLocation geoLocation : geoLocations){
             jsonArray.put(geoLocation.ward.name);
         }
         JSONArray field = fields(form, STEP1);
-        JSONObject spinner = getFieldJSONObject(field, WARD_NAME);
+        JSONObject spinner = getFieldJSONObject(field, UNION_ZONE);
+        spinner.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);
+
         JSONArray campJsonArray = new JSONArray();
         ArrayList<CampModel> campModels = HnppApplication.getCampRepository().getAllCamp();
         for (CampModel campModel:campModels){
             campJsonArray.put(campModel.type+","+campModel.centerName);
         }
-        spinner.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);
+        JSONArray divJsonArray = new JSONArray();
+        ArrayList<GlobalLocationModel> divModels = HnppApplication.getGlobalLocationRepository().getLocationByTagId(GlobalLocationRepository.LOCATION_TAG.DIVISION.getValue());
+        for (GlobalLocationModel globalLocationModel:divModels){
+            divJsonArray.put(globalLocationModel.name);
+        }
         updateFormWithChampType(form,campJsonArray);
-
-
-        return form;
-
-
-    }
-    public static JSONObject updateFormWithWardName(JSONObject form, ArrayList<WardLocation> geoLocations,String defaultValue) throws Exception{
-
-        JSONArray jsonArray = new JSONArray();
-        for(WardLocation geoLocation : geoLocations){
-            jsonArray.put(geoLocation.ward.name);
-        }
-        JSONArray field = fields(form, STEP1);
-        JSONObject spinner = getFieldJSONObject(field, WARD_NAME);
-
-        spinner.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);
-        spinner.put(VALUE,defaultValue);
-        return form;
-    }
-    public static JSONObject updateFormWithWardNameOnly(JSONObject form, String singleWardName) throws Exception{
-
-        JSONArray jsonArray = new JSONArray();
-        jsonArray.put(singleWardName);
-        JSONArray field = fields(form, STEP1);
-        JSONObject spinner = getFieldJSONObject(field, WARD_NAME);
-
-        spinner.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);
-        JSONObject ssIdsObj = getFieldJSONObject(field, WARD_NAME);
-        ssIdsObj.put(VALUE,singleWardName);
+        updateFormWithDivision(form,divJsonArray);
         return form;
     }
 
-    public static JSONObject updateFormWithWardBlockName(JSONObject form,String wardId, String blockName, String blockId) throws Exception{
+    public static JSONObject updateFormWithWardBlockName(JSONObject form,String blockName, String blockId) throws Exception{
 
-        Log.v("GEO_LOCATION","updateFormWithWardBlockName>wardId:"+wardId+":blockName:"+blockName+":blockId:"+blockId);
+        Log.v("GEO_LOCATION","updateFormWithWardBlockName>blockName:"+blockName+":blockId:"+blockId);
         JSONArray jsonArray = new JSONArray();
 
-        ArrayList<BlockLocation> blockListByWard = HnppApplication.getGeoLocationRepository().getOnlyBlockLocationByWardId(wardId);
-        for(int i = 0; i< blockListByWard.size(); i++){
-            BlockLocation geoLocation1 = blockListByWard.get(i);
-            jsonArray.put(geoLocation1.block.name);
-        }
+        HALocation blockListByWard = HnppApplication.getHALocationRepository().getLocationByBlock(blockId);
+        jsonArray.put(blockListByWard.block.name);
         JSONObject step1 = form.getJSONObject(STEP1);
         try{
-            step1.put("ward_id", wardId);
             step1.put("block_id", blockId);
         }
         catch (Exception exception){
@@ -1334,41 +1325,6 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         JSONObject providerIdObj = getFieldJSONObject(field, "provider_id");
         providerIdObj.put("value",userName);
     }
-    public static JSONObject updateFormWithAllMemberName(JSONObject form , ArrayList<String[]> motherNameList) throws Exception{
-        JSONArray field = fields(form, STEP1);
-        JSONObject corona_members = getFieldJSONObject(field, "corona_affected_members");
-       // JSONObject corona_members_id = getFieldJSONObject(field, "corona_affected_id");
-
-        JSONArray jsonArrayCoronaMember = corona_members.getJSONArray("options");
-       // JSONArray jsonArrayCoronaMemberIds = corona_members_id.getJSONArray("options");
-        for(String[] optionList : motherNameList){
-            String name = optionList[0];
-            String ids = optionList[1];
-            if(StringUtils.isEmpty(name))continue;
-
-            JSONObject itemWithIds = new JSONObject();
-            itemWithIds.put("key",name.replace(" ","_")+"#"+ids);
-            itemWithIds.put("text",name);
-            itemWithIds.put("value",false);
-            itemWithIds.put("openmrs_entity","concept");
-            itemWithIds.put("openmrs_entity_id",name.replace(" ","_")+"#"+ids);
-
-            jsonArrayCoronaMember.put(itemWithIds);
-//            jsonArrayCoronaMember.put(item);
-//
-//            JSONObject itemId = new JSONObject();
-//            itemId.put("key",ids);
-//            itemId.put("text",ids);
-//            itemId.put("value",false);
-//            itemId.put("openmrs_entity","concept");
-//            itemId.put("openmrs_entity_id",ids);
-           // jsonArrayCoronaMemberIds.put(itemId);
-        }
-
-        return form;
-
-
-    }
     public static JSONObject getJson(String formName, String baseEntityID) throws Exception {
         String locationId = HnppApplication.getInstance().getContext().allSharedPreferences().getPreference(AllConstants.CURRENT_LOCATION_ID);
         JSONObject jsonObject = org.smartregister.chw.anc.util.JsonFormUtils.getFormAsJson(formName);
@@ -1385,7 +1341,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         return form;
     }
     public static JSONObject updateLatitudeLongitudeFamily(JSONObject form,double latitude, double longitude) throws JSONException {
-        JSONArray field = fields(form, STEP2);
+        JSONArray field = fields(form, STEP1);
         JSONObject latitude_field = getFieldJSONObject(field, "latitude");
         JSONObject longitude_field = getFieldJSONObject(field, "longitude");
         latitude_field.put(org.smartregister.family.util.JsonFormUtils.VALUE,latitude );
@@ -1412,6 +1368,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
 
         }
+        Log.v("HH_VISIT","form>>>>>"+form);
         return form;
     }
 
@@ -1610,7 +1567,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 JSONObject blockIdIdObj = getFieldJSONObject(fields, "block_id");
                 String blockId = blockIdIdObj.getString("value");
                 Log.v("MEMBER_REGISTER","processFamilyMemberForm:blockId:"+blockId);
-                HALocation selectedLocation = HnppApplication.getGeoLocationRepository().getLocationByBlock(blockId);
+                HALocation selectedLocation = HnppApplication.getHALocationRepository().getLocationByBlock(blockId);
                 HALocationHelper.getInstance().addGeolocationIds(selectedLocation,baseClient);
                 try{
                     String motherEntityId = updateMotherName(fields,familyId);
@@ -1819,7 +1776,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 JSONObject clientjson = eventClientRepository.getClient(db, lookUpBaseEntityId);
                 baseClient.setAddresses(updateWithSSLocation(clientjson));
             }
-            HALocation selectedLocation = HnppApplication.getGeoLocationRepository().getLocationByBlock(blockId);
+            HALocation selectedLocation = HnppApplication.getHALocationRepository().getLocationByBlock(blockId);
             HALocationHelper.getInstance().addGeolocationIds(selectedLocation,baseClient);
             baseEvent.setIdentifiers(HALocationHelper.getInstance().getGeoIdentifier(selectedLocation));
             if(baseClient.getAddresses().size() == 0 || TextUtils.isEmpty(lookUpBaseEntityId))
@@ -1859,17 +1816,23 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
     }
     private static String updateMotherName(JSONArray fields , String familyId) throws Exception{
         JSONObject motherObj = getFieldJSONObject(fields, HnppConstants.KEY.CHILD_MOTHER_NAME);
-        JSONObject motherAlterObj = getFieldJSONObject(fields, HnppConstants.KEY.CHILD_MOTHER_NAME_REGISTERED);
-        boolean isVisible = motherObj.optBoolean("is_visible",false);
-        if(!isVisible){
-            String motherNameSelected = motherAlterObj.optString(VALUE);
-            if(!TextUtils.isEmpty(motherNameSelected) && !motherNameSelected.equalsIgnoreCase("মাতা রেজিস্টার্ড নয়")){
-                motherObj.put(VALUE,motherNameSelected);
-            }
 
-        }
-        String motherName = motherObj.optString(VALUE);
-        if(!TextUtils.isEmpty(motherName))return HnppDBUtils.getMotherBaseEntityId(familyId,motherName);
+       try{
+           JSONObject motherAlterObj = getFieldJSONObject(fields, HnppConstants.KEY.CHILD_MOTHER_NAME_REGISTERED);
+           boolean isVisible = motherObj.optBoolean("is_visible",false);
+           if(!isVisible){
+               String motherNameSelected = motherAlterObj.optString(VALUE);
+               if(!TextUtils.isEmpty(motherNameSelected) && !motherNameSelected.equalsIgnoreCase("মাতা রেজিস্টার্ড নয়")){
+                   motherObj.put(VALUE,motherNameSelected);
+               }
+
+           }
+           String motherName = motherObj.optString(VALUE);
+           if(!TextUtils.isEmpty(motherName))return HnppDBUtils.getMotherBaseEntityId(familyId,motherName);
+       }catch (Exception e){
+
+       }
+
         return "";
 
 

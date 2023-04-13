@@ -28,6 +28,13 @@
           },
           {
             "field": "eventType",
+            "field_value": "Family Member Details Registration",
+            "creates_case": [
+              "ec_family_member"
+            ]
+          },
+          {
+            "field": "eventType",
             "field_value": "OOC Member Registration",
             "creates_case": [
               "ec_guest_member"

@@ -21,7 +21,7 @@ import org.smartregister.unicef.dghs.utils.HnppConstants;
 public class GlobalLocationFetchIntentService extends IntentService {
 
     private static final String LOCATION_FETCH = "/all_locations?";
-    private static final String TAG = "SSLocation";
+    private static final String TAG = "GlobalLocation";
 
     public GlobalLocationFetchIntentService() { super(TAG); }
     /**

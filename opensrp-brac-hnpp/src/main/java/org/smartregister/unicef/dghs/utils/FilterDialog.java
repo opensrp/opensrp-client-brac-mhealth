@@ -53,7 +53,7 @@ public class FilterDialog {
         clasterList.add(0,"সকল");
 
         if(!HnppConstants.isPALogin()){
-            ArrayList<WardLocation> ssLocationForms = HALocationHelper.getInstance().getWardList();
+            ArrayList<WardLocation> ssLocationForms = HALocationHelper.getInstance().getUnionList();
 
             for (WardLocation ssModel : ssLocationForms) {
                 ssSpinnerArray.add(ssModel.ward.name);

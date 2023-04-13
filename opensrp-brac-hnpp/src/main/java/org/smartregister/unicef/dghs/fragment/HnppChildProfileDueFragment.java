@@ -53,6 +53,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
     private static final int TAG_CHILD_DUE= 444;
     private static final int TAG_OPEN_CORONA = 88888;
     private static final int TAG_OPEN_GMP = 99999;
+    private static final int TAG_PROFILE_UPDATE= 3333;
     private int dueCount = 0;
     private View emptyView;
     private String familyName;
@@ -240,6 +241,18 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         String dobString = Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOB, false);
         Date dob = Utils.dobStringToDate(dobString);
         long day = FormApplicability.getDay(commonPersonObjectClient);
+        if(FormApplicability.isDueChildProfileVisit(baseEntityId)){
+            @SuppressLint("InflateParams") View homeVisitView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+            ImageView image1 = homeVisitView.findViewById(R.id.image_view);
+            TextView name1 =  homeVisitView.findViewById(R.id.patient_name_age);
+            homeVisitView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+            image1.setImageResource(R.drawable.rowavatar_child);
+            name1.setText("প্রোফাইল আপডেট");
+            homeVisitView.setTag(TAG_PROFILE_UPDATE);
+            homeVisitView.setOnClickListener(this);
+
+            otherServiceView.addView(homeVisitView);
+        }
 //        boolean isEnc = FormApplicability.isEncVisible(dob);
 //        if(isEnc){
 //            if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.ENC_REGISTRATION)){
@@ -395,6 +408,12 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         Integer tag = (Integer) v.getTag();
         if (tag != null) {
             switch (tag) {
+                case TAG_PROFILE_UPDATE:
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                        activity.openChildProfileVisit();
+                    }
+                    break;
                 case TAG_ENC:
                     if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();

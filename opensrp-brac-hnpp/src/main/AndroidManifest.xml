@@ -311,6 +311,11 @@
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
+            android:name=".activity.GrowthReportActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
             android:name=".activity.GuestMemberActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
@@ -328,31 +333,19 @@
             android:name=".activity.ChildVaccinationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
-        <activity
-            android:name=".activity.ForumActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/HNPPTheme.NoActionBar" />
-        <activity
-            android:name=".activity.ForumDetailsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/HNPPTheme.NoActionBar" />
+
+
         <activity
             android:name=".activity.SearchHHMemberActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
-        <activity
-            android:name=".activity.ForumHistoryActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/HNPPTheme.NoActionBar" />
-        <activity
-            android:name=".activity.ForumHistoryDetailsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/HNPPTheme.NoActionBar" />
-        <activity
-            android:name=".activity.SSInfoActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/HNPPTheme.NoActionBar" />
+
+
         <activity android:name=".activity.TermAndConditionWebView"
+            android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity android:name=".activity.WebViewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />

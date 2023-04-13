@@ -113,7 +113,7 @@ public class HnppChildProfilePresenter implements CoreChildProfileContract.Prese
         try {
             JSONObject form;
 
-            form = HnppJsonFormUtils.getAutoPopulatedJsonEditFormString(CoreConstants.JSON_FORM.getChildRegister(), getView().getApplicationContext(), client, CoreConstants.EventType.UPDATE_CHILD_REGISTRATION);
+            form = HnppJsonFormUtils.getAutoPopulatedJsonEditFormString(CoreConstants.JSON_FORM.getChildDetailsRegister(), getView().getApplicationContext(), client, CoreConstants.EventType.UPDATE_CHILD_REGISTRATION);
 
             HnppJsonFormUtils.updateFormWithBlockInfo(form,familyID);
             if (!StringUtils.isBlank(client.getColumnmaps().get(ChildDBConstants.KEY.RELATIONAL_ID))) {

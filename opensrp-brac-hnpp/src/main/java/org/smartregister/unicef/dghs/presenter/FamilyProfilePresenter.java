@@ -13,7 +13,6 @@ import org.smartregister.chw.core.interactor.CoreChildRegisterInteractor;
 import org.smartregister.chw.core.utils.CoreJsonFormUtils;
 import org.smartregister.family.presenter.BaseFamilyProfilePresenter;
 import org.smartregister.unicef.dghs.HnppApplication;
-import org.smartregister.unicef.dghs.listener.OnPostDataWithGps;
 import org.smartregister.unicef.dghs.model.HnppChildRegisterModel;
 import org.smartregister.unicef.dghs.model.HnppFamilyRegisterModel;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
@@ -89,24 +88,24 @@ public class FamilyProfilePresenter extends BaseFamilyProfilePresenter implement
 
     @Override
     public void startFormForEdit(CommonPersonObjectClient client) {
-        HnppConstants.getGPSLocation(baseProfileActivity, new OnPostDataWithGps() {
-            @Override
-            public void onPost(double latitude, double longitude) {
+//        HnppConstants.getGPSLocation(baseProfileActivity, new OnPostDataWithGps() {
+//            @Override
+//            public void onPost(double latitude, double longitude) {
                 try {
                     JSONObject form = HnppJsonFormUtils.getAutoPopulatedJsonEditFormString(CoreConstants.JSON_FORM.getFamilyDetailsRegister(), getView().getApplicationContext(), client, Utils.metadata().familyRegister.updateEventType);
-                    HnppJsonFormUtils.updateFormWithWardName(form, HnppApplication.getGeoLocationRepository().getAllWard());
+                    HnppJsonFormUtils.updateFormWithUnionName(form, HnppApplication.getHALocationRepository().getAllUnion());
                     if(HnppConstants.isPALogin())makeReadOnlyFields(form);
-                    try{
-                        HnppJsonFormUtils.updateLatitudeLongitude(form,latitude,longitude,familyBaseEntityId);
-                    }catch (Exception e){
-
-                    }
+//                    try{
+//                        HnppJsonFormUtils.updateLatitudeLongitude(form,latitude,longitude,familyBaseEntityId);
+//                    }catch (Exception e){
+//
+//                    }
                     getView().startFormActivity(form);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
-        });
+//            }
+//        });
 
     }
     public void startChildFromWithMotherInfo(String motherEntityId) throws Exception {

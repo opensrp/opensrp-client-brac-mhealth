@@ -18,8 +18,8 @@ import org.smartregister.CoreLibrary;
 import org.smartregister.chw.core.model.NavigationOption;
 import org.smartregister.unicef.dghs.BuildConfig;
 import org.smartregister.unicef.dghs.HnppApplication;
-import org.smartregister.unicef.dghs.activity.BlockUpdateActivity;
 import org.smartregister.unicef.dghs.activity.DFSActivity;
+import org.smartregister.unicef.dghs.activity.GrowthReportActivity;
 import org.smartregister.unicef.dghs.activity.MigrationActivity;
 import org.smartregister.unicef.dghs.activity.NewDashBoardActivity;
 import org.smartregister.unicef.dghs.activity.NotificationActivity;
@@ -204,7 +204,7 @@ public class HnppNavigationPresenter implements NavigationContract.Presenter {
 
     @Override
     public void updateLocation(Activity activity) {
-        activity.startActivity(new Intent(activity, BlockUpdateActivity.class));
+        //activity.startActivity(new Intent(activity, BlockUpdateActivity.class));
     }
 
     @Override
@@ -218,7 +218,8 @@ public class HnppNavigationPresenter implements NavigationContract.Presenter {
 
     @Override
     public void browseDashboard(Activity activity) {
-        activity.startActivity(new Intent(activity, NewDashBoardActivity.class));
+//        activity.startActivity(new Intent(activity, NewDashBoardActivity.class));
+        activity.startActivity(new Intent(activity, GrowthReportActivity.class));
     }
 
     @Override
@@ -276,7 +277,7 @@ public class HnppNavigationPresenter implements NavigationContract.Presenter {
                             exception.printStackTrace();
                         }
                     } catch (Exception ex) {
-                        HnppConstants.appendLog("SAVE_VISIT","processVisitLog exception occured :"+ex.getMessage());
+                        HnppConstants.appendLog("SAVE_VISIT","updateUserStatus :"+ex.getMessage());
                         Log.d("SAVE_VISIT","processVisitLog exception occured :"+ex.getMessage());
                         e.onNext("");//error
                         e.onComplete();

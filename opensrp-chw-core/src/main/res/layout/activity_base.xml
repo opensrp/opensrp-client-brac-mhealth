@@ -371,6 +371,7 @@
                         <RelativeLayout
                             android:id="@+id/update_location"
                             android:layout_width="match_parent"
+                            android:visibility="gone"
                             android:layout_height="60dp"
                             android:paddingStart="15dp"
                             android:paddingLeft="15dp"

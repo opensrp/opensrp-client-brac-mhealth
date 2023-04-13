@@ -39,13 +39,13 @@ public class HALocationFetchIntentService extends IntentService {
     protected void onHandleIntent( Intent intent) {
         JSONArray jsonObjectLocation = getLocationList();
         if(jsonObjectLocation!=null){
-            if(!HnppConstants.isPALogin())HnppApplication.getGeoLocationRepository().dropTable();
+            if(!HnppConstants.isPALogin())HnppApplication.getHALocationRepository().dropTable();
             for(int i=0;i<jsonObjectLocation.length();i++){
                 try {
                     JSONObject object = jsonObjectLocation.getJSONObject(i);
                     SSModel ssModel =  new Gson().fromJson(object.toString(), SSModel.class);
                     if(ssModel != null){
-                        HnppApplication.getGeoLocationRepository().addOrUpdate(ssModel);
+                        HnppApplication.getHALocationRepository().addOrUpdate(ssModel);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

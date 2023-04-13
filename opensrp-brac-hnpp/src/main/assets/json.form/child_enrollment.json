@@ -92,24 +92,22 @@
         "type": "hidden"
       },
       {
-        "key": "ward_id",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "ward_id",
-        "type": "hidden"
-      },
-      {
         "key": "unique_id",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_identifier",
         "openmrs_entity_id": "opensrp_id",
         "type": "edit_text",
-        "hint": "নাম্বার",
-        "read_only": true,
-        "v_numeric": {
-          "value": "false",
-          "err": "একটি বৈধ আইডি লিখুন"
-        }
+        "hint": "সিস্টেম নম্বর",
+        "read_only": true
+      },
+      {
+        "key": "shr_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_identifier",
+        "openmrs_entity_id": "shr_id",
+        "type": "edit_text",
+        "hint": "শেয়ারড হেলথ রেকর্ড আই ডি",
+        "read_only": true
       },
       {
         "key": "house_hold_id",
@@ -163,24 +161,6 @@
         }
       },
       {
-        "key": "member_name_bengla",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "member_name_bengla",
-        "openmrs_data_type": "text",
-        "type": "edit_text",
-        "hint": "সম্পূর্ণ নাম (বাংলায়)",
-        "v_regex": {
-          "value": "[^A-Za-z0-9]*",
-          "err": "বাংলায় লিখুন"
-        },
-        "expanded": false,
-        "v_required": {
-          "value": false,
-          "err": "Please Enter a Valid Name"
-        }
-      },
-      {
         "key": "mother_name_english",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
@@ -196,24 +176,6 @@
         "v_required": {
           "value": false,
           "err": "মান নির্বাচন করুন"
-        }
-      },
-      {
-        "key": "mother_name_bangla",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "mother_name_bangla",
-        "openmrs_data_type": "text",
-        "type": "edit_text",
-        "hint": "মাতার নাম (বাংলায়)",
-        "edit_type": "name",
-        "v_regex": {
-          "value": "[^A-Za-z0-9]*",
-          "err": "বাংলায় লিখুন"
-        },
-        "v_required": {
-          "value": false,
-          "err": "Please enter the mother/guardian's first name"
         }
       },
       {
@@ -233,24 +195,6 @@
         "v_regex": {
           "value": "[A-Za-z .]*",
           "err": "Please enter a valid name"
-        }
-      },
-      {
-        "key": "father_name_bangla",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "father_name_bangla",
-        "openmrs_data_type": "text",
-        "type": "edit_text",
-        "hint": "পিতার নাম (বাংলায়)",
-        "edit_type": "name",
-        "v_regex": {
-          "value": "[^A-Za-z0-9]*",
-          "err": "বাংলায় লিখুন"
-        },
-        "v_required": {
-          "value": false,
-          "err": "Please enter the mother/guardian's first name"
         }
       },
       {
@@ -356,48 +300,6 @@
         "v_required": {
           "value": true,
           "err": "লিঙ্গ প্রবেশ করুন"
-        }
-      },
-      {
-        "key": "blood_group",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "Blood_Group",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "রক্তের গ্রুপ",
-        "values": [
-          "A+",
-          "A-",
-          "B+",
-          "B-",
-          "O+",
-          "O-",
-          "AB+",
-          "AB-",
-          "রক্তের গ্রুপ জানা নেই"
-        ],
-        "openmrs_choice_ids": {
-          "A+": "A+",
-          "A-": "A-",
-          "B+": "B+",
-          "B-": "B-",
-          "O+": "O+",
-          "O-": "O-",
-          "AB+": "AB+",
-          "AB-": "AB-",
-          "রক্তের গ্রুপ জানা নেই": "Do Not Know Blood Group"
-        },
-        "v_required": {
-          "value": true,
-          "err": "রক্ত গ্রুপ নির্বাচন করুন"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
         }
       },
       {
@@ -608,22 +510,108 @@
         }
       },
       {
-        "key": "latitude",
+        "key": "disability",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "latitude",
-        "type": "edit_text",
-        "read_only": true,
-        "hint": "অক্ষাংশ"
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "disable",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "প্রতিবন্ধী",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
       },
       {
-        "key": "longitude",
+        "key": "disability_type",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "longitude",
-        "type": "edit_text",
-        "read_only": true,
-        "hint": "দ্রাঘিমা"
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "disability_type",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "প্রতিবন্ধীতা ধরন",
+        "values": [
+          "অটিজম বৈশিষ্ট্য সম্পন্ন ব্যাক্তি",
+          "শারীরিক প্রতিবন্ধীতা",
+          "দৃষ্টি ও শ্রবণ প্রতিবন্ধীতা",
+          "বাক ও শ্রবণ প্রতিবন্ধীতা",
+          "মানসিক প্রতিবন্ধীতা",
+          "বুদ্ধি প্রতিবন্ধীতা",
+          "সেরিব্রাল পালসিজনিত প্রতিবন্ধীতা",
+          "ডাউন সিনড্রমজনিত প্রতিবন্ধীতা",
+          "বহুমুখী প্রতিবন্ধীতা"
+        ],
+        "openmrs_choice_ids": {
+          "অটিজম বৈশিষ্ট্য সম্পন্ন ব্যাক্তি": "Autism",
+          "শারীরিক প্রতিবন্ধীতা": "Physical Disability",
+          "দৃষ্টি ও শ্রবণ প্রতিবন্ধীতা": "Auditory Disability",
+          "বাক ও শ্রবণ প্রতিবন্ধীতা": "Mute and Hearing Disability",
+          "মানসিক প্রতিবন্ধীতা": "Mental Disability",
+          "বুদ্ধি প্রতিবন্ধীতা": "Mentally Challenged",
+          "সেরিব্রাল পালসিজনিত প্রতিবন্ধীতা": "Cerebral Palsy",
+          "ডাউন সিনড্রমজনিত প্রতিবন্ধীতা": "Down Syndrome",
+          "বহুমুখী প্রতিবন্ধীতা": "Multidimensional Disability"
+        },
+        "relevance": {
+          "step1:disability": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "blood_group",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "Blood_Group",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "রক্তের গ্রুপ",
+        "values": [
+          "A+",
+          "A-",
+          "B+",
+          "B-",
+          "O+",
+          "O-",
+          "AB+",
+          "AB-",
+          "রক্তের গ্রুপ জানা নেই"
+        ],
+        "openmrs_choice_ids": {
+          "A+": "A+",
+          "A-": "A-",
+          "B+": "B+",
+          "B-": "B-",
+          "O+": "O+",
+          "O-": "O-",
+          "AB+": "AB+",
+          "AB-": "AB-",
+          "রক্তের গ্রুপ জানা নেই": "Do Not Know Blood Group"
+        },
+        "v_required": {
+          "value": true,
+          "err": "রক্ত গ্রুপ নির্বাচন করুন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_default_baby.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "gps",
+        "openmrs_entity_parent": "usual_residence",
+        "openmrs_entity": "person_address",
+        "openmrs_entity_id": "geopoint",
+        "openmrs_data_type": "text",
+        "type": "gps"
       }
     ]
   }

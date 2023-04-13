@@ -867,6 +867,7 @@ public class HnppConstants extends CoreConstants {
         public static final String BIRTH_ID = "birth_id";
         public static final String IS_BITHDAY_KNOWN = "is_birthday_known";
         public static final String BLOOD_GROUP = "blood_group";
+        public static final String SHR_ID = "shr_id";
         public static final String LAST_HOME_VISIT = "last_home_visit";
         public static final String DATE_CREATED = "date_created";
         public static final String BIRTH_WEIGHT = "birth_weight";
@@ -941,7 +942,8 @@ public class HnppConstants extends CoreConstants {
         public static final String  IYCF_PACKAGE = "hnpp_iycf_package";
         public static final String ENC_REGISTRATION = "hnpp_enc_child";
         public static final String HOME_VISIT_FAMILY = "hnpp_hh_visit";
-
+        public static final String CHILD_PROFILE_VISIT= "child_profile_visit";
+        public static final String MEMBER_PROFILE_VISIT= "member_profile_visit";
         public static final String REFERREL_FOLLOWUP = "hnpp_member_referral_followup";
         public static final String CHILD_FOLLOWUP = "hnpp_child_followup";
         public static final String CHILD_INFO_EBF12 = "child_info_ebf12";
@@ -991,6 +993,8 @@ public class HnppConstants extends CoreConstants {
         public static final String IYCF_PACKAGE = "IYCF package";
         public static final String ENC_REGISTRATION = "ENC Registration";
         public static final String HOME_VISIT_FAMILY = "HH visit";
+        public static final String CHILD_PROFILE_VISIT = "Child profile visit";
+        public static final String MEMBER_PROFILE_VISIT = "Member profile visit";
         public static final String VACCINATION = "Vaccination";
         public static final String SERVICES = "Recurring Service";
         public static final String PREGNANCY_OUTCOME = "Pregnancy Outcome";
@@ -1242,8 +1246,8 @@ public class HnppConstants extends CoreConstants {
             .put("mr_1","MR-১")
             .put("mr_2","MR-২")
             .put("vitamin_a1","ভিটামিন")
-            .put("fipv_1","এফইপিভি-১")
-            .put("fipv_2","এফইপিভি-২")
+            .put("fipv_1","এফ আই পি ভি-১")
+            .put("fipv_2","এফ আই পি ভি-২")
             .build();
     public static final Map<String,String> eventTypeFormNameMapping = ImmutableMap.<String,String> builder()
             .put(EVENT_TYPE.ANC_REGISTRATION,JSON_FORMS.ANC_FORM)
@@ -1304,6 +1308,8 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ENC_REGISTRATION,R.mipmap.ic_child)
             .put("Member referral",R.mipmap.ic_refer)
             .put(EVENT_TYPE.HOME_VISIT_FAMILY, R.mipmap.ic_icon_home)
+            .put(EVENT_TYPE.CHILD_PROFILE_VISIT, R.drawable.rowavatar_child)
+            .put(EVENT_TYPE.MEMBER_PROFILE_VISIT, R.drawable.rowavatar_member)
             .put(EventType.CHILD_HOME_VISIT, R.mipmap.ic_icon_home)
             .put(EVENT_TYPE.VACCINATION, R.drawable.ic_muac)
             .put(EVENT_TYPE.SERVICES, R.mipmap.form_vitamin)
@@ -1361,7 +1367,9 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.EYE_TEST,"চক্ষু পরীক্ষা")
             .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)")
             .put(EVENT_TYPE.ENC_REGISTRATION, "নবজাতকের সেবা")
-            .put(EVENT_TYPE.HOME_VISIT_FAMILY, "খানা পরিদর্শন")
+            .put(EVENT_TYPE.HOME_VISIT_FAMILY, "খানার প্রোফাইল আপডেট")
+            .put(EVENT_TYPE.CHILD_PROFILE_VISIT, "প্রোফাইল আপডেট")
+            .put(EVENT_TYPE.MEMBER_PROFILE_VISIT, "প্রোফাইল আপডেট")
             .put(EVENT_TYPE.VACCINATION, "ভ্যাকসিনেশন")
             .put(EVENT_TYPE.SERVICES, "ভিটামিন সার্ভিস")
             .put(EVENT_TYPE.REFERREL_FOLLOWUP,"রেফারেল ফলোআপ")
@@ -1387,7 +1395,9 @@ public class HnppConstants extends CoreConstants {
     //for dashboard poridorshon
     public static final Map<String,String> targetTypeMapping = ImmutableMap.<String,String> builder()
 
-            .put(EVENT_TYPE.HOME_VISIT_FAMILY,"খানা পরিদর্শন")
+            .put(EVENT_TYPE.HOME_VISIT_FAMILY,"খানার প্রোফাইল আপডেট ")
+            .put(EVENT_TYPE.CHILD_PROFILE_VISIT,"প্রোফাইল আপডেট")
+            .put(EVENT_TYPE.MEMBER_PROFILE_VISIT,"প্রোফাইল আপডেট")
             .put(EVENT_TYPE.ELCO,"সক্ষম দম্পতি পরিদর্শন")
             .put(EVENT_TYPE.METHOD_USER,"পদ্ধতি ব্যবহারকারী")
             .put(EVENT_TYPE.ADO_METHOD_USER,"পদ্ধতি ব্যবহারকারী (কিশোরী)")
@@ -1428,7 +1438,9 @@ public class HnppConstants extends CoreConstants {
 
             .put(HnppConstants.EventType.FAMILY_REGISTRATION,"খানা রেজিস্ট্রেশন")
             .put(HnppConstants.EventType.FAMILY_MEMBER_REGISTRATION,"সদস্য রেজিস্ট্রেশন")
-            .put(EVENT_TYPE.HOME_VISIT_FAMILY,"খানা ভিজিট")
+            .put(EVENT_TYPE.HOME_VISIT_FAMILY,"খানার প্রোফাইল আপডেট ")
+            .put(EVENT_TYPE.CHILD_PROFILE_VISIT,"প্রোফাইল আপডেট")
+            .put(EVENT_TYPE.MEMBER_PROFILE_VISIT,"প্রোফাইল আপডেট")
             .put(HnppConstants.EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,"সদস্য রেজিস্ট্রেশন")
             .put("ANC","গর্ভবতী পরিচর্যা(এএনসি)")
             .put("pnc","পূর্বের প্রসবোত্তর পরিচর্যা(পিএনসি)")
@@ -1481,7 +1493,7 @@ public class HnppConstants extends CoreConstants {
             .put(HnppConstants.EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,"সদস্য সংখ্যা")
             .put(HnppConstants.EventType.CHILD_REGISTRATION,"শিশু সংখ্যা")
             .put(EVENT_TYPE.ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন")
-            .put(EVENT_TYPE.HOME_VISIT_FAMILY,"খানা ভিজিট")
+            .put(EVENT_TYPE.HOME_VISIT_FAMILY,"খানার প্রোফাইল আপডেট ")
             .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,"গর্ভবতী পরিচর্যা ভিজিট(এএনসি)")
             .put(EVENT_TYPE.PNC_REGISTRATION,"পি.এন.সি.")
             .put(EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসব")
@@ -1511,7 +1523,9 @@ public class HnppConstants extends CoreConstants {
             .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,"গর্ভবতী পরিচর্যা ভিজিট(এএনসি)")
             .put( EVENT_TYPE.PNC_REGISTRATION,"পি.এন.সি.")
             .put(EVENT_TYPE.ENC_REGISTRATION, "নবজাতকের সেবা")
-            .put(EVENT_TYPE.HOME_VISIT_FAMILY, "খানা পরিদর্শন")
+            .put(EVENT_TYPE.HOME_VISIT_FAMILY, "খানার প্রোফাইল আপডেট ")
+            .put(EVENT_TYPE.CHILD_PROFILE_VISIT, "প্রোফাইল আপডেট")
+            .put(EVENT_TYPE.MEMBER_PROFILE_VISIT, "প্রোফাইল আপডেট")
             .put(EventType.CHILD_HOME_VISIT, "শিশু হোম ভিজিট")
             .put(EVENT_TYPE.VACCINATION, "ভ্যাকসিনেশন")
             .put(EVENT_TYPE.SERVICES, "ভিটামিন সার্ভিস")

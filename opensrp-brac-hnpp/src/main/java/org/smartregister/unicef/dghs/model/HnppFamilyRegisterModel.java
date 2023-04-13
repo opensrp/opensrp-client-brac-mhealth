@@ -41,7 +41,7 @@ public class HnppFamilyRegisterModel extends BaseFamilyRegisterModel {
             makeReadOnlyFields(form);
         }
         HnppJsonFormUtils.addValueAtJsonForm(form,"registration_date", HnppConstants.getTodayDate());
-        HnppJsonFormUtils.updateFormWithWardName(form, HnppApplication.getGeoLocationRepository().getAllWard());
+        HnppJsonFormUtils.updateFormWithUnionName(form, HnppApplication.getHALocationRepository().getAllUnion());
         return HnppJsonFormUtils.getFormAsJson(form, formName, entityId, currentLocationId);
     }
 
@@ -102,7 +102,7 @@ public class HnppFamilyRegisterModel extends BaseFamilyRegisterModel {
             familyClient.addRelationship(Utils.metadata().familyRegister.familyHeadRelationKey, familyEventClient.getClient().getBaseEntityId());
             familyClient.addRelationship(Utils.metadata().familyRegister.familyCareGiverRelationKey, familyEventClient.getClient().getBaseEntityId());
             List<Address> listAddress = new ArrayList<>();
-            HALocation selectedLocation = HnppApplication.getGeoLocationRepository().getLocationByBlock(blockId);
+            HALocation selectedLocation = HnppApplication.getHALocationRepository().getLocationByBlock(blockId);
             if(selectedLocation == null){
                 return null;
             }else{

@@ -353,7 +353,7 @@ public class HnppDBUtils {
 
     }
     public static String getBlockNameFromFamilyTable(String familyBaseEntityId){
-        String query = "select ss_name from ec_family  where base_entity_id = '"+familyBaseEntityId+"'";
+        String query = "select block_name from ec_family  where base_entity_id = '"+familyBaseEntityId+"'";
         Cursor cursor = null;
         String birthWeight="";
         try {
@@ -397,6 +397,7 @@ public class HnppDBUtils {
     }
     public static BaseLocation getBlocksHHID(String hhBaseEntityId){
         String query = "select block_name,block_id from ec_family where base_entity_id = '"+hhBaseEntityId+"'";
+        Log.v("SAVE_VISIT","getBlocksIdFromMember>>query:"+query);
         Cursor cursor = null;
         BaseLocation blocksLocation = new BaseLocation();
         try {
@@ -416,6 +417,27 @@ public class HnppDBUtils {
             if(cursor !=null)cursor.close();
         }
         return blocksLocation;
+    }
+    public static String getBlocksIdFromMember(String baseEntityId){
+        String query = "select block_id from ec_family_member where base_entity_id = '"+baseEntityId+"'";
+        Log.v("SAVE_VISIT","getBlocksIdFromMember>>query:"+query);
+        Cursor cursor = null;
+        String blockId = "";
+        try {
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                blockId = cursor.getString(0);
+            }
+
+        } catch (Exception e) {
+            Timber.e(e);
+
+        }
+        finally {
+            if(cursor !=null)cursor.close();
+        }
+        return blockId;
     }
     public static String getBlockNameFromGuestTable(String baseEntityId){
         String query = "select block_name from ec_guest_member where base_entity_id = '"+baseEntityId+"'";
@@ -1185,6 +1207,7 @@ public class HnppDBUtils {
         columnList.add(tableName + "." + HnppConstants.KEY.CHILD_MOTHER_NAME);
         columnList.add(tableName + "." + HnppConstants.KEY.CHILD_MOTHER_NAME_REGISTERED);
         columnList.add(tableName + "." + HnppConstants.KEY.BLOOD_GROUP);
+        columnList.add(tableName + "." + HnppConstants.KEY.SHR_ID);
         columnList.add(tableName + "." + ChildDBConstants.KEY.MOTHER_ENTITY_ID);
 
 //        columnList.add(tableName + "." + ChildDBConstants.KEY.BIRTH_WEIGHT_TAKEN);

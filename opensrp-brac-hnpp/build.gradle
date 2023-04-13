@@ -31,6 +31,9 @@ android {
         // but continue the build even when errors are found:
         abortOnError false
     }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+    }
 
     defaultConfig {
         applicationId "org.smartregister.unicef.dghs"
@@ -131,8 +134,8 @@ android {
             buildConfigField "boolean", 'IS_TRAINING', 'true'
             buildConfigField "String", 'opensrp_url_training', '"http://unicef-ha.mpower-social.com/opensrp/"'
             buildConfigField "String", 'opensrp_url_live', '"http://unicef-ha.mpower-social.com/opensrp/"'
-//            buildConfigField "String", 'opensrp_url_training', '"http://opensrpha.mpower-social.com:8080/opensrp/"'
-//            buildConfigField "String", 'opensrp_url_live', '"http://opensrpha.mpower-social.com:8080/opensrp/"'
+//            buildConfigField "String", 'opensrp_url_training', '"http://192.168.23.14:8080/opensrp/"'
+//            buildConfigField "String", 'opensrp_url_live', '"http://192.168.23.14:8080/opensrp/"'
 
         }
         production{
@@ -150,6 +153,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':opensrp-chw-core')
+    implementation 'com.github.RobertApikyan:SegmentedControl:1.2.0'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 //    //from branch muac_edema_gmp
     api ('org.smartregister:opensrp-client-growth-monitoring:1.1.9-gmp-SNAPSHOT@aar') {
         transitive = true
@@ -179,6 +184,7 @@ dependencies {
     testImplementation 'org.robolectric:robolectric:4.0.1'
     testImplementation 'org.robolectric:shadows-multidex:3.8'
     testImplementation 'org.robolectric:shadows-support-v4:3.4-rc2'
+    implementation 'org.apache.pdfbox:pdfbox:2.0.24'
 
     // PowerMock
     def powerMockVersion = '1.7.1'

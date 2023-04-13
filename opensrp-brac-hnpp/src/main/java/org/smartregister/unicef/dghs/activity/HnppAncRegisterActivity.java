@@ -461,7 +461,7 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
         JSONArray fields = org.smartregister.util.JsonFormUtils.fields(form);
         String blockId = org.smartregister.util.JsonFormUtils.getFieldValue(fields,BLOCK_ID);
         Log.v("saveRegistration","saveRegistration>>>blockId:"+blockId);
-        HALocation selectedLocation = HnppApplication.getGeoLocationRepository().getLocationByBlock(blockId);
+        HALocation selectedLocation = HnppApplication.getHALocationRepository().getLocationByBlock(blockId);
         baseEvent.setIdentifiers(HALocationHelper.getInstance().getGeoIdentifier(selectedLocation));
         String visitID ="";
         if(!TextUtils.isEmpty(baseEvent.getEventId())){

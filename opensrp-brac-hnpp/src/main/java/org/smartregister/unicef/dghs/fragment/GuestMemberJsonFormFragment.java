@@ -9,12 +9,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.vijay.jsonwizard.customviews.MaterialSpinner;
@@ -22,7 +20,6 @@ import com.vijay.jsonwizard.fragments.JsonWizardFormFragment;
 import com.vijay.jsonwizard.presenters.JsonFormFragmentPresenter;
 import com.vijay.jsonwizard.viewstates.JsonFormFragmentViewState;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.unicef.dghs.HnppApplication;
@@ -30,10 +27,8 @@ import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.domain.HouseholdId;
 import org.smartregister.unicef.dghs.interactor.HnppJsonFormInteractor;
 import org.smartregister.unicef.dghs.job.PullGuestMemberIdServiceJob;
-import org.smartregister.unicef.dghs.location.BlockLocation;
 import org.smartregister.unicef.dghs.location.HALocationHelper;
 import org.smartregister.unicef.dghs.location.HALocation;
-import org.smartregister.unicef.dghs.location.WardLocation;
 import org.smartregister.unicef.dghs.repository.GuestMemberIdRepository;
 import org.smartregister.util.Utils;
 
@@ -85,20 +80,20 @@ public class GuestMemberJsonFormFragment extends JsonWizardFormFragment {
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         super.onItemSelected(parent, view, position, id);
         if (position != -1 && parent instanceof MaterialSpinner) {
-            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.ss_name_form_field))) {
+            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.union_zone))) {
                 if(isManuallyPressed){
-                    processVillageList(position);
-                }
-            }
-            else if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.village_name_form_field))) {
-                if(isManuallyPressed){
-                    processHouseHoldId(position);
+                    processOldWard(position);
                 }
             }
 
-          //  hideKeyBoard();
         }
 
+
+    }
+
+    private void processOldWard(int position) {
+        ArrayList<String> oldWardNameList = new ArrayList<>();
+        ArrayList<String> oldWardIdList = new ArrayList<>();
 
     }
 
@@ -111,80 +106,6 @@ public class GuestMemberJsonFormFragment extends JsonWizardFormFragment {
 
     ArrayList<String> blockNameList = new ArrayList<>();
     ArrayList<String> blockIdList = new ArrayList<>();
-    @SuppressLint("StaticFieldLeak")
-    public void processVillageList(final int index) {
-
-
-        Utils.startAsyncTask(new AsyncTask() {
-
-            @Override
-            protected Object doInBackground(Object[] objects) {
-                blockNameList.clear();
-                blockIdList.clear();
-                WardLocation wardLocation = HALocationHelper.getInstance().getWardList().get(index);
-                ArrayList<BlockLocation> blockLocations = HnppApplication.getGeoLocationRepository().getOnlyBlockLocationByWardId(wardLocation.ward.id+"");
-                for(BlockLocation geoLocation1 : blockLocations){
-                    blockNameList.add(geoLocation1.block.name);
-                    blockIdList.add(geoLocation1.block.id+"");
-                }
-
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Object o) {
-                super.onPostExecute(o);
-                ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());
-                for (int i = 0; i < formdataviews.size(); i++) {
-                    if (formdataviews.get(i) instanceof MaterialSpinner) {
-                        if (!TextUtils.isEmpty(((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText()) &&
-                                (((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText().toString().trim()
-                                        .equalsIgnoreCase(getContext().getResources().getString(R.string.village_name_form_field)))) {
-
-                            try{
-                                JSONObject villageNames = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "block_name");
-                                JSONArray jsonArray = new JSONArray();
-                                for(String villages : blockNameList){
-                                    jsonArray.put(villages);
-                                }
-                                villageNames.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);
-                            }catch (Exception e){
-
-                            }
-
-
-                            MaterialSpinner spinner = (MaterialSpinner) formdataviews.get(i);
-                            spinner.setEnabled(true);
-                            ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), com.vijay.jsonwizard.R.layout.native_form_simple_list_item_1, blockNameList);
-                            spinner.setAdapter(adapter);
-                            spinner.setSelection(0, true);
-                            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                @Override
-                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                                    if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.village_name_form_field))) {
-                                        Log.v("SPINNER_SELECT","processVillageList>>onItemSelectedssIndex:"+position);
-                                        if(position!=-1){
-                                            processHouseHoldId(position);
-                                        }
-
-
-                                    }
-
-                                }
-
-                                @Override
-                                public void onNothingSelected(AdapterView<?> parent) {
-
-                                }
-                            });
-                            break;
-                        }
-                    }
-                }
-            }
-        }, null);
-    }
     @SuppressLint("StaticFieldLeak")
     public void processHouseHoldId(final int index) {
 
@@ -204,7 +125,7 @@ public class GuestMemberJsonFormFragment extends JsonWizardFormFragment {
                 if(hhid == null){
                     return blockIdList.get(index);
                 }
-                HALocation HALocation = HnppApplication.getGeoLocationRepository().getLocationByBlock(blockIdList.get(index));
+                HALocation HALocation = HnppApplication.getHALocationRepository().getLocationByBlock(blockIdList.get(index));
                 unique_id = HALocationHelper.getInstance().generateHouseHoldId(HALocation, hhid.getOpenmrsId() + "");
 
                 return null;

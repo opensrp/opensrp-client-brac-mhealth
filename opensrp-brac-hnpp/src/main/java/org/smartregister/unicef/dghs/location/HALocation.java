@@ -11,5 +11,6 @@ public class HALocation implements Serializable {
     public BaseLocation union;
     public BaseLocation block;
     public BaseLocation ward;
+    public BaseLocation old_ward;
 
 }

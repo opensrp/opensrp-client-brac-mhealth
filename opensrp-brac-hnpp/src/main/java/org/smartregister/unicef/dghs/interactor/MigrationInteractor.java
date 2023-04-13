@@ -117,7 +117,7 @@ public class MigrationInteractor  {
             String ssName = HnppDBUtils.getBlockNameFromFamilyTable(migrationSearchContentData.getFamilyBaseEntityId());
             migrationSearchContentData.setBlockName(ssName);
         }
-        HALocation ss = HnppApplication.getGeoLocationRepository().getLocationByBlock(migrationSearchContentData.getBlockId()+"");
+        HALocation ss = HnppApplication.getHALocationRepository().getLocationByBlock(migrationSearchContentData.getBlockId()+"");
         if(ss==null){
             return null;
         }
@@ -152,7 +152,7 @@ public class MigrationInteractor  {
         baseClient.addAttribute("ward_name",migrationSearchContentData.getWardName());
         baseClient.addAttribute("block_id",migrationSearchContentData.getBlockId());
 
-        HALocation ss = HnppApplication.getGeoLocationRepository().getLocationByBlock(migrationSearchContentData.getBlockId()+"");
+        HALocation ss = HnppApplication.getHALocationRepository().getLocationByBlock(migrationSearchContentData.getBlockId()+"");
 
         String unique_id = generateHHId(ss);
         if(unique_id.isEmpty()){

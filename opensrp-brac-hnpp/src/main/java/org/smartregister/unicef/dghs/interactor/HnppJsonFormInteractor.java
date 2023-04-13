@@ -3,7 +3,6 @@ package org.smartregister.unicef.dghs.interactor;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.interactors.JsonFormInteractor;
 
-import org.smartregister.unicef.dghs.lookup.HnppEditTextFactory;
 import org.smartregister.unicef.dghs.widget.HnppDatePickerFactory;
 import org.smartregister.unicef.dghs.widget.HnppFingerPrintFactory;
 import org.smartregister.unicef.dghs.widget.HnppSectionFactory;
@@ -19,7 +18,6 @@ public class HnppJsonFormInteractor extends JsonFormInteractor {
     @Override
     protected void registerWidgets() {
         super.registerWidgets();
-        map.put(JsonFormConstants.EDIT_TEXT, new HnppEditTextFactory());
         map.put(JsonFormConstants.DATE_PICKER, new HnppDatePickerFactory());
         map.put(JsonFormConstants.SECTION_LABEL, new HnppSectionFactory());
         map.put(JsonFormConstants.SPINNER, new HnppSpinnerFactory());

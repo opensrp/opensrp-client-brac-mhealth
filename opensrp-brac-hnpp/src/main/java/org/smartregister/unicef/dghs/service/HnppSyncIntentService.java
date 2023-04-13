@@ -1,15 +1,16 @@
 package org.smartregister.unicef.dghs.service;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
+import android.widget.Toast;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.smartregister.AllConstants;
 import org.smartregister.CoreLibrary;
 import org.smartregister.SyncConfiguration;
-import org.smartregister.unicef.dghs.activity.BlockUpdateActivity;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.domain.FetchStatus;
 import org.smartregister.domain.Response;
@@ -100,10 +101,11 @@ public class HnppSyncIntentService extends SyncIntentService {
             }
 
             JSONObject jsonObject = new JSONObject((String) resp.payload());
-            if(jsonObject.has("msg")&&jsonObject.getString("msg").equalsIgnoreCase("Block not found")){
-                Intent i = new Intent(this, BlockUpdateActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
+            if(jsonObject.has("msg")&& !TextUtils.isEmpty(jsonObject.getString("msg"))){
+//                Intent i = new Intent(this, BlockUpdateActivity.class);
+//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(i);
+                Toast.makeText(this, jsonObject.getString("msg"), Toast.LENGTH_SHORT).show();
                 return;
             }
             int eCount = fetchNumberOfEvents(jsonObject);

@@ -12,17 +12,17 @@ import java.util.Map;
 public class HALocationHelper {
 
     private static HALocationHelper instance;
-    private ArrayList<WardLocation> wardList = new ArrayList<>();
+    private ArrayList<WardLocation> unionList = new ArrayList<>();
 
     private HALocationHelper(){
-        wardList = HnppApplication.getGeoLocationRepository().getAllWard();
+        unionList = HnppApplication.getHALocationRepository().getAllUnion();
     }
 
-    public ArrayList<WardLocation> getWardList() {
-        return wardList;
+    public ArrayList<WardLocation> getUnionList() {
+        return unionList;
     }
     public void updateWardList(){
-        wardList = HnppApplication.getGeoLocationRepository().getAllWard();
+        unionList = HnppApplication.getHALocationRepository().getAllUnion();
     }
 
     public static HALocationHelper getInstance(){
@@ -33,7 +33,7 @@ public class HALocationHelper {
     }
 
     public String generateHouseHoldId(HALocation HALocation, String lastFourDigit){
-        return  HALocation.division.code+""+ HALocation.district.code+""+ HALocation.upazila.code+""
+        return  "1"+HALocation.division.code+""+ HALocation.district.code+""+ HALocation.upazila.code+""
                 + HALocation.union.code+""+ HALocation.ward.code+""
                 + HALocation.block.code+""+lastFourDigit;
     }
@@ -45,6 +45,7 @@ public class HALocationHelper {
         addressMap.put("address2", HALocation.upazila.name);
         addressMap.put("address3", HALocation.ward.name);
         addressMap.put("address8", HALocation.block.id+"");
+        addressMap.put("old_ward", HALocation.old_ward.name+"");
         address.setAddressFields(addressMap);
         address.setStateProvince(HALocation.division.name);
         address.setCityVillage(HALocation.block.name);
@@ -59,6 +60,7 @@ public class HALocationHelper {
         client.addAttribute("union_id", HALocation.union.id+"");
         client.addAttribute("ward_id", HALocation.ward.id+"");
         client.addAttribute("block_id", HALocation.block.id+"");
+        client.addAttribute("old_ward_id", HALocation.old_ward.id+"");
         return client;
     }
     public Map<String,String> getGeoIdentifier(HALocation HALocation){
@@ -69,6 +71,7 @@ public class HALocationHelper {
         identifiers.put("union_id", HALocation.union.id+"");
         identifiers.put("ward_id", HALocation.ward.id+"");
         identifiers.put("block_id", HALocation.block.id+"");
+        identifiers.put("old_ward_id", HALocation.old_ward.id+"");
         return identifiers;
     }
     public static void clearLocation(){

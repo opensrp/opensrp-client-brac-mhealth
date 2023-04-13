@@ -390,7 +390,7 @@ public class HnppApplication extends DrishtiApplication implements CoreApplicati
         return guestMemberIdRepository;
     }
 
-    public static HALocationRepository getGeoLocationRepository() {
+    public static HALocationRepository getHALocationRepository() {
         if ( HALocationRepository == null) {
             HALocationRepository = new HALocationRepository(getInstance().getRepository());
         }

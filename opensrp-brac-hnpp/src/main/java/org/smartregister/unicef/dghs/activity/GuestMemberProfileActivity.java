@@ -177,10 +177,8 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
 
                     String blockName = org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.BLOCK_NAME, false);
                     String blockId = org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.BLOCK_ID, false);
-                    String wardName = org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.WARD_NAME, false);
-                    String wardId = org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.WARD_ID, false);
-                    HnppJsonFormUtils.updateFormWithWardName(jsonForm, HALocationHelper.getInstance().getWardList());
-                    HnppJsonFormUtils.updateFormWithWardBlockName(jsonForm,wardId,blockName,blockId);
+                    HnppJsonFormUtils.updateFormWithUnionName(jsonForm, HALocationHelper.getInstance().getUnionList());
+                    HnppJsonFormUtils.updateFormWithWardBlockName(jsonForm,blockName,blockId);
                     HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,"");
                     intent.putExtra(org.smartregister.chw.anc.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
                     Form form = new Form();
