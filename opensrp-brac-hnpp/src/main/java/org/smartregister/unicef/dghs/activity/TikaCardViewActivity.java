@@ -5,6 +5,7 @@ import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
 import static android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -254,8 +255,7 @@ public class TikaCardViewActivity extends SecuredActivity {
 
     }
     private void createPdf(Context context, ArrayList<File> data){
-        File pdfFile = new File(context.getExternalCacheDir().getAbsolutePath() + File.separator + "TemperoryPDF_"+System.currentTimeMillis()+".pdf");
-        Toast.makeText(context, "Creating PDF,Please wait..", Toast.LENGTH_SHORT).show();
+        File pdfFile = new File(context.getExternalCacheDir().getAbsolutePath() + File.separator + "Tika_card_"+System.currentTimeMillis()+".pdf");
         new AsyncTask<Void, Void, Void>() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
@@ -285,6 +285,7 @@ public class TikaCardViewActivity extends SecuredActivity {
             @Override
             protected void onPostExecute(Void unused) {
                 super.onPostExecute(unused);
+                hideProgressDialog();
                 if(pdfFile.exists() && pdfFile.length()>0) {
                     openPDF(pdfFile.getAbsolutePath());
                 }else {
@@ -313,6 +314,7 @@ public class TikaCardViewActivity extends SecuredActivity {
             ActivityCompat.requestPermissions(TikaCardViewActivity.this, new String[] { permission }, requestCode);
         }
         else {
+            showProgressDialog("টিকা কার্ডটি বানানো হচ্ছে ....");
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -321,7 +323,24 @@ public class TikaCardViewActivity extends SecuredActivity {
             },2000);
         }
     }
+    private ProgressDialog dialog;
 
+    private void showProgressDialog(String text) {
+        if (dialog == null) {
+            dialog = new ProgressDialog(this);
+            dialog.setMessage(text);
+            dialog.setCancelable(false);
+            dialog.show();
+        }
+
+    }
+
+    private void hideProgressDialog() {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+            dialog = null;
+        }
+    }
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,

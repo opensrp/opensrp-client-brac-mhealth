@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="#E3E5AA">
+    android:background="@color/tika_card_yellow_bg">
 
     <LinearLayout
         android:id="@+id/tika_card_view_2"
