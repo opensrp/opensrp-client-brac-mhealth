@@ -154,6 +154,8 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
         ((TextView)viewHolder.gender).setSingleLine(false);
         fillValue(viewHolder.patientNameAge, patientName);
         String gender_key = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), "gender", true);
+        String maritalStatus  = org.smartregister.util.Utils.getValue(pc.getColumnmaps(), "marital_status", false);
+
         String gender = "";
         if (gender_key.equalsIgnoreCase("M")) {
             gender = "পুরুষ";
@@ -212,7 +214,7 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
            if (updateAsyncTask == null) {
                new UpdateAsyncTask(viewHolder).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,baseEntityId,age+"");
            }
-           if(FormApplicability.isElco(age)){
+           if(FormApplicability.isElco(age) && !TextUtils.isEmpty(maritalStatus) && maritalStatus.equalsIgnoreCase("Married")){
                viewHolder.primaryCaregiver.setVisibility(View.VISIBLE);
                viewHolder.primaryCaregiver.setText(Html.fromHtml(this.context.getString(R.string.add_child)));
            }

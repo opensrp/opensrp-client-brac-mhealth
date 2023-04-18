@@ -295,6 +295,8 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
     ArrayList<String> upazilaIds = new ArrayList<>();
     ArrayList<String> unionIds = new ArrayList<>();
     String selectedUnionId = "";
+    String selectedOldWardName = "";
+    String selectedNewWardName = "";
     private void processOldWard(int position) {
         int selectedUnionId = HALocationHelper.getInstance().getUnionList().get(position).ward.id;
         ArrayList<String> oldWardNames = new ArrayList<>();
@@ -330,6 +332,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
 
                             if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.old_ward))) {
                                 if(position!=-1){
+                                    selectedOldWardName = adapter.getItem(position);
                                     processNewWard(oldWardIds.get(position));
                                 }
 
@@ -383,6 +386,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
 
                             if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.new_ward))) {
                                 if(position!=-1){
+                                    selectedNewWardName = adapter.getItem(position);
                                     processBlock(newWardIds.get(position));
                                 }
 
@@ -514,6 +518,10 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
                                 JSONArray jsonArray = getStep("step1").getJSONArray("fields");
                                 JSONObject villageId = getFieldJSONObject(jsonArray, "block_id");
                                 villageId.put("value", blocksIds.get(index));
+                                JSONObject oldWard = getFieldJSONObject(jsonArray, "old_ward");
+                                oldWard.put("value", selectedOldWardName);
+                                JSONObject newWard = getFieldJSONObject(jsonArray, "ward_name");
+                                newWard.put("value", selectedNewWardName);
                                 JSONObject blockName = getFieldJSONObject(jsonArray, "block_name");
                                 blockName.put("value", blockNames.get(index));
 //                                if (hhid != null) {

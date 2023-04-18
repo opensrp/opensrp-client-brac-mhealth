@@ -18,6 +18,8 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
+
+
     <application
         android:name=".HnppApplication"
         android:allowBackup="false"
@@ -346,6 +348,10 @@
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity android:name=".activity.WebViewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity android:name=".activity.TikaCardViewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />

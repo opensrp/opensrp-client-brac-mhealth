@@ -40,6 +40,7 @@ public class HnppChildRegisterFragmentModel extends CoreChildRegisterFragmentMod
         columnList.add(tableName + "." + DBConstants.KEY.UNIQUE_ID);
         columnList.add(tableName + "." + DBConstants.KEY.GENDER);
         columnList.add(tableName + "." + DBConstants.KEY.DOB);
+        columnList.add(tableName + "." + HnppConstants.KEY.SHR_ID);
         columnList.add(familyTable+ "." + HnppConstants.KEY.BLOCK_NAME);
         columnList.add(familyTable + "." + HnppConstants.KEY.SERIAL_NO);
         columnList.add(tableName + "." + ChildDBConstants.KEY.LAST_HOME_VISIT);

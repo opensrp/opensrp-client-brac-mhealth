@@ -36,6 +36,7 @@ import org.smartregister.immunization.fragment.VaccinationEditDialogFragment;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.activity.PaymentActivity;
+import org.smartregister.unicef.dghs.activity.TikaCardViewActivity;
 import org.smartregister.unicef.dghs.activity.WebViewActivity;
 import org.smartregister.unicef.dghs.job.HnppSyncIntentServiceJob;
 import org.smartregister.unicef.dghs.job.VisitLogServiceJob;
@@ -166,8 +167,10 @@ public class ChildImmunizationFragment extends BaseProfileFragment implements  S
             @SuppressLint("StaticFieldLeak")
             @Override
             public void onClick(View v) {
-                SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(ChildImmunizationFragment.this);
-                HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
+                String childId = org.smartregister.util.Utils.getValue(childDetails.getColumnmaps(), "base_entity_id", false);
+                startActivity(new Intent(mActivity, TikaCardViewActivity.class).putExtra("BASE_ENTITY_ID",childId));
+//                SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(ChildImmunizationFragment.this);
+//                HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
 
 
 //                Utils.startAsyncTask(new AsyncTask() {

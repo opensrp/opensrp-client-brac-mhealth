@@ -229,7 +229,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
             Height height = heightList.get(0);
             heightText = HeightZScore.getZScoreText(height.getZScore());
             Log.v("ZSCORE","heightText>>"+heightText);
-            if(isNeedToUpdateDB) GrowthUtil.updateLastHeight(height.getCm(),height.getBaseEntityId(),heightText);
+            if(isNeedToUpdateDB) GrowthUtil.updateLastHeight(height.getCm(),height.getZScore(),height.getBaseEntityId(),heightText);
         }
         return heightText;
     }
@@ -429,6 +429,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
     private void showGMPDialog(String text, int type){
         int resultColor = ZScore.getZscoreColorByText(text);
         if(text.equalsIgnoreCase("OVER WEIGHT")) text = GMP_STATUS.OVER_WEIGHT.toString();
+        if(text.equalsIgnoreCase("DARK YELLOW")) text = GMP_STATUS.MAM.toString();
         Log.v("SHOW_GMP","text>>"+text);
         String dialogMessage = getDialogMessageByType(text,type);
         Dialog dialog = new Dialog(mActivity);
@@ -462,7 +463,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
                     if(month <=11) return getString(R.string.sam_9m_11m_weight);
                     if(month <=23) return getString(R.string.sam_12m_23m_weight);
                 }
-                else if(text.equalsIgnoreCase(GMP_STATUS.MAM.toString())){
+                else if(text.equalsIgnoreCase(GMP_STATUS.MAM.toString()) ){
                     int month = getMonthDifferenceByDOB();
                     if(month<6) return getString(R.string.mam_6m_weight);
                     if(month <=8) return getString(R.string.mam_6m_8m_weight);

@@ -42,9 +42,9 @@ public class HNPPApplicationUtils {
                         HnppConstants.KEY.HOUSE_HOLD_NAME, HnppConstants.KEY.SERIAL_NO, DBConstants.KEY.PHONE_NUMBER};
             case CoreConstants.TABLE_NAME.FAMILY_MEMBER:
                 return new String[]{DBConstants.KEY.FIRST_NAME, DBConstants.KEY.MIDDLE_NAME,
-                        DBConstants.KEY.LAST_NAME,DBConstants.KEY.PHONE_NUMBER,DBConstants.KEY.UNIQUE_ID,};
+                        DBConstants.KEY.LAST_NAME,DBConstants.KEY.PHONE_NUMBER,DBConstants.KEY.UNIQUE_ID,HnppConstants.KEY.SHR_ID};
             case CoreConstants.TABLE_NAME.CHILD:
-                return new String[]{DBConstants.KEY.FIRST_NAME, DBConstants.KEY.MIDDLE_NAME,
+                return new String[]{DBConstants.KEY.FIRST_NAME, DBConstants.KEY.MIDDLE_NAME,HnppConstants.KEY.SHR_ID,
                         DBConstants.KEY.LAST_NAME,HnppConstants.KEY.CHILD_MOTHER_NAME,HnppConstants.KEY.CHILD_MOTHER_NAME_REGISTERED};
         }
 

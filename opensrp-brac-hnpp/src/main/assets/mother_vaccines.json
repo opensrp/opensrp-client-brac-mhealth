@@ -1,8 +1,8 @@
 [
   {
-    "name": "After 15 years",
+    "name": "_15_Yrs",
     "id": "_15_Yrs",
-    "days_after_birth_due": 5475,
+    "days_after_birth_due": 0,
     "vaccines": [
       {
         "name": "TT 1",
@@ -31,9 +31,9 @@
     ]
   },
   {
-    "name": "4 Weeks after TD 1",
+    "name": "_4_Wks",
     "id": "_4_Wks",
-    "days_after_birth_due": 5503,
+    "days_after_birth_due": 28,
     "vaccines": [
       {
         "name": "TT 2",
@@ -63,9 +63,9 @@
     ]
   },
   {
-    "name": "26 Weeks after TD 2",
+    "name": "_10_Wks",
     "id": "_10_Wks",
-    "days_after_birth_due": 5685,
+    "days_after_birth_due": 180,
     "vaccines": [
       {
         "name": "TT 3",
@@ -95,9 +95,9 @@
     ]
   },
   {
-    "name": "1 year after TD 3",
+    "name": "_14_Wks",
     "id": "_14_Wks",
-    "days_after_birth_due": 6050,
+    "days_after_birth_due": 98,
     "vaccines": [
       {
         "name": "TT 4",
@@ -127,9 +127,9 @@
     ]
   },
   {
-    "name": "1 year after TD 4",
+    "name": "_9_mnths",
     "id": "_9_mnths",
-    "days_after_birth_due": 6415,
+    "days_after_birth_due": 274,
     "vaccines": [
       {
         "name": "TT 5",

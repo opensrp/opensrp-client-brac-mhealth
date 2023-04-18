@@ -114,6 +114,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
     private boolean isVerified,verificationNeeded;
     private String guId;
     private String moduleId;
+    private String shrId;
     private Handler handler;
     protected FamilyMemberFloatingMenu familyFloatingMenu;
     protected String baseEntityId;
@@ -371,6 +372,9 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
                     .replace(HnppConstants.IDENTIFIER.FAMILY_TEXT,"");
             detailThree = detailThree.substring(detailThree.length() - MEMBER_ID_SUFFIX);
             textViewDetails3.setText("ID: " + detailThree);
+        }
+        if(!TextUtils.isEmpty(shrId)){
+            textViewDetails3.setText("ID: " + shrId);
         }
 
     }
@@ -1129,13 +1133,15 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
         commonPersonObject = (CommonPersonObjectClient) getIntent().getSerializableExtra(CoreConstants.INTENT_KEY.CHILD_COMMON_PERSON);
         familyBaseEntityId = getIntent().getStringExtra(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID);
         baseEntityId = getIntent().getStringExtra(Constants.INTENT_KEY.BASE_ENTITY_ID);
+        shrId = getIntent().getStringExtra(Constants.INTENT_KEY.BASE_ENTITY_ID);
         familyHead = getIntent().getStringExtra(Constants.INTENT_KEY.FAMILY_HEAD);
         primaryCaregiver = getIntent().getStringExtra(Constants.INTENT_KEY.PRIMARY_CAREGIVER);
         String villageTown = getIntent().getStringExtra(Constants.INTENT_KEY.VILLAGE_TOWN);
         familyName = getIntent().getStringExtra(Constants.INTENT_KEY.FAMILY_NAME);
         PhoneNumber = commonPersonObject.getColumnmaps().get(CoreConstants.JsonAssets.FAMILY_MEMBER.PHONE_NUMBER);
+        shrId =commonPersonObject.getColumnmaps().get(HnppConstants.KEY.SHR_ID);
         presenter = getFamilyOtherMemberActivityPresenter(familyBaseEntityId, baseEntityId, familyHead, primaryCaregiver, villageTown, familyName);
-        Log.v("BASE_ENTITY_ID","familyBaseEntityId:"+familyBaseEntityId+":baseEntityId:"+baseEntityId);
+        Log.v("BASE_ENTITY_ID","familyBaseEntityId:"+familyBaseEntityId+":baseEntityId:"+baseEntityId+":shrId:"+shrId);
         onClickFloatingMenu = viewId -> {
             if (viewId == R.id.call_layout) {
                 FamilyCallDialogFragment.launchDialog(this, familyBaseEntityId);

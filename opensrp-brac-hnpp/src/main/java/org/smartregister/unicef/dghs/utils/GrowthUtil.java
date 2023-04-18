@@ -322,14 +322,14 @@ public class GrowthUtil {
             // double zScore = ZScore.calculate(gender, dob, weight.getDate(), weight.getKg());
             zScore = ZScore.roundOff(zScore);
             weightText = ZScore.getZScoreText(zScore);
-            if(isNeedToUpdateDB) updateLastWeight(weight.getKg(),weight.getBaseEntityId(),weightText);
+            if(isNeedToUpdateDB) updateLastWeight(weight.getKg(),zScore,weight.getBaseEntityId(),weightText);
         }
         return weightText;
     }
-    public static void updateLastWeight(float kg,String baseEntityId,String status){
+    public static void updateLastWeight(float kg,double weightZscore,String baseEntityId,String status){
         SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
         Log.v("CHILD_STATUS","updateLastWeight>>"+status);
-        String sql = "UPDATE ec_child SET child_weight = '" + kg + "',weight_status = '"+status+"' WHERE base_entity_id = '" + baseEntityId + "';";
+        String sql = "UPDATE ec_child SET child_weight = '" + kg + "',weight_zscore = '"+weightZscore+"',weight_status = '"+status+"' WHERE base_entity_id = '" + baseEntityId + "';";
         db.execSQL(sql);
         try{
             String sqlOCA = "UPDATE ec_guest_member SET child_weight = '" + kg + "',weight_status = '"+status+"' WHERE base_entity_id = '" + baseEntityId + "';";
@@ -341,10 +341,10 @@ public class GrowthUtil {
             updateIsRefered(baseEntityId,"true");
         }
     }
-    public static void updateLastHeight(float kg,String baseEntityId,String status){
+    public static void updateLastHeight(float kg,double hightZscore,String baseEntityId,String status){
         SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
         Log.v("CHILD_STATUS","updateLastHeight>>"+status);
-        String sql = "UPDATE ec_child SET child_height = '" + kg + "',height_status = '"+status+"' WHERE base_entity_id = '" + baseEntityId + "';";
+        String sql = "UPDATE ec_child SET child_height = '" + kg + "',height_zscore = '" + hightZscore + "',height_status = '"+status+"' WHERE base_entity_id = '" + baseEntityId + "';";
         db.execSQL(sql);
         try{
             String sqlOCA = "UPDATE ec_guest_member SET child_height = '" + kg + "',height_status = '"+status+"' WHERE base_entity_id = '" + baseEntityId + "';";
@@ -358,7 +358,7 @@ public class GrowthUtil {
     }
     public static void updateLastMuac(float cm,String baseEntityId,String status,String muacValue){
         SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
-        boolean hasEdema = muacValue.equalsIgnoreCase("yes");
+        boolean hasEdema = muacValue.equalsIgnoreCase("yes") || muacValue.equals("হ্যাঁ");
         Log.v("CHILD_STATUS","updateLastMuac>>"+status);
         String sql = "UPDATE ec_child SET child_muac = '" + cm + "',has_edema ='"+hasEdema+"', muac_status = '"+status+"' WHERE base_entity_id = '" + baseEntityId + "';";
         db.execSQL(sql);

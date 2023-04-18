@@ -479,7 +479,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                 heightObj.setOutOfCatchment(outOfCatchment ? 1 : 0);
                 heightRepository.add(heightObj);
                 String heightText = ZScore.getZScoreText(heightObj.getZScore());
-                GrowthUtil.updateLastHeight(heightObj.getCm(),heightObj.getBaseEntityId(),heightText);
+                GrowthUtil.updateLastHeight(heightObj.getCm(),heightObj.getZScore(),heightObj.getBaseEntityId(),heightText);
             }
             return true;
 
@@ -538,7 +538,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                 String weightText = ZScore.getZScoreText(zScore);
                 weightRepository.add(weightObj);
                 //need to update child table
-                GrowthUtil.updateLastWeight(weightObj.getKg(),weightObj.getBaseEntityId(),weightText);
+                GrowthUtil.updateLastWeight(weightObj.getKg(),zScore,weightObj.getBaseEntityId(),weightText);
             }
             return true;
 

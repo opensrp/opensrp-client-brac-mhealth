@@ -19,6 +19,8 @@ import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.dao.AbstractDao;
 import org.smartregister.unicef.dghs.model.ForumDetails;
+import org.smartregister.unicef.dghs.model.TikaInfoModel;
+import org.smartregister.unicef.dghs.model.VaacineInfo;
 import org.smartregister.unicef.dghs.model.VisitInfo;
 import org.smartregister.unicef.dghs.repository.StockRepository;
 
@@ -32,6 +34,7 @@ import org.smartregister.family.util.Utils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -103,6 +106,82 @@ public class HnppDBUtils {
             if(cursor !=null)cursor.close();
         }
         return birthWeight;
+    }
+    public static ArrayList<VaacineInfo> getVaccineInfo(String baseEntityId){
+        String query = "select name,date from vaccines where base_entity_id ='"+baseEntityId+"'";
+        Cursor cursor = null;
+        ArrayList<VaacineInfo> vaacineInfos = new ArrayList<>();
+        try {
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    VaacineInfo vaacineInfo = new VaacineInfo();
+                    String name = cursor.getString(0);
+                    long date = cursor.getLong(1);
+                    Date regdate = new Date(date);
+                    String vaccineDate = AbstractDao.getDobDateFormat().format(regdate);
+                    vaacineInfo.vaccineName = name;
+                    vaacineInfo.vaccineDate = vaccineDate;
+                    vaacineInfos.add(vaacineInfo);
+                    cursor.moveToNext();
+                }
+            }
+        }catch (Exception e){
+
+        }
+        finally {
+            if(cursor!=null) cursor.close();
+        }
+        return vaacineInfos;
+    }
+    public static TikaInfoModel getTikaDetails(String baseEntityId){
+        String query = "select ec_family_member.first_name,ec_family_member.last_name, ec_family_member.mother_name_english,ec_family_member.father_name_english, "+
+                " ec_family_member.dob, ec_family_member.birth_id,ec_family_member.shr_id,ec_family_member.unique_id,ec_family_member.last_interacted_with,ec_family_member.camp_type,"+
+                " ec_family.block_name,ec_family.village,ec_family.holding_no,ec_family.ward_name,ec_family.union_zone from ec_family_member "+
+                " inner join ec_family on ec_family.id  = ec_family_member.relational_id " +
+                " where ec_family_member.base_entity_id ='"+baseEntityId+"' ";
+        Cursor cursor = null;
+        TikaInfoModel infoModel = new TikaInfoModel();
+        try {
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                infoModel.name = (cursor.getString(cursor.getColumnIndex("first_name")))+" "+(cursor.getString(cursor.getColumnIndex("last_name")));
+                infoModel.motherName = (cursor.getString(cursor.getColumnIndex("mother_name_english")));
+                infoModel.fatherName = (cursor.getString(cursor.getColumnIndex("father_name_english")));
+                String dob = (cursor.getString(cursor.getColumnIndex("dob")));
+                //2023-03-11T06:00:00.000+06:00
+                infoModel.dob = dob.substring(0,dob.indexOf("T"));
+                infoModel.birthYear = dob.substring(0,4);
+                infoModel.birthMonth = dob.substring(5,7);
+                infoModel.birthDay = dob.substring(8,10);
+                infoModel.brid = (cursor.getString(cursor.getColumnIndex("birth_id")));
+                infoModel.registrationNo = (cursor.getString(cursor.getColumnIndex("shr_id")));
+                if(TextUtils.isEmpty(infoModel.registrationNo)){
+                    infoModel.registrationNo = (cursor.getString(cursor.getColumnIndex("unique_id")));
+                }
+                long lastInteractedDate = cursor.getLong(cursor.getColumnIndex("last_interacted_with"));
+                Date regdate = new Date(lastInteractedDate);
+                String registrationDate = AbstractDao.getDobDateFormat().format(regdate);
+                infoModel.registrationDate = registrationDate;
+                infoModel.centerName = (cursor.getString(cursor.getColumnIndex("camp_type")));
+                infoModel.subBlock = (cursor.getString(cursor.getColumnIndex("block_name")));
+                infoModel.village = (cursor.getString(cursor.getColumnIndex("village")));
+                infoModel.houseHoldNo = (cursor.getString(cursor.getColumnIndex("holding_no")));
+                infoModel.wardNo = (cursor.getString(cursor.getColumnIndex("ward_name")));
+                infoModel.union = (cursor.getString(cursor.getColumnIndex("union_zone")));
+
+            }
+
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        finally {
+            if(cursor !=null) cursor.close();
+        }
+        return infoModel;
+
     }
 
     public static HashMap<String, String> getDetails(String baseEntityId, String tableName) {
@@ -1181,7 +1260,7 @@ public class HnppDBUtils {
 
         return queryBUilder.mainCondition(mainCondition);
     }
-
+    //TODO need to change manually
     public static String[] mainColumns(String tableName, String familyTable, String familyMemberTable) {
         ArrayList<String> columnList = new ArrayList<>();
         columnList.add(tableName + "." + DBConstants.KEY.RELATIONAL_ID + " as " + ChildDBConstants.KEY.RELATIONAL_ID);
@@ -1206,18 +1285,25 @@ public class HnppDBUtils {
         columnList.add(tableName + "." + HnppConstants.KEY.RELATION_WITH_HOUSEHOLD);
         columnList.add(tableName + "." + HnppConstants.KEY.CHILD_MOTHER_NAME);
         columnList.add(tableName + "." + HnppConstants.KEY.CHILD_MOTHER_NAME_REGISTERED);
+        columnList.add(tableName + "." + HnppConstants.KEY.CHILD_MOTHER_NAME_REGISTERED);
         columnList.add(tableName + "." + HnppConstants.KEY.BLOOD_GROUP);
         columnList.add(tableName + "." + HnppConstants.KEY.SHR_ID);
-        columnList.add(tableName + "." + ChildDBConstants.KEY.MOTHER_ENTITY_ID);
+        columnList.add(tableName + "." + ChildDBConstants.PHONE_NUMBER);
+        columnList.add(tableName + "." + HnppConstants.KEY.FATHER_NAME_ENGLISH);
+        columnList.add(tableName + "." + HnppConstants.KEY.FATHER_NAME_BANGLA);
+        columnList.add(tableName + ".birth_id");
+        columnList.add(tableName + ".disability");
+        columnList.add(tableName + ".disability_type");
+        columnList.add(tableName + ".camp_type");
 
-//        columnList.add(tableName + "." + ChildDBConstants.KEY.BIRTH_WEIGHT_TAKEN);
-//        columnList.add(tableName + "." + ChildDBConstants.KEY.BIRTH_WEIGHT);
-//        columnList.add(tableName + "." + ChildDBConstants.KEY.CHLOROHEXADIN);
-//        columnList.add(tableName + "." + ChildDBConstants.KEY.BREASTFEEDING_TIME);
-//        columnList.add(tableName + "." + ChildDBConstants.KEY.HEAD_BODY_COVERED);
-//        columnList.add(tableName + "." + ChildDBConstants.KEY.PHYSICALLY_CHALLENGED);
-//        columnList.add(tableName + "." + ChildDBConstants.KEY.BREAST_FEEDED);
-
+        columnList.add(tableName + "." + ChildDBConstants.KEY.BIRTH_WEIGHT_TAKEN);
+        columnList.add(tableName + "." + ChildDBConstants.KEY.BIRTH_WEIGHT);
+        columnList.add(tableName + "." + ChildDBConstants.KEY.CHLOROHEXADIN);
+        columnList.add(tableName + "." + ChildDBConstants.KEY.BREASTFEEDING_TIME);
+        columnList.add(tableName + "." + ChildDBConstants.KEY.HEAD_BODY_COVERED);
+        columnList.add(tableName + "." + ChildDBConstants.KEY.BREAST_FEEDED);
+        columnList.add(tableName + "." + ChildDBConstants.KEY.SKIN);
+        columnList.add(tableName + "." + ChildDBConstants.KEY.COUNSELLING);
         return columnList.toArray(new String[columnList.size()]);
     }
     public static String getMotherName(String motherEntityId, String relationId, String motherName){

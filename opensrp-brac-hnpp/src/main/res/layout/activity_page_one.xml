@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="400dp"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#E3E5AA">
+
+   <android.support.constraint.ConstraintLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       >
+
+       <TextView
+           android:id="@+id/textView"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:background="#770B0B"
+           android:gravity="center|left"
+           android:fontFamily="@font/tonnymj"
+           android:padding="10dp"
+           android:text="প্রতিটি শিশুর রয়েছে সবগুলো টিকা পাওয়ার অধিকার"
+           android:textColor="#FFFFFF"
+           android:textSize="15sp"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toTopOf="parent" />
+
+       <!-- row one-->
+       <TextView
+           android:id="@+id/textView2"
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:layout_marginLeft="10dp"
+           android:padding="10dp"
+           android:fontFamily="@font/tonnymj"
+           android:layout_marginTop="20dp"
+           android:background="@drawable/table_bg"
+           android:gravity="center|left"
+           app:layout_constraintWidth_percent="0.7"
+           android:text="ডোজ অনুযায়ী শিশুকে টিকাকেন্দ্রে আনতে হবে(রেজিস্ট্রেশনের সময় শিশুর জন্ম তারিখ অনুযায়ী ২নং, ৫নং ও ৬নং ঘরে পেন্টাভ্যালেন্ট-১/পিসিভি-১, এমআর -১ম ও ২য় ডোজ টিকা পাওয়ার তারিখ টিকার ক্যালেন্ডার থেকে লিখে দিবেন)"
+           app:layout_constraintEnd_toStartOf="@+id/textView3"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+
+       <!--row two-->
+
+       <TextView
+           android:id="@+id/textView3"
+           android:layout_width="0dp"
+           android:layout_height="0dp"
+           android:background="@drawable/table_bg"
+           android:fontFamily="@font/tonnymj"
+           android:gravity="center|left"
+           android:padding="10dp"
+           android:text="টিকা পাওয়ার তারিখ"
+           app:layout_constraintBottom_toBottomOf="@+id/textView2"
+           app:layout_constraintStart_toEndOf="@+id/textView2"
+           app:layout_constraintTop_toTopOf="@+id/textView2"
+           app:layout_constraintVertical_bias="0.0"
+           app:layout_constraintWidth_percent="0.25" />
+
+       <TextView
+           android:id="@+id/textView4"
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:layout_marginLeft="10dp"
+           android:background="@drawable/table_bg"
+           android:gravity="center|left"
+           android:fontFamily="@font/tonnymj"
+           android:padding="10dp"
+           android:text="১। বিসিজি টিকা পাওয়ার তারিখ"
+           app:layout_constraintEnd_toStartOf="@+id/textView3"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toBottomOf="@+id/textView2"
+           app:layout_constraintWidth_percent="0.7" />
+
+       <TextView
+           android:id="@+id/atBirthTikaGettingDate"
+           android:layout_width="0dp"
+           android:layout_height="0dp"
+           android:background="@drawable/table_bg"
+           android:fontFamily="@font/tonnymj"
+           android:gravity="center|left"
+           android:padding="10dp"
+           app:layout_constraintBottom_toBottomOf="@+id/textView4"
+           app:layout_constraintEnd_toEndOf="@+id/textView3"
+           app:layout_constraintStart_toEndOf="@+id/textView4"
+           app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+
+       <!--row three-->
+
+       <TextView
+           android:id="@+id/textView6"
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:layout_marginLeft="10dp"
+           android:gravity="center|left"
+           android:background="@drawable/table_bg"
+           android:fontFamily="@font/tonnymj"
+           android:padding="10dp"
+           android:text="২। ১ম বার : পেন্টা-১, ওপিভি-১, পিসিভি-১, এবং আইপিভি-১ টিকা পাওয়ার তারিখ (টিকার ক্যালেন্ডার থেকে)।"
+           app:layout_constraintEnd_toStartOf="@+id/atBirthTikaGettingDate"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toBottomOf="@+id/textView4"
+           app:layout_constraintWidth_percent="0.7" />
+
+       <TextView
+           android:id="@+id/sixWeekDate"
+           android:layout_width="0dp"
+           android:layout_height="0dp"
+           android:background="@drawable/table_bg"
+           android:fontFamily="@font/tonnymj"
+           android:gravity="center|left"
+           android:padding="10dp"
+           app:layout_constraintBottom_toBottomOf="@+id/textView6"
+           app:layout_constraintEnd_toEndOf="@+id/atBirthTikaGettingDate"
+           app:layout_constraintStart_toEndOf="@+id/textView4"
+           app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+
+       <!--row four-->
+       <TextView
+           android:id="@+id/textView8"
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:background="@drawable/table_bg"
+           android:fontFamily="@font/tonnymj"
+           android:gravity="center|left"
+           android:padding="10dp"
+           android:text="৩। ২য় বার : পেন্টা – ২, ওপিভি-২, এবং পিসিভি-২ টিকা পাওয়ার তারিখ (সেশন প্ল্যান থেকে)"
+           app:layout_constraintEnd_toEndOf="@+id/textView6"
+           app:layout_constraintStart_toStartOf="@+id/textView6"
+           app:layout_constraintTop_toBottomOf="@+id/textView6"
+           app:layout_constraintWidth_percent="0.7" />
+
+       <TextView
+           android:id="@+id/tenWeekDate"
+           android:layout_width="0dp"
+           android:layout_height="0dp"
+           android:background="@drawable/table_bg"
+           android:gravity="center|left"
+           android:fontFamily="@font/tonnymj"
+           android:padding="10dp"
+           android:text=""
+           app:layout_constraintBottom_toBottomOf="@+id/textView8"
+           app:layout_constraintEnd_toEndOf="@+id/sixWeekDate"
+           app:layout_constraintStart_toEndOf="@+id/textView4"
+           app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+
+       <!--row five-->
+       <TextView
+           android:id="@+id/textView10"
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:background="@drawable/table_bg"
+           android:gravity="center|left"
+           android:fontFamily="@font/tonnymj"
+           android:padding="10dp"
+           android:text="৪। ৩য় বার : পেন্টী - ৩, ওপিভি-৩, পিসিভি-৩ এবং আইপিভি-২ টিকা পাওয়ার তারিখ (সেশন প্ল্যান থেকে)"
+           app:layout_constraintEnd_toEndOf="@+id/textView8"
+           app:layout_constraintStart_toStartOf="@+id/textView8"
+           app:layout_constraintTop_toBottomOf="@+id/textView8"
+           app:layout_constraintWidth_percent="0.7" />
+
+       <TextView
+           android:id="@+id/fourteenWeekDate"
+           android:layout_width="0dp"
+           android:layout_height="0dp"
+           android:background="@drawable/table_bg"
+           android:fontFamily="@font/tonnymj"
+           android:gravity="center|left"
+           android:padding="10dp"
+           android:text=""
+           app:layout_constraintBottom_toBottomOf="@+id/textView10"
+           app:layout_constraintEnd_toEndOf="@+id/tenWeekDate"
+           app:layout_constraintStart_toEndOf="@+id/textView10"
+           app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+       <!--row six-->
+       <TextView
+           android:id="@+id/textView12"
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:background="@drawable/table_bg"
+           android:gravity="center|left"
+           android:padding="10dp"
+           android:text="৫। ৪র্থ বার: এমআর ১ম ডোজ টিকা পাওয়ার তারিখ ('টিকার) ক্যালেন্ডার থেকে)।"
+           app:layout_constraintEnd_toEndOf="@+id/textView10"
+           app:layout_constraintStart_toStartOf="@+id/textView10"
+           app:layout_constraintTop_toBottomOf="@+id/textView10"
+           app:layout_constraintWidth_percent="0.7" />
+
+       <TextView
+           android:id="@+id/nineMonthDate"
+           android:layout_width="0dp"
+           android:layout_height="0dp"
+           android:background="@drawable/table_bg"
+           android:gravity="center|left"
+           android:padding="10dp"
+           android:fontFamily="@font/tonnymj"
+           app:layout_constraintBottom_toBottomOf="@+id/textView12"
+           app:layout_constraintEnd_toEndOf="@+id/fourteenWeekDate"
+           app:layout_constraintStart_toEndOf="@+id/textView12"
+           app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+       <TextView
+           android:id="@+id/eighteenMonth"
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:background="@drawable/table_bg"
+           android:gravity="center|left"
+           android:padding="10dp"
+           android:text="৬। ৪র্থ বার: এমআর ২য় ডোজ টিকা পাওয়ার তারিখ ('টিকার)ক্যালেন্ডার থেকে)।"
+           app:layout_constraintEnd_toEndOf="@+id/textView12"
+           app:layout_constraintStart_toStartOf="@+id/textView12"
+           app:layout_constraintTop_toBottomOf="@+id/textView12"
+           app:layout_constraintWidth_percent="0.7" />
+
+       <TextView
+           android:id="@+id/eighteenMonthDate"
+           android:layout_width="0dp"
+           android:layout_height="0dp"
+           android:fontFamily="@font/tonnymj"
+           android:background="@drawable/table_bg"
+           android:gravity="center|left"
+           android:padding="10dp"
+           app:layout_constraintBottom_toBottomOf="@+id/eighteenMonth"
+           app:layout_constraintEnd_toEndOf="@+id/nineMonthDate"
+           app:layout_constraintStart_toEndOf="@+id/eighteenMonth"
+           app:layout_constraintTop_toBottomOf="@+id/textView12" />
+       <!--row seven-->
+
+
+       <TextView
+           android:id="@+id/textView15"
+           android:layout_width="0dp"
+           android:layout_height="0dp"
+           android:background="@drawable/table_bg"
+           android:fontFamily="@font/tonnymj"
+           android:gravity="center|left"
+           android:padding="10dp"
+           android:text=""
+           app:layout_constraintBottom_toBottomOf="@+id/textView12"
+           app:layout_constraintEnd_toEndOf="@+id/eighteenMonth"
+           app:layout_constraintStart_toEndOf="@+id/textView12"
+           app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+
+       <TextView
+           android:id="@+id/textView16"
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:fontFamily="@font/tonnymj"
+           android:gravity="center|left"
+           android:padding="10dp"
+           android:text="৩নং ঘরে ১ম ডোজ টিকা প্রদানের পর সেশন প্ল্যান অনুযায়ী ২না ডোজ টিকা
+নেওয়ার জন্য টিকাদানের কেন্দ্রে আসার তারিখ লিখে দিবেন। একইভাবে ৪নং
+ঘরে ৩য় ডোজ টিকা প্রদানের পর সেশন প্ল্যান অনুযায়ী টিকা নেওয়ার জন্য
+টিকাদান কেন্দ্রে আসার তারিখ লিখে দিবেন।"
+           app:layout_constraintEnd_toEndOf="@+id/nineMonthDate"
+           app:layout_constraintStart_toStartOf="@+id/textView12"
+           app:layout_constraintTop_toBottomOf="@+id/eighteenMonth" />
+
+
+       <TextView
+           android:id="@+id/textView17"
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:background="#770B0B"
+           android:gravity="center|left"
+           android:fontFamily="@font/tonnymj"
+           android:padding="10dp"
+           android:text="টিকার এই কার্ড টি যত্ন করে রাখুন। ভবিষ্যতে শিশুর জন্ম নিবন্ধন সার্টি ফিকেট
+নেওয়ার জন্য, শিশুকে স্কু লে ভর্তি করানোর সময়, বিদেশে গমনের সময় এই
+কার্ড টি প্রয়োজন হবে"
+           android:textColor="#FFFFFF"
+           android:textSize="15sp"
+           app:layout_constraintEnd_toEndOf="@+id/textView16"
+           app:layout_constraintStart_toStartOf="@+id/textView16"
+           app:layout_constraintTop_toBottomOf="@+id/textView16" />
+   </android.support.constraint.ConstraintLayout>
+
+</ScrollView>

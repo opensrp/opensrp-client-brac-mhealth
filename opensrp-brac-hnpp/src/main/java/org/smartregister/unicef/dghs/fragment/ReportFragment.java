@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.smartregister.growthmonitoring.domain.HeightZScore;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.commonregistry.CommonRepository;
@@ -76,6 +78,8 @@ public class ReportFragment extends Fragment {
         if(cursor!=null && cursor.getCount()>0){
             cursor.moveToFirst();
             while (!cursor.isAfterLast()){
+                int heightZscore = cursor.getColumnIndex("height_zscore");
+                int weightZscore = cursor.getColumnIndex("weight_zscore");
                 int child_height = cursor.getColumnIndex("child_height");
                 int child_weight = cursor.getColumnIndex("child_weight");
                 int child_muac = cursor.getColumnIndex("child_muac");
@@ -88,6 +92,8 @@ public class ReportFragment extends Fragment {
                 childDataList.add(new ChildData(
                         cursor.isNull(child_height)?"0":cursor.getString(child_height),
                         cursor.isNull(child_weight)?"0":cursor.getString(child_weight),
+                        cursor.isNull(heightZscore)?0.0:cursor.getDouble(heightZscore),
+                        cursor.isNull(weightZscore)?0.0:cursor.getDouble(weightZscore),
                         cursor.isNull(child_muac)?"0":cursor.getString(child_muac),
                         finalStatus,
                         cursor.isNull(has_edema)?"0":cursor.getString(has_edema)
@@ -131,15 +137,18 @@ public class ReportFragment extends Fragment {
             if(!childData.getChild_height().equalsIgnoreCase("0")){
                 heightMeasureChild++;
             }
-            if(getZScoreText(Double.parseDouble(childData.getChild_weight())).equalsIgnoreCase("OVER WEIGHT")){
+            String overWeight = getZScoreText(childData.getWeightZscore());
+            if(overWeight.equalsIgnoreCase("OVER WEIGHT")){
                 overWeightChild++;
             }
-
-            if(getZScoreText(Double.parseDouble(childData.getChild_height())).equalsIgnoreCase("DARK YELLOW")){
+            String h = HeightZScore.getZScoreText(childData.getHeightZScore());
+            Log.v("zscore text","h>>"+h);
+            if(h.equalsIgnoreCase("DARK YELLOW") || h.equalsIgnoreCase("SAM")){
                 severlyStunted++;
             }
-
-            if(getZScoreText(Double.parseDouble(childData.getChild_weight())).equalsIgnoreCase("DARK YELLOW")){
+            String w = getZScoreText(childData.getWeightZscore());
+            Log.v("zscore text","weightStatus>>"+w);
+            if(w.equalsIgnoreCase("DARK YELLOW") || w.equalsIgnoreCase("SAM")){
                 underWeightChild++;
             }
         }

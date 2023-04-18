@@ -27,6 +27,7 @@ import org.smartregister.unicef.dghs.job.MigrationFetchJob;
 import org.smartregister.unicef.dghs.job.PullGuestMemberIdServiceJob;
 import org.smartregister.unicef.dghs.job.PullHouseholdIdsServiceJob;
 import org.smartregister.unicef.dghs.job.SSLocationFetchJob;
+import org.smartregister.unicef.dghs.job.ZScoreRefreshServiceJob;
 import org.smartregister.unicef.dghs.location.SaveDistrictTask;
 import org.smartregister.unicef.dghs.presenter.LoginPresenter;
 import org.smartregister.unicef.dghs.repository.DistrictListRepository;
@@ -268,7 +269,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
             VaccineRecurringServiceJob.scheduleJobImmediately(VaccineRecurringServiceJob.TAG);
 
-
+            ZScoreRefreshServiceJob.scheduleJobImmediately(ZScoreRefreshServiceJob.TAG);
         }
         if(HnppConstants.isNeedToCallInvalidApi()){
             InValidateSyncDataServiceJob.scheduleJob(InValidateSyncDataServiceJob.TAG, TimeUnit.MINUTES.toMinutes(BuildConfig.INVALID_SYNC_DURATION_MINUTES),15l);

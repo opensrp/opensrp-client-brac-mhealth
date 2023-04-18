@@ -491,6 +491,23 @@
     <string name="height_taken_today">আজ উচ্চতা নেওয়া হয়েছে </string>
     <string name="height_taken_earlier">পূর্বে উচ্চতা নেওয়া হয়েছে</string>
     <string name="show_tika_card">টিকা কার্ডটি দেখুন</string>
+    <string name="resistration_no">রেজিস্ট্রেশন নং :</string>
+    <string name="registration_date">রেজিস্ট্রেশনের তারিখ :</string>
+    <string name="name_tika">নাম :</string>
+    <string name="day">দিন :</string>
+    <string name="month">মাস :</string>
+    <string name="year">বছর :</string>
+    <string name="mother_name_title">মাতার নাম :</string>
+    <string name="father_name_title">পিতার নাম :</string>
+    <string name="house_no_title">বাড়ি/জিআর/ হোল্ডিং নং :</string>
+    <string name="village_title">গ্রাম/মহল্লা/পাড়া :</string>
+    <string name="upazilla_title">উপজেলা/পৌরসেবা /সিটি করপোরেশন :</string>
+    <string name="district_title">জেলা/ সিসি :</string>
+    <string name="union_title">ইউনিয়ন/জোন :</string>
+    <string name="ward_no_title">ওয়ার্ড নং :</string>
+    <string name="center_name_title">কেন্দ্রের নাম :</string>
+    <string name="sub_block_title">সাব-ব্লক :</string>
+    <string name="brid_title">জন্ম নিবন্ধন নং :</string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>

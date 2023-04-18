@@ -28,6 +28,7 @@ public class AncRegisterFragmentModel extends CoreAncRegisterFragmentModel {
         columnList.add(CoreConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.RELATIONAL_ID + " as " + ChildDBConstants.KEY.RELATIONAL_ID);
         columnList.add(tableName + "." + org.smartregister.chw.anc.util.DBConstants.KEY.LAST_MENSTRUAL_PERIOD);
         columnList.add(CoreConstants.TABLE_NAME.FAMILY_MEMBER + "." + HnppConstants.KEY.IS_RISK);
+        columnList.add(CoreConstants.TABLE_NAME.FAMILY_MEMBER + "." + HnppConstants.KEY.SHR_ID);
         columnList.add(CoreConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.FIRST_NAME);
         columnList.add(CoreConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.MIDDLE_NAME);
         columnList.add(CoreConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.LAST_NAME);

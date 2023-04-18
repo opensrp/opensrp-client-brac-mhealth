@@ -1217,6 +1217,20 @@
       "name": "ec_child",
       "columns": [
         {
+          "column_name": "phone_number",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.Mobile_Number"
+          }
+        },
+        {
+          "column_name": "camp_type",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.camp_type"
+          }
+        },
+        {
           "column_name": "illness_information",
           "type": "Client",
           "json_mapping": {
@@ -1457,6 +1471,20 @@
           "type": "Client",
           "json_mapping": {
             "field": "child_height"
+          }
+        },
+        {
+          "column_name": "weight_zscore",
+          "type": "Client",
+          "json_mapping": {
+            "field": "weight_zscore"
+          }
+        },
+        {
+          "column_name": "height_zscore",
+          "type": "Client",
+          "json_mapping": {
+            "field": "height_zscore"
           }
         },
         {

@@ -13,6 +13,7 @@ import org.joda.time.DateTime;
 import org.smartregister.repository.BaseRepository;
 import org.smartregister.repository.LocationRepository;
 import org.smartregister.repository.Repository;
+import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.location.BaseLocation;
 import org.smartregister.unicef.dghs.location.BlockLocation;
 import org.smartregister.unicef.dghs.location.HALocation;
@@ -206,7 +207,7 @@ public class HALocationRepository extends BaseRepository {
         Cursor cursor = null;
         ArrayList<HALocation> locations = new ArrayList<>();
         try {
-            cursor = getReadableDatabase().rawQuery("SELECT ward_id,ward_geo FROM " + getLocationTableName()+" where "+WARD_ID+" = '"+wardId+"' group by "+BLOCK_ID, null);
+            cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getLocationTableName()+" where "+WARD_ID+" = '"+wardId+"' group by "+BLOCK_ID, null);
             while (cursor.moveToNext()) {
                 locations.add(readCursor(cursor));
             }
@@ -217,6 +218,30 @@ public class HALocationRepository extends BaseRepository {
                 cursor.close();
         }
         return locations;
+    }
+    public HALocation getLocationByBaseEntityId(String baseEntityId){
+        String query = "select ha_location.district_geo,ha_location.upazila_geo from ha_location "+
+                " inner join ec_family_member on ec_family_member.block_id  = ha_location.block_id " +
+                " where ec_family_member.base_entity_id ='"+baseEntityId+"' ";
+        Log.v("QUERY","q:"+query);
+        android.database.Cursor cursor = null;
+        HALocation haLocation = new HALocation();
+        try {
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                String districtGeo = cursor.getString(cursor.getColumnIndex(DISTRICT_GEO));
+                String upazilaGeo = cursor.getString(cursor.getColumnIndex(UPAZILA_GEO));
+                haLocation.district = gson.fromJson(districtGeo, BaseLocation.class);
+                haLocation.upazila = gson.fromJson(upazilaGeo, BaseLocation.class);
+            }
+        }catch (Exception e){
+
+        }
+        finally {
+            if(cursor !=null) cursor.close();
+        }
+        return haLocation;
     }
 
     public HALocation getLocationByBlock(String blockId) {

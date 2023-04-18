@@ -6,9 +6,9 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 
+import org.smartregister.unicef.dghs.dao.VisitDao;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.chw.core.R;
-import org.smartregister.chw.core.dao.VisitDao;
 import org.smartregister.chw.core.holders.RegisterViewHolder;
 
 import java.text.SimpleDateFormat;

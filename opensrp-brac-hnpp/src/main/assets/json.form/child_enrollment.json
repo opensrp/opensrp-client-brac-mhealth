@@ -174,7 +174,7 @@
           "err": "একটি বৈধ নাম লিখুন"
         },
         "v_required": {
-          "value": false,
+          "value": true,
           "err": "মান নির্বাচন করুন"
         }
       },
@@ -227,6 +227,35 @@
               "rules-file": "family_member_register_calculation.yml"
             }
           }
+        }
+      },
+      {
+        "key": "phone_number",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "Mobile_Number",
+        "type": "edit_text",
+        "hint": "গুরুত্বপূর্ণ মোবাইল নম্বর",
+        "v_required": {
+          "value": true,
+          "err": "11 অঙ্কের মোবাইল নম্বর লিখুন"
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
+        },
+        "v_regex": {
+          "value": "0|(01[1-9][0-9]{8})|\s*",
+          "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
+        },
+        "v_max_length": {
+          "value": "11",
+          "err": "11 অঙ্কের মোবাইল নম্বর লিখুন",
+          "is_fixed_size":true
+        },
+        "v_min_length": {
+          "value": "1",
+          "err": "11 অঙ্কের মোবাইল নম্বর লিখুন"
         }
       },
 

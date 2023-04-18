@@ -1,5 +1,6 @@
 package org.smartregister.unicef.dghs.presenter;
 
+import android.text.TextUtils;
 import android.util.Pair;
 
 import org.apache.commons.lang3.StringUtils;
@@ -14,6 +15,7 @@ import org.smartregister.domain.Task;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.unicef.dghs.interactor.HnppChildProfileInteractor;
 import org.smartregister.unicef.dghs.model.HnppChildRegisterModel;
+import org.smartregister.unicef.dghs.utils.HnppDBConstants;
 import org.smartregister.unicef.dghs.utils.HnppDBUtils;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
@@ -89,9 +91,17 @@ public class HnppChildProfilePresenter implements CoreChildProfileContract.Prese
         getView().setAddress(address);
         getView().setGender(getGender+", "+parentName);
 
-        String uniqueId = Utils.getValue(client.getColumnmaps(), DBConstants.KEY.UNIQUE_ID, false);
-        uniqueId = String.format(getView().getString(org.smartregister.family.R.string.unique_id_text), uniqueId);
-        getView().setId(uniqueId);
+        String shrId = Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.SHR_ID, false);
+        if(TextUtils.isEmpty(shrId)){
+            getView().setId(shrId);
+        }else{
+            String uniqueId = Utils.getValue(client.getColumnmaps(), DBConstants.KEY.UNIQUE_ID, false);
+
+            uniqueId = String.format(getView().getString(org.smartregister.family.R.string.unique_id_text), uniqueId);
+            getView().setId(uniqueId);
+        }
+
+
 
 
         getView().setProfileImage(client.getCaseId());

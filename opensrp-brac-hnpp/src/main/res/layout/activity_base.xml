@@ -249,7 +249,7 @@
                         </RelativeLayout>
                         <RelativeLayout
                             android:id="@+id/simprints_identity"
-                            android:visibility="visible"
+                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:paddingStart="15dp"

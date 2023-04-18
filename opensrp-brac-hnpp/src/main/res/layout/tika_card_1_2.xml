@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#E3E5AA">
+
+    <LinearLayout
+        android:id="@+id/tika_card_view_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        >
+
+        <include
+            android:id="@+id/include2"
+            layout="@layout/activity_page_one" />
+
+        <include
+            android:id="@+id/include"
+            android:layout_marginLeft="10dp"
+            layout="@layout/activity_page_two"
+            />
+
+    </LinearLayout>
+
+</HorizontalScrollView>

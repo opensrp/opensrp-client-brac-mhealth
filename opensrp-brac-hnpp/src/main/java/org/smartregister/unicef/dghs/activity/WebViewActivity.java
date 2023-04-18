@@ -34,6 +34,7 @@ public class WebViewActivity extends SecuredActivity {
         }
         String htmlUrl = "http://unicef-ha.mpower-social.com/opensrp-dashboard/people/mobile/"+baseEntityId+"/vaccine-card.html";
         WebView webView = (WebView)findViewById(R.id.wvBkashPayment);
+        webView.setVisibility(View.GONE);
 //        WebSettings webSettings = webView.getSettings();
 //        webSettings.setUserAgentString("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36");
         webView.loadUrl(htmlUrl);

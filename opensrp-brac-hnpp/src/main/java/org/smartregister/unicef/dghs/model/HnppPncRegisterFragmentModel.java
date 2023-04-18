@@ -37,6 +37,7 @@ public class HnppPncRegisterFragmentModel extends BaseAncRegisterFragmentModel {
         columnList.add(HnppConstants.TABLE_NAME.ANC_MEMBER + "." + org.smartregister.chw.anc.util.DBConstants.KEY.PHONE_NUMBER);
         columnList.add(HnppConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.RELATIONAL_ID + " as " + ChildDBConstants.KEY.RELATIONAL_ID);
         columnList.add(HnppConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.FIRST_NAME);
+        columnList.add(HnppConstants.TABLE_NAME.FAMILY_MEMBER + "." + HnppConstants.KEY.SHR_ID);
         columnList.add(HnppConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.MIDDLE_NAME);
         columnList.add(HnppConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.LAST_NAME);
         columnList.add(HnppConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.DOB);

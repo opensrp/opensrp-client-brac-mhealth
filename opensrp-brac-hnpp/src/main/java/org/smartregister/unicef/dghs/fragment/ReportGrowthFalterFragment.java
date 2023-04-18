@@ -27,6 +27,7 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import org.smartregister.commonregistry.CommonRepository;
+import org.smartregister.growthmonitoring.domain.HeightZScore;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.adapter.AppSegmentAdapter;
 import org.smartregister.unicef.dghs.domain.ChildData;
@@ -73,6 +74,8 @@ public class ReportGrowthFalterFragment extends Fragment implements SeekBar.OnSe
         if(cursor!=null && cursor.getCount()>0){
             cursor.moveToFirst();
             while (!cursor.isAfterLast()){
+                int heightZscore = cursor.getColumnIndex("height_zscore");
+                int weightZscore = cursor.getColumnIndex("weight_zscore");
                 int child_height = cursor.getColumnIndex("child_height");
                 int child_weight = cursor.getColumnIndex("child_weight");
                 int child_muac = cursor.getColumnIndex("child_muac");
@@ -85,6 +88,8 @@ public class ReportGrowthFalterFragment extends Fragment implements SeekBar.OnSe
                 childDataList.add(new ChildData(
                         cursor.isNull(child_height)?"":cursor.getString(child_height),
                         cursor.isNull(child_weight)?"":cursor.getString(child_weight),
+                        cursor.isNull(heightZscore)?0.0:cursor.getDouble(heightZscore),
+                        cursor.isNull(weightZscore)?0.0:cursor.getDouble(weightZscore),
                         cursor.isNull(child_muac)?"":cursor.getString(child_muac),
                         finalStatus,
                         cursor.isNull(has_edema)?"":cursor.getString(has_edema)
@@ -235,13 +240,14 @@ public class ReportGrowthFalterFragment extends Fragment implements SeekBar.OnSe
            }
            else if(pos == 1){
                if(!childData.getChild_weight().isEmpty()){
-                   if(getZScoreText(Double.valueOf(childData.getChild_weight())).equalsIgnoreCase("normal")){
+                   if(getZScoreText(childData.getWeightZscore()).equalsIgnoreCase("normal")){
                        healthyWeight++;
-                   }else if(getZScoreText(Double.valueOf(childData.getChild_weight())).equalsIgnoreCase("OVER WEIGHT")){
+                   }else if(getZScoreText(childData.getWeightZscore()).equalsIgnoreCase("OVER WEIGHT")){
                        overWeight++;
-                   }else if(getMuacText(Double.valueOf(childData.getChild_weight())).equalsIgnoreCase("DARK YELLOW")){
+                   }else if(getZScoreText(childData.getWeightZscore()).equalsIgnoreCase("DARK YELLOW")
+                    || getZScoreText(childData.getWeightZscore()).equalsIgnoreCase("SAM")){
                        moderatelyWeight++;
-                   }else if(getZScoreText(Double.valueOf(childData.getChild_weight())).equalsIgnoreCase("YELLOW")){
+                   }else if(getZScoreText(childData.getWeightZscore()).equalsIgnoreCase("MAM")){
                        severlyWeight++;
                    }
                }
@@ -249,11 +255,12 @@ public class ReportGrowthFalterFragment extends Fragment implements SeekBar.OnSe
            else if(pos == 2){
                if(!childData.getChild_height().isEmpty()){
                    Log.d("ttttHeiZSc",getZScoreText(Double.valueOf(childData.getChild_height())));
-                   if(getZScoreText(Double.valueOf(childData.getChild_height())).equalsIgnoreCase("normal")){
+                   if(HeightZScore.getZScoreText(childData.getHeightZScore()).equalsIgnoreCase("normal")){
                        normalStunting++;
-                   }else if(getZScoreText(Double.valueOf(childData.getChild_height())).equalsIgnoreCase("DARK YELLOW")){
+                   }else if(HeightZScore.getZScoreText(childData.getHeightZScore()).equalsIgnoreCase("DARK YELLOW")
+                    || HeightZScore.getZScoreText(childData.getHeightZScore()).equalsIgnoreCase("SAM")){
                        moderatelyStunting++;
-                   }else if(getZScoreText(Double.valueOf(childData.getChild_height())).equalsIgnoreCase("YELLOW")){
+                   }else if(HeightZScore.getZScoreText(childData.getHeightZScore()).equalsIgnoreCase("MAM")){
                        severlyStunting++;
                    }
                }

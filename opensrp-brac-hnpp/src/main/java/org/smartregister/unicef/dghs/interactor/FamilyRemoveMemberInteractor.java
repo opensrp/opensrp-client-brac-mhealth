@@ -145,7 +145,11 @@ public class FamilyRemoveMemberInteractor implements FamilyRemoveMemberContract.
             runnable = () -> appExecutors.mainThread().execute(() -> callback.onError(e));
         }
 
-        appExecutors.diskIO().execute(runnable);
+       try{
+           appExecutors.diskIO().execute(runnable);
+       }catch (Exception e){
+
+       }
 
     }
 
