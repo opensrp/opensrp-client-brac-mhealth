@@ -43,6 +43,7 @@ public class HALocationHelper {
         HashMap<String,String> addressMap = new HashMap<>();
         addressMap.put("address1", HALocation.union.name);
         addressMap.put("address2", HALocation.upazila.name);
+        addressMap.put("paurasava",HALocation.paurasava.name);
         addressMap.put("address3", HALocation.ward.name);
         addressMap.put("address8", HALocation.block.id+"");
         addressMap.put("old_ward", HALocation.old_ward.name+"");
@@ -57,6 +58,7 @@ public class HALocationHelper {
         client.addAttribute("division_id", HALocation.division.id+"");
         client.addAttribute("district_id", HALocation.district.id+"");
         client.addAttribute("upazila_id", HALocation.upazila.id+"");
+        client.addAttribute("paurasava_id",HALocation.paurasava.id+"");
         client.addAttribute("union_id", HALocation.union.id+"");
         client.addAttribute("ward_id", HALocation.ward.id+"");
         client.addAttribute("block_id", HALocation.block.id+"");
@@ -68,6 +70,7 @@ public class HALocationHelper {
         identifiers.put("division_id", HALocation.division.id+"");
         identifiers.put("district_id", HALocation.district.id+"");
         identifiers.put("upazila_id", HALocation.upazila.id+"");
+        identifiers.put("paurasava_id", HALocation.paurasava.id+"");
         identifiers.put("union_id", HALocation.union.id+"");
         identifiers.put("ward_id", HALocation.ward.id+"");
         identifiers.put("block_id", HALocation.block.id+"");

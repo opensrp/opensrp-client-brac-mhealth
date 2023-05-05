@@ -38,6 +38,8 @@ public class HALocationRepository extends BaseRepository {
     protected static final String DIVISION_GEO = "division_geo";
     protected static final String DISTRICT_ID = "district_id";
     protected static final String DISTRICT_GEO = "district_geo";
+    protected static final String PAURASAVA_ID = "paurasava_id";
+    protected static final String PAURASAVA_GEO = "paurasava_geo";
     protected static final String UPAZILA_ID = "upazila_id";
     protected static final String UPAZILA_GEO = "upazila_geo";
     protected static final String UNION_ID = "union_id";
@@ -57,6 +59,7 @@ public class HALocationRepository extends BaseRepository {
                     COUNTRY_ID + " INTEGER , " +COUNTRY_GEO + " VARCHAR , " +
                     DIVISION_ID + " INTEGER , " +DIVISION_GEO + " VARCHAR , " +
                     DISTRICT_ID + " INTEGER , " +DISTRICT_GEO + " VARCHAR , " +
+                    PAURASAVA_ID + " INTEGER , " +PAURASAVA_GEO + " VARCHAR , " +
                     UPAZILA_ID + " INTEGER , " +UPAZILA_GEO + " VARCHAR , " +
                     UNION_ID + " INTEGER , " +UNION_GEO + " VARCHAR , " +
                     OLD_WARD_ID + " INTEGER , " +OLD_WARD_GEO + " VARCHAR , " +
@@ -94,6 +97,8 @@ public class HALocationRepository extends BaseRepository {
         contentValues.put(DIVISION_GEO,  gson.toJson(ssModel.locations.get(0).division));
         contentValues.put(DISTRICT_ID, ssModel.locations.get(0).district.id);
         contentValues.put(DISTRICT_GEO,  gson.toJson(ssModel.locations.get(0).district));
+        contentValues.put(PAURASAVA_ID, ssModel.locations.get(0).paurasava.id);
+        contentValues.put(PAURASAVA_GEO,  gson.toJson(ssModel.locations.get(0).paurasava));
         contentValues.put(UPAZILA_ID, ssModel.locations.get(0).upazila.id);
         contentValues.put(UPAZILA_GEO,  gson.toJson(ssModel.locations.get(0).upazila));
         contentValues.put(UNION_ID, ssModel.locations.get(0).union.id);
@@ -164,6 +169,24 @@ public class HALocationRepository extends BaseRepository {
         }
         Log.v("BLOCK_LOCATION","getAllWard>>>"+locations);
         return locations;
+    }
+    public String getDistrictIdByBlockId(int newWardId){
+        Cursor cursor = null;
+        String districtId = "";
+        try{
+            String sql = "Select "+DISTRICT_ID+" from "+getLocationTableName()+" where "+WARD_ID+ " = '"+newWardId+"'";
+            cursor = getReadableDatabase().rawQuery(sql,null);
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                districtId  = cursor.getString(cursor.getColumnIndex(DISTRICT_ID));
+            }
+        }catch (Exception e){
+
+        }
+        finally {
+            if(cursor!=null) cursor.close();
+        }
+        return districtId;
     }
     public ArrayList<BlockLocation> getBlock(int newWardId) {
         Cursor cursor = null;
@@ -268,6 +291,8 @@ public class HALocationRepository extends BaseRepository {
         String divisionGeo = cursor.getString(cursor.getColumnIndex(DIVISION_GEO));
         String districtId = cursor.getString(cursor.getColumnIndex(DISTRICT_ID));
         String districtGeo = cursor.getString(cursor.getColumnIndex(DISTRICT_GEO));
+        String paurasavaId = cursor.getString(cursor.getColumnIndex(PAURASAVA_ID));
+        String paurasavaGeo = cursor.getString(cursor.getColumnIndex(PAURASAVA_GEO));
         String upazilaId = cursor.getString(cursor.getColumnIndex(UPAZILA_ID));
         String upazilaGeo = cursor.getString(cursor.getColumnIndex(UPAZILA_GEO));
         String unionId = cursor.getString(cursor.getColumnIndex(UNION_ID));
@@ -282,6 +307,7 @@ public class HALocationRepository extends BaseRepository {
         ssModel.division = gson.fromJson(divisionGeo, BaseLocation.class);
         ssModel.district = gson.fromJson(districtGeo, BaseLocation.class);
         ssModel.upazila = gson.fromJson(upazilaGeo, BaseLocation.class);
+        ssModel.paurasava = gson.fromJson(paurasavaGeo, BaseLocation.class);
         ssModel.union = gson.fromJson(unionGeo, BaseLocation.class);
         ssModel.ward = gson.fromJson(wardGeo, BaseLocation.class);
         ssModel.block = gson.fromJson(blockGeo, BaseLocation.class);

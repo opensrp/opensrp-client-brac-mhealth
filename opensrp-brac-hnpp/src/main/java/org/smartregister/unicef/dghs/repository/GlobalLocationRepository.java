@@ -35,7 +35,8 @@ public class GlobalLocationRepository extends BaseRepository {
         WARD(15),
         BLOCK(16),
         COUNTRY(10),
-        OLD_WARD(17);
+        OLD_WARD(17),
+        POST_OFFICE(18);
         int value;
         private LOCATION_TAG(int val) {
             this.value = val;
@@ -141,7 +142,7 @@ public class GlobalLocationRepository extends BaseRepository {
         ArrayList<GlobalLocationModel> locations = new ArrayList<>();
         try {
             String sql = "SELECT * FROM " + getLocationTableName()+" where "+LOCATION_TAG_ID+" = "+locationTagId+" and "+PARENT_LOCATION_ID+" = "+parentId;
-            Log.v("BLOCK_LOCATION","getLocationByParentId>>>"+sql);
+            Log.v("LOCATION","getLocationByTagIdWithParentId>>>"+sql);
             cursor = getReadableDatabase().rawQuery(sql, null);
             while (cursor.moveToNext()) {
                 locations.add(readBlockCursor(cursor));

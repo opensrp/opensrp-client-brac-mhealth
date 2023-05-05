@@ -8,9 +8,11 @@ public class HALocation implements Serializable {
     public BaseLocation division;
     public BaseLocation district;
     public BaseLocation upazila;
+    public BaseLocation paurasava;
     public BaseLocation union;
     public BaseLocation block;
     public BaseLocation ward;
     public BaseLocation old_ward;
+
 
 }

@@ -66,9 +66,11 @@
     <string name="new_ward">নতুন ওয়ার্ড</string>
     <string name="block_outreach">সাব-ব্লক/ সাইট</string>
     <string name="division_per">বিভাগ(স্থায়ী)</string>
-    <string name="district_per">জেলা(স্থায়ী)</string>
-    <string name="upazila_per">উপজেলা/পৌরসভা/সিটি কর্পোরেশন(স্থায়ী)</string>
+    <string name="district_per">জেলা/সিটি কর্পোরেশন(স্থায়ী)</string>
+    <string name="upazila_per">উপজেলা/পৌরসভা(স্থায়ী)</string>
     <string name="union_per">ইউনিয়ন/ জোন (স্থায়ী)</string>
+    <string name="post_office_per">ডাকঘর(স্থায়ী ঠিকানা)</string>
+    <string name="post_office_present">ডাকঘর(বর্তমান ঠিকানা)</string>
     <string name="last_submission_date">সেবা গ্রহণের তারিখ: %s</string>
     <string name="member_migration">সদস্য স্থানান্তর</string>
     <string name="hh_migration">খানা স্থানান্তর</string>
@@ -508,6 +510,7 @@
     <string name="center_name_title">কেন্দ্রের নাম :</string>
     <string name="sub_block_title">সাব-ব্লক :</string>
     <string name="brid_title">জন্ম নিবন্ধন নং :</string>
+    <string name="system_msg"><![CDATA[This is a System Generated Vaccine Card – Provided by EPI, DGHS, MoH&FW.]]></string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>

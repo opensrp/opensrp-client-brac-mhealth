@@ -447,15 +447,17 @@ public class ChildImmunizationFragment extends BaseProfileFragment implements  S
         curGroup.setOnVaccineUndoClickListener(new VaccineGroup.OnVaccineUndoClickListener() {
             @Override
             public void onUndoClick(VaccineGroup vaccineGroup, VaccineWrapper vaccine) {
-                addVaccineUndoDialogFragment(vaccineGroup, Arrays.asList(vaccine));
+                ArrayList<VaccineWrapper> vaccineWrappers = new ArrayList<>();
+                vaccineWrappers.add(vaccine);
+                addVaccinationDialogFragment(vaccineWrappers, vaccineGroup);
             }
         });
         curGroup.setOnVaccineInvalidClickListener(new VaccineGroup.OnVaccineInvalidClickListener() {
             @Override
             public void onInvalidClick(VaccineGroup vaccineGroup, VaccineWrapper vaccine) {
-                vaccine.setInvalid(true);
-//                vaccineGroup.setInvalid(true);
-                addVaccineUndoDialogFragment(vaccineGroup, Arrays.asList(vaccine));
+                ArrayList<VaccineWrapper> vaccineWrappers = new ArrayList<>();
+                vaccineWrappers.add(vaccine);
+                addVaccinationDialogFragment(vaccineWrappers, vaccineGroup);
             }
         });
 

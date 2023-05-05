@@ -75,6 +75,10 @@ public class TikaCardViewActivity extends SecuredActivity {
         ((TextView) findViewById(R.id.wardTxt)).setText(tikaInfoModel.wardNo);
         ((TextView) findViewById(R.id.centerNameTxt)).setText(tikaInfoModel.centerName);
         ((TextView) findViewById(R.id.subBlockTxt)).setText(tikaInfoModel.subBlock);
+        String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
+        String fullName = HnppApplication.getInstance().getContext().allSharedPreferences().getANMPreferredName(userName);
+
+        ((TextView) findViewById(R.id.haNameTxt)).setText(fullName);
         updateDistrict();
         updateTikaDate();
         updateVaccineDate();
@@ -112,7 +116,7 @@ public class TikaCardViewActivity extends SecuredActivity {
         ((TextView) findViewById(R.id.tenWeekDate)).setText(t);
         LocalDate fourTeenWeekV = tenWeekV.plusDays(28);
         String f = DateTimeFormat.forPattern("yyyy-MM-dd").print(fourTeenWeekV);
-        ((TextView) findViewById(R.id.fourteenWeekDate)).setText(f);
+        //((TextView) findViewById(R.id.fourteenWeekDate)).setText(f);
         LocalDate nineMonthV = fourTeenWeekV.plusDays(176);
         String n = DateTimeFormat.forPattern("yyyy-MM-dd").print(nineMonthV);
         ((TextView) findViewById(R.id.nineMonthDate)).setText(n);
@@ -132,9 +136,22 @@ public class TikaCardViewActivity extends SecuredActivity {
                     break;
                 case "opv_1":
                     ((TextView) findViewById(R.id.opv_2)).setText(vaacineInfo.vaccineDate);
+                    DateTime donDate = DateTimeFormat.forPattern("yyyy-MM-dd").parseDateTime(vaacineInfo.vaccineDate);
+                    LocalDate sixWeekV = new LocalDate(donDate);
+                    String s = DateTimeFormat.forPattern("yyyy-MM-dd").print(sixWeekV);
+                    ((TextView) findViewById(R.id.sixWeekDate)).setText(s);
+                    //update tenweek
+                    LocalDate tenWeekV = sixWeekV.plusDays(28);
+                    String t = DateTimeFormat.forPattern("yyyy-MM-dd").print(tenWeekV);
+                    ((TextView) findViewById(R.id.tenWeekDate)).setText(t);
                     break;
                 case "opv_2":
                     ((TextView) findViewById(R.id.opv_3)).setText(vaacineInfo.vaccineDate);
+                    DateTime d = DateTimeFormat.forPattern("yyyy-MM-dd").parseDateTime(vaacineInfo.vaccineDate);
+                    LocalDate fourTeenWeekV = new LocalDate(d);
+                    LocalDate fourteenWeekDate = fourTeenWeekV.plusDays(28);
+                    String f = DateTimeFormat.forPattern("yyyy-MM-dd").print(fourteenWeekDate);
+                    ((TextView) findViewById(R.id.fourteenWeekDate)).setText(f);
                     break;
                 case "opv_3":
                     ((TextView) findViewById(R.id.opv_4)).setText(vaacineInfo.vaccineDate);

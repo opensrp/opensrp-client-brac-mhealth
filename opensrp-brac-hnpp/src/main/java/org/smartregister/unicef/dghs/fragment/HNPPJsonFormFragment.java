@@ -116,10 +116,11 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
             }
             else if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.district_per))) {
                 if(isManuallyPressed){
+                    Log.v("LOCATION","districtIds>>"+districtIds);
                     processUpazila(districtIds.get(position));
                 }
             }
-            else if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.union_per))) {
+            else if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.upazila_per))) {
                 if(isManuallyPressed){
                     processUnion(upazilaIds.get(position));
                 }
@@ -131,7 +132,9 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
     }
 
     private void processDistrict(int position) {
+
         int selectedDivId = HnppApplication.getGlobalLocationRepository().getLocationByTagId(GlobalLocationRepository.LOCATION_TAG.DIVISION.getValue()).get(position).id;
+
         ArrayList<String> districtNames = new ArrayList<>();
         ArrayList<GlobalLocationModel> districts = HnppApplication.getGlobalLocationRepository().getLocationByTagIdWithParentId(GlobalLocationRepository.LOCATION_TAG.DISTRICT.getValue(),selectedDivId);
         ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());
@@ -165,7 +168,15 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
 
                             if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.district_per))) {
                                 if(position!=-1){
+
                                     processUpazila(districtIds.get(position));
+                                    try{
+                                        JSONArray jsonArray = getStep("step1").getJSONArray("fields");
+                                        JSONObject districtPer = getFieldJSONObject(jsonArray, "district_per");
+                                        districtPer.put("value",  districtNames.get(position));
+                                    }catch (Exception e){
+
+                                    }
                                 }
 
                             }
@@ -184,6 +195,8 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
     }
 
     private void processUpazila(String selectedDistrictId) {
+        this.selectedPerDistrictId = selectedDistrictId;
+        processPermanentPO();
         ArrayList<String> upazilaNames = new ArrayList<>();
         ArrayList<GlobalLocationModel> upazilaList = HnppApplication.getGlobalLocationRepository().getLocationByTagIdWithParentId(GlobalLocationRepository.LOCATION_TAG.UPAZILA.getValue(),Integer.parseInt(selectedDistrictId));
         ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());
@@ -218,6 +231,13 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
                             if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.upazila_per))) {
                                 if(position!=-1){
                                     processUnion(upazilaIds.get(position));
+                                    try{
+                                        JSONArray jsonArray = getStep("step1").getJSONArray("fields");
+                                        JSONObject upozilaObj = getFieldJSONObject(jsonArray, "upazila_per");
+                                        upozilaObj.put("value", upazilaNames.get(position));
+                                    }catch (Exception e){
+
+                                    }
                                 }
 
                             }
@@ -270,6 +290,14 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
                             if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.union_per))) {
                                 if(position!=-1){
                                     selectedUnionId = unionIds.get(position);
+                                    try{
+                                        JSONArray jsonArray = getStep("step1").getJSONArray("fields");
+                                        JSONObject unionObj = getFieldJSONObject(jsonArray, "union_per");
+                                        unionObj.put("value", unionNames.get(position));
+                                    }catch (Exception e){
+
+                                    }
+
                                 }
 
                             }
@@ -286,7 +314,120 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
             }
         }
     }
+    private void processPermanentPO() {
+        ArrayList<String> poNames = new ArrayList<>();
+        ArrayList<GlobalLocationModel> poList = HnppApplication.getGlobalLocationRepository().getLocationByTagIdWithParentId(GlobalLocationRepository.LOCATION_TAG.POST_OFFICE.getValue(),Integer.parseInt(selectedPerDistrictId));
+        ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());
+        for (int i = 0; i < formdataviews.size(); i++) {
+            if (formdataviews.get(i) instanceof MaterialSpinner) {
+                if (!TextUtils.isEmpty(((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText()) &&
+                        (((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText().toString().trim()
+                                .equalsIgnoreCase(getContext().getResources().getString(R.string.post_office_per)))) {
 
+                    try{
+                        JSONObject poPerNameObj = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "post_office_permanent");
+                        JSONArray jsonArray = new JSONArray();
+                        for(GlobalLocationModel globalLocationModel : poList){
+                            jsonArray.put(globalLocationModel.name);
+                            poNames.add(globalLocationModel.name);
+                        }
+                        poPerNameObj.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);
+                    }catch (Exception e){
+                        e.printStackTrace();
+
+                    }
+                    MaterialSpinner spinner = (MaterialSpinner) formdataviews.get(i);
+                    spinner.setEnabled(true);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), com.vijay.jsonwizard.R.layout.native_form_simple_list_item_1, poNames);
+                    spinner.setAdapter(adapter);
+                    spinner.setSelection(0, true);
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.post_office_per))) {
+                                if(position!=-1){
+
+                                    try {
+                                        JSONArray jsonArray = getStep("step1").getJSONArray("fields");
+                                        JSONObject poPerObj = getFieldJSONObject(jsonArray, "post_office_permanent");
+                                        poPerObj.put("value", poNames.get(position));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                    break;
+                }
+            }
+        }
+    }
+    private void processPresentPO(String districtId) {
+        ArrayList<String> poNames = new ArrayList<>();
+        ArrayList<GlobalLocationModel> poList = HnppApplication.getGlobalLocationRepository().getLocationByTagIdWithParentId(GlobalLocationRepository.LOCATION_TAG.POST_OFFICE.getValue(),Integer.parseInt(districtId));
+        ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());
+        for (int i = 0; i < formdataviews.size(); i++) {
+            if (formdataviews.get(i) instanceof MaterialSpinner) {
+                if (!TextUtils.isEmpty(((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText()) &&
+                        (((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText().toString().trim()
+                                .equalsIgnoreCase(getContext().getResources().getString(R.string.post_office_present)))) {
+
+                    try{
+                        JSONObject poPerNameObj = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "post_office_present");
+                        JSONArray jsonArray = new JSONArray();
+                        for(GlobalLocationModel globalLocationModel : poList){
+                            jsonArray.put(globalLocationModel.name);
+                            poNames.add(globalLocationModel.name);
+                        }
+                        poPerNameObj.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);
+                    }catch (Exception e){
+                        e.printStackTrace();
+
+                    }
+                    MaterialSpinner spinner = (MaterialSpinner) formdataviews.get(i);
+                    spinner.setEnabled(true);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), com.vijay.jsonwizard.R.layout.native_form_simple_list_item_1, poNames);
+                    spinner.setAdapter(adapter);
+                    spinner.setSelection(0, true);
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.post_office_present))) {
+                                if(position!=-1){
+
+                                    try {
+                                        JSONArray jsonArray = getStep("step1").getJSONArray("fields");
+                                        JSONObject poPerObj = getFieldJSONObject(jsonArray, "post_office_present");
+                                        poPerObj.put("value", poNames.get(position));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                    break;
+                }
+            }
+        }
+    }
     ArrayList<String> oldWardIds = new ArrayList<>();
     ArrayList<String> newWardIds = new ArrayList<>();
     ArrayList<String> blocksIds = new ArrayList<>();
@@ -297,6 +438,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
     String selectedUnionId = "";
     String selectedOldWardName = "";
     String selectedNewWardName = "";
+    String selectedPerDistrictId = "";
     private void processOldWard(int position) {
         int selectedUnionId = HALocationHelper.getInstance().getUnionList().get(position).ward.id;
         ArrayList<String> oldWardNames = new ArrayList<>();
@@ -406,7 +548,9 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
         }
     }
     private void processBlock(String newWardId) {
-
+        String districtId = HnppApplication.getHALocationRepository().getDistrictIdByBlockId(Integer.parseInt(newWardId));
+        Log.v("PROCESS_PRESENT","processPresentPO>>"+districtId);
+        processPresentPO(districtId);
         ArrayList<BlockLocation> blocks = HnppApplication.getHALocationRepository().getOnlyBlockLocationByWardId(newWardId);
         ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());
         for (int i = 0; i < formdataviews.size(); i++) {
@@ -463,8 +607,6 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
         return HnppApplication.getInstance().getContext();
     }
 
-
-
     @Override
     public JSONObject getStep(String stepName) {
         return super.getStep(stepName);
@@ -474,7 +616,6 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
     public void processHouseHoldId(final int index) {
 
         if(index==-1) return;
-
 
         Utils.startAsyncTask(new AsyncTask() {
             String block_id = "";
@@ -524,9 +665,6 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
                                 newWard.put("value", selectedNewWardName);
                                 JSONObject blockName = getFieldJSONObject(jsonArray, "block_name");
                                 blockName.put("value", blockNames.get(index));
-//                                if (hhid != null) {
-//                                    getStep("step1").put("hhid", hhid.getOpenmrsId());
-//                                }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
