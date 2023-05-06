@@ -31,6 +31,7 @@ public class GlobalLocationRepository extends BaseRepository {
         DIVISION(11),
         DISTRICT(12),
         UPAZILA(13),
+        PAUROSOVA(21),
         UNION(14),
         WARD(15),
         BLOCK(16),

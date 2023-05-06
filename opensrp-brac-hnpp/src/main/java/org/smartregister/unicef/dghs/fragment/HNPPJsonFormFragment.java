@@ -120,9 +120,15 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
                     processUpazila(districtIds.get(position));
                 }
             }
+            else if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.paurosova_per))) {
+                if(isManuallyPressed){
+                    Log.v("LOCATION","districtIds>>"+districtIds);
+                    processPaurosova(upazilaIds.get(position));
+                }
+            }
             else if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.upazila_per))) {
                 if(isManuallyPressed){
-                    processUnion(upazilaIds.get(position));
+                    processUnion(paurosovaIds.get(position));
                 }
             }
           //  hideKeyBoard();
@@ -136,6 +142,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
         int selectedDivId = HnppApplication.getGlobalLocationRepository().getLocationByTagId(GlobalLocationRepository.LOCATION_TAG.DIVISION.getValue()).get(position).id;
 
         ArrayList<String> districtNames = new ArrayList<>();
+        districtIds.clear();
         ArrayList<GlobalLocationModel> districts = HnppApplication.getGlobalLocationRepository().getLocationByTagIdWithParentId(GlobalLocationRepository.LOCATION_TAG.DISTRICT.getValue(),selectedDivId);
         ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());
         for (int i = 0; i < formdataviews.size(); i++) {
@@ -198,6 +205,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
         this.selectedPerDistrictId = selectedDistrictId;
         processPermanentPO();
         ArrayList<String> upazilaNames = new ArrayList<>();
+        upazilaIds.clear();
         ArrayList<GlobalLocationModel> upazilaList = HnppApplication.getGlobalLocationRepository().getLocationByTagIdWithParentId(GlobalLocationRepository.LOCATION_TAG.UPAZILA.getValue(),Integer.parseInt(selectedDistrictId));
         ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());
         for (int i = 0; i < formdataviews.size(); i++) {
@@ -230,7 +238,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
 
                             if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.upazila_per))) {
                                 if(position!=-1){
-                                    processUnion(upazilaIds.get(position));
+                                    processPaurosova(upazilaIds.get(position));
                                     try{
                                         JSONArray jsonArray = getStep("step1").getJSONArray("fields");
                                         JSONObject upozilaObj = getFieldJSONObject(jsonArray, "upazila_per");
@@ -254,11 +262,70 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
             }
         }
     }
+    private void processPaurosova(String selectedUpozilaId) {
+        ArrayList<String> paurosovaNames = new ArrayList<>();
+        paurosovaIds.clear();
+        ArrayList<GlobalLocationModel> paurosovaList = HnppApplication.getGlobalLocationRepository().getLocationByTagIdWithParentId(GlobalLocationRepository.LOCATION_TAG.PAUROSOVA.getValue(),Integer.parseInt(selectedUpozilaId));
+        ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());
+        for (int i = 0; i < formdataviews.size(); i++) {
+            if (formdataviews.get(i) instanceof MaterialSpinner) {
+                if (!TextUtils.isEmpty(((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText()) &&
+                        (((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText().toString().trim()
+                                .equalsIgnoreCase(getContext().getResources().getString(R.string.paurosova_per)))) {
 
+                    try{
+                        JSONObject oldWardNameObj = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "paurosova_per");
+                        JSONArray jsonArray = new JSONArray();
+                        for(GlobalLocationModel globalLocationModel : paurosovaList){
+                            jsonArray.put(globalLocationModel.name);
+                            paurosovaNames.add(globalLocationModel.name);
+                            paurosovaIds.add(globalLocationModel.id+"");
+                        }
+                        oldWardNameObj.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);
+                    }catch (Exception e){
+                        e.printStackTrace();
+
+                    }
+                    MaterialSpinner spinner = (MaterialSpinner) formdataviews.get(i);
+                    spinner.setEnabled(true);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), com.vijay.jsonwizard.R.layout.native_form_simple_list_item_1, paurosovaNames);
+                    spinner.setAdapter(adapter);
+                    spinner.setSelection(0, true);
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.paurosova_per))) {
+                                if(position!=-1){
+                                    processUnion(paurosovaIds.get(position));
+                                    try{
+                                        JSONArray jsonArray = getStep("step1").getJSONArray("fields");
+                                        JSONObject upozilaObj = getFieldJSONObject(jsonArray, "paurosova_per");
+                                        upozilaObj.put("value", paurosovaNames.get(position));
+                                    }catch (Exception e){
+
+                                    }
+                                }
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                    break;
+                }
+            }
+        }
+    }
     private void processUnion(String selectedUpazilaId) {
         ArrayList<String> unionNames = new ArrayList<>();
         ArrayList<GlobalLocationModel> unionList = HnppApplication.getGlobalLocationRepository().getLocationByTagIdWithParentId(GlobalLocationRepository.LOCATION_TAG.UNION.getValue(),Integer.parseInt(selectedUpazilaId));
         ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());
+        unionIds.clear();
         for (int i = 0; i < formdataviews.size(); i++) {
             if (formdataviews.get(i) instanceof MaterialSpinner) {
                 if (!TextUtils.isEmpty(((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText()) &&
@@ -431,9 +498,9 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
     ArrayList<String> oldWardIds = new ArrayList<>();
     ArrayList<String> newWardIds = new ArrayList<>();
     ArrayList<String> blocksIds = new ArrayList<>();
-    ArrayList<String> blockNames = new ArrayList<>();
     ArrayList<String> districtIds = new ArrayList<>();
     ArrayList<String> upazilaIds = new ArrayList<>();
+    ArrayList<String> paurosovaIds = new ArrayList<>();
     ArrayList<String> unionIds = new ArrayList<>();
     String selectedUnionId = "";
     String selectedOldWardName = "";
@@ -442,6 +509,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
     private void processOldWard(int position) {
         int selectedUnionId = HALocationHelper.getInstance().getUnionList().get(position).ward.id;
         ArrayList<String> oldWardNames = new ArrayList<>();
+        oldWardIds.clear();
         ArrayList<WardLocation> oldWards = HnppApplication.getHALocationRepository().getOldWardByUnionId(selectedUnionId);
         ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());
         for (int i = 0; i < formdataviews.size(); i++) {
@@ -495,6 +563,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
     }
     private void processNewWard(String oldWardId) {
         ArrayList<String> newWardNames = new ArrayList<>();
+        newWardIds.clear();
         ArrayList<WardLocation> newWards = HnppApplication.getHALocationRepository().getAllWardByOldWardId(Integer.parseInt(oldWardId));
         ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());
         for (int i = 0; i < formdataviews.size(); i++) {
@@ -553,6 +622,8 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
         processPresentPO(districtId);
         ArrayList<BlockLocation> blocks = HnppApplication.getHALocationRepository().getOnlyBlockLocationByWardId(newWardId);
         ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());
+        ArrayList<String> blockNames = new ArrayList<>();
+        blocksIds.clear();
         for (int i = 0; i < formdataviews.size(); i++) {
             if (formdataviews.get(i) instanceof MaterialSpinner) {
                 if (!TextUtils.isEmpty(((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText()) &&
@@ -585,6 +656,14 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
                             if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.block_outreach))) {
                                 if(position!=-1){
                                     processHouseHoldId(position);
+                                    try{
+                                        JSONArray jsonArray = getStep("step1").getJSONArray("fields");
+                                        JSONObject blockName = getFieldJSONObject(jsonArray, "block_name");
+                                        blockName.put("value", blockNames.get(position));
+                                    }catch (Exception e){
+
+                                    }
+
                                 }
 
 
@@ -663,8 +742,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
                                 oldWard.put("value", selectedOldWardName);
                                 JSONObject newWard = getFieldJSONObject(jsonArray, "ward_name");
                                 newWard.put("value", selectedNewWardName);
-                                JSONObject blockName = getFieldJSONObject(jsonArray, "block_name");
-                                blockName.put("value", blockNames.get(index));
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

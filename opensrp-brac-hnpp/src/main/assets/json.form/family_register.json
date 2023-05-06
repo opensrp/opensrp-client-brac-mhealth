@@ -250,7 +250,29 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "upazila_per",
         "type": "spinner",
-        "hint": "উপজেলা/পৌরসভা(স্থায়ী)",
+        "hint": "উপজেলা/থানা(স্থায়ী)",
+        "values": [
+        ],
+        "openmrs_choice_ids": {
+        },
+        "v_required": {
+          "value": "true",
+          "err": "নির্বাচন করুন"
+        },
+        "relevance": {
+          "step1:is_permanent_address": {
+            "type": "string",
+            "ex": "equalTo(., \"না\")"
+          }
+        }
+      },
+      {
+        "key": "paurosova_per",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "paurosova_per",
+        "type": "spinner",
+        "hint": "পৌরসভা(স্থায়ী)",
         "values": [
         ],
         "openmrs_choice_ids": {

@@ -146,6 +146,13 @@
           }
         },
         {
+          "column_name": "paurosova_per",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.paurosova_per"
+          }
+        },
+        {
           "column_name": "union_per",
           "type": "Client",
           "json_mapping": {

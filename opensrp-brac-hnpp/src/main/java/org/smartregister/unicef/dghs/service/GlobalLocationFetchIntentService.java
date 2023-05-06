@@ -90,6 +90,7 @@ public class GlobalLocationFetchIntentService extends IntentService {
                         return;
                     }
                 }
+                Log.v("HA_LOCATION_FETCH","tempId>>"+tempId);
                 CoreLibrary.getInstance().context().allSharedPreferences().savePreference(LAST_ID,tempId+"");
 
                 getLocationList();

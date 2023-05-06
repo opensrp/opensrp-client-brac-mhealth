@@ -621,10 +621,10 @@ public class ChildImmunizationFragment extends BaseProfileFragment implements  S
         if (tag.getDbKey() != null) {
             vaccine = vaccineRepository.find(tag.getDbKey());
         }
-        if(tag.isInvalid()) vaccine.setInvalid(true);
         vaccine.setBaseEntityId(childDetails.entityId());
         vaccine.setName(tag.getName());
         vaccine.setDate(tag.getUpdatedVaccineDate().toDate());
+        vaccine.setVaccineDueDate(tag.getVaccineDate());
         vaccine.setAnmId(ImmunizationLibrary.getInstance().context().allSharedPreferences().fetchRegisteredANM());
 
         String lastChar = vaccine.getName().substring(vaccine.getName().length() - 1);

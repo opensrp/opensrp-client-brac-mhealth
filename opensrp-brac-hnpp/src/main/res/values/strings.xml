@@ -67,7 +67,8 @@
     <string name="block_outreach">সাব-ব্লক/ সাইট</string>
     <string name="division_per">বিভাগ(স্থায়ী)</string>
     <string name="district_per">জেলা/সিটি কর্পোরেশন(স্থায়ী)</string>
-    <string name="upazila_per">উপজেলা/পৌরসভা(স্থায়ী)</string>
+    <string name="upazila_per">উপজেলা/থানা(স্থায়ী)</string>
+    <string name="paurosova_per">পৌরসভা(স্থায়ী)</string>
     <string name="union_per">ইউনিয়ন/ জোন (স্থায়ী)</string>
     <string name="post_office_per">ডাকঘর(স্থায়ী ঠিকানা)</string>
     <string name="post_office_present">ডাকঘর(বর্তমান ঠিকানা)</string>
