@@ -453,9 +453,7 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
 
                 JSONObject form = new JSONObject(jsonString);
                 if (form.getString(JsonFormUtils.ENCOUNTER_TYPE).equals(Utils.metadata().familyRegister.updateEventType)) {
-                    String[] sss =  HnppJsonFormUtils.getHouseholdIdModuleIdFromForm(form);
-                    houseHoldId = sss[0];
-                    moduleId = sss[1];
+                    houseHoldId =  HnppJsonFormUtils.getHouseholdIdFromForm(form);
                     ((FamilyProfilePresenter)presenter).updateHouseIdAndModuleId(houseHoldId);
                     model.updateHouseIdAndModuleId(houseHoldId,moduleId );
                     presenter().updateFamilyRegister(jsonString);
@@ -520,7 +518,7 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
 
                 }
             } catch (Exception e) {
-                Timber.e(e);
+                e.printStackTrace();
             }
             HnppConstants.isViewRefresh = true;
         }

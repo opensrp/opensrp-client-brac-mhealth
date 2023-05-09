@@ -1151,14 +1151,10 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
         return form;
     }
-    public static String[] getHouseholdIdModuleIdFromForm(JSONObject form) throws JSONException {
-        String[] dfd = new String[2];
+    public static String getHouseholdIdFromForm(JSONObject form) throws JSONException {
         JSONArray field = fields(form, STEP1);
         JSONObject houseHoldIdObj = getFieldJSONObject(field, "unique_id");
-        JSONObject mObj = getFieldJSONObject(field, "module_id");
-        dfd[0] = houseHoldIdObj.getString("value");
-        dfd[1] = mObj.getString("value");
-        return dfd;
+        return houseHoldIdObj.getString("value");
     }
 
 

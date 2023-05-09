@@ -116,13 +116,12 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:id="@+id/service_group_canvas_ll"
+                    android:id="@+id/vaccine_group_canvas_ll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical" />
-
                 <LinearLayout
-                    android:id="@+id/vaccine_group_canvas_ll"
+                    android:id="@+id/service_group_canvas_ll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical" />
