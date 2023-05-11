@@ -116,7 +116,7 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
         if(FormApplicability.isWomenPackageApplicable(commonPersonObjectClient.getCaseId(),age,gender.equalsIgnoreCase("F"))&& FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.WOMEN_PACKAGE)){
             OtherServiceData otherServiceData = new OtherServiceData();
             otherServiceData.setImageSource(R.drawable.ic_women);
-            otherServiceData.setTitle("নারী সেবা প্যাকেজ");
+            otherServiceData.setTitle("নারী কাউন্সেলিং");
             otherServiceData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_WOMEN_PACKAGE);
             otherServiceDataList.add(otherServiceData);
         }
@@ -124,7 +124,7 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
         if(FormApplicability.isAdolescentApplicable(age,gender.equalsIgnoreCase("F"))&& FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.GIRL_PACKAGE)){
             OtherServiceData otherServiceData2 = new OtherServiceData();
             otherServiceData2.setImageSource(R.drawable.ic_adolescent);
-            otherServiceData2.setTitle("কিশোরী সেবা প্যাকেজ");
+            otherServiceData2.setTitle("কিশোরী কাউন্সেলিং");
             otherServiceData2.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_GIRL_PACKAGE);
             otherServiceDataList.add(otherServiceData2);
         }
@@ -138,7 +138,7 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
         if(FormApplicability.isIycfApplicable(day) && FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.IYCF_PACKAGE)){
             OtherServiceData otherServiceData4 = new OtherServiceData();
             otherServiceData4.setImageSource(R.drawable.ic_child);
-            otherServiceData4.setTitle("শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)");
+            otherServiceData4.setTitle("শিশু কাউন্সেলিং");
             otherServiceData4.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_IYCF);
             otherServiceDataList.add(otherServiceData4);
         }

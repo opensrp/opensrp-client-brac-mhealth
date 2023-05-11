@@ -218,6 +218,7 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
     public DashBoardData getElcoCount(String ssName, long fromMonth, long toMonth){
         return getVisitTypeCount(HnppConstants.EVENT_TYPE.ELCO,ssName,fromMonth,toMonth);
     }
+
     public DashBoardData getAncCount(String ssName, long fromMonth, long toMonth){
         return getVisitTypeCount("ANC",ssName,fromMonth,toMonth);
     }

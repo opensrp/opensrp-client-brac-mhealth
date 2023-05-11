@@ -115,8 +115,8 @@ public class WorkSummeryDashBoardInteractor implements DashBoardContract.Interac
                 addToDashBoardList(indicatorModel.getRemoveHHCount("খানা বাতিল",ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.getMigrateMemberCount("সদস্য স্থানান্তর",ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.getMigratedHHCount("খানা স্থানান্তর",ssName,fromMonth,toMonth));
+                addToDashBoardList(indicatorModel.getGlassSell(ssName,fromMonth,toMonth));
             }
-
         }
 
 

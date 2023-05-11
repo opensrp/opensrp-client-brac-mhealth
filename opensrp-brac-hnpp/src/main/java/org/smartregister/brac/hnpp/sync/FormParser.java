@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.sync;
 
+import android.annotation.SuppressLint;
 import android.app.IntentService;
 import android.content.ContentValues;
 import android.content.Context;
@@ -2210,6 +2211,7 @@ public class FormParser {
         form_details.put("details",details);
         return form_details;
     }
+    @SuppressLint("SimpleDateFormat")
     private static void processRemoveMember(String baseEntityId, long eventDate, String dod) {
 
 

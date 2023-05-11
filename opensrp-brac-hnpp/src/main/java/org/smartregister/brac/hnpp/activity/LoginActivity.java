@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,10 +23,12 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.evernote.android.job.JobManager;
@@ -172,8 +175,8 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         HnppConstants.updateAppBackgroundOnResume(findViewById(R.id.login_layout));
         if(!BuildConfig.DEBUG)isDeviceVerifyiedCheck();
 //        if(BuildConfig.DEBUG){
-//            userNameText.setText("01967889005");
-//            passwordText.setText("123456");
+//            userNameText.setText("01313049998");
+//            passwordText.setText("9998");
 //        }
     }
     @Override
@@ -362,10 +365,49 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         Log.v("IMEI_URL","showDialog:"+status+devieImei);
         if(TextUtils.isEmpty(status) || !status.equalsIgnoreCase("true")){
             HnppConstants.updateDeviceVerified(false,devieImei);
-            android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(mActivity).create();
-            alertDialog.setTitle("এই ডিভাইস টি রেজিস্টার করা হয় নি।ডিভাইস id:"+devieImei);
-            alertDialog.setCancelable(false);
+//            android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(mActivity).create();
+//            alertDialog.setMessage(devieImei);
+//            alertDialog.setTitle("এই ডিভাইস টি রেজিস্টার করা হয় নি।ডিভাইস id:");
+//            alertDialog.setCancelable(false);
+//
+//            alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE, "ওকে",
+//                    (dialog, which) -> {
+//                        if (mActivity != null) mActivity.finish();
+//                    });
+//            if (mActivity != null)
+//                alertDialog.show();
+            //
+            AlertDialog alertDialog;
+            AlertDialog.Builder builder;
+// The TextView to show your Text
+            TextView showText = new TextView(this);
+            showText.setGravity(Gravity.CENTER);
+            showText.setTextSize(20);
+            showText.setText(devieImei);
+// Add the Listener
+            showText.setOnLongClickListener(new View.OnLongClickListener() {
 
+                @Override
+                public boolean onLongClick(View v) {
+                    // Copy the Text to the clipboard
+                    ClipboardManager manager =
+                            (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                    TextView showTextParam = (TextView) v;
+                    manager.setText( showTextParam.getText() );
+                    // Show a message:
+                    Toast.makeText(v.getContext(), "Device id copied",
+                                    Toast.LENGTH_SHORT)
+                            .show();
+                    return true;
+                }
+            });
+// Build the Dialog
+            builder = new AlertDialog.Builder(this);
+            builder.setView(showText);
+            alertDialog = builder.create();
+// Some eye-candy
+            alertDialog.setTitle("এই ডিভাইস টি রেজিস্টার করা হয় নি।ডিভাইস আইডি টি হলো");
+            alertDialog.setCancelable(false);
             alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE, "ওকে",
                     (dialog, which) -> {
                         if (mActivity != null) mActivity.finish();

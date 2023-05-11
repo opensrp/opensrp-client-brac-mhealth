@@ -57,9 +57,9 @@ public class StockDashBoardInteractor implements DashBoardContract.Interactor {
             addToDashBoardList(model.getAncStockData(month,year));
             addToDashBoardList(model.getPncStockData(month,year));
             addToDashBoardList(model.getNcdServiceStockData(month,year));
-            addToDashBoardList(model.getWomenServiceStockData(month,year));
-            addToDashBoardList(model.getAdoServiceStockData(month,year));
-            addToDashBoardList(model.getChildServiceStockData(month,year));
+//            addToDashBoardList(model.getWomenServiceStockData(month,year));
+//            addToDashBoardList(model.getAdoServiceStockData(month,year));
+//            addToDashBoardList(model.getChildServiceStockData(month,year));
 
         }
 

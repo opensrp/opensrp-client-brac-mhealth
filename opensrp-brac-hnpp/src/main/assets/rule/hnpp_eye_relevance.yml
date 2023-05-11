@@ -34,6 +34,13 @@ condition: "(step1_is_need_glasses.equalsIgnoreCase('হ্যাঁ'))"
 actions:
   - "isRelevant = true"
 ---
+name: step1_glasses_sell
+description: present condition
+priority: 1
+condition: "(step1_is_need_glasses.equalsIgnoreCase('হ্যাঁ'))"
+actions:
+  - "isRelevant = true"
+---
 name: step1_first_glass_user
 description: present condition
 priority: 1

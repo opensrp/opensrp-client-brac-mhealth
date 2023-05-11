@@ -77,18 +77,18 @@ public class StockDetailsInteractor implements StockDetailsContract.Interactor {
             else if(productName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour)){
                 addToDashBoardList(model.getPncStockData(month,year));
             }
-            else if(productName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GIRL_PACKAGE)){
-                addToDashBoardList(model.getAdoServiceStockData(month,year));
-            }
-            else if(productName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.IYCF_PACKAGE)){
-                addToDashBoardList(model.getChildServiceStockData(month,year));
-            }
+//            else if(productName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GIRL_PACKAGE)){
+//                addToDashBoardList(model.getAdoServiceStockData(month,year));
+//            }
+//            else if(productName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.IYCF_PACKAGE)){
+//                addToDashBoardList(model.getChildServiceStockData(month,year));
+//            }
             else if(productName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.NCD_PACKAGE)){
                 addToDashBoardList(model.getNcdServiceStockData(month,year));
             }
-            else if(productName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.WOMEN_PACKAGE)){
-                addToDashBoardList(model.getWomenServiceStockData(month,year));
-            }
+//            else if(productName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.WOMEN_PACKAGE)){
+//                addToDashBoardList(model.getWomenServiceStockData(month,year));
+//            }
         }
 
     }

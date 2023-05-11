@@ -126,10 +126,11 @@ public class StockRepository extends BaseRepository {
                     return CoreConstants.EventType.ANC_HOME_VISIT;
                 case HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour:
                     return HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour;
-                case HnppConstants.EVENT_TYPE.GIRL_PACKAGE:
-                case HnppConstants.EVENT_TYPE.IYCF_PACKAGE:
+                    //কিশোরী, নারী, শিশু সেবা দেয়ার পর পেমেন্ট অপশনে যেন না আসে (Payment Option will appear with "0" amount)
+//                case HnppConstants.EVENT_TYPE.GIRL_PACKAGE:
+//                case HnppConstants.EVENT_TYPE.IYCF_PACKAGE:
                 case HnppConstants.EVENT_TYPE.NCD_PACKAGE:
-                case HnppConstants.EVENT_TYPE.WOMEN_PACKAGE:
+//                case HnppConstants.EVENT_TYPE.WOMEN_PACKAGE:
                     return targetName;
                 case HnppConstants.EVENT_TYPE.GLASS:
                 case HnppConstants.EVENT_TYPE.SUN_GLASS:

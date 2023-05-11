@@ -97,6 +97,9 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
     public DashBoardData get4PlusAnc(String ssName, long fromMonth, long toMonth){
         return getVisitTypeCount("4+ এ এন সি","no_anc_at_pregnant","4",ssName,fromMonth,toMonth);
     }
+    public DashBoardData getGlassSell(String ssName, long fromMonth, long toMonth){
+        return getVisitTypeCount("চশমা বিতরণ","glasses_sell","",ssName,fromMonth,toMonth);
+    }
     public DashBoardData getCigerDelivery(String ssName, long fromMonth, long toMonth){
         return getVisitTypeCount("প্রসবের ফলাফল(সিজার)","delivery_method_c_section","c_section",ssName,fromMonth,toMonth);
     }
@@ -537,6 +540,9 @@ public DashBoardData getVisitTypeSum(String title,String indicatorKey,String ssN
         String toMonthStr = HnppConstants.getDateFormateFromLong(toMonth);
         DashBoardData dashBoardData1 = new DashBoardData();
         String mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='"+indicatorValue+"' COLLATE NOCASE";
+        if(TextUtils.isEmpty(indicatorValue)){
+            mainCondition =" where "+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"'";
+        }
         String returnColumn = "count(*)";
 //        if(indicatorKey.equalsIgnoreCase(HnppConstants.INDICATOR.ANC_OTHER_SOURCE)){
 //            mainCondition = " where (("+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='Govt') or ("+IndicatorRepository.INDICATOR_NAME+" ='"+indicatorKey+"' and "+IndicatorRepository.INDICATOR_VALUE+" ='other'))";
@@ -627,7 +633,12 @@ public DashBoardData getVisitTypeSum(String title,String indicatorKey,String ssN
 
                 dashBoardData1.setCount(cursor.getInt(cursor.getColumnIndex("count")));
                 dashBoardData1.setTitle(title);
-                dashBoardData1.setImageSource(R.drawable.rowavatar_member);
+                if(indicatorKey.equalsIgnoreCase("glasses_sell")){
+                    dashBoardData1.setImageSource(R.drawable.ic_eye);
+                }else{
+                    dashBoardData1.setImageSource(R.drawable.rowavatar_member);
+                }
+
 
                 cursor.moveToNext();
             }

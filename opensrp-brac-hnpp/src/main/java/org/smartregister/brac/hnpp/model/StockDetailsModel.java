@@ -78,18 +78,18 @@ public class StockDetailsModel implements StockDetailsContract.Model{
     public StockDetailsData getPncStockData(String month, String year){
         return getStockData(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,month,year,getLastBalance(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,month,year));
     }
-    public StockDetailsData getAdoServiceStockData(String month, String year){
-        return getStockData(HnppConstants.EVENT_TYPE.GIRL_PACKAGE,month,year,getLastBalance(HnppConstants.EVENT_TYPE.GIRL_PACKAGE,month,year));
-    }
-    public StockDetailsData getChildServiceStockData(String month, String year){
-        return getStockData(HnppConstants.EVENT_TYPE.IYCF_PACKAGE,month,year,getLastBalance(HnppConstants.EVENT_TYPE.IYCF_PACKAGE,month,year));
-    }
+//    public StockDetailsData getAdoServiceStockData(String month, String year){
+//        return getStockData(HnppConstants.EVENT_TYPE.GIRL_PACKAGE,month,year,getLastBalance(HnppConstants.EVENT_TYPE.GIRL_PACKAGE,month,year));
+//    }
+//    public StockDetailsData getChildServiceStockData(String month, String year){
+//        return getStockData(HnppConstants.EVENT_TYPE.IYCF_PACKAGE,month,year,getLastBalance(HnppConstants.EVENT_TYPE.IYCF_PACKAGE,month,year));
+//    }
     public StockDetailsData getNcdServiceStockData(String month, String year){
         return getStockData(HnppConstants.EVENT_TYPE.NCD_PACKAGE,month,year,getLastBalance(HnppConstants.EVENT_TYPE.NCD_PACKAGE,month,year));
     }
-    public StockDetailsData getWomenServiceStockData(String month, String year){
-        return getStockData(HnppConstants.EVENT_TYPE.WOMEN_PACKAGE,month,year,getLastBalance(HnppConstants.EVENT_TYPE.WOMEN_PACKAGE,month,year));
-    }
+//    public StockDetailsData getWomenServiceStockData(String month, String year){
+//        return getStockData(HnppConstants.EVENT_TYPE.WOMEN_PACKAGE,month,year,getLastBalance(HnppConstants.EVENT_TYPE.WOMEN_PACKAGE,month,year));
+//    }
     private int getLastBalance(String visitType, String month, String year){
         int endBalance = 0;
         String query="";
