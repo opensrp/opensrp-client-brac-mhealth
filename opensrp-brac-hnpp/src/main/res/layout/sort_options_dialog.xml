@@ -44,7 +44,21 @@
                     android:background="@drawable/login_button_bg"
                     android:drawableLeft="@drawable/childrow_history"
                     android:text="শেষ পরিদর্শন তারিখ অনুযায়ী"/>
-
+                    <TextView
+                        android:id="@+id/serial_no_sort_btn"
+                        android:layout_width="350dp"
+                        android:layout_height="50dp"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="10dp"
+                        android:textSize="20sp"
+                        android:drawableTint="@color/white"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="10dp"
+                        android:drawablePadding="15dp"
+                        android:background="@drawable/login_button_bg"
+                        android:drawableLeft="@drawable/ic_serial"
+                        android:text="খানার সিরিয়াল নাম্বার"/>
 
 
 

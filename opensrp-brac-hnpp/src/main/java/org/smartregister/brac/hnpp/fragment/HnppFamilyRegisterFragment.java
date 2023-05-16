@@ -32,6 +32,7 @@ import android.widget.Toast;
 import com.evernote.android.job.JobManager;
 
 import org.apache.commons.lang3.StringUtils;
+import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.MigrationSearchDetailsActivity;
@@ -72,6 +73,7 @@ import java.util.Set;
 import timber.log.Timber;
 
 import static android.view.View.inflate;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.HH_SORTED_BY;
 
 public class HnppFamilyRegisterFragment extends HnppBaseFamilyRegisterFragment implements View.OnClickListener {
 
@@ -142,11 +144,7 @@ public class HnppFamilyRegisterFragment extends HnppBaseFamilyRegisterFragment i
         sortByView.setOnClickListener(registerActionHandler);
         TextView filterTextView = sortAndFilterView.findViewById(R.id.filter_text_view);
         sortView.setText(getString(R.string.sort));
-        if(HnppConstants.isSortByLastVisit){
-            sortByView.setImageResource(R.drawable.childrow_history);
-        }else{
-            sortByView.setImageResource(R.drawable.ic_home);
-        }
+        updateSortView(HnppConstants.sSortedBy);
         filterTextView.setText(getString(R.string.filter));
         View searchBarLayout = view.findViewById(org.smartregister.family.R.id.search_bar_layout);
         searchBarLayout.setBackgroundResource(org.smartregister.family.R.color.customAppThemeBlue);
@@ -201,11 +199,18 @@ public class HnppFamilyRegisterFragment extends HnppBaseFamilyRegisterFragment i
     }
 
 
-    private void updateSortView(boolean isVisitWise){
-        if(isVisitWise){
-            sortByView.setImageResource(R.drawable.childrow_history);
-        }else{
-            sortByView.setImageResource(R.drawable.ic_home);
+    private void updateSortView(int sortBy){
+        switch (sortBy){
+            case HnppConstants.SORT_BY.SORT_BY_LAST_VISIT:
+                sortByView.setImageResource(R.drawable.childrow_history);
+                break;
+            case HnppConstants.SORT_BY.SORT_BY_REGIGTRATION:
+                sortByView.setImageResource(R.drawable.ic_home);
+                break;
+            case HnppConstants.SORT_BY.SORT_BY_SERIAL:
+                sortByView.setImageResource(R.drawable.ic_serial);
+                break;
+
         }
         filter(searchFilterString, "", DEFAULT_MAIN_CONDITION,false);
 
@@ -223,16 +228,28 @@ public class HnppFamilyRegisterFragment extends HnppBaseFamilyRegisterFragment i
                 @Override
                 public void onClick(View v) {
 
-                    HnppConstants.isSortByLastVisit = false;
-                    updateSortView(false);
+                    HnppConstants.sSortedBy = HnppConstants.SORT_BY.SORT_BY_REGIGTRATION;
+                    CoreLibrary.getInstance().context().allSharedPreferences().savePreference(HH_SORTED_BY,HnppConstants.SORT_BY.SORT_BY_REGIGTRATION+"");
+                    updateSortView(HnppConstants.SORT_BY.SORT_BY_REGIGTRATION);
+
                     dialog.dismiss();
                 }
             });
             dialog.findViewById(R.id.last_visit_sort_btn).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    HnppConstants.isSortByLastVisit = true;
-                    updateSortView(true);
+                    HnppConstants.sSortedBy = HnppConstants.SORT_BY.SORT_BY_LAST_VISIT;
+                    CoreLibrary.getInstance().context().allSharedPreferences().savePreference(HH_SORTED_BY,HnppConstants.SORT_BY.SORT_BY_LAST_VISIT+"");
+                    updateSortView(HnppConstants.SORT_BY.SORT_BY_LAST_VISIT);
+                    dialog.dismiss();
+                }
+            });
+            dialog.findViewById(R.id.serial_no_sort_btn).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    HnppConstants.sSortedBy = HnppConstants.SORT_BY.SORT_BY_SERIAL;
+                    CoreLibrary.getInstance().context().allSharedPreferences().savePreference(HH_SORTED_BY,HnppConstants.SORT_BY.SORT_BY_SERIAL+"");
+                    updateSortView(HnppConstants.SORT_BY.SORT_BY_SERIAL);
                     dialog.dismiss();
                 }
             });

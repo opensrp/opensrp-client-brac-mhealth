@@ -119,11 +119,11 @@ public class HnppConstants extends CoreConstants {
     public static final String IS_RELEASE = "is_release_build";
     public static final String IS_DEVICE_VERIFY = "is_device_verify";
     public static final String DEVICE_IMEI = "device_imei";
-    public static boolean isSortByLastVisit = false;
+    public static int sSortedBy = SORT_BY.SORT_BY_REGIGTRATION;
     public static boolean isViewRefresh = false;
     public static final String KEY_IS_SAME_MONTH = "is_same_month";
     public static final String KEY_NEED_TO_OPEN = "need_to_open_drawer";
-
+    public static final String HH_SORTED_BY = "hh_sorted_by";
     public static SimpleDateFormat DDMMYY = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
     public static SimpleDateFormat HHMM = new SimpleDateFormat("HH:mm:ss", Locale.US);
     public static SimpleDateFormat YYYYMM = new SimpleDateFormat("yyyy-MM", Locale.US);
@@ -962,6 +962,12 @@ public class HnppConstants extends CoreConstants {
         public static final String PP_Vesectomy = "vasectomy";
         public static final String PP_Tubectomy = "ligation";
 
+
+    }
+    public class SORT_BY{
+        public static final int SORT_BY_SERIAL = 1;
+        public static final int SORT_BY_LAST_VISIT = 2;
+        public static final int SORT_BY_REGIGTRATION = 3;
 
     }
 
