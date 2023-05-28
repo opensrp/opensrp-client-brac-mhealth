@@ -346,7 +346,7 @@ public class HnppNavigationPresenter implements NavigationContract.Presenter {
 //            MigrationFetchJob.scheduleJobImmediately(MigrationFetchJob.TAG);
 //        }
         HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
-//        PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
+        PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
 //        TargetFetchJob.scheduleJobImmediately(TargetFetchJob.TAG);
 //        StockFetchJob.scheduleJobImmediately(StockFetchJob.TAG);
         DataDeleteJob.scheduleJobImmediately(DataDeleteJob.TAG);

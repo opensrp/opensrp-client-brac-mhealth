@@ -257,7 +257,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         startActivity(intent);
         boolean isConnected = HnppConstants.isConnectedToInternet(this);
         if(isConnected){
-//            PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
+            PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
             SSLocationFetchJob.scheduleJobImmediately(SSLocationFetchJob.TAG);
             GlobalLocationFetchJob.scheduleJobImmediately(GlobalLocationFetchJob.TAG);
             HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
