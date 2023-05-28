@@ -29,7 +29,7 @@
           "expiry": [
             {
               "reference": "dob",
-              "offset": "+14d"
+              "offset": "+1y"
             }
           ]
         }
@@ -89,13 +89,13 @@
           "due": [
             {
               "reference": "dob",
-              "window": "+10d"
+              "window": "+52d"
             }
           ],
           "expiry": [
             {
               "reference": "dob",
-              "offset": "+18m"
+              "offset": "+1y"
             }
           ]
         }
@@ -118,13 +118,13 @@
           "due": [
             {
               "reference": "dob",
-              "window": "+10d"
+              "window": "+52d"
             }
           ],
           "expiry": [
             {
               "reference": "dob",
-              "offset": "+18m"
+              "offset": "+1y"
             }
           ]
         }
@@ -147,13 +147,13 @@
           "due": [
             {
               "reference": "dob",
-              "window": "+10d"
+              "window": "+52d"
             }
           ],
           "expiry": [
             {
               "reference": "dob",
-              "offset": "+18m"
+              "offset": "+1y"
             }
           ]
         }
@@ -176,13 +176,13 @@
           "due": [
             {
               "reference": "dob",
-              "window": "+10d"
+              "window": "+52d"
             }
           ],
           "expiry": [
             {
               "reference": "dob",
-              "offset": "+18m"
+              "offset": "+1y"
             }
           ]
         }
@@ -213,13 +213,13 @@
             {
               "reference": "prerequisite",
               "prerequisite": "OPV 1",
-              "window": "+10d"
+              "window": "+80d"
             }
           ],
           "expiry": [
             {
               "reference": "dob",
-              "offset": "+18m"
+              "offset": "+1y"
             }
           ]
         }
@@ -243,13 +243,13 @@
             {
               "reference": "prerequisite",
               "prerequisite": "Penta 1",
-              "window": "+10d"
+              "window": "+80d"
             }
           ],
           "expiry": [
             {
               "reference": "dob",
-              "offset": "+18m"
+              "offset": "+1y"
             }
           ]
         }
@@ -273,13 +273,13 @@
             {
               "reference": "prerequisite",
               "prerequisite": "PCV 1",
-              "window": "+10d"
+              "window": "+80d"
             }
           ],
           "expiry": [
             {
               "reference": "dob",
-              "offset": "+18m"
+              "offset": "+1y"
             }
           ]
         }
@@ -310,13 +310,13 @@
             {
               "reference": "prerequisite",
               "prerequisite": "OPV 2",
-              "window": "+10d"
+              "window": "+108d"
             }
           ],
           "expiry": [
             {
               "reference": "dob",
-              "offset": "+18m"
+              "offset": "+1y"
             }
           ]
         }
@@ -340,13 +340,13 @@
             {
               "reference": "prerequisite",
               "prerequisite": "Penta 2",
-              "window": "+10d"
+              "window": "+108d"
             }
           ],
           "expiry": [
             {
               "reference": "dob",
-              "offset": "+18m"
+              "offset": "+1y"
             }
           ]
         }
@@ -370,13 +370,13 @@
             {
               "reference": "prerequisite",
               "prerequisite": "PCV 2",
-              "window": "+10d"
+              "window": "+108d"
             }
           ],
           "expiry": [
             {
               "reference": "dob",
-              "offset": "+18m"
+              "offset": "+1y"
             }
           ]
         }
@@ -401,13 +401,13 @@
             {
               "reference": "prerequisite",
               "prerequisite": "FIPV 1",
-              "window": "+14d"
+              "window": "+112d"
             }
           ],
           "expiry": [
             {
               "reference": "dob",
-              "offset": "+18m"
+              "offset": "+1y"
             }
           ]
         }
@@ -437,14 +437,13 @@
           "due": [
             {
               "reference": "dob",
-              "offset": "+274d",
-              "window": "+10d"
+              "window": "+284d"
             }
           ],
           "expiry": [
             {
               "reference": "dob",
-              "offset": "+18m"
+              "offset": "+2y"
             }
           ]
         }
@@ -478,13 +477,13 @@
               {
                 "reference": "prerequisite",
                 "prerequisite": "MR 1",
-                "window": "+10d"
+                "window": "+465d"
               }
             ],
             "expiry": [
               {
                 "reference": "dob",
-                "offset": "+18m"
+                "offset": "+2y"
               }
             ]
           }

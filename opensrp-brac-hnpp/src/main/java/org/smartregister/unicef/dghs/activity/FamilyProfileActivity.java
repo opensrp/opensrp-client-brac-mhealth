@@ -5,14 +5,12 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -35,7 +33,6 @@ import com.vijay.jsonwizard.utils.PermissionUtils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.chw.core.contract.FamilyProfileExtendedContract;
@@ -43,26 +40,22 @@ import org.smartregister.chw.core.event.PermissionEvent;
 import org.smartregister.domain.FetchStatus;
 import org.smartregister.family.activity.BaseFamilyProfileActivity;
 import org.smartregister.family.fragment.BaseFamilyProfileMemberFragment;
-import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.contract.MigrationContract;
 import org.smartregister.unicef.dghs.custom_view.FamilyFloatingMenu;
-import org.smartregister.unicef.dghs.custom_view.FamilyMemberFloatingMenu;
 import org.smartregister.unicef.dghs.fragment.FamilyHistoryFragment;
 import org.smartregister.unicef.dghs.fragment.FamilyProfileDueFragment;
 import org.smartregister.unicef.dghs.interactor.MigrationInteractor;
 import org.smartregister.unicef.dghs.job.HnppSyncIntentServiceJob;
 import org.smartregister.unicef.dghs.listener.FloatingMenuListener;
-import org.smartregister.unicef.dghs.listener.OnPostDataWithGps;
 import org.smartregister.unicef.dghs.model.HnppFamilyProfileModel;
-import org.smartregister.unicef.dghs.model.Survey;
 import org.smartregister.unicef.dghs.service.HnppHomeVisitIntentService;
 import org.smartregister.unicef.dghs.sync.FormParser;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
+import org.smartregister.unicef.dghs.utils.HnppDBConstants;
 import org.smartregister.unicef.dghs.utils.HnppDBUtils;
 import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
-import org.smartregister.unicef.dghs.utils.MigrationSearchContentData;
-import org.smartregister.unicef.dghs.utils.OnDialogOptionSelect;
+import org.smartregister.unicef.dghs.utils.GlobalSearchContentData;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.core.activity.CoreFamilyProfileMenuActivity;
 import org.smartregister.chw.core.utils.CoreChildUtils;
@@ -80,10 +73,8 @@ import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
 import org.smartregister.util.FormUtils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -94,14 +85,13 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
-import static com.vijay.jsonwizard.constants.JsonFormConstants.FIELDS;
 import static org.smartregister.unicef.dghs.activity.HnppFamilyOtherMemberProfileActivity.REQUEST_HOME_VISIT;
 
 public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements FamilyProfileExtendedContract.View{
 
     public String moduleId;
     public String houseHoldId;
-    public MigrationSearchContentData migrationSearchContentData;
+    public GlobalSearchContentData globalSearchContentData;
     private Handler handler;
     protected String familyBaseEntityId;
     protected String familyHead;
@@ -152,7 +142,11 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
             pc_intent.putExtra(Constants.INTENT_KEY.BASE_ENTITY_ID, getFamilyBaseEntityId());
             pc_intent.putExtra(CoreFamilyProfileMenuActivity.MENU, CoreConstants.MenuType.ChangePrimaryCare);
             startActivityForResult(pc_intent, CoreConstants.ProfileActivityResults.CHANGE_COMPLETED);
-        } else {
+        }else if(i == org.smartregister.chw.core.R.id.action_member_import){
+            GlobalSearchActivity.startMigrationFilterActivity(FamilyProfileActivity.this,HnppConstants.MIGRATION_TYPE.HH.name(),getFamilyBaseEntityId());
+
+        }
+        else {
             super.onOptionsItemSelected(item);
         }
 
@@ -229,6 +223,27 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
         ((FamilyProfilePresenter)presenter).startChildFromWithMotherInfo(motherEntityId);
     }
 
+    public void startMemberProfile(String baseEntityId) throws Exception {
+//        CommonPersonObjectClient client = HnppDBUtils.getCommonPersonByBaseEntityId(baseEntityId);
+
+
+        CommonPersonObjectClient commonPersonObjectClient = clientObject(baseEntityId);
+        if(TextUtils.isEmpty(familyBaseEntityId)){
+            Toast.makeText(this,"BaseEntityId showing empty",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(TextUtils.isEmpty(commonPersonObjectClient.getCaseId())){
+            Toast.makeText(this,"BaseEntityId showing empty",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String dobString = Utils.getDuration(Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOB, false));
+        Integer yearOfBirth = CoreChildUtils.dobStringToYear(dobString);
+        if (yearOfBirth != null && yearOfBirth > 5) {
+            ((FamilyProfilePresenter)presenter).startMemberProfileForMigration(commonPersonObjectClient);
+        }else{
+            ((FamilyProfilePresenter)presenter).startChildProfileForMigration(commonPersonObjectClient,familyBaseEntityId);
+        }
+    }
     @Override
     public void updateHasPhone(boolean hasPhone) {
         if (familyFloatingMenu != null) {
@@ -295,15 +310,15 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
         if(HnppConstants.isPALogin()){
             familyFloatingMenu.setVisibility(View.GONE);
         }
-        migrationSearchContentData = (MigrationSearchContentData) getIntent().getSerializableExtra(MigrationSearchDetailsActivity.EXTRA_SEARCH_CONTENT);
+        globalSearchContentData = (GlobalSearchContentData) getIntent().getSerializableExtra(GlobalSearchDetailsActivity.EXTRA_SEARCH_CONTENT);
 
-        if(migrationSearchContentData != null){
+        if(globalSearchContentData != null){
             HnppConstants.showDialogWithAction(this,getString(R.string.dialog_title), "", new Runnable() {
                 @Override
                 public void run() {
-                    migrationSearchContentData.setFamilyBaseEntityId(familyBaseEntityId);
-                    migrationSearchContentData.setHhId(houseHoldId);
-                    new MigrationInteractor(new AppExecutors()).migrateMember(migrationSearchContentData, new MigrationContract.MigrationPostInteractorCallBack() {
+                    globalSearchContentData.setFamilyBaseEntityId(familyBaseEntityId);
+                    globalSearchContentData.setHhId(houseHoldId);
+                    new MigrationInteractor(new AppExecutors()).migrateMember(globalSearchContentData, new MigrationContract.MigrationPostInteractorCallBack() {
                         @Override
                         public void onSuccess() {
                             Toast.makeText(FamilyProfileActivity.this,"Successfully migrated,Syncing data",Toast.LENGTH_SHORT).show();
@@ -712,6 +727,15 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
         houseHoldId = getIntent().getStringExtra(DBConstants.KEY.UNIQUE_ID);
         model = new HnppFamilyProfileModel(familyName,moduleId,houseHoldId,familyBaseEntityId);
         presenter = new FamilyProfilePresenter(this, model,houseHoldId, familyBaseEntityId, familyHead, primaryCaregiver, familyName);
+        boolean isComesFromGlobalSearch = getIntent().getBooleanExtra(HnppConstants.KEY.IS_COMES_FROM_MIGRATION,false);
+        if(isComesFromGlobalSearch){
+            String baseEntityId = getIntent().getStringExtra(Constants.INTENT_KEY.BASE_ENTITY_ID);
+            try {
+                startMemberProfile(baseEntityId);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
     private FamilyHistoryFragment familyHistoryFragment;
     private FamilyProfileMemberFragment familyProfileMemberFragment;

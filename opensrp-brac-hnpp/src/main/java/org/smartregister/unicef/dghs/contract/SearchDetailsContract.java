@@ -2,7 +2,10 @@ package org.smartregister.unicef.dghs.contract;
 
 import android.content.Context;
 
+import org.smartregister.clientandeventmodel.Client;
+import org.smartregister.unicef.dghs.model.GlobalSearchResult;
 import org.smartregister.unicef.dghs.model.Migration;
+import org.smartregister.unicef.dghs.utils.GlobalSearchContentData;
 
 import java.util.ArrayList;
 
@@ -15,14 +18,16 @@ public interface SearchDetailsContract {
         Context getContext();
     }
     interface Presenter{
-        void fetchData(String type,String districtId, String villageId, String gender,String startAge, String age);
-        ArrayList<Migration> getMemberList();
+        void fetchData(GlobalSearchContentData globalSearchContentData);
+        ArrayList<Client> getMemberList();
+        GlobalSearchResult getGlobalSearchResult();
         View getView();
     }
     interface InteractorCallBack{
-        void onUpdateList(ArrayList<Migration> list);
+        void onUpdateList(ArrayList<Client> list);
+        void setGlobalSearchResult(GlobalSearchResult globalSearchResult);
     }
     interface Interactor{
-        void fetchData(String type,String districtId, String villageId, String gender, String startAge, String age, SearchDetailsContract.InteractorCallBack callBack);
+        void fetchData(GlobalSearchContentData globalSearchContentData, SearchDetailsContract.InteractorCallBack callBack);
     }
 }

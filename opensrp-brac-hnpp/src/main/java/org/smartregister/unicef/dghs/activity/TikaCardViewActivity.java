@@ -50,14 +50,18 @@ import id.zelory.compressor.FileUtil;
 import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
 public class TikaCardViewActivity extends SecuredActivity {
+    public static String PUT_EXTRA_COMES = "is_comes_from";
     private int STORAGE_PERMISSION_CODE = 122;
     TikaInfoModel tikaInfoModel;
     String baseEntityId;
+    boolean isComesFromGuest = false;
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_tika_card);
         baseEntityId = getIntent().getStringExtra("BASE_ENTITY_ID");
-        tikaInfoModel = HnppDBUtils.getTikaDetails(baseEntityId);
+        isComesFromGuest = getIntent().getBooleanExtra(PUT_EXTRA_COMES,false);
+        tikaInfoModel = isComesFromGuest?HnppDBUtils.getTikaDetailsForGuestProfike(baseEntityId):HnppDBUtils.getTikaDetails(baseEntityId);
+        isComesFromGuest = getIntent().getBooleanExtra(PUT_EXTRA_COMES,false);
         ((TextView) findViewById(R.id.nameTxt)).setText(tikaInfoModel.name);
         ((TextView) findViewById(R.id.dayTxt)).setText(tikaInfoModel.birthDay);
         ((TextView) findViewById(R.id.monthTxt)).setText(tikaInfoModel.birthMonth);
@@ -75,6 +79,7 @@ public class TikaCardViewActivity extends SecuredActivity {
         ((TextView) findViewById(R.id.wardTxt)).setText(tikaInfoModel.wardNo);
         ((TextView) findViewById(R.id.centerNameTxt)).setText(tikaInfoModel.centerName);
         ((TextView) findViewById(R.id.subBlockTxt)).setText(tikaInfoModel.subBlock);
+        ((TextView) findViewById(R.id.genderTxt)).setText(tikaInfoModel.gender);
         String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
         String fullName = HnppApplication.getInstance().getContext().allSharedPreferences().getANMPreferredName(userName);
 
@@ -99,9 +104,15 @@ public class TikaCardViewActivity extends SecuredActivity {
 
     }
     private void updateDistrict(){
-        HALocation haLocation = HnppApplication.getHALocationRepository().getLocationByBaseEntityId(baseEntityId);
-        ((TextView) findViewById(R.id.districtTxt)).setText(haLocation.district.name);
-        ((TextView) findViewById(R.id.upazilaTxt)).setText(haLocation.upazila.name);
+        if(isComesFromGuest){
+            ((TextView) findViewById(R.id.districtTxt)).setText(tikaInfoModel.district);
+            ((TextView) findViewById(R.id.upazilaTxt)).setText(tikaInfoModel.upazilla);
+        }else{
+            HALocation haLocation = HnppApplication.getHALocationRepository().getLocationByBaseEntityId(baseEntityId);
+            ((TextView) findViewById(R.id.districtTxt)).setText(haLocation.district.name);
+            ((TextView) findViewById(R.id.upazilaTxt)).setText(haLocation.upazila.name);
+        }
+
     }
     private void updateTikaDate(){
 
@@ -112,15 +123,15 @@ public class TikaCardViewActivity extends SecuredActivity {
         String s = DateTimeFormat.forPattern("yyyy-MM-dd").print(sixWeekV);
         ((TextView) findViewById(R.id.sixWeekDate)).setText(s);
         LocalDate tenWeekV = sixweek.plusDays(28);
-        String t = DateTimeFormat.forPattern("yyyy-MM-dd").print(tenWeekV);
-        ((TextView) findViewById(R.id.tenWeekDate)).setText(t);
+//        String t = DateTimeFormat.forPattern("yyyy-MM-dd").print(tenWeekV);
+//        ((TextView) findViewById(R.id.tenWeekDate)).setText(t);
         LocalDate fourTeenWeekV = tenWeekV.plusDays(28);
-        String f = DateTimeFormat.forPattern("yyyy-MM-dd").print(fourTeenWeekV);
+//        String f = DateTimeFormat.forPattern("yyyy-MM-dd").print(fourTeenWeekV);
         //((TextView) findViewById(R.id.fourteenWeekDate)).setText(f);
-        LocalDate nineMonthV = fourTeenWeekV.plusDays(176);
+        LocalDate nineMonthV = sixweek.plusDays(270);
         String n = DateTimeFormat.forPattern("yyyy-MM-dd").print(nineMonthV);
         ((TextView) findViewById(R.id.nineMonthDate)).setText(n);
-        LocalDate eighteenMonthV = nineMonthV.plusDays(181);
+        LocalDate eighteenMonthV = sixweek.plusDays(450);
         String e = DateTimeFormat.forPattern("yyyy-MM-dd").print(eighteenMonthV);
         ((TextView) findViewById(R.id.eighteenMonthDate)).setText(e);
     }
@@ -185,6 +196,15 @@ public class TikaCardViewActivity extends SecuredActivity {
                     break;
                 case "mr_1":
                     ((TextView) findViewById(R.id.mr1_1)).setText(vaacineInfo.vaccineDate);
+                    DateTime dob = DateTimeFormat.forPattern("yyyy-MM-dd").parseDateTime(tikaInfoModel.dob);
+                    LocalDate dobL = new LocalDate(dob);
+                    DateTime dV = DateTimeFormat.forPattern("yyyy-MM-dd").parseDateTime(vaacineInfo.vaccineDate);
+                    LocalDate dVL = new LocalDate(dV);
+                    if(dVL.toDate().getTime()>dobL.plusMonths(13).toDate().getTime()){
+                        LocalDate mr2Date  = dVL.plusMonths(1);
+                        String ff = DateTimeFormat.forPattern("yyyy-MM-dd").print(mr2Date);
+                        ((TextView) findViewById(R.id.eighteenMonthDate)).setText(ff);
+                    }
                     break;
 
                 case "mr_2":

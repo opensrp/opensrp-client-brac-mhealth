@@ -96,12 +96,9 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "division_per",
-        "type": "spinner",
+        "type": "edit_text",
+        "read_only": true,
         "hint": "বিভাগ",
-        "values": [
-        ],
-        "openmrs_choice_ids": {
-        },
         "v_required": {
           "value": "true",
           "err": "নির্বাচন করুন"
@@ -112,12 +109,9 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "district_per",
-        "type": "spinner",
+        "type": "edit_text",
+        "read_only": true,
         "hint": "জেলা/সিটি কর্পোরেশন",
-        "values": [
-        ],
-        "openmrs_choice_ids": {
-        },
         "v_required": {
           "value": "true",
           "err": "নির্বাচন করুন"
@@ -128,12 +122,9 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "upazila_per",
-        "type": "spinner",
+        "type": "edit_text",
+        "read_only": true,
         "hint": "উপজেলা/থানা",
-        "values": [
-        ],
-        "openmrs_choice_ids": {
-        },
         "v_required": {
           "value": "true",
           "err": "নির্বাচন করুন"

@@ -1,5 +1,6 @@
 package org.smartregister.unicef.dghs.repository;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -35,6 +36,7 @@ public class HouseholdIdRepository extends BaseRepository {
 
     private static final String STATUS_USED = "used";
     private static final String STATUS_NOT_USED = "not_used";
+    @SuppressLint("SimpleDateFormat")
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 
@@ -187,6 +189,9 @@ public class HouseholdIdRepository extends BaseRepository {
         }catch(SQLException e){
             e.printStackTrace();
 
+        }
+        finally {
+            if(cursor!=null) cursor.close();
         }
         return vid;
     }

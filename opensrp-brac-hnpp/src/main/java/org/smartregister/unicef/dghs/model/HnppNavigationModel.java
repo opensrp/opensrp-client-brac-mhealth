@@ -56,7 +56,7 @@ public class HnppNavigationModel implements org.smartregister.chw.core.model.Nav
 
            // navigationOptions.add(new NavigationOption(R.drawable.ic_forum_un, R.drawable.ic_forum, R.string.menu_forum, CoreConstants.DrawerMenu.FORUM, -1));
 
-           // navigationOptions.add(new NavigationOption(R.mipmap.sidemenu_families, R.mipmap.sidemenu_families_active, R.string.menu_guest_member, CoreConstants.DrawerMenu.GUEST_MEMBER, -1));
+            navigationOptions.add(new NavigationOption(R.mipmap.sidemenu_families, R.mipmap.sidemenu_families_active, R.string.menu_guest_member, CoreConstants.DrawerMenu.GUEST_MEMBER, -1));
 
 //            if(!HnppConstants.isPALogin()){
 //                navigationOptions.add(new NavigationOption(R.drawable.ic_ss_icon_un, R.drawable.ic_ss_icon, R.string.menu_ss_info, CoreConstants.DrawerMenu.SS_INFO, -1));

@@ -1264,7 +1264,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
 
     }
-    public static JSONObject updateFormWithMotherName(JSONObject form , String motherNameEnglish,String motherNameBangla,String motherBaseEntityId,String familyBaseEntityId) throws Exception{
+    public static JSONObject updateFormWithMotherName(JSONObject form , String motherNameEnglish,String motherNameBangla,String motherBaseEntityId,String familyBaseEntityId, String mobileNo) throws Exception{
 
         JSONArray field = fields(form, STEP1);
 
@@ -1276,6 +1276,9 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         }catch (Exception e){
 
         }
+        JSONObject phoneNoObj = getFieldJSONObject(field, "phone_number");
+        phoneNoObj.put("value",mobileNo);
+
         JSONObject metaDataJson = form.getJSONObject("metadata");
         JSONObject lookup = metaDataJson.getJSONObject("look_up");
         lookup.put("entity_id", "mother");

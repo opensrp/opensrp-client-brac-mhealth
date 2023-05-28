@@ -134,7 +134,12 @@ public class HnppFamilyDueRegisterProvider implements RecyclerViewProvider<HnppF
 //        } else {
 //            viewHolder.lastVisit.setVisibility(View.INVISIBLE);
 //        }
-
+        viewHolder.dueBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewHolder.nextArrow.performClick();
+            }
+        });
         viewHolder.nextArrowColumn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

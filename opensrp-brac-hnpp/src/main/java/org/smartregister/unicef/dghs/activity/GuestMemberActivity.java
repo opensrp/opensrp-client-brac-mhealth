@@ -17,14 +17,23 @@ import android.widget.Toast;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.growthmonitoring.listener.HeightActionListener;
+import org.smartregister.growthmonitoring.listener.MUACActionListener;
+import org.smartregister.growthmonitoring.listener.WeightActionListener;
+import org.smartregister.immunization.listener.ServiceActionListener;
+import org.smartregister.immunization.listener.VaccinationActionListener;
+import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.adapter.GuestMemberAdapter;
 import org.smartregister.unicef.dghs.contract.GuestMemberContract;
 import org.smartregister.unicef.dghs.listener.OnPostDataWithGps;
 import org.smartregister.unicef.dghs.location.HALocationHelper;
+import org.smartregister.unicef.dghs.model.GlobalLocationModel;
 import org.smartregister.unicef.dghs.presenter.GuestMemberPresenter;
+import org.smartregister.unicef.dghs.repository.GlobalLocationRepository;
 import org.smartregister.unicef.dghs.utils.GuestMemberData;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
@@ -33,14 +42,15 @@ import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.util.FormUtils;
 import org.smartregister.view.activity.BaseProfileActivity;
 
-public class GuestMemberActivity extends BaseProfileActivity implements GuestMemberContract.View, View.OnClickListener {
+import java.util.ArrayList;
+
+public class GuestMemberActivity extends BaseProfileActivity implements GuestMemberContract.View, View.OnClickListener{
 
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private GuestMemberAdapter adapter;
     private Spinner ssSpinner;
     private GuestMemberPresenter presenter;
-    private String ssName="";
     private String query ="";
     private EditText editTextSearch;
 
@@ -71,6 +81,13 @@ public class GuestMemberActivity extends BaseProfileActivity implements GuestMem
         findViewById(R.id.fab_add_member).setOnClickListener(this);
         findViewById(R.id.backBtn).setOnClickListener(this);
         presenter = new GuestMemberPresenter(this);
+        findViewById(R.id.global_search_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GlobalSearchActivity.startMigrationFilterActivity(GuestMemberActivity.this,HnppConstants.MIGRATION_TYPE.Member.name());
+
+            }
+        });
         editTextSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -89,12 +106,13 @@ public class GuestMemberActivity extends BaseProfileActivity implements GuestMem
 
             }
         });
+        presenter.updateSHRIdFromServer();
 
 
     }
 
     private void filterData() {
-        presenter.filterData(query,ssName);
+        presenter.filterData(query,"");
 
     }
 
@@ -159,24 +177,22 @@ public class GuestMemberActivity extends BaseProfileActivity implements GuestMem
                 finish();
                 break;
             case R.id.fab_add_member:
-                HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
-                    @Override
-                    public void onPost(double latitude, double longitude) {
+//                HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+//                    @Override
+//                    public void onPost(double latitude, double longitude) {
                         try{
                             Intent intent = new Intent(GuestMemberActivity.this, GuestAddMemberJsonFormActivity.class);
                             JSONObject jsonForm = FormUtils.getInstance(GuestMemberActivity.this).getFormJson(HnppConstants.JSON_FORMS.GUEST_MEMBER_FORM);
-                            HnppJsonFormUtils.updateFormWithUnionName(jsonForm, HALocationHelper.getInstance().getUnionList());
-                            HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,"");
+                            JSONArray divJsonArray = new JSONArray();
+                            ArrayList<GlobalLocationModel> divModels = HnppApplication.getGlobalLocationRepository().getLocationByTagId(GlobalLocationRepository.LOCATION_TAG.DIVISION.getValue());
+                            for (GlobalLocationModel globalLocationModel:divModels){
+                                divJsonArray.put(globalLocationModel.name);
+                            }
+                            HnppJsonFormUtils.updateFormWithDivision(jsonForm, divJsonArray);
                             intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
                             Form form = new Form();
                             form.setWizard(false);
-                            if(!HnppConstants.isReleaseBuild()){
-                                form.setActionBarBackground(R.color.test_app_color);
-
-                            }else{
-                                form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
-
-                            }
+                            form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
                             intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
 
@@ -184,8 +200,8 @@ public class GuestMemberActivity extends BaseProfileActivity implements GuestMem
                         }catch (Exception e){
                             e.printStackTrace();
                         }
-                    }
-                });
+//                    }
+//                });
 
 
                 break;
@@ -198,59 +214,18 @@ public class GuestMemberActivity extends BaseProfileActivity implements GuestMem
             try {
                 String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
                 JSONObject formWithConsent = new JSONObject(jsonString);
-                presenter.saveMember(formWithConsent.toString());
-
-//
-//                String[] generatedString;
-//                String title;
-//                String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
-//
-//                String fullName = HnppApplication.getInstance().getContext().allSharedPreferences().getANMPreferredName(userName);
-//
-//                generatedString = HnppJsonFormUtils.getValuesFromGuestRegistrationForm(form);
-//                title = String.format(getString(R.string.dialog_confirm_save_guest),fullName,generatedString[0],generatedString[1]);
-//
-//
-//                HnppConstants.showSaveFormConfirmationDialog(this, title, new OnDialogOptionSelect() {
-//                    @Override
-//                    public void onClickYesButton() {
-//                       try{
-//                           showProgressBar();
-//                           JSONObject formWithConsent = new JSONObject(jsonString);
-//                           JSONObject jobkect = formWithConsent.getJSONObject("step1");
-//                           JSONArray field = jobkect.getJSONArray(FIELDS);
-//                           HnppJsonFormUtils.addConsent(field,true);
-//                           presenter.saveMember(formWithConsent.toString());
-//                       }catch (JSONException je){
-//
-//                       }
-//
-//                    }
-//
-//                    @Override
-//                    public void onClickNoButton() {
-//                        try{
-//                            showProgressBar();
-//                            JSONObject formWithConsent = new JSONObject(jsonString);
-//                            JSONObject jobkect = formWithConsent.getJSONObject("step1");
-//                            JSONArray field = jobkect.getJSONArray(FIELDS);
-//                            HnppJsonFormUtils.addConsent(field,false);
-//                            presenter.saveMember(formWithConsent.toString());
-//                        }catch (JSONException je){
-//
-//                        }
-//                    }
-//                });
+                presenter.saveMember(formWithConsent.toString(),false);
 
             }catch (JSONException e){
 
             }
         }
     }
-
-    private void openProfile(String baseEntityId){
+    @Override
+    public void openProfile(String baseEntityId){
 
         GuestMemberProfileActivity.startGuestMemberProfileActivity(this,baseEntityId);
 
     }
+
 }

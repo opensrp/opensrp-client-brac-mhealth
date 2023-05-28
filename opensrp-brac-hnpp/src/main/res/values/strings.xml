@@ -5,11 +5,20 @@
         <item>পুরুষ</item>
         <item>তৃতীয় লিঙ্গ</item>
     </string-array>
+    <string-array name="id_card_list">
+        <item>সিলেক্ট করুন</item>
+        <item>NID</item>
+        <item>BRID</item>
+        <item>EPI No</item>
+        <item>SHR ID</item>
+        <item>System ID</item>
+    </string-array>
     <string-array name="edema_value">
         <item>না</item>
         <item>হ্যাঁ</item>
 
     </string-array>
+    <string name="member_import">সদস্য ইম্পোর্ট</string>
     <string name="report">রিপোর্ট</string>
     <string name="due_visit">সর্বশেষ সেবা গ্রহণের তারিখ \n %1$s \n সংখ্যা: %2$s</string>
     <string name="gender_prompt">লিঙ্গ বাছাই করুন</string>
@@ -68,13 +77,16 @@
     <string name="division_per">বিভাগ(স্থায়ী)</string>
     <string name="district_per">জেলা/সিটি কর্পোরেশন(স্থায়ী)</string>
     <string name="upazila_per">উপজেলা/থানা(স্থায়ী)</string>
+    <string name="division">বিভাগ</string>
+    <string name="district">জেলা/সিটি কর্পোরেশন</string>
+    <string name="upazila">উপজেলা/থানা</string>
     <string name="paurosova_per">পৌরসভা(স্থায়ী)</string>
     <string name="union_per">ইউনিয়ন/ জোন (স্থায়ী)</string>
     <string name="post_office_per">ডাকঘর(স্থায়ী ঠিকানা)</string>
     <string name="post_office_present">ডাকঘর(বর্তমান ঠিকানা)</string>
     <string name="last_submission_date">সেবা গ্রহণের তারিখ: %s</string>
-    <string name="member_migration">সদস্য স্থানান্তর</string>
-    <string name="hh_migration">খানা স্থানান্তর</string>
+    <string name="member_migration">সদস্য অনুসন্ধান</string>
+    <string name="hh_migration">সদস্য স্থানান্তর</string>
     <string name="title_kishori">কিশোরী ফোরাম</string>
     <string name="title_nari">নারী ফোরাম</string>
     <string name="title_child">শিশু ফোরাম</string>
@@ -323,16 +335,16 @@
     <string name="tt_5">টিডি ৫</string>
     <string name="bcg">বিসিজি</string>
     <string name="hepb">HepB</string>
-    <string name="opv_0">পোলিও-0</string>
-    <string name="opv_1">পোলিও-১</string>
+    <string name="opv_0">ওপিভি-0</string>
+    <string name="opv_1">ওপিভি-১</string>
     <string name="pcv_1">পিসিভি-১</string>
     <string name="penta_1">পেন্টা-১</string>
     <string name="rota_1">রোটা ১</string>
-    <string name="opv_2">পোলিও-২</string>
+    <string name="opv_2">ওপিভি-২</string>
     <string name="pcv_2">পিসিভি-২</string>
     <string name="penta_2">পেন্টা-২</string>
     <string name="rota_2">রোটা ২</string>
-    <string name="opv_3">পোলিও-৩</string>
+    <string name="opv_3">ওপিভি-৩</string>
     <string name="ipv">আই পি ভি</string>
     <string name="pcv_3">পিসিভি-৩</string>
     <string name="penta_3">পেন্টা-৩</string>
@@ -388,6 +400,7 @@
     <string name="ss_name_bangla">সেবিকা</string>
     <string name="date_bangla">তারিখ</string>
     <string name="adolescat">Adolescat</string>
+    <string name="dob">জন্ম তারিখ : %s</string>
     <string name="ncd">NCD</string>
     <string name="iycf">IYCF</string>
     <string name="total_payment">সর্বমোট প্রদেয়</string>
@@ -497,13 +510,17 @@
     <string name="resistration_no">রেজিস্ট্রেশন নং :</string>
     <string name="registration_date">রেজিস্ট্রেশনের তারিখ :</string>
     <string name="name_tika">নাম :</string>
+    <string name="gender_tika">লিঙ্গ :</string>
     <string name="day">দিন :</string>
     <string name="month">মাস :</string>
     <string name="year">বছর :</string>
     <string name="mother_name_title">মাতার নাম :</string>
     <string name="father_name_title">পিতার নাম :</string>
+    <string name="mother_name">মাতার নাম : %s</string>
+    <string name="father_name">পিতার নাম : %s</string>
     <string name="house_no_title">বাড়ি/জিআর/ হোল্ডিং নং :</string>
     <string name="village_title">গ্রাম/মহল্লা/পাড়া :</string>
+    <string name="village">গ্রাম: %s</string>
     <string name="upazilla_title">উপজেলা/পৌরসেবা /সিটি করপোরেশন :</string>
     <string name="district_title">জেলা/ সিসি :</string>
     <string name="union_title">ইউনিয়ন/জোন :</string>
@@ -512,6 +529,7 @@
     <string name="sub_block_title">সাব-ব্লক :</string>
     <string name="brid_title">জন্ম নিবন্ধন নং :</string>
     <string name="system_msg"><![CDATA[This is a System Generated Vaccine Card – Provided by EPI, DGHS, MoH&FW.]]></string>
+    <string name="global_search">গ্লোবাল সার্চ</string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>

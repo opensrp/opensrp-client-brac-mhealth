@@ -86,7 +86,7 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
             {
                 MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
                 memberProfileDueData.setImageSource(R.drawable.rowavatar_member);
-                memberProfileDueData.setTitle("প্রোফাইল আপডেট");
+                memberProfileDueData.setTitle("খানা সদস্য জরিপ");
                 memberProfileDueData.setType(HnppMemberProfileDueFragment.TAG_OPEN_MEMBER_PROFILE_UPDATE);
                 memberProfileDueDataArrayList.add(memberProfileDueData);
             }

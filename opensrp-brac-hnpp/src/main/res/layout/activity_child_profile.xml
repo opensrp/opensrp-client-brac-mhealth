@@ -57,23 +57,49 @@
                 app:contentInsetStartWithNavigation="0dp">
                 <RelativeLayout
                     android:gravity="center_horizontal"
+                    android:layout_gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/imageview_profile"
-                        android:layout_width="@dimen/client_profile_pic_width"
-                        android:layout_height="@dimen/client_profile_pic_height"
-                        android:layout_centerInParent="true"
-                        app:civ_border_color="#FFFFFFFF"
-                        app:civ_border_width="2dp" />
+                    <RelativeLayout
+                        android:id="@+id/image_panel"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="5dp">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/imageview_profile"
+                            android:layout_width="@dimen/client_profile_pic_width"
+                            android:layout_height="@dimen/client_profile_pic_height"
+                            android:layout_centerHorizontal="true"
+                            android:src="@drawable/rowavatar_member"
+                            app:civ_border_color="#FFFFFFFF"
+                            app:civ_border_width="2dp" />
+
+                        <Button
+                            android:id="@+id/update_profile_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:layout_below="@+id/imageview_profile"
+                            android:background="@drawable/rounded_white_btn"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:text="প্রোফাইল আপডেট" />
+                    </RelativeLayout>
+
+
 
                     <LinearLayout
                         android:id="@+id/profile_name_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/imageview_profile"
+                        android:layout_toRightOf="@+id/image_panel"
                         android:orientation="vertical"
+                        android:foregroundGravity="center"
                         app:layout_collapseMode="parallax"
                         app:layout_collapseParallaxMultiplier="1.5">
 
@@ -81,7 +107,7 @@
                         <org.smartregister.view.customcontrols.CustomFontTextView
                             android:id="@+id/textview_parent_name"
                             style="@style/CustomFontTextViewStyle.ClientList.Medium"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:paddingLeft="0dp"

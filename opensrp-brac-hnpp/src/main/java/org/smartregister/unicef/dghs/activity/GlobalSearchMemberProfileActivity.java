@@ -1,5 +1,10 @@
 package org.smartregister.unicef.dghs.activity;
 
+import static org.smartregister.chw.core.utils.CoreJsonFormUtils.REQUEST_CODE_GET_JSON;
+import static org.smartregister.family.util.Constants.INTENT_KEY.BASE_ENTITY_ID;
+import static org.smartregister.unicef.dghs.activity.HnppFamilyOtherMemberProfileActivity.REQUEST_HOME_VISIT;
+import static org.smartregister.unicef.dghs.utils.HnppConstants.MEMBER_ID_SUFFIX;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
@@ -26,17 +31,27 @@ import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.chw.anc.AncLibrary;
+import org.smartregister.chw.anc.domain.Visit;
+import org.smartregister.chw.anc.util.NCUtils;
+import org.smartregister.clientandeventmodel.Client;
+import org.smartregister.clientandeventmodel.Event;
+import org.smartregister.commonregistry.CommonPersonObjectClient;
+import org.smartregister.family.adapter.ViewPagerAdapter;
+import org.smartregister.family.util.AppExecutors;
+import org.smartregister.family.util.Constants;
+import org.smartregister.family.util.Utils;
 import org.smartregister.growthmonitoring.domain.HeightWrapper;
 import org.smartregister.growthmonitoring.domain.MUACWrapper;
 import org.smartregister.growthmonitoring.domain.WeightWrapper;
 import org.smartregister.growthmonitoring.listener.HeightActionListener;
 import org.smartregister.growthmonitoring.listener.MUACActionListener;
 import org.smartregister.growthmonitoring.listener.WeightActionListener;
-import org.smartregister.immunization.ImmunizationLibrary;
 import org.smartregister.immunization.domain.ServiceWrapper;
 import org.smartregister.immunization.domain.VaccineWrapper;
 import org.smartregister.immunization.listener.ServiceActionListener;
 import org.smartregister.immunization.listener.VaccinationActionListener;
+import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.contract.GuestMemberContract;
@@ -46,7 +61,6 @@ import org.smartregister.unicef.dghs.fragment.GuestMemberDueFragment;
 import org.smartregister.unicef.dghs.fragment.MemberHistoryFragment;
 import org.smartregister.unicef.dghs.fragment.WomanImmunizationFragment;
 import org.smartregister.unicef.dghs.listener.OnPostDataWithGps;
-import org.smartregister.unicef.dghs.location.HALocationHelper;
 import org.smartregister.unicef.dghs.model.GlobalLocationModel;
 import org.smartregister.unicef.dghs.presenter.GuestMemberProfilePresenter;
 import org.smartregister.unicef.dghs.repository.GlobalLocationRepository;
@@ -57,19 +71,13 @@ import org.smartregister.unicef.dghs.utils.GuestMemberData;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.HnppDBUtils;
 import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
-import org.smartregister.chw.anc.AncLibrary;
-import org.smartregister.chw.anc.domain.Visit;
-import org.smartregister.chw.anc.util.NCUtils;
-import org.smartregister.clientandeventmodel.Event;
-import org.smartregister.commonregistry.CommonPersonObjectClient;
-import org.smartregister.family.adapter.ViewPagerAdapter;
-import org.smartregister.family.util.AppExecutors;
-import org.smartregister.family.util.Constants;
-import org.smartregister.family.util.Utils;
-import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
 import org.smartregister.view.activity.BaseProfileActivity;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.Observable;
@@ -78,19 +86,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-import static org.smartregister.unicef.dghs.activity.HnppFamilyOtherMemberProfileActivity.REQUEST_HOME_VISIT;
-import static org.smartregister.unicef.dghs.utils.HnppConstants.MEMBER_ID_SUFFIX;
-import static org.smartregister.chw.core.utils.CoreJsonFormUtils.REQUEST_CODE_GET_JSON;
-import static org.smartregister.family.util.Constants.INTENT_KEY.BASE_ENTITY_ID;
+public class GlobalSearchMemberProfileActivity extends BaseProfileActivity implements GuestMemberContract.View,View.OnClickListener, WeightActionListener, HeightActionListener, MUACActionListener, VaccinationActionListener, ServiceActionListener {
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-public class GuestMemberProfileActivity extends BaseProfileActivity implements GuestMemberContract.View,View.OnClickListener, WeightActionListener, HeightActionListener, MUACActionListener, VaccinationActionListener, ServiceActionListener {
-
-    String baseEntityId;
+    private static final String CLIENT_EXTRA = "client_extra";
+    public static Client client;
     private GuestMemberData guestMemberData;
     private TextView textViewMemberId,textViewName,textViewAge;
     private Button editBtn;
@@ -101,10 +100,10 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
     private Handler handler;
     AppExecutors appExecutors = new AppExecutors();
     private boolean isProcessing = false;
-    private boolean fromNewReg = true;
-    public static void startGuestMemberProfileActivity(Activity activity , String baseEntityId){
-        Intent intent = new Intent(activity,GuestMemberProfileActivity.class);
-        intent.putExtra(BASE_ENTITY_ID,baseEntityId);
+
+    public static void startGlobalMemberProfileActivity(Activity activity , Client sClient){
+        Intent intent = new Intent(activity, GlobalSearchMemberProfileActivity.class);
+        client = sClient;
         activity.startActivity(intent);
     }
     @Override
@@ -120,12 +119,21 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
     protected void onCreation() {
         setContentView(R.layout.activity_other_member_profile);
         handler = new Handler();
-        baseEntityId = getIntent().getStringExtra(BASE_ENTITY_ID);
-        guestMemberData = HnppDBUtils.getGuestMemberById(baseEntityId);
+        generateGuestMemberProfile();
         presenter = new GuestMemberProfilePresenter(this);
         updateTopBar();
         setProfileData();
 
+    }
+
+    private void generateGuestMemberProfile() {
+        guestMemberData = new GuestMemberData();
+        guestMemberData.setBaseEntityId(client.getBaseEntityId());
+        guestMemberData.setMemberId(client.getIdentifier("opensrp_id"));
+        guestMemberData.setName(client.getFirstName()+" "+client.getLastName());
+        guestMemberData.setDob(HnppConstants.YYMMDD.format(client.getBirthdate()));
+        guestMemberData.setGender(client.getGender());
+        guestMemberData.setPhoneNo(client.getAttribute("Mobile_Number").toString());
     }
 
     @Override
@@ -161,8 +169,9 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
         textViewAge = findViewById(R.id.textview_age);
         textViewName = findViewById(R.id.textview_name);
         editBtn = findViewById(R.id.edit_member_btn);
+        findViewById(R.id.update_profile_btn).setVisibility(View.INVISIBLE);
+        editBtn.setVisibility(View.GONE);
         editBtn.setOnClickListener(this);
-        findViewById(R.id.update_profile_btn).setOnClickListener(this);
         imageViewProfile = findViewById(org.smartregister.chw.core.R.id.imageview_profile);
         TabLayout tabLayout = findViewById(R.id.tabs);
         ViewPager viewPager = findViewById(R.id.viewpager);
@@ -174,10 +183,9 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.edit_member_btn:
-            case R.id.update_profile_btn:
 
                 //Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show();
-                CommonPersonObjectClient client = HnppDBUtils.createFromBaseEntityForGuestMember(baseEntityId);
+                CommonPersonObjectClient client = HnppDBUtils.getCommonPersonByBaseEntityId(this.client.getBaseEntityId());
                 startFormForEdit(client);
                 break;
         }
@@ -186,16 +194,15 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
 
 
     public void startFormForEdit(CommonPersonObjectClient client) {
-        fromNewReg = false;
 //        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
 //            @Override
 //            public void onPost(double latitude, double longitude) {
                 try {
-                    Intent intent = new Intent(GuestMemberProfileActivity.this, GuestAddMemberJsonFormActivity.class);
+                    Intent intent = new Intent(GlobalSearchMemberProfileActivity.this, GuestAddMemberJsonFormActivity.class);
                     //JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(HnppConstants.JSON_FORMS.GUEST_MEMBER_FORM);
-                    JSONObject jsonForm = HnppJsonFormUtils.getAutoPopulatedJsonEditFormString(HnppConstants.JSON_FORMS.GUEST_MEMBER_DETAILS_FORM, GuestMemberProfileActivity.this, client, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION);
+                    JSONObject jsonForm = HnppJsonFormUtils.getAutoPopulatedJsonEditFormString(HnppConstants.JSON_FORMS.GUEST_MEMBER_DETAILS_FORM, GlobalSearchMemberProfileActivity.this, client, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION);
                     jsonForm.put(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE, HnppConstants.EVENT_TYPE.GUEST_MEMBER_UPDATE_REGISTRATION);
-                    jsonForm.put(org.smartregister.family.util.JsonFormUtils.ENTITY_ID,baseEntityId);
+                    jsonForm.put(org.smartregister.family.util.JsonFormUtils.ENTITY_ID,client.getCaseId());
                     JSONArray divJsonArray = new JSONArray();
                     ArrayList<GlobalLocationModel> divModels = HnppApplication.getGlobalLocationRepository().getLocationByTagId(GlobalLocationRepository.LOCATION_TAG.DIVISION.getValue());
                     for (GlobalLocationModel globalLocationModel:divModels){
@@ -230,7 +237,7 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
         mViewPager = viewPager;
         Bundle bundle = new Bundle();
         bundle.putBoolean(MemberHistoryFragment.IS_GUEST_USER,true);
-        bundle.putString(BASE_ENTITY_ID,baseEntityId);
+        bundle.putString(BASE_ENTITY_ID,client.getBaseEntityId());
         memberHistoryFragment = MemberHistoryFragment.getInstance(bundle);
         memberDueFragment = GuestMemberDueFragment.getInstance();
         memberDueFragment.setGuestMemberData(guestMemberData);
@@ -253,7 +260,6 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
             String ageStr = org.smartregister.family.util.Utils.getTranslatedDate(org.smartregister.family.util.Utils.getDuration(guestMemberData.getDob()),getContext());
 
             textViewAge.setText(getString(R.string.age,ageStr));
-//            textViewAge.setText(getString(R.string.age,age+""));
             if (guestMemberData.getGender().equalsIgnoreCase("M")) {
                 imageViewProfile.setBorderColor(getResources().getColor(org.smartregister.chw.core.R.color.light_blue));
             } else if (guestMemberData.getGender().equalsIgnoreCase("F")) {
@@ -272,7 +278,6 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
             else if(age<=5){
                 childImmunizationFragment = ChildImmunizationFragment.newInstance(this.getIntent().getExtras());
                 childImmunizationFragment.setChildDetails(commonPersonObject);
-                childImmunizationFragment.setComesFromGuestProfile(true);
                 growthFragment = GMPFragment.newInstance(this.getIntent().getExtras());
                 growthFragment.setChildDetails(commonPersonObject);
                 adapter.addFragment(childImmunizationFragment, "টিকাদান");
@@ -294,7 +299,6 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
     private CommonPersonObjectClient createProfile(){
         HashMap<String, String> columnMap = new HashMap<String, String>();
         columnMap.put("first_name",guestMemberData.getName());
-        columnMap.put("last_name", guestMemberData.getName());
         columnMap.put("dob", guestMemberData.getDob());
         columnMap.put("gender", guestMemberData.getGender());
         columnMap.put("base_entity_id", guestMemberData.getBaseEntityId());
@@ -315,7 +319,7 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
         HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
             @Override
             public void onPost(double latitude, double longitude) {
-                HnppAncRegisterActivity.startHnppAncRegisterActivity(GuestMemberProfileActivity.this, baseEntityId, guestMemberData.getPhoneNo(),
+                HnppAncRegisterActivity.startHnppAncRegisterActivity(GlobalSearchMemberProfileActivity.this,  client.getBaseEntityId(), guestMemberData.getPhoneNo(),
                         HnppConstants.JSON_FORMS.ANC_FORM, null, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION,textViewName.getText().toString(),latitude,longitude);
 
             }
@@ -326,7 +330,7 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
         HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
             @Override
             public void onPost(double latitude, double longitude) {
-                HnppAncRegisterActivity.startHnppAncRegisterActivity(GuestMemberProfileActivity.this, baseEntityId, guestMemberData.getPhoneNo(),
+                HnppAncRegisterActivity.startHnppAncRegisterActivity(GlobalSearchMemberProfileActivity.this, client.getBaseEntityId(), guestMemberData.getPhoneNo(),
                         HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME_OOC, null, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION,textViewName.getText().toString(),latitude,longitude);
 
             }
@@ -350,10 +354,10 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
 
         try {
             JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
-            HnppJsonFormUtils.addEDDField(formName,jsonForm,baseEntityId);
+            HnppJsonFormUtils.addEDDField(formName,jsonForm, client.getBaseEntityId());
             HnppJsonFormUtils.addRelationalIdAsGuest(jsonForm);
             try{
-                HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,baseEntityId);
+                HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude, client.getBaseEntityId());
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -362,11 +366,11 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
             }catch (Exception e){
                 e.printStackTrace();
             }
-            jsonForm.put(JsonFormUtils.ENTITY_ID, baseEntityId);
+            jsonForm.put(JsonFormUtils.ENTITY_ID,  client.getBaseEntityId());
             Intent intent;
              if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC_VISIT_FORM) ){
 
-                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"anc_type", FormApplicability.getANCType(baseEntityId));
+                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"anc_type", FormApplicability.getANCType( client.getBaseEntityId()));
             }
              else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM_OOC)){
                  HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
@@ -387,7 +391,7 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
 
 //           if(formName.contains("anc"))
             HnppVisitLogRepository visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
-            String height = visitLogRepository.getHeight(baseEntityId);
+            String height = visitLogRepository.getHeight( client.getBaseEntityId());
             if(!TextUtils.isEmpty(height)){
                 HnppJsonFormUtils.addHeight(jsonForm,height);
 
@@ -396,7 +400,7 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
             intent = new Intent(this, HnppAncJsonFormActivity.class);
 //           else
 //               intent = new Intent(this, org.smartregister.family.util.Utils.metadata().familyMemberFormActivity);
-            intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+            intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
 
             Form form = new Form();
             form.setWizard(false);
@@ -408,7 +412,7 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
 
             }
             intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
-            intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
+            intent.putExtra(Constants.WizardFormActivity.EnableOnCloseDialog, true);
             if (this != null) {
                 this.startActivityForResult(intent, requestCode);
             }
@@ -424,24 +428,24 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
             //TODO: Need to check request code
             //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
             HnppConstants.isViewRefresh = true;
-//            if(data!=null) {
-//                String eventType = data.getStringExtra("event_type");
-//                if (!TextUtils.isEmpty(eventType) && eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)) {
-//                    if(memberHistoryFragment !=null){
-//                        handler.postDelayed(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                mViewPager.setCurrentItem(1,true);
-//                                if(memberDueFragment !=null){
-//                                    memberDueFragment.updateStaticView();
-//                                }
-//
-//                            }
-//                        },2000);
-//                    }
-//                    return;
-//                }
-//            }
+            if(data!=null) {
+                String eventType = data.getStringExtra("event_type");
+                if (!TextUtils.isEmpty(eventType) && eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)) {
+                    if(memberHistoryFragment !=null){
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                mViewPager.setCurrentItem(1,true);
+                                if(memberDueFragment !=null){
+                                    memberDueFragment.updateStaticView();
+                                }
+
+                            }
+                        },2000);
+                    }
+                    return;
+                }
+            }
 
 
         }
@@ -451,7 +455,7 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
             showProgressDialog(R.string.please_wait_message);
 
             isProcessing = true;
-            String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
+            String jsonString = data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON);
             String formSubmissionId = JsonFormUtils.generateRandomUUIDString();
             String visitId = JsonFormUtils.generateRandomUUIDString();
 
@@ -489,9 +493,9 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
         }
         else if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_GET_JSON){
             try {
-                String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
+                String jsonString = data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON);
                 JSONObject formWithConsent = new JSONObject(jsonString);
-                presenter.saveMember(formWithConsent.toString(),fromNewReg);
+                presenter.saveMember(formWithConsent.toString(),true);
 //
 //                String[] generatedString;
 //                String title;
@@ -606,8 +610,6 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
         type = HnppJsonFormUtils.getEncounterType(type);
         baseEvent.setEntityType(type);
         baseEvent.setFormSubmissionId(formSubmissionId);
-        Map<String,String> identifiers  = ImmunizationLibrary.getInstance().vaccineRepository().getOOCAddressIdentifier(baseEvent.getBaseEntityId());
-        baseEvent.setIdentifiers(identifiers);
         NCUtils.addEvent(allSharedPreferences, baseEvent);
        // NCUtils.startClientProcessing();
         String visitID ="";
@@ -647,9 +649,7 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
 
     @Override
     public void updateSuccessfullyFetchMessage() {
-        guestMemberData = HnppDBUtils.getGuestMemberById(baseEntityId);
         setProfileData();
-
     }
 
     @Override
@@ -704,36 +704,45 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
 
     @Override
     public void onVaccinateToday(ArrayList<VaccineWrapper> arrayList, View view) {
-        childImmunizationFragment.onVaccinateToday(arrayList,view);
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                childImmunizationFragment.updateImmunizationView();
-            }
-        },1000);
-
+        if(womanImmunizationFragment!=null) womanImmunizationFragment.onVaccinateToday(arrayList,view);
+        if(childImmunizationFragment !=null){
+            childImmunizationFragment.onVaccinateToday(arrayList,view);
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    childImmunizationFragment.updateImmunizationView();
+                }
+            },1000);
+        }
 
     }
 
     @Override
     public void onVaccinateEarlier(ArrayList<VaccineWrapper> arrayList, View view) {
-        childImmunizationFragment.onVaccinateEarlier(arrayList,view);
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                childImmunizationFragment.updateImmunizationView();
-            }
-        },1000);
+        if(womanImmunizationFragment!=null) womanImmunizationFragment.onVaccinateEarlier(arrayList,view);
+        if(childImmunizationFragment !=null) {
+            childImmunizationFragment.onVaccinateEarlier(arrayList, view);
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    childImmunizationFragment.updateImmunizationView();
+                }
+            }, 1000);
+        }
     }
 
     @Override
     public void onUndoVaccination(VaccineWrapper vaccineWrapper, View view) {
-        childImmunizationFragment.onUndoVaccination(vaccineWrapper,view);
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                childImmunizationFragment.updateImmunizationView();
-            }
-        },1000);
+        if(womanImmunizationFragment!=null) womanImmunizationFragment.onUndoVaccination(vaccineWrapper,view);
+        if(childImmunizationFragment!=null){
+            childImmunizationFragment.onUndoVaccination(vaccineWrapper,view);
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    childImmunizationFragment.updateImmunizationView();
+                }
+            },1000);
+        }
+
     }
 }

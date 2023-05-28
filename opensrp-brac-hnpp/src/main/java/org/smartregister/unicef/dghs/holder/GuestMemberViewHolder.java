@@ -14,6 +14,7 @@ public class GuestMemberViewHolder extends RecyclerView.ViewHolder{
     public GuestMemberViewHolder(@NonNull View itemView) {
         super(itemView);
         textViewForumDate = itemView.findViewById(R.id.last_sumission_date_tv);
+        textViewForumDate.setVisibility(View.GONE);
         textViewName = itemView.findViewById(R.id.name_tv);
         textViewAge = itemView.findViewById(R.id.age_tv);
         textViewGender = itemView.findViewById(R.id.gender_id);

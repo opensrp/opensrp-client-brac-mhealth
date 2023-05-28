@@ -3,6 +3,7 @@ package org.smartregister.unicef.dghs.interactor;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.util.Log;
 import android.util.Pair;
 
 import org.apache.commons.lang3.tuple.Triple;
@@ -124,8 +125,7 @@ public class FamilyRemoveMemberInteractor implements FamilyRemoveMemberContract.
                 EventClientRepository eventClientRepository = FamilyLibrary.getInstance().context().getEventClientRepository();
                 JSONObject familyJSON = eventClientRepository.getClientByBaseEntityId(familyID);
 
-                String name = (String) familyJSON.get("firstName");
-
+                final String name = familyJSON.getString("firstName");
                 @Override
                 public void run() {
                     appExecutors.mainThread().execute(() -> {
@@ -141,15 +141,10 @@ public class FamilyRemoveMemberInteractor implements FamilyRemoveMemberContract.
             };
         } catch (final Exception e) {
             e.printStackTrace();
-
             runnable = () -> appExecutors.mainThread().execute(() -> callback.onError(e));
         }
 
-       try{
            appExecutors.diskIO().execute(runnable);
-       }catch (Exception e){
-
-       }
 
     }
 

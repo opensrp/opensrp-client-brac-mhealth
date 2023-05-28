@@ -16,11 +16,12 @@ public class TikaInfoModel {
     public String houseHoldNo;
     public String village;
     public String upazilla;
+    public String division;
     public String district;
     public String union;
     public String wardNo;
     public String centerName;
     public String subBlock;
-    public ArrayList<VaacineInfo> vaccineInfo = new ArrayList<>();
+    public String gender;
 
 }

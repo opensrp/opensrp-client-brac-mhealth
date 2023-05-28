@@ -27,7 +27,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:src="@drawable/rowavatar_member"/>
-            <org.smartregister.view.customcontrols.CustomFontTextView
+            <TextView
                 android:id="@+id/name_TV"
                 android:layout_below="@+id/image"
                 android:layout_marginTop="10dp"
@@ -38,8 +38,9 @@
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
-            <org.smartregister.view.customcontrols.CustomFontTextView
+            <TextView
                 android:id="@+id/phone_no_TV"
+               
                 android:layout_below="@+id/name_TV"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
@@ -48,8 +49,9 @@
                 android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
-            <org.smartregister.view.customcontrols.CustomFontTextView
+            <TextView
                 android:id="@+id/village_tv"
+
                 android:layout_alignWithParentIfMissing="true"
                 android:layout_below="@+id/phone_no_TV"
                 android:layout_marginRight="10dp"
@@ -60,8 +62,9 @@
                 android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
-            <org.smartregister.view.customcontrols.CustomFontTextView
+            <TextView
                 android:id="@+id/village_TV"
+
                 android:layout_below="@+id/phone_no_TV"
                 android:layout_toRightOf="@+id/village_tv"
                 android:layout_marginTop="10dp"
@@ -75,24 +78,23 @@
         </RelativeLayout>
 
 
-
     <Button
         android:id="@+id/migration_btn"
-        android:layout_below="@+id/memberLayout"
         android:layout_width="150dp"
         android:layout_height="50dp"
+        android:layout_below="@+id/memberLayout"
+        android:layout_centerInParent="true"
         android:layout_marginTop="20dp"
         android:background="@drawable/login_button_bg"
-        android:layout_centerInParent="true"
         android:shadowColor="#ffffff"
         android:shadowDx="0"
         android:shadowDy="1"
         android:shadowRadius="0.5"
-        android:textStyle="bold"
-        android:text="স্থানান্তর করি"
+        android:text="সেবা দিন"
         android:textAllCaps="true"
         android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
 
 </RelativeLayout>

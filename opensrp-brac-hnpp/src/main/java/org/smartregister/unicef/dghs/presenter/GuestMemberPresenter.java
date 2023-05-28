@@ -25,9 +25,9 @@ public class GuestMemberPresenter implements GuestMemberContract.Presenter,Guest
     }
 
     @Override
-    public void saveMember(String jsonString) {
+    public void saveMember(String jsonString, boolean isEdited) {
 
-        interactor.processAndSaveRegistration(jsonString,this);
+        interactor.processAndSaveRegistration(jsonString,this, isEdited);
 
     }
 
@@ -35,6 +35,12 @@ public class GuestMemberPresenter implements GuestMemberContract.Presenter,Guest
     public void filterData(String query, String ssName) {
         view.showProgressBar();
         interactor.filterData(view.getContext(),query,ssName,this);
+
+    }
+
+    @Override
+    public void updateSHRIdFromServer() {
+        interactor.updateSHRIdFromServer(view.getContext(),this);
 
     }
 
@@ -61,8 +67,12 @@ public class GuestMemberPresenter implements GuestMemberContract.Presenter,Guest
     public void successfullySaved() {
         view.hideProgressBar();
         fetchData();
+    }
 
-
-
+    @Override
+    public void openRegisteredProfile(String baseEntityId) {
+        view.hideProgressBar();
+        fetchData();
+        view.openProfile(baseEntityId);
     }
 }

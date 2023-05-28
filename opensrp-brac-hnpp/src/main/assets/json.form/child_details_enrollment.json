@@ -91,15 +91,7 @@
         "openmrs_entity_id": "ward_name",
         "type": "hidden"
       },
-      {
-        "key": "unique_id",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_identifier",
-        "openmrs_entity_id": "opensrp_id",
-        "type": "edit_text",
-        "hint": "সিস্টেম নম্বর",
-        "read_only": true
-      },
+
       {
         "key": "shr_id",
         "openmrs_entity_parent": "",
@@ -107,6 +99,15 @@
         "openmrs_entity_id": "shr_id",
         "type": "edit_text",
         "hint": "শেয়ারড হেলথ রেকর্ড আই ডি",
+        "read_only": true
+      },
+      {
+        "key": "unique_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_identifier",
+        "openmrs_entity_id": "opensrp_id",
+        "type": "edit_text",
+        "hint": "সিস্টেম নম্বর",
         "read_only": true
       },
       {
@@ -176,6 +177,36 @@
         "v_required": {
           "value": false,
           "err": "Please Enter a Valid Name"
+        }
+      },
+
+      {
+        "key": "phone_number",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "Mobile_Number",
+        "type": "edit_text",
+        "hint": "গুরুত্বপূর্ণ মোবাইল নম্বর",
+        "v_required": {
+          "value": true,
+          "err": "11 অঙ্কের মোবাইল নম্বর লিখুন"
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
+        },
+        "v_regex": {
+          "value": "0|(01[1-9][0-9]{8})|\s*",
+          "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
+        },
+        "v_max_length": {
+          "value": "11",
+          "err": "11 অঙ্কের মোবাইল নম্বর লিখুন",
+          "is_fixed_size":true
+        },
+        "v_min_length": {
+          "value": "1",
+          "err": "11 অঙ্কের মোবাইল নম্বর লিখুন"
         }
       },
       {
@@ -281,35 +312,6 @@
               "rules-file": "family_member_register_calculation.yml"
             }
           }
-        }
-      },
-      {
-        "key": "phone_number",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "Mobile_Number",
-        "type": "edit_text",
-        "hint": "গুরুত্বপূর্ণ মোবাইল নম্বর",
-        "v_required": {
-          "value": true,
-          "err": "11 অঙ্কের মোবাইল নম্বর লিখুন"
-        },
-        "v_numeric": {
-          "value": "true",
-          "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
-        },
-        "v_regex": {
-          "value": "0|(01[1-9][0-9]{8})|\s*",
-          "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
-        },
-        "v_max_length": {
-          "value": "11",
-          "err": "11 অঙ্কের মোবাইল নম্বর লিখুন",
-          "is_fixed_size":true
-        },
-        "v_min_length": {
-          "value": "1",
-          "err": "11 অঙ্কের মোবাইল নম্বর লিখুন"
         }
       },
       {

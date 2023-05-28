@@ -207,26 +207,26 @@ public class DataDeleteIntentService extends IntentService {
             Log.v("DATA_DELETE","q:"+q);
             db.execSQL(q);
         }
-        if(!TextUtils.isEmpty(builderVisits.toString())){
-            String v = "delete from visits where "+builderVisits.toString();
-            Log.v("DATA_DELETE","v:"+v);
-            db.execSQL(v);
-        }
-        if(!TextUtils.isEmpty(builderVisitLog.toString())){
-            String l = "delete from ec_visit_log where "+builderVisitLog.toString();
-            Log.v("DATA_DELETE","l:"+l);
-            db.execSQL(l);
-        }
-        if(!TextUtils.isEmpty(builderTargetAchievment.toString())){
-            String t = "delete from target_table where "+builderTargetAchievment.toString();
-            Log.v("DATA_DELETE","t:"+t);
-            db.execSQL(t);
-        }
-        if(!TextUtils.isEmpty(builderStockAchievment.toString())){
-            String s = "delete from stock_table where "+builderStockAchievment.toString();
-            Log.v("DATA_DELETE","s:"+s);
-            db.execSQL(s);
-        }
+//        if(!TextUtils.isEmpty(builderVisits.toString())){
+//            String v = "delete from visits where "+builderVisits.toString();
+//            Log.v("DATA_DELETE","v:"+v);
+//            db.execSQL(v);
+//        }
+//        if(!TextUtils.isEmpty(builderVisitLog.toString())){
+//            String l = "delete from ec_visit_log where "+builderVisitLog.toString();
+//            Log.v("DATA_DELETE","l:"+l);
+//            db.execSQL(l);
+//        }
+//        if(!TextUtils.isEmpty(builderTargetAchievment.toString())){
+//            String t = "delete from target_table where "+builderTargetAchievment.toString();
+//            Log.v("DATA_DELETE","t:"+t);
+//            db.execSQL(t);
+//        }
+//        if(!TextUtils.isEmpty(builderStockAchievment.toString())){
+//            String s = "delete from stock_table where "+builderStockAchievment.toString();
+//            Log.v("DATA_DELETE","s:"+s);
+//            db.execSQL(s);
+//        }
 
     }
 
@@ -260,21 +260,21 @@ public class DataDeleteIntentService extends IntentService {
             Log.v("DATA_DELETE","q:"+q);
             db.execSQL(q);
         }
-        if(!TextUtils.isEmpty(builderMember.toString())){
-            String h = "delete from ec_family_member where "+builderMember.toString();
-            Log.v("DATA_DELETE","h:"+h);
-            db.execSQL(h);
-        }
-        if(!TextUtils.isEmpty(builderChild.toString())){
-            String h = "delete from ec_child where "+builderChild.toString();
-            Log.v("DATA_DELETE","h:"+h);
-            db.execSQL(h);
-        }
-        if(!TextUtils.isEmpty(builderGuest.toString())){
-            String g = "delete from ec_guest_member where "+builderGuest.toString();
-            Log.v("DATA_DELETE","g:"+g);
-            db.execSQL(g);
-        }
+//        if(!TextUtils.isEmpty(builderMember.toString())){
+//            String h = "delete from ec_family_member where "+builderMember.toString();
+//            Log.v("DATA_DELETE","h:"+h);
+//            db.execSQL(h);
+//        }
+//        if(!TextUtils.isEmpty(builderChild.toString())){
+//            String h = "delete from ec_child where "+builderChild.toString();
+//            Log.v("DATA_DELETE","h:"+h);
+//            db.execSQL(h);
+//        }
+//        if(!TextUtils.isEmpty(builderGuest.toString())){
+//            String g = "delete from ec_guest_member where "+builderGuest.toString();
+//            Log.v("DATA_DELETE","g:"+g);
+//            db.execSQL(g);
+//        }
     }
 
 

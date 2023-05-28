@@ -406,6 +406,36 @@
         }
       },
       {
+        "key": "contact_phone_number",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "HOH_Phone_Number",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "পরিবারের মোবাইল নম্বর",
+        "v_required": {
+          "value": true,
+          "err": "11 ডিজিটের মোবাইল নম্বর লিখুন"
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
+        },
+        "v_regex": {
+          "value": "0|(01[1-9][0-9]{8})|\s*",
+          "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
+        },
+        "v_max_length": {
+          "value": "11",
+          "err": "11 ডিজিটের মোবাইল নম্বর লিখুন",
+          "is_fixed_size":true
+        },
+        "v_min_length": {
+          "value": "1",
+          "err": "11 ডিজিটের মোবাইল নম্বর লিখুন"
+        }
+      },
+      {
         "key": "unique_id",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_identifier",
@@ -466,36 +496,6 @@
         "v_min_length": {
           "value": "1",
           "err": "সর্বনিম্ন 1 হতে হবে"
-        }
-      },
-      {
-        "key": "contact_phone_number",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "HOH_Phone_Number",
-        "openmrs_data_type": "text",
-        "type": "edit_text",
-        "hint": "পরিবারের মোবাইল নম্বর",
-        "v_required": {
-          "value": true,
-          "err": "11 ডিজিটের মোবাইল নম্বর লিখুন"
-        },
-        "v_numeric": {
-          "value": "true",
-          "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
-        },
-        "v_regex": {
-          "value": "0|(01[1-9][0-9]{8})|\s*",
-          "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
-        },
-        "v_max_length": {
-          "value": "11",
-          "err": "11 ডিজিটের মোবাইল নম্বর লিখুন",
-          "is_fixed_size":true
-        },
-        "v_min_length": {
-          "value": "1",
-          "err": "11 ডিজিটের মোবাইল নম্বর লিখুন"
         }
       },
       {

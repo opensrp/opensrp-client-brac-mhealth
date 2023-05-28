@@ -342,13 +342,13 @@ public class HnppNavigationPresenter implements NavigationContract.Presenter {
         }
     }
     private void startServices(){
-        if(!HnppConstants.isPALogin()){
-            MigrationFetchJob.scheduleJobImmediately(MigrationFetchJob.TAG);
-        }
+//        if(!HnppConstants.isPALogin()){
+//            MigrationFetchJob.scheduleJobImmediately(MigrationFetchJob.TAG);
+//        }
         HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
-        PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
-        TargetFetchJob.scheduleJobImmediately(TargetFetchJob.TAG);
-        StockFetchJob.scheduleJobImmediately(StockFetchJob.TAG);
+//        PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
+//        TargetFetchJob.scheduleJobImmediately(TargetFetchJob.TAG);
+//        StockFetchJob.scheduleJobImmediately(StockFetchJob.TAG);
         DataDeleteJob.scheduleJobImmediately(DataDeleteJob.TAG);
     }
     @Override

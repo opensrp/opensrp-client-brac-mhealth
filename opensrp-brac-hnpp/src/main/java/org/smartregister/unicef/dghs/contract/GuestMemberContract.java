@@ -20,6 +20,7 @@ public interface GuestMemberContract {
         void updateSuccessfullyFetchMessage();
         Presenter getPresenter();
         Context getContext();
+        void openProfile(String baseEntityId);
     }
     interface Model{
         ArrayList<GuestMemberData> getData();
@@ -31,24 +32,28 @@ public interface GuestMemberContract {
 
     interface Presenter{
         ArrayList<GuestMemberData> getData();
-        void saveMember(String jsonString);
+        void saveMember(String jsonString, boolean isEdited);
         void fetchData();
         void filterData(String query, String ssName);
+        void updateSHRIdFromServer();
         View getView();
     }
     interface Interactor{
 
-        void processAndSaveRegistration(final String jsonString,  final InteractorCallBack callBack);
+        void processAndSaveRegistration(final String jsonString,  final InteractorCallBack callBack, boolean isEdited);
 
         void fetchData(Context context, InteractorCallBack callBack);
 
         void filterData(Context context, String query, String ssName, InteractorCallBack callBack);
 
         ArrayList<GuestMemberData> getAllGuestMemberList();
+
+        void updateSHRIdFromServer(Context context, InteractorCallBack callBack);
     }
 
     interface InteractorCallBack{
         void updateAdapter();
         void successfullySaved();
+        void openRegisteredProfile(String baseEntityId);
     }
 }

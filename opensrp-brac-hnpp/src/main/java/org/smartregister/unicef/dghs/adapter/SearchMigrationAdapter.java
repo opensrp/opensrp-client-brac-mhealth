@@ -1,20 +1,23 @@
 package org.smartregister.unicef.dghs.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.holder.SearchMigrationViewHolder;
 import org.smartregister.unicef.dghs.model.Migration;
 import org.smartregister.family.util.Utils;
+import org.smartregister.unicef.dghs.utils.HnppConstants;
 
 import java.util.ArrayList;
 
 public class SearchMigrationAdapter extends RecyclerView.Adapter<SearchMigrationViewHolder>{
-    private ArrayList<Migration> contentList;
+    private ArrayList<Client> contentList;
     private Context context;
     private SearchMigrationAdapter.OnClickAdapter onClickAdapter;
 
@@ -24,11 +27,12 @@ public class SearchMigrationAdapter extends RecyclerView.Adapter<SearchMigration
         contentList = new ArrayList<>();
     }
 
-    public void setData(ArrayList<Migration> contentList) {
+    public void setData(ArrayList<Client> contentList) {
         this.contentList.clear();
         this.contentList.addAll(contentList);
     }
 
+    @SuppressLint("InflateParams")
     @NonNull
     @Override
     public SearchMigrationViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -36,20 +40,16 @@ public class SearchMigrationAdapter extends RecyclerView.Adapter<SearchMigration
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final SearchMigrationViewHolder viewHolder, int position) {
-        Migration content =  contentList.get(position);
-        if(content!=null && content.attributes!=null && content.attributes.BLOCK_NAME !=null){
-            viewHolder.textViewName.setText(context.getString(R.string.house_hold_head_name,content.firstName));
-            viewHolder.textViewAge.setText(context.getString(R.string.ss_name,content.attributes.BLOCK_NAME));
-            viewHolder.textViewGender.setText(context.getString(R.string.member_count,content.attributes.Number_of_HH_Member));
-        }else {
+        Client content =  contentList.get(position);
             //final Migration content = contentList.get(position);
-            viewHolder.textViewName.setText(content.firstName+"");
-            viewHolder.textViewAge.setText(context.getString(R.string.age, Utils.getDuration(content.birthdate+"")));
-            viewHolder.textViewGender.setText(context.getString(R.string.gender_postfix,content.gender+""));
-        }
-
+        viewHolder.textViewName.setText(content.getFirstName()+" "+content.getLastName());
+        viewHolder.textViewAge.setText(context.getString(R.string.dob, HnppConstants.DDMMYY.format(content.getBirthdate())));
+        viewHolder.textViewGender.setText(context.getString(R.string.gender_postfix,content.getGender()+""));
+        viewHolder.textViewGender.append(" ");
+        viewHolder.textViewGender.append(context.getString(R.string.village,content.getAddresses().get(0).getCityVillage()));
         viewHolder.imageViewAppIcon.setImageResource(R.drawable.rowavatar_member);
 
         viewHolder.itemView.setOnClickListener(v -> onClickAdapter.onItemClick(viewHolder,viewHolder.getAdapterPosition(), content));
@@ -63,8 +63,8 @@ public class SearchMigrationAdapter extends RecyclerView.Adapter<SearchMigration
     }
 
     public interface OnClickAdapter {
-        void onClick(SearchMigrationViewHolder viewHolder, int adapterPosition, Migration content);
-        void onItemClick(SearchMigrationViewHolder viewHolder, int adapterPosition, Migration content);
+        void onClick(SearchMigrationViewHolder viewHolder, int adapterPosition, Client content);
+        void onItemClick(SearchMigrationViewHolder viewHolder, int adapterPosition, Client content);
     }
 }
 

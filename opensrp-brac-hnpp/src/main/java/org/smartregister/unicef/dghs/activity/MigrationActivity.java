@@ -4,19 +4,15 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
 import org.smartregister.unicef.dghs.R;
-import org.smartregister.unicef.dghs.model.Notification;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.view.activity.SecuredActivity;
 
@@ -53,12 +49,12 @@ public class MigrationActivity extends SecuredActivity implements View.OnClickLi
                 finish();
                 break;
             case R.id.migration_member_btn:
-                MigrationFilterSearchActivity.startMigrationFilterActivity(MigrationActivity.this,HnppConstants.MIGRATION_TYPE.Member.name());
+                GlobalSearchActivity.startMigrationFilterActivity(MigrationActivity.this,HnppConstants.MIGRATION_TYPE.Member.name());
                 //showDetailsDialog(HnppConstants.MIGRATION_TYPE.Member.name());
                 break;
             case R.id.migration_khana_btn:
 //                showDetailsDialog(HnppConstants.MIGRATION_TYPE.HH.name());
-                MigrationFilterSearchActivity.startMigrationFilterActivity(MigrationActivity.this,HnppConstants.MIGRATION_TYPE.HH.name());
+                GlobalSearchActivity.startMigrationFilterActivity(MigrationActivity.this,HnppConstants.MIGRATION_TYPE.HH.name());
 
                 break;
         }
@@ -80,7 +76,7 @@ public class MigrationActivity extends SecuredActivity implements View.OnClickLi
         dialog.findViewById(R.id.yes_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MigrationFilterSearchActivity.startMigrationFilterActivity(MigrationActivity.this,type);
+                GlobalSearchActivity.startMigrationFilterActivity(MigrationActivity.this,type);
                 dialog.dismiss();
             }
         });
@@ -93,7 +89,7 @@ public class MigrationActivity extends SecuredActivity implements View.OnClickLi
         dialog.findViewById(R.id.dont_know_search_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MigrationFilterSearchActivity.startMigrationFilterActivity(MigrationActivity.this,type);
+                GlobalSearchActivity.startMigrationFilterActivity(MigrationActivity.this,type);
                 dialog.dismiss();
             }
         });

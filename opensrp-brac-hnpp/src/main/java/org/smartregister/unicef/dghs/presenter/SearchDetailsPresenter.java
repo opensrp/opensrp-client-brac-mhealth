@@ -2,18 +2,22 @@ package org.smartregister.unicef.dghs.presenter;
 
 import android.text.TextUtils;
 
+import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.unicef.dghs.contract.SearchDetailsContract;
 import org.smartregister.unicef.dghs.interactor.SearchDetailsInteractor;
+import org.smartregister.unicef.dghs.model.GlobalSearchResult;
 import org.smartregister.unicef.dghs.model.Migration;
 import org.smartregister.family.util.AppExecutors;
+import org.smartregister.unicef.dghs.utils.GlobalSearchContentData;
 
 import java.util.ArrayList;
 
 public class SearchDetailsPresenter implements SearchDetailsContract.Presenter,SearchDetailsContract.InteractorCallBack {
 
     private SearchDetailsContract.View view;
-    private ArrayList<Migration> data = new ArrayList<>();
-    private ArrayList<Migration> searchData = new ArrayList<>();
+    private ArrayList<Client> data = new ArrayList<>();
+    private ArrayList<Client> searchData = new ArrayList<>();
+    private GlobalSearchResult globalSearchResult;
     private SearchDetailsContract.Interactor interactor;
     private boolean isFromSearch = false;
 
@@ -23,30 +27,31 @@ public class SearchDetailsPresenter implements SearchDetailsContract.Presenter,S
     }
 
     @Override
-    public void fetchData(String type,String districtId,String villageId, String gender,String startAge, String age) {
+    public void fetchData(GlobalSearchContentData globalSearchContentData) {
         view.showProgressBar();
-        interactor.fetchData(type,districtId,villageId,gender,startAge,age,this);
+        interactor.fetchData(globalSearchContentData,this);
     }
+
     public void search(String query){
         if(!TextUtils.isEmpty(query)){
             isFromSearch = true;
             view.showProgressBar();
             searchData.clear();
-            for(Migration migration:data){
-                String name = migration.firstName.toLowerCase();
+            for(Client migration:data){
+                String name = migration.getFirstName().toLowerCase()+" "+migration.getLastName().toLowerCase();
                 String phoneNo ="",hhPhoneNo="",nationalId ="",birthRegistrationID ="";
-                if(migration.attributes!=null && migration.attributes.Mobile_Number!=null){
-                    phoneNo = migration.attributes.Mobile_Number;
+                if(migration.getAttribute("Mobile_Number")!=null){
+                    phoneNo = migration.getAttribute("Mobile_Number").toString();
                 }
-                if(migration.attributes!=null && migration.attributes.HOH_Phone_Number!=null){
-                    hhPhoneNo = migration.attributes.HOH_Phone_Number;
-                }
-                if(migration.attributes!=null && migration.attributes.nationalId!=null){
-                    nationalId = migration.attributes.nationalId;
-                }
-                if(migration.attributes!=null && migration.attributes.birthRegistrationID!=null){
-                    birthRegistrationID = migration.attributes.birthRegistrationID;
-                }
+//                if(migration.attributes!=null && migration.attributes.HOH_Phone_Number!=null){
+//                    hhPhoneNo = migration.attributes.HOH_Phone_Number;
+//                }
+//                if(migration.attributes!=null && migration.attributes.nationalId!=null){
+//                    nationalId = migration.attributes.nationalId;
+//                }
+//                if(migration.attributes!=null && migration.attributes.birthRegistrationID!=null){
+//                    birthRegistrationID = migration.attributes.birthRegistrationID;
+//                }
                 if(name.contains(query)){
                     searchData.add(migration);
                 }else if(phoneNo.contains(query)){
@@ -69,7 +74,17 @@ public class SearchDetailsPresenter implements SearchDetailsContract.Presenter,S
     }
 
     @Override
-    public ArrayList<Migration> getMemberList() {
+    public GlobalSearchResult getGlobalSearchResult() {
+        return globalSearchResult;
+    }
+
+    @Override
+    public void setGlobalSearchResult(GlobalSearchResult globalSearchResult) {
+        this.globalSearchResult = globalSearchResult;
+    }
+
+    @Override
+    public ArrayList<Client> getMemberList() {
 
         return isFromSearch?searchData:data;
     }
@@ -80,7 +95,7 @@ public class SearchDetailsPresenter implements SearchDetailsContract.Presenter,S
     }
 
     @Override
-    public void onUpdateList(ArrayList<Migration> list) {
+    public void onUpdateList(ArrayList<Client> list) {
         this.data.clear();
         this.data = list;
         view.hideProgressBar();

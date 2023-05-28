@@ -16,7 +16,7 @@ import org.smartregister.unicef.dghs.location.HALocationHelper;
 import org.smartregister.unicef.dghs.location.HALocation;
 import org.smartregister.unicef.dghs.repository.HouseholdIdRepository;
 import org.smartregister.unicef.dghs.utils.HnppDBUtils;
-import org.smartregister.unicef.dghs.utils.MigrationSearchContentData;
+import org.smartregister.unicef.dghs.utils.GlobalSearchContentData;
 import org.smartregister.clientandeventmodel.Address;
 import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.family.util.AppExecutors;
@@ -34,12 +34,12 @@ public class MigrationInteractor  {
         this.appExecutors = appExecutors;
     }
 
-    public void migrateHH(MigrationSearchContentData migrationSearchContentData, MigrationContract.MigrationPostInteractorCallBack callBack)
+    public void migrateHH(GlobalSearchContentData globalSearchContentData, MigrationContract.MigrationPostInteractorCallBack callBack)
     {
         Runnable runnable = () -> {
-            Client baseClient = generateHHClient(migrationSearchContentData);
+            Client baseClient = generateHHClient(globalSearchContentData);
 
-            boolean isSuccess = postData(migrationSearchContentData,baseClient);
+            boolean isSuccess = postData(globalSearchContentData,baseClient);
             if(isSuccess){
                 appExecutors.mainThread().execute(callBack::onSuccess);
             }else{
@@ -51,12 +51,12 @@ public class MigrationInteractor  {
 
 
     }
-    public void migrateMember(MigrationSearchContentData migrationSearchContentData, MigrationContract.MigrationPostInteractorCallBack callBack)
+    public void migrateMember(GlobalSearchContentData globalSearchContentData, MigrationContract.MigrationPostInteractorCallBack callBack)
     {
         Runnable runnable = () -> {
-            Client baseClient = generateMemberClient(migrationSearchContentData);
+            Client baseClient = generateMemberClient(globalSearchContentData);
 
-            boolean isSuccess = postData(migrationSearchContentData,baseClient);
+            boolean isSuccess = postData(globalSearchContentData,baseClient);
             if(isSuccess){
                 appExecutors.mainThread().execute(callBack::onSuccess);
             }else{
@@ -69,7 +69,7 @@ public class MigrationInteractor  {
 
     }
 
-    private boolean postData(MigrationSearchContentData migrationSearchContentData,Client baseClient ) {
+    private boolean postData(GlobalSearchContentData globalSearchContentData, Client baseClient ) {
         if(baseClient == null)
             return false;
         try {
@@ -84,8 +84,8 @@ public class MigrationInteractor  {
             if (TextUtils.isEmpty(userName)) {
                 return false;
             }
-            String url = baseUrl + MIGRATION_POST + "districtId=" + migrationSearchContentData.getDistrictId() + "&divisionId=" + migrationSearchContentData.getDivisionId()
-                    + "&villageId=" + migrationSearchContentData.getVillageId() + "&type="+migrationSearchContentData.getMigrationType();
+            String url = baseUrl + MIGRATION_POST + "districtId=" + globalSearchContentData.getDistrictId() + "&divisionId=" + globalSearchContentData.getDivisionId()
+                    + "&villageId=" + globalSearchContentData.getVillageId() + "&type="+ globalSearchContentData.getMigrationType();
 //            String url = baseUrl + MIGRATION_POST + "districtId=10371&divisionId=10349&villageId=9315&type="+migrationSearchContentData.getMigrationType();
 
             String json = new Gson().toJson(baseClient);
@@ -110,19 +110,19 @@ public class MigrationInteractor  {
         }
         return false;
     }
-    private Client generateMemberClient(MigrationSearchContentData migrationSearchContentData) {
-        Client baseClient = new Client(migrationSearchContentData.getBaseEntityId());
-        baseClient.addRelationship("family",migrationSearchContentData.getFamilyBaseEntityId());
-        if(TextUtils.isEmpty(migrationSearchContentData.getBlockName())){
-            String ssName = HnppDBUtils.getBlockNameFromFamilyTable(migrationSearchContentData.getFamilyBaseEntityId());
-            migrationSearchContentData.setBlockName(ssName);
+    private Client generateMemberClient(GlobalSearchContentData globalSearchContentData) {
+        Client baseClient = new Client(globalSearchContentData.getBaseEntityId());
+        baseClient.addRelationship("family", globalSearchContentData.getFamilyBaseEntityId());
+        if(TextUtils.isEmpty(globalSearchContentData.getBlockName())){
+            String ssName = HnppDBUtils.getBlockNameFromFamilyTable(globalSearchContentData.getFamilyBaseEntityId());
+            globalSearchContentData.setBlockName(ssName);
         }
-        HALocation ss = HnppApplication.getHALocationRepository().getLocationByBlock(migrationSearchContentData.getBlockId()+"");
+        HALocation ss = HnppApplication.getHALocationRepository().getLocationByBlock(globalSearchContentData.getBlockId()+"");
         if(ss==null){
             return null;
         }
-        baseClient.addAttribute("house_hold_id",migrationSearchContentData.getHhId());
-        String unique_id = generateMemberId(migrationSearchContentData.getHhId(),migrationSearchContentData.getFamilyBaseEntityId());
+        baseClient.addAttribute("house_hold_id", globalSearchContentData.getHhId());
+        String unique_id = generateMemberId(globalSearchContentData.getHhId(), globalSearchContentData.getFamilyBaseEntityId());
         if(unique_id.isEmpty()){
             return null;
         }
@@ -141,18 +141,18 @@ public class MigrationInteractor  {
         return uId;
     }
 
-    private Client generateHHClient(MigrationSearchContentData migrationSearchContentData) {
-        Client baseClient = new Client(migrationSearchContentData.getBaseEntityId());
-        baseClient.addRelationship("family_head",migrationSearchContentData.getBaseEntityId());
-        baseClient.addRelationship("primary_caregiver",migrationSearchContentData.getBaseEntityId());
-        if(TextUtils.isEmpty(migrationSearchContentData.getBlockName())){
-            String ssName = HnppDBUtils.getBlockNameFromFamilyTable(migrationSearchContentData.getBaseEntityId());
-            migrationSearchContentData.setBlockName(ssName);
+    private Client generateHHClient(GlobalSearchContentData globalSearchContentData) {
+        Client baseClient = new Client(globalSearchContentData.getBaseEntityId());
+        baseClient.addRelationship("family_head", globalSearchContentData.getBaseEntityId());
+        baseClient.addRelationship("primary_caregiver", globalSearchContentData.getBaseEntityId());
+        if(TextUtils.isEmpty(globalSearchContentData.getBlockName())){
+            String ssName = HnppDBUtils.getBlockNameFromFamilyTable(globalSearchContentData.getBaseEntityId());
+            globalSearchContentData.setBlockName(ssName);
         }
-        baseClient.addAttribute("ward_name",migrationSearchContentData.getWardName());
-        baseClient.addAttribute("block_id",migrationSearchContentData.getBlockId());
+        baseClient.addAttribute("ward_name", globalSearchContentData.getWardName());
+        baseClient.addAttribute("block_id", globalSearchContentData.getBlockId());
 
-        HALocation ss = HnppApplication.getHALocationRepository().getLocationByBlock(migrationSearchContentData.getBlockId()+"");
+        HALocation ss = HnppApplication.getHALocationRepository().getLocationByBlock(globalSearchContentData.getBlockId()+"");
 
         String unique_id = generateHHId(ss);
         if(unique_id.isEmpty()){

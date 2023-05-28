@@ -105,10 +105,10 @@ public class HnppFamilyRegisterProvider extends CoreRegisterProvider  {
                 familyHeadName = familyHeadObject.getColumnmaps().get(DBConstants.KEY.FIRST_NAME);
 
             pc.getColumnmaps().put(Constants.KEY.FAMILY_HEAD_NAME, familyHeadName);
-            if(!TextUtils.isEmpty(familyHeadId)){
-                this.imageRenderHelper.refreshProfileImage(pc.getCaseId(), viewHolder.profileImage, Utils.getMemberProfileImageResourceIDentifier(CoreConstants.TABLE_NAME.FAMILY_MEMBER));
-
-            }
+//            if(!TextUtils.isEmpty(familyHeadId)){
+//                this.imageRenderHelper.refreshProfileImage(pc.getCaseId(), viewHolder.profileImage, Utils.getMemberProfileImageResourceIDentifier(CoreConstants.TABLE_NAME.FAMILY_MEMBER));
+//
+//            }
             populatePatientColumn(pc, client, viewHolder);
             populateMemberIconView(pc, viewHolder,Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.TOTAL_MEMBER, true));
 

@@ -200,7 +200,6 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
             }
         }
     }
-
     private void processUpazila(String selectedDistrictId) {
         this.selectedPerDistrictId = selectedDistrictId;
         processPermanentPO();
@@ -704,8 +703,6 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
             @Override
             protected Object doInBackground(Object[] objects) {
                 Log.v("SELECTED_BLOCK","block_id:"+blocksIds.get(index));
-                HouseholdIdRepository householdIdRepo = HnppApplication.getHNPPInstance().getHouseholdIdRepository();
-                HouseholdId hhid = householdIdRepo.getNextHouseholdId(blocksIds.get(index));
 //                if(hhid == null){
 //                    return blockIdList.get(index);
 //                }

@@ -17,7 +17,9 @@ import org.smartregister.chw.core.model.ChildVisit;
 import org.smartregister.chw.core.rule.HomeAlertRule;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.unicef.dghs.HnppApplication;
+import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.dao.AbstractDao;
+import org.smartregister.unicef.dghs.fragment.HnppMemberProfileDueFragment;
 import org.smartregister.unicef.dghs.model.ForumDetails;
 import org.smartregister.unicef.dghs.model.TikaInfoModel;
 import org.smartregister.unicef.dghs.model.VaacineInfo;
@@ -135,9 +137,52 @@ public class HnppDBUtils {
         }
         return vaacineInfos;
     }
+    public static TikaInfoModel getTikaDetailsForGuestProfike(String baseEntityId){
+        String query = "Select * FROM ec_guest_member WHERE  date_removed is null and base_entity_id ='"+baseEntityId+"'";
+
+        Cursor cursor = null;
+        TikaInfoModel infoModel = new TikaInfoModel();
+        try {
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                infoModel.name = (cursor.getString(cursor.getColumnIndex("first_name")))+" "+(cursor.getString(cursor.getColumnIndex("last_name")));
+                infoModel.motherName = (cursor.getString(cursor.getColumnIndex("mother_name_english")));
+                infoModel.fatherName = (cursor.getString(cursor.getColumnIndex("father_name_english")));
+                String dob = (cursor.getString(cursor.getColumnIndex("dob")));
+                //2023-03-11T06:00:00.000+06:00
+                infoModel.dob = dob.substring(0,dob.indexOf("T"));
+                infoModel.birthYear = dob.substring(0,4);
+                infoModel.birthMonth = dob.substring(5,7);
+                infoModel.birthDay = dob.substring(8,10);
+                infoModel.brid = (cursor.getString(cursor.getColumnIndex("birth_id")));
+                infoModel.registrationNo = (cursor.getString(cursor.getColumnIndex("shr_id")));
+                if(TextUtils.isEmpty(infoModel.registrationNo)){
+                    infoModel.registrationNo = (cursor.getString(cursor.getColumnIndex("unique_id")));
+                }
+                long lastInteractedDate = cursor.getLong(cursor.getColumnIndex("last_interacted_with"));
+                Date regdate = new Date(lastInteractedDate);
+                String registrationDate = AbstractDao.getDobDateFormat().format(regdate);
+                infoModel.registrationDate = registrationDate;
+                infoModel.division = (cursor.getString(cursor.getColumnIndex("division_per")));
+                infoModel.district = (cursor.getString(cursor.getColumnIndex("district_per")));
+                infoModel.upazilla = (cursor.getString(cursor.getColumnIndex("upazila_per")));
+                infoModel.gender = HnppConstants.getGender((cursor.getString(cursor.getColumnIndex("gender"))));
+
+            }
+
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        finally {
+            if(cursor !=null) cursor.close();
+        }
+        return infoModel;
+
+    }
     public static TikaInfoModel getTikaDetails(String baseEntityId){
         String query = "select ec_family_member.first_name,ec_family_member.last_name, ec_family_member.mother_name_english,ec_family_member.father_name_english, "+
-                " ec_family_member.dob, ec_family_member.birth_id,ec_family_member.shr_id,ec_family_member.unique_id,ec_family_member.last_interacted_with,ec_family_member.camp_type,"+
+                " ec_family_member.dob,ec_family_member.gender, ec_family_member.birth_id,ec_family_member.shr_id,ec_family_member.unique_id,ec_family_member.last_interacted_with,ec_family_member.camp_type,"+
                 " ec_family.block_name,ec_family.village,ec_family.holding_no,ec_family.ward_name,ec_family.union_zone from ec_family_member "+
                 " inner join ec_family on ec_family.id  = ec_family_member.relational_id " +
                 " where ec_family_member.base_entity_id ='"+baseEntityId+"' ";
@@ -171,6 +216,8 @@ public class HnppDBUtils {
                 infoModel.houseHoldNo = (cursor.getString(cursor.getColumnIndex("holding_no")));
                 infoModel.wardNo = (cursor.getString(cursor.getColumnIndex("ward_name")));
                 infoModel.union = (cursor.getString(cursor.getColumnIndex("union_zone")));
+                infoModel.gender = HnppConstants.getGender((cursor.getString(cursor.getColumnIndex("gender"))));
+
 
             }
 
@@ -183,6 +230,7 @@ public class HnppDBUtils {
         return infoModel;
 
     }
+
 
     public static HashMap<String, String> getDetails(String baseEntityId, String tableName) {
         HashMap<String, String> map = new HashMap<>();
@@ -379,7 +427,7 @@ public class HnppDBUtils {
 
 
     public static GuestMemberData getGuestMemberById(String baseEntityId){
-        String query = "Select base_entity_id,village_name,unique_id,first_name,dob,gender,phone_number,village_id FROM ec_guest_member WHERE  date_removed is null and base_entity_id ='"+baseEntityId+"'";
+        String query = "Select * FROM ec_guest_member WHERE  date_removed is null and base_entity_id ='"+baseEntityId+"'";
         GuestMemberData guestMemberData = null;
         Cursor cursor = null;
         try {
@@ -387,14 +435,18 @@ public class HnppDBUtils {
             if(cursor !=null && cursor.getCount() >0){
                 guestMemberData = new GuestMemberData();
                 cursor.moveToFirst();
-                guestMemberData.setBaseEntityId(cursor.getString(0));
-                guestMemberData.setVillage(cursor.getString(1));
-                guestMemberData.setMemberId(cursor.getString(2));
-                guestMemberData.setName(cursor.getString(3));
-                guestMemberData.setDob(cursor.getString(4));
-                guestMemberData.setGender(cursor.getString(5));
-                guestMemberData.setPhoneNo(cursor.getString(6));
-                guestMemberData.setVillageId(cursor.getString(7));
+                guestMemberData.setBaseEntityId(cursor.getString(cursor.getColumnIndex("base_entity_id")));
+                guestMemberData.setDivision(cursor.getString(cursor.getColumnIndex("division_per")));
+                guestMemberData.setDistrict(cursor.getString(cursor.getColumnIndex("district_per")));
+                guestMemberData.setUpozila(cursor.getString(cursor.getColumnIndex("upazila_per")));
+
+                guestMemberData.setMemberId(cursor.getString(cursor.getColumnIndex("unique_id")));
+                String firstName = cursor.getString(cursor.getColumnIndex("first_name"));
+                String lastName = cursor.getString(cursor.getColumnIndex("last_name"));
+                guestMemberData.setName(firstName+" "+lastName);
+                guestMemberData.setDob(cursor.getString(cursor.getColumnIndex("dob")));
+                guestMemberData.setGender(cursor.getString(cursor.getColumnIndex("gender")));
+                guestMemberData.setPhoneNo(cursor.getString(cursor.getColumnIndex("phone_number")));
                 cursor.close();
             }
 
@@ -469,9 +521,7 @@ public class HnppDBUtils {
         finally {
             if(cursor !=null)cursor.close();
         }
-        if(TextUtils.isEmpty(blockName)){
-            blockName = getBlockNameFromGuestTable(baseEntityId);
-        }
+
         return blockName;
     }
     public static BaseLocation getBlocksHHID(String hhBaseEntityId){
@@ -517,27 +567,6 @@ public class HnppDBUtils {
             if(cursor !=null)cursor.close();
         }
         return blockId;
-    }
-    public static String getBlockNameFromGuestTable(String baseEntityId){
-        String query = "select block_name from ec_guest_member where base_entity_id = '"+baseEntityId+"'";
-        Cursor cursor = null;
-        String blockName="";
-        try {
-            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
-            if(cursor !=null && cursor.getCount() >0){
-                cursor.moveToFirst();
-                blockName = cursor.getString(0);
-            }
-
-            return blockName;
-        } catch (Exception e) {
-            Timber.e(e);
-
-        }
-        finally {
-            if(cursor !=null)cursor.close();
-        }
-        return blockName;
     }
     public static void updateCoronaFamilyMember(String base_entity_id, String value){
         try{
@@ -613,7 +642,7 @@ public class HnppDBUtils {
     }
     public static CommonPersonObjectClient createFromBaseEntityForGuestMember(String baseEntityId){
         CommonPersonObjectClient pClient = null;
-        String query = "Select * FROM ec_guest_member WHERE ec_guest_member.base_entity_id ='"+baseEntityId+"'";
+        String query = "Select * FROM ec_guest_member WHERE base_entity_id ='"+baseEntityId+"'";
         CommonRepository commonRepository = Utils.context().commonrepository("ec_guest_member");
         Cursor cursor = null;
         try {
@@ -637,10 +666,10 @@ public class HnppDBUtils {
         return pClient;
 
     }
-    public static CommonPersonObjectClient getClientByBaseEntityId(String baseEntityId){
+    public static CommonPersonObjectClient getCommonPersonByBaseEntityId(String baseEntityId){
         CommonPersonObjectClient pClient = null;
-        String query = "Select * FROM ec_family WHERE base_entity_id ='"+baseEntityId+"'";
-        CommonRepository commonRepository = Utils.context().commonrepository("ec_family");
+        String query = "Select * FROM ec_family_member WHERE base_entity_id ='"+baseEntityId+"'";
+        CommonRepository commonRepository = Utils.context().commonrepository("ec_family_member");
         Cursor cursor = null;
         try {
             //cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
@@ -925,6 +954,9 @@ public class HnppDBUtils {
                             String eventType = FormApplicability.getDueFormForMarriedWomen(profileDueInfo.getBaseEntityId(),
                                     FormApplicability.getAge(profileDueInfo.getDob()));
                             profileDueInfo.setOriginalEventType(eventType);
+                            if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ELCO)){
+                                eventType = HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
+                            }
                             //if(FormApplicability.isDueAnyForm(profileDueInfo.getBaseEntityId(),eventType) && !TextUtils.isEmpty(eventType)){
                                 if(eventType.equalsIgnoreCase("পূর্বের গর্ভের ইতিহাস")){
                                     profileDueInfo.setEventType("গর্ভবতী পরিচর্যা - ১ম ত্রিমাসিক");
@@ -1191,7 +1223,7 @@ public class HnppDBUtils {
         return motherName;
     }
     public static HouseHoldInfo getHouseHoldInfo(String familyBaseEntityId){
-        String query = "select first_name,unique_id,module_id,family_head,primary_caregiver from ec_family where base_entity_id = '"+familyBaseEntityId+"'";
+        String query = "select first_name,unique_id,module_id,family_head,primary_caregiver,block_name from ec_family where base_entity_id = '"+familyBaseEntityId+"'";
         Cursor cursor = null;
         try {
             cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
@@ -1204,6 +1236,7 @@ public class HnppDBUtils {
                 houseHoldInfo.setModuleId(cursor.getString(2));
                 houseHoldInfo.setHouseHoldHeadId(cursor.getString(3));
                 houseHoldInfo.setPrimaryCaregiverId(cursor.getString(4));
+                houseHoldInfo.setBlockName(cursor.getString(5));
                 return houseHoldInfo;
             }
         } catch (Exception e) {
@@ -1320,7 +1353,7 @@ public class HnppDBUtils {
         return valus.get(0).get("last_menstrual_period");
     }
     public static Map<String, String> getMotherName(String baseEntityId) {
-        String mem = "SELECT first_name,last_name,member_name_bengla FROM ec_family_member where base_entity_id = ? ";
+        String mem = "SELECT first_name,last_name,member_name_bengla,phone_number FROM ec_family_member where base_entity_id = ? ";
         List<Map<String, String>> valus = AbstractDao.readData(mem, new String[]{baseEntityId});
 
         return valus.get(0);

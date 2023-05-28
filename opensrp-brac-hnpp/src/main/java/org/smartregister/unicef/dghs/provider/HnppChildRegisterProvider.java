@@ -136,11 +136,11 @@ public class HnppChildRegisterProvider extends CoreChildRegisterProvider {
         fillValue(viewHolder.textViewAddressGender, gender + " \u00B7 " + address);
         if(gender.equals("F")) {
             viewHolder.profileImage.setTag(org.smartregister.R.id.entity_id, pc.entityId());
-            DrishtiApplication.getCachedImageLoaderInstance().getImageByClientId(pc.entityId(), OpenSRPImageLoader.getStaticImageListener(viewHolder.profileImage, R.drawable.child_boy_infant, R.drawable.child_boy_infant));
+            DrishtiApplication.getCachedImageLoaderInstance().getImageByClientId(pc.entityId(), OpenSRPImageLoader.getStaticImageListener(viewHolder.profileImage, R.drawable.child_girl_infant, R.drawable.child_girl_infant));
         }
         else {
             viewHolder.profileImage.setTag(org.smartregister.R.id.entity_id, pc.entityId());
-            DrishtiApplication.getCachedImageLoaderInstance().getImageByClientId(pc.entityId(), OpenSRPImageLoader.getStaticImageListener(viewHolder.profileImage, R.drawable.child_girl_infant, R.drawable.child_girl_infant));
+            DrishtiApplication.getCachedImageLoaderInstance().getImageByClientId(pc.entityId(), OpenSRPImageLoader.getStaticImageListener(viewHolder.profileImage, R.drawable.child_boy_infant, R.drawable.child_boy_infant));
         }
     }
 

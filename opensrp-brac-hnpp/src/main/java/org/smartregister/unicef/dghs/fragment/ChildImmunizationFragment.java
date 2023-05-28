@@ -97,10 +97,16 @@ import static org.smartregister.util.Utils.getName;
 
 public class ChildImmunizationFragment extends BaseProfileFragment implements  SyncStatusBroadcastReceiver.SyncStatusListener {
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
-
+    Handler handler;
+    boolean isComesFromGuestProfile = false;
     public void setChildDetails(CommonPersonObjectClient childDetails){
         this.childDetails = childDetails;
     }
+
+    public void setComesFromGuestProfile(boolean comesFromGuestProfile) {
+        isComesFromGuestProfile = comesFromGuestProfile;
+    }
+
     public static ChildImmunizationFragment newInstance(Bundle bundle) {
         Bundle args = bundle;
 
@@ -116,6 +122,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment implements  S
     public void onDestroy() {
         super.onDestroy();
         mActivity = null;
+        handler.removeCallbacksAndMessages(null);
     }
 
     Activity mActivity;
@@ -129,6 +136,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment implements  S
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        handler = new Handler();
     }
 
     @Override
@@ -138,7 +146,10 @@ public class ChildImmunizationFragment extends BaseProfileFragment implements  S
 
     @Override
     protected void onResumption() {
-        //Overriden
+        updateImmunizationView();
+
+    }
+    public void updateImmunizationView(){
         if (vaccineGroups != null) {
             LinearLayout vaccineGroupCanvasLL = (LinearLayout) view.findViewById(R.id.vaccine_group_canvas_ll);
             vaccineGroupCanvasLL.removeAllViews();
@@ -150,9 +161,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment implements  S
             serviceGroupCanvasLL.removeAllViews();
             serviceGroups = null;
         }
-
         updateViews();
-
         startServices();
     }
 
@@ -168,75 +177,10 @@ public class ChildImmunizationFragment extends BaseProfileFragment implements  S
             @Override
             public void onClick(View v) {
                 String childId = org.smartregister.util.Utils.getValue(childDetails.getColumnmaps(), "base_entity_id", false);
-                startActivity(new Intent(mActivity, TikaCardViewActivity.class).putExtra("BASE_ENTITY_ID",childId));
-//                SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(ChildImmunizationFragment.this);
-//                HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
-
-
-//                Utils.startAsyncTask(new AsyncTask() {
-//                    @Override
-//                    protected void onPostExecute(Object o) {
-//                        super.onPostExecute(o);
-//                        if(o instanceof String){
-//                            String pdfFilePath = (String)o;
-//                            openPDF(pdfFilePath);
-//                        }
-//
-//                    }
-//
-//                    @Override
-//                    protected Object doInBackground(Object[] objects) {
-//                        try {
-//                            String htmlUrl = "http://unicef-ha.mpower-social.com/opensrp-dashboard/people/mobile/e9c1679c-6651-4bf3-a1ab-a180752ce124-pros/vaccine-card.html";
-//                            File htmlFile = new File(htmlUrl);
-//                            String filePath = mActivity.getExternalFilesDir(null) + "/vaccine";
-//                            File file = new File(filePath);
-//                            if(!file.exists()){
-//                                file.mkdir();
-//                            }
-//                            String pdfFilePath = (file.getAbsolutePath() + "/"+ "vaccine_card.pdf");
-//                            Log.v("VACCINE_CARD","vaccine_file>>"+pdfFilePath);
-//                            String html = FileUtils.readFileToString(htmlFile, "UTF-8");
-//
-//                            // Create PDF document
-//                            PDDocument document = new PDDocument();
-//                            PDPage page = new PDPage();
-//                            document.addPage(page);
-//
-//                            // Create font
-//                            PDFont font = PDType1Font.HELVETICA_BOLD;
-//
-//                            // Create stream for HTML file
-//                            PDStream stream = new PDStream(document);
-//                            OutputStream outputStream = stream.createOutputStream();
-//                            outputStream.write(html.getBytes("UTF-8"));
-//                            outputStream.close();
-//
-//                            // Convert HTML to PDF
-//                            PDFTextStripper pdfStripper = new PDFTextStripper();
-//                            pdfStripper.setSortByPosition(true);
-//                            pdfStripper.setStartPage(0);
-//                            pdfStripper.setEndPage(Integer.MAX_VALUE);
-//                            String parsedText = pdfStripper.getText(document);
-//                            Writer dummy = new OutputStreamWriter(new ByteArrayOutputStream());
-//                            pdfStripper.writeText(document, dummy);
-//
-//                            // Save PDF file
-//                            document.save(pdfFilePath);
-//                            document.close();
-//
-//                            return pdfFilePath;
-//
-//
-//                        } catch (MalformedURLException e) {
-//                            e.printStackTrace();
-//                            return null;
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                            return null;
-//                        }
-//                    }
-//                },null);
+                Intent intent = new Intent(mActivity, TikaCardViewActivity.class);
+                intent.putExtra("BASE_ENTITY_ID",childId);
+                intent.putExtra(TikaCardViewActivity.PUT_EXTRA_COMES,isComesFromGuestProfile);
+                startActivity(intent);
 
             }
         });

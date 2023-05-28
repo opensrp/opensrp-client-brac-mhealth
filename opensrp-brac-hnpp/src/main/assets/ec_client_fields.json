@@ -1008,108 +1008,31 @@
       "name": "ec_guest_member",
       "columns": [
         {
-          "column_name": "block_name",
+          "column_name": "_id",
           "type": "Client",
           "json_mapping": {
-            "field": "attributes.block_name"
+            "field": "attributes._id"
           }
         },
         {
-          "column_name": "ward_name",
+          "column_name": "division_id",
           "type": "Client",
           "json_mapping": {
-            "field": "attributes.ward_name"
+            "field": "attributes.division_id"
           }
         },
         {
-          "column_name": "present_address_bangla",
+          "column_name": "district_id",
           "type": "Client",
           "json_mapping": {
-            "field": "attributes.present_address_bangla"
+            "field": "attributes.district_id"
           }
         },
         {
-          "column_name": "post_office_present",
+          "column_name": "upazila_id",
           "type": "Client",
           "json_mapping": {
-            "field": "attributes.post_office_present"
-          }
-        },
-        {
-          "column_name": "village",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.village"
-          }
-        },
-        {
-          "column_name": "is_permanent_address",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.is_permanent_address"
-          }
-        },
-        {
-          "column_name": "permanent_address",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.permanent_address"
-          }
-        },
-        {
-          "column_name": "post_office_permanent",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.post_office_permanent"
-          }
-        },
-        {
-          "column_name": "last_vaccine_date",
-          "type": "Client",
-          "json_mapping": {
-            "field": "last_vaccine_date"
-          }
-        },
-        {
-          "column_name": "last_vaccine_name",
-          "type": "Client",
-          "json_mapping": {
-            "field": "last_vaccine_name"
-          }
-        },
-        {
-          "column_name": "base_entity_id",
-          "type": "Client",
-          "json_mapping": {
-            "field": "baseEntityId"
-          }
-        },
-        {
-          "column_name": "block_name",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.block_Name"
-          }
-        },
-        {
-          "column_name": "block_id",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.block_id"
-          }
-        },
-        {
-          "column_name": "ward_name",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.ward_name"
-          }
-        },
-        {
-          "column_name": "village_id",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.village_id"
+            "field": "attributes.upazila_id"
           }
         },
         {
@@ -1120,31 +1043,45 @@
           }
         },
         {
+          "column_name": "shr_id",
+          "type": "Client",
+          "json_mapping": {
+            "field": "identifiers.shr_id"
+          }
+        },
+        {
+          "column_name": "id_avail",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.idtype"
+          }
+        },
+        {
+          "column_name": "national_id",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.nationalId"
+          }
+        },
+        {
+          "column_name": "birth_id",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.birthRegistrationID"
+          }
+        },
+        {
           "column_name": "first_name",
           "type": "Client",
           "json_mapping": {
-            "field": "first_name"
+            "field": "firstName"
           }
         },
         {
           "column_name": "last_name",
           "type": "Client",
           "json_mapping": {
-            "field": "last_name"
-          }
-        },
-        {
-          "column_name": "father_name_english",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.father_name_english"
-          }
-        },
-        {
-          "column_name": "phone_number",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.Mobile_Number"
+            "field": "lastName"
           }
         },
         {
@@ -1169,13 +1106,6 @@
           }
         },
         {
-          "column_name": "Marital_Status",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.Marital_Status"
-          }
-        },
-        {
           "column_name": "gender",
           "type": "Client",
           "json_mapping": {
@@ -1183,25 +1113,45 @@
           }
         },
         {
-          "column_name": "dod",
-          "type": "Event",
+          "column_name": "mother_name_english",
+          "type": "Client",
           "json_mapping": {
-            "field": "obs.fieldCode",
-            "formSubmissionField": "date_died"
+            "field": "attributes.mother_name_english"
           }
         },
         {
-          "column_name": "entity_type",
-          "type": "Event",
+          "column_name": "father_name_english",
+          "type": "Client",
           "json_mapping": {
-            "field": "entityType"
+            "field": "attributes.father_name_english"
           }
         },
         {
-          "column_name": "last_interacted_with",
-          "type": "Event",
+          "column_name": "phone_number",
+          "type": "Client",
           "json_mapping": {
-            "field": "version"
+            "field": "attributes.Mobile_Number"
+          }
+        },
+        {
+          "column_name": "division_per",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.division_per"
+          }
+        },
+        {
+          "column_name": "district_per",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.district_per"
+          }
+        },
+        {
+          "column_name": "upazila_per",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.upazila_per"
           }
         },
         {
@@ -1212,10 +1162,17 @@
           }
         },
         {
-          "column_name": "_id",
+          "column_name": "base_entity_id",
           "type": "Client",
           "json_mapping": {
-            "field": "attributes._id"
+            "field": "baseEntityId"
+          }
+        },
+        {
+          "column_name": "last_interacted_with",
+          "type": "Event",
+          "json_mapping": {
+            "field": "version"
           }
         }
       ]

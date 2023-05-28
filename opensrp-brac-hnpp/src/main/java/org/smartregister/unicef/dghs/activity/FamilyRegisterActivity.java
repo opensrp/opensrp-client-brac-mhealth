@@ -22,7 +22,6 @@ import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
 import org.smartregister.family.activity.BaseFamilyRegisterActivity;
 import org.smartregister.unicef.dghs.HnppApplication;
-import org.smartregister.unicef.dghs.listener.OnPostDataWithGps;
 import org.smartregister.unicef.dghs.location.HALocationHelper;
 import org.smartregister.unicef.dghs.listener.HnppBottomNavigationListener;
 import org.smartregister.unicef.dghs.model.HnppFamilyRegisterModel;
@@ -31,8 +30,7 @@ import org.smartregister.unicef.dghs.presenter.FamilyRegisterPresenter;
 import org.smartregister.unicef.dghs.nativation.presenter.HnppNavigationPresenter;
 import org.smartregister.unicef.dghs.repository.HnppChwRepository;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
-import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
-import org.smartregister.unicef.dghs.utils.MigrationSearchContentData;
+import org.smartregister.unicef.dghs.utils.GlobalSearchContentData;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.unicef.dghs.BuildConfig;
 import org.smartregister.unicef.dghs.R;
@@ -58,7 +56,7 @@ import static org.smartregister.util.JsonFormUtils.FIELDS;
 
 public class FamilyRegisterActivity extends BaseFamilyRegisterActivity {
     private BroadcastReceiver notificationBroadcastReceiver;
-    private MigrationSearchContentData migrationSearchContentData;
+    private GlobalSearchContentData globalSearchContentData;
     protected String action = null;
     @Override
     protected void initializePresenter() {
@@ -149,10 +147,10 @@ public class FamilyRegisterActivity extends BaseFamilyRegisterActivity {
         }
         HnppConstants.isViewRefresh = false;
         SimPrintsLibrary.init(FamilyRegisterActivity.this, HnppConstants.getSimPrintsProjectId(), CoreLibrary.getInstance().context().allSharedPreferences().fetchRegisteredANM());
-        migrationSearchContentData = (MigrationSearchContentData) getIntent().getSerializableExtra(MigrationSearchDetailsActivity.EXTRA_SEARCH_CONTENT);
-        if(migrationSearchContentData!=null){
+        globalSearchContentData = (GlobalSearchContentData) getIntent().getSerializableExtra(GlobalSearchDetailsActivity.EXTRA_SEARCH_CONTENT);
+        if(globalSearchContentData !=null){
             HnppConstants.showOneButtonDialog(this,getString(R.string.dialog_text_family),"");
-            hnppFamilyRegisterFragment.setMigrationSearchContentData(migrationSearchContentData);
+            hnppFamilyRegisterFragment.setMigrationSearchContentData(globalSearchContentData);
 
         }
 

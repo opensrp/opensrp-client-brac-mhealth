@@ -1,11 +1,16 @@
 package org.smartregister.unicef.dghs.activity;
 
+import android.content.Intent;
 import android.view.View;
 
+import org.json.JSONObject;
+import org.smartregister.family.util.Constants;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.fragment.FamilyRemoveMemberFragment;
 import org.smartregister.view.activity.SecuredActivity;
 import org.smartregister.view.customcontrols.CustomFontTextView;
+
+import timber.log.Timber;
 
 public class FamilyRemoveMemberActivity  extends SecuredActivity implements View.OnClickListener  {
 
@@ -26,6 +31,21 @@ public class FamilyRemoveMemberActivity  extends SecuredActivity implements View
         ((CustomFontTextView)findViewById(R.id.tvDetails)).setText("আপনি কোন সদস্যটিকে সরাতে চান?");
         setRemoveMemberFragment();
         startFragment();
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            try {
+                String jsonString = data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON);
+                Timber.d("JSONResult : %s", jsonString);
+
+                JSONObject form = new JSONObject(jsonString);
+                removeMemberFragment.confirmRemove(form);
+            } catch (Exception e) {
+                Timber.e(e);
+            }
+        }
     }
     private void startFragment() {
         getSupportFragmentManager().beginTransaction()

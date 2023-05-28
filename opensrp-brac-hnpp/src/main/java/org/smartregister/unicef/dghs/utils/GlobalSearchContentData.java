@@ -4,13 +4,14 @@ import org.smartregister.clientandeventmodel.Address;
 
 import java.io.Serializable;
 
-public class MigrationSearchContentData implements Serializable {
+public class GlobalSearchContentData implements Serializable {
     private String divisionId;
     private String districtId;
+    private String upozillaId;
     private String villageId;
     private String gender;
-    private String startAge;
-    private String age;
+    private String phoneNo;
+    private String id;
     private String migrationType;
     private String baseEntityId;
     private String familyBaseEntityId;
@@ -19,6 +20,23 @@ public class MigrationSearchContentData implements Serializable {
     private String blockName;
     private String hhId;
     private String selectedBlockId;
+    private String dob;
+
+    public void setDob(String dob) {
+        this.dob = dob;
+    }
+
+    public String getDob() {
+        return dob;
+    }
+
+    public void setUpozillaId(String upozillaId) {
+        this.upozillaId = upozillaId;
+    }
+
+    public String getUpozillaId() {
+        return upozillaId;
+    }
 
     public String getWardName() {
         return wardName;
@@ -116,19 +134,19 @@ public class MigrationSearchContentData implements Serializable {
         this.gender = gender;
     }
 
-    public String getAge() {
-        return age;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setAge(String age) {
-        this.age = age;
+    public void setPhoneNo(String phoneNo) {
+        this.phoneNo = phoneNo;
     }
 
-    public void setStartAge(String startAge) {
-        this.startAge = startAge;
+    public String getId() {
+        return id;
     }
 
-    public String getStartAge() {
-        return startAge;
+    public String getPhoneNo() {
+        return phoneNo;
     }
 }

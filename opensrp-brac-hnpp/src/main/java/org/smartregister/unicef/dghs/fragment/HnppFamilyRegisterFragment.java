@@ -18,7 +18,7 @@ import com.evernote.android.job.JobManager;
 
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
-import org.smartregister.unicef.dghs.activity.MigrationSearchDetailsActivity;
+import org.smartregister.unicef.dghs.activity.GlobalSearchDetailsActivity;
 import org.smartregister.unicef.dghs.job.HnppPncCloseJob;
 import org.smartregister.unicef.dghs.job.NotificationGeneratorJob;
 import org.smartregister.unicef.dghs.job.PullHouseholdIdsServiceJob;
@@ -28,7 +28,7 @@ import org.smartregister.unicef.dghs.model.HnppFamilyRegisterFragmentModel;
 import org.smartregister.unicef.dghs.presenter.HnppFamilyRegisterFragmentPresenter;
 import org.smartregister.unicef.dghs.provider.HnppFamilyRegisterProvider;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
-import org.smartregister.unicef.dghs.utils.MigrationSearchContentData;
+import org.smartregister.unicef.dghs.utils.GlobalSearchContentData;
 import org.smartregister.chw.core.provider.CoreRegisterProvider;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.commonregistry.CommonRepository;
@@ -46,7 +46,7 @@ import timber.log.Timber;
 
 public class HnppFamilyRegisterFragment extends HnppBaseFamilyRegisterFragment implements View.OnClickListener {
 
-    private MigrationSearchContentData migrationSearchContentData;
+    private GlobalSearchContentData globalSearchContentData;
     private Activity mActivity;
 
     @Override
@@ -63,8 +63,8 @@ public class HnppFamilyRegisterFragment extends HnppBaseFamilyRegisterFragment i
         clientsView.setAdapter(clientAdapter);
     }
 
-    public void setMigrationSearchContentData(MigrationSearchContentData migrationSearchContentData) {
-        this.migrationSearchContentData = migrationSearchContentData;
+    public void setMigrationSearchContentData(GlobalSearchContentData globalSearchContentData) {
+        this.globalSearchContentData = globalSearchContentData;
     }
 
     @Override
@@ -87,8 +87,8 @@ public class HnppFamilyRegisterFragment extends HnppBaseFamilyRegisterFragment i
         intent.putExtra(Constants.INTENT_KEY.GO_TO_DUE_PAGE, goToDuePage);
         intent.putExtra(DBConstants.KEY.UNIQUE_ID, Utils.getValue(patient.getColumnmaps(), DBConstants.KEY.UNIQUE_ID, false));
         intent.putExtra(HnppConstants.KEY.MODULE_ID, Utils.getValue(patient.getColumnmaps(), HnppConstants.KEY.MODULE_ID, false));
-        if(migrationSearchContentData!=null){
-            intent.putExtra(MigrationSearchDetailsActivity.EXTRA_SEARCH_CONTENT,migrationSearchContentData);
+        if(globalSearchContentData !=null){
+            intent.putExtra(GlobalSearchDetailsActivity.EXTRA_SEARCH_CONTENT, globalSearchContentData);
         }
         startActivity(intent);
     }
@@ -261,9 +261,9 @@ public class HnppFamilyRegisterFragment extends HnppBaseFamilyRegisterFragment i
 
                        // renderView();
                         showToast(getString(org.smartregister.R.string.sync_complete));
-                        if(JobManager.instance().getAllJobRequestsForTag(PullHouseholdIdsServiceJob.TAG).isEmpty()){
-                            PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
-                        }
+//                        if(JobManager.instance().getAllJobRequestsForTag(PullHouseholdIdsServiceJob.TAG).isEmpty()){
+//                            PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
+//                        }
                         if(JobManager.instance().getAllJobRequestsForTag(NotificationGeneratorJob.TAG).isEmpty()){
                             NotificationGeneratorJob.scheduleJobImmediately(NotificationGeneratorJob.TAG);
 
@@ -273,10 +273,10 @@ public class HnppFamilyRegisterFragment extends HnppBaseFamilyRegisterFragment i
                             HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
                         }
                         //if(JobManager.instance().getAllJobRequestsForTag(TargetFetchJob.TAG).isEmpty()){
-                            TargetFetchJob.scheduleJobImmediately(TargetFetchJob.TAG);
+//                            TargetFetchJob.scheduleJobImmediately(TargetFetchJob.TAG);
                         //}
                         //if(JobManager.instance().getAllJobRequestsForTag(StockFetchJob.TAG).isEmpty()){
-                            StockFetchJob.scheduleJobImmediately(StockFetchJob.TAG);
+//                            StockFetchJob.scheduleJobImmediately(StockFetchJob.TAG);
                         //}
                         HnppConstants.isViewRefresh = true;
                         setRefreshList(true);

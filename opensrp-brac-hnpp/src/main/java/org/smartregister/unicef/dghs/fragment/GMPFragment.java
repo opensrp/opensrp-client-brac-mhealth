@@ -543,7 +543,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         }
         if(muakText.equalsIgnoreCase("sam")||heightText.equalsIgnoreCase("sam")
            || weightText.equalsIgnoreCase("sam")){
-            fragmentView.findViewById(R.id.refer_btn).setVisibility(View.VISIBLE);
+            fragmentView.findViewById(R.id.refer_btn).setVisibility(View.GONE);
         }
     }
     private boolean isDataOk() {

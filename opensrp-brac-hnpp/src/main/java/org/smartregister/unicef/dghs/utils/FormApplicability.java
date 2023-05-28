@@ -124,7 +124,7 @@ public class FormApplicability {
             int pncDay = getDayPassPregnancyOutcome(baseEntityId);
             if(pncDay != -1&&!isClosedPregnancyOutCome(baseEntityId)){
                 if(pncDay<=41) {
-                    return HnppConstants.EVENT_TYPE.PNC_REGISTRATION_OOC;
+                    return HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
 //                    return getHourPassPregnancyOutcome(baseEntityId) > 48 ?
 //                            HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC : HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC;
                 }else{

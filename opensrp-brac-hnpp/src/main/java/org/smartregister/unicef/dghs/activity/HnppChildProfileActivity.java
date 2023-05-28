@@ -123,6 +123,13 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         HnppConstants.isViewRefresh = false;
         Toolbar toolbar = (Toolbar)this.findViewById(R.id.collapsing_toolbar);
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        findViewById(R.id.update_profile_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((HnppChildProfilePresenter) presenter()).startFormForEdit(getResources().getString(org.smartregister.chw.core.R.string.edit_child_form_title),
+                        ((HnppChildProfilePresenter) presenter()).getChildClient());
+            }
+        });
     }
     public void updateProfileIconColor(int color,String text){
 
@@ -292,7 +299,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
             profileMemberFragment =(HnppChildProfileDueFragment) HnppChildProfileDueFragment.newInstance(this.getIntent().getExtras());
             profileMemberFragment.setCommonPersonObjectClient(commonPersonObject);
             profileMemberFragment.setBaseEntityId(childBaseEntityId);
-            adapter.addFragment(profileMemberFragment, this.getString(R.string.due).toUpperCase());
+
         }
 
 //            memberOtherServiceFragment = new MemberOtherServiceFragment();
@@ -305,14 +312,14 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
             growthFragment.setChildDetails(commonPersonObject);
             adapter.addFragment(childImmunizationFragment, this.getString(R.string.immunization).toUpperCase());
             adapter.addFragment(growthFragment, this.getString(R.string.gmp).toUpperCase());
+            adapter.addFragment(profileMemberFragment, this.getString(R.string.due).toUpperCase());
 //            adapter.addFragment(memberOtherServiceFragment, this.getString(R.string.other_service).toUpperCase());
             adapter.addFragment(memberHistoryFragment, this.getString(R.string.activity).toUpperCase());
             if(HnppConstants.isPALogin()){
                 viewPager.setOffscreenPageLimit(2);
             }else{
-                viewPager.setOffscreenPageLimit(3);
+                viewPager.setOffscreenPageLimit(4);
             }
-
 
         viewPager.setAdapter(adapter);
         return viewPager;
@@ -884,21 +891,35 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
     @Override
     public void onVaccinateToday(ArrayList<VaccineWrapper> arrayList, View view) {
         childImmunizationFragment.onVaccinateToday(arrayList,view);
-        VaccineServiceJob.scheduleJobImmediately(VaccineServiceJob.TAG);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                childImmunizationFragment.updateImmunizationView();
+            }
+        },1000);
+
 
     }
 
     @Override
     public void onVaccinateEarlier(ArrayList<VaccineWrapper> arrayList, View view) {
         childImmunizationFragment.onVaccinateEarlier(arrayList,view);
-        VaccineServiceJob.scheduleJobImmediately(VaccineServiceJob.TAG);
-
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                childImmunizationFragment.updateImmunizationView();
+            }
+        },1000);
     }
 
     @Override
     public void onUndoVaccination(VaccineWrapper vaccineWrapper, View view) {
         childImmunizationFragment.onUndoVaccination(vaccineWrapper,view);
-        VaccineServiceJob.scheduleJobImmediately(VaccineServiceJob.TAG);
-
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                childImmunizationFragment.updateImmunizationView();
+            }
+        },1000);
     }
 }

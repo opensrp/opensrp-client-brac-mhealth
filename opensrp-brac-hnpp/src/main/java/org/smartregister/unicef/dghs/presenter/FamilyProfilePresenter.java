@@ -10,9 +10,11 @@ import org.json.JSONObject;
 import org.smartregister.chw.core.contract.CoreChildRegisterContract;
 import org.smartregister.chw.core.domain.FamilyMember;
 import org.smartregister.chw.core.interactor.CoreChildRegisterInteractor;
+import org.smartregister.chw.core.utils.ChildDBConstants;
 import org.smartregister.chw.core.utils.CoreJsonFormUtils;
 import org.smartregister.family.presenter.BaseFamilyProfilePresenter;
 import org.smartregister.unicef.dghs.HnppApplication;
+import org.smartregister.unicef.dghs.activity.HnppFamilyOtherMemberProfileActivity;
 import org.smartregister.unicef.dghs.model.HnppChildRegisterModel;
 import org.smartregister.unicef.dghs.model.HnppFamilyRegisterModel;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
@@ -108,11 +110,46 @@ public class FamilyProfilePresenter extends BaseFamilyProfilePresenter implement
 //        });
 
     }
+    public void startMemberProfileForMigration(CommonPersonObjectClient client){
+        try {
+            JSONObject form = HnppJsonFormUtils.getAutoPopulatedJsonEditFormString(HnppConstants.JSON_FORM.getFamilyMemberRegister(), getView().getApplicationContext(), client, Utils.metadata().familyMemberRegister.updateEventType);
+            String moduleId = HnppDBUtils.getModuleId(familyHead);
+            HnppJsonFormUtils.updateFormWithChampType(form,moduleId,familyBaseEntityId);
+            if (!StringUtils.isBlank(client.getColumnmaps().get(ChildDBConstants.KEY.RELATIONAL_ID))) {
+                JSONObject metaDataJson = form.getJSONObject("metadata");
+                JSONObject lookup = metaDataJson.getJSONObject("look_up");
+                lookup.put("entity_id", "family");
+                lookup.put("value", client.getColumnmaps().get(ChildDBConstants.KEY.RELATIONAL_ID));
+            }
+            getView().startFormActivity(form);
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+    }
+    public void startChildProfileForMigration(CommonPersonObjectClient client, String familyBaseEntityId){
+        try {
+            JSONObject form;
+
+            form = HnppJsonFormUtils.getAutoPopulatedJsonEditFormString(CoreConstants.JSON_FORM.getChildRegister(), getView().getApplicationContext(), client, CoreConstants.EventType.UPDATE_CHILD_REGISTRATION);
+
+            HnppJsonFormUtils.updateFormWithBlockInfo(form,familyBaseEntityId);
+            if (!StringUtils.isBlank(client.getColumnmaps().get(ChildDBConstants.KEY.RELATIONAL_ID))) {
+                JSONObject metaDataJson = form.getJSONObject("metadata");
+                JSONObject lookup = metaDataJson.getJSONObject("look_up");
+                lookup.put("entity_id", "family");
+                lookup.put("value", client.getColumnmaps().get(ChildDBConstants.KEY.RELATIONAL_ID));
+            }
+            if(HnppConstants.isPALogin()) makeReadOnlyFields(form);
+            getView().startFormActivity(form);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public void startChildFromWithMotherInfo(String motherEntityId) throws Exception {
         JSONObject form = FormUtils.getInstance(org.smartregister.family.util.Utils.context().applicationContext()).getFormJson(CoreConstants.JSON_FORM.getChildRegister());
         Map<String, String> womenInfo = HnppDBUtils.getMotherName(motherEntityId);
 
-        HnppJsonFormUtils.updateFormWithMotherName(form,womenInfo.get("first_name")+" "+womenInfo.get("last_name"),womenInfo.get("member_name_bengla"),motherEntityId,familyBaseEntityId);
+        HnppJsonFormUtils.updateFormWithMotherName(form,womenInfo.get("first_name")+" "+womenInfo.get("last_name"),womenInfo.get("member_name_bengla"),motherEntityId,familyBaseEntityId,womenInfo.get("phone_number"));
         HnppJsonFormUtils.updateFormWithBlockInfo(form,familyBaseEntityId);
         HnppJsonFormUtils.updateFormWithMemberId(form,houseHoldId,familyBaseEntityId);
         HnppJsonFormUtils.updateChildFormWithMetaData(form, houseHoldId,familyBaseEntityId);

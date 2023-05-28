@@ -47,7 +47,7 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "প্রোফাইল আপডেট",
+    "title": "খানা সদস্য জরিপ",
     "fields": [
       {
         "key": "form_name",

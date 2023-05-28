@@ -186,6 +186,15 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment imple
                     }
                 }
             });
+            dueTextBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (getActivity() != null && getActivity() instanceof FamilyProfileActivity) {
+                        FamilyProfileActivity activity = (FamilyProfileActivity) getActivity();
+                        activity.openProfile(profileDueInfo.getBaseEntityId());
+                    }
+                }
+            });
             homeVisitView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

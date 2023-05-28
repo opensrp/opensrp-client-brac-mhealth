@@ -3,6 +3,7 @@ package org.smartregister.unicef.dghs.location;
 
 import org.smartregister.clientandeventmodel.Address;
 import org.smartregister.clientandeventmodel.Client;
+import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.unicef.dghs.HnppApplication;
 
 import java.util.ArrayList;
@@ -64,6 +65,20 @@ public class HALocationHelper {
         client.addAttribute("block_id", HALocation.block.id+"");
         client.addAttribute("old_ward_id", HALocation.old_ward.id+"");
         return client;
+    }
+    public Client addOOCGeolocationIds(String divisionId,String districtId, String upazilaId, Client client){
+        client.addAttribute("division_id", divisionId);
+        client.addAttribute("district_id", districtId);
+        client.addAttribute("upazila_id", upazilaId);
+        return client;
+    }
+    public Event addOOCIdentifier(String divisionId, String districtId, String upazilaId, Event event){
+        Map<String,String> identifiers = new HashMap<>();
+        identifiers.put("division_id", divisionId+"");
+        identifiers.put("district_id", districtId+"");
+        identifiers.put("upazila_id", upazilaId+"");
+        event.setIdentifiers(identifiers);
+        return event;
     }
     public Map<String,String> getGeoIdentifier(HALocation HALocation){
         Map<String,String> identifiers = new HashMap<>();

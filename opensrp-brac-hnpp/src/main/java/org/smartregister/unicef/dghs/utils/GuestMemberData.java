@@ -6,18 +6,43 @@ public class GuestMemberData {
     private String memberId;
     private String dob;
     private String gender;
-    private String village;
-    private String villageId;
+    private String division;
+    private String district;
+    private String upozila;
     private long lastSubmissionDate;
     private String phoneNo;
-    private String ssName;
+    private String shrId;
 
-    public void setVillageId(String villageId) {
-        this.villageId = villageId;
+    public String getDivision() {
+        return division;
     }
 
-    public String getVillageId() {
-        return villageId;
+    public void setDivision(String division) {
+        this.division = division;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public String getUpozila() {
+        return upozila;
+    }
+
+    public void setUpozila(String upozila) {
+        this.upozila = upozila;
+    }
+
+    public String getShrId() {
+        return shrId;
+    }
+
+    public void setShrId(String shrId) {
+        this.shrId = shrId;
     }
 
     public void setPhoneNo(String phoneNo) {
@@ -32,25 +57,12 @@ public class GuestMemberData {
         this.memberId = memberId;
     }
 
-    public void setVillage(String village) {
-        this.village = village;
-    }
 
-    public String getVillage() {
-        return village;
-    }
 
     public String getMemberId() {
         return memberId;
     }
 
-    public void setSsName(String ssName) {
-        this.ssName = ssName;
-    }
-
-    public String getSsName() {
-        return ssName;
-    }
 
     public String getName() {
         return name;

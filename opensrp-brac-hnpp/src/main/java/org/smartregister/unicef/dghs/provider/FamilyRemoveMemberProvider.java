@@ -58,7 +58,11 @@ public class FamilyRemoveMemberProvider extends FamilyMemberRegisterProvider {
 
             @Override
             public void onError(Exception e) {
-                //// TODO: 15/08/19
+                HashMap<String, String> payload = new HashMap<>();
+                payload.put(CoreConstants.GLOBAL.MESSAGE, String.format(context.getString(org.smartregister.chw.core.R.string.remove_family_count), String.valueOf(0), String.valueOf(0)));
+                payload.put(CoreConstants.GLOBAL.NAME, "test");
+                footerViewHolder.view.setTag(payload);
+                e.printStackTrace();
             }
         });
 

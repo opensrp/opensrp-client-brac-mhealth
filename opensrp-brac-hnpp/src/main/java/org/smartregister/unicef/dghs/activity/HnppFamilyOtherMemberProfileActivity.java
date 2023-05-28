@@ -158,6 +158,12 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
         setupViews();
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
         HnppConstants.isViewRefresh = false;
+        findViewById(R.id.update_profile_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startFormForEdit(org.smartregister.chw.core.R.string.edit_member_form_title);
+            }
+        });
     }
 
     public void startFormForEdit(Integer title_resource) {
@@ -1133,7 +1139,6 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
         commonPersonObject = (CommonPersonObjectClient) getIntent().getSerializableExtra(CoreConstants.INTENT_KEY.CHILD_COMMON_PERSON);
         familyBaseEntityId = getIntent().getStringExtra(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID);
         baseEntityId = getIntent().getStringExtra(Constants.INTENT_KEY.BASE_ENTITY_ID);
-        shrId = getIntent().getStringExtra(Constants.INTENT_KEY.BASE_ENTITY_ID);
         familyHead = getIntent().getStringExtra(Constants.INTENT_KEY.FAMILY_HEAD);
         primaryCaregiver = getIntent().getStringExtra(Constants.INTENT_KEY.PRIMARY_CAREGIVER);
         String villageTown = getIntent().getStringExtra(Constants.INTENT_KEY.VILLAGE_TOWN);
