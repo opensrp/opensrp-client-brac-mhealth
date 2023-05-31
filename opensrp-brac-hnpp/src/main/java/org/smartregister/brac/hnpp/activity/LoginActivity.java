@@ -1,5 +1,7 @@
 package org.smartregister.brac.hnpp.activity;
 
+import static org.smartregister.brac.hnpp.utils.HnppConstants.HH_SORTED_BY;
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -174,10 +176,10 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         mActivity = this;
         HnppConstants.updateAppBackgroundOnResume(findViewById(R.id.login_layout));
         if(!BuildConfig.DEBUG)isDeviceVerifyiedCheck();
-//        if(BuildConfig.DEBUG){
-//            userNameText.setText("01313049998");
-//            passwordText.setText("9998");
-//        }
+        if(BuildConfig.DEBUG){
+            userNameText.setText("01313049998");
+            passwordText.setText("9998");
+        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -268,6 +270,12 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
 
     @Override
     public void goToHome(boolean remote) {
+        String sortedBy = CoreLibrary.getInstance().context().allSharedPreferences().getPreference(HH_SORTED_BY);
+        if(TextUtils.isEmpty(sortedBy)){
+            HnppConstants.sSortedBy = HnppConstants.SORT_BY.SORT_BY_REGIGTRATION;
+        }else{
+            HnppConstants.sSortedBy = Integer.parseInt(sortedBy);
+        }
         if (remote) {
             Utils.startAsyncTask(new SaveTeamLocationsTask(), null);
 

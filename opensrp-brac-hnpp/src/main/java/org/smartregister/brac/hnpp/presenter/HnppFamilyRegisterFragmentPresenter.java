@@ -7,7 +7,6 @@ import org.smartregister.chw.core.presenter.FamilyRegisterFragmentPresenter;
 import org.smartregister.family.contract.FamilyRegisterFragmentContract;
 import org.smartregister.family.util.DBConstants;
 
-import static org.smartregister.brac.hnpp.utils.HnppConstants.isSortByLastVisit;
 
 public class HnppFamilyRegisterFragmentPresenter extends FamilyRegisterFragmentPresenter {
     public HnppFamilyRegisterFragmentPresenter(FamilyRegisterFragmentContract.View view, FamilyRegisterFragmentContract.Model model, String viewConfigurationIdentifier) {
@@ -28,7 +27,15 @@ public class HnppFamilyRegisterFragmentPresenter extends FamilyRegisterFragmentP
 
     @Override
     public String getDefaultSortQuery() {
-        return isSortByLastVisit? HnppConstants.KEY.LAST_HOME_VISIT+" DESC ":DBConstants.KEY.LAST_INTERACTED_WITH + " DESC ";
+        switch (HnppConstants.sSortedBy){
+            case HnppConstants.SORT_BY.SORT_BY_LAST_VISIT:
+                return HnppConstants.KEY.LAST_HOME_VISIT+" DESC ";
+            case HnppConstants.SORT_BY.SORT_BY_REGIGTRATION:
+                return DBConstants.KEY.LAST_INTERACTED_WITH + " DESC ";
+            case HnppConstants.SORT_BY.SORT_BY_SERIAL:
+                return HnppConstants.KEY.SERIAL_NO + " DESC ";
+        }
+         return DBConstants.KEY.LAST_INTERACTED_WITH + " DESC ";
     }
 
 }
