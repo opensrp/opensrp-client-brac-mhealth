@@ -3,6 +3,7 @@ package org.smartregister.unicef.dghs.model;
 import java.util.ArrayList;
 
 public class TikaInfoModel {
+    public String baseEntityId;
     public String name;
     public String registrationNo;
     public String registrationDate;
@@ -18,10 +19,13 @@ public class TikaInfoModel {
     public String upazilla;
     public String division;
     public String district;
+    public String divisionId;
+    public String districtId;
     public String union;
     public String wardNo;
     public String centerName;
     public String subBlock;
     public String gender;
+    public String genderEnglish;
 
 }

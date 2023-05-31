@@ -245,11 +245,11 @@ public class GlobalSearchDetailsActivity extends SecuredActivity implements View
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(globalSearchContentData.getMigrationType().equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.Member.name())) {
+                if(globalSearchContentData.getMigrationType().equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.Member.name()))
+                {
                     GlobalSearchMemberProfileActivity.startGlobalMemberProfileActivity(GlobalSearchDetailsActivity.this, baseClient);
-
-                }else{
-
+                }
+                else{
                     openFamilyDueTab(globalSearchContentData.getFamilyBaseEntityId(),globalSearchContentData.getBaseEntityId());
                     finish();
                 }

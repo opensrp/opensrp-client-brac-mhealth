@@ -2,8 +2,10 @@ package org.smartregister.unicef.dghs.utils;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.content.Intent;
 import android.graphics.Color;
@@ -210,7 +212,19 @@ public class HnppConstants extends CoreConstants {
             return connected;
         }
     }
-
+    public static void checkNetworkConnection(Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(R.string.no_internet_title);
+        builder.setMessage(R.string.no_internet_msg);
+        builder.setNegativeButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
     public static void getGPSLocation(FamilyRegisterActivity activity,final OnPostDataWithGps onPostDataWithGps){
 
 

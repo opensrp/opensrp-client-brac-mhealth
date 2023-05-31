@@ -170,15 +170,15 @@ public class HALocationRepository extends BaseRepository {
         Log.v("BLOCK_LOCATION","getAllWard>>>"+locations);
         return locations;
     }
-    public String getDistrictIdByBlockId(int newWardId){
+    public String getUpazilaIdByBlockId(int newWardId){
         Cursor cursor = null;
         String districtId = "";
         try{
-            String sql = "Select "+DISTRICT_ID+" from "+getLocationTableName()+" where "+WARD_ID+ " = '"+newWardId+"'";
+            String sql = "Select "+UPAZILA_ID+" from "+getLocationTableName()+" where "+WARD_ID+ " = '"+newWardId+"'";
             cursor = getReadableDatabase().rawQuery(sql,null);
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                districtId  = cursor.getString(cursor.getColumnIndex(DISTRICT_ID));
+                districtId  = cursor.getString(cursor.getColumnIndex(UPAZILA_ID));
             }
         }catch (Exception e){
 
@@ -243,7 +243,7 @@ public class HALocationRepository extends BaseRepository {
         return locations;
     }
     public HALocation getLocationByBaseEntityId(String baseEntityId){
-        String query = "select ha_location.district_geo,ha_location.upazila_geo from ha_location "+
+        String query = "select ha_location.division_geo,ha_location.district_geo,ha_location.upazila_geo from ha_location "+
                 " inner join ec_family_member on ec_family_member.block_id  = ha_location.block_id " +
                 " where ec_family_member.base_entity_id ='"+baseEntityId+"' ";
         Log.v("QUERY","q:"+query);
@@ -253,8 +253,10 @@ public class HALocationRepository extends BaseRepository {
             cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
+                String divisionGeo = cursor.getString(cursor.getColumnIndex(DIVISION_GEO));
                 String districtGeo = cursor.getString(cursor.getColumnIndex(DISTRICT_GEO));
                 String upazilaGeo = cursor.getString(cursor.getColumnIndex(UPAZILA_GEO));
+                haLocation.division = gson.fromJson(divisionGeo, BaseLocation.class);
                 haLocation.district = gson.fromJson(districtGeo, BaseLocation.class);
                 haLocation.upazila = gson.fromJson(upazilaGeo, BaseLocation.class);
             }

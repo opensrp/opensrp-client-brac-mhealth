@@ -167,7 +167,7 @@
         "openmrs_entity": "person",
         "openmrs_entity_id": "first_name",
         "type": "edit_text",
-        "hint": "পরিবারের প্রধানের নাম এর প্রথম অংশ (ইংরেজীতে)",
+        "hint": "নামের প্রথম অংশ (ইংরেজীতে)",
         "edit_type": "name",
         "v_required": {
           "value": "true",
@@ -184,7 +184,7 @@
         "openmrs_entity": "person",
         "openmrs_entity_id": "last_name",
         "type": "edit_text",
-        "hint": "পরিবারের প্রধানের নাম এর শেষ অংশ (ইংরেজীতে)",
+        "hint": "নামের শেষ অংশ (ইংরেজীতে)",
         "edit_type": "name",
         "v_required": {
           "value": "true",

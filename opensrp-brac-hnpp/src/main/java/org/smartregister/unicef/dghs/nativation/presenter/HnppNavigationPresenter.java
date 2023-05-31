@@ -23,6 +23,7 @@ import org.smartregister.unicef.dghs.activity.GrowthReportActivity;
 import org.smartregister.unicef.dghs.activity.MigrationActivity;
 import org.smartregister.unicef.dghs.activity.NewDashBoardActivity;
 import org.smartregister.unicef.dghs.activity.NotificationActivity;
+import org.smartregister.unicef.dghs.activity.QRScannerActivity;
 import org.smartregister.unicef.dghs.job.DataDeleteJob;
 import org.smartregister.unicef.dghs.job.HnppSyncIntentServiceJob;
 import org.smartregister.unicef.dghs.activity.COVIDJsonFormActivity;
@@ -182,6 +183,11 @@ public class HnppNavigationPresenter implements NavigationContract.Presenter {
     public void forceSync(Activity activity) {
         activity.startActivity(new Intent(activity, ForceSyncActivity.class));
 
+    }
+
+    @Override
+    public void scanQR(Activity activity) {
+        activity.startActivity(new Intent(activity, QRScannerActivity.class));
     }
 
     @Override

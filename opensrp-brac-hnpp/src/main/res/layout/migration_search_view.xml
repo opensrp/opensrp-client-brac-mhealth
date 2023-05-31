@@ -47,212 +47,244 @@ android:fillViewport="true">
             android:tint="@color/white" />
 
     </RelativeLayout>
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="10dp"
-        android:background="@color/light_gray"
-        android:gravity="center"
-        android:orientation="vertical">
-
+        android:layout_height="wrap_content">
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:padding="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/titleFilter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="সদস্যের এবং তার পূর্ববর্তী ঠিকানা সম্পর্কে নিম্নোক্ত তথ্যগুলো দিনঃ"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="18sp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_gravity="center_vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="বিভাগ *"
-                android:padding="10dp"
-                android:textColor="@color/black"
-                android:textSize="18sp"/>
+            android:background="@color/light_gray"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <Spinner
-                android:id="@+id/migration_filter_division"
-                android:layout_marginBottom="20dp"
+            <LinearLayout
+                android:padding="10dp"
                 android:layout_width="match_parent"
-                android:background="@drawable/spinner_resource"
-                android:layout_margin="5dp"
-                android:layout_height="50dp">
-
-            </Spinner>
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="জেলা *"
-                android:padding="10dp"
-                android:textColor="@color/black"
-                android:textSize="18sp"/>
-
-            <Spinner
-                android:id="@+id/migration_filter_district"
-                android:layout_marginBottom="20dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/titleFilter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="সদস্যের এবং তার পূর্ববর্তী ঠিকানা সম্পর্কে নিম্নোক্ত তথ্যগুলো দিনঃ"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="18sp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:background="@drawable/spinner_resource"
-                android:layout_margin="5dp"
-                android:layout_height="50dp">
-            </Spinner>
-        </LinearLayout>
-        <LinearLayout
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="বিভাগ *"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"/>
 
-            <TextView
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="উপজেলা"
-                android:padding="10dp"
-                android:textColor="@color/black"
-                android:textSize="18sp"/>
+                <Spinner
+                    android:id="@+id/migration_filter_division"
+                    android:layout_marginBottom="20dp"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/spinner_resource"
+                    android:layout_margin="5dp"
+                    android:layout_height="50dp">
 
-            <Spinner
-                android:id="@+id/migration_filter_thana"
-                android:layout_marginBottom="20dp"
+                </Spinner>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:background="@drawable/spinner_resource"
-                android:layout_margin="5dp"
-                android:layout_height="50dp">
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="জেলা/সিটি কর্পোরেশন *"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"/>
 
-            </Spinner>
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/tv_gender"
-                android:layout_width="150dp"
-                android:padding="10dp"
-                android:layout_height="wrap_content"
-                android:text="লিঙ্গ *"
-                android:textColor="@color/black"
-                android:textSize="18sp"/>
-            <Spinner
-                android:id="@+id/migration_filter_gender"
-                android:layout_marginBottom="20dp"
+                <Spinner
+                    android:id="@+id/migration_filter_district"
+                    android:layout_marginBottom="20dp"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/spinner_resource"
+                    android:layout_margin="5dp"
+                    android:layout_height="50dp">
+                </Spinner>
+            </LinearLayout>
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:background="@drawable/spinner_resource"
-                android:entries="@array/gender"
-                android:prompt="@string/gender_prompt"
-                android:layout_margin="5dp"
-                android:layout_height="50dp">
+                android:layout_height="wrap_content">
 
-            </Spinner>
-        </LinearLayout>
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="উপজেলা/থানা"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"/>
+
+                <Spinner
+                    android:id="@+id/migration_filter_thana"
+                    android:layout_marginBottom="20dp"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/spinner_resource"
+                    android:layout_margin="5dp"
+                    android:layout_height="50dp">
+
+                </Spinner>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_gender"
+                    android:layout_width="150dp"
+                    android:padding="10dp"
+                    android:layout_height="wrap_content"
+                    android:text="লিঙ্গ *"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"/>
+                <Spinner
+                    android:id="@+id/migration_filter_gender"
+                    android:layout_marginBottom="20dp"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/spinner_resource"
+                    android:entries="@array/gender"
+                    android:prompt="@string/gender_prompt"
+                    android:layout_margin="5dp"
+                    android:layout_height="50dp">
+
+                </Spinner>
+            </LinearLayout>
 
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/tv_age"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="মোবাইল"
-                android:padding="10dp"
-                android:textColor="@color/black"
-                android:textSize="18sp"/>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_age"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="মোবাইল"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"/>
+                <EditText
+                    android:id="@+id/phone_no"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="20dp"
+                    android:layout_width="wrap_content"
+                    android:background="@drawable/edit_text_bg"
+                    android:inputType="number"
+                    android:hint="মোবাইল নম্বর"
+                    android:gravity="center"
+                    android:maxLength="11"
+                    android:layout_margin="5dp"
+                    android:layout_height="50dp">
+                </EditText>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/age_panel"
+                android:orientation="horizontal"
+                android:weightSum="2.5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_id"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="আইডি দিয়ে"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"/>
+                <Spinner
+                    android:id="@+id/migration_filter_id"
+                    android:layout_marginBottom="20dp"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/spinner_resource"
+                    android:entries="@array/id_card_list"
+                    android:layout_margin="5dp"
+                    android:layout_height="50dp">
+
+                </Spinner>
+            </LinearLayout>
             <EditText
-                android:id="@+id/phone_no"
-                android:layout_weight="1"
+                android:id="@+id/id_card_number"
                 android:layout_marginBottom="20dp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:background="@drawable/edit_text_bg"
                 android:inputType="number"
-                android:hint="মোবাইল নম্বর"
+                android:hint="আইডি নম্বর "
                 android:gravity="center"
-                android:maxLength="11"
+                android:paddingLeft="10dp"
                 android:layout_margin="5dp"
                 android:layout_height="50dp">
             </EditText>
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:id="@+id/age_panel"
-            android:orientation="horizontal"
-            android:weightSum="2.5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/tv_id"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="আইডি দিয়ে"
-                android:padding="10dp"
-                android:textColor="@color/black"
-                android:textSize="18sp"/>
-            <Spinner
-                android:id="@+id/migration_filter_id"
-                android:layout_marginBottom="20dp"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:background="@drawable/spinner_resource"
-                android:entries="@array/id_card_list"
-                android:layout_margin="5dp"
-                android:layout_height="50dp">
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_id"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="জন্ম তারিখ"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"/>
+                <EditText
+                    android:id="@+id/dobEditText"
+                    android:layout_marginBottom="20dp"
+                    android:layout_width="180dp"
+                    android:inputType="date"
+                    android:hint="yyyy-mm-dd"
+                    android:background="@drawable/edit_text_bg"                android:paddingLeft="10dp"
+                    android:layout_margin="5dp"
+                    android:layout_height="50dp">
+                </EditText>
+                <ImageView
+                    android:src="@android:drawable/ic_menu_my_calendar"
+                    android:id="@+id/showCalenderBtn"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"/>
+            </LinearLayout>
+            <Button
+                android:id="@+id/migration_filter_search_btn"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/login_button_bg"
+                android:ems="10"
+                android:shadowColor="#ffffff"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="0.5"
+                android:textStyle="bold"
+                android:text="@string/search"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
 
-            </Spinner>
+
+
         </LinearLayout>
-        <EditText
-            android:id="@+id/id_card_number"
-            android:layout_marginBottom="20dp"
-            android:layout_width="match_parent"
-            android:background="@drawable/edit_text_bg"
-            android:inputType="number"
-            android:hint="আইডি নম্বর "
-            android:gravity="center"
-            android:paddingLeft="10dp"
-            android:layout_margin="5dp"
-            android:layout_height="50dp">
-        </EditText>
+    </ScrollView>
 
-        <Button
-            android:id="@+id/migration_filter_search_btn"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/login_button_bg"
-            android:ems="10"
-            android:shadowColor="#ffffff"
-            android:shadowDx="0"
-            android:shadowDy="1"
-            android:shadowRadius="0.5"
-            android:textStyle="bold"
-            android:text="@string/search"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
-
-
-
-    </LinearLayout>
 </LinearLayout>

@@ -146,6 +146,7 @@ public class HnppDBUtils {
             cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
+                infoModel.baseEntityId = (cursor.getString(cursor.getColumnIndex("base_entity_id")));
                 infoModel.name = (cursor.getString(cursor.getColumnIndex("first_name")))+" "+(cursor.getString(cursor.getColumnIndex("last_name")));
                 infoModel.motherName = (cursor.getString(cursor.getColumnIndex("mother_name_english")));
                 infoModel.fatherName = (cursor.getString(cursor.getColumnIndex("father_name_english")));
@@ -166,8 +167,11 @@ public class HnppDBUtils {
                 infoModel.registrationDate = registrationDate;
                 infoModel.division = (cursor.getString(cursor.getColumnIndex("division_per")));
                 infoModel.district = (cursor.getString(cursor.getColumnIndex("district_per")));
+                infoModel.divisionId = (cursor.getString(cursor.getColumnIndex("division_id")));
+                infoModel.districtId = (cursor.getString(cursor.getColumnIndex("district_id")));
                 infoModel.upazilla = (cursor.getString(cursor.getColumnIndex("upazila_per")));
-                infoModel.gender = HnppConstants.getGender((cursor.getString(cursor.getColumnIndex("gender"))));
+                infoModel.genderEnglish = (cursor.getString(cursor.getColumnIndex("gender")));
+                infoModel.gender = HnppConstants.getGender(infoModel.genderEnglish);
 
             }
 
@@ -181,7 +185,7 @@ public class HnppDBUtils {
 
     }
     public static TikaInfoModel getTikaDetails(String baseEntityId){
-        String query = "select ec_family_member.first_name,ec_family_member.last_name, ec_family_member.mother_name_english,ec_family_member.father_name_english, "+
+        String query = "select ec_family_member.base_entity_id,ec_family_member.first_name,ec_family_member.last_name, ec_family_member.mother_name_english,ec_family_member.father_name_english, "+
                 " ec_family_member.dob,ec_family_member.gender, ec_family_member.birth_id,ec_family_member.shr_id,ec_family_member.unique_id,ec_family_member.last_interacted_with,ec_family_member.camp_type,"+
                 " ec_family.block_name,ec_family.village,ec_family.holding_no,ec_family.ward_name,ec_family.union_zone from ec_family_member "+
                 " inner join ec_family on ec_family.id  = ec_family_member.relational_id " +
@@ -192,6 +196,7 @@ public class HnppDBUtils {
             cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
+                infoModel.baseEntityId = (cursor.getString(cursor.getColumnIndex("base_entity_id")));
                 infoModel.name = (cursor.getString(cursor.getColumnIndex("first_name")))+" "+(cursor.getString(cursor.getColumnIndex("last_name")));
                 infoModel.motherName = (cursor.getString(cursor.getColumnIndex("mother_name_english")));
                 infoModel.fatherName = (cursor.getString(cursor.getColumnIndex("father_name_english")));
@@ -216,7 +221,8 @@ public class HnppDBUtils {
                 infoModel.houseHoldNo = (cursor.getString(cursor.getColumnIndex("holding_no")));
                 infoModel.wardNo = (cursor.getString(cursor.getColumnIndex("ward_name")));
                 infoModel.union = (cursor.getString(cursor.getColumnIndex("union_zone")));
-                infoModel.gender = HnppConstants.getGender((cursor.getString(cursor.getColumnIndex("gender"))));
+                infoModel.genderEnglish = (cursor.getString(cursor.getColumnIndex("gender")));
+                infoModel.gender = HnppConstants.getGender(infoModel.genderEnglish);
 
 
             }

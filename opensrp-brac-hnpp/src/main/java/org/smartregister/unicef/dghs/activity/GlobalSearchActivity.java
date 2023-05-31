@@ -4,12 +4,14 @@ import static org.smartregister.chw.core.repository.ContactInfoRepository.BASE_E
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -23,6 +25,8 @@ import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.GlobalSearchContentData;
 import org.smartregister.view.activity.SecuredActivity;
 
+import java.util.Calendar;
+
 public class GlobalSearchActivity extends SecuredActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener,MigrationContract.View{
     private static final String MIGRATION_TYPE = "migration_type";
 
@@ -31,9 +35,10 @@ public class GlobalSearchActivity extends SecuredActivity implements View.OnClic
     protected Spinner migration_division_spinner;
     protected Spinner migration_id_spinner;
     protected Spinner migration_gender_spinner;
-    protected EditText phoneNoEditText,idNumberEditText;
+    protected EditText phoneNoEditText,idNumberEditText,dobEditText;
     protected TextView migration_filter_title;
-
+    protected int day, month, year;
+    Calendar calendar;
     private GlobalSearchPresenter presenter;
     private String gender,phoneNo,idNumber, migrationType,familyBaseEntityId;
 
@@ -62,6 +67,7 @@ public class GlobalSearchActivity extends SecuredActivity implements View.OnClic
         migration_gender_spinner = findViewById(R.id.migration_filter_gender);
         phoneNoEditText = findViewById(R.id.phone_no);
         idNumberEditText = findViewById(R.id.id_card_number);
+        dobEditText = findViewById(R.id.dobEditText);
         migration_filter_title = findViewById(R.id.titleFilter);
         migrationType = getIntent().getStringExtra(MIGRATION_TYPE);
         familyBaseEntityId = getIntent().getStringExtra(BASE_ENTITY_ID);
@@ -71,8 +77,12 @@ public class GlobalSearchActivity extends SecuredActivity implements View.OnClic
         migration_district_spinner.setOnItemSelectedListener(this);
         migration_upazila_spinner.setOnItemSelectedListener(this);
         migration_division_spinner.setOnItemSelectedListener(this);
-
+        calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH)+1;
+        day = calendar.get(Calendar.DAY_OF_MONTH);
         findViewById(R.id.migration_filter_search_btn).setOnClickListener(this);
+        findViewById(R.id.showCalenderBtn).setOnClickListener(this);
         findViewById(R.id.backBtn).setOnClickListener(this);
     }
 
@@ -116,10 +126,30 @@ public class GlobalSearchActivity extends SecuredActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.showCalenderBtn:
+                DatePickerDialog fromDialog = new DatePickerDialog(this, R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int yr, int mnt, int dayOfMonth) {
+
+                        day = dayOfMonth;
+                        month = mnt +1;
+                        year = yr;
+
+                        String fromDate = yr + "-" + HnppConstants.addZeroForMonth((mnt+1)+"")+"-"+HnppConstants.addZeroForMonth(dayOfMonth+"");
+                        dobEditText.setText(fromDate);
+                    }
+                },year,(month-1),day);
+                fromDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+                fromDialog.show();
+                break;
             case R.id.backBtn:
                 finish();
                 break;
             case R.id.migration_filter_search_btn:
+                if(!HnppConstants.isConnectedToInternet(this)){
+                    HnppConstants.checkNetworkConnection(this);
+                    return;
+                }
                 gender = migration_gender_spinner.getSelectedItem().toString();
                 phoneNo = phoneNoEditText.getText().toString();
                 idNumber = idNumberEditText.getText().toString();
@@ -141,13 +171,14 @@ public class GlobalSearchActivity extends SecuredActivity implements View.OnClic
                 }
                 GlobalSearchContentData searchContentData = new GlobalSearchContentData();
                 searchContentData.setId(getIdText()+"="+idNumber);
-                searchContentData.setPhoneNo(phoneNo);
+                if(!TextUtils.isEmpty(phoneNo))searchContentData.setPhoneNo(phoneNo);
                 searchContentData.setDivisionId(division.id+"");
                 searchContentData.setDistrictId(district.id+"");
                 searchContentData.setUpozillaId(upozilla.id+"");
                 searchContentData.setMigrationType(migrationType);
                 searchContentData.setFamilyBaseEntityId(familyBaseEntityId);
                 searchContentData.setGender(gender);
+                if(!TextUtils.isEmpty(dobEditText.getText().toString()))searchContentData.setDob(dobEditText.getText().toString());
                 if(searchContentData.getDistrictId()!=null && searchContentData.getDivisionId()!=null){
                     GlobalSearchDetailsActivity.startMigrationSearchActivity(this,searchContentData);
                 }else{
@@ -164,7 +195,7 @@ public class GlobalSearchActivity extends SecuredActivity implements View.OnClic
         switch (migration_id_spinner.getSelectedItem().toString()){
             case "NID": return "nid";
             case "BRID": return "brid";
-            case "SHR ID": return "shrid";
+            case "SHR ID": return "shr_id";
             case "EPI No": return "epi";
             case "System ID": return "unique_id";
         }

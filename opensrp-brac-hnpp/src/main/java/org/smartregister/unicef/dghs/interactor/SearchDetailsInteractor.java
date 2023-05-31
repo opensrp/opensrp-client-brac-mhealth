@@ -62,7 +62,10 @@ public class SearchDetailsInteractor implements SearchDetailsContract.Interactor
                 return null;
             }
             String url = baseUrl + GLOBAL_SEARCH_URL + "district_id="+globalSearchContentData.getDistrictId()+"&division_id="+globalSearchContentData.getDivisionId()
-                    +"&upazila_id=" + globalSearchContentData.getUpozillaId() + "&gender=" + globalSearchContentData.getGender() + "&mobile="+globalSearchContentData.getPhoneNo();
+                    +"&upazila_id=" + globalSearchContentData.getUpozillaId() + "&gender=" + globalSearchContentData.getGender() ;
+            if(!TextUtils.isEmpty(globalSearchContentData.getPhoneNo())){
+                url+="&mobile="+globalSearchContentData.getPhoneNo();
+            }
             if(!TextUtils.isEmpty(globalSearchContentData.getDob())){
                 url+="&dob=" + globalSearchContentData.getDob();
             }

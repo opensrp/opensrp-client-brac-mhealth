@@ -308,6 +308,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
+            android:name=".activity.QRScannerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar" />
+        <activity
             android:name=".activity.NewDashBoardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"

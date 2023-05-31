@@ -270,11 +270,11 @@ public class DataDeleteIntentService extends IntentService {
 //            Log.v("DATA_DELETE","h:"+h);
 //            db.execSQL(h);
 //        }
-//        if(!TextUtils.isEmpty(builderGuest.toString())){
-//            String g = "delete from ec_guest_member where "+builderGuest.toString();
-//            Log.v("DATA_DELETE","g:"+g);
-//            db.execSQL(g);
-//        }
+        if(!TextUtils.isEmpty(builderGuest.toString())){
+            String g = "delete from ec_guest_member where "+builderGuest.toString();
+            Log.v("DATA_DELETE","g:"+g);
+            db.execSQL(g);
+        }
     }
 
 

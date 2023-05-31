@@ -75,6 +75,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     private RelativeLayout migration_layout;
     private RelativeLayout payment_layout;
     private RelativeLayout dashboard_layout;
+    private RelativeLayout qrscan_layout;
     private RelativeLayout updateLocation;
     private View rootView = null;
     private ImageView ivSync;
@@ -192,6 +193,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         migration_layout = rootView.findViewById(R.id.migration_view);
         payment_layout = rootView.findViewById(R.id.payment_view);
         dashboard_layout = rootView.findViewById(R.id.dashboard_view);
+        qrscan_layout = rootView.findViewById(R.id.qrscan_view);
         recyclerView = rootView.findViewById(R.id.rvOptions);
         ivSync = rootView.findViewById(R.id.ivSyncIcon);
         syncProgressBar = rootView.findViewById(R.id.pbSync);
@@ -228,7 +230,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         registerMigration(activity);
         registerPayment(activity);
         registerDashboard(activity);
-
+        registerQRScan(activity);
         //registerDeviceToDeviceSync(activity);
         drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
@@ -325,6 +327,11 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
             mPresenter.forceSync(activity);
         }
     }
+    public void scanQR(Activity activity) {
+        if(mPresenter!=null){
+            mPresenter.scanQR(activity);
+        }
+    }
     public void browseSSInfo(Activity activity) {
         if(mPresenter!=null){
             mPresenter.browseSSInfo(activity);
@@ -413,6 +420,10 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     private void registerForceSync(final Activity parentActivity){
         mPresenter.displayCurrentUser();
         tvForceSync.setOnClickListener(v -> forceSync(parentActivity));
+    }
+    private void registerQRScan(final Activity parentActivity){
+        mPresenter.displayCurrentUser();
+        qrscan_layout.setOnClickListener(v -> scanQR(parentActivity));
     }
     private void registerBrowseSSInfo(final Activity parentActivity){
         mPresenter.displayCurrentUser();

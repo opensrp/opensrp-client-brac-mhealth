@@ -43,7 +43,7 @@ public class DFSActivity extends SecuredActivity implements View.OnClickListener
         switch (v.getId()){
             case R.id.new_payment:
                 if(!HnppConstants.isConnectedToInternet(this)){
-                    checkNetworkConnection();
+                    HnppConstants.checkNetworkConnection(this);
                     return;
                 }
                 startActivity(new Intent(this,PaymentActivity.class));
@@ -59,17 +59,5 @@ public class DFSActivity extends SecuredActivity implements View.OnClickListener
     }
 
 
-    public void checkNetworkConnection() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.no_internet_title);
-        builder.setMessage(R.string.no_internet_msg);
-        builder.setNegativeButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
+
 }

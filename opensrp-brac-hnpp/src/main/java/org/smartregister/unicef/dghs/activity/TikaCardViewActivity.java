@@ -25,9 +25,16 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -55,6 +62,7 @@ public class TikaCardViewActivity extends SecuredActivity {
     TikaInfoModel tikaInfoModel;
     String baseEntityId;
     boolean isComesFromGuest = false;
+    ImageView qrcodeImage;
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_tika_card);
@@ -62,6 +70,7 @@ public class TikaCardViewActivity extends SecuredActivity {
         isComesFromGuest = getIntent().getBooleanExtra(PUT_EXTRA_COMES,false);
         tikaInfoModel = isComesFromGuest?HnppDBUtils.getTikaDetailsForGuestProfike(baseEntityId):HnppDBUtils.getTikaDetails(baseEntityId);
         isComesFromGuest = getIntent().getBooleanExtra(PUT_EXTRA_COMES,false);
+        qrcodeImage = findViewById(R.id.qrcodeImage);
         ((TextView) findViewById(R.id.nameTxt)).setText(tikaInfoModel.name);
         ((TextView) findViewById(R.id.dayTxt)).setText(tikaInfoModel.birthDay);
         ((TextView) findViewById(R.id.monthTxt)).setText(tikaInfoModel.birthMonth);
@@ -101,7 +110,35 @@ public class TikaCardViewActivity extends SecuredActivity {
                 finish();
             }
         });
+        generateQrcode();
 
+    }
+    private void generateQrcode(){
+        //base_entity,registrationId,division,district,dob,brid,gender,http://unicef-ha.mpower-social.com/opensrp-dashboard/epi-card.html
+        String text =baseEntityId+","+tikaInfoModel.registrationNo+","+tikaInfoModel.divisionId+","+tikaInfoModel.districtId+","+tikaInfoModel.dob+","+tikaInfoModel.genderEnglish+",http://unicef-ha.mpower-social.com/opensrp-dashboard/epi-card.html";
+        try {
+            Log.v("SCANNER","scan result:"+text);
+            qrcodeImage.setImageBitmap(generateQRCode(text,700));
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
+    }
+    private Bitmap generateQRCode(String text, int size) throws WriterException {
+        QRCodeWriter qrCodeWriter = new QRCodeWriter();
+        BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, size, size);
+
+        int width = bitMatrix.getWidth();
+        int height = bitMatrix.getHeight();
+
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                bitmap.setPixel(x, y, bitMatrix.get(x, y) ? Color.BLACK : Color.WHITE);
+            }
+        }
+
+        return bitmap;
     }
     private void updateDistrict(){
         if(isComesFromGuest){
@@ -111,6 +148,8 @@ public class TikaCardViewActivity extends SecuredActivity {
             HALocation haLocation = HnppApplication.getHALocationRepository().getLocationByBaseEntityId(baseEntityId);
             ((TextView) findViewById(R.id.districtTxt)).setText(haLocation.district.name);
             ((TextView) findViewById(R.id.upazilaTxt)).setText(haLocation.upazila.name);
+            tikaInfoModel.divisionId = haLocation.division.id+"";
+            tikaInfoModel.districtId = haLocation.district.id+"";
         }
 
     }
@@ -128,10 +167,10 @@ public class TikaCardViewActivity extends SecuredActivity {
         LocalDate fourTeenWeekV = tenWeekV.plusDays(28);
 //        String f = DateTimeFormat.forPattern("yyyy-MM-dd").print(fourTeenWeekV);
         //((TextView) findViewById(R.id.fourteenWeekDate)).setText(f);
-        LocalDate nineMonthV = sixweek.plusDays(270);
+        LocalDate nineMonthV = sixweek.plusDays(274);
         String n = DateTimeFormat.forPattern("yyyy-MM-dd").print(nineMonthV);
         ((TextView) findViewById(R.id.nineMonthDate)).setText(n);
-        LocalDate eighteenMonthV = sixweek.plusDays(450);
+        LocalDate eighteenMonthV = sixweek.plusDays(455);
         String e = DateTimeFormat.forPattern("yyyy-MM-dd").print(eighteenMonthV);
         ((TextView) findViewById(R.id.eighteenMonthDate)).setText(e);
     }
@@ -200,8 +239,8 @@ public class TikaCardViewActivity extends SecuredActivity {
                     LocalDate dobL = new LocalDate(dob);
                     DateTime dV = DateTimeFormat.forPattern("yyyy-MM-dd").parseDateTime(vaacineInfo.vaccineDate);
                     LocalDate dVL = new LocalDate(dV);
-                    if(dVL.toDate().getTime()>dobL.plusMonths(13).toDate().getTime()){
-                        LocalDate mr2Date  = dVL.plusMonths(1);
+                    if(dVL.toDate().getTime()>dobL.plusDays(390).toDate().getTime()){
+                        LocalDate mr2Date  = dVL.plusDays(30);
                         String ff = DateTimeFormat.forPattern("yyyy-MM-dd").print(mr2Date);
                         ((TextView) findViewById(R.id.eighteenMonthDate)).setText(ff);
                     }
@@ -389,7 +428,7 @@ public class TikaCardViewActivity extends SecuredActivity {
          if (requestCode == STORAGE_PERMISSION_CODE) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
+                showProgressDialog("টিকা কার্ডটি বানানো হচ্ছে ....");
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {

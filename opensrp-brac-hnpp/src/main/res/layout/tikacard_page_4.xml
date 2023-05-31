@@ -9,11 +9,25 @@
         android:layout_width="650dp"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <ImageView
-            android:src="@drawable/epi_logo"
-            android:layout_gravity="center"
-            android:layout_width="70dp"
-            android:layout_height="70dp"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_margin="10dp"
+                android:id="@+id/qrcodeImage"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center" />
+            <ImageView
+                android:src="@drawable/epi_logo"
+                android:layout_gravity="center"
+                android:layout_centerInParent="true"
+                android:layout_width="70dp"
+                android:layout_height="70dp"/>
+        </RelativeLayout>
+
         <TextView
             android:text="ইপিআই টিকাদান কার্ড (শিশু)"
             android:layout_width="match_parent"
@@ -203,7 +217,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:fontFamily="@font/tonnymj"

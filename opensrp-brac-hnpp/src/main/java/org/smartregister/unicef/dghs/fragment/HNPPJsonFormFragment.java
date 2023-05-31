@@ -202,7 +202,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
     }
     private void processUpazila(String selectedDistrictId) {
         this.selectedPerDistrictId = selectedDistrictId;
-        processPermanentPO();
+
         ArrayList<String> upazilaNames = new ArrayList<>();
         upazilaIds.clear();
         ArrayList<GlobalLocationModel> upazilaList = HnppApplication.getGlobalLocationRepository().getLocationByTagIdWithParentId(GlobalLocationRepository.LOCATION_TAG.UPAZILA.getValue(),Integer.parseInt(selectedDistrictId));
@@ -263,6 +263,8 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
     }
     private void processPaurosova(String selectedUpozilaId) {
         ArrayList<String> paurosovaNames = new ArrayList<>();
+        this.selectedPerUpazilaId = selectedUpozilaId;
+        processPermanentPO();
         paurosovaIds.clear();
         ArrayList<GlobalLocationModel> paurosovaList = HnppApplication.getGlobalLocationRepository().getLocationByTagIdWithParentId(GlobalLocationRepository.LOCATION_TAG.PAUROSOVA.getValue(),Integer.parseInt(selectedUpozilaId));
         ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());
@@ -382,7 +384,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
     }
     private void processPermanentPO() {
         ArrayList<String> poNames = new ArrayList<>();
-        ArrayList<GlobalLocationModel> poList = HnppApplication.getGlobalLocationRepository().getLocationByTagIdWithParentId(GlobalLocationRepository.LOCATION_TAG.POST_OFFICE.getValue(),Integer.parseInt(selectedPerDistrictId));
+        ArrayList<GlobalLocationModel> poList = HnppApplication.getGlobalLocationRepository().getLocationByTagIdWithParentId(GlobalLocationRepository.LOCATION_TAG.POST_OFFICE.getValue(),Integer.parseInt(selectedPerUpazilaId));
         ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());
         for (int i = 0; i < formdataviews.size(); i++) {
             if (formdataviews.get(i) instanceof MaterialSpinner) {
@@ -437,9 +439,9 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
             }
         }
     }
-    private void processPresentPO(String districtId) {
+    private void processPresentPO(String upazilaId) {
         ArrayList<String> poNames = new ArrayList<>();
-        ArrayList<GlobalLocationModel> poList = HnppApplication.getGlobalLocationRepository().getLocationByTagIdWithParentId(GlobalLocationRepository.LOCATION_TAG.POST_OFFICE.getValue(),Integer.parseInt(districtId));
+        ArrayList<GlobalLocationModel> poList = HnppApplication.getGlobalLocationRepository().getLocationByTagIdWithParentId(GlobalLocationRepository.LOCATION_TAG.POST_OFFICE.getValue(),Integer.parseInt(upazilaId));
         ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());
         for (int i = 0; i < formdataviews.size(); i++) {
             if (formdataviews.get(i) instanceof MaterialSpinner) {
@@ -505,6 +507,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
     String selectedOldWardName = "";
     String selectedNewWardName = "";
     String selectedPerDistrictId = "";
+    String selectedPerUpazilaId = "";
     private void processOldWard(int position) {
         int selectedUnionId = HALocationHelper.getInstance().getUnionList().get(position).ward.id;
         ArrayList<String> oldWardNames = new ArrayList<>();
@@ -616,9 +619,9 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
         }
     }
     private void processBlock(String newWardId) {
-        String districtId = HnppApplication.getHALocationRepository().getDistrictIdByBlockId(Integer.parseInt(newWardId));
-        Log.v("PROCESS_PRESENT","processPresentPO>>"+districtId);
-        processPresentPO(districtId);
+        String upazilaId = HnppApplication.getHALocationRepository().getUpazilaIdByBlockId(Integer.parseInt(newWardId));
+        Log.v("PROCESS_PRESENT","processPresentPO>>"+upazilaId);
+        processPresentPO(upazilaId);
         ArrayList<BlockLocation> blocks = HnppApplication.getHALocationRepository().getOnlyBlockLocationByWardId(newWardId);
         ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());
         ArrayList<String> blockNames = new ArrayList<>();

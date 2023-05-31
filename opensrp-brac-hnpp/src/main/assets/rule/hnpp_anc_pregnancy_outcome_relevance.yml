@@ -7,19 +7,27 @@ actions:
   - "isRelevant = true"
 ---
 name: step1_delivery_method_general
-description: miscarriage_date
+description: delivery_method_general
 priority: 3
 condition: "(step1_preg_outcome.contains('born_alive')|| step1_preg_outcome.contains('still_born')) && (step1_delivery_place.equalsIgnoreCase('বাড়ি') || step1_delivery_place.contains('ব্র্যাক ম্যাটারনিটি সেন্টার'))"
 actions:
   - "isRelevant = true"
 ---
 name: step1_delivery_method_c_section
-description: miscarriage_date
+description: delivery_method_c_section
 priority: 1
 condition: "(step1_preg_outcome.contains('born_alive')|| step1_preg_outcome.contains('still_born')) && (!step1_delivery_place.equalsIgnoreCase('বাড়ি') && !step1_delivery_place.contains('ব্র্যাক ম্যাটারনিটি সেন্টার'))"
 actions:
   - "isRelevant = true"
 ---
+name: step1_csba_trained
+description: csba_trained
+priority: 1
+condition: "(step1_place_of_delivery.equalsIgnoreCase('বাড়িতে')|| step1_place_of_delivery.equalsIgnoreCase('কমিউনিটি ক্লিনিক'))"
+actions:
+  - "isRelevant = true"
+---
+
 name: step1_pnc_received
 description: pnc_received
 priority: 1
