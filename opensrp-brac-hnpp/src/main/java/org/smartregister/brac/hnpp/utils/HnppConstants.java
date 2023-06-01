@@ -1532,6 +1532,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ESTIMATE_HBP, "সম্ভাব্য উচ্চ রক্তচাপ")
             .put(EVENT_TYPE.CATARACT_SURGERY_REFER, "ছানি অপারেশন এ রেফার")
             .put(EVENT_TYPE.CATARACT_SURGERY, "ছানি অপারেশন")
+            .put(EVENT_TYPE.BLOOD_GROUP, "ব্লাড গ্রুপ")
             .build();
     //for dashboard workSummery
     public static final Map<String, String> workSummeryTypeMapping = ImmutableMap.<String, String>builder()

@@ -165,6 +165,7 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
             });
         }else{
             try{
+                findViewById(R.id.payment_view).setVisibility(View.GONE);
                 findViewById(R.id.simprints_identity).setVisibility(View.GONE);
                 findViewById(R.id.ss_info_browse).setVisibility(View.GONE);
                 findViewById(R.id.migration_view).setVisibility(View.GONE);
