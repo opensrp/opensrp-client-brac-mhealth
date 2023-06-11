@@ -1,9 +1,11 @@
 package org.smartregister.unicef.dghs.holder;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.view.customcontrols.CustomFontTextView;
@@ -15,9 +17,11 @@ public class SearchMigrationViewHolder extends RecyclerView.ViewHolder{
     public CustomFontTextView textViewGender;
     public ImageView imageViewAppIcon;
     public ImageView imageViewMenu;
+    public CardView background_row;
 
     public SearchMigrationViewHolder(@NonNull View itemView) {
         super(itemView);
+        background_row = itemView.findViewById(R.id.background_row);
         textViewName = itemView.findViewById(R.id.name_TV);
         textViewAge = itemView.findViewById(R.id.age_TV);
         textViewGender = itemView.findViewById(R.id.gender_TV);

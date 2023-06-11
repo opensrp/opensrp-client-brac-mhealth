@@ -161,10 +161,10 @@ public class GlobalSearchActivity extends SecuredActivity implements View.OnClic
                     Toast.makeText(this,"Select division,district",Toast.LENGTH_LONG).show();
                     return;
                 }
-//                if(TextUtils.isEmpty(phoneNo)){
-//                    Toast.makeText(this,"Enter phone number",Toast.LENGTH_LONG).show();
-//                    return;
-//                }
+                if(TextUtils.isEmpty(phoneNo) && TextUtils.isEmpty(idNumber)){
+                    Toast.makeText(this,"Enter phone number or id",Toast.LENGTH_LONG).show();
+                    return;
+                }
                 if(TextUtils.isEmpty(getIdText())&& !TextUtils.isEmpty(idNumber)){
                     Toast.makeText(this,"Enter Id Type",Toast.LENGTH_LONG).show();
                     return;
@@ -174,7 +174,7 @@ public class GlobalSearchActivity extends SecuredActivity implements View.OnClic
                 if(!TextUtils.isEmpty(phoneNo))searchContentData.setPhoneNo(phoneNo);
                 searchContentData.setDivisionId(division.id+"");
                 searchContentData.setDistrictId(district.id+"");
-                searchContentData.setUpozillaId(upozilla.id+"");
+                if(upozilla!=null)searchContentData.setUpozillaId(upozilla.id+"");
                 searchContentData.setMigrationType(migrationType);
                 searchContentData.setFamilyBaseEntityId(familyBaseEntityId);
                 searchContentData.setGender(gender);

@@ -83,7 +83,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="30dp"
                             android:layout_below="@+id/imageview_profile"
-                            android:background="@drawable/rounded_white_btn"
+                            android:background="@drawable/button_cliick"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
                             android:text="প্রোফাইল আপডেট" />

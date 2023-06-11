@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -44,6 +45,12 @@ public class SearchMigrationAdapter extends RecyclerView.Adapter<SearchMigration
     @Override
     public void onBindViewHolder(@NonNull final SearchMigrationViewHolder viewHolder, int position) {
         Client content =  contentList.get(position);
+        String fromSHR = content.getIdentifier("is_shr");
+        if(!TextUtils.isEmpty(fromSHR)){
+            viewHolder.background_row.setBackgroundColor(context.getResources().getColor(R.color.tika_card_yellow_bg));
+        }else{
+            viewHolder.background_row.setBackgroundColor(context.getResources().getColor(R.color.transparent));
+        }
             //final Migration content = contentList.get(position);
         viewHolder.textViewName.setText(content.getFirstName()+" "+content.getLastName());
         viewHolder.textViewAge.setText(context.getString(R.string.dob, HnppConstants.DDMMYY.format(content.getBirthdate())));

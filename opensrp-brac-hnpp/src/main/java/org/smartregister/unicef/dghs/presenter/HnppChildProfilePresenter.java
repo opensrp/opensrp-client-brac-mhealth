@@ -92,7 +92,7 @@ public class HnppChildProfilePresenter implements CoreChildProfileContract.Prese
         getView().setGender(getGender+", "+parentName);
 
         String shrId = Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.SHR_ID, false);
-        if(TextUtils.isEmpty(shrId)){
+        if(!TextUtils.isEmpty(shrId)){
             getView().setId(shrId);
         }else{
             String uniqueId = Utils.getValue(client.getColumnmaps(), DBConstants.KEY.UNIQUE_ID, false);

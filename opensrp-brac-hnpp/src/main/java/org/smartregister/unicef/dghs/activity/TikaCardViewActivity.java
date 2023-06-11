@@ -68,9 +68,11 @@ public class TikaCardViewActivity extends SecuredActivity {
         setContentView(R.layout.activity_tika_card);
         baseEntityId = getIntent().getStringExtra("BASE_ENTITY_ID");
         isComesFromGuest = getIntent().getBooleanExtra(PUT_EXTRA_COMES,false);
-        tikaInfoModel = isComesFromGuest?HnppDBUtils.getTikaDetailsForGuestProfike(baseEntityId):HnppDBUtils.getTikaDetails(baseEntityId);
-        isComesFromGuest = getIntent().getBooleanExtra(PUT_EXTRA_COMES,false);
+//        tikaInfoModel = isComesFromGuest?HnppDBUtils.getTikaDetailsForGuestProfike(baseEntityId):HnppDBUtils.getTikaDetails(baseEntityId);
         qrcodeImage = findViewById(R.id.qrcodeImage);
+        //if(tikaInfoModel == null){
+            tikaInfoModel = HnppDBUtils.getTikaDetailsFromClient(baseEntityId);
+        //}
         ((TextView) findViewById(R.id.nameTxt)).setText(tikaInfoModel.name);
         ((TextView) findViewById(R.id.dayTxt)).setText(tikaInfoModel.birthDay);
         ((TextView) findViewById(R.id.monthTxt)).setText(tikaInfoModel.birthMonth);
@@ -91,9 +93,8 @@ public class TikaCardViewActivity extends SecuredActivity {
         ((TextView) findViewById(R.id.genderTxt)).setText(tikaInfoModel.gender);
         String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
         String fullName = HnppApplication.getInstance().getContext().allSharedPreferences().getANMPreferredName(userName);
-
         ((TextView) findViewById(R.id.haNameTxt)).setText(fullName);
-        updateDistrict();
+        //updateDistrict();
         updateTikaDate();
         updateVaccineDate();
         findViewById(R.id.download_pdf).setOnClickListener(new View.OnClickListener() {
@@ -140,19 +141,24 @@ public class TikaCardViewActivity extends SecuredActivity {
 
         return bitmap;
     }
-    private void updateDistrict(){
-        if(isComesFromGuest){
-            ((TextView) findViewById(R.id.districtTxt)).setText(tikaInfoModel.district);
-            ((TextView) findViewById(R.id.upazilaTxt)).setText(tikaInfoModel.upazilla);
-        }else{
-            HALocation haLocation = HnppApplication.getHALocationRepository().getLocationByBaseEntityId(baseEntityId);
-            ((TextView) findViewById(R.id.districtTxt)).setText(haLocation.district.name);
-            ((TextView) findViewById(R.id.upazilaTxt)).setText(haLocation.upazila.name);
-            tikaInfoModel.divisionId = haLocation.division.id+"";
-            tikaInfoModel.districtId = haLocation.district.id+"";
-        }
-
-    }
+//    private void updateDistrict(){
+//        if(isComesFromGuest){
+//            ((TextView) findViewById(R.id.districtTxt)).setText(tikaInfoModel.district);
+//            ((TextView) findViewById(R.id.upazilaTxt)).setText(tikaInfoModel.upazilla);
+//        }else{
+//            try{
+//                HALocation haLocation = HnppApplication.getHALocationRepository().getLocationByBaseEntityId(baseEntityId);
+//                ((TextView) findViewById(R.id.districtTxt)).setText(haLocation.district.name);
+//                ((TextView) findViewById(R.id.upazilaTxt)).setText(haLocation.upazila.name);
+//                tikaInfoModel.divisionId = haLocation.division.id+"";
+//                tikaInfoModel.districtId = haLocation.district.id+"";
+//            }catch (Exception e){
+//                e.printStackTrace();
+//            }
+//
+//        }
+//
+//    }
     private void updateTikaDate(){
 
         DateTime donDate = DateTimeFormat.forPattern("yyyy-MM-dd").parseDateTime(tikaInfoModel.dob);

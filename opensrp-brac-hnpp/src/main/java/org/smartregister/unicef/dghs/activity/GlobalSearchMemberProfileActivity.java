@@ -129,11 +129,16 @@ public class GlobalSearchMemberProfileActivity extends BaseProfileActivity imple
     private void generateGuestMemberProfile() {
         guestMemberData = new GuestMemberData();
         guestMemberData.setBaseEntityId(client.getBaseEntityId());
-        guestMemberData.setMemberId(client.getIdentifier("opensrp_id"));
+        String shrId = client.getIdentifier("shr_id");
+        if(!TextUtils.isEmpty(shrId)){
+            guestMemberData.setMemberId(shrId);
+        }else{
+            guestMemberData.setMemberId(client.getIdentifier("opensrp_id")==null?"0":client.getIdentifier("opensrp_id"));
+        }
         guestMemberData.setName(client.getFirstName()+" "+client.getLastName());
         guestMemberData.setDob(HnppConstants.YYMMDD.format(client.getBirthdate()));
         guestMemberData.setGender(client.getGender());
-        guestMemberData.setPhoneNo(client.getAttribute("Mobile_Number").toString());
+        guestMemberData.setPhoneNo(client.getAttribute("Mobile_Number")+"");
     }
 
     @Override
@@ -251,10 +256,7 @@ public class GlobalSearchMemberProfileActivity extends BaseProfileActivity imple
     private void setProfileData(){
         if(guestMemberData != null){
             textViewName.setText(guestMemberData.getName());
-            String memberId = guestMemberData.getMemberId().replace(Constants.IDENTIFIER.FAMILY_SUFFIX,"")
-                    .replace(HnppConstants.IDENTIFIER.FAMILY_TEXT,"");
-            memberId = memberId.substring(memberId.length() - MEMBER_ID_SUFFIX);
-            textViewMemberId.setText("ID:"+memberId);
+            textViewMemberId.setText("ID:"+guestMemberData.getMemberId());
             ((TextView)findViewById(R.id.textview_detail_one)).setText(HnppConstants.getGender(guestMemberData.getGender()));
             int age = StringUtils.isNotBlank(guestMemberData.getDob()) ? Utils.getAgeFromDate(guestMemberData.getDob()) : 0;
             String ageStr = org.smartregister.family.util.Utils.getTranslatedDate(org.smartregister.family.util.Utils.getDuration(guestMemberData.getDob()),getContext());

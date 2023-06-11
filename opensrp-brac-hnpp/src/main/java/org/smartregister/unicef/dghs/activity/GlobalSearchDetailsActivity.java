@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
@@ -28,6 +29,7 @@ import org.smartregister.chw.anc.util.DBConstants;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.clientandeventmodel.Event;
+import org.smartregister.clientandeventmodel.Obs;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.util.Constants;
@@ -59,6 +61,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class GlobalSearchDetailsActivity extends SecuredActivity implements View.OnClickListener, SearchDetailsContract.View {
     public static final String EXTRA_SEARCH_CONTENT = "extra_search_content";
@@ -205,46 +208,60 @@ public class GlobalSearchDetailsActivity extends SecuredActivity implements View
     }
     @SuppressLint("SimpleDateFormat")
     private void saveClientAndEvent(Client baseClient){
-
-        try{
-            if(baseClient == null) return;
-            if(globalSearchContentData.getMigrationType().equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.HH.name())) {
-                List<String> ids = new ArrayList<>();
-                ids.add(globalSearchContentData.getFamilyBaseEntityId());
-                ids.add(globalSearchContentData.getFamilyBaseEntityId());
-                baseClient.getRelationships().put("family",ids);
-            }
-            JSONObject clientJson = new JSONObject(JsonFormUtils.gson.toJson(baseClient));
-
-            getSyncHelper().addClient(baseClient.getBaseEntityId(), clientJson);
-
-            GlobalSearchResult globalSearchResult = presenter.getGlobalSearchResult();
-            for (Event baseEvent: globalSearchResult.events) {
-                if(baseEvent.getBaseEntityId().equalsIgnoreCase(baseClient.getBaseEntityId())){
-                    JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(baseEvent));
-                    getSyncHelper().addEvent(baseEvent.getBaseEntityId(), eventJson);
+        AppExecutors appExecutors = new AppExecutors();
+        Runnable runnable = () -> {
+            try{
+                if(baseClient == null) return;
+                if(globalSearchContentData.getMigrationType().equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.HH.name())) {
+                    List<String> ids = new ArrayList<>();
+                    ids.add(globalSearchContentData.getFamilyBaseEntityId());
+                    ids.add(globalSearchContentData.getFamilyBaseEntityId());
+                    Log.v("FAMILY_IDS","FAMILY_IDS>>"+globalSearchContentData.getFamilyBaseEntityId());
+                    baseClient.getRelationships().put("family",ids);
                 }
+                JSONObject clientJson = new JSONObject(JsonFormUtils.gson.toJson(baseClient));
+
+                getSyncHelper().addClient(baseClient.getBaseEntityId(), clientJson);
+
+                GlobalSearchResult globalSearchResult = presenter.getGlobalSearchResult();
+                for (Event baseEvent: globalSearchResult.events) {
+                    if(baseEvent.getEventType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)
+                     || baseEvent.getEventType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_UPDATE_REGISTRATION)){
+                        for (Obs observation:baseEvent.getObs()) {
+                            if(Objects.equals(observation.getFieldCode(), "age_calculated")){
+                                int age = Integer.parseInt(observation.getValues().get(0)+"");
+                                if(age>5){
+                                    baseEvent.setEventType(HnppConstants.EVENT_TYPE.FAMILY_MEMBER_REGISTRATION);
+                                }else{
+                                    baseEvent.setEventType(HnppConstants.EVENT_TYPE.CHILD_REGISTRATION);
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    if(baseEvent.getBaseEntityId().equalsIgnoreCase(baseClient.getBaseEntityId())){
+                        JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(baseEvent));
+                        getSyncHelper().addEvent(baseEvent.getBaseEntityId(), eventJson);
+                    }
+                }
+
+                long lastSyncTimeStamp = getAllSharedPreferences().fetchLastUpdatedAtDate(0);
+                Date lastSyncDate = new Date(lastSyncTimeStamp);
+                getClientProcessorForJava().processClient(getSyncHelper().getEvents(lastSyncDate, BaseRepository.TYPE_Unprocessed));
+                getAllSharedPreferences().saveLastUpdatedAtDate(lastSyncDate.getTime());
+                if(globalSearchContentData.getMigrationType().equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.Member.name())) {
+                    ContentValues values = new ContentValues();
+                    values.put(DBConstants.KEY.DATE_REMOVED, new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+                    values.put("is_closed", 1);
+                    HnppApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.FAMILY_MEMBER, values,
+                            DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseClient.getBaseEntityId()});
+                }
+                Log.v("FAMILY_IDS","saveClientAndEvent>>"+globalSearchContentData.getFamilyBaseEntityId());
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-            long lastSyncTimeStamp = getAllSharedPreferences().fetchLastUpdatedAtDate(0);
-            Date lastSyncDate = new Date(lastSyncTimeStamp);
-            getClientProcessorForJava().processClient(getSyncHelper().getEvents(lastSyncDate, BaseRepository.TYPE_Unprocessed));
-            getAllSharedPreferences().saveLastUpdatedAtDate(lastSyncDate.getTime());
-            if(globalSearchContentData.getMigrationType().equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.Member.name())) {
-                ContentValues values = new ContentValues();
-                values.put(DBConstants.KEY.DATE_REMOVED, new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-                values.put("is_closed", 1);
-                HnppApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.FAMILY_MEMBER, values,
-                        DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseClient.getBaseEntityId()});
-            }
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
+            appExecutors.mainThread().execute(() -> {
                 if(globalSearchContentData.getMigrationType().equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.Member.name()))
                 {
                     GlobalSearchMemberProfileActivity.startGlobalMemberProfileActivity(GlobalSearchDetailsActivity.this, baseClient);
@@ -253,9 +270,10 @@ public class GlobalSearchDetailsActivity extends SecuredActivity implements View
                     openFamilyDueTab(globalSearchContentData.getFamilyBaseEntityId(),globalSearchContentData.getBaseEntityId());
                     finish();
                 }
-
-            }
-        },1000);
+            });
+        };
+        appExecutors.diskIO().execute(runnable);
+//
 
     }
     public void openFamilyDueTab(String familyId, String memberBaseEntityId) {

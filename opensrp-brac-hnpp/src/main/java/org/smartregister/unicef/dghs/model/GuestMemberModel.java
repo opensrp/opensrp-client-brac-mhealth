@@ -209,7 +209,12 @@ public class GuestMemberModel extends JsonFormUtils implements GuestMemberContra
 
                     GuestMemberData guestMemberData = new GuestMemberData();
                     guestMemberData.setBaseEntityId(cursor.getString(cursor.getColumnIndex("base_entity_id")));
-                    guestMemberData.setMemberId(cursor.getString(cursor.getColumnIndex("unique_id")));
+                    String shrId = cursor.getString(cursor.getColumnIndex("shr_id"));
+                    if(!TextUtils.isEmpty(shrId)){
+                        guestMemberData.setMemberId(shrId);
+                    }else{
+                        guestMemberData.setMemberId(cursor.getString(cursor.getColumnIndex("unique_id")));
+                    }
                     String firstName = cursor.getString(cursor.getColumnIndex("first_name"));
                     String lastName = cursor.getString(cursor.getColumnIndex("last_name"));
                     guestMemberData.setName(firstName+" "+lastName);

@@ -135,7 +135,6 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
     public void onBackPressed() {
         finish();
     }
-    AppExecutors appExecutors = new AppExecutors();
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_other_member_profile);
@@ -374,8 +373,6 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
     public void setProfileDetailThree(String detailThree) {
         super.setProfileDetailThree(detailThree);
         if(!TextUtils.isEmpty(detailThree)) {
-            detailThree = detailThree.replace(Constants.IDENTIFIER.FAMILY_SUFFIX,"")
-                    .replace(HnppConstants.IDENTIFIER.FAMILY_TEXT,"");
             detailThree = detailThree.substring(detailThree.length() - MEMBER_ID_SUFFIX);
             textViewDetails3.setText("ID: " + detailThree);
         }

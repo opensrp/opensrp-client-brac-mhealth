@@ -1333,10 +1333,9 @@
           }
         ],
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "sample-relevance-rules.yml"
-            }
+          "step1:has_disease": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
           }
         }
       },
@@ -1426,7 +1425,7 @@
           }
         ],
         "relevance": {
-          "step1:disease_type": {
+          "step1:disease_Type": {
             "ex-checkbox": [
               {
                 "or": [
@@ -1487,7 +1486,7 @@
           }
         ],
         "relevance": {
-          "step1:disease_type": {
+          "step1:disease_Type": {
             "ex-checkbox": [
               {
                 "or": [

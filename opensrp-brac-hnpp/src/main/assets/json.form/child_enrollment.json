@@ -168,7 +168,7 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "Mobile_Number",
         "type": "edit_text",
-        "hint": "গুরুত্বপূর্ণ মোবাইল নম্বর",
+        "hint": "মা/বাবা/অভিভাবক এর মোবাইল নং",
         "v_required": {
           "value": true,
           "err": "11 অঙ্কের মোবাইল নম্বর লিখুন"

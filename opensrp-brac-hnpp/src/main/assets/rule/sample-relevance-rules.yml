@@ -13,10 +13,10 @@ condition: " step1_has_disease.equalsIgnoreCase('হ্যাঁ') && ((step1_ag
 actions:
   - "isRelevant = true"
 ---
-name: step1_Disease_Type
-description: Disease_Type
+name: step1_disease_Type
+description: disease_Type
 priority: 2
-condition: "step1_has_disease.equalsIgnoreCase('হ্যাঁ') && step1_age > 5"
+condition: " step1_has_disease.equalsIgnoreCase('হ্যাঁ') && (step1_age >5 || helper.formatDate(step1_birthdate,'d') >=1826)"
 actions:
   - "isRelevant = true"
 ---

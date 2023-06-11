@@ -16,6 +16,8 @@ import org.json.JSONObject;
 import org.smartregister.chw.core.model.ChildVisit;
 import org.smartregister.chw.core.rule.HomeAlertRule;
 import org.smartregister.chw.core.utils.CoreConstants;
+import org.smartregister.clientandeventmodel.Client;
+import org.smartregister.clientandeventmodel.DateUtil;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.dao.AbstractDao;
@@ -33,7 +35,6 @@ import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -191,11 +192,12 @@ public class HnppDBUtils {
                 " inner join ec_family on ec_family.id  = ec_family_member.relational_id " +
                 " where ec_family_member.base_entity_id ='"+baseEntityId+"' ";
         Cursor cursor = null;
-        TikaInfoModel infoModel = new TikaInfoModel();
+        TikaInfoModel infoModel = null;
         try {
             cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
+                infoModel = new TikaInfoModel();
                 infoModel.baseEntityId = (cursor.getString(cursor.getColumnIndex("base_entity_id")));
                 infoModel.name = (cursor.getString(cursor.getColumnIndex("first_name")))+" "+(cursor.getString(cursor.getColumnIndex("last_name")));
                 infoModel.motherName = (cursor.getString(cursor.getColumnIndex("mother_name_english")));
@@ -236,7 +238,60 @@ public class HnppDBUtils {
         return infoModel;
 
     }
+    public static TikaInfoModel getTikaDetailsFromClient(String baseEntityId){
+        String query = "select json from client where baseEntityId ='"+baseEntityId+"' ";
+        Cursor cursor = null;
+        TikaInfoModel infoModel = null;
+        try {
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                String clientJson = cursor.getString(cursor.getColumnIndex("json"));
+                Client domainClient = JsonFormUtils.gson.fromJson(clientJson, Client.class);
 
+
+                infoModel = new TikaInfoModel();
+                infoModel.baseEntityId = domainClient.getBaseEntityId();
+                infoModel.name = domainClient.getFirstName()+" "+domainClient.getLastName();
+                infoModel.motherName = domainClient.getAttribute("mother_name_english")==null?"":domainClient.getAttribute("mother_name_english")+"";
+                infoModel.fatherName = domainClient.getAttribute("father_name_english")==null?"":domainClient.getAttribute("father_name_english")+"";
+                String dob = DateUtil.fromDate(domainClient.getBirthdate());
+                //2023-03-11T06:00:00.000+06:00
+                infoModel.dob = dob.substring(0,dob.indexOf("T"));
+                infoModel.birthYear = dob.substring(0,4);
+                infoModel.birthMonth = dob.substring(5,7);
+                infoModel.birthDay = dob.substring(8,10);
+                infoModel.brid = domainClient.getAttribute("birthRegistrationID")==null?"":domainClient.getAttribute("birthRegistrationID")+"";
+                infoModel.registrationNo = domainClient.getIdentifier("shr_id")==null?"":domainClient.getIdentifier("shr_id")+"";
+                if(TextUtils.isEmpty(infoModel.registrationNo)){
+                    infoModel.registrationNo = domainClient.getIdentifier("opensrp_id")==null?"":domainClient.getIdentifier("opensrp_id")+"";
+                }
+                String registrationDate = AbstractDao.getDobDateFormat().format(domainClient.getDateCreated());
+                infoModel.registrationDate = registrationDate;
+                infoModel.subBlock = domainClient.getAttribute("block_name")==null?"":domainClient.getAttribute("block_name")+"";
+                infoModel.village = domainClient.getAddresses()!=null?domainClient.getAddresses().get(0).getCityVillage():""+"";
+                infoModel.wardNo = domainClient.getAddresses()!=null?domainClient.getAddresses().get(0).getAddressField("address3"):""+"";
+                infoModel.union = domainClient.getAddresses()!=null?domainClient.getAddresses().get(0).getAddressField("address1"):""+"";
+                infoModel.genderEnglish = domainClient.getGender();
+                infoModel.gender = HnppConstants.getGender(infoModel.genderEnglish);
+                infoModel.division = domainClient.getAddresses()!=null?domainClient.getAddresses().get(0).getStateProvince():""+"";
+                infoModel.district = domainClient.getAddresses()!=null?domainClient.getAddresses().get(0).getCountyDistrict():""+"";
+                infoModel.upazilla = domainClient.getAddresses()!=null?domainClient.getAddresses().get(0).getAddressField("address2"):""+"";
+
+                infoModel.divisionId = domainClient.getAttribute("division_id")==null?"0":domainClient.getAttribute("division_id")+"";
+                infoModel.districtId = domainClient.getAttribute("district_id") == null?"0":domainClient.getAttribute("district_id")+"";
+
+            }
+
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        finally {
+            if(cursor !=null) cursor.close();
+        }
+        return infoModel;
+
+    }
 
     public static HashMap<String, String> getDetails(String baseEntityId, String tableName) {
         HashMap<String, String> map = new HashMap<>();
