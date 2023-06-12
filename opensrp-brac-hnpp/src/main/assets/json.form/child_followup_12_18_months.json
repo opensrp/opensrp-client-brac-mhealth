@@ -1,0 +1,351 @@
+{
+  "count": "1",
+  "encounter_type": "Child Followup 12-18 months",
+  "entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location": ""
+  },
+  "step1": {
+    "title": "শিশু ফলোআপ ১২-১৮ মাস",
+    "fields": [
+
+      {
+        "key": "form_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "Child Followup 12-18 months",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": "child_followup_0_3_months"
+      },
+      
+      {
+        "key": "dob",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden"
+      },
+
+      {
+        "key": "month_diff",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_iycf_package_calculation.yml"
+            }
+          }
+        }
+      },
+
+      {
+        "key": "is_child_drinking_milk",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_child_drinking_milk",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "শিশু বুকের দুধ খাচ্ছে কিনা ?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        }
+      },
+
+      {
+        "key": "fed_extra_food_in_24_hours",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "fed_extra_food_in_24_hours",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "গত 24 ঘন্টায় শিশুকে বাড়তি খাবার দেওয়া হয়েছে কিনা ?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        }
+      },
+
+      {
+        "key": "fed_any_nutrition_in_24_hour",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "fed_any_nutrition_in_24_hour",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "গত ২৪ ঘন্টায় পুষ্টিকণা খাওয়ানো হয়েছে. ?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        }
+      },
+
+      {
+        "key": "can_say_full_words",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "can_say_full_words",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "একটি সম্পূর্ণ শব্দ বলতে পারে ?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        }
+      },
+
+      {
+        "key": "ate_deworming_medicine",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "ate_deworming_medicine",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "কৃমিনাশক ঔষধ খেয়েছে কি ?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        }
+      },
+
+
+      {
+        "key": "difficulty",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "difficulty",
+        "type": "check_box",
+        "label": "কোনো জটিলতা থাকলে লিখুন",
+        "exclusive": [
+          "None"
+        ],
+        "options": [
+          {
+            "key": "diarrhea",
+            "text": "ডায়রিয়া",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "diarrhea"
+          },
+          {
+            "key": "pneumonia",
+            "text": "নিউমোনিয়া",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "pneumonia"
+          },
+          {
+            "key": "convulsions",
+            "text": "খিঁচুনি",
+            "value": false,
+            "openmrs_entity": "convulsions",
+            "openmrs_entity_id": "box_milk"
+          },
+          {
+            "key": "rapid_breathing",
+            "text": "দ্রুত শ্বাস/ বুকের খাঁচা ডেবে যাওয়া",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "rapid_breathing"
+          },
+          {
+            "key": "fever",
+            "text": "জ্বর বা শরীর ঠান্ডা হওয়া",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "fever"
+          },
+
+          {
+            "key": "leading",
+            "text": "নেতিয়ে পরা",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "leading"
+          },
+
+          {
+            "key": "unable_to_drink_milk",
+            "text": "দুধ টেনে খেতে না পারা",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "unable_to_drink_milk"
+          },
+
+          {
+            "key": "red_navel",
+            "text": "নাভি লাল বা ফুলে যাওয়া",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "red_navel"
+          },
+
+          {
+            "key": "skin_rash",
+            "text": "ত্বকে ফুস্করি",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "skin_rash"
+          },
+
+          {
+            "key": "eye_problem",
+            "text": "চোখ সমস্যা",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "eye_problem"
+          }
+        ]
+      },
+
+      {
+        "key": "is_referred",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_referred",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "রেফার করা হয়েছে কিনা?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        }
+      },
+
+      {
+        "key": "refer_place",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "refer_place",
+        "type": "check_box",
+        "label": "রেফারের স্থান",
+        "exclusive": [
+          "None"
+        ],
+        "options": [
+          {
+            "key": "medical_collage_hos",
+            "text": "মেডিকেল কলেজ হাসপাতাল",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "medical_collage_hos"
+          },
+          {
+            "key": "gov_hos",
+            "text": "সরকারী হাসপাতাল",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "gov_hos"
+          },
+          {
+            "key": "upazila_health_com",
+            "text": "উপজেলা স্বাস্থ্য কমপ্লেক্স",
+            "value": false,
+            "openmrs_entity": "convulsions",
+            "openmrs_entity_id": "upazila_health_com"
+          },
+          {
+            "key": "non_gov_hos",
+            "text": "বেসরকারি হাসপাতাল/ক্লিনিক",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "non_gov_hos"
+          },
+          {
+            "key": "health_family_welfare_centre",
+            "text": "স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "health_family_welfare_centre"
+          },
+
+          {
+            "key": "community_clinic",
+            "text": "কমিউনিটি ক্লিনিক",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "community_clinic"
+          }
+
+        ],
+
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_followup_rules.yml"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

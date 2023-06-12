@@ -57,6 +57,14 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_PRE
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.BLOOD_GROUP;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_12_18_MONTHS;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_19_24_MONTHS;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_2_3_YEARS;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_4_YEARS;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_7_11_MONTHS;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12;
@@ -598,6 +606,14 @@ public class FormParser {
                 }
                 break;
             case CHILD_FOLLOWUP:
+            case CHILD_FOLLOW_UP_0_3_MONTHS:
+            case CHILD_FOLLOW_UP_3_6_MONTHS:
+            case CHILD_FOLLOW_UP_7_11_MONTHS:
+            case CHILD_FOLLOW_UP_12_18_MONTHS:
+            case CHILD_FOLLOW_UP_19_24_MONTHS:
+            case CHILD_FOLLOW_UP_2_3_YEARS:
+            case CHILD_FOLLOW_UP_3_4_YEARS:
+            case CHILD_FOLLOW_UP_4_5_YEARS:
                 String bfValue ="",efValue="";
                 if(details.containsKey("breast_feed_in_24hr")&&!StringUtils.isEmpty(details.get("breast_feed_in_24hr"))) {
                     bfValue = details.get("breast_feed_in_24hr");
@@ -621,6 +637,7 @@ public class FormParser {
                     }
                 }
                 break;
+
             case HnppConstants.EventType.REMOVE_MEMBER: {
                 if (details.containsKey("cause_of_death") && !StringUtils.isEmpty(details.get("cause_of_death"))) {
                     String value = details.get("cause_of_death");
@@ -2118,6 +2135,39 @@ public class FormParser {
             case CHILD_FOLLOWUP:
                 form_name = HnppConstants.JSON_FORMS.CHILD_FOLLOWUP + ".json";
                 break;
+
+            case CHILD_FOLLOW_UP_0_3_MONTHS:
+                form_name = HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_0_3_MONTHS + ".json";
+                break;
+
+            case CHILD_FOLLOW_UP_3_6_MONTHS:
+                form_name = HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_3_6_MONTHS + ".json";
+                break;
+
+            case CHILD_FOLLOW_UP_7_11_MONTHS:
+                form_name = HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_7_11_MONTHS + ".json";
+                break;
+
+            case CHILD_FOLLOW_UP_12_18_MONTHS:
+                form_name = HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_12_18_MONTHS + ".json";
+                break;
+
+            case CHILD_FOLLOW_UP_19_24_MONTHS:
+                form_name = HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_19_24_MONTHS + ".json";
+                break;
+
+            case CHILD_FOLLOW_UP_2_3_YEARS:
+                form_name = HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_2_3_YEARS + ".json";
+                break;
+
+            case CHILD_FOLLOW_UP_3_4_YEARS:
+                form_name = HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_3_4_YEARS + ".json";
+                break;
+
+            case CHILD_FOLLOW_UP_4_5_YEARS:
+                form_name = HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_4_5_YEARS + ".json";
+                break;
+
             case CHILD_INFO_EBF12:
             case "Child Info EBF 1&2":
                 form_name = HnppConstants.JSON_FORMS.CHILD_INFO_EBF12 + ".json";

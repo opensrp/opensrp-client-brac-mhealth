@@ -1,0 +1,16 @@
+---
+name: step1_when_started_extra_food
+description: When started extra food
+priority: 1
+condition: "step1_child_food_in_24_hours.contains('in_house_food')"
+actions:
+  - "isRelevant = true"
+
+---
+
+name: step1_refer_place
+description: Refer place
+priority: 1
+condition: "step1_is_referred.equalsIgnoreCase('হ্যাঁ')"
+actions:
+  - "isRelevant = true"

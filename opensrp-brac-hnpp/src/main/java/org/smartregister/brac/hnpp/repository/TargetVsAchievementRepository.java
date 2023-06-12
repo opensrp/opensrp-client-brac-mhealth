@@ -140,9 +140,53 @@ public class TargetVsAchievementRepository extends BaseRepository {
             } else if(targetName.equalsIgnoreCase(HnppConstants.EventType.ANC_REGISTRATION)){
                 targetName = HnppConstants.EVENT_TYPE.PREGNANCY_IDENTIFIED;
             } else if(targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP)){
-                targetName = HnppDBUtils.getChildFollowUpFormName(baseEntityId);
+                targetName = HnppDBUtils.getChildFollowUpFormNameByDay(baseEntityId);
                 if(TextUtils.isEmpty(targetName)) targetName = HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP;
             }
+
+            else if(targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS)){
+                targetName = HnppDBUtils.getChildFollowUpFormNameByDay(baseEntityId);
+                if(TextUtils.isEmpty(targetName)) targetName = HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS;
+            }
+
+            else if(targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS)){
+                targetName = HnppDBUtils.getChildFollowUpFormNameByDay(baseEntityId);
+                if(TextUtils.isEmpty(targetName)) targetName = HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS;
+            }
+
+            else if(targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_7_11_MONTHS)){
+                targetName = HnppDBUtils.getChildFollowUpFormNameByDay(baseEntityId);
+                if(TextUtils.isEmpty(targetName)) targetName = HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_7_11_MONTHS;
+            }
+
+            else if(targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_12_18_MONTHS)){
+                targetName = HnppDBUtils.getChildFollowUpFormNameByDay(baseEntityId);
+                if(TextUtils.isEmpty(targetName)) targetName = HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_12_18_MONTHS;
+            }
+
+            else if(targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_19_24_MONTHS)){
+                targetName = HnppDBUtils.getChildFollowUpFormNameByDay(baseEntityId);
+                if(TextUtils.isEmpty(targetName)) targetName = HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_19_24_MONTHS;
+            }
+
+            else if(targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_2_3_YEARS)){
+                targetName = HnppDBUtils.getChildFollowUpFormNameByDay(baseEntityId);
+                if(TextUtils.isEmpty(targetName)) targetName = HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_2_3_YEARS;
+            }
+
+            else if(targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_4_YEARS)){
+                targetName = HnppDBUtils.getChildFollowUpFormNameByDay(baseEntityId);
+                if(TextUtils.isEmpty(targetName)) targetName = HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_4_YEARS;
+            }
+
+            else if(targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS)){
+                targetName = HnppDBUtils.getChildFollowUpFormNameByDay(baseEntityId);
+                if(TextUtils.isEmpty(targetName)) targetName = HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS;
+            }
+            /*else if(targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP)){
+                targetName = HnppDBUtils.getChildFollowUpFormName(baseEntityId);
+                if(TextUtils.isEmpty(targetName)) targetName = HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP;
+            }*/
 
         }
         return targetName;

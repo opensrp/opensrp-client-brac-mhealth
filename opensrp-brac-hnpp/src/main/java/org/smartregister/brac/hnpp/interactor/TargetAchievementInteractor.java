@@ -87,6 +87,16 @@ public class TargetAchievementInteractor implements DashBoardContract.TargetInte
         visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.CHILD_VISIT_0_6,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.CHILD_VISIT_0_6)));
         visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.CHILD_VISIT_7_24,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.CHILD_VISIT_7_24)));
         visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.CHILD_VISIT_18_36,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.CHILD_VISIT_18_36)));
+
+        visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS)));
+        visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS)));
+        visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_7_11_MONTHS,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_7_11_MONTHS)));
+        visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_12_18_MONTHS,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_12_18_MONTHS)));
+        visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_19_24_MONTHS,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_19_24_MONTHS)));
+        visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_2_3_YEARS,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_2_3_YEARS)));
+        visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_4_YEARS,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_4_YEARS)));
+        visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS)));
+
         visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.CHILD_IMMUNIZATION_0_59,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.CHILD_IMMUNIZATION_0_59)));
 
         return visitTypeList;
