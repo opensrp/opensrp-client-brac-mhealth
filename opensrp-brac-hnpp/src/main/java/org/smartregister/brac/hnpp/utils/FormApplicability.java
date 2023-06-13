@@ -40,11 +40,11 @@ public class FormApplicability {
         return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneWihinTwentyFourHours(baseEntityId, eventType);
 
     }
-    public static boolean isDueChildInfoForm(String baseEntityId, String eventType){
+ /*   public static boolean isDueChildInfoForm(String baseEntityId, String eventType){
         return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneWihinChildInfoLogic(baseEntityId, eventType);
 
-    }
-    public static String isDueChildInfo(long day){
+    }*/
+/*    public static String isDueChildInfo(long day){
 
         if(HnppConstants.isPALogin()){
             return null;
@@ -60,7 +60,7 @@ public class FormApplicability {
             return HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS;
         }
         return "";
-    }
+    }*/
 
     public static String isDueChildFollowUp(long day){
         if(day>= 0 && day <= 90) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS;

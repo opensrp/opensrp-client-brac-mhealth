@@ -139,10 +139,10 @@ public class TargetVsAchievementRepository extends BaseRepository {
                 targetName = HnppConstants.EVENT_TYPE.PNC_SERVICE;
             } else if(targetName.equalsIgnoreCase(HnppConstants.EventType.ANC_REGISTRATION)){
                 targetName = HnppConstants.EVENT_TYPE.PREGNANCY_IDENTIFIED;
-            } else if(targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP)){
+            } /*else if(targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP)){
                 targetName = HnppDBUtils.getChildFollowUpFormNameByDay(baseEntityId);
                 if(TextUtils.isEmpty(targetName)) targetName = HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP;
-            }
+            }*/
 
             else if(targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS)){
                 targetName = HnppDBUtils.getChildFollowUpFormNameByDay(baseEntityId);

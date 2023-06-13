@@ -937,7 +937,7 @@ public class HnppConstants extends CoreConstants {
         public static final String HOME_VISIT_FAMILY = "hnpp_hh_visit";
 
         public static final String REFERREL_FOLLOWUP = "hnpp_member_referral_followup";
-        public static final String CHILD_FOLLOWUP = "hnpp_child_followup";
+        //public static final String CHILD_FOLLOWUP = "hnpp_child_followup";
 
         public static final String CHILD_FOLLOW_UP_0_3_MONTHS = "child_followup_0_3_months";
         public static final String CHILD_FOLLOW_UP_3_6_MONTHS = "child_followup_3_6_months";
@@ -948,9 +948,9 @@ public class HnppConstants extends CoreConstants {
         public static final String CHILD_FOLLOW_UP_3_4_YEARS = "child_followup_3-4_years";
         public static final String CHILD_FOLLOW_UP_4_5_YEARS = "child_followup_4_5_years";
 
-        public static final String CHILD_INFO_EBF12 = "child_info_ebf12";
+       /* public static final String CHILD_INFO_EBF12 = "child_info_ebf12";
         public static final String CHILD_INFO_7_24_MONTHS = "child_info_7_24_months";
-        public static final String CHILD_INFO_25_MONTHS = "child_info_25_months";
+        public static final String CHILD_INFO_25_MONTHS = "child_info_25_months";*/
         public static final String CORONA_INDIVIDUAL = "corona_individual";
         public static final String SS_FORM = "ss_form";
         public static final String GUEST_MEMBER_FORM = "guest_member_register";
@@ -1015,10 +1015,10 @@ public class HnppConstants extends CoreConstants {
         public static final String PREGNANCY_OUTCOME = "Pregnancy Outcome";
         public static final String PREGNANCY_OUTCOME_OOC = "OOC Pregnancy Outcome";
         public static final String REFERREL_FOLLOWUP = "Member Referral Followup";
-        public static final String CHILD_INFO_EBF12 = "Child Info EBF 1_2";
+       /* public static final String CHILD_INFO_EBF12 = "Child Info EBF 1_2";
         public static final String CHILD_INFO_7_24_MONTHS = "Child Info 7-24 months";
         public static final String CHILD_INFO_25_MONTHS = "Child Info 25 Months";
-        public static final String CHILD_FOLLOWUP = "Child Followup";
+        public static final String CHILD_FOLLOWUP = "Child Followup";*/
         public static final String PNC_CHILD_REGISTRATION = "PNC Child Registration";
         public static final String UPDATE_CHILD_REGISTRATION = "Update Child Registration";
         public static final String FORUM_CHILD = "Child Forum";
@@ -1360,9 +1360,9 @@ public class HnppConstants extends CoreConstants {
 
             .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour, JSON_FORMS.PNC_FORM_AFTER_48_HOUR)
             .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour, JSON_FORMS.PNC_FORM_BEFORE_48_HOUR)
-            .put(EVENT_TYPE.CHILD_INFO_EBF12, JSON_FORMS.CHILD_INFO_EBF12)
+            /*.put(EVENT_TYPE.CHILD_INFO_EBF12, JSON_FORMS.CHILD_INFO_EBF12)
             .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS, JSON_FORMS.CHILD_INFO_7_24_MONTHS)
-            .put(EVENT_TYPE.CHILD_INFO_25_MONTHS, JSON_FORMS.CHILD_INFO_25_MONTHS)
+            .put(EVENT_TYPE.CHILD_INFO_25_MONTHS, JSON_FORMS.CHILD_INFO_25_MONTHS)*/
             .build();
     public static final Map<String, String> formNameEventTypeMapping = ImmutableMap.<String, String>builder()
             .put(JSON_FORMS.ANC1_FORM, EventType.ANC_HOME_VISIT)
@@ -1429,7 +1429,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.VACCINATION, R.drawable.ic_muac)
             .put(EVENT_TYPE.SERVICES, R.mipmap.form_vitamin)
             .put(EVENT_TYPE.REFERREL_FOLLOWUP, R.mipmap.ic_refer)
-            .put(EVENT_TYPE.CHILD_FOLLOWUP, R.drawable.rowavatar_child)
+            //.put(EVENT_TYPE.CHILD_FOLLOWUP, R.drawable.rowavatar_child)
 
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS, R.drawable.rowavatar_child)
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS, R.drawable.rowavatar_child)
@@ -1441,9 +1441,9 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS, R.drawable.rowavatar_child)
 
 
-            .put(EVENT_TYPE.CHILD_INFO_EBF12, R.drawable.rowavatar_child)
+           /* .put(EVENT_TYPE.CHILD_INFO_EBF12, R.drawable.rowavatar_child)
             .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS, R.drawable.rowavatar_child)
-            .put(EVENT_TYPE.CHILD_INFO_25_MONTHS, R.drawable.rowavatar_child)
+            .put(EVENT_TYPE.CHILD_INFO_25_MONTHS, R.drawable.rowavatar_child)*/
             .put(EVENT_TYPE.PNC_CHILD_REGISTRATION, R.drawable.rowavatar_child)
             .put(EVENT_TYPE.UPDATE_CHILD_REGISTRATION, R.drawable.rowavatar_child)
             .put("Update Family Registration", R.mipmap.ic_icon_home)
@@ -1506,21 +1506,21 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.VACCINATION, "ভ্যাকসিনেশন")
             .put(EVENT_TYPE.SERVICES, "ভিটামিন সার্ভিস")
             .put(EVENT_TYPE.REFERREL_FOLLOWUP, "রেফারেল ফলোআপ")
-            .put(EVENT_TYPE.CHILD_FOLLOWUP, "শিশু ফলোআপ")
+            //.put(EVENT_TYPE.CHILD_FOLLOWUP, "শিশু ফলোআপ")
 
-            .put(EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS, "শিশু ফলোআপ ০-৩ মাস")
-            .put(EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS, "শিশু ফলোআপ ৩-৬ মাস")
-            .put(EVENT_TYPE.CHILD_FOLLOW_UP_7_11_MONTHS, "শিশু ফলোআপ ৭-১১ মাস")
-            .put(EVENT_TYPE.CHILD_FOLLOW_UP_12_18_MONTHS, "শিশু ফলোআপ ১২-১৮ মাস")
-            .put(EVENT_TYPE.CHILD_FOLLOW_UP_19_24_MONTHS, "শিশু ফলোআপ ১৯-২৪ মাস")
-            .put(EVENT_TYPE.CHILD_FOLLOW_UP_2_3_YEARS, "শিশু ফলোআপ ২-৩ বছর")
-            .put(EVENT_TYPE.CHILD_FOLLOW_UP_3_4_YEARS, "শিশু ফলোআপ ৩-৪ বছর")
-            .put(EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS, "শিশু ফলোআপ ৪-৫ বছর")
+            .put(EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS, "শিশু ফলোআপ")
+            .put(EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS, "শিশু ফলোআপ")
+            .put(EVENT_TYPE.CHILD_FOLLOW_UP_7_11_MONTHS, "শিশু ফলোআপ")
+            .put(EVENT_TYPE.CHILD_FOLLOW_UP_12_18_MONTHS, "শিশু ফলোআপ")
+            .put(EVENT_TYPE.CHILD_FOLLOW_UP_19_24_MONTHS, "শিশু ফলোআপ")
+            .put(EVENT_TYPE.CHILD_FOLLOW_UP_2_3_YEARS, "শিশু ফলোআপ")
+            .put(EVENT_TYPE.CHILD_FOLLOW_UP_3_4_YEARS, "শিশু ফলোআপ")
+            .put(EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS, "শিশু ফলোআপ")
 
 
-            .put(EVENT_TYPE.CHILD_INFO_EBF12, "শিশু তথ্য")
+          /*  .put(EVENT_TYPE.CHILD_INFO_EBF12, "শিশু তথ্য")
             .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS, "শিশু তথ্য")
-            .put(EVENT_TYPE.CHILD_INFO_25_MONTHS, "শিশু তথ্য")
+            .put(EVENT_TYPE.CHILD_INFO_25_MONTHS, "শিশু তথ্য")*/
             .put(EVENT_TYPE.PNC_CHILD_REGISTRATION, "প্রসবের ফলাফল-শিশু")
             .put(EVENT_TYPE.UPDATE_CHILD_REGISTRATION, "শিশু নিবন্ধন আপডেট")
             .put("Update Family Registration", "খানা নিবন্ধন আপডেট")
@@ -1604,7 +1604,7 @@ public class HnppConstants extends CoreConstants {
 
             .put(EVENT_TYPE.PREGNANCY_OUTCOME, "প্রসব")
             .put(EVENT_TYPE.ENC_REGISTRATION, "নবজাতকের সেবা")
-            .put(EVENT_TYPE.CHILD_FOLLOWUP, "শিশু ফলোআপ")
+            //.put(EVENT_TYPE.CHILD_FOLLOWUP, "শিশু ফলোআপ")
 
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS, "শিশু ফলোআপ")
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS, "শিশু ফলোআপ")
@@ -1615,9 +1615,9 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_3_4_YEARS, "শিশু ফলোআপ")
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS, "শিশু ফলোআপ")
 
-            .put(EVENT_TYPE.CHILD_INFO_EBF12, "শিশু তথ্য")
+            /*.put(EVENT_TYPE.CHILD_INFO_EBF12, "শিশু তথ্য")
             .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS, "শিশু তথ্য")
-            .put(EVENT_TYPE.CHILD_INFO_25_MONTHS, "শিশু তথ্য")
+            .put(EVENT_TYPE.CHILD_INFO_25_MONTHS, "শিশু তথ্য")*/
             .put(EVENT_TYPE.FORUM_ADO, "কিশোরী ফোরাম")
             .put(EVENT_TYPE.FORUM_WOMEN, "নারী ফোরাম")
             .put(EVENT_TYPE.FORUM_CHILD, "শিশু ফোরাম")
@@ -1698,7 +1698,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.VACCINATION, "ভ্যাকসিনেশন")
             .put(EVENT_TYPE.SERVICES, "ভিটামিন সার্ভিস")
             .put(EVENT_TYPE.REFERREL_FOLLOWUP, "রেফারেল ফলোআপ")
-            .put(EVENT_TYPE.CHILD_FOLLOWUP, "শিশু ফলোআপ")
+            /*.put(EVENT_TYPE.CHILD_FOLLOWUP, "শিশু ফলোআপ")*/
 
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS, "শিশু ফলোআপ")
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS, "শিশু ফলোআপ")
@@ -1709,9 +1709,9 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_3_4_YEARS, "শিশু ফলোআপ")
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS, "শিশু ফলোআপ")
 
-            .put(EVENT_TYPE.CHILD_INFO_EBF12, "শিশু তথ্য")
+           /* .put(EVENT_TYPE.CHILD_INFO_EBF12, "শিশু তথ্য")
             .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS, "শিশু তথ্য")
-            .put(EVENT_TYPE.CHILD_INFO_25_MONTHS, "শিশু তথ্য")
+            .put(EVENT_TYPE.CHILD_INFO_25_MONTHS, "শিশু তথ্য")*/
             .put(EVENT_TYPE.PNC_CHILD_REGISTRATION, "প্রসবের ফলাফল-শিশু")
             .put(EVENT_TYPE.UPDATE_CHILD_REGISTRATION, "শিশু নিবন্ধন আপডেট")
             .put("Update Family Registration", "খানা নিবন্ধন আপডেট")

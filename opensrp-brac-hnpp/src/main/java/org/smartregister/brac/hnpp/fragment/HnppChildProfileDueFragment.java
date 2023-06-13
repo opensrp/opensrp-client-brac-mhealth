@@ -389,7 +389,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             }*/
 
         }
-        eventType = FormApplicability.isDueChildInfo(day);
+     /*   eventType = FormApplicability.isDueChildInfo(day);
         if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12) && FormApplicability.isDueChildInfoForm(baseEntityId,eventType)){
             childInfo1View = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
             ImageView fImg = childInfo1View.findViewById(R.id.image_view);
@@ -423,7 +423,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             childInfo3View.setOnClickListener(this);
             otherServiceView.addView(childInfo3View);
         }
-
+*/
         ArrayList<ReferralFollowUpModel> getList = FormApplicability.getReferralFollowUp(baseEntityId);
 
         for(ReferralFollowUpModel referralFollowUpModel : getList){
@@ -509,12 +509,12 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                     }
                     break;
 
-                case TAG_CHILD_FOLLOWUP:
+                /*case TAG_CHILD_FOLLOWUP:
                     if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
                         activity.openFollowUp();
                     }
-                    break;
+                    break;*/
 
                 case TAG_CHILD_FOLLOWUP_0_3_MONTHS:
                     if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
@@ -578,7 +578,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                         activity.openCoronaIndividualForm();
                     }
                     break;
-                case TAG_CHILD_INFO_EBF12:
+                /*case TAG_CHILD_INFO_EBF12:
                     if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
                         activity.openChildInfo(HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12);
@@ -595,7 +595,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
                         activity.openChildInfo(HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS);
                     }
-                    break;
+                    break;*/
             }
         }
     }

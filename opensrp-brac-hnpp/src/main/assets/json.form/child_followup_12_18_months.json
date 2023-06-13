@@ -102,10 +102,10 @@
       },
 
       {
-        "key": "fed_extra_food_in_24_hours",
+        "key": "feed_extra_food_in_24_hours",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "fed_extra_food_in_24_hours",
+        "openmrs_entity_id": "feed_extra_food_in_24_hours",
         "openmrs_data_type": "",
         "type": "spinner",
         "hint": "গত 24 ঘন্টায় শিশুকে বাড়তি খাবার দেওয়া হয়েছে কিনা ?",
@@ -120,10 +120,10 @@
       },
 
       {
-        "key": "fed_any_nutrition_in_24_hour",
+        "key": "feed_any_nutrition_in_24_hour",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "fed_any_nutrition_in_24_hour",
+        "openmrs_entity_id": "feed_any_nutrition_in_24_hour",
         "openmrs_data_type": "",
         "type": "spinner",
         "hint": "গত ২৪ ঘন্টায় পুষ্টিকণা খাওয়ানো হয়েছে. ?",
