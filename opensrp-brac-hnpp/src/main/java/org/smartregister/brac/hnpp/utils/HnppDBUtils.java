@@ -715,7 +715,7 @@ public class HnppDBUtils extends CoreChildUtils {
                 "ec_child.birth_weight_taken," +
                 "ec_child.birth_weight," +
                 "ec_child.chlorohexadin," +
-                "ec_child.breastfeeding_time," +
+                "ec_child.breastfeeding_time_in_hour," +
                 "ec_child.head_body_covered," +
                 "ec_child.physically_challenged," +
                 "ec_child.breast_feeded," +"ec_child.which_problem" +
@@ -730,11 +730,12 @@ public class HnppDBUtils extends CoreChildUtils {
             child_details.put("birth_weight_taken",translateValues(cursor.getString(3)));
             child_details.put("birth_weight",translateValues(cursor.getString(4)));
             child_details.put("chlorohexadin",translateValues(cursor.getString(5)));
-            child_details.put("breastfeeding_time",cursor.getString(6));
+            child_details.put("breastfeeding_time_in_hour",translateBreastFeedingHourValues(cursor.getString(6)));
             child_details.put("head_body_covered",translateValues(cursor.getString(7)));
             child_details.put("physically_challenged",translateValues(cursor.getString(8)));
             child_details.put("breast_feeded",translateValues(cursor.getString(9)));
             child_details.put("which_problem",translateValues(cursor.getString(10)));
+
             try {
                 JSONObject stepOne = jsonForm.getJSONObject(JsonFormUtils.STEP1);
                 JSONArray jsonArray = stepOne.getJSONArray(JsonFormUtils.FIELDS);
@@ -772,6 +773,89 @@ public class HnppDBUtils extends CoreChildUtils {
         }
         return value;
     }
+
+    public static String translateBreastFeedingHourValues(String value){
+        if(value==null)return "";
+        switch (value){
+            case "after_1_hour":
+                return  "১ ঘন্টা পরে";
+
+            case "after_2_hour":
+                return  "২ ঘন্টা পরে";
+
+            case "after_3_hour":
+                return  "৩ ঘন্টা পরে";
+
+            case "after_4_hour":
+                return  "৪ ঘন্টা পরে";
+
+            case "after_5_hour":
+                return  "৫ ঘন্টা পরে";
+
+            case "after_6_hour":
+
+                return  "৬ ঘন্টা পরে";
+
+            case "after_7_hour":
+                return  "৭ ঘন্টা পরে";
+
+            case "after_8_hour":
+                return  "৮ ঘন্টা পরে";
+
+            case "after_9_hour":
+                return  "৯ ঘন্টা পরে";
+
+                case "after_10_hour":
+                return  "১০ ঘন্টা পরে";
+
+            case "after_11_hour":
+                return  "১১ ঘন্টা পরে";
+
+            case "after_12_hour":
+                return  "১২ ঘন্টা পরে";
+
+            case "after_13_hour":
+                return  "১৩ ঘন্টা পরে";
+
+                case "after_14_hour":
+                    return  "১৪ ঘন্টা পরে";
+
+            case "after_15_hour":
+                return  "১৫ ঘন্টা পরে";
+
+            case "after_16_hour":
+                return  "১৬ ঘন্টা পরে";
+
+            case "after_17_hour":
+                return  "১৭ ঘন্টা পরে";
+
+            case "after_18_hour":
+                return  "১৮ ঘন্টা পরে";
+
+            case "after_19_hour":
+                return  "১৯ ঘন্টা পরে";
+
+            case "after_20_hour":
+                return  "২০ ঘন্টা পরে";
+
+            case "after_21_hour":
+                return  "২১ ঘন্টা পরে";
+
+            case "after_22_hour":
+                return  "২২ ঘন্টা পরে";
+
+            case "after_23_hour":
+                return  "২৩ ঘন্টা পরে";
+
+            case "after_24_hour":
+                return  "২৪ ঘন্টা পরে";
+
+            default:
+                return  "";
+
+        }
+    }
+
     public static ArrayList<ProfileDueInfo> getDueListByFamilyId(String familyId){
         ArrayList<ProfileDueInfo> profileDueInfoArrayList = new ArrayList<>();
         String query = "select base_entity_id,gender,marital_status,first_name,dob from ec_family_member where relational_id = '"+familyId+"' and date_removed is null";

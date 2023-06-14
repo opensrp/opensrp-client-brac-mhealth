@@ -878,6 +878,15 @@
 
           }
         },
+
+        {
+          "column_name": "breastfeeding_time_in_hour",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.breastfeeding_time_in_hour"
+
+          }
+        },
         {
           "column_name": "birth_weight",
           "type": "Client",
