@@ -38,6 +38,7 @@ public class FormApplicability {
     }
     public static boolean isDueElcoVisit(String baseEntityId){
         int duration = getDurationByType(HnppConstants.EVENT_TYPE.ELCO);
+        Log.d("HH_VISIT_DURATION",""+duration);
         return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneElcoVisit(baseEntityId,duration);
 
     }

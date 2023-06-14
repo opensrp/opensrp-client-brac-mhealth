@@ -427,7 +427,7 @@ public class HnppVisitLogRepository extends BaseRepository {
     }
     public boolean isDoneHHVisit(String baseEntityId,int duration) {
 
-        String query = "select visit_type from visits where visit_type ='"+HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY+"' and base_entity_id ='"+baseEntityId+"' and ((strftime('%s',datetime('now')) - strftime('%s',datetime(visit_date/1000,'unixepoch','localtime')))/3600)<"+duration+"*360";
+        String query = "select visit_type from visits where visit_type ='"+HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY+"' and base_entity_id ='"+baseEntityId+"' and ((strftime('%s',datetime('now')) - strftime('%s',datetime(visit_date/1000,'unixepoch','localtime')))/3600)<"+duration;
         Log.v("DUE_VISIT",""+query);
         android.database.Cursor cursor = null;
         boolean isExist = false;
@@ -451,7 +451,7 @@ public class HnppVisitLogRepository extends BaseRepository {
     }
     public boolean isDoneElcoVisit(String baseEntityId,int duration) {
 
-        String query = "select visit_type from visits where visit_type ='"+HnppConstants.EVENT_TYPE.ELCO+"' and base_entity_id ='"+baseEntityId+"' and ((strftime('%s',datetime('now')) - strftime('%s',datetime(visit_date/1000,'unixepoch','localtime')))/3600)<"+duration+"*360";
+        String query = "select visit_type from visits where visit_type ='"+HnppConstants.EVENT_TYPE.ELCO+"' and base_entity_id ='"+baseEntityId+"' and ((strftime('%s',datetime('now')) - strftime('%s',datetime(visit_date/1000,'unixepoch','localtime')))/3600)<"+duration;
         Log.v("DUE_VISIT",""+query);
         android.database.Cursor cursor = null;
         boolean isExist = false;
@@ -471,6 +471,8 @@ public class HnppVisitLogRepository extends BaseRepository {
         finally {
             if(cursor!=null) cursor.close();
         }
+
+        Log.v("IS_EXIST_ELCO",""+isExist);
         return isExist;
     }
     public boolean isDoneWihinTwentyFourHours(String baseEntityId, String eventType) {

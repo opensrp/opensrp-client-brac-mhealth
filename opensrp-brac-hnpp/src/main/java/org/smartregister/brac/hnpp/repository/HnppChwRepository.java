@@ -205,6 +205,7 @@ public class HnppChwRepository extends Repository {
     }
 
     private void upgradeToVersion44(SQLiteDatabase db) {
+        Log.v("DB_UPGRADE","upgradeToVersion44");
         HHVisitDurationRepository.createTable(db);
 
     }

@@ -4,9 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class HHVisitDurationModel {
     public int id;
-    @SerializedName(("service_id"))
+    @SerializedName(("serviceId"))
     public int serviceId;
-    @SerializedName(("service_name"))
+    @SerializedName(("serviceName"))
     public String serviceName;
     @SerializedName("value")
     public int value;

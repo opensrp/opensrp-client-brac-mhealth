@@ -29,12 +29,12 @@ public class HHVisitDurationRepository extends BaseRepository {
     protected static final String SERVICE_NAME = "service_name";
     protected static final String VALUE = "value"; //duration
 
-    protected static final String LOCATION_TABLE = "hh_visit_duration";
+    protected static final String HH_VISIT_DURATION_TABLE = "hh_visit_duration";
 
     protected static final String[] COLUMNS = new String[]{ID, SERVICE_ID, SERVICE_NAME,VALUE};
 
     private static final String CREATE_HH_VISIT_DURATION_TABLE =
-            "CREATE TABLE " + LOCATION_TABLE + " (" +
+            "CREATE TABLE " + HH_VISIT_DURATION_TABLE + " (" +
                     ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                     SERVICE_ID + " INTEGER , " +SERVICE_NAME + " VARCHAR , "+
                     VALUE + " INTEGER ) ";
@@ -46,7 +46,7 @@ public class HHVisitDurationRepository extends BaseRepository {
     }
 
     protected String getHhVisitDurationTableName() {
-        return LOCATION_TABLE;
+        return HH_VISIT_DURATION_TABLE;
     }
 
     public static void createTable(SQLiteDatabase database) {
@@ -72,11 +72,14 @@ public class HHVisitDurationRepository extends BaseRepository {
 
     public HHVisitDurationModel getHhVisitDurationByType(String type) {
         HHVisitDurationModel hhVisitDurationModel = new HHVisitDurationModel();
-        try (Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getHhVisitDurationTableName() + " where " + SERVICE_NAME + "= " + type, null)) {
-            hhVisitDurationModel = readCursor(cursor);
+        try (Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getHhVisitDurationTableName() + " where " + SERVICE_NAME + " = '" + type+"'", null)) {
             /*while (cursor.moveToNext()) {
-                locations.add(readCursor(cursor));
+                hhVisitDurationModel = readCursor(cursor);
             }*/
+            if(cursor.getCount()>0){
+                cursor.moveToFirst();
+                hhVisitDurationModel = readCursor(cursor);
+            }
         } catch (Exception e) {
             Log.e(LocationRepository.class.getCanonicalName(), e.getMessage(), e);
         }
