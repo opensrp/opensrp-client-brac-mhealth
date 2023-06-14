@@ -49,7 +49,7 @@ public class FormApplicability {
     }
 
     private static int getDurationByType(String eventType) {
-        int duration = 0;
+        int duration = 24;
         HHVisitDurationModel hhVisitDurationModel = HnppApplication.getHHVisitDurationRepository().getHhVisitDurationByType(eventType);
         if(hhVisitDurationModel!=null){
             duration = hhVisitDurationModel.value;

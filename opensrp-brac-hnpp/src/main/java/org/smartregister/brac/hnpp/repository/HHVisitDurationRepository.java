@@ -71,7 +71,7 @@ public class HHVisitDurationRepository extends BaseRepository {
     }
 
     public HHVisitDurationModel getHhVisitDurationByType(String type) {
-        HHVisitDurationModel hhVisitDurationModel = new HHVisitDurationModel();
+        HHVisitDurationModel hhVisitDurationModel = null;
         try (Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getHhVisitDurationTableName() + " where " + SERVICE_NAME + " = '" + type+"'", null)) {
             /*while (cursor.moveToNext()) {
                 hhVisitDurationModel = readCursor(cursor);
