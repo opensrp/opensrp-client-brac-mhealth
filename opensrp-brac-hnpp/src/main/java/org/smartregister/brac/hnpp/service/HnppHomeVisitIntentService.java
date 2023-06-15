@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.repository.VisitDetailsRepository;
@@ -66,12 +67,12 @@ public class HnppHomeVisitIntentService{//} extends IntentService {
                     eventJson = new JSONObject(JsonFormUtils.gson.toJson(baseEvent));
                     getSyncHelper().addEvent(baseEvent.getBaseEntityId(), eventJson);
                     // process details
-                    Log.v("FORUM_TEST","processVisits>>eventType:"+baseEvent.getEventType()+":visitId:"+v.getVisitId());
+                    HnppConstants.appendLog("SAVE_VISIT","eventJson created>>type:"+baseEvent.getEventType());
 
                     visitRepository.completeProcessing(v.getVisitId());
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.v("FORUM_TEST","processVisits>>exception"+e.getMessage());
+                    HnppConstants.appendLog("SAVE_VISIT","processVisits exception occured:"+e.getMessage());
                 }
 
             }

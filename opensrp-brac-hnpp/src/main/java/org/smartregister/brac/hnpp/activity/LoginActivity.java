@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.activity;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.HH_SORTED_BY;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -87,6 +88,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
     private View userNameView, passwordView;
     private Activity mActivity;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -160,8 +162,26 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
                 }
             }
         });
+        try{
+            deleteLog();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
+    }
+    @SuppressLint("StaticFieldLeak")
+    private void deleteLog(){
+        org.smartregister.util.Utils.startAsyncTask(new AsyncTask() {
 
+            @SuppressLint("StaticFieldLeak")
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                HnppConstants.deleteLogFile();
+
+                return null;
+            }
+
+        }, null);
     }
 
     @Override
@@ -177,8 +197,12 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         HnppConstants.updateAppBackgroundOnResume(findViewById(R.id.login_layout));
         if(!BuildConfig.DEBUG)isDeviceVerifyiedCheck();
         if(BuildConfig.DEBUG){
-            userNameText.setText("01313049998");
-            passwordText.setText("9998");
+//            userNameText.setText("01313049998");
+//            passwordText.setText("9998");
+            //large data
+            userNameText.setText("01313047234");
+            passwordText.setText("7234");
+
         }
     }
     @Override
@@ -452,6 +476,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private void getToFamilyList(boolean remote) {
         boolean isExist = new DistrictListRepository(HnppApplication.getInstance().getRepository()).isExistData();
         if(!isExist){
@@ -483,7 +508,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             InValidateSyncDataServiceJob.scheduleJob(InValidateSyncDataServiceJob.TAG, TimeUnit.MINUTES.toMinutes(BuildConfig.INVALID_SYNC_DURATION_MINUTES),15l);
         }
 
-        HnppConstants.deleteLogFile();
+
 
     }
 

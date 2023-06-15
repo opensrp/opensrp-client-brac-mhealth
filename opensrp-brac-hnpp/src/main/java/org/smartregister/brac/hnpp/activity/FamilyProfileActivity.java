@@ -463,6 +463,8 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
             if(visit!=null){
                 HnppHomeVisitIntentService.processVisits();
                 FormParser.processVisitLog(visit);
+                HnppConstants.appendLog("SAVE_VISIT","processVisitLog done formSubmissionId:"+formSubmissionId+":type:"+type);
+
                 //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
                 return true;
             }else{
@@ -470,6 +472,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            HnppConstants.appendLog("SAVE_VISIT","processVisitLog exception occured :"+e.getMessage());
         }
 
         return false;

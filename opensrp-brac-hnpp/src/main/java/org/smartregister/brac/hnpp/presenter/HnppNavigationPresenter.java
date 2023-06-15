@@ -202,8 +202,7 @@ public class HnppNavigationPresenter extends NavigationPresenter {
                             (dialog, which) -> {
                                 HnppApplication.getHNPPInstance().forceLogoutForRemoteLogin();
                             });
-                    if (activity != null)
-                        alertDialog.show();
+                    alertDialog.show();
                 }
             });
 
