@@ -54,10 +54,10 @@
         "key": "form_name",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "Child Followup 0-3 months",
+        "openmrs_entity_id": "Child Followup 3-6 months",
         "openmrs_data_type": "text",
         "type": "hidden",
-        "value": "child_followup_0_3_months"
+        "value": "child_followup_3_6_months"
       },
       
       {

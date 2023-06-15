@@ -84,9 +84,6 @@ public class TargetAchievementInteractor implements DashBoardContract.TargetInte
         visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.PREGNANCY_IDENTIFIED,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.PREGNANCY_IDENTIFIED)));
         visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME)));
         visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.INSTITUTIONALIZES_DELIVERY,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.INSTITUTIONALIZES_DELIVERY)));
-        visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.CHILD_VISIT_0_6,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.CHILD_VISIT_0_6)));
-        visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.CHILD_VISIT_7_24,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.CHILD_VISIT_7_24)));
-        visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.CHILD_VISIT_18_36,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.CHILD_VISIT_18_36)));
 
         visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS)));
         visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS)));

@@ -944,8 +944,8 @@ public class HnppConstants extends CoreConstants {
         public static final String CHILD_FOLLOW_UP_7_11_MONTHS = "child_followup_7_11_months";
         public static final String CHILD_FOLLOW_UP_12_18_MONTHS = "child_followup_12_18_months";
         public static final String CHILD_FOLLOW_UP_19_24_MONTHS = "child_followup_19_24_months";
-        public static final String CHILD_FOLLOW_UP_2_3_YEARS = "child_followup_2-3_years";
-        public static final String CHILD_FOLLOW_UP_3_4_YEARS = "child_followup_3-4_years";
+        public static final String CHILD_FOLLOW_UP_2_3_YEARS = "child_followup_2_3_years";
+        public static final String CHILD_FOLLOW_UP_3_4_YEARS = "child_followup_3_4_years";
         public static final String CHILD_FOLLOW_UP_4_5_YEARS = "child_followup_4_5_years";
 
        /* public static final String CHILD_INFO_EBF12 = "child_info_ebf12";
@@ -1549,14 +1549,14 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.CHILD_VISIT_7_24, "৭-২৪ মাস বয়সী শিশু প্রদর্শন")
             .put(EVENT_TYPE.CHILD_VISIT_18_36, "১৮-৩৬ মাস বয়সী শিশু পরিদর্শন")
 
-            /*.put(EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS, "শিশু ফলোআপ ০-৩ মাস")
+            .put(EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS, "শিশু ফলোআপ ০-৩ মাস")
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS, "শিশু ফলোআপ ৩-৬ মাস")
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_7_11_MONTHS, "শিশু ফলোআপ ৭-১১ মাস")
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_12_18_MONTHS, "শিশু ফলোআপ ১২-১৮ মাস")
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_19_24_MONTHS, "শিশু ফলোআপ ১৯-২৪ মাস")
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_2_3_YEARS, "শিশু ফলোআপ ২-৩ বছর")
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_3_4_YEARS, "শিশু ফলোআপ ৩-৪ বছর")
-            .put(EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS, "শিশু ফলোআপ ৪-৫ বছর")*/
+            .put(EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS, "শিশু ফলোআপ ৪-৫ বছর")
 
             .put(EVENT_TYPE.CHILD_IMMUNIZATION_0_59, "০-৫৯ মাস বয়সী শিশুর টিকা")
             .put(EVENT_TYPE.FORUM_ADO, "কিশোরী ফোরাম")
