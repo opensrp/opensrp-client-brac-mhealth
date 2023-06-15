@@ -194,7 +194,7 @@ public class ChildDBConstants {
         public static final String HEAD_BODY_COVERED = "head_body_covered";
         public static final String PHYSICALLY_CHALLENGED = "physically_challenged";
         public static final String BREAST_FEEDED = "breast_feeded";
-
+        public static final String BREAST_FEEDED_IN_HOUR = "breastfeeding_time_in_hour";
         public static final String WHICH_PROBLEM = "which_problem";
 
 

@@ -708,6 +708,16 @@ public class HnppDBUtils extends CoreChildUtils {
     }
 
     public static void populatePNCChildDetails(String baseEntityId, JSONObject jsonForm){
+        String tempUniqueId = "";
+        try {
+            JSONObject stepOne = jsonForm.getJSONObject(JsonFormUtils.STEP1);
+            JSONArray jsonArray = stepOne.getJSONArray(JsonFormUtils.FIELDS);
+            JSONObject formObject = org.smartregister.util.JsonFormUtils.getFieldJSONObject(jsonArray, "temp_unique_id");
+            tempUniqueId = formObject.getString("value");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         String query = "select " +
                 "ec_child.first_name," +
                 "ec_child.dob," +
@@ -719,7 +729,9 @@ public class HnppDBUtils extends CoreChildUtils {
                 "ec_child.head_body_covered," +
                 "ec_child.physically_challenged," +
                 "ec_child.breast_feeded," +"ec_child.which_problem" +
-                " from ec_child where ec_child.mother_entity_id = '"+baseEntityId+"' AND ec_child.entry_point = 'PNC'";
+                " from ec_child where ec_child.mother_entity_id = '"+baseEntityId+"' AND " +
+                "ec_child.unique_id = '"+tempUniqueId+"' AND "+
+                "ec_child.entry_point = 'PNC'";
         Cursor cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         HashMap<String,String> child_details = new HashMap<>();
         if(cursor !=null && cursor.getCount() > 0) {
@@ -1239,6 +1251,7 @@ public class HnppDBUtils extends CoreChildUtils {
         columnList.add(tableName + "." + ChildDBConstants.KEY.BIRTH_WEIGHT_TAKEN);
         columnList.add(tableName + "." + ChildDBConstants.KEY.BIRTH_WEIGHT);
         columnList.add(tableName + "." + ChildDBConstants.KEY.CHLOROHEXADIN);
+        columnList.add(tableName + "." + ChildDBConstants.KEY.BREAST_FEEDED_IN_HOUR);
         columnList.add(tableName + "." + ChildDBConstants.KEY.BREASTFEEDING_TIME);
         columnList.add(tableName + "." + ChildDBConstants.KEY.HEAD_BODY_COVERED);
         columnList.add(tableName + "." + ChildDBConstants.KEY.PHYSICALLY_CHALLENGED);
