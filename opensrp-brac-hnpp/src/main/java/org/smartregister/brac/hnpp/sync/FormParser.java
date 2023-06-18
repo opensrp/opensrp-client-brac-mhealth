@@ -79,6 +79,7 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PNC_REG
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME_OOC;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PREGNANT_WOMAN_DIETARY_DIVERSITY;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.SS_INFO;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.WOMEN_PACKAGE;
@@ -647,7 +648,7 @@ public class FormParser {
                 }
                 String dod = "";
                 if (details.containsKey("date_died") && !StringUtils.isEmpty(details.get("date_died"))) {
-                    dod = details.get("date_died");
+                        dod = details.get("date_died");
 
                 }
                 processRemoveMember(baseEntityId, log.getVisitDate(), dod);
@@ -2081,6 +2082,9 @@ public class FormParser {
                 break;
             case ANC3_REGISTRATION_OOC:
                 form_name = HnppConstants.JSON_FORMS.ANC3_FORM_OOC + ".json";
+                break;
+            case PREGNANT_WOMAN_DIETARY_DIVERSITY:
+                form_name = HnppConstants.JSON_FORMS.PREGNANT_WOMAN_DIETARY_DIVERSITY + ".json";
                 break;
             case MEMBER_REFERRAL:
                 form_name = HnppConstants.isPALogin()? HnppConstants.JSON_FORMS.MEMBER_REFERRAL + "_pa.json":HnppConstants.JSON_FORMS.MEMBER_REFERRAL + ".json";

@@ -624,6 +624,9 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             case  HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS:
                 return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS;
 
+            case  HnppConstants.EVENT_TYPE.PREGNANT_WOMAN_DIETARY_DIVERSITY:
+                return HnppConstants.EVENT_TYPE.PREGNANT_WOMAN_DIETARY_DIVERSITY;
+
 
             case  HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP:
                 return HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP;

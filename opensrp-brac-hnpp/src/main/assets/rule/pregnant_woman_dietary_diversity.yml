@@ -1,0 +1,25 @@
+---
+name: step1_woman_weight
+description: digit must be smaller 200
+priority: 1
+condition: "step1_woman_weight < 200"
+actions:
+  - "isRelevant = true"
+---
+
+name: step1_is_taken_iron_folic_tablet_n_24_hr
+description: if is_valid_lmp is true
+priority: 1
+condition: "step1_is_valid_lmp == 'true'"
+actions:
+  - "isRelevant = true"
+
+---
+
+name: step1_is_taken_calcium_tablet_n_24_hr
+description: if is_valid_lmp is true
+priority: 1
+condition: "step1_is_valid_lmp == 'true'"
+actions:
+  - "isRelevant = true"
+

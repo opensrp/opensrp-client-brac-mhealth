@@ -23,6 +23,7 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.util.AppExecutors;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 public class HnppMemberProfileInteractor implements HnppMemberProfileContract.Interactor {
 
@@ -31,25 +32,28 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
     public static final int TAG_OPEN_FAMILY = 111;
     public static final int TAG_OPEN_REFEREAL = 222;
     private static final int TAG_OPEN_CORONA = 88888;
-    private static final int TAG_OPEN_ANC_REGISTRATION= 555;
+    private static final int TAG_OPEN_ANC_REGISTRATION = 555;
+    private static final int TAG_PREGNANT_WOMAN_DIETARY_DIVERSITY = 556;
 
     private AppExecutors appExecutors;
 
-    public HnppMemberProfileInteractor(AppExecutors appExecutors){
+    public HnppMemberProfileInteractor(AppExecutors appExecutors) {
         this.appExecutors = appExecutors;
     }
+
     String eventType = "";
-    private ArrayList<MemberProfileDueData> getOtherService(CommonPersonObjectClient commonPersonObjectClient,String baseEntityId) {
+
+    private ArrayList<MemberProfileDueData> getOtherService(CommonPersonObjectClient commonPersonObjectClient, String baseEntityId) {
         ArrayList<MemberProfileDueData> memberProfileDueDataArrayList = new ArrayList<>();
-        try{
+        try {
             String gender = org.smartregister.util.Utils.getValue(commonPersonObjectClient.getColumnmaps(), "gender", false);
-            String maritalStatus  = org.smartregister.util.Utils.getValue(commonPersonObjectClient.getColumnmaps(), "marital_status", false);
-            if(gender.equalsIgnoreCase("F") && maritalStatus.equalsIgnoreCase("Married")){
+            String maritalStatus = org.smartregister.util.Utils.getValue(commonPersonObjectClient.getColumnmaps(), "marital_status", false);
+            if (gender.equalsIgnoreCase("F") && maritalStatus.equalsIgnoreCase("Married")) {
                 MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
                 memberProfileDueData.setType(TAG_OPEN_ANC1);
                 //if women
-                eventType = FormApplicability.getDueFormForMarriedWomen(baseEntityId,FormApplicability.getAge(commonPersonObjectClient));
-                if(FormApplicability.isDueAnyForm(baseEntityId,eventType) && !TextUtils.isEmpty(eventType)){
+                eventType = FormApplicability.getDueFormForMarriedWomen(baseEntityId, FormApplicability.getAge(commonPersonObjectClient));
+                if (FormApplicability.isDueAnyForm(baseEntityId, eventType) && !TextUtils.isEmpty(eventType)) {
                     memberProfileDueData.setTitle(HnppConstants.visitEventTypeMapping.get(eventType));
                     memberProfileDueData.setImageSource(HnppConstants.iconMapping.get(eventType));
                     memberProfileDueData.setEventType(eventType);
@@ -62,6 +66,25 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                     memberProfileDueData2.setType(TAG_OPEN_ANC_REGISTRATION);
                     memberProfileDueData2.setTitle("গর্ভবতী রেজিস্ট্রেশন");
                     memberProfileDueDataArrayList.add(memberProfileDueData2);
+                }
+                //eventype = anc1||anc2||anc3{
+                //(FormApplicability.isDueAnyForm(baseEntityId, "pregency") && !TextUtils.isEmpty(pregency)//}
+
+                switch (eventType) {
+                    case HnppConstants.EVENT_TYPE.ANC1_REGISTRATION:
+                    case HnppConstants.EVENT_TYPE.ANC2_REGISTRATION:
+                    case HnppConstants.EVENT_TYPE.ANC3_REGISTRATION:
+                        if (FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.PREGNANT_WOMAN_DIETARY_DIVERSITY)) {
+                            MemberProfileDueData memberProfileDueData2 = new MemberProfileDueData();
+                            memberProfileDueData2.setImageSource(R.mipmap.ic_anc_pink);
+                            memberProfileDueData2.setType(TAG_PREGNANT_WOMAN_DIETARY_DIVERSITY);
+                            memberProfileDueData2.setTitle("গর্ভবতী মহিলাদের খাদ্যতালিকাগত বৈচিত্র্য");
+                            if(eventType.equals(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
+                                memberProfileDueData2.setFrom(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION);
+                            }
+                            memberProfileDueDataArrayList.add(memberProfileDueData2);
+                        }
+                        break;
                 }
             }
 
@@ -82,7 +105,7 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
             }
 
             ArrayList<ReferralFollowUpModel> getList = FormApplicability.getReferralFollowUp(baseEntityId);
-            for(ReferralFollowUpModel referralFollowUpModel : getList){
+            for (ReferralFollowUpModel referralFollowUpModel : getList) {
                 MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
                 memberProfileDueData.setImageSource(iconMapping.get(HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP));
                 memberProfileDueData.setTitle(eventTypeMapping.get(HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP));
@@ -93,14 +116,14 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                 memberProfileDueDataArrayList.add(memberProfileDueData);
 
             }
-            if(FormApplicability.isDueCoronaForm(baseEntityId)){
+            if (FormApplicability.isDueCoronaForm(baseEntityId)) {
                 MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
                 memberProfileDueData.setImageSource(R.drawable.ic_virus);
                 memberProfileDueData.setTitle("করোনা তথ্য");
                 memberProfileDueData.setType(TAG_OPEN_CORONA);
                 memberProfileDueDataArrayList.add(memberProfileDueData);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
 
@@ -119,7 +142,7 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
            /* if(HnppConstants.isPALogin()){
                 otherServiceData =  getPAService(commonPersonObjectClient);
             }else{*/
-            memberProfileDueData = getOtherService(commonPersonObjectClient,baseEntityId);
+            memberProfileDueData = getOtherService(commonPersonObjectClient, baseEntityId);
             // }
             appExecutors.mainThread().execute(() -> callBack.onUpdateList(memberProfileDueData));
         };

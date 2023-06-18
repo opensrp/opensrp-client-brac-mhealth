@@ -915,6 +915,7 @@ public class HnppConstants extends CoreConstants {
         public static final String GENERAL_DISEASE = "hnpp_anc_general_disease";
         public static final String PREGNANCY_HISTORY = "hnpp_anc_pregnancy_history";
         public static final String PREGNANCY_OUTCOME = "hnpp_anc_pregnancy_outcome";
+        public static final String PREGNANT_WOMAN_DIETARY_DIVERSITY = "pregnant_woman_dietary_diversity";
         public static final String PREGNANCY_OUTCOME_OOC = "hnpp_anc_pregnancy_outcome_ooc";
         public static final String MEMBER_REFERRAL = "hnpp_member_referral";
         public static final String MEMBER_REFERRAL_PA = "hnpp_member_referral_pa";
@@ -1013,6 +1014,7 @@ public class HnppConstants extends CoreConstants {
         public static final String VACCINATION = "Vaccination";
         public static final String SERVICES = "Recurring Service";
         public static final String PREGNANCY_OUTCOME = "Pregnancy Outcome";
+        public static final String PREGNANT_WOMAN_DIETARY_DIVERSITY = "Pregnant Women Dietary Diversity";
         public static final String PREGNANCY_OUTCOME_OOC = "OOC Pregnancy Outcome";
         public static final String REFERREL_FOLLOWUP = "Member Referral Followup";
        /* public static final String CHILD_INFO_EBF12 = "Child Info EBF 1_2";
@@ -1356,6 +1358,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ANC1_REGISTRATION, JSON_FORMS.ANC1_FORM)
             .put(EVENT_TYPE.ANC2_REGISTRATION, JSON_FORMS.ANC2_FORM)
             .put(EVENT_TYPE.ANC3_REGISTRATION, JSON_FORMS.ANC3_FORM)
+            .put(EVENT_TYPE.PREGNANT_WOMAN_DIETARY_DIVERSITY, JSON_FORMS.PREGNANT_WOMAN_DIETARY_DIVERSITY)
             .put(EVENT_TYPE.ELCO, JSON_FORMS.ELCO)
 
             .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour, JSON_FORMS.PNC_FORM_AFTER_48_HOUR)
@@ -1368,6 +1371,7 @@ public class HnppConstants extends CoreConstants {
             .put(JSON_FORMS.ANC1_FORM, EventType.ANC_HOME_VISIT)
             .put(JSON_FORMS.ANC2_FORM, EventType.ANC_HOME_VISIT)
             .put(JSON_FORMS.ANC3_FORM, EventType.ANC_HOME_VISIT)
+            .put(JSON_FORMS.PREGNANT_WOMAN_DIETARY_DIVERSITY, EventType.PREGNANT_WOMAN_DIETARY_DIVERSITY)
             .put(JSON_FORMS.PNC_FORM_AFTER_48_HOUR, EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour)
             .put(JSON_FORMS.PNC_FORM_BEFORE_48_HOUR, EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour)
             .put(JSON_FORMS.NCD_PACKAGE, EVENT_TYPE.NCD_PACKAGE)
@@ -1380,6 +1384,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ANC1_REGISTRATION, JSON_FORMS.ANC1_FORM_OOC)
             .put(EVENT_TYPE.ANC2_REGISTRATION, JSON_FORMS.ANC2_FORM_OOC)
             .put(EVENT_TYPE.ANC3_REGISTRATION, JSON_FORMS.ANC3_FORM_OOC)
+            .put(EVENT_TYPE.PREGNANT_WOMAN_DIETARY_DIVERSITY, JSON_FORMS.PREGNANT_WOMAN_DIETARY_DIVERSITY)
 
             .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC, JSON_FORMS.PNC_FORM_AFTER_48_HOUR_OOC)
             .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC, JSON_FORMS.PNC_FORM_BEFORE_48_HOUR_OOC)
@@ -1400,6 +1405,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ANC1_REGISTRATION, R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.ANC2_REGISTRATION, R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.ANC3_REGISTRATION, R.mipmap.ic_anc_pink)
+            .put(EVENT_TYPE.PREGNANT_WOMAN_DIETARY_DIVERSITY, R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.ANC_GENERAL_DISEASE, R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.ANC_PREGNANCY_HISTORY, R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.ANC_REGISTRATION, R.mipmap.ic_anc_pink)
@@ -1474,6 +1480,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ANC1_REGISTRATION, "গর্ভবতী পরিচর্যা - ১ম ত্রিমাসিক")
             .put(EVENT_TYPE.ANC2_REGISTRATION, "গর্ভবতী পরিচর্যা - ২য় ত্রিমাসিক")
             .put(EVENT_TYPE.ANC3_REGISTRATION, "গর্ভবতী পরিচর্যা - ৩য় ত্রিমাসিক")
+            .put(EVENT_TYPE.PREGNANT_WOMAN_DIETARY_DIVERSITY, "গর্ভবতী মহিলাদের খাদ্যতালিকাগত বৈচিত্র্য")
             .put(EVENT_TYPE.ANC_GENERAL_DISEASE, "শারীরিক সমস্যা")
             .put(EVENT_TYPE.ANC_PREGNANCY_HISTORY, "পূর্বের গর্ভের ইতিহাস")
             .put(EVENT_TYPE.ELCO, "সক্ষম দম্পতি পরিদর্শন")
@@ -1565,6 +1572,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.FORUM_NCD, "সাধারণ ফোরাম")
             .put(EVENT_TYPE.FORUM_ADULT, "অ্যাডাল্ট ফোরাম")
             .put(EVENT_TYPE.PREGNANCY_OUTCOME, "প্রসব")
+            .put(EVENT_TYPE.PREGNANT_WOMAN_DIETARY_DIVERSITY, "গর্ভবতী মহিলাদের খাদ্যতালিকাগত বৈচিত্র্য")
             .put(EVENT_TYPE.GIRL_PACKAGE, "কিশোরী কাউন্সেলিং")
             .put(EVENT_TYPE.WOMEN_PACKAGE, "নারী কাউন্সেলিং")
             .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু কাউন্সেলিং")
@@ -1595,6 +1603,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ANC1_REGISTRATION, "গর্ভবতী পরিচর্যা - ১ম ত্রিমাসিক")
             .put(EVENT_TYPE.ANC2_REGISTRATION, "গর্ভবতী পরিচর্যা - ২য় ত্রিমাসিক")
             .put(EVENT_TYPE.ANC3_REGISTRATION, "গর্ভবতী পরিচর্যা - ৩য় ত্রিমাসিক")
+            .put(EVENT_TYPE.PREGNANT_WOMAN_DIETARY_DIVERSITY, "গর্ভবতী মহিলাদের খাদ্যতালিকাগত বৈচিত্র্য")
             .put("ANC", "গর্ভবতী পরিচর্যা(এএনসি)")
             .put("pnc", "পূর্বের প্রসবোত্তর পরিচর্যা(পিএনসি)")
             .put(EVENT_TYPE.ELCO, "সক্ষম দম্পতি পরিদর্শন")
@@ -1663,6 +1672,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour, "পি.এন.সি.(প্রথম ৪৮ ঘন্টা পর)")
 
             .put(EVENT_TYPE.PREGNANCY_OUTCOME, "প্রসব")
+            .put(EVENT_TYPE.PREGNANT_WOMAN_DIETARY_DIVERSITY, "গর্ভবতী মহিলাদের খাদ্যতালিকাগত বৈচিত্র্য")
             .build();
 
 
@@ -1731,6 +1741,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ANC1_REGISTRATION, "গর্ভবতী পরিচর্যা - ১ম ত্রিমাসিক")
             .put(EVENT_TYPE.ANC2_REGISTRATION, "গর্ভবতী পরিচর্যা - ২য় ত্রিমাসিক")
             .put(EVENT_TYPE.ANC3_REGISTRATION, "গর্ভবতী পরিচর্যা - ৩য় ত্রিমাসিক")
+            .put(EVENT_TYPE.PREGNANT_WOMAN_DIETARY_DIVERSITY, "গর্ভবতী মহিলাদের খাদ্যতালিকাগত বৈচিত্র্য")
             .put("Guest Member Registration", "বহিরাগত রেজিস্ট্রেশন")
             .put("OOC Member Registration", "বহিরাগত রেজিস্ট্রেশন")
             .build();

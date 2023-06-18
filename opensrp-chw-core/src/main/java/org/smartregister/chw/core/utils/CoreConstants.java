@@ -77,6 +77,8 @@ public class CoreConstants {
         public static final String UPDATE_FAMILY_RELATIONS = "Update Family Relations";
         public static final String UPDATE_FAMILY_MEMBER_RELATIONS = "Update Family Member Relations";
 
+        public static final String PREGNANT_WOMAN_DIETARY_DIVERSITY = "Pregnant Women Dietary Diversity";
+
         public static final String UPDATE_FAMILY_REGISTRATION = "Update Family Registration";
         public static final String UPDATE_FAMILY_MEMBER_REGISTRATION = "Update Family Member Registration";
 

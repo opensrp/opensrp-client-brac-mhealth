@@ -7,6 +7,15 @@ public class MemberProfileDueData {
     private String title;
     private String subTitle;
     private int type;
+    public String from;
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
 
     public String getEventType() {
         return eventType;
