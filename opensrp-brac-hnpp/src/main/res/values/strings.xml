@@ -10,7 +10,6 @@
         <item>NID</item>
         <item>BRID</item>
         <item>EPI No</item>
-        <item>SHR ID</item>
         <item>System ID</item>
     </string-array>
     <string-array name="edema_value">

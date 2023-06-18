@@ -61,17 +61,23 @@ public class SearchDetailsInteractor implements SearchDetailsContract.Interactor
             if (TextUtils.isEmpty(userName)) {
                 return null;
             }
-            String url = baseUrl + GLOBAL_SEARCH_URL + "district_id="+globalSearchContentData.getDistrictId()+"&division_id="+globalSearchContentData.getDivisionId()
-                    +"&upazila_id=" + globalSearchContentData.getUpozillaId() + "&gender=" + globalSearchContentData.getGender() ;
-            if(!TextUtils.isEmpty(globalSearchContentData.getPhoneNo())){
-                url+="&mobile="+globalSearchContentData.getPhoneNo();
+            String url = "";
+            if(!globalSearchContentData.getShrId().isEmpty()){
+                url = baseUrl + GLOBAL_SEARCH_URL+"shr_id="+globalSearchContentData.getShrId();
+            }else{
+                url= baseUrl + GLOBAL_SEARCH_URL + "district_id="+globalSearchContentData.getDistrictId()+"&division_id="+globalSearchContentData.getDivisionId()
+                        +"&upazila_id=" + globalSearchContentData.getUpozillaId() + "&gender=" + globalSearchContentData.getGender() ;
+                if(!TextUtils.isEmpty(globalSearchContentData.getPhoneNo())){
+                    url+="&mobile="+globalSearchContentData.getPhoneNo();
+                }
+                if(!TextUtils.isEmpty(globalSearchContentData.getDob())){
+                    url+="&dob=" + globalSearchContentData.getDob();
+                }
+                if(globalSearchContentData.getId().length()>8){
+                    url+="&" + globalSearchContentData.getId();
+                }
             }
-            if(!TextUtils.isEmpty(globalSearchContentData.getDob())){
-                url+="&dob=" + globalSearchContentData.getDob();
-            }
-            if(globalSearchContentData.getId().length()>8){
-                url+="&" + globalSearchContentData.getId();
-            }
+
             /*+ "?username=" + userName;*/
             Log.v("GLOBAL_SEARCH_URL", "url:" + url);
             org.smartregister.domain.Response resp = httpAgent.fetch(url);

@@ -50,6 +50,7 @@ android:fillViewport="true">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -57,9 +58,84 @@ android:fillViewport="true">
             android:background="@color/light_gray"
             android:gravity="center"
             android:orientation="vertical">
-
+            <Button
+                android:id="@+id/by_shr_search_btn"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/login_button_bg"
+                android:ems="10"
+                android:shadowColor="#ffffff"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="0.5"
+                android:textStyle="bold"
+                android:text="শেয়ারড হেলথ রেকর্ড আই ডি দিয়ে খুঁজুন"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+        <LinearLayout
+            android:id="@+id/filter_by_shr"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:visibility="gone"
+            android:background="@drawable/rounded_edit_text_normal"
+            android:gravity="center"
+            android:orientation="vertical">
+            <EditText
+                android:id="@+id/shr_number"
+                android:layout_marginBottom="20dp"
+                android:layout_width="match_parent"
+                android:background="@drawable/edit_text_bg"
+                android:inputType="number"
+                android:hint="শেয়ারড হেলথ রেকর্ড আই ডি"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:layout_margin="5dp"
+                android:layout_height="50dp">
+            </EditText>
+            <Button
+                android:id="@+id/shr_search_btn"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/login_button_bg"
+                android:ems="10"
+                android:shadowColor="#ffffff"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="0.5"
+                android:textStyle="bold"
+                android:text="@string/search"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+        </LinearLayout>
+            <Button
+                android:id="@+id/by_address_search_btn"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/login_button_bg"
+                android:ems="10"
+                android:shadowColor="#ffffff"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="0.5"
+                android:textStyle="bold"
+                android:text="পূর্ববর্তী ঠিকানা থেকে খুঁজুন "
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
             <LinearLayout
+                android:id="@+id/filter_by_div"
+                android:visibility="gone"
                 android:padding="10dp"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
@@ -70,7 +146,7 @@ android:fillViewport="true">
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:textSize="18sp"/>
-            </LinearLayout>
+
             <LinearLayout
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
@@ -282,7 +358,7 @@ android:fillViewport="true">
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
-
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

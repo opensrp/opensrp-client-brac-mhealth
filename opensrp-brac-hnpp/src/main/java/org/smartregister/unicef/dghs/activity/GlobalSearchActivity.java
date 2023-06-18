@@ -36,6 +36,7 @@ public class GlobalSearchActivity extends SecuredActivity implements View.OnClic
     protected Spinner migration_id_spinner;
     protected Spinner migration_gender_spinner;
     protected EditText phoneNoEditText,idNumberEditText,dobEditText;
+    protected EditText shrIdEditText;
     protected TextView migration_filter_title;
     protected int day, month, year;
     Calendar calendar;
@@ -68,6 +69,7 @@ public class GlobalSearchActivity extends SecuredActivity implements View.OnClic
         phoneNoEditText = findViewById(R.id.phone_no);
         idNumberEditText = findViewById(R.id.id_card_number);
         dobEditText = findViewById(R.id.dobEditText);
+        shrIdEditText  = findViewById(R.id.shr_number);
         migration_filter_title = findViewById(R.id.titleFilter);
         migrationType = getIntent().getStringExtra(MIGRATION_TYPE);
         familyBaseEntityId = getIntent().getStringExtra(BASE_ENTITY_ID);
@@ -84,6 +86,10 @@ public class GlobalSearchActivity extends SecuredActivity implements View.OnClic
         findViewById(R.id.migration_filter_search_btn).setOnClickListener(this);
         findViewById(R.id.showCalenderBtn).setOnClickListener(this);
         findViewById(R.id.backBtn).setOnClickListener(this);
+        findViewById(R.id.by_shr_search_btn).setOnClickListener(this);
+        findViewById(R.id.shr_search_btn).setOnClickListener(this);
+        findViewById(R.id.by_address_search_btn).setOnClickListener(this);
+
     }
 
     @Override
@@ -126,6 +132,26 @@ public class GlobalSearchActivity extends SecuredActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.by_shr_search_btn:
+                findViewById(R.id.filter_by_shr).setVisibility(View.VISIBLE);
+                findViewById(R.id.filter_by_div).setVisibility(View.GONE);
+
+                break;
+            case R.id.shr_search_btn: {
+                if (TextUtils.isEmpty(shrIdEditText.getText())) {
+                    shrIdEditText.setError("Enter SHR Id");
+                    return;
+                }
+                GlobalSearchContentData searchContentData = new GlobalSearchContentData();
+                searchContentData.setShrId(shrIdEditText.getText().toString());
+                searchContentData.setMigrationType(migrationType);
+                GlobalSearchDetailsActivity.startMigrationSearchActivity(this, searchContentData);
+            }
+                break;
+            case R.id.by_address_search_btn:
+                findViewById(R.id.filter_by_shr).setVisibility(View.GONE);
+                findViewById(R.id.filter_by_div).setVisibility(View.VISIBLE);
+                break;
             case R.id.showCalenderBtn:
                 DatePickerDialog fromDialog = new DatePickerDialog(this, R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override

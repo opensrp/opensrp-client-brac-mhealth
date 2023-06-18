@@ -21,6 +21,15 @@ public class GlobalSearchContentData implements Serializable {
     private String hhId;
     private String selectedBlockId;
     private String dob;
+    private String shrId;
+
+    public void setShrId(String shrId) {
+        this.shrId = shrId;
+    }
+
+    public String getShrId() {
+        return shrId;
+    }
 
     public void setDob(String dob) {
         this.dob = dob;
