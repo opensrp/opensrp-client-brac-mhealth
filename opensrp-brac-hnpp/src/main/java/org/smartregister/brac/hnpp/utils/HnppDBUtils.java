@@ -306,6 +306,39 @@ public class HnppDBUtils extends CoreChildUtils {
         if(month>= 18 && month <= 36) return HnppConstants.EVENT_TYPE.CHILD_VISIT_18_36;
         if(month>= 6 && month < 24) return HnppConstants.EVENT_TYPE.CHILD_VISIT_7_24;
         if(month>= 0 && month < 6) return HnppConstants.EVENT_TYPE.CHILD_VISIT_0_6;
+
+        return "";
+
+    }
+
+    public static String getChildFollowUpFormNameByDay(String baseEntityId){
+        String query = "select ((( julianday('now') - julianday(dob))/365)) as age from ec_family_member where base_entity_id ='"+baseEntityId+"'";
+        Cursor cursor = null;
+        int day = 0;
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                day = cursor.getInt(0);
+            }
+
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        finally {
+            if(cursor!=null)cursor.close();
+        }
+
+
+        if(day>= 0 && day <= 90) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS;
+        if(day>= 91 && day <= 180) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS;
+        if(day>= 181 && day <= 330) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_7_11_MONTHS;
+        if(day>= 331 && day <= 540) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_12_18_MONTHS;
+        if(day>= 541 && day <= 730) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_19_24_MONTHS;
+
+        if(day>= 731 && day <= 1095) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_2_3_YEARS;
+        if(day>= 1096 && day <= 1460) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_4_YEARS;
+        if(day>= 1461 && day <= 1825) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS;
         return "";
 
     }

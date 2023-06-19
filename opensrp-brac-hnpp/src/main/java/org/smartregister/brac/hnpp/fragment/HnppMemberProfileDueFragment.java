@@ -64,6 +64,8 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
     private static final int TAG_OPEN_REFEREAL = 222;
     private static final int TAG_OPEN_CORONA = 88888;
     private static final int TAG_OPEN_ANC_REGISTRATION= 555;
+    private static final int TAG_PREGNANT_WOMAN_DIETARY_DIVERSITY = 556;
+
 
     private String baseEntityId;
     private LinearLayout otherServiceView;
@@ -296,6 +298,13 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
                     if (mActivity != null && mActivity instanceof HnppFamilyOtherMemberProfileActivity) {
                         HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) mActivity;
                         activity.openRefereal();
+                    }
+                    break;
+
+                case TAG_PREGNANT_WOMAN_DIETARY_DIVERSITY:
+                    if (mActivity != null && mActivity instanceof HnppFamilyOtherMemberProfileActivity) {
+                        HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) mActivity;
+                        activity.openWomanDietaryDiversity(content.from);
                     }
                     break;
                 case TAG_OPEN_ANC1:

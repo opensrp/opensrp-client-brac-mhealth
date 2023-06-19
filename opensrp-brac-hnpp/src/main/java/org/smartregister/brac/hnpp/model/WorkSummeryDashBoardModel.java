@@ -231,9 +231,9 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
     public DashBoardData getEncCount(String ssName, long fromMonth, long toMonth){
         return getVisitTypeCount(HnppConstants.EVENT_TYPE.ENC_REGISTRATION,ssName,fromMonth,toMonth);
     }
-    public DashBoardData getChildFollowUpCount(String ssName, long fromMonth, long toMonth){
+    /*public DashBoardData getChildFollowUpCount(String ssName, long fromMonth, long toMonth){
         return getVisitTypeCount(HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP,ssName,fromMonth,toMonth);
-    }
+    }*/
     public DashBoardData getNcdForumCount(String ssName, long fromMonth, long toMonth){
         return getVisitTypeCount(HnppConstants.EVENT_TYPE.FORUM_NCD,ssName,fromMonth,toMonth);
     }

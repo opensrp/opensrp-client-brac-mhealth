@@ -597,8 +597,37 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 return HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour;
             case  HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY:
                 return HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY;
-            case  HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP:
-                return HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP;
+            /*case  HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP:
+                return HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP;*/
+
+            case  HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS:
+                return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS;
+
+            case  HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS:
+                return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS;
+
+            case  HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_7_11_MONTHS:
+                return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_7_11_MONTHS;
+
+            case  HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_12_18_MONTHS:
+                return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_12_18_MONTHS;
+
+            case  HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_19_24_MONTHS:
+                return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_19_24_MONTHS;
+
+            case  HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_2_3_YEARS:
+                return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_2_3_YEARS;
+
+            case  HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_4_YEARS:
+                return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_4_YEARS;
+
+            case  HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS:
+                return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS;
+
+            case  HnppConstants.EVENT_TYPE.PREGNANT_WOMAN_DIETARY_DIVERSITY:
+                return HnppConstants.EVENT_TYPE.PREGNANT_WOMAN_DIETARY_DIVERSITY;
+
+
             case  HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP:
                 return HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP;
             case  HnppConstants.EVENT_TYPE.ENC_REGISTRATION:
@@ -613,12 +642,12 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 return HnppConstants.EventType.REMOVE_MEMBER;
             case  HnppConstants.EventType.REMOVE_CHILD:
                 return HnppConstants.EventType.REMOVE_CHILD;
-            case  HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS:
+          /*  case  HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS:
                 return HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS;
             case  HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS:
                 return HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS;
             case  HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12:
-                return HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12;
+                return HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12;*/
                 default:
                     return org.smartregister.chw.anc.util.Constants.EVENT_TYPE.ANC_HOME_VISIT;
         }

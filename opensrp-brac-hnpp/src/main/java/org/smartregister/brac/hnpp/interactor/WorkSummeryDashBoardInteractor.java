@@ -72,7 +72,7 @@ public class WorkSummeryDashBoardInteractor implements DashBoardContract.Interac
             addToDashBoardList(model.getDeliveryCount(ssName,fromMonth,toMonth));
 
             addToDashBoardList(model.getEncCount(ssName,fromMonth,toMonth));
-            addToDashBoardList(model.getChildFollowUpCount(ssName,fromMonth,toMonth));
+           // addToDashBoardList(model.getChildFollowUpCount(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getNcdForumCount(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getNcdServiceCount(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getWomenForumCount(ssName,fromMonth,toMonth));
