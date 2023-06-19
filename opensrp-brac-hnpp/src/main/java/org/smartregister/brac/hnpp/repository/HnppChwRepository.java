@@ -204,11 +204,13 @@ public class HnppChwRepository extends Repository {
     }
 
     private void upgradeToVersion44(SQLiteDatabase db) {
+        Log.v("DB_UPGRADE","upgradeToVersion44");
         try{
             db.execSQL("ALTER TABLE ec_child ADD COLUMN breastfeeding_time_in_hour VARCHAR;");
         }catch (Exception e){
             e.printStackTrace();
         }
+        HHVisitDurationRepository.createTable(db);
 
     }
     private void upgradeToVersion41(SQLiteDatabase db) {
