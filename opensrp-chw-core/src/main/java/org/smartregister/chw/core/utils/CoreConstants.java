@@ -161,9 +161,7 @@ public class CoreConstants {
         public static String getChildRegister() {
             return Utils.getLocalForm(CHILD_REGISTER, locale, assetManager);
         }
-        public static String getDefaultChildRegister() {
-            return Utils.getLocalForm(DEFAULT_CHILD_REGISTER, locale, assetManager);
-        }
+
         public static String getFamilyDetailsRegister() {
             return Utils.getLocalForm(FAMILY_DETAILS_REGISTER, locale, assetManager);
         }
