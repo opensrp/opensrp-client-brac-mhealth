@@ -37,6 +37,7 @@ public class FamilyHistoryInteractor implements MemberHistoryContract.Interactor
     }
     @Override
     public void getVisitFormWithData(Context context,MemberHistoryData content, MemberHistoryContract.InteractorCallBack callBack){
+        String uniqueId = "";
         Runnable runnable = () -> {
             List<Visit> v = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().getVisitByVisitId(content.getVisitId());
             if(v.size()>0){
