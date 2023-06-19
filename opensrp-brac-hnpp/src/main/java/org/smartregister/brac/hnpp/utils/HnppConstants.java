@@ -63,7 +63,10 @@ import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSLocations;
 import org.smartregister.brac.hnpp.model.Notification;
 import org.smartregister.brac.hnpp.model.SkLocation;
+import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
+import org.smartregister.brac.hnpp.sync.FormParser;
 import org.smartregister.brac.hnpp.task.GenerateGPSTask;
+import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.Utils;
@@ -93,6 +96,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+
+import io.reactivex.Observable;
 
 public class HnppConstants extends CoreConstants {
     public static boolean IS_MANDATORY_GPS = true;
@@ -129,27 +134,35 @@ public class HnppConstants extends CoreConstants {
     public static SimpleDateFormat YYYYMM = new SimpleDateFormat("yyyy-MM", Locale.US);
     public static SimpleDateFormat YYMMDD = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
-    public static void deleteLogFile() {
-//        try{
-//        Context context= HnppApplication.getInstance().getApplicationContext();
-//        String path = context.getExternalFilesDir(null) + "/hnpp_log";
-//        File directory = new File(path);
-//        File[] files = directory.listFiles();
-//        if(files!=null){
-//         for(int i = 0; i< files.length; i++){
-//            if(files.length>3){
-//                if(i<3){
-//                    File f = new File(directory + "/" + files[i].getName());
-//                    boolean isDeleted = deleteDirectory(f.getAbsoluteFile());
-//                    Log.v("LOG_FILE", " for delete FileName: isDeleted" + isDeleted + ":" + f.getAbsolutePath());
-//
-//                }
-//            }
-//        }
-//        }
-//        }catch (Exception e){
-//
-//        }
+    public static  Observable<Boolean>  deleteLogFile() {
+
+        return  Observable.create(e->{
+                    try {
+                        Context context= HnppApplication.getInstance().getApplicationContext();
+                        String path = context.getExternalFilesDir(null) + "/hnpp_log";
+                        File directory = new File(path);
+                        File[] files = directory.listFiles();
+                        if(files!=null){
+                            for(int i = 0; i< files.length; i++){
+                                if(files.length>3){
+                                    if(i<3){
+                                        File f = new File(directory + "/" + files[i].getName());
+                                        boolean isDeleted = deleteDirectory(f.getAbsoluteFile());
+                                        Log.v("LOG_FILE", " for delete FileName: isDeleted" + isDeleted + ":" + f.getAbsolutePath());
+
+                                    }
+                                }
+                            }
+                        }
+                        e.onNext(true);//error
+                        e.onComplete();
+                    } catch (Exception ex) {
+                        e.onNext(false);//error
+                        e.onComplete();
+                    }
+
+                }
+        );
 
     }
 
@@ -174,37 +187,37 @@ public class HnppConstants extends CoreConstants {
     }
 
     public static void appendLog(String TAG, String text) {
-//        try{
-//            Log.v(TAG,text);
-//            Context context= HnppApplication.getInstance().getApplicationContext();
-//            String saveText = TAG + new DateTime(System.currentTimeMillis())+" >>> "+ text;
-//            Calendar calender = Calendar.getInstance();
-//            int year = calender.get(Calendar.YEAR);
-//            int month = calender.get(Calendar.MONTH)+1;
-//            int day = calender.get(Calendar.DAY_OF_MONTH);
-//            String fileNameDayWise = year+""+addZeroForDay(month+"")+""+addZeroForDay(day+"");
-//
-//            File f = new File(context.getExternalFilesDir(null) + "/hnpp_log/"+fileNameDayWise);
-//            if (!f.exists()) {
-//                f.mkdirs();
-//            }
-//            File logFile = new File(context.getExternalFilesDir(null) + "/hnpp_log/"+fileNameDayWise+"/"+"log.file");
-//            if (!logFile.exists()) {
-//                try {
-//                    logFile.createNewFile();
-//                } catch (IOException ee) {
-//                    Log.e(TAG, ee.getMessage());
-//                }
-//            }
-//            //BufferedWriter for performance, true to set append to file flag
-//            BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true));
-//            buf.append(saveText);
-//            buf.newLine();
-//            buf.close();
-//
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
+        try{
+            Log.v(TAG,text);
+            Context context= HnppApplication.getInstance().getApplicationContext();
+            String saveText = TAG + new DateTime(System.currentTimeMillis())+" >>> "+ text;
+            Calendar calender = Calendar.getInstance();
+            int year = calender.get(Calendar.YEAR);
+            int month = calender.get(Calendar.MONTH)+1;
+            int day = calender.get(Calendar.DAY_OF_MONTH);
+            String fileNameDayWise = year+""+addZeroForDay(month+"")+""+addZeroForDay(day+"");
+
+            File f = new File(context.getExternalFilesDir(null) + "/hnpp_log/"+fileNameDayWise);
+            if (!f.exists()) {
+                f.mkdirs();
+            }
+            File logFile = new File(context.getExternalFilesDir(null) + "/hnpp_log/"+fileNameDayWise+"/"+"log.file");
+            if (!logFile.exists()) {
+                try {
+                    logFile.createNewFile();
+                } catch (IOException ee) {
+                    Log.e(TAG, ee.getMessage());
+                }
+            }
+            //BufferedWriter for performance, true to set append to file flag
+            BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true));
+            buf.append(saveText);
+            buf.newLine();
+            buf.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 

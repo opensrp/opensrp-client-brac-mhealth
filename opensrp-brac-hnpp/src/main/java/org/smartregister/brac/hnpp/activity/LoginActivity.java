@@ -81,6 +81,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
 public class LoginActivity extends BaseLoginActivity implements BaseLoginContract.View {
     public static final String TAG = BaseLoginActivity.class.getCanonicalName();
 
@@ -161,6 +166,29 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
                 }
             }
         });
+
+        HnppConstants.deleteLogFile()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Boolean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {}
+
+                    @Override
+                    public void onNext(Boolean bool) {
+                        Log.v("NEXT_DELETE_LOG",""+bool);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.v("NEXT_DELETE_ERROR",""+e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.v("NEXT_DELETE_COMPLETE","completed");
+                    }
+                });
 
 
     }
@@ -485,8 +513,6 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         if(HnppConstants.isNeedToCallInvalidApi()){
             InValidateSyncDataServiceJob.scheduleJob(InValidateSyncDataServiceJob.TAG, TimeUnit.MINUTES.toMinutes(BuildConfig.INVALID_SYNC_DURATION_MINUTES),15l);
         }
-
-        HnppConstants.deleteLogFile();
 
     }
 
