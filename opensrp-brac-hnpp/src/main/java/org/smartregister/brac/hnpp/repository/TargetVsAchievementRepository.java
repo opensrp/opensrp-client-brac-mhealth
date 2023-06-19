@@ -130,22 +130,48 @@ public class TargetVsAchievementRepository extends BaseRepository {
 
     private String getTargetName(String targetName, String baseEntityId) {
         if(!TextUtils.isEmpty(targetName)){
-            if(targetName.equalsIgnoreCase(HnppConstants.EventType.ANC_HOME_VISIT)
-                    || targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)
-                || targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION)
-                    || targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
-                targetName = HnppConstants.EVENT_TYPE.ANC_SERVICE;
-            }else if(targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour)){
-                targetName = HnppConstants.EVENT_TYPE.PNC_SERVICE;
-            } else if(targetName.equalsIgnoreCase(HnppConstants.EventType.ANC_REGISTRATION)){
-                targetName = HnppConstants.EVENT_TYPE.PREGNANCY_IDENTIFIED;
-            } else if(targetName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP)){
-                targetName = HnppDBUtils.getChildFollowUpFormName(baseEntityId);
-                if(TextUtils.isEmpty(targetName)) targetName = HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP;
-            }
+            switch (targetName){
+                case HnppConstants.EventType.ANC_HOME_VISIT:
+                case  HnppConstants.EVENT_TYPE.ANC1_REGISTRATION:
+                case  HnppConstants.EVENT_TYPE.ANC2_REGISTRATION:
+                case  HnppConstants.EVENT_TYPE.ANC3_REGISTRATION:
+                    return  HnppConstants.EVENT_TYPE.ANC_SERVICE;
 
+                case HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour:
+                    return HnppConstants.EVENT_TYPE.PNC_SERVICE;
+
+                case  HnppConstants.EventType.ANC_REGISTRATION:
+                    return HnppConstants.EVENT_TYPE.PREGNANCY_IDENTIFIED;
+
+                case  HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS:
+                    return  HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS;
+
+                case HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS:
+                    return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS;
+
+                case HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_7_11_MONTHS:
+                    return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_7_11_MONTHS;
+
+                case HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_12_18_MONTHS:
+                    return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_12_18_MONTHS;
+
+                case  HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_19_24_MONTHS:
+                    return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_19_24_MONTHS;
+
+                case HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_2_3_YEARS:
+                    return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_2_3_YEARS;
+
+                case HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_4_YEARS:
+                    return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_4_YEARS;
+
+                case HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS:
+                    return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS;
+
+                default:
+                    return  targetName;
+            }
         }
-        return targetName;
+        return  targetName;
     }
 
     public void addOrUpdate(TargetVsAchievementData targetVsAchievementData) {

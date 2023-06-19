@@ -306,6 +306,39 @@ public class HnppDBUtils extends CoreChildUtils {
         if(month>= 18 && month <= 36) return HnppConstants.EVENT_TYPE.CHILD_VISIT_18_36;
         if(month>= 6 && month < 24) return HnppConstants.EVENT_TYPE.CHILD_VISIT_7_24;
         if(month>= 0 && month < 6) return HnppConstants.EVENT_TYPE.CHILD_VISIT_0_6;
+
+        return "";
+
+    }
+
+    public static String getChildFollowUpFormNameByDay(String baseEntityId){
+        String query = "select ((( julianday('now') - julianday(dob))/365)) as age from ec_family_member where base_entity_id ='"+baseEntityId+"'";
+        Cursor cursor = null;
+        int day = 0;
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                day = cursor.getInt(0);
+            }
+
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        finally {
+            if(cursor!=null)cursor.close();
+        }
+
+
+        if(day>= 0 && day <= 90) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS;
+        if(day>= 91 && day <= 180) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS;
+        if(day>= 181 && day <= 330) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_7_11_MONTHS;
+        if(day>= 331 && day <= 540) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_12_18_MONTHS;
+        if(day>= 541 && day <= 730) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_19_24_MONTHS;
+
+        if(day>= 731 && day <= 1095) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_2_3_YEARS;
+        if(day>= 1096 && day <= 1460) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_4_YEARS;
+        if(day>= 1461 && day <= 1825) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS;
         return "";
 
     }
@@ -708,6 +741,16 @@ public class HnppDBUtils extends CoreChildUtils {
     }
 
     public static void populatePNCChildDetails(String baseEntityId, JSONObject jsonForm){
+        String tempUniqueId = "";
+        try {
+            JSONObject stepOne = jsonForm.getJSONObject(JsonFormUtils.STEP1);
+            JSONArray jsonArray = stepOne.getJSONArray(JsonFormUtils.FIELDS);
+            JSONObject formObject = org.smartregister.util.JsonFormUtils.getFieldJSONObject(jsonArray, "temp_unique_id");
+            tempUniqueId = formObject.getString("value");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         String query = "select " +
                 "ec_child.first_name," +
                 "ec_child.dob," +
@@ -715,11 +758,13 @@ public class HnppDBUtils extends CoreChildUtils {
                 "ec_child.birth_weight_taken," +
                 "ec_child.birth_weight," +
                 "ec_child.chlorohexadin," +
-                "ec_child.breastfeeding_time," +
+                "ec_child.breastfeeding_time_in_hour," +
                 "ec_child.head_body_covered," +
                 "ec_child.physically_challenged," +
                 "ec_child.breast_feeded," +"ec_child.which_problem" +
-                " from ec_child where ec_child.mother_entity_id = '"+baseEntityId+"' AND ec_child.entry_point = 'PNC'";
+                " from ec_child where ec_child.mother_entity_id = '"+baseEntityId+"' AND " +
+                "ec_child.unique_id = '"+tempUniqueId+"' AND "+
+                "ec_child.entry_point = 'PNC'";
         Cursor cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         HashMap<String,String> child_details = new HashMap<>();
         if(cursor !=null && cursor.getCount() > 0) {
@@ -730,11 +775,12 @@ public class HnppDBUtils extends CoreChildUtils {
             child_details.put("birth_weight_taken",translateValues(cursor.getString(3)));
             child_details.put("birth_weight",translateValues(cursor.getString(4)));
             child_details.put("chlorohexadin",translateValues(cursor.getString(5)));
-            child_details.put("breastfeeding_time",cursor.getString(6));
+            child_details.put("breastfeeding_time_in_hour",translateBreastFeedingHourValues(cursor.getString(6)));
             child_details.put("head_body_covered",translateValues(cursor.getString(7)));
             child_details.put("physically_challenged",translateValues(cursor.getString(8)));
             child_details.put("breast_feeded",translateValues(cursor.getString(9)));
             child_details.put("which_problem",translateValues(cursor.getString(10)));
+
             try {
                 JSONObject stepOne = jsonForm.getJSONObject(JsonFormUtils.STEP1);
                 JSONArray jsonArray = stepOne.getJSONArray(JsonFormUtils.FIELDS);
@@ -772,6 +818,89 @@ public class HnppDBUtils extends CoreChildUtils {
         }
         return value;
     }
+
+    public static String translateBreastFeedingHourValues(String value){
+        if(value==null)return "";
+        switch (value){
+            case "after_1_hour":
+                return  "১ ঘন্টা পরে";
+
+            case "after_2_hour":
+                return  "২ ঘন্টা পরে";
+
+            case "after_3_hour":
+                return  "৩ ঘন্টা পরে";
+
+            case "after_4_hour":
+                return  "৪ ঘন্টা পরে";
+
+            case "after_5_hour":
+                return  "৫ ঘন্টা পরে";
+
+            case "after_6_hour":
+
+                return  "৬ ঘন্টা পরে";
+
+            case "after_7_hour":
+                return  "৭ ঘন্টা পরে";
+
+            case "after_8_hour":
+                return  "৮ ঘন্টা পরে";
+
+            case "after_9_hour":
+                return  "৯ ঘন্টা পরে";
+
+                case "after_10_hour":
+                return  "১০ ঘন্টা পরে";
+
+            case "after_11_hour":
+                return  "১১ ঘন্টা পরে";
+
+            case "after_12_hour":
+                return  "১২ ঘন্টা পরে";
+
+            case "after_13_hour":
+                return  "১৩ ঘন্টা পরে";
+
+                case "after_14_hour":
+                    return  "১৪ ঘন্টা পরে";
+
+            case "after_15_hour":
+                return  "১৫ ঘন্টা পরে";
+
+            case "after_16_hour":
+                return  "১৬ ঘন্টা পরে";
+
+            case "after_17_hour":
+                return  "১৭ ঘন্টা পরে";
+
+            case "after_18_hour":
+                return  "১৮ ঘন্টা পরে";
+
+            case "after_19_hour":
+                return  "১৯ ঘন্টা পরে";
+
+            case "after_20_hour":
+                return  "২০ ঘন্টা পরে";
+
+            case "after_21_hour":
+                return  "২১ ঘন্টা পরে";
+
+            case "after_22_hour":
+                return  "২২ ঘন্টা পরে";
+
+            case "after_23_hour":
+                return  "২৩ ঘন্টা পরে";
+
+            case "after_24_hour":
+                return  "২৪ ঘন্টা পরে";
+
+            default:
+                return  "";
+
+        }
+    }
+
     public static ArrayList<ProfileDueInfo> getDueListByFamilyId(String familyId){
         ArrayList<ProfileDueInfo> profileDueInfoArrayList = new ArrayList<>();
         String query = "select base_entity_id,gender,marital_status,first_name,dob from ec_family_member where relational_id = '"+familyId+"' and date_removed is null";
@@ -1155,6 +1284,7 @@ public class HnppDBUtils extends CoreChildUtils {
         columnList.add(tableName + "." + ChildDBConstants.KEY.BIRTH_WEIGHT_TAKEN);
         columnList.add(tableName + "." + ChildDBConstants.KEY.BIRTH_WEIGHT);
         columnList.add(tableName + "." + ChildDBConstants.KEY.CHLOROHEXADIN);
+        columnList.add(tableName + "." + ChildDBConstants.KEY.BREAST_FEEDED_IN_HOUR);
         columnList.add(tableName + "." + ChildDBConstants.KEY.BREASTFEEDING_TIME);
         columnList.add(tableName + "." + ChildDBConstants.KEY.HEAD_BODY_COVERED);
         columnList.add(tableName + "." + ChildDBConstants.KEY.PHYSICALLY_CHALLENGED);

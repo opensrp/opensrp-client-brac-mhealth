@@ -546,7 +546,7 @@ public class HnppVisitLogRepository extends BaseRepository {
         }
     }
 
-    public boolean isDoneWihinChildInfoLogic(String baseEntityId, String eventTpe) {
+/*    public boolean isDoneWihinChildInfoLogic(String baseEntityId, String eventTpe) {
         if(TextUtils.isEmpty(eventTpe)) return true;
         if(isDoneWihinTwentyFourHours(baseEntityId,eventTpe)) return true;
         String query ="";
@@ -580,7 +580,7 @@ public class HnppVisitLogRepository extends BaseRepository {
             if(cursor!=null) cursor.close();
         }
         return !TextUtils.isEmpty(eventType);
-    }
+    }*/
     public  ArrayList<String> getEventsWithin24Hours(String baseEntityId){
 
         ArrayList<String> eventList = new ArrayList<>();

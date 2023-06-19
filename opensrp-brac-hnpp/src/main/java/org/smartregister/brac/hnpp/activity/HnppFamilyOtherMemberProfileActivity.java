@@ -379,16 +379,43 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 
 
     }
+
+    public void startAnyFormActivity(String formName, int requestCode,String from) {
+        if(!HnppApplication.getStockRepository().isAvailableStock(HnppConstants.formNameEventTypeMapping.get(formName))){
+            HnppConstants.showOneButtonDialog(this,getString(R.string.dialog_stock_sell_end),"");
+            return;
+        }
+        requestedFormName = formName;
+        requestedRequestCode = requestCode;
+        if(!ignoreSimprintCheck && isNeedToVerify()){
+            showVerifyDialog();
+            return;
+
+        }
+        getGPSLocation(formName,requestCode,from);
+
+
+    }
     private void getGPSLocation(String formName,int requestCode){
         HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
             @Override
             public void onPost(double latitude, double longitude) {
-                processJsonForm(formName,requestCode,latitude,longitude);
+                processJsonForm(formName,requestCode,latitude,longitude,"");
             }
         });
 
     }
-    private void processJsonForm(String formName,int requestCode,double latitude, double longitude){
+
+    private void getGPSLocation(String formName,int requestCode,String from){
+        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+            @Override
+            public void onPost(double latitude, double longitude) {
+                processJsonForm(formName,requestCode,latitude,longitude,from);
+            }
+        });
+
+    }
+    private void processJsonForm(String formName,int requestCode,double latitude, double longitude,String from){
         try {
             HnppConstants.appendLog("SAVE_VISIT","processJsonForm>>>formName:"+formName);
 
@@ -409,7 +436,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.GIRL_PACKAGE)){
                 HnppJsonFormUtils.addMaritalStatus(jsonForm,maritalStatus);
             }
-            else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM) || formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM) || formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM)){
+            else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM) ||
+                    formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM) ||
+                    formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM)){
                 HnppJsonFormUtils.addLastAnc(jsonForm,baseEntityId,false);
             } else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM)||
                formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM_AFTER_48_HOUR)
@@ -417,6 +446,14 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                 HnppJsonFormUtils.addLastPnc(jsonForm,baseEntityId,false);
                 int pncDay = FormApplicability.getDayPassPregnancyOutcome(baseEntityId);
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"pnc_day_passed", String.valueOf(pncDay));
+            }
+            if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PREGNANT_WOMAN_DIETARY_DIVERSITY)){
+                if(from!=null && from.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
+                    HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_valid_lmp","true");
+                }else{
+                    HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_valid_lmp","false");
+                }
+
             }
             if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.BLOOD_TEST)){
                 if(gender.equalsIgnoreCase("F")){
@@ -797,6 +834,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                     String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
                     String formSubmissionId = JsonFormUtils.generateRandomUUIDString();
                     String visitId = JsonFormUtils.generateRandomUUIDString();
+
                     HnppConstants.appendLog("SAVE_VISIT","isProcessingHV>>>baseEntityId:"+baseEntityId+":formSubmissionId:"+formSubmissionId);
 
                     isSave.set(processVisitFormAndSave(jsonString,formSubmissionId,visitId));
@@ -1117,6 +1155,11 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 
         }
     }
+    public void openWomanDietaryDiversity(String from) {
+       startAnyFormActivity(HnppConstants.JSON_FORMS.PREGNANT_WOMAN_DIETARY_DIVERSITY,REQUEST_HOME_VISIT,from);
+    }
+
+
     private ReferralFollowUpModel referralFollowUpModel;
     private boolean ignoreSimprintCheck = false;
     public void openReferealFollowUp(ReferralFollowUpModel refFollowModel) {

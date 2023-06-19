@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -45,6 +46,15 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
     private static final int TAG_OPEN_FAMILY = 111;
     private static final int TAG_OPEN_REFEREAL = 222;
     private static final int TAG_CHILD_FOLLOWUP = 3330;
+    private static final int TAG_CHILD_FOLLOWUP_0_3_MONTHS = 3331;
+    private static final int TAG_CHILD_FOLLOWUP_3_6_MONTHS = 3332;
+    private static final int TAG_CHILD_FOLLOWUP_7_11_MONTHS = 3333;
+    private static final int TAG_CHILD_FOLLOWUP_12_18_MONTHS = 3334;
+    private static final int TAG_CHILD_FOLLOWUP_19_24_MONTHS = 3335;
+    private static final int TAG_CHILD_FOLLOWUP_2_3_YEARS = 3336;
+    private static final int TAG_CHILD_FOLLOWUP_3_4_YEARS = 3337;
+    private static final int TAG_CHILD_FOLLOWUP_4_5_YEARS = 3338;
+
     private static final int TAG_CHILD_INFO_EBF12 = 1212;
     private static final int TAG_CHILD_INFO_7_24_months = 1213;
     private static final int TAG_CHILD_INFO_25_months = 1214;
@@ -277,7 +287,97 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             otherServiceView.addView(referelView);
         }
         if(!isEnc){
-            if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP)){
+            eventType = FormApplicability.isDueChildFollowUp(day);
+
+            if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS) && FormApplicability.isDueAnyForm(baseEntityId, eventType)){
+                View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+                ImageView fImg = followupView.findViewById(R.id.image_view);
+                TextView fName =  followupView.findViewById(R.id.patient_name_age);
+                followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+                fImg.setImageResource(iconMapping.get(eventType));
+                fName.setText(eventTypeMapping.get(eventType));
+                followupView.setTag(TAG_CHILD_FOLLOWUP_0_3_MONTHS);
+                followupView.setOnClickListener(this);
+                otherServiceView.addView(followupView);
+
+            }else  if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS) && FormApplicability.isDueAnyForm(baseEntityId, eventType)){
+                View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+                ImageView fImg = followupView.findViewById(R.id.image_view);
+                TextView fName =  followupView.findViewById(R.id.patient_name_age);
+                followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+                fImg.setImageResource(iconMapping.get(eventType));
+                fName.setText(eventTypeMapping.get(eventType));
+                followupView.setTag(TAG_CHILD_FOLLOWUP_3_6_MONTHS);
+                followupView.setOnClickListener(this);
+                otherServiceView.addView(followupView);
+
+            } else  if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_7_11_MONTHS) && FormApplicability.isDueAnyForm(baseEntityId, eventType)){
+                View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+                ImageView fImg = followupView.findViewById(R.id.image_view);
+                TextView fName =  followupView.findViewById(R.id.patient_name_age);
+                followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+                fImg.setImageResource(iconMapping.get(eventType));
+                fName.setText(eventTypeMapping.get(eventType));
+                followupView.setTag(TAG_CHILD_FOLLOWUP_7_11_MONTHS);
+                followupView.setOnClickListener(this);
+                otherServiceView.addView(followupView);
+
+            }else  if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_12_18_MONTHS) && FormApplicability.isDueAnyForm(baseEntityId, eventType)){
+                View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+                ImageView fImg = followupView.findViewById(R.id.image_view);
+                TextView fName =  followupView.findViewById(R.id.patient_name_age);
+                followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+                fImg.setImageResource(iconMapping.get(eventType));
+                fName.setText(eventTypeMapping.get(eventType));
+                followupView.setTag(TAG_CHILD_FOLLOWUP_12_18_MONTHS);
+                followupView.setOnClickListener(this);
+                otherServiceView.addView(followupView);
+
+            }else  if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_19_24_MONTHS) && FormApplicability.isDueAnyForm(baseEntityId, eventType)){
+                View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+                ImageView fImg = followupView.findViewById(R.id.image_view);
+                TextView fName =  followupView.findViewById(R.id.patient_name_age);
+                followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+                fImg.setImageResource(iconMapping.get(eventType));
+                fName.setText(eventTypeMapping.get(eventType));
+                followupView.setTag(TAG_CHILD_FOLLOWUP_19_24_MONTHS);
+                followupView.setOnClickListener(this);
+                otherServiceView.addView(followupView);
+            }
+            else  if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_2_3_YEARS) && FormApplicability.isDueAnyForm(baseEntityId, eventType)){
+                View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+                ImageView fImg = followupView.findViewById(R.id.image_view);
+                TextView fName =  followupView.findViewById(R.id.patient_name_age);
+                followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+                fImg.setImageResource(iconMapping.get(eventType));
+                fName.setText(eventTypeMapping.get(eventType));
+                followupView.setTag(TAG_CHILD_FOLLOWUP_2_3_YEARS);
+                followupView.setOnClickListener(this);
+                otherServiceView.addView(followupView);
+            }
+            else  if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_4_YEARS) && FormApplicability.isDueAnyForm(baseEntityId, eventType)){
+                View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+                ImageView fImg = followupView.findViewById(R.id.image_view);
+                TextView fName =  followupView.findViewById(R.id.patient_name_age);
+                followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+                fImg.setImageResource(iconMapping.get(eventType));
+                fName.setText(eventTypeMapping.get(eventType));
+                followupView.setTag(TAG_CHILD_FOLLOWUP_3_4_YEARS);
+                followupView.setOnClickListener(this);
+                otherServiceView.addView(followupView);
+            }
+            else  if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS) && FormApplicability.isDueAnyForm(baseEntityId, eventType)){
+                View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+                ImageView fImg = followupView.findViewById(R.id.image_view);
+                TextView fName =  followupView.findViewById(R.id.patient_name_age);
+                followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+                fImg.setImageResource(iconMapping.get(eventType));
+                fName.setText(eventTypeMapping.get(eventType));
+                followupView.setTag(TAG_CHILD_FOLLOWUP_4_5_YEARS);
+                followupView.setOnClickListener(this);
+                otherServiceView.addView(followupView);
+            }
+           /* if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP)){
                 View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
                 ImageView fImg = followupView.findViewById(R.id.image_view);
                 TextView fName =  followupView.findViewById(R.id.patient_name_age);
@@ -287,10 +387,10 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                 followupView.setTag(TAG_CHILD_FOLLOWUP);
                 followupView.setOnClickListener(this);
                 otherServiceView.addView(followupView);
-            }
+            }*/
 
         }
-        eventType = FormApplicability.isDueChildInfo(day);
+     /*   eventType = FormApplicability.isDueChildInfo(day);
         if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12) && FormApplicability.isDueChildInfoForm(baseEntityId,eventType)){
             childInfo1View = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
             ImageView fImg = childInfo1View.findViewById(R.id.image_view);
@@ -324,7 +424,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             childInfo3View.setOnClickListener(this);
             otherServiceView.addView(childInfo3View);
         }
-
+*/
         ArrayList<ReferralFollowUpModel> getList = FormApplicability.getReferralFollowUp(baseEntityId);
 
         for(ReferralFollowUpModel referralFollowUpModel : getList){
@@ -410,10 +510,67 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                     }
                     break;
 
-                case TAG_CHILD_FOLLOWUP:
+                /*case TAG_CHILD_FOLLOWUP:
                     if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
                         activity.openFollowUp();
+                    }
+                    break;*/
+
+                case TAG_CHILD_FOLLOWUP_0_3_MONTHS:
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                        activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_0_3_MONTHS);
+                    }
+                    break;
+
+                case TAG_CHILD_FOLLOWUP_3_6_MONTHS:
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                        activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_3_6_MONTHS);
+                    }
+                    break;
+
+                case TAG_CHILD_FOLLOWUP_7_11_MONTHS:
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                        activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_7_11_MONTHS);
+                    }
+                    break;
+
+
+                case TAG_CHILD_FOLLOWUP_12_18_MONTHS:
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                        activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_12_18_MONTHS);
+                    }
+                    break;
+
+                case TAG_CHILD_FOLLOWUP_19_24_MONTHS:
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                        activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_19_24_MONTHS);
+                    }
+                    break;
+
+                case TAG_CHILD_FOLLOWUP_2_3_YEARS:
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                        activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_2_3_YEARS);
+                    }
+                    break;
+
+                case TAG_CHILD_FOLLOWUP_3_4_YEARS:
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                        activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_3_4_YEARS);
+                    }
+                    break;
+
+                case TAG_CHILD_FOLLOWUP_4_5_YEARS:
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                        activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_4_5_YEARS);
                     }
                     break;
                 case TAG_OPEN_CORONA:
@@ -422,7 +579,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                         activity.openCoronaIndividualForm();
                     }
                     break;
-                case TAG_CHILD_INFO_EBF12:
+                /*case TAG_CHILD_INFO_EBF12:
                     if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
                         activity.openChildInfo(HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12);
@@ -439,7 +596,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
                         activity.openChildInfo(HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS);
                     }
-                    break;
+                    break;*/
             }
         }
     }

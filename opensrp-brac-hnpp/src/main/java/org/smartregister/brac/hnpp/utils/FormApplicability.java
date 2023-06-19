@@ -57,11 +57,11 @@ public class FormApplicability {
         return  duration;
     }
 
-    public static boolean isDueChildInfoForm(String baseEntityId, String eventType){
+ /*   public static boolean isDueChildInfoForm(String baseEntityId, String eventType){
         return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneWihinChildInfoLogic(baseEntityId, eventType);
 
-    }
-    public static String isDueChildInfo(long day){
+    }*/
+/*    public static String isDueChildInfo(long day){
 
         if(HnppConstants.isPALogin()){
             return null;
@@ -76,6 +76,19 @@ public class FormApplicability {
         else if((day >= 700 && day <= 730)) {
             return HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS;
         }
+        return "";
+    }*/
+
+    public static String isDueChildFollowUp(long day){
+        if(day>= 0 && day <= 90) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS;
+        if(day>= 91 && day <= 180) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS;
+        if(day>= 181 && day <= 330) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_7_11_MONTHS;
+        if(day>= 331 && day <= 540) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_12_18_MONTHS;
+        if(day>= 541 && day <= 730) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_19_24_MONTHS;
+
+        if(day>= 731 && day <= 1095) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_2_3_YEARS;
+        if(day>= 1096 && day <= 1460) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_4_YEARS;
+        if(day>= 1461 && day <= 1825) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS;
         return "";
     }
 

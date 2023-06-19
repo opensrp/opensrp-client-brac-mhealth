@@ -56,10 +56,14 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_GEN
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.BLOOD_GROUP;
-import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP;
-import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS;
-import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS;
-import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_12_18_MONTHS;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_19_24_MONTHS;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_2_3_YEARS;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_4_YEARS;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_7_11_MONTHS;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ELCO;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ENC_REGISTRATION;
@@ -75,6 +79,7 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PNC_REG
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME_OOC;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PREGNANT_WOMAN_DIETARY_DIVERSITY;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.SS_INFO;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.WOMEN_PACKAGE;
@@ -597,23 +602,31 @@ public class FormParser {
 
                 }
                 break;
-            case CHILD_FOLLOWUP:
+            /*case CHILD_FOLLOWUP:*/
+            case CHILD_FOLLOW_UP_0_3_MONTHS:
+            case CHILD_FOLLOW_UP_3_6_MONTHS:
+            case CHILD_FOLLOW_UP_7_11_MONTHS:
+            case CHILD_FOLLOW_UP_12_18_MONTHS:
+            case CHILD_FOLLOW_UP_19_24_MONTHS:
+            case CHILD_FOLLOW_UP_2_3_YEARS:
+            case CHILD_FOLLOW_UP_3_4_YEARS:
+            case CHILD_FOLLOW_UP_4_5_YEARS:
                 String bfValue ="",efValue="";
                 if(details.containsKey("breast_feed_in_24hr")&&!StringUtils.isEmpty(details.get("breast_feed_in_24hr"))) {
                     bfValue = details.get("breast_feed_in_24hr");
 
                 }
-                if(details.containsKey("extra_food_in_24hr")&&!StringUtils.isEmpty(details.get("extra_food_in_24hr"))) {
-                    efValue = details.get("extra_food_in_24hr");
+                if(details.containsKey("feed_extra_food_in_24_hours")&&!StringUtils.isEmpty(details.get("feed_extra_food_in_24_hours"))) {
+                    efValue = details.get("feed_extra_food_in_24_hours");
 
                 }
                 if(!TextUtils.isEmpty(bfValue) && bfValue.equalsIgnoreCase("yes") && !TextUtils.isEmpty(efValue) && efValue.equalsIgnoreCase("no")){
                     HnppApplication.getIndicatorRepository().updateValue(HnppConstants.INDICATOR.FEEDING_UPTO_6_MONTH,"true",localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
 
                 }
-                if(details.containsKey("solid_food_month")&&!StringUtils.isEmpty(details.get("solid_food_month"))) {
-                    String value = details.get("solid_food_month");
-                    HnppApplication.getIndicatorRepository().updateValue("solid_food_month",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
+                if(details.containsKey("when_started_extra_food")&&!StringUtils.isEmpty(details.get("when_started_extra_food"))) {
+                    String value = details.get("when_started_extra_food");
+                    HnppApplication.getIndicatorRepository().updateValue("when_started_extra_food",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
 
                     String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(baseEntityId+"_SOLID_FOOD");
                     if(TextUtils.isEmpty(prevalue)){
@@ -621,6 +634,7 @@ public class FormParser {
                     }
                 }
                 break;
+
             case HnppConstants.EventType.REMOVE_MEMBER: {
                 if (details.containsKey("cause_of_death") && !StringUtils.isEmpty(details.get("cause_of_death"))) {
                     String value = details.get("cause_of_death");
@@ -634,7 +648,7 @@ public class FormParser {
                 }
                 String dod = "";
                 if (details.containsKey("date_died") && !StringUtils.isEmpty(details.get("date_died"))) {
-                    dod = details.get("date_died");
+                        dod = details.get("date_died");
 
                 }
                 processRemoveMember(baseEntityId, log.getVisitDate(), dod);
@@ -2069,6 +2083,9 @@ public class FormParser {
             case ANC3_REGISTRATION_OOC:
                 form_name = HnppConstants.JSON_FORMS.ANC3_FORM_OOC + ".json";
                 break;
+            case PREGNANT_WOMAN_DIETARY_DIVERSITY:
+                form_name = HnppConstants.JSON_FORMS.PREGNANT_WOMAN_DIETARY_DIVERSITY + ".json";
+                break;
             case MEMBER_REFERRAL:
                 form_name = HnppConstants.isPALogin()? HnppConstants.JSON_FORMS.MEMBER_REFERRAL + "_pa.json":HnppConstants.JSON_FORMS.MEMBER_REFERRAL + ".json";
                 break;
@@ -2115,10 +2132,43 @@ public class FormParser {
             case REFERREL_FOLLOWUP:
                 form_name = HnppConstants.JSON_FORMS.REFERREL_FOLLOWUP + ".json";
                 break;
-            case CHILD_FOLLOWUP:
+           /* case CHILD_FOLLOWUP:
                 form_name = HnppConstants.JSON_FORMS.CHILD_FOLLOWUP + ".json";
+                break;*/
+
+            case CHILD_FOLLOW_UP_0_3_MONTHS:
+                form_name = HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_0_3_MONTHS + ".json";
                 break;
-            case CHILD_INFO_EBF12:
+
+            case CHILD_FOLLOW_UP_3_6_MONTHS:
+                form_name = HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_3_6_MONTHS + ".json";
+                break;
+
+            case CHILD_FOLLOW_UP_7_11_MONTHS:
+                form_name = HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_7_11_MONTHS + ".json";
+                break;
+
+            case CHILD_FOLLOW_UP_12_18_MONTHS:
+                form_name = HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_12_18_MONTHS + ".json";
+                break;
+
+            case CHILD_FOLLOW_UP_19_24_MONTHS:
+                form_name = HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_19_24_MONTHS + ".json";
+                break;
+
+            case CHILD_FOLLOW_UP_2_3_YEARS:
+                form_name = HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_2_3_YEARS + ".json";
+                break;
+
+            case CHILD_FOLLOW_UP_3_4_YEARS:
+                form_name = HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_3_4_YEARS + ".json";
+                break;
+
+            case CHILD_FOLLOW_UP_4_5_YEARS:
+                form_name = HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_4_5_YEARS + ".json";
+                break;
+
+           /* case CHILD_INFO_EBF12:
             case "Child Info EBF 1&2":
                 form_name = HnppConstants.JSON_FORMS.CHILD_INFO_EBF12 + ".json";
                 break;
@@ -2127,7 +2177,7 @@ public class FormParser {
                 break;
             case CHILD_INFO_25_MONTHS:
                 form_name = HnppConstants.JSON_FORMS.CHILD_INFO_25_MONTHS + ".json";
-                break;
+                break;*/
             case ANC_REGISTRATION:
                 form_name = HnppConstants.JSON_FORMS.ANC_FORM + ".json";
                 break;
