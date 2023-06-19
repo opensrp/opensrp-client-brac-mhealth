@@ -448,7 +448,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"pnc_day_passed", String.valueOf(pncDay));
             }
             if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PREGNANT_WOMAN_DIETARY_DIVERSITY)){
-                if(from.equals(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
+                if(from!=null && from.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
                     HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_valid_lmp","true");
                 }else{
                     HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_valid_lmp","false");
@@ -1156,7 +1156,6 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         }
     }
     public void openWomanDietaryDiversity(String from) {
-        Log.v("FROMMMMM",from);
        startAnyFormActivity(HnppConstants.JSON_FORMS.PREGNANT_WOMAN_DIETARY_DIVERSITY,REQUEST_HOME_VISIT,from);
     }
 
