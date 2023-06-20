@@ -286,7 +286,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             referelView.setOnClickListener(this);
             otherServiceView.addView(referelView);
         }
-        if(!isEnc){
+        //if(!isEnc){
             eventType = FormApplicability.isDueChildFollowUp(day);
 
             if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS) && FormApplicability.isDueAnyForm(baseEntityId, eventType)){
@@ -389,7 +389,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                 otherServiceView.addView(followupView);
             }*/
 
-        }
+        //}
      /*   eventType = FormApplicability.isDueChildInfo(day);
         if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12) && FormApplicability.isDueChildInfoForm(baseEntityId,eventType)){
             childInfo1View = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
