@@ -183,7 +183,7 @@
         "type": "spinner",
         "hint": "নিয়মিত কোন ঔষধ সেবন করছেন?",
         "values": [
-          "হ্যাঁ",
+            "হ্যাঁ",
           "না"
         ],
         "openmrs_choice_ids": {
