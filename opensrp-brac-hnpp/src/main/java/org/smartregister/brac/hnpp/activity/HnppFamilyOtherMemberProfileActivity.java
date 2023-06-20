@@ -87,7 +87,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 import static com.vijay.jsonwizard.constants.JsonFormConstants.FIELDS;
@@ -722,14 +728,14 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 
     }
     Dialog dialog;
-    private void showServiceDoneDialog(boolean isSuccess){
+    private void showServiceDoneDialog(Integer isSuccess){
         if(dialog!=null) return;
         dialog = new Dialog(this);
         dialog.setCancelable(false);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_with_one_button);
         TextView titleTv = dialog.findViewById(R.id.title_tv);
-        titleTv.setText(isSuccess?"সার্ভিসটি দেওয়া সম্পূর্ণ হয়েছে":"সার্ভিসটি দেওয়া সফল হয়নি। পুনরায় চেষ্টা করুন ");
+        titleTv.setText(isSuccess==1?"সার্ভিসটি দেওয়া সম্পূর্ণ হয়েছে":isSuccess==3?"সার্ভিসটি ইতিমধ্যে দেওয়া হয়েছে":"সার্ভিসটি দেওয়া সফল হয়নি। পুনরায় চেষ্টা করুন ");
         Button ok_btn = dialog.findViewById(R.id.ok_btn);
 
         ok_btn.setOnClickListener(new View.OnClickListener() {
@@ -823,65 +829,90 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 
         }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
-            if(isProcessingHV) return;
 
-            AtomicBoolean isSave = new AtomicBoolean(false);
-            showProgressDialog(R.string.please_wait_message);
+                if(isProcessingHV) return;
+                Log.d("calledMultiVisit","true");
 
-            Runnable runnable = () -> {
-                if(!isProcessingHV){
-                    isProcessingHV = true;
-                    String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
-                    String formSubmissionId = JsonFormUtils.generateRandomUUIDString();
-                    String visitId = JsonFormUtils.generateRandomUUIDString();
+                isProcessingHV = true;
+                AtomicInteger isSave = new AtomicInteger(2); /// 1-> Success / 2-> Regular error  3-> Already submitted visit error
+                showProgressDialog(R.string.please_wait_message);
+                String jsonString = data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON);
+                String formSubmissionId = JsonFormUtils.generateRandomUUIDString();
+                String visitId = JsonFormUtils.generateRandomUUIDString();
+                HnppConstants.appendLog("SAVE_VISIT","isProcessingHV>>>baseEntityId:"+baseEntityId+":formSubmissionId:"+formSubmissionId);
 
-                    HnppConstants.appendLog("SAVE_VISIT","isProcessingHV>>>baseEntityId:"+baseEntityId+":formSubmissionId:"+formSubmissionId);
+                    processVisitFormAndSave(jsonString,formSubmissionId,visitId)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Observer<Integer>() {
+                                @Override
+                                public void onSubscribe(Disposable d) {
 
-                    isSave.set(processVisitFormAndSave(jsonString,formSubmissionId,visitId));
-                }
+                                }
 
-                appExecutors.mainThread().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(isSave.get()){
-                            hideProgressDialog();
-                            showServiceDoneDialog(true);
-                        }else {
-                            hideProgressDialog();
-                            showServiceDoneDialog(false);
-                        }
-                    }
-                });
-            };
-            appExecutors.diskIO().execute(runnable);
+                                @Override
+                                public void onNext(Integer aInteger) {
+                                    isSave.set(aInteger);
+                                    Log.d("visitCalledOnnext","true");
+                                }
 
+                                @Override
+                                public void onError(Throwable e) {
+                                    hideProgressDialog();
+                                }
+
+                                @Override
+                                public void onComplete() {
+                                    Log.d("visitCalledCompleted","true");
+                                    if(isSave.get() == 1){
+                                        hideProgressDialog();
+                                        showServiceDoneDialog(1);
+                                    }else if(isSave.get() == 3){
+                                        hideProgressDialog();
+                                        showServiceDoneDialog(3);
+                                    }else {
+                                        hideProgressDialog();
+                                        //showServiceDoneDialog(false);
+                                    }
+                                }
+                            });
         }
        else if (resultCode == Activity.RESULT_OK && requestCode == org.smartregister.chw.anc.util.Constants.REQUEST_CODE_HOME_VISIT){
             if(isProcessingANCVisit) return;
             AtomicBoolean isSave = new AtomicBoolean(false);
             showProgressDialog(R.string.please_wait_message);
-            Runnable runnable = () -> {
-                HnppConstants.appendLog("SAVE_VISIT","isProcessingANCVisit>>>baseEntityId:"+baseEntityId);
 
-                if(!isProcessingANCVisit){
-                    isProcessingANCVisit = true;
-                    isSave.set(processVisits());
-                }
+            isProcessingANCVisit = true;
+            processVisits()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Boolean>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
 
-                appExecutors.mainThread().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(isSave.get()){
-                            hideProgressDialog();
-                            showServiceDoneDialog(true);
-                        }else {
-                            hideProgressDialog();
-                            showServiceDoneDialog(false);
                         }
-                    }
-                });
-            };
-            appExecutors.diskIO().execute(runnable);
+
+                        @Override
+                        public void onNext(Boolean aBoolean) {
+                            isSave.set(aBoolean);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            hideProgressDialog();
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            if(isSave.get()){
+                                hideProgressDialog();
+                                showServiceDoneDialog(1);
+                            }else {
+                                hideProgressDialog();
+                                //showServiceDoneDialog(false);
+                            }
+                        }
+                    });
 
         }
         else if(resultCode == RESULT_OK && requestCode == org.smartregister.family.util.JsonFormUtils.REQUEST_CODE_GET_JSON){
@@ -976,43 +1007,66 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         }
         return false;
     }
-    private boolean processVisitFormAndSave(String jsonString,String formSubmissionId, String visitId){
+    private Observable<Integer> processVisitFormAndSave(String jsonString, String formSubmissionId, String visitId){
 
-        if(TextUtils.isEmpty(baseEntityId)) return false;
-        try {
-            JSONObject form = new JSONObject(jsonString);
-            String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
-            type = HnppJsonFormUtils.getEncounterType(type);
-            Map<String, String> jsonStrings = new HashMap<>();
-            jsonStrings.put("First",form.toString());
-            HnppConstants.appendLog("SAVE_VISIT","baseEntityId:"+baseEntityId+":formSubmissionId:"+formSubmissionId);
+        return  Observable.create(e->{
+                    if(TextUtils.isEmpty(baseEntityId)) e.onNext(2);
+                    try {
+                        JSONObject form = new JSONObject(jsonString);
+                        String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
+                        type = HnppJsonFormUtils.getEncounterType(type);
+                        Map<String, String> jsonStrings = new HashMap<>();
+                        jsonStrings.put("First",form.toString());
+                        HnppConstants.appendLog("SAVE_VISIT","baseEntityId:"+baseEntityId+":formSubmissionId:"+formSubmissionId);
 
-            Visit visit = HnppJsonFormUtils.saveVisit(isComesFromIdentity,verificationNeeded, isVerified,checkedItem, baseEntityId, type, jsonStrings, "",formSubmissionId,visitId);
+                        Visit visit = HnppJsonFormUtils.saveVisit(isComesFromIdentity,verificationNeeded, isVerified,checkedItem, baseEntityId, type, jsonStrings, "",formSubmissionId,visitId);
 
-            if(visit!=null){
-                HnppHomeVisitIntentService.processVisits();
-                FormParser.processVisitLog(visit);
-                HnppConstants.appendLog("SAVE_VISIT","processVisitLog done formSubmissionId:"+formSubmissionId+":type:"+type);
+                        if(visit!=null && !visit.getVisitId().equals("0")){
+                            HnppHomeVisitIntentService.processVisits();
+                            FormParser.processVisitLog(visit);
+                            HnppConstants.appendLog("SAVE_VISIT","processVisitLog done formSubmissionId:"+formSubmissionId+":type:"+type);
 
-                return true;
+                           // return true;
+                            e.onNext(1);//success
+                            e.onComplete();
 
-            }else{
-                return false;
-            }
-        } catch (Exception e) {
-            HnppConstants.appendLog("SAVE_VISIT","processVisitLog exception occured :"+e.getMessage());
+                        }else if(visit!=null && visit.getVisitId().equals("0")){
+                            e.onNext(3);//already exist
+                            e.onComplete();
+                        }else{
+                            //return false;
+                            e.onNext(2);//error
+                            e.onComplete();
+                        }
+                    } catch (Exception ex) {
+                        HnppConstants.appendLog("SAVE_VISIT","processVisitLog exception occured :"+ex.getMessage());
+                        Log.d("SAVE_VISIT","processVisitLog exception occured :"+ex.getMessage());
+                        e.onNext(2);//error
+                        e.onComplete();
+                    }
+                   // return false;
+                   // e.onNext(false);
 
-        }
-        return false;
+                }
+                );
+
+
     }
-    private boolean processVisits(){
-        try{
-            HnppHomeVisitIntentService.processVisits();
-            VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
-            return true;
-        }catch (Exception e){
-            return false;
-        }
+    private Observable<Boolean> processVisits(){
+        return Observable.create(e->{
+            try{
+                HnppHomeVisitIntentService.processVisits();
+                VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+                //return true;
+                e.onNext(true);
+                e.onComplete();
+            }catch (Exception ex){
+                //return false;
+                e.onNext(false);
+                e.onComplete();
+            }
+        });
+
     }
 
     @Override

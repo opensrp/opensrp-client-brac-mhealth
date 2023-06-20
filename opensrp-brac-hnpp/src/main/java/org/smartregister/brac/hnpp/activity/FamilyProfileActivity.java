@@ -73,7 +73,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 import static com.vijay.jsonwizard.constants.JsonFormConstants.FIELDS;
@@ -374,9 +380,14 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         }
         else if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
             if(isProcessing) return;
-            AtomicBoolean isSave = new AtomicBoolean(false);
+            AtomicInteger isSave = new AtomicInteger(2);
             showProgressDialog(R.string.please_wait_message);
-            Runnable runnable = () -> {
+
+            isProcessing = true;
+            String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
+            String formSubmissionId = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
+            String visitId = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
+            /*Runnable runnable = () -> {
                 Log.v("SAVE_VISIT","isProcessing>>"+isProcessing);
                 if(!isProcessing){
                     isProcessing = true;
@@ -396,8 +407,44 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                     }
 
                 });
-            };
-            appExecutors.diskIO().execute(runnable);
+            };*/
+
+            processAndSaveVisitForm(jsonString,formSubmissionId,visitId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Integer>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(Integer aInteger) {
+                            isSave.set(aInteger);
+                            Log.d("visitCalledOnnext","true");
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            hideProgressDialog();
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            Log.d("visitCalledCompleted","true");
+                            if(isSave.get() == 1){
+                                hideProgressDialog();
+                                showServiceDoneDialog(1);
+                            }else if(isSave.get() == 3){
+                                hideProgressDialog();
+                                showServiceDoneDialog(3);
+                            }else {
+                                hideProgressDialog();
+                                //showServiceDoneDialog(false);
+                            }
+                        }
+                    });
+           /* appExecutors.diskIO().execute(runnable);*/
 //            try{
 //                Thread.sleep(5000);
 //            }catch (Exception e){
@@ -448,31 +495,39 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         }
         return false;
     }
-    private boolean processAndSaveVisitForm(String jsonString, String formSubmissionId, String visitId){
-        if(TextUtils.isEmpty(familyBaseEntityId)){
-            return false;
-        }
-        Map<String, String> jsonStrings = new HashMap<>();
-        jsonStrings.put("First",jsonString);
-        try {
-            JSONObject form = new JSONObject(jsonString);
-            String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
-            type = HnppJsonFormUtils.getEncounterType(type);
+    private Observable<Integer> processAndSaveVisitForm(String jsonString, String formSubmissionId, String visitId){
+       return  Observable.create(e-> {
+           if(TextUtils.isEmpty(familyBaseEntityId)){
+               e.onNext(2);
+           }
+           Map<String, String> jsonStrings = new HashMap<>();
+           jsonStrings.put("First",jsonString);
+           try {
+               JSONObject form = new JSONObject(jsonString);
+               String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
+               type = HnppJsonFormUtils.getEncounterType(type);
 
-            Visit visit = HnppJsonFormUtils.saveVisit(false,false,false,"", familyBaseEntityId, type, jsonStrings, "",formSubmissionId,visitId);
-            if(visit!=null){
-                HnppHomeVisitIntentService.processVisits();
-                FormParser.processVisitLog(visit);
-                //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
-                return true;
-            }else{
-               return false;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+               Visit visit = HnppJsonFormUtils.saveVisit(false,false,false,"", familyBaseEntityId, type, jsonStrings, "",formSubmissionId,visitId);
+               if(visit!=null && !visit.getVisitId().equals("0")){
+                   HnppHomeVisitIntentService.processVisits();
+                   FormParser.processVisitLog(visit);
+                   //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+                   e.onNext(1);
+                   e.onComplete();
+               }else if(visit!=null && visit.getVisitId().equals("0")){
+                   e.onNext(3);
+                   e.onComplete();
+               }else{
+                   e.onNext(2);
+                   e.onComplete();
+               }
+           } catch (Exception ex) {
+               ex.printStackTrace();
+               e.onNext(2);
+               e.onComplete();
+           }
 
-        return false;
+       });
     }
     private void processForm(String encounter_type, String jsonString){
         if (encounter_type.equals(CoreConstants.EventType.CHILD_REGISTRATION)) {
@@ -496,14 +551,14 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
         }
     }
     Dialog dialog;
-    private void showServiceDoneDialog(boolean isSuccess){
+    private void showServiceDoneDialog(Integer isSuccess){
         if(dialog!=null) return;
         dialog = new Dialog(this);
         dialog.setCancelable(false);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_with_one_button);
         TextView titleTv = dialog.findViewById(R.id.title_tv);
-        titleTv.setText(isSuccess?"সার্ভিসটি দেওয়া সম্পূর্ণ হয়েছে":"সার্ভিসটি দেওয়া সফল হয়নি। পুনরায় চেষ্টা করুন ");
+        titleTv.setText(isSuccess==1?"সার্ভিসটি দেওয়া সম্পূর্ণ হয়েছে":isSuccess==3?"সার্ভিসটি ইতিমধ্যে দেওয়া হয়েছে":"সার্ভিসটি দেওয়া সফল হয়নি। পুনরায় চেষ্টা করুন ");
         Button ok_btn = dialog.findViewById(R.id.ok_btn);
 
         ok_btn.setOnClickListener(new View.OnClickListener() {
