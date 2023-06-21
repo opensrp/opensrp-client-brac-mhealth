@@ -1,3 +1,4 @@
+/*
 package org.smartregister.unicef.dghs.presenter;
 
 import android.text.TextUtils;
@@ -14,7 +15,6 @@ import org.smartregister.CoreLibrary;
 import org.smartregister.family.util.AppExecutors;
 import org.smartregister.service.HTTPAgent;
 import org.smartregister.unicef.dghs.contract.BlockUpdateContract;
-import org.smartregister.unicef.dghs.utils.Node;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -180,3 +180,4 @@ public class BlockUpdatePresenter implements BlockUpdateContract.Presenter {
     }
 
 }
+*/

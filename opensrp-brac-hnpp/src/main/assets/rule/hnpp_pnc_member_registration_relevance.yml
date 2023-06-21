@@ -1,0 +1,8 @@
+---
+name: step1_select_problems
+description: is any problem exist
+priority: 1
+condition: "step1_pnc_problem == 'Yes'"
+actions:
+  - "isRelevant = true"
+---
