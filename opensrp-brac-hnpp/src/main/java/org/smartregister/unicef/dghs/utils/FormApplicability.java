@@ -1,6 +1,7 @@
 package org.smartregister.unicef.dghs.utils;
 
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.ANC_HOME_VISIT;
+import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -12,6 +13,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.Months;
 import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
+import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.model.ReferralFollowUpModel;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
@@ -410,7 +412,16 @@ public class FormApplicability {
         return ancCount;
 
     }
+    public static int getPNCCount(String baseEntityId){
+        int ancCount = 0;
+        String ancQuery = "select count(*) as anc_count from ec_visit_log where base_entity_id ='"+baseEntityId+"' and visit_type ='"+PNC_REGISTRATION+"'";
+        List<Map<String, String>> values = HnppDBUtils.readData(ancQuery, null);
+        if( values.size() > 0 && values.get(0).get("anc_count")!= null){
+            ancCount = Integer.parseInt(values.get(0).get("anc_count"));
+        }
+        return ancCount;
 
+    }
     public static int getHourPassPregnancyOutcome(String baseEntityId){
         int hoursPassed = -1;
         String DeliveryDateSql = "SELECT delivery_date, delivery_time FROM ec_pregnancy_outcome where base_entity_id = ? ";
