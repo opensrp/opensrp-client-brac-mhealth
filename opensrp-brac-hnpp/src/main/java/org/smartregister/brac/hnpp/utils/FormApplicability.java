@@ -33,7 +33,13 @@ public class FormApplicability {
 
     public static boolean isDueHHVisit(String baseEntityId){
         int duration = getDurationByType(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY);
-        return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneHHVisit(baseEntityId,duration);
+        boolean isDoneAfterJuly  = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneAfterJuly2023(baseEntityId);
+        if(isDoneAfterJuly){
+            return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneHHVisit(baseEntityId,duration);
+        }else{
+            return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneHHVisit(baseEntityId,24);
+        }
+
 
     }
     public static boolean isDueElcoVisit(String baseEntityId){
@@ -53,6 +59,10 @@ public class FormApplicability {
         HHVisitDurationModel hhVisitDurationModel = HnppApplication.getHHVisitDurationRepository().getHhVisitDurationByType(eventType);
         if(hhVisitDurationModel!=null){
             duration = hhVisitDurationModel.value;
+        }else{
+            if(eventType != null && (eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ELCO) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY))){
+                duration = 24*300;
+            }
         }
         return  duration;
     }
