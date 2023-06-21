@@ -1,0 +1,430 @@
+{
+  "count": "1",
+  "encounter_type": "ANC Registration",
+  "entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location": ""
+  },
+  "step1": {
+    "title": "গর্ভবতী রেজিস্ট্রেশন",
+    "fields": [
+      {
+        "key": "form_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "ANC Registration",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": "anc_registration"
+      },
+      {
+        "key": "relational_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "relational_id",
+        "type": "hidden"
+      },
+      {
+        "key": "block_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "block_name",
+        "type": "hidden"
+      },
+      {
+        "key": "block_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "block_id",
+        "type": "hidden"
+      },
+      {
+        "key": "service_taken_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "service_taken_date",
+        "type": "date_picker",
+        "max_date": "today",
+        "min_date": "",
+        "hint": "সেবা গ্রহণের তারিখ",
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "last_menstrual_period",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "type": "date_picker",
+        "hint": "শেষ মাসিকের তারিখ",
+        "expanded": false,
+        "min_date": "today-308d",
+        "max_date": "today-42d",
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "edd",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "type": "edit_text",
+        "hint": "সম্ভাব্য প্রসবের তারিখ",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_member_registration_calculation.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "no_prev_preg",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "no_prev_preg",
+        "type": "edit_text",
+        "edit_type": "number",
+        "hint": "পূর্বে কতবার অন্তঃসত্ত্বা হয়েছেন",
+        "v_required": {
+          "value": "true",
+          "err": "সংখ্যাটি 0 এর চেয়ে সমান বা বড় হতে হবে"
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "সংখ্যাটি 0 এর চেয়ে সমান বা বড় হতে হবে"
+        },
+        "v_min": {
+          "value": "0",
+          "err": "সংখ্যাটি 0 এর চেয়ে সমান বা বড় হতে হবে"
+        }
+      },
+      {
+        "key": "no_surv_children",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "164894AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "type": "edit_text",
+        "edit_type": "number",
+        "hint": "কতজন জীবিত সন্তান জন্ম হয়েছে?",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_member_registration_relevance.yml"
+            }
+          }
+        },
+        "v_required": {
+          "value": "true",
+          "err": "সংখ্যাটি 0 এর সমান বা বড় হতে হবে"
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "সংখ্যাটি 0 এর সমান বা বড় হতে হবে"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "v_min": {
+          "value": "0",
+          "err": "সংখ্যাটি 0 এর সমান বা বড় হতে হবে"
+        },
+        "v_max": {
+          "value": "20",
+          "err": "সংখ্যাটি 20 এর সমান বা কম হতে হবে"
+        }
+      },
+      {
+        "key": "height",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "height",
+        "type": "hidden",
+        "hint": "উচ্চতা (সে.মি.)",
+        "v_numeric": {
+          "value": "true",
+          "err": "একটি সঠিক নম্বর লিখুন"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "v_max": {
+          "value": "209",
+          "err": "সংখ্যাটি 210 এর কম হতে হবে"
+        }
+      },
+      {
+        "key": "previous_history",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "previous_history",
+        "type": "check_box",
+        "label": "পূর্বের গর্ভের তথ্য",
+        "exclusive": ["none"],
+        "options": [
+          {
+            "key": "Abortion_history",
+            "text": "গর্ভপাতের ইতিহাস আছে",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "Abortion_history"
+          },
+          {
+            "key": "Cesarean_history",
+            "text": "সিজারের ইতিহাস আছে",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "Cesarean_history"
+          },
+          {
+            "key": "Still_birth_history",
+            "text": "মৃত জন্মের ইতিহাস আছে",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "Still_birth_history"
+          },
+          {
+            "key": "High_Blood_Pressure_history",
+            "text": "উচ্চ রক্তচাপের ইতিহাস আছে",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "High_Blood_Pressure_history"
+          },
+          {
+            "key": "Eclampsia_history",
+            "text": "খিচুনীর ইতিহাস আছে",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "Eclampsia_history"
+          },
+          {
+            "key": "Antepartum_history",
+            "text": "প্রাক-প্রসবকালীন রক্তক্ষরণের ইতিহাস আছে",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "Antepartum_history"
+          },
+          {
+            "key": "Prolonged_history",
+            "text": "বিলম্বিত প্রসবের ইতিহাস আছে",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "Prolonged_history"
+          },
+          {
+            "key": "PPH_history",
+            "text": "প্রসবোত্তর রক্তক্ষরণের ইতিহাস আছে",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "PPH_history"
+          },
+          {
+            "key": "high_fever_history",
+            "text": "পূর্ববর্তী গর্ভধারনের সময়ে শরীরে উচ্চ তাপমাত্রার ইতিহাস আছে",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "high_fever_history"
+          },
+          {
+            "key": "none",
+            "text": "কোনোটি়ই নয়",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "none"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_member_registration_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "has_previous_disages_history",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "has_previous_disages_history",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "পূর্বের রোগের ইতিহাস আছে কিনা?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+      {
+        "key": "previous_disease",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "previous_disease",
+        "openmrs_data_type": "text",
+        "type": "check_box",
+        "label": "পূর্বের চিকিৎসা ইতিহাস",
+        "exclusive": ["none"],
+        "options": [
+          {
+            "key": "Diabetes_history",
+            "text": "ডায়াবেটিসের ইতিহাস আছে",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "Diabetes_history"
+          },
+          {
+            "key": "Thalassemia_history",
+            "text": "থ্যালাসেমিয়া আছে",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "Thalassemia_history"
+          },
+          {
+            "key": "Still_birth_history",
+            "text": "মৃত জন্মের ইতিহাস আছে",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "Still_birth_history"
+          },
+          {
+            "key": "Mental_health_history",
+            "text": "মানসিক স্বাস্থ্য জনিত সমস্যা আছে",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "Mental_health_history"
+          },
+          {
+            "key": "Heart_Disease_history",
+            "text": "হৃদরোগ আছে",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "Heart_Disease_history"
+          },
+          {
+            "key": "Respiratory_Disease_history",
+            "text": "শ্বাসযন্ত্রের রোগ আছে",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "Respiratory_Disease_history"
+          },
+          {
+            "key": "Jaundice_history",
+            "text": "জন্ডিস আছে",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "Jaundice_history"
+          },
+          {
+            "key": "none",
+            "text": "কোনোটি়ই নয়",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "none"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_member_registration_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "tt_td_history",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "tt_td_history",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "আপনি কোন কোন টিটি/টিডি টিকা গ্রহন করেছেন?",
+        "values": [
+          "টিটি/টিডি-১ সম্পন্ন",
+          "টিটি/টিডি-২ সম্পন্ন",
+          "টিটি/টিডি-৩ সম্পন্ন",
+          "টিটি/টিডি-৪ সম্পন্ন",
+          "টিটি/টিডি-৫ সম্পন্ন",
+          "একটিও না"
+        ],
+        "openmrs_choice_ids": {
+          "টিটি/টিডি-১ সম্পন্ন": "tt_td_1_done",
+          "টিটি/টিডি-২ সম্পন্ন": "tt_td_2_done",
+          "টিটি/টিডি-৩ সম্পন্ন": "tt_td_3_done",
+          "টিটি/টিডি-৪ সম্পন্ন": "tt_td_4_done",
+          "টিটি/টিডি-৫ সম্পন্ন": "tt_td_5_done",
+          "একটিও না": "none"
+        }
+      },
+
+      {
+        "key": "latitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "latitude",
+        "type": "hidden",
+        "read_only": true,
+        "hint": "অক্ষাংশ"
+      },
+      {
+        "key": "longitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "longitude",
+        "type": "hidden",
+        "read_only": true,
+        "hint": "দ্রাঘিমা"
+      }
+    ]
+  }
+}

@@ -5,6 +5,8 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
 import org.smartregister.unicef.dghs.R;
@@ -39,8 +41,8 @@ public class HnppChildRegisterFragment extends HnppBaseChildRegisterFragment imp
             super.onResumption();
         }
 
-
     }
+
 
     @Override
     protected int getToolBarTitle() {
@@ -136,7 +138,19 @@ public class HnppChildRegisterFragment extends HnppBaseChildRegisterFragment imp
     @Override
     public void setupViews(android.view.View view) {
         super.setupViews(view);
+        RelativeLayout sortAndFilterView = view.findViewById(org.smartregister.chw.core.R.id.filter_sort_layout);
+        sortAndFilterView.setVisibility(android.view.View.VISIBLE);
+        TextView sortView = sortAndFilterView.findViewById(R.id.sort_text_view);
+        TextView filterTextView = sortAndFilterView.findViewById(R.id.filter_text_view);
+        filterTextView.setText(getString(R.string.filter));
+        android.view.View searchBarLayout = view.findViewById(org.smartregister.family.R.id.search_bar_layout);
+        searchBarLayout.setBackgroundResource(org.smartregister.family.R.color.customAppThemeBlue);
+        if (getSearchView() != null) {
+            getSearchView().setBackgroundResource(org.smartregister.family.R.color.white);
+            getSearchView().setCompoundDrawablesWithIntrinsicBounds(org.smartregister.family.R.drawable.ic_action_search, 0, 0, 0);
+        }
 
+        filterTextView.setOnClickListener(registerActionHandler);
     }
     @Override
     public void setTotalPatients() {

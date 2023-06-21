@@ -626,7 +626,7 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
                String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
                type = HnppJsonFormUtils.getEncounterType(type);
 
-               Visit visit = HnppJsonFormUtils.saveVisit(false,false,false,"", familyBaseEntityId, type, jsonStrings, "",formSubmissionId,visitId);
+               Visit visit = HnppJsonFormUtils.saveVisit(familyBaseEntityId, type, jsonStrings,formSubmissionId,visitId,jsonString);
                if(visit!=null && !visit.getVisitId().equals("0")){
                    HnppHomeVisitIntentService.processVisits();
                    FormParser.processVisitLog(visit);

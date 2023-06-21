@@ -48,7 +48,10 @@ import org.smartregister.chw.core.utils.Utils;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.view.activity.BaseProfileActivity;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -137,37 +140,37 @@ public class HnppConstants extends CoreConstants {
         return(path.delete());
     }
     public static void appendLog(String TAG,String text) {
-//        try{
-//            Log.v(TAG,text);
-//            Context context= HnppApplication.getInstance().getApplicationContext();
-//            String saveText = TAG + new DateTime(System.currentTimeMillis())+" >>> "+ text;
-//            Calendar calender = Calendar.getInstance();
-//            int year = calender.get(Calendar.YEAR);
-//            int month = calender.get(Calendar.MONTH)+1;
-//            int day = calender.get(Calendar.DAY_OF_MONTH);
-//            String fileNameDayWise = year+""+addZeroForDay(month+"")+""+addZeroForDay(day+"");
-//
-//            File f = new File(context.getExternalFilesDir(null) + "/hnpp_log/"+fileNameDayWise);
-//            if (!f.exists()) {
-//                f.mkdirs();
-//            }
-//            File logFile = new File(context.getExternalFilesDir(null) + "/hnpp_log/"+fileNameDayWise+"/"+"log.file");
-//            if (!logFile.exists()) {
-//                try {
-//                    logFile.createNewFile();
-//                } catch (IOException ee) {
-//                    Log.e(TAG, ee.getMessage());
-//                }
-//            }
-//            //BufferedWriter for performance, true to set append to file flag
-//            BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true));
-//            buf.append(saveText);
-//            buf.newLine();
-//            buf.close();
-//
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
+        try{
+            Log.v(TAG,text);
+            Context context= HnppApplication.getInstance().getApplicationContext();
+            String saveText = TAG + new DateTime(System.currentTimeMillis())+" >>> "+ text;
+            Calendar calender = Calendar.getInstance();
+            int year = calender.get(Calendar.YEAR);
+            int month = calender.get(Calendar.MONTH)+1;
+            int day = calender.get(Calendar.DAY_OF_MONTH);
+            String fileNameDayWise = year+""+addZeroForDay(month+"")+""+addZeroForDay(day+"");
+
+            File f = new File(context.getExternalFilesDir(null) + "/hnpp_log/"+fileNameDayWise);
+            if (!f.exists()) {
+                f.mkdirs();
+            }
+            File logFile = new File(context.getExternalFilesDir(null) + "/hnpp_log/"+fileNameDayWise+"/"+"log.file");
+            if (!logFile.exists()) {
+                try {
+                    logFile.createNewFile();
+                } catch (IOException ee) {
+                    Log.e(TAG, ee.getMessage());
+                }
+            }
+            //BufferedWriter for performance, true to set append to file flag
+            BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true));
+            buf.append(saveText);
+            buf.newLine();
+            buf.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 
@@ -897,6 +900,9 @@ public class HnppConstants extends CoreConstants {
         public static final String CHILD_HEIGHT = "child_height";
         public static final String CHILD_WEIGHT = "child_weight";
         public static final String CHILD_STATUS = "child_status";
+        public static final String DUE_VACCINE_NAME = "due_vaccine_name";
+        public static final String DUE_VACCINE_DATE = "due_vaccine_date";
+        public static final String HAS_AEFI = "has_aefi";
     }
 
     public static class IDENTIFIER {
@@ -937,12 +943,12 @@ public class HnppConstants extends CoreConstants {
         public static final String  IMMUNIZATION = "hv_immunization";
         public static final String  DANGER_SIGNS = "anc_hv_danger_signs";
 
-        public static final String  ANC_FORM = "hnpp_anc_registration";
-        public static final String  ANC_VISIT_FORM = "hnpp_anc_home_visit";
+        public static final String  ANC_FORM = "anc_registration";
+        public static final String  ANC_VISIT_FORM = "anc_home_visit";
         public static final String  ANC_VISIT_FORM_OOC = "hnpp_anc_home_visit_ooc";
 //        public static final String  GENERAL_DISEASE = "hnpp_anc_general_disease";
 //        public static final String  PREGNANCY_HISTORY = "hnpp_anc_pregnancy_history";
-        public static final String  PREGNANCY_OUTCOME = "hnpp_anc_pregnancy_outcome";
+        public static final String  PREGNANCY_OUTCOME = "anc_pregnancy_outcome";
         public static final String  PREGNANCY_OUTCOME_OOC = "hnpp_anc_pregnancy_outcome_ooc";
         public static final String  MEMBER_REFERRAL = "hnpp_member_referral";
         public static final String  MEMBER_REFERRAL_PA = "hnpp_member_referral_pa";
@@ -1369,6 +1375,7 @@ public class HnppConstants extends CoreConstants {
 //            .put(EVENT_TYPE.ANC_PREGNANCY_HISTORY,"পূর্বের গর্ভের ইতিহাস")
             .put(EVENT_TYPE.ELCO,"সক্ষম দম্পতি পরিদর্শন")
             .put(JSON_FORMS.ANC_FORM,"গর্ভবতী পরিচর্যা")
+            .put(EVENT_TYPE.ANC_HOME_VISIT,"গর্ভবতী পরিচর্যা")
 //            .put(JSON_FORMS.GENERAL_DISEASE,"শারীরিক সমস্যা")
             .put(EVENT_TYPE.MEMBER_REFERRAL,"রেফারেল")
             .put(EVENT_TYPE.WOMEN_REFERRAL,"রেফারেল")

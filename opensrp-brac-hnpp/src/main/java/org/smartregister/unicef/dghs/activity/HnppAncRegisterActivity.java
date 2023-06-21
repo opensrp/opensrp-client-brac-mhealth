@@ -155,7 +155,9 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
         try {
             visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
             HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,familyBaseEntityId);
-
+            if(form_name.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC_FORM) || form_name.equalsIgnoreCase(HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME) ){
+                HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
+            }
             Form form = new Form();
             if(!HnppConstants.isReleaseBuild()){
                 form.setActionBarBackground(R.color.test_app_color);
@@ -275,50 +277,7 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
             finish();
         }
         if (resultCode == Activity.RESULT_OK && requestCode == Constants.REQUEST_CODE_GET_JSON) {
-//            process the form
-
             showProgressDialog(R.string.please_wait);
-/*            AppExecutors appExecutors = new AppExecutors();
-            Runnable runnable = () -> {
-                String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
-
-                String eventType = processVisitFormAndSave(jsonString);
-
-                SQLiteDatabase database = HnppApplication.getInstance().getRepository().getWritableDatabase();
-                //database.execSQL(sql1);
-                String sql = "UPDATE ec_anc_register SET is_closed = 1 WHERE ec_anc_register.base_entity_id IN " +
-                        "(select ec_pregnancy_outcome.base_entity_id from ec_pregnancy_outcome where ec_pregnancy_outcome.is_closed = 0) ";
-
-                database.execSQL(sql);
-                appExecutors.mainThread().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        hideProgressDialog();
-                        if (eventType.equalsIgnoreCase(Constants.EVENT_TYPE.PREGNANCY_OUTCOME)) {
-
-                           // HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
-                            if(!familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){
-                                HnppPncRegisterActivity.startHnppPncRegisterActivity(HnppAncRegisterActivity.this, baseEntityId);
-                            }
-                        }else if(eventType.equalsIgnoreCase(Constants.EVENT_TYPE.ANC_REGISTRATION)){
-                           // HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
-                            HnppConstants.isViewRefresh = true;
-                            refreshList(FetchStatus.fetched);
-
-                        }
-                        if(familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){
-                            Intent intent = new Intent();
-                            intent.putExtra("event_type",HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION);
-                            setResult(RESULT_OK, intent);
-                            finish();
-                        }
-
-                    }
-                });
-            };
-            appExecutors.diskIO().execute(runnable);*/
-
-
             executeQuery(data)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -394,37 +353,6 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
                 }
                 try{
 
-                    String motherBaseId = form.optString(Constants.JSON_FORM_EXTRA.ENTITY_TYPE);
-                    JSONArray fields = org.smartregister.util.JsonFormUtils.fields(form);
-                    String gender = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"gender");
-
-//                    JSONObject uniqueID = org.smartregister.util.JsonFormUtils.getFieldJSONObject(fields, DBConstants.KEY.UNIQUE_ID);
-//                    if (StringUtils.isNotBlank(uniqueID.optString(org.smartregister.chw.anc.util.JsonFormUtils.VALUE))) {
-//                        String childBaseEntityId = org.smartregister.chw.anc.util.JsonFormUtils.generateRandomUUIDString();
-//                        AllSharedPreferences allSharedPreferences = ImmunizationLibrary.getInstance().context().allSharedPreferences();
-//                        JSONObject pncForm =getFormAsJson(Constants.FORMS.PNC_CHILD_REGISTRATION, childBaseEntityId, getLocationID());
-//
-//                        JSONObject familyIdObject = org.smartregister.util.JsonFormUtils.getFieldJSONObject(fields, DBConstants.KEY.RELATIONAL_ID);
-//                        String familyBaseEntityId = familyIdObject.getString(org.smartregister.chw.anc.util.JsonFormUtils.VALUE);
-//                        pncForm = org.smartregister.chw.anc.util.JsonFormUtils.populatePNCForm(pncForm, fields, familyBaseEntityId);
-//                        HnppJsonFormUtils.processAttributesWithChoiceIDsForSave(fields);
-//                        HnppJsonFormUtils.updateProviderIdAtClient(fields,familyBaseEntityId);
-//                        if(!StringUtils.isEmpty(gender)){
-//                            if (pncForm != null) {
-//                                if(familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){
-//                                    processChild(fields, allSharedPreferences, childBaseEntityId, motherBaseId, motherBaseId);
-//                                    saveRegistration(pncForm.toString(), "ec_guest_member");
-//                                }else{
-//                                    processChild(fields, allSharedPreferences, childBaseEntityId, familyBaseEntityId, motherBaseId);
-//                                    saveRegistration(pncForm.toString(), EC_CHILD);
-//                                    NCUtils.saveVaccineEvents(fields, childBaseEntityId);
-//                                }
-//
-//                            }
-//                        }
-//
-//                    }
-//
                     saveRegistration(form.toString(), HnppConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME);
                 }catch (Exception e){
                     e.printStackTrace();

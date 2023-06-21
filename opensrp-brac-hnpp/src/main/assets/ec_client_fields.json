@@ -1487,6 +1487,34 @@
           }
         },
         {
+          "column_name": "due_vaccine_date",
+          "type": "Client",
+          "json_mapping": {
+            "field": "due_vaccine_date"
+          }
+        },
+        {
+          "column_name": "due_vaccine_name",
+          "type": "Client",
+          "json_mapping": {
+            "field": "due_vaccine_name"
+          }
+        },
+        {
+          "column_name": "has_aefi",
+          "type": "Client",
+          "json_mapping": {
+            "field": "has_aefi"
+          }
+        },
+        {
+          "column_name": "due_vaccine_week",
+          "type": "Client",
+          "json_mapping": {
+            "field": "due_vaccine_week"
+          }
+        },
+        {
           "column_name": "disability",
           "type": "Client",
           "json_mapping": {

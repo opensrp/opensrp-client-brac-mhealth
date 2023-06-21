@@ -363,7 +363,7 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
             Intent intent;
              if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC_VISIT_FORM) ){
 
-                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"anc_type", FormApplicability.getANCType(baseEntityId));
+                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"anc_count", (FormApplicability.getANCCount(baseEntityId)+1)+"");
             }
              else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM_OOC)){
                  HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());

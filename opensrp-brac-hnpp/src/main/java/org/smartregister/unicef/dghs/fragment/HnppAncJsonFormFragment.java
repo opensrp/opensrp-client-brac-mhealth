@@ -13,10 +13,11 @@ import org.smartregister.unicef.dghs.HnppApplication;
 
 public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
 
-    public static HnppAncJsonFormFragment getFormFragment(String stepName) {
+    public static HnppAncJsonFormFragment getFormFragment(String stepName, boolean isNeedToShowSaveHeader) {
         HnppAncJsonFormFragment jsonFormFragment = new HnppAncJsonFormFragment();
         Bundle bundle = new Bundle();
         bundle.putString("stepName", stepName);
+        bundle.putBoolean("saveButton", isNeedToShowSaveHeader);
         jsonFormFragment.setArguments(bundle);
         return jsonFormFragment;
     }
@@ -42,7 +43,8 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        menu.findItem(com.vijay.jsonwizard.R.id.action_save).setVisible(true);
+       boolean  isNeedToShowSaveHeader = getArguments().getBoolean("saveButton");
+        menu.findItem(com.vijay.jsonwizard.R.id.action_save).setVisible(isNeedToShowSaveHeader);
 
     }
 

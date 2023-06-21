@@ -460,9 +460,8 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         return event;
     }
 
-    public static synchronized Visit saveVisit(boolean isComesFromIdentity,boolean needVerified,boolean isVerified, String notVerifyCause,String memberID, String encounterType,
-                            final Map<String, String> jsonString,
-                            String parentEventType,String formSubmissionId,String visitId) throws Exception {
+    public static synchronized Visit saveVisit(String memberID, String encounterType,
+                            final Map<String, String> jsonString,String formSubmissionId,String visitId, String rawJson) throws Exception {
         Log.v("SAVE_VISIT","saveVisit>>");
         if(!FormApplicability.isDueAnyForm(memberID,encounterType)){
             //passing emptyVisit object with zero id
@@ -480,6 +479,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         Triple<Boolean, JSONObject, JSONArray> registrationFormParams = validateParameters(jsonString.get("First"));
         JSONObject jsonForm = (JSONObject)registrationFormParams.getMiddle();
         JSONArray fields = (JSONArray)registrationFormParams.getRight();
+
         Event baseEvent = org.smartregister.util.JsonFormUtils.createEvent(fields, getJSONObject(jsonForm, "metadata"), formTag(allSharedPreferences), memberID,encounterType,getTableName());
         //save identifier
         String blockId = org.smartregister.util.JsonFormUtils.getFieldValue(fields,BLOCK_ID);

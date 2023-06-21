@@ -6,6 +6,7 @@ import android.text.TextUtils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.contract.MemberHistoryContract;
@@ -72,12 +73,23 @@ public class MemberHistoryInteractor implements MemberHistoryContract.Interactor
                                     final CommonPersonObjectClient client = new CommonPersonObjectClient(visit.getBaseEntityId(), details, "");
                                     client.setColumnmaps(details);
                                     jsonForm = FormParser.loadFormFromAsset(eventType);
-                                    JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
-                                    JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
-                                    for (int k = 0; k < jsonArray.length(); k++) {
-                                        FormParser.populateValuesForFormObject(client, jsonArray.getJSONObject(k));
+
+//                                    JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+//                                    JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+//                                    for (int k = 0; k < jsonArray.length(); k++) {
+//                                        FormParser.populateValuesForFormObject(client, jsonArray.getJSONObject(k));
+//                                    }
+                                    int count = jsonForm.getInt("count");
+                                    for(int i= 1;i<=count;i++){
+                                        JSONObject steps = jsonForm.getJSONObject("step"+i);
+                                        JSONArray ja = steps.getJSONArray(JsonFormUtils.FIELDS);
+
+                                        for (int k = 0; k < ja.length(); k++) {
+                                            FormParser.populateValuesForFormObject(client, ja.getJSONObject(k));
+                                        }
                                     }
                                 }catch (Exception e){
+                                    e.printStackTrace();
 
                                 }
 

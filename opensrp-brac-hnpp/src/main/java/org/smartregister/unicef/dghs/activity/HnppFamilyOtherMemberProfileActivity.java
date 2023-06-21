@@ -302,22 +302,22 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
     }
 
     public void startAncRegister() {
-        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
-            @Override
-            public void onPost(double latitude, double longitude) {
+//        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+//            @Override
+//            public void onPost(double latitude, double longitude) {
                 HnppAncRegisterActivity.startHnppAncRegisterActivity(HnppFamilyOtherMemberProfileActivity.this, baseEntityId, PhoneNumber,
-                        HnppConstants.JSON_FORMS.ANC_FORM, null, familyBaseEntityId, familyName,textViewName.getText().toString(),latitude,longitude);
-            }
-        });
+                        HnppConstants.JSON_FORMS.ANC_FORM, null, familyBaseEntityId, familyName,textViewName.getText().toString(),0,0);
+//            }
+//        });
     }
     public void startMalariaRegister() {
-        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
-            @Override
-            public void onPost(double latitude, double longitude) {
+//        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+//            @Override
+//            public void onPost(double latitude, double longitude) {
                 HnppAncRegisterActivity.startHnppAncRegisterActivity(HnppFamilyOtherMemberProfileActivity.this, baseEntityId, PhoneNumber,
-                        HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME, HnppJsonFormUtils.getUniqueMemberId(familyBaseEntityId), familyBaseEntityId, familyName,textViewName.getText().toString(),latitude,longitude);
-            }
-        });
+                        HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME, HnppJsonFormUtils.getUniqueMemberId(familyBaseEntityId), familyBaseEntityId, familyName,textViewName.getText().toString(),0,0);
+//            }
+//        });
      }
 
      protected void removeIndividualProfile() {
@@ -457,7 +457,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
     private void processJsonForm(String formName,int requestCode,double latitude, double longitude){
         try {
             HnppConstants.appendLog("SAVE_VISIT","processJsonForm>>>formName:"+formName);
-
+            Form form = new Form();
             JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
             HnppJsonFormUtils.addEDDField(formName,jsonForm,baseEntityId);
 //            try{
@@ -471,21 +471,29 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
 
             }
             jsonForm.put(JsonFormUtils.ENTITY_ID, baseEntityId);
-            Intent intent;
+            Intent intent = new Intent(this, HnppAncJsonFormActivity.class);
             if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.GIRL_PACKAGE)){
                 HnppJsonFormUtils.addMaritalStatus(jsonForm,maritalStatus);
             }
             else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC_VISIT_FORM)){
                 String lmpDate = HnppDBUtils.getLmpDate(baseEntityId);
                 String date = HnppConstants.getScheduleLmpDate(lmpDate,1);
+                HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"lmp", lmpDate);
                 HnppJsonFormUtils.changeFormTitle(jsonForm,FormApplicability.getANCTitle(baseEntityId));
-                HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"anc_type", FormApplicability.getANCType(baseEntityId));
+                HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"anc_count", (FormApplicability.getANCCount(baseEntityId)+1)+"");
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"schedule_date", date);
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
+                form.setWizard(true);
+                form.setHideSaveLabel(true);
+                form.setSaveLabel("");
+                form.setHomeAsUpIndicator(org.smartregister.family.R.mipmap.ic_cross_white);
+                form.setNavigationBackground(!HnppConstants.isReleaseBuild()?R.color.test_app_color:org.smartregister.family.R.color.customAppThemeBlue);
+                intent.putExtra("IS_NEED_SAVE",false);
             } else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM)){
                 int pncDay = FormApplicability.getDayPassPregnancyOutcome(baseEntityId);
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"pnc_day_passed", String.valueOf(pncDay));
             }
+
             if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.BLOOD_TEST)){
                 if(gender.equalsIgnoreCase("F")){
                     HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_women","true");
@@ -504,20 +512,15 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
                 updateFormField(jsonArray,"height",height);
             }
 
-            intent = new Intent(this, HnppAncJsonFormActivity.class);
+
 //           else
 //               intent = new Intent(this, org.smartregister.family.util.Utils.metadata().familyMemberFormActivity);
             intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
 
-            Form form = new Form();
-            form.setWizard(false);
-            if(!HnppConstants.isReleaseBuild()){
-                form.setActionBarBackground(R.color.test_app_color);
 
-            }else{
-                form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
-            }
+            form.setActionBarBackground(!HnppConstants.isReleaseBuild()?R.color.test_app_color:org.smartregister.family.R.color.customAppThemeBlue);
+
             intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
             intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
             startActivityForResult(intent, requestCode);
@@ -573,7 +576,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
             HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
                 @Override
                 public void onPost(double latitude, double longitude) {
-                    HnppHomeVisitActivity.startMe(HnppFamilyOtherMemberProfileActivity.this, new MemberObject(commonPersonObject), false,false,verificationNeeded,isVerified,checkedItem,latitude,longitude);
+                    HnppHomeVisitActivity.startMe(HnppFamilyOtherMemberProfileActivity.this, new MemberObject(commonPersonObject), false,false,verificationNeeded,isVerified,"",latitude,longitude);
 
                 }
             });
@@ -583,77 +586,8 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
             startAnyFormActivity(requestedFormName,requestedRequestCode);
         }
     }
-    String checkedItem = "";
-    private void addCheckedText(String text){
-        if(TextUtils.isEmpty(checkedItem)){
-            checkedItem = text;
-        }else{
-            checkedItem = checkedItem+","+text;
-        }
-    }
-    int selectedCount = 0;
 
-    private void showNotFoundDialog(){
-        Dialog dialog = new Dialog(this, android.R.style.Theme_NoTitleBar_Fullscreen);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.view_not_verified);
-        Button service_btn = dialog.findViewById(R.id.service_btn);
-        Button retry_btn = dialog.findViewById(R.id.retry_btn);
-        dialog.findViewById(R.id.cross_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        CheckBox checkBox1 = dialog.findViewById(R.id.check_box_1);
-        CheckBox checkBox2 = dialog.findViewById(R.id.check_box_2);
-        CheckBox checkBox5 = dialog.findViewById(R.id.check_box_5);
-        checkBox1.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if(isChecked){
-                    checkBox5.setChecked(false);
-                    checkedItem = checkedItem.replace("জানা নেই","");
-                    addCheckedText(checkBox1.getText().toString());
-                selectedCount++;
-            }else{
-                selectedCount --;
-            }
-        });
-        checkBox2.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if(isChecked){
-                checkBox5.setChecked(false);
-                    checkedItem = checkedItem.replace("জানা নেই","");
-                    addCheckedText(checkBox2.getText().toString());
-                selectedCount++;
-            }else{
-                selectedCount --;
-            }
-        });
 
-        checkBox5.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if(isChecked){
-                checkBox1.setChecked(false);
-                checkBox2.setChecked(false);
-                checkedItem = checkBox5.getText().toString();
-                selectedCount++;
-            }else{
-                selectedCount --;
-            }
-        });
-        service_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(selectedCount == 0){
-                    Toast.makeText(HnppFamilyOtherMemberProfileActivity.this,"যে কোন একটি কারণ সিলেক্ট করুন",Toast.LENGTH_LONG).show();
-                    return;
-                }
-                dialog.dismiss();
-                openServiceForm();
-            }
-        });
-
-        dialog.show();
-
-    }
     Dialog dialog;
     private void showServiceDoneDialog(Integer isSuccess){
         if(dialog!=null) return;
@@ -879,7 +813,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
                         jsonStrings.put("First",form.toString());
                         HnppConstants.appendLog("SAVE_VISIT","baseEntityId:"+baseEntityId+":formSubmissionId:"+formSubmissionId);
 
-                        Visit visit = HnppJsonFormUtils.saveVisit(false,verificationNeeded, isVerified,checkedItem, baseEntityId, type, jsonStrings, "",formSubmissionId,visitId);
+                        Visit visit = HnppJsonFormUtils.saveVisit(baseEntityId, type, jsonStrings,formSubmissionId,visitId,jsonString);
 
                         if(visit!=null && !visit.getVisitId().equals("0")){
                             HnppHomeVisitIntentService.processVisits();
@@ -1124,7 +1058,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
         HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
             @Override
             public void onPost(double latitude, double longitude) {
-                HnppHomeVisitActivity.startMe(HnppFamilyOtherMemberProfileActivity.this, new MemberObject(commonPersonObject), false,false,verificationNeeded,isVerified,checkedItem,latitude,longitude);
+                HnppHomeVisitActivity.startMe(HnppFamilyOtherMemberProfileActivity.this, new MemberObject(commonPersonObject), false,false,verificationNeeded,isVerified,"",latitude,longitude);
 
             }
         });

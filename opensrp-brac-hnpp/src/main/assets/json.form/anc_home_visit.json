@@ -1,0 +1,833 @@
+{
+  "count": "3",
+  "encounter_type": "ANC Home Visit",
+  "entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location": ""
+  },
+  "step1": {
+    "title": "গর্ভবতী পরিচর্যা",
+    "next": "step2",
+    "fields": [
+      {
+        "key": "form_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "ANC Home Visit",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": "anc_home_visit"
+      },
+      {
+        "key": "block_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "block_name",
+        "type": "hidden"
+      },
+      {
+        "key": "block_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "block_id",
+        "type": "hidden"
+      },
+      {
+        "key": "add_to_stock",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "add_to_stock",
+        "type": "hidden",
+        "value": "0"
+      },
+      {
+        "key": "relational_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "relational_id",
+        "type": "hidden"
+      },
+      {
+        "key": "lmp",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "lmp",
+        "type": "hidden"
+      },
+      {
+        "key": "anc_count",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "anc_count",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "এ এন সি সেবা নং"
+      },
+      {
+        "key": "edd",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "edd",
+        "type": "hidden",
+        "read_only": true,
+        "hint": "সম্ভাব্য প্রসবের তারিখ"
+      },
+      {
+        "key": "schedule_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "schedule_date",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "সেবা গ্রহণের নির্ধারিত তারিখ"
+      },
+      {
+        "key": "service_taken_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "service_taken_date",
+        "type": "date_picker",
+        "hint": "সেবা গ্রহণের তারিখ"
+      },
+      {
+        "key": "place_of_service_taken",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "place_of_service_taken",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "সেবা গ্রহনের স্থান",
+        "values": [
+          "মেডিকেল কলেজ হাসপাতাল",
+          "সদর হাসপাতাল",
+          "উপজেলা স্বাস্থ্য কমপ্লেক্স",
+          "মা ও শিশু কল্যাণ কেন্দ্র",
+          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
+          "কমিউনিটি ক্লিনিক",
+          "বেসরকারী ক্লিনিক/হাসপাতাল",
+          "এনজিও ক্লিনিক",
+          "চা বাগান ফেসিলিটি",
+          "বাড়িতে",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "মেডিকেল কলেজ হাসপাতাল": "Medical_College_and_Hospital",
+          "সদর হাসপাতাল": "District_Hospital",
+          "উপজেলা স্বাস্থ্য কমপ্লেক্স": "Upazila_Health_Complex",
+          "মা ও শিশু কল্যাণ কেন্দ্র": "MCWC",
+          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র": "Union_Health_and_Family_Welfare_Center",
+          "কমিউনিটি ক্লিনিক": "Community Clinic",
+          "বেসরকারী ক্লিনিক/হাসপাতাল": "Private_Clinic_and_Hospital",
+          "এনজিও ক্লিনিক": "Non-governmental_Organization",
+          "চা বাগান ফেসিলিটি": "Tea_Garden_Facility",
+          "বাড়িতে": "Home",
+          "অন্যান্য": "Others"
+        }
+      },
+      {
+        "key": "service_provider",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "service_provider",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "সেবা প্রদানকারী",
+        "values": [
+          "ডাক্তার",
+          "নার্স",
+          "মিডওয়াইফ",
+          "এফ.ডাব্লিউ.ভি.",
+          "সিএসবিএ",
+          "অন্যান্য_কেউ"
+        ],
+        "openmrs_choice_ids": {
+          "ডাক্তার": "Doctor",
+          "নার্স": "Nurse",
+          "মিডওয়াইফ": "Midwife",
+          "এফ.ডাব্লিউ.ভি.": "FWV",
+          "সিএসবিএ": "CSBA",
+          "অন্যান্য_কেউ": "Others"
+        }
+      },
+      {
+        "key": "Weight",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Weight",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "আপনার ওজন(কেজি)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        }
+      },
+      {
+        "key": "Height",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Height",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "hint": "আপনার উচ্চতা(সে.মি.)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        }
+      },
+      {
+        "key": "Systolic",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Systolic",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "আপনার সিস্টোলিক রক্তচাপ",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_max": {
+          "value": "400",
+          "err": "400 এর কম হওয়া উচিত"
+        }
+      },
+      {
+        "key": "diastolic",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "diastolic",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "আপনার ডায়াস্টোলিক রক্তচাপ",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_max": {
+          "value": "400",
+          "err": "400 এর কম হওয়া উচিত"
+        }
+      },
+      {
+        "key": "Temperature",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Temperature",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "আপনার শরীরের তাপমাত্রা ( ফারেনহাইট)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        }
+      },
+      {
+        "key": "Clinical_Anemia",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Clinical_Anemia",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "আপনার ক্লিনিকাল রক্তসল্পতা আছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      }
+
+    ]
+  },
+  "step2": {
+    "title": "স্বাস্থ্য পরীক্ষা তথ্য",
+    "next": "step3",
+    "fields": [
+      {
+        "key": "Fundal_height",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Fundal_height",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "ফান্ডাল হাইট (উইক/ সে মি)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        }
+      },
+      {
+        "key": "Fetal_position",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Fetal_position",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "ভ্রূণের অবস্থান",
+        "values": [
+          "Cephalic",
+          "Transverse lie",
+          "Breech",
+          "Other"
+        ],
+        "openmrs_choice_ids": {
+          "Cephalic": "Cephalic",
+          "Transverse lie": "Transverse lie",
+          "Breech": "Breech",
+          "Other": "Other"
+        }
+      },
+      {
+        "key": "Fetal_movement",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Fetal_movement",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "বাচ্চা নড়াচড়া করে কিনা?",
+        "values": [
+          "Yes",
+          "No"
+        ],
+        "openmrs_choice_ids": {
+          "Yes": "Yes",
+          "No": "No"
+        }
+      },
+      {
+        "key": "Fetal_Heart_Rate",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Fetal_Heart_Rate",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "বাচ্চার হার্টবিট রেট",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        }
+      },
+      {
+        "key": "health_cheque_up",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "health_cheque_up",
+        "type": "check_box",
+        "label": "কোন কোন স্বাস্থ্য পরীক্ষা করানো হয়েছে? ",
+        "exclusive": [
+          "none"
+        ],
+        "options": [
+          {
+            "key": "jondish",
+            "text": "জন্ডিস",
+            "value": false,
+            "type": "check_box",
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "jondish"
+          },
+          {
+            "key": "himoglobin",
+            "text": "হিমোগ্লোবিন",
+            "value": false,
+            "type": "check_box",
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "himoglobin"
+          },
+          {
+            "key": "glucos",
+            "text": " রক্তে গ্লুকোজের মাত্রা ",
+            "value": false,
+            "type": "check_box",
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "glucos"
+          },
+          {
+            "key": "alubumin",
+            "text": "প্রস্রাবের অ্যালবুমিন ",
+            "value": false,
+            "type": "check_box",
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "alubumin"
+          },
+          {
+            "key": "hbs",
+            "text": "হেপাটাইটিস বি",
+            "value": false,
+            "type": "check_box",
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "hbs"
+          },
+          {
+            "key": "chipilis",
+            "text": "সিফিলিস",
+            "value": false,
+            "type": "check_box",
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "chipilis"
+          },
+          {
+            "key": "hiv",
+            "text": "এইচ আই ভি ",
+            "value": false,
+            "type": "check_box",
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "hiv"
+          },
+          {
+            "key": "ultra_sound",
+            "text": "আল্ট্রাসাউন্ড স্ক্যান",
+            "value": false,
+            "type": "check_box",
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "ultra_sound"
+          },
+          {
+            "key": "none",
+            "text": "কোনোটিই নয়",
+            "value": false,
+            "type": "check_box",
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "none"
+          }
+        ]
+      },
+      {
+        "key": "Hemoglobin",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Hemoglobin",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "হিমোগ্লোবিন পরীক্ষার ফলাফল (gm/dl)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "relevance": {
+          "step2:health_cheque_up": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "himoglobin"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "key": "blood_sugar_result",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "blood_sugar_result",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": " রক্তে গ্লুকোজের মাত্রা পরীক্ষার ফলাফল (mmol/dl)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "relevance": {
+          "step2:health_cheque_up": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "glucos"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "key": "Urine_Albumin_result",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Urine_Albumin_result",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "প্রস্রাবের অ্যালবুমিন পরীক্ষার ফলাফল",
+        "values": [
+          "১+",
+          "২+",
+          "৩+",
+          "স্বাভাবিক ফলাফল"
+        ],
+        "openmrs_choice_ids": {
+          "১+": "1+",
+          "২+": "2+",
+          "৩+": "3+",
+          "স্বাভাবিক ফলাফল": "Normal"
+        },
+        "relevance": {
+          "step2:health_cheque_up": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "alubumin"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "key": "Hb_tested_result",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Hb_tested_result",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": " হেপাটাইটিস বি পরীক্ষার ফলাফল",
+        "values": [
+          "পজিটিভ",
+          "নেগেটিভ"
+        ],
+        "openmrs_choice_ids": {
+          "পজিটিভ": "positiive",
+          "নেগেটিভ": "negetive"
+        },
+        "relevance": {
+          "step2:health_cheque_up": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "hbs"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "key": "chipilis_tested_result",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "chipilis_tested_result",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "সিফিলিস পরীক্ষার ফলাফল",
+        "values": [
+          "পজিটিভ",
+          "নেগেটিভ"
+        ],
+        "openmrs_choice_ids": {
+          "পজিটিভ": "positiive",
+          "নেগেটিভ": "negetive"
+        },
+        "relevance": {
+          "step2:health_cheque_up": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "chipilis"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "key": "hiv_tested_result",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "hiv_tested_result",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "এইচ আই ভি পরীক্ষার ফলাফল",
+        "values": [
+          "পজিটিভ",
+          "নেগেটিভ"
+        ],
+        "openmrs_choice_ids": {
+          "পজিটিভ": "positiive",
+          "নেগেটিভ": "negetive"
+        },
+        "relevance": {
+          "step2:health_cheque_up": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "hiv"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "key": "tt_td_history",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "tt_td_history",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "আপনি কোন কোন টিটি/টিডি টিকা গ্রহন করেছেন?",
+        "values": [
+          "টিটি/টিডি-১ সম্পন্ন",
+          "টিটি/টিডি-২ সম্পন্ন",
+          "টিটি/টিডি-৩ সম্পন্ন",
+          "টিটি/টিডি-৪ সম্পন্ন",
+          "টিটি/টিডি-৫ সম্পন্ন",
+          "একটিও না"
+        ],
+        "openmrs_choice_ids": {
+          "টিটি/টিডি-১ সম্পন্ন": "tt_td_1_done",
+          "টিটি/টিডি-২ সম্পন্ন": "tt_td_2_done",
+          "টিটি/টিডি-৩ সম্পন্ন": "tt_td_3_done",
+          "টিটি/টিডি-৪ সম্পন্ন": "tt_td_4_done",
+          "টিটি/টিডি-৫ সম্পন্ন": "tt_td_5_done",
+          "একটিও না": "none"
+        }
+      }
+    ]
+  },
+  "step3": {
+    "title": "বিপদচিহ্ন ও রেফারেল",
+    "previous": "step2",
+    "fields": [
+
+      {
+        "key": "Danger_Sign_reported",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Danger_Sign_reported",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "আপনার কি কোন গর্ভকালীন বিপদচিহ্ন আছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key":"Denger_Signs_During_Pregnancy",
+        "openmrs_entity_parent":"",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id":"Denger_Signs_During_Pregnancy",
+        "type":"check_box",
+        "label":"আপনার জটিলতা সমূহ নির্ধারণ করুন",
+        "exclusive":[
+          "No_Denger_Sign"
+        ],
+        "options":[
+          {
+            "key":"Bleeding_Through_Birth_Canal",
+            "text":"যোনিপথে রক্তক্ষরণ",
+            "value":false,
+            "openmrs_entity": "concept",
+            "openmrs_choice_id":"Bleeding_Through_Birth_Canal"
+          },
+          {
+            "key":"Weakness_Blurred_vision",
+            "text":"ঝাপসা দৃষ্টি / গুরুতর মাথাব্যথা",
+            "value":false,
+            "openmrs_entity": "concept",
+            "openmrs_choice_id":"Weakness_Blurred_vision"
+          },
+          {
+            "key":"high_blood_pressure",
+            "text":"উচ্চ রক্তচাপ",
+            "value":false,
+            "openmrs_entity": "concept",
+            "openmrs_choice_id":"high_blood_pressure"
+          },
+          {
+            "key":"Convulsion",
+            "text":"এক্লাম্পসিয়া/খিঁচুনি",
+            "value":false,
+            "openmrs_entity": "concept",
+            "openmrs_choice_id":"Convulsion"
+          },
+          {
+            "key":"High_Temperature_102_Degree_or_More",
+            "text":"জ্বর",
+            "value":false,
+            "openmrs_entity": "concept",
+            "openmrs_choice_id":"High_Temperature_102_Degree_or_More"
+          }
+        ],
+        "relevance": {
+          "step3:Danger_Sign_reported": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "get_service",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "get_service",
+        "type": "check_box",
+        "label": "প্র্রাপ্ত সেবা",
+        "exclusive": ["none"],
+        "options": [
+          {
+            "key": "calsium",
+            "text": "ক্যালসিয়াম ট্যাবলেট  বিতরণ করা হয়েছে?",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "calsium"
+          },
+          {
+            "key": "ifa_mms",
+            "text": "আইএফএ/ মাল্টিপল মাইক্রো নিউট্রিয়েন্ট সাপ্লিমেন্ট (এম এম এস) বিতরণ করা হয়েছে?",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "ifa_mms"
+          },
+          {
+            "key": "counseling",
+            "text": "কাউন্সেলিং (পুষ্টি, জন্ম পরিকল্পনা, ইবিএফ, ইএনসি, টিকাদান সংক্রান্ত) প্রদান করা হয়েছ ",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "counseling"
+          },
+          {
+            "key": "pregnancy_preparation",
+            "text": "জন্মদান বিষয়ক প্রস্তুতি ( প্রসবের স্থান, যাতায়াত, অর্থ, রক্তদাতা, সহায়তাকারী ) নেয়া হয়েছে ",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "pregnancy_preparation"
+          }
+
+        ]
+
+      },
+      {
+        "key": "is_Referred",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "is_Referred",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "রেফার করা হয়েছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+      {
+        "key":"Place_of_Refer",
+        "openmrs_entity_parent":"",
+        "openmrs_entity":"",
+        "openmrs_entity_id":"Place_of_Refer",
+        "openmrs_data_type":"text",
+        "type":"spinner",
+        "hint":"রেফারের স্থান",
+        "values":[
+          "কমিউনিটি ক্লিনিক",
+          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র",
+          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র",
+          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
+          "মা ও শিশু কল্যাণ কেন্দ্র",
+          "১০ শয্যা বিশিষ্ট হাসপাতাল",
+          "২০ শয্যা বিশিষ্ট হাসপাতাল",
+          "উপজেলা স্বাস্থ্য কমপ্লেক্স",
+          "সদর হাসপাতাল",
+          "মেডিকেল কলেজ হাসপাতাল",
+          "বিশেষায়িত হাসপাতাল",
+          "অন্যান্য",
+          "রেফার করা হয়নি"
+        ],
+        "openmrs_choice_ids":{
+          "কমিউনিটি ক্লিনিক":"Community_Clinic",
+          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র":"Union_Sub_Center",
+          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র":"Union_Family_Welfare_Center",
+          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র":"Union_Health_and_Family_Welfare_Center",
+          "মা ও শিশু কল্যাণ কেন্দ্র":"Metarnal_and_Child_Wellfare_Center",
+          "১০ শয্যা বিশিষ্ট হাসপাতাল":"10_Bed_Hospital",
+          "২০ শয্যা বিশিষ্ট হাসপাতাল":"20_Beds_Hospital",
+          "উপজেলা স্বাস্থ্য কমপ্লেক্স":"Upazila_Health_Complex",
+          "সদর হাসপাতাল":"District_Hospital",
+          "মেডিকেল কলেজ হাসপাতাল":"Medical_College_and_Hospital",
+          "বিশেষায়িত হাসপাতাল":"Specialized_Hospital",
+          "অন্যান্য":"Others_Health_Facility",
+          "রেফার করা হয়নি":"Not_referred"
+        },
+        "relevance": {
+          "step3:is_Referred": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "latitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "latitude",
+        "type": "hidden",
+        "read_only": true,
+        "hint": "অক্ষাংশ"
+      },
+      {
+        "key": "longitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "longitude",
+        "type": "hidden",
+        "read_only": true,
+        "hint": "দ্রাঘিমা"
+      }
+    ]
+  }
+}

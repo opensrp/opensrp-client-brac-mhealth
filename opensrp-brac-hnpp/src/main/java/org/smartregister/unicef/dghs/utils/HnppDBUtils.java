@@ -938,7 +938,6 @@ public class HnppDBUtils {
                 "ec_child.chlorohexadin," +
                 "ec_child.breastfeeding_time," +
                 "ec_child.head_body_covered," +
-                "ec_child.physically_challenged," +
                 "ec_child.breast_feeded," +"ec_child.which_problem" +
                 " from ec_child where ec_child.mother_entity_id = '"+baseEntityId+"' AND ec_child.entry_point = 'PNC'";
         Cursor cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});

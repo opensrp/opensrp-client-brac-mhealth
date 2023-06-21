@@ -71,7 +71,6 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
                     addEDDField(memberObject.getBaseEntityId(),formName,jsonPayload);
                     addHeightField(memberObject.getBaseEntityId(),formName,jsonPayload);
                     HnppJsonFormUtils.addVerifyIdentify(jsonPayload,sIsIdentify,sNeedVerified,sIsVerify,sNotVerifyText);
-                    HnppJsonFormUtils.addLastAnc(jsonPayload,memberObject.getBaseEntityId(),false);
                     try{
                         HnppJsonFormUtils.addAddToStockValue(jsonPayload);
                     }catch (Exception e){

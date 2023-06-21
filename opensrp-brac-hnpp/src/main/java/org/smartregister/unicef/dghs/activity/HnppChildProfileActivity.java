@@ -504,11 +504,12 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
 
 
     }
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void openReferealFollowUp(ReferralFollowUpModel referralFollowUpModel) {
-        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-            @Override
-            public void onPost(double latitude, double longitude) {
+//        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+//            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+//            @Override
+//            public void onPost(double latitude, double longitude) {
                 try {
                     if(TextUtils.isEmpty(childBaseEntityId)){
                         Toast.makeText(HnppChildProfileActivity.this, "baseentityid null", Toast.LENGTH_SHORT).show();
@@ -519,7 +520,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                     JSONObject jsonForm = FormUtils.getInstance(HnppChildProfileActivity.this).getFormJson(HnppConstants.JSON_FORMS.REFERREL_FOLLOWUP);
                     jsonForm.put(JsonFormUtils.ENTITY_ID, childBaseEntityId);
                     try{
-                        HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,getFamilyBaseId());
+                        HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,0,0,getFamilyBaseId());
                     }catch (Exception e){
                         e.printStackTrace();
                     }
@@ -548,8 +549,8 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                 }catch (Exception e){
 
                 }
-            }
-        });
+//            }
+//        });
 
 
     }
@@ -771,7 +772,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                 jsonStrings.put("First",form.toString());
                 HnppConstants.appendLog("SAVE_VISIT", "save form>>childBaseEntityId:"+childBaseEntityId+":type:"+type);
 
-                Visit visit = HnppJsonFormUtils.saveVisit(false,false,false,"", childBaseEntityId, type, jsonStrings, "",formSubmissionid,visitId);
+                Visit visit = HnppJsonFormUtils.saveVisit(childBaseEntityId, type, jsonStrings, formSubmissionid,visitId,jsonString);
                 if(visit!=null && !visit.getVisitId().equals("0")){
                     HnppHomeVisitIntentService.processVisits();
                     FormParser.processVisitLog(visit);

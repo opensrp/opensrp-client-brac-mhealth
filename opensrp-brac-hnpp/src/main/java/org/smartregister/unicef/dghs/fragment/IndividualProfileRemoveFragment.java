@@ -244,7 +244,7 @@ public class IndividualProfileRemoveFragment extends BaseFamilyProfileMemberFrag
                     jsonStrings.put("First",form.toString());
                     String formSubmissionId = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
                     String visitId = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
-                   Visit visit =  HnppJsonFormUtils.saveVisit(false,false,false,"", baseEntityId, type, jsonStrings, "",formSubmissionId,visitId);
+                   Visit visit =  HnppJsonFormUtils.saveVisit(baseEntityId, type, jsonStrings,formSubmissionId,visitId,form.toString());
                    if(visit !=null && !visit.getVisitId().equals("0")){
                        HnppHomeVisitIntentService.processVisits();
                        VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);

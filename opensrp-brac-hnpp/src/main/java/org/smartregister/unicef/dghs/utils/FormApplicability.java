@@ -400,6 +400,16 @@ public class FormApplicability {
         long difference_In_Days= startTime / 86400000L;
         return difference_In_Days;
     }
+    public static int getANCCount(String baseEntityId){
+        int ancCount = 0;
+        String ancQuery = "select count(*) as anc_count from ec_visit_log where base_entity_id ='"+baseEntityId+"' and visit_type ='"+ ANC_HOME_VISIT+"'";
+        List<Map<String, String>> values = HnppDBUtils.readData(ancQuery, null);
+        if( values.size() > 0 && values.get(0).get("anc_count")!= null){
+            ancCount = Integer.parseInt(values.get(0).get("anc_count"));
+        }
+        return ancCount;
+
+    }
 
     public static int getHourPassPregnancyOutcome(String baseEntityId){
         int hoursPassed = -1;

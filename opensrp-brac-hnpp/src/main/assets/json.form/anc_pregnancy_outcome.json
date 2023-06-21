@@ -58,7 +58,7 @@
         "openmrs_entity_id": "Pregnancy Outcome",
         "openmrs_data_type": "text",
         "type": "hidden",
-        "value": "hnpp_anc_pregnancy_outcome"
+        "value": "anc_pregnancy_outcome"
       },
       {
         "key": "relational_id",
@@ -94,6 +94,23 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "provider_id",
         "type": "hidden"
+      },
+      {
+        "key": "service_taken_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "service_taken_date",
+        "type": "date_picker",
+        "hint": "সেবা গ্রহণের তারিখ"
+      },
+      {
+        "key": "edd",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "edd",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "সম্ভাব্য প্রসবের তারিখ"
       },
 
       {

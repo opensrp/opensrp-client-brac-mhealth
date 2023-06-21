@@ -86,6 +86,7 @@ public class HALocationFetchIntentService extends IntentService {
 
             return new JSONArray((String) resp.payload());
         }catch (Exception e){
+            e.printStackTrace();
 
         }
         return null;

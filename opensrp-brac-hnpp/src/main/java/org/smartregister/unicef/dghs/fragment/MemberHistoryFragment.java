@@ -23,6 +23,7 @@ import org.smartregister.unicef.dghs.activity.HnppFormViewActivity;
 import org.smartregister.unicef.dghs.adapter.MemberHistoryAdapter;
 import org.smartregister.unicef.dghs.contract.MemberHistoryContract;
 import org.smartregister.unicef.dghs.presenter.MemberHistoryPresenter;
+import org.smartregister.unicef.dghs.sync.FormParser;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.HnppDBUtils;
 import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
@@ -134,17 +135,10 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
         try {
             hideProgressBar();
             String eventType = content.getEventType();
-            if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME)){
-                HnppDBUtils.populatePNCChildDetails(content.getBaseEntityId(),jsonForm);
-            }
-            if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT)){
-                if(isGuestUser){
-                    HnppJsonFormUtils.addNoOfAnc(jsonForm);
-                }else{
-                    HnppJsonFormUtils.addLastAnc(jsonForm,baseEntityId,true);
-                }
+//            if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME)){
+//                HnppDBUtils.populatePNCChildDetails(content.getBaseEntityId(),jsonForm);
+//            }
 
-            }
             if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.NCD_PACKAGE)){
                 HnppJsonFormUtils.addNcdSugerPressure(baseEntityId,jsonForm);
             }
@@ -181,13 +175,16 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
     }
 
     public void makeReadOnlyFields(JSONObject jsonObject){
-        JSONObject stepOne = null;
         try {
-            stepOne = jsonObject.getJSONObject(JsonFormUtils.STEP1);
-            JSONArray jsonArray = stepOne.getJSONArray(JsonFormUtils.FIELDS);
-            for(int i=0;i<jsonArray.length();i++){
-                JSONObject fieldObject = jsonArray.getJSONObject(i);
-                fieldObject.put(JsonFormUtils.READ_ONLY, true);
+            int count = jsonObject.getInt("count");
+            for(int i= 1;i<=count;i++){
+                JSONObject steps = jsonObject.getJSONObject("step"+i);
+                JSONArray ja = steps.getJSONArray(JsonFormUtils.FIELDS);
+
+                for (int k = 0; k < ja.length(); k++) {
+                    JSONObject fieldObject =ja.getJSONObject(k);
+                    fieldObject.put(JsonFormUtils.READ_ONLY, true);
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();

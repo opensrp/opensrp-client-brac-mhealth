@@ -24,8 +24,8 @@ public class HnppNavigationModel implements org.smartregister.chw.core.model.Nav
                 navigationOptions.add(optionElco);
             }else{
                 NavigationOption optionElco = new NavigationOption(R.mipmap.sidemenu_families, R.mipmap.sidemenu_families_active, R.string.menu_elco_clients, CoreConstants.DrawerMenu.ELCO_CLIENT, 0);
-                optionElco.setNeedToExpand(true);
-                optionElco.setNavigationSubModel(new NavigationSubModel(R.string.menu_anc_risk_clients,0,CoreConstants.DrawerMenu.ELCO_RISK));
+                optionElco.setNeedToExpand(false);
+//                optionElco.setNavigationSubModel(new NavigationSubModel(R.string.menu_anc_risk_clients,0,CoreConstants.DrawerMenu.ELCO_RISK));
                 navigationOptions.add(optionElco);
 
                 NavigationOption option = new NavigationOption(R.mipmap.sidemenu_anc, R.mipmap.sidemenu_anc_active, R.string.menu_anc_clients, CoreConstants.DrawerMenu.ANC, 0);

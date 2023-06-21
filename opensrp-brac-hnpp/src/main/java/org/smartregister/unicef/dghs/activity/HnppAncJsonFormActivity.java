@@ -11,7 +11,8 @@ import org.smartregister.family.activity.FamilyWizardFormActivity;
 public class HnppAncJsonFormActivity extends FamilyWizardFormActivity {
     @Override
     public void initializeFormFragment() {
-        HnppAncJsonFormFragment jsonWizardFormFragment = HnppAncJsonFormFragment.getFormFragment("step1");
+        boolean isNeedToShowSaveButton = getIntent().getBooleanExtra("IS_NEED_SAVE",true);
+        HnppAncJsonFormFragment jsonWizardFormFragment = HnppAncJsonFormFragment.getFormFragment("step1",isNeedToShowSaveButton);
         this.getSupportFragmentManager().beginTransaction().add(com.vijay.jsonwizard.R.id.container, jsonWizardFormFragment).commit();
     }
     @Override
