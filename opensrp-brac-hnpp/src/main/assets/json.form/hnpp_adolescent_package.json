@@ -85,10 +85,6 @@
           "value": "true",
           "err": "Enter a valid Number"
         },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
         "v_min": {
           "value": "15",
           "err": "15 এর সমান বা 15 এর বেশি হতে হবে"
@@ -108,10 +104,6 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
         },
         "v_min": {
           "value": "120",
@@ -173,10 +165,6 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
         },
         "v_min": {
           "value": "4",
