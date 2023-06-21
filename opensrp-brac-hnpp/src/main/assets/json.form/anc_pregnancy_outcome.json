@@ -143,14 +143,6 @@
             "openmrs_entity_parent": ""
           },
           {
-            "key": "born_alive_died",
-            "text": "নবজাতকের মৃত্যু",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "born_alive_died",
-            "openmrs_entity_parent": ""
-          },
-          {
             "key": "miscarriage",
             "text": "গর্ভপাত",
             "value": false,
@@ -162,6 +154,71 @@
         "v_required": {
           "value": "true",
           "err": "Please select pregnancy outcome"
+        }
+      },
+      {
+        "key": "no_miscarriage",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "no_miscarriage",
+        "openmrs_data_type": "select one",
+        "type": "edit_text",
+        "hint": "গর্ভপাত সংখ্যা",
+        "relevance": {
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "miscarriage"
+                ]
+              }
+            ]
+          }
+        },
+        "v_max_length": {
+          "value": "1",
+          "err": "1 ডিজিটের বেশি দেওয়া যাবে না",
+          "is_fixed_size":true
+        },
+        "v_numeric": {
+          "value": true,
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        }
+      },
+      {
+        "key": "type_miscarriage",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "type_miscarriage",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "গর্ভপাতের ধরণ",
+        "values": [
+          "অনাকাঙ্খিত গর্ভপাত",
+          "ঔষধ দ্বারা গর্ভপাত"
+        ],
+        "openmrs_choice_ids": {
+          "অনাকাঙ্খিত গর্ভপাত": "unnecessary_abortion",
+          "ঔষধ দ্বারা গর্ভপাত": "abortion_by_medication"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Please select one option"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "miscarriage"
+                ]
+              }
+            ]
+          }
         }
       },
       {
@@ -212,6 +269,111 @@
               }
             ]
           }
+        }
+      },
+      {
+        "key":"place_of_delivery",
+        "openmrs_entity_parent":"",
+        "openmrs_entity":"",
+        "openmrs_entity_id":"place_of_delivery",
+        "openmrs_data_type":"text",
+        "type":"spinner",
+        "hint":"প্রসবের স্থান",
+        "values":[
+          "বাড়িতে",
+          "কমিউনিটি ক্লিনিক",
+          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র",
+          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র",
+          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
+          "মা ও শিশু কল্যাণ কেন্দ্র",
+          "১০ শয্যা বিশিষ্ট হাসপাতাল",
+          "২০ শয্যা বিশিষ্ট হাসপাতাল",
+          "উপজেলা স্বাস্থ্য কমপ্লেক্স",
+          "সদর হাসপাতাল",
+          "মেডিকেল কলেজ হাসপাতাল",
+          "বেসরকারী ক্লিনিক/হাসপাতাল",
+          "এনজিও",
+          "বিশেষায়িত হাসপাতাল",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids":{
+          "বাড়িতে": "Home",
+          "কমিউনিটি ক্লিনিক": "Community Clinic",
+          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র": "Union_Sub_Center",
+          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র":"Union_Family_Welfare_Center",
+          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র": "Union_Health_and_Family_Welfare_Center",
+          "মা ও শিশু কল্যাণ কেন্দ্র": "MCWC",
+          "১০ শয্যা বিশিষ্ট হাসপাতাল": "10_Bed_Hospital",
+          "২০ শয্যা বিশিষ্ট হাসপাতাল": "20_Beds_Hospital",
+          "উপজেলা স্বাস্থ্য কমপ্লেক্স": "Upazila_Health_Complex",
+          "সদর হাসপাতাল": "District_Hospital",
+          "মেডিকেল কলেজ হাসপাতাল":"Medical_College_and_Hospital" ,
+          "বেসরকারী ক্লিনিক/হাসপাতাল": "Private_Clinic_and_Hospital",
+          "এনজিও": "Non-governmental_Organization",
+          "বিশেষায়িত হাসপাতাল": "Specialized_Hospital",
+          "অন্যান্য": "Others"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive","still_born"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "key": "community_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "community_name",
+        "type": "edit_text",
+        "hint": "কমিউনিটি ক্লিনিকের নাম",
+        "relevance": {
+          "step1:place_of_delivery": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "Community Clinic"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "key": "community_code",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "community_code",
+        "type": "edit_text",
+        "hint": "কমিউনিটি ক্লিনিকের ফ্যাসিলিটি রেজিস্ট্রি কোড",
+        "relevance": {
+          "step1:place_of_delivery": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "Community Clinic"
+                ]
+              }
+            ]
+          }
+        },
+        "v_max_length": {
+          "value": "1",
+          "err": "1 ডিজিটের বেশি দেওয়া যাবে না",
+          "is_fixed_size":true
+        },
+        "v_numeric": {
+          "value": true,
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
         }
       },
       {
@@ -399,39 +561,7 @@
           }
         }
       },
-      {
-        "key": "no_miscarriage",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "no_miscarriage",
-        "openmrs_data_type": "select one",
-        "type": "edit_text",
-        "hint": "গর্ভপাত সংখ্যা",
-        "relevance": {
-          "step1:preg_outcome": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "miscarriage"
-                ]
-              }
-            ]
-          }
-        },
-        "v_max_length": {
-          "value": "1",
-          "err": "1 ডিজিটের বেশি দেওয়া যাবে না",
-          "is_fixed_size":true
-        },
-        "v_numeric": {
-          "value": true,
-          "err": "Enter a valid Number"
-        },
-        "v_regex": {
-          "value": "[0-9]*",
-          "err": "দশমিক অনুমোদিত নয়"
-        }
-      },
+
       {
         "key": "no_born_alive_died",
         "openmrs_entity_parent": "",
@@ -465,64 +595,7 @@
           "err": "দশমিক অনুমোদিত নয়"
         }
       },
-      {
-        "key": "miscarriage_date",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "miscarriage_date",
-        "type": "date_picker",
-        "hint": "গর্ভপাতের তারিখ",
-        "expanded": false,
-        "max_date": "today",
-        "min_date": "",
-        "v_required": {
-          "value": "true",
-          "err": "Please enter date the woman delivered"
-        },
-        "relevance": {
-          "step1:preg_outcome": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "miscarriage"
-                ]
-              }
-            ]
-          }
-        }
-      },
-      {
-        "key": "type_miscarriage",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "type_miscarriage",
-        "openmrs_data_type": "select one",
-        "type": "spinner",
-        "hint": "গর্ভপাতের ধরণ",
-        "values": [
-          "অনাকাঙ্খিত গর্ভপাত",
-          "ঔষধ দ্বারা গর্ভপাত"
-        ],
-        "openmrs_choice_ids": {
-          "অনাকাঙ্খিত গর্ভপাত": "unnecessary_abortion",
-          "ঔষধ দ্বারা গর্ভপাত": "abortion_by_medication"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "Please select one option"
-        },
-        "relevance": {
-          "step1:preg_outcome": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "miscarriage"
-                ]
-              }
-            ]
-          }
-        }
-      },
+
       {
         "key": "cause_born_alive_died",
         "openmrs_entity_parent": "",
@@ -595,60 +668,7 @@
           }
         }
       },
-      {
-        "key":"place_of_delivery",
-        "openmrs_entity_parent":"",
-        "openmrs_entity":"",
-        "openmrs_entity_id":"place_of_delivery",
-        "openmrs_data_type":"text",
-        "type":"spinner",
-        "hint":"প্রসবের স্থান",
-        "values":[
-          "বাড়িতে",
-          "কমিউনিটি ক্লিনিক",
-          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র",
-          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র",
-          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
-          "মা ও শিশু কল্যাণ কেন্দ্র",
-          "১০ শয্যা বিশিষ্ট হাসপাতাল",
-          "২০ শয্যা বিশিষ্ট হাসপাতাল",
-          "উপজেলা স্বাস্থ্য কমপ্লেক্স",
-          "সদর হাসপাতাল",
-          "মেডিকেল কলেজ হাসপাতাল",
-          "বেসরকারী ক্লিনিক/হাসপাতাল",
-          "এনজিও",
-          "বিশেষায়িত হাসপাতাল",
-          "অন্যান্য"
-        ],
-        "openmrs_choice_ids":{
-          "বাড়িতে": "Home",
-          "কমিউনিটি ক্লিনিক": "Community Clinic",
-          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র": "Union_Sub_Center",
-          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র":"Union_Family_Welfare_Center",
-          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র": "Union_Health_and_Family_Welfare_Center",
-          "মা ও শিশু কল্যাণ কেন্দ্র": "MCWC",
-          "১০ শয্যা বিশিষ্ট হাসপাতাল": "10_Bed_Hospital",
-          "২০ শয্যা বিশিষ্ট হাসপাতাল": "20_Beds_Hospital",
-          "উপজেলা স্বাস্থ্য কমপ্লেক্স": "Upazila_Health_Complex",
-          "সদর হাসপাতাল": "District_Hospital",
-          "মেডিকেল কলেজ হাসপাতাল":"Medical_College_and_Hospital" ,
-          "বেসরকারী ক্লিনিক/হাসপাতাল": "Private_Clinic_and_Hospital",
-          "এনজিও": "Non-governmental_Organization",
-          "বিশেষায়িত হাসপাতাল": "Specialized_Hospital",
-          "অন্যান্য": "Others"
-        },
-        "relevance": {
-          "step1:preg_outcome": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "born_alive","still_born"
-                ]
-              }
-            ]
-          }
-        }
-      },
+
       {
         "key":"delivery_conducted_by_home",
         "openmrs_entity_parent":"",

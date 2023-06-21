@@ -366,15 +366,15 @@
             "key": "jondish",
             "text": "জন্ডিস",
             "value": false,
-            "type": "check_box",
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "jondish"
+            "openmrs_choice_id": "jondish",
+            "openmrs_entity_parent": ""
           },
           {
             "key": "himoglobin",
             "text": "হিমোগ্লোবিন",
             "value": false,
-            "type": "check_box",
+            "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
             "openmrs_choice_id": "himoglobin"
           },
@@ -382,7 +382,7 @@
             "key": "glucos",
             "text": " রক্তে গ্লুকোজের মাত্রা ",
             "value": false,
-            "type": "check_box",
+            "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
             "openmrs_choice_id": "glucos"
           },
@@ -390,7 +390,7 @@
             "key": "alubumin",
             "text": "প্রস্রাবের অ্যালবুমিন ",
             "value": false,
-            "type": "check_box",
+            "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
             "openmrs_choice_id": "alubumin"
           },
@@ -398,7 +398,7 @@
             "key": "hbs",
             "text": "হেপাটাইটিস বি",
             "value": false,
-            "type": "check_box",
+            "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
             "openmrs_choice_id": "hbs"
           },
@@ -406,7 +406,7 @@
             "key": "chipilis",
             "text": "সিফিলিস",
             "value": false,
-            "type": "check_box",
+            "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
             "openmrs_choice_id": "chipilis"
           },
@@ -414,7 +414,7 @@
             "key": "hiv",
             "text": "এইচ আই ভি ",
             "value": false,
-            "type": "check_box",
+            "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
             "openmrs_choice_id": "hiv"
           },
@@ -422,7 +422,7 @@
             "key": "ultra_sound",
             "text": "আল্ট্রাসাউন্ড স্ক্যান",
             "value": false,
-            "type": "check_box",
+            "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
             "openmrs_choice_id": "ultra_sound"
           },
@@ -430,7 +430,7 @@
             "key": "none",
             "text": "কোনোটিই নয়",
             "value": false,
-            "type": "check_box",
+            "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
             "openmrs_choice_id": "none"
           }
@@ -668,6 +668,7 @@
             "key":"Bleeding_Through_Birth_Canal",
             "text":"যোনিপথে রক্তক্ষরণ",
             "value":false,
+            "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
             "openmrs_choice_id":"Bleeding_Through_Birth_Canal"
           },
@@ -675,6 +676,7 @@
             "key":"Weakness_Blurred_vision",
             "text":"ঝাপসা দৃষ্টি / গুরুতর মাথাব্যথা",
             "value":false,
+            "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
             "openmrs_choice_id":"Weakness_Blurred_vision"
           },
@@ -682,6 +684,7 @@
             "key":"high_blood_pressure",
             "text":"উচ্চ রক্তচাপ",
             "value":false,
+            "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
             "openmrs_choice_id":"high_blood_pressure"
           },
@@ -689,6 +692,7 @@
             "key":"Convulsion",
             "text":"এক্লাম্পসিয়া/খিঁচুনি",
             "value":false,
+            "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
             "openmrs_choice_id":"Convulsion"
           },
@@ -696,6 +700,7 @@
             "key":"High_Temperature_102_Degree_or_More",
             "text":"জ্বর",
             "value":false,
+            "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
             "openmrs_choice_id":"High_Temperature_102_Degree_or_More"
           }
@@ -720,6 +725,7 @@
             "key": "calsium",
             "text": "ক্যালসিয়াম ট্যাবলেট  বিতরণ করা হয়েছে?",
             "value": false,
+            "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
             "openmrs_choice_id": "calsium"
           },
@@ -727,6 +733,7 @@
             "key": "ifa_mms",
             "text": "আইএফএ/ মাল্টিপল মাইক্রো নিউট্রিয়েন্ট সাপ্লিমেন্ট (এম এম এস) বিতরণ করা হয়েছে?",
             "value": false,
+            "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
             "openmrs_choice_id": "ifa_mms"
           },
@@ -734,6 +741,7 @@
             "key": "counseling",
             "text": "কাউন্সেলিং (পুষ্টি, জন্ম পরিকল্পনা, ইবিএফ, ইএনসি, টিকাদান সংক্রান্ত) প্রদান করা হয়েছ ",
             "value": false,
+            "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
             "openmrs_choice_id": "counseling"
           },
@@ -741,6 +749,7 @@
             "key": "pregnancy_preparation",
             "text": "জন্মদান বিষয়ক প্রস্তুতি ( প্রসবের স্থান, যাতায়াত, অর্থ, রক্তদাতা, সহায়তাকারী ) নেয়া হয়েছে ",
             "value": false,
+            "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
             "openmrs_choice_id": "pregnancy_preparation"
           }
