@@ -92,8 +92,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "service_taken_date",
-        "type": "edit_text",
-        "read_only": true,
+        "type": "date_picker",
         "hint": "সেবা গ্রহণের তারিখ"
       },
 

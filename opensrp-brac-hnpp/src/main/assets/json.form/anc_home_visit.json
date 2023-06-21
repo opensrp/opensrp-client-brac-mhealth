@@ -151,7 +151,7 @@
           "বাড়িতে",
           "অন্যান্য"
         ],
-        "openmrs_choice_ids": {
+        "openmrs_entity_ids": {
           "মেডিকেল কলেজ হাসপাতাল": "Medical_College_and_Hospital",
           "সদর হাসপাতাল": "District_Hospital",
           "উপজেলা স্বাস্থ্য কমপ্লেক্স": "Upazila_Health_Complex",
@@ -181,7 +181,7 @@
           "সিএসবিএ",
           "অন্যান্য_কেউ"
         ],
-        "openmrs_choice_ids": {
+        "openmrs_entity_ids": {
           "ডাক্তার": "Doctor",
           "নার্স": "Nurse",
           "মিডওয়াইফ": "Midwife",
@@ -193,7 +193,7 @@
       {
         "key": "Weight",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "Weight",
         "openmrs_data_type": "text",
         "type": "edit_text",
@@ -206,7 +206,7 @@
       {
         "key": "Height",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "Height",
         "openmrs_data_type": "text",
         "type": "hidden",
@@ -219,7 +219,7 @@
       {
         "key": "Systolic",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "Systolic",
         "openmrs_data_type": "text",
         "type": "edit_text",
@@ -236,7 +236,7 @@
       {
         "key": "diastolic",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "diastolic",
         "openmrs_data_type": "text",
         "type": "edit_text",
@@ -275,7 +275,7 @@
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_choice_ids": {
+        "openmrs_entity_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         }
@@ -314,7 +314,7 @@
           "Breech",
           "Other"
         ],
-        "openmrs_choice_ids": {
+        "openmrs_entity_ids": {
           "Cephalic": "Cephalic",
           "Transverse lie": "Transverse lie",
           "Breech": "Breech",
@@ -333,7 +333,7 @@
           "Yes",
           "No"
         ],
-        "openmrs_choice_ids": {
+        "openmrs_entity_ids": {
           "Yes": "Yes",
           "No": "No"
         }
@@ -366,8 +366,8 @@
             "key": "jondish",
             "text": "জন্ডিস",
             "value": false,
+            "openmrs_entity_id": "jondish",
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "jondish",
             "openmrs_entity_parent": ""
           },
           {
@@ -376,7 +376,7 @@
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "himoglobin"
+            "openmrs_entity_id": "himoglobin"
           },
           {
             "key": "glucos",
@@ -384,7 +384,7 @@
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "glucos"
+            "openmrs_entity_id": "glucos"
           },
           {
             "key": "alubumin",
@@ -392,7 +392,7 @@
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "alubumin"
+            "openmrs_entity_id": "alubumin"
           },
           {
             "key": "hbs",
@@ -400,7 +400,7 @@
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "hbs"
+            "openmrs_entity_id": "hbs"
           },
           {
             "key": "chipilis",
@@ -408,7 +408,7 @@
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "chipilis"
+            "openmrs_entity_id": "chipilis"
           },
           {
             "key": "hiv",
@@ -416,7 +416,7 @@
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "hiv"
+            "openmrs_entity_id": "hiv"
           },
           {
             "key": "ultra_sound",
@@ -424,7 +424,7 @@
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "ultra_sound"
+            "openmrs_entity_id": "ultra_sound"
           },
           {
             "key": "none",
@@ -432,7 +432,7 @@
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "none"
+            "openmrs_entity_id": "none"
           }
         ]
       },
@@ -498,7 +498,7 @@
           "৩+",
           "স্বাভাবিক ফলাফল"
         ],
-        "openmrs_choice_ids": {
+        "openmrs_entity_ids": {
           "১+": "1+",
           "২+": "2+",
           "৩+": "3+",
@@ -528,7 +528,7 @@
           "পজিটিভ",
           "নেগেটিভ"
         ],
-        "openmrs_choice_ids": {
+        "openmrs_entity_ids": {
           "পজিটিভ": "positiive",
           "নেগেটিভ": "negetive"
         },
@@ -556,7 +556,7 @@
           "পজিটিভ",
           "নেগেটিভ"
         ],
-        "openmrs_choice_ids": {
+        "openmrs_entity_ids": {
           "পজিটিভ": "positiive",
           "নেগেটিভ": "negetive"
         },
@@ -584,7 +584,7 @@
           "পজিটিভ",
           "নেগেটিভ"
         ],
-        "openmrs_choice_ids": {
+        "openmrs_entity_ids": {
           "পজিটিভ": "positiive",
           "নেগেটিভ": "negetive"
         },
@@ -616,7 +616,7 @@
           "টিটি/টিডি-৫ সম্পন্ন",
           "একটিও না"
         ],
-        "openmrs_choice_ids": {
+        "openmrs_entity_ids": {
           "টিটি/টিডি-১ সম্পন্ন": "tt_td_1_done",
           "টিটি/টিডি-২ সম্পন্ন": "tt_td_2_done",
           "টিটি/টিডি-৩ সম্পন্ন": "tt_td_3_done",
@@ -644,7 +644,7 @@
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_choice_ids": {
+        "openmrs_entity_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         },
@@ -670,7 +670,7 @@
             "value":false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_choice_id":"Bleeding_Through_Birth_Canal"
+            "openmrs_entity_id":"Bleeding_Through_Birth_Canal"
           },
           {
             "key":"Weakness_Blurred_vision",
@@ -678,7 +678,7 @@
             "value":false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_choice_id":"Weakness_Blurred_vision"
+            "openmrs_entity_id":"Weakness_Blurred_vision"
           },
           {
             "key":"high_blood_pressure",
@@ -686,7 +686,7 @@
             "value":false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_choice_id":"high_blood_pressure"
+            "openmrs_entity_id":"high_blood_pressure"
           },
           {
             "key":"Convulsion",
@@ -694,7 +694,7 @@
             "value":false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_choice_id":"Convulsion"
+            "openmrs_entity_id":"Convulsion"
           },
           {
             "key":"High_Temperature_102_Degree_or_More",
@@ -702,7 +702,7 @@
             "value":false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_choice_id":"High_Temperature_102_Degree_or_More"
+            "openmrs_entity_id":"High_Temperature_102_Degree_or_More"
           }
         ],
         "relevance": {
@@ -727,7 +727,7 @@
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "calsium"
+            "openmrs_entity_id": "calsium"
           },
           {
             "key": "ifa_mms",
@@ -735,7 +735,7 @@
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "ifa_mms"
+            "openmrs_entity_id": "ifa_mms"
           },
           {
             "key": "counseling",
@@ -743,7 +743,7 @@
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "counseling"
+            "openmrs_entity_id": "counseling"
           },
           {
             "key": "pregnancy_preparation",
@@ -751,7 +751,7 @@
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "pregnancy_preparation"
+            "openmrs_entity_id": "pregnancy_preparation"
           }
 
         ]
@@ -769,7 +769,7 @@
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_choice_ids": {
+        "openmrs_entity_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         }
@@ -797,7 +797,7 @@
           "অন্যান্য",
           "রেফার করা হয়নি"
         ],
-        "openmrs_choice_ids":{
+        "openmrs_entity_ids":{
           "কমিউনিটি ক্লিনিক":"Community_Clinic",
           "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র":"Union_Sub_Center",
           "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র":"Union_Family_Welfare_Center",

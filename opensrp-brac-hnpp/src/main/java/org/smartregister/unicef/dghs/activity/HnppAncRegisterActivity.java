@@ -154,7 +154,6 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
 
         try {
             visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
-            HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,familyBaseEntityId);
             if(form_name.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC_FORM) || form_name.equalsIgnoreCase(HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME) ){
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
             }
@@ -168,16 +167,29 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
             }
             form.setWizard(false);
             Intent intent = new Intent(this, HnppAncJsonFormActivity.class);
-
-            JSONObject stepOne = jsonForm.getJSONObject(JsonFormUtils.STEP1);
+            JSONObject stepOne = jsonForm.getJSONObject("step1");
             JSONArray jsonArray = stepOne.getJSONArray(JsonFormUtils.FIELDS);
-            updateFormField(jsonArray, DBConstants.KEY.UNIQUE_ID, unique_id);
-            updateFormField(jsonArray, DBConstants.KEY.TEMP_UNIQUE_ID, unique_id);
-            updateFormField(jsonArray, "temp_name", "Baby of "+motherName+"");
-            updateMinDate(jsonArray);
-            updateFormField(jsonArray, CoreConstants.JsonAssets.FAM_NAME, familyName);
-            updateFormField(jsonArray, CoreConstants.JsonAssets.FAMILY_MEMBER.PHONE_NUMBER, phone_number);
             updateFormField(jsonArray, org.smartregister.family.util.DBConstants.KEY.RELATIONAL_ID, familyBaseEntityId);
+
+            if(form_name.equalsIgnoreCase(HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME)){
+                HnppJsonFormUtils.updateFormWithBlockInfo(jsonForm,familyBaseEntityId);
+                JSONObject stepFour = jsonForm.getJSONObject("step4");
+                JSONArray jsonArrayFour = stepFour.getJSONArray(JsonFormUtils.FIELDS);
+                updateFormField(jsonArrayFour, DBConstants.KEY.UNIQUE_ID, unique_id);
+                updateFormField(jsonArrayFour, DBConstants.KEY.TEMP_UNIQUE_ID, unique_id);
+                updateFormField(jsonArrayFour, "temp_name", "Baby of "+motherName+"");
+                updateMinDate(jsonArray);
+                form.setWizard(true);
+                form.setHideSaveLabel(true);
+                form.setSaveLabel("");
+                form.setHomeAsUpIndicator(org.smartregister.family.R.mipmap.ic_cross_white);
+                form.setNavigationBackground(!HnppConstants.isReleaseBuild()?R.color.test_app_color:org.smartregister.family.R.color.customAppThemeBlue);
+                intent.putExtra("IS_NEED_SAVE",false);
+            }
+
+//            updateFormField(jsonArray, CoreConstants.JsonAssets.FAM_NAME, familyName);
+//            updateFormField(jsonArray, CoreConstants.JsonAssets.FAMILY_MEMBER.PHONE_NUMBER, phone_number);
+
 
             intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
 //            updateWithSSLocation();

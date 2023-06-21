@@ -61,7 +61,9 @@ public class MemberHistoryInteractor implements MemberHistoryContract.Interactor
             if(v.size()>0){
                 JSONObject jsonForm = null;
                     Visit visit = v.get(0);
-                    if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EventType.ANC_HOME_VISIT)){
+                    if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EventType.ANC_HOME_VISIT)
+                     || visit.getVisitType().equalsIgnoreCase(HnppConstants.EventType.PREGNANCY_OUTCOME)
+                    || visit.getVisitType().equalsIgnoreCase(HnppConstants.EventType.PNC_HOME_VISIT)){
                         String eventJson = visit.getJson();
                         Event baseEvent = gson.fromJson(eventJson, Event.class);
                         HashMap<String,Object> form_details = getFormNamesFromEventObject(baseEvent);

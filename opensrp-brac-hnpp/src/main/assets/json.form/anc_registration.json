@@ -215,70 +215,70 @@
             "text": "গর্ভপাতের ইতিহাস আছে",
             "value": false,
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "Abortion_history"
+            "openmrs_entity_id": "Abortion_history"
           },
           {
             "key": "Cesarean_history",
             "text": "সিজারের ইতিহাস আছে",
             "value": false,
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "Cesarean_history"
+            "openmrs_entity_id": "Cesarean_history"
           },
           {
             "key": "Still_birth_history",
             "text": "মৃত জন্মের ইতিহাস আছে",
             "value": false,
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "Still_birth_history"
+            "openmrs_entity_id": "Still_birth_history"
           },
           {
             "key": "High_Blood_Pressure_history",
             "text": "উচ্চ রক্তচাপের ইতিহাস আছে",
             "value": false,
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "High_Blood_Pressure_history"
+            "openmrs_entity_id": "High_Blood_Pressure_history"
           },
           {
             "key": "Eclampsia_history",
             "text": "খিচুনীর ইতিহাস আছে",
             "value": false,
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "Eclampsia_history"
+            "openmrs_entity_id": "Eclampsia_history"
           },
           {
             "key": "Antepartum_history",
             "text": "প্রাক-প্রসবকালীন রক্তক্ষরণের ইতিহাস আছে",
             "value": false,
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "Antepartum_history"
+            "openmrs_entity_id": "Antepartum_history"
           },
           {
             "key": "Prolonged_history",
             "text": "বিলম্বিত প্রসবের ইতিহাস আছে",
             "value": false,
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "Prolonged_history"
+            "openmrs_entity_id": "Prolonged_history"
           },
           {
             "key": "PPH_history",
             "text": "প্রসবোত্তর রক্তক্ষরণের ইতিহাস আছে",
             "value": false,
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "PPH_history"
+            "openmrs_entity_id": "PPH_history"
           },
           {
             "key": "high_fever_history",
             "text": "পূর্ববর্তী গর্ভধারনের সময়ে শরীরে উচ্চ তাপমাত্রার ইতিহাস আছে",
             "value": false,
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "high_fever_history"
+            "openmrs_entity_id": "high_fever_history"
           },
           {
             "key": "none",
             "text": "কোনোটি়ই নয়",
             "value": false,
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "none"
+            "openmrs_entity_id": "none"
           }
         ],
         "relevance": {
@@ -301,7 +301,7 @@
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_choice_ids": {
+        "openmrs_entity_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         }
@@ -321,56 +321,56 @@
             "text": "ডায়াবেটিসের ইতিহাস আছে",
             "value": false,
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "Diabetes_history"
+            "openmrs_entity_id": "Diabetes_history"
           },
           {
             "key": "Thalassemia_history",
             "text": "থ্যালাসেমিয়া আছে",
             "value": false,
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "Thalassemia_history"
+            "openmrs_entity_id": "Thalassemia_history"
           },
           {
             "key": "Still_birth_history",
             "text": "মৃত জন্মের ইতিহাস আছে",
             "value": false,
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "Still_birth_history"
+            "openmrs_entity_id": "Still_birth_history"
           },
           {
             "key": "Mental_health_history",
             "text": "মানসিক স্বাস্থ্য জনিত সমস্যা আছে",
             "value": false,
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "Mental_health_history"
+            "openmrs_entity_id": "Mental_health_history"
           },
           {
             "key": "Heart_Disease_history",
             "text": "হৃদরোগ আছে",
             "value": false,
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "Heart_Disease_history"
+            "openmrs_entity_id": "Heart_Disease_history"
           },
           {
             "key": "Respiratory_Disease_history",
             "text": "শ্বাসযন্ত্রের রোগ আছে",
             "value": false,
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "Respiratory_Disease_history"
+            "openmrs_entity_id": "Respiratory_Disease_history"
           },
           {
             "key": "Jaundice_history",
             "text": "জন্ডিস আছে",
             "value": false,
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "Jaundice_history"
+            "openmrs_entity_id": "Jaundice_history"
           },
           {
             "key": "none",
             "text": "কোনোটি়ই নয়",
             "value": false,
             "openmrs_entity": "concept",
-            "openmrs_choice_id": "none"
+            "openmrs_entity_id": "none"
           }
         ],
         "relevance": {
@@ -397,7 +397,7 @@
           "টিটি/টিডি-৫ সম্পন্ন",
           "একটিও না"
         ],
-        "openmrs_choice_ids": {
+        "openmrs_entity_ids": {
           "টিটি/টিডি-১ সম্পন্ন": "tt_td_1_done",
           "টিটি/টিডি-২ সম্পন্ন": "tt_td_2_done",
           "টিটি/টিডি-৩ সম্পন্ন": "tt_td_3_done",
