@@ -1412,6 +1412,14 @@ public class HnppDBUtils {
 
         return valus.get(0).get("last_menstrual_period");
     }
+
+    public static String getDeliveryDate(String baseEntityId) {
+        String lmp = "SELECT delivery_date FROM ec_pregnancy_outcome where base_entity_id = ? ";
+        List<Map<String, String>> valus = AbstractDao.readData(lmp, new String[]{baseEntityId});
+
+        return valus.get(0).get("delivery_date");
+    }
+
     public static Map<String, String> getMotherName(String baseEntityId) {
         String mem = "SELECT first_name,last_name,member_name_bengla,phone_number FROM ec_family_member where base_entity_id = ? ";
         List<Map<String, String>> valus = AbstractDao.readData(mem, new String[]{baseEntityId});

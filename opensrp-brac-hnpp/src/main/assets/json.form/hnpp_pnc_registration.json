@@ -82,7 +82,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "schedule_date",
-        "type": "hidden",
+        "type": "edit_text",
         "read_only": true,
         "hint": "সেবা গ্রহণের নির্ধারিত তারিখ"
       },

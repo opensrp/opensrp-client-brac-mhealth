@@ -660,6 +660,29 @@ public class HnppConstants extends CoreConstants {
 
         return  DateTimeFormat.forPattern("dd-MM-yyyy").print(expectedDeliveryDate);
     }
+
+    public static String getScheduleDeliveryDate(String dDate, int noOfAnc){
+        DateTime deliveryDate = DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(dDate);
+
+        LocalDate date = new LocalDate(deliveryDate);
+        LocalDate expectedDate;
+        switch (noOfAnc){
+            case 2: expectedDate= date.plusDays(3);
+                break;
+            case 3: expectedDate= date.plusDays(7);
+                break;
+            case 4:
+                expectedDate= date.plusDays(28);
+                break;
+
+            default:
+                expectedDate = date.plusDays(0);
+
+        }
+
+        return  DateTimeFormat.forPattern("dd-MM-yyyy").print(expectedDate);
+    }
+
     public static String[] getAncTitle(int noOfAnc){
         String[] ancType = new String[2];
         switch (noOfAnc){
@@ -701,15 +724,40 @@ public class HnppConstants extends CoreConstants {
                 return ancType;
         }
     }
+
+    public static String[] getPncTitle(int noOfPnc){
+        String[] ancType = new String[2];
+        switch (noOfPnc){
+            case 1:
+                ancType[0]="প্রসবোত্তর পরিচর্যা - ১ম";
+                ancType[1] = "PNC -1";
+                return ancType;
+            case 2:
+                ancType[0]="প্রসবোত্তর পরিচর্যা - ২য়";
+                ancType[1] = "PNC -2";
+                return ancType;
+            case 3:
+                ancType[0]="প্রসবোত্তর পরিচর্যা - ৩য়";
+                ancType[1] = "PNC -3";
+                return ancType;
+            case 4:
+                ancType[0]="প্রসবোত্তর পরিচর্যা - ৪র্থ";
+                ancType[1] = "PNC -4";
+                return ancType;
+            default:
+                ancType[0]="প্রসবোত্তর পরিচর্যা";
+                ancType[1] = "PNC";
+                return ancType;
+        }
+    }
+
     public static String getTodayDate(){
-        String today = DateTime.now().toString("dd-MM-yyyy");
-        return  today;
+        return DateTime.now().toString("dd-MM-yyyy");
     }
     public static boolean isWrongDate(){
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
-        if(year<2018) return true;
-        return false;
+        return year < 2018;
     }
 
     public static String getHomeVisitStatus(long lastHomeVisit , String dateCreatedStr){
@@ -733,10 +781,7 @@ public class HnppConstants extends CoreConstants {
     }
 
     public static boolean isExistSpecialCharacter(String filters) {
-        if (!TextUtils.isEmpty(filters) && filters.contains("/")) {
-            return true;
-        }
-        return false;
+        return !TextUtils.isEmpty(filters) && filters.contains("/");
     }
 
     public static void updateAppBackground(View view) {

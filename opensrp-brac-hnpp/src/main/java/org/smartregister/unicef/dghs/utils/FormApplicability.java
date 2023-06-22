@@ -211,6 +211,38 @@ public class FormApplicability {
         }
         return "";
     }
+
+    public static String getPNCTitle(String baseEntityId){
+        String deliveryDate = getDeliveryDate(baseEntityId);
+        int dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(deliveryDate), new DateTime()).getDays();
+
+         if(dayPass > 3 && dayPass <= 7){
+            return HnppConstants.getPncTitle(2)[0];
+        }else if(dayPass > 7 && dayPass <= 28){
+
+            return HnppConstants.getPncTitle(3)[0];
+        }else if(dayPass > 28){
+
+            return HnppConstants.getPncTitle(4)[0];
+        }
+
+         return HnppConstants.getPncTitle(1)[0];
+    }
+
+    public static int getPNCNo(String baseEntityId){
+        String deliveryDate = getDeliveryDate(baseEntityId);
+        int dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(deliveryDate), new DateTime()).getDays();
+
+        if(dayPass > 3 && dayPass <= 7){
+            return 2;
+        }else if(dayPass > 7 && dayPass <= 28){
+            return 3;
+        }else if(dayPass > 28){
+            return 4;
+        }
+        return 1;
+    }
+
     public static boolean isWomenImmunizationApplicable(CommonPersonObjectClient commonPersonObject){
         if(getGender(commonPersonObject).trim().equalsIgnoreCase("F") && getAge(commonPersonObject)>=15){
             return true;
@@ -250,6 +282,18 @@ public class FormApplicability {
         return "";
 
     }
+
+    public static String getDeliveryDate(String baseEntityId){
+        String lmp = "SELECT delivery_date FROM ec_pregnancy_outcome where base_entity_id = ? ";
+        List<Map<String, String>> valus = HnppDBUtils.readData(lmp, new String[]{baseEntityId});
+        if(valus.size()>0){
+            return valus.get(0).get("delivery_date");
+        }
+
+        return "";
+
+    }
+
     public static boolean isClosedANC(String baseEntityId){
         String DeliveryDateSql = "SELECT is_closed FROM ec_anc_register where base_entity_id = ? ";
 
@@ -414,10 +458,10 @@ public class FormApplicability {
     }
     public static int getPNCCount(String baseEntityId){
         int ancCount = 0;
-        String ancQuery = "select count(*) as anc_count from ec_visit_log where base_entity_id ='"+baseEntityId+"' and visit_type ='"+PNC_REGISTRATION+"'";
+        String ancQuery = "select count(*) as pnc_count from ec_visit_log where base_entity_id ='"+baseEntityId+"' and visit_type ='"+PNC_REGISTRATION+"'";
         List<Map<String, String>> values = HnppDBUtils.readData(ancQuery, null);
-        if( values.size() > 0 && values.get(0).get("anc_count")!= null){
-            ancCount = Integer.parseInt(values.get(0).get("anc_count"));
+        if( values.size() > 0 && values.get(0).get("pnc_count")!= null){
+            ancCount = Integer.parseInt(values.get(0).get("pnc_count"));
         }
         return ancCount;
 
