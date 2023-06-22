@@ -2,6 +2,9 @@ package org.smartregister.unicef.dghs.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +28,7 @@ import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.activity.ChildRegisterActivity;
 import org.smartregister.unicef.dghs.activity.HnppChildProfileActivity;
+import org.smartregister.unicef.dghs.adapter.ChildFilterTypeAdapter;
 import org.smartregister.unicef.dghs.nativation.view.NavigationMenu;
 import org.smartregister.unicef.dghs.utils.FilterDialog;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
@@ -58,6 +62,8 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
     private View view;
     protected View dueOnlyLayout;
     private boolean dueFilterActive = false;
+    boolean isExpanded = false;
+    ChildFilterTypeAdapter adapter;
     @Override
     public void setupViews(View view) {
         try{
@@ -127,9 +133,9 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
         RelativeLayout sortAndFilterView = view.findViewById(org.smartregister.chw.core.R.id.filter_sort_layout);
         sortAndFilterView.setVisibility(android.view.View.GONE);
         TextView sortView = sortAndFilterView.findViewById(R.id.sort_text_view);
-        TextView filterTextView = sortAndFilterView.findViewById(R.id.filter_text_view);
+        //TextView filterTextView = sortAndFilterView.findViewById(R.id.filter_text_view);
         sortView.setText(getString(R.string.sort));
-        filterTextView.setText(getString(R.string.filter));
+        //filterTextView.setText(getString(R.string.filter));
         android.view.View searchBarLayout = view.findViewById(org.smartregister.family.R.id.search_bar_layout);
         searchBarLayout.setBackgroundResource(org.smartregister.family.R.color.customAppThemeBlue);
         if (getSearchView() != null) {
@@ -137,21 +143,48 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
             getSearchView().setCompoundDrawablesWithIntrinsicBounds(org.smartregister.family.R.drawable.ic_action_search, 0, 0, 0);
         }
         dueOnlyLayout.setVisibility(android.view.View.GONE);
-        filterTextView.setOnClickListener(registerActionHandler);
+        //filterTextView.setOnClickListener(registerActionHandler);
         clients_header_layout = view.findViewById(org.smartregister.chw.core.R.id.clients_header_layout);
-        android.view.View filterView = inflate(getContext(), R.layout.filter_top_view, clients_header_layout);
-        textViewVillageNameFilter = filterView.findViewById(R.id.village_name_filter);
-        textViewClasterNameFilter = filterView.findViewById(R.id.claster_name_filter);
-        textViewMonthNameFilter = filterView.findViewById(R.id.month_name_filter);
-        clusterView = filterView.findViewById(R.id.cluster_filter_view);
-        monthFilterView =  filterView.findViewById(R.id.month_filter_view);
-        imageViewVillageNameFilter = filterView.findViewById(R.id.village_filter_img);
-        imageViewClasterNameFilter = filterView.findViewById(R.id.claster_filter_img);
-        filterView.findViewById(R.id.month_filter_img).setOnClickListener(this);
-        imageViewVillageNameFilter.setOnClickListener(this);
-        imageViewClasterNameFilter.setOnClickListener(this);
-        clients_header_layout.getLayoutParams().height = 100;
-        clients_header_layout.setVisibility(android.view.View.GONE);
+        android.view.View filterView = inflate(getContext(), R.layout.child_list_filter_view, clients_header_layout);
+        RecyclerView filterTypeRv = filterView.findViewById(R.id.filter_type_rv);
+        ImageView arrowImageView = filterView.findViewById(R.id.arrow_image);
+
+         adapter = new ChildFilterTypeAdapter(new ChildFilterTypeAdapter.OnClickAdapter() {
+            @Override
+            public void onClick(int position, String content) {
+                clients_header_layout.getLayoutParams().height = 50;
+                filterTypeRv.setVisibility(View.GONE);
+                arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+                isExpanded = !isExpanded;
+                if (!filterTypeRv.isComputingLayout()) {
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
+        adapter.setData(HnppConstants.filterTypeList);
+
+        filterTypeRv.setLayoutManager(new GridLayoutManager(getActivity(),3));
+        filterTypeRv.setAdapter(adapter);
+
+        arrowImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isExpanded){
+                    clients_header_layout.getLayoutParams().height = 50;
+                    filterTypeRv.setVisibility(View.GONE);
+                    arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+                }else{
+                    clients_header_layout.getLayoutParams().height = 200;
+                    filterTypeRv.setVisibility(View.VISIBLE);
+                    arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+                }
+
+                isExpanded = !isExpanded;
+            }
+        });
+
+        clients_header_layout.getLayoutParams().height = 50;
+        clients_header_layout.setVisibility(View.VISIBLE);
         if (getSearchCancelView() != null) {
             getSearchCancelView().setOnClickListener(this);
         }

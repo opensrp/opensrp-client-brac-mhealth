@@ -54,6 +54,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -96,6 +97,23 @@ public class HnppConstants extends CoreConstants {
     public static SimpleDateFormat HHMM = new SimpleDateFormat("HH:mm:ss",Locale.getDefault());
     public static SimpleDateFormat YYYYMM = new SimpleDateFormat("yyyy-MM",Locale.getDefault());
     public static SimpleDateFormat YYMMDD = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
+
+    public static ArrayList<String> filterTypeList = new ArrayList<String>(
+            Arrays.asList(
+                    "Today",
+                    "Yesterday",
+                    "Tomorrow",
+                    "This week",
+                    "Last week",
+                    "Next week",
+                    "This month",
+                    "Last month",
+                    "Next month",
+                    "Form - To",
+                    "Other",
+                    "Anytime"
+            )
+    );
 
     public static void deleteLogFile(){
 //        try{
@@ -1633,3 +1651,4 @@ public class HnppConstants extends CoreConstants {
         return value;
     }
 }
+
