@@ -19,7 +19,11 @@ import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.repository.BaseRepository;
 import org.smartregister.repository.Repository;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -424,6 +428,40 @@ public class HnppVisitLogRepository extends BaseRepository {
         }
 
         return  false;
+    }
+    //is visit after 1july2023
+    public boolean isDoneAfterJuly2023(String baseEntityId) {
+        Calendar date = Calendar.getInstance();
+        date.set(Calendar.YEAR, 2023);
+        date.set(Calendar.MONTH, Calendar.JULY);
+        date.set(Calendar.DAY_OF_MONTH, 1);
+        date.set(Calendar.HOUR, 0);
+        date.set(Calendar.MINUTE, 0);
+        date.set(Calendar.SECOND, 0);
+        date.set(Calendar.MILLISECOND, 0);
+
+        long currentSeconds = date.getTimeInMillis()/1000;
+        String query = "select visit_type from visits where visit_type ='"+HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY+"' and base_entity_id ='"+baseEntityId+"' and ((strftime('%s',datetime('now')) - strftime('%s',datetime(visit_date/1000,'unixepoch','localtime'))))<="+currentSeconds;//1 july 2023 er epoc second
+        Log.v("DUE_VISIT",""+query);
+        android.database.Cursor cursor = null;
+        boolean isExist = false;
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    isExist = true;
+                    cursor.moveToNext();
+
+                }
+            }
+        }catch (Exception e){
+
+        }
+        finally {
+            if(cursor!=null) cursor.close();
+        }
+        return isExist;
     }
     public boolean isDoneHHVisit(String baseEntityId,int duration) {
 
