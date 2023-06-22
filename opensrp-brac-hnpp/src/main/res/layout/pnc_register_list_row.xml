@@ -96,6 +96,24 @@
             android:textColor="@color/light_grey_text"
             android:textSize="@dimen/register_list_desc_size"
             android:textStyle="bold" />
+        <Button
+            android:id="@+id/add_child_button"
+            android:layout_width="150dp"
+            android:layout_height="30dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/red_round"
+            android:elevation="@dimen/register_list_elevation"
+            android:hapticFeedbackEnabled="true"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:stateListAnimator="@drawable/button"
+            android:text="+ Add child"
+            android:textStyle="bold"
+            android:textSize="@dimen/register_list_desc_size"
+            android:textAllCaps="false"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="@color/white"
+             />
 
     </LinearLayout>
 

@@ -49,7 +49,8 @@ public class HnppPncRegisterFragment extends HnppBasePncRegisterFragment impleme
 
           openFilterDialog(true);
         }
-      if(view.getId() == R.id.due_button){
+      if(view.getId() == R.id.add_child_button){
+          CommonPersonObjectClient pc = (CommonPersonObjectClient) view.getTag();
           Toast.makeText(getActivity(),"Open child register",Toast.LENGTH_LONG).show();
       }
     }

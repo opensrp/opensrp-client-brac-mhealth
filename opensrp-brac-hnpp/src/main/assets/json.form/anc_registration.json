@@ -80,6 +80,13 @@
         "type": "hidden"
       },
       {
+        "key": "provider_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "provider_id",
+        "type": "hidden"
+      },
+      {
         "key": "service_taken_date",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",

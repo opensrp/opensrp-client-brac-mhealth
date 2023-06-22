@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.smartregister.unicef.dghs.R;
@@ -63,7 +64,8 @@ public class HnppPncRegisterProvider extends PncRegisterProvider {
         String ssName = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.BLOCK_NAME, true);
         if (!TextUtils.isEmpty(ssName))viewHolder.pncDay.append(context.getString(R.string.ss_name,ssName));
         viewHolder.dueButton.setVisibility(View.GONE);
-        viewHolder.dueButton.setOnClickListener(onClickListener);
+        viewHolder.addChildBtn.setTag(pc);
+        viewHolder.addChildBtn.setOnClickListener(onClickListener);
         org.smartregister.family.util.Utils.startAsyncTask(new UpdatePncLastServiceInfoTask(context,viewHolder, pc.entityId()), null);
 
         // org.smartregister.family.util.Utils.startAsyncTask(new UpdateBornChildCountTask(context,viewHolder, pc.entityId()), null);
@@ -76,10 +78,12 @@ public class HnppPncRegisterProvider extends PncRegisterProvider {
     }
     public class HnppPncRegisterViewHolder extends PncRegisterProvider.RegisterViewHolder{
         public TextView riskView,eddView;
+        public Button addChildBtn;
         public HnppPncRegisterViewHolder(View itemView) {
             super(itemView);
             riskView = itemView.findViewById(R.id.risk_view);
             eddView = itemView.findViewById(R.id.edd_view);
+            addChildBtn = itemView.findViewById(R.id.add_child_button);
         }
     }
 

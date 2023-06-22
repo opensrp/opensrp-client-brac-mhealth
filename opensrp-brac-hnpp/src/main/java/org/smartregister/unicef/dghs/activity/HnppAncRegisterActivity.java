@@ -170,9 +170,9 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
             JSONObject stepOne = jsonForm.getJSONObject("step1");
             JSONArray jsonArray = stepOne.getJSONArray(JsonFormUtils.FIELDS);
             updateFormField(jsonArray, org.smartregister.family.util.DBConstants.KEY.RELATIONAL_ID, familyBaseEntityId);
-
+            HnppJsonFormUtils.updateFormWithBlockInfo(jsonForm,familyBaseEntityId);
             if(form_name.equalsIgnoreCase(HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME)){
-                HnppJsonFormUtils.updateFormWithBlockInfo(jsonForm,familyBaseEntityId);
+
                 JSONObject stepFour = jsonForm.getJSONObject("step4");
                 JSONArray jsonArrayFour = stepFour.getJSONArray(JsonFormUtils.FIELDS);
                 updateFormField(jsonArrayFour, DBConstants.KEY.UNIQUE_ID, unique_id);
