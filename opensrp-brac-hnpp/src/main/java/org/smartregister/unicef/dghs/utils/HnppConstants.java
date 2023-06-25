@@ -997,7 +997,7 @@ public class HnppConstants extends CoreConstants {
         public static final String CHILD_PROFILE_VISIT= "child_profile_visit";
         public static final String MEMBER_PROFILE_VISIT= "member_profile_visit";
         public static final String REFERREL_FOLLOWUP = "hnpp_member_referral_followup";
-        public static final String CHILD_FOLLOWUP = "hnpp_child_followup";
+        public static final String CHILD_FOLLOWUP = "child_followup";
         public static final String CHILD_INFO_EBF12 = "child_info_ebf12";
         public static final String CHILD_INFO_7_24_MONTHS = "child_info_7_24_months";
         public static final String CHILD_INFO_25_MONTHS = "child_info_25_months";
