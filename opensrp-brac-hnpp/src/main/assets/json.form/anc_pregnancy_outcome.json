@@ -907,7 +907,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
+              "rules-file": "anc_pregnancy_outcome_relevance.yml"
             }
           }
         }
@@ -923,7 +923,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
+              "rules-file": "anc_pregnancy_outcome_relevance.yml"
             }
           }
         }
@@ -955,7 +955,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
+              "rules-file": "anc_pregnancy_outcome_relevance.yml"
             }
           }
         }
@@ -979,7 +979,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
+              "rules-file": "anc_pregnancy_outcome_relevance.yml"
             }
           }
         }
@@ -994,7 +994,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
+              "rules-file": "anc_pregnancy_outcome_relevance.yml"
             }
           }
         }
@@ -1010,7 +1010,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
+              "rules-file": "anc_pregnancy_outcome_relevance.yml"
             }
           }
         }
@@ -1051,7 +1051,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
+              "rules-file": "anc_pregnancy_outcome_relevance.yml"
             }
           }
         }
@@ -1081,7 +1081,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
+              "rules-file": "anc_pregnancy_outcome_relevance.yml"
             }
           }
         }
@@ -1106,7 +1106,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
+              "rules-file": "anc_pregnancy_outcome_relevance.yml"
             }
           }
         }
@@ -1126,7 +1126,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
+              "rules-file": "anc_pregnancy_outcome_relevance.yml"
             }
           }
         }
@@ -1150,7 +1150,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
+              "rules-file": "anc_pregnancy_outcome_relevance.yml"
             }
           }
         }
@@ -1195,7 +1195,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
+              "rules-file": "anc_pregnancy_outcome_relevance.yml"
             }
           }
         }
