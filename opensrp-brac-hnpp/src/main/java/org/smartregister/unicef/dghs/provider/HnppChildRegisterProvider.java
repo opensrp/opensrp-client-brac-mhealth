@@ -81,6 +81,10 @@ public class HnppChildRegisterProvider extends CoreChildRegisterProvider {
         String heightValue = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.CHILD_HEIGHT, true);
         String vaccineName = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.LAST_VACCINE_NAME, true);
         String vaccineDate = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.LAST_VACCINE_DATE, true);
+        String dueVaccineDate = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.DUE_VACCINE_DATE, true);
+        String dueVaccineName = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.DUE_VACCINE_NAME, true);
+        String isAefi = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.HAS_AEFI, true);
+
         StringBuilder builder = new StringBuilder();
         if(!TextUtils.isEmpty(weightValue)){
             builder.append("W:"+weightValue+" kg ");
@@ -113,7 +117,14 @@ public class HnppChildRegisterProvider extends CoreChildRegisterProvider {
         }else{
             viewHolder.riskView.setVisibility(View.GONE);
         }
-
+        StringBuilder builder3 = new StringBuilder();
+        if(!TextUtils.isEmpty(dueVaccineName)){
+            builder3.append(dueVaccineName);
+        }
+        if(!TextUtils.isEmpty(dueVaccineDate)){
+            builder3.append(dueVaccineDate);
+        }
+        viewHolder.dueVaccineDate.setText(builder3.toString());
     }
     private int getChildStatusColor(String child_status) {
         return ZScore.getZscoreColorByText(child_status);

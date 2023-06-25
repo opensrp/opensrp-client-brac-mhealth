@@ -21,8 +21,10 @@ public class RegisterViewHolder extends RecyclerView.ViewHolder {
     public ImageView goToProfileImage;
     public ImageView profileImage;
     public ImageView childStatusImage;
+    public ImageView dueScheduleImage,aefiImage;
     public View goToProfileLayout;
     public TextView riskView;
+    public TextView dueVaccineDate;
 
     public RegisterViewHolder(View itemView) {
         super(itemView);
@@ -40,6 +42,10 @@ public class RegisterViewHolder extends RecyclerView.ViewHolder {
         childStatusImage = itemView.findViewById(R.id.childStatusImg);
         profileImage.setVisibility(View.GONE);
         childColumn = itemView.findViewById(R.id.child_column);
+        dueScheduleImage = itemView.findViewById(R.id.missed_schedule_img);
+        aefiImage = itemView.findViewById(R.id.aefi_child_img);
         riskView = itemView.findViewById(R.id.risk_view);
+        dueVaccineDate = itemView.findViewById(R.id.due_vaccine_tv);
+
     }
 }
