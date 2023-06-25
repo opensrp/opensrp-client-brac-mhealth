@@ -279,14 +279,8 @@
           "হ্যাঁ": "Yes",
           "না": "No"
         }
-      }
+      },
 
-    ]
-  },
-  "step2": {
-    "title": "স্বাস্থ্য পরীক্ষা তথ্য",
-    "next": "step3",
-    "fields": [
       {
         "key": "Fundal_height",
         "openmrs_entity_parent": "",
@@ -350,7 +344,13 @@
           "value": "true",
           "err": "Enter a valid Number"
         }
-      },
+      }
+    ]
+  },
+  "step2": {
+    "title": "স্বাস্থ্য পরীক্ষা তথ্য",
+    "next": "step3",
+    "fields": [
       {
         "key": "health_cheque_up",
         "openmrs_entity_parent": "",

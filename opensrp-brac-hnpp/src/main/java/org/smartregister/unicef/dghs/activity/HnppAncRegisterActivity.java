@@ -313,12 +313,14 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
                             hideProgressDialog();
                             if (eventType.equalsIgnoreCase(Constants.EVENT_TYPE.PREGNANCY_OUTCOME)) {
 
-                                // HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
-                                if(!familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){
-                                    HnppPncRegisterActivity.startHnppPncRegisterActivity(HnppAncRegisterActivity.this, baseEntityId);
-                                    finish();
-                                    openProfile();
-                                }
+                                HnppPncRegisterActivity.startHnppPncRegisterActivity(HnppAncRegisterActivity.this, baseEntityId);
+                                finish();
+                                openProfile();
+//                                if(!familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){
+//                                    HnppPncRegisterActivity.startHnppPncRegisterActivity(HnppAncRegisterActivity.this, baseEntityId);
+//                                    finish();
+//                                    openProfile();
+//                                }
                             }else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_REGISTRATION)){
                                 // HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
                                 HnppConstants.isViewRefresh = true;
@@ -327,7 +329,7 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
                                 openProfile();
 
                             }
-                            if(familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){
+                            if(!TextUtils.isEmpty(familyName)&&familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){
                                 Intent intent = new Intent();
                                 intent.putExtra("event_type",HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION);
                                 setResult(RESULT_OK, intent);
@@ -359,6 +361,7 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
             intent.putExtra(IS_COMES_IDENTITY,false);
             intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.BASE_ENTITY_ID, client.getCaseId());
             intent.putExtra(CoreConstants.INTENT_KEY.CHILD_COMMON_PERSON, client);
+            intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, familyBaseEntityId);
 //            intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_HEAD, ((BaseFamilyProfileMemberPresenter) presenter).getFamilyHead());
 //            intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.PRIMARY_CAREGIVER, ((BaseFamilyProfileMemberPresenter) presenter).getPrimaryCaregiver());
             startActivity(intent);
@@ -387,10 +390,7 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
             JSONObject step1 = form.getJSONObject(STEP1);
             encounter_type = form.optString(Constants.JSON_FORM_EXTRA.ENCOUNTER_TYPE);
             if(encounter_type.equalsIgnoreCase(CoreConstants.EventType.PREGNANCY_OUTCOME)){
-                if(!familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){
-                    JSONArray fields = step1.getJSONArray(FIELDS);
-                    updateUniqueId(fields);
-                }
+
                 try{
 
                     saveRegistration(form.toString(), HnppConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME);

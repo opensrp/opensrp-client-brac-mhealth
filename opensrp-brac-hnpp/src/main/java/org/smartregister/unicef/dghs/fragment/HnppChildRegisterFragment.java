@@ -139,7 +139,7 @@ public class HnppChildRegisterFragment extends HnppBaseChildRegisterFragment imp
     public void setupViews(android.view.View view) {
         super.setupViews(view);
         RelativeLayout sortAndFilterView = view.findViewById(org.smartregister.chw.core.R.id.filter_sort_layout);
-        sortAndFilterView.setVisibility(android.view.View.VISIBLE);
+        sortAndFilterView.setVisibility(android.view.View.GONE);
         TextView sortView = sortAndFilterView.findViewById(R.id.sort_text_view);
         TextView filterTextView = sortAndFilterView.findViewById(R.id.filter_text_view);
         filterTextView.setText(getString(R.string.filter));
