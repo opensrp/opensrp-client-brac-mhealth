@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 
 import org.smartregister.AllConstants;
 import org.smartregister.unicef.dghs.service.HnppSyncIntentService;
-import org.smartregister.unicef.dghs.service.VisitLogIntentService;
 import org.smartregister.job.BaseJob;
 
 public class HnppSyncIntentServiceJob extends BaseJob {

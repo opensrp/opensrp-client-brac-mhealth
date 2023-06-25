@@ -185,18 +185,6 @@
           "এনজিও": "Non-governmental_Organization",
           "বিশেষায়িত হাসপাতাল": "Specialized_Hospital",
           "অন্যান্য": "Others"
-        },
-        "relevance": {
-          "step1:pregnancy_outcome": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "born_alive",
-                  "still_born"
-                ]
-              }
-            ]
-          }
         }
       },
       {
@@ -222,18 +210,6 @@
           "এফ.ডাব্লিউ.ভি.": "FWV",
           "সিএসবিএ": "CSBA",
           "অন্যান্য_কেউ": "Others"
-        },
-        "relevance": {
-          "step1:pregnancy_outcome": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "born_alive",
-                  "still_born"
-                ]
-              }
-            ]
-          }
         }
       },
       {
@@ -255,18 +231,6 @@
           "সিজারিয়ান": "Cesarean",
           "সহায়ক নরমাল ডেলিভারি": "Assisted vaginal delivery (AVD)",
           "ডেস্ট্রাক্টিভ অপারেশন": "Destructive operations"
-        },
-        "relevance": {
-          "step1:pregnancy_outcome": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "born_alive",
-                  "still_born"
-                ]
-              }
-            ]
-          }
         }
       },
       {
@@ -292,17 +256,6 @@
         "v_regex": {
           "value": "[0-9]*",
           "err": "দশমিক অনুমোদিত নয়"
-        },
-        "relevance": {
-          "step1:pregnancy_outcome": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "born_alive"
-                ]
-              }
-            ]
-          }
         }
       },
       {
@@ -596,14 +549,9 @@
         "type": "edit_text",
         "hint": "কমিউনিটি ক্লিনিকের নাম",
         "relevance": {
-          "step1:place_of_delivery": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "Community Clinic"
-                ]
-              }
-            ]
+          "step2:mother_is_death": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
           }
         }
       },
@@ -615,14 +563,9 @@
         "type": "edit_text",
         "hint": "কমিউনিটি ক্লিনিকের ফ্যাসিলিটি রেজিস্ট্রি কোড",
         "relevance": {
-          "step1:place_of_delivery": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "Community Clinic"
-                ]
-              }
-            ]
+          "step2:mother_is_death": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
           }
         },
         "v_max_length": {
@@ -652,9 +595,9 @@
           "err": "Enter a valid Number"
         },
         "relevance": {
-          "step2:mother_vital": {
+          "step2:mother_is_death": {
             "type": "string",
-            "ex": "regex(., \"মারা গেছেন\")"
+            "ex": "regex(., \"হ্যাঁ\")"
           }
         }
       },
@@ -666,9 +609,9 @@
         "type": "date_picker",
         "hint": "মৃত্যুর তারিখ",
         "relevance": {
-          "step2:mother_vital": {
+          "step2:mother_is_death": {
             "type": "string",
-            "ex": "regex(., \"মারা গেছেন\")"
+            "ex": "regex(., \"হ্যাঁ\")"
           }
         }
       },
@@ -681,9 +624,9 @@
         "hint": "মৃত্যুর সময়",
         "expanded": false,
         "relevance": {
-          "step2:mother_vital": {
+          "step2:mother_is_death": {
             "type": "string",
-            "ex": "regex(., \"মারা গেছেন\")"
+            "ex": "regex(., \"হ্যাঁ\")"
           }
         }
       },
@@ -707,9 +650,9 @@
           "প্রসবোত্তর সময় (৪২ দিনের মধ্যে)": "at_pnc"
         },
         "relevance": {
-          "step2:mother_vital": {
+          "step2:mother_is_death": {
             "type": "string",
-            "ex": "regex(., \"মারা গেছেন\")"
+            "ex": "regex(., \"হ্যাঁ\")"
           }
         }
       },
@@ -747,9 +690,9 @@
           "অন্যান্য": "Others"
         },
         "relevance": {
-          "step2:mother_vital": {
+          "step2:mother_is_death": {
             "type": "string",
-            "ex": "regex(., \"মারা গেছেন\")"
+            "ex": "regex(., \"হ্যাঁ\")"
           }
         }
       },
@@ -766,9 +709,9 @@
           "err": "Enter a valid Number"
         },
         "relevance": {
-          "step2:mother_vital": {
+          "step2:mother_is_death": {
             "type": "string",
-            "ex": "regex(., \"মারা গেছেন\")"
+            "ex": "regex(., \"হ্যাঁ\")"
           }
         }
       },
@@ -785,9 +728,9 @@
           "err": "Enter a valid Number"
         },
         "relevance": {
-          "step2:mother_vital": {
+          "step2:mother_is_death": {
             "type": "string",
-            "ex": "regex(., \"মারা গেছেন\")"
+            "ex": "regex(., \"হ্যাঁ\")"
           }
         }
       },
@@ -831,9 +774,9 @@
           "অন্যান্য": "Others"
         },
         "relevance": {
-          "step2:mother_vital": {
+          "step2:mother_is_death": {
             "type": "string",
-            "ex": "regex(., \"মারা গেছেন\")"
+            "ex": "regex(., \"হ্যাঁ\")"
           }
         }
       },
@@ -846,9 +789,9 @@
         "type": "edit_text",
         "hint": "সাক্ষাৎকার গ্রহণকারীর মতে মৃত্যুর কি কারণ হতে পারে ?",
         "relevance": {
-          "step2:mother_vital": {
+          "step2:mother_is_death": {
             "type": "string",
-            "ex": "regex(., \"মারা গেছেন\")"
+            "ex": "regex(., \"হ্যাঁ\")"
           }
         }
       },
@@ -899,9 +842,9 @@
           "Rupture Uterus": "Rupture Uterus"
         },
         "relevance": {
-          "step2:mother_vital": {
+          "step2:mother_is_death": {
             "type": "string",
-            "ex": "regex(., \"মারা গেছেন\")"
+            "ex": "regex(., \"হ্যাঁ\")"
           }
         }
       }
@@ -952,7 +895,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
+              "rules-file": "anc_pregnancy_outcome_relevance.yml"
             }
           }
         }
@@ -968,7 +911,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
+              "rules-file": "anc_pregnancy_outcome_relevance.yml"
             }
           }
         }
@@ -1000,7 +943,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
+              "rules-file": "anc_pregnancy_outcome_relevance.yml"
             }
           }
         }
@@ -1024,7 +967,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
+              "rules-file": "anc_pregnancy_outcome_relevance.yml"
             }
           }
         }
@@ -1039,7 +982,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
+              "rules-file": "anc_pregnancy_outcome_relevance.yml"
             }
           }
         }
@@ -1055,7 +998,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
+              "rules-file": "anc_pregnancy_outcome_relevance.yml"
             }
           }
         }
@@ -1096,7 +1039,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
+              "rules-file": "anc_pregnancy_outcome_relevance.yml"
             }
           }
         }
@@ -1126,7 +1069,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
+              "rules-file": "anc_pregnancy_outcome_relevance.yml"
             }
           }
         }
@@ -1151,7 +1094,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
+              "rules-file": "anc_pregnancy_outcome_relevance.yml"
             }
           }
         }
@@ -1171,7 +1114,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
+              "rules-file": "anc_pregnancy_outcome_relevance.yml"
             }
           }
         }
@@ -1195,7 +1138,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
+              "rules-file": "anc_pregnancy_outcome_relevance.yml"
             }
           }
         }
@@ -1240,7 +1183,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_anc_pregnancy_outcome_relevance.yml"
+              "rules-file": "anc_pregnancy_outcome_relevance.yml"
             }
           }
         }

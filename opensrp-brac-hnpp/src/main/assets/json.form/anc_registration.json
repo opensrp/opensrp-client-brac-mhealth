@@ -92,13 +92,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "service_taken_date",
         "type": "date_picker",
-        "max_date": "today",
-        "min_date": "",
-        "hint": "সেবা গ্রহণের তারিখ",
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
+        "hint": "সেবা গ্রহণের তারিখ"
       },
       {
         "key": "last_menstrual_period",

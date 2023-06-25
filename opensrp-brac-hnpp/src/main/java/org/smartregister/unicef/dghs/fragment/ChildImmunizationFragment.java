@@ -19,15 +19,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Triple;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.common.PDStream;
-import org.apache.pdfbox.pdmodel.font.PDFont;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
-import org.apache.pdfbox.text.PDFTextStripper;
 import org.joda.time.DateTime;
 import org.smartregister.chw.core.job.VaccineRecurringServiceJob;
 import org.smartregister.domain.FetchStatus;
@@ -35,11 +28,9 @@ import org.smartregister.family.FamilyLibrary;
 import org.smartregister.immunization.fragment.VaccinationEditDialogFragment;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.unicef.dghs.R;
-import org.smartregister.unicef.dghs.activity.PaymentActivity;
 import org.smartregister.unicef.dghs.activity.TikaCardViewActivity;
 import org.smartregister.unicef.dghs.activity.WebViewActivity;
-import org.smartregister.unicef.dghs.job.HnppSyncIntentServiceJob;
-import org.smartregister.unicef.dghs.job.VisitLogServiceJob;
+import org.smartregister.unicef.dghs.job.VaccineDueUpdateServiceJob;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.domain.Alert;
 import org.smartregister.immunization.ImmunizationLibrary;
@@ -52,13 +43,10 @@ import org.smartregister.immunization.domain.VaccineSchedule;
 import org.smartregister.immunization.domain.VaccineWrapper;
 import org.smartregister.immunization.fragment.ServiceDialogFragment;
 import org.smartregister.immunization.fragment.UndoServiceDialogFragment;
-import org.smartregister.immunization.fragment.UndoVaccinationDialogFragment;
 import org.smartregister.immunization.fragment.VaccinationDialogFragment;
 import org.smartregister.immunization.repository.RecurringServiceRecordRepository;
 import org.smartregister.immunization.repository.RecurringServiceTypeRepository;
 import org.smartregister.immunization.repository.VaccineRepository;
-import org.smartregister.immunization.service.intent.RecurringIntentService;
-import org.smartregister.immunization.service.intent.VaccineIntentService;
 import org.smartregister.immunization.util.RecurringServiceUtils;
 import org.smartregister.immunization.util.VaccinateActionUtils;
 import org.smartregister.immunization.util.VaccinatorUtils;
@@ -71,19 +59,9 @@ import org.smartregister.util.DateUtil;
 import org.smartregister.util.Utils;
 import org.smartregister.view.fragment.BaseProfileFragment;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -670,7 +648,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment implements  S
             updateVaccineGroupViews(view, pair.first, pair.second);
 
             updateVaccineGroupsUsingAlerts(affectedVaccines, vaccineList, alertList);
-            VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+            VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
         }
 
         @Override

@@ -14,6 +14,7 @@ import org.smartregister.unicef.dghs.activity.HnppChildProfileActivity;
 import org.smartregister.unicef.dghs.model.HnppChildRegisterFragmentModel;
 import org.smartregister.unicef.dghs.presenter.HnppChildRegisterFragmentPresenter;
 import org.smartregister.unicef.dghs.provider.HnppChildRegisterProvider;
+import org.smartregister.unicef.dghs.service.VaccineDueUpdateIntentService;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.core.activity.CoreChildHomeVisitActivity;
@@ -56,9 +57,14 @@ public class HnppChildRegisterFragment extends HnppBaseChildRegisterFragment imp
         }
 
         String viewConfigurationIdentifier = ((BaseRegisterActivity) getActivity()).getViewIdentifiers().get(0);
-        presenter = new HnppChildRegisterFragmentPresenter(this, new HnppChildRegisterFragmentModel(), viewConfigurationIdentifier);
+        if(VaccineDueUpdateIntentService.updatedVaccineDueDate()){
+            presenter = new HnppChildRegisterFragmentPresenter(this, new HnppChildRegisterFragmentModel(), viewConfigurationIdentifier);
+        }
 
     }
+
+
+
     @Override
     protected boolean isValidFilterForFts(CommonRepository commonRepository) {
         return false;
@@ -139,7 +145,7 @@ public class HnppChildRegisterFragment extends HnppBaseChildRegisterFragment imp
     public void setupViews(android.view.View view) {
         super.setupViews(view);
         RelativeLayout sortAndFilterView = view.findViewById(org.smartregister.chw.core.R.id.filter_sort_layout);
-        sortAndFilterView.setVisibility(android.view.View.VISIBLE);
+        sortAndFilterView.setVisibility(android.view.View.GONE);
         TextView sortView = sortAndFilterView.findViewById(R.id.sort_text_view);
         TextView filterTextView = sortAndFilterView.findViewById(R.id.filter_text_view);
         filterTextView.setText(getString(R.string.filter));

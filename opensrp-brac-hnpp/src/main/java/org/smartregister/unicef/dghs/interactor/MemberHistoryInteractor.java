@@ -1,29 +1,22 @@
 package org.smartregister.unicef.dghs.interactor;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.text.TextUtils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.unicef.dghs.HnppApplication;
-import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.contract.MemberHistoryContract;
 import org.smartregister.unicef.dghs.repository.HnppVisitLogRepository;
-import org.smartregister.unicef.dghs.service.VisitLogIntentService;
 import org.smartregister.unicef.dghs.sync.FormParser;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
 import org.smartregister.unicef.dghs.utils.MemberHistoryData;
 import org.smartregister.unicef.dghs.utils.VisitLog;
-import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
 
-import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
-import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.util.AppExecutors;
 
 import java.util.ArrayList;

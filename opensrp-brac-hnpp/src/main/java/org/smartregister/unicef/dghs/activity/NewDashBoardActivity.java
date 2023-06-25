@@ -1,6 +1,5 @@
 package org.smartregister.unicef.dghs.activity;
 
-import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -8,8 +7,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import com.github.ybq.android.spinkit.style.FadingCircle;
 
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.fragment.BaseDashBoardFragment;
@@ -22,7 +19,6 @@ import org.smartregister.unicef.dghs.fragment.MonthlyTargetAchievementFragment;
 import org.smartregister.unicef.dghs.fragment.SSInfoDashBoardFragment;
 import org.smartregister.unicef.dghs.fragment.StockDashBoardFragment;
 import org.smartregister.unicef.dghs.fragment.WorkSummeryDashBoardFragment;
-import org.smartregister.unicef.dghs.job.VisitLogServiceJob;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.view.activity.SecuredActivity;
 

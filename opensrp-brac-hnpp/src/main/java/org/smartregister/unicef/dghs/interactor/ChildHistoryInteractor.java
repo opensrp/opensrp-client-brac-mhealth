@@ -9,13 +9,11 @@ import org.json.JSONObject;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.contract.MemberHistoryContract;
 import org.smartregister.unicef.dghs.repository.HnppVisitLogRepository;
-import org.smartregister.unicef.dghs.service.VisitLogIntentService;
 import org.smartregister.unicef.dghs.sync.FormParser;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
 import org.smartregister.unicef.dghs.utils.MemberHistoryData;
 import org.smartregister.unicef.dghs.utils.VisitLog;
-import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
 
 import org.smartregister.clientandeventmodel.Event;

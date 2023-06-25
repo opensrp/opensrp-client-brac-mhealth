@@ -382,7 +382,7 @@
         <service android:name=".service.TargetFetchIntentService" />
         <service android:name=".service.MigrationFetchIntentService" />
         <service android:name=".service.StockFetchIntentService" />
-        <service android:name=".service.VisitLogIntentService" />
+        <service android:name=".service.VaccineDueUpdateIntentService" />
         <service android:name=".service.HnppPncCloseDateIntent" />
         <service android:name=".service.GuestMemberIdIntentService" />
         <service android:name=".service.DataDeleteIntentService" />

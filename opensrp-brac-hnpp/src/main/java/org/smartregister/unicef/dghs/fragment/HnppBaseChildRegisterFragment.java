@@ -152,13 +152,14 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
          adapter = new ChildFilterTypeAdapter(new ChildFilterTypeAdapter.OnClickAdapter() {
             @Override
             public void onClick(int position, String content) {
-                clients_header_layout.getLayoutParams().height = 50;
+                clients_header_layout.getLayoutParams().height = 150;
                 filterTypeRv.setVisibility(View.GONE);
                 arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
                 isExpanded = !isExpanded;
                 if (!filterTypeRv.isComputingLayout()) {
                     adapter.notifyDataSetChanged();
                 }
+                Log.v("FILTER_CHILD","content>>"+content);
             }
         });
         adapter.setData(HnppConstants.filterTypeList);
@@ -170,11 +171,11 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
             @Override
             public void onClick(View v) {
                 if(isExpanded){
-                    clients_header_layout.getLayoutParams().height = 50;
+                    clients_header_layout.getLayoutParams().height = 150;
                     filterTypeRv.setVisibility(View.GONE);
                     arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
                 }else{
-                    clients_header_layout.getLayoutParams().height = 200;
+                    clients_header_layout.getLayoutParams().height = 500;
                     filterTypeRv.setVisibility(View.VISIBLE);
                     arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
                 }
@@ -183,7 +184,7 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
             }
         });
 
-        clients_header_layout.getLayoutParams().height = 50;
+        clients_header_layout.getLayoutParams().height = 150;
         clients_header_layout.setVisibility(View.VISIBLE);
         if (getSearchCancelView() != null) {
             getSearchCancelView().setOnClickListener(this);

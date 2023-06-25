@@ -19,7 +19,7 @@ import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.activity.FamilyRegisterActivity;
 import org.smartregister.unicef.dghs.activity.IndividualProfileRemoveActivity;
 import org.smartregister.unicef.dghs.activity.IndividualProfileRemoveJsonFormActivity;
-import org.smartregister.unicef.dghs.job.VisitLogServiceJob;
+import org.smartregister.unicef.dghs.job.VaccineDueUpdateServiceJob;
 import org.smartregister.unicef.dghs.model.FamilyRemoveMemberModel;
 import org.smartregister.unicef.dghs.presenter.FamilyRemoveMemberPresenter;
 import org.smartregister.unicef.dghs.provider.FamilyRemoveMemberProvider;
@@ -247,7 +247,7 @@ public class IndividualProfileRemoveFragment extends BaseFamilyProfileMemberFrag
                    Visit visit =  HnppJsonFormUtils.saveVisit(baseEntityId, type, jsonStrings,formSubmissionId,visitId,form.toString());
                    if(visit !=null && !visit.getVisitId().equals("0")){
                        HnppHomeVisitIntentService.processVisits();
-                       VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+                       VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
                    }
                 }catch (Exception e){
                     e.printStackTrace();
