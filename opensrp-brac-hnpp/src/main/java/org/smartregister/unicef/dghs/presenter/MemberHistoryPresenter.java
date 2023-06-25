@@ -3,6 +3,7 @@ package org.smartregister.unicef.dghs.presenter;
 import org.json.JSONObject;
 import org.smartregister.unicef.dghs.contract.MemberHistoryContract;
 import org.smartregister.unicef.dghs.contract.OtherServiceContract;
+import org.smartregister.unicef.dghs.fragment.MemberHistoryDialogFragment;
 import org.smartregister.unicef.dghs.fragment.MemberHistoryFragment;
 import org.smartregister.unicef.dghs.fragment.MemberOtherServiceFragment;
 import org.smartregister.unicef.dghs.interactor.MemberHistoryInteractor;
@@ -55,7 +56,7 @@ public class MemberHistoryPresenter implements MemberHistoryContract.Presenter, 
         if(getView() !=null) getView().startFormWithVisitData(content,jsonForm);
     }
     @Override
-    public MemberHistoryFragment getView() {
-        return (MemberHistoryFragment) view;
+    public MemberHistoryContract.View getView() {
+        return view instanceof MemberHistoryDialogFragment?(MemberHistoryDialogFragment)view: (MemberHistoryFragment) view;
     }
 }

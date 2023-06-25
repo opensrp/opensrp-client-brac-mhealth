@@ -70,8 +70,8 @@ public class CoreChildRegisterInteractor implements CoreChildRegisterContract.In
     public void saveRegistration(final Pair<Client, Event> pair, final String jsonString, final boolean isEditMode, final CoreChildRegisterContract.InteractorCallBack callBack) {
 
         Runnable runnable = () -> {
-            saveRegistration(pair, jsonString, isEditMode);
-            appExecutors.mainThread().execute(() -> callBack.onRegistrationSaved(isEditMode));
+            String baseEntityId = saveRegistration(pair, jsonString, isEditMode);
+            appExecutors.mainThread().execute(() -> callBack.onRegistrationSaved(isEditMode,baseEntityId));
         };
 
         appExecutors.diskIO().execute(runnable);
@@ -86,7 +86,7 @@ public class CoreChildRegisterInteractor implements CoreChildRegisterContract.In
         appExecutors.diskIO().execute(runnable);
     }
 
-    private void saveRegistration(Pair<Client, Event> pair, String jsonString, boolean isEditMode) {
+    private String saveRegistration(Pair<Client, Event> pair, String jsonString, boolean isEditMode) {
 
         try {
             Thread.sleep(2000);
@@ -136,9 +136,11 @@ public class CoreChildRegisterInteractor implements CoreChildRegisterContract.In
             Date lastSyncDate = new Date(lastSyncTimeStamp);
             getClientProcessorForJava().processClient(getSyncHelper().getEvents(lastSyncDate, BaseRepository.TYPE_Unprocessed));
             getAllSharedPreferences().saveLastUpdatedAtDate(lastSyncDate.getTime());
+            return baseEvent.getBaseEntityId();
         } catch (Exception e) {
             Timber.e(e);
         }
+        return "";
     }
 
     public ECSyncHelper getSyncHelper() {

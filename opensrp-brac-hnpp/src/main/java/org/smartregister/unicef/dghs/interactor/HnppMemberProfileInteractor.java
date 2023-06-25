@@ -32,7 +32,7 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
     public static final int TAG_OPEN_FAMILY = 111;
     public static final int TAG_OPEN_REFEREAL = 222;
     private static final int TAG_OPEN_CORONA = 88888;
-
+    public static final int TAG_OPEN_ANC_HISTORY = 111111;
     private AppExecutors appExecutors;
 
     public HnppMemberProfileInteractor(AppExecutors appExecutors){
@@ -44,6 +44,13 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
         //try{
             String gender = org.smartregister.util.Utils.getValue(commonPersonObjectClient.getColumnmaps(), "gender", false);
             String maritalStatus  = org.smartregister.util.Utils.getValue(commonPersonObjectClient.getColumnmaps(), "marital_status", false);
+        {
+            MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
+            memberProfileDueData.setImageSource(R.mipmap.ic_anc_pink);
+            memberProfileDueData.setTitle("গর্ভবতী সেবার ইতিহাস");
+            memberProfileDueData.setType(TAG_OPEN_ANC_HISTORY);
+            memberProfileDueDataArrayList.add(memberProfileDueData);
+        }
             if(gender.equalsIgnoreCase("F") && maritalStatus.equalsIgnoreCase("Married")){
                 MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
                 memberProfileDueData.setType(TAG_OPEN_ANC1);
@@ -55,7 +62,7 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                         memberProfileDueData.setImageSource(R.mipmap.ic_anc_pink);
                         memberProfileDueData.setEventType(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT);
                     }else{
-                        memberProfileDueData.setTitle(HnppConstants.visitEventTypeMapping.get(eventType));
+                        memberProfileDueData.setTitle(FormApplicability.getPncTitle(baseEntityId));
                         memberProfileDueData.setImageSource(HnppConstants.iconMapping.get(eventType));
                         memberProfileDueData.setEventType(eventType);
                     }
@@ -83,20 +90,14 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                     memberProfileDueDataArrayList.add(memberProfileDueData2);
                 }
             }
-            {
-                MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
-                memberProfileDueData.setImageSource(R.drawable.rowavatar_member);
-                memberProfileDueData.setTitle("খানা সদস্য জরিপ");
-                memberProfileDueData.setType(HnppMemberProfileDueFragment.TAG_OPEN_MEMBER_PROFILE_UPDATE);
-                memberProfileDueDataArrayList.add(memberProfileDueData);
-            }
-            {
-                MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
-                memberProfileDueData.setImageSource(R.drawable.childrow_family);
-                memberProfileDueData.setTitle("পরিবারের অন্যান্য সদস্য সেবা (বাকি)");
-                memberProfileDueData.setType(TAG_OPEN_FAMILY);
-                memberProfileDueDataArrayList.add(memberProfileDueData);
-            }
+//            {
+//                MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
+//                memberProfileDueData.setImageSource(R.drawable.rowavatar_member);
+//                memberProfileDueData.setTitle("খানা সদস্য জরিপ");
+//                memberProfileDueData.setType(HnppMemberProfileDueFragment.TAG_OPEN_MEMBER_PROFILE_UPDATE);
+//                memberProfileDueDataArrayList.add(memberProfileDueData);
+//            }
+
 
 
 //            {
@@ -107,25 +108,25 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
 //                memberProfileDueDataArrayList.add(memberProfileDueData);
 //            }
 
-            ArrayList<ReferralFollowUpModel> getList = FormApplicability.getReferralFollowUp(baseEntityId);
-            for(ReferralFollowUpModel referralFollowUpModel : getList){
-                MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
-                memberProfileDueData.setImageSource(iconMapping.get(HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP));
-                memberProfileDueData.setTitle(eventTypeMapping.get(HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP));
-                memberProfileDueData.setType(TAG_OPEN_REFEREAL);
-                memberProfileDueData.setSubTitle(referralFollowUpModel.getReferralReason());
-                memberProfileDueData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_REFERRAL_FOLLOW_UP);
-                memberProfileDueData.setReferralFollowUpModel(referralFollowUpModel);
-                memberProfileDueDataArrayList.add(memberProfileDueData);
-
-            }
-            if(FormApplicability.isDueCoronaForm(baseEntityId)){
-                MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
-                memberProfileDueData.setImageSource(R.drawable.ic_virus);
-                memberProfileDueData.setTitle("করোনা তথ্য");
-                memberProfileDueData.setType(TAG_OPEN_CORONA);
-                memberProfileDueDataArrayList.add(memberProfileDueData);
-            }
+//            ArrayList<ReferralFollowUpModel> getList = FormApplicability.getReferralFollowUp(baseEntityId);
+//            for(ReferralFollowUpModel referralFollowUpModel : getList){
+//                MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
+//                memberProfileDueData.setImageSource(iconMapping.get(HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP));
+//                memberProfileDueData.setTitle(eventTypeMapping.get(HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP));
+//                memberProfileDueData.setType(TAG_OPEN_REFEREAL);
+//                memberProfileDueData.setSubTitle(referralFollowUpModel.getReferralReason());
+//                memberProfileDueData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_REFERRAL_FOLLOW_UP);
+//                memberProfileDueData.setReferralFollowUpModel(referralFollowUpModel);
+//                memberProfileDueDataArrayList.add(memberProfileDueData);
+//
+//            }
+//            if(FormApplicability.isDueCoronaForm(baseEntityId)){
+//                MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
+//                memberProfileDueData.setImageSource(R.drawable.ic_virus);
+//                memberProfileDueData.setTitle("করোনা তথ্য");
+//                memberProfileDueData.setType(TAG_OPEN_CORONA);
+//                memberProfileDueDataArrayList.add(memberProfileDueData);
+//            }
 //        }catch (Exception e){
 //            e.printStackTrace();
 //

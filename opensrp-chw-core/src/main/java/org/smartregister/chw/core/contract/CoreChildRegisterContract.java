@@ -70,7 +70,7 @@ public interface CoreChildRegisterContract {
 
         void onUniqueIdFetched(Triple<String, String, String> triple, String entityId, String familyId);
 
-        void onRegistrationSaved(boolean isEdit);
+        void onRegistrationSaved(boolean isEdit, String baseEntityId);
 
     }
 }

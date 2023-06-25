@@ -53,10 +53,14 @@ public class HnppMemberProfileDueAdapter extends RecyclerView.Adapter<HnppMember
             viewHolder.textViewLastVisit.setVisibility(View.INVISIBLE);
 
         }
-        if(content.getType() == HnppMemberProfileInteractor.TAG_OPEN_FAMILY || content.getType() == HnppMemberProfileInteractor.TAG_OPEN_REFEREAL){
+        if(content.getType() == HnppMemberProfileInteractor.TAG_OPEN_FAMILY
+                || content.getType() == HnppMemberProfileInteractor.TAG_OPEN_REFEREAL
+                || content.getType() == HnppMemberProfileInteractor.TAG_OPEN_ANC_HISTORY){
             viewHolder.statusImage.setVisibility(View.INVISIBLE);
+            viewHolder.nextArrowBtn.setVisibility(View.VISIBLE);
         }else{
             viewHolder.statusImage.setVisibility(View.VISIBLE);
+            viewHolder.nextArrowBtn.setVisibility(View.GONE);
         }
         viewHolder.itemView.setOnClickListener(v -> onClickAdapter.onClick(viewHolder.getAdapterPosition(), content));
     }

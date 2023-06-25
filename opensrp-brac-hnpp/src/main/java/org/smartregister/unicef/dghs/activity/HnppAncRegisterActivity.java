@@ -18,6 +18,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.chw.anc.activity.BaseAncRegisterActivity;
+import org.smartregister.commonregistry.CommonPersonObject;
+import org.smartregister.commonregistry.CommonPersonObjectClient;
+import org.smartregister.commonregistry.CommonRepository;
+import org.smartregister.family.presenter.BaseFamilyProfileMemberPresenter;
+import org.smartregister.family.util.Utils;
 import org.smartregister.unicef.dghs.BuildConfig;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
@@ -30,6 +35,7 @@ import org.smartregister.unicef.dghs.repository.HnppVisitLogRepository;
 import org.smartregister.unicef.dghs.sync.FormParser;
 import org.smartregister.unicef.dghs.utils.FormApplicability;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
+import org.smartregister.unicef.dghs.utils.HnppDBUtils;
 import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
@@ -69,6 +75,7 @@ import timber.log.Timber;
 
 import static com.vijay.jsonwizard.constants.JsonFormConstants.FIELDS;
 import static com.vijay.jsonwizard.constants.JsonFormConstants.STEP1;
+import static org.smartregister.unicef.dghs.activity.HnppFamilyOtherMemberProfileActivity.IS_COMES_IDENTITY;
 import static org.smartregister.unicef.dghs.utils.HnppJsonFormUtils.BLOCK_ID;
 
 
@@ -173,11 +180,13 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
             HnppJsonFormUtils.updateFormWithBlockInfo(jsonForm,familyBaseEntityId);
             if(form_name.equalsIgnoreCase(HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME)){
 
-                JSONObject stepFour = jsonForm.getJSONObject("step4");
-                JSONArray jsonArrayFour = stepFour.getJSONArray(JsonFormUtils.FIELDS);
-                updateFormField(jsonArrayFour, DBConstants.KEY.UNIQUE_ID, unique_id);
-                updateFormField(jsonArrayFour, DBConstants.KEY.TEMP_UNIQUE_ID, unique_id);
-                updateFormField(jsonArrayFour, "temp_name", "Baby of "+motherName+"");
+//                JSONObject stepFour = jsonForm.getJSONObject("step4");
+//                JSONArray jsonArrayFour = stepFour.getJSONArray(JsonFormUtils.FIELDS);
+                String lmpDate = HnppDBUtils.getLmpDate(baseEntityId);
+                HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"last_menstrual_period", lmpDate);
+//                updateFormField(jsonArrayFour, DBConstants.KEY.UNIQUE_ID, unique_id);
+//                updateFormField(jsonArrayFour, DBConstants.KEY.TEMP_UNIQUE_ID, unique_id);
+//                updateFormField(jsonArrayFour, "temp_name", "Baby of "+motherName+"");
                 updateMinDate(jsonArray);
                 form.setWizard(true);
                 form.setHideSaveLabel(true);
@@ -307,11 +316,15 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
                                 // HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
                                 if(!familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){
                                     HnppPncRegisterActivity.startHnppPncRegisterActivity(HnppAncRegisterActivity.this, baseEntityId);
+                                    finish();
+                                    openProfile();
                                 }
                             }else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_REGISTRATION)){
                                 // HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
                                 HnppConstants.isViewRefresh = true;
                                 refreshList(FetchStatus.fetched);
+                                finish();
+                                openProfile();
 
                             }
                             if(familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){
@@ -334,6 +347,21 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
                         }
                     });
         }
+
+    }
+    private void openProfile(){
+        CommonRepository commonRepository = Utils.context().commonrepository(Utils.metadata().familyMemberRegister.tableName);
+        final CommonPersonObject commonPersonObject = commonRepository.findByBaseEntityId(baseEntityId);
+        final CommonPersonObjectClient client =
+                new CommonPersonObjectClient(commonPersonObject.getCaseId(), commonPersonObject.getDetails(), "");
+        client.setColumnmaps(commonPersonObject.getColumnmaps());
+            Intent intent = new Intent(this, HnppFamilyOtherMemberProfileActivity.class);
+            intent.putExtra(IS_COMES_IDENTITY,false);
+            intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.BASE_ENTITY_ID, client.getCaseId());
+            intent.putExtra(CoreConstants.INTENT_KEY.CHILD_COMMON_PERSON, client);
+//            intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_HEAD, ((BaseFamilyProfileMemberPresenter) presenter).getFamilyHead());
+//            intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.PRIMARY_CAREGIVER, ((BaseFamilyProfileMemberPresenter) presenter).getPrimaryCaregiver());
+            startActivity(intent);
 
     }
     Observable<String> executeQuery( Intent data){

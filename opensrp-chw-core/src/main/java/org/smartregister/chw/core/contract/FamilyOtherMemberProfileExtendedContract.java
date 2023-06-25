@@ -25,6 +25,8 @@ public interface FamilyOtherMemberProfileExtendedContract {
 
         void setFamilyServiceStatus(String status);
 
+        void openProfile(String baseEntityId);
+
         Context getContext();
     }
 }

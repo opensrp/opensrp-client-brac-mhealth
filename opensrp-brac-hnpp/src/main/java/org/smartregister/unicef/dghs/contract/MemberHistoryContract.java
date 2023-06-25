@@ -15,6 +15,7 @@ public interface MemberHistoryContract {
         void updateAdapter();
         void initializePresenter();
         Presenter getPresenter();
+        Context getContext();
         void startFormWithVisitData(MemberHistoryData content, JSONObject jsonForm);
     }
     interface Presenter{

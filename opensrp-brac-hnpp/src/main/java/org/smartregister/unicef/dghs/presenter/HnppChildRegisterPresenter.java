@@ -192,7 +192,7 @@ public class HnppChildRegisterPresenter implements CoreChildRegisterContract.Pre
     }
 
     @Override
-    public void onRegistrationSaved(boolean isEdit) {
+    public void onRegistrationSaved(boolean isEdit, String baseEntityId) {
         getView().refreshList(FetchStatus.fetched);
         getView().hideProgressDialog();
     }

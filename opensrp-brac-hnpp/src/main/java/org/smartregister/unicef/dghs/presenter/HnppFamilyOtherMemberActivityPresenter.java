@@ -2,18 +2,25 @@ package org.smartregister.unicef.dghs.presenter;
 
 import static org.smartregister.util.Utils.getName;
 
+import android.util.Pair;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Triple;
 import org.smartregister.chw.anc.util.NCUtils;
 
+import org.smartregister.chw.core.contract.CoreChildRegisterContract;
 import org.smartregister.chw.core.contract.FamilyProfileExtendedContract;
+import org.smartregister.chw.core.interactor.CoreChildRegisterInteractor;
 import org.smartregister.chw.core.interactor.CoreFamilyInteractor;
+import org.smartregister.clientandeventmodel.Client;
+import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.domain.FamilyEventClient;
 import org.smartregister.family.presenter.BaseFamilyOtherMemberProfileActivityPresenter;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.Utils;
 import org.smartregister.unicef.dghs.HnppApplication;
+import org.smartregister.unicef.dghs.model.HnppChildRegisterModel;
 import org.smartregister.unicef.dghs.model.HnppFamilyProfileModel;
 import org.smartregister.chw.core.contract.FamilyOtherMemberProfileExtendedContract;
 import org.smartregister.unicef.dghs.interactor.HnppFamilyInteractor;
@@ -28,7 +35,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
-public class HnppFamilyOtherMemberActivityPresenter extends BaseFamilyOtherMemberProfileActivityPresenter implements FamilyOtherMemberProfileExtendedContract.Presenter, FamilyProfileContract.InteractorCallBack, FamilyProfileExtendedContract.PresenterCallBack {
+public class HnppFamilyOtherMemberActivityPresenter extends BaseFamilyOtherMemberProfileActivityPresenter implements FamilyOtherMemberProfileExtendedContract.Presenter, FamilyProfileContract.InteractorCallBack, FamilyProfileExtendedContract.PresenterCallBack, CoreChildRegisterContract.InteractorCallBack {
     protected FamilyProfileContract.Interactor profileInteractor;
     protected FamilyProfileContract.Model profileModel;
     protected HnppFamilyInteractor familyInteractor;
@@ -103,6 +110,28 @@ public class HnppFamilyOtherMemberActivityPresenter extends BaseFamilyOtherMembe
             Timber.e(e);
         }
     }
+    public void saveChildForm(String jsonString) {
+        try {
+
+            getView().showProgressDialog(org.smartregister.chw.core.R.string.saving_dialog_title);
+
+            Pair<Client, Event> pair = new HnppChildRegisterModel("",familyBaseEntityId).processRegistration(jsonString);
+            if (pair == null) {
+                getView().hideProgressDialog();
+                return;
+            }
+            new CoreChildRegisterInteractor().saveRegistration(pair, jsonString, false, this);
+
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+    }
+
+    @Override
+    public void onUniqueIdFetched(Triple<String, String, String> triple, String entityId, String familyId) {
+
+    }
+
     public void startFormForEdit(CommonPersonObjectClient commonPersonObject) {
     }
 
@@ -120,14 +149,23 @@ public class HnppFamilyOtherMemberActivityPresenter extends BaseFamilyOtherMembe
 
     @Override
     public void onRegistrationSaved(boolean isEditMode) {
+        onRegistrationSaved(isEditMode,"");
+    }
+
+    @Override
+    public void onRegistrationSaved(boolean isEditMode, String baseEntityId) {
         if (isEditMode) {
             getView().hideProgressDialog();
 
             refreshProfileView();
 
             getView().refreshList();
+        }else{
+            getView().hideProgressDialog();
+            getView().openProfile(baseEntityId);
         }
     }
+
     public FamilyOtherMemberProfileExtendedContract.View getView() {
         if (viewReference != null) {
             return viewReference.get();

@@ -1162,10 +1162,10 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
     public static JSONObject updateFormWithMemberId(JSONObject form,String houseHoldId, String familyBaseEntityId) throws JSONException {
         JSONArray field = fields(form, STEP1);
         JSONObject memberId = getFieldJSONObject(field, "unique_id");
-        if(!TextUtils.isEmpty(houseHoldId)){
-            houseHoldId = houseHoldId.replace(Constants.IDENTIFIER.FAMILY_SUFFIX,"")
-                    .replace(HnppConstants.IDENTIFIER.FAMILY_TEXT,"");
-        }
+//        if(!TextUtils.isEmpty(houseHoldId)){
+//            houseHoldId = houseHoldId.replace(Constants.IDENTIFIER.FAMILY_SUFFIX,"")
+//                    .replace(HnppConstants.IDENTIFIER.FAMILY_TEXT,"");
+//        }
 
         int memberCount = HnppApplication.ancRegisterRepository().getMemberCountWithoutRemove(familyBaseEntityId);
         String uniqueId = houseHoldId+memberCountWithZero(memberCount+1);

@@ -206,7 +206,97 @@ priority: 1
 condition: "step1_preg_outcome == 'born_alive' || step1_preg_outcome == 'alive_with_problem'"
 actions:
   - "isRelevant = true"
-
+---
+name: step3_still_birth_type
+description: if no_still_born greater than 0
+priority: 1
+condition: "step3_no_still_born >= 1"
+actions:
+  - "isRelevant = true"
+---
+name: step3_still_birth_type
+description: if no_still_born greater than 0
+priority: 1
+condition: "step3_no_still_born >= 1"
+actions:
+  - "isRelevant = true"
+---
+name: step3_still_child_cause
+description: if no_still_born greater than 0
+priority: 1
+condition: "step3_no_still_born >= 1"
+actions:
+  - "isRelevant = true"
+---
+name: step3_before_pregnancy_kit
+description: if no_still_born greater than 0
+priority: 1
+condition: "step3_no_still_born >= 1"
+actions:
+  - "isRelevant = true"
+---
+name: step3_mother_pregnency_duration
+description: if no_still_born greater than 0
+priority: 1
+condition: "step3_no_still_born >= 1"
+actions:
+  - "isRelevant = true"
+---
+name: step3_still_gender
+description: if no_still_born greater than 0
+priority: 1
+condition: "step3_no_still_born >= 1"
+actions:
+  - "isRelevant = true"
+---
+name: step3_mother_anc_count
+description: if no_still_born greater than 0
+priority: 1
+condition: "step3_no_still_born >= 1"
+actions:
+  - "isRelevant = true"
+---
+name: step3_child_death_place
+description: if no_still_born greater than 0
+priority: 1
+condition: "step3_no_still_born >= 1"
+actions:
+  - "isRelevant = true"
+---
+name: step3_child_death_time
+description: if no_still_born greater than 0
+priority: 1
+condition: "step3_no_still_born >= 1"
+actions:
+  - "isRelevant = true"
+---
+name: step3_child_death_date
+description: if no_still_born greater than 0
+priority: 1
+condition: "step3_no_still_born >= 1"
+actions:
+  - "isRelevant = true"
+---
+name: step3_present_at_death_child
+description: if no_still_born greater than 0
+priority: 1
+condition: "step3_no_still_born >= 1"
+actions:
+  - "isRelevant = true"
+---
+name: step3_relation_with_still_birth
+description: if no_still_born greater than 0
+priority: 1
+condition: "step3_no_still_born >= 1"
+actions:
+  - "isRelevant = true"
+---
+name: step3_name_of_answerer
+description: if no_still_born greater than 0
+priority: 1
+condition: "step3_no_still_born >= 1"
+actions:
+  - "isRelevant = true"
 ---
 name: step1_vacc_birth
 description: vacc_birth relevance
