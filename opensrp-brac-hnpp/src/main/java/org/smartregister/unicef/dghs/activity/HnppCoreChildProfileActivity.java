@@ -502,11 +502,9 @@ public class HnppCoreChildProfileActivity extends BaseProfileActivity implements
 
     }
 
-
     @Override
-    public void onRegistrationSaved(boolean isEdit) {
-        //TODO
-        Timber.d("onRegistrationSaved unimplemented");
+    public void onRegistrationSaved(boolean isEdit, String baseEntityId) {
+
     }
 
     @Override

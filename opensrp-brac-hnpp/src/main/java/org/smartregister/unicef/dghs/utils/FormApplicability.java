@@ -43,7 +43,7 @@ public class FormApplicability {
 
     }
     public static boolean isDueAnyForm(String baseEntityId, String eventType){
-        return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneWihinTwentyFourHours(baseEntityId, eventType);
+        return true;//!HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneWihinTwentyFourHours(baseEntityId, eventType);
 
     }
     public static boolean isDueChildInfoForm(String baseEntityId, String eventType){
@@ -149,36 +149,40 @@ public class FormApplicability {
         }
         return "";
     }
+    public static String getPncTitle(String baseEntityId){
+        return HnppConstants.getPncTitle(FormApplicability.getPNCCount(baseEntityId)+1)[0];
+    }
     public static String getANCTitle(String baseEntityId){
-        String lmp = getLmp(baseEntityId);
-        int dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(lmp), new DateTime()).getDays();
-
-        if(dayPass > 1 && dayPass <= 84){
-            //first trimester
-            return HnppConstants.getAncTitle(1)[0];
-        }else if(dayPass > 84 && dayPass <= 140){
-
-            return HnppConstants.getAncTitle(2)[0];
-        }else if(dayPass > 140 && dayPass <= 182){
-
-            return HnppConstants.getAncTitle(3)[0];
-        }else if(dayPass > 182 && dayPass <= 210){
-
-            return HnppConstants.getAncTitle(4)[0];
-        }else if(dayPass > 210 && dayPass <= 238){
-
-            return HnppConstants.getAncTitle(5)[0];
-        }else if(dayPass > 238 && dayPass <= 252){
-
-            return HnppConstants.getAncTitle(6)[0];
-        }else if(dayPass > 252 && dayPass <= 266){
-
-            return HnppConstants.getAncTitle(7)[0];
-        }else if(dayPass > 266 && dayPass <= 280){
-
-            return HnppConstants.getAncTitle(8)[0];
-        }
-        return "";
+        return HnppConstants.getAncTitle(FormApplicability.getANCCount(baseEntityId)+1)[0];
+//        String lmp = getLmp(baseEntityId);
+//        int dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(lmp), new DateTime()).getDays();
+//
+//        if(dayPass > 1 && dayPass <= 84){
+//            //first trimester
+//            return HnppConstants.getAncTitle(1)[0];
+//        }else if(dayPass > 84 && dayPass <= 140){
+//
+//            return HnppConstants.getAncTitle(2)[0];
+//        }else if(dayPass > 140 && dayPass <= 182){
+//
+//            return HnppConstants.getAncTitle(3)[0];
+//        }else if(dayPass > 182 && dayPass <= 210){
+//
+//            return HnppConstants.getAncTitle(4)[0];
+//        }else if(dayPass > 210 && dayPass <= 238){
+//
+//            return HnppConstants.getAncTitle(5)[0];
+//        }else if(dayPass > 238 && dayPass <= 252){
+//
+//            return HnppConstants.getAncTitle(6)[0];
+//        }else if(dayPass > 252 && dayPass <= 266){
+//
+//            return HnppConstants.getAncTitle(7)[0];
+//        }else if(dayPass > 266 && dayPass <= 280){
+//
+//            return HnppConstants.getAncTitle(8)[0];
+//        }
+//        return "";
     }
     public static String getANCType(String baseEntityId){
         String lmp = getLmp(baseEntityId);

@@ -594,18 +594,21 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                         updateFormField(jsonArray,"weight",birthWeight);
                     }
                     else if(HnppConstants.JSON_FORMS.CHILD_FOLLOWUP.equalsIgnoreCase(formName)){
-                        JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
-                        JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
-                        String DOB = ((HnppChildProfilePresenter) presenter).getDateOfBirth();
-                        Date date = Utils.dobStringToDate(DOB);
-                        String dobFormate = HnppConstants.DDMMYY.format(date);
-                        String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(childBaseEntityId+"_SOLID_FOOD");
-                        if(!TextUtils.isEmpty(prevalue)){
-                            updateFormField(jsonArray,"solid_food_month",prevalue);
-                            JSONObject solidObj = getFieldJSONObject(jsonArray, "solid_food_month");
-                            solidObj.put(org.smartregister.family.util.JsonFormUtils.READ_ONLY, true);
-                        }
-                        updateFormField(jsonArray,"dob",dobFormate);
+                        HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
+
+//                        JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+//                        JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+//                        String DOB = ((HnppChildProfilePresenter) presenter).getDateOfBirth();
+//                        Date date = Utils.dobStringToDate(DOB);
+//                        String dobFormate = HnppConstants.DDMMYY.format(date);
+//                        String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(childBaseEntityId+"_SOLID_FOOD");
+//                        if(!TextUtils.isEmpty(prevalue)){
+//                            updateFormField(jsonArray,"solid_food_month",prevalue);
+//                            JSONObject solidObj = getFieldJSONObject(jsonArray, "solid_food_month");
+//                            solidObj.put(org.smartregister.family.util.JsonFormUtils.READ_ONLY, true);
+//                        }
+//
+//                        updateFormField(jsonArray,"dob",dobFormate);
                     }
                     else if(HnppConstants.JSON_FORMS.CHILD_INFO_7_24_MONTHS.equalsIgnoreCase(formName)){
                         JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);

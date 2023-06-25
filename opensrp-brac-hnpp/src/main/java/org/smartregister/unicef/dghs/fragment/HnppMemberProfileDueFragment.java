@@ -53,6 +53,7 @@ import java.util.Set;
 
 import timber.log.Timber;
 
+import static org.smartregister.unicef.dghs.interactor.HnppMemberProfileInteractor.TAG_OPEN_ANC_HISTORY;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.eventTypeFormNameMapping;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.eventTypeMapping;
@@ -188,6 +189,12 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
                         activity.openFamilyDueTab();
                     }
                     break;
+                case TAG_OPEN_ANC_HISTORY:
+                    if (mActivity != null && mActivity instanceof HnppFamilyOtherMemberProfileActivity) {
+                        HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) mActivity;
+                        activity.openPragnencyHistory();
+                    }
+                    break;
                 case TAG_OPEN_REFEREAL:
                     if (mActivity != null && mActivity instanceof HnppFamilyOtherMemberProfileActivity) {
                         HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) mActivity;
@@ -249,12 +256,7 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
                         activity.startAncRegister();
                     }
                     break;
-                case TAG_OPEN_FAMILY:
-                    if (mActivity != null && mActivity instanceof HnppFamilyOtherMemberProfileActivity) {
-                        HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) mActivity;
-                        activity.openFamilyDueTab();
-                    }
-                    break;
+
                 case TAG_OPEN_REFEREAL:
                     if (mActivity != null && mActivity instanceof HnppFamilyOtherMemberProfileActivity) {
                         HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) mActivity;

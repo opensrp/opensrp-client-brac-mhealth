@@ -1,0 +1,280 @@
+{
+  "count": "1",
+  "encounter_type": "Child Followup",
+  "entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location": ""
+  },
+  "step1": {
+    "title": "শিশু ফলোআপ",
+    "fields": [
+      {
+        "key": "form_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "Child Followup",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": "child_followup"
+      },
+      {
+        "key": "dob",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden"
+      },
+      {
+        "key": "month_diff",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_iycf_package_calculation.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "service_taken_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "service_taken_date",
+        "type": "date_picker",
+        "hint": "সেবা গ্রহণের তারিখ"
+      },
+      {
+        "key": "syndrom",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "syndrom",
+        "type": "check_box",
+        "label": "কোন লক্ষণ গুলো আছে?",
+        "exclusive": [
+          "none"
+        ],
+        "options": [
+          {
+            "key": "High_fever",
+            "text": "মাত্রাতিরিক্ত জ্বর",
+            "value": false,
+            "openmrs_entity_id": "High_fever",
+            "openmrs_entity": "concept",
+            "openmrs_entity_parent": ""
+          },
+          {
+            "key": "Cough",
+            "text": "কাশি",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Cough"
+          },
+          {
+            "key": "Runny_nose",
+            "text": "সর্দি",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Runny_nose"
+          },
+          {
+            "key": "Red_watery_eyes",
+            "text": "প্রস্রাবের অ্যালবুমিন লাল/জলভরা চোখ",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Red_watery_eyes"
+          },
+          {
+            "key": "Rash",
+            "text": "ফুসকুড়ি",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Rash"
+          },
+          {
+            "key": "Difficulty_in_breathing",
+            "text": "শ্বাস নিতে কষ্ট হওয়া",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Difficulty_in_breathing"
+          },
+          {
+            "key": "Rapid_heartbeat",
+            "text": "দ্রুত হৃদস্পন্দন",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Rapid_heartbeat"
+          },
+          {
+            "key": "Sweating_or_shivering",
+            "text": "ঘাম বা কাঁপুনি",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Sweating_or_shivering"
+          },
+          {
+            "key": "Loss_of_appetite",
+            "text": "ক্ষুধামান্দ্য",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Loss_of_appetite"
+          },
+          {
+            "key": "Recent_diarrhoea_episodes",
+            "text": "সাম্প্রতিক ডায়রিয়া",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Recent_diarrhoea_episodes"
+          },
+          {
+            "key": "none",
+            "text": "কোনোটিই নয়",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "none"
+          }
+        ]
+      },
+      {
+        "key": "sound",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "sound",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "শিশু কি শব্দে সাড়া দেয়?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+
+      {
+        "key": "light",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "light",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "শিশুর কি আলোর দিকে সাড়া দেয়?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+      {
+        "key": "counseling",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "counseling",
+        "type": "spinner",
+        "hint": "পি এন সি সেবার জন্য ফ্যাসিলিটিতে যাওয়ার জন্য কাউন্সেলিং করা হয়েছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+
+      },
+      {
+        "key": "facility_counseling",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "facility_counseling",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "অন্যান্য জটিল সমস্যার জন্য ফ্যাসিলিটিতে যাওয়ার জন্য কাউন্সেলিং করা হয়েছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+      {
+        "key": "latitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "latitude",
+        "type": "hidden",
+        "read_only": true,
+        "hint": "অক্ষাংশ"
+      },
+      {
+        "key": "longitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "longitude",
+        "type": "hidden",
+        "read_only": true,
+        "hint": "দ্রাঘিমা"
+      }
+    ]
+  }
+}

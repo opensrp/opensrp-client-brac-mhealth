@@ -126,6 +126,7 @@ public class FamilyProfilePresenter extends BaseFamilyProfilePresenter implement
             Timber.e(e);
         }
     }
+
     public void startChildProfileForMigration(CommonPersonObjectClient client, String familyBaseEntityId){
         try {
             JSONObject form;
@@ -233,6 +234,11 @@ public class FamilyProfilePresenter extends BaseFamilyProfilePresenter implement
     @Override
     public void saveChildRegistration(Pair<Client, Event> pair, String jsonString, boolean isEditMode, CoreChildRegisterContract.InteractorCallBack callBack) {
         childRegisterInteractor.saveRegistration(pair, jsonString, isEditMode, this);
+    }
+
+    @Override
+    public void onRegistrationSaved(boolean isEdit, String baseEntityId) {
+
     }
 
     @Override

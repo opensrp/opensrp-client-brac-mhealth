@@ -111,6 +111,7 @@
             android:textStyle="bold"
             android:textSize="@dimen/register_list_desc_size"
             android:textAllCaps="false"
+            android:visibility="gone"
             android:textAppearance="?android:textAppearanceSmall"
             android:textColor="@color/white"
              />

@@ -678,6 +678,35 @@ public class HnppConstants extends CoreConstants {
 
         return  DateTimeFormat.forPattern("dd-MM-yyyy").print(expectedDeliveryDate);
     }
+    public static String[] getPncTitle(int noOfPnc){
+        String[] ancType = new String[2];
+        switch (noOfPnc){
+            case 1:
+                ancType[0]="প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি) - ১ম";
+                ancType[1] = "PNC -1";
+                return ancType;
+            case 2:
+                ancType[0]="প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি) - ২য়";
+                ancType[1] = "ANC -2";
+                return ancType;
+            case 3:
+                ancType[0]="প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি) - ৩য়";
+                ancType[1] = "ANC -3";
+                return ancType;
+            case 4:
+                ancType[0]="প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি) - ৪র্থ";
+                ancType[1] = "ANC -4";
+                return ancType;
+            case 5:
+                ancType[0]="প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি) - ৫ম";
+                ancType[1] = "ANC -5";
+                return ancType;
+            default:
+                ancType[0]="প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি)";
+                ancType[1] = "PNC";
+                return ancType;
+        }
+    }
     public static String[] getAncTitle(int noOfAnc){
         String[] ancType = new String[2];
         switch (noOfAnc){
@@ -986,7 +1015,7 @@ public class HnppConstants extends CoreConstants {
         public static final String CHILD_PROFILE_VISIT= "child_profile_visit";
         public static final String MEMBER_PROFILE_VISIT= "member_profile_visit";
         public static final String REFERREL_FOLLOWUP = "hnpp_member_referral_followup";
-        public static final String CHILD_FOLLOWUP = "hnpp_child_followup";
+        public static final String CHILD_FOLLOWUP = "child_followup";
         public static final String CHILD_INFO_EBF12 = "child_info_ebf12";
         public static final String CHILD_INFO_7_24_MONTHS = "child_info_7_24_months";
         public static final String CHILD_INFO_25_MONTHS = "child_info_25_months";

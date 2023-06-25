@@ -75,12 +75,6 @@ public class MemberHistoryInteractor implements MemberHistoryContract.Interactor
                                     final CommonPersonObjectClient client = new CommonPersonObjectClient(visit.getBaseEntityId(), details, "");
                                     client.setColumnmaps(details);
                                     jsonForm = FormParser.loadFormFromAsset(eventType);
-
-//                                    JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
-//                                    JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
-//                                    for (int k = 0; k < jsonArray.length(); k++) {
-//                                        FormParser.populateValuesForFormObject(client, jsonArray.getJSONObject(k));
-//                                    }
                                     int count = jsonForm.getInt("count");
                                     for(int i= 1;i<=count;i++){
                                         JSONObject steps = jsonForm.getJSONObject("step"+i);

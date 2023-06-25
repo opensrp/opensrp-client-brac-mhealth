@@ -238,6 +238,17 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             otherServiceView.removeAllViews();
         }
         otherServiceView.setVisibility(View.VISIBLE);
+        if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP)){
+            View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+            ImageView fImg = followupView.findViewById(R.id.image_view);
+            TextView fName =  followupView.findViewById(R.id.patient_name_age);
+            followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+            fImg.setImageResource(iconMapping.get(HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP));
+            fName.setText(eventTypeMapping.get(HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP));
+            followupView.setTag(TAG_CHILD_FOLLOWUP);
+            followupView.setOnClickListener(this);
+            otherServiceView.addView(followupView);
+        }
         String dobString = Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOB, false);
         Date dob = Utils.dobStringToDate(dobString);
         long day = FormApplicability.getDay(commonPersonObjectClient);
@@ -270,15 +281,15 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
 //        }
 
 
-        View familyView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
-        ImageView image = familyView.findViewById(R.id.image_view);
-        TextView name =  familyView.findViewById(R.id.patient_name_age);
-        familyView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-        image.setImageResource(R.drawable.childrow_family);
-        name.setText("ফেমেলির অন্যান্য সদস্য সেবা (বাকি)");
-        familyView.setTag(TAG_OPEN_FAMILY);
-        familyView.setOnClickListener(this);
-        otherServiceView.addView(familyView);
+//        View familyView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+//        ImageView image = familyView.findViewById(R.id.image_view);
+//        TextView name =  familyView.findViewById(R.id.patient_name_age);
+//        familyView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+//        image.setImageResource(R.drawable.childrow_family);
+//        name.setText("ফেমেলির অন্যান্য সদস্য সেবা (বাকি)");
+//        familyView.setTag(TAG_OPEN_FAMILY);
+//        familyView.setOnClickListener(this);
+//        otherServiceView.addView(familyView);
 
 //        {
 //            View referelView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
@@ -292,17 +303,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
 //            otherServiceView.addView(referelView);
 //        }
 //        if(!isEnc){
-//            if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP)){
-//                View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
-//                ImageView fImg = followupView.findViewById(R.id.image_view);
-//                TextView fName =  followupView.findViewById(R.id.patient_name_age);
-//                followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-//                fImg.setImageResource(iconMapping.get(HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP));
-//                fName.setText(eventTypeMapping.get(HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP));
-//                followupView.setTag(TAG_CHILD_FOLLOWUP);
-//                followupView.setOnClickListener(this);
-//                otherServiceView.addView(followupView);
-//            }
+
 //
 //        }
 //        eventType = FormApplicability.isDueChildInfo(day);

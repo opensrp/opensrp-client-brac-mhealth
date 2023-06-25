@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.util.Log;
 import android.util.Pair;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Triple;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,6 +19,7 @@ import org.smartregister.commonregistry.AllCommonsRepository;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
+import org.smartregister.domain.UniqueId;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.util.AppExecutors;
 import org.smartregister.family.util.DBConstants;
@@ -28,6 +30,9 @@ import org.smartregister.repository.EventClientRepository;
 import org.smartregister.sync.ClientProcessorForJava;
 import org.smartregister.sync.helper.ECSyncHelper;
 import org.smartregister.unicef.dghs.HnppApplication;
+import org.smartregister.unicef.dghs.utils.HnppDBUtils;
+import org.smartregister.unicef.dghs.utils.HouseHoldInfo;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -40,6 +45,7 @@ public class FamilyRemoveMemberInteractor implements FamilyRemoveMemberContract.
     protected HnppApplication HnppApplication;
     private AppExecutors appExecutors;
     private FamilyRemoveMemberInteractor() {
+        appExecutors = new AppExecutors();
         setHnppApplication();
     }
 
@@ -115,40 +121,25 @@ public class FamilyRemoveMemberInteractor implements FamilyRemoveMemberContract.
     @Override
     public void getFamilySummary(final String familyID, final FamilyRemoveMemberContract.InteractorCallback<HashMap<String, String>> callback) {
 
-        Runnable runnable;
-        try {
-            runnable = new Runnable() {
+        Runnable runnable = () -> {
+            int kids = getCount(CoreConstants.TABLE_NAME.CHILD, familyID);
+            int members = getCount(CoreConstants.TABLE_NAME.FAMILY_MEMBER, familyID);
+            final HouseHoldInfo houseHoldInfo = HnppDBUtils.getHouseHoldInfo(familyID);
+            appExecutors.mainThread().execute(() -> {
 
-                Integer kids = getCount(CoreConstants.TABLE_NAME.CHILD, familyID);
-                Integer members = getCount(CoreConstants.TABLE_NAME.FAMILY_MEMBER, familyID);
+                HashMap<String, String> results = new HashMap<>();
+                results.put(CoreConstants.TABLE_NAME.CHILD, kids+"");
+                results.put(CoreConstants.TABLE_NAME.FAMILY_MEMBER, members+"");
+                results.put(CoreConstants.GLOBAL.NAME, houseHoldInfo!=null?houseHoldInfo.getHouseHoldName():"");
+                callback.onResult(results);
+            });
+        };
 
-                EventClientRepository eventClientRepository = FamilyLibrary.getInstance().context().getEventClientRepository();
-                JSONObject familyJSON = eventClientRepository.getClientByBaseEntityId(familyID);
-
-                final String name = familyJSON.getString("firstName");
-                @Override
-                public void run() {
-                    appExecutors.mainThread().execute(() -> {
-
-                        HashMap<String, String> results = new HashMap<>();
-                        results.put(CoreConstants.TABLE_NAME.CHILD, kids.toString());
-                        results.put(CoreConstants.TABLE_NAME.FAMILY_MEMBER, members.toString());
-                        results.put(CoreConstants.GLOBAL.NAME, name);
-                        callback.onResult(results);
-                    });
-                }
-
-            };
-        } catch (final Exception e) {
-            e.printStackTrace();
-            runnable = () -> appExecutors.mainThread().execute(() -> callback.onError(e));
-        }
-
-           appExecutors.diskIO().execute(runnable);
+        appExecutors.diskIO().execute(runnable);
 
     }
 
-    private int getCount(String tableName, String familyID) throws Exception {
+    private int getCount(String tableName, String familyID) {
 
         int count;
         Cursor c = null;
