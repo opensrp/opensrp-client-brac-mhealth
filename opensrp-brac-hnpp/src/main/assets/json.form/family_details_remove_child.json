@@ -510,18 +510,9 @@
             }
           }
         },
-        "v_max_length": {
-          "value": "1",
-          "err": "1 ডিজিটের বেশি দেওয়া যাবে না",
-          "is_fixed_size": true
-        },
         "v_numeric": {
           "value": true,
           "err": "Enter a valid Number"
-        },
-        "v_regex": {
-          "value": "[0-9]*",
-          "err": "দশমিক অনুমোদিত নয়"
         }
       },
       {
