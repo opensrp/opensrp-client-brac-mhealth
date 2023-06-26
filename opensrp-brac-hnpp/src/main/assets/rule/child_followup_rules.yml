@@ -5,9 +5,14 @@ priority: 1
 condition: "step1_child_food_in_24_hours.contains('in_house_food')"
 actions:
   - "isRelevant = true"
-
 ---
-
+name: step1_can_say_some_word
+description: If Baby Age is between 9 to 11 Month
+priority: 1
+condition: "(step1_month_diff >= 274)"
+actions:
+  - "isRelevant = true"
+---
 name: step1_refer_place
 description: Refer place
 priority: 1

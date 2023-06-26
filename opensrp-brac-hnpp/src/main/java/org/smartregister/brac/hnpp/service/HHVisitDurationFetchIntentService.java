@@ -56,8 +56,6 @@ public class HHVisitDurationFetchIntentService extends IntentService {
 
 
         }
-        Intent intent1 = new Intent(HnppConstants.ACTION_LOCATION_UPDATE);
-        sendBroadcast(intent1);
 
     }
 

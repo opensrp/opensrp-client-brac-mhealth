@@ -103,7 +103,7 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
                 if (((MaterialEditText)v).getFloatingLabelText()!=null&&(((MaterialEditText)v).getFloatingLabelText().toString()).equals("ফাস্টিং")){
                     ((MaterialEditText)v).addTextChangedListener(textWatcherFasting);
                 }
-                if (((MaterialEditText)v).getFloatingLabelText()!=null&&(((MaterialEditText)v).getFloatingLabelText().toString()).equals("রেন্ডম")){
+                if (((MaterialEditText)v).getFloatingLabelText()!=null&&(((MaterialEditText)v).getFloatingLabelText().toString()).equals("রেন্ডম (খাওয়ার দুই ঘন্টা পর )")){
                     ((MaterialEditText)v).addTextChangedListener(textWatcherRandom);
                 }
                 if (((MaterialEditText)v).getFloatingLabelText()!=null&&(((MaterialEditText)v).getFloatingLabelText().toString()).equals("জরায়ুর উচ্চতা(সে.মি.)")){

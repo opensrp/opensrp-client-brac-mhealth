@@ -263,10 +263,6 @@
         "openmrs_choice_ids": {
           "হ্যাঁ": "yes",
           "না": "no"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
         }
 
       },
@@ -319,6 +315,10 @@
         "exclusive": [
           "no_problem"
         ],
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
         "options": [
           {
             "key": "Irritation_in_urine",
