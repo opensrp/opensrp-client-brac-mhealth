@@ -277,10 +277,6 @@
         ],
         "openmrs_choice_ids": {
         },
-        "v_required": {
-          "value": "true",
-          "err": "নির্বাচন করুন"
-        },
         "relevance": {
           "step1:is_permanent_address": {
             "type": "string",

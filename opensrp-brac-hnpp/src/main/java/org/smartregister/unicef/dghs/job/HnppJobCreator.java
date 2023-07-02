@@ -65,6 +65,8 @@ public class HnppJobCreator implements JobCreator {
                 return new SyncTaskServiceJob(HfSyncTaskIntentService.class);
             case PlanIntentServiceJob.TAG:
                 return new PlanIntentServiceJob();
+            case VisitLogServiceJob.TAG:
+                return new VisitLogServiceJob();
             case VaccineDueUpdateServiceJob.TAG:
                 return new VaccineDueUpdateServiceJob();
             case HnppPncCloseJob.TAG:

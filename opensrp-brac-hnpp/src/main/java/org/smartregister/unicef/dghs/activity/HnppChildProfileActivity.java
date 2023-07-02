@@ -31,7 +31,9 @@ import android.widget.Toast;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
+import org.joda.time.LocalDate;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.smartregister.growthmonitoring.domain.HeightWrapper;
@@ -60,6 +62,7 @@ import org.smartregister.unicef.dghs.model.Survey;
 import org.smartregister.unicef.dghs.service.HnppHomeVisitIntentService;
 import org.smartregister.unicef.dghs.sync.FormParser;
 import org.smartregister.unicef.dghs.utils.ChildDBConstants;
+import org.smartregister.unicef.dghs.utils.FormApplicability;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.HnppDBUtils;
 import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
@@ -81,6 +84,7 @@ import org.smartregister.family.adapter.ViewPagerAdapter;
 import org.smartregister.family.util.AppExecutors;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.Utils;
+import org.smartregister.util.DateUtil;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
 
@@ -111,7 +115,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
     public CommonPersonObjectClient commonPersonObject;
     Handler handler;
     AppExecutors appExecutors = new AppExecutors();
-    private ImageView imageView;
+    private ImageView imageView,aefiImageBtn,missedImageBtn;
+    private boolean hasAefi = false;
+    private String aefiVaccine = "";
     @Override
     protected void onCreation() {
         super.onCreation();
@@ -133,10 +139,10 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
     }
     public void updateProfileIconColor(int color,String text){
 
-        if(!TextUtils.isEmpty(text)){
-            imageView .setColorFilter(ContextCompat.getColor(this, color), android.graphics.PorterDuff.Mode.MULTIPLY);
-
-        }
+//        if(!TextUtils.isEmpty(text)){
+//            imageView .setColorFilter(ContextCompat.getColor(this, color), android.graphics.PorterDuff.Mode.MULTIPLY);
+//
+//        }
     }
     @Override
     public void onBackPressed() {
@@ -152,6 +158,20 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         TabLayout tabLayout = findViewById(R.id.tabs);
         ViewPager viewPager = findViewById(R.id.viewpager);
         tabLayout.setupWithViewPager(setupViewPager(viewPager));
+        String aefi = Utils.getValue(commonPersonObject.getColumnmaps(), HnppConstants.KEY.HAS_AEFI, false);
+        String vaccineDueDate = Utils.getValue(commonPersonObject.getColumnmaps(), HnppConstants.KEY.DUE_VACCINE_DATE, false);
+        if(FormApplicability.isMissedVaccine(vaccineDueDate)){
+            findViewById(R.id.missed_schedule_img).setVisibility(View.VISIBLE);
+        }
+        if(!TextUtils.isEmpty(aefi)){
+            hasAefi = aefi.equalsIgnoreCase("yes")|| aefi.equalsIgnoreCase("হ্যাঁ");
+            if(hasAefi){
+                aefiImageBtn.setVisibility(View.VISIBLE);
+            }
+        }
+        aefiVaccine = Utils.getValue(commonPersonObject.getColumnmaps(), HnppConstants.KEY.AEFI_VACCINE, false);
+
+
     }
     @Override
     public void setProfileName(String fullName) {
@@ -243,6 +263,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
     protected void setupViews() {
         super.setupViews();
         imageView = findViewById(R.id.imageview_profile);
+        aefiImageBtn = findViewById(R.id.aefi_child_img);
         HnppConstants.updateAppBackground(findViewById(org.smartregister.chw.core.R.id.collapsing_toolbar));
         initializeTasksRecyclerView();
         View recordVisitPanel = findViewById(R.id.record_visit_panel);
@@ -256,8 +277,41 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         fetchProfileData();
         familyFloatingMenu.hideFab();
         //presenter().fetchTasks();
+        aefiImageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openAefiVaccineDialog();
+            }
+        });
+        findViewById(R.id.home_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HnppChildProfileActivity.this, FamilyRegisterActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+                finish();
+            }
+        });
 
-
+    }
+    private void openAefiVaccineDialog(){
+        Dialog dialog = new Dialog(this);
+        dialog.setCancelable(false);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_with_one_button);
+        TextView titleTv = dialog.findViewById(R.id.title_tv);
+        TextView message = dialog.findViewById(R.id.text_tv);
+        titleTv.setText("যে যে ভ্যাকসিন দেয়ার পর সমস্যা হয়েছিল");
+        message.setText(aefiVaccine.replace(",","\n"));
+        Button ok_btn = dialog.findViewById(R.id.ok_btn);
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     @Override
@@ -472,6 +526,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
     public void openFollowUp() {
         startAnyFormActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOWUP,REQUEST_HOME_VISIT);
     }
+    public void openAefiForm() {
+        startAnyFormActivity(HnppConstants.JSON_FORMS.AEFI_CHILD_,REQUEST_HOME_VISIT);
+    }
     public void openChildInfo(String eventType) {
         startAnyFormActivity(HnppConstants.eventTypeFormNameMapping.get(eventType),REQUEST_HOME_VISIT);
     }
@@ -631,6 +688,26 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                     if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.BLOOD_TEST)){
                         if(gender.equalsIgnoreCase("F")){
                             HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_women","true");
+                        }
+                    }
+                    if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.AEFI_CHILD_)){
+                        JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+                        JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            String key = jsonObject.getString(org.smartregister.family.util.JsonFormUtils.KEY).toLowerCase();
+                            if(key.equalsIgnoreCase("vaccine_list")){
+                                String value = HnppJsonFormUtils.processValueWithChoiceIdsForEdit(jsonObject,aefiVaccine);
+
+                                if(StringUtils.isEmpty(value)){
+                                    jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,new JSONArray());
+                                }else{
+                                    jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,new JSONArray(value));
+                                }
+                            }
+
+
+
                         }
                     }
                     jsonForm.put(JsonFormUtils.ENTITY_ID, memberObject.getFamilyHead());

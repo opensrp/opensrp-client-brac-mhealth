@@ -5,49 +5,97 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white">
+
     <ImageView
         android:id="@+id/profile_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/register_list_item_margin"
         android:layout_marginStart="@dimen/register_list_item_margin"
+        android:layout_marginLeft="@dimen/register_list_item_margin"
         android:adjustViewBounds="true"
-        android:maxHeight="@dimen/client_profile_pic_height"
         android:maxWidth="@dimen/client_profile_pic_width"
-        android:paddingBottom="@dimen/register_list_top_bottom_min_padding"
-        android:paddingLeft="@dimen/register_list_top_bottom_min_padding"
+        android:maxHeight="@dimen/client_profile_pic_height"
         android:paddingStart="@dimen/register_list_top_bottom_min_padding"
+        android:paddingLeft="@dimen/register_list_top_bottom_min_padding"
+        android:paddingBottom="@dimen/register_list_top_bottom_min_padding"
         android:scaleType="centerCrop"
-        android:src="@drawable/rowavatar_member"  />
+        android:src="@drawable/rowavatar_member" />
+
+    <ImageView
+        android:id="@+id/missed_schedule_img"
+        android:visibility="gone"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignTop="@+id/profile_img"
+        android:layout_alignRight="@+id/profile_img"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="-10dp"
+        android:layout_marginBottom="5dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/danger_vaccine" />
+
+
+    <ImageView
+        android:id="@+id/aefi_child_img"
+        android:visibility="gone"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="-25dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_below="@id/profile_img"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/aefi_image" />
+
+    <org.smartregister.view.customcontrols.CustomFontTextView
+        android:id="@+id/due_vaccine_tv"
+        style="@style/CustomFontTextViewStyle.ClientList.Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/child_column"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:visibility="gone"
+        android:text="bcg due at 21/10/21"
+        android:textColor="@color/black"
+        android:textSize="15sp" />
 
     <LinearLayout
-        android:layout_alignWithParentIfMissing="true"
         android:id="@+id/child_column"
-        android:layout_toEndOf="@+id/profile_img"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignWithParentIfMissing="true"
         android:layout_centerVertical="true"
-        android:layout_marginStart="@dimen/register_list_item_margin"
+        android:layout_marginStart="@dimen/register_list_desc_size"
         android:layout_marginLeft="@dimen/register_list_item_margin"
         android:layout_marginTop="@dimen/register_list_top_bottom_margin"
         android:layout_marginBottom="@dimen/register_list_top_bottom_margin"
         android:layout_toStartOf="@+id/status_view"
         android:layout_toLeftOf="@+id/status_view"
+        android:layout_toEndOf="@+id/profile_img"
         android:orientation="vertical">
+
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
             <TextView
-                android:visibility="gone"
-                android:layout_marginRight="5dp"
                 android:id="@+id/risk_view"
-                android:background="@color/vaccine_red_bg_end"
                 android:layout_width="30dp"
-                android:layout_height="20dp"/>
+                android:layout_height="20dp"
+                android:layout_marginRight="5dp"
+                android:background="@color/vaccine_red_bg_end"
+                android:visibility="gone" />
+
             <org.smartregister.view.customcontrols.CustomFontTextView
                 android:id="@+id/textview_parent_name"
                 style="@style/CustomFontTextViewStyle.ClientList"
@@ -55,14 +103,13 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="sdfsd"
                 android:paddingLeft="0dp"
                 android:singleLine="true"
+                android:text="sdfsd"
                 android:textColor="@color/text_black"
                 android:textSize="@dimen/child_register_title_size" />
 
         </LinearLayout>
-
 
 
         <org.smartregister.view.customcontrols.CustomFontTextView

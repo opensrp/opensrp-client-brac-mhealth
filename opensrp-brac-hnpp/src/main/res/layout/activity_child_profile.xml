@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@android:color/white">
 
 
@@ -63,13 +64,14 @@
 
                     <RelativeLayout
                         android:id="@+id/image_panel"
-                        android:gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="5dp"
-                        android:layout_marginBottom="5dp">
+                        android:layout_marginBottom="5dp"
+                        android:gravity="center">
+
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/imageview_profile"
@@ -80,6 +82,19 @@
                             app:civ_border_color="#FFFFFFFF"
                             app:civ_border_width="2dp" />
 
+                        <ImageView
+                            android:id="@+id/aefi_child_img"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:adjustViewBounds="true"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/aefi_image"
+                            android:visibility="gone" />
+
                         <Button
                             android:id="@+id/update_profile_btn"
                             android:layout_width="wrap_content"
@@ -89,6 +104,18 @@
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
                             android:text="প্রোফাইল আপডেট" />
+                        <ImageView
+                            android:id="@+id/missed_schedule_img"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_alignRight="@+id/update_profile_btn"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:adjustViewBounds="true"
+                            android:scaleType="centerCrop"
+                            android:visibility="gone"
+                            android:src="@drawable/danger_vaccine" />
                     </RelativeLayout>
 
 
@@ -296,6 +323,19 @@
         android:id="@+id/profile_layout" android:visibility="gone"
         layout="@layout/content_profile" />
 
-        <include layout="@layout/content_base_profile" />
+        <include android:layout_width="match_parent"
+            android:layout_height="match_parent" layout="@layout/content_base_profile"
+            android:layout_below="@+id/collapsing_toolbar_appbarlayout"/>
+    <ImageView
+        android:id="@+id/home_btn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/login_button_bg"
+        android:gravity="center|bottom"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_home" />
 
-</android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>

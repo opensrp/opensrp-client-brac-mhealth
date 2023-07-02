@@ -217,6 +217,7 @@
                         </RelativeLayout>
                         <RelativeLayout
                             android:id="@+id/dashboard_view"
+                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="60dp"
                             android:paddingStart="15dp"
@@ -313,6 +314,7 @@
 
                         </RelativeLayout>
                         <RelativeLayout
+                            android:visibility="gone"
                             android:id="@+id/force_sync"
                             android:layout_width="match_parent"
                             android:layout_height="60dp"

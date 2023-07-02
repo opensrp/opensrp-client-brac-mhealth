@@ -50,7 +50,7 @@ import static android.view.View.inflate;
 public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implements android.view.View.OnClickListener, CoreChildRegisterFragmentContract.View{
     private final String DEFAULT_MAIN_CONDITION = "date_removed is null";
     String searchFilterString = "";
-    protected String mSelectedVillageName, mSelectedClasterName;
+    protected String selectedStartDateFilterValue,selectedEndDateFilterValue,isAefiChild;
     private TextView textViewVillageNameFilter, textViewClasterNameFilter,textViewMonthNameFilter;
     private ImageView imageViewVillageNameFilter, imageViewClasterNameFilter;
     private RelativeLayout clusterView,monthFilterView;
@@ -148,6 +148,7 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
         android.view.View filterView = inflate(getContext(), R.layout.child_list_filter_view, clients_header_layout);
         RecyclerView filterTypeRv = filterView.findViewById(R.id.filter_type_rv);
         ImageView arrowImageView = filterView.findViewById(R.id.arrow_image);
+        TextView filterTextTv = filterView.findViewById(R.id.filter_text_view);
 
          adapter = new ChildFilterTypeAdapter(new ChildFilterTypeAdapter.OnClickAdapter() {
             @Override
@@ -159,6 +160,10 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
                 if (!filterTypeRv.isComputingLayout()) {
                     adapter.notifyDataSetChanged();
                 }
+                filterTextTv.setText(content);
+                updateContent(content);
+                updateFilterView();
+
                 Log.v("FILTER_CHILD","content>>"+content);
             }
         });
@@ -191,6 +196,35 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
         }
         //setTotalPatients();
     }
+
+    private void updateContent(String content) {
+        selectedStartDateFilterValue = "";
+        selectedEndDateFilterValue = "";
+        switch (content.toLowerCase()){
+            case "today":
+                 selectedStartDateFilterValue = HnppConstants.getToday();
+                 break;
+            case "yesterday":
+                selectedStartDateFilterValue = HnppConstants.getToday();
+                break;
+            case "tommorow":
+                selectedStartDateFilterValue = HnppConstants.getTomorrowDay();
+                break;
+            case "this week":
+                selectedStartDateFilterValue = HnppConstants.getThisWeekDay()[0];
+                selectedEndDateFilterValue = HnppConstants.getThisWeekDay()[1];
+                break;
+            case "aefi child":
+                isAefiChild = "yes";
+                break;
+            case "anytime":
+                selectedStartDateFilterValue = "";
+                selectedEndDateFilterValue = "";
+                isAefiChild = "";
+                break;
+        }
+    }
+
     @Override
     public CoreChildRegisterFragmentContract.Presenter presenter() {
         return (CoreChildRegisterFragmentContract.Presenter) presenter;
@@ -274,11 +308,9 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
         }
         switch (v.getId()) {
             case R.id.village_filter_img:
-                mSelectedVillageName = "";
                 updateFilterView();
                 break;
             case R.id.claster_filter_img:
-                mSelectedClasterName = "";
                 updateFilterView();
                 break;
             case R.id.month_filter_img:
@@ -287,8 +319,6 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
                 updateFilterView();
                 break;
             case R.id.btn_search_cancel:
-                mSelectedVillageName = "";
-                mSelectedClasterName = "";
                 searchFilterString = "";
                 month = -1;
                 year = -1;
@@ -328,47 +358,47 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
         switchViews(dueOnlyLayout, false);
     }
     protected void openFilterDialog(boolean isNeedToShowDate){
-        new FilterDialog().showDialog(isNeedToShowDate,getActivity(), new FilterDialog.OnFilterDialogFilter() {
-            @Override
-            public void onDialogPress(String ssName, String villageName, String cluster,int m, int y) {
-                mSelectedClasterName = cluster;
-                mSelectedVillageName = villageName;
-                month = m;
-                year = y;
-                if(!isNeedToShowDate) monthFilterView.setVisibility(View.INVISIBLE);
-                updateFilterView();
-            }
-        });
+//        new FilterDialog().showDialog(isNeedToShowDate,getActivity(), new FilterDialog.OnFilterDialogFilter() {
+//            @Override
+//            public void onDialogPress(String ssName, String villageName, String cluster,int m, int y) {
+//                mSelectedClasterName = cluster;
+//                mSelectedVillageName = villageName;
+//                month = m;
+//                year = y;
+//                if(!isNeedToShowDate) monthFilterView.setVisibility(View.INVISIBLE);
+//                updateFilterView();
+//            }
+//        });
     }
     public void updateFilterView(){
-        if(StringUtils.isEmpty(mSelectedVillageName) && StringUtils.isEmpty(mSelectedClasterName) && month==-1 && year == -1){
-            clients_header_layout.setVisibility(android.view.View.GONE);
-        } else {
-            clients_header_layout.setVisibility(android.view.View.VISIBLE);
-        }
-        if(month == -1 && year == -1){
-            textViewMonthNameFilter.setText(getString(R.string.filter_month_name, "সকল"));
-        }else{
-            String monthYearStr = HnppJsonFormUtils.monthBanglaStr[month-1]+","+year;
-            textViewMonthNameFilter.setText(getString(R.string.filter_month_name, monthYearStr));
-        }
-        if(StringUtils.isEmpty(mSelectedVillageName)){
-            textViewVillageNameFilter.setText(getString(R.string.filter_village_name, "সকল"));
-
-        }else{
-            textViewVillageNameFilter.setText(getString(R.string.filter_village_name, mSelectedVillageName));
-        }
-
-        if(HnppConstants.isPALogin()){
-            clusterView.setVisibility(android.view.View.GONE);
-        }else{
-            if(StringUtils.isEmpty(mSelectedClasterName)){
-                textViewClasterNameFilter.setText(getString(R.string.claster_village_name, "সকল"));
-
-            }else{
-                textViewClasterNameFilter.setText(getString(R.string.claster_village_name, HnppConstants.getClusterNameFromValue(mSelectedClasterName)));
-            }
-        }
+//        if(StringUtils.isEmpty(mSelectedVillageName) && StringUtils.isEmpty(mSelectedClasterName) && month==-1 && year == -1){
+//            clients_header_layout.setVisibility(android.view.View.GONE);
+//        } else {
+//            clients_header_layout.setVisibility(android.view.View.VISIBLE);
+//        }
+//        if(month == -1 && year == -1){
+//            textViewMonthNameFilter.setText(getString(R.string.filter_month_name, "সকল"));
+//        }else{
+//            String monthYearStr = HnppJsonFormUtils.monthBanglaStr[month-1]+","+year;
+//            textViewMonthNameFilter.setText(getString(R.string.filter_month_name, monthYearStr));
+//        }
+//        if(StringUtils.isEmpty(mSelectedVillageName)){
+//            textViewVillageNameFilter.setText(getString(R.string.filter_village_name, "সকল"));
+//
+//        }else{
+//            textViewVillageNameFilter.setText(getString(R.string.filter_village_name, mSelectedVillageName));
+//        }
+//
+//        if(HnppConstants.isPALogin()){
+//            clusterView.setVisibility(android.view.View.GONE);
+//        }else{
+//            if(StringUtils.isEmpty(mSelectedClasterName)){
+//                textViewClasterNameFilter.setText(getString(R.string.claster_village_name, "সকল"));
+//
+//            }else{
+//                textViewClasterNameFilter.setText(getString(R.string.claster_village_name, HnppConstants.getClusterNameFromValue(mSelectedClasterName)));
+//            }
+//        }
         filter(searchFilterString, "", DEFAULT_MAIN_CONDITION,false);
 
     }
@@ -486,15 +516,16 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
             customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.UNIQUE_ID, searchFilterString));
 
         }
-        if(!StringUtils.isEmpty(mSelectedClasterName)&&!StringUtils.isEmpty(mSelectedVillageName)){
-            customFilter.append(MessageFormat.format(" and ( {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.VILLAGE_NAME, mSelectedVillageName));
-            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ) ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
+        if(!StringUtils.isEmpty(selectedStartDateFilterValue)&&!StringUtils.isEmpty(selectedEndDateFilterValue)){
+            customFilter.append(MessageFormat.format(" and {0} between {1} and {2} ",HnppConstants.TABLE_NAME.CHILD+"."+ HnppConstants.KEY.DUE_VACCINE_DATE,selectedStartDateFilterValue,selectedEndDateFilterValue));
+        }else if(!StringUtils.isEmpty(selectedStartDateFilterValue)){
+            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ", HnppConstants.TABLE_NAME.CHILD, HnppConstants.KEY.DUE_VACCINE_DATE, selectedStartDateFilterValue));
 
-        }else if(!StringUtils.isEmpty(mSelectedClasterName)){
-            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
+        }else if(!StringUtils.isEmpty(selectedEndDateFilterValue)){
+            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.CHILD, HnppConstants.KEY.DUE_VACCINE_DATE, selectedEndDateFilterValue));
+        }else if(!StringUtils.isEmpty(isAefiChild)){
+            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.CHILD, HnppConstants.KEY.HAS_AEFI, "yes"));
 
-        }else if(!StringUtils.isEmpty(mSelectedVillageName)){
-            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.VILLAGE_NAME, mSelectedVillageName));
         }
         if(month!=-1){
             customFilter.append(MessageFormat.format(" and {0} = {1} ", "strftime('%m', datetime(ec_visit_log.visit_date/1000,'unixepoch','localtime'))" ,"'"+HnppConstants.addZeroForMonth(month+"")+"'"));
@@ -513,7 +544,7 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
         } catch (Exception e) {
             Timber.e(e);
         }
-        Log.v("VIST_QUERY","filter:"+query);
+        Log.v("CHILD_FILTER","filter:"+query);
 
         return query;
     }

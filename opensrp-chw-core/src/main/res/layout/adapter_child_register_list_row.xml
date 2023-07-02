@@ -58,6 +58,7 @@
         android:layout_below="@+id/child_column"
         android:layout_marginTop="15dp"
         android:gravity="center_vertical"
+        android:visibility="gone"
         android:text="bcg due at 21/10/21"
         android:textColor="@color/dark_grey"
         android:textSize="18sp" />

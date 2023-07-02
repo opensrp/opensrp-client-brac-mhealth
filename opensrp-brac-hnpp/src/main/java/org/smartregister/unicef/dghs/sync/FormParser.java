@@ -11,6 +11,7 @@ import android.util.Log;
 import com.google.gson.reflect.TypeToken;
 
 import net.sqlcipher.Cursor;
+import net.sqlcipher.database.SQLiteDatabase;
 
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
@@ -48,6 +49,7 @@ import java.util.List;
 
 //import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE;
 //import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
+import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.AEFI_CHILD;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.ANC_HOME_VISIT;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.BLOOD_GROUP;
@@ -506,6 +508,15 @@ public class FormParser {
                     if(TextUtils.isEmpty(prevalue)){
                         FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(baseEntityId+"_SOLID_FOOD",value);
                     }
+                }
+                break;
+            case AEFI_CHILD:
+                if (details.containsKey("aefi_child_status") && !StringUtils.isEmpty(details.get("aefi_child_status"))) {
+                    String status = details.get("aefi_child_status");
+                    String vaccineS = details.get("vaccine_list");
+                    Log.v("AEFI_CHILD","status>>"+status+":vaccineS:"+vaccineS);
+                    SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+                    db.execSQL("UPDATE ec_child set has_aefi='"+status+"',aefi_vaccines ='"+vaccineS+"' where base_entity_id='"+log.getBaseEntityId()+"'");
                 }
                 break;
             case HnppConstants.EventType.REMOVE_MEMBER: {
@@ -2030,6 +2041,9 @@ public class FormParser {
                 break;
             case CHILD_FOLLOWUP:
                 form_name = HnppConstants.JSON_FORMS.CHILD_FOLLOWUP + ".json";
+                break;
+            case AEFI_CHILD:
+                form_name = HnppConstants.JSON_FORMS.AEFI_CHILD_ + ".json";
                 break;
             case CHILD_INFO_EBF12:
             case "Child Info EBF 1&2":

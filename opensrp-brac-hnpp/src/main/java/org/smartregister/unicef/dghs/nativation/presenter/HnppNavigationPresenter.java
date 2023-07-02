@@ -31,6 +31,7 @@ import org.smartregister.unicef.dghs.activity.ForceSyncActivity;
 import org.smartregister.unicef.dghs.job.MigrationFetchJob;
 import org.smartregister.unicef.dghs.job.StockFetchJob;
 import org.smartregister.unicef.dghs.job.TargetFetchJob;
+import org.smartregister.unicef.dghs.job.VaccineDueUpdateServiceJob;
 import org.smartregister.unicef.dghs.nativation.interactor.NavigationInteractor;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.chw.anc.util.JsonFormUtils;
@@ -353,6 +354,8 @@ public class HnppNavigationPresenter implements NavigationContract.Presenter {
 //        }
         HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
         PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
+        VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
+
 //        TargetFetchJob.scheduleJobImmediately(TargetFetchJob.TAG);
 //        StockFetchJob.scheduleJobImmediately(StockFetchJob.TAG);
         DataDeleteJob.scheduleJobImmediately(DataDeleteJob.TAG);

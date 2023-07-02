@@ -50,7 +50,7 @@ import org.smartregister.unicef.dghs.fragment.HnppMemberProfileDueFragment;
 import org.smartregister.unicef.dghs.fragment.MemberHistoryDialogFragment;
 import org.smartregister.unicef.dghs.fragment.MemberHistoryFragment;
 import org.smartregister.unicef.dghs.fragment.WomanImmunizationFragment;
-import org.smartregister.unicef.dghs.job.VaccineDueUpdateServiceJob;
+import org.smartregister.unicef.dghs.job.VisitLogServiceJob;
 import org.smartregister.unicef.dghs.listener.FloatingMenuListener;
 import org.smartregister.unicef.dghs.listener.OnClickFloatingMenu;
 import org.smartregister.unicef.dghs.listener.OnPostDataWithGps;
@@ -855,7 +855,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
         return Observable.create(e->{
             try{
                 HnppHomeVisitIntentService.processVisits();
-                VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
+                VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
                 //return true;
                 e.onNext(true);
                 e.onComplete();

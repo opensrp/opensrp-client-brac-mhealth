@@ -10,8 +10,10 @@ import android.content.pm.PackageManager;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Handler;
 import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.util.Log;
@@ -23,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.vision.L;
 import com.google.common.collect.ImmutableMap;
 
 import org.joda.time.DateTime;
@@ -53,6 +56,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -200,6 +204,8 @@ public class HnppConstants extends CoreConstants {
         Log.v("ANC_TRIMESTER","returnDate:"+returnDate);
         return returnDate;
     }
+
+
 
     public enum VisitType {DUE, OVERDUE, LESS_TWENTY_FOUR, VISIT_THIS_MONTH, NOT_VISIT_THIS_MONTH, EXPIRY, VISIT_DONE}
     public enum HomeVisitType {GREEN, YELLOW, RED, BROWN}
@@ -749,8 +755,47 @@ public class HnppConstants extends CoreConstants {
         }
     }
     public static String getTodayDate(){
-        String today = DateTime.now().toString("dd-MM-yyyy");
-        return  today;
+        return DateTime.now().toString("dd-MM-yyyy");
+    }
+    public static String getToday(){
+        return DateTime.now().toString("yyyy-MM-dd");
+    }
+    public static String getYesterDay(){
+        LocalDate today = LocalDate.now();
+        LocalDate tomorrow = today.minusDays(1);
+        return DateTimeFormat.forPattern("yyyy-MM-dd").print(tomorrow);
+    }
+    public static String getTomorrowDay() {
+        LocalDate today = LocalDate.now();
+        LocalDate tomorrow = today.plusDays(1);
+        return DateTimeFormat.forPattern("yyyy-MM-dd").print(tomorrow);
+    }
+    public static String[] getThisWeekDay(){
+        String[] strings = new String[2];
+        LocalDate today = LocalDate.now();
+        LocalDate saterday = today;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            while (saterday.getDayOfWeek()!= DayOfWeek.SATURDAY.getValue()){
+                saterday = saterday.minusDays(1);
+                strings[0] = DateTimeFormat.forPattern("yyyy-MM-dd").print(saterday);
+            }
+        }
+        LocalDate friday = today;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            while (friday.getDayOfWeek()!= DayOfWeek.FRIDAY.getValue()){
+                friday = friday.plusDays(1);
+                strings[1] = DateTimeFormat.forPattern("yyyy-MM-dd").print(friday);
+            }
+        }
+        return strings;
+    }
+    public static String[] getThisMonth(){
+        String[] months = new String[2];
+        LocalDate startMonth = new LocalDate().withDayOfMonth(1);
+        months[0] = DateTimeFormat.forPattern("yyyy-MM-dd").print(startMonth);
+        LocalDate endMonth = new LocalDate().plusMonths(1).withDayOfMonth(1).minusDays(1);
+        months[1] = DateTimeFormat.forPattern("yyyy-MM-dd").print(endMonth);
+        return months;
     }
     public static boolean isWrongDate(){
         Calendar calendar = Calendar.getInstance();
@@ -950,6 +995,7 @@ public class HnppConstants extends CoreConstants {
         public static final String DUE_VACCINE_NAME = "due_vaccine_name";
         public static final String DUE_VACCINE_DATE = "due_vaccine_date";
         public static final String HAS_AEFI = "has_aefi";
+        public static final String AEFI_VACCINE = "aefi_vaccines";
     }
 
     public static class IDENTIFIER {
@@ -1016,6 +1062,7 @@ public class HnppConstants extends CoreConstants {
         public static final String MEMBER_PROFILE_VISIT= "member_profile_visit";
         public static final String REFERREL_FOLLOWUP = "hnpp_member_referral_followup";
         public static final String CHILD_FOLLOWUP = "child_followup";
+        public static final String AEFI_CHILD_ = "aefi_child";
         public static final String CHILD_INFO_EBF12 = "child_info_ebf12";
         public static final String CHILD_INFO_7_24_MONTHS = "child_info_7_24_months";
         public static final String CHILD_INFO_25_MONTHS = "child_info_25_months";
@@ -1075,6 +1122,7 @@ public class HnppConstants extends CoreConstants {
         public static final String CHILD_INFO_7_24_MONTHS = "Child Info 7-24 months";
         public static final String CHILD_INFO_25_MONTHS = "Child Info 25 Months";
         public static final String CHILD_FOLLOWUP = "Child Followup";
+        public static final String AEFI_CHILD = "AEFI Child";
         public static final String PNC_CHILD_REGISTRATION = "PNC Child Registration";
         public static final String UPDATE_CHILD_REGISTRATION = "Update Child Registration";
         public static final String FORUM_CHILD = "Child Forum";
@@ -1388,6 +1436,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.SERVICES, R.mipmap.form_vitamin)
             .put(EVENT_TYPE.REFERREL_FOLLOWUP,R.mipmap.ic_refer)
             .put(EVENT_TYPE.CHILD_FOLLOWUP,R.drawable.rowavatar_child)
+            .put(EVENT_TYPE.AEFI_CHILD,R.drawable.rowavatar_child)
             .put(EVENT_TYPE.CHILD_INFO_EBF12,R.drawable.rowavatar_child)
             .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,R.drawable.rowavatar_child)
             .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,R.drawable.rowavatar_child)
@@ -1448,6 +1497,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.SERVICES, "ভিটামিন সার্ভিস")
             .put(EVENT_TYPE.REFERREL_FOLLOWUP,"রেফারেল ফলোআপ")
             .put(EVENT_TYPE.CHILD_FOLLOWUP,"শিশু ফলোআপ")
+            .put(EVENT_TYPE.AEFI_CHILD,"AEFI child")
             .put(EVENT_TYPE.CHILD_INFO_EBF12,"শিশু তথ্য")
             .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,"শিশু তথ্য")
             .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,"শিশু তথ্য")
@@ -1526,6 +1576,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসব")
             .put(EVENT_TYPE.ENC_REGISTRATION, "নবজাতকের সেবা")
             .put(EVENT_TYPE.CHILD_FOLLOWUP,"শিশু ফলোআপ")
+            .put(EVENT_TYPE.AEFI_CHILD,"Aefi child")
             .put(EVENT_TYPE.CHILD_INFO_EBF12,"শিশু তথ্য")
             .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,"শিশু তথ্য")
             .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,"শিশু তথ্য")
@@ -1605,6 +1656,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.SERVICES, "ভিটামিন সার্ভিস")
             .put(EVENT_TYPE.REFERREL_FOLLOWUP,"রেফারেল ফলোআপ")
             .put(EVENT_TYPE.CHILD_FOLLOWUP,"শিশু ফলোআপ")
+            .put(EVENT_TYPE.AEFI_CHILD,"Aefi child")
             .put(EVENT_TYPE.CHILD_INFO_EBF12,"শিশু তথ্য")
             .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,"শিশু তথ্য")
             .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,"শিশু তথ্য")

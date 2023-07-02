@@ -46,6 +46,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
     private static final int TAG_OPEN_FAMILY = 111;
     private static final int TAG_OPEN_REFEREAL = 222;
     private static final int TAG_CHILD_FOLLOWUP = 3330;
+    private static final int TAG_AEFI_CHILD = 33301;
     private static final int TAG_CHILD_INFO_EBF12 = 1212;
     private static final int TAG_CHILD_INFO_7_24_months = 1213;
     private static final int TAG_CHILD_INFO_25_months = 1214;
@@ -249,6 +250,17 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             followupView.setOnClickListener(this);
             otherServiceView.addView(followupView);
         }
+        if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.AEFI_CHILD)){
+            View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+            ImageView fImg = followupView.findViewById(R.id.image_view);
+            TextView fName =  followupView.findViewById(R.id.patient_name_age);
+            followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+            fImg.setImageResource(iconMapping.get(HnppConstants.EVENT_TYPE.AEFI_CHILD));
+            fName.setText(eventTypeMapping.get(HnppConstants.EVENT_TYPE.AEFI_CHILD));
+            followupView.setTag(TAG_AEFI_CHILD);
+            followupView.setOnClickListener(this);
+            otherServiceView.addView(followupView);
+        }
         String dobString = Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOB, false);
         Date dob = Utils.dobStringToDate(dobString);
         long day = FormApplicability.getDay(commonPersonObjectClient);
@@ -444,6 +456,12 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                     if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
                         activity.openFollowUp();
+                    }
+                    break;
+                case TAG_AEFI_CHILD:
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                        activity.openAefiForm();
                     }
                     break;
                 case TAG_OPEN_CORONA:

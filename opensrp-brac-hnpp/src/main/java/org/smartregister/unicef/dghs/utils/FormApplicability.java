@@ -231,6 +231,10 @@ public class FormApplicability {
         }
         return false;
     }
+    public static boolean isMissedVaccine(String vaccineDueDate){
+        int dayPass = !TextUtils.isEmpty(vaccineDueDate)?DateUtil.dayDifference(new LocalDate(vaccineDueDate),new LocalDate(System.currentTimeMillis())):0;
+        return dayPass>0;
+    }
     public static boolean isImmunizationVisible(Date dob){
         int monthsDifference = getMonthsDifference(new LocalDate(dob),new LocalDate(System.currentTimeMillis()));
         if(monthsDifference <= 36){

@@ -30,7 +30,7 @@ import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.activity.TikaCardViewActivity;
 import org.smartregister.unicef.dghs.activity.WebViewActivity;
-import org.smartregister.unicef.dghs.job.VaccineDueUpdateServiceJob;
+import org.smartregister.unicef.dghs.job.VisitLogServiceJob;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.domain.Alert;
 import org.smartregister.immunization.ImmunizationLibrary;
@@ -648,7 +648,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment implements  S
             updateVaccineGroupViews(view, pair.first, pair.second);
 
             updateVaccineGroupsUsingAlerts(affectedVaccines, vaccineList, alertList);
-            VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
+            VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
         }
 
         @Override
@@ -664,6 +664,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment implements  S
 
             Pair<ArrayList<VaccineWrapper>, List<Vaccine>> pair = new Pair<>(list, vaccineList);
             String dobString = org.smartregister.util.Utils.getValue(childDetails.getColumnmaps(), "dob", false);
+            Log.v("CHILD_FILTER","dobString>>>"+dobString);
             if (!TextUtils.isEmpty(dobString)) {
                 DateTime dateTime = new DateTime(dobString);
                 affectedVaccines = VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), dateTime, "child");
@@ -698,7 +699,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment implements  S
     }
 
     @SuppressLint("StaticFieldLeak")
-    private class UpdateViewTask extends AsyncTask<Void, Void, Map<String, NamedObject<?>>> {
+    public class UpdateViewTask extends AsyncTask<Void, Void, Map<String, NamedObject<?>>> {
 
         private VaccineRepository vaccineRepository;
         private RecurringServiceTypeRepository recurringServiceTypeRepository;
@@ -773,6 +774,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment implements  S
         @Override
         protected Map<String, NamedObject<?>> doInBackground(Void... voids) {
             String dobString = org.smartregister.util.Utils.getValue(childDetails.getColumnmaps(), "dob", false);
+            Log.v("CHILD_FILTER","dobString>>>"+dobString);
             if (!TextUtils.isEmpty(dobString)) {
                 DateTime dateTime = new DateTime(dobString);
                 VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), dateTime, "child");

@@ -1381,6 +1381,10 @@ public class HnppDBUtils {
         columnList.add(tableName + "." + HnppConstants.KEY.CHILD_MOTHER_NAME_REGISTERED);
         columnList.add(tableName + "." + HnppConstants.KEY.BLOOD_GROUP);
         columnList.add(tableName + "." + HnppConstants.KEY.SHR_ID);
+        columnList.add(tableName + "." + HnppConstants.KEY.HAS_AEFI);
+        columnList.add(tableName + "." + HnppConstants.KEY.AEFI_VACCINE);
+        columnList.add(tableName + "." + HnppConstants.KEY.DUE_VACCINE_NAME);
+        columnList.add(tableName + "." + HnppConstants.KEY.DUE_VACCINE_DATE);
         columnList.add(tableName + "." + ChildDBConstants.PHONE_NUMBER);
         columnList.add(tableName + "." + HnppConstants.KEY.FATHER_NAME_ENGLISH);
         columnList.add(tableName + "." + HnppConstants.KEY.FATHER_NAME_BANGLA);

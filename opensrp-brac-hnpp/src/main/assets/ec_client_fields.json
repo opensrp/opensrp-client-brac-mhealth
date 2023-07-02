@@ -1508,6 +1508,13 @@
           }
         },
         {
+          "column_name": "aefi_vaccines",
+          "type": "Client",
+          "json_mapping": {
+            "field": "aefi_vaccines"
+          }
+        },
+        {
           "column_name": "due_vaccine_week",
           "type": "Client",
           "json_mapping": {

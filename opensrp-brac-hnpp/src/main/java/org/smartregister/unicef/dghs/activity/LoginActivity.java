@@ -27,6 +27,7 @@ import org.smartregister.unicef.dghs.job.MigrationFetchJob;
 import org.smartregister.unicef.dghs.job.PullGuestMemberIdServiceJob;
 import org.smartregister.unicef.dghs.job.PullHouseholdIdsServiceJob;
 import org.smartregister.unicef.dghs.job.SSLocationFetchJob;
+import org.smartregister.unicef.dghs.job.VaccineDueUpdateServiceJob;
 import org.smartregister.unicef.dghs.job.ZScoreRefreshServiceJob;
 import org.smartregister.unicef.dghs.location.SaveDistrictTask;
 import org.smartregister.unicef.dghs.presenter.LoginPresenter;
@@ -260,21 +261,16 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
             SSLocationFetchJob.scheduleJobImmediately(SSLocationFetchJob.TAG);
             GlobalLocationFetchJob.scheduleJobImmediately(GlobalLocationFetchJob.TAG);
-            HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
-//            PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
-//            if(!HnppConstants.isPALogin()){
-//                MigrationFetchJob.scheduleJobImmediately(MigrationFetchJob.TAG);
-//            }
-//            CampFetchJob.scheduleJobImmediately(CampFetchJob.TAG);
-            HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
-            VaccineRecurringServiceJob.scheduleJobImmediately(VaccineRecurringServiceJob.TAG);
 
-            ZScoreRefreshServiceJob.scheduleJobImmediately(ZScoreRefreshServiceJob.TAG);
         }
         if(HnppConstants.isNeedToCallInvalidApi()){
             InValidateSyncDataServiceJob.scheduleJob(InValidateSyncDataServiceJob.TAG, TimeUnit.MINUTES.toMinutes(BuildConfig.INVALID_SYNC_DURATION_MINUTES),15l);
         }
-
+        HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
+        VaccineRecurringServiceJob.scheduleJobImmediately(VaccineRecurringServiceJob.TAG);
+        VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
+        HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
+        ZScoreRefreshServiceJob.scheduleJobImmediately(ZScoreRefreshServiceJob.TAG);
 
     }
 

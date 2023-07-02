@@ -1649,7 +1649,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         return fields;
     }
 
-    private static String processValueWithChoiceIdsForEdit(JSONObject jsonObject, String value) {
+    public static String processValueWithChoiceIdsForEdit(JSONObject jsonObject, String value) {
         try {
             //spinner
             if (jsonObject.has("openmrs_choice_ids")) {

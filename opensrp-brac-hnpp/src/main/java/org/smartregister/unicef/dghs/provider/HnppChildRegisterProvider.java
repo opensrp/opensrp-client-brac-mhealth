@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import org.apache.commons.lang3.text.WordUtils;
+import org.joda.time.LocalDate;
 import org.smartregister.growthmonitoring.domain.ZScore;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.utils.GrowthUtil;
@@ -19,6 +20,7 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.Utils;
+import org.smartregister.util.DateUtil;
 import org.smartregister.util.OpenSRPImageLoader;
 import org.smartregister.view.activity.DrishtiApplication;
 import org.smartregister.view.contract.SmartRegisterClient;
@@ -51,7 +53,6 @@ public class HnppChildRegisterProvider extends CoreChildRegisterProvider {
             populatePatientColumn(pc, client, viewHolder);
             populateLastColumn(pc, viewHolder);
 
-            return;
         }
     }
     public void populatePatientColumn(CommonPersonObjectClient pc, SmartRegisterClient client, RegisterViewHolder viewHolder) {
@@ -84,7 +85,7 @@ public class HnppChildRegisterProvider extends CoreChildRegisterProvider {
         String dueVaccineDate = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.DUE_VACCINE_DATE, true);
         String dueVaccineName = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.DUE_VACCINE_NAME, true);
         String isAefi = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.HAS_AEFI, true);
-
+        int dayPass = !TextUtils.isEmpty(dueVaccineDate)?DateUtil.dayDifference(new LocalDate(dueVaccineDate),new LocalDate(System.currentTimeMillis())):0;
         StringBuilder builder = new StringBuilder();
         if(!TextUtils.isEmpty(weightValue)){
             builder.append("W:"+weightValue+" kg ");
@@ -105,7 +106,7 @@ public class HnppChildRegisterProvider extends CoreChildRegisterProvider {
         viewHolder.profileImage.setVisibility(View.VISIBLE);
         viewHolder.profileImage.setImageResource(org.smartregister.family.R.mipmap.ic_child);
 
-        viewHolder.textViewAddressGender.setTextColor(ContextCompat.getColor(context, android.R.color.black));
+        //viewHolder.textViewAddressGender.setTextColor(ContextCompat.getColor(context, android.R.color.black));
 
         setAddressAndGender(pc, viewHolder);
 
@@ -117,14 +118,25 @@ public class HnppChildRegisterProvider extends CoreChildRegisterProvider {
         }else{
             viewHolder.riskView.setVisibility(View.GONE);
         }
+        if(!TextUtils.isEmpty(isAefi)&& isAefi.equalsIgnoreCase("yes")){
+            viewHolder.aefiImage.setVisibility(View.VISIBLE);
+        }else{
+            viewHolder.aefiImage.setVisibility(View.GONE);
+        }
+        if(dayPass>0){
+            viewHolder.dueScheduleImage.setVisibility(View.VISIBLE);
+        }else{
+            viewHolder.dueScheduleImage.setVisibility(View.GONE);
+        }
         StringBuilder builder3 = new StringBuilder();
         if(!TextUtils.isEmpty(dueVaccineName)){
             builder3.append(dueVaccineName);
+            builder3.append(" due at ");
         }
         if(!TextUtils.isEmpty(dueVaccineDate)){
             builder3.append(dueVaccineDate);
         }
-        viewHolder.dueVaccineDate.setText(builder3.toString());
+        viewHolder.textViewAddressGender.setText(builder3.toString());
     }
     private int getChildStatusColor(String child_status) {
         return ZScore.getZscoreColorByText(child_status);
@@ -141,10 +153,10 @@ public class HnppChildRegisterProvider extends CoreChildRegisterProvider {
 
     @Override
     public void setAddressAndGender(CommonPersonObjectClient pc, RegisterViewHolder viewHolder) {
-        String address = Utils.getValue(pc.getColumnmaps(),  HnppConstants.KEY.BLOCK_NAME, true);
+       // String address = Utils.getValue(pc.getColumnmaps(),  HnppConstants.KEY.BLOCK_NAME, true);
 
         String gender = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.GENDER, true);
-        fillValue(viewHolder.textViewAddressGender, gender + " \u00B7 " + address);
+      //  fillValue(viewHolder.textViewAddressGender, gender + " \u00B7 " + address);
         if(gender.equals("F")) {
             viewHolder.profileImage.setTag(org.smartregister.R.id.entity_id, pc.entityId());
             DrishtiApplication.getCachedImageLoaderInstance().getImageByClientId(pc.entityId(), OpenSRPImageLoader.getStaticImageListener(viewHolder.profileImage, R.drawable.child_girl_infant, R.drawable.child_girl_infant));
