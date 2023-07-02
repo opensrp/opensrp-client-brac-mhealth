@@ -57,8 +57,6 @@ public class ChildFilterTypeAdapter extends RecyclerView.Adapter<ChildFilterType
                 }
             }
         });
-
-        viewHolder.getAdapterPosition();
     }
 
 

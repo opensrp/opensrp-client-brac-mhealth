@@ -1,6 +1,8 @@
 package org.smartregister.unicef.dghs.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,10 +12,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import org.apache.commons.lang3.StringUtils;
 import org.smartregister.chw.core.contract.CoreChildRegisterFragmentContract;
 import org.smartregister.chw.core.model.CoreChildRegisterFragmentModel;
@@ -42,7 +47,12 @@ import org.smartregister.view.customcontrols.CustomFontTextView;
 import org.smartregister.view.customcontrols.FontVariant;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 import java.text.MessageFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Set;
 import timber.log.Timber;
 import static android.view.View.inflate;
@@ -64,6 +74,9 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
     private boolean dueFilterActive = false;
     boolean isExpanded = false;
     ChildFilterTypeAdapter adapter;
+    private String fromDate = "";
+    private String toDate = "";
+
     @Override
     public void setupViews(View view) {
         try{
@@ -222,7 +235,60 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
                 selectedEndDateFilterValue = "";
                 isAefiChild = "";
                 break;
+
+            case "from - to":
+                showFromToDatePicker(DatePickerType.FROM);
+                break;
         }
+    }
+
+    /**
+     * from to date picker
+     * @param datePickerType
+     */
+    private void showFromToDatePicker(DatePickerType datePickerType) {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        String title = "";
+        if(datePickerType == DatePickerType.FROM){
+            title = "From Date";
+        }else if(datePickerType == DatePickerType.TO){
+            title = "To Date";
+        }
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        DatePickerDialog alertDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                if(datePickerType == DatePickerType.FROM){
+                    fromDate = year +"-"+ month +"-"+dayOfMonth;
+                    showFromToDatePicker(DatePickerType.TO);
+                }else if(datePickerType == DatePickerType.TO){
+                    toDate = year +"-"+ month +"-"+dayOfMonth;
+                    /*
+                      from date and to date validation
+                     */
+                    try {
+                        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+                        Date from = sf.parse(fromDate);
+                        Date to = sf.parse(toDate);
+                        assert to != null;
+                        if(to.before(from) || to.equals(from)){
+                            toDate = "";
+                            Toast.makeText(getActivity(),"To date must be after from date",Toast.LENGTH_SHORT).show();
+                            showFromToDatePicker(DatePickerType.TO);
+                        }
+                    } catch (ParseException e) {
+                        toDate = "";
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        },year,month+1,day);
+        alertDialog.setCancelable(false);
+        alertDialog.setMessage(title);
+        alertDialog.show();
     }
 
     @Override
@@ -525,6 +591,11 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
             customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.CHILD, HnppConstants.KEY.DUE_VACCINE_DATE, selectedEndDateFilterValue));
         }else if(!StringUtils.isEmpty(isAefiChild)){
             customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.CHILD, HnppConstants.KEY.HAS_AEFI, "yes"));
+        }
+        else if(!StringUtils.isEmpty(fromDate)){
+
+        }
+        else  if(!StringUtils.isEmpty(toDate)){
 
         }
         if(month!=-1){
@@ -593,4 +664,9 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
         }
         NoMatchDialogFragment.launchDialog((BaseRegisterActivity) getActivity(), DIALOG_TAG, uniqueId);
     }
+}
+
+enum DatePickerType{
+    FROM,
+    TO
 }
