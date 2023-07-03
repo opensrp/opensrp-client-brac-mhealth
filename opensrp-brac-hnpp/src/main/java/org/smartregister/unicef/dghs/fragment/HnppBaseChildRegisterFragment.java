@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -161,6 +162,7 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
         clients_header_layout = view.findViewById(org.smartregister.chw.core.R.id.clients_header_layout);
         android.view.View filterView = inflate(getContext(), R.layout.child_list_filter_view, clients_header_layout);
         RecyclerView filterTypeRv = filterView.findViewById(R.id.filter_type_rv);
+        ConstraintLayout filterDateLay = filterView.findViewById(R.id.filter_date_lay);
         ImageView arrowImageView = filterView.findViewById(R.id.arrow_image);
         TextView filterTextTv = filterView.findViewById(R.id.filter_text_view);
 
@@ -192,6 +194,23 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
         filterTypeRv.setAdapter(adapter);
 
         arrowImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isExpanded){
+                    clients_header_layout.getLayoutParams().height = 150;
+                    filterTypeRv.setVisibility(View.GONE);
+                    arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+                }else{
+                    clients_header_layout.getLayoutParams().height = 500;
+                    filterTypeRv.setVisibility(View.VISIBLE);
+                    arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+                }
+
+                isExpanded = !isExpanded;
+            }
+        });
+
+        filterDateLay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(isExpanded){
@@ -290,13 +309,15 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
         String title = "";
         if(datePickerType == DatePickerType.FROM){
             title = getString(R.string.from_date);
         }else if(datePickerType == DatePickerType.TO){
             title = getString(R.string.to_date);
         }
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
         DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), (view, year1, month1, dayOfMonth) -> {
             String modifiedMonth;
             if(month1 < 10){
