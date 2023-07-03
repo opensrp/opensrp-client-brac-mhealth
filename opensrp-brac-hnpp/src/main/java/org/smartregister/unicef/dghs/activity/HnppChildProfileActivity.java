@@ -109,6 +109,7 @@ import static org.smartregister.chw.anc.util.JsonFormUtils.updateFormField;
 import static org.smartregister.util.JsonFormUtils.getFieldJSONObject;
 
 public class HnppChildProfileActivity extends HnppCoreChildProfileActivity implements WeightActionListener, HeightActionListener, MUACActionListener, VaccinationActionListener, ServiceActionListener {
+    private static final int REQUEST_AEFI_CHILD = 55551;
     public FamilyMemberFloatingMenu familyFloatingMenu;
     public RelativeLayout referralRow;
     public RecyclerView referralRecyclerView;
@@ -150,6 +151,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
     }
     @Override
     protected void updateTopBar() {
+        commonPersonObject = ((HnppChildProfilePresenter)presenter()).commonPersonObjectClient;
         if (gender.equalsIgnoreCase("পুরুষ")) {
             imageViewProfile.setBorderColor(getResources().getColor(org.smartregister.chw.core.R.color.light_blue));
         } else if (gender.equalsIgnoreCase("মহিলা")) {
@@ -527,7 +529,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         startAnyFormActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOWUP,REQUEST_HOME_VISIT);
     }
     public void openAefiForm() {
-        startAnyFormActivity(HnppConstants.JSON_FORMS.AEFI_CHILD_,REQUEST_HOME_VISIT);
+        startAnyFormActivity(HnppConstants.JSON_FORMS.AEFI_CHILD_,REQUEST_AEFI_CHILD);
     }
     public void openChildInfo(String eventType) {
         startAnyFormActivity(HnppConstants.eventTypeFormNameMapping.get(eventType),REQUEST_HOME_VISIT);
@@ -697,13 +699,16 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             String key = jsonObject.getString(org.smartregister.family.util.JsonFormUtils.KEY).toLowerCase();
                             if(key.equalsIgnoreCase("vaccine_list")){
-                                String value = HnppJsonFormUtils.processValueWithChoiceIdsForEdit(jsonObject,aefiVaccine);
+                                if(!TextUtils.isEmpty(aefiVaccine)){
+                                    String value = HnppJsonFormUtils.processValueWithChoiceIdsForEdit(jsonObject,aefiVaccine);
 
-                                if(StringUtils.isEmpty(value)){
-                                    jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,new JSONArray());
-                                }else{
-                                    jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,new JSONArray(value));
+                                    if(StringUtils.isEmpty(value)){
+                                        jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,new JSONArray());
+                                    }else{
+                                        jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,new JSONArray(value));
+                                    }
                                 }
+
                             }
 
 
@@ -762,6 +767,40 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
 
             }
 
+        }
+        if(resultCode == Activity.RESULT_OK && requestCode == REQUEST_AEFI_CHILD){
+            AtomicInteger isSave = new AtomicInteger(2);
+            showProgressDialog(R.string.please_wait_message);
+            String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
+            String formSubmissionId = JsonFormUtils.generateRandomUUIDString();
+            String visitId = JsonFormUtils.generateRandomUUIDString();
+            HnppConstants.appendLog("SAVE_VISIT", "save form>>childBaseEntityId:"+childBaseEntityId+":formSubmissionId:"+formSubmissionId);
+
+            processVisitFormAndSave(jsonString,formSubmissionId,visitId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Integer>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(Integer integer) {
+                            isSave.set(integer);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            hideProgressDialog();
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            hideProgressDialog();
+                           fetchProfileData();
+                        }
+                    });
         }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
             if(isProcessing) return;
