@@ -34,38 +34,38 @@ public class VaccineDueUpdateIntentService extends IntentService {
        //need to get all due vaccine name,date from alert table group by baseentityid
         String query = "select base_entity_id,dob from ec_child";
         ArrayList<String[]> childs = new ArrayList<>();
-        Cursor cursor = null;
-        try{
-            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
-            if(cursor !=null && cursor.getCount() >0){
+        try (Cursor cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{})) {
+            if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 String[] member = new String[2];
                 while (!cursor.isAfterLast()) {
                     member[0] = cursor.getString(0);
                     member[1] = cursor.getString(1);
+
+                    if (!TextUtils.isEmpty(member[1])) {
+                        DateTime dateTime = new DateTime(member[1]);
+                        VaccineSchedule.updateOfflineAlerts(member[0], dateTime, "child");
+                        //ServiceSchedule.updateOfflineAlerts(member[0], dateTime);
+                    }
+
                     childs.add(member);
                     cursor.moveToNext();
                 }
-
-
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-
-        }
-        finally {
-            if(cursor!=null) cursor.close();
 
         }
         Log.v("CHILD_FILTER","child list ids>>>>"+childs.size());
 
-        for (String[] member:childs) {
+        /*for (String[] member:childs) {
+            Log.v("CHILD_FILTER_CHH","child list ids>>>>"+member[1]+"   "+member[0]);
             if (!TextUtils.isEmpty(member[1])) {
                 DateTime dateTime = new DateTime(member[1]);
                 VaccineSchedule.updateOfflineAlerts(member[0], dateTime, "child");
                 //ServiceSchedule.updateOfflineAlerts(member[0], dateTime);
             }
-        }
+        }*/
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
