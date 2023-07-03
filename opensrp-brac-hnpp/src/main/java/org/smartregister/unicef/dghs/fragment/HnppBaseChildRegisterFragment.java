@@ -74,8 +74,9 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
     private boolean dueFilterActive = false;
     boolean isExpanded = false;
     ChildFilterTypeAdapter adapter;
-    private String fromDate = "";
-    private String toDate = "";
+    protected String fromDate = "";
+    protected String toDate = "";
+    private int oldPosition = -1;
 
     @Override
     public void setupViews(View view) {
@@ -166,18 +167,23 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
          adapter = new ChildFilterTypeAdapter(new ChildFilterTypeAdapter.OnClickAdapter() {
             @Override
             public void onClick(int position, String content) {
-                clients_header_layout.getLayoutParams().height = 150;
-                filterTypeRv.setVisibility(View.GONE);
-                arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
-                isExpanded = !isExpanded;
-                if (!filterTypeRv.isComputingLayout()) {
-                    adapter.notifyDataSetChanged();
-                }
-                filterTextTv.setText(content);
-                updateContent(content);
-                updateFilterView();
+                if(oldPosition != position){
+                    clients_header_layout.getLayoutParams().height = 150;
+                    filterTypeRv.setVisibility(View.GONE);
+                    arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+                    isExpanded = !isExpanded;
+                    filterTextTv.setText(content);
+                    updateContent(content);
+                    updateFilterView();
 
-                Log.v("FILTER_CHILD","content>>"+content);
+                    oldPosition = position;
+
+                    if (!filterTypeRv.isComputingLayout()) {
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    Log.v("FILTER_CHILD","content>>"+content);
+                }
             }
         });
         adapter.setData(HnppConstants.filterTypeList);
@@ -213,27 +219,51 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
     private void updateContent(String content) {
         selectedStartDateFilterValue = "";
         selectedEndDateFilterValue = "";
+        resetOtherFilter();
         switch (content.toLowerCase()){
             case "today":
                  selectedStartDateFilterValue = HnppConstants.getToday();
                  break;
             case "yesterday":
-                selectedStartDateFilterValue = HnppConstants.getToday();
+                selectedStartDateFilterValue = HnppConstants.getYesterDay();
                 break;
-            case "tommorow":
+            case "tomorrow":
                 selectedStartDateFilterValue = HnppConstants.getTomorrowDay();
                 break;
             case "this week":
                 selectedStartDateFilterValue = HnppConstants.getThisWeekDay()[0];
                 selectedEndDateFilterValue = HnppConstants.getThisWeekDay()[1];
                 break;
+
+            case "last week":
+                selectedStartDateFilterValue = HnppConstants.getLastWeekDay()[0];
+                selectedEndDateFilterValue = HnppConstants.getLastWeekDay()[1];
+                break;
+
+            case "next week":
+                selectedStartDateFilterValue = HnppConstants.geNextWeekDay()[0];
+                selectedEndDateFilterValue = HnppConstants.geNextWeekDay()[1];
+                break;
+
+            case "this month":
+                selectedStartDateFilterValue = HnppConstants.getThisMonth()[0];
+                selectedEndDateFilterValue = HnppConstants.getThisMonth()[1];
+                break;
+
+            case "last month":
+                selectedStartDateFilterValue = HnppConstants.getLastMonth()[0];
+                selectedEndDateFilterValue = HnppConstants.getLastMonth()[1];
+                break;
+
+            case "next month":
+                selectedStartDateFilterValue = HnppConstants.getNextMonth()[0];
+                selectedEndDateFilterValue = HnppConstants.getNextMonth()[1];
+                break;
+
             case "aefi child":
                 isAefiChild = "yes";
                 break;
             case "anytime":
-                selectedStartDateFilterValue = "";
-                selectedEndDateFilterValue = "";
-                isAefiChild = "";
                 break;
 
             case "from - to":
@@ -242,9 +272,19 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
         }
     }
 
+    /*
+      resetting others filter data
+     */
+    void resetOtherFilter() {
+        selectedStartDateFilterValue = "";
+        selectedEndDateFilterValue = "";
+        isAefiChild = "";
+        fromDate = "";
+        toDate = "";
+    }
+
     /**
      * from to date picker
-     * @param datePickerType
      */
     private void showFromToDatePicker(DatePickerType datePickerType) {
         Calendar calendar = Calendar.getInstance();
@@ -252,43 +292,48 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
         int month = calendar.get(Calendar.MONTH);
         String title = "";
         if(datePickerType == DatePickerType.FROM){
-            title = "From Date";
+            title = getString(R.string.from_date);
         }else if(datePickerType == DatePickerType.TO){
-            title = "To Date";
+            title = getString(R.string.to_date);
         }
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        DatePickerDialog alertDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                if(datePickerType == DatePickerType.FROM){
-                    fromDate = year +"-"+ month +"-"+dayOfMonth;
-                    showFromToDatePicker(DatePickerType.TO);
-                }else if(datePickerType == DatePickerType.TO){
-                    toDate = year +"-"+ month +"-"+dayOfMonth;
-                    /*
-                      from date and to date validation
-                     */
-                    try {
-                        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-                        Date from = sf.parse(fromDate);
-                        Date to = sf.parse(toDate);
-                        assert to != null;
-                        if(to.before(from) || to.equals(from)){
-                            toDate = "";
-                            Toast.makeText(getActivity(),"To date must be after from date",Toast.LENGTH_SHORT).show();
-                            showFromToDatePicker(DatePickerType.TO);
-                        }
-                    } catch (ParseException e) {
-                        toDate = "";
-                        e.printStackTrace();
-                    }
-
-                }
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), (view, year1, month1, dayOfMonth) -> {
+            String modifiedMonth;
+            if(month1 < 10){
+                modifiedMonth = "0"+(month1 +1);
+            }else {
+                modifiedMonth = ""+(month1 +1);
             }
-        },year,month+1,day);
-        alertDialog.setCancelable(false);
-        alertDialog.setMessage(title);
-        alertDialog.show();
+            if(datePickerType == DatePickerType.FROM){
+                fromDate = year1 +"-"+ modifiedMonth +"-"+dayOfMonth;
+                showFromToDatePicker(DatePickerType.TO);
+            }else if(datePickerType == DatePickerType.TO){
+                toDate = year1 +"-"+ modifiedMonth +"-"+dayOfMonth;
+                /*
+                  from date and to date validation
+                 */
+                try {
+                    SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+                    Date from = sf.parse(fromDate);
+                    Date to = sf.parse(toDate);
+                    assert to != null;
+                    if(to.before(from) || to.equals(from)){
+                        toDate = "";
+                        Toast.makeText(getActivity(),getString(R.string.from_to_date_validation_msg)+fromDate+")",Toast.LENGTH_SHORT).show();
+                        showFromToDatePicker(DatePickerType.TO);
+                    }else{
+                        updateFilterView();
+                    }
+                } catch (ParseException e) {
+                    toDate = "";
+                    e.printStackTrace();
+                }
+
+            }
+        },year,month,day);
+        datePickerDialog.setCancelable(false);
+        datePickerDialog.setMessage(title);
+        datePickerDialog.show();
     }
 
     @Override
@@ -591,12 +636,6 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
             customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.CHILD, HnppConstants.KEY.DUE_VACCINE_DATE, selectedEndDateFilterValue));
         }else if(!StringUtils.isEmpty(isAefiChild)){
             customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.CHILD, HnppConstants.KEY.HAS_AEFI, "yes"));
-        }
-        else if(!StringUtils.isEmpty(fromDate)){
-
-        }
-        else  if(!StringUtils.isEmpty(toDate)){
-
         }
         if(month!=-1){
             customFilter.append(MessageFormat.format(" and {0} = {1} ", "strftime('%m', datetime(ec_visit_log.visit_date/1000,'unixepoch','localtime'))" ,"'"+HnppConstants.addZeroForMonth(month+"")+"'"));
