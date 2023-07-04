@@ -76,9 +76,10 @@ public class VaccineDueUpdateIntentService extends IntentService {
         updatedVaccineDueDate();
     }
     public static boolean updatedVaccineDueDate(){
-        String query = "select * from alerts where startDate is not null and status !='expired' group by caseID order by startDate asc";
+        String query = "select * from alerts where startDate is not null and status !='expired' order by status desc,startDate asc";
         Cursor cursor = null;
         ArrayList<Alert> alerts = new ArrayList<>();
+        ArrayList<String> baseEntityIdList = new ArrayList<>();
         try{
             cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
@@ -89,7 +90,16 @@ public class VaccineDueUpdateIntentService extends IntentService {
                 int dueDateColumn = cursor.getColumnIndex("startDate");
                 while (!cursor.isAfterLast()) {
                     Alert alert = new Alert(cursor.getString(baseEntityIdColumn), cursor.getString(vaccinenameColumn), "", null, cursor.getString(dueDateColumn), "");
-                    alerts.add(alert);
+
+                    /*
+                     checking case id exist or not
+                     if exist then skip otherwise add case id
+                     */
+                    if(!baseEntityIdList.contains(alert.caseId())){
+                        alerts.add(alert);
+                        baseEntityIdList.add(alert.caseId());
+                    }
+
                     cursor.moveToNext();
                 }
 
