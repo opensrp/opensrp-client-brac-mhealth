@@ -236,8 +236,6 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
     }
 
     private void updateContent(String content) {
-        selectedStartDateFilterValue = "";
-        selectedEndDateFilterValue = "";
         resetOtherFilter();
         switch (content.toLowerCase()){
             case "today":
