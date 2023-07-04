@@ -305,7 +305,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         TextView titleTv = dialog.findViewById(R.id.title_tv);
         TextView message = dialog.findViewById(R.id.text_tv);
         titleTv.setText("যে যে ভ্যাকসিন দেয়ার পর সমস্যা হয়েছিল");
-        message.setText(aefiVaccine.replace(",","\n"));
+        message.setText(getVaccineName());
         Button ok_btn = dialog.findViewById(R.id.ok_btn);
         ok_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -314,6 +314,19 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
             }
         });
         dialog.show();
+    }
+
+    /**
+     * getting real vaccine name here
+     */
+    private String getVaccineName(){
+        String[] vaccineKeyList = aefiVaccine.split(",");
+        StringBuilder realVaccineName = new StringBuilder();
+
+        for(String key : vaccineKeyList){
+            realVaccineName.append(HnppConstants.vaccineNameMapping.get(key)).append("\n");
+        }
+        return  realVaccineName.toString();
     }
 
     @Override
@@ -698,15 +711,32 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             String key = jsonObject.getString(org.smartregister.family.util.JsonFormUtils.KEY).toLowerCase();
+
+                            /*
+                              setting aefi child status
+                             */
+                            if(key.equalsIgnoreCase("aefi_child_status")){
+                                String child_status = "না";
+                                if(hasAefi){
+                                    child_status = "হ্যাঁ";
+                                }
+                                jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,child_status);
+                            }
+
+                            /*
+                             setting vaccine list data
+                             */
                             if(key.equalsIgnoreCase("vaccine_list")){
                                 if(!TextUtils.isEmpty(aefiVaccine)){
+
                                     String value = HnppJsonFormUtils.processValueWithChoiceIdsForEdit(jsonObject,aefiVaccine);
 
                                     if(StringUtils.isEmpty(value)){
                                         jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,new JSONArray());
                                     }else{
-                                        jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,new JSONArray(value));
+                                        jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,new JSONArray("["+value+"]"));
                                     }
+
                                 }
 
                             }
@@ -733,7 +763,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                     startActivityForResult(intent, requestCode);
 
                 }catch (Exception e){
-
+                    Log.v("ERRRRR",e.getMessage());
                 }
 //            }
 //        });
