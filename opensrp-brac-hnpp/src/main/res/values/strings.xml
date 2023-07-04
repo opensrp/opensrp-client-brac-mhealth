@@ -529,6 +529,9 @@
     <string name="brid_title">জন্ম নিবন্ধন নং :</string>
     <string name="system_msg"><![CDATA[This is a System Generated Vaccine Card – Provided by EPI, DGHS, MoH&FW.]]></string>
     <string name="global_search">গ্লোবাল সার্চ</string>
+    <string name="from_date">From Date</string>
+    <string name="to_date">To Date</string>
+    <string name="from_to_date_validation_msg">To date must be after from date(</string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>

@@ -248,7 +248,7 @@ public class HnppChildRegisterFragment extends HnppBaseChildRegisterFragment imp
 
         }
         if(!StringUtils.isEmpty(selectedStartDateFilterValue)&&!StringUtils.isEmpty(selectedEndDateFilterValue)){
-            customFilter.append(MessageFormat.format(" and {0} between {1} and {2} ",HnppConstants.TABLE_NAME.CHILD+"."+ HnppConstants.KEY.DUE_VACCINE_DATE,selectedStartDateFilterValue,selectedEndDateFilterValue));
+            customFilter.append(MessageFormat.format(" and {0} between ''{1}'' and ''{2}'' ",HnppConstants.TABLE_NAME.CHILD+"."+ HnppConstants.KEY.DUE_VACCINE_DATE,selectedStartDateFilterValue,selectedEndDateFilterValue));
         }else if(!StringUtils.isEmpty(selectedStartDateFilterValue)){
             customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ", HnppConstants.TABLE_NAME.CHILD, HnppConstants.KEY.DUE_VACCINE_DATE, selectedStartDateFilterValue));
 
@@ -256,8 +256,11 @@ public class HnppChildRegisterFragment extends HnppBaseChildRegisterFragment imp
             customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.CHILD, HnppConstants.KEY.DUE_VACCINE_DATE, selectedEndDateFilterValue));
         }else if(!StringUtils.isEmpty(isAefiChild)){
             customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.CHILD, HnppConstants.KEY.HAS_AEFI, "yes"));
-
         }
+        else if(!StringUtils.isEmpty(fromDate)&&!StringUtils.isEmpty(toDate)){
+            customFilter.append(MessageFormat.format(" and {0} between ''{1}'' and ''{2}'' ",HnppConstants.TABLE_NAME.CHILD+"."+ HnppConstants.KEY.DUE_VACCINE_DATE,fromDate,toDate));
+        }
+
         if(month!=-1){
             customFilter.append(MessageFormat.format(" and {0} = {1} ", "strftime('%m', datetime(ec_visit_log.visit_date/1000,'unixepoch','localtime'))" ,"'"+HnppConstants.addZeroForMonth(month+"")+"'"));
             customFilter.append(MessageFormat.format(" and {0} = {1} ", "strftime('%Y', datetime(ec_visit_log.visit_date/1000,'unixepoch','localtime'))" ,"'"+year+"'"));

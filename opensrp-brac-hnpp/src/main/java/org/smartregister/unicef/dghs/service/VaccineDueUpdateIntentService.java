@@ -39,8 +39,9 @@ public class VaccineDueUpdateIntentService extends IntentService {
             cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
-                String[] member = new String[2];
                 while (!cursor.isAfterLast()) {
+                    String[] member = new String[2];
+
                     member[0] = cursor.getString(0);
                     member[1] = cursor.getString(1);
                     childs.add(member);

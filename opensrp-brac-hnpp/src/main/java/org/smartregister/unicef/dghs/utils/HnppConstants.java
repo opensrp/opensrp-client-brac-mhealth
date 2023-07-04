@@ -113,7 +113,7 @@ public class HnppConstants extends CoreConstants {
                     "This month",
                     "Last month",
                     "Next month",
-                    "Form - To",
+                    "From - To",
                     "AEFI child",
                     "Anytime"
             )
@@ -789,6 +789,47 @@ public class HnppConstants extends CoreConstants {
         }
         return strings;
     }
+
+    public static String[] getLastWeekDay(){
+        String[] strings = new String[2];
+        LocalDate today = LocalDate.now().minusDays(7);
+        LocalDate saterday = today;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            while (saterday.getDayOfWeek()!= DayOfWeek.SATURDAY.getValue()){
+                saterday = saterday.minusDays(1);
+                strings[0] = DateTimeFormat.forPattern("yyyy-MM-dd").print(saterday);
+            }
+        }
+        LocalDate friday = today;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            while (friday.getDayOfWeek()!= DayOfWeek.FRIDAY.getValue()){
+                friday = friday.plusDays(1);
+                strings[1] = DateTimeFormat.forPattern("yyyy-MM-dd").print(friday);
+            }
+        }
+        return strings;
+    }
+
+    public static String[] geNextWeekDay(){
+        String[] strings = new String[2];
+        LocalDate today = LocalDate.now().plusDays(7);
+        LocalDate saterday = today;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            while (saterday.getDayOfWeek()!= DayOfWeek.SATURDAY.getValue()){
+                saterday = saterday.minusDays(1);
+                strings[0] = DateTimeFormat.forPattern("yyyy-MM-dd").print(saterday);
+            }
+        }
+        LocalDate friday = today;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            while (friday.getDayOfWeek()!= DayOfWeek.FRIDAY.getValue()){
+                friday = friday.plusDays(1);
+                strings[1] = DateTimeFormat.forPattern("yyyy-MM-dd").print(friday);
+            }
+        }
+        return strings;
+    }
+
     public static String[] getThisMonth(){
         String[] months = new String[2];
         LocalDate startMonth = new LocalDate().withDayOfMonth(1);
@@ -797,6 +838,25 @@ public class HnppConstants extends CoreConstants {
         months[1] = DateTimeFormat.forPattern("yyyy-MM-dd").print(endMonth);
         return months;
     }
+
+    public static String[] getLastMonth(){
+        String[] months = new String[2];
+        LocalDate startMonth = new LocalDate().minusMonths(1).withDayOfMonth(1);
+        months[0] = DateTimeFormat.forPattern("yyyy-MM-dd").print(startMonth);
+        LocalDate endMonth = new LocalDate().withDayOfMonth(1).minusDays(1);
+        months[1] = DateTimeFormat.forPattern("yyyy-MM-dd").print(endMonth);
+        return months;
+    }
+
+    public static String[] getNextMonth(){
+        String[] months = new String[2];
+        LocalDate startMonth = new LocalDate().plusMonths(1).withDayOfMonth(1);
+        months[0] = DateTimeFormat.forPattern("yyyy-MM-dd").print(startMonth);
+        LocalDate endMonth = new LocalDate().withDayOfMonth(1).minusDays(1);
+        months[1] = DateTimeFormat.forPattern("yyyy-MM-dd").print(endMonth);
+        return months;
+    }
+
     public static boolean isWrongDate(){
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);

@@ -1,7 +1,10 @@
 package org.smartregister.unicef.dghs.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,10 +13,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import org.apache.commons.lang3.StringUtils;
 import org.smartregister.chw.core.contract.CoreChildRegisterFragmentContract;
 import org.smartregister.chw.core.model.CoreChildRegisterFragmentModel;
@@ -42,7 +48,12 @@ import org.smartregister.view.customcontrols.CustomFontTextView;
 import org.smartregister.view.customcontrols.FontVariant;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 import java.text.MessageFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Set;
 import timber.log.Timber;
 import static android.view.View.inflate;
@@ -64,6 +75,10 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
     private boolean dueFilterActive = false;
     boolean isExpanded = false;
     ChildFilterTypeAdapter adapter;
+    protected String fromDate = "";
+    protected String toDate = "";
+    private int oldPosition = -1;
+
     @Override
     public void setupViews(View view) {
         try{
@@ -147,24 +162,30 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
         clients_header_layout = view.findViewById(org.smartregister.chw.core.R.id.clients_header_layout);
         android.view.View filterView = inflate(getContext(), R.layout.child_list_filter_view, clients_header_layout);
         RecyclerView filterTypeRv = filterView.findViewById(R.id.filter_type_rv);
+        ConstraintLayout filterDateLay = filterView.findViewById(R.id.filter_date_lay);
         ImageView arrowImageView = filterView.findViewById(R.id.arrow_image);
         TextView filterTextTv = filterView.findViewById(R.id.filter_text_view);
 
          adapter = new ChildFilterTypeAdapter(new ChildFilterTypeAdapter.OnClickAdapter() {
             @Override
             public void onClick(int position, String content) {
-                clients_header_layout.getLayoutParams().height = 150;
-                filterTypeRv.setVisibility(View.GONE);
-                arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
-                isExpanded = !isExpanded;
-                if (!filterTypeRv.isComputingLayout()) {
-                    adapter.notifyDataSetChanged();
-                }
-                filterTextTv.setText(content);
-                updateContent(content);
-                updateFilterView();
+                if(oldPosition != position){
+                    clients_header_layout.getLayoutParams().height = 150;
+                    filterTypeRv.setVisibility(View.GONE);
+                    arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+                    isExpanded = !isExpanded;
+                    filterTextTv.setText(content);
+                    updateContent(content);
+                    updateFilterView();
 
-                Log.v("FILTER_CHILD","content>>"+content);
+                    oldPosition = position;
+
+                    if (!filterTypeRv.isComputingLayout()) {
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    Log.v("FILTER_CHILD","content>>"+content);
+                }
             }
         });
         adapter.setData(HnppConstants.filterTypeList);
@@ -173,6 +194,23 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
         filterTypeRv.setAdapter(adapter);
 
         arrowImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isExpanded){
+                    clients_header_layout.getLayoutParams().height = 150;
+                    filterTypeRv.setVisibility(View.GONE);
+                    arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+                }else{
+                    clients_header_layout.getLayoutParams().height = 500;
+                    filterTypeRv.setVisibility(View.VISIBLE);
+                    arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+                }
+
+                isExpanded = !isExpanded;
+            }
+        });
+
+        filterDateLay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(isExpanded){
@@ -200,29 +238,123 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
     private void updateContent(String content) {
         selectedStartDateFilterValue = "";
         selectedEndDateFilterValue = "";
+        resetOtherFilter();
         switch (content.toLowerCase()){
             case "today":
                  selectedStartDateFilterValue = HnppConstants.getToday();
                  break;
             case "yesterday":
-                selectedStartDateFilterValue = HnppConstants.getToday();
+                selectedStartDateFilterValue = HnppConstants.getYesterDay();
                 break;
-            case "tommorow":
+            case "tomorrow":
                 selectedStartDateFilterValue = HnppConstants.getTomorrowDay();
                 break;
             case "this week":
                 selectedStartDateFilterValue = HnppConstants.getThisWeekDay()[0];
                 selectedEndDateFilterValue = HnppConstants.getThisWeekDay()[1];
                 break;
+
+            case "last week":
+                selectedStartDateFilterValue = HnppConstants.getLastWeekDay()[0];
+                selectedEndDateFilterValue = HnppConstants.getLastWeekDay()[1];
+                break;
+
+            case "next week":
+                selectedStartDateFilterValue = HnppConstants.geNextWeekDay()[0];
+                selectedEndDateFilterValue = HnppConstants.geNextWeekDay()[1];
+                break;
+
+            case "this month":
+                selectedStartDateFilterValue = HnppConstants.getThisMonth()[0];
+                selectedEndDateFilterValue = HnppConstants.getThisMonth()[1];
+                break;
+
+            case "last month":
+                selectedStartDateFilterValue = HnppConstants.getLastMonth()[0];
+                selectedEndDateFilterValue = HnppConstants.getLastMonth()[1];
+                break;
+
+            case "next month":
+                selectedStartDateFilterValue = HnppConstants.getNextMonth()[0];
+                selectedEndDateFilterValue = HnppConstants.getNextMonth()[1];
+                break;
+
             case "aefi child":
                 isAefiChild = "yes";
                 break;
             case "anytime":
-                selectedStartDateFilterValue = "";
-                selectedEndDateFilterValue = "";
-                isAefiChild = "";
+                break;
+
+            case "from - to":
+                showFromToDatePicker(DatePickerType.FROM);
                 break;
         }
+    }
+
+    /*
+      resetting others filter data
+     */
+    void resetOtherFilter() {
+        selectedStartDateFilterValue = "";
+        selectedEndDateFilterValue = "";
+        isAefiChild = "";
+        fromDate = "";
+        toDate = "";
+    }
+
+    /**
+     * from to date picker
+     */
+    private void showFromToDatePicker(DatePickerType datePickerType) {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        String title = "";
+        if(datePickerType == DatePickerType.FROM){
+            title = getString(R.string.from_date);
+        }else if(datePickerType == DatePickerType.TO){
+            title = getString(R.string.to_date);
+        }
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), (view, year1, month1, dayOfMonth) -> {
+            String modifiedMonth;
+            if(month1 < 10){
+                modifiedMonth = "0"+(month1 +1);
+            }else {
+                modifiedMonth = ""+(month1 +1);
+            }
+            if(datePickerType == DatePickerType.FROM){
+                fromDate = year1 +"-"+ modifiedMonth +"-"+dayOfMonth;
+                showFromToDatePicker(DatePickerType.TO);
+            }else if(datePickerType == DatePickerType.TO){
+                toDate = year1 +"-"+ modifiedMonth +"-"+dayOfMonth;
+                /*
+                  from date and to date validation
+                 */
+                try {
+                    SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+                    Date from = sf.parse(fromDate);
+                    Date to = sf.parse(toDate);
+                    assert to != null;
+                    if(to.before(from) || to.equals(from)){
+                        toDate = "";
+                        Toast.makeText(getActivity(),getString(R.string.from_to_date_validation_msg)+fromDate+")",Toast.LENGTH_SHORT).show();
+                        showFromToDatePicker(DatePickerType.TO);
+                    }else{
+                        updateFilterView();
+                    }
+                } catch (ParseException e) {
+                    toDate = "";
+                    e.printStackTrace();
+                }
+
+            }
+        },year,month,day);
+        datePickerDialog.setCancelable(false);
+        datePickerDialog.setMessage(title);
+        datePickerDialog.show();
     }
 
     @Override
@@ -525,7 +657,6 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
             customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.CHILD, HnppConstants.KEY.DUE_VACCINE_DATE, selectedEndDateFilterValue));
         }else if(!StringUtils.isEmpty(isAefiChild)){
             customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.CHILD, HnppConstants.KEY.HAS_AEFI, "yes"));
-
         }
         if(month!=-1){
             customFilter.append(MessageFormat.format(" and {0} = {1} ", "strftime('%m', datetime(ec_visit_log.visit_date/1000,'unixepoch','localtime'))" ,"'"+HnppConstants.addZeroForMonth(month+"")+"'"));
@@ -593,4 +724,9 @@ public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implemen
         }
         NoMatchDialogFragment.launchDialog((BaseRegisterActivity) getActivity(), DIALOG_TAG, uniqueId);
     }
+}
+
+enum DatePickerType{
+    FROM,
+    TO
 }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,8 @@ import org.smartregister.view.customcontrols.CustomFontTextView;
 import java.util.ArrayList;
 
 public class ChildFilterTypeAdapter extends RecyclerView.Adapter<ChildFilterTypeAdapter.FilterTypeViewHolder> {
-    private ArrayList<String> filterTypeList;
-    private OnClickAdapter onClickAdapter;
+    private final ArrayList<String> filterTypeList;
+    private final OnClickAdapter onClickAdapter;
     int selectedPosition = -1;
     ArrayList<Integer> selectedList = new ArrayList<Integer>();
 
@@ -45,7 +46,7 @@ public class ChildFilterTypeAdapter extends RecyclerView.Adapter<ChildFilterType
         final String content = filterTypeList.get(position);
         viewHolder.filterTypeRadio.setText(content);
 
-        viewHolder.filterTypeRadio.setChecked(position == selectedPosition);
+        Log.d("POSSSS",""+position +"  "+selectedPosition);
 
         viewHolder.filterTypeRadio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -57,8 +58,7 @@ public class ChildFilterTypeAdapter extends RecyclerView.Adapter<ChildFilterType
                 }
             }
         });
-
-        viewHolder.getAdapterPosition();
+        viewHolder.filterTypeRadio.setChecked(position == selectedPosition);
     }
 
 
@@ -70,7 +70,7 @@ public class ChildFilterTypeAdapter extends RecyclerView.Adapter<ChildFilterType
     public interface OnClickAdapter {
         void onClick(int position, String content);
     }
-    public class FilterTypeViewHolder extends RecyclerView.ViewHolder {
+    public static class FilterTypeViewHolder extends RecyclerView.ViewHolder {
         public RadioButton filterTypeRadio;
 
         public FilterTypeViewHolder(@NonNull View itemView) {
