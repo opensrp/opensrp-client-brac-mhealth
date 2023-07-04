@@ -58,14 +58,14 @@ import java.util.Set;
 import timber.log.Timber;
 import static android.view.View.inflate;
 
-public class HnppBaseChildRegisterFragment extends BaseRegisterFragment implements android.view.View.OnClickListener, CoreChildRegisterFragmentContract.View{
+public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment implements android.view.View.OnClickListener, CoreChildRegisterFragmentContract.View{
     private final String DEFAULT_MAIN_CONDITION = "date_removed is null";
     String searchFilterString = "";
     protected String selectedStartDateFilterValue,selectedEndDateFilterValue,isAefiChild;
     private TextView textViewVillageNameFilter, textViewClasterNameFilter,textViewMonthNameFilter;
     private ImageView imageViewVillageNameFilter, imageViewClasterNameFilter;
     private RelativeLayout clusterView,monthFilterView;
-    private ViewGroup clients_header_layout;
+    protected ViewGroup clients_header_layout;
     protected int month =-1,year =-1;
     public static final String CLICK_VIEW_NORMAL = "click_view_normal";
     public static final String CLICK_VIEW_DOSAGE_STATUS = "click_view_dosage_status";

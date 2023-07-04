@@ -280,6 +280,12 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         handler = new Handler();
+        findViewById(R.id.update_profile_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startFormForEdit();
+            }
+        });
     }
 
     @Override

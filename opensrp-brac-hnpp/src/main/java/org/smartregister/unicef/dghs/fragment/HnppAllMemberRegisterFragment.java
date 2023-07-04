@@ -94,11 +94,10 @@ public class HnppAllMemberRegisterFragment extends HnppBaseChildRegisterFragment
         clientsView.setAdapter(clientAdapter);
     }
 
-
-
     @Override
     public void setupViews(android.view.View view) {
         super.setupViews(view);
+        clients_header_layout.setVisibility(android.view.View.GONE);
     }
 
     @Override
