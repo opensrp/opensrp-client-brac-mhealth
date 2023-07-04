@@ -76,7 +76,7 @@ public class VaccineDueUpdateIntentService extends IntentService {
         updatedVaccineDueDate();
     }
     public static boolean updatedVaccineDueDate(){
-        String query = "select * from alerts where startDate is not null and status !='expired' group by caseID";
+        String query = "select * from alerts where startDate is not null and status !='expired' group by caseID order by startDate asc";
         Cursor cursor = null;
         ArrayList<Alert> alerts = new ArrayList<>();
         try{
