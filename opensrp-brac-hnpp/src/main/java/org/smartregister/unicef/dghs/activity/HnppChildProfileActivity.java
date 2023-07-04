@@ -162,7 +162,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         tabLayout.setupWithViewPager(setupViewPager(viewPager));
         String aefi = Utils.getValue(commonPersonObject.getColumnmaps(), HnppConstants.KEY.HAS_AEFI, false);
         String vaccineDueDate = Utils.getValue(commonPersonObject.getColumnmaps(), HnppConstants.KEY.DUE_VACCINE_DATE, false);
-        if(FormApplicability.isMissedVaccine(vaccineDueDate)){
+        if(HnppConstants.isMissedSchedule(vaccineDueDate)){
             findViewById(R.id.missed_schedule_img).setVisibility(View.VISIBLE);
         }
         if(!TextUtils.isEmpty(aefi)){

@@ -78,6 +78,7 @@ import org.smartregister.family.model.BaseFamilyOtherMemberProfileActivityModel;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.helper.ImageRenderHelper;
+import org.smartregister.unicef.dghs.utils.RiskyModel;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
 import org.smartregister.view.contract.BaseProfileContract;
@@ -178,8 +179,46 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
                 }
             }
         });
+        findViewById(R.id.risk_view).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openRiskFactorDialog();
+            }
+        });
     }
+    private void openRiskFactorDialog(){
+        ArrayList<RiskyModel> riskyModels = HnppApplication.getRiskDetailsRepository().getRiskyKeyByEntityId(baseEntityId);
+        String text = "";
+        for (RiskyModel riskyModel:riskyModels) {
+            text = riskyModel.riskyValue;
+        }
 
+        Dialog dialog = new Dialog(this);
+        dialog.setCancelable(false);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_with_one_button);
+        TextView titleTv = dialog.findViewById(R.id.title_tv);
+        TextView message = dialog.findViewById(R.id.text_tv);
+        titleTv.setText("যে সব কারণে রিস্কি:");
+        message.setText(getRiskName(text));
+        Button ok_btn = dialog.findViewById(R.id.ok_btn);
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+    private String getRiskName(String text){
+        String[] vaccineKeyList = text.split(",");
+        StringBuilder realVaccineName = new StringBuilder();
+
+        for(String key : vaccineKeyList){
+            realVaccineName.append(HnppConstants.riskeyFactorMapping.get(key)).append("\n");
+        }
+        return  realVaccineName.toString();
+    }
     public void startFormForEdit(Integer title_resource) {
         CommonRepository commonRepository = org.smartregister.family.util.Utils.context().commonrepository(org.smartregister.family.util.Utils.metadata().familyMemberRegister.tableName);
 
@@ -416,6 +455,11 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
         }
         if(!TextUtils.isEmpty(shrId)){
             textViewDetails3.setText("ID: " + shrId);
+        }
+        if(HnppDBUtils.isAncRisk(baseEntityId)){
+            findViewById(R.id.risk_view).setVisibility(View.VISIBLE);
+        }else{
+            findViewById(R.id.risk_view).setVisibility(View.GONE);
         }
 
     }

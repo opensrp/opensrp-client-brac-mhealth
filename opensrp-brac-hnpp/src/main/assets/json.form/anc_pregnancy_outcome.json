@@ -326,13 +326,7 @@
             "openmrs_entity": "concept",
             "openmrs_entity_parent": ""
           }
-        ],
-        "relevance": {
-          "step1:delivery_complication": {
-            "type": "string",
-            "ex": "regex(., \"হ্যাঁ\")"
-          }
-        }
+        ]
       },
       {
         "key": "delivery_complication",

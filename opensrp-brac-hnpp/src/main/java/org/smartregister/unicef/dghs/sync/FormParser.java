@@ -1050,7 +1050,18 @@ public class FormParser {
     }
     private static void updateAncHomeVisitRisk(String eventType , String baseEntityId,HashMap<String,String>details){
         boolean isAncHomeVisitRisk = false;
-        if(details.containsKey("blood_pressure_systolic") && !StringUtils.isEmpty(details.get("blood_pressure_systolic"))){
+        if(details.containsKey("Denger_Signs_During_Pregnancy") && !StringUtils.isEmpty(details.get("Denger_Signs_During_Pregnancy"))) {
+            isAncHomeVisitRisk = true;
+            String dengerValue = details.get("Denger_Signs_During_Pregnancy");
+            Log.v("RISK_ANC","dengerValue>>"+dengerValue);
+            RiskyModel riskynBPSModel = new RiskyModel();
+            riskynBPSModel.riskyValue = dengerValue;
+            riskynBPSModel.riskyKey = "Denger_Signs_During_Pregnancy";
+            riskynBPSModel.eventType = eventType;
+            riskynBPSModel.baseEntityId = baseEntityId;
+            HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
+        }
+            if(details.containsKey("blood_pressure_systolic") && !StringUtils.isEmpty(details.get("blood_pressure_systolic"))){
             String bps = details.get("blood_pressure_systolic");
             if(!TextUtils.isEmpty(bps)){
                 try{
@@ -1313,6 +1324,7 @@ public class FormParser {
         }
 
     }
+
     private static void updateIYCFRisk(String baseEntityId,HashMap<String,String>details){
         if(details.containsKey("head_balance") && !StringUtils.isEmpty(details.get("head_balance"))){
             String head_balance = details.get("head_balance");

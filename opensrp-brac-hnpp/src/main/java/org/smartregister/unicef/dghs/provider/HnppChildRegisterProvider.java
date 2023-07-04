@@ -1,5 +1,7 @@
 package org.smartregister.unicef.dghs.provider;
 
+import static org.smartregister.unicef.dghs.utils.HnppConstants.isMissedSchedule;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.content.ContextCompat;
@@ -85,7 +87,6 @@ public class HnppChildRegisterProvider extends CoreChildRegisterProvider {
         String dueVaccineDate = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.DUE_VACCINE_DATE, true);
         String dueVaccineName = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.DUE_VACCINE_NAME, true);
         String isAefi = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.HAS_AEFI, true);
-        int dayPass = !TextUtils.isEmpty(dueVaccineDate)?DateUtil.dayDifference(new LocalDate(dueVaccineDate),new LocalDate(System.currentTimeMillis())):0;
         StringBuilder builder = new StringBuilder();
         if(!TextUtils.isEmpty(weightValue)){
             builder.append("W:"+weightValue+" kg ");
@@ -123,7 +124,7 @@ public class HnppChildRegisterProvider extends CoreChildRegisterProvider {
         }else{
             viewHolder.aefiImage.setVisibility(View.GONE);
         }
-        if(dayPass>0){
+        if(isMissedSchedule(dueVaccineDate)){
             viewHolder.dueScheduleImage.setVisibility(View.VISIBLE);
         }else{
             viewHolder.dueScheduleImage.setVisibility(View.GONE);

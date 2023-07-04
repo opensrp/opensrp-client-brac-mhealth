@@ -9,6 +9,7 @@ import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.contract.MemberHistoryContract;
 import org.smartregister.unicef.dghs.repository.HnppVisitLogRepository;
 import org.smartregister.unicef.dghs.sync.FormParser;
+import org.smartregister.unicef.dghs.utils.FormApplicability;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
 import org.smartregister.unicef.dghs.utils.MemberHistoryData;
@@ -105,13 +106,25 @@ public class MemberHistoryInteractor implements MemberHistoryContract.Interactor
 
         ArrayList<MemberHistoryData> historyDataArrayList  = new ArrayList<>();
         ArrayList<VisitLog> visitLogs = visitLogRepository.getAllVisitLog(baseEntityId);
+        int count = FormApplicability.getANCCount(baseEntityId)+1;
+        int pncCount = FormApplicability.getPNCCount(baseEntityId)+1;
         for(VisitLog visitLog : visitLogs){
             MemberHistoryData historyData = new MemberHistoryData();
             historyData.setBaseEntityId(baseEntityId);
             historyData.setVisitId(visitLog.getVisitId());
             String eventType = visitLog.getEventType();
             historyData.setEventType(eventType);
-            historyData.setTitle(HnppConstants.visitEventTypeMapping.get(eventType));
+            if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT)){
+                count--;
+                historyData.setTitle(FormApplicability.getANCTitleForHistory(count));
+            }else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION)){
+                pncCount--;
+                historyData.setTitle(FormApplicability.getPNCTitleForHistory(pncCount));
+            }
+            else{
+                historyData.setTitle(HnppConstants.visitEventTypeMapping.get(eventType));
+            }
+
             try{
                 historyData.setImageSource(HnppConstants.iconMapping.get(eventType));
             }catch(NullPointerException e){

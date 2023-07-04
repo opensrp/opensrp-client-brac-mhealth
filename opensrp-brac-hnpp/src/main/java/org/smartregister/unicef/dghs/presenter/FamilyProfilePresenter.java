@@ -12,6 +12,7 @@ import org.smartregister.chw.core.domain.FamilyMember;
 import org.smartregister.chw.core.interactor.CoreChildRegisterInteractor;
 import org.smartregister.chw.core.utils.ChildDBConstants;
 import org.smartregister.chw.core.utils.CoreJsonFormUtils;
+import org.smartregister.domain.FetchStatus;
 import org.smartregister.family.presenter.BaseFamilyProfilePresenter;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.activity.HnppFamilyOtherMemberProfileActivity;
@@ -238,7 +239,8 @@ public class FamilyProfilePresenter extends BaseFamilyProfilePresenter implement
 
     @Override
     public void onRegistrationSaved(boolean isEdit, String baseEntityId) {
-
+        getView().refreshMemberList(FetchStatus.fetched);
+        getView().hideProgressDialog();
     }
 
     @Override

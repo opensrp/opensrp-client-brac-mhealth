@@ -93,7 +93,7 @@
                 android:layout_width="30dp"
                 android:layout_height="20dp"
                 android:layout_marginRight="5dp"
-                android:background="@color/vaccine_red_bg_end"
+                android:background="@drawable/danger_vaccine"
                 android:visibility="gone" />
 
             <org.smartregister.view.customcontrols.CustomFontTextView

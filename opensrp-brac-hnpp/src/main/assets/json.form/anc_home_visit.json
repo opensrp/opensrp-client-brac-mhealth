@@ -209,8 +209,8 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "Height",
         "openmrs_data_type": "text",
-        "type": "hidden",
-        "hint": "আপনার উচ্চতা(সে.মি.)",
+        "type": "edit_text",
+        "hint": "আপনার উচ্চতা(ইঞ্চি)",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
@@ -339,7 +339,7 @@
         "openmrs_entity_id": "Fetal_Heart_Rate",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "বাচ্চার হার্টবিট রেট",
+        "hint": "ভ্রূণের হার্টবিট রেট",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
@@ -705,6 +705,10 @@
             "openmrs_entity_id":"High_Temperature_102_Degree_or_More"
           }
         ],
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
         "relevance": {
           "step3:Danger_Sign_reported": {
             "type": "string",
@@ -718,7 +722,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "get_service",
         "type": "check_box",
-        "label": "প্র্রাপ্ত সেবা",
+        "label": "চিকিৎসা সেবা",
         "exclusive": ["none"],
         "options": [
           {
@@ -736,7 +740,20 @@
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
             "openmrs_entity_id": "ifa_mms"
-          },
+          }
+
+        ]
+
+      },
+      {
+        "key": "counseling_service",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "counseling_service",
+        "type": "check_box",
+        "label": "কাউন্সেলিং",
+        "exclusive": ["none"],
+        "options": [
           {
             "key": "counseling",
             "text": "কাউন্সেলিং (পুষ্টি, জন্ম পরিকল্পনা, ইবিএফ, ইএনসি, টিকাদান সংক্রান্ত) প্রদান করা হয়েছ ",

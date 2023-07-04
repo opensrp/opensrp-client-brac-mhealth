@@ -44,7 +44,7 @@
                 android:visibility="gone"
                 android:layout_marginRight="5dp"
                 android:id="@+id/risk_view"
-                android:background="@color/vaccine_red_bg_end"
+                android:background="@drawable/danger_vaccine"
                 android:layout_width="30dp"
                 android:layout_height="20dp"/>
             <TextView

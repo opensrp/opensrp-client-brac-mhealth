@@ -49,6 +49,7 @@ import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.Utils;
 import org.smartregister.repository.AllSharedPreferences;
+import org.smartregister.util.DateUtil;
 import org.smartregister.view.activity.BaseProfileActivity;
 
 import java.io.BufferedWriter;
@@ -759,6 +760,10 @@ public class HnppConstants extends CoreConstants {
     }
     public static String getToday(){
         return DateTime.now().toString("yyyy-MM-dd");
+    }
+    public static boolean isMissedSchedule(String dueVaccineDate){
+
+        return !TextUtils.isEmpty(dueVaccineDate) && new LocalDate(dueVaccineDate).isBefore(new LocalDate(System.currentTimeMillis()));
     }
     public static String getYesterDay(){
         LocalDate today = LocalDate.now();
@@ -1737,6 +1742,19 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.PNC_SERVICE,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
             .put("Guest Member Registration","বহিরাগত রেজিস্ট্রেশন")
             .put("OOC Member Registration","বহিরাগত রেজিস্ট্রেশন")
+            .build();
+    public static final Map<String,String> riskeyFactorMapping = ImmutableMap.<String,String> builder()
+            .put("Bleeding_Through_Birth_Canal","যোনিপথে রক্তক্ষরণ")
+            .put("High_Temperature_102_Degree_or_More","জ্বর")
+            .put("Convulsion","এক্লাম্পসিয়া/খিঁচুনি")
+            .put("Weakness_Blurred_vision","ঝাপসা দৃষ্টি / গুরুতর মাথাব্যথা")
+            .put("high_blood_pressure","উচ্চ রক্তচাপ")
+            .put("OPV 3","পোলিও-৩")
+            .put("PCV 1","পিসিভি-১")
+            .put("PCV 2","পিসিভি-২")
+            .put("PCV 3","পিসিভি-৩")
+            .put("BCG","বিসিজি")
+            .put("VITAMIN A1","ভিটামিন এ")
             .build();
     public static final Map<String,String> immunizationMapping = ImmutableMap.<String,String> builder()
             .put("PENTA 1","পেন্টা-১")

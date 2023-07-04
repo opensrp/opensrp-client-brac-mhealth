@@ -8,6 +8,8 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -101,7 +103,7 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser && !isStart){
-            //addStaticView();
+            setANCHistoryFragment();
             fetchData();
         }
     }
@@ -112,7 +114,7 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                   // addStaticView();
+                    setANCHistoryFragment();
                     fetchData();
 
                 }
@@ -127,7 +129,7 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.fragment_member_profile_due,null);
-       // otherServiceView = view.findViewById(R.id.other_option);
+//        otherServiceView = view.findViewById(R.id.other_option);
         dueRecyclerView = view.findViewById(R.id.due_recycler_view);
         dueRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         loadingProgressBar = view.findViewById(R.id.client_list_progress);
@@ -144,11 +146,21 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
         handler = new Handler();
         //addStaticView();
         fetchData();
+        setANCHistoryFragment();
     }
 
     private void fetchData() {
         showProgressBar();
         presenter.fetchData(commonPersonObjectClient,baseEntityId);
+    }
+    private void setANCHistoryFragment(){
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction =
+                fragmentManager.beginTransaction();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.INTENT_KEY.BASE_ENTITY_ID,baseEntityId);
+        fragmentTransaction.add(R.id.container, MemberHistoryFragment.getInstance(bundle));
+        fragmentTransaction.commit();
     }
 
     private HnppMemberProfileDueAdapter.OnClickAdapter onClickAdapter = (position, content) -> startFormActivity(content);

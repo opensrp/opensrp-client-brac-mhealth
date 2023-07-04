@@ -104,6 +104,7 @@
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
                             android:text="প্রোফাইল আপডেট" />
+
                         <ImageView
                             android:id="@+id/missed_schedule_img"
                             android:layout_width="40dp"
@@ -114,8 +115,8 @@
                             android:layout_marginBottom="5dp"
                             android:adjustViewBounds="true"
                             android:scaleType="centerCrop"
-                            android:visibility="gone"
-                            android:src="@drawable/danger_vaccine" />
+                            android:src="@drawable/danger_vaccine"
+                            android:visibility="gone" />
                     </RelativeLayout>
 
 

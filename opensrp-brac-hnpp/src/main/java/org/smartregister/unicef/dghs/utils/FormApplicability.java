@@ -152,6 +152,12 @@ public class FormApplicability {
     public static String getPncTitle(String baseEntityId){
         return HnppConstants.getPncTitle(FormApplicability.getPNCCount(baseEntityId)+1)[0];
     }
+    public static String getANCTitleForHistory(int count) {
+        return HnppConstants.getAncTitle(count)[0];
+    }
+    public static String getPNCTitleForHistory(int count) {
+        return HnppConstants.getPncTitle(count)[0];
+    }
     public static String getANCTitle(String baseEntityId){
         return HnppConstants.getAncTitle(FormApplicability.getANCCount(baseEntityId)+1)[0];
 //        String lmp = getLmp(baseEntityId);
@@ -230,10 +236,6 @@ public class FormApplicability {
             return true;
         }
         return false;
-    }
-    public static boolean isMissedVaccine(String vaccineDueDate){
-        int dayPass = !TextUtils.isEmpty(vaccineDueDate)?DateUtil.dayDifference(new LocalDate(vaccineDueDate),new LocalDate(System.currentTimeMillis())):0;
-        return dayPass>0;
     }
     public static boolean isImmunizationVisible(Date dob){
         int monthsDifference = getMonthsDifference(new LocalDate(dob),new LocalDate(System.currentTimeMillis()));

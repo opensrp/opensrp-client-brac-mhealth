@@ -44,13 +44,7 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
         //try{
             String gender = org.smartregister.util.Utils.getValue(commonPersonObjectClient.getColumnmaps(), "gender", false);
             String maritalStatus  = org.smartregister.util.Utils.getValue(commonPersonObjectClient.getColumnmaps(), "marital_status", false);
-        {
-            MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
-            memberProfileDueData.setImageSource(R.mipmap.ic_anc_pink);
-            memberProfileDueData.setTitle("গর্ভবতী সেবার ইতিহাস");
-            memberProfileDueData.setType(TAG_OPEN_ANC_HISTORY);
-            memberProfileDueDataArrayList.add(memberProfileDueData);
-        }
+
             if(gender.equalsIgnoreCase("F") && maritalStatus.equalsIgnoreCase("Married")){
                 MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
                 memberProfileDueData.setType(TAG_OPEN_ANC1);
@@ -90,6 +84,13 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                     memberProfileDueDataArrayList.add(memberProfileDueData2);
                 }
             }
+//        {
+//            MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
+//            memberProfileDueData.setImageSource(R.mipmap.ic_anc_pink);
+//            memberProfileDueData.setTitle("গর্ভবতী সেবার ইতিহাস");
+//            memberProfileDueData.setType(TAG_OPEN_ANC_HISTORY);
+//            memberProfileDueDataArrayList.add(memberProfileDueData);
+//        }
 //            {
 //                MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
 //                memberProfileDueData.setImageSource(R.drawable.rowavatar_member);

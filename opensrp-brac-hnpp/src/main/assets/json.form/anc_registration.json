@@ -187,8 +187,8 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "height",
-        "type": "hidden",
-        "hint": "উচ্চতা (সে.মি.)",
+        "type": "edit_text",
+        "hint": "উচ্চতা (ইঞ্চি)",
         "v_numeric": {
           "value": "true",
           "err": "একটি সঠিক নম্বর লিখুন"

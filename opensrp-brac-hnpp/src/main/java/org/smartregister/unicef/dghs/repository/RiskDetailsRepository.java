@@ -10,6 +10,7 @@ import net.sqlcipher.Cursor;
 import net.sqlcipher.database.SQLiteDatabase;
 
 import org.joda.time.DateTime;
+import org.smartregister.domain.Alert;
 import org.smartregister.unicef.dghs.utils.RiskyModel;
 import org.smartregister.repository.BaseRepository;
 import org.smartregister.repository.LocationRepository;
@@ -78,11 +79,16 @@ public class RiskDetailsRepository extends BaseRepository {
         Cursor cursor = null;
         ArrayList<RiskyModel> locations = new ArrayList<>();
         try {
-            cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getLocationTableName()+" where base_entity_id = '"+baseEntityId+"", null);
-            while (cursor.moveToNext()) {
-                locations.add(readCursor(cursor));
+            cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getLocationTableName()+" where base_entity_id = '"+baseEntityId+"'", null);
+
+            if(cursor !=null && cursor.getCount() >0) {
+
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    locations.add(readCursor(cursor));
+                    cursor.moveToNext();
+                }
             }
-            cursor.close();
         } catch (Exception e) {
             Log.e(LocationRepository.class.getCanonicalName(), e.getMessage(), e);
         } finally {
@@ -93,6 +99,7 @@ public class RiskDetailsRepository extends BaseRepository {
     }
 
     protected RiskyModel readCursor(Cursor cursor) {
+        String riskyValue = cursor.getString(cursor.getColumnIndex(RISKY_VALUE));
         String riskyKey = cursor.getString(cursor.getColumnIndex(RISKY_KEY));
         String eventType = cursor.getString(cursor.getColumnIndex(EVENT_TYPE));
         String baseEntityId = cursor.getString(cursor.getColumnIndex(BASE_ENTITY_ID));
@@ -100,6 +107,7 @@ public class RiskDetailsRepository extends BaseRepository {
         riskyModel.baseEntityId = baseEntityId;
         riskyModel.eventType = eventType;
         riskyModel.riskyKey = riskyKey;
+        riskyModel.riskyValue = riskyValue;
         return riskyModel;
     }
 
