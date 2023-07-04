@@ -37,16 +37,11 @@ public class VaccineDueUpdateIntentService extends IntentService {
         try (Cursor cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{})) {
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                String[] member = new String[2];
                 while (!cursor.isAfterLast()) {
+                    String[] member = new String[2];
+
                     member[0] = cursor.getString(0);
                     member[1] = cursor.getString(1);
-
-                    if (!TextUtils.isEmpty(member[1])) {
-                        DateTime dateTime = new DateTime(member[1]);
-                        VaccineSchedule.updateOfflineAlerts(member[0], dateTime, "child");
-                        //ServiceSchedule.updateOfflineAlerts(member[0], dateTime);
-                    }
 
                     childs.add(member);
                     cursor.moveToNext();
@@ -58,14 +53,13 @@ public class VaccineDueUpdateIntentService extends IntentService {
         }
         Log.v("CHILD_FILTER","child list ids>>>>"+childs.size());
 
-        /*for (String[] member:childs) {
-            Log.v("CHILD_FILTER_CHH","child list ids>>>>"+member[1]+"   "+member[0]);
+        for (String[] member:childs) {
             if (!TextUtils.isEmpty(member[1])) {
                 DateTime dateTime = new DateTime(member[1]);
                 VaccineSchedule.updateOfflineAlerts(member[0], dateTime, "child");
                 //ServiceSchedule.updateOfflineAlerts(member[0], dateTime);
             }
-        }*/
+        }
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
