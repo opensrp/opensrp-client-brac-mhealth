@@ -1,6 +1,6 @@
 {
   "count": "1",
-  "encounter_type": "Child Followup",
+  "encounter_type": "New Born PNC 1-4",
   "entity_id": "",
   "metadata": {
     "start": {
@@ -47,16 +47,16 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "শিশু ফলোআপ",
+    "title": "নবজাতক পি এন সি ১-৪",
     "fields": [
       {
         "key": "form_name",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "Child Followup",
+        "openmrs_entity_id": "New Born PNC 1-4",
         "openmrs_data_type": "text",
         "type": "hidden",
-        "value": "child_followup"
+        "value": "new_born_pnc_1_4"
       },
       {
         "key": "dob",
@@ -79,6 +79,17 @@
           }
         }
       },
+
+      {
+        "key": "schedule_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "schedule_date",
+        "type": "hidden",
+        "read_only": true,
+        "hint": "সেবা গ্রহণের নির্ধারিত তারিখ"
+      },
+
       {
         "key": "service_taken_date",
         "openmrs_entity_parent": "",
@@ -87,276 +98,128 @@
         "type": "date_picker",
         "hint": "সেবা গ্রহণের তারিখ"
       },
+
       {
-        "key": "syndrom",
+        "key": "weight",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "syndrom",
+        "openmrs_entity_id": "weight",
+        "type": "edit_text",
+        "v_required": {
+          "value": "true",
+          "err": "ওজন (গ্রাম) লিখুন"
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "সংখ্যাটি 0 এর চেয়ে সমান বা বড় হতে হবে"
+        },
+        "v_max": {
+          "value": "6001",
+          "err": "6001 এর কম হওয়া উচিত"
+        },
+        "v_min": {
+          "value": "500",
+          "err": "500 এর বেশী হওয়া উচিত"
+        },
+
+        "hint": "ওজন (গ্রাম)"
+      },
+
+      {
+        "key": "weight_warning",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "আপনার দেওয়া ওজন কি ঠিক আছে ?",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "newborn-pnc-1-4-relevance.yml"
+            }
+          }
+        }
+      },
+
+
+      {
+        "key": "newborn_body_info",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "newborn_body_info",
         "type": "check_box",
-        "label": "কোন লক্ষণ গুলো আছে?",
+        "label": "নবজাতকের শারীরিক তথ্য",
         "exclusive": [
           "none"
         ],
         "options": [
           {
-            "key": "High_fever",
-            "text": "মাত্রাতিরিক্ত জ্বর",
+            "key": "ebf",
+            "text": "নবজাতক ইবিএফ গ্রহন করছে",
             "value": false,
             "openmrs_entity_id": "High_fever",
             "openmrs_entity": "concept",
             "openmrs_entity_parent": ""
           },
           {
-            "key": "Cough",
-            "text": "কাশি",
+            "key": "redness_around_umbilicus",
+            "text": "আম্বিলিকাস বা অ্যাম্বিলিকাস ড্রেনিং পুসের চারপাশে লালভাব",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_entity_id": "Cough"
+            "openmrs_entity_id": "redness_around_umbilicus"
           },
           {
-            "key": "Runny_nose",
-            "text": "সর্দি",
+            "key": "lethargic_or_restricted_movement",
+            "text": "শারীরিক ভাবে অবস্থান পরিবর্তনে সীমাবদ্ধ",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_entity_id": "Runny_nose"
+            "openmrs_entity_id": "lethargic_or_restricted_movement"
           },
           {
-            "key": "Red_watery_eyes",
-            "text": "লাল/জলভরা চোখ",
+            "key": "unable_to_breastfed",
+            "text": "নবজাতক কে বুকের দুধ খাওয়াতে অক্ষম অথবা নবজাতক স্তন্যপানে অক্ষম",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_entity_id": "Red_watery_eyes"
+            "openmrs_entity_id": "unable_to_breastfed"
           },
           {
-            "key": "Rash",
-            "text": "ফুসকুড়ি",
+            "key": "fast_breathing",
+            "text": "স্বাভাবিক এর থেকে দ্রুত নিঃশ্বাস নিচ্ছে? (প্রতি মিনিটে ৬০ অথবা তার অধিক)",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_entity_id": "Rash"
+            "openmrs_entity_id": "fast_breathing"
           },
           {
-            "key": "Difficulty_in_breathing",
-            "text": "শ্বাস নিতে কষ্ট হওয়া",
+            "key": "chest_in_drawing",
+            "text": "চেস্ট ইন ড্রয়িং",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_entity_id": "Difficulty_in_breathing"
+            "openmrs_entity_id": "chest_in_drawing"
           },
           {
-            "key": "Rapid_heartbeat",
-            "text": "দ্রুত হৃদস্পন্দন",
+            "key": "convulsion",
+            "text": "দ্রুত খিচুনী হয়েছে ",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_entity_id": "Rapid_heartbeat"
+            "openmrs_entity_id": "convulsion"
           },
           {
-            "key": "Sweating_or_shivering",
-            "text": "ঘাম বা কাঁপুনি",
+            "key": "high_temperature",
+            "text": "উচ্চ তাপমাত্রা/ জ্বর ( তাপমাত্রা ৩৭.৫ সে . / ৯৯.৫ ফা. এর উপরে)",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
             "openmrs_entity_id": "Sweating_or_shivering"
-          },
-          {
-            "key": "Loss_of_appetite",
-            "text": "ক্ষুধামান্দ্য",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "Loss_of_appetite"
-          },
-          {
-            "key": "Recent_diarrhoea_episodes",
-            "text": "সাম্প্রতিক ডায়রিয়া",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "Recent_diarrhoea_episodes"
-          },
-          {
-            "key": "none",
-            "text": "কোনোটিই নয়",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "none"
           }
         ]
-      },
-      {
-        "key": "sound",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "sound",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "শিশু কি শব্দে সাড়া দেয়?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        }
-      },
-
-      {
-        "key": "light",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "light",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "শিশুর কি আলোর দিকে সাড়া দেয়?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        }
-      },
-
-      {
-        "key": "presence_of_swelling",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "presence_of_swelling",
-        "type": "spinner",
-        "hint": "অঙ্গ-প্রত্যঙ্গের ফোলা উপস্থিত আছে? (ইডিমা এবং কোয়াশিওরকরের চিহ্ন)",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        }
-
-      },
-
-      {
-        "key": "discoloration_of_skins",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "discoloration_of_skins",
-        "type": "spinner",
-        "hint": "চামড়ার বিবর্ণতা উপস্থিত আছে? (পিঠে হলুদ বা গোলাপী ছোপ)",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        }
-
-      },
-
-      {
-        "key": "presence_of_muscle_wasting",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "presence_of_muscle_wasting",
-        "type": "spinner",
-        "hint": "পেশী নষ্ট হওয়ার চিহ্ন আছে? (পাঁজরের দৃশ্যমানতা) (মারাসমাসের লক্ষণ)",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        }
-
-      },
-
-      {
-        "key": "counseling",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "counseling",
-        "type": "spinner",
-        "hint": "পি এন সি সেবার জন্য ফ্যাসিলিটিতে যাওয়ার জন্য কাউন্সেলিং করা হয়েছে?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        }
-
-      },
-      {
-        "key": "facility_counseling",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "facility_counseling",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "অন্যান্য জটিল সমস্যার জন্য ফ্যাসিলিটিতে যাওয়ার জন্য কাউন্সেলিং করা হয়েছে?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        }
-      },
-
-      {
-        "key": "actions_taken",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "actions_taken",
-        "type": "check_box",
-        "label": "কোন পদক্ষেপ নেওয়া হয়েছে?",
-        "exclusive": [
-          "none"
-        ],
-        "options": [
-          {
-            "key": "consultation",
-            "text": "পরামর্শ  প্রদান করা হয়েছে",
-            "value": false,
-            "openmrs_entity_id": "consultation",
-            "openmrs_entity": "concept",
-            "openmrs_entity_parent": ""
-          },
-          {
-            "key": "treatment",
-            "text": "চিকিৎসা দেয়া হয়েছে",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "treatment"
-          },
-          {
-            "key": "referral",
-            "text": "রেফার করা হয়েছে",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "referral"
-          }
-        ],
-
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "child-followup-relevance.yml"
-            }
-          }
-        }
       },
 
       {
@@ -424,7 +287,6 @@
           }
         }
       },
-
       {
         "key": "latitude",
         "openmrs_entity_parent": "",

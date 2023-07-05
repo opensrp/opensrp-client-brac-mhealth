@@ -46,6 +46,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
     private static final int TAG_OPEN_FAMILY = 111;
     private static final int TAG_OPEN_REFEREAL = 222;
     private static final int TAG_CHILD_FOLLOWUP = 3330;
+    private static final int TAG_NEW_BORN_PNC_1_4 = 2121;
     private static final int TAG_AEFI_CHILD = 33301;
     private static final int TAG_CHILD_INFO_EBF12 = 1212;
     private static final int TAG_CHILD_INFO_7_24_months = 1213;
@@ -276,6 +277,20 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
 
             otherServiceView.addView(homeVisitView);
         }
+
+        boolean isEnc = FormApplicability.isEncVisible(dob);
+
+        if(isEnc){
+            View newBornView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+            ImageView fImg = newBornView.findViewById(R.id.image_view);
+            TextView fName =  newBornView.findViewById(R.id.patient_name_age);
+            newBornView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+            fImg.setImageResource(iconMapping.get(HnppConstants.EVENT_TYPE.NEW_BORN_PNC_1_4));
+            fName.setText(eventTypeMapping.get(HnppConstants.EVENT_TYPE.NEW_BORN_PNC_1_4));
+            newBornView.setTag(TAG_NEW_BORN_PNC_1_4);
+            newBornView.setOnClickListener(this);
+            otherServiceView.addView(newBornView);
+        }
 //        boolean isEnc = FormApplicability.isEncVisible(dob);
 //        if(isEnc){
 //            if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.ENC_REGISTRATION)){
@@ -458,6 +473,14 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                         activity.openFollowUp();
                     }
                     break;
+
+                case TAG_NEW_BORN_PNC_1_4:
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                        activity.openNewBorn();
+                    }
+                    break;
+
                 case TAG_AEFI_CHILD:
                     if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();

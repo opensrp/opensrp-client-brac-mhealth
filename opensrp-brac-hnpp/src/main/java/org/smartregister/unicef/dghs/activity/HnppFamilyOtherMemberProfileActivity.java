@@ -589,6 +589,13 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
                 form.setNavigationBackground(!HnppConstants.isReleaseBuild()?R.color.test_app_color:org.smartregister.family.R.color.customAppThemeBlue);
                 intent.putExtra("IS_NEED_SAVE",false);
             }
+            else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.NEW_BORN_PNC_1_4)){
+                HnppJsonFormUtils.changeFormTitle(jsonForm,FormApplicability.getPncTitle(baseEntityId));
+                HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"pnc_count", (FormApplicability.getPNCCount(baseEntityId)+1)+"");
+//                HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"schedule_date", date);
+                HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
+                HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"schedule_date", HnppConstants.getTodayDate());
+            }
 
             if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.BLOOD_TEST)){
                 if(gender.equalsIgnoreCase("F")){
