@@ -595,12 +595,6 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
 //                HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"schedule_date", date);
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"schedule_date", HnppConstants.getTodayDate());
-                form.setWizard(true);
-                form.setHideSaveLabel(true);
-                form.setSaveLabel("");
-                form.setHomeAsUpIndicator(org.smartregister.family.R.mipmap.ic_cross_white);
-                form.setNavigationBackground(!HnppConstants.isReleaseBuild()?R.color.test_app_color:org.smartregister.family.R.color.customAppThemeBlue);
-                intent.putExtra("IS_NEED_SAVE",false);
             }
 
             if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.BLOOD_TEST)){
