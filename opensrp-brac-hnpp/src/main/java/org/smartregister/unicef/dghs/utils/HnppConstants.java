@@ -1127,6 +1127,7 @@ public class HnppConstants extends CoreConstants {
         public static final String MEMBER_PROFILE_VISIT= "member_profile_visit";
         public static final String REFERREL_FOLLOWUP = "hnpp_member_referral_followup";
         public static final String CHILD_FOLLOWUP = "child_followup";
+        public static final String NEW_BORN_PNC_1_4 = "new_born_pnc_1_4";
         public static final String AEFI_CHILD_ = "aefi_child";
         public static final String CHILD_INFO_EBF12 = "child_info_ebf12";
         public static final String CHILD_INFO_7_24_MONTHS = "child_info_7_24_months";
@@ -1187,6 +1188,7 @@ public class HnppConstants extends CoreConstants {
         public static final String CHILD_INFO_7_24_MONTHS = "Child Info 7-24 months";
         public static final String CHILD_INFO_25_MONTHS = "Child Info 25 Months";
         public static final String CHILD_FOLLOWUP = "Child Followup";
+        public static final String NEW_BORN_PNC_1_4 = "New Born PNC 1-4";
         public static final String AEFI_CHILD = "AEFI Child";
         public static final String PNC_CHILD_REGISTRATION = "PNC Child Registration";
         public static final String UPDATE_CHILD_REGISTRATION = "Update Child Registration";
@@ -1501,6 +1503,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.SERVICES, R.mipmap.form_vitamin)
             .put(EVENT_TYPE.REFERREL_FOLLOWUP,R.mipmap.ic_refer)
             .put(EVENT_TYPE.CHILD_FOLLOWUP,R.drawable.rowavatar_child)
+            .put(EVENT_TYPE.NEW_BORN_PNC_1_4,R.drawable.rowavatar_child)
             .put(EVENT_TYPE.AEFI_CHILD,R.drawable.rowavatar_child)
             .put(EVENT_TYPE.CHILD_INFO_EBF12,R.drawable.rowavatar_child)
             .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,R.drawable.rowavatar_child)
@@ -1562,6 +1565,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.SERVICES, "ভিটামিন সার্ভিস")
             .put(EVENT_TYPE.REFERREL_FOLLOWUP,"রেফারেল ফলোআপ")
             .put(EVENT_TYPE.CHILD_FOLLOWUP,"শিশু ফলোআপ")
+            .put(EVENT_TYPE.NEW_BORN_PNC_1_4,"নবজাতক পি এন সি ১-৪")
             .put(EVENT_TYPE.AEFI_CHILD, "এ ই এফ আই ফলোআপ")
             .put(EVENT_TYPE.CHILD_INFO_EBF12,"শিশু তথ্য")
             .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,"শিশু তথ্য")
@@ -1641,6 +1645,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসব")
             .put(EVENT_TYPE.ENC_REGISTRATION, "নবজাতকের সেবা")
             .put(EVENT_TYPE.CHILD_FOLLOWUP,"শিশু ফলোআপ")
+            .put(EVENT_TYPE.NEW_BORN_PNC_1_4,"নবজাতক পি এন সি ১-৪")
             .put(EVENT_TYPE.AEFI_CHILD,"এ ই এফ আই ফলোআপ")
             .put(EVENT_TYPE.CHILD_INFO_EBF12,"শিশু তথ্য")
             .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,"শিশু তথ্য")
@@ -1721,6 +1726,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.SERVICES, "ভিটামিন সার্ভিস")
             .put(EVENT_TYPE.REFERREL_FOLLOWUP,"রেফারেল ফলোআপ")
             .put(EVENT_TYPE.CHILD_FOLLOWUP,"শিশু ফলোআপ")
+            .put(EVENT_TYPE.NEW_BORN_PNC_1_4,"নবজাতক পি এন সি ১-৪")
             .put(EVENT_TYPE.AEFI_CHILD,"এ ই এফ আই ফলোআপ")
             .put(EVENT_TYPE.CHILD_INFO_EBF12,"শিশু তথ্য")
             .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,"শিশু তথ্য")

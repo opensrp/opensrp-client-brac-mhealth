@@ -541,6 +541,11 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
     public void openFollowUp() {
         startAnyFormActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOWUP,REQUEST_HOME_VISIT);
     }
+    public void openNewBorn() {
+        startAnyFormActivity(HnppConstants.JSON_FORMS.NEW_BORN_PNC_1_4,REQUEST_HOME_VISIT);
+    }
+
+
     public void openAefiForm() {
         startAnyFormActivity(HnppConstants.JSON_FORMS.AEFI_CHILD_,REQUEST_AEFI_CHILD);
     }
@@ -681,6 +686,10 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
 //                        }
 //
 //                        updateFormField(jsonArray,"dob",dobFormate);
+                    }
+
+                    else if(HnppConstants.JSON_FORMS.NEW_BORN_PNC_1_4.equalsIgnoreCase(formName)){
+                        HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
                     }
                     else if(HnppConstants.JSON_FORMS.CHILD_INFO_7_24_MONTHS.equalsIgnoreCase(formName)){
                         JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);

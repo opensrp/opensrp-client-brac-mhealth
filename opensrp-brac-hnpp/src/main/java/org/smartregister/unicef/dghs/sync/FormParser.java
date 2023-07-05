@@ -68,6 +68,7 @@ import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.IYCF_
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.MEMBER_PROFILE_VISIT;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.MEMBER_REFERRAL;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.NCD_PACKAGE;
+import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.NEW_BORN_PNC_1_4;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION_OOC;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME;
@@ -2053,6 +2054,9 @@ public class FormParser {
                 break;
             case CHILD_FOLLOWUP:
                 form_name = HnppConstants.JSON_FORMS.CHILD_FOLLOWUP + ".json";
+                break;
+            case NEW_BORN_PNC_1_4:
+                form_name = HnppConstants.JSON_FORMS.NEW_BORN_PNC_1_4 + ".json";
                 break;
             case AEFI_CHILD:
                 form_name = HnppConstants.JSON_FORMS.AEFI_CHILD_ + ".json";

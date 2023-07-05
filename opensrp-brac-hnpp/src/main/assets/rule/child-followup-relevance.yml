@@ -1,0 +1,7 @@
+---
+name: step1_actions_taken
+description: actions_taken relevance
+priority: 1
+condition: "(step1_syndrom.size()>0 && !step1_syndrom.contains('none'))  || (step1_sound.equalsIgnoreCase('হ্যাঁ') && step1_light.equalsIgnoreCase('হ্যাঁ') && step1_presence_of_swelling.equalsIgnoreCase('হ্যাঁ') && step1_discoloration_of_skins.equalsIgnoreCase('হ্যাঁ') && step1_presence_of_muscle_wasting.equalsIgnoreCase('হ্যাঁ'))"
+actions:
+  - "isRelevant = true"
