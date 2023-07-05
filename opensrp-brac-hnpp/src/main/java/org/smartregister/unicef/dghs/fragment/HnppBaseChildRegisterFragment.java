@@ -342,7 +342,7 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
                         Toast.makeText(getActivity(),getString(R.string.from_to_date_validation_msg)+fromDate+")",Toast.LENGTH_SHORT).show();
                         showFromToDatePicker(DatePickerType.TO);
                     }else{
-                        filterTextTv.setText(fromDate+" - "+toDate);
+                        filterTextTv.setText(String.format("%s - %s", fromDate, toDate));
                         updateFilterView();
                     }
                 } catch (ParseException e) {
