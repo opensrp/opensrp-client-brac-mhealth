@@ -270,7 +270,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             TextView name1 =  homeVisitView.findViewById(R.id.patient_name_age);
             homeVisitView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
             image1.setImageResource(R.drawable.rowavatar_child);
-            name1.setText("খানা সদস্য জরিপ");
+            name1.setText("Member Survey");
             homeVisitView.setTag(TAG_PROFILE_UPDATE);
             homeVisitView.setOnClickListener(this);
 

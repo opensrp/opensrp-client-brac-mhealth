@@ -304,7 +304,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         dialog.setContentView(R.layout.dialog_with_one_button);
         TextView titleTv = dialog.findViewById(R.id.title_tv);
         TextView message = dialog.findViewById(R.id.text_tv);
-        titleTv.setText("যে যে ভ্যাকসিন দেয়ার পর সমস্যা হয়েছিল");
+        titleTv.setText(R.string.aefi_vaccine_problem);
         message.setText(getVaccineName());
         Button ok_btn = dialog.findViewById(R.id.ok_btn);
         ok_btn.setOnClickListener(new View.OnClickListener() {
@@ -324,7 +324,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         StringBuilder realVaccineName = new StringBuilder();
 
         for(String key : vaccineKeyList){
-            realVaccineName.append(HnppConstants.vaccineNameMapping.get(key)).append("\n");
+            realVaccineName.append(HnppConstants.vaccineNameMappingEng.get(key)==null?key:HnppConstants.vaccineNameMappingEng.get(key)).append("\n");
         }
         return  realVaccineName.toString();
     }

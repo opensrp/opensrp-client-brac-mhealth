@@ -979,16 +979,16 @@ public class HnppDBUtils {
             return "হ্যাঁ";
         }
         if(value.equalsIgnoreCase("No")){
-            return "না";
+            return "No";
         }
         if(value.equalsIgnoreCase("M")){
-            return "পুরুষ";
+            return "Male";
         }
         if(value.equalsIgnoreCase("F")){
-            return "নারী";
+            return "Female";
         }
         if(value.equalsIgnoreCase("O")){
-            return "তৃতীয় লিঙ্গ";
+            return "Third";
         }
         return value;
     }

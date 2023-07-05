@@ -271,7 +271,7 @@ public class GlobalSearchMemberProfileActivity extends BaseProfileActivity imple
             if(age>5 && guestMemberData.getGender().equalsIgnoreCase("F") ){
                 womanImmunizationFragment = WomanImmunizationFragment.newInstance(this.getIntent().getExtras());
                 womanImmunizationFragment.setChildDetails(commonPersonObject);
-                adapter.addFragment(memberDueFragment, "ফলোআপ");
+                adapter.addFragment(memberDueFragment, "Follow up");
                 adapter.addFragment(womanImmunizationFragment, "টিকাদান");
                 adapter.addFragment(memberHistoryFragment, this.getString(R.string.activity).toUpperCase());
                 mViewPager.setOffscreenPageLimit(3);
@@ -284,7 +284,7 @@ public class GlobalSearchMemberProfileActivity extends BaseProfileActivity imple
                 growthFragment.setChildDetails(commonPersonObject);
                 adapter.addFragment(childImmunizationFragment, "টিকাদান");
                 adapter.addFragment(growthFragment, this.getString(R.string.gmp).toUpperCase());
-                adapter.addFragment(memberDueFragment, "ফলোআপ");
+                adapter.addFragment(memberDueFragment, "Follow up");
                 adapter.addFragment(memberHistoryFragment, this.getString(R.string.activity).toUpperCase());
                 mViewPager.setOffscreenPageLimit(4);
             }else{

@@ -945,10 +945,10 @@ public class HnppConstants extends CoreConstants {
     }
     public static String getGender(String value){
         if(value.equalsIgnoreCase("F")){
-            return "মহিলা";
+            return "Female";
         }
         if(value.equalsIgnoreCase("M")){
-            return "পুরুষ";
+            return "Male";
         }
         return value;
     }
@@ -1435,6 +1435,25 @@ public class HnppConstants extends CoreConstants {
             .put("fipv_1","এফ আই পি ভি-১")
             .put("fipv_2","এফ আই পি ভি-২")
             .build();
+    public static final Map<String,String> vaccineNameMappingEng = ImmutableMap.<String,String> builder()
+            .put("bcg","BCG")
+            .put("opv_0","OPV-0")
+            .put("opv_1","OPV-1")
+            .put("pcv_1","PCV-1")
+            .put("penta_1","Penta-1")
+            .put("opv_2","OPV-2")
+            .put("pcv_2","PCV-2")
+            .put("penta_2","Penta-2")
+            .put("opv_3","OPV-3")
+            .put("ipv","IPV")
+            .put("pcv_3","PCV-3")
+            .put("penta_3","Penta-3")
+            .put("mr_1","MR-1")
+            .put("mr_2","MR-2")
+            .put("vitamin_a1","Vitamin")
+            .put("fipv_1","fIPV-1")
+            .put("fipv_2","fIPV-2")
+            .build();
     public static final Map<String,String> eventTypeFormNameMapping = ImmutableMap.<String,String> builder()
             .put(EVENT_TYPE.ANC_REGISTRATION,JSON_FORMS.ANC_FORM)
             .put(EVENT_TYPE.ANC_HOME_VISIT,JSON_FORMS.ANC_VISIT_FORM)
@@ -1556,12 +1575,12 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)")
             .put(EVENT_TYPE.ENC_REGISTRATION, "নবজাতকের সেবা")
             .put(EVENT_TYPE.HOME_VISIT_FAMILY, "খানার প্রোফাইল আপডেট")
-            .put(EVENT_TYPE.CHILD_PROFILE_VISIT, "খানা সদস্য জরিপ")
-            .put(EVENT_TYPE.MEMBER_PROFILE_VISIT, "খানা সদস্য জরিপ")
+            .put(EVENT_TYPE.CHILD_PROFILE_VISIT, "Member Survey")
+            .put(EVENT_TYPE.MEMBER_PROFILE_VISIT, "Member Survey")
             .put(EVENT_TYPE.VACCINATION, "ভ্যাকসিনেশন")
             .put(EVENT_TYPE.SERVICES, "ভিটামিন সার্ভিস")
             .put(EVENT_TYPE.REFERREL_FOLLOWUP,"রেফারেল ফলোআপ")
-            .put(EVENT_TYPE.CHILD_FOLLOWUP,"শিশু ফলোআপ")
+            .put(EVENT_TYPE.CHILD_FOLLOWUP,"Child Followup")
             .put(EVENT_TYPE.AEFI_CHILD,"AEFI child")
             .put(EVENT_TYPE.CHILD_INFO_EBF12,"শিশু তথ্য")
             .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,"শিশু তথ্য")
@@ -1585,8 +1604,8 @@ public class HnppConstants extends CoreConstants {
     public static final Map<String,String> targetTypeMapping = ImmutableMap.<String,String> builder()
 
             .put(EVENT_TYPE.HOME_VISIT_FAMILY,"খানার প্রোফাইল আপডেট ")
-            .put(EVENT_TYPE.CHILD_PROFILE_VISIT,"খানা সদস্য জরিপ")
-            .put(EVENT_TYPE.MEMBER_PROFILE_VISIT,"খানা সদস্য জরিপ")
+            .put(EVENT_TYPE.CHILD_PROFILE_VISIT,"Member Survey")
+            .put(EVENT_TYPE.MEMBER_PROFILE_VISIT,"Member Survey")
             .put(EVENT_TYPE.ELCO,"সক্ষম দম্পতি পরিদর্শন")
             .put(EVENT_TYPE.METHOD_USER,"পদ্ধতি ব্যবহারকারী")
             .put(EVENT_TYPE.ADO_METHOD_USER,"পদ্ধতি ব্যবহারকারী (কিশোরী)")
@@ -1628,8 +1647,8 @@ public class HnppConstants extends CoreConstants {
             .put(HnppConstants.EventType.FAMILY_REGISTRATION,"খানা রেজিস্ট্রেশন")
             .put(HnppConstants.EventType.FAMILY_MEMBER_REGISTRATION,"সদস্য রেজিস্ট্রেশন")
             .put(EVENT_TYPE.HOME_VISIT_FAMILY,"খানার প্রোফাইল আপডেট ")
-            .put(EVENT_TYPE.CHILD_PROFILE_VISIT,"খানা সদস্য জরিপ")
-            .put(EVENT_TYPE.MEMBER_PROFILE_VISIT,"খানা সদস্য জরিপ")
+            .put(EVENT_TYPE.CHILD_PROFILE_VISIT,"Member Survey")
+            .put(EVENT_TYPE.MEMBER_PROFILE_VISIT,"Member Survey")
             .put(HnppConstants.EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,"সদস্য রেজিস্ট্রেশন")
             .put("ANC","গর্ভবতী পরিচর্যা(এএনসি)")
             .put("pnc","পূর্বের প্রসবোত্তর পরিচর্যা(পিএনসি)")
@@ -1640,7 +1659,7 @@ public class HnppConstants extends CoreConstants {
 
             .put(EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসব")
             .put(EVENT_TYPE.ENC_REGISTRATION, "নবজাতকের সেবা")
-            .put(EVENT_TYPE.CHILD_FOLLOWUP,"শিশু ফলোআপ")
+            .put(EVENT_TYPE.CHILD_FOLLOWUP,"Child Followup")
             .put(EVENT_TYPE.AEFI_CHILD,"Aefi child")
             .put(EVENT_TYPE.CHILD_INFO_EBF12,"শিশু তথ্য")
             .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,"শিশু তথ্য")
@@ -1714,13 +1733,13 @@ public class HnppConstants extends CoreConstants {
             .put( EVENT_TYPE.PNC_REGISTRATION,"পি.এন.সি.")
             .put(EVENT_TYPE.ENC_REGISTRATION, "নবজাতকের সেবা")
             .put(EVENT_TYPE.HOME_VISIT_FAMILY, "খানার প্রোফাইল আপডেট ")
-            .put(EVENT_TYPE.CHILD_PROFILE_VISIT, "খানা সদস্য জরিপ")
-            .put(EVENT_TYPE.MEMBER_PROFILE_VISIT, "খানা সদস্য জরিপ")
+            .put(EVENT_TYPE.CHILD_PROFILE_VISIT, "Member Survey")
+            .put(EVENT_TYPE.MEMBER_PROFILE_VISIT, "Member Survey")
             .put(EventType.CHILD_HOME_VISIT, "শিশু হোম ভিজিট")
             .put(EVENT_TYPE.VACCINATION, "ভ্যাকসিনেশন")
             .put(EVENT_TYPE.SERVICES, "ভিটামিন সার্ভিস")
             .put(EVENT_TYPE.REFERREL_FOLLOWUP,"রেফারেল ফলোআপ")
-            .put(EVENT_TYPE.CHILD_FOLLOWUP,"শিশু ফলোআপ")
+            .put(EVENT_TYPE.CHILD_FOLLOWUP,"Child Followup")
             .put(EVENT_TYPE.AEFI_CHILD,"Aefi child")
             .put(EVENT_TYPE.CHILD_INFO_EBF12,"শিশু তথ্য")
             .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,"শিশু তথ্য")

@@ -110,9 +110,9 @@ public class HnppFamilyDueRegisterProvider implements RecyclerViewProvider<HnppF
         String dobString = Utils.getDuration(dob);
         String yearSub =  dobString.contains("y") ? dobString.substring(0, dobString.indexOf("y")) : "0";
         if(!TextUtils.isEmpty(yearSub) && Integer.parseInt(yearSub) >=3){
-            viewHolder.dueBtn.setText("শিশু ফলোআপ");
+            viewHolder.dueBtn.setText("Child Followup");
         }else{
-            viewHolder.dueBtn.setText("ভ্যাকসিনেশন");
+            viewHolder.dueBtn.setText("Vaccination");
         }
         fillValue(viewHolder.patientNameAge, patientName);
         viewHolder.lastVisit.setVisibility(View.VISIBLE);
