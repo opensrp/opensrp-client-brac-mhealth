@@ -96,8 +96,11 @@ public class VaccineDueUpdateIntentService extends IntentService {
                      if exist then skip otherwise add case id
                      */
                     if(!baseEntityIdList.contains(alert.caseId())){
-                        alerts.add(alert);
+                        Alert processedAlert = getProcessedAlert(alert);
+                        alerts.add(processedAlert);
                         baseEntityIdList.add(alert.caseId());
+
+
                     }
 
                     cursor.moveToNext();
@@ -128,6 +131,47 @@ public class VaccineDueUpdateIntentService extends IntentService {
             }
         }
         return true;
+    }
+
+    /**
+     * checking vaccine exist or not in vaccine table
+     * if exist return
+     * or else return existing alert
+     * @param alert
+     * @return
+     */
+    static Alert getProcessedAlert(Alert alert){
+        String baseEntityId = alert.caseId();
+        String query = "select * from vaccines where base_entity_id = '"+baseEntityId+"' and is_invalid != '0' and updated_at is not null order by updated_at asc limit 1";
+        Cursor cursor = null;
+        Alert processedAlert = alert;
+        ArrayList<String> baseEntityIdList = new ArrayList<>();
+        try{
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+
+                cursor.moveToFirst();
+                int baseEntityIdColumn = cursor.getColumnIndex("base_entity_id");
+                int vaccineNameColumn = cursor.getColumnIndex("name");
+                int dueDateColumn = cursor.getColumnIndex("updated_at");
+
+                while (!cursor.isAfterLast()) {
+                    Log.v("CHILD_FILTER_PPPP",""+baseEntityIdColumn);
+                    processedAlert = new Alert(cursor.getString(baseEntityIdColumn), cursor.getString(vaccineNameColumn), "", null, cursor.getString(dueDateColumn), "");
+                    cursor.moveToNext();
+                }
+
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+
+        }
+        finally {
+            if(cursor!=null) cursor.close();
+        }
+
+        return  processedAlert;
     }
 
 }
