@@ -78,6 +78,7 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
     protected String fromDate = "";
     protected String toDate = "";
     private int oldPosition = -1;
+    private  TextView filterTextTv;
 
     @Override
     public void setupViews(View view) {
@@ -164,7 +165,7 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
         RecyclerView filterTypeRv = filterView.findViewById(R.id.filter_type_rv);
         ConstraintLayout filterDateLay = filterView.findViewById(R.id.filter_date_lay);
         ImageView arrowImageView = filterView.findViewById(R.id.arrow_image);
-        TextView filterTextTv = filterView.findViewById(R.id.filter_text_view);
+        filterTextTv = filterView.findViewById(R.id.filter_text_view);
 
          adapter = new ChildFilterTypeAdapter(new ChildFilterTypeAdapter.OnClickAdapter() {
             @Override
@@ -341,6 +342,7 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
                         Toast.makeText(getActivity(),getString(R.string.from_to_date_validation_msg)+fromDate+")",Toast.LENGTH_SHORT).show();
                         showFromToDatePicker(DatePickerType.TO);
                     }else{
+                        filterTextTv.setText(fromDate+" - "+toDate);
                         updateFilterView();
                     }
                 } catch (ParseException e) {
