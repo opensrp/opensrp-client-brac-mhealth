@@ -21,7 +21,11 @@ import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.fragment.ChildImmunizationFragment;
 import org.smartregister.unicef.dghs.utils.HnppDBConstants;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class VaccineDueUpdateIntentService extends IntentService {
     public VaccineDueUpdateIntentService() {
@@ -95,12 +99,10 @@ public class VaccineDueUpdateIntentService extends IntentService {
                      checking case id exist or not
                      if exist then skip otherwise add case id
                      */
-                    if(!baseEntityIdList.contains(alert.caseId())){
-                        Alert processedAlert = getProcessedAlert(alert);
+                    Alert processedAlert = getProcessedAlert(alert);
+                    if(!baseEntityIdList.contains(processedAlert.caseId())){
                         alerts.add(processedAlert);
-                        baseEntityIdList.add(alert.caseId());
-
-
+                        baseEntityIdList.add(processedAlert.caseId());
                     }
 
                     cursor.moveToNext();
@@ -110,12 +112,10 @@ public class VaccineDueUpdateIntentService extends IntentService {
             }
         }catch (Exception e){
             e.printStackTrace();
-
         }
         finally {
             if(cursor!=null) cursor.close();
         }
-        Log.v("CHILD_FILTER","alert>>>>"+alerts.size());
         //now need to update child table with vaccine name and due date
         for (Alert alert: alerts) {
 
@@ -124,7 +124,6 @@ public class VaccineDueUpdateIntentService extends IntentService {
                 String sql = "update ec_child set due_vaccine_date='"+alert.startDate()+"',due_vaccine_name='"+alert.scheduleName()+"' where " +
                         "base_entity_id = '"+alert.caseId()+"' ;";
                 database.execSQL(sql);
-                Log.v("CHILD_FILTER","executed>>>>>");
             }catch(Exception e){
                 e.printStackTrace();
 
@@ -145,21 +144,31 @@ public class VaccineDueUpdateIntentService extends IntentService {
         String query = "select * from vaccines where base_entity_id = '"+baseEntityId+"' and is_invalid != '0' and updated_at is not null order by updated_at asc limit 1";
         Cursor cursor = null;
         Alert processedAlert = alert;
-        ArrayList<String> baseEntityIdList = new ArrayList<>();
+
+        SimpleDateFormat sp = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        Calendar calendar = Calendar.getInstance();
+
         try{
             cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
-            if(cursor !=null && cursor.getCount() >0){
+            if(cursor !=null && cursor.getCount() > 0 ){
 
                 cursor.moveToFirst();
                 int baseEntityIdColumn = cursor.getColumnIndex("base_entity_id");
                 int vaccineNameColumn = cursor.getColumnIndex("name");
                 int dueDateColumn = cursor.getColumnIndex("updated_at");
 
-                while (!cursor.isAfterLast()) {
-                    Log.v("CHILD_FILTER_PPPP",""+baseEntityIdColumn);
-                    processedAlert = new Alert(cursor.getString(baseEntityIdColumn), cursor.getString(vaccineNameColumn), "", null, cursor.getString(dueDateColumn), "");
-                    cursor.moveToNext();
+
+                calendar.setTimeInMillis(Long.parseLong(cursor.getString(dueDateColumn)));
+                String date = sp.format(calendar.getTime());
+
+                Date alertDate = sp.parse(alert.startDate());
+                Date vaccineDate = sp.parse(date);
+
+                assert alertDate != null;
+                if(alertDate.before(vaccineDate)){
+                    processedAlert = new Alert(cursor.getString(baseEntityIdColumn), cursor.getString(vaccineNameColumn), "", null, date, "");
                 }
+
 
 
             }
