@@ -218,7 +218,7 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
             }
         });
 
-         adapter = new ChildFilterTypeAdapter(new ChildFilterTypeAdapter.OnClickAdapter() {
+        adapter = new ChildFilterTypeAdapter(new ChildFilterTypeAdapter.OnClickAdapter() {
             @Override
             public void onClick(int position, String content) {
                 if(oldPosition != position){
@@ -253,7 +253,7 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
                     filterTypeRv.setVisibility(View.GONE);
                     arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
                 }else{
-                    clients_header_layout.getLayoutParams().height = 650;
+                    clients_header_layout.getLayoutParams().height = 800;
                     filterTypeRv.setVisibility(View.VISIBLE);
                     arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
                 }
@@ -270,7 +270,7 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
                     filterTypeRv.setVisibility(View.GONE);
                     arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
                 }else{
-                    clients_header_layout.getLayoutParams().height = 650;
+                    clients_header_layout.getLayoutParams().height = 800;
                     filterTypeRv.setVisibility(View.VISIBLE);
                     arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
                 }
