@@ -21,6 +21,7 @@ import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.fragment.ChildImmunizationFragment;
 import org.smartregister.unicef.dghs.utils.HnppDBConstants;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -140,13 +141,21 @@ public class VaccineDueUpdateIntentService extends IntentService {
      * @return
      */
     static Alert getProcessedAlert(Alert alert){
-        String baseEntityId = alert.caseId();
-        String query = "select * from vaccines where base_entity_id = '"+baseEntityId+"' and is_invalid != '0' and updated_at is not null order by updated_at asc limit 1";
-        Cursor cursor = null;
-        Alert processedAlert = alert;
-
         SimpleDateFormat sp = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         Calendar calendar = Calendar.getInstance();
+
+        String baseEntityId = alert.caseId();
+        long alertDateLong = 0;
+        try {
+            if(alert.startDate() != null){
+                alertDateLong = sp.parse(alert.startDate()).getTime();
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String query = "select * from vaccines where base_entity_id = '"+baseEntityId+"' and is_invalid != '0' and updated_at < "+alertDateLong+" is not null order by updated_at asc limit 1";
+        Cursor cursor = null;
+        Alert processedAlert = alert;
 
         try{
             cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
@@ -161,13 +170,7 @@ public class VaccineDueUpdateIntentService extends IntentService {
                 calendar.setTimeInMillis(Long.parseLong(cursor.getString(dueDateColumn)));
                 String date = sp.format(calendar.getTime());
 
-                Date alertDate = sp.parse(alert.startDate());
-                Date vaccineDate = sp.parse(date);
-
-                assert alertDate != null;
-                if(alertDate.before(vaccineDate)){
-                    processedAlert = new Alert(cursor.getString(baseEntityIdColumn), cursor.getString(vaccineNameColumn), "", null, date, "");
-                }
+                processedAlert = new Alert(cursor.getString(baseEntityIdColumn), cursor.getString(vaccineNameColumn), "", null, date, "");
 
 
 
