@@ -657,6 +657,23 @@ public class HnppConstants extends CoreConstants {
         int dayDiff = Days.daysBetween(lastMenstrualPeriod, expectedDeliveryDate).getDays();
         return dayDiff <=30;
     }
+    public static String getSchedulePncDate(String deliveryDate, int noOfPnc){
+        DateTime ddDate = DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(deliveryDate);
+        LocalDate scheduleDate = new LocalDate(ddDate);
+        LocalDate expectedDeliveryDate;
+        switch (noOfPnc){
+            case 2: expectedDeliveryDate= scheduleDate.plusDays(3);
+                break;
+            case 3: expectedDeliveryDate= scheduleDate.plusDays(7);
+                break;
+            case 4: expectedDeliveryDate= scheduleDate.plusDays(28);
+                break;
+            default:
+                expectedDeliveryDate= scheduleDate.plusDays(0);
+                break;
+        }
+        return DateTimeFormat.forPattern("dd-MM-yyyy").print(expectedDeliveryDate);
+    }
     public static String getScheduleLmpDate(String lmp, int noOfAnc){
         DateTime lmpDate = DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(lmp);
 
@@ -1113,7 +1130,7 @@ public class HnppConstants extends CoreConstants {
         public static final String  WOMEN_REFERRAL = "hnpp_women_referral";
         public static final String  CHILD_REFERRAL = "hnpp_child_referral";
         public static final String  ELCO = "elco_register";
-        public static final String  PNC_FORM = "hnpp_pnc_registration";
+        public static final String  PNC_FORM = "pnc_home_visit";
         public static final String  PNC_FORM_OOC = "hnpp_pnc_registration_ooc";
         public static final String  WOMEN_PACKAGE = "hnpp_women_package";
         public static final String  EYE_TEST = "eye_test";
@@ -1755,12 +1772,12 @@ public class HnppConstants extends CoreConstants {
             .put("Convulsion","এক্লাম্পসিয়া/খিঁচুনি")
             .put("Weakness_Blurred_vision","ঝাপসা দৃষ্টি / গুরুতর মাথাব্যথা")
             .put("high_blood_pressure","উচ্চ রক্তচাপ")
-            .put("OPV 3","পোলিও-৩")
-            .put("PCV 1","পিসিভি-১")
-            .put("PCV 2","পিসিভি-২")
-            .put("PCV 3","পিসিভি-৩")
-            .put("BCG","বিসিজি")
-            .put("VITAMIN A1","ভিটামিন এ")
+            .put("clinical_anemia","ক্লিনিকাল রক্তসল্পতা আছে")
+            .put("pph","প্রসবোত্তর রক্তক্ষরণের হয়েছে")
+            .put("postpartum_eclampsia","প্রসবোত্তর খিচুনী হয়েছে")
+            .put("puerperal_sepsis","প্রসবোত্তর কোনো প্রকার সংক্রমণ হয়েছ")
+            .put("vv_fistula_rv_fistula","ভিভি ফিস্টুলা/আরভি ফিস্টুলা দ্বারা সংক্রমিত হয়েছেন")
+            .put("perinal_tear","পেরিনাল টিয়ার হয়েছে")
             .build();
     public static final Map<String,String> immunizationMapping = ImmutableMap.<String,String> builder()
             .put("PENTA 1","পেন্টা-১")

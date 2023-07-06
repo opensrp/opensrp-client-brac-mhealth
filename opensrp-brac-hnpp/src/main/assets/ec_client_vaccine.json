@@ -30,6 +30,20 @@
       }
     },
     {
+      "column_name": "due_date",
+      "json_mapping": {
+        "field": "obs.fieldCode",
+        "concept": "due_date"
+      }
+    },
+    {
+      "column_name": "is_invalid",
+      "json_mapping": {
+        "field": "obs.fieldCode",
+        "concept": "is_invalid"
+      }
+    },
+    {
       "column_name": "anmid",
       "json_mapping": {
         "field": "providerId"

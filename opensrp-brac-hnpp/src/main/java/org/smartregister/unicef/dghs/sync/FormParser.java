@@ -169,6 +169,10 @@ public class FormParser {
 
                             updateAncHomeVisitRisk(encounter_type,base_entity_id,details);
                         }
+                        if(CoreConstants.EventType.PNC_HOME_VISIT.equalsIgnoreCase(encounter_type)){
+
+                            updatePNCHomeVisitRisk(encounter_type,base_entity_id,details);
+                        }
                         if(ANC_REGISTRATION.equalsIgnoreCase(encounter_type)){
                             FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",0+"");
                             FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_PNC",0+"");
@@ -1048,6 +1052,25 @@ public class FormParser {
         }
             HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"false",ANC_REGISTRATION);
 
+    }
+    private static void updatePNCHomeVisitRisk(String eventType , String baseEntityId,HashMap<String,String>details) {
+        boolean isAncHomeVisitRisk = false;
+        if(details.containsKey("Denger_Signs_During_PNC") && !StringUtils.isEmpty(details.get("Denger_Signs_During_PNC"))) {
+            isAncHomeVisitRisk = true;
+            String dengerValue = details.get("Denger_Signs_During_PNC");
+            Log.v("RISK_ANC","dengerValue>>"+dengerValue);
+            RiskyModel riskynBPSModel = new RiskyModel();
+            riskynBPSModel.riskyValue = dengerValue;
+            riskynBPSModel.riskyKey = "Denger_Signs_During_PNC";
+            riskynBPSModel.eventType = eventType;
+            riskynBPSModel.baseEntityId = baseEntityId;
+            HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
+        }
+        if(isAncHomeVisitRisk) {
+            HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EventType.PNC_HOME_VISIT);
+        }else {
+            HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"false",HnppConstants.EventType.PNC_HOME_VISIT);
+        }
     }
     private static void updateAncHomeVisitRisk(String eventType , String baseEntityId,HashMap<String,String>details){
         boolean isAncHomeVisitRisk = false;

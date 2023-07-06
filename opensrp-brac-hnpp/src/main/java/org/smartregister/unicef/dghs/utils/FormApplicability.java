@@ -300,6 +300,16 @@ public class FormApplicability {
         }
         return dayPass;
     }
+    public static String  getDeliveryDate(String baseEntityId){
+        String DeliveryDateSql = "SELECT delivery_date FROM ec_pregnancy_outcome where base_entity_id = ? ";
+
+        List<Map<String, String>> valus = HnppDBUtils.readData(DeliveryDateSql, new String[]{baseEntityId});
+        if(valus.size() > 0&&valus.get(0).get("delivery_date")!=null){
+           return valus.get(0).get("delivery_date");
+
+        }
+        return "";
+    }
     public static int getDaysFromEDD(String edd){
         int dayPass = Days.daysBetween(new DateTime(),DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(edd)).getDays();
         return 281 - dayPass;

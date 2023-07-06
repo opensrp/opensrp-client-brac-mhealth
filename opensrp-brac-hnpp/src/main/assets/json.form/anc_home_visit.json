@@ -352,95 +352,27 @@
     "next": "step3",
     "fields": [
       {
-        "key": "health_cheque_up",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "health_cheque_up",
-        "type": "check_box",
-        "label": "কোন কোন স্বাস্থ্য পরীক্ষা করানো হয়েছে? ",
-        "exclusive": [
-          "none"
-        ],
-        "options": [
-          {
-            "key": "jondish",
-            "text": "জন্ডিস",
-            "value": false,
-            "openmrs_entity_id": "jondish",
-            "openmrs_entity": "concept",
-            "openmrs_entity_parent": ""
-          },
-          {
-            "key": "himoglobin",
-            "text": "হিমোগ্লোবিন",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "himoglobin"
-          },
-          {
-            "key": "glucos",
-            "text": " রক্তে গ্লুকোজের মাত্রা ",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "glucos"
-          },
-          {
-            "key": "alubumin",
-            "text": "প্রস্রাবের অ্যালবুমিন ",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "alubumin"
-          },
-          {
-            "key": "hbs",
-            "text": "হেপাটাইটিস বি",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "hbs"
-          },
-          {
-            "key": "chipilis",
-            "text": "সিফিলিস",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "chipilis"
-          },
-          {
-            "key": "hiv",
-            "text": "এইচ আই ভি ",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "hiv"
-          },
-          {
-            "key": "ultra_sound",
-            "text": "আল্ট্রাসাউন্ড স্ক্যান",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "ultra_sound"
-          },
-          {
-            "key": "none",
-            "text": "কোনোটিই নয়",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "none"
-          }
-        ]
-      },
-      {
-        "key": "Hemoglobin",
+        "key": "hemoglobin_exam",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
-        "openmrs_entity_id": "Hemoglobin",
+        "openmrs_entity_id": "hemoglobin_exam",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "হিমোগ্লোবিন পরীক্ষা করানো হয়েছে?",
+        "values": [
+          "Yes",
+          "No"
+        ],
+        "openmrs_entity_ids": {
+          "Yes": "Yes",
+          "No": "No"
+        }
+      },
+      {
+        "key": "Hemoglobin_result",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Hemoglobin_result",
         "openmrs_data_type": "text",
         "type": "edit_text",
         "hint": "হিমোগ্লোবিন পরীক্ষার ফলাফল (gm/dl)",
@@ -449,15 +381,27 @@
           "err": "Enter a valid Number"
         },
         "relevance": {
-          "step2:health_cheque_up": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "himoglobin"
-                ]
-              }
-            ]
+          "step2:hemoglobin_exam": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
           }
+        }
+      },
+      {
+        "key": "blood_sugar_exam",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "blood_sugar_exam",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": " রক্তে গ্লুকোজের মাত্রা পরীক্ষা করানো হয়েছে? ",
+        "values": [
+          "Yes",
+          "No"
+        ],
+        "openmrs_entity_ids": {
+          "Yes": "Yes",
+          "No": "No"
         }
       },
       {
@@ -473,15 +417,27 @@
           "err": "Enter a valid Number"
         },
         "relevance": {
-          "step2:health_cheque_up": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "glucos"
-                ]
-              }
-            ]
+          "step2:blood_sugar_exam": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
           }
+        }
+      },
+      {
+        "key": "Urine_Albumin_exam",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Urine_Albumin_exam",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "প্রস্রাবের অ্যালবুমিন পরীক্ষা করানো হয়েছে?",
+        "values": [
+          "Yes",
+          "No"
+        ],
+        "openmrs_entity_ids": {
+          "Yes": "Yes",
+          "No": "No"
         }
       },
       {
@@ -505,15 +461,27 @@
           "স্বাভাবিক ফলাফল": "Normal"
         },
         "relevance": {
-          "step2:health_cheque_up": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "alubumin"
-                ]
-              }
-            ]
+          "step2:Urine_Albumin_exam": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
           }
+        }
+      },
+      {
+        "key": "Hb_tested_exam",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Hb_tested_exam",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "হেপাটাইটিস বি পরীক্ষা করানো হয়েছে?",
+        "values": [
+          "Yes",
+          "No"
+        ],
+        "openmrs_entity_ids": {
+          "Yes": "Yes",
+          "No": "No"
         }
       },
       {
@@ -533,15 +501,27 @@
           "নেগেটিভ": "negetive"
         },
         "relevance": {
-          "step2:health_cheque_up": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "hbs"
-                ]
-              }
-            ]
+          "step2:Hb_tested_exam": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
           }
+        }
+      },
+      {
+        "key": "chipilis_tested_exam",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "chipilis_tested_exam",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "সিফিলিস পরীক্ষা করানো হয়েছে?",
+        "values": [
+          "Yes",
+          "No"
+        ],
+        "openmrs_entity_ids": {
+          "Yes": "Yes",
+          "No": "No"
         }
       },
       {
@@ -561,15 +541,27 @@
           "নেগেটিভ": "negetive"
         },
         "relevance": {
-          "step2:health_cheque_up": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "chipilis"
-                ]
-              }
-            ]
+          "step2:chipilis_tested_exam": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
           }
+        }
+      },
+      {
+        "key": "hiv_tested_exam",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "hiv_tested_exam",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "এইচ আই ভি পরীক্ষা করানো হয়েছে?",
+        "values": [
+          "Yes",
+          "No"
+        ],
+        "openmrs_entity_ids": {
+          "Yes": "Yes",
+          "No": "No"
         }
       },
       {
@@ -589,15 +581,27 @@
           "নেগেটিভ": "negetive"
         },
         "relevance": {
-          "step2:health_cheque_up": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "hiv"
-                ]
-              }
-            ]
+          "step2:hiv_tested_exam": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
           }
+        }
+      },
+      {
+        "key": "ultra_sound_exam",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "ultra_sound_exam",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "আল্ট্রাসাউন্ড স্ক্যান পরীক্ষা করানো হয়েছে?",
+        "values": [
+          "Yes",
+          "No"
+        ],
+        "openmrs_entity_ids": {
+          "Yes": "Yes",
+          "No": "No"
         }
       },
       {
@@ -628,7 +632,7 @@
     ]
   },
   "step3": {
-    "title": "বিপদচিহ্ন ও রেফারেল",
+    "title": "বিপদচিহ্ন, কাউন্সেলিং  ও রেফারেল",
     "previous": "step2",
     "fields": [
 

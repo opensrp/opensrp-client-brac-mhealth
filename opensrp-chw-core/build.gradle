@@ -106,7 +106,7 @@ dependencies {
     }
 
     //dghs_ha branch
-    api('org.smartregister:opensrp-client-immunization:1.4.20-dghs-ha-invalid-v3-due-SNAPSHOT@aar') {
+    api('org.smartregister:opensrp-client-immunization:1.4.20-dghs-ha-invalid-v4-due-SNAPSHOT@aar') {
         transitive = true
         exclude group: 'org.smartregister', module: 'opensrp-client-core'
         exclude group: 'org.smartregister', module: 'opensrp-client-native-form'

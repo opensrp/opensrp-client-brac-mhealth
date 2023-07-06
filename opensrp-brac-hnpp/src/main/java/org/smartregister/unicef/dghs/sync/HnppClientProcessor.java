@@ -3,14 +3,17 @@ package org.smartregister.unicef.dghs.sync;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.clientandeventmodel.Obs;
 import org.smartregister.growthmonitoring.GrowthMonitoringLibrary;
 import org.smartregister.growthmonitoring.domain.Height;
 import org.smartregister.growthmonitoring.domain.MUAC;
@@ -335,6 +338,11 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                 if (contentValues.containsKey(VaccineRepository.CALCULATION)) {
                     vaccineObj.setCalculation(parseInt(contentValues.getAsString(VaccineRepository.CALCULATION)));
                 }
+                if(!TextUtils.isEmpty(contentValues.getAsString(VaccineRepository.DUE_DATE))){
+                    DateTime dateTime = DateTime.parse(contentValues.getAsString(VaccineRepository.DUE_DATE), DateTimeFormat.forPattern("yyyy-MM-dd"));
+                    vaccineObj.setVaccineDueDate(dateTime);
+                }
+
                 vaccineObj.setDate(date);
                 vaccineObj.setAnmId(contentValues.getAsString(VaccineRepository.ANMID));
                 vaccineObj.setLocationId(contentValues.getAsString(VaccineRepository.LOCATION_ID));
@@ -346,6 +354,19 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                 String createdAtString = contentValues.getAsString(VaccineRepository.CREATED_AT);
                 Date createdAt = getDate(createdAtString);
                 vaccineObj.setCreatedAt(createdAt);
+                try{
+                    List<org.smartregister.domain.db.Obs> obsList = vaccine.getEvent().getObs();
+                    for(org.smartregister.domain.db.Obs obs : obsList){
+                        Log.v("INVALID_VACCINE","key>>>>"+obs.getFormSubmissionField());
+                        if(obs.getFormSubmissionField().equalsIgnoreCase("is_invalid")){
+                            vaccineObj.setInvalid(true);
+                            break;
+                        }
+
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
 
                 addVaccine(vaccineRepository, vaccineObj);
 

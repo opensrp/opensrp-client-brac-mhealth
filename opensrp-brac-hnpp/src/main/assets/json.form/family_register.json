@@ -175,7 +175,7 @@
         "openmrs_choice_ids": {
         },
         "v_required": {
-          "value": true,
+          "value": false,
           "err": "প্রশ্নের উত্তর দিন"
         }
       },
@@ -349,7 +349,7 @@
         "openmrs_choice_ids": {
         },
         "v_required": {
-          "value": true,
+          "value": false,
           "err": "প্রশ্নের উত্তর দিন"
         },
         "relevance": {

@@ -565,10 +565,11 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
             }
             else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC_VISIT_FORM)){
                 String lmpDate = HnppDBUtils.getLmpDate(baseEntityId);
-                String date = HnppConstants.getScheduleLmpDate(lmpDate,1);
+                int noOfAnc = (FormApplicability.getANCCount(baseEntityId)+1);
+                String date = HnppConstants.getScheduleLmpDate(lmpDate,noOfAnc);
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"lmp", lmpDate);
                 HnppJsonFormUtils.changeFormTitle(jsonForm,FormApplicability.getANCTitle(baseEntityId));
-                HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"anc_count", (FormApplicability.getANCCount(baseEntityId)+1)+"");
+                HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"anc_count", noOfAnc+"");
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"schedule_date", date);
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
                 form.setWizard(true);
@@ -578,16 +579,19 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
                 form.setNavigationBackground(!HnppConstants.isReleaseBuild()?R.color.test_app_color:org.smartregister.family.R.color.customAppThemeBlue);
                 intent.putExtra("IS_NEED_SAVE",false);
             } else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM)){
+                String deliveryDate = FormApplicability.getDeliveryDate(baseEntityId);
+                int pncCount = (FormApplicability.getPNCCount(baseEntityId)+1);
+                String date = HnppConstants.getSchedulePncDate(deliveryDate,pncCount);
                 HnppJsonFormUtils.changeFormTitle(jsonForm,FormApplicability.getPncTitle(baseEntityId));
-                HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"pnc_count", (FormApplicability.getPNCCount(baseEntityId)+1)+"");
-//                HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"schedule_date", date);
+                HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"pnc_count", pncCount+"");
+                HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"schedule_date", date);
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
-                form.setWizard(true);
-                form.setHideSaveLabel(true);
-                form.setSaveLabel("");
-                form.setHomeAsUpIndicator(org.smartregister.family.R.mipmap.ic_cross_white);
-                form.setNavigationBackground(!HnppConstants.isReleaseBuild()?R.color.test_app_color:org.smartregister.family.R.color.customAppThemeBlue);
-                intent.putExtra("IS_NEED_SAVE",false);
+//                form.setWizard(true);
+//                form.setHideSaveLabel(true);
+//                form.setSaveLabel("");
+//                form.setHomeAsUpIndicator(org.smartregister.family.R.mipmap.ic_cross_white);
+//                form.setNavigationBackground(!HnppConstants.isReleaseBuild()?R.color.test_app_color:org.smartregister.family.R.color.customAppThemeBlue);
+//                intent.putExtra("IS_NEED_SAVE",false);
             }
             else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.NEW_BORN_PNC_1_4)){
                 HnppJsonFormUtils.changeFormTitle(jsonForm,FormApplicability.getPncTitle(baseEntityId));
@@ -727,6 +731,11 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
                             profileMemberFragment.updateStaticView();
                         }
                         mViewPager.setCurrentItem(0,true);
+                        if(HnppDBUtils.isAncRisk(baseEntityId)){
+                            findViewById(R.id.risk_view).setVisibility(View.VISIBLE);
+                        }else{
+                            findViewById(R.id.risk_view).setVisibility(View.GONE);
+                        }
                     },500);
                 }
         });
