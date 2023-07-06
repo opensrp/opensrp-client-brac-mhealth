@@ -133,7 +133,7 @@
             android:layout_gravity="left|center_horizontal"
             android:paddingLeft="0dp"
             android:paddingTop="7dp"
-            android:textColor="@color/light_grey_text"
+            android:textColor="@color/red"
             android:textSize="@dimen/child_register_list_desc_size"
             android:textStyle="bold" />
 
