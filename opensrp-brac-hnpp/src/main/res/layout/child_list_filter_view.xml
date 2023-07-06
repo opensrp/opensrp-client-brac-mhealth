@@ -56,7 +56,7 @@
                 android:id="@+id/filter_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="No filters applied"
+                android:text="@string/no_filter_applied"
                 android:textColor="@color/white"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView3"

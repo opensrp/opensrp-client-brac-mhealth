@@ -87,6 +87,11 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
     protected String toDate = "";
     private int oldPosition = -1;
     private  TextView filterTextTv;
+    Button dropOutButton;
+    Button resetFilterButton;
+    Button aefiButton;
+    RecyclerView filterTypeRv;
+    ImageView arrowImageView;
 
     @Override
     public void setupViews(View view) {
@@ -171,79 +176,47 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
         clients_header_layout = view.findViewById(org.smartregister.chw.core.R.id.clients_header_layout);
         android.view.View filterView = inflate(getContext(), R.layout.child_list_filter_view, clients_header_layout);
 
-        RecyclerView filterTypeRv = filterView.findViewById(R.id.filter_type_rv);
+        filterTypeRv = filterView.findViewById(R.id.filter_type_rv);
         ConstraintLayout filterDateLay = filterView.findViewById(R.id.filter_date_lay);
-        ImageView arrowImageView = filterView.findViewById(R.id.arrow_image);
+        arrowImageView = filterView.findViewById(R.id.arrow_image);
         filterTextTv = filterView.findViewById(R.id.filter_text_view);
 
-        Button aefiButton = filterView.findViewById(R.id.aefi_button);
-        Button dropOutButton = filterView.findViewById(R.id.drop_out_button);
+        aefiButton = filterView.findViewById(R.id.aefi_button);
+        dropOutButton = filterView.findViewById(R.id.drop_out_button);
+        resetFilterButton = filterView.findViewById(R.id.reset_filter_button);
 
+        setupFilterAdapter();
 
         aefiButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Drawable buttonDrawable = aefiButton.getBackground();
-                buttonDrawable = DrawableCompat.wrap(buttonDrawable);
-
-                if(!isClickedAefi){
-                    DrawableCompat.setTint(buttonDrawable, getResources().getColor(R.color.btn_blue));
-                    isAefiChild = "yes";
-                }else {
-                    DrawableCompat.setTint(buttonDrawable, Color.GRAY);
-                    isAefiChild = "";
-                }
-                updateFilterView();
-                aefiButton.setBackground(buttonDrawable);
-                isClickedAefi = !isClickedAefi;
+               updateAefiChildButton(false);
+               isClickedAefi = !isClickedAefi;
             }
         });
 
         dropOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Drawable buttonDrawable = dropOutButton.getBackground();
-                buttonDrawable = DrawableCompat.wrap(buttonDrawable);
-
-                if(!isClickedDropOut){
-                    DrawableCompat.setTint(buttonDrawable, getResources().getColor(R.color.btn_blue));
-                    isDropOutChild = "yes";
-                }else {
-                    DrawableCompat.setTint(buttonDrawable, Color.GRAY);
-                    isDropOutChild = "";
-                }
-                updateFilterView();
-                dropOutButton.setBackground(buttonDrawable);
-                isClickedDropOut = !isClickedDropOut;
+               updateDropoutButton(false);
+               isClickedDropOut = !isClickedDropOut;
             }
         });
 
-        adapter = new ChildFilterTypeAdapter(new ChildFilterTypeAdapter.OnClickAdapter() {
+        resetFilterButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(int position, String content) {
-                if(oldPosition != position){
-                    clients_header_layout.getLayoutParams().height = 300;
-                    filterTypeRv.setVisibility(View.GONE);
-                    arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
-                    isExpanded = !isExpanded;
-                    filterTextTv.setText(content);
-                    updateContent(content);
-                    updateFilterView();
+            public void onClick(View v) {
+                resetOtherFilter();
 
-                    oldPosition = position;
+                setupFilterAdapter();
+                updateAefiChildButton(true);
+                updateDropoutButton(true);
+                isClickedAefi = false;
+                isClickedDropOut = false;
 
-                    if (!filterTypeRv.isComputingLayout()) {
-                        adapter.notifyDataSetChanged();
-                    }
-
-                    Log.v("FILTER_CHILD","content>>"+content);
-                }
+                filterTextTv.setText(getString(R.string.no_filter_applied));
             }
         });
-        adapter.setData(HnppConstants.filterTypeList);
-
-        filterTypeRv.setLayoutManager(new GridLayoutManager(getActivity(),3));
-        filterTypeRv.setAdapter(adapter);
 
         arrowImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -285,6 +258,75 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
             getSearchCancelView().setOnClickListener(this);
         }
         //setTotalPatients();
+    }
+
+    void setupFilterAdapter(){
+        adapter = new ChildFilterTypeAdapter(new ChildFilterTypeAdapter.OnClickAdapter() {
+            @Override
+            public void onClick(int position, String content) {
+                if(oldPosition != position){
+                    clients_header_layout.getLayoutParams().height = 300;
+                    filterTypeRv.setVisibility(View.GONE);
+                    arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+                    isExpanded = !isExpanded;
+                    filterTextTv.setText(content);
+                    updateContent(content);
+                    updateFilterView();
+
+                    oldPosition = position;
+
+                    if (!filterTypeRv.isComputingLayout()) {
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    Log.v("FILTER_CHILD","content>>"+content);
+                }
+            }
+        });
+        adapter.setData(HnppConstants.filterTypeList);
+
+        filterTypeRv.setLayoutManager(new GridLayoutManager(getActivity(),3));
+        filterTypeRv.setAdapter(adapter);
+    }
+
+    void updateDropoutButton(boolean isReset){
+        Drawable buttonDrawable = dropOutButton.getBackground();
+        buttonDrawable = DrawableCompat.wrap(buttonDrawable);
+
+        if(isReset){
+            DrawableCompat.setTint(buttonDrawable, Color.GRAY);
+            isDropOutChild = "";
+        }else{
+            if(!isClickedDropOut){
+                DrawableCompat.setTint(buttonDrawable, getResources().getColor(R.color.btn_blue));
+                isDropOutChild = "yes";
+            }else {
+                DrawableCompat.setTint(buttonDrawable, Color.GRAY);
+                isDropOutChild = "";
+            }
+        }
+        updateFilterView();
+        dropOutButton.setBackground(buttonDrawable);
+    }
+
+    void updateAefiChildButton(boolean isReset){
+        Drawable buttonDrawable = aefiButton.getBackground();
+        buttonDrawable = DrawableCompat.wrap(buttonDrawable);
+
+        if(isReset){
+            DrawableCompat.setTint(buttonDrawable, Color.GRAY);
+            isAefiChild = "";
+        }else {
+            if(!isClickedAefi){
+                DrawableCompat.setTint(buttonDrawable, getResources().getColor(R.color.btn_blue));
+                isAefiChild = "yes";
+            }else {
+                DrawableCompat.setTint(buttonDrawable, Color.GRAY);
+                isAefiChild = "";
+            }
+        }
+        updateFilterView();
+        aefiButton.setBackground(buttonDrawable);
     }
 
     private void updateContent(String content) {
