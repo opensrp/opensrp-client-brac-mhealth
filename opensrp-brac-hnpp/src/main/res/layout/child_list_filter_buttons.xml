@@ -45,6 +45,7 @@
         android:layout_height="40dp"
         android:background="@drawable/rounded_blue_btn"
         android:drawableStart="@android:drawable/ic_delete"
+        android:drawableTint="@color/red"
         android:drawablePadding="5dp"
         android:backgroundTint="@color/grey"
         android:padding="10dp"
