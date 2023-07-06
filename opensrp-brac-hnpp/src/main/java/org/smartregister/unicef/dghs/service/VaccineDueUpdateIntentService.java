@@ -21,7 +21,12 @@ import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.fragment.ChildImmunizationFragment;
 import org.smartregister.unicef.dghs.utils.HnppDBConstants;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class VaccineDueUpdateIntentService extends IntentService {
     public VaccineDueUpdateIntentService() {
@@ -95,13 +100,78 @@ public class VaccineDueUpdateIntentService extends IntentService {
                      checking case id exist or not
                      if exist then skip otherwise add case id
                      */
-                    if(!baseEntityIdList.contains(alert.caseId())){
-                        alerts.add(alert);
-                        baseEntityIdList.add(alert.caseId());
+                    Alert processedAlert = getProcessedAlert(alert);
+                    if(!baseEntityIdList.contains(processedAlert.caseId())){
+                        alerts.add(processedAlert);
+                        baseEntityIdList.add(processedAlert.caseId());
                     }
 
                     cursor.moveToNext();
                 }
+
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            if(cursor!=null) cursor.close();
+        }
+        //now need to update child table with vaccine name and due date
+        for (Alert alert: alerts) {
+
+            try{
+                SQLiteDatabase database = HnppApplication.getInstance().getRepository().getWritableDatabase();
+                String sql = "update ec_child set due_vaccine_date='"+alert.startDate()+"',due_vaccine_name='"+alert.scheduleName()+"' where " +
+                        "base_entity_id = '"+alert.caseId()+"' ;";
+                database.execSQL(sql);
+            }catch(Exception e){
+                e.printStackTrace();
+
+            }
+        }
+        return true;
+    }
+
+    /**
+     * checking vaccine exist or not in vaccine table
+     * if exist return
+     * or else return existing alert
+     * @param alert
+     * @return
+     */
+    static Alert getProcessedAlert(Alert alert){
+        SimpleDateFormat sp = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        Calendar calendar = Calendar.getInstance();
+
+        String baseEntityId = alert.caseId();
+        long alertDateLong = 0;
+        try {
+            if(alert.startDate() != null){
+                alertDateLong = sp.parse(alert.startDate()).getTime();
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String query = "select * from vaccines where base_entity_id = '"+baseEntityId+"' and is_invalid != '0' and updated_at < "+alertDateLong+" is not null order by updated_at asc limit 1";
+        Cursor cursor = null;
+        Alert processedAlert = alert;
+
+        try{
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() > 0 ){
+
+                cursor.moveToFirst();
+                int baseEntityIdColumn = cursor.getColumnIndex("base_entity_id");
+                int vaccineNameColumn = cursor.getColumnIndex("name");
+                int dueDateColumn = cursor.getColumnIndex("updated_at");
+
+
+                calendar.setTimeInMillis(Long.parseLong(cursor.getString(dueDateColumn)));
+                String date = sp.format(calendar.getTime());
+
+                processedAlert = new Alert(cursor.getString(baseEntityIdColumn), cursor.getString(vaccineNameColumn), "", null, date, "");
+
 
 
             }
@@ -112,22 +182,8 @@ public class VaccineDueUpdateIntentService extends IntentService {
         finally {
             if(cursor!=null) cursor.close();
         }
-        Log.v("CHILD_FILTER","alert>>>>"+alerts.size());
-        //now need to update child table with vaccine name and due date
-        for (Alert alert: alerts) {
 
-            try{
-                SQLiteDatabase database = HnppApplication.getInstance().getRepository().getWritableDatabase();
-                String sql = "update ec_child set due_vaccine_date='"+alert.startDate()+"',due_vaccine_name='"+alert.scheduleName()+"' where " +
-                        "base_entity_id = '"+alert.caseId()+"' ;";
-                database.execSQL(sql);
-                Log.v("CHILD_FILTER","executed>>>>>");
-            }catch(Exception e){
-                e.printStackTrace();
-
-            }
-        }
-        return true;
+        return  processedAlert;
     }
 
 }
