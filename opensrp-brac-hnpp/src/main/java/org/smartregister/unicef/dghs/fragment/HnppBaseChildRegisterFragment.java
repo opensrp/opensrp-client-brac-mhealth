@@ -4,7 +4,11 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -62,7 +67,7 @@ import static android.view.View.inflate;
 public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment implements android.view.View.OnClickListener, CoreChildRegisterFragmentContract.View{
     private final String DEFAULT_MAIN_CONDITION = "date_removed is null";
     String searchFilterString = "";
-    protected String selectedStartDateFilterValue,selectedEndDateFilterValue,isAefiChild;
+    protected String selectedStartDateFilterValue,selectedEndDateFilterValue,isAefiChild,isDropOutChild;
     private TextView textViewVillageNameFilter, textViewClasterNameFilter,textViewMonthNameFilter;
     private ImageView imageViewVillageNameFilter, imageViewClasterNameFilter;
     private RelativeLayout clusterView,monthFilterView;
@@ -75,6 +80,8 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
     protected View dueOnlyLayout;
     private boolean dueFilterActive = false;
     boolean isExpanded = false;
+    boolean isClickedAefi = false;
+    boolean isClickedDropOut = false;
     ChildFilterTypeAdapter adapter;
     protected String fromDate = "";
     protected String toDate = "";
@@ -163,16 +170,59 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
         //filterTextView.setOnClickListener(registerActionHandler);
         clients_header_layout = view.findViewById(org.smartregister.chw.core.R.id.clients_header_layout);
         android.view.View filterView = inflate(getContext(), R.layout.child_list_filter_view, clients_header_layout);
+
         RecyclerView filterTypeRv = filterView.findViewById(R.id.filter_type_rv);
         ConstraintLayout filterDateLay = filterView.findViewById(R.id.filter_date_lay);
         ImageView arrowImageView = filterView.findViewById(R.id.arrow_image);
         filterTextTv = filterView.findViewById(R.id.filter_text_view);
 
+        Button aefiButton = filterView.findViewById(R.id.aefi_button);
+        Button dropOutButton = filterView.findViewById(R.id.drop_out_button);
+
+
+        aefiButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Drawable buttonDrawable = aefiButton.getBackground();
+                buttonDrawable = DrawableCompat.wrap(buttonDrawable);
+
+                if(!isClickedAefi){
+                    DrawableCompat.setTint(buttonDrawable, getResources().getColor(R.color.btn_blue));
+                    isAefiChild = "yes";
+                }else {
+                    DrawableCompat.setTint(buttonDrawable, Color.GRAY);
+                    isAefiChild = "";
+                }
+                updateFilterView();
+                aefiButton.setBackground(buttonDrawable);
+                isClickedAefi = !isClickedAefi;
+            }
+        });
+
+        dropOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Drawable buttonDrawable = dropOutButton.getBackground();
+                buttonDrawable = DrawableCompat.wrap(buttonDrawable);
+
+                if(!isClickedDropOut){
+                    DrawableCompat.setTint(buttonDrawable, getResources().getColor(R.color.btn_blue));
+                    isDropOutChild = "yes";
+                }else {
+                    DrawableCompat.setTint(buttonDrawable, Color.GRAY);
+                    isDropOutChild = "";
+                }
+                updateFilterView();
+                dropOutButton.setBackground(buttonDrawable);
+                isClickedDropOut = !isClickedDropOut;
+            }
+        });
+
          adapter = new ChildFilterTypeAdapter(new ChildFilterTypeAdapter.OnClickAdapter() {
             @Override
             public void onClick(int position, String content) {
                 if(oldPosition != position){
-                    clients_header_layout.getLayoutParams().height = 150;
+                    clients_header_layout.getLayoutParams().height = 300;
                     filterTypeRv.setVisibility(View.GONE);
                     arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
                     isExpanded = !isExpanded;
@@ -199,11 +249,11 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
             @Override
             public void onClick(View v) {
                 if(isExpanded){
-                    clients_header_layout.getLayoutParams().height = 150;
+                    clients_header_layout.getLayoutParams().height = 300;
                     filterTypeRv.setVisibility(View.GONE);
                     arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
                 }else{
-                    clients_header_layout.getLayoutParams().height = 500;
+                    clients_header_layout.getLayoutParams().height = 650;
                     filterTypeRv.setVisibility(View.VISIBLE);
                     arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
                 }
@@ -216,11 +266,11 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
             @Override
             public void onClick(View v) {
                 if(isExpanded){
-                    clients_header_layout.getLayoutParams().height = 150;
+                    clients_header_layout.getLayoutParams().height = 300;
                     filterTypeRv.setVisibility(View.GONE);
                     arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
                 }else{
-                    clients_header_layout.getLayoutParams().height = 500;
+                    clients_header_layout.getLayoutParams().height = 650;
                     filterTypeRv.setVisibility(View.VISIBLE);
                     arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
                 }
@@ -229,7 +279,7 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
             }
         });
 
-        clients_header_layout.getLayoutParams().height = 150;
+        clients_header_layout.getLayoutParams().height = 300;
         clients_header_layout.setVisibility(View.VISIBLE);
         if (getSearchCancelView() != null) {
             getSearchCancelView().setOnClickListener(this);
@@ -279,9 +329,6 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
                 selectedEndDateFilterValue = HnppConstants.getNextMonth()[1];
                 break;
 
-            case "aefi child":
-                isAefiChild = "yes";
-                break;
             case "anytime":
                 break;
 

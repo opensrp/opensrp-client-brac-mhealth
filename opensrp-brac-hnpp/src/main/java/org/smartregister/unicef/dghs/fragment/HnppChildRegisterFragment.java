@@ -247,6 +247,11 @@ public class HnppChildRegisterFragment extends HnppBaseChildRegisterFragment imp
             customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.CHILD, org.smartregister.chw.anc.util.DBConstants.KEY.UNIQUE_ID, searchFilterString));
 
         }
+        if(!StringUtils.isEmpty(isDropOutChild)){
+            customFilter.append(MessageFormat.format(" and {0}.{1} < date()' ", HnppConstants.TABLE_NAME.CHILD, HnppConstants.KEY.DUE_VACCINE_DATE));
+
+        }
+
         if(!StringUtils.isEmpty(selectedStartDateFilterValue)&&!StringUtils.isEmpty(selectedEndDateFilterValue)){
             customFilter.append(MessageFormat.format(" and {0} between ''{1}'' and ''{2}'' ",HnppConstants.TABLE_NAME.CHILD+"."+ HnppConstants.KEY.DUE_VACCINE_DATE,selectedStartDateFilterValue,selectedEndDateFilterValue));
         }else if(!StringUtils.isEmpty(selectedStartDateFilterValue)){
