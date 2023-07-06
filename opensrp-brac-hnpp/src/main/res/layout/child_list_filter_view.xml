@@ -56,7 +56,7 @@
                 android:id="@+id/filter_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="No filters applied"
+                android:text="@string/no_filter_applied"
                 android:textColor="@color/white"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView3"
@@ -82,7 +82,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/filter_type_rv"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="200dp"
             android:background="#3F51B5"
             android:minHeight="300dp"
             android:padding="10dp"

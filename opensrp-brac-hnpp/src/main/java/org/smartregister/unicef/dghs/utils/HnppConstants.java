@@ -115,7 +115,6 @@ public class HnppConstants extends CoreConstants {
                     "Last month",
                     "Next month",
                     "From - To",
-                    "AEFI child",
                     "Anytime"
             )
     );
