@@ -144,8 +144,8 @@ android {
 
         }
         production{
-            versionCode 2
-            versionName "1.0.2"
+            versionCode 3
+            versionName "1.0.3"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
 //            buildConfigField "String", 'opensrp_url_training', '"http://unicef-ha.mpower-social.com/opensrp/"'

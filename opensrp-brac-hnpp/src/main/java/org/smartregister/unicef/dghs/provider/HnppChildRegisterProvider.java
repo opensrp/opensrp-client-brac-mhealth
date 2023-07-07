@@ -96,14 +96,16 @@ public class HnppChildRegisterProvider extends CoreChildRegisterProvider {
             builder.append("H:"+heightValue+" cm");
         }
         viewHolder.textViewWeight.setText(builder.toString());
-        StringBuilder builder2 = new StringBuilder();
-        if(!TextUtils.isEmpty(vaccineName)){
-            builder2.append(vaccineName);
-        }
-        if(!TextUtils.isEmpty(vaccineDate)){
-            builder2.append(context.getString(R.string.given_at)+vaccineDate);
-        }
-        viewHolder.textViewLastVaccine.setText(builder2.toString());
+//        StringBuilder builder2 = new StringBuilder();
+//        if(!TextUtils.isEmpty(vaccineName)){
+//            builder2.append(vaccineName);
+//        }
+//        if(!TextUtils.isEmpty(vaccineDate)){
+//            builder2.append(context.getString(R.string.given_at));
+//            builder2.append(vaccineDate);
+//        }
+//        viewHolder.textViewLastVaccine.setText(builder2.toString());
+        viewHolder.textViewLastVaccine.setVisibility(View.GONE);
         viewHolder.profileImage.setVisibility(View.VISIBLE);
         viewHolder.profileImage.setImageResource(org.smartregister.family.R.mipmap.ic_child);
 
@@ -126,8 +128,10 @@ public class HnppChildRegisterProvider extends CoreChildRegisterProvider {
         }
         if(isMissedSchedule(dueVaccineDate)){
             viewHolder.dueScheduleImage.setVisibility(View.VISIBLE);
+            viewHolder.textViewAddressGender.setTextColor(context.getResources().getColor(android.R.color.holo_red_dark));
         }else{
             viewHolder.dueScheduleImage.setVisibility(View.GONE);
+            viewHolder.textViewAddressGender.setTextColor(context.getResources().getColor(android.R.color.black));
         }
         StringBuilder builder3 = new StringBuilder();
         if(!TextUtils.isEmpty(dueVaccineName)){

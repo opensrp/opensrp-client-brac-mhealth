@@ -55,6 +55,7 @@ import org.smartregister.unicef.dghs.fragment.ChildImmunizationFragment;
 import org.smartregister.unicef.dghs.fragment.GMPFragment;
 import org.smartregister.unicef.dghs.fragment.HnppChildProfileDueFragment;
 import org.smartregister.unicef.dghs.fragment.MemberOtherServiceFragment;
+import org.smartregister.unicef.dghs.job.VaccineDueUpdateServiceJob;
 import org.smartregister.unicef.dghs.listener.OnClickFloatingMenu;
 import org.smartregister.unicef.dghs.listener.OnPostDataWithGps;
 import org.smartregister.unicef.dghs.model.ReferralFollowUpModel;
@@ -1054,8 +1055,10 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
             @Override
             public void run() {
                 childImmunizationFragment.updateImmunizationView();
+                VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
             }
         },1000);
+        HnppConstants.isViewRefresh = true;
 
 
     }
@@ -1067,8 +1070,10 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
             @Override
             public void run() {
                 childImmunizationFragment.updateImmunizationView();
+                VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
             }
         },1000);
+        HnppConstants.isViewRefresh = true;
     }
 
     @Override
@@ -1078,7 +1083,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
             @Override
             public void run() {
                 childImmunizationFragment.updateImmunizationView();
+                VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
             }
         },1000);
+        HnppConstants.isViewRefresh = true;
     }
 }

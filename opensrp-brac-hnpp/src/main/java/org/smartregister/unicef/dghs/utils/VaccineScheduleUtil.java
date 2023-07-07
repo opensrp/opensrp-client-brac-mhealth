@@ -193,7 +193,7 @@ public class VaccineScheduleUtil {
      * @param group
      * @return
      */
-    public static List<VaccineWrapper> getChildDueVaccines(String baseEntityID, Date dob, int group) {
+    public static List<VaccineWrapper> getChildDueVaccines(String baseEntityID, DateTime dob, int group) {
         VaccineGroup groupMap = VaccineScheduleUtil.getVaccineGroups(HnppApplication.getInstance().getApplicationContext(), CoreConstants.SERVICE_GROUPS.CHILD).get(group);
         Pair<VaccineTaskModel, List<VaccineWrapper>> res = getChildDueVaccines(baseEntityID, dob, new ArrayList<>(), groupMap);
         return res.getRight();
@@ -208,12 +208,12 @@ public class VaccineScheduleUtil {
      * @param groupMap
      * @return
      */
-    public static Pair<VaccineTaskModel, List<VaccineWrapper>> getChildDueVaccines(String baseEntityID, Date dob, List<VaccineWrapper> excludedVaccines, VaccineGroup groupMap) {
+    public static Pair<VaccineTaskModel, List<VaccineWrapper>> getChildDueVaccines(String baseEntityID, DateTime dob, List<VaccineWrapper> excludedVaccines, VaccineGroup groupMap) {
         List<VaccineWrapper> vaccineWrappers = new ArrayList<>();
         try {
 
             // get all vaccines that are not given
-            VaccineTaskModel taskModel = VaccineScheduleUtil.getLocalUpdatedVaccines(baseEntityID, new DateTime(dob), excludedVaccines, CoreConstants.SERVICE_GROUPS.CHILD);
+            VaccineTaskModel taskModel = VaccineScheduleUtil.getLocalUpdatedVaccines(baseEntityID, dob, excludedVaccines, CoreConstants.SERVICE_GROUPS.CHILD);
             taskModel.setGroupMap(groupMap);
 
             for (org.smartregister.immunization.domain.jsonmapping.Vaccine vaccine : groupMap.vaccines) {
