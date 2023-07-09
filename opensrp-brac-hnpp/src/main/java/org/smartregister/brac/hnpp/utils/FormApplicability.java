@@ -397,4 +397,20 @@ public class FormApplicability {
         Log.e(FormApplicability.class.getSimpleName(), String.valueOf(hoursPassed));
         return hoursPassed;
     }
+
+    /**
+     * getting visit count from visit table
+     * @param baseEntityId
+     * @param visitType
+     * @return
+     */
+    public static String getVisitCount(String baseEntityId,String visitType){
+        String count = "0";
+        String visitCountSql = "SELECT count(*) as count FROM visits where base_entity_id = ? and visit_type = ?";
+        List<Map<String, String>> values = AbstractDao.readData(visitCountSql, new String[]{baseEntityId,visitType});
+        if( values.size() > 0 && values.get(0).get("count")!= null ){
+            count = values.get(0).get("count");
+        }
+        return count;
+    }
 }
