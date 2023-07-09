@@ -59,7 +59,7 @@ public class HnppChildRegisterFragment extends HnppBaseChildRegisterFragment imp
         }
 
         String viewConfigurationIdentifier = ((BaseRegisterActivity) getActivity()).getViewIdentifiers().get(0);
-        if(VaccineDueUpdateIntentService.updatedVaccineDueDate()){
+        if(new VaccineDueUpdateIntentService().updatedVaccineDueDate()){
             presenter = new HnppChildRegisterFragmentPresenter(this, new HnppChildRegisterFragmentModel(), viewConfigurationIdentifier);
         }
 

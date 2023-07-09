@@ -129,14 +129,12 @@ public class ChildImmunizationFragment extends BaseProfileFragment implements  S
     }
     public void updateImmunizationView(){
         if (vaccineGroups != null) {
-            LinearLayout vaccineGroupCanvasLL = (LinearLayout) view.findViewById(R.id.vaccine_group_canvas_ll);
-            vaccineGroupCanvasLL.removeAllViews();
+            vaccine_group_canvas_ll.removeAllViews();
             vaccineGroups = null;
         }
 
         if (serviceGroups != null) {
-            LinearLayout serviceGroupCanvasLL = (LinearLayout) view.findViewById(R.id.service_group_canvas_ll);
-            serviceGroupCanvasLL.removeAllViews();
+            service_group_canvas_ll.removeAllViews();
             serviceGroups = null;
         }
         updateViews();
@@ -144,12 +142,14 @@ public class ChildImmunizationFragment extends BaseProfileFragment implements  S
     }
 
 //    ChildChildImmunizationFragment cia;
+    LinearLayout vaccine_group_canvas_ll,service_group_canvas_ll;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View fragmentView = inflater.inflate(R.layout.immunization_activity_main, container, false);
-        this.view = fragmentView;
+        vaccine_group_canvas_ll = (LinearLayout) fragmentView.findViewById(R.id.vaccine_group_canvas_ll) ;
+        service_group_canvas_ll= (LinearLayout) fragmentView.findViewById(R.id.service_group_canvas_ll) ;
         fragmentView.findViewById(R.id.showTikaCardBtn).setOnClickListener(new View.OnClickListener() {
             @SuppressLint("StaticFieldLeak")
             @Override
@@ -204,17 +204,12 @@ public class ChildImmunizationFragment extends BaseProfileFragment implements  S
     }
 
 
-    View view;
 
     private boolean isDataOk() {
         return childDetails != null && childDetails.getDetails() != null;
     }
 
     public void updateViews() {
-
-
-        updateAgeViews();
-        updateChildIdViews();
 
         VaccineRepository vaccineRepository = ImmunizationLibrary.getInstance().vaccineRepository();
 
@@ -232,41 +227,6 @@ public class ChildImmunizationFragment extends BaseProfileFragment implements  S
         org.smartregister.util.Utils.startAsyncTask(updateViewTask, null);
     }
 
-    private void updateChildIdViews() {
-        String name = "";
-        String childId = "";
-        if (isDataOk()) {
-            name = constructChildName();
-            childId = org.smartregister.util.Utils.getValue(childDetails.getColumnmaps(), "unique_id", false);
-        }
-
-        TextView nameTV = (TextView) view.findViewById(R.id.name_tv);
-        nameTV.setText(name);
-        TextView childIdTV = (TextView) view.findViewById(R.id.child_id_tv);
-        childIdTV.setText(String.format("%s: %s", "ID", childId));
-    }
-
-    private void updateAgeViews() {
-        String formattedAge = "";
-        String formattedDob = "";
-        if (isDataOk()) {
-            String dobString = org.smartregister.util.Utils.getValue(childDetails.getColumnmaps(), "dob", false);
-            if (!TextUtils.isEmpty(dobString)) {
-                DateTime dateTime = new DateTime(dobString);
-                Date dob = dateTime.toDate();
-                formattedDob = DATE_FORMAT.format(dob);
-                long timeDiff = Calendar.getInstance().getTimeInMillis() - dob.getTime();
-
-                if (timeDiff >= 0) {
-                    formattedAge = DateUtil.getDuration(timeDiff);
-                }
-            }
-        }
-        TextView dobTV = (TextView) view.findViewById(R.id.dob_tv);
-        dobTV.setText(String.format("%s: %s", "Birth Date", formattedDob));
-        TextView ageTV = (TextView) view.findViewById(R.id.age_tv);
-        ageTV.setText(String.format("%s: %s", "Age", formattedAge));
-    }
 
     private void updateServiceViews(Map<String, List<ServiceType>> serviceTypeMap, List<ServiceRecord> serviceRecordList, List<Alert> alerts) {
 
@@ -304,10 +264,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment implements  S
                 return;
             }
 
-
             serviceGroups = new ArrayList<>();
-            LinearLayout serviceGroupCanvasLL = (LinearLayout) view.findViewById(R.id.service_group_canvas_ll);
-
             ServiceGroup curGroup = new ServiceGroup(mActivity);
             curGroup.setChildActive(isChildActive);
             curGroup.setData(childDetails, foundServiceTypeMap, serviceRecordList, alerts);
@@ -324,7 +281,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment implements  S
                     addServiceUndoDialogFragment(serviceGroup, serviceWrapper);
                 }
             });
-            serviceGroupCanvasLL.addView(curGroup);
+            service_group_canvas_ll.addView(curGroup);
             serviceGroups.add(curGroup);
         }
 
@@ -348,7 +305,6 @@ public class ChildImmunizationFragment extends BaseProfileFragment implements  S
 
 
     private void addVaccineGroup(int canvasId, org.smartregister.immunization.domain.jsonmapping.VaccineGroup vaccineGroupData, List<Vaccine> vaccineList, List<Alert> alerts) {
-        LinearLayout vaccineGroupCanvasLL = (LinearLayout) view.findViewById(R.id.vaccine_group_canvas_ll);
         VaccineGroup curGroup = new VaccineGroup(mActivity);
         curGroup.setChildActive(isChildActive);
         curGroup.setData(vaccineGroupData, childDetails, vaccineList, alerts, "child");
@@ -389,10 +345,10 @@ public class ChildImmunizationFragment extends BaseProfileFragment implements  S
             canvasId = r.nextInt(4232 - 213) + 213;
             parent = new LinearLayout(mActivity);
             parent.setId(canvasId);
-            vaccineGroupCanvasLL.addView(parent);
+            vaccine_group_canvas_ll.addView(parent);
         } else {
-            parent = (LinearLayout) view.findViewById(canvasId);
-            parent.removeAllViews();
+            parent = (LinearLayout) vaccine_group_canvas_ll.findViewById(canvasId);
+            vaccine_group_canvas_ll.removeAllViews();
         }
         parent.addView(curGroup);
         curGroup.setTag(R.id.vaccine_group_vaccine_data, vaccineGroupData);

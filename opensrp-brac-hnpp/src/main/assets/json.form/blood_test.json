@@ -78,7 +78,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "blood_group_name",
-        "openmrs_data_type": "",
+        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "সদস্যের রক্তের  গ্রূপ কোনটি সনাক্ত হয়েছে?",
         "values": [
@@ -112,7 +112,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "blood_group_with_anc",
-        "openmrs_data_type": "",
+        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "এই ব্যক্তি কি গর্ভবতী পরিচর্যার সাথে ব্লাড গ্রূপ করিয়েছে?",
         "values": [

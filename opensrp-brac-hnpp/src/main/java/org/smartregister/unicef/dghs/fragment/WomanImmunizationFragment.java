@@ -104,14 +104,12 @@ public class WomanImmunizationFragment extends BaseProfileFragment {
     protected void onResumption() {
         //Overriden
         if (vaccineGroups != null) {
-            LinearLayout vaccineGroupCanvasLL = (LinearLayout) view.findViewById(R.id.vaccine_group_canvas_ll);
-            vaccineGroupCanvasLL.removeAllViews();
+            vaccine_group_canvas_ll.removeAllViews();
             vaccineGroups = null;
         }
 
         if (serviceGroups != null) {
-            LinearLayout serviceGroupCanvasLL = (LinearLayout) view.findViewById(R.id.service_group_canvas_ll);
-            serviceGroupCanvasLL.removeAllViews();
+            service_group_canvas_ll.removeAllViews();
             serviceGroups = null;
         }
 
@@ -121,13 +119,14 @@ public class WomanImmunizationFragment extends BaseProfileFragment {
     }
 
 //    ChildWomanImmunizationFragment cia;
-
+    LinearLayout vaccine_group_canvas_ll,service_group_canvas_ll;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View fragmentView = inflater.inflate(R.layout.immunization_activity_main, container, false);
         fragmentView.findViewById(R.id.showTikaCardBtn).setVisibility(View.GONE);
-        this.view = fragmentView;
+        vaccine_group_canvas_ll = fragmentView.findViewById(R.id.vaccine_group_canvas_ll);
+        service_group_canvas_ll = fragmentView.findViewById(R.id.service_group_canvas_ll);
 //        cia = new WomanImmunizationFragment(fragmentView,getActivity());
         return fragmentView;
     }
@@ -160,22 +159,13 @@ public class WomanImmunizationFragment extends BaseProfileFragment {
     }
 
 
-    View view;
 
     private boolean isDataOk() {
         return childDetails != null && childDetails.getDetails() != null;
     }
 
     public void updateViews() {
-        view.findViewById(R.id.profile_name_layout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               // launchDetailActivity(getActivity(), childDetails);
-            }
-        });
 
-        updateAgeViews();
-        updateChildIdViews();
         VaccineRepository vaccineRepository = ImmunizationLibrary.getInstance().vaccineRepository();
         AlertService alertService = ImmunizationLibrary.getInstance().context().alertService();
 
@@ -185,41 +175,8 @@ public class WomanImmunizationFragment extends BaseProfileFragment {
         org.smartregister.util.Utils.startAsyncTask(updateViewTask, null);
     }
 
-    private void updateChildIdViews() {
-        String name = "";
-        String childId = "";
-        if (isDataOk()) {
-            name = constructChildName();
-            childId = org.smartregister.util.Utils.getValue(childDetails.getColumnmaps(), "zeir_id", false);
-        }
-
-        TextView nameTV = (TextView) view.findViewById(R.id.name_tv);
-        nameTV.setText(name);
-        TextView childIdTV = (TextView) view.findViewById(R.id.child_id_tv);
-        childIdTV.setText(String.format("%s: %s", "ID", childId));
-    }
     long timeDiff = 0l;
-    private void updateAgeViews() {
-        String formattedAge = "";
-        String formattedDob = "";
-        if (isDataOk()) {
-            String dobString = org.smartregister.util.Utils.getValue(childDetails.getColumnmaps(), "dob", false);
-            if (!TextUtils.isEmpty(dobString)) {
-                DateTime dateTime = new DateTime(dobString);
-                Date dob = dateTime.toDate();
-                formattedDob = ChildImmunizationFragment.DATE_FORMAT.format(dob);
-                timeDiff = Calendar.getInstance().getTimeInMillis() - dob.getTime();
 
-                if (timeDiff >= 0) {
-                    formattedAge = DateUtil.getDuration(timeDiff);
-                }
-            }
-        }
-        TextView dobTV = (TextView) view.findViewById(R.id.dob_tv);
-        dobTV.setText(String.format("%s: %s", "Birth Date", formattedDob));
-        TextView ageTV = (TextView) view.findViewById(R.id.age_tv);
-        ageTV.setText(String.format("%s: %s", "Age", formattedAge));
-    }
 
 //    private void updateServiceViews(Map<String, List<ServiceType>> serviceTypeMap, List<ServiceRecord> serviceRecordList, List<Alert> alerts) {
 //
@@ -329,7 +286,6 @@ public class WomanImmunizationFragment extends BaseProfileFragment {
 
 
     private void addVaccineGroup(int canvasId, org.smartregister.immunization.domain.jsonmapping.VaccineGroup vaccineGroupData, List<Vaccine> vaccineList, List<Alert> alerts) {
-        LinearLayout vaccineGroupCanvasLL = (LinearLayout) view.findViewById(R.id.vaccine_group_canvas_ll);
         VaccineGroup curGroup = new VaccineGroup(mActivity);
         curGroup.setChildActive(isChildActive);
         curGroup.setData(vaccineGroupData, childDetails, vaccineList, alerts, "woman");
@@ -360,9 +316,9 @@ public class WomanImmunizationFragment extends BaseProfileFragment {
             canvasId = r.nextInt(4232 - 213) + 213;
             parent = new LinearLayout(mActivity);
             parent.setId(canvasId);
-            vaccineGroupCanvasLL.addView(parent);
+            vaccine_group_canvas_ll.addView(parent);
         } else {
-            parent = (LinearLayout) view.findViewById(canvasId);
+            parent = (LinearLayout) vaccine_group_canvas_ll.findViewById(canvasId);
             parent.removeAllViews();
         }
         parent.addView(curGroup);

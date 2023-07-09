@@ -84,7 +84,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "breast_feed_in_24hr",
-        "openmrs_data_type": "",
+        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "গত ২৪ ঘন্টার মধ্যে শিশুকে শুধুমাত্র বুকের দুধ খাওয়ানো হয়েছে কিনা?",
         "values": [
@@ -113,7 +113,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "extra_food_in_24hr",
-        "openmrs_data_type": "",
+        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "গত ২৪ ঘন্টার মধ্যে বাড়তি খাবার খেয়েছে ?",
         "values": [
@@ -169,7 +169,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "nutrients_in_24hr",
-        "openmrs_data_type": "",
+        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "গত ২৪ ঘণ্টায়, পুস্টিকনা খাওয়ানো হয়েছে?",
         "values": [
@@ -197,7 +197,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "eaten_pesticides",
-        "openmrs_data_type": "",
+        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "গত ৬ মাসে কৃমিনাশক ঔষধ খেয়েছে কি?",
         "values": [
@@ -225,7 +225,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "had_diarrhea",
-        "openmrs_data_type": "",
+        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "গত ১৫ দিনে শিশুর ডায়রিয়া হয়েছে কিনা?",
         "values": [
@@ -246,7 +246,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "eaten_saline",
-        "openmrs_data_type": "",
+        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "খাবার স্যালাইন খেয়েছে কিনা?",
         "values": [
@@ -273,7 +273,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "from_saline_health_care",
-        "openmrs_data_type": "",
+        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "খাবার স্যালাইন স্বাস্থ্য সেবিকার নিকট থেকে সংগ্রহ করা হয়েছিল?",
         "values": [
@@ -300,7 +300,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "got_pneumonia",
-        "openmrs_data_type": "",
+        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "গত ১৫ দিনে শিশুর নিউমোনিয়া হয়েছে কিনা?",
         "values": [
@@ -321,7 +321,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "antibiotics_for_pneumonia",
-        "openmrs_data_type": "",
+        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "নিউমোনিয়ার জন্য স্বাস্থ্য সেবিকার নিকট থেকে এন্টিবায়োটিক খাওয়ানো হয়েছিল কিনা?",
         "values": [

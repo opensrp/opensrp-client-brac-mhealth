@@ -4,7 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
@@ -47,6 +50,7 @@ import org.smartregister.immunization.domain.VaccineWrapper;
 import org.smartregister.immunization.job.VaccineServiceJob;
 import org.smartregister.immunization.listener.ServiceActionListener;
 import org.smartregister.immunization.listener.VaccinationActionListener;
+import org.smartregister.sync.intent.ForceSyncIntentService;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.adapter.ReferralCardViewAdapter;
 import org.smartregister.unicef.dghs.custom_view.FamilyMemberFloatingMenu;
@@ -55,6 +59,7 @@ import org.smartregister.unicef.dghs.fragment.ChildImmunizationFragment;
 import org.smartregister.unicef.dghs.fragment.GMPFragment;
 import org.smartregister.unicef.dghs.fragment.HnppChildProfileDueFragment;
 import org.smartregister.unicef.dghs.fragment.MemberOtherServiceFragment;
+import org.smartregister.unicef.dghs.job.HnppSyncIntentServiceJob;
 import org.smartregister.unicef.dghs.job.VaccineDueUpdateServiceJob;
 import org.smartregister.unicef.dghs.listener.OnClickFloatingMenu;
 import org.smartregister.unicef.dghs.listener.OnPostDataWithGps;
@@ -165,6 +170,8 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         String vaccineDueDate = Utils.getValue(commonPersonObject.getColumnmaps(), HnppConstants.KEY.DUE_VACCINE_DATE, false);
         if(HnppConstants.isMissedSchedule(vaccineDueDate)){
             findViewById(R.id.missed_schedule_img).setVisibility(View.VISIBLE);
+        }else{
+            findViewById(R.id.missed_schedule_img).setVisibility(View.GONE);
         }
         if(!TextUtils.isEmpty(aefi)){
             hasAefi = aefi.equalsIgnoreCase("yes")|| aefi.equalsIgnoreCase("হ্যাঁ");
@@ -474,6 +481,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
     protected void onDestroy() {
         super.onDestroy();
         if(handler!=null) handler.removeCallbacksAndMessages(null);
+        if(vaccineUpdateDataBroadcastReceiver!=null) unregisterReceiver(vaccineUpdateDataBroadcastReceiver);
     }
 
     private void openMedicalHistoryScreen() {
@@ -1051,41 +1059,71 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
     @Override
     public void onVaccinateToday(ArrayList<VaccineWrapper> arrayList, View view) {
         childImmunizationFragment.onVaccinateToday(arrayList,view);
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                childImmunizationFragment.updateImmunizationView();
-                VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
-            }
-        },1000);
+        handler.postDelayed(() -> {
+            childImmunizationFragment.updateImmunizationView();
+            VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
+            },1000);
         HnppConstants.isViewRefresh = true;
-
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        updateMissedScheduleIcon();
 
     }
 
     @Override
     public void onVaccinateEarlier(ArrayList<VaccineWrapper> arrayList, View view) {
         childImmunizationFragment.onVaccinateEarlier(arrayList,view);
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                childImmunizationFragment.updateImmunizationView();
-                VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
-            }
+        handler.postDelayed(() -> {
+            childImmunizationFragment.updateImmunizationView();
+            VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
+
         },1000);
         HnppConstants.isViewRefresh = true;
+        registerVaccineBroadcast();
     }
 
     @Override
     public void onUndoVaccination(VaccineWrapper vaccineWrapper, View view) {
         childImmunizationFragment.onUndoVaccination(vaccineWrapper,view);
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                childImmunizationFragment.updateImmunizationView();
-                VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
-            }
+        handler.postDelayed(() -> {
+            childImmunizationFragment.updateImmunizationView();
+            VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
         },1000);
         HnppConstants.isViewRefresh = true;
+        registerVaccineBroadcast();
+    }
+    private void updateMissedScheduleIcon(){
+        String vaccineDueDate = HnppDBUtils.getDueVaccineDate(childBaseEntityId);
+        Log.v("CHILD_FILTER","updateMissedScheduleIcon>>vaccineDueDate:"+vaccineDueDate+":isMissed:"+HnppConstants.isMissedSchedule(vaccineDueDate));
+
+        if(HnppConstants.isMissedSchedule(vaccineDueDate)){
+            findViewById(R.id.missed_schedule_img).setVisibility(View.VISIBLE);
+        }else{
+            findViewById(R.id.missed_schedule_img).setVisibility(View.GONE);
+        }
+    }
+    BroadcastReceiver vaccineUpdateDataBroadcastReceiver;
+    private void registerVaccineBroadcast(){
+        vaccineUpdateDataBroadcastReceiver = new VaccineDueSyncBroadcast();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("VACCINE_UPDATE");
+        registerReceiver(vaccineUpdateDataBroadcastReceiver, intentFilter);
+    }
+    private class VaccineDueSyncBroadcast extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            try{
+                if(isFinishing()) return;
+                if(intent != null && intent.getAction().equalsIgnoreCase("VACCINE_UPDATE")){
+                    updateMissedScheduleIcon();
+                }
+            }catch (Exception e){
+
+            }
+
+        }
     }
 }

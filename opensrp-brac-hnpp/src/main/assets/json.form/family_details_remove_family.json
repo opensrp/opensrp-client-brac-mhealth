@@ -121,7 +121,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "closure_reason_other_fam",
-        "openmrs_data_type": "text",
+        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "অন্যান্য কারণে খানা বাদ",
         "v_required": {
@@ -199,7 +199,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "jila",
-        "openmrs_data_type": "text",
+        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "জেলা",
         "relevance": {
@@ -214,7 +214,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "upojila",
-        "openmrs_data_type": "text",
+        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "উপজেলা/সিটি কর্পোরেশন",
         "relevance": {

@@ -63,6 +63,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "abortion_mr",
+        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "গর্ভপাত/এম আর",
         "values": [
@@ -100,6 +101,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "still_birth",
+        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "মৃত প্রসব",
         "values": [
@@ -137,6 +139,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "c_section",
+        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "সিজারিয়ান অপারেশন",
         "values": [

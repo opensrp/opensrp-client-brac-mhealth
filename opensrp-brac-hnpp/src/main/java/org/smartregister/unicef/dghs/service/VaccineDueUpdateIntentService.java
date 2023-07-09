@@ -42,7 +42,7 @@ public class VaccineDueUpdateIntentService extends IntentService {
     public VaccineDueUpdateIntentService() {
         super("VaccineDueUpdateIntentService");
     }
-
+    private final String TEST_BASE="a60f22b5-434a-4b01-b2fa-941d00e128e8-mahmud101";
 
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -90,7 +90,7 @@ public class VaccineDueUpdateIntentService extends IntentService {
 
         updatedVaccineDueDate();
     }
-    public static boolean updatedVaccineDueDate(){
+    public  boolean updatedVaccineDueDate(){
 //        String query = "select * from alerts where startDate is not null and status !='expired' order by status desc,startDate asc";
         String query ="select alerts.*,ec_child.dob from alerts INNER JOIN  ec_child on ec_child.base_entity_id  = alerts.caseID  where startDate is not null and status !='expired' and scheduleName!='Vitamin A1' order by status desc,startDate asc";
         Cursor cursor = null;
@@ -110,36 +110,40 @@ public class VaccineDueUpdateIntentService extends IntentService {
                     String dob = cursor.getString(dobColumn);
                     String dueDate = cursor.getString(dueDateColumn);
                     String updatedDueDate = getUpDatedVaccineDueDate(vaccineName,dob,dueDate,baseEntityId);
-//                    if(baseEntityId.equalsIgnoreCase("b9e7e43c-57bb-405a-87e1-759d0703dcde-mahmud101")){
-//                        Log.v("CHILD_FILTER","vaccineName>>"+vaccineName+":original due:"+dueDate+":updated:"+updatedDueDate+":baseEntityId:"+baseEntityId);
-//
-//                    }
+                    if(baseEntityId.equalsIgnoreCase(TEST_BASE)){
+                        Log.v("CHILD_FILTER","vaccineName>>"+vaccineName+":original due:"+dueDate+":updated:"+updatedDueDate+":baseEntityId:"+baseEntityId);
+
+                    }
                     Alert alert = new Alert(baseEntityId,vaccineName, "", null, updatedDueDate, "");
                     Alert processedAlert = getProcessedAlert(alert);
-//                    if(baseEntityId.equalsIgnoreCase("b9e7e43c-57bb-405a-87e1-759d0703dcde-mahmud101")) {
-//                        Log.v("CHILD_FILTER","After>>>>original>>"+vaccineName+":original due:"+dueDate+":updated:"+updatedDueDate+":processedAlert:"+processedAlert.startDate()+":processedAlertName>>"+processedAlert.scheduleName());
-//                    }
+                    if(baseEntityId.equalsIgnoreCase(TEST_BASE)){
+                        Log.v("CHILD_FILTER","After>>>>original>>"+vaccineName+":original due:"+dueDate+":updated:"+updatedDueDate+":processedAlert:"+processedAlert.startDate()+":processedAlertName>>"+processedAlert.scheduleName());
+                    }
                     /*
                      checking case id exist or not
                      if exist then skip otherwise add case id
                      */
                         Alert dd = vaccineMapByBase.get(baseEntityId);
                         if(dd==null){
-//                            Log.v("CHILD_FILTER","1added>>"+processedAlert.scheduleName()+":"+processedAlert.startDate()+":"+baseEntityId);
-
+                            if(baseEntityId.equalsIgnoreCase(TEST_BASE)) {
+                                Log.v("CHILD_FILTER", "1added>>" + processedAlert.scheduleName() + ":" + processedAlert.startDate() + ":" + baseEntityId);
+                            }
                             vaccineMapByBase.put(baseEntityId,processedAlert);
                         }else {
                             LocalDate localDate = new LocalDate(dd.startDate());
                             LocalDate vaccineLocalDate = new LocalDate(processedAlert.startDate());
-//                            if(baseEntityId.equalsIgnoreCase("b9e7e43c-57bb-405a-87e1-759d0703dcde-mahmud101")) {
-//                                Log.v("CHILD_FILTER","1.5added>>dd:"+dd.startDate()+"ddname:"+dd.scheduleName()+":alert:"+processedAlert.startDate()+":"+processedAlert.scheduleName()+">>>"+getVaccineOrder(dd.scheduleName())+">>"+getVaccineOrder(processedAlert.scheduleName()));
-//                            }
+                            if(baseEntityId.equalsIgnoreCase(TEST_BASE)){
+                                Log.v("CHILD_FILTER","1.5added>>dd:"+dd.startDate()+"ddname:"+dd.scheduleName()+":alert:"+processedAlert.startDate()+":"+processedAlert.scheduleName()+">>>"+getVaccineOrder(dd.scheduleName())+">>"+getVaccineOrder(processedAlert.scheduleName()));
+                            }
                                 if(vaccineLocalDate.isBefore(localDate)){
-//                                Log.v("CHILD_FILTER","2added>>"+processedAlert.scheduleName()+":"+processedAlert.startDate()+":"+baseEntityId);
-                                vaccineMapByBase.put(baseEntityId,processedAlert);
+                                    if(baseEntityId.equalsIgnoreCase(TEST_BASE)) {
+                                        Log.v("CHILD_FILTER", "2added>>" + processedAlert.scheduleName() + ":" + processedAlert.startDate() + ":" + baseEntityId);
+                                    }
+                                    vaccineMapByBase.put(baseEntityId,processedAlert);
                             }else if(vaccineLocalDate.isEqual(localDate) && (getVaccineOrder(dd.scheduleName())>getVaccineOrder(processedAlert.scheduleName()))){
-//                                Log.v("CHILD_FILTER","3added>>"+processedAlert.scheduleName()+":"+processedAlert.startDate()+":"+baseEntityId);
-
+                                    if(baseEntityId.equalsIgnoreCase(TEST_BASE)) {
+                                        Log.v("CHILD_FILTER", "3added>>" + processedAlert.scheduleName() + ":" + processedAlert.startDate() + ":" + baseEntityId);
+                                    }
                                 vaccineMapByBase.put(baseEntityId,processedAlert);
                             }
                         }
@@ -158,7 +162,9 @@ public class VaccineDueUpdateIntentService extends IntentService {
         //now need to update child table with vaccine name and due date
         for (Map.Entry<String, Alert> map : vaccineMapByBase.entrySet()) {
             Alert alert = map.getValue();
-            Log.v("CHILD_FILTER","alerts>>"+alert.scheduleName()+":"+alert.startDate()+":"+alert.caseId());
+            if(alert.caseId().equalsIgnoreCase(TEST_BASE)) {
+                Log.v("CHILD_FILTER", "alerts>>" + alert.scheduleName() + ":" + alert.startDate() + ":" + alert.caseId());
+            }
             try{
                 SQLiteDatabase database = HnppApplication.getInstance().getRepository().getWritableDatabase();
                 String sql = "update ec_child set due_vaccine_date='"+alert.startDate()+"',due_vaccine_name='"+alert.scheduleName()+"' where " +
@@ -168,8 +174,20 @@ public class VaccineDueUpdateIntentService extends IntentService {
                 e.printStackTrace();
 
             }
+
         }
+        broadcastStatus("updated");
         return true;
+    }
+    private void broadcastStatus(String message){
+        try{
+            Intent broadcastIntent = new Intent("VACCINE_UPDATE");
+            broadcastIntent.putExtra("EXTRA_VACCINE_UPDATE", message);
+            sendBroadcast(broadcastIntent);
+        }catch (Exception e){
+
+        }
+
     }
     private static int getVaccineOrder(String vaccineName){
         switch (vaccineName){
@@ -234,15 +252,15 @@ public class VaccineDueUpdateIntentService extends IntentService {
             case "PCV 3":
                 String vName = getApplicableVaccineName(vaccineName);
                 Vaccine vaccine = ImmunizationLibrary.getInstance().vaccineRepository().getVaccineByName(baseEntityId,vName);
-                if(vaccine!=null){
-                    Log.v("VACCINE_DUE","updatedVaccineDueDate>>"+vaccineName+":"+vaccine.getDate());
+                if(vaccine!=null && !vaccine.isInvalid()){
+                    Log.v("CHILD_FILTER","updatedVaccineDueDate>>"+vaccineName+":"+vaccine.getDate());
                     DateTime opv1GivenDate = new DateTime(vaccine.getDate());
                     LocalDate tenWeekV = new LocalDate(opv1GivenDate).plusDays(28);
                     return DateTimeFormat.forPattern("yyyy-MM-dd").print(tenWeekV);
                 }else{
                     DateTime dobDate = DateTimeFormat.forPattern("yyyy-MM-dd").parseDateTime(dobString);
                     if(vaccineName.equalsIgnoreCase("OPV 2")||
-                            vaccineName.equalsIgnoreCase("Penta 2") ||
+                            vaccineName.equalsIgnoreCase("PENTA 2") ||
                             vaccineName.equalsIgnoreCase("PCV 2")){
                         LocalDate tWeekV = new LocalDate(dobDate).plusDays(70);
                         return DateTimeFormat.forPattern("yyyy-MM-dd").print(tWeekV);
@@ -255,7 +273,7 @@ public class VaccineDueUpdateIntentService extends IntentService {
             case "fIPV 2":
 
                 Vaccine vaccine1 = ImmunizationLibrary.getInstance().vaccineRepository().getVaccineByName(baseEntityId,"fipv_1");
-                if(vaccine1!=null){
+                if(vaccine1!=null && !vaccine1.isInvalid()){
                     DateTime opv1GivenDate = new DateTime(vaccine1.getDate());
                     LocalDate tenWeekV = new LocalDate(opv1GivenDate).plusDays(56);
                     return DateTimeFormat.forPattern("yyyy-MM-dd").print(tenWeekV);
