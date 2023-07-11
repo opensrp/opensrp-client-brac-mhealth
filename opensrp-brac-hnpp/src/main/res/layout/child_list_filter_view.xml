@@ -92,6 +92,9 @@
             app:layout_constraintTop_toBottomOf="@+id/filter_date_lay" />
     </android.support.constraint.ConstraintLayout>
 
-    <include
-        layout="@layout/child_list_filter_buttons" />
+    <LinearLayout
+        android:id="@+id/filter_button_lay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
 </LinearLayout>
