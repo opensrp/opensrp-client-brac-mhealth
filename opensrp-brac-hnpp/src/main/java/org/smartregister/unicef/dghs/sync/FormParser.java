@@ -178,7 +178,7 @@ public class FormParser {
                         if(ANC_REGISTRATION.equalsIgnoreCase(encounter_type)){
                             FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",0+"");
                             FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_PNC",0+"");
-                            updateAncRegistrationRisk(base_entity_id,details);
+                            //updateAncRegistrationRisk(base_entity_id,details);
                         }
                         if(IYCF_PACKAGE.equalsIgnoreCase(encounter_type)){
                             updateIYCFRisk(base_entity_id,details);
@@ -186,9 +186,9 @@ public class FormParser {
 //                        if(ANC_GENERAL_DISEASE.equalsIgnoreCase(encounter_type)){
 //                            updatePhysicalProblemRisk(base_entity_id,details);
 //                        }
-                        if(NCD_PACKAGE.equalsIgnoreCase(encounter_type)){
-                            updateNcdPackageRisk(base_entity_id,details);
-                        }
+//                        if(NCD_PACKAGE.equalsIgnoreCase(encounter_type)){
+//                            updateNcdPackageRisk(base_entity_id,details);
+//                        }
 //                        if(ANC_PREGNANCY_HISTORY.equalsIgnoreCase(encounter_type)){
 //                            updatePreviousHistoryRisk(base_entity_id,details);
 //                        }
@@ -1087,70 +1087,70 @@ public class FormParser {
             riskynBPSModel.baseEntityId = baseEntityId;
             HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
         }
-            if(details.containsKey("blood_pressure_systolic") && !StringUtils.isEmpty(details.get("blood_pressure_systolic"))){
-            String bps = details.get("blood_pressure_systolic");
-            if(!TextUtils.isEmpty(bps)){
-                try{
-                    int nBPS = Integer.parseInt(bps);
-                    if(details.containsKey("blood_pressure_diastolic") && !StringUtils.isEmpty(details.get("blood_pressure_diastolic"))){
-                        String bpd = details.get("blood_pressure_diastolic");
-                        if(!TextUtils.isEmpty(bpd)) {
-                            int nBPD = Integer.parseInt(bpd);
-                            if(details.containsKey("has_edema") && !StringUtils.isEmpty(details.get("has_edema"))){
-                                String edema = details.get("has_edema");
-                                if(!TextUtils.isEmpty(edema)) {
-                                    if(details.containsKey("albumin_test") && !StringUtils.isEmpty(details.get("albumin_test"))){
-                                        String albumin = details.get("albumin_test");
-                                        if(!TextUtils.isEmpty(albumin))
-                                        {
-                                            if(edema.equalsIgnoreCase("yes") && (nBPS >=120 || nBPD >= 80) && albumin.equalsIgnoreCase("yes")){
-
-                                                isAncHomeVisitRisk = true;
-
-                                                RiskyModel riskynBPSModel = new RiskyModel();
-                                                riskynBPSModel.riskyValue = bps;
-                                                riskynBPSModel.riskyKey = "blood_pressure_systolic";
-                                                riskynBPSModel.eventType = eventType;
-                                                riskynBPSModel.baseEntityId = baseEntityId;
-                                                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
-                                                RiskyModel riskynBPDModel = new RiskyModel();
-                                                riskynBPDModel.riskyValue = bpd;
-                                                riskynBPDModel.riskyKey = "blood_pressure_diastolic";
-                                                riskynBPDModel.eventType = eventType;
-                                                riskynBPDModel.baseEntityId = baseEntityId;
-                                                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPDModel);
-                                                RiskyModel riskyedemaModel = new RiskyModel();
-                                                riskyedemaModel.riskyValue = edema;
-                                                riskyedemaModel.riskyKey = "has_edema";
-                                                riskyedemaModel.eventType = eventType;
-                                                riskyedemaModel.baseEntityId = baseEntityId;
-                                                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyedemaModel);
-
-                                                RiskyModel riskyalbuminModel = new RiskyModel();
-                                                riskyalbuminModel.riskyValue = albumin;
-                                                riskyalbuminModel.riskyKey = "albumin";
-                                                riskyalbuminModel.eventType = eventType;
-                                                riskyalbuminModel.baseEntityId = baseEntityId;
-                                                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyalbuminModel);
-
-                                            }
-
-                                        }
-
-                                    }
-
-
-                                }
-                            }
-                        }
-                    }
-
-                }catch (NumberFormatException e){
-
-                }
-
-            }
-        }
+//            if(details.containsKey("blood_pressure_systolic") && !StringUtils.isEmpty(details.get("blood_pressure_systolic"))){
+//            String bps = details.get("blood_pressure_systolic");
+//            if(!TextUtils.isEmpty(bps)){
+//                try{
+//                    int nBPS = Integer.parseInt(bps);
+//                    if(details.containsKey("blood_pressure_diastolic") && !StringUtils.isEmpty(details.get("blood_pressure_diastolic"))){
+//                        String bpd = details.get("blood_pressure_diastolic");
+//                        if(!TextUtils.isEmpty(bpd)) {
+//                            int nBPD = Integer.parseInt(bpd);
+//                            if(details.containsKey("has_edema") && !StringUtils.isEmpty(details.get("has_edema"))){
+//                                String edema = details.get("has_edema");
+//                                if(!TextUtils.isEmpty(edema)) {
+//                                    if(details.containsKey("albumin_test") && !StringUtils.isEmpty(details.get("albumin_test"))){
+//                                        String albumin = details.get("albumin_test");
+//                                        if(!TextUtils.isEmpty(albumin))
+//                                        {
+//                                            if(edema.equalsIgnoreCase("yes") && (nBPS >=120 || nBPD >= 80) && albumin.equalsIgnoreCase("yes")){
+//
+//                                                isAncHomeVisitRisk = true;
+//
+//                                                RiskyModel riskynBPSModel = new RiskyModel();
+//                                                riskynBPSModel.riskyValue = bps;
+//                                                riskynBPSModel.riskyKey = "blood_pressure_systolic";
+//                                                riskynBPSModel.eventType = eventType;
+//                                                riskynBPSModel.baseEntityId = baseEntityId;
+//                                                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
+//                                                RiskyModel riskynBPDModel = new RiskyModel();
+//                                                riskynBPDModel.riskyValue = bpd;
+//                                                riskynBPDModel.riskyKey = "blood_pressure_diastolic";
+//                                                riskynBPDModel.eventType = eventType;
+//                                                riskynBPDModel.baseEntityId = baseEntityId;
+//                                                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPDModel);
+//                                                RiskyModel riskyedemaModel = new RiskyModel();
+//                                                riskyedemaModel.riskyValue = edema;
+//                                                riskyedemaModel.riskyKey = "has_edema";
+//                                                riskyedemaModel.eventType = eventType;
+//                                                riskyedemaModel.baseEntityId = baseEntityId;
+//                                                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyedemaModel);
+//
+//                                                RiskyModel riskyalbuminModel = new RiskyModel();
+//                                                riskyalbuminModel.riskyValue = albumin;
+//                                                riskyalbuminModel.riskyKey = "albumin";
+//                                                riskyalbuminModel.eventType = eventType;
+//                                                riskyalbuminModel.baseEntityId = baseEntityId;
+//                                                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyalbuminModel);
+//
+//                                            }
+//
+//                                        }
+//
+//                                    }
+//
+//
+//                                }
+//                            }
+//                        }
+//                    }
+//
+//                }catch (NumberFormatException e){
+//
+//                }
+//
+//            }
+//        }
         if(isAncHomeVisitRisk) {
             HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EventType.ANC_HOME_VISIT);
         }else {
@@ -1331,23 +1331,23 @@ public class FormParser {
 //    }
 
     private static void updateElcoRisk(String baseEntityId,HashMap<String,String>details){
-        if(details.containsKey("complications_known") && !StringUtils.isEmpty(details.get("complications_known"))){
-            String pck = details.get("complications_known");
-            if(!TextUtils.isEmpty(pck) && pck.equalsIgnoreCase("yes")){
-                RiskyModel riskyModel = new RiskyModel();
-                riskyModel.riskyValue = pck;
-                riskyModel.riskyKey = "complications_known";
-                riskyModel.eventType = ELCO;
-                riskyModel.baseEntityId = baseEntityId;
-                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",ELCO);
-                return;
-
-
-            }else{
-                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"false",ELCO);
-            }
-        }
+//        if(details.containsKey("complications_known") && !StringUtils.isEmpty(details.get("complications_known"))){
+//            String pck = details.get("complications_known");
+//            if(!TextUtils.isEmpty(pck) && pck.equalsIgnoreCase("yes")){
+//                RiskyModel riskyModel = new RiskyModel();
+//                riskyModel.riskyValue = pck;
+//                riskyModel.riskyKey = "complications_known";
+//                riskyModel.eventType = ELCO;
+//                riskyModel.baseEntityId = baseEntityId;
+//                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
+//                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",ELCO);
+//                return;
+//
+//
+//            }else{
+//                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"false",ELCO);
+//            }
+//        }
 
     }
 
