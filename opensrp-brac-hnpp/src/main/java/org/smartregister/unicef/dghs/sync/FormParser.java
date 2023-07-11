@@ -53,6 +53,7 @@ import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.AEFI_
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.ANC_HOME_VISIT;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.BLOOD_GROUP;
+import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.CHILD_DISEASE;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS;
@@ -65,6 +66,7 @@ import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.EYE_T
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.GIRL_PACKAGE;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
+import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.MEMBER_DISEASE;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.MEMBER_PROFILE_VISIT;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.MEMBER_REFERRAL;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.NCD_PACKAGE;
@@ -2083,6 +2085,12 @@ public class FormParser {
                 break;
             case AEFI_CHILD:
                 form_name = HnppConstants.JSON_FORMS.AEFI_CHILD_ + ".json";
+                break;
+            case CHILD_DISEASE:
+                form_name = HnppConstants.JSON_FORMS.CHILD_DISEASE + ".json";
+                break;
+            case MEMBER_DISEASE:
+                form_name = HnppConstants.JSON_FORMS.MEMBER_DISEASE + ".json";
                 break;
             case CHILD_INFO_EBF12:
             case "Child Info EBF 1&2":

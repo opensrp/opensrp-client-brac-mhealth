@@ -91,7 +91,7 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
 
     public String moduleId;
     public String houseHoldId;
-    public GlobalSearchContentData globalSearchContentData;
+//    public GlobalSearchContentData globalSearchContentData;
     private Handler handler;
     protected String familyBaseEntityId;
     protected String familyHead;
@@ -316,37 +316,37 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
         if(HnppConstants.isPALogin()){
             familyFloatingMenu.setVisibility(View.GONE);
         }
-        globalSearchContentData = (GlobalSearchContentData) getIntent().getSerializableExtra(GlobalSearchDetailsActivity.EXTRA_SEARCH_CONTENT);
-
-        if(globalSearchContentData != null){
-            HnppConstants.showDialogWithAction(this,getString(R.string.dialog_title), "", new Runnable() {
-                @Override
-                public void run() {
-                    globalSearchContentData.setFamilyBaseEntityId(familyBaseEntityId);
-                    globalSearchContentData.setHhId(houseHoldId);
-                    new MigrationInteractor(new AppExecutors()).migrateMember(globalSearchContentData, new MigrationContract.MigrationPostInteractorCallBack() {
-                        @Override
-                        public void onSuccess() {
-                            Toast.makeText(FamilyProfileActivity.this,"Successfully migrated,Syncing data",Toast.LENGTH_SHORT).show();
-                            HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
-                            Intent intent = new Intent(FamilyProfileActivity.this, FamilyRegisterActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
-                            finish();
-
-                        }
-
-                        @Override
-                        public void onFail() {
-                            Toast.makeText(FamilyProfileActivity.this,"Fail to migrate",Toast.LENGTH_SHORT).show();
-
-
-                        }
-                    });
-
-                }
-            });
-        }
+//        globalSearchContentData = (GlobalSearchContentData) getIntent().getSerializableExtra(GlobalSearchDetailsActivity.EXTRA_SEARCH_CONTENT);
+//
+//        if(globalSearchContentData != null){
+//            HnppConstants.showDialogWithAction(this,getString(R.string.dialog_title), "", new Runnable() {
+//                @Override
+//                public void run() {
+//                    globalSearchContentData.setFamilyBaseEntityId(familyBaseEntityId);
+//                    globalSearchContentData.setHhId(houseHoldId);
+//                    new MigrationInteractor(new AppExecutors()).migrateMember(globalSearchContentData, new MigrationContract.MigrationPostInteractorCallBack() {
+//                        @Override
+//                        public void onSuccess() {
+//                            Toast.makeText(FamilyProfileActivity.this,"Successfully migrated,Syncing data",Toast.LENGTH_SHORT).show();
+//                            HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
+//                            Intent intent = new Intent(FamilyProfileActivity.this, FamilyRegisterActivity.class);
+//                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                            startActivity(intent);
+//                            finish();
+//
+//                        }
+//
+//                        @Override
+//                        public void onFail() {
+//                            Toast.makeText(FamilyProfileActivity.this,"Fail to migrate",Toast.LENGTH_SHORT).show();
+//
+//
+//                        }
+//                    });
+//
+//                }
+//            });
+//        }
     }
 
     @Override

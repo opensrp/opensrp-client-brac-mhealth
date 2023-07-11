@@ -91,13 +91,13 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
 //            memberProfileDueData.setType(TAG_OPEN_ANC_HISTORY);
 //            memberProfileDueDataArrayList.add(memberProfileDueData);
 //        }
-//            {
-//                MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
-//                memberProfileDueData.setImageSource(R.drawable.rowavatar_member);
-//                memberProfileDueData.setTitle("খানা সদস্য জরিপ");
-//                memberProfileDueData.setType(HnppMemberProfileDueFragment.TAG_OPEN_MEMBER_PROFILE_UPDATE);
-//                memberProfileDueDataArrayList.add(memberProfileDueData);
-//            }
+            {
+                MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
+                memberProfileDueData.setImageSource(R.drawable.rowavatar_member);
+                memberProfileDueData.setTitle("সাধারণ রোগের তথ্য");
+                memberProfileDueData.setType(HnppMemberProfileDueFragment.TAG_MEMBER_DISEASE);
+                memberProfileDueDataArrayList.add(memberProfileDueData);
+            }
 
 
 

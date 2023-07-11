@@ -68,6 +68,7 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
     private static final int TAG_OPEN_REFEREAL = 222;
     private static final int TAG_OPEN_CORONA = 88888;
     public static final int TAG_OPEN_MEMBER_PROFILE_UPDATE = 9999;
+    public static final int TAG_MEMBER_DISEASE = 100000;
     public static final int TAG_OPEN_ANC_REGISTRATION= 555;
     public static final int TAG_OPEN_DELIVERY = 6666;
     private String baseEntityId;
@@ -158,6 +159,7 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
         FragmentTransaction fragmentTransaction =
                 fragmentManager.beginTransaction();
         Bundle bundle = new Bundle();
+        bundle.putBoolean(MemberHistoryFragment.IS_ANC_HISTORY,true);
         bundle.putString(Constants.INTENT_KEY.BASE_ENTITY_ID,baseEntityId);
         fragmentTransaction.add(R.id.container, MemberHistoryFragment.getInstance(bundle));
         fragmentTransaction.commit();
@@ -181,6 +183,12 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
                     if (mActivity != null && mActivity instanceof HnppFamilyOtherMemberProfileActivity) {
                         HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) mActivity;
                         activity.openMemberProfileUpdate();
+                    }
+                    break;
+                case TAG_MEMBER_DISEASE:
+                    if (mActivity != null && mActivity instanceof HnppFamilyOtherMemberProfileActivity) {
+                        HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) mActivity;
+                        activity.openMemberDisease();
                     }
                     break;
                 case TAG_OPEN_CORONA:

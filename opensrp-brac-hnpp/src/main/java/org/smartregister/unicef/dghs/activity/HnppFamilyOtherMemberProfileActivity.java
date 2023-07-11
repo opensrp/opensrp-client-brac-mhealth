@@ -1056,6 +1056,10 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
         startAnyFormActivity(HnppConstants.JSON_FORMS.MEMBER_PROFILE_VISIT,REQUEST_HOME_VISIT);
 
     }
+    public void openMemberDisease() {
+        startAnyFormActivity(HnppConstants.JSON_FORMS.MEMBER_DISEASE,REQUEST_HOME_VISIT);
+
+    }
     public void openRefereal() {
         if(gender.equalsIgnoreCase("F")){
             startAnyFormActivity(HnppConstants.JSON_FORMS.WOMEN_REFERRAL,REQUEST_HOME_VISIT);

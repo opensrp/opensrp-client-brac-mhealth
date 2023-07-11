@@ -163,6 +163,7 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
                 //go to global searchresult with data
                 globalSearchContentData = new GlobalSearchContentData();
                 globalSearchContentData.setId(isShr?"shr_id=":"unique_id="+""+shrId);
+                if(isShr)globalSearchContentData.setShrId(shrId);
                 globalSearchContentData.setDivisionId(divId);
                 globalSearchContentData.setDistrictId(disId);
                 globalSearchContentData.setGender(gender);

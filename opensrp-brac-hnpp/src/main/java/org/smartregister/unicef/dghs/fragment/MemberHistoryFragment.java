@@ -38,13 +38,14 @@ import java.util.HashMap;
 public class MemberHistoryFragment extends Fragment implements MemberHistoryContract.View {
 
     public static final String IS_GUEST_USER = "IS_GUEST_USER";
-
+    public static final String IS_ANC_HISTORY = "IS_ANC";
     private MemberHistoryPresenter presenter;
     private RecyclerView clientsView;
     private String baseEntityId;
     private boolean isStart = true;
     private boolean isGuestUser = false;
     private ProgressBar client_list_progress;
+    boolean isAncHistory = false;
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -79,6 +80,7 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
         super.onViewCreated(view, savedInstanceState);
         baseEntityId = getArguments().getString(Constants.INTENT_KEY.BASE_ENTITY_ID);
         isGuestUser = getArguments().getBoolean(IS_GUEST_USER,false);
+        isAncHistory = getArguments().getBoolean(IS_ANC_HISTORY,false);
         initializePresenter();
     }
 
@@ -112,7 +114,11 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
     public void updateAdapter() {
 
         MemberHistoryAdapter adapter = new MemberHistoryAdapter(getActivity(),onClickAdapter);
-        adapter.setData(presenter.getMemberHistory());
+        if(isAncHistory){
+            adapter.setData(presenter.getANCHistory());
+        }else {
+            adapter.setData(presenter.getMemberHistory());
+        }
         this.clientsView.setAdapter(adapter);
     }
 

@@ -211,192 +211,7 @@
           }
         }
       },
-      {
-        "key": "has_disease",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "has_disease",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "রোগ আছে কিনা?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        }
-      },
-      {
-        "key": "disease_Type_2m",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "disease_Type_2m",
-        "openmrs_data_type": "text",
-        "type": "check_box",
-        "label": "রোগের ধরণ",
-        "exclusive": [
-          "None"
-        ],
-        "options": [
-          {
-            "key": "Very_severe_disease",
-            "text": "খুব মারাত্বক রোগ",
-            "value": false,
-            "openmrs_choice_id": "Probable_Limited_Infection"
-          },
-          {
-            "key": "Probable_Limited_Infection",
-            "text": "সম্ভাব্য সীমিত সংক্রামণ",
-            "value": false,
-            "openmrs_choice_id": "Probable_Limited_Infection"
-          },
-          {
-            "key": "Jaundice",
-            "text": "জন্ডিস",
-            "value": false,
-            "openmrs_choice_id": "Jaundice"
-          },
-          {
-            "key": "water_dieriaanddysentry",
-            "text": "পানি স্বল্পতাহীন ডায়রিয়া",
-            "value": false,
-            "openmrs_choice_id": "water_dieriaanddysentry"
-          },
-          {
-            "key": "Bellybutton_infection",
-            "text": "নাভিতে সংক্রামন",
-            "value": false,
-            "openmrs_choice_id": "Bellybutton_infection"
-          },
-          {
-            "key": "Injury",
-            "text": "আঘাত",
-            "value": false,
-            "openmrs_choice_id": "Injury"
-          },
-          {
-            "key": "Fever",
-            "text": "জ্বর",
-            "value": false,
-            "openmrs_choice_id": "Fever"
-          },
-          {
-            "key": "Pneumonia",
-            "text": "নিউমোনিয়া",
-            "value": false,
-            "openmrs_choice_id": "Pneumonia"
-          },
-          {
-            "key": "Pneumonia_unspec",
-            "text": "নিউমোনিয়া নয় সর্দি, কাশী ",
-            "value": false,
-            "openmrs_choice_id": "Pneumonia_unspec"
-          },
-          {
-            "key": "Others_member_disease",
-            "text": "অন্যান্য",
-            "value": false,
-            "openmrs_choice_id": "Others_member_disease"
-          }
 
-        ],
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "disease_Type_2m_5y",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "disease_Type_2m_5y",
-        "openmrs_data_type": "text",
-        "type": "check_box",
-        "label": "রোগের ধরণ",
-        "exclusive": [
-          "None"
-        ],
-        "options": [
-          {
-            "key": "Very_severe_disease",
-            "text": "খুব মারাত্বক রোগ",
-            "value": false,
-            "openmrs_choice_id": "Probable_Limited_Infection"
-          },
-          {
-            "key": "dieriaanddysentry",
-            "text": "ডায়ারিয়া ও আমাশয়",
-            "value": false,
-            "openmrs_choice_id": "dieriaanddysentry"
-          },
-          {
-            "key": "Jaundice",
-            "text": "জন্ডিস",
-            "value": false,
-            "openmrs_choice_id": "Jaundice"
-          },
-          {
-            "key": "maleria",
-            "text": "জ্বর (ম্যালারিয়া)",
-            "value": false,
-            "openmrs_choice_id": "maleria"
-          },
-          {
-            "key": "Bellybutton_infection",
-            "text": "নাভিতে সংক্রামন",
-            "value": false,
-            "openmrs_choice_id": "Bellybutton_infection"
-          },
-          {
-            "key": "Injury",
-            "text": "আঘাত",
-            "value": false,
-            "openmrs_choice_id": "Injury"
-          },
-          {
-            "key": "Fever",
-            "text": "জ্বর",
-            "value": false,
-            "openmrs_choice_id": "Fever"
-          },
-          {
-            "key": "Conjunctivitis_unspec",
-            "text": "চোখ উঠা",
-            "value": false,
-            "openmrs_choice_id": "Conjunctivitis_unspec"
-          },
-          {
-            "key": "Malnutrition",
-            "text": "অপুষ্টি",
-            "value": false,
-            "openmrs_choice_id": "Malnutrition"
-          },
-          {
-            "key": "Anemia",
-            "text": "রক্ত স্বল্পতা ",
-            "value": false,
-            "openmrs_choice_id": "Anemia"
-          },
-          {
-            "key": "Others_member_disease",
-            "text": "অন্যান্য",
-            "value": false,
-            "openmrs_choice_id": "Others_member_disease"
-          }
-        ],
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
-        }
-      },
       {
         "key": "illness_information",
         "openmrs_entity_parent": "",
@@ -413,55 +228,55 @@
             "key": "Leprosy",
             "text": "কুষ্ঠ",
             "value": false,
-            "openmrs_choice_id": "Leprosy"
+            "openmrs_entity_id": "Leprosy"
           },
           {
             "key": "Tuberculosis",
             "text": "যক্ষ্মা",
             "value": false,
-            "openmrs_choice_id": "Tuberculosis"
+            "openmrs_entity_id": "Tuberculosis"
           },
           {
             "key": "Sexual Disease",
             "text": "যৌন রোগ",
             "value": false,
-            "openmrs_choice_id": "Sexual Disease"
+            "openmrs_entity_id": "Sexual Disease"
           },
           {
             "key": "Asthma",
             "text": "হাঁপানি বা এ্যাজমা",
             "value": false,
-            "openmrs_choice_id": "Asthma"
+            "openmrs_entity_id": "Asthma"
           },
           {
             "key": "Diabetes",
             "text": "ডায়াবেটিস",
             "value": false,
-            "openmrs_choice_id": "Diabetes"
+            "openmrs_entity_id": "Diabetes"
           },
           {
             "key": "High Blood Pressure",
             "text": "উচ্চ রক্তচাপ",
             "value": false,
-            "openmrs_choice_id": "High Blood Pressure"
+            "openmrs_entity_id": "High Blood Pressure"
           },
           {
             "key": "Disability",
             "text": "প্রতিবন্ধিতা",
             "value": false,
-            "openmrs_choice_id": "Disability"
+            "openmrs_entity_id": "Disability"
           },
           {
             "key": "Others (Family Disease)",
             "text": "অন্যান্য রোগ",
             "value": false,
-            "openmrs_choice_id": "Others (Family Disease)"
+            "openmrs_entity_id": "Others (Family Disease)"
           },
           {
             "key": "None",
             "text": "নেই",
             "value": false,
-            "openmrs_choice_id": "None"
+            "openmrs_entity_id": "None"
           }
         ]
       },

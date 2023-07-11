@@ -119,6 +119,9 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_other_member_profile);
+        findViewById(R.id.member_visit_btn).setVisibility(View.INVISIBLE);
+        findViewById(R.id.add_child_btn).setVisibility(View.INVISIBLE);
+        findViewById(R.id.risk_view).setVisibility(View.INVISIBLE);
         handler = new Handler();
         baseEntityId = getIntent().getStringExtra(BASE_ENTITY_ID);
         guestMemberData = HnppDBUtils.getGuestMemberById(baseEntityId);

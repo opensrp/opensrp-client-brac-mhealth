@@ -145,6 +145,7 @@ public class GlobalSearchActivity extends SecuredActivity implements View.OnClic
                 GlobalSearchContentData searchContentData = new GlobalSearchContentData();
                 searchContentData.setShrId(shrIdEditText.getText().toString());
                 searchContentData.setMigrationType(migrationType);
+                searchContentData.setFamilyBaseEntityId(familyBaseEntityId);
                 GlobalSearchDetailsActivity.startMigrationSearchActivity(this, searchContentData);
             }
                 break;

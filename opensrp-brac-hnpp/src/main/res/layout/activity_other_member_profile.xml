@@ -85,6 +85,7 @@
                             android:layout_marginRight="5dp"
                             android:background="@drawable/aefi_image"
                             android:visibility="visible" />
+
                         <Button
                             android:id="@+id/update_profile_btn"
                             android:layout_width="wrap_content"

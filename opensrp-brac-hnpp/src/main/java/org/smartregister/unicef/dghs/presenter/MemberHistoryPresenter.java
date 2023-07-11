@@ -1,6 +1,7 @@
 package org.smartregister.unicef.dghs.presenter;
 
 import org.json.JSONObject;
+import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.unicef.dghs.contract.MemberHistoryContract;
 import org.smartregister.unicef.dghs.contract.OtherServiceContract;
 import org.smartregister.unicef.dghs.fragment.MemberHistoryDialogFragment;
@@ -8,6 +9,7 @@ import org.smartregister.unicef.dghs.fragment.MemberHistoryFragment;
 import org.smartregister.unicef.dghs.fragment.MemberOtherServiceFragment;
 import org.smartregister.unicef.dghs.interactor.MemberHistoryInteractor;
 import org.smartregister.unicef.dghs.interactor.MemberOtherServiceInteractor;
+import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.MemberHistoryData;
 import org.smartregister.unicef.dghs.utils.OtherServiceData;
 import org.smartregister.family.util.AppExecutors;
@@ -40,6 +42,20 @@ public class MemberHistoryPresenter implements MemberHistoryContract.Presenter, 
     @Override
     public ArrayList<MemberHistoryData> getMemberHistory() {
         return data;
+    }
+    public ArrayList<MemberHistoryData> getANCHistory(){
+        ArrayList<MemberHistoryData> memberHistoryANCData = new ArrayList<>();
+        for (MemberHistoryData memberData:data) {
+            if(memberData.getEventType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT)||
+                    memberData.getEventType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION)||
+                    memberData.getEventType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_REGISTRATION)||
+                    memberData.getEventType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME)){
+                memberHistoryANCData.add(memberData);
+            }
+
+        }
+        return memberHistoryANCData;
+
     }
 
     @Override

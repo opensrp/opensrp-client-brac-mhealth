@@ -636,6 +636,10 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 return HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS;
             case  HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12:
                 return HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12;
+            case  HnppConstants.EVENT_TYPE.CHILD_DISEASE:
+                return HnppConstants.EVENT_TYPE.CHILD_DISEASE;
+            case  HnppConstants.EVENT_TYPE.MEMBER_DISEASE:
+                return HnppConstants.EVENT_TYPE.MEMBER_DISEASE;
                 default:
                     return org.smartregister.chw.anc.util.Constants.EVENT_TYPE.ANC_HOME_VISIT;
         }

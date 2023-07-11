@@ -48,6 +48,8 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
     private static final int TAG_CHILD_FOLLOWUP = 3330;
     private static final int TAG_NEW_BORN_PNC_1_4 = 2121;
     private static final int TAG_AEFI_CHILD = 33301;
+    private static final int TAG_CHILD_DISEASE = 333012;
+    private static final int TAG_MEMBER_DISEASE = 333013;
     private static final int TAG_CHILD_INFO_EBF12 = 1212;
     private static final int TAG_CHILD_INFO_7_24_months = 1213;
     private static final int TAG_CHILD_INFO_25_months = 1214;
@@ -248,6 +250,17 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             fImg.setImageResource(iconMapping.get(HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP));
             fName.setText(eventTypeMapping.get(HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP));
             followupView.setTag(TAG_CHILD_FOLLOWUP);
+            followupView.setOnClickListener(this);
+            otherServiceView.addView(followupView);
+        }
+        if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.CHILD_DISEASE)){
+            View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+            ImageView fImg = followupView.findViewById(R.id.image_view);
+            TextView fName =  followupView.findViewById(R.id.patient_name_age);
+            followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+            fImg.setImageResource(iconMapping.get(HnppConstants.EVENT_TYPE.CHILD_DISEASE));
+            fName.setText(eventTypeMapping.get(HnppConstants.EVENT_TYPE.CHILD_DISEASE));
+            followupView.setTag(TAG_CHILD_DISEASE);
             followupView.setOnClickListener(this);
             otherServiceView.addView(followupView);
         }
@@ -485,6 +498,12 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                     if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
                         activity.openAefiForm();
+                    }
+                    break;
+                case TAG_CHILD_DISEASE:
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                        activity.openChildDiseaseForm();
                     }
                     break;
                 case TAG_OPEN_CORONA:

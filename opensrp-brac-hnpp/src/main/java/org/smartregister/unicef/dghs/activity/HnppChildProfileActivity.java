@@ -558,6 +558,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
     public void openAefiForm() {
         startAnyFormActivity(HnppConstants.JSON_FORMS.AEFI_CHILD_,REQUEST_AEFI_CHILD);
     }
+    public void openChildDiseaseForm() {
+        startAnyFormActivity(HnppConstants.JSON_FORMS.CHILD_DISEASE,REQUEST_HOME_VISIT);
+    }
     public void openChildInfo(String eventType) {
         startAnyFormActivity(HnppConstants.eventTypeFormNameMapping.get(eventType),REQUEST_HOME_VISIT);
     }
@@ -700,7 +703,8 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                     else if(HnppConstants.JSON_FORMS.NEW_BORN_PNC_1_4.equalsIgnoreCase(formName)){
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
                     }
-                    else if(HnppConstants.JSON_FORMS.CHILD_INFO_7_24_MONTHS.equalsIgnoreCase(formName)){
+                    else if(HnppConstants.JSON_FORMS.CHILD_INFO_7_24_MONTHS.equalsIgnoreCase(formName)
+                            || HnppConstants.JSON_FORMS.CHILD_DISEASE.equalsIgnoreCase(formName) ){
                         JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
                         JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
                         String DOB = ((HnppChildProfilePresenter) presenter).getDateOfBirth();

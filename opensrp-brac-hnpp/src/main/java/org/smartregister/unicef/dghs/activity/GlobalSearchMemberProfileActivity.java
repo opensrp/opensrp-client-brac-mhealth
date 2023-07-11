@@ -175,6 +175,9 @@ public class GlobalSearchMemberProfileActivity extends BaseProfileActivity imple
         textViewName = findViewById(R.id.textview_name);
         editBtn = findViewById(R.id.edit_member_btn);
         findViewById(R.id.update_profile_btn).setVisibility(View.INVISIBLE);
+        findViewById(R.id.member_visit_btn).setVisibility(View.INVISIBLE);
+        findViewById(R.id.add_child_btn).setVisibility(View.INVISIBLE);
+        findViewById(R.id.risk_view).setVisibility(View.INVISIBLE);
         editBtn.setVisibility(View.GONE);
         editBtn.setOnClickListener(this);
         imageViewProfile = findViewById(org.smartregister.chw.core.R.id.imageview_profile);
