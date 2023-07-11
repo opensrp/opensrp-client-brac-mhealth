@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white">
+
     <ImageView
         android:id="@+id/hh_profile_img"
         android:layout_width="wrap_content"
@@ -13,10 +14,10 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="@dimen/register_list_item_margin"
         android:adjustViewBounds="true"
-        android:maxHeight="@dimen/client_profile_pic_height"
         android:maxWidth="@dimen/client_profile_pic_width"
-        android:paddingBottom="@dimen/register_list_top_bottom_min_padding"
+        android:maxHeight="@dimen/client_profile_pic_height"
         android:paddingStart="@dimen/register_list_top_bottom_min_padding"
+        android:paddingBottom="@dimen/register_list_top_bottom_min_padding"
         android:scaleType="centerCrop"
         android:src="@drawable/rowavatar_member" />
 
@@ -42,7 +43,7 @@
                 android:visibility="gone"
                 android:layout_marginRight="5dp"
                 android:id="@+id/risk_view"
-                android:background="@drawable/danger_vaccine"
+                android:background="@drawable/aefi_image"
                 android:layout_width="30dp"
                 android:layout_height="20dp"/>
             <TextView

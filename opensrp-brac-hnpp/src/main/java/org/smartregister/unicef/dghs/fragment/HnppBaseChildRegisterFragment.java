@@ -13,6 +13,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.telephony.TelephonyManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,6 +94,8 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
     Button aefiButton;
     RecyclerView filterTypeRv;
     ImageView arrowImageView;
+    int layoutHeightWithExpand = 800;
+    int layoutHeightWithoutExpand = 300;
 
     @Override
     public void setupViews(View view) {
@@ -175,6 +179,22 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
         //filterTextView.setOnClickListener(registerActionHandler);
         clients_header_layout = view.findViewById(org.smartregister.chw.core.R.id.clients_header_layout);
         android.view.View filterView = inflate(getContext(), R.layout.child_list_filter_view, clients_header_layout);
+        LinearLayout filterButtonLay = view.findViewById(R.id.filter_button_lay);
+        View filterButtonView;
+
+        if(checkDevice() == DeviceType.TABLET){
+            filterButtonView = getLayoutInflater()
+                    .inflate(R.layout.child_list_filter_buttons_tablet, filterButtonLay, false);
+             layoutHeightWithExpand = 450;
+             layoutHeightWithoutExpand = 150;
+        }else {
+            filterButtonView = getLayoutInflater()
+                    .inflate(R.layout.child_list_filter_buttons_phone, filterButtonLay, false);
+             layoutHeightWithExpand = 800;
+             layoutHeightWithoutExpand = 300;
+        }
+
+        filterButtonLay.addView(filterButtonView);
 
         filterTypeRv = filterView.findViewById(R.id.filter_type_rv);
         ConstraintLayout filterDateLay = filterView.findViewById(R.id.filter_date_lay);
@@ -222,11 +242,11 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
             @Override
             public void onClick(View v) {
                 if(isExpanded){
-                    clients_header_layout.getLayoutParams().height = 300;
+                    clients_header_layout.getLayoutParams().height = layoutHeightWithoutExpand;
                     filterTypeRv.setVisibility(View.GONE);
                     arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
                 }else{
-                    clients_header_layout.getLayoutParams().height = 800;
+                    clients_header_layout.getLayoutParams().height = layoutHeightWithExpand;
                     filterTypeRv.setVisibility(View.VISIBLE);
                     arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
                 }
@@ -239,11 +259,11 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
             @Override
             public void onClick(View v) {
                 if(isExpanded){
-                    clients_header_layout.getLayoutParams().height = 300;
+                    clients_header_layout.getLayoutParams().height = layoutHeightWithoutExpand;
                     filterTypeRv.setVisibility(View.GONE);
                     arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
                 }else{
-                    clients_header_layout.getLayoutParams().height = 800;
+                    clients_header_layout.getLayoutParams().height = layoutHeightWithExpand;
                     filterTypeRv.setVisibility(View.VISIBLE);
                     arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
                 }
@@ -252,7 +272,7 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
             }
         });
 
-        clients_header_layout.getLayoutParams().height = 300;
+        clients_header_layout.getLayoutParams().height = layoutHeightWithoutExpand;
         clients_header_layout.setVisibility(View.VISIBLE);
         if (getSearchCancelView() != null) {
             getSearchCancelView().setOnClickListener(this);
@@ -260,12 +280,30 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
         //setTotalPatients();
     }
 
+    private DeviceType checkDevice() {
+       try{
+           DisplayMetrics metrics = new DisplayMetrics();
+           getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+           float yInches= metrics.heightPixels/metrics.ydpi;
+           float xInches= metrics.widthPixels/metrics.xdpi;
+           double diagonalInches = Math.sqrt(xInches*xInches + yInches*yInches);
+           if (diagonalInches >= 6.5){
+              return DeviceType.TABLET;
+           }else{
+               return DeviceType.MOBILE;
+           }
+       }catch (Exception e){
+           return DeviceType.MOBILE;
+       }
+    }
+
     void setupFilterAdapter(){
         adapter = new ChildFilterTypeAdapter(new ChildFilterTypeAdapter.OnClickAdapter() {
             @Override
             public void onClick(int position, String content) {
                 if(oldPosition != position){
-                    clients_header_layout.getLayoutParams().height = 300;
+                    clients_header_layout.getLayoutParams().height = layoutHeightWithoutExpand;
                     filterTypeRv.setVisibility(View.GONE);
                     arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
                     isExpanded = !isExpanded;
@@ -386,7 +424,6 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
     void resetOtherFilter() {
         selectedStartDateFilterValue = "";
         selectedEndDateFilterValue = "";
-        isAefiChild = "";
         fromDate = "";
         toDate = "";
     }
@@ -819,4 +856,9 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
 enum DatePickerType{
     FROM,
     TO
+}
+
+enum DeviceType{
+    MOBILE,
+    TABLET
 }

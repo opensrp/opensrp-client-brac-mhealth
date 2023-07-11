@@ -533,6 +533,9 @@
     <string name="to_date">To Date</string>
     <string name="from_to_date_validation_msg">To date must be after from date(</string>
     <string name="no_filter_applied">No filters applied</string>
+    <string name="reset_filter">Reset Filter</string>
+    <string name="drop_out">Drop Out</string>
+    <string name="aefi_child">AEFI Child</string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>

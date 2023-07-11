@@ -252,6 +252,10 @@ public class HnppChildRegisterFragment extends HnppBaseChildRegisterFragment imp
 
         }
 
+        if(!StringUtils.isEmpty(isAefiChild)){
+            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.CHILD, HnppConstants.KEY.HAS_AEFI, "yes"));
+        }
+
         if(!StringUtils.isEmpty(selectedStartDateFilterValue)&&!StringUtils.isEmpty(selectedEndDateFilterValue)){
             customFilter.append(MessageFormat.format(" and {0} between ''{1}'' and ''{2}'' ",HnppConstants.TABLE_NAME.CHILD+"."+ HnppConstants.KEY.DUE_VACCINE_DATE,selectedStartDateFilterValue,selectedEndDateFilterValue));
         }else if(!StringUtils.isEmpty(selectedStartDateFilterValue)){
@@ -259,10 +263,7 @@ public class HnppChildRegisterFragment extends HnppBaseChildRegisterFragment imp
 
         }else if(!StringUtils.isEmpty(selectedEndDateFilterValue)){
             customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.CHILD, HnppConstants.KEY.DUE_VACCINE_DATE, selectedEndDateFilterValue));
-        }else if(!StringUtils.isEmpty(isAefiChild)){
-            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.CHILD, HnppConstants.KEY.HAS_AEFI, "yes"));
-        }
-        else if(!StringUtils.isEmpty(fromDate)&&!StringUtils.isEmpty(toDate)){
+        } else if(!StringUtils.isEmpty(fromDate)&&!StringUtils.isEmpty(toDate)){
             customFilter.append(MessageFormat.format(" and {0} between ''{1}'' and ''{2}'' ",HnppConstants.TABLE_NAME.CHILD+"."+ HnppConstants.KEY.DUE_VACCINE_DATE,fromDate,toDate));
         }
 
