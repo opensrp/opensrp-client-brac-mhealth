@@ -334,40 +334,12 @@
         }
       },
       {
-        "key": "birth_weight_taken",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "birth_weight_taken",
-        "openmrs_data_type": "select one",
-        "type": "spinner",
-        "hint": "বাচ্চার জন্মকালীন ওজন নেওয়া হয়েছে?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
-        }
-      },
-      {
         "key": "birth_weight",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "birth_weight",
         "type": "edit_text",
-        "hint": "শিশুর  জন্মের সময়ের ওজন(কেজি)",
+        "hint": "জন্ম ওজন(গ্রাম)",
         "v_numeric": {
           "value": "true",
           "err": "প্রশ্নের উত্তর দিন"
@@ -385,159 +357,78 @@
         }
       },
       {
-        "key": "head_body_covered",
+        "key": "new_born_info",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "head_body_covered",
-        "openmrs_data_type": "select one",
-        "type": "spinner",
-        "hint": "নবজাতক জন্মের সাথে সাথে তাকে মোড়ানো এবং আবৃত করা হয়েছিল?",
-        "values": [
-          "হ্যাঁ",
-          "না"
+        "openmrs_entity_id": "new_born_info",
+        "type": "check_box",
+        "label": "নবজাতক সম্পর্কিত গুরুত্বপূর্ণ তথ্য",
+        "label_text_style": "normal",
+        "text_color": "#C0C0C0",
+        "exclusive": [
+          "chk_none"
         ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
+        "options": [
+          {
+            "key": "head_body_covered",
+            "text": "নবজাতক জন্মের সাথে সাথে তাকে মোড়ানো এবং আবৃত করা হয়েছিল",
+            "value": false,
+            "openmrs_entity": "person_attribute",
+            "openmrs_entity_id": "head_body_covered"
+          },
+          {
+            "key": "breastfeeding_time",
+            "text": "নবজাতক জন্মের ১ ঘন্টার মধ্যে তাকে মায়ের বুকে লাগানো হয়েছিল",
+            "value": false,
+            "openmrs_entity": "person_attribute",
+            "openmrs_entity_id": "breastfeeding_time"
+          },
+          {
+            "key": "delay_cord_cutting",
+            "text": "বিলম্বিত কর্ড কাটা",
+            "value": false,
+            "openmrs_entity": "person_attribute",
+            "openmrs_entity_id": "delay_cord_cutting"
+          },
+          {
+            "key": "chlorohexadin",
+            "text": "প্রসবকালীন সময়ে সিএইচএক্স(৭.১%) ব্যবহৃত হয়েছিল",
+            "value": false,
+            "openmrs_entity": "person_attribute",
+            "openmrs_entity_id": "chlorohexadin"
+          },
+          {
+            "key": "Skin_to_Skin_contact",
+            "text": "প্রসবের ১ ঘন্টার মধ্যে নবজাতককে বুকের দুধ খাওয়ানো হয়েছিল",
+            "value": false,
+            "openmrs_entity": "person_attribute",
+            "openmrs_entity_id": "Skin_to_Skin_contact"
+          },
+          {
+            "key": "Delayed_bathing",
+            "text": "বিলম্বিত গোসল করানো হয়েছিল",
+            "value": false,
+            "openmrs_entity": "person_attribute",
+            "openmrs_entity_id": "Delayed_bathing"
+          },
+          {
+            "key": "Visible_birth_defect",
+            "text": "নবজাতকের দৃশ্যমান জন্মগত ত্রুটি আছে",
+            "value": false,
+            "openmrs_entity": "person_attribute",
+            "openmrs_entity_id": "Visible_birth_defect"
+          },
+          {
+            "key": "Counselling_on_Newborn_danger",
+            "text": "নবজাতকের আসন্ন ঝুকি সমূহ এবং ইএনসি সংক্রান্ত কাউন্সেলিং প্রদান করা হয়েছে",
+            "value": false,
+            "openmrs_entity": "person_attribute",
+            "openmrs_entity_id": "Counselling_on_Newborn_danger"
+          }
+        ],
         "v_required": {
-          "value": "true",
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "breastfeeding_time",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "breastfeeding_time",
-        "openmrs_data_type": "select one",
-        "type": "spinner",
-        "hint": "প্রসবের ১ ঘন্টার মধ্যে নবজাতককে বুকের দুধ খাওয়ানো হয়েছিল?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "chlorohexadin",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "chlorohexadin",
-        "openmrs_data_type": "select one",
-        "type": "spinner",
-        "hint": "প্রসবকালীন সময়ে সিএইচএক্স(৭.১%) ব্যবহৃত হয়েছিল? ",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "Skin_to_Skin_contact",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "Skin_to_Skin_contact",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "নবজাতক জন্মের ১ ঘন্টার মধ্যে তাকে মায়ের বুকে লাগানো হয়েছিল?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "Visible_birth_defect",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "Visible_birth_defect",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "আপনার নবজাতকের দৃশ্যমান জন্মগত ত্রুটি আছে?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "Counselling_on_Newborn_danger",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "Counselling_on_Newborn_danger",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "আপনাকে নবজাতকের আসন্ন ঝুকি সমূহ এবং ইএনসি সংক্রান্ত কাউন্সেলিং প্রদান করা হয়েছে?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
+          "value": true,
+          "err": " নির্বাচন করুন"
         }
       },
       {

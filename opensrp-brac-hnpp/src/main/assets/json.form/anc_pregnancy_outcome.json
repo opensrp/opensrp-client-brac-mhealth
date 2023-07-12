@@ -102,7 +102,8 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "service_taken_date",
         "type": "date_picker",
-        "hint": "সেবা গ্রহণের তারিখ"
+        "hint": "সেবা গ্রহণের তারিখ",
+        "max_date": "today"
       },
       {
         "key": "last_menstrual_period",
@@ -130,6 +131,49 @@
         }
       },
       {
+        "key": "preg_outcome",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "preg_outcome",
+        "type": "check_box",
+        "label": "প্রসবের ফলাফল",
+        "label_text_style": "bold",
+        "text_color": "#000000",
+        "exclusive": [
+          "miscarriage"
+        ],
+        "options": [
+          {
+            "key": "born_alive",
+            "text": "জীবিত জন্ম",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "born_alive",
+            "openmrs_entity_parent": ""
+          },
+          {
+            "key": "still_born",
+            "text": "মৃত জন্ম",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "still_born",
+            "openmrs_entity_parent": ""
+          },
+          {
+            "key": "miscarriage",
+            "text": "গর্ভপাত",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "miscarriage",
+            "openmrs_entity_parent": ""
+          }
+        ],
+        "v_required": {
+          "value": "true",
+          "err": "Please select pregnancy outcome"
+        }
+      },
+      {
         "key": "delivery_date",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -142,6 +186,17 @@
         "v_required": {
           "value": "true",
           "err": "Please enter date the woman delivered"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive","still_born"
+                ]
+              }
+            ]
+          }
         }
       },
       {
@@ -185,6 +240,17 @@
           "এনজিও": "Non-governmental_Organization",
           "বিশেষায়িত হাসপাতাল": "Specialized_Hospital",
           "অন্যান্য": "Others"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive","still_born"
+                ]
+              }
+            ]
+          }
         }
       },
       {
@@ -210,6 +276,72 @@
           "এফ.ডাব্লিউ.ভি.": "FWV",
           "সিএসবিএ": "CSBA",
           "অন্যান্য_কেউ": "Others"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive","still_born"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "key": "place_of_miscarriage",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "place_of_miscarriage",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "গর্ভপাতের স্থান",
+        "values": [
+          "বাড়িতে",
+          "ফ্যাসিলিটিতে"
+        ],
+        "openmrs_entity_ids": {
+          "বাড়িতে": "home",
+          "ফ্যাসিলিটিতে": "facility"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "miscarriage"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "key": "after_miscarriage_service",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "after_miscarriage_service",
+        "type": "spinner",
+        "hint": "গর্ভপাত পরবর্তী গুরুত্বপূর্ণ সেবা প্রদান করা হয়েছিল কিনা",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_entity_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "miscarriage"
+                ]
+              }
+            ]
+          }
         }
       },
       {
@@ -231,6 +363,17 @@
           "সিজারিয়ান": "Cesarean",
           "সহায়ক নরমাল ডেলিভারি": "Assisted vaginal delivery (AVD)",
           "ডেস্ট্রাক্টিভ অপারেশন": "Destructive operations"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive","still_born"
+                ]
+              }
+            ]
+          }
         }
       },
       {
@@ -256,22 +399,17 @@
         "v_regex": {
           "value": "[0-9]*",
           "err": "দশমিক অনুমোদিত নয়"
-        }
-      },
-      {
-        "key": "is_abortion",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "is_abortion",
-        "type": "spinner",
-        "hint": "গর্ভপাত হয়েছে?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_entity_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive"
+                ]
+              }
+            ]
+          }
         }
       },
       {
@@ -288,7 +426,7 @@
         "options": [
           {
             "key": "photograph_use",
-            "text": "পার্টোগ্রাফ ব্যবহৃত হয়েছিল",
+            "text": "পার্টোগ্রাফ/ লেবার কেয়ার গাইড ব্যবহৃত হয়েছি",
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_parent": "",
@@ -326,26 +464,18 @@
             "openmrs_entity": "concept",
             "openmrs_entity_parent": ""
           }
-        ]
-      },
-      {
-        "key": "delivery_complication",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "delivery_complication",
-        "type": "spinner",
-        "hint": "প্রসবকালীন সময়ে কোনো জটিলতা হয়েছিল?",
-        "values": [
-          "হ্যাঁ",
-          "না"
+
         ],
-        "openmrs_entity_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "Please select one option"
+        "relevance": {
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive","still_born"
+                ]
+              }
+            ]
+          }
         }
       },
       {
@@ -357,7 +487,7 @@
         "type": "check_box",
         "label": "প্রসবকালীন জটিলতা",
         "exclusive": [
-          "None"
+          "none"
         ],
         "options": [
           {
@@ -397,12 +527,23 @@
             "text": "অন্যান্য",
             "value": false,
             "openmrs_entity_id": "Other"
+          },
+          {
+            "key": "none",
+            "text": "কোনো জটিলতা হয়নি",
+            "value": false,
+            "openmrs_entity_id": "none"
           }
         ],
         "relevance": {
-          "step1:delivery_complication": {
-            "type": "string",
-            "ex": "regex(., \"হ্যাঁ\")"
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "born_alive","still_born"
+                ]
+              }
+            ]
           }
         }
       }
@@ -840,6 +981,24 @@
     "previous": "step2",
     "fields": [
       {
+        "key": "no_death",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "no_death",
+        "openmrs_data_type": "",
+        "type": "toaster_notes",
+        "text": "কোনো মৃত জন্ম হয়নি",
+        "text_color": "#3495bf",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_pregnancy_outcome_relevance.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "no_still_born",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -859,6 +1018,17 @@
         "v_regex": {
           "value": "[0-9]*",
           "err": "দশমিক অনুমোদিত নয়"
+        },
+        "relevance": {
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "still_born"
+                ]
+              }
+            ]
+          }
         }
       },
       {
@@ -878,10 +1048,14 @@
           "তরতাজা": "fresh"
         },
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_relevance.yml"
-            }
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "still_born"
+                ]
+              }
+            ]
           }
         }
       },
@@ -894,10 +1068,14 @@
         "type": "edit_text",
         "hint": "উত্তর দাতার নাম",
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_relevance.yml"
-            }
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "still_born"
+                ]
+              }
+            ]
           }
         }
       },
@@ -926,10 +1104,14 @@
           "অন্যান্য": "other"
         },
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_relevance.yml"
-            }
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "still_born"
+                ]
+              }
+            ]
           }
         }
       },
@@ -950,10 +1132,14 @@
           "না": "No"
         },
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_relevance.yml"
-            }
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "still_born"
+                ]
+              }
+            ]
           }
         }
       },
@@ -965,10 +1151,14 @@
         "type": "date_picker",
         "hint": "মৃত্যুর তারিখ",
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_relevance.yml"
-            }
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "still_born"
+                ]
+              }
+            ]
           }
         }
       },
@@ -981,10 +1171,14 @@
         "hint": "মৃত্যুর সময়",
         "expanded": false,
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_relevance.yml"
-            }
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "still_born"
+                ]
+              }
+            ]
           }
         }
       },
@@ -1022,10 +1216,14 @@
           "অন্যান্য": "Others"
         },
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_relevance.yml"
-            }
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "still_born"
+                ]
+              }
+            ]
           }
         }
       },
@@ -1052,10 +1250,14 @@
           "৪+": "4+"
         },
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_relevance.yml"
-            }
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "still_born"
+                ]
+              }
+            ]
           }
         }
       },
@@ -1077,10 +1279,14 @@
           "তৃতীয় লিঙ্গ": "O"
         },
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_relevance.yml"
-            }
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "still_born"
+                ]
+              }
+            ]
           }
         }
       },
@@ -1097,10 +1303,14 @@
           "err": "Enter a valid Number"
         },
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_relevance.yml"
-            }
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "still_born"
+                ]
+              }
+            ]
           }
         }
       },
@@ -1121,10 +1331,14 @@
           "না": "No"
         },
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_relevance.yml"
-            }
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "still_born"
+                ]
+              }
+            ]
           }
         }
       },
@@ -1166,10 +1380,14 @@
           "অন্যান্য": "Others"
         },
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_pregnancy_outcome_relevance.yml"
-            }
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "still_born"
+                ]
+              }
+            ]
           }
         }
       }

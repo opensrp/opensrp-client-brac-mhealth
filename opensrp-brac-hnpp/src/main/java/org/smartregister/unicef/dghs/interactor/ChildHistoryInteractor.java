@@ -10,6 +10,7 @@ import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.contract.MemberHistoryContract;
 import org.smartregister.unicef.dghs.repository.HnppVisitLogRepository;
 import org.smartregister.unicef.dghs.sync.FormParser;
+import org.smartregister.unicef.dghs.utils.FormApplicability;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
 import org.smartregister.unicef.dghs.utils.MemberHistoryData;
@@ -98,12 +99,19 @@ public class ChildHistoryInteractor implements MemberHistoryContract.Interactor 
 
         ArrayList<MemberHistoryData> historyDataArrayList  = new ArrayList<>();
         ArrayList<VisitLog> visitLogs = visitLogRepository.getAllVisitLog(baseEntityId);
+        int count = FormApplicability.getNewBornPNCCount(baseEntityId)+1;
         for(VisitLog visitLog : visitLogs){
             MemberHistoryData historyData = new MemberHistoryData();
             String eventType = visitLog.getEventType();
             historyData.setVisitId(visitLog.getVisitId());
             historyData.setEventType(eventType);
-            historyData.setTitle(HnppConstants.visitEventTypeMapping.get(eventType));
+            if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.NEW_BORN_PNC_1_4)){
+                count--;
+                historyData.setTitle(FormApplicability.getNewBornTitleForHistory(count));
+            }else{
+                historyData.setTitle(HnppConstants.visitEventTypeMapping.get(eventType));
+            }
+
             try{
                 historyData.setImageSource(HnppConstants.iconMapping.get(eventType));
             }catch(NullPointerException e){

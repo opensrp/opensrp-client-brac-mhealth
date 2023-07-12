@@ -1,6 +1,7 @@
 package org.smartregister.unicef.dghs.utils;
 
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.ANC_HOME_VISIT;
+import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.NEW_BORN_PNC_1_4;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
 
 import android.text.TextUtils;
@@ -158,6 +159,12 @@ public class FormApplicability {
     public static String getPNCTitleForHistory(int count) {
         return HnppConstants.getPncTitle(count)[0];
     }
+    public static String getNewBornTitleForHistory(int count) {
+        return HnppConstants.getNewBornPncTitle(count)[0];
+    }
+    public static String getNewBornTitle(String baseEntityId){
+        return HnppConstants.getNewBornPncTitle(FormApplicability.getNewBornPNCCount(baseEntityId)+1)[0];
+    }
     public static String getANCTitle(String baseEntityId){
         return HnppConstants.getAncTitle(FormApplicability.getANCCount(baseEntityId)+1)[0];
 //        String lmp = getLmp(baseEntityId);
@@ -281,6 +288,22 @@ public class FormApplicability {
 
         if(valus.size() > 0){
             if("1".equalsIgnoreCase(valus.get(0).get("is_closed"))){
+                return true;
+            }
+
+
+        }
+        return false;
+    }
+    public static boolean getNoOfBornChild(String baseEntityId){
+        String DeliveryDateSql = "SELECT no_born_alive FROM ec_pregnancy_outcome where base_entity_id = ? ";
+
+        List<Map<String, String>> valus = HnppDBUtils.readData(DeliveryDateSql, new String[]{baseEntityId});
+
+        if(valus.size() > 0){
+            String no = valus.get(0).get("no_born_alive");
+
+            if(!TextUtils.isEmpty(no) && Integer.parseInt(no)>0){
                 return true;
             }
 
@@ -435,6 +458,16 @@ public class FormApplicability {
     public static int getPNCCount(String baseEntityId){
         int ancCount = 0;
         String ancQuery = "select count(*) as anc_count from ec_visit_log where base_entity_id ='"+baseEntityId+"' and visit_type ='"+PNC_REGISTRATION+"'";
+        List<Map<String, String>> values = HnppDBUtils.readData(ancQuery, null);
+        if( values.size() > 0 && values.get(0).get("anc_count")!= null){
+            ancCount = Integer.parseInt(values.get(0).get("anc_count"));
+        }
+        return ancCount;
+
+    }
+    public static int getNewBornPNCCount(String baseEntityId){
+        int ancCount = 0;
+        String ancQuery = "select count(*) as anc_count from ec_visit_log where base_entity_id ='"+baseEntityId+"' and visit_type ='"+NEW_BORN_PNC_1_4+"'";
         List<Map<String, String>> values = HnppDBUtils.readData(ancQuery, null);
         if( values.size() > 0 && values.get(0).get("anc_count")!= null){
             ancCount = Integer.parseInt(values.get(0).get("anc_count"));

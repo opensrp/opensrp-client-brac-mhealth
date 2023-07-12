@@ -188,9 +188,12 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
     }
     private void openRiskFactorDialog(){
         ArrayList<RiskyModel> riskyModels = HnppApplication.getRiskDetailsRepository().getRiskyKeyByEntityId(baseEntityId);
-        String text = "";
+        StringBuilder builder = new StringBuilder();
         for (RiskyModel riskyModel:riskyModels) {
-            text = riskyModel.riskyValue;
+            builder.append(HnppConstants.riskeyFactorMapping.get(riskyModel.riskyKey));
+            builder.append(":");
+            builder.append(riskyModel.riskyValue);
+            builder.append("\n");
         }
 
         Dialog dialog = new Dialog(this);
@@ -199,8 +202,8 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
         dialog.setContentView(R.layout.dialog_with_one_button);
         TextView titleTv = dialog.findViewById(R.id.title_tv);
         TextView message = dialog.findViewById(R.id.text_tv);
-        titleTv.setText("যে সব কারণে রিস্কি:");
-        message.setText(getRiskName(text));
+        titleTv.setText("যে সকল কারনে ঝুঁকিপূর্ণ :");
+        message.setText(builder.toString());
         Button ok_btn = dialog.findViewById(R.id.ok_btn);
         ok_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -209,15 +212,6 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
             }
         });
         dialog.show();
-    }
-    private String getRiskName(String text){
-        String[] vaccineKeyList = text.split(",");
-        StringBuilder realVaccineName = new StringBuilder();
-
-        for(String key : vaccineKeyList){
-            realVaccineName.append(HnppConstants.riskeyFactorMapping.get(key)).append("\n");
-        }
-        return  realVaccineName.toString();
     }
     public void startFormForEdit(Integer title_resource) {
         CommonRepository commonRepository = org.smartregister.family.util.Utils.context().commonrepository(org.smartregister.family.util.Utils.metadata().familyMemberRegister.tableName);
@@ -481,7 +475,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
             commonPersonObject.getColumnmaps().put("gender", gender);
             commonPersonObject.getColumnmaps().put("marital_status", maritalStatus);
         }
-        if(gender.equalsIgnoreCase("F") && maritalStatus.equalsIgnoreCase("Married")){
+        if(gender.equalsIgnoreCase("F") && maritalStatus.equalsIgnoreCase("Married") && FormApplicability.getNoOfBornChild(baseEntityId)){
             addChildBtn.setVisibility(View.VISIBLE);
         }else{
             addChildBtn.setVisibility(View.GONE);
@@ -572,6 +566,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"anc_count", noOfAnc+"");
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"schedule_date", date);
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
+                HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"blood_group",HnppDBUtils.getBloodGroup(baseEntityId));
                 form.setWizard(true);
                 form.setHideSaveLabel(true);
                 form.setSaveLabel("");

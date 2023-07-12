@@ -104,6 +104,17 @@
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
                             android:text="প্রোফাইল আপডেট" />
+                        <Button
+                            android:id="@+id/member_visit_btn"
+                            android:layout_width="130dp"
+                            android:layout_height="30dp"
+                            android:layout_below="@+id/update_profile_btn"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/green_click_button"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:text="খানা সদস্য জরিপ"
+                            android:textColor="@color/white" />
 
                         <ImageView
                             android:id="@+id/missed_schedule_img"

@@ -730,6 +730,31 @@ public class HnppConstants extends CoreConstants {
                 return ancType;
         }
     }
+    public static String[] getNewBornPncTitle(int noOfPnc){
+        String[] ancType = new String[2];
+        switch (noOfPnc){
+            case 1:
+                ancType[0]="নবজাতক পি এন সি - ১ম";
+                ancType[1] = "PNC -1";
+                return ancType;
+            case 2:
+                ancType[0]="নবজাতক পি এন সি - ২য়";
+                ancType[1] = "ANC -2";
+                return ancType;
+            case 3:
+                ancType[0]="নবজাতক পি এন সি - ৩য়";
+                ancType[1] = "ANC -3";
+                return ancType;
+            case 4:
+                ancType[0]="নবজাতক পি এন সি - ৪র্থ";
+                ancType[1] = "ANC -4";
+                return ancType;
+            default:
+                ancType[0]="নবজাতক পি এন সি";
+                ancType[1] = "PNC";
+                return ancType;
+        }
+    }
     public static String[] getAncTitle(int noOfAnc){
         String[] ancType = new String[2];
         switch (noOfAnc){
@@ -1069,6 +1094,7 @@ public class HnppConstants extends CoreConstants {
         public static final String MUAC_STATUS = "muac_status";
         public static final String LAST_VACCINE_NAME = "last_vaccine_name";
         public static final String LAST_VACCINE_DATE = "last_vaccine_date";
+        public static final String NEW_BORN_INFO = "new_born_info";
         public static final String CHILD_MUAC = "child_muac";
         public static final String CHILD_HEIGHT = "child_height";
         public static final String CHILD_WEIGHT = "child_weight";
@@ -1752,7 +1778,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.SERVICES, "ভিটামিন সার্ভিস")
             .put(EVENT_TYPE.REFERREL_FOLLOWUP,"রেফারেল ফলোআপ")
             .put(EVENT_TYPE.CHILD_FOLLOWUP,"শিশু ফলোআপ")
-            .put(EVENT_TYPE.NEW_BORN_PNC_1_4,"নবজাতক পি এন সি ১-৪")
+            .put(EVENT_TYPE.NEW_BORN_PNC_1_4,"নবজাতক পি এন সি")
             .put(EVENT_TYPE.AEFI_CHILD,"এ ই এফ আই ফলোআপ")
             .put(EVENT_TYPE.CHILD_DISEASE, "সাধারণ রোগের তথ্য")
             .put(EVENT_TYPE.MEMBER_DISEASE, "সাধারণ রোগের তথ্য")
@@ -1789,6 +1815,8 @@ public class HnppConstants extends CoreConstants {
             .put("puerperal_sepsis","প্রসবোত্তর কোনো প্রকার সংক্রমণ হয়েছ")
             .put("vv_fistula_rv_fistula","ভিভি ফিস্টুলা/আরভি ফিস্টুলা দ্বারা সংক্রমিত হয়েছেন")
             .put("perinal_tear","পেরিনাল টিয়ার হয়েছে")
+            .put("Fetal_Heart_Rate","ভ্রূণের হার্টবিট রেট")
+            .put("Hemoglobin_result","ভ্রূণের হার্টবিট রেট")
             .build();
     public static final Map<String,String> immunizationMapping = ImmutableMap.<String,String> builder()
             .put("PENTA 1","পেন্টা-১")

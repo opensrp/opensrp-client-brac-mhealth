@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.smartregister.unicef.dghs.BuildConfig;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.activity.HnppFamilyOtherMemberProfileActivity;
 import org.smartregister.unicef.dghs.contract.HnppMemberProfileContract;
@@ -91,13 +92,16 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
 //            memberProfileDueData.setType(TAG_OPEN_ANC_HISTORY);
 //            memberProfileDueDataArrayList.add(memberProfileDueData);
 //        }
-            {
+        if(BuildConfig.IS_MIS){
+
                 MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
                 memberProfileDueData.setImageSource(R.drawable.rowavatar_member);
-                memberProfileDueData.setTitle("সাধারণ রোগের তথ্য");
+                memberProfileDueData.setTitle(eventTypeMapping.get(HnppConstants.EVENT_TYPE.MEMBER_DISEASE));
                 memberProfileDueData.setType(HnppMemberProfileDueFragment.TAG_MEMBER_DISEASE);
                 memberProfileDueDataArrayList.add(memberProfileDueData);
-            }
+
+        }
+
 
 
 

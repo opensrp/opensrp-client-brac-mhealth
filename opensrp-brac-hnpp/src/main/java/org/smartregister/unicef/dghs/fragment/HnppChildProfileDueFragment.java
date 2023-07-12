@@ -1,8 +1,10 @@
 package org.smartregister.unicef.dghs.fragment;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.smartregister.unicef.dghs.BuildConfig;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.activity.HnppChildProfileActivity;
@@ -57,7 +60,6 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
     private static final int TAG_CHILD_DUE= 444;
     private static final int TAG_OPEN_CORONA = 88888;
     private static final int TAG_OPEN_GMP = 99999;
-    private static final int TAG_PROFILE_UPDATE= 3333;
     private int dueCount = 0;
     private View emptyView;
     private String familyName;
@@ -200,6 +202,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
 
     }
     View encView;
+    @SuppressLint("InflateParams")
     public void  updateChildDueEntry(int type, String serviceName, String dueDate){
         if(getActivity() == null || getActivity().isFinishing() || otherServiceView==null || TextUtils.isEmpty(serviceName))return;
         serviceName = HnppConstants.immunizationMapping.get(serviceName.toUpperCase());
@@ -243,7 +246,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         }
         otherServiceView.setVisibility(View.VISIBLE);
         if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP)){
-            View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+            @SuppressLint("InflateParams") View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
             ImageView fImg = followupView.findViewById(R.id.image_view);
             TextView fName =  followupView.findViewById(R.id.patient_name_age);
             followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
@@ -253,8 +256,8 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             followupView.setOnClickListener(this);
             otherServiceView.addView(followupView);
         }
-        if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.CHILD_DISEASE)){
-            View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+        if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.CHILD_DISEASE) && BuildConfig.IS_MIS){
+            @SuppressLint("InflateParams") View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
             ImageView fImg = followupView.findViewById(R.id.image_view);
             TextView fName =  followupView.findViewById(R.id.patient_name_age);
             followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
@@ -265,7 +268,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             otherServiceView.addView(followupView);
         }
         if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.AEFI_CHILD)){
-            View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+            @SuppressLint("InflateParams") View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
             ImageView fImg = followupView.findViewById(R.id.image_view);
             TextView fName =  followupView.findViewById(R.id.patient_name_age);
             followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
@@ -277,29 +280,16 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         }
         String dobString = Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOB, false);
         Date dob = Utils.dobStringToDate(dobString);
-        long day = FormApplicability.getDay(commonPersonObjectClient);
-        if(FormApplicability.isDueChildProfileVisit(baseEntityId)){
-            @SuppressLint("InflateParams") View homeVisitView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
-            ImageView image1 = homeVisitView.findViewById(R.id.image_view);
-            TextView name1 =  homeVisitView.findViewById(R.id.patient_name_age);
-            homeVisitView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-            image1.setImageResource(R.drawable.rowavatar_child);
-            name1.setText("খানা সদস্য জরিপ");
-            homeVisitView.setTag(TAG_PROFILE_UPDATE);
-            homeVisitView.setOnClickListener(this);
-
-            otherServiceView.addView(homeVisitView);
-        }
 
         boolean isEnc = FormApplicability.isEncVisible(dob);
 
         if(isEnc){
-            View newBornView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+            @SuppressLint("InflateParams") View newBornView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
             ImageView fImg = newBornView.findViewById(R.id.image_view);
             TextView fName =  newBornView.findViewById(R.id.patient_name_age);
             newBornView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
             fImg.setImageResource(iconMapping.get(HnppConstants.EVENT_TYPE.NEW_BORN_PNC_1_4));
-            fName.setText(eventTypeMapping.get(HnppConstants.EVENT_TYPE.NEW_BORN_PNC_1_4));
+            fName.setText(FormApplicability.getNewBornTitle(baseEntityId));
             newBornView.setTag(TAG_NEW_BORN_PNC_1_4);
             newBornView.setOnClickListener(this);
             otherServiceView.addView(newBornView);
@@ -436,6 +426,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onClick(View v) {
         if(v.getTag() instanceof ReferralFollowUpModel){
@@ -449,12 +440,6 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         Integer tag = (Integer) v.getTag();
         if (tag != null) {
             switch (tag) {
-                case TAG_PROFILE_UPDATE:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
-                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
-                        activity.openChildProfileVisit();
-                    }
-                    break;
                 case TAG_ENC:
                     if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();

@@ -6,6 +6,48 @@ condition: "(step1_number_of_anc - step1_brac_anc)>1"
 actions:
   - "isRelevant = true"
 ---
+name: step2_ad_toaster_1
+description: Anaemia
+priority: 3
+condition: "step2_Hemoglobin_result<10"
+actions:
+  - "isRelevant = true"
+---
+name: step2_ad_toaster_2
+description: Anaemia
+priority: 3
+condition: "step2_Hemoglobin_result>=15.5"
+actions:
+  - "isRelevant = true"
+---
+name: step2_ad_toaster_3
+description: diabetis
+priority: 3
+condition: "step2_fbs_result>=7 || step2_rbs_result>=11.1"
+actions:
+  - "isRelevant = true"
+---
+name: step1_ad_toaster_fetal
+description: fetal
+priority: 3
+condition: "!step1_Fetal_position.isEmpty() && !step1_Fetal_position.equals('Cephalic')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_ad_toaster_Systolic
+description: fetal
+priority: 3
+condition: "step1_Systolic>=140"
+actions:
+  - "isRelevant = true"
+---
+name: step1_ad_toaster_diastolic
+description: fetal
+priority: 3
+condition: "step1_diastolic>=90"
+actions:
+  - "isRelevant = true"
+---
 name: step1_other_anc_no_1
 description: q3-q2grater1
 priority: 3

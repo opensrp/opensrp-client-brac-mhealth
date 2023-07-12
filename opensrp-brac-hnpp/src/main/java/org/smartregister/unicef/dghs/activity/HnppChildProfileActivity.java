@@ -125,6 +125,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
     private ImageView imageView,aefiImageBtn,missedImageBtn;
     private boolean hasAefi = false;
     private String aefiVaccine = "";
+    private Button memberSurveyBtn;
     @Override
     protected void onCreation() {
         super.onCreation();
@@ -133,6 +134,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         onClickFloatingMenu = getOnClickFloatingMenu(this, (HnppChildProfilePresenter) presenter);
         setupViews();
         setUpToolbar();
+        memberSurveyBtn = findViewById(R.id.member_visit_btn);
         HnppConstants.isViewRefresh = false;
         Toolbar toolbar = (Toolbar)this.findViewById(R.id.collapsing_toolbar);
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
@@ -143,6 +145,13 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                         ((HnppChildProfilePresenter) presenter()).getChildClient());
             }
         });
+        memberSurveyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openChildProfileVisit();
+            }
+        });
+
     }
     public void updateProfileIconColor(int color,String text){
 
@@ -303,6 +312,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                 finish();
             }
         });
+
 
     }
     private void openAefiVaccineDialog(){

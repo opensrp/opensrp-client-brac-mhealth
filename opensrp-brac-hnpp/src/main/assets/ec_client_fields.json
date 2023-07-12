@@ -1188,6 +1188,13 @@
           }
         },
         {
+          "column_name": "new_born_info",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.new_born_info"
+          }
+        },
+        {
           "column_name": "camp_type",
           "type": "Client",
           "json_mapping": {

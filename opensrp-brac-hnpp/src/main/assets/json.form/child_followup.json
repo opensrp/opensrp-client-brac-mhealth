@@ -359,23 +359,6 @@
         }
       },
 
-      {
-        "key": "is_Referred",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "is_Referred",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "রেফার করা হয়েছে?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_entity_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        }
-      },
 
       {
         "key":"Place_of_Refer",
@@ -418,9 +401,14 @@
           "অন্যান্য":"Others_Health_Facility"
         },
         "relevance": {
-          "step1:is_Referred": {
-            "type": "string",
-            "ex": "regex(., \"হ্যাঁ\")"
+          "step1:actions_taken": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "referral"
+                ]
+              }
+            ]
           }
         }
       },

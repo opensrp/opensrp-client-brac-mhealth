@@ -6,6 +6,13 @@ condition: "step1_preg_outcome == 'miscarriage'"
 actions:
   - "isRelevant = true"
 ---
+name: step3_no_death
+description: no_death
+priority: 1
+condition: "!step1_preg_outcome.contains('still_born')"
+actions:
+  - "isRelevant = true"
+---
 name: step1_no_children
 description: no_children relevance
 priority: 1

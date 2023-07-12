@@ -92,7 +92,8 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "service_taken_date",
         "type": "date_picker",
-        "hint": "সেবা গ্রহণের তারিখ"
+        "hint": "সেবা গ্রহণের তারিখ",
+        "max_date": "today"
       },
       {
         "key": "last_menstrual_period",
@@ -187,7 +188,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "height",
-        "type": "edit_text",
+        "type": "hidden",
         "hint": "উচ্চতা (ইঞ্চি)",
         "v_numeric": {
           "value": "true",
@@ -291,23 +292,6 @@
         }
       },
       {
-        "key": "has_previous_disages_history",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "has_previous_disages_history",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "পূর্বের রোগের ইতিহাস আছে কিনা?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_entity_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        }
-      },
-      {
         "key": "previous_disease",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -330,13 +314,6 @@
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "Thalassemia_history"
-          },
-          {
-            "key": "Still_birth_history",
-            "text": "মৃত জন্মের ইতিহাস আছে",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "Still_birth_history"
           },
           {
             "key": "Mental_health_history",
@@ -373,39 +350,7 @@
             "openmrs_entity": "concept",
             "openmrs_entity_id": "none"
           }
-        ],
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_member_registration_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "tt_td_history",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "tt_td_history",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "আপনি কোন কোন টিটি/টিডি টিকা গ্রহন করেছেন?",
-        "values": [
-          "টিটি/টিডি-১ সম্পন্ন",
-          "টিটি/টিডি-২ সম্পন্ন",
-          "টিটি/টিডি-৩ সম্পন্ন",
-          "টিটি/টিডি-৪ সম্পন্ন",
-          "টিটি/টিডি-৫ সম্পন্ন",
-          "একটিও না"
-        ],
-        "openmrs_entity_ids": {
-          "টিটি/টিডি-১ সম্পন্ন": "tt_td_1_done",
-          "টিটি/টিডি-২ সম্পন্ন": "tt_td_2_done",
-          "টিটি/টিডি-৩ সম্পন্ন": "tt_td_3_done",
-          "টিটি/টিডি-৪ সম্পন্ন": "tt_td_4_done",
-          "টিটি/টিডি-৫ সম্পন্ন": "tt_td_5_done",
-          "একটিও না": "none"
-        }
+        ]
       },
 
       {

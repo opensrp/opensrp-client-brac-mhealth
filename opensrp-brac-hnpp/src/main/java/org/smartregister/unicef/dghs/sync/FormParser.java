@@ -1011,50 +1011,6 @@ public class FormParser {
 
         }
     }
-    private static void updateAncRegistrationRisk(String baseEntityId,HashMap<String,String>details){
-        if(details.containsKey("no_prev_preg") && !StringUtils.isEmpty(details.get("no_prev_preg"))){
-            String ancValue = details.get("no_prev_preg");
-            if(!TextUtils.isEmpty(ancValue)){
-                try{
-                    int nP = Integer.parseInt(ancValue);
-                    if (nP>4){
-                        RiskyModel riskyModel = new RiskyModel();
-                        riskyModel.riskyValue = ancValue;
-                        riskyModel.riskyKey = "no_prev_preg";
-                        riskyModel.eventType = ANC_REGISTRATION;
-                        riskyModel.baseEntityId = baseEntityId;
-                        HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                        HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",ANC_REGISTRATION);
-                        return;
-                    }
-                }catch (NumberFormatException e){
-
-                }
-
-
-            }
-        }
-        if(details.containsKey("height") && !StringUtils.isEmpty(details.get("height"))){
-            String hight = details.get("height");
-            if(!TextUtils.isEmpty(hight)){
-                double h = Double.parseDouble(hight);
-                if (h<145){
-                    RiskyModel riskyModel = new RiskyModel();
-                    riskyModel.riskyValue = hight;
-                    riskyModel.riskyKey = "height";
-                    riskyModel.eventType = ANC_REGISTRATION;
-                    riskyModel.baseEntityId = baseEntityId;
-                    HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-
-                    HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",ANC_REGISTRATION);
-                    return;
-                }
-
-            }
-        }
-            HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"false",ANC_REGISTRATION);
-
-    }
     private static void updatePNCHomeVisitRisk(String eventType , String baseEntityId,HashMap<String,String>details) {
         boolean isAncHomeVisitRisk = false;
         if(details.containsKey("Denger_Signs_During_PNC") && !StringUtils.isEmpty(details.get("Denger_Signs_During_PNC"))) {
@@ -1062,8 +1018,8 @@ public class FormParser {
             String dengerValue = details.get("Denger_Signs_During_PNC");
             Log.v("RISK_ANC","dengerValue>>"+dengerValue);
             RiskyModel riskynBPSModel = new RiskyModel();
-            riskynBPSModel.riskyValue = dengerValue;
-            riskynBPSModel.riskyKey = "Denger_Signs_During_PNC";
+            riskynBPSModel.riskyValue = "yes";
+            riskynBPSModel.riskyKey = dengerValue;
             riskynBPSModel.eventType = eventType;
             riskynBPSModel.baseEntityId = baseEntityId;
             HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
@@ -1081,12 +1037,147 @@ public class FormParser {
             String dengerValue = details.get("Denger_Signs_During_Pregnancy");
             Log.v("RISK_ANC","dengerValue>>"+dengerValue);
             RiskyModel riskynBPSModel = new RiskyModel();
-            riskynBPSModel.riskyValue = dengerValue;
-            riskynBPSModel.riskyKey = "Denger_Signs_During_Pregnancy";
+            riskynBPSModel.riskyValue = "yes";
+            riskynBPSModel.riskyKey = dengerValue;
             riskynBPSModel.eventType = eventType;
             riskynBPSModel.baseEntityId = baseEntityId;
             HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
         }
+        if(details.containsKey("Fetal_Heart_Rate") && !StringUtils.isEmpty(details.get("Fetal_Heart_Rate"))){
+            String fhr = details.get("Fetal_Heart_Rate");
+            Log.v("ANC_RISK","Fetal_Heart_Rate>>"+fhr);
+            if(!TextUtils.isEmpty(fhr)){
+                int iFHR = Integer.parseInt(fhr);
+                if(iFHR<100 || iFHR>=180){
+                    isAncHomeVisitRisk = true;
+                    RiskyModel riskynBPSModel = new RiskyModel();
+                    riskynBPSModel.riskyValue = iFHR+"";
+                    riskynBPSModel.riskyKey = "Fetal_Heart_Rate";
+                    riskynBPSModel.eventType = eventType;
+                    riskynBPSModel.baseEntityId = baseEntityId;
+                    HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
+                }
+            }
+        }
+        if(details.containsKey("Hemoglobin_result") && !StringUtils.isEmpty(details.get("Hemoglobin_result"))){
+            String fhr = details.get("Hemoglobin_result");
+            Log.v("ANC_RISK","Hemoglobin_result>>"+fhr);
+            if(!TextUtils.isEmpty(fhr)){
+                int iFHR = Integer.parseInt(fhr);
+                if(iFHR<10 || iFHR>=15.5){
+                    isAncHomeVisitRisk = true;
+                    RiskyModel riskynBPSModel = new RiskyModel();
+                    riskynBPSModel.riskyValue = iFHR+"";
+                    riskynBPSModel.riskyKey = "Hemoglobin_result";
+                    riskynBPSModel.eventType = eventType;
+                    riskynBPSModel.baseEntityId = baseEntityId;
+                    HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
+                }
+            }
+        }
+        if(details.containsKey("fbs_result") && !StringUtils.isEmpty(details.get("fbs_result"))){
+            String fhr = details.get("fbs_result");
+            Log.v("ANC_RISK","fbs_result>>"+fhr);
+            if(!TextUtils.isEmpty(fhr)){
+                int iFHR = Integer.parseInt(fhr);
+                if(iFHR>=7){
+                    isAncHomeVisitRisk = true;
+                    RiskyModel riskynBPSModel = new RiskyModel();
+                    riskynBPSModel.riskyValue = iFHR+"";
+                    riskynBPSModel.riskyKey = "fbs_result";
+                    riskynBPSModel.eventType = eventType;
+                    riskynBPSModel.baseEntityId = baseEntityId;
+                    HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
+                }
+            }
+        }
+        if(details.containsKey("rbs_result") && !StringUtils.isEmpty(details.get("rbs_result"))){
+            String fhr = details.get("rbs_result");
+            Log.v("ANC_RISK","rbs_result>>"+fhr);
+            if(!TextUtils.isEmpty(fhr)){
+                int iFHR = Integer.parseInt(fhr);
+                if(iFHR>=11.1){
+                    isAncHomeVisitRisk = true;
+                    RiskyModel riskynBPSModel = new RiskyModel();
+                    riskynBPSModel.riskyValue = iFHR+"";
+                    riskynBPSModel.riskyKey = "rbs_result";
+                    riskynBPSModel.eventType = eventType;
+                    riskynBPSModel.baseEntityId = baseEntityId;
+                    HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
+                }
+            }
+        }
+        if(details.containsKey("Urine_Albumin_result") && !StringUtils.isEmpty(details.get("Urine_Albumin_result"))){
+            String fhr = details.get("Urine_Albumin_result");
+            Log.v("ANC_RISK","Urine_Albumin_result>>"+fhr);
+            if(!TextUtils.isEmpty(fhr) && !fhr.equalsIgnoreCase("Normal")){
+                    isAncHomeVisitRisk = true;
+                    RiskyModel riskynBPSModel = new RiskyModel();
+                    riskynBPSModel.riskyValue = fhr+"";
+                    riskynBPSModel.riskyKey = "Urine_Albumin_result";
+                    riskynBPSModel.eventType = eventType;
+                    riskynBPSModel.baseEntityId = baseEntityId;
+                    HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
+
+            }
+        }
+        if(details.containsKey("Hb_tested_result") && !StringUtils.isEmpty(details.get("Hb_tested_result"))){
+            String fhr = details.get("Hb_tested_result");
+            Log.v("ANC_RISK","Hb_tested_result>>"+fhr);
+            if(!TextUtils.isEmpty(fhr) && fhr.equalsIgnoreCase("positive")){
+                isAncHomeVisitRisk = true;
+                RiskyModel riskynBPSModel = new RiskyModel();
+                riskynBPSModel.riskyValue = fhr+"";
+                riskynBPSModel.riskyKey = "Hb_tested_result";
+                riskynBPSModel.eventType = eventType;
+                riskynBPSModel.baseEntityId = baseEntityId;
+                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
+
+            }
+        }
+        if(details.containsKey("chipilis_tested_result") && !StringUtils.isEmpty(details.get("chipilis_tested_result"))){
+            String fhr = details.get("chipilis_tested_result");
+            Log.v("ANC_RISK","chipilis_tested_result>>"+fhr);
+            if(!TextUtils.isEmpty(fhr) && fhr.equalsIgnoreCase("positive")){
+                isAncHomeVisitRisk = true;
+                RiskyModel riskynBPSModel = new RiskyModel();
+                riskynBPSModel.riskyValue = fhr+"";
+                riskynBPSModel.riskyKey = "chipilis_tested_result";
+                riskynBPSModel.eventType = eventType;
+                riskynBPSModel.baseEntityId = baseEntityId;
+                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
+
+            }
+        }
+        if(details.containsKey("hiv_tested_result") && !StringUtils.isEmpty(details.get("hiv_tested_result"))){
+            String fhr = details.get("hiv_tested_result");
+            Log.v("ANC_RISK","hiv_tested_result>>"+fhr);
+            if(!TextUtils.isEmpty(fhr) && fhr.equalsIgnoreCase("positive")){
+                isAncHomeVisitRisk = true;
+                RiskyModel riskynBPSModel = new RiskyModel();
+                riskynBPSModel.riskyValue = fhr+"";
+                riskynBPSModel.riskyKey = "hiv_tested_result";
+                riskynBPSModel.eventType = eventType;
+                riskynBPSModel.baseEntityId = baseEntityId;
+                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
+
+            }
+        }
+        if(details.containsKey("ultra_sound_result") && !StringUtils.isEmpty(details.get("ultra_sound_result"))){
+            String fhr = details.get("ultra_sound_result");
+            Log.v("ANC_RISK","ultra_sound_result>>"+fhr);
+            if(!TextUtils.isEmpty(fhr) && !fhr.equalsIgnoreCase("Normal USG")){
+                isAncHomeVisitRisk = true;
+                RiskyModel riskynBPSModel = new RiskyModel();
+                riskynBPSModel.riskyValue = fhr+"";
+                riskynBPSModel.riskyKey = "ultra_sound_result";
+                riskynBPSModel.eventType = eventType;
+                riskynBPSModel.baseEntityId = baseEntityId;
+                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
+
+            }
+        }
+
 //            if(details.containsKey("blood_pressure_systolic") && !StringUtils.isEmpty(details.get("blood_pressure_systolic"))){
 //            String bps = details.get("blood_pressure_systolic");
 //            if(!TextUtils.isEmpty(bps)){

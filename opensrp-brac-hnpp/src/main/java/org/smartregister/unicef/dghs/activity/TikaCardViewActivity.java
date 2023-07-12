@@ -194,8 +194,8 @@ public class TikaCardViewActivity extends SecuredActivity {
                     ((TextView) findViewById(R.id.opv_2)).setText(vaacineInfo.vaccineDate);
                     DateTime donDate = DateTimeFormat.forPattern("yyyy-MM-dd").parseDateTime(vaacineInfo.vaccineDate);
                     LocalDate sixWeekV = new LocalDate(donDate);
-                    String s = DateTimeFormat.forPattern("yyyy-MM-dd").print(sixWeekV);
-                    ((TextView) findViewById(R.id.sixWeekDate)).setText(s);
+//                    String s = DateTimeFormat.forPattern("yyyy-MM-dd").print(sixWeekV);
+//                    ((TextView) findViewById(R.id.sixWeekDate)).setText(s);
                     //update tenweek
                     LocalDate tenWeekV = sixWeekV.plusDays(28);
                     String t = DateTimeFormat.forPattern("yyyy-MM-dd").print(tenWeekV);

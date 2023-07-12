@@ -142,8 +142,8 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         mActivity = this;
         HnppConstants.updateAppBackgroundOnResume(findViewById(R.id.login_layout));
         if(BuildConfig.DEBUG){
-            userNameText.setText("mahmud101");//userNameText.setText("baby@ha.4");
-            passwordText.setText("123456");
+//            userNameText.setText("mahmud101");//userNameText.setText("baby@ha.4");
+//            passwordText.setText("123456");
         }
     }
     @Override
