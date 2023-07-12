@@ -441,7 +441,7 @@ public class HnppVisitLogRepository extends BaseRepository {
         date.set(Calendar.MILLISECOND, 0);
 
         long currentSeconds = date.getTimeInMillis()/1000;
-        String query = "select visit_type from visits where visit_type ='"+HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY+"' and base_entity_id ='"+baseEntityId+"' and ((strftime('%s',datetime('now')) - strftime('%s',datetime(visit_date/1000,'unixepoch','localtime'))))>="+currentSeconds;//1 july 2023 er epoc second
+        String query = "select visit_type from visits where visit_type ='"+HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY+"' and base_entity_id ='"+baseEntityId+"' and strftime('%s',datetime(visit_date/1000,'unixepoch','localtime'))>="+currentSeconds;//1 july 2023 er epoc second
         Log.v("DUE_VISIT",""+query);
         android.database.Cursor cursor = null;
         boolean isExist = false;

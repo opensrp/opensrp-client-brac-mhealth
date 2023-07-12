@@ -49,6 +49,11 @@ public class FormApplicability {
 
     }
     public static boolean isDueAnyForm(String baseEntityId, String eventType){
+        if(!TextUtils.isEmpty(eventType) && eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY)){
+            return isDueHHVisit(baseEntityId);
+        }else if(!TextUtils.isEmpty(eventType) && eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ELCO)){
+            return isDueElcoVisit(baseEntityId);
+        }
         int duration = getDurationByType(eventType);
         return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneAnyForm(baseEntityId, eventType,duration);
 
