@@ -421,7 +421,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                         @Override
                         public void onNext(Integer aInteger) {
                             isSave.set(aInteger);
-                            Log.d("visitCalledOnnext","true");
+                            Log.v("SAVE_VISIT","onError>>"+aInteger);
                         }
 
                         @Override
@@ -440,6 +440,7 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                                 showServiceDoneDialog(3);
                             }else {
                                 hideProgressDialog();
+                                isProcessing = false;
                                 //showServiceDoneDialog(false);
                             }
                         }
