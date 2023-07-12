@@ -1086,6 +1086,7 @@ public class HnppConstants extends CoreConstants {
         public static final String ESTIMATE_HBP = "Estimate HBP";
         public static final String CATARACT_SURGERY_REFER = "Cataract surgery refer";
         public static final String CATARACT_SURGERY = "Cataract surgery";
+        public static final String ANC_HOME_VISIT = "ANC Home Visit";
         //public static final String NCD_BY_PA = "NCD by PA";
 
         //PA stock
