@@ -431,17 +431,18 @@ public class HnppVisitLogRepository extends BaseRepository {
     }
     //is visit after 1july2023
     public boolean isDoneAfterJuly2023(String baseEntityId) {
-        Calendar date = Calendar.getInstance();
-        date.set(Calendar.YEAR, 2023);
-        date.set(Calendar.MONTH, Calendar.JULY);
-        date.set(Calendar.DAY_OF_MONTH, 1);
-        date.set(Calendar.HOUR, 0);
-        date.set(Calendar.MINUTE, 0);
-        date.set(Calendar.SECOND, 0);
-        date.set(Calendar.MILLISECOND, 0);
+//        Calendar date = Calendar.getInstance();
+//        date.set(Calendar.YEAR, 2023);
+//        date.set(Calendar.MONTH, Calendar.JULY);
+//        date.set(Calendar.DAY_OF_MONTH, 1);
+//        date.set(Calendar.HOUR, 0);
+//        date.set(Calendar.MINUTE, 0);
+//        date.set(Calendar.SECOND, 0);
+//        date.set(Calendar.MILLISECOND, 0);
+//
+//        long currentSeconds = date.getTimeInMillis()/1000;
 
-        long currentSeconds = date.getTimeInMillis()/1000;
-        String query = "select visit_type from visits where visit_type ='"+HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY+"' and base_entity_id ='"+baseEntityId+"' and strftime('%s',datetime(visit_date/1000,'unixepoch','localtime'))>="+currentSeconds;//1 july 2023 er epoc second
+        String query = "select visit_type from visits where visit_type ='"+HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY+"' and base_entity_id ='"+baseEntityId+"' and visit_date>=1688191200000";//1 july 2023 er epoc second
         Log.v("DUE_VISIT",""+query);
         android.database.Cursor cursor = null;
         boolean isExist = false;
