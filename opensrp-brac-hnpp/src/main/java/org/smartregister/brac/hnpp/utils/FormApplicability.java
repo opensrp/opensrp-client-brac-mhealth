@@ -11,6 +11,9 @@ import org.joda.time.Months;
 import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 import org.smartregister.brac.hnpp.HnppApplication;
+import org.smartregister.brac.hnpp.location.SSLocationHelper;
+import org.smartregister.brac.hnpp.location.SSModel;
+import org.smartregister.brac.hnpp.model.HHVisitDurationModel;
 import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.chw.core.dao.AbstractDao;
@@ -29,16 +32,45 @@ import java.util.Map;
 public class FormApplicability {
 
     public static boolean isDueHHVisit(String baseEntityId){
-        return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneHHVisit(baseEntityId);
+        int duration = getDurationByType(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY);
+        boolean isDoneAfterJuly  = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneAfterJuly2023(baseEntityId);
+        if(isDoneAfterJuly){
+            return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneHHVisit(baseEntityId,duration);
+        }else{
+            return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneHHVisit(baseEntityId,24);
+        }
+
 
     }
     public static boolean isDueElcoVisit(String baseEntityId){
-        return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneElcoVisit(baseEntityId);
+        int duration = getDurationByType(HnppConstants.EVENT_TYPE.ELCO);
+        Log.d("HH_VISIT_DURATION",""+duration);
+        return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneElcoVisit(baseEntityId,duration);
 
     }
     public static boolean isDueAnyForm(String baseEntityId, String eventType){
-        return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneWihinTwentyFourHours(baseEntityId, eventType);
+        if(!TextUtils.isEmpty(eventType) && eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY)){
+            return isDueHHVisit(baseEntityId);
+        }else if(!TextUtils.isEmpty(eventType) && eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ELCO)){
+            return isDueElcoVisit(baseEntityId);
+        }
+        int duration = getDurationByType(eventType);
+        return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneAnyForm(baseEntityId, eventType,duration);
 
+    }
+
+    private static int getDurationByType(String eventType) {
+        //4 hr threshhold. as after submit any service it's showing 4hr different
+        int duration = 24+5;
+        HHVisitDurationModel hhVisitDurationModel = HnppApplication.getHHVisitDurationRepository().getHhVisitDurationByType(eventType);
+        if(hhVisitDurationModel!=null){
+            duration = hhVisitDurationModel.value+5;
+        }else{
+            if(eventType != null && (eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ELCO) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY))){
+                duration = 24+5*300;
+            }
+        }
+        return  duration;
     }
     public static boolean isDueChildInfoForm(String baseEntityId, String eventType){
         return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneWihinChildInfoLogic(baseEntityId, eventType);

@@ -66,6 +66,12 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.util.List;
 
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroadcastReceiver.SyncStatusListener{
@@ -108,13 +114,38 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
 
     }
     private void setServiceName(){
-        AppExecutors appExecutors = new AppExecutors();
+        getAllService()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ArrayList<ForceSyncModel>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(ArrayList<ForceSyncModel> forceSyncModels) {
+                        updateAdapter(forceSyncModels);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+        /*AppExecutors appExecutors = new AppExecutors();
         Runnable runnable = () -> {
             ArrayList<ForceSyncModel> forceSyncModelArrayList = getAllService();
 
             appExecutors.mainThread().execute(() -> updateAdapter(forceSyncModelArrayList));
         };
-        appExecutors.diskIO().execute(runnable);
+        appExecutors.diskIO().execute(runnable);*/
 
     }
     ForceSynItemAdapter adapter;
@@ -130,37 +161,38 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
 
     }
 
-    ArrayList<ForceSyncModel> getAllService(){
-        Cursor cursor = null;
-        ArrayList<ForceSyncModel> forceSyncModelArrayList = new ArrayList<>();
-        ForceSyncModel forceSyncModel = new ForceSyncModel();
-        forceSyncModel.eventType = HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
-        forceSyncModel.title = HnppConstants.workSummeryTypeMapping.get(forceSyncModel.eventType);
-        forceSyncModelArrayList.add(forceSyncModel);
-        ForceSyncModel forceSyncModel1 = new ForceSyncModel();
-        forceSyncModel1.eventType = HnppConstants.EVENT_TYPE.WOMEN_PACKAGE;
-        forceSyncModel1.title = HnppConstants.workSummeryTypeMapping.get(forceSyncModel1.eventType);
-        forceSyncModelArrayList.add(forceSyncModel1);
+    Observable<ArrayList<ForceSyncModel>> getAllService(){
+       return  Observable.create(e->{
+           Cursor cursor = null;
+           ArrayList<ForceSyncModel> forceSyncModelArrayList = new ArrayList<>();
+           ForceSyncModel forceSyncModel = new ForceSyncModel();
+           forceSyncModel.eventType = HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
+           forceSyncModel.title = HnppConstants.workSummeryTypeMapping.get(forceSyncModel.eventType);
+           forceSyncModelArrayList.add(forceSyncModel);
+           ForceSyncModel forceSyncModel1 = new ForceSyncModel();
+           forceSyncModel1.eventType = HnppConstants.EVENT_TYPE.WOMEN_PACKAGE;
+           forceSyncModel1.title = HnppConstants.workSummeryTypeMapping.get(forceSyncModel1.eventType);
+           forceSyncModelArrayList.add(forceSyncModel1);
 
-        ForceSyncModel forceSyncModel2 = new ForceSyncModel();
-        forceSyncModel2.eventType = HnppConstants.EVENT_TYPE.NCD_PACKAGE;
-        forceSyncModel2.title = HnppConstants.workSummeryTypeMapping.get(forceSyncModel2.eventType);
-        forceSyncModelArrayList.add(forceSyncModel2);
+           ForceSyncModel forceSyncModel2 = new ForceSyncModel();
+           forceSyncModel2.eventType = HnppConstants.EVENT_TYPE.NCD_PACKAGE;
+           forceSyncModel2.title = HnppConstants.workSummeryTypeMapping.get(forceSyncModel2.eventType);
+           forceSyncModelArrayList.add(forceSyncModel2);
 
-        ForceSyncModel forceSyncModel3 = new ForceSyncModel();
-        forceSyncModel3.eventType = HnppConstants.EVENT_TYPE.GIRL_PACKAGE;
-        forceSyncModel3.title = HnppConstants.workSummeryTypeMapping.get(forceSyncModel3.eventType);
-        forceSyncModelArrayList.add(forceSyncModel3);
+           ForceSyncModel forceSyncModel3 = new ForceSyncModel();
+           forceSyncModel3.eventType = HnppConstants.EVENT_TYPE.GIRL_PACKAGE;
+           forceSyncModel3.title = HnppConstants.workSummeryTypeMapping.get(forceSyncModel3.eventType);
+           forceSyncModelArrayList.add(forceSyncModel3);
 
-        ForceSyncModel forceSyncModel4 = new ForceSyncModel();
-        forceSyncModel4.eventType = HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour;
-        forceSyncModel4.title = HnppConstants.workSummeryTypeMapping.get(forceSyncModel4.eventType);
-        forceSyncModelArrayList.add(forceSyncModel4);
+           ForceSyncModel forceSyncModel4 = new ForceSyncModel();
+           forceSyncModel4.eventType = HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour;
+           forceSyncModel4.title = HnppConstants.workSummeryTypeMapping.get(forceSyncModel4.eventType);
+           forceSyncModelArrayList.add(forceSyncModel4);
 
-        ForceSyncModel forceSyncModel5 = new ForceSyncModel();
-        forceSyncModel5.eventType = CoreConstants.EventType.ANC_HOME_VISIT;
-        forceSyncModel5.title = HnppConstants.workSummeryTypeMapping.get(forceSyncModel5.eventType);
-        forceSyncModelArrayList.add(forceSyncModel5);
+           ForceSyncModel forceSyncModel5 = new ForceSyncModel();
+           forceSyncModel5.eventType = CoreConstants.EventType.ANC_HOME_VISIT;
+           forceSyncModel5.title = HnppConstants.workSummeryTypeMapping.get(forceSyncModel5.eventType);
+           forceSyncModelArrayList.add(forceSyncModel5);
 
 //        String query = "select count(eventType) as count, eventType group by eventType";
 //        // try {
@@ -178,13 +210,73 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
 //            cursor.close();
 //
 //        }
-        return forceSyncModelArrayList;
+          e.onNext(forceSyncModelArrayList);
+          e.onComplete();
+       });
     }
 
     private void dumpDatabase(){
-        AppExecutors appExecutors = new AppExecutors();
+        //AppExecutors appExecutors = new AppExecutors();
         ((Button)findViewById(R.id.dump_btn)).setText("ডাটাবেস ডাম্প নেওয়া হচ্ছে ");
-        Runnable runnable = () -> {
+        Observable.create(e-> {
+            try{
+
+                String userName = CoreLibrary.getInstance().context().allSharedPreferences().fetchRegisteredANM();
+                String password = CoreLibrary.getInstance().context().allSharedPreferences().fetchUserLocalityId(userName);
+                Log.v("DUMP_DB","password:"+password+":userName:"+userName);
+                File Db = new File("/data/data/"+getPackageName()+"/databases/drishti.db");
+                String filePath = getExternalFilesDir(null) + "/db";
+                File file = new File(filePath);
+                if(!file.exists()){
+                    file.mkdir();
+                }
+                filePath = (file.getAbsolutePath() + "/"+ "drishti.db");
+                try {
+                    File logFile = new File(file.getAbsolutePath() + "/"+ "keys.txt");
+                    //BufferedWriter for performance, true to set append to file flag
+                    BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true));
+                    buf.append(password);
+                    buf.newLine();
+                    buf.close();
+                } catch (IOException ex) {
+
+                }
+                File finalFile = new File(filePath);
+
+                finalFile.setWritable(true);
+
+                copyFile(new FileInputStream(Db), new FileOutputStream(finalFile));
+                e.onComplete();
+
+            }catch (Exception ex){
+                ex.printStackTrace();
+                e.onError(ex);
+
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Object>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(Object o) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        ((Button)findViewById(R.id.dump_btn)).setText("ডাম্প নেওয়া শেষ হয়েছে");
+                    }
+                });
+   /*     Runnable runnable = () -> {
             try{
 
                 String userName = CoreLibrary.getInstance().context().allSharedPreferences().fetchRegisteredANM();
@@ -220,7 +312,7 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
 
             appExecutors.mainThread().execute(() ->  ((Button)findViewById(R.id.dump_btn)).setText("ডাম্প নেওয়া শেষ হয়েছে"));
         };
-        appExecutors.diskIO().execute(runnable);
+        appExecutors.diskIO().execute(runnable);*/
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 //            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
 //                    != PackageManager.PERMISSION_GRANTED) {

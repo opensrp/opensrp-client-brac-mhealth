@@ -82,6 +82,7 @@ public class HnppChwRepository extends Repository {
         upgradeToVersion31(context,database);
         upgradeToVersion33(context,database);
         upgradeToVersion43(database);
+        upgradeToVersion44(database);
     }
 
     @Override
@@ -188,6 +189,9 @@ public class HnppChwRepository extends Repository {
                 case 43:
                     upgradeToVersion43(db);
                     break;
+                case 44:
+                    upgradeToVersion44(db);
+                    break;
                 default:
                     break;
             }
@@ -197,6 +201,10 @@ public class HnppChwRepository extends Repository {
     private void upgradeToVersion43(SQLiteDatabase db) {
         SurveyHistoryRepository.createTable(db);
 
+    }
+
+    private void upgradeToVersion44(SQLiteDatabase db) {
+        HHVisitDurationRepository.createTable(db);
     }
     private void upgradeToVersion41(SQLiteDatabase db) {
         Log.v("DB_UPGRADE","upgradeToVersion41");
