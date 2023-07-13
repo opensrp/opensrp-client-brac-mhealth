@@ -3,6 +3,7 @@ package org.smartregister.unicef.dghs.fragment;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
@@ -52,6 +53,12 @@ public class HnppPncRegisterFragment extends HnppBasePncRegisterFragment impleme
       if(view.getId() == R.id.add_child_button){
           CommonPersonObjectClient pc = (CommonPersonObjectClient) view.getTag();
           Toast.makeText(getActivity(),"Open child register",Toast.LENGTH_LONG).show();
+      }
+      if(view.getId() == R.id.due_button){
+          String mobileNo = (String) view.getTag();
+          Intent intent = new Intent(Intent.ACTION_DIAL);
+          intent.setData(Uri.parse("tel:" + mobileNo));
+          startActivity(intent);
       }
     }
 

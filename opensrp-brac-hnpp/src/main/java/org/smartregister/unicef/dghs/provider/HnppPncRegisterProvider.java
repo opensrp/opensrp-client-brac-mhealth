@@ -51,6 +51,7 @@ public class HnppPncRegisterProvider extends PncRegisterProvider {
         CommonPersonObjectClient pc = (CommonPersonObjectClient) client;
         String baseEntityId = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.BASE_ENTITY_ID, false);
 
+        String mobileNo = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.PHONE_NUMBER, true);
 
 
         String serialNo = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.SERIAL_NO, true);
@@ -63,10 +64,12 @@ public class HnppPncRegisterProvider extends PncRegisterProvider {
         }
         String ssName = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.BLOCK_NAME, true);
         if (!TextUtils.isEmpty(ssName))viewHolder.pncDay.append(context.getString(R.string.ss_name,ssName));
-        viewHolder.dueButton.setVisibility(View.GONE);
+        viewHolder.dueButton.setText(mobileNo);
+        viewHolder.dueButton.setTag(mobileNo);
+        viewHolder.dueButton.setOnClickListener(onClickListener);
         viewHolder.addChildBtn.setTag(pc);
         viewHolder.addChildBtn.setOnClickListener(onClickListener);
-        org.smartregister.family.util.Utils.startAsyncTask(new UpdatePncLastServiceInfoTask(context,viewHolder, pc.entityId()), null);
+//        org.smartregister.family.util.Utils.startAsyncTask(new UpdatePncLastServiceInfoTask(context,viewHolder, pc.entityId()), null);
 
         // org.smartregister.family.util.Utils.startAsyncTask(new UpdateBornChildCountTask(context,viewHolder, pc.entityId()), null);
 

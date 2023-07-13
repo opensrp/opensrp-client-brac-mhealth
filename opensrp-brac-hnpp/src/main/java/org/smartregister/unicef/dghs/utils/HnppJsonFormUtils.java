@@ -1521,6 +1521,19 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
                 }
                 break;
+            case "new_born_info":
+                if(jsonObject.has("options")){
+                    String value = processValueWithChoiceIdsForEdit(jsonObject,org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(),
+                            "new_born_info", false));
+                    if(StringUtils.isEmpty(value)){
+                        jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,new JSONArray());
+                    }else{
+                        jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,new JSONArray(value));
+                    }
+
+
+                }
+                break;
             default:
                 if(jsonObject.has("openmrs_choice_ids")&&jsonObject.getJSONObject("openmrs_choice_ids").length()>0){
                     String value = processValueWithChoiceIdsForEdit(jsonObject,org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(),

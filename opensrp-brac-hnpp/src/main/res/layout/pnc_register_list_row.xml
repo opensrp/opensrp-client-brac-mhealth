@@ -133,20 +133,21 @@
         android:paddingRight="@dimen/register_list_item_padding"
         android:paddingBottom="@dimen/register_list_top_bottom_padding">
 
+
         <Button
             android:id="@+id/due_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:adjustViewBounds="true"
+            android:drawableTint="@color/green"
+            android:drawableLeft="@drawable/floating_call"
             android:background="@drawable/due_contact"
             android:elevation="@dimen/register_list_elevation"
             android:gravity="center"
             android:hapticFeedbackEnabled="true"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             android:stateListAnimator="@drawable/button"
-            android:text="Home Visit"
+            android:text=""
             android:textAllCaps="false"
             android:textAppearance="?android:textAppearanceSmall"
             android:textColor="@color/vaccine_blue_bg_st"
