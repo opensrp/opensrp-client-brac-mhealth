@@ -85,6 +85,7 @@ public class HnppAllMemberRegisterProvider extends CoreChildRegisterProvider {
         addButtonClickListeners(client, viewHolder);
         String baseEntityId = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.BASE_ENTITY_ID, false);
         if(HnppDBUtils.isRiskAll(baseEntityId)){
+            viewHolder.riskView.setBackgroundResource(R.drawable.aefi_image);
             viewHolder.riskView.setVisibility(View.VISIBLE);
         }else{
             viewHolder.riskView.setVisibility(View.GONE);

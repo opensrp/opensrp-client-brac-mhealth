@@ -142,7 +142,25 @@
           }
         }
       },
-
+      {
+        "key": "term",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "term",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "প্রি টার্ম, টার্ম, পোস্ট টার্ম?",
+        "values": [
+          "প্রি টার্ম",
+          "টার্ম",
+          "পোস্ট টার্ম"
+        ],
+        "openmrs_entity_ids": {
+          "প্রি টার্ম": "Pre-term",
+          "টার্ম": "term",
+          "পোস্ট টার্ম": "post-term"
+        }
+      },
 
       {
         "key": "newborn_body_info",

@@ -898,7 +898,7 @@ public class HnppConstants extends CoreConstants {
         String[] months = new String[2];
         LocalDate startMonth = new LocalDate().plusMonths(1).withDayOfMonth(1);
         months[0] = DateTimeFormat.forPattern("yyyy-MM-dd").print(startMonth);
-        LocalDate endMonth = new LocalDate().withDayOfMonth(1).minusDays(1);
+        LocalDate endMonth = startMonth.plusMonths(1).withDayOfMonth(1).minusDays(1);
         months[1] = DateTimeFormat.forPattern("yyyy-MM-dd").print(endMonth);
         return months;
     }

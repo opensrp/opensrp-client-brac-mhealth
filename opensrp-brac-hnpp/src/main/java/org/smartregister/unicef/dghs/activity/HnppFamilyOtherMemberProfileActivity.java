@@ -190,10 +190,21 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
         ArrayList<RiskyModel> riskyModels = HnppApplication.getRiskDetailsRepository().getRiskyKeyByEntityId(baseEntityId);
         StringBuilder builder = new StringBuilder();
         for (RiskyModel riskyModel:riskyModels) {
-            builder.append(HnppConstants.riskeyFactorMapping.get(riskyModel.riskyKey));
-            builder.append(":");
-            builder.append(riskyModel.riskyValue);
-            builder.append("\n");
+            String[] fs= riskyModel.riskyKey.split(",");
+            if(fs.length>0){
+                for (String key:fs) {
+                    builder.append(HnppConstants.riskeyFactorMapping.get(key));
+                    builder.append(":");
+                    builder.append(riskyModel.riskyValue);
+                    builder.append("\n");
+                }
+            }else{
+                builder.append(HnppConstants.riskeyFactorMapping.get(riskyModel.riskyKey));
+                builder.append(":");
+                builder.append(riskyModel.riskyValue);
+                builder.append("\n");
+            }
+
         }
 
         Dialog dialog = new Dialog(this);

@@ -1032,6 +1032,11 @@ public class FormParser {
     }
     private static void updateAncHomeVisitRisk(String eventType , String baseEntityId,HashMap<String,String>details){
         boolean isAncHomeVisitRisk = false;
+        if(details.containsKey("blood_group") && !StringUtils.isEmpty(details.get("blood_group"))){
+            String bloodGroup = details.get("blood_group");
+            Log.v("RISK_ANC","updateAncHomeVisitRisk>>>blood_group:"+bloodGroup);
+            HnppDBUtils.updateBloodGroup(baseEntityId,bloodGroup);
+        }
         if(details.containsKey("Denger_Signs_During_Pregnancy") && !StringUtils.isEmpty(details.get("Denger_Signs_During_Pregnancy"))) {
             isAncHomeVisitRisk = true;
             String dengerValue = details.get("Denger_Signs_During_Pregnancy");
