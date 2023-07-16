@@ -179,6 +179,16 @@ android {
             buildConfigField "String", 'opensrp_url_live', '"https://dghsha-training.dghs.gov.bd/opensrp/"'
 
         }
+        qa{
+            versionCode 6
+            versionName "1.0.6_qa"
+            dimension = 'baseDimension'
+            buildConfigField "boolean", 'IS_TRAINING', 'false'
+            buildConfigField "boolean", 'IS_MIS', 'true'
+            buildConfigField "String", 'opensrp_url_training', '"http://unicef-ha-qa.mpower-social.com/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"http://unicef-ha-qa.mpower-social.com/opensrp/"'
+
+        }
     }
 
 }
