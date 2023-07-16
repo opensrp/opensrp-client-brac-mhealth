@@ -11,6 +11,7 @@ import android.util.Log;
 import com.google.gson.reflect.TypeToken;
 
 import net.sqlcipher.Cursor;
+import net.sqlcipher.database.SQLiteDatabase;
 
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
@@ -85,6 +86,8 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.SS_INFO
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.WOMEN_PACKAGE;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.WOMEN_REFERRAL;
 import static org.smartregister.util.JsonFormUtils.gson;
+
+import io.reactivex.Observable;
 
 public class FormParser {
 
@@ -189,7 +192,7 @@ public class FormParser {
                         }
                         if(ANC1_REGISTRATION.equalsIgnoreCase(encounter_type) || ANC2_REGISTRATION.equalsIgnoreCase(encounter_type)
                                 || ANC3_REGISTRATION.equalsIgnoreCase(encounter_type) || CoreConstants.EventType.ANC_HOME_VISIT.equalsIgnoreCase(encounter_type)){
-                            if(details.containsKey("brac_anc") && !StringUtils.isEmpty(details.get("brac_anc"))){
+                            /*if(details.containsKey("brac_anc") && !StringUtils.isEmpty(details.get("brac_anc"))){
                                 String ancValue = details.get("brac_anc");
                                 String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(base_entity_id+"_BRAC_ANC");
                                 if(!TextUtils.isEmpty(prevalue)){
@@ -207,7 +210,7 @@ public class FormParser {
                                 }else{
                                     FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",1+"");
                                 }
-                            }
+                            }*/
                             updateAncHomeVisitRisk(encounter_type,base_entity_id,details);
                         }
 
@@ -248,8 +251,8 @@ public class FormParser {
                             updatePncRisk(base_entity_id,details, encounter_type );
                         }
                         if(ANC_REGISTRATION.equalsIgnoreCase(encounter_type)){
-                            FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",0+"");
-                            FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_PNC",0+"");
+                           /* FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",0+"");
+                            FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_PNC",0+"");*/
                             updateAncRegistrationRisk(base_entity_id,details);
                         }
                         if(IYCF_PACKAGE.equalsIgnoreCase(encounter_type)){
@@ -2317,4 +2320,29 @@ public class FormParser {
 
         }
     }
+
+    /**
+     * updating ec_family.last_home_visit from visit table
+     * if last_home_visit is null
+     */
+    public static Observable<String> executeLastHomeVisitUpdateQuery(){
+        return  Observable.create(e->{
+            SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+
+            String sql = "UPDATE ec_family SET last_home_visit = " +
+                    "(SELECT visits.visit_date from visits where ec_family.base_entity_id = visits.base_entity_id order by visits.visit_date desc) " +
+                    "where ec_family.last_home_visit is NULL";
+
+            try {
+                database.execSQL(sql);
+                e.onNext("");
+                e.onComplete();
+            }catch (Exception error){
+                e.onError(error);
+            }
+
+        });
+    }
 }
+
+

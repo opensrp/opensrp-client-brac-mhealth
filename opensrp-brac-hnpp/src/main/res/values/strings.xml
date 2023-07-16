@@ -391,4 +391,7 @@
     <string name="hh_survey">খানা সার্ভে</string>
     <string name="mm_survey">সদস্য সার্ভে</string>
     <string name="survey_history">সার্ভে ইতিহাস</string>
+    <string name="update_last_visit_date">পরিদর্শনের তারিখ আপডেট</string>
+    <string name="update_last_visit_date_progress_msg">পরিদর্শনের তারিখ আপডেট করা হচ্ছে …</string>
+    <string name="update_last_visit_succ_msg">পরিদর্শনের তারিখ আপডেট হয়েছে</string>
 </resources>

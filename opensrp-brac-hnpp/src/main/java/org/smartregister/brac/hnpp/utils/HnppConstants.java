@@ -100,6 +100,7 @@ import java.util.Objects;
 import io.reactivex.Observable;
 
 public class HnppConstants extends CoreConstants {
+    public static boolean IS_FORM_CLICK = false;
     public static boolean IS_MANDATORY_GPS = true;
     public static int GPS_ATTEMPT_COUNT = 0;
     public static final int DEFAULT_GPS_ATTEMPT = 3;
@@ -133,6 +134,7 @@ public class HnppConstants extends CoreConstants {
     public static SimpleDateFormat HHMM = new SimpleDateFormat("HH:mm:ss", Locale.US);
     public static SimpleDateFormat YYYYMM = new SimpleDateFormat("yyyy-MM", Locale.US);
     public static SimpleDateFormat YYMMDD = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+
 
     public static  Observable<Boolean>  deleteLogFile() {
 
@@ -267,7 +269,7 @@ public class HnppConstants extends CoreConstants {
     }
 
     public static void getGPSLocation(FamilyRegisterActivity activity, final OnPostDataWithGps onPostDataWithGps) {
-
+        IS_FORM_CLICK = true;
 
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -290,12 +292,17 @@ public class HnppConstants extends CoreConstants {
 
             @Override
             public void onGpsDataNotFound() {
-                HnppConstants.showOneButtonDialog(activity, "", activity.getString(R.string.gps_not_found), new Runnable() {
-                    @Override
-                    public void run() {
-                        if (!IS_MANDATORY_GPS) onPostDataWithGps.onPost(0.0, 0.0);
-                    }
-                });
+                if(IS_FORM_CLICK){
+                    HnppConstants.showOneButtonDialog(activity, "", activity.getString(R.string.gps_not_found), new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!IS_MANDATORY_GPS) onPostDataWithGps.onPost(0.0, 0.0);
+                        }
+                    });
+                }
+
+                IS_FORM_CLICK = false;
+
             }
 
             @Override
@@ -315,7 +322,7 @@ public class HnppConstants extends CoreConstants {
     }
 
     public static void getGPSLocation(BaseProfileActivity activity, OnPostDataWithGps onPostDataWithGps) {
-
+        IS_FORM_CLICK = true;
 
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -346,16 +353,17 @@ public class HnppConstants extends CoreConstants {
 
             @Override
             public void onGpsDataNotFound() {
-                try {
+
+                if(IS_FORM_CLICK){
                     HnppConstants.showOneButtonDialog(activity, "", activity.getString(R.string.gps_not_found), new Runnable() {
                         @Override
                         public void run() {
                             if (!IS_MANDATORY_GPS) onPostDataWithGps.onPost(0.0, 0.0);
                         }
                     });
-                } catch (Exception e) {
-
                 }
+
+                IS_FORM_CLICK = false;
             }
 
             @Override
