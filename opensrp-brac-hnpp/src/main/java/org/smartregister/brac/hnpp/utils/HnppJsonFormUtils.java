@@ -183,6 +183,8 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         formTag.appVersionName = BuildConfig.VERSION_NAME;
         String baseEntityId = generateRandomUUIDString();
         JSONObject form = new JSONObject(jsonString);
+        HnppJsonFormUtils.setEncounterDateTime(form);
+
         String ssName = getSSNameFromForm(form);
         Client baseClient = org.smartregister.util.JsonFormUtils.createBaseClient(new JSONArray(), formTag, baseEntityId);
         baseClient.setFirstName(HnppConstants.EVENT_TYPE.SS_INFO);
@@ -1930,4 +1932,23 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             baseEvent.setFormSubmissionId(formSubmissionID);
         }
     }
+
+    /**
+     * setting encounter type from end date
+     * @param form is a json object
+     */
+    public static void setEncounterDateTime(JSONObject form){
+        try {
+            if(!form.getJSONObject("metadata").getJSONObject("end").getString("value").isEmpty()){
+                form.getJSONObject("metadata").getJSONObject("today").put("value",form.getJSONObject("metadata").getJSONObject("end").getString("value"));
+            }else {
+                form.getJSONObject("metadata").getJSONObject("today").put("value","");
+            }
+
+            Log.v("DATEEEE",""+form.getJSONObject("metadata").getJSONObject("today").getString("value"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

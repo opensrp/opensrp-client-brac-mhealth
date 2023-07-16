@@ -61,13 +61,13 @@ public class FormApplicability {
 
     private static int getDurationByType(String eventType) {
         //4 hr threshhold. as after submit any service it's showing 4hr different
-        int duration = 24+5;
+        int duration = 24;
         HHVisitDurationModel hhVisitDurationModel = HnppApplication.getHHVisitDurationRepository().getHhVisitDurationByType(eventType);
         if(hhVisitDurationModel!=null){
-            duration = hhVisitDurationModel.value+5;
+            duration = hhVisitDurationModel.value;
         }else{
             if(eventType != null && (eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ELCO) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY))){
-                duration = 24+5*300;
+                duration = 24*300;
             }
         }
         return  duration;
