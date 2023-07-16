@@ -34,6 +34,8 @@ public class HnppJobCreator implements JobCreator {
                 return new SSLocationFetchJob();
             case HnppSyncIntentServiceJob.TAG:
                 return new HnppSyncIntentServiceJob();
+            case HHVisitDurationFetchJob.TAG:
+                return new HHVisitDurationFetchJob();
 //            case HnppHomeVisitServiceJob.TAG:
 //                return new HnppHomeVisitServiceJob();
             case ExtendedSyncServiceJob.TAG:

@@ -44,6 +44,7 @@ import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.domain.FetchStatus;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.repository.EventClientRepository;
+import org.smartregister.sync.helper.ECSyncHelper;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
 import org.smartregister.util.LangUtils;
@@ -87,6 +88,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     private ProgressBar syncProgressBar;
     private static NavigationContract.Presenter mPresenter;
     private View parentView;
+    Activity activityInstance;
 
     private NavigationMenu() {
 
@@ -181,7 +183,6 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         }
         //
     }
-    Activity activityInstance;
 
     @Override
     public void prepareViews(Activity activity) {
@@ -267,9 +268,11 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa, MMM d", Locale.getDefault());
         if (rootView != null) {
             TextView tvLastSyncTime = rootView.findViewById(R.id.tvSyncTime);
+            TextView tvLastSyncTimeStamp = rootView.findViewById(R.id.tvSyncTimeStamp);
             if (lastSync != null) {
                 tvLastSyncTime.setVisibility(View.VISIBLE);
                 tvLastSyncTime.setText(MessageFormat.format(" {0}", sdf.format(lastSync)));
+                tvLastSyncTimeStamp.setText(String.valueOf(ECSyncHelper.getInstance(activityInstance).getLastSyncTimeStamp()));
             } else {
                 tvLastSyncTime.setVisibility(View.INVISIBLE);
             }

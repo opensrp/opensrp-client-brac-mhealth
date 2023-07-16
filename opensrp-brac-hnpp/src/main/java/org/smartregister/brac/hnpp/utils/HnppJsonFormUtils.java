@@ -443,6 +443,10 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                             String parentEventType,String formSubmissionId,String visitId) throws Exception {
         Log.v("SAVE_VISIT","saveVisit>>");
         if(!FormApplicability.isDueAnyForm(memberID,encounterType)){
+            //passing emptyVisit object with zero id
+            //this will trigger when visit already exist
+            Visit emptyVisit = new Visit();
+            emptyVisit.setVisitId("0");
             return null;
         }
 
@@ -481,14 +485,20 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             }else{
                 visitID = visitId;
             }
-            HnppConstants.appendLog("SAVE_VISIT","saveVisit>>>baseEntityId:"+baseEvent.getBaseEntityId()+":formSubmissionId:"+baseEvent.getFormSubmissionId()+":baseEvent:"+baseEvent.getEventType());
+            HnppConstants.appendLog("SAVE_VISIT","saveVisit>>>baseEntityId:"+baseEvent.getBaseEntityId()+":formSubmissionId:"+baseEvent.getFormSubmissionId()+":baseEvent:"+baseEvent.getEntityType());
 
             Visit visit = NCUtils.eventToVisit(baseEvent, visitID);
             visit.setPreProcessedJson(new Gson().toJson(baseEvent));
-            visitRepository().addVisit(visit);
-            HnppConstants.appendLog("SAVE_VISIT","added to visit>>>baseEntityId:"+baseEvent.getBaseEntityId()+":formSubmissionId:"+baseEvent.getFormSubmissionId()+":baseEvent:"+baseEvent.getEventType());
+            if( visitRepository().getVisitByFormSubmissionID(formSubmissionId)==null){
+                visitRepository().addVisit(visit);
+                HnppConstants.appendLog("SAVE_VISIT","added to visit>>>baseEntityId:"+baseEvent.getBaseEntityId()+":formSubmissionId:"+baseEvent.getFormSubmissionId()+":baseEvent:"+baseEvent.getEntityType());
 
-            return visit;
+                return visit;
+            }else{
+                Visit emptyVisit = new Visit();
+                emptyVisit.setVisitId("0");
+                return null;
+            }
         }
         return null;
     }

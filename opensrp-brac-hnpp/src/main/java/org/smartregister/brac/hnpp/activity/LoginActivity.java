@@ -3,7 +3,6 @@ package org.smartregister.brac.hnpp.activity;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.HH_SORTED_BY;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -45,6 +44,7 @@ import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.job.HHVisitDurationFetchJob;
 import org.smartregister.brac.hnpp.job.HnppPncCloseJob;
 import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
 import org.smartregister.brac.hnpp.job.MigrationFetchJob;
@@ -81,13 +81,17 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
 public class LoginActivity extends BaseLoginActivity implements BaseLoginContract.View {
     public static final String TAG = BaseLoginActivity.class.getCanonicalName();
 
     private EditText userNameText,passwordText;
     private View userNameView, passwordView;
     private Activity mActivity;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,26 +166,31 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
                 }
             }
         });
-        try{
-            deleteLog();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
 
-    }
-    @SuppressLint("StaticFieldLeak")
-    private void deleteLog(){
-        org.smartregister.util.Utils.startAsyncTask(new AsyncTask() {
+        HnppConstants.deleteLogFile()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Boolean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {}
 
-            @SuppressLint("StaticFieldLeak")
-            @Override
-            protected Object doInBackground(Object[] objects) {
-                HnppConstants.deleteLogFile();
+                    @Override
+                    public void onNext(Boolean bool) {
+                        Log.v("NEXT_DELETE_LOG",""+bool);
+                    }
 
-                return null;
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.v("NEXT_DELETE_ERROR",""+e);
+                    }
 
-        }, null);
+                    @Override
+                    public void onComplete() {
+                        Log.v("NEXT_DELETE_COMPLETE","completed");
+                    }
+                });
+
+
     }
 
     @Override
@@ -197,12 +206,8 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         HnppConstants.updateAppBackgroundOnResume(findViewById(R.id.login_layout));
         if(!BuildConfig.DEBUG)isDeviceVerifyiedCheck();
         if(BuildConfig.DEBUG){
-//            userNameText.setText("01313049998");
-//            passwordText.setText("9998");
-            //large data
-            userNameText.setText("01313047234");
-            passwordText.setText("7234");
-
+            userNameText.setText("01313049998");
+            passwordText.setText("9998");
         }
     }
     @Override
@@ -476,7 +481,6 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         }
     }
 
-    @SuppressLint("StaticFieldLeak")
     private void getToFamilyList(boolean remote) {
         boolean isExist = new DistrictListRepository(HnppApplication.getInstance().getRepository()).isExistData();
         if(!isExist){
@@ -490,6 +494,8 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         if(isConnected){
             PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
             SSLocationFetchJob.scheduleJobImmediately(SSLocationFetchJob.TAG);
+            HHVisitDurationFetchJob.scheduleJobImmediately(HHVisitDurationFetchJob.TAG);
+
             HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
             PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
             if(!HnppConstants.isPALogin()){
@@ -507,8 +513,6 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         if(HnppConstants.isNeedToCallInvalidApi()){
             InValidateSyncDataServiceJob.scheduleJob(InValidateSyncDataServiceJob.TAG, TimeUnit.MINUTES.toMinutes(BuildConfig.INVALID_SYNC_DURATION_MINUTES),15l);
         }
-
-
 
     }
 

@@ -35,6 +35,7 @@ import org.smartregister.brac.hnpp.listener.HnppNavigationListener;
 import org.smartregister.brac.hnpp.presenter.HnppNavigationPresenter;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.repository.GuestMemberIdRepository;
+import org.smartregister.brac.hnpp.repository.HHVisitDurationRepository;
 import org.smartregister.brac.hnpp.repository.HnppChwRepository;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.repository.IndicatorRepository;
@@ -92,6 +93,7 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
     private GuestMemberIdRepository guestMemberIdRepository;
     private HnppVisitLogRepository hnppVisitLogRepository;
     private static SSLocationRepository locationRepository;
+    private static HHVisitDurationRepository hhVisitDurationRepository;
     private static RiskDetailsRepository riskDetailsRepository;
     private static TargetVsAchievementRepository targetVsAchievementRepository;
     private static IndicatorRepository indicatorRepository;
@@ -297,6 +299,13 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
         }
         return locationRepository;
     }
+    public static HHVisitDurationRepository getHHVisitDurationRepository() {
+        if ( hhVisitDurationRepository == null) {
+            hhVisitDurationRepository = new HHVisitDurationRepository(getInstance().getRepository());
+        }
+        return hhVisitDurationRepository;
+    }
+
     public static RiskDetailsRepository getRiskDetailsRepository() {
         if ( riskDetailsRepository == null) {
             riskDetailsRepository = new RiskDetailsRepository(getInstance().getRepository());

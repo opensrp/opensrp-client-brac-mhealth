@@ -125,6 +125,7 @@ public class HnppSyncIntentService extends SyncIntentService {
                 complete(FetchStatus.nothingFetched);
                 //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
             } else if (eCount < 0) {
+                Thread.sleep(60000);
                 fetchFailed(count);
             } else {
 
