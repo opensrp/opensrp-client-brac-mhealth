@@ -116,6 +116,7 @@ public class AncMemberProfileActivity extends CoreAncMemberProfileActivity {
             try {
                 String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
                 JSONObject form = new JSONObject(jsonString);
+                HnppJsonFormUtils.setEncounterDateTime(form);
                 if (form.getString(JsonFormUtils.ENCOUNTER_TYPE).equals(Utils.metadata().familyMemberRegister.updateEventType)) {
                     FamilyEventClient familyEventClient =
                             new FamilyProfileModel(MEMBER_OBJECT.getFamilyName()).processUpdateMemberRegistration(jsonString, MEMBER_OBJECT.getBaseEntityId());

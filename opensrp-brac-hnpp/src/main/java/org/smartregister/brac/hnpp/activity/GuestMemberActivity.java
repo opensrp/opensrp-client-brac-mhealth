@@ -261,6 +261,8 @@ public class GuestMemberActivity extends BaseProfileActivity implements GuestMem
             try {
                 String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
                 JSONObject form = new JSONObject(jsonString);
+                HnppJsonFormUtils.setEncounterDateTime(form);
+
                 String[] generatedString;
                 String title;
                 String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();

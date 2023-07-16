@@ -313,6 +313,8 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                 Timber.d(jsonString);
 
                 JSONObject form = new JSONObject(jsonString);
+                HnppJsonFormUtils.setEncounterDateTime(form);
+
                 if (form.getString(JsonFormUtils.ENCOUNTER_TYPE).equals(Utils.metadata().familyRegister.updateEventType)) {
                     String[] sss =  HnppJsonFormUtils.getHouseholdIdModuleIdFromForm(form);
                     houseHoldId = sss[0];
@@ -502,9 +504,13 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                e.onNext(2);
            }
            Map<String, String> jsonStrings = new HashMap<>();
-           jsonStrings.put("First",jsonString);
+           //jsonStrings.put("First",jsonString);
            try {
                JSONObject form = new JSONObject(jsonString);
+               HnppJsonFormUtils.setEncounterDateTime(form);
+
+               jsonStrings.put("First",form.toString());
+
                String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
                type = HnppJsonFormUtils.getEncounterType(type);
 
@@ -682,6 +688,8 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                 try{
                     Map<String,String> hhByBaseEntityId = HnppDBUtils.getDetails(familyBaseEntityId,"ec_family");
                     JSONObject jsonForm = FormUtils.getInstance(getApplicationContext()).getFormJson(HnppConstants.JSON_FORMS.HOME_VISIT_FAMILY);
+                    HnppJsonFormUtils.setEncounterDateTime(jsonForm);
+
                     HnppJsonFormUtils.updateHhVisitForm(jsonForm, hhByBaseEntityId);
                     ArrayList<String[]> memberList = HnppDBUtils.getAllMembersInHouseHold(familyBaseEntityId);
                     HnppJsonFormUtils.updateFormWithAllMemberName(jsonForm,memberList);
