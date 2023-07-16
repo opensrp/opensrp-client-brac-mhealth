@@ -11,6 +11,7 @@ import android.util.Log;
 import com.google.gson.reflect.TypeToken;
 
 import net.sqlcipher.Cursor;
+import net.sqlcipher.database.SQLiteDatabase;
 
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
@@ -80,6 +81,8 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.SS_INFO
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.WOMEN_PACKAGE;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.WOMEN_REFERRAL;
 import static org.smartregister.util.JsonFormUtils.gson;
+
+import io.reactivex.Observable;
 
 public class FormParser {
 
@@ -2239,6 +2242,7 @@ public class FormParser {
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     private static void processRemoveChild(String baseEntityId, long eventDate, String dod) {
 
 
@@ -2267,4 +2271,29 @@ public class FormParser {
 
         }
     }
+
+    /**
+     * updating ec_family.last_home_visit from visit table
+     * if last_home_visit is null
+     */
+    public static Observable<String> executeLastHomeVisitUpdateQuery(){
+        return  Observable.create(e->{
+            SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+
+            String sql = "UPDATE ec_family SET last_home_visit = " +
+                    "(SELECT visits.visit_date from visits where ec_family.base_entity_id = visits.base_entity_id order by visits.visit_date desc) " +
+                    "where ec_family.last_home_visit is NULL";
+
+            try {
+                database.execSQL(sql);
+                e.onNext("");
+                e.onComplete();
+            }catch (Exception error){
+                e.onError(error);
+            }
+
+        });
+    }
 }
+
+

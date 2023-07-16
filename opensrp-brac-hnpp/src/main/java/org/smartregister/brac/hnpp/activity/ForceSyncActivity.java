@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.activity;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -32,6 +33,7 @@ import org.smartregister.brac.hnpp.adapter.ForceSynItemAdapter;
 import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
 import org.smartregister.brac.hnpp.model.ForceSyncModel;
 import org.smartregister.brac.hnpp.repository.HnppChwRepository;
+import org.smartregister.brac.hnpp.sync.FormParser;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.utils.CoreConstants;
@@ -85,6 +87,7 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
         findViewById(R.id.compare_btn).setOnClickListener( v -> compareData() );
         findViewById(R.id.close_btn).setOnClickListener(v -> finish());
         findViewById(R.id.permission_btn).setOnClickListener( v -> getServerResponse() );
+        findViewById(R.id.update_last_visit_date_bt).setOnClickListener( v -> updateLastVisitDate() );
 //        findViewById(R.id.all_data_btn).setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -113,6 +116,39 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
         findViewById(R.id.dump_btn).setOnClickListener( v -> dumpDatabase() );
 
     }
+
+    /**
+     * updating last home visit from visit table here
+     */
+    private void updateLastVisitDate() {
+        FormParser.executeLastHomeVisitUpdateQuery()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        showProgressDialog(getString(R.string.update_last_visit_date_progress_msg));
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        Log.v("OBSERB","next");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(getApplicationContext(),getString(R.string.update_last_visit_succ_msg),Toast.LENGTH_SHORT).show();
+                        hideProgressDialog();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Toast.makeText(getApplicationContext(),getString(R.string.update_last_visit_succ_msg),Toast.LENGTH_SHORT).show();
+                        hideProgressDialog();
+                    }
+                });
+    }
+
     private void setServiceName(){
         getAllService()
                 .subscribeOn(Schedulers.io())
@@ -224,7 +260,7 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
                 String userName = CoreLibrary.getInstance().context().allSharedPreferences().fetchRegisteredANM();
                 String password = CoreLibrary.getInstance().context().allSharedPreferences().fetchUserLocalityId(userName);
                 Log.v("DUMP_DB","password:"+password+":userName:"+userName);
-                File Db = new File("/data/data/"+getPackageName()+"/databases/drishti.db");
+                @SuppressLint("SdCardPath") File Db = new File("/data/data/"+getPackageName()+"/databases/drishti.db");
                 String filePath = getExternalFilesDir(null) + "/db";
                 File file = new File(filePath);
                 if(!file.exists()){
@@ -399,7 +435,8 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
 //
 //
 //    }
-    private void showInvalidCountDialog(int cc, int ec,boolean isFromServerCheck ){
+    @SuppressLint("SetTextI18n")
+    private void showInvalidCountDialog(int cc, int ec, boolean isFromServerCheck ){
         Dialog dialog = new Dialog(this);
         dialog.setCancelable(false);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -457,6 +494,7 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
 
     }
 
+    @SuppressLint("StaticFieldLeak")
     private void getServerResponse(){
         org.smartregister.util.Utils.startAsyncTask(new AsyncTask() {
 
