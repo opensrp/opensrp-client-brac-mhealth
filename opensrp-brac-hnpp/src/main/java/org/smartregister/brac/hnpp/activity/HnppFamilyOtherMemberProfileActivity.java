@@ -882,6 +882,8 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             String jsonString = data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON);
             try{
                 JSONObject form = new JSONObject(jsonString);
+                HnppJsonFormUtils.setEncounterDateTime(form);
+
                 if (form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE).equals(org.smartregister.family.util.Utils.metadata().familyMemberRegister.updateEventType)) {
                     String[] generatedString;
                     String title;
@@ -976,6 +978,10 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                     if(TextUtils.isEmpty(baseEntityId)) e.onNext(2);
                     try {
                         JSONObject form = new JSONObject(jsonString);
+                        HnppJsonFormUtils.setEncounterDateTime(form);
+
+                        Log.v("DATEEEE",""+form.getJSONObject("metadata").getJSONObject("today").getString("value"));
+
                         String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
                         type = HnppJsonFormUtils.getEncounterType(type);
                         Map<String, String> jsonStrings = new HashMap<>();

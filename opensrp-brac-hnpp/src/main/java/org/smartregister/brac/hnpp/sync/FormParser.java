@@ -187,7 +187,7 @@ public class FormParser {
                         }
                         if(ANC1_REGISTRATION.equalsIgnoreCase(encounter_type) || ANC2_REGISTRATION.equalsIgnoreCase(encounter_type)
                                 || ANC3_REGISTRATION.equalsIgnoreCase(encounter_type) || CoreConstants.EventType.ANC_HOME_VISIT.equalsIgnoreCase(encounter_type)){
-                            if(details.containsKey("brac_anc") && !StringUtils.isEmpty(details.get("brac_anc"))){
+                            /*if(details.containsKey("brac_anc") && !StringUtils.isEmpty(details.get("brac_anc"))){
                                 String ancValue = details.get("brac_anc");
                                 String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(base_entity_id+"_BRAC_ANC");
                                 if(!TextUtils.isEmpty(prevalue)){
@@ -205,7 +205,7 @@ public class FormParser {
                                 }else{
                                     FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",1+"");
                                 }
-                            }
+                            }*/
                             updateAncHomeVisitRisk(encounter_type,base_entity_id,details);
                         }
 
@@ -246,8 +246,8 @@ public class FormParser {
                             updatePncRisk(base_entity_id,details, encounter_type );
                         }
                         if(ANC_REGISTRATION.equalsIgnoreCase(encounter_type)){
-                            FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",0+"");
-                            FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_PNC",0+"");
+                           /* FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",0+"");
+                            FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_PNC",0+"");*/
                             updateAncRegistrationRisk(base_entity_id,details);
                         }
                         if(IYCF_PACKAGE.equalsIgnoreCase(encounter_type)){

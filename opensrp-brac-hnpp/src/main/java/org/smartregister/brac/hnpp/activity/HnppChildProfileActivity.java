@@ -777,6 +777,8 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
             if(TextUtils.isEmpty(childBaseEntityId)) e.onNext(2);
             try {
                 JSONObject form = new JSONObject(jsonString);
+                HnppJsonFormUtils.setEncounterDateTime(form);
+
                 String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
                 type = HnppJsonFormUtils.getEncounterType(type);
                 Map<String, String> jsonStrings = new HashMap<>();

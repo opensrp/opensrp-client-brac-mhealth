@@ -173,6 +173,14 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
         // aggregate forms to be processed
         for (Map.Entry<String, BaseAncHomeVisitAction> entry : map.entrySet()) {
             String json = entry.getValue().getJsonPayload();
+            try {
+                JSONObject form = new JSONObject(json);
+                HnppJsonFormUtils.setEncounterDateTime(form);
+                json = form.toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
             if (StringUtils.isNotBlank(json)) {
                 combinedJsons.put(entry.getKey(), json);
             }

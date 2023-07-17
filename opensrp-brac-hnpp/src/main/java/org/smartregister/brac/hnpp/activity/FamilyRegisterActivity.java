@@ -272,6 +272,8 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
                 Timber.d(jsonString);
 
                 JSONObject form = new JSONObject(jsonString);
+                HnppJsonFormUtils.setEncounterDateTime(form);
+
                 if (form.getString(JsonFormUtils.ENCOUNTER_TYPE).equals(Utils.metadata().familyRegister.registerEventType)) {
                     presenter().saveForm(jsonString, false);
                 }else if (form.getString(JsonFormUtils.ENCOUNTER_TYPE).equals("COVID19")) {

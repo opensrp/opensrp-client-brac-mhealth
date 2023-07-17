@@ -61,16 +61,17 @@ public class HnppVisitLogRepository extends BaseRepository {
     }
 
     public void updateFamilyFromHomeVisit(ContentValues values,String base_entity_id,String last_home_visit){
-        try{
+
             SQLiteDatabase database = getWritableDatabase();
             values.put("last_home_visit",last_home_visit);
-            supportListOfAsset(values);
+            try{
+                supportListOfAsset(values);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             String selection = "base_entity_id = '"+base_entity_id+"' and (last_home_visit < '"+last_home_visit+"' or last_home_visit is null)";
             int isUpdated = database.update("ec_family",values,selection,null);
-        }catch(Exception e){
-            e.printStackTrace();
 
-        }
     }
 
     /*
@@ -466,7 +467,7 @@ public class HnppVisitLogRepository extends BaseRepository {
     }
     public boolean isDoneHHVisit(String baseEntityId,int duration) {
 
-        String query = "select visit_type from visits where visit_type ='"+HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY+"' and base_entity_id ='"+baseEntityId+"' and ((strftime('%s',datetime('now')) - strftime('%s',datetime(visit_date/1000,'unixepoch','localtime')))/3600)+6<"+duration;
+        String query = "select visit_type from visits where visit_type ='"+HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY+"' and base_entity_id ='"+baseEntityId+"' and ((strftime('%s',datetime('now')) - strftime('%s',datetime(visit_date/1000,'unixepoch','localtime')))/3600)+6 < "+duration;
         Log.v("DUE_VISIT",""+query);
         android.database.Cursor cursor = null;
         boolean isExist = false;
@@ -490,7 +491,7 @@ public class HnppVisitLogRepository extends BaseRepository {
     }
     public boolean isDoneElcoVisit(String baseEntityId,int duration) {
 
-        String query = "select visit_type from visits where visit_type ='"+HnppConstants.EVENT_TYPE.ELCO+"' and base_entity_id ='"+baseEntityId+"' and ((strftime('%s',datetime('now')) - strftime('%s',datetime(visit_date/1000,'unixepoch','localtime')))/3600)+6<"+duration;
+        String query = "select visit_type from visits where visit_type ='"+HnppConstants.EVENT_TYPE.ELCO+"' and base_entity_id ='"+baseEntityId+"' and ((strftime('%s',datetime('now')) - strftime('%s',datetime(visit_date/1000,'unixepoch','localtime')))/3600)+6 < "+duration;
         Log.v("DUE_VISIT",""+query);
         android.database.Cursor cursor = null;
         boolean isExist = false;
@@ -545,7 +546,7 @@ public class HnppVisitLogRepository extends BaseRepository {
         if(TextUtils.isEmpty(eventType)) return true;
 
         String visitType = getCorrespondingVisitType(eventType);
-        String query = "select visit_type from visits where visit_type ='"+visitType+"' and base_entity_id ='"+baseEntityId+"' and ((strftime('%s',datetime('now')) - strftime('%s',datetime(visit_date/1000,'unixepoch','localtime')))/3600)+6<="+duration;
+        String query = "select visit_type from visits where visit_type ='"+visitType+"' and base_entity_id ='"+baseEntityId+"' and ((strftime('%s',datetime('now')) - strftime('%s',datetime(visit_date/1000,'unixepoch','localtime')))/3600)+6 <= "+duration;
         Log.v("DUE_VISIT",""+query);
         android.database.Cursor cursor = null;
         boolean isExist = false;
