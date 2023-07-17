@@ -12,6 +12,7 @@ import net.sqlcipher.database.SQLiteDatabase;
 
 import org.joda.time.DateTime;
 import org.smartregister.CoreLibrary;
+import org.smartregister.brac.hnpp.service.EventFetchIntentService;
 import org.smartregister.brac.hnpp.service.StockFetchIntentService;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
@@ -73,8 +74,15 @@ public class StockRepository extends BaseRepository {
     public void dropTable(){
         getWritableDatabase().execSQL("delete from "+getLocationTableName());
     }
-   public  void updateValue(String targetName, String day, String month, String year, String ssName, String baseEntityId,long timeStamp, String formSubmissionId){
-        updateValue(targetName,day,month,year,ssName,baseEntityId,1,timeStamp,formSubmissionId);
+   public void updateValue(String targetName, String day, String month, String year, String ssName, String baseEntityId,long timeStamp, String formSubmissionId){
+       String status = CoreLibrary.getInstance().context().allSharedPreferences().getPreference(EventFetchIntentService.EVENT_FETCH_STATUS);
+        if(HnppConstants.isPALogin()){
+            if(status.equals("true")){
+                updateValue(targetName,day,month,year,ssName,baseEntityId,1,timeStamp,formSubmissionId);
+            }
+        }else {
+            updateValue(targetName,day,month,year,ssName,baseEntityId,1,timeStamp,formSubmissionId);
+        }
 
 //        getWritableDatabase().execSQL("update "+getLocationTableName()+" set achievemnt_count = achievemnt_count +1,"+DAY+" = "+day+" , "+MONTH+" = "+month+" , "+YEAR+" = "+year+" where "+TARGET_NAME+" = '"+targetName+"'");
     }

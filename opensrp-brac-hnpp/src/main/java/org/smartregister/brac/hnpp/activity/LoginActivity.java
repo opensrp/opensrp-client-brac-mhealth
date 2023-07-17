@@ -495,6 +495,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
             SSLocationFetchJob.scheduleJobImmediately(SSLocationFetchJob.TAG);
             HHVisitDurationFetchJob.scheduleJobImmediately(HHVisitDurationFetchJob.TAG);
+            //EventFetchJob.scheduleJobImmediately(EventFetchJob.TAG);
 
             HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
             PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);

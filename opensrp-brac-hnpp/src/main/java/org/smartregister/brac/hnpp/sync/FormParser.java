@@ -18,10 +18,12 @@ import org.joda.time.LocalDate;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.model.ForumDetails;
 import org.smartregister.brac.hnpp.model.HHMemberProperty;
 import org.smartregister.brac.hnpp.repository.StockRepository;
+import org.smartregister.brac.hnpp.service.EventFetchIntentService;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
@@ -85,6 +87,7 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.REFERRE
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.SS_INFO;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.WOMEN_PACKAGE;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.WOMEN_REFERRAL;
+import static org.smartregister.chw.anc.util.NCUtils.eventToVisit;
 import static org.smartregister.util.JsonFormUtils.gson;
 
 import io.reactivex.Observable;
@@ -106,7 +109,33 @@ public class FormParser {
         //processAlreadySubmittedDataForStock();
         processInstitutionalDeliveryForTarget();
     }
+
+    /**
+     * process visit log for PA user
+     * @param eventList for getting form submission id and process visit
+     */
+    public static void makeVisitLogPA(List<Event> eventList) {
+        for(Event event : eventList){
+            Visit visit = AncLibrary.getInstance().visitRepository().getVisitByFormSubmissionID(event.getFormSubmissionId());
+            Log.v("EVENT_FETCH_ID",""+event.getFormSubmissionId());
+            if(visit==null) {
+                try {
+                    visit = eventToVisit(event);
+                } catch (JSONException e) {
+                    Log.v("EVENT_FETCH_ID","eventToVisit "+e.getMessage());
+                }
+
+                Log.v("EVENT_FETCH_ID_VVV",""+visit.getFormSubmissionId()+" "+visit.getBaseEntityId());
+            }
+
+            processVisitLog(visit);
+        }
+    }
+
+
     public static void processVisitLog(Visit visit){
+        String status = CoreLibrary.getInstance().context().allSharedPreferences().getPreference(EventFetchIntentService.EVENT_FETCH_STATUS);
+
         String formSubmissionId = visit.getFormSubmissionId();
         if(isForumEvent(visit.getVisitType())){
             saveForumData(visit,formSubmissionId);
@@ -288,17 +317,29 @@ public class FormParser {
                             if(NCD_PACKAGE.equalsIgnoreCase(encounter_type)){
                                 updateNcdDiabeticsTarget(log,details,formSubmissionId);
                                 updateNcdBpTarget(log,details,formSubmissionId);
-                            }
-                            if(isNeedToAddStockTable(encounter_type,details)){
                                 HnppApplication.getStockRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id,log.getVisitDate(),formSubmissionId);
-
                             }
+
+                            if(isNeedToAddStockTable(encounter_type,details)){
+                                Log.v("EVENT_FETCH_DETAILS",""+details);
+                                HnppApplication.getStockRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id,log.getVisitDate(),formSubmissionId);
+                            }
+
+
+                            Log.v("EVENT_FETCH_STATUS",""+status);
+
                             if(EYE_TEST.equalsIgnoreCase(encounter_type)){
                                 processEyeTest(details,log,formSubmissionId);
                             }
+
+                            if(BLOOD_GROUP.equalsIgnoreCase(encounter_type)){
+                                HnppApplication.getStockRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id,log.getVisitDate(),formSubmissionId);
+                            }
+
                             if (HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)){
                                 processHHVisitForm(details,log);
                             }
+
                             if(HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL.equalsIgnoreCase(encounter_type)){
                                 HnppDBUtils.updateCoronaFamilyMember(base_entity_id,"false");
                             }

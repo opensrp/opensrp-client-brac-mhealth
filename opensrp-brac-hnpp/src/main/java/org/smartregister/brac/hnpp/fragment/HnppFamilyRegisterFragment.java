@@ -37,6 +37,7 @@ import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.MigrationSearchDetailsActivity;
 import org.smartregister.brac.hnpp.activity.SkSelectionActivity;
+import org.smartregister.brac.hnpp.job.EventFetchJob;
 import org.smartregister.brac.hnpp.job.HnppPncCloseJob;
 import org.smartregister.brac.hnpp.job.NotificationGeneratorJob;
 import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
@@ -324,6 +325,9 @@ public class HnppFamilyRegisterFragment extends HnppBaseFamilyRegisterFragment i
                         //}
                         //if(JobManager.instance().getAllJobRequestsForTag(StockFetchJob.TAG).isEmpty()){
                             StockFetchJob.scheduleJobImmediately(StockFetchJob.TAG);
+                            if(HnppConstants.isPALogin()){
+                                EventFetchJob.scheduleJobImmediately(EventFetchJob.TAG);
+                            }
                         //}
                         HnppConstants.isViewRefresh = true;
                         setRefreshList(true);
