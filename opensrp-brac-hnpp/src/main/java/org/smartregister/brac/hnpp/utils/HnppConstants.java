@@ -105,6 +105,8 @@ public class HnppConstants extends CoreConstants {
     public static int GPS_ATTEMPT_COUNT = 0;
     public static final int DEFAULT_GPS_ATTEMPT = 3;
     public static final String ACTION_STOCK_COME = "ACTION_STOCK_COME";
+    public static final String ACTION_EVENT_FETCH = "ACTION_EVENT_FETCH";
+    public static final String EVENT_PROGRESS_STATUS = "EVENT_PROGRESS_STATUS";
     public static final String ACTION_STOCK_END = "ACTION_STOCK_END";
     public static final String ACTION_EDD = "ACTION_EDD";
     public static final String ACTION_LOCATION_UPDATE = "ACTION_LOCATION_UPDATE";

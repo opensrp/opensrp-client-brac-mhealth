@@ -17,6 +17,7 @@ import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.model.HHVisitDurationModel;
 import org.smartregister.brac.hnpp.sync.FormParser;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.domain.Response;
 import org.smartregister.service.HTTPAgent;
@@ -30,6 +31,7 @@ public class EventFetchIntentService extends IntentService {
     public static final String SERVER_VERSION_EVENT = "server_version_event";
     public static final String EVENT_FETCH_STATUS = "event_fetch_status";
     private static final String TAG = "EventFetch";
+    int retryCount = 0;
 
     List<Event> eventList = new ArrayList<>();
 
@@ -45,7 +47,15 @@ public class EventFetchIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent( Intent intent) {
+        intent = new Intent(HnppConstants.ACTION_EVENT_FETCH);
+        intent.putExtra(HnppConstants.EVENT_PROGRESS_STATUS, true);
+        sendBroadcast(intent);
+
         fetchEvent();
+
+        intent = new Intent(HnppConstants.ACTION_EVENT_FETCH);
+        intent.putExtra(HnppConstants.EVENT_PROGRESS_STATUS, false);
+        sendBroadcast(intent);
     }
 
     /**
@@ -53,6 +63,7 @@ public class EventFetchIntentService extends IntentService {
      */
     void fetchEvent(){
         String village = getVillage();
+        //getting server version from shared preference
         String lastId = CoreLibrary.getInstance().context().allSharedPreferences().getPreference(SERVER_VERSION_EVENT);
         serverVersion = lastId;
         if(TextUtils.isEmpty(lastId)){
@@ -65,28 +76,38 @@ public class EventFetchIntentService extends IntentService {
         if(jsonObjectEvent!=null){
             JSONArray eventArray = jsonObjectEvent.optJSONArray("events");
 
-            if(jsonObjectEvent.optInt("no_of_events")<0){
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            //if retry is bigger or equal than default retry value then do nothing
+            if(retryCount<CoreLibrary.getInstance().getSyncConfiguration().getSyncMaxRetries()){
+
+                //if number of events is less than 0
+                //that means, need to retry
+                //then call fetchEvent function again to retry
+                if(jsonObjectEvent.optInt("no_of_events")<0){
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    fetchEvent();
+                    return;
                 }
-                fetchEvent();
-                return;
             }
 
+            //if eventArray length is zero then all data is up to date
+            //processing parsed data here, on makeVisitLogPA function
             if(eventArray != null && eventArray.length()==0){
                 CoreLibrary.getInstance().context().allSharedPreferences().savePreference(EVENT_FETCH_STATUS,"true");
                 Log.v("EVENT_FETCH_EVENT",""+eventArray.length()+"  "+eventList.size());
                 FormParser.makeVisitLogPA(eventList);
                 eventList.clear();
+                retryCount=0;
                 return;
             };
 
             long maxServerVersion = 0;
 
             assert eventArray != null;
-            if(eventArray.length()>0){
+            if(eventArray.length() > 0){
                 for (int i=0;i<eventArray.length();i++){
                     try {
                         Event event =  new Gson().fromJson(eventArray.getJSONObject(i).toString(), Event.class);
@@ -155,6 +176,8 @@ public class EventFetchIntentService extends IntentService {
         }catch (Exception e){
             Log.v("EVENT_FETCH_ERRRR","getEventList>>url:"+e.getMessage());
         }
+
+        retryCount++;
         return null;
 
     }

@@ -317,23 +317,15 @@ public class FormParser {
                             if(NCD_PACKAGE.equalsIgnoreCase(encounter_type)){
                                 updateNcdDiabeticsTarget(log,details,formSubmissionId);
                                 updateNcdBpTarget(log,details,formSubmissionId);
-                                HnppApplication.getStockRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id,log.getVisitDate(),formSubmissionId);
                             }
 
                             if(isNeedToAddStockTable(encounter_type,details)){
-                                Log.v("EVENT_FETCH_DETAILS",""+details);
                                 HnppApplication.getStockRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id,log.getVisitDate(),formSubmissionId);
                             }
 
-
-                            Log.v("EVENT_FETCH_STATUS",""+status);
 
                             if(EYE_TEST.equalsIgnoreCase(encounter_type)){
                                 processEyeTest(details,log,formSubmissionId);
-                            }
-
-                            if(BLOOD_GROUP.equalsIgnoreCase(encounter_type)){
-                                HnppApplication.getStockRepository().updateValue(encounter_type,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,base_entity_id,log.getVisitDate(),formSubmissionId);
                             }
 
                             if (HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)){
@@ -471,8 +463,6 @@ public class FormParser {
             }else{
                 return value.equalsIgnoreCase("5");
             }
-
-
         }
         return false;
     }

@@ -394,4 +394,6 @@
     <string name="update_last_visit_date">পরিদর্শনের তারিখ আপডেট</string>
     <string name="update_last_visit_date_progress_msg">পরিদর্শনের তারিখ আপডেট করা হচ্ছে …</string>
     <string name="update_last_visit_succ_msg">পরিদর্শনের তারিখ আপডেট হয়েছে</string>
+    <string name="event_syncing">ইভেন্ট সিঙ্ক হচ্ছে...</string>
+    <string name="event_sync_success">ইভেন্ট সিঙ্ক সম্পূর্ণ হয়েছে</string>
 </resources>
