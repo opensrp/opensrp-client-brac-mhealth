@@ -313,12 +313,12 @@ public class HnppConstants extends CoreConstants {
 
             }
         }, activity);
-        new Handler().postDelayed(new Runnable() {
+     /*   new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 task.updateUi();
             }
-        }, 5000);
+        }, 5000);*/
 
 
     }
@@ -374,12 +374,12 @@ public class HnppConstants extends CoreConstants {
 
             }
         }, activity);
-        new Handler().postDelayed(new Runnable() {
+    /*    new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (task != null) task.updateUi();
             }
-        }, 5000);
+        }, 5000);*/
 
 
     }

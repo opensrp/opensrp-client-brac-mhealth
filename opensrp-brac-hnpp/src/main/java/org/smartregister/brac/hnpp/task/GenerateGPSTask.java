@@ -48,11 +48,13 @@ public class GenerateGPSTask  implements LocationListener, GoogleApiClient.Conne
         LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
 
         lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+
+        updateUi();
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-
+        updateUi();
     }
 
     @Override
@@ -62,6 +64,8 @@ public class GenerateGPSTask  implements LocationListener, GoogleApiClient.Conne
             onGpsDataGenerateListener.hideProgress();
             onGpsDataGenerateListener.onGpsDataNotFound();
         }
+
+        updateUi();
 
     }
 
