@@ -117,7 +117,12 @@ public class StockDetailsModel implements StockDetailsContract.Model{
                     "and "+StockRepository.STOCK_TIMESTAMP+" < "+HnppConstants.getLongDateFormatForStock(year,month);//47809000= 1970/01/01
         }
         else {
-            query = "select sum(coalesce("+ StockRepository.STOCK_QUANTITY+",0)) as count, sum(coalesce("+StockRepository.ACHIEVEMNT_COUNT+",0)) as acount from "+StockRepository.STOCK_TABLE+" where "+StockRepository.STOCK_PRODUCT_NAME+" = '"+visitType+"' and "+StockRepository.STOCK_TIMESTAMP+" < "+HnppConstants.getLongDateFormatForStock(year,month);//47809000= 1970/01/01
+            if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT)){
+                query = "with t1 as (select achievemnt_count as achievemnt_sum from stock_table where base_entity_id not null and product_name = '"+visitType+"' and stock_timestamp < "+HnppConstants.getLongDateFormatForStock(year,month)+" group by base_entity_id,achievement_day, year, month)," +
+                        " t2 as (select sum(stock_quantity) as stock_sum from stock_table where base_entity_id is null and product_name = '"+visitType+"' and stock_timestamp < "+HnppConstants.getLongDateFormatForStock(year,month)+")select t2.stock_sum as count, sum(t1.achievemnt_sum) as acount from t1,t2";
+            }else {
+                query = "select sum(coalesce("+ StockRepository.STOCK_QUANTITY+",0)) as count, sum(coalesce("+StockRepository.ACHIEVEMNT_COUNT+",0)) as acount from "+StockRepository.STOCK_TABLE+" where "+StockRepository.STOCK_PRODUCT_NAME+" = '"+visitType+"' and "+StockRepository.STOCK_TIMESTAMP+" < "+HnppConstants.getLongDateFormatForStock(year,month);//47809000= 1970/01/01
+            }
         }
         Log.v("LAST_BALANCE_STOCK","query:"+query);
 
@@ -143,7 +148,7 @@ public class StockDetailsModel implements StockDetailsContract.Model{
 
     private StockDetailsData getStockData(String visitType, String month, String year,int startBalance){
         StockDetailsData stockDetailsData = new StockDetailsData();
-        String query="";
+        String query=   "";
        if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GLASS)){
            query = "select sum(coalesce("+ StockRepository.STOCK_QUANTITY+",0)) as count, sum(coalesce("+StockRepository.ACHIEVEMNT_COUNT+",0)) as acount from "+StockRepository.STOCK_TABLE+" where ("
                    +StockRepository.STOCK_PRODUCT_NAME+" = '"+HnppConstants.EVENT_TYPE.SV_1+"' or "+
