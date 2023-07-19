@@ -120,6 +120,7 @@
     <string name="saving_dialog_title">সংরক্ষণ হচ্ছে ...</string>
     <string name="phone_no">মোবাইল : %s</string>
     <string name="ss_name"><br>ব্লক: </br> %s</string>
+    <string name="delivery_date"><br>প্রসবের তারিখ: </br> %s</string>
     <string name="serial_no"><br>খানা সিরিয়াল :</br> %s</string>
     <string name="name"><br>নাম :</br> %s</string>
     <string name="search_name_or_id">নাম বা আইডি বা মোবাইল নম্বর দ্বারা অনুসন্ধান করুন</string>

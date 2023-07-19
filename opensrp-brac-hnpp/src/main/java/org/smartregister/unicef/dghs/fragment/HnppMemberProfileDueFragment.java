@@ -159,9 +159,10 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
         FragmentTransaction fragmentTransaction =
                 fragmentManager.beginTransaction();
         Bundle bundle = new Bundle();
-        bundle.putBoolean(MemberHistoryFragment.IS_ANC_HISTORY,true);
         bundle.putString(Constants.INTENT_KEY.BASE_ENTITY_ID,baseEntityId);
-        fragmentTransaction.add(R.id.container, MemberHistoryFragment.getInstance(bundle));
+        MemberHistoryFragment memberHistoryFragment = MemberHistoryFragment.getInstance(bundle);
+        memberHistoryFragment.setAncHistory(true);
+        fragmentTransaction.add(R.id.container, memberHistoryFragment);
         fragmentTransaction.commit();
     }
 

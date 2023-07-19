@@ -11,7 +11,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
@@ -32,27 +35,44 @@ import org.smartregister.unicef.dghs.utils.MemberHistoryData;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.JsonFormUtils;
+import org.smartregister.unicef.dghs.utils.VisitHistory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MemberHistoryFragment extends Fragment implements MemberHistoryContract.View {
+public class MemberHistoryFragment extends Fragment implements MemberHistoryContract.View, View.OnClickListener {
 
     public static final String IS_GUEST_USER = "IS_GUEST_USER";
     public static final String IS_ANC_HISTORY = "IS_ANC";
+    public static final String START_TIME = "start_time";
+    public static final String END_TIME = "end_time";
     private MemberHistoryPresenter presenter;
     private RecyclerView clientsView;
+    private LinearLayout otherServiceView;
     private String baseEntityId;
     private boolean isStart = true;
     private boolean isGuestUser = false;
     private ProgressBar client_list_progress;
     boolean isAncHistory = false;
-
+    boolean isNeedANCTitle= false;
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser && !isStart){
-            presenter.fetchData(baseEntityId);
+            if(isNeedANCTitle){
+                presenter.fetchANCData(baseEntityId);
+            }else{
+                presenter.fetchData(baseEntityId);
+            }
+
         }
+    }
+    public void setIsNeedAncTitle(boolean isNeedANCTitle){
+        this.isNeedANCTitle = isNeedANCTitle;
+    }
+
+    public void setAncHistory(boolean ancHistory) {
+        isAncHistory = ancHistory;
     }
 
     public static MemberHistoryFragment getInstance(Bundle bundle){
@@ -71,6 +91,7 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
         @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.fragment_recycler_view,null);
         clientsView = view.findViewById(R.id.recycler_view);
         client_list_progress = view.findViewById(R.id.client_list_progress);
+        otherServiceView = view.findViewById(R.id.other_option);
         isStart = false;
         return view;
     }
@@ -80,24 +101,22 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
         super.onViewCreated(view, savedInstanceState);
         baseEntityId = getArguments().getString(Constants.INTENT_KEY.BASE_ENTITY_ID);
         isGuestUser = getArguments().getBoolean(IS_GUEST_USER,false);
-        isAncHistory = getArguments().getBoolean(IS_ANC_HISTORY,false);
         initializePresenter();
     }
 
     @Override
     public void initializePresenter() {
         presenter = new MemberHistoryPresenter(this);
-        presenter.fetchData(baseEntityId);
+        if(isNeedANCTitle){
+            presenter.fetchANCData(baseEntityId);
+        }else{
+            presenter.fetchData(baseEntityId);
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if(presenter==null){
-
-        }else{
-
-        }
     }
 
     @Override
@@ -122,6 +141,45 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
         this.clientsView.setAdapter(adapter);
     }
 
+    @Override
+    public void updateANCTitle() {
+        ArrayList<VisitHistory> visitHistories = presenter.getVisitHistory();
+        if(visitHistories.size()>0){
+            otherServiceView.setVisibility(View.VISIBLE);
+            otherServiceView.removeAllViews();
+        }
+        int count = visitHistories.size();
+        for (VisitHistory visitHistory:visitHistories) {
+            @SuppressLint("InflateParams") View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+            ImageView fImg = followupView.findViewById(R.id.image_view);
+            TextView fName =  followupView.findViewById(R.id.patient_name_age);
+            followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+            fImg.setImageResource(R.mipmap.ic_anc_pink);
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(getTitle(count));
+            stringBuilder.append("\n");
+//            stringBuilder.append("LMP:"+visitHistory.getLmpDate());
+            stringBuilder.append("ই ডি ডি:"+visitHistory.getEddDate());
+            fName.setText(stringBuilder.toString());
+            followupView.setTag(visitHistory);
+            followupView.setOnClickListener(this);
+            otherServiceView.addView(followupView);
+            count--;
+        }
+
+    }
+    private String getTitle(int no){
+        switch (no){
+            case 1:
+                return "১ম গর্ভের ইতিহাস ";
+            case 2:
+                return "২য় গর্ভের ইতিহাস";
+            case 3:
+                return "৩য় গর্ভের ইতিহাস";
+
+        }
+        return "";
+    }
 
     @Override
     public MemberHistoryContract.Presenter getPresenter() {
@@ -195,6 +253,20 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v.getTag() instanceof VisitHistory){
+            VisitHistory visitHistory =(VisitHistory) v.getTag();
+            Bundle bundle = new Bundle();
+            bundle.putString(Constants.INTENT_KEY.BASE_ENTITY_ID,baseEntityId);
+            bundle.putLong(MemberHistoryFragment.START_TIME,visitHistory.getStartVisitDate());
+            bundle.putLong(MemberHistoryFragment.END_TIME,visitHistory.getEndVisitDate());
+            MemberHistoryDialogFragment.getInstance(getActivity(),bundle);
+
+        }
+
     }
 //    @Override
 //    public void onActivityResult(int requestCode, int resultCode, Intent data) {

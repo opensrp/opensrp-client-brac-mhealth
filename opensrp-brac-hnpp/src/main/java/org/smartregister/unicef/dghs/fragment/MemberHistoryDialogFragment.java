@@ -1,5 +1,8 @@
 package org.smartregister.unicef.dghs.fragment;
 
+import static org.smartregister.unicef.dghs.fragment.MemberHistoryFragment.END_TIME;
+import static org.smartregister.unicef.dghs.fragment.MemberHistoryFragment.START_TIME;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
@@ -43,7 +46,7 @@ public class MemberHistoryDialogFragment extends DialogFragment implements Membe
     private boolean isStart = true;
     private boolean isGuestUser = false;
     private ProgressBar client_list_progress;
-
+    long startVisitDate,endVisitDate;
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -91,6 +94,8 @@ public class MemberHistoryDialogFragment extends DialogFragment implements Membe
         super.onViewCreated(view, savedInstanceState);
         baseEntityId = getArguments().getString(Constants.INTENT_KEY.BASE_ENTITY_ID);
         isGuestUser = getArguments().getBoolean(IS_GUEST_USER,false);
+        startVisitDate = getArguments().getLong(START_TIME,0);
+        endVisitDate = getArguments().getLong(END_TIME,0);
         initializePresenter();
     }
 
@@ -103,11 +108,6 @@ public class MemberHistoryDialogFragment extends DialogFragment implements Membe
     @Override
     public void onResume() {
         super.onResume();
-        if(presenter==null){
-
-        }else{
-
-        }
     }
 
     @Override
@@ -124,7 +124,7 @@ public class MemberHistoryDialogFragment extends DialogFragment implements Membe
     public void updateAdapter() {
 
         MemberHistoryAdapter adapter = new MemberHistoryAdapter(getActivity(),onClickAdapter);
-        adapter.setData(presenter.getMemberHistory());
+        adapter.setData(presenter.getANCHistory(startVisitDate,endVisitDate));
         this.clientsView.setAdapter(adapter);
     }
     @Override
@@ -192,6 +192,12 @@ public class MemberHistoryDialogFragment extends DialogFragment implements Membe
         }
 
     }
+
+    @Override
+    public void updateANCTitle() {
+
+    }
+
     private void startFormActivity(MemberHistoryData content){
         showProgressBar();
         presenter.getVisitFormWithData(content);

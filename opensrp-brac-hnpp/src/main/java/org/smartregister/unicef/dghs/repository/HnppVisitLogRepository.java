@@ -1,5 +1,7 @@
 package org.smartregister.unicef.dghs.repository;
 
+import static org.smartregister.util.JsonFormUtils.gson;
+
 import android.content.ContentValues;
 import android.text.TextUtils;
 import android.util.Log;
@@ -9,10 +11,16 @@ import net.sqlcipher.SQLException;
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteException;
 
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.smartregister.clientandeventmodel.Event;
+import org.smartregister.clientandeventmodel.Obs;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.model.ReferralFollowUpModel;
 import org.smartregister.unicef.dghs.utils.ANCRegister;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
+import org.smartregister.unicef.dghs.utils.VisitHistory;
 import org.smartregister.unicef.dghs.utils.VisitLog;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.util.Constants;
@@ -40,7 +48,7 @@ public class HnppVisitLogRepository extends BaseRepository {
     public static final String REFER_PLACE = "refer_place";
     public static final String PREGNANT_STATUS = "pregnant_status";
     public static final String BLOCK_NAME = "block_name";
-
+    public static final String LAST_INTERACTED_WITH = "last_interacted_with";
     public static final String[] TABLE_COLUMNS = {VISIT_ID, VISIT_TYPE,FAMILY_ID, BASE_ENTITY_ID, VISIT_DATE,EVENT_TYPE,VISIT_JSON,PREGNANT_STATUS,BLOCK_NAME};
     private static final String VISIT_LOG_SQL = "CREATE TABLE ec_visit_log (visit_id VARCHAR,visit_type VARCHAR,base_entity_id VARCHAR NOT NULL,refer_reason VARCHAR,refer_place VARCHAR" +
             ",family_id VARCHAR NOT NULL,visit_date VARCHAR,event_type VARCHAR,visit_json TEXT,pregnant_status VARCHAR,block_name VARCHAR)";
@@ -352,6 +360,49 @@ public class HnppVisitLogRepository extends BaseRepository {
         return visitLogs;
 
     }
+    private ArrayList<VisitHistory> getAncRegistrationLog(Cursor cursor) {
+        ArrayList<VisitHistory> visitLogs = new ArrayList<>();
+        try {
+            if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    VisitHistory visitLog = new VisitHistory();
+                    visitLog.setVisitId(cursor.getString(cursor.getColumnIndex(VISIT_ID)));
+                    visitLog.setBaseEntityId(cursor.getString(cursor.getColumnIndex(BASE_ENTITY_ID)));
+                    visitLog.setStartVisitDate(Long.parseLong(cursor.getString(cursor.getColumnIndex(VISIT_DATE))));
+                    String visitJson = cursor.getString(cursor.getColumnIndex(VISIT_JSON));
+                    Event baseEvent = gson.fromJson(visitJson, Event.class);
+                    List<Obs> obsList = baseEvent.getObs();
+                    for(Obs obs:obsList){
+                        String key = obs.getFormSubmissionField();
+                        if(key.equalsIgnoreCase("edd")){
+                            String edd = (String) obs.getValue();
+                            visitLog.setEddDate(edd);
+                        }
+                        if(key.equalsIgnoreCase("lmp")){
+                            String lmp = (String) obs.getValue();
+                            visitLog.setLmpDate(lmp);
+                        }
+                    }
+                    DateTime eddDateTime = DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(visitLog.getEddDate());
+                    LocalDate localDate = new LocalDate(eddDateTime);
+                    long eddDate = localDate.toDate().getTime();
+                    Log.v("ANC_HISTORY","eddDate:"+visitLog.getEddDate()+":eddlong:"+eddDate);
+                    visitLog.setEndVisitDate(eddDate);
+
+                    visitLogs.add(visitLog);
+                    cursor.moveToNext();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return visitLogs;
+
+    }
     private ArrayList<VisitLog> getAllVisitLog(Cursor cursor) {
         ArrayList<VisitLog> visitLogs = new ArrayList<>();
         try {
@@ -529,10 +580,38 @@ public class HnppVisitLogRepository extends BaseRepository {
         }
         return eventList;
     }
+    public ArrayList<VisitHistory> getAncRegistrationCount(String baseEntityId){
+
+        SQLiteDatabase database = getReadableDatabase();
+        String selection = BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE+" and "+VISIT_TYPE+" =?";
+        String[] selectionArgs = new String[]{baseEntityId, CoreConstants.EventType.ANC_REGISTRATION};
+        try{
+            net.sqlcipher.Cursor cursor = database.query("visits", null, selection, selectionArgs, null, null, VISIT_DATE+" DESC");
+            return getAncRegistrationLog(cursor);
+        }catch (Exception e){
+            e.printStackTrace();
+
+        }
+        return new ArrayList<>();
+
+    }
     public ArrayList<VisitLog> getAllVisitLog(String baseEntityId) {
+
         SQLiteDatabase database = getReadableDatabase();
         String selection = BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE;
         String[] selectionArgs = new String[]{baseEntityId};
+        try{
+            net.sqlcipher.Cursor cursor = database.query(VISIT_LOG_TABLE_NAME, TABLE_COLUMNS, selection, selectionArgs, null, null, " rowid DESC");
+            return getAllVisitLog(cursor);
+        }catch (Exception e){
+
+        }
+        return new ArrayList<>();
+    }
+    public ArrayList<VisitLog> getAllVisitLogBetweenDateRange(String baseEntityId, long startDate, long endDate) {
+        SQLiteDatabase database = getReadableDatabase();
+        String selection = BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE+" and "+VISIT_DATE+" between ? and ?";
+        String[] selectionArgs = new String[]{baseEntityId,startDate+"",endDate+""};
         try{
             net.sqlcipher.Cursor cursor = database.query(VISIT_LOG_TABLE_NAME, TABLE_COLUMNS, selection, selectionArgs, null, null, " rowid DESC");
             return getAllVisitLog(cursor);

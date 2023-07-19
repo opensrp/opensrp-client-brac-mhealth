@@ -499,6 +499,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
 
 //        memberOtherServiceFragment = new MemberOtherServiceFragment();
         memberHistoryFragment = MemberHistoryFragment.getInstance(this.getIntent().getExtras());
+        memberHistoryFragment.setIsNeedAncTitle(true);
 //        memberOtherServiceFragment.setCommonPersonObjectClient(commonPersonObject);
         womanImmunizationFragment = WomanImmunizationFragment.newInstance(this.getIntent().getExtras());
         womanImmunizationFragment.setChildDetails(commonPersonObject);
@@ -997,7 +998,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
         startActivity(intent);
     }
     public void openPragnencyHistory(){
-        MemberHistoryDialogFragment.getInstance(this,this.getIntent().getExtras());
+       // MemberHistoryDialogFragment.getInstance(this,this.getIntent().getExtras());
     }
 
     @Override
@@ -1203,6 +1204,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
 
         if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT)){
             menu.findItem(R.id.action_pregnancy_out_come).setVisible(true);
+            addChildBtn.setVisibility(View.GONE);
         }else{
             menu.findItem(R.id.action_pregnancy_out_come).setVisible(false);
         }

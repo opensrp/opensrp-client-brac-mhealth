@@ -158,6 +158,11 @@ public class ChildHistoryFragment extends Fragment implements MemberHistoryContr
 
     }
 
+    @Override
+    public void updateANCTitle() {
+
+    }
+
     private void startFormActivity(MemberHistoryData content){
         showProgressBar();
         presenter.getVisitFormWithData(content);

@@ -13,6 +13,7 @@ import org.smartregister.unicef.dghs.utils.FormApplicability;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
 import org.smartregister.unicef.dghs.utils.MemberHistoryData;
+import org.smartregister.unicef.dghs.utils.VisitHistory;
 import org.smartregister.unicef.dghs.utils.VisitLog;
 import org.smartregister.chw.anc.domain.Visit;
 
@@ -27,7 +28,7 @@ import java.util.List;
 import static org.smartregister.unicef.dghs.sync.FormParser.getFormNamesFromEventObject;
 import static org.smartregister.util.JsonFormUtils.gson;
 
-public class MemberHistoryInteractor implements MemberHistoryContract.Interactor {
+public class MemberHistoryInteractor implements MemberHistoryContract.Interactor,MemberHistoryContract.InteractorANC {
 
     private AppExecutors appExecutors;
     private HnppVisitLogRepository visitLogRepository;
@@ -140,4 +141,12 @@ public class MemberHistoryInteractor implements MemberHistoryContract.Interactor
 
     }
 
+    @Override
+    public void fetchAncData(Context context, String baseEntityId, MemberHistoryContract.InteractorCallBackANC callBack) {
+        Runnable runnable = () -> {
+            ArrayList<VisitHistory> visitLogs = visitLogRepository.getAncRegistrationCount(baseEntityId);
+            appExecutors.mainThread().execute(() -> callBack.onUpdateAncList(visitLogs));
+        };
+        appExecutors.diskIO().execute(runnable);
+    }
 }

@@ -83,11 +83,6 @@ public class FamilyHistoryFragment extends Fragment implements MemberHistoryCont
     @Override
     public void onResume() {
         super.onResume();
-        if(presenter==null){
-
-        }else{
-
-        }
     }
 
     @Override
@@ -163,6 +158,12 @@ public class FamilyHistoryFragment extends Fragment implements MemberHistoryCont
         }
 
     }
+
+    @Override
+    public void updateANCTitle() {
+
+    }
+
     public void makeReadOnlyFields(JSONObject jsonObject){
         JSONObject stepOne = null;
         try {
