@@ -21,7 +21,6 @@ public class AncRegisterFragmentModel extends CoreAncRegisterFragmentModel {
         columnList.add(CoreConstants.TABLE_NAME.ANC_MEMBER_LOG + "." + org.smartregister.chw.anc.util.DBConstants.KEY.DATE_CREATED);
         columnList.add(tableName + "." + org.smartregister.chw.anc.util.DBConstants.KEY.CONFIRMED_VISITS);
         columnList.add(tableName + "." + org.smartregister.chw.anc.util.DBConstants.KEY.LAST_HOME_VISIT);
-        columnList.add(tableName + "." + org.smartregister.chw.anc.util.DBConstants.KEY.PHONE_NUMBER);
         columnList.add(tableName + "." + ChwDBConstants.VISIT_NOT_DONE);
         columnList.add(CoreConstants.TABLE_NAME.FAMILY+ "." + HnppConstants.KEY.BLOCK_NAME);
         columnList.add(CoreConstants.TABLE_NAME.FAMILY + "." + HnppConstants.KEY.SERIAL_NO);
@@ -35,6 +34,7 @@ public class AncRegisterFragmentModel extends CoreAncRegisterFragmentModel {
         columnList.add(CoreConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.DOB);
         columnList.add(CoreConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.UNIQUE_ID);
         columnList.add(CoreConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.RELATIONAL_ID);
+        columnList.add(CoreConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.PHONE_NUMBER);
         columnList.add(CoreConstants.TABLE_NAME.FAMILY + "." + HnppConstants.KEY.VILLAGE_NAME);
         columnList.add(CoreConstants.TABLE_NAME.FAMILY + "." + DBConstants.KEY.FAMILY_HEAD);
         columnList.add(CoreConstants.TABLE_NAME.FAMILY + "." + DBConstants.KEY.PRIMARY_CAREGIVER);
