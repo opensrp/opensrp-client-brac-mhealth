@@ -1,17 +1,21 @@
 package org.smartregister.unicef.dghs.provider;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 import org.joda.time.Years;
+import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.task.UpdateAncLastServiceInfoTask;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.HnppDBUtils;
@@ -23,10 +27,12 @@ import org.smartregister.chw.core.provider.ChwAncRegisterProvider;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.commonregistry.CommonRepository;
+import org.smartregister.unicef.dghs.utils.RiskyModel;
 import org.smartregister.util.Utils;
 import org.smartregister.view.contract.SmartRegisterClient;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Set;
 
 public class HnppAncRegisterProvider extends ChwAncRegisterProvider {
@@ -86,6 +92,7 @@ public class HnppAncRegisterProvider extends ChwAncRegisterProvider {
 
         }
         String ssName = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.BLOCK_NAME, true);
+        String mobileNo = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.PHONE_NUMBER, true);
         if (!TextUtils.isEmpty(ssName))viewHolder.patientAge.append(context.getString(R.string.ss_name,ssName));
         viewHolder.villageTown.setText(Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.VILLAGE_NAME, true));
 
@@ -97,7 +104,8 @@ public class HnppAncRegisterProvider extends ChwAncRegisterProvider {
 
         // add due listener
         viewHolder.dueButton.setOnClickListener(onClickListener);
-        viewHolder.dueButton.setTag(client);
+        viewHolder.dueButton.setText(mobileNo);
+        viewHolder.dueButton.setTag(mobileNo);
         viewHolder.dueButton.setTag(R.id.VIEW_ID, BaseAncRegisterFragment.CLICK_VIEW_DOSAGE_STATUS);
 
         viewHolder.registerColumns.setOnClickListener(v -> viewHolder.patientColumn.performClick());
@@ -113,9 +121,55 @@ public class HnppAncRegisterProvider extends ChwAncRegisterProvider {
         }else{
             viewHolder.eddView.setVisibility(View.GONE);
         }
+
+        viewHolder.riskView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openRiskFactorDialog(baseEntityId);
+            }
+        });
+    }
+
+    private void openRiskFactorDialog(String baseEntityId){
+        ArrayList<RiskyModel> riskyModels = HnppApplication.getRiskDetailsRepository().getRiskyKeyByEntityId(baseEntityId);
+        StringBuilder builder = new StringBuilder();
+        for (RiskyModel riskyModel:riskyModels) {
+            String[] fs= riskyModel.riskyKey.split(",");
+            if(fs.length>0){
+                for (String key:fs) {
+                    builder.append(HnppConstants.riskeyFactorMapping.get(key));
+                    builder.append(":");
+                    builder.append(riskyModel.riskyValue);
+                    builder.append("\n");
+                }
+            }else{
+                builder.append(HnppConstants.riskeyFactorMapping.get(riskyModel.riskyKey));
+                builder.append(":");
+                builder.append(riskyModel.riskyValue);
+                builder.append("\n");
+            }
+
+        }
+
+        Dialog dialog = new Dialog(context);
+        dialog.setCancelable(false);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_with_one_button);
+        TextView titleTv = dialog.findViewById(R.id.title_tv);
+        TextView message = dialog.findViewById(R.id.text_tv);
+        titleTv.setText("যে সকল কারনে ঝুঁকিপূর্ণ :");
+        message.setText(builder.toString());
+        Button ok_btn = dialog.findViewById(R.id.ok_btn);
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
     private void populateLastColumn(CommonPersonObjectClient pc, RegisterViewHolder viewHolder) {
-        org.smartregister.family.util.Utils.startAsyncTask(new UpdateAncLastServiceInfoTask(context,viewHolder, pc.entityId()), null);
+        //org.smartregister.family.util.Utils.startAsyncTask(new UpdateAncLastServiceInfoTask(context,viewHolder, pc.entityId()), null);
     }
     @Override
     public AncRegisterProvider.RegisterViewHolder createViewHolder(ViewGroup parent) {

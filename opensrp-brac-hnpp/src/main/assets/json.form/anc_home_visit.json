@@ -826,26 +826,66 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "ultra_sound_result",
         "openmrs_data_type": "",
-        "type": "spinner",
+        "type": "check_box",
         "hint": "আল্ট্রাসাউন্ড স্ক্যান পরীক্ষার ফলাফল",
-        "values": [
-          "Normal USG",
-          "No Fetal heart rate",
-          "Intrauterine growth retardation (IUGR)",
-          "Oligohydromnios (less water)",
-          "Congenital anamoly",
-          "Abnormal lie",
-          "Multiple pregnancy"
+        "options":[
+          {
+            "key":"Normal_USG",
+            "text":"Normal USG",
+            "value":false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id":"Normal_USG"
+          },
+          {
+            "key":"No_Fetal_heart_rate",
+            "text":"No Fetal heart rate",
+            "value":false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id":"No_Fetal_heart_rate"
+          },
+          {
+            "key":"Intrauterine_growth_retardation",
+            "text":"Intrauterine growth retardation (IUGR)",
+            "value":false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id":"Intrauterine_growth_retardation"
+          },
+          {
+            "key":"Oligohydromnios_less_water",
+            "text":"Oligohydromnios (less water)",
+            "value":false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id":"Oligohydromnios_less_water"
+          },
+          {
+            "key":"Congenital_anamoly",
+            "text":"Congenital anamoly",
+            "value":false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id":"Congenital_anamoly"
+          },
+          {
+            "key":"Abnormal_lie",
+            "text":"Abnormal lie",
+            "value":false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id":"Abnormal_lie"
+          },
+          {
+            "key":"Multiple_pregnancy",
+            "text":"Multiple pregnancy",
+            "value":false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id":"Multiple_pregnancy"
+          }
         ],
-        "openmrs_entity_ids": {
-          "Normal USG": "Normal USG",
-          "No Fetal heart rate": "No Fetal heart rate",
-          "Intrauterine growth retardation (IUGR)": "Intrauterine growth retardation (IUGR)",
-          "Oligohydromnios (less water)": "Oligohydromnios (less water)",
-          "Congenital anamoly": "Congenital anamoly",
-          "Abnormal lie": "Abnormal lie",
-          "Multiple pregnancy":"Multiple pregnancy"
-        },
         "relevance": {
           "step2:ultra_sound_exam": {
             "type": "string",
