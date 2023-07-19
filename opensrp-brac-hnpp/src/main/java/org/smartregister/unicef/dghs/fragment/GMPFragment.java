@@ -13,6 +13,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.text.HtmlCompat;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +30,7 @@ import android.widget.Toast;
 
 import org.joda.time.DateTime;
 import org.opensrp.api.constants.Gender;
+import org.smartregister.chw.core.utils.CoreChildUtils;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.util.DBConstants;
@@ -291,6 +294,117 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
 
     @Override
     public void onHeightTaken(HeightWrapper heightWrapper) {
+        final HeightRepository heightRepository = GrowthMonitoringLibrary.getInstance().getHeightRepository();
+        float previousHeight =-1;
+        if(heightRepository.getMaximum(childDetails.entityId())!=null){
+            previousHeight = heightRepository.getMaximum(childDetails.entityId()).getCm();
+            if(heightWrapper.getHeight()<previousHeight){
+                String text = "পূর্বের উচ্চতা :"+previousHeight+"\n"+"বর্তমান উচ্চতা:"+heightWrapper.getHeight();
+                showDialogWithAction(getActivity(), "আপনি কি নতুন উচ্চতাটি যোগ করতে ইচ্ছুক?", text, new Runnable() {
+                    @Override
+                    public void run() {
+                        addHeight(heightWrapper);
+                    }
+                });
+                return;
+            }
+        }
+        addHeight(heightWrapper);
+    }
+
+    @Override
+    public void onMUACTaken(MUACWrapper muacWrapper) {
+        final MUACRepository muacRepository = GrowthMonitoringLibrary.getInstance().getMuacRepository();
+        float previousHeight =-1;
+        if(muacRepository.getMaximum(childDetails.entityId())!=null){
+            previousHeight = muacRepository.getMaximum(childDetails.entityId()).getCm();
+            if(muacWrapper.getHeight()<previousHeight){
+                String text = "পূর্বের MUAC :"+previousHeight+"\n"+"বর্তমান MUAC:"+muacWrapper.getHeight();
+                showDialogWithAction(getActivity(), "আপনি কি নতুন MUAC যোগ করতে ইচ্ছুক?", text, new Runnable() {
+                    @Override
+                    public void run() {
+                        addMUAC(muacWrapper);
+                    }
+                });
+                return;
+            }
+        }
+        addMUAC(muacWrapper);
+    }
+
+    @Override
+    public void onWeightTaken(WeightWrapper tag) {
+        if (tag != null) {
+            final WeightRepository weightRepository = GrowthMonitoringLibrary.getInstance().weightRepository();
+            float previousWeight =-1;
+            if(weightRepository.getMaximum(childDetails.entityId())!=null){
+                previousWeight = weightRepository.getMaximum(childDetails.entityId()).getKg();
+                if(tag.getWeight()<previousWeight){
+                    String text = "পূর্বের ওজোন :"+previousWeight+"\n"+"বর্তমান ওজোন:"+tag.getWeight();
+                    showDialogWithAction(getActivity(), "আপনি কি নতুন ওজোনটি যোগ করতে ইচ্ছুক?", text, new Runnable() {
+                        @Override
+                        public void run() {
+                            addWeight(tag);
+                        }
+                    });
+                    return;
+                }
+            }
+             addWeight(tag);
+
+
+        }
+    }
+    private void addWeight(WeightWrapper tag){
+        final WeightRepository weightRepository = GrowthMonitoringLibrary.getInstance().weightRepository();
+        Weight weight = new Weight();
+        weight.setBaseEntityId(childDetails.entityId());
+        weight.setKg(tag.getWeight());
+        weight.setDate(tag.getUpdatedWeightDate().toDate());
+        weight.setAnmId(FamilyLibrary.getInstance().context().allSharedPreferences().fetchRegisteredANM());
+        try {
+            String lastLocationId = LocationHelper.getInstance().getChildLocationId();
+
+            weight.setLocationId(lastLocationId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Gender gender = getGender();
+
+        Date dob = null;
+
+        String formattedAge = "";
+        if (isDataOk()) {
+            String dobString = Utils.getValue(childDetails.getColumnmaps(), DBConstants.KEY.DOB, false);
+            if (!TextUtils.isEmpty(dobString)) {
+                DateTime dateTime = new DateTime(dobString);
+                dob = dateTime.toDate();
+                long timeDiff = Calendar.getInstance().getTimeInMillis() - dob.getTime();
+                if (timeDiff >= 0) {
+                    formattedAge = DateUtil.getDuration(timeDiff);
+                }
+            }
+        }
+
+        if (dob != null && gender != Gender.UNKNOWN) {
+            weightRepository.add(dob, gender, weight);
+        } else {
+            weightRepository.add(weight);
+        }
+
+        tag.setDbKey(weight.getId());
+        tag.setPatientAge(formattedAge);
+        WeightIntentServiceJob.scheduleJobImmediately(WeightIntentServiceJob.TAG);
+        String text = refreshEditWeightLayout(true);
+        showGMPDialog(text,1);
+        showGrowthChart();
+        int month = getMonthDifferenceByDOB();
+        showGenericDialog(getCountByMonth(month),1,month);
+        updateProfileColor();
+        HnppConstants.isViewRefresh = true;
+    }
+    private void addHeight(HeightWrapper heightWrapper){
         if (heightWrapper != null) {
             final HeightRepository heightRepository = GrowthMonitoringLibrary.getInstance().getHeightRepository();
             Height height = new Height();
@@ -333,16 +447,14 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         updateProfileColor();
         showGMPDialog(text,2);
         HnppConstants.isViewRefresh = true;
+        showHeightChart();
+        int month = getMonthDifferenceByDOB();
+        showGenericDialog(getCountByMonth(month),1,month);
     }
-
-    @Override
-    public void onMUACTaken(MUACWrapper muacWrapper) {
+    private void addMUAC(MUACWrapper muacWrapper){
         if (muacWrapper != null) {
             final MUACRepository muacRepository = GrowthMonitoringLibrary.getInstance().getMuacRepository();
             MUAC muac = new MUAC();
-//            if (muacWrapper.getDbKey() != null) {
-//                height = heightRepository.find(muacWrapper.getDbKey());
-//            }
             muac.setBaseEntityId(childDetails.entityId());
             muac.setCm(muacWrapper.getHeight());
             muac.setDate(muacWrapper.getUpdatedHeightDate().toDate());
@@ -356,13 +468,6 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
             String dobstring = childDetails.getColumnmaps().get("dob");
             GrowthUtil.DOB_STRING = dobstring;
 
-
-//            Date dob = null;
-//            if (!TextUtils.isEmpty(GrowthUtil.DOB_STRING)) {
-//                DateTime dateTime = new DateTime(GrowthUtil.DOB_STRING);
-//                dob = dateTime.toDate();
-//            }
-//            Gender gender = getGender();
             muacRepository.add(muac);
             muacWrapper.setDbKey(muac.getId());
 
@@ -372,59 +477,93 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         updateProfileColor();
         showGMPDialog(text,3);
         HnppConstants.isViewRefresh = true;
+        showMuacChart();
+        int month = getMonthDifferenceByDOB();
+        showGenericDialog(getCountByMonth(month),1,month);
     }
+    private int getCountByMonth(int month){
+        if(month<6) return 2;
+        return 3;
+    }
+    private void showGrowthChart(){
+        Utils.startAsyncTask(new ShowGrowthChartTask(), null);
 
-    @Override
-    public void onWeightTaken(WeightWrapper tag) {
-        if (tag != null) {
-            final WeightRepository weightRepository = GrowthMonitoringLibrary.getInstance().weightRepository();
-            Weight weight = new Weight();
-//            if (tag.getDbKey() != null) {
-//                weight = weightRepository.find(tag.getDbKey());
-//            }
-            weight.setBaseEntityId(childDetails.entityId());
-            weight.setKg(tag.getWeight());
-            weight.setDate(tag.getUpdatedWeightDate().toDate());
-            weight.setAnmId(FamilyLibrary.getInstance().context().allSharedPreferences().fetchRegisteredANM());
-            try {
-                String lastLocationId = LocationHelper.getInstance().getChildLocationId();
-
-                weight.setLocationId(lastLocationId);
-            } catch (Exception e) {
-                e.printStackTrace();
+    }
+    private void showHeightChart(){
+        Utils.startAsyncTask(new ShowHeightChartTask(), null);
+    }
+    private void showMuacChart(){
+        Utils.startAsyncTask(new ShowMuacChartTask(), null);
+    }
+    public static void showDialogWithAction(Context context,String title, String text,Runnable runnable){
+        Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_with_two_button);
+        TextView textViewTitle = dialog.findViewById(R.id.text_tv);
+        TextView titleTxt = dialog.findViewById(R.id.title_tv);
+        titleTxt.setText(title);
+        textViewTitle.setText(text);
+        dialog.findViewById(R.id.close_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
             }
+        });
+        dialog.findViewById(R.id.ok_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                runnable.run();
+            }
+        });
+        dialog.show();
+    }
+    int globalCount = 1;
+    private void showGenericDialog(int totalCount,int count, int month){
+        Log.v("CLICK_COUNT","showGenericDialog totalCount>>"+totalCount+":count :"+count );
+        if(Boolean.TRUE.equals(HnppConstants.GMPMessage.get(childDetails.entityId()))){
+            return;
+        }else{
+            HnppConstants.GMPMessage.put(childDetails.entityId(),true);
+        }
+        String dialogMessage = getGenericMessage(count,month);
+        Dialog dialog = new Dialog(mActivity);
+        dialog.setCancelable(true);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_for_generic_message);
+        TextView titleTv = dialog.findViewById(R.id.title_tv);
+        titleTv.setText(HtmlCompat.fromHtml(dialogMessage,HtmlCompat.FROM_HTML_MODE_COMPACT));
 
-            Gender gender = getGender();
+        Button ok_btn = dialog.findViewById(R.id.ok_btn);
+        if(count<totalCount){
+            ok_btn.setText(getString(R.string.next));
+        }else{
+            ok_btn.setText(getString(R.string.ok));
+        }
 
-            Date dob = null;
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-            String formattedAge = "";
-            if (isDataOk()) {
-                String dobString = Utils.getValue(childDetails.getColumnmaps(), DBConstants.KEY.DOB, false);
-                if (!TextUtils.isEmpty(dobString)) {
-                    DateTime dateTime = new DateTime(dobString);
-                    dob = dateTime.toDate();
-                    long timeDiff = Calendar.getInstance().getTimeInMillis() - dob.getTime();
-                    if (timeDiff >= 0) {
-                        formattedAge = DateUtil.getDuration(timeDiff);
+                Log.v("CLICK_COUNT","totalCount>>"+totalCount+":click[0] :"+globalCount );
+                if(totalCount==globalCount){
+                    dialog.dismiss();
+                    globalCount=0;
+                }else {
+                    globalCount++;
+                    String dialogMessage = getGenericMessage(globalCount,month);
+                    titleTv.setText(HtmlCompat.fromHtml(dialogMessage,HtmlCompat.FROM_HTML_MODE_COMPACT));
+                    if(globalCount<totalCount){
+                        ok_btn.setText(getString(R.string.next));
+                    }else{
+                        ok_btn.setText(getString(R.string.ok));
                     }
                 }
-            }
 
-            if (dob != null && gender != Gender.UNKNOWN) {
-                weightRepository.add(dob, gender, weight);
-            } else {
-                weightRepository.add(weight);
             }
+        });
+       dialog.show();
 
-            tag.setDbKey(weight.getId());
-            tag.setPatientAge(formattedAge);
-            WeightIntentServiceJob.scheduleJobImmediately(WeightIntentServiceJob.TAG);
-            String text = refreshEditWeightLayout(true);
-            showGMPDialog(text,1);
-            updateProfileColor();
-            HnppConstants.isViewRefresh = true;
-        }
     }
     private void showGMPDialog(String text, int type){
         int resultColor = ZScore.getZscoreColorByText(text);
@@ -451,6 +590,27 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         });
         if(!dialogMessage.isEmpty())dialog.show();
 
+    }
+    private String getGenericMessage(int count, int month){
+
+        switch (count){
+
+            case 1:
+
+                if(month<6) return getString(R.string.gmp_msg_0_3m_1);
+                if(month <=8) return getString(R.string.gmp_msg_3m_6m_1);
+                if(month <=11) return getString(R.string.gmp_msg_6m_8m_1);
+                if(month <=23) return getString(R.string.gmp_msg_9m_11m_1);
+            case 2:
+                if(month<6) return getString(R.string.gmp_msg_0_3m_2);
+                if(month <=8) return getString(R.string.gmp_msg_3m_6m_2);
+                if(month <=11) return getString(R.string.gmp_msg_6m_8m_2);
+                if(month <=23) return getString(R.string.gmp_msg_9m_11m_2);
+            case 3:
+                if(month <=11) return getString(R.string.gmp_msg_6m_8m_3);
+                if(month <=23) return getString(R.string.gmp_msg_9m_11m_3);
+        }
+         return getString(R.string.gmp_msg_0_3m_1);
     }
     private String getDialogMessageByType(String text, int type){
         String dialogMsg = "";
