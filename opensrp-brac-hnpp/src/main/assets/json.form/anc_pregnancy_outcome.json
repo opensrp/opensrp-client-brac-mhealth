@@ -426,7 +426,7 @@
         "options": [
           {
             "key": "photograph_use",
-            "text": "পার্টোগ্রাফ/ লেবার কেয়ার গাইড ব্যবহৃত হয়েছি",
+            "text": "পার্টোগ্রাফ/ লেবার কেয়ার গাইড ব্যবহৃত হয়েছিল",
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_parent": "",
@@ -485,7 +485,7 @@
         "openmrs_entity_id": "Complication_Type",
         "openmrs_data_type": "text",
         "type": "check_box",
-        "label": "প্রসবকালীন জটিলতা",
+        "label": "প্রসবকালীন সময়ে জটিলতা",
         "exclusive": [
           "none"
         ],

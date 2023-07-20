@@ -182,7 +182,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "Denger_Signs_During_PNC",
         "type": "check_box",
-        "label": "জটিলতা সমূহ নির্ধারণ করুন",
+        "label": "প্রসবোত্তর জটিলতা সমূহ নির্ধারণ করুন",
         "exclusive": ["none"],
         "options": [
           {

@@ -16,10 +16,19 @@ actions:
 name: step1_birth_weight
 description: birth_weight
 priority: 1
-condition: "helper.formatDate(step1_dob,'d') <= 41"
+condition: "helper.formatDate(step1_dob,'d') <= 42"
 actions:
   - "isRelevant = true"
 ---
+
+name: step1_new_born_info
+description: new_born_info
+priority: 1
+condition: "helper.formatDate(step1_dob,'d') <= 42"
+actions:
+  - "isRelevant = true"
+---
+
 name: step1_chlorohexadin
 description: chlorohexadin
 priority: 1
