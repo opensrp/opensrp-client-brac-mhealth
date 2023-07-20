@@ -20,7 +20,6 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.util.Utils;
 import org.smartregister.view.contract.SmartRegisterClient;
-import org.smartregister.view.customcontrols.CustomFontTextView;
 
 import java.util.Set;
 
@@ -64,8 +63,11 @@ public class HnppPncRegisterProvider extends PncRegisterProvider {
 
         }
         String deliveryDate = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.DELIVERY_DATE, true);
-        if (!TextUtils.isEmpty(deliveryDate))
-            viewHolder.pncDay.setText(context.getString(R.string.delivery_date,deliveryDate));
+        if (!TextUtils.isEmpty(deliveryDate)){
+            viewHolder.pncDay.setText(context.getString(R.string.delivery_date));
+            viewHolder.villageTown.setText(deliveryDate);
+        }
+
         viewHolder.dueButton.setText(mobileNo);
         viewHolder.dueButton.setTag(mobileNo);
         viewHolder.dueButton.setOnClickListener(onClickListener);

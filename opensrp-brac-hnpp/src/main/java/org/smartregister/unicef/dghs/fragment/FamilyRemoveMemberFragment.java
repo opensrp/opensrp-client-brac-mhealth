@@ -12,7 +12,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.smartregister.chw.core.contract.FamilyRemoveMemberContract;
+import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
+import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.configurableviews.model.View;
 import org.smartregister.cursoradapter.RecyclerViewPaginatedAdapter;
 import org.smartregister.domain.FetchStatus;
@@ -31,6 +33,7 @@ import org.smartregister.chw.core.utils.CoreJsonFormUtils;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
+import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -44,6 +47,7 @@ public class FamilyRemoveMemberFragment extends BaseFamilyProfileMemberFragment 
     protected String memberName;
     protected String familyBaseEntityId;
     protected FamilyRemoveMemberProvider removeMemberProvider;
+    CommonPersonObjectClient pc;
     public static FamilyRemoveMemberFragment newInstance(Bundle bundle) {
         Bundle args = bundle;
         FamilyRemoveMemberFragment fragment = new FamilyRemoveMemberFragment();
@@ -166,6 +170,12 @@ public class FamilyRemoveMemberFragment extends BaseFamilyProfileMemberFragment 
     @Override
     public void startJsonActivity(JSONObject jsonObject) {
         // Intent intent = new Intent(getContext(), Utils.metadata().familyMemberFormActivity);
+
+        CommonRepository commonRepository =Utils.context().commonrepository(Utils.metadata().familyMemberRegister.tableName);
+        final CommonPersonObject commonPersonObject = commonRepository.findByBaseEntityId(jsonObject.optString("entity_id"));
+
+        HnppJsonFormUtils.addGender(jsonObject,commonPersonObject.getColumnmaps().get("gender"));
+
         Intent intent = new Intent(getActivity(), IndividualProfileRemoveJsonFormActivity.class);
         intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonObject.toString());
 

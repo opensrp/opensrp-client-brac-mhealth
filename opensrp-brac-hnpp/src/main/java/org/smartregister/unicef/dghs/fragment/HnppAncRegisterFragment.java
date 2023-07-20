@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
@@ -85,6 +86,12 @@ public class HnppAncRegisterFragment extends HnppBaseAncRegisterFragment impleme
         if (view.getId() == R.id.filter_text_view) {
             openFilterDialog(true);
 
+        }
+        if(view.getId() == R.id.due_button){
+            String mobileNo = (String) view.getTag();
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:" + mobileNo));
+            startActivity(intent);
         }
     }
 

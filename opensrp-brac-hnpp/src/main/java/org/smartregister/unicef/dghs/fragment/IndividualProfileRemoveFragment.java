@@ -198,6 +198,8 @@ public class IndividualProfileRemoveFragment extends BaseFamilyProfileMemberFrag
     @Override
     public void startJsonActivity(JSONObject jsonObject) {
         // Intent intent = new Intent(getContext(), Utils.metadata().familyMemberFormActivity);
+        ///setting gender data to  hidden gender field
+        HnppJsonFormUtils.addGender(jsonObject,pc.getDetails().get("gender"));
         Intent intent = new Intent(getActivity(), IndividualProfileRemoveJsonFormActivity.class);
         intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonObject.toString());
 
