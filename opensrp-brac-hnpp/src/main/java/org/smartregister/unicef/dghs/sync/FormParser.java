@@ -1038,15 +1038,17 @@ public class FormParser {
             HnppDBUtils.updateBloodGroup(baseEntityId,bloodGroup);
         }
         if(details.containsKey("Denger_Signs_During_Pregnancy") && !StringUtils.isEmpty(details.get("Denger_Signs_During_Pregnancy"))) {
-            isAncHomeVisitRisk = true;
             String dengerValue = details.get("Denger_Signs_During_Pregnancy");
-            Log.v("RISK_ANC","dengerValue>>"+dengerValue);
-            RiskyModel riskynBPSModel = new RiskyModel();
-            riskynBPSModel.riskyValue = "yes";
-            riskynBPSModel.riskyKey = dengerValue;
-            riskynBPSModel.eventType = eventType;
-            riskynBPSModel.baseEntityId = baseEntityId;
-            HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
+            if(!dengerValue.equalsIgnoreCase("No_Denger_Sign")){
+                isAncHomeVisitRisk = true;
+                RiskyModel riskynBPSModel = new RiskyModel();
+                riskynBPSModel.riskyValue = "yes";
+                riskynBPSModel.riskyKey = dengerValue;
+                riskynBPSModel.eventType = eventType;
+                riskynBPSModel.baseEntityId = baseEntityId;
+                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
+            }
+
         }
         if(details.containsKey("Fetal_Heart_Rate") && !StringUtils.isEmpty(details.get("Fetal_Heart_Rate"))){
             String fhr = details.get("Fetal_Heart_Rate");

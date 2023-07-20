@@ -1077,6 +1077,7 @@ public class HnppConstants extends CoreConstants {
         public static final String BLOCK_ID = "block_id";
         public static final String IS_RISK = "is_risk";
         public static final String SERIAL_NO = "serial_no";
+        public static final String DELIVERY_DATE = "delivery_date";
         public static final String CHILD_MOTHER_NAME_REGISTERED = "mother_name_bangla";
         public static final String FATHER_NAME_ENGLISH = "father_name_english";
         public static final String FATHER_NAME_BANGLA = "father_name_bangla";

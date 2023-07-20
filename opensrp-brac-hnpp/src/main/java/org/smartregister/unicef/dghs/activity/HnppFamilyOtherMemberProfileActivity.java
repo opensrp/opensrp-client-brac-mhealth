@@ -193,12 +193,14 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
             String[] fs= riskyModel.riskyKey.split(",");
             if(fs.length>0){
                 for (String key:fs) {
+                    Log.v("RISK_FACTOR","key>>"+key+":value:"+riskyModel.riskyValue);
                     builder.append(HnppConstants.riskeyFactorMapping.get(key));
                     builder.append(":");
                     builder.append(riskyModel.riskyValue);
                     builder.append("\n");
                 }
             }else{
+                Log.v("RISK_FACTOR","key>>"+riskyModel.riskyKey+":value:"+riskyModel.riskyValue);
                 builder.append(HnppConstants.riskeyFactorMapping.get(riskyModel.riskyKey));
                 builder.append(":");
                 builder.append(riskyModel.riskyValue);

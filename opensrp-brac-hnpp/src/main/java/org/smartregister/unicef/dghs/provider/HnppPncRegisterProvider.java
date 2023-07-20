@@ -62,8 +62,12 @@ public class HnppPncRegisterProvider extends PncRegisterProvider {
             viewHolder.patientNameAndAge.setText(viewHolder.patientNameAndAge.getText()+", "+context.getString(R.string.serial_no,serialNo));
 
         }
-        String ssName = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.BLOCK_NAME, true);
-        if (!TextUtils.isEmpty(ssName))viewHolder.pncDay.append(context.getString(R.string.ss_name,ssName));
+        String deliveryDate = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.DELIVERY_DATE, true);
+        if (!TextUtils.isEmpty(deliveryDate)){
+            viewHolder.pncDay.setText(context.getString(R.string.delivery_date));
+            viewHolder.villageTown.setText(deliveryDate);
+        }
+
         viewHolder.dueButton.setText(mobileNo);
         viewHolder.dueButton.setTag(mobileNo);
         viewHolder.dueButton.setOnClickListener(onClickListener);
