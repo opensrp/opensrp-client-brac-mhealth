@@ -61,6 +61,7 @@ public class IndividualProfileRemoveActivity extends SecuredActivity {
                 String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
 
                 JSONObject form = new JSONObject(jsonString);
+
                 individualProfileRemoveFragment.confirmRemove(form);
             } catch (Exception e) {
                 Timber.e(e);

@@ -852,6 +852,17 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
         }
     }
+
+    public static void addGender(JSONObject jsonForm,String gender){
+        try{
+            JSONArray field = fields(jsonForm, STEP1);
+            JSONObject genderField = getFieldJSONObject(field, "gender");
+            genderField.put(org.smartregister.family.util.JsonFormUtils.VALUE,gender);
+        }catch (Exception e){
+
+        }
+    }
+
     public static void addVerifyIdentify(JSONObject jsonForm,boolean isIdentify,boolean needVerified, boolean isVerify, String notVerifyText){
         try{
             JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
