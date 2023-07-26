@@ -105,6 +105,8 @@ public class HnppConstants extends CoreConstants {
     public static int GPS_ATTEMPT_COUNT = 0;
     public static final int DEFAULT_GPS_ATTEMPT = 3;
     public static final String ACTION_STOCK_COME = "ACTION_STOCK_COME";
+    public static final String ACTION_EVENT_FETCH = "ACTION_EVENT_FETCH";
+    public static final String EVENT_PROGRESS_STATUS = "EVENT_PROGRESS_STATUS";
     public static final String ACTION_STOCK_END = "ACTION_STOCK_END";
     public static final String ACTION_EDD = "ACTION_EDD";
     public static final String ACTION_LOCATION_UPDATE = "ACTION_LOCATION_UPDATE";
@@ -311,12 +313,12 @@ public class HnppConstants extends CoreConstants {
 
             }
         }, activity);
-        new Handler().postDelayed(new Runnable() {
+     /*   new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 task.updateUi();
             }
-        }, 5000);
+        }, 5000);*/
 
 
     }
@@ -372,12 +374,12 @@ public class HnppConstants extends CoreConstants {
 
             }
         }, activity);
-        new Handler().postDelayed(new Runnable() {
+    /*    new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (task != null) task.updateUi();
             }
-        }, 5000);
+        }, 5000);*/
 
 
     }
@@ -1086,6 +1088,7 @@ public class HnppConstants extends CoreConstants {
         public static final String ESTIMATE_HBP = "Estimate HBP";
         public static final String CATARACT_SURGERY_REFER = "Cataract surgery refer";
         public static final String CATARACT_SURGERY = "Cataract surgery";
+        public static final String ANC_HOME_VISIT = "ANC Home Visit";
         //public static final String NCD_BY_PA = "NCD by PA";
 
         //PA stock
