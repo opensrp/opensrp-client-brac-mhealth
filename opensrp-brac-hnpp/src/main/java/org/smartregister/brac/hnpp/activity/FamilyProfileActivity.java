@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ import org.smartregister.brac.hnpp.interactor.MigrationInteractor;
 import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
 import org.smartregister.brac.hnpp.job.SurveyHistoryJob;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
+import org.smartregister.brac.hnpp.listener.ContextListener;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.model.HnppFamilyProfileModel;
 import org.smartregister.brac.hnpp.model.Survey;
@@ -93,6 +95,8 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
     private Handler handler;
     AppExecutors appExecutors = new AppExecutors();
 
+    ContextListener contextListener;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -134,6 +138,14 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        contextListener = new ContextListener() {
+            @Override
+            public void getContext(Context context) {
+               Log.v("Connn1",""+context);
+            }
+        };
+
+        contextListener.getContext(this);
         handler = new Handler();
     }
 

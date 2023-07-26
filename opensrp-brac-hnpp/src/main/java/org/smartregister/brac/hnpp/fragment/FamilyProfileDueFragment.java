@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -15,14 +16,20 @@ import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.FamilyProfileActivity;
 import org.smartregister.brac.hnpp.activity.HnppChildProfileActivity;
+import org.smartregister.brac.hnpp.activity.HouseHoldFormTypeActivity;
+import org.smartregister.brac.hnpp.activity.HouseHoldVisitActivity;
 import org.smartregister.brac.hnpp.model.FamilyProfileDueModel;
 import org.smartregister.brac.hnpp.presenter.FamilyProfileDuePresenter;
 import org.smartregister.brac.hnpp.provider.HnppFamilyDueRegisterProvider;
+import org.smartregister.brac.hnpp.utils.ChildDBConstants;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
+import org.smartregister.brac.hnpp.utils.HouseHoldInfo;
 import org.smartregister.brac.hnpp.utils.ProfileDueInfo;
 import org.smartregister.chw.anc.domain.MemberObject;
+import org.smartregister.chw.anc.util.DBConstants;
+import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.family.adapter.FamilyRecyclerViewCustomAdapter;
@@ -138,7 +145,7 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment imple
         }
 
         otherServiceView.setVisibility(View.VISIBLE);
-        if(FormApplicability.isDueHHVisit(familyBaseEntityId)){
+       // if(FormApplicability.isDueHHVisit(familyBaseEntityId)){
             View homeVisitView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
             ImageView image1 = homeVisitView.findViewById(R.id.image_view);
             TextView name1 =  homeVisitView.findViewById(R.id.patient_name_age);
@@ -149,7 +156,7 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment imple
             homeVisitView.setOnClickListener(this);
 
             otherServiceView.addView(homeVisitView);
-        }
+        //}
 
         updateDueView();
     }
@@ -241,11 +248,26 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment imple
         Integer tag = (Integer) v.getTag();
         if (tag != null) {
             switch (tag) {
-
                 case TAG_HOME_VISIT:
                     if (getActivity() != null && getActivity() instanceof FamilyProfileActivity) {
                         FamilyProfileActivity activity = (FamilyProfileActivity) getActivity();
-                        activity.openHomeVisitFamily();
+                        //activity.openHomeVisitFamily();
+                        Intent intent = new Intent(getActivity(), HouseHoldVisitActivity.class);
+                        String familyId = familyBaseEntityId;
+                        HouseHoldInfo houseHoldInfo = HnppDBUtils.getHouseHoldInfo(familyId);
+                        if(houseHoldInfo !=null){
+                            intent.putExtra(Constants.INTENT_KEY.FAMILY_HEAD, houseHoldInfo.getHouseHoldHeadId());
+                            intent.putExtra(Constants.INTENT_KEY.PRIMARY_CAREGIVER, houseHoldInfo.getPrimaryCaregiverId());
+                            intent.putExtra(Constants.INTENT_KEY.FAMILY_NAME, houseHoldInfo.getHouseHoldName());
+                            intent.putExtra(DBConstants.KEY.UNIQUE_ID, houseHoldInfo.getHouseHoldUniqueId());
+                            intent.putExtra(HnppConstants.KEY.MODULE_ID, houseHoldInfo.getModuleId());
+
+                        }
+                        intent.putExtra(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, familyId);
+                        //intent.putExtra(Constants.INTENT_KEY.VILLAGE_TOWN, Utils.getValue(commonPersonObject, DBConstants.KEY.VILLAGE_TOWN, false));
+
+                        intent.putExtra(CoreConstants.INTENT_KEY.SERVICE_DUE, true);
+                        startActivity(intent);
                     }
                     break;
             }

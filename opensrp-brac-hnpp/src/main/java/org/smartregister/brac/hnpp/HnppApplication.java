@@ -39,6 +39,7 @@ import org.smartregister.brac.hnpp.repository.HHVisitDurationRepository;
 import org.smartregister.brac.hnpp.repository.HnppChwRepository;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.repository.IndicatorRepository;
+import org.smartregister.brac.hnpp.repository.MemberListRepository;
 import org.smartregister.brac.hnpp.repository.NotificationRepository;
 import org.smartregister.brac.hnpp.repository.PaymentHistoryRepository;
 import org.smartregister.brac.hnpp.repository.RiskDetailsRepository;
@@ -97,6 +98,7 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
     private static RiskDetailsRepository riskDetailsRepository;
     private static TargetVsAchievementRepository targetVsAchievementRepository;
     private static IndicatorRepository indicatorRepository;
+    private static MemberListRepository memberListRepository;
     private static NotificationRepository notificationRepository;
     private static PaymentHistoryRepository paymentHistoryRepository;
     private static StockRepository stockRepository;
@@ -342,6 +344,14 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
         }
         return surveyHistoryRepository;
     }
+
+    public static MemberListRepository getMemberListRepository() {
+        if ( memberListRepository == null) {
+            memberListRepository = new MemberListRepository(getInstance().getRepository());
+        }
+        return memberListRepository;
+    }
+
     public void setOpenSRPUrl() {
         AllSharedPreferences preferences = Utils.getAllSharedPreferences();
         boolean isRelease = HnppConstants.isReleaseBuild();

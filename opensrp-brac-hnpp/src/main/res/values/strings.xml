@@ -224,7 +224,7 @@
     <string name="fill_earler_immunization"><![CDATA[<i>আগের টিকাদান রেকর্ড করুন</i>]]></string>
     <string name="immunizations_count">টিকাদান ({0})</string>
     <string name="vitamin_given">কখন %1$s দেয়া হয়েছে?</string>
-   <string name="vitamin_a">ভিটামিন এ</string>
+    <string name="vitamin_a">ভিটামিন এ</string>
     <string name="overdue">ওভারডিউ&#160;</string>
     <string name="not_given_with_spaces">&#160;দেয়া হয়নি&#160;</string>
     <string name="given_on_with_spaces">&#160;দেয়া হয়েছে&#160;</string>
@@ -361,7 +361,7 @@
     <string name="women">Women</string>
     <string name="dialog_title_member_mg">তিনি কি আগে ব্র্যাক এর সদস্য ছিলেন?</string>
     <string name="dialog_title_member_hh">এই খানা কি আগে ব্র্যাক এর খানা ছিল?</string>
-   <string name="dialog_title_payment">আপনি কি নিশ্চিত এই পেমেন্ট প্রদান এর সম্পর্কে?</string>
+    <string name="dialog_title_payment">আপনি কি নিশ্চিত এই পেমেন্ট প্রদান এর সম্পর্কে?</string>
     <string name="dialog_text_family">যে কোনো একটি খানা সিলেক্ট করুন</string>
     <string name="ss_migration">এখানে স্থানান্তর করি</string>
     <string name="dialog_stock_sell_end">আপনার স্টক শেষ হয়ে গিয়েছে। অনুগ্রহ করে স্টক কালেক্ট করুন </string>
@@ -372,8 +372,8 @@
 
     <string name="dialog_confirm_save_child">আমি %s, ব্র্যাকের স্বাস্থ্য পুষ্টি ও জনসংখ্যা কর্মসূচির একজন স্বাস্থ্যকর্মী। এই কর্মসূচি মা ও শিশুর প্রাথমিক স্বাস্থ্যসেবার পাশাপাশি অসংক্রামক রোগের প্রাথমিক চিকিৎসা সেবা প্রদান করে থাকে। এই সেবা কার্যক্রমের অংশই হিসেবে  আমরা আপনার এবং আপনার পরিবারের ব্যক্তিগত ও স্বাস্থ্য-বিষয়ক তথ্য সংগ্রহ রাখতে চাই। ব্র্যাক ও অন্যান্য সামাজিক উন্নয়ন সংস্থার প্রাথমিক স্বাস্থ্যসেবা,  সামাজিক উন্নয়ন, বিশ্লেষণ, প্রতিবেদন এবং গবেষণা কার্যক্রমের প্রয়োজনে ভবিষ্যতে এই তথ্য ব্যবহার করা হতে পারে। তবে সেক্ষত্রে অবশ্যই আপনার পরিচয় গোপন রাখা হবে. আপনি- %s, বয়স- %s বছর, জন্ম নিবন্ধন নাম্বার - %s; আপনার প্রদানকৃত তথ্যাবলি উল্লিখিত কাজে ব্যবহার করতে দিতে সম্মত আছেন? সম্মত থাকলে - হ্যাঁ ঘরে টিক দিন.</string>
     <string name="gps_not_found">আপনার মোবাইল এর জিপিএস ডাটা পাওয়া যায়নি।  অনুগ্রহ করে জিপিএস অন রাখুন।  জিপিএস ডাটা পেতে সময় লাগতে পারে অনুগ্রহ করে অপেক্ষা করুন অথবা জিপিএস লোকেশন ছাড়া জমা দিন </string>
-   <string name="menu_history">History</string>
-   <string name="terms_condition">Terms and Conditions</string>
+    <string name="menu_history">History</string>
+    <string name="terms_condition">Terms and Conditions</string>
     <string name="all_text">All</string>
 
     <string name="confirm">নিশ্চিত</string>
@@ -394,4 +394,15 @@
     <string name="update_last_visit_date">পরিদর্শনের তারিখ আপডেট</string>
     <string name="update_last_visit_date_progress_msg">পরিদর্শনের তারিখ আপডেট করা হচ্ছে …</string>
     <string name="update_last_visit_succ_msg">পরিদর্শনের তারিখ আপডেট হয়েছে</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="new_born">নতুন জন্ম</string>
+    <string name="death_info">মৃত্যু তথ্য</string>
+    <string name="pregnancy_reg">গর্ভবতী রেজিস্ট্রেশন</string>
+    <string name="hh_info_update">খানার তথ্য আপডেট</string>
+    <string name="no_new_born">নতুন জন্ম জানা নেই</string>
+    <string name="no_death">মৃত্যু নেই</string>
+    <string name="no_pregnancy">গর্ভবতী নেই</string>
+    <string name="add_more_member">আরো যোগ করুন</string>
+   <string name="record_added"> টি নতুন জন্ম রেকর্ড করা হয়েছে</string>
 </resources>

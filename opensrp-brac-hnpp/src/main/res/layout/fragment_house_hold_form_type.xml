@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.HouseHoldFormTypeFragment">
+
+    <android.support.v7.widget.AppCompatRadioButton
+        android:id="@+id/new_born_radio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:buttonTint="@color/deep_green"
+        android:gravity="center"
+        android:text="@string/new_born"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.rey.material.widget.TextView
+        android:id="@+id/new_born_count_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="sdfgsdf"
+        android:textColor="@color/black"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/new_born_radio"
+        app:layout_constraintTop_toBottomOf="@+id/new_born_radio" />
+
+    <com.rey.material.widget.Button
+        android:id="@+id/no_new_born_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:drawableLeft="@drawable/ic_baseline_circle_24"
+        android:drawablePadding="5dp"
+        android:text="@string/no_new_born"
+        android:layout_marginRight="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/new_born_count_tv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/new_born_radio" />
+
+    <android.support.v7.widget.AppCompatRadioButton
+        android:id="@+id/death_info_radio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/death_info"
+        android:buttonTint="@color/deep_green"
+        app:layout_constraintBottom_toBottomOf="@+id/no_death_bt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/no_death_bt" />
+
+    <com.rey.material.widget.Button
+        android:id="@+id/no_death_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="@string/no_death"
+        android:drawableLeft="@drawable/ic_baseline_circle_24"
+        android:layout_marginTop="10dp"
+        android:drawablePadding="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toEndOf="@+id/death_info_radio"
+        app:layout_constraintTop_toBottomOf="@+id/no_new_born_bt" />
+
+    <android.support.v7.widget.AppCompatRadioButton
+        android:id="@+id/pregnancy_reg_radio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/pregnancy_reg"
+        android:buttonTint="@color/deep_green"
+        app:layout_constraintBottom_toBottomOf="@+id/no_pregnancy_bt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/no_pregnancy_bt" />
+
+    <com.rey.material.widget.Button
+        android:id="@+id/no_pregnancy_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:drawableLeft="@drawable/ic_baseline_circle_24"
+        android:layout_marginTop="10dp"
+        android:drawablePadding="5dp"
+        android:text="@string/no_pregnancy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toEndOf="@+id/pregnancy_reg_radio"
+        app:layout_constraintTop_toBottomOf="@+id/no_death_bt" />
+
+    <android.support.v7.widget.AppCompatRadioButton
+        android:id="@+id/hh_info_update_radio"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="@string/hh_info_update"
+        android:buttonTint="@color/deep_green"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/no_pregnancy_bt" />
+
+</android.support.constraint.ConstraintLayout>

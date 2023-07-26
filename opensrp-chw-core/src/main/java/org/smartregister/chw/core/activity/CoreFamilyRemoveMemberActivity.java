@@ -1,6 +1,7 @@
 package org.smartregister.chw.core.activity;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 
 import org.json.JSONObject;
@@ -32,6 +33,7 @@ public abstract class CoreFamilyRemoveMemberActivity extends SecuredActivity imp
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.v("onnnnn0",""+requestCode+" "+resultCode);
         if (resultCode == RESULT_OK) {
             try {
                 String jsonString = data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON);

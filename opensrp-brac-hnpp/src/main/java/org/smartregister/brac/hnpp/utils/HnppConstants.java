@@ -55,6 +55,7 @@ import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.FamilyProfileActivity;
 import org.smartregister.brac.hnpp.activity.FamilyRegisterActivity;
+import org.smartregister.brac.hnpp.activity.HouseHoldVisitActivity;
 import org.smartregister.brac.hnpp.listener.OnGpsDataGenerateListener;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.activity.TermAndConditionWebView;
@@ -322,6 +323,67 @@ public class HnppConstants extends CoreConstants {
     }
 
     public static void getGPSLocation(BaseProfileActivity activity, OnPostDataWithGps onPostDataWithGps) {
+        IS_FORM_CLICK = true;
+
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    11111);
+            return;
+        }
+        GenerateGPSTask task = new GenerateGPSTask(new OnGpsDataGenerateListener() {
+            @Override
+            public void showProgressBar(int message) {
+                try {
+                    activity.showProgressDialog(message);
+                } catch (Exception e) {
+
+                }
+            }
+
+            @Override
+            public void hideProgress() {
+                try {
+                    activity.hideProgressDialog();
+                } catch (Exception e) {
+
+                }
+
+            }
+
+            @Override
+            public void onGpsDataNotFound() {
+
+                if(IS_FORM_CLICK){
+                    HnppConstants.showOneButtonDialog(activity, "", activity.getString(R.string.gps_not_found), new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!IS_MANDATORY_GPS) onPostDataWithGps.onPost(0.0, 0.0);
+                        }
+                    });
+                }
+
+                IS_FORM_CLICK = false;
+            }
+
+            @Override
+            public void onGpsData(double latitude, double longitude) {
+                onPostDataWithGps.onPost(latitude, longitude);
+
+            }
+        }, activity);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (task != null) task.updateUi();
+            }
+        }, 5000);
+
+
+    }
+
+    public static void getGPSLocationContext(HouseHoldVisitActivity activity, OnPostDataWithGps onPostDataWithGps) {
         IS_FORM_CLICK = true;
 
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
