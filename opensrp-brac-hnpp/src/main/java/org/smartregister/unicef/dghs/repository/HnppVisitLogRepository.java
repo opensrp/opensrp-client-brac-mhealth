@@ -403,6 +403,32 @@ public class HnppVisitLogRepository extends BaseRepository {
         return visitLogs;
 
     }
+    private ArrayList<VisitLog> getAllVisitsFromVisitTable(Cursor cursor) {
+        ArrayList<VisitLog> visitLogs = new ArrayList<>();
+        try {
+            if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    VisitLog visitLog = new VisitLog();
+                    visitLog.setVisitId(cursor.getString(cursor.getColumnIndex(VISIT_ID)));
+                    visitLog.setBaseEntityId(cursor.getString(cursor.getColumnIndex(BASE_ENTITY_ID)));
+                    visitLog.setVisitDate(Long.parseLong(cursor.getString(cursor.getColumnIndex(VISIT_DATE))));
+                    visitLog.setVisitJson(cursor.getString(cursor.getColumnIndex(VISIT_JSON)));
+                    visitLog.setVisitType(cursor.getString(cursor.getColumnIndex(VISIT_TYPE)));
+                    visitLog.setEventType(visitLog.getVisitType());
+                    visitLogs.add(visitLog);
+                    cursor.moveToNext();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return visitLogs;
+
+    }
     private ArrayList<VisitLog> getAllVisitLog(Cursor cursor) {
         ArrayList<VisitLog> visitLogs = new ArrayList<>();
         try {
@@ -607,6 +633,20 @@ public class HnppVisitLogRepository extends BaseRepository {
 
         }
         return new ArrayList<>();
+    }
+    public ArrayList<VisitLog> getCurrentANCTimeline(String baseEntityId, long startDate) {
+        SQLiteDatabase database = getReadableDatabase();
+        String selection = BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE+" and "+VISIT_DATE+" >=? and ("+VISIT_TYPE+" = ? or "+VISIT_TYPE+" = ? or "+VISIT_TYPE+" = ? or "+VISIT_TYPE+" = ?)";
+        String[] selectionArgs = new String[]{baseEntityId,startDate+"", HnppConstants.EVENT_TYPE.ANC_HOME_VISIT, HnppConstants.EVENT_TYPE.PNC_REGISTRATION,HnppConstants.EVENT_TYPE.ANC_REGISTRATION,HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME};
+        try{
+            net.sqlcipher.Cursor cursor = database.query("visits", null, selection, selectionArgs, null, null, " rowid DESC");
+            return getAllVisitsFromVisitTable(cursor);
+        }catch (Exception e){
+            e.printStackTrace();
+
+        }
+        return new ArrayList<>();
+
     }
     public ArrayList<VisitLog> getAllVisitLogBetweenDateRange(String baseEntityId, long startDate, long endDate) {
         SQLiteDatabase database = getReadableDatabase();

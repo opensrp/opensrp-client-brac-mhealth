@@ -174,7 +174,11 @@ public class FamilyRemoveMemberFragment extends BaseFamilyProfileMemberFragment 
         CommonRepository commonRepository =Utils.context().commonrepository(Utils.metadata().familyMemberRegister.tableName);
         final CommonPersonObject commonPersonObject = commonRepository.findByBaseEntityId(jsonObject.optString("entity_id"));
 
-        HnppJsonFormUtils.addGender(jsonObject,commonPersonObject.getColumnmaps().get("gender"));
+        try{
+            HnppJsonFormUtils.addGender(jsonObject,commonPersonObject.getColumnmaps().get("gender"));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         Intent intent = new Intent(getActivity(), IndividualProfileRemoveJsonFormActivity.class);
         intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonObject.toString());

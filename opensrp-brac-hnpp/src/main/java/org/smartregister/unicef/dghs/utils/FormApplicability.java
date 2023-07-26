@@ -1,6 +1,7 @@
 package org.smartregister.unicef.dghs.utils;
 
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.ANC_HOME_VISIT;
+import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.NEW_BORN_PNC_1_4;
 import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
 
@@ -446,8 +447,10 @@ public class FormApplicability {
         return difference_In_Days;
     }
     public static int getANCCount(String baseEntityId){
+        long maxVisitDate = getMaxVisitDate(baseEntityId);
         int ancCount = 0;
-        String ancQuery = "select count(*) as anc_count from ec_visit_log where base_entity_id ='"+baseEntityId+"' and visit_type ='"+ ANC_HOME_VISIT+"'";
+        String ancQuery = "select count(*) as anc_count from ec_visit_log where base_entity_id ='"+baseEntityId+"' and visit_type ='"+ ANC_HOME_VISIT+"' and visit_date>="+maxVisitDate;
+        Log.v("HOME_VISIT","getANCCount>>ancQuery:"+ancQuery);
         List<Map<String, String>> values = HnppDBUtils.readData(ancQuery, null);
         if( values.size() > 0 && values.get(0).get("anc_count")!= null){
             ancCount = Integer.parseInt(values.get(0).get("anc_count"));
@@ -456,8 +459,10 @@ public class FormApplicability {
 
     }
     public static int getPNCCount(String baseEntityId){
+        long maxVisitDate = getMaxVisitDate(baseEntityId);
         int ancCount = 0;
-        String ancQuery = "select count(*) as anc_count from ec_visit_log where base_entity_id ='"+baseEntityId+"' and visit_type ='"+PNC_REGISTRATION+"'";
+        String ancQuery = "select count(*) as anc_count from ec_visit_log where base_entity_id ='"+baseEntityId+"' and visit_type ='"+PNC_REGISTRATION+"' and visit_date>="+maxVisitDate;
+        Log.v("HOME_VISIT","getPNCCount>>ancQuery:"+ancQuery);
         List<Map<String, String>> values = HnppDBUtils.readData(ancQuery, null);
         if( values.size() > 0 && values.get(0).get("anc_count")!= null){
             ancCount = Integer.parseInt(values.get(0).get("anc_count"));
@@ -466,13 +471,24 @@ public class FormApplicability {
 
     }
     public static int getNewBornPNCCount(String baseEntityId){
+        long maxVisitDate = getMaxVisitDate(baseEntityId);
         int ancCount = 0;
-        String ancQuery = "select count(*) as anc_count from ec_visit_log where base_entity_id ='"+baseEntityId+"' and visit_type ='"+NEW_BORN_PNC_1_4+"'";
+        String ancQuery = "select count(*) as anc_count from ec_visit_log where base_entity_id ='"+baseEntityId+"' and visit_type ='"+NEW_BORN_PNC_1_4+"' and visit_date>="+maxVisitDate;
         List<Map<String, String>> values = HnppDBUtils.readData(ancQuery, null);
         if( values.size() > 0 && values.get(0).get("anc_count")!= null){
             ancCount = Integer.parseInt(values.get(0).get("anc_count"));
         }
         return ancCount;
+
+    }
+    public static long getMaxVisitDate(String baseEntityId){
+        long visitDate = 0;
+        String ancQuery = "select max(visit_date) as max_visit_date from ec_visit_log where base_entity_id ='"+baseEntityId+"' and visit_type ='"+ANC_REGISTRATION+"' ";
+        List<Map<String, String>> values = HnppDBUtils.readData(ancQuery, null);
+        if( values.size() > 0 && values.get(0).get("max_visit_date")!= null){
+            visitDate = Long.parseLong(values.get(0).get("max_visit_date"));
+        }
+        return visitDate;
 
     }
     public static int getHourPassPregnancyOutcome(String baseEntityId){

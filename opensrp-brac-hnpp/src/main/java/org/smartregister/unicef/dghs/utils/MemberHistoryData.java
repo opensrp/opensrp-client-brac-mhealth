@@ -12,6 +12,24 @@ public class MemberHistoryData {
     private String baseEntityId;
     private boolean isDelay;
     public String visitId;
+    private String serviceTakenDate;
+    private String scheduleDate;
+
+    public void setScheduleDate(String scheduleDate) {
+        this.scheduleDate = scheduleDate;
+    }
+
+    public void setServiceTakenDate(String serviceTakenDate) {
+        this.serviceTakenDate = serviceTakenDate;
+    }
+
+    public String getScheduleDate() {
+        return scheduleDate;
+    }
+
+    public String getServiceTakenDate() {
+        return serviceTakenDate;
+    }
 
     public void setVisitId(String visitId) {
         this.visitId = visitId;

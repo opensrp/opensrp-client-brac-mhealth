@@ -1,23 +1,19 @@
 package org.smartregister.unicef.dghs.fragment;
 
-import static org.smartregister.unicef.dghs.fragment.MemberHistoryFragment.END_TIME;
-import static org.smartregister.unicef.dghs.fragment.MemberHistoryFragment.START_TIME;
-
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.Dialog;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
@@ -35,56 +31,46 @@ import org.smartregister.unicef.dghs.presenter.MemberHistoryPresenter;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
 import org.smartregister.unicef.dghs.utils.MemberHistoryData;
+import org.smartregister.unicef.dghs.utils.VisitHistory;
 
-public class MemberHistoryDialogFragment extends DialogFragment implements MemberHistoryContract.View {
-    public static final String DIALOG_TAG = "MemberHistoryDialogFragment_DIALOG_TAG";
+import java.util.ArrayList;
+
+public class MemberANCHistoryFragment extends Fragment implements MemberHistoryContract.View, View.OnClickListener {
+
     public static final String IS_GUEST_USER = "IS_GUEST_USER";
-
     private MemberHistoryPresenter presenter;
     private RecyclerView clientsView;
+    private LinearLayout otherServiceView;
     private String baseEntityId;
     private boolean isStart = true;
     private boolean isGuestUser = false;
     private ProgressBar client_list_progress;
-    long startVisitDate;
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser && !isStart){
-            presenter.fetchCurrentTimeLineHistoryData(baseEntityId,startVisitDate);
+                presenter.fetchCurrentTimeLineData(baseEntityId);
         }
     }
 
-    public static MemberHistoryDialogFragment getInstance(Activity activity, Bundle bundle){
-        MemberHistoryDialogFragment memberHistoryFragment = new MemberHistoryDialogFragment();
+
+    public static MemberANCHistoryFragment getInstance(Bundle bundle){
+        MemberANCHistoryFragment memberHistoryFragment = new MemberANCHistoryFragment();
         Bundle args = bundle;
         if(args == null){
             args = new Bundle();
         }
         memberHistoryFragment.setArguments(args);
-        FragmentTransaction ft = activity.getFragmentManager().beginTransaction();
-        android.app.Fragment prev = activity.getFragmentManager().findFragmentByTag(DIALOG_TAG);
-        if (prev != null) {
-            ft.remove(prev);
-        }
-        ft.addToBackStack(null);
-
-        memberHistoryFragment.show(ft, DIALOG_TAG);
         return memberHistoryFragment;
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.dialog_services_history,null);
+        @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.fragment_recycler_view,null);
         clientsView = view.findViewById(R.id.recycler_view);
         client_list_progress = view.findViewById(R.id.client_list_progress);
-        view.findViewById(R.id.backBtn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
+        otherServiceView = view.findViewById(R.id.other_option);
         isStart = false;
         return view;
     }
@@ -94,14 +80,14 @@ public class MemberHistoryDialogFragment extends DialogFragment implements Membe
         super.onViewCreated(view, savedInstanceState);
         baseEntityId = getArguments().getString(Constants.INTENT_KEY.BASE_ENTITY_ID);
         isGuestUser = getArguments().getBoolean(IS_GUEST_USER,false);
-        startVisitDate = getArguments().getLong(START_TIME,0);
         initializePresenter();
     }
 
     @Override
     public void initializePresenter() {
         presenter = new MemberHistoryPresenter(this);
-        presenter.fetchCurrentTimeLineHistoryData(baseEntityId,startVisitDate);
+        presenter.fetchCurrentTimeLineData(baseEntityId);
+
     }
 
     @Override
@@ -121,24 +107,16 @@ public class MemberHistoryDialogFragment extends DialogFragment implements Membe
 
     @Override
     public void updateAdapter() {
-
+        hideProgressBar();
         MemberHistoryAdapter adapter = new MemberHistoryAdapter(getActivity(),onClickAdapter);
         adapter.setData(presenter.getMemberHistory());
         this.clientsView.setAdapter(adapter);
     }
-    @Override
-    public void onStart()
-    {
-        super.onStart();
-        Dialog dialog = getDialog();
-        if (dialog != null)
-        {
-            int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int height = ViewGroup.LayoutParams.MATCH_PARENT;
-            dialog.getWindow().setLayout(width, height);
-        }
-    }
 
+    @Override
+    public void updateANCTitle() {
+        hideProgressBar();
+    }
 
     @Override
     public MemberHistoryContract.Presenter getPresenter() {
@@ -191,12 +169,6 @@ public class MemberHistoryDialogFragment extends DialogFragment implements Membe
         }
 
     }
-
-    @Override
-    public void updateANCTitle() {
-
-    }
-
     private void startFormActivity(MemberHistoryData content){
         showProgressBar();
         presenter.getVisitFormWithData(content);
@@ -219,9 +191,10 @@ public class MemberHistoryDialogFragment extends DialogFragment implements Membe
             e.printStackTrace();
         }
     }
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if(presenter!=null)
-//        presenter.fetchData(baseEntityId);
-//    }
+
+    @Override
+    public void onClick(View v) {
+
+    }
+
 }

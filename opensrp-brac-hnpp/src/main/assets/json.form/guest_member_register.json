@@ -171,7 +171,7 @@
         "edit_type": "name",
         "v_required": {
           "value": "true",
-          "err": "খানা প্রধানের নাম লিখুন"
+          "err": "নাম লিখুন"
         },
         "v_regex": {
           "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",

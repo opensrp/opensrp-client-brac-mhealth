@@ -4,6 +4,7 @@ import android.content.Context;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.smartregister.clientandeventmodel.Obs;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.contract.MemberHistoryContract;
@@ -140,12 +141,83 @@ public class MemberHistoryInteractor implements MemberHistoryContract.Interactor
         return historyDataArrayList;
 
     }
+    private ArrayList<MemberHistoryData> getHistoryAfterTimeLine(String baseEntityId, long timeline) {
 
+        ArrayList<MemberHistoryData> historyDataArrayList  = new ArrayList<>();
+        ArrayList<VisitLog> visitLogs = visitLogRepository.getCurrentANCTimeline(baseEntityId,timeline);
+        int count = FormApplicability.getANCCount(baseEntityId)+1;
+        int pncCount = FormApplicability.getPNCCount(baseEntityId)+1;
+        for(VisitLog visitLog : visitLogs){
+            MemberHistoryData historyData = new MemberHistoryData();
+            historyData.setBaseEntityId(baseEntityId);
+            historyData.setVisitId(visitLog.getVisitId());
+            String eventType = visitLog.getEventType();
+            historyData.setEventType(eventType);
+            if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT)){
+                count--;
+                historyData.setTitle(FormApplicability.getANCTitleForHistory(count));
+            }else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION)){
+                pncCount--;
+                historyData.setTitle(FormApplicability.getPNCTitleForHistory(pncCount));
+            }
+            else{
+                historyData.setTitle(HnppConstants.visitEventTypeMapping.get(eventType));
+            }
+
+            try{
+                historyData.setImageSource(HnppConstants.iconMapping.get(eventType));
+            }catch(NullPointerException e){
+
+            }
+
+            Event baseEvent = gson.fromJson(visitLog.getVisitJson(), Event.class);
+            List<Obs> obsList = baseEvent.getObs();
+            for(Obs obs:obsList){
+                String key = obs.getFormSubmissionField();
+                if(key.equalsIgnoreCase("schedule_date")){
+                    String sd = (String) obs.getValue();
+                    historyData.setScheduleDate(sd);
+                }
+                if(key.equalsIgnoreCase("service_taken_date")){
+                    String std = (String) obs.getValue();
+                    historyData.setServiceTakenDate(std);
+                }
+            }
+            historyData.setVisitDate(visitLog.getVisitDate());
+            historyDataArrayList.add(historyData);
+        }
+
+        return historyDataArrayList;
+
+    }
     @Override
     public void fetchAncData(Context context, String baseEntityId, MemberHistoryContract.InteractorCallBackANC callBack) {
         Runnable runnable = () -> {
             ArrayList<VisitHistory> visitLogs = visitLogRepository.getAncRegistrationCount(baseEntityId);
             appExecutors.mainThread().execute(() -> callBack.onUpdateAncList(visitLogs));
+        };
+        appExecutors.diskIO().execute(runnable);
+    }
+
+    @Override
+    public void fetchCurrentTimeLineData(Context context, String baseEntityId, MemberHistoryContract.InteractorCallBack callBack) {
+        Runnable runnable = () -> {
+            ArrayList<VisitHistory> visitLogs = visitLogRepository.getAncRegistrationCount(baseEntityId);
+            if(visitLogs.size()>0){
+                long startDate = visitLogs.get(0).getStartVisitDate();
+                ArrayList<MemberHistoryData> memberHistoryData = getHistoryAfterTimeLine(baseEntityId,startDate);
+                appExecutors.mainThread().execute(() -> callBack.onUpdateList(memberHistoryData));
+            }
+            appExecutors.mainThread().execute(() -> callBack.onUpdateList(new ArrayList<>()));
+        };
+        appExecutors.diskIO().execute(runnable);
+    }
+    public void fetchCurrentTimeLineHistoryData(Context context, String baseEntityId,long startDate, MemberHistoryContract.InteractorCallBack callBack) {
+        Runnable runnable = () -> {
+
+                ArrayList<MemberHistoryData> memberHistoryData = getHistoryAfterTimeLine(baseEntityId,startDate);
+                appExecutors.mainThread().execute(() -> callBack.onUpdateList(memberHistoryData));
+
         };
         appExecutors.diskIO().execute(runnable);
     }

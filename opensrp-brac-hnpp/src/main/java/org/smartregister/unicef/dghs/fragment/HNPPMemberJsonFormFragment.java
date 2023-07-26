@@ -121,6 +121,7 @@ public class HNPPMemberJsonFormFragment extends JsonWizardFormFragment {
                     MaterialEditText first_name_view = null;
                 MaterialEditText last_name_view = null;
                 MaterialEditText phone_number_view = null;
+                MaterialSpinner genderMaterialSpinner  =null;
                 Iterator<View> iterator = formdataviews.iterator();
 
                 // while loop
@@ -137,6 +138,11 @@ public class HNPPMemberJsonFormFragment extends JsonWizardFormFragment {
                             phone_number_view = ((MaterialEditText) field_view);
                         }
 
+                    }
+                    if(field_view instanceof MaterialSpinner) {
+                        if (((MaterialSpinner) field_view).getFloatingLabelText().toString().equalsIgnoreCase("লিঙ্গ")) {
+                            genderMaterialSpinner = (MaterialSpinner) field_view;
+                        }
                     }
                 }
 
@@ -178,6 +184,9 @@ public class HNPPMemberJsonFormFragment extends JsonWizardFormFragment {
 //                        if(!phone_no.equals("0")&& phone_number_view.getText().toString().equalsIgnoreCase(phone_no)){
 //                        phone_number_view.setText("");
 //                    }
+                }
+                if(position ==2){
+                    genderMaterialSpinner.setSelection(2);
                 }
 
             }

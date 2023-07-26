@@ -488,7 +488,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
             commonPersonObject.getColumnmaps().put("gender", gender);
             commonPersonObject.getColumnmaps().put("marital_status", maritalStatus);
         }
-        if(gender.equalsIgnoreCase("F") && maritalStatus.equalsIgnoreCase("Married") && FormApplicability.getNoOfBornChild(baseEntityId)){
+        if(gender.equalsIgnoreCase("F") && maritalStatus!=null && maritalStatus.equalsIgnoreCase("Married") && FormApplicability.getNoOfBornChild(baseEntityId)){
             addChildBtn.setVisibility(View.VISIBLE);
         }else{
             addChildBtn.setVisibility(View.GONE);
@@ -1209,6 +1209,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
             addChildBtn.setVisibility(View.GONE);
         }else{
             menu.findItem(R.id.action_pregnancy_out_come).setVisible(false);
+            addChildBtn.setVisibility(View.GONE);
         }
     }
     public void updateAncRegisterVisible(String eventType){

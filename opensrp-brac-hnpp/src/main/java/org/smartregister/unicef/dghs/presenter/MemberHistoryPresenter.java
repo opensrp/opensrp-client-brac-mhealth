@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.unicef.dghs.contract.MemberHistoryContract;
 import org.smartregister.unicef.dghs.contract.OtherServiceContract;
+import org.smartregister.unicef.dghs.fragment.MemberANCHistoryFragment;
 import org.smartregister.unicef.dghs.fragment.MemberHistoryDialogFragment;
 import org.smartregister.unicef.dghs.fragment.MemberHistoryFragment;
 import org.smartregister.unicef.dghs.fragment.MemberOtherServiceFragment;
@@ -39,6 +40,15 @@ public class MemberHistoryPresenter implements MemberHistoryContract.Presenter,M
         interactor.fetchData(getView().getContext(),baseEntityId,this);
     }
 
+    @Override
+    public void fetchCurrentTimeLineData(String baseEntityId) {
+        if(getView()!=null) getView().showProgressBar();
+        ((MemberHistoryInteractor)interactor).fetchCurrentTimeLineData(getView().getContext(), baseEntityId,this);
+    }
+    public void fetchCurrentTimeLineHistoryData(String baseEntityId, long startDate) {
+        if(getView()!=null) getView().showProgressBar();
+        ((MemberHistoryInteractor)interactor).fetchCurrentTimeLineHistoryData(getView().getContext(), baseEntityId,startDate,this);
+    }
     @Override
     public void getVisitFormWithData(MemberHistoryData content) {
         interactor.getVisitFormWithData(getView().getContext(),content,this);
@@ -105,7 +115,9 @@ public class MemberHistoryPresenter implements MemberHistoryContract.Presenter,M
     }
     @Override
     public MemberHistoryContract.View getView() {
-        return view instanceof MemberHistoryDialogFragment?(MemberHistoryDialogFragment)view: (MemberHistoryFragment) view;
+       if(view instanceof MemberHistoryDialogFragment) return (MemberHistoryDialogFragment)view;
+       if(view instanceof MemberANCHistoryFragment) return (MemberANCHistoryFragment) view;
+        return (MemberHistoryFragment) view;
     }
 
     @Override

@@ -30,7 +30,7 @@ public class HnppPncCloseDateIntent extends CoreChwPncCloseDateIntent {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        closeAncAfterEDD();
+       // closeAncAfterEDD();
         super.onHandleIntent(intent);
     }
     private void closeAncAfterEDD(){

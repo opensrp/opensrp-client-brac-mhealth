@@ -18,6 +18,7 @@ public class MemberDueViewHolder extends RecyclerView.ViewHolder {
     public ImageView statusImage,imageView;
     public CustomFontTextView textViewTitle;
     public CustomFontTextView textViewLastVisit;
+    public CustomFontTextView textViewScheduleDate;
     public LinearLayout nextArrowBtn;
 
     public MemberDueViewHolder(@NonNull View itemView) {
@@ -28,5 +29,6 @@ public class MemberDueViewHolder extends RecyclerView.ViewHolder {
         nextArrowBtn = itemView.findViewById(R.id.next_arrow_column);
         textViewTitle = itemView.findViewById(R.id.patient_name_age);
         textViewLastVisit = itemView.findViewById(R.id.last_visit);
+        textViewScheduleDate = itemView.findViewById(R.id.schedule_date_visit);
     }
 }

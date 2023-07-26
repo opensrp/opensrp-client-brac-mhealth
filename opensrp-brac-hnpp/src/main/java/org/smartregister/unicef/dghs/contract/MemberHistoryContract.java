@@ -28,6 +28,7 @@ public interface MemberHistoryContract {
     }
     interface PresenterANC{
         void fetchANCData(String baseEntityId);
+        void fetchCurrentTimeLineData(String baseEntityId);
     }
     interface InteractorCallBack{
         void onUpdateList(ArrayList<MemberHistoryData> list);
@@ -42,5 +43,6 @@ public interface MemberHistoryContract {
     }
     interface InteractorANC{
         void fetchAncData(Context context,String baseEntityId, MemberHistoryContract.InteractorCallBackANC callBack);
+        void fetchCurrentTimeLineData(Context context,String baseEntityId, MemberHistoryContract.InteractorCallBack callBack);
     }
 }

@@ -188,16 +188,17 @@ public class GlobalSearchActivity extends SecuredActivity implements View.OnClic
                     Toast.makeText(this,"Select division,district",Toast.LENGTH_LONG).show();
                     return;
                 }
-                if(TextUtils.isEmpty(phoneNo) && TextUtils.isEmpty(idNumber)){
-                    Toast.makeText(this,"Enter phone number or id",Toast.LENGTH_LONG).show();
-                    return;
-                }
-                if(TextUtils.isEmpty(getIdText())&& !TextUtils.isEmpty(idNumber)){
-                    Toast.makeText(this,"Enter Id Type",Toast.LENGTH_LONG).show();
-                    return;
-                }
+//                if(TextUtils.isEmpty(phoneNo) && TextUtils.isEmpty(idNumber)){
+//                    Toast.makeText(this,"Enter phone number or id",Toast.LENGTH_LONG).show();
+//                    return;
+//                }
+//                if(TextUtils.isEmpty(getIdText())&& !TextUtils.isEmpty(idNumber)){
+//                    Toast.makeText(this,"Enter Id Type",Toast.LENGTH_LONG).show();
+//                    return;
+//                }
                 GlobalSearchContentData searchContentData = new GlobalSearchContentData();
                 searchContentData.setId(getIdText()+"="+idNumber);
+                searchContentData.setShrId("");
                 if(!TextUtils.isEmpty(phoneNo))searchContentData.setPhoneNo(phoneNo);
                 searchContentData.setDivisionId(division.id+"");
                 searchContentData.setDistrictId(district.id+"");
