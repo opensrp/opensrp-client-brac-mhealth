@@ -1024,6 +1024,21 @@ public class FormParser {
             riskynBPSModel.baseEntityId = baseEntityId;
             HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
         }
+        if(details.containsKey("body_temp_fahrenheit") && !StringUtils.isEmpty(details.get("body_temp_fahrenheit"))) {
+
+            int dengerValue = Integer.parseInt(details.get("body_temp_fahrenheit"));
+            if(dengerValue>=100){
+                isAncHomeVisitRisk = true;
+                Log.v("RISK_ANC","dengerValue>>"+dengerValue);
+                RiskyModel riskynBPSModel = new RiskyModel();
+                riskynBPSModel.riskyValue =dengerValue+"";
+                riskynBPSModel.riskyKey = "body_temp_fahrenheit";
+                riskynBPSModel.eventType = eventType;
+                riskynBPSModel.baseEntityId = baseEntityId;
+                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
+            }
+
+        }
         if(isAncHomeVisitRisk) {
             HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EventType.PNC_HOME_VISIT);
         }else {

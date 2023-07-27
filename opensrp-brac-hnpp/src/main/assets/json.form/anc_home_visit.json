@@ -459,6 +459,23 @@
           "value": "1",
           "err": "1 এর বেশি হওয়া উচিত"
         }
+      },
+      {
+        "key": "ad_toaster_Fetal",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "ফিটাল ডিসট্রেস (Foetal Distress)। পর্যবেক্ষণে রাখুন",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_anc_relevance.yml"
+            }
+          }
+        }
       }
     ]
   },
@@ -529,7 +546,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "রক্তশূন্যতা ( Anaemia )",
+        "text": "রক্তশূন্যতা ( Anaemia )।পর্যবেক্ষণে রাখুন",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
@@ -546,7 +563,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "পলিসিথেমিয়া ( Polycythemia)",
+        "text": "পলিসিথেমিয়া ( Polycythemia) । পর্যবেক্ষণে রাখুন",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
@@ -626,7 +643,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "ডায়াবেটিস",
+        "text": "জেস্টেশনাল ডায়াবেটিস মেলাইটিস (Gestational Diabetes Mellitus)। পর্যবেক্ষণে রাখুন",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
@@ -684,6 +701,23 @@
         }
       },
       {
+        "key": "ad_toaster_Urine_Albumin",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "প্রোটিনুরিয়া (Proteinuria)। পর্যবেক্ষণে রাখুন",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_anc_relevance.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "Hb_tested_exam",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
@@ -720,6 +754,23 @@
           "step2:Hb_tested_exam": {
             "type": "string",
             "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "ad_toaster_Hb_tested",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": " হেপাটাইটিস বি পরীক্ষার ফলাফল পজিটিভ। পর্যবেক্ষণে রাখুন",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_anc_relevance.yml"
+            }
           }
         }
       },
@@ -764,6 +815,23 @@
         }
       },
       {
+        "key": "ad_toaster_chipilis_tested",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": " সিফিলিস পরীক্ষার ফলাফল পজিটিভ। পর্যবেক্ষণে রাখুন",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_anc_relevance.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "hiv_tested_exam",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
@@ -804,6 +872,23 @@
         }
       },
       {
+        "key": "ad_toaster_hiv_tested",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": " এইচ আই ভি পরীক্ষার ফলাফল পজিটিভ। পর্যবেক্ষণে রাখুন",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_anc_relevance.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "ultra_sound_exam",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
@@ -828,6 +913,9 @@
         "openmrs_data_type": "",
         "type": "check_box",
         "hint": "আল্ট্রাসাউন্ড স্ক্যান পরীক্ষার ফলাফল",
+        "exclusive":[
+          "Normal_USG"
+        ],
         "options":[
           {
             "key":"Normal_USG",
@@ -890,6 +978,23 @@
           "step2:ultra_sound_exam": {
             "type": "string",
             "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "ad_toaster_ultra_sound",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": " অস্বাভাবিক ইউএসজি। পর্যবেক্ষণে রাখুন",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_anc_relevance.yml"
+            }
           }
         }
       }
@@ -962,6 +1067,24 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        }
+
+      },
+      {
+        "key": "ad_toaster_Denger_Signs",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": " গর্ভকালীন বিপদচিহ্ন উপস্থিত। পর্যবেক্ষণে রাখুন",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_anc_relevance.yml"
+            }
+          }
         }
       },
       {

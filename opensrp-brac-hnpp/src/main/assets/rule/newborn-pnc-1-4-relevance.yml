@@ -1,7 +1,14 @@
 ---
-name: step1_weight_warning
+name: step1_weight_warning_less
 description: weight_warning relevance
 priority: 1
-condition: "step1_weight < 2500 || step1_weight > 4500"
+condition: "step1_weight < 2500"
+actions:
+  - "isRelevant = true"
+---
+name: step1_weight_warning_up
+description: weight_warning relevance
+priority: 1
+condition: "step1_weight > 4500"
 actions:
   - "isRelevant = true"

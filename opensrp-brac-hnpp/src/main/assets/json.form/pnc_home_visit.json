@@ -157,7 +157,22 @@
           "err": "Enter a valid Number"
         }
       },
-
+      {
+        "key": "ad_toaster_temparature",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": " জ্বর। পর্যবেক্ষণে রাখুন",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:body_temp_fahrenheit": {
+            "type": "numeric",
+            "ex": "greaterThanEqualTo(., \"100\")"
+          }
+        }
+      },
       {
         "key": "pnc_problem",
         "openmrs_entity_parent": "",
@@ -182,7 +197,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "Denger_Signs_During_PNC",
         "type": "check_box",
-        "label": "জটিলতা সমূহ নির্ধারণ করুন",
+        "label": "প্রসবোত্তর জটিলতা সমূহ নির্ধারণ করুন",
         "exclusive": ["none"],
         "options": [
           {

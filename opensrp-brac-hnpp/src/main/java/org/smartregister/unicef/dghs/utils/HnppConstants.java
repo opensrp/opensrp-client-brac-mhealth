@@ -1825,6 +1825,7 @@ public class HnppConstants extends CoreConstants {
             .put("chipilis_tested_result","সিফিলিস")
             .put("hiv_tested_result","এইচ আই ভি")
             .put("ultra_sound_result","আল্ট্রাসাউন্ড স্ক্যান")
+            .put("body_temp_fahrenheit","শরীরের তাপমাত্রা")
             .build();
     public static final Map<String,String> immunizationMapping = ImmutableMap.<String,String> builder()
             .put("PENTA 1","পেন্টা-১")

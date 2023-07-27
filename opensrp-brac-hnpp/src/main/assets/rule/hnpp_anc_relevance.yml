@@ -30,7 +30,7 @@ actions:
 name: step1_ad_toaster_fetal
 description: fetal
 priority: 3
-condition: "!step1_Fetal_position.isEmpty() && !step1_Fetal_position.equals('Cephalic')"
+condition: "step1_Fetal_position.equals('Transverse lie')||step1_Fetal_position.equals('Breech') || step1_Fetal_position.equals('Other')"
 actions:
   - "isRelevant = true"
 ---
@@ -52,6 +52,62 @@ name: step1_other_anc_no_1
 description: q3-q2grater1
 priority: 3
 condition: "(step1_number_of_anc - step1_brac_anc)>1"
+actions:
+  - "isRelevant = true"
+---
+name: step1_ad_toaster_Fetal
+description: q3-q2grater1
+priority: 3
+condition: "step1_Fetal_Heart_Rate<100 || step1_Fetal_Heart_Rate>=180"
+actions:
+  - "isRelevant = true"
+---
+name: step2_ad_toaster_Urine_Albumin
+description: q3-q2grater1
+priority: 3
+condition: "step2_Urine_Albumin_result.equals('১+') || step2_Urine_Albumin_result.equals('২+') || step2_Urine_Albumin_result.equals('৩+') || step2_Urine_Albumin_result.equals('৪+')"
+actions:
+  - "isRelevant = true"
+---
+name: step2_ad_toaster_Hb_tested
+description: q3-q2grater1
+priority: 3
+condition: "step2_Hb_tested_result.equals('পজিটিভ')"
+actions:
+  - "isRelevant = true"
+---
+name: step2_ad_toaster_chipilis_tested
+description: q3-q2grater1
+priority: 3
+condition: "step2_chipilis_tested_result.equals('পজিটিভ')"
+actions:
+  - "isRelevant = true"
+---
+name: step2_ad_toaster_chipilis_tested
+description: q3-q2grater1
+priority: 3
+condition: "step2_chipilis_tested_result.equals('পজিটিভ')"
+actions:
+  - "isRelevant = true"
+---
+name: step2_ad_toaster_hiv_tested
+description: q3-q2grater1
+priority: 3
+condition: "step2_hiv_tested_result.equals('পজিটিভ')"
+actions:
+  - "isRelevant = true"
+---
+name: step2_ad_toaster_ultra_sound
+description: q3-q2grater1
+priority: 3
+condition: "step2_ultra_sound_result.contains('No_Fetal_heart_rate')||step2_ultra_sound_result.contains('Intrauterine_growth_retardation') ||step2_ultra_sound_result.contains('Oligohydromnios_less_water')||step2_ultra_sound_result.contains('Congenital_anamoly')||step2_ultra_sound_result.contains('Abnormal_lie')||step2_ultra_sound_result.contains('Multiple_pregnancy')"
+actions:
+  - "isRelevant = true"
+---
+name: step3_ad_toaster_Denger_Signs
+description: q3-q2grater1
+priority: 3
+condition: "step3_Denger_Signs_During_Pregnancy.contains('Bleeding_Through_Birth_Canal')||step3_Denger_Signs_During_Pregnancy.contains('Weakness_Blurred_vision')||step3_Denger_Signs_During_Pregnancy.contains('high_blood_pressure')||step3_Denger_Signs_During_Pregnancy.contains('Convulsion')||step3_Denger_Signs_During_Pregnancy.contains('High_Temperature_102_Degree_or_More')"
 actions:
   - "isRelevant = true"
 ---
