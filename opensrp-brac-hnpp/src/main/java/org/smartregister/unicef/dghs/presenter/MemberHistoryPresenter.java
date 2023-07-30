@@ -45,9 +45,9 @@ public class MemberHistoryPresenter implements MemberHistoryContract.Presenter,M
         if(getView()!=null) getView().showProgressBar();
         ((MemberHistoryInteractor)interactor).fetchCurrentTimeLineData(getView().getContext(), baseEntityId,this);
     }
-    public void fetchCurrentTimeLineHistoryData(String baseEntityId, long startDate) {
+    public void fetchCurrentTimeLineHistoryData(String baseEntityId, long startDate, long endDate) {
         if(getView()!=null) getView().showProgressBar();
-        ((MemberHistoryInteractor)interactor).fetchCurrentTimeLineHistoryData(getView().getContext(), baseEntityId,startDate,this);
+        ((MemberHistoryInteractor)interactor).fetchCurrentTimeLineHistoryData(getView().getContext(), baseEntityId,startDate,endDate,this);
     }
     @Override
     public void getVisitFormWithData(MemberHistoryData content) {

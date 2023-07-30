@@ -141,10 +141,10 @@ public class MemberHistoryInteractor implements MemberHistoryContract.Interactor
         return historyDataArrayList;
 
     }
-    private ArrayList<MemberHistoryData> getHistoryAfterTimeLine(String baseEntityId, long timeline) {
+    private ArrayList<MemberHistoryData> getHistoryAfterTimeLine(String baseEntityId, long timeline, long endDate) {
 
         ArrayList<MemberHistoryData> historyDataArrayList  = new ArrayList<>();
-        ArrayList<VisitLog> visitLogs = visitLogRepository.getCurrentANCTimeline(baseEntityId,timeline);
+        ArrayList<VisitLog> visitLogs = endDate>0?visitLogRepository.getCurrentANCTimeline(baseEntityId,timeline,endDate):visitLogRepository.getCurrentANCTimeline(baseEntityId,timeline);
         int count = FormApplicability.getANCCount(baseEntityId)+1;
         int pncCount = FormApplicability.getPNCCount(baseEntityId)+1;
         for(VisitLog visitLog : visitLogs){
@@ -205,17 +205,19 @@ public class MemberHistoryInteractor implements MemberHistoryContract.Interactor
             ArrayList<VisitHistory> visitLogs = visitLogRepository.getAncRegistrationCount(baseEntityId);
             if(visitLogs.size()>0){
                 long startDate = visitLogs.get(0).getStartVisitDate();
-                ArrayList<MemberHistoryData> memberHistoryData = getHistoryAfterTimeLine(baseEntityId,startDate);
+                ArrayList<MemberHistoryData> memberHistoryData = getHistoryAfterTimeLine(baseEntityId,startDate,0);
                 appExecutors.mainThread().execute(() -> callBack.onUpdateList(memberHistoryData));
+            }else{
+                appExecutors.mainThread().execute(() -> callBack.onUpdateList(new ArrayList<>()));
             }
-            appExecutors.mainThread().execute(() -> callBack.onUpdateList(new ArrayList<>()));
+
         };
         appExecutors.diskIO().execute(runnable);
     }
-    public void fetchCurrentTimeLineHistoryData(Context context, String baseEntityId,long startDate, MemberHistoryContract.InteractorCallBack callBack) {
+    public void fetchCurrentTimeLineHistoryData(Context context, String baseEntityId,long startDate, long endDate, MemberHistoryContract.InteractorCallBack callBack) {
         Runnable runnable = () -> {
 
-                ArrayList<MemberHistoryData> memberHistoryData = getHistoryAfterTimeLine(baseEntityId,startDate);
+                ArrayList<MemberHistoryData> memberHistoryData =getHistoryAfterTimeLine(baseEntityId,startDate,endDate);
                 appExecutors.mainThread().execute(() -> callBack.onUpdateList(memberHistoryData));
 
         };

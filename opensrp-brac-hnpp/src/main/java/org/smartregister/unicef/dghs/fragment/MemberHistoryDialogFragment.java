@@ -46,12 +46,12 @@ public class MemberHistoryDialogFragment extends DialogFragment implements Membe
     private boolean isStart = true;
     private boolean isGuestUser = false;
     private ProgressBar client_list_progress;
-    long startVisitDate;
+    long startVisitDate,endVisitDate;
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser && !isStart){
-            presenter.fetchCurrentTimeLineHistoryData(baseEntityId,startVisitDate);
+            presenter.fetchCurrentTimeLineHistoryData(baseEntityId,startVisitDate,endVisitDate);
         }
     }
 
@@ -95,13 +95,14 @@ public class MemberHistoryDialogFragment extends DialogFragment implements Membe
         baseEntityId = getArguments().getString(Constants.INTENT_KEY.BASE_ENTITY_ID);
         isGuestUser = getArguments().getBoolean(IS_GUEST_USER,false);
         startVisitDate = getArguments().getLong(START_TIME,0);
+        endVisitDate = getArguments().getLong(END_TIME,0);
         initializePresenter();
     }
 
     @Override
     public void initializePresenter() {
         presenter = new MemberHistoryPresenter(this);
-        presenter.fetchCurrentTimeLineHistoryData(baseEntityId,startVisitDate);
+        presenter.fetchCurrentTimeLineHistoryData(baseEntityId,startVisitDate,endVisitDate);
     }
 
     @Override

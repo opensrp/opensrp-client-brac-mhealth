@@ -1,14 +1,15 @@
 package org.smartregister.unicef.dghs.utils;
 
 public class VisitHistory {
-    public String visitId;
-    public String visitType;
-    public String baseEntityId;
-    public String lmpDate;
-    public String eddDate;
-    public long startVisitDate;//LMPDATE
-    public long endVisitDate;
-    public String title;
+    private String visitId;
+    private String visitType;
+    private String baseEntityId;
+    private String lmpDate;
+    private String eddDate;
+    private long startVisitDate;//LMPDATE
+    private long endVisitDate;
+    private long eddDateLong;
+    private String title;
 
     public String getVisitId() {
         return visitId;
@@ -72,5 +73,13 @@ public class VisitHistory {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public void setEddDateLong(long eddDateLong) {
+        this.eddDateLong = eddDateLong;
+    }
+
+    public long getEddDateLong() {
+        return eddDateLong;
     }
 }
