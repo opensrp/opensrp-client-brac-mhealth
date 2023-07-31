@@ -1106,6 +1106,9 @@ public class HnppConstants extends CoreConstants {
         public static final String BF_2_5 = "Bf 2.5";
         public static final String BF_3 = "Bf 3";
 
+        public static final String GLUCOMETER_STRIP = "Glucometer Strip";
+        public static final String READING_GLASS = "reading glass";
+
         //service
         public static final String ANC_SERVICE = "ANC Service";
         public static final String PNC_SERVICE = "PNC Service";
@@ -1673,6 +1676,9 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.BF_2, "BF- 2.00")
             .put(EVENT_TYPE.BF_2_5, "BF- 2.50")
             .put(EVENT_TYPE.BF_3, "BF- 3.00")
+            .put(EVENT_TYPE.GLUCOMETER_STRIP, EVENT_TYPE.GLUCOMETER_STRIP)
+            .put(EVENT_TYPE.READING_GLASS, "Reading glass")
+
 
             .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু কাউন্সেলিং")
             .put("familyplanning_method_known", "পরিবার পরিকল্পনা পদ্ধতি ব্যবহারকারী")
