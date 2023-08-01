@@ -1820,6 +1820,7 @@ public class HnppConstants extends CoreConstants {
             .put("Fetal_Heart_Rate","ভ্রূণের হার্টবিট রেট")
             .put("Hemoglobin_result","হিমোগ্লোবিন")
             .put("fbs_result","ফাস্টিং")
+            .put("rbs_result","রেন্ডম")
             .put("Urine_Albumin_result","প্রস্রাবের অ্যালবুমিন")
             .put("Hb_tested_result","হেপাটাইটিস বি")
             .put("chipilis_tested_result","সিফিলিস")

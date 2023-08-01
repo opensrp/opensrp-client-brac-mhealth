@@ -14,6 +14,15 @@ public class MemberHistoryData {
     public String visitId;
     private String serviceTakenDate;
     private String scheduleDate;
+    private String eddDate;
+
+    public void setEddDate(String eddDate) {
+        this.eddDate = eddDate;
+    }
+
+    public String getEddDate() {
+        return eddDate;
+    }
 
     public void setScheduleDate(String scheduleDate) {
         this.scheduleDate = scheduleDate;

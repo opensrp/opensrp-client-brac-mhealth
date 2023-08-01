@@ -12,11 +12,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.smartregister.chw.core.R;
+import org.smartregister.unicef.dghs.fragment.AddMemberFragment;
 import org.smartregister.unicef.dghs.listener.OnClickFloatingMenu;
 
 public class FamilyFloatingMenu extends LinearLayout implements View.OnClickListener {
     private RelativeLayout activityMain;
-    private FloatingActionButton fab;
+    public FloatingActionButton fab;
     private LinearLayout menuBar;
     private Animation fabOpen, fabClose, rotateForward, rotateBack;
     private boolean isFabMenuOpen = false;
@@ -57,37 +58,39 @@ public class FamilyFloatingMenu extends LinearLayout implements View.OnClickList
     }
 
     public void animateFAB() {
-        if (menuBar.getVisibility() == GONE) {
-            menuBar.setVisibility(VISIBLE);
-        }
 
-        if (isFabMenuOpen) {
-            activityMain.setBackgroundResource(R.color.transparent);
 
-            fab.startAnimation(rotateBack);
-            fab.setImageResource(R.drawable.ic_edit_white);
-
-            callLayout.startAnimation(fabClose);
-            addNewMember.startAnimation(fabClose);
-
-            callLayout.setClickable(false);
-            addNewMember.setClickable(false);
-            isFabMenuOpen = false;
-
-        } else {
-            activityMain.setBackgroundResource(R.color.grey_tranparent_50);
-
-            fab.startAnimation(rotateForward);
-            fab.setImageResource(R.drawable.ic_input_add);
-
-            callLayout.startAnimation(fabOpen);
-            addNewMember.startAnimation(fabOpen);
-
-            callLayout.setClickable(true);
-            addNewMember.setClickable(true);
-
-            isFabMenuOpen = true;
-        }
+//        if (menuBar.getVisibility() == GONE) {
+//            menuBar.setVisibility(VISIBLE);
+//        }
+//
+//        if (isFabMenuOpen) {
+//            activityMain.setBackgroundResource(R.color.transparent);
+//
+//            fab.startAnimation(rotateBack);
+//            fab.setImageResource(R.drawable.ic_edit_white);
+//
+//            callLayout.startAnimation(fabClose);
+//            addNewMember.startAnimation(fabClose);
+//
+//            callLayout.setClickable(false);
+//            addNewMember.setClickable(false);
+//            isFabMenuOpen = false;
+//
+//        } else {
+//            activityMain.setBackgroundResource(R.color.grey_tranparent_50);
+//
+//            fab.startAnimation(rotateForward);
+//            fab.setImageResource(R.drawable.ic_input_add);
+//
+//            callLayout.startAnimation(fabOpen);
+//            addNewMember.startAnimation(fabOpen);
+//
+//            callLayout.setClickable(true);
+//            addNewMember.setClickable(true);
+//
+//            isFabMenuOpen = true;
+//        }
     }
 
     public FamilyFloatingMenu(Context context, AttributeSet attrs) {
@@ -121,7 +124,6 @@ public class FamilyFloatingMenu extends LinearLayout implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        onClickFloatingMenu.onClickMenu(v.getId());
-        animateFAB();
+
     }
 }

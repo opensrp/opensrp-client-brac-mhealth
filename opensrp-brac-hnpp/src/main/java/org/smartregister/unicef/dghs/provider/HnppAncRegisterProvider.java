@@ -2,6 +2,7 @@ package org.smartregister.unicef.dghs.provider;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -16,6 +17,8 @@ import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 import org.joda.time.Years;
 import org.smartregister.unicef.dghs.HnppApplication;
+import org.smartregister.unicef.dghs.activity.HnppFamilyOtherMemberProfileActivity;
+import org.smartregister.unicef.dghs.activity.RiskyDataDisplayActivity;
 import org.smartregister.unicef.dghs.task.UpdateAncLastServiceInfoTask;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.HnppDBUtils;
@@ -125,7 +128,10 @@ public class HnppAncRegisterProvider extends ChwAncRegisterProvider {
         viewHolder.riskView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openRiskFactorDialog(baseEntityId);
+                Intent intent = new Intent(context, RiskyDataDisplayActivity.class);
+                intent.putExtra(RiskyDataDisplayActivity.BASE_ENTITY_ID,baseEntityId);
+                context.startActivity(intent);
+                //openRiskFactorDialog(baseEntityId);
             }
         });
     }

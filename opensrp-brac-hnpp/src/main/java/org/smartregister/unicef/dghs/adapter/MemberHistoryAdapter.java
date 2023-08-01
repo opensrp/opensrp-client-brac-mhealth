@@ -68,6 +68,14 @@ public class MemberHistoryAdapter extends RecyclerView.Adapter<MemberDueViewHold
         if(!TextUtils.isEmpty(content.getServiceTakenDate())){
             viewHolder.textViewLastVisit.setText("সেবা গ্রহণের তারিখ:"+content.getServiceTakenDate());
         }
+        if(content.getEventType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME)){
+            if(!TextUtils.isEmpty(content.getEddDate())){
+                viewHolder.textViewScheduleDate.setVisibility(View.VISIBLE);
+                viewHolder.textViewScheduleDate.setText("ই ডি ডি: "+content.getEddDate());
+
+            }
+        }
+
         if(content.isDelay()){
             viewHolder.statusImage.setVisibility(View.VISIBLE);
             viewHolder.statusImage.setImageResource(R.color.alert_urgent_red);

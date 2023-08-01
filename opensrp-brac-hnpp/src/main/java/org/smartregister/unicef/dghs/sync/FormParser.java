@@ -169,11 +169,11 @@ public class FormParser {
                         }
                         if(CoreConstants.EventType.ANC_HOME_VISIT.equalsIgnoreCase(encounter_type)){
 
-                            updateAncHomeVisitRisk(encounter_type,base_entity_id,details);
+                            updateAncHomeVisitRisk(encounter_type,base_entity_id,details,log.visitDate);
                         }
                         if(CoreConstants.EventType.PNC_HOME_VISIT.equalsIgnoreCase(encounter_type)){
 
-                            updatePNCHomeVisitRisk(encounter_type,base_entity_id,details);
+                            updatePNCHomeVisitRisk(encounter_type,base_entity_id,details,log.visitDate);
                         }
                         if(ANC_REGISTRATION.equalsIgnoreCase(encounter_type)){
                             FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",0+"");
@@ -1011,17 +1011,20 @@ public class FormParser {
 
         }
     }
-    private static void updatePNCHomeVisitRisk(String eventType , String baseEntityId,HashMap<String,String>details) {
+    private static void updatePNCHomeVisitRisk(String eventType , String baseEntityId,HashMap<String,String>details, long visitDate) {
         boolean isAncHomeVisitRisk = false;
         if(details.containsKey("Denger_Signs_During_PNC") && !StringUtils.isEmpty(details.get("Denger_Signs_During_PNC"))) {
             isAncHomeVisitRisk = true;
             String dengerValue = details.get("Denger_Signs_During_PNC");
+            String pncCount = details.get("pnc_count");
             Log.v("RISK_ANC","dengerValue>>"+dengerValue);
             RiskyModel riskynBPSModel = new RiskyModel();
             riskynBPSModel.riskyValue = "yes";
             riskynBPSModel.riskyKey = dengerValue;
             riskynBPSModel.eventType = eventType;
             riskynBPSModel.baseEntityId = baseEntityId;
+            riskynBPSModel.visitDate = visitDate;
+            riskynBPSModel.ancCount = Integer.parseInt(pncCount+"");
             HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
         }
         if(details.containsKey("body_temp_fahrenheit") && !StringUtils.isEmpty(details.get("body_temp_fahrenheit"))) {
@@ -1030,11 +1033,14 @@ public class FormParser {
             if(dengerValue>=100){
                 isAncHomeVisitRisk = true;
                 Log.v("RISK_ANC","dengerValue>>"+dengerValue);
+                String pncCount = details.get("pnc_count");
                 RiskyModel riskynBPSModel = new RiskyModel();
                 riskynBPSModel.riskyValue =dengerValue+"";
                 riskynBPSModel.riskyKey = "body_temp_fahrenheit";
                 riskynBPSModel.eventType = eventType;
                 riskynBPSModel.baseEntityId = baseEntityId;
+                riskynBPSModel.visitDate = visitDate;
+                riskynBPSModel.ancCount = Integer.parseInt(pncCount+"");
                 HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
             }
 
@@ -1045,7 +1051,7 @@ public class FormParser {
             HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"false",HnppConstants.EventType.PNC_HOME_VISIT);
         }
     }
-    private static void updateAncHomeVisitRisk(String eventType , String baseEntityId,HashMap<String,String>details){
+    private static void updateAncHomeVisitRisk(String eventType , String baseEntityId,HashMap<String,String>details, long visitDate){
         boolean isAncHomeVisitRisk = false;
         if(details.containsKey("blood_group") && !StringUtils.isEmpty(details.get("blood_group"))){
             String bloodGroup = details.get("blood_group");
@@ -1055,12 +1061,15 @@ public class FormParser {
         if(details.containsKey("Denger_Signs_During_Pregnancy") && !StringUtils.isEmpty(details.get("Denger_Signs_During_Pregnancy"))) {
             String dengerValue = details.get("Denger_Signs_During_Pregnancy");
             if(!dengerValue.equalsIgnoreCase("No_Denger_Sign")){
+                String ancCount = details.get("anc_count");
                 isAncHomeVisitRisk = true;
                 RiskyModel riskynBPSModel = new RiskyModel();
                 riskynBPSModel.riskyValue = "yes";
                 riskynBPSModel.riskyKey = dengerValue;
                 riskynBPSModel.eventType = eventType;
                 riskynBPSModel.baseEntityId = baseEntityId;
+                riskynBPSModel.visitDate = visitDate;
+                riskynBPSModel.ancCount = Integer.parseInt(ancCount+"");
                 HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
             }
 
@@ -1071,12 +1080,15 @@ public class FormParser {
             if(!TextUtils.isEmpty(fhr)){
                 int iFHR = Integer.parseInt(fhr);
                 if(iFHR<100 || iFHR>=180){
+                    String ancCount = details.get("anc_count");
                     isAncHomeVisitRisk = true;
                     RiskyModel riskynBPSModel = new RiskyModel();
                     riskynBPSModel.riskyValue = iFHR+"";
                     riskynBPSModel.riskyKey = "Fetal_Heart_Rate";
                     riskynBPSModel.eventType = eventType;
                     riskynBPSModel.baseEntityId = baseEntityId;
+                    riskynBPSModel.visitDate = visitDate;
+                    riskynBPSModel.ancCount = Integer.parseInt(ancCount+"");
                     HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
                 }
             }
@@ -1088,11 +1100,14 @@ public class FormParser {
                 int iFHR = Integer.parseInt(fhr);
                 if(iFHR<10 || iFHR>=15.5){
                     isAncHomeVisitRisk = true;
+                    String ancCount = details.get("anc_count");
                     RiskyModel riskynBPSModel = new RiskyModel();
                     riskynBPSModel.riskyValue = iFHR+"";
                     riskynBPSModel.riskyKey = "Hemoglobin_result";
                     riskynBPSModel.eventType = eventType;
                     riskynBPSModel.baseEntityId = baseEntityId;
+                    riskynBPSModel.visitDate = visitDate;
+                    riskynBPSModel.ancCount = Integer.parseInt(ancCount+"");
                     HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
                 }
             }
@@ -1104,11 +1119,14 @@ public class FormParser {
                 int iFHR = Integer.parseInt(fhr);
                 if(iFHR>=7){
                     isAncHomeVisitRisk = true;
+                    String ancCount = details.get("anc_count");
                     RiskyModel riskynBPSModel = new RiskyModel();
                     riskynBPSModel.riskyValue = iFHR+"";
                     riskynBPSModel.riskyKey = "fbs_result";
                     riskynBPSModel.eventType = eventType;
                     riskynBPSModel.baseEntityId = baseEntityId;
+                    riskynBPSModel.visitDate = visitDate;
+                    riskynBPSModel.ancCount = Integer.parseInt(ancCount+"");
                     HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
                 }
             }
@@ -1120,11 +1138,14 @@ public class FormParser {
                 int iFHR = Integer.parseInt(fhr);
                 if(iFHR>=11.1){
                     isAncHomeVisitRisk = true;
+                    String ancCount = details.get("anc_count");
                     RiskyModel riskynBPSModel = new RiskyModel();
                     riskynBPSModel.riskyValue = iFHR+"";
                     riskynBPSModel.riskyKey = "rbs_result";
                     riskynBPSModel.eventType = eventType;
                     riskynBPSModel.baseEntityId = baseEntityId;
+                    riskynBPSModel.visitDate = visitDate;
+                    riskynBPSModel.ancCount = Integer.parseInt(ancCount+"");
                     HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
                 }
             }
@@ -1134,11 +1155,14 @@ public class FormParser {
             Log.v("ANC_RISK","Urine_Albumin_result>>"+fhr);
             if(!TextUtils.isEmpty(fhr) && !fhr.equalsIgnoreCase("Normal")){
                     isAncHomeVisitRisk = true;
+                String ancCount = details.get("anc_count");
                     RiskyModel riskynBPSModel = new RiskyModel();
                     riskynBPSModel.riskyValue = fhr+"";
                     riskynBPSModel.riskyKey = "Urine_Albumin_result";
                     riskynBPSModel.eventType = eventType;
                     riskynBPSModel.baseEntityId = baseEntityId;
+                riskynBPSModel.visitDate = visitDate;
+                riskynBPSModel.ancCount = Integer.parseInt(ancCount+"");
                     HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
 
             }
@@ -1148,11 +1172,14 @@ public class FormParser {
             Log.v("ANC_RISK","Hb_tested_result>>"+fhr);
             if(!TextUtils.isEmpty(fhr) && fhr.equalsIgnoreCase("positive")){
                 isAncHomeVisitRisk = true;
+                String ancCount = details.get("anc_count");
                 RiskyModel riskynBPSModel = new RiskyModel();
                 riskynBPSModel.riskyValue = fhr+"";
                 riskynBPSModel.riskyKey = "Hb_tested_result";
                 riskynBPSModel.eventType = eventType;
                 riskynBPSModel.baseEntityId = baseEntityId;
+                riskynBPSModel.visitDate = visitDate;
+                riskynBPSModel.ancCount = Integer.parseInt(ancCount+"");
                 HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
 
             }
@@ -1162,11 +1189,14 @@ public class FormParser {
             Log.v("ANC_RISK","chipilis_tested_result>>"+fhr);
             if(!TextUtils.isEmpty(fhr) && fhr.equalsIgnoreCase("positive")){
                 isAncHomeVisitRisk = true;
+                String ancCount = details.get("anc_count");
                 RiskyModel riskynBPSModel = new RiskyModel();
                 riskynBPSModel.riskyValue = fhr+"";
                 riskynBPSModel.riskyKey = "chipilis_tested_result";
                 riskynBPSModel.eventType = eventType;
                 riskynBPSModel.baseEntityId = baseEntityId;
+                riskynBPSModel.visitDate = visitDate;
+                riskynBPSModel.ancCount = Integer.parseInt(ancCount+"");
                 HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
 
             }
@@ -1176,11 +1206,14 @@ public class FormParser {
             Log.v("ANC_RISK","hiv_tested_result>>"+fhr);
             if(!TextUtils.isEmpty(fhr) && fhr.equalsIgnoreCase("positive")){
                 isAncHomeVisitRisk = true;
+                String ancCount = details.get("anc_count");
                 RiskyModel riskynBPSModel = new RiskyModel();
                 riskynBPSModel.riskyValue = fhr+"";
                 riskynBPSModel.riskyKey = "hiv_tested_result";
                 riskynBPSModel.eventType = eventType;
                 riskynBPSModel.baseEntityId = baseEntityId;
+                riskynBPSModel.visitDate = visitDate;
+                riskynBPSModel.ancCount = Integer.parseInt(ancCount+"");
                 HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
 
             }
@@ -1190,11 +1223,14 @@ public class FormParser {
             Log.v("ANC_RISK","ultra_sound_result>>"+fhr);
             if(!TextUtils.isEmpty(fhr) && !fhr.equalsIgnoreCase("Normal USG")){
                 isAncHomeVisitRisk = true;
+                String ancCount = details.get("anc_count");
                 RiskyModel riskynBPSModel = new RiskyModel();
                 riskynBPSModel.riskyValue = fhr+"";
                 riskynBPSModel.riskyKey = "ultra_sound_result";
                 riskynBPSModel.eventType = eventType;
                 riskynBPSModel.baseEntityId = baseEntityId;
+                riskynBPSModel.visitDate = visitDate;
+                riskynBPSModel.ancCount = Integer.parseInt(ancCount+"");
                 HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
 
             }

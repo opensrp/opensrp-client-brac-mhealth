@@ -209,6 +209,9 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "previous_history",
         "type": "check_box",
+        "label_text_style": "bold",
+        "text_color": "#3495bf",
+        "text_size": "25px",
         "label": "পূর্বের গর্ভের তথ্য",
         "exclusive": ["none"],
         "options": [
@@ -298,6 +301,9 @@
         "openmrs_entity_id": "previous_disease",
         "openmrs_data_type": "text",
         "type": "check_box",
+        "label_text_style": "bold",
+        "text_color": "#3495bf",
+        "text_size": "25px",
         "label": "পূর্বের চিকিৎসা ইতিহাস",
         "exclusive": ["none"],
         "options": [

@@ -182,7 +182,8 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
         findViewById(R.id.risk_view).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openRiskFactorDialog();
+                RiskyDataDisplayActivity.startInvalidActivity(baseEntityId,HnppFamilyOtherMemberProfileActivity.this);
+                //openRiskFactorDialog();
             }
         });
     }
@@ -194,14 +195,14 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
             if(fs.length>0){
                 for (String key:fs) {
                     Log.v("RISK_FACTOR","key>>"+key+":value:"+riskyModel.riskyValue);
-                    builder.append(HnppConstants.riskeyFactorMapping.get(key));
+                    builder.append(HnppConstants.riskeyFactorMapping.get(key)==null?key:HnppConstants.riskeyFactorMapping.get(key));
                     builder.append(":");
                     builder.append(riskyModel.riskyValue);
                     builder.append("\n");
                 }
             }else{
                 Log.v("RISK_FACTOR","key>>"+riskyModel.riskyKey+":value:"+riskyModel.riskyValue);
-                builder.append(HnppConstants.riskeyFactorMapping.get(riskyModel.riskyKey));
+                builder.append(HnppConstants.riskeyFactorMapping.get(riskyModel.riskyKey)==null?riskyModel.riskyKey:HnppConstants.riskeyFactorMapping.get(riskyModel.riskyKey));
                 builder.append(":");
                 builder.append(riskyModel.riskyValue);
                 builder.append("\n");

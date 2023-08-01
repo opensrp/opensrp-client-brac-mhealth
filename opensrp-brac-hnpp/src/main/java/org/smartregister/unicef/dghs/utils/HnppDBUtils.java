@@ -1080,6 +1080,14 @@ public class HnppDBUtils {
             List<Map<String, String>> valus = AbstractDao.readData(lmp, new String[]{baseEntityId});
             return valus;
     }
+    public static String  getFamilyMobileNo(String baseEntityId){
+        String lmp = "SELECT phone_number FROM ec_family where base_entity_id = ? ";
+        List<Map<String, String>> valus = AbstractDao.readData(lmp, new String[]{baseEntityId});
+        if(valus.size()>0){
+            return valus.get(0).get("phone_number");
+        }
+        return "";
+    }
     public static String getVisitIdByFormSubmissionId(String formSubmissionId){
         String query = " select visit_id from visits where form_submission_id='"+formSubmissionId+"'";
         Cursor cursor = null;

@@ -34,13 +34,16 @@ public class RiskDetailsRepository extends BaseRepository {
     protected static final String EVENT_TYPE = "event_type";
     protected static final String RISKY_KEY = "risky_key";
     protected static final String RISKY_VALUE = "risky_value";
+    protected static final String CREATED_DATE = "created_date";
+    protected static final String VISIT_DATE = "visit_date";
+    protected static final String ANC_COUNT = "anc_count";
 
 
-    protected static final String[] COLUMNS = new String[]{ID, BASE_ENTITY_ID, EVENT_TYPE,RISKY_KEY};
+    protected static final String[] COLUMNS = new String[]{ID, BASE_ENTITY_ID, EVENT_TYPE,RISKY_KEY,CREATED_DATE};
 
     private static final String CREATE_LOCATION_TABLE =
             "CREATE TABLE " + RISKY_TABLE + " (" +
-                    ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                    ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +CREATED_DATE+" VARCHAR,"+VISIT_DATE+" VARCHAR,"+ANC_COUNT+" VARCHAR,"+
                     BASE_ENTITY_ID + " VARCHAR , " +EVENT_TYPE + " VARCHAR , " + RISKY_VALUE+ " VARCHAR NOT NULL,"+
                     RISKY_KEY + " VARCHAR NOT NULL ) ";
 
@@ -70,6 +73,9 @@ public class RiskDetailsRepository extends BaseRepository {
         contentValues.put(RISKY_KEY, riskyModel.riskyKey);
         contentValues.put(EVENT_TYPE, riskyModel.eventType);
         contentValues.put(RISKY_VALUE, riskyModel.riskyValue);
+        contentValues.put(CREATED_DATE, riskyModel.date);
+        contentValues.put(VISIT_DATE, riskyModel.visitDate);
+        contentValues.put(ANC_COUNT, riskyModel.ancCount);
         long inserted = getWritableDatabase().replace(getLocationTableName(), null, contentValues);
 
 
@@ -79,7 +85,7 @@ public class RiskDetailsRepository extends BaseRepository {
         Cursor cursor = null;
         ArrayList<RiskyModel> locations = new ArrayList<>();
         try {
-            cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getLocationTableName()+" where base_entity_id = '"+baseEntityId+"'", null);
+            cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getLocationTableName()+" where base_entity_id = '"+baseEntityId+"' order by "+VISIT_DATE+" desc", null);
 
             if(cursor !=null && cursor.getCount() >0) {
 
@@ -103,11 +109,15 @@ public class RiskDetailsRepository extends BaseRepository {
         String riskyKey = cursor.getString(cursor.getColumnIndex(RISKY_KEY));
         String eventType = cursor.getString(cursor.getColumnIndex(EVENT_TYPE));
         String baseEntityId = cursor.getString(cursor.getColumnIndex(BASE_ENTITY_ID));
+        String date = cursor.getString(cursor.getColumnIndex(CREATED_DATE));
         RiskyModel riskyModel = new RiskyModel();
         riskyModel.baseEntityId = baseEntityId;
         riskyModel.eventType = eventType;
         riskyModel.riskyKey = riskyKey;
         riskyModel.riskyValue = riskyValue;
+        riskyModel.date = date;
+        riskyModel.visitDate = Long.parseLong(cursor.getString(cursor.getColumnIndex(VISIT_DATE)));
+        riskyModel.ancCount = Integer.parseInt(cursor.getString(cursor.getColumnIndex(ANC_COUNT)));
         return riskyModel;
     }
 

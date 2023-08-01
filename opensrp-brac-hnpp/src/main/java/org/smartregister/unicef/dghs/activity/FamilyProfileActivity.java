@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -37,12 +38,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.chw.core.contract.FamilyProfileExtendedContract;
 import org.smartregister.chw.core.event.PermissionEvent;
+import org.smartregister.chw.core.fragment.FamilyCallDialogFragment;
 import org.smartregister.domain.FetchStatus;
 import org.smartregister.family.activity.BaseFamilyProfileActivity;
 import org.smartregister.family.fragment.BaseFamilyProfileMemberFragment;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.contract.MigrationContract;
 import org.smartregister.unicef.dghs.custom_view.FamilyFloatingMenu;
+import org.smartregister.unicef.dghs.fragment.AddMemberFragment;
 import org.smartregister.unicef.dghs.fragment.FamilyHistoryFragment;
 import org.smartregister.unicef.dghs.fragment.FamilyProfileDueFragment;
 import org.smartregister.unicef.dghs.interactor.MigrationInteractor;
@@ -286,6 +289,20 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
                 startFormForEdit();
             }
         });
+        findViewById(R.id.call_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String mobileNo = HnppDBUtils.getFamilyMobileNo(familyBaseEntityId);
+                if(!TextUtils.isEmpty(mobileNo)){
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse("tel:" + mobileNo));
+                    startActivity(intent);
+                }
+
+
+               // FamilyCallDialogFragment.launchDialog(FamilyProfileActivity.this, familyBaseEntityId);
+            }
+        });
     }
 
     @Override
@@ -309,6 +326,14 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
                         LinearLayout.LayoutParams.MATCH_PARENT);
         familyFloatingMenu.setGravity(Gravity.BOTTOM | Gravity.RIGHT);
         addContentView(familyFloatingMenu, linearLayoutParams);
+        familyFloatingMenu.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddMemberFragment addmemberFragment = AddMemberFragment.newInstance();
+                addmemberFragment.setContext(FamilyProfileActivity.this);
+                addmemberFragment.show(getFragmentManager(), AddMemberFragment.DIALOG_TAG);
+            }
+        });
         familyFloatingMenu.setClickListener(
                 FloatingMenuListener.getInstance(this, presenter().familyBaseEntityId())
         );

@@ -52,6 +52,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/customAppThemeBlue">
 
+
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/imageview_profile"
                     android:layout_width="55dp"
@@ -64,6 +65,15 @@
                     app:layout_constraintEnd_toEndOf="@+id/update_profile_btn"
                     app:layout_constraintStart_toStartOf="@+id/update_profile_btn"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/call_btn"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/circle_btn"
+                    android:padding="5dp"
+                    android:src="@drawable/floating_call"
+                    android:text="@string/call" />
 
                 <Button
                     android:id="@+id/update_profile_btn"
@@ -84,7 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginStart="10dp"
                     android:layout_toEndOf="@id/update_profile_btn"
                     android:text="Charity Otala"
                     android:textColor="@android:color/white"

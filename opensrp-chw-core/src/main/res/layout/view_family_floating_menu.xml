@@ -18,7 +18,7 @@
         android:tint="@android:color/white"
         app:backgroundTint="@color/text_black"
         app:fabSize="normal"
-        app:srcCompat="@drawable/ic_edit_white" />
+        app:srcCompat="@drawable/floating_addmember" />
 
     <LinearLayout
         android:id="@+id/menu_bar"

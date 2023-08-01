@@ -120,13 +120,6 @@
             "openmrs_entity_id": "chk_birth_id"
           },
           {
-            "key": "chk_epi_id",
-            "text": "ইপিআই কার্ড",
-            "value": false,
-            "openmrs_entity": "person_attribute",
-            "openmrs_entity_id": "chk_epi_id"
-          },
-          {
             "key": "chk_none",
             "text": "আইডি কার্ড নেই",
             "value": false,
@@ -191,38 +184,6 @@
               {
                 "or": [
                   "chk_birth_id"
-                ]
-              }
-            ]
-          }
-        }
-      },
-      {
-        "key": "epi_card_number",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "epicardnumber",
-        "openmrs_data_type": "text",
-        "type": "edit_text",
-        "hint": "ইপিআই কার্ড নম্বর",
-        "v_numeric": {
-          "value": "true",
-          "err": "Enter a valid EPI Card Number"
-        },
-        "v_required": {
-          "value": true,
-          "err": "Please Type EPI Card Number"
-        },
-        "v_regex": {
-          "value": "([0-9]{17})|\\s*",
-          "err": "মোট 17 সংখ্যা হওয়া আবশ্যক"
-        },
-        "relevance": {
-          "step1:id_avail": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "chk_epi_id"
                 ]
               }
             ]
