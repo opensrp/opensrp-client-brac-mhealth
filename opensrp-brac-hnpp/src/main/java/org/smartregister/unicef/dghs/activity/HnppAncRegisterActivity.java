@@ -172,7 +172,7 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
                 form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
             }
-            form.setWizard(false);
+            form.setWizard(true);
             Intent intent = new Intent(this, HnppAncJsonFormActivity.class);
             JSONObject stepOne = jsonForm.getJSONObject("step1");
             JSONArray jsonArray = stepOne.getJSONArray(JsonFormUtils.FIELDS);

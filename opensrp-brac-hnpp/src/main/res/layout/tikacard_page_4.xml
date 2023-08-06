@@ -450,7 +450,7 @@
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="50dp"
                 android:fontFamily="@font/tonnymj"
                 android:padding="10dp"
                 android:text="@string/sub_block_title"
@@ -521,9 +521,9 @@
                 android:textSize="15sp" />
         </LinearLayout>
         <TextView
-            android:text="আপনার এলাকায় জন্মের ২৮ দিনের মধ্যে কোন শিশুর মৃত্যু হলে অথবা হামে আক্রানত হলে (যে
-কোন বয়সে) অথবা ১৫ বছরের কম বয়সের কোন শিশুর এক বা একাধিক হাত অথবা পা হঠাৎ
-থলথলে, প্যারালাইসিস হলে সাথে সাথে নিকটস্থ স্বাস্থ্য কেন্দ্রে নিয় েযান অথবা মাঠকর্মীকে খবর দিন।"
+            android:text="আপনার এলাকায় জন্মের ২৮ দিনের মধ্যে কোন শিশুর মৃত্যু হলে অথবা হামে আক্রান্ত হলে (যে
+কোন বয়সে) অথবা ১৫ বছরের কম বয়সের যে কোন শিশুর এক বা একাধিক হাত অথবা পা হঠাৎ
+থলথলে, প্যারালাইসিস হলে সাথে সাথে নিকটস্থ স্বাস্থ্য কেন্দ্রে নিয়ে যান অথবা মাঠকর্মীকে খবর দিন।"
             android:layout_marginLeft="10dp"
             android:fontFamily="@font/tonnymj"
             android:padding="10dp"

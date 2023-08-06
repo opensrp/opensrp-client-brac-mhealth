@@ -195,11 +195,27 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
                 viewHolder.patientColumn.performClick();
             }
         });
+        viewHolder.primaryCaregiver.setVisibility(View.GONE);
+        viewHolder.nextArrow.setVisibility(View.GONE);
+        if(gender_key.equalsIgnoreCase("F")){
+            int age = FormApplicability.getAge(pc);
+            if (updateAsyncTask == null) {
+                new UpdateAsyncTask(viewHolder).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,baseEntityId,age+"");
+            }
+            if(FormApplicability.isElco(age) && !TextUtils.isEmpty(maritalStatus) && !maritalStatus.equalsIgnoreCase("Unmarried")){
+                viewHolder.primaryCaregiver.setVisibility(View.VISIBLE);
+                viewHolder.primaryCaregiver.setText(Html.fromHtml(this.context.getString(R.string.add_child)));
+            }
+
+
+        }
         if (StringUtils.isNotBlank(dod) || StringUtils.isNotBlank(dateRemoved)) {
             android.view.View patient = viewHolder.patientColumn;
             patient.setClickable(false);
             android.view.View nextArrow = viewHolder.nextArrow;
             nextArrow.setClickable(false);
+            viewHolder.primaryCaregiver.setVisibility(View.GONE);
+            viewHolder.nextArrow.setVisibility(View.GONE);
 
         }else{
             android.view.View patient = viewHolder.patientColumn;
@@ -209,20 +225,8 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
             android.view.View addChild = viewHolder.primaryCaregiver;
             attachAddChildOnclickListener(addChild, client);
         }
-        viewHolder.primaryCaregiver.setVisibility(View.GONE);
-        viewHolder.nextArrow.setVisibility(View.GONE);
-       if(gender_key.equalsIgnoreCase("F")){
-           int age = FormApplicability.getAge(pc);
-           if (updateAsyncTask == null) {
-               new UpdateAsyncTask(viewHolder).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,baseEntityId,age+"");
-           }
-           if(FormApplicability.isElco(age) && !TextUtils.isEmpty(maritalStatus) && !maritalStatus.equalsIgnoreCase("Unmarried")){
-               viewHolder.primaryCaregiver.setVisibility(View.VISIBLE);
-               viewHolder.primaryCaregiver.setText(Html.fromHtml(this.context.getString(R.string.add_child)));
-           }
 
 
-       }
 
 
     }

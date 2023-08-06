@@ -1326,6 +1326,16 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         providerIdObj.put("value",userName);
         return form;
     }
+    public static JSONObject readOnlyChildDOb(JSONObject form){
+        JSONArray field = fields(form, STEP1);
+        JSONObject dobObj = getFieldJSONObject(field, "dob");
+        try {
+            dobObj.put(JsonFormUtils.READ_ONLY, true);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return form;
+    }
     public static void updateProviderIdAtClient(JSONArray field,String familyBaseEntityId) throws Exception{
         BaseLocation blocks =HnppDBUtils.getBlocksHHID(familyBaseEntityId);
         Log.v("SS_NAME","ssName:"+blocks+":familyId:"+familyBaseEntityId);
@@ -1599,6 +1609,10 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 HALocation selectedLocation = HnppApplication.getHALocationRepository().getLocationByBlock(blockId);
                 HALocationHelper.getInstance().addGeolocationIds(selectedLocation,baseClient);
                 try{
+                    String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
+                    JSONObject providerIdObj = getFieldJSONObject(fields, "provider_id");
+                    providerIdObj.put("value",userName);
+
                     String motherEntityId = updateMotherName(fields,familyId);
                     Context context = HnppApplication.getInstance().getContext().applicationContext();
                     addRelationship(context, motherEntityId,familyId, baseClient);

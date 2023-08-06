@@ -98,7 +98,7 @@
                     android:layout_marginLeft="10dp"
                     android:fontFamily="@font/tonnymj"
                     android:padding="10dp"
-                    android:text="৬। হেপাটাইতিস-বি"
+                    android:text="৬। হেপাটাইটিস-বি"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -184,7 +184,7 @@
                 android:layout_height="wrap_content"/>
             <TextView
                 android:text="৩। বিসিজি টিকার নির্দিষ্ট ডোজটি জন্মের পর পরই দেয়া যায় । টিকা দেয়ার পর বিসিজি
-টিকার স্থানে (বাম বাহুতে) স্বাভাবিকভাবে ঘা হবে এতে ভযরে কিছু নাই ।"
+টিকার স্থানে (বাম বাহুতে) স্বাভাবিকভাবে ঘা হবে এতে ভয়ের কিছু নাই ।"
                 android:layout_width="match_parent"
                 android:textSize="15sp"
                 android:textColor="@color/black"
@@ -193,7 +193,7 @@
                 android:fontFamily="@font/tonnymj"
                 android:layout_height="wrap_content"/>
             <TextView
-                android:text="৪। শিশুকে আইপিভি টিকার দুই ডোজ টিকা; ১ম ডোজ ৬ সপ্তাহ/৪২ দিন হলে, হয়
+                android:text="৪। শিশুকে আইপিভি টিকার দুই ডোজ টিকা; ১ম ডোজ ৬ সপ্তাহ/৪২ দিন হলে, ২য়
 ডোজ ১৪ সপ্তাহ বয়সে দিতে হবে।"
                 android:layout_width="match_parent"
                 android:textSize="15sp"

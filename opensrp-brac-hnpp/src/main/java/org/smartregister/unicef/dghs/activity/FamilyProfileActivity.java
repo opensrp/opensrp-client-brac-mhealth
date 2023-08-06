@@ -450,7 +450,9 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
                                 form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
                             }
-                            form.setWizard(false);
+                            form.setHideSaveLabel(true);
+                            form.setSaveLabel("");
+                            form.setWizard(true);
                             intent.putExtra("form", form);
                             startActivityForResult(intent, 2244);
 //                        }catch (Exception e){

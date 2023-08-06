@@ -68,8 +68,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    //branch: hnpp_device_id
-    api('org.smartregister:opensrp-client-native-form:1.1.4-brac-SNAPSHOT') {
+    //branch: hnpp_device_id  org.smartregister:opensrp-client-native-form:1.1.4-brac
+    //branch: unicef_save_btn  org.smartregister:opensrp-client-native-form:1.1.4-unicef
+    api('org.smartregister:opensrp-client-native-form:1.1.4-unicef-SNAPSHOT') {
         transitive = true
         exclude group: 'com.android.support', module: 'appcompat-v7'
         exclude group: 'com.android.support', module: 'cardview-v7'

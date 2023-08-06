@@ -44,7 +44,7 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
        boolean  isNeedToShowSaveHeader = getArguments().getBoolean("saveButton");
-        menu.findItem(com.vijay.jsonwizard.R.id.action_save).setVisible(isNeedToShowSaveHeader);
+        menu.findItem(com.vijay.jsonwizard.R.id.action_save).setVisible(false);
 
     }
 

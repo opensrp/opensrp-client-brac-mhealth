@@ -60,7 +60,9 @@ import org.smartregister.view.activity.SecuredActivity;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class GlobalSearchDetailsActivity extends SecuredActivity implements View.OnClickListener, SearchDetailsContract.View {
@@ -216,8 +218,17 @@ public class GlobalSearchDetailsActivity extends SecuredActivity implements View
                     List<String> ids = new ArrayList<>();
                     ids.add(globalSearchContentData.getFamilyBaseEntityId());
                     ids.add(globalSearchContentData.getFamilyBaseEntityId());
-                    Log.v("FAMILY_IDS","FAMILY_IDS>>"+globalSearchContentData.getFamilyBaseEntityId());
                     baseClient.getRelationships().put("family",ids);
+                    String previousProviderId = baseClient.getAttribute("provider_id")+"";
+                    Log.v("GLOBAL_SEARCH","previousProviderId>>"+previousProviderId);
+                    if(!TextUtils.isEmpty(previousProviderId) && !previousProviderId.equalsIgnoreCase("null")){
+                        Map<String,String> identifiers =  baseClient.getIdentifiers();
+                        if(identifiers ==null) identifiers = new HashMap<>();
+                        identifiers.put("previous_provider", previousProviderId);
+                        identifiers.put("is_migrated", "true");
+                        baseClient.setIdentifiers(identifiers);
+                    }
+
                 }
                 JSONObject clientJson = new JSONObject(JsonFormUtils.gson.toJson(baseClient));
 

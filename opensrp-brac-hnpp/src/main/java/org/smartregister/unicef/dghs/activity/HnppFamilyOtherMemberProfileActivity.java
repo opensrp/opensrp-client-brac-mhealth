@@ -257,7 +257,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
             form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
         }
-        form.setWizard(false);
+        form.setWizard(true);
         intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
 
         startActivityForResult(intent, org.smartregister.family.util.JsonFormUtils.REQUEST_CODE_GET_JSON);
@@ -554,7 +554,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
         try {
             HnppConstants.appendLog("SAVE_VISIT","processJsonForm>>>formName:"+formName);
             Form form = new Form();
-            form.setWizard(false);
+            form.setWizard(true);
             JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
             HnppJsonFormUtils.addEDDField(formName,jsonForm,baseEntityId);
 //            try{
