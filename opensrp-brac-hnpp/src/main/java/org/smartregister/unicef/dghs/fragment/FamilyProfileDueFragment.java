@@ -145,7 +145,7 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment imple
             TextView name1 =  homeVisitView.findViewById(R.id.patient_name_age);
             homeVisitView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
             image1.setImageResource(R.drawable.childrow_family);
-            name1.setText("খানার প্রোফাইল আপডেট");
+            name1.setText(getActivity().getString(R.string.house_profile_update));
             homeVisitView.setTag(TAG_HOME_VISIT);
             homeVisitView.setOnClickListener(this);
 

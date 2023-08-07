@@ -1,0 +1,308 @@
+{
+  "count": "1",
+  "encounter_type": "Child profile visit",
+  "entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location": ""
+  },
+  "step1": {
+    "title": "খানা সদস্য জরিপ",
+    "fields": [
+      {
+        "key": "form_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "Child profile visit",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": "child_profile_visit"
+      },
+      {
+        "key": "dob",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden"
+      },
+      {
+        "key": "member_name_bengla",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "member_name_bengla",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "সম্পূর্ণ নাম (বাংলায়)",
+        "v_regex": {
+          "value": "[^A-Za-z0-9]*",
+          "err": "বাংলায় লিখুন"
+        },
+        "expanded": false,
+        "v_required": {
+          "value": false,
+          "err": "Please Enter a Valid Name"
+        }
+      },
+      {
+        "key": "mother_name_bangla",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "mother_name_bangla",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "মাতার নাম (বাংলায়)",
+        "edit_type": "name",
+        "v_regex": {
+          "value": "[^A-Za-z0-9]*",
+          "err": "বাংলায় লিখুন"
+        },
+        "v_required": {
+          "value": false,
+          "err": "Please enter the mother/guardian's first name"
+        }
+      },
+      {
+        "key": "father_name_bangla",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "father_name_bangla",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "পিতার নাম (বাংলায়)",
+        "edit_type": "name",
+        "v_regex": {
+          "value": "[^A-Za-z0-9]*",
+          "err": "বাংলায় লিখুন"
+        },
+        "v_required": {
+          "value": false,
+          "err": "Please enter the mother/guardian's first name"
+        }
+      },
+      {
+        "key": "ethnicity",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "ethnicity",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "জাতিসত্তা",
+        "values": [
+          "বাঙ্গালী",
+          "চাকমা",
+          "মারমা",
+          "ত্রিপুরা",
+          "সাঁওতাল",
+          "গারো",
+          "মণিপুরী",
+          "ওঁরাও",
+          "তঞ্চ্যঙ্গা",
+          "বর্ম্মন",
+          "খাসিয়া বা খাসি",
+          "ম্রো",
+          "মুন্ডা",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "বাঙ্গালী": "Bengali",
+          "চাকমা": "Chakma",
+          "মারমা": "Marma",
+          "ত্রিপুরা": "Tripura",
+          "সাঁওতাল": "Santal",
+          "গারো": "Garo",
+          "মণিপুরী": "Manipuri",
+          "ওঁরাও": "Onrao",
+          "তঞ্চ্যঙ্গা": "Tanchanga",
+          "বর্ম্মন": "Barman",
+          "খাসিয়া বা খাসি": "Khasia",
+          "ম্রো": "Mro",
+          "মুন্ডা": "Munda",
+          "অন্যান্য": "Others (Ethnicity)"
+        }
+      },
+      {
+        "key": "ethnicity_other",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "ethnicity_other",
+        "type": "edit_text",
+        "hint": "অন্যান্য জাতিসত্তা",
+        "relevance": {
+          "step1:ethnicity": {
+            "type": "string",
+            "ex": "equalTo(., \"অন্যান্য\")"
+          }
+        }
+      },
+      {
+        "key": "religion",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "religion",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "ধর্ম",
+        "values": [
+          "ইসলাম",
+          "হিন্দু",
+          "বৌদ্ধ",
+          "খ্রিস্টান",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "ইসলাম": "Islam",
+          "হিন্দু": "Hindu",
+          "বৌদ্ধ": "Buddhist",
+          "খ্রিস্টান": "Christian",
+          "অন্যান্য": "Others (Religion)"
+        }
+      },
+      {
+        "key": "religion_other",
+        "openmrs_entity_parent": "concept",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "religion_other",
+        "type": "edit_text",
+        "hint": "অন্যান্য ধর্ম(ইংরেজীতে)",
+        "relevance": {
+          "step1:religion": {
+            "type": "string",
+            "ex": "equalTo(., \"অন্যান্য\")"
+          }
+        }
+      },
+
+      {
+        "key": "illness_information",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "illness_information",
+        "openmrs_data_type": "text",
+        "type": "check_box",
+        "label": "রোগ  সম্পর্কিত পারিবারিক তথ্য",
+        "exclusive": [
+          "None"
+        ],
+        "options": [
+          {
+            "key": "Leprosy",
+            "text": "কুষ্ঠ",
+            "value": false,
+            "openmrs_entity_id": "Leprosy"
+          },
+          {
+            "key": "Tuberculosis",
+            "text": "যক্ষ্মা",
+            "value": false,
+            "openmrs_entity_id": "Tuberculosis"
+          },
+          {
+            "key": "Sexual Disease",
+            "text": "যৌন রোগ",
+            "value": false,
+            "openmrs_entity_id": "Sexual Disease"
+          },
+          {
+            "key": "Asthma",
+            "text": "হাঁপানি বা এ্যাজমা",
+            "value": false,
+            "openmrs_entity_id": "Asthma"
+          },
+          {
+            "key": "Diabetes",
+            "text": "ডায়াবেটিস",
+            "value": false,
+            "openmrs_entity_id": "Diabetes"
+          },
+          {
+            "key": "High Blood Pressure",
+            "text": "উচ্চ রক্তচাপ",
+            "value": false,
+            "openmrs_entity_id": "High Blood Pressure"
+          },
+          {
+            "key": "Disability",
+            "text": "প্রতিবন্ধিতা",
+            "value": false,
+            "openmrs_entity_id": "Disability"
+          },
+          {
+            "key": "Others (Family Disease)",
+            "text": "অন্যান্য রোগ",
+            "value": false,
+            "openmrs_entity_id": "Others (Family Disease)"
+          },
+          {
+            "key": "None",
+            "text": "নেই",
+            "value": false,
+            "openmrs_entity_id": "None"
+          }
+        ]
+      },
+      {
+        "key": "illness_other",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "illness_other",
+        "type": "edit_text",
+        "hint": "অন্যান্য রোগ  সম্পর্কিত পারিবারিক তথ্য",
+        "v_required": {
+          "value": true,
+          "err": "Please Type Other Conditions"
+        },
+        "relevance": {
+          "step1:illness_information": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "Others (Family Disease)"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

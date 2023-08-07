@@ -1,0 +1,195 @@
+{
+  "count": "1",
+  "encounter_type": "AEFI Child",
+  "entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location": ""
+  },
+  "step1": {
+    "title": "AEFI Child",
+    "fields": [
+
+      {
+        "key": "form_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "AEFI Child",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": "aefi_child"
+      },
+
+      {
+        "key": "relational_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "relational_id",
+        "type": "hidden"
+      },
+      {
+        "key": "aefi_child_status",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "aefi_child_status",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "ভ্যাকসিন দেয়ার পর কোনো সমস্যা হয়েছিল কিনা? ",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+
+      },
+      {
+        "key": "vaccine_list",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "vaccine_list",
+        "type": "check_box",
+        "label": "কোন কোন ভ্যাকসিন এর জন্য হয়েছে?",
+        "exclusive": [
+          "no_problem"
+        ],
+        "options": [
+          {
+            "key": "bcg",
+            "text": "বিসিজি",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "bcg"
+          },
+          {
+            "key": "opv_0",
+            "text": "ওপিভি-0",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "opv_0"
+          },
+          {
+            "key": "opv_1",
+            "text": "ওপিভি-১",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "opv_1"
+          },
+          {
+            "key": "opv_2",
+            "text": "ওপিভি-২",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "opv_2"
+          },
+          {
+            "key": "pcv_1",
+            "text": "পিসিভি-১",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "pcv_1"
+          },
+          {
+            "key": "pcv_2",
+            "text": "পিসিভি-২",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "pcv_2"
+          },
+
+          {
+            "key": "penta_1",
+            "text": "পেন্টা-১",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "penta_1"
+          },
+          {
+            "key": "penta_2",
+            "text": "পেন্টা-২",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "penta_2"
+          },
+          {
+            "key": "penta_3",
+            "text": "পেন্টা-৩",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "penta_3"
+          },
+          {
+            "key": "fipv_1",
+            "text": "এফ আই পি ভি-১",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "fipv_1"
+          },
+          {
+            "key": "fipv_2",
+            "text": "এফ আই পি ভি-২",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "fipv_2"
+          }
+        ],
+        "v_required": {
+          "value": "true",
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "step1:aefi_child_status": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      }
+    ]
+  }
+}

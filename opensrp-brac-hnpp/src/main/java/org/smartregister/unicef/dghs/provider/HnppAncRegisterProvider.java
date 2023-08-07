@@ -163,7 +163,7 @@ public class HnppAncRegisterProvider extends ChwAncRegisterProvider {
         dialog.setContentView(R.layout.dialog_with_one_button);
         TextView titleTv = dialog.findViewById(R.id.title_tv);
         TextView message = dialog.findViewById(R.id.text_tv);
-        titleTv.setText("যে সকল কারনে ঝুঁকিপূর্ণ :");
+        titleTv.setText(R.string.risk_causes);
         message.setText(builder.toString());
         Button ok_btn = dialog.findViewById(R.id.ok_btn);
         ok_btn.setOnClickListener(new View.OnClickListener() {

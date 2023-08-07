@@ -1,0 +1,310 @@
+{
+  "count": "1",
+  "encounter_type": "PNC Home Visit",
+  "entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location": ""
+  },
+  "step1": {
+    "title": "প্রসবোত্তর পরিচর্যা",
+    "fields": [
+      {
+        "key": "form_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "PNC Home Visit",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": "pnc_home_visit"
+      },
+      {
+        "key": "relational_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "relational_id",
+        "type": "hidden"
+      },
+
+      {
+        "key": "pnc_count",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "pnc_count",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "পি এন সি সেবা নং"
+      },
+
+      {
+        "key": "schedule_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "schedule_date",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "সেবা গ্রহণের নির্ধারিত তারিখ"
+      },
+
+      {
+        "key": "service_taken_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "service_taken_date",
+        "type": "date_picker",
+        "hint": "সেবা গ্রহণের তারিখ"
+      },
+
+      {
+        "key": "blood_pressure_systolic",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "blood_pressure_systolic",
+        "type": "edit_text",
+        "hint": "সিস্টোলিক রক্তচাপ",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "v_max": {
+          "value": "400",
+          "err": "400 এর কম হওয়া উচিত"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "সিস্টোলিক রক্তচাপ লিখুন"
+        }
+      },
+
+      {
+        "key": "blood_pressure_diastolic",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "blood_pressure_diastolic",
+        "type": "edit_text",
+        "hint": "ডায়াস্টোলিক রক্তচাপ",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_max": {
+          "value": "400",
+          "err": "400 এর কম হওয়া উচিত"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "ডায়াস্টোলিক রক্তচাপ লিখুন"
+        }
+      },
+
+      {
+        "key": "body_temp_fahrenheit",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "body_temp_fahrenheit",
+        "type": "edit_text",
+        "hint": "শরীরের তাপমাত্রা ( ফারেনহাইট)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        }
+      },
+      {
+        "key": "ad_toaster_temparature",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": " জ্বর। পর্যবেক্ষণে রাখুন",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:body_temp_fahrenheit": {
+            "type": "numeric",
+            "ex": "greaterThanEqualTo(., \"100\")"
+          }
+        }
+      },
+      {
+        "key": "pnc_problem",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "pnc_problem",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "প্রসবোত্তর কোন জটিলতা আছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_entity_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+
+      {
+        "key": "Denger_Signs_During_PNC",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "Denger_Signs_During_PNC",
+        "type": "check_box",
+        "label_text_style": "bold",
+        "text_color": "#3495bf",
+        "text_size": "25px",
+        "label": "প্রসবোত্তর জটিলতা সমূহ নির্ধারণ করুন",
+        "exclusive": ["none"],
+        "options": [
+          {
+            "key": "clinical_anemia",
+            "text": "ক্লিনিকাল রক্তসল্পতা আছে",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "clinical_anemia"
+          },
+          {
+            "key": "pph",
+            "text": "প্রসবোত্তর রক্তক্ষরণের হয়েছে",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "pph"
+          },
+          {
+            "key": "postpartum_eclampsia",
+            "text": "প্রসবোত্তর খিচুনী হয়েছে",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "postpartum_eclampsia"
+          },
+          {
+            "key": "puerperal_sepsis",
+            "text": "প্রসবোত্তর কোনো প্রকার সংক্রমণ হয়েছ",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "puerperal_sepsis"
+          },
+          {
+            "key": "vv_fistula_rv_fistula",
+            "text": "ভিভি ফিস্টুলা/আরভি ফিস্টুলা দ্বারা সংক্রমিত হয়েছেন",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "vv_fistula_rv_fistula"
+          },
+          {
+            "key": "perinal_tear",
+            "text": "পেরিনাল টিয়ার হয়েছে",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "perinal_tear"
+          }
+        ],
+        "relevance": {
+          "step1:pnc_problem": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+
+      {
+        "key": "is_normal_breast_condition",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "is_normal_breast_condition",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "বুকের অবস্থা স্বাভাবিক আছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_entity_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+      {
+        "key": "family_planning_counseling",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "family_planning_counseling",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "ফ্যামিলি প্ল্যানিং সেবা গুলো নিয়ে কাউন্সেলিং দেয়া হয়েছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_entity_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+      {
+        "key": "vitamin_a_capsule",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "vitamin_a_capsule",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "ভিটামিন এ ক্যাপসুল দেয়া হয়েছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_entity_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      }
+    ]
+  }
+}

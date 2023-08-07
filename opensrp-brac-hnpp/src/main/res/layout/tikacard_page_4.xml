@@ -29,7 +29,7 @@
         </RelativeLayout>
 
         <TextView
-            android:text="ইপিআই টিকাদান কার্ড (শিশু)"
+            android:text="@string/epi_tika_card"
             android:layout_width="match_parent"
             android:textSize="30sp"
             android:gravity="center"
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"/>
         <TextView
             android:background="@color/tika_card_bg"
-            android:text="টিকাদান সময়সুচি অনুযায়ী সবগুলো টিকা দেয়া শেষ করবেন"
+            android:text="@string/vaccine_advice"
             android:layout_width="match_parent"
             android:textSize="24sp"
             android:textColor="@color/white"
@@ -466,7 +466,7 @@
                 android:textSize="15sp" />
         </LinearLayout>
         <TextView
-            android:text="স্বাস্থ্য সহকারী/টিকাদান কর্মীর ...................................."
+            android:text="@string/nurse_or_vaccination_worker"
             android:layout_width="match_parent"
             android:textSize="30sp"
             android:textColor="@color/black"
@@ -507,7 +507,7 @@
                 android:layout_marginLeft="10dp"
                 android:fontFamily="@font/tonnymj"
                 android:padding="10dp"
-                android:text="মোবাইল নম্বর :"
+                android:text="@string/mobile_no"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
             <TextView
@@ -521,9 +521,7 @@
                 android:textSize="15sp" />
         </LinearLayout>
         <TextView
-            android:text="আপনার এলাকায় জন্মের ২৮ দিনের মধ্যে কোন শিশুর মৃত্যু হলে অথবা হামে আক্রান্ত হলে (যে
-কোন বয়সে) অথবা ১৫ বছরের কম বয়সের যে কোন শিশুর এক বা একাধিক হাত অথবা পা হঠাৎ
-থলথলে, প্যারালাইসিস হলে সাথে সাথে নিকটস্থ স্বাস্থ্য কেন্দ্রে নিয়ে যান অথবা মাঠকর্মীকে খবর দিন।"
+            android:text="@string/child_dead_msg"
             android:layout_marginLeft="10dp"
             android:fontFamily="@font/tonnymj"
             android:padding="10dp"
@@ -541,7 +539,7 @@
             android:layout_marginLeft="10dp"
             android:fontFamily="@font/tonnymj"
             android:padding="10dp"
-            android:text="পুনঃসংস্করণ - অক্টবোর ২০১৭"
+            android:text="@string/re_edition_seventeen"
             android:textColor="@color/black"
             android:textSize="15sp" />
         <TextView

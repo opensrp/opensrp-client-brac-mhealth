@@ -224,27 +224,27 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
                 break;
             case R.id.from_clear_filter:
                 fromMonthTV.setText("");
-                fromYearTV.setText("সকল");
+                fromYearTV.setText(R.string.all);
                 fromMonth = -1;
                 fromYear = -1;
                 filterData();
                 break;
             case R.id.to_clear_filter:
                 toMonthTV.setText("");
-                toYearTV.setText("সকল");
+                toYearTV.setText(R.string.all);
                 toMonth = -1;
                 toYear = -1;
                 filterData();
                 break;
             case R.id.from_date_clear_filter:
-                fromDateBtn.setText("সকল");
+                fromDateBtn.setText(R.string.all);
                 fromMonth = -1;
                 fromYear = -1;
                 fromDay = -1;
                 filterData();
                 break;
             case R.id.to_date_clear_filter:
-                toDateBtn.setText("সকল");
+                toDateBtn.setText(R.string.all);
                 toMonth = -1;
                 toYear = -1;
                 toDay = -1;
@@ -452,7 +452,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
     private void updateFromDatePicker() {
         if(fromMonth == -1){
             fromMonthTV.setText("");
-            fromYearTV.setText("সকল");
+            fromYearTV.setText(R.string.all);
         }else{
             Log.v("FROM_MONTH_PICKER","fromMonth:"+fromMonth+":fromYear:"+fromYear);
             int index = fromMonth-1;

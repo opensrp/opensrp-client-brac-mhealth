@@ -1,0 +1,1447 @@
+{
+  "count": "1",
+  "encounter_type": "Family Member Registration",
+  "entity_id": "",
+  "relational_id": "",
+  "mother_entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location": "",
+    "look_up": {
+      "entity_id": "",
+      "value": ""
+    }
+  },
+  "step1": {
+    "title": "সদস্য যোগ করুন",
+    "fields": [
+      {
+        "key": "block_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "block_name",
+        "type": "hidden"
+      },
+      {
+        "key": "block_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "block_id",
+        "type": "hidden"
+      },
+      {
+        "key": "ward_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "ward_name",
+        "type": "hidden"
+      },
+      {
+        "key": "provider_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "provider_id",
+        "type": "hidden"
+      },
+      {
+        "key": "is_consent",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_consent",
+        "type": "hidden",
+        "value": "1"
+      },
+
+      {
+        "key": "id_avail",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "idtype",
+        "type": "check_box",
+        "label": "আপনার কোন পরিচয় পত্রটি আছে?",
+        "label_text_style": "normal",
+        "text_color": "#C0C0C0",
+        "exclusive": [
+          "chk_none"
+        ],
+        "options": [
+          {
+            "key": "chk_national_id",
+            "text": "জাতীয় পরিচয় পত্র",
+            "value": false,
+            "openmrs_entity": "person_attribute",
+            "openmrs_entity_id": "chk_national_id"
+          },
+          {
+            "key": "chk_birth_id",
+            "text": "জন্মনিবন্ধন",
+            "value": false,
+            "openmrs_entity": "person_attribute",
+            "openmrs_entity_id": "chk_birth_id"
+          },
+          {
+            "key": "chk_none",
+            "text": "আইডি কার্ড নেই",
+            "value": false,
+            "openmrs_entity": "person_attribute",
+            "openmrs_entity_id": "chk_none"
+          }
+        ],
+        "v_required": {
+          "value": true,
+          "err": "পরিচয়পত্র নির্বাচন করুন"
+        }
+      },
+      {
+        "key": "national_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "nationalId",
+        "type": "edit_text",
+        "hint": "জাতীয় পরিচয় পত্র",
+        "v_required": {
+          "value": "true",
+          "err": "জাতীয় পরিচয় পত্র আইডি লিখুন"
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "মোট 10/13/17 সংখ্যা হওয়া আবশ্যক"
+        },
+        "v_regex": {
+          "value": "([0-9]{10})|([0-9]{13})|([0-9]{17})|\\s*",
+          "err": "মোট 10/13/17 সংখ্যা হওয়া আবশ্যক"
+        },
+        "relevance": {
+          "step1:id_avail": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "chk_national_id"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "key": "birth_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "birthRegistrationID",
+        "type": "edit_text",
+        "hint": "জন্মনিবন্ধন নম্বর",
+        "v_numeric": {
+          "value": "true",
+          "err": "মোট 17 সংখ্যা হওয়া আবশ্যক"
+        },
+        "v_regex": {
+          "value": "([0-9]{16})|([0-9]{17})|\\s*",
+          "err": "মোট 16/17 সংখ্যা হওয়া আবশ্যক"
+        },
+        "relevance": {
+          "step1:id_avail": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "chk_birth_id"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "key": "camp_type",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "camp_type",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "hint": "ক্যাম্পেইন টাইপ",
+        "read_only": "true"
+      },
+      {
+        "key": "simprints_enable",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden"
+      },
+      {
+        "key": "relation_with_household_head",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "Relation_with_HOH",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "খানা প্রধানের সাথে সম্পর্ক",
+        "values": [
+          "খানা প্রধান",
+          "স্বামী",
+          "স্ত্রী",
+          "পুত্র",
+          "কন্যা",
+          "পুত্রবধূ",
+          "নাতি",
+          "নাতনী",
+          "মাতা",
+          "পিতা",
+          "ভাই",
+          "বোন",
+          "ভাইপো",
+          "ভাইঝি",
+         "ভাগ্নে",
+         "ভাগ্নি",
+          "শ্বশুর",
+          "শাশুড়ি",
+          "শ্যালক",
+          "শ্যালিকা",
+          "দেবর",
+         "জা",
+          "ননদ",
+          "ভাইয়ের স্ত্রী",
+          "ভগ্নিপতি",
+          "জামাতা",
+          "অন্যান্য আত্মীয়",
+          "অন্যান্য অনাত্মীয়"
+        ],
+        "openmrs_choice_ids": {
+          "খানা প্রধান":	"Household Head",
+          "স্বামী" :	"Husband",
+          "স্ত্রী" :	"Wife",
+          "পুত্র" :	"Son",
+          "কন্যা":	"Daughter",
+          "পুত্রবধূ":	"Daughter-in-law",
+          "নাতি":"Grandson"	,
+          "নাতনি": 	"Grand-Daughter",
+          "পিতা"	:"Father",
+          "মাতা":	"Mother",
+          "ভাই": "Brother",
+          "বোন ":	"Sister",
+          "ভাইপো" :	"Nephew",
+          "ভাইঝি":	"niece",
+          "ভাগ্নে"	:"Nephew",
+          "ভাগ্নি" :	"niece",
+          "শ্বশুর":	"Father-in-law",
+          "শাশুড়ি" :	"Mother-in-law",
+          "শ্যালক":	"brother-in-law",
+          "শ্যালিকা":	"sister-in-law",
+          "দেবর":	"brother-in-law",
+          "জা":	"sister-in-law",
+          "ননদ" :	"Sister-in-law",
+          "ভাইয়ের স্ত্রী" :	"Brother's wife",
+          "ভগ্নিপতি":	"sister-in-law",
+          "জামাতা" :	"Son-in-law",
+          "অন্যান্য আত্মীয়":	"other relatives",
+          "অন্যান্য অনাত্মীয়"  :	"other non-relative"
+        },
+        "v_required": {
+          "value": true,
+          "err": "সম্পর্ক নির্বাচন করুন"
+        }
+      },
+      {
+        "key": "relation_other_relative",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "relation_other_relative",
+        "type": "edit_text",
+        "hint": "অন্যান্য আত্মীয়",
+        "v_required": {
+          "value": true,
+          "err": "Please Type Other Relation"
+        },
+        "relevance": {
+          "step1:relation_with_household_head": {
+            "type": "string",
+            "ex": "equalTo(., \"অন্যান্য আত্মীয়\")"
+          }
+        }
+      },
+      {
+        "key": "relation_other_non_relative",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "relation_other_non_relative",
+        "type": "edit_text",
+        "hint": "অন্যান্য অনাত্মীয়",
+        "v_required": {
+          "value": true,
+          "err": "Please Type Other Relation"
+        },
+        "relevance": {
+          "step1:relation_with_household_head": {
+            "type": "string",
+            "ex": "equalTo(., \"অন্যান্য অনাত্মীয়\")"
+          }
+        }
+      },
+      {
+        "key": "shr_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_identifier",
+        "openmrs_entity_id": "shr_id",
+        "type": "edit_text",
+        "hint": "শেয়ারড হেলথ রেকর্ড আই ডি",
+        "read_only": true
+      },
+      {
+        "key": "unique_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_identifier",
+        "openmrs_entity_id": "opensrp_id",
+        "type": "edit_text",
+        "hint": "সদস্য আই ডি",
+        "read_only": true,
+        "v_numeric": {
+          "value": "false",
+          "err": "Please enter a valid ID"
+        }
+      },
+      {
+        "key": "first_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person",
+        "openmrs_entity_id": "first_name",
+        "type": "edit_text",
+        "hint": "নামের প্রথম অংশ (ইংরেজীতে)",
+        "edit_type": "name",
+        "v_required": {
+          "value": "true",
+          "err": "নাম লিখুন"
+        },
+        "v_regex": {
+          "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
+          "err": "একটি বৈধ নাম লিখুন"
+        }
+      },
+      {
+        "key": "last_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person",
+        "openmrs_entity_id": "last_name",
+        "type": "edit_text",
+        "hint": "নামের শেষ অংশ (ইংরেজীতে)",
+        "edit_type": "name",
+        "v_required": {
+          "value": "true",
+          "err": "Please enter the last name"
+        },
+        "v_regex": {
+          "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
+          "err": "Please enter a valid name"
+        }
+      },
+      {
+        "key": "member_name_bengla",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "member_name_bengla",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "সম্পূর্ণ নাম (বাংলায়)",
+        "v_regex": {
+          "value": "[^A-Za-z0-9]*",
+          "err": "বাংলায় লিখুন"
+        },
+        "expanded": false,
+        "v_required": {
+          "value": false,
+          "err": "Please Enter a Valid Name"
+        }
+      },
+
+      {
+        "key": "phone_number",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "Mobile_Number",
+        "type": "edit_text",
+        "hint": "মোবাইল নম্বর",
+        "v_required": {
+          "value": true,
+          "err": "11 অঙ্কের মোবাইল নম্বর লিখুন"
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
+        },
+        "v_regex": {
+          "value": "(01[1-9][0-9]{8})|\s*",
+          "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
+        },
+        "v_max_length": {
+          "value": "11",
+          "err": "11 অঙ্কের মোবাইল নম্বর লিখুন",
+          "is_fixed_size":true
+        },
+        "v_min_length": {
+          "value": "1",
+          "err": "11 অঙ্কের মোবাইল নম্বর লিখুন"
+        }
+      },
+      {
+        "key": "mother_name_english",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "mother_name_english",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "edit_type": "name",
+        "hint": "মাতার নাম (ইংরেজীতে)",
+        "v_regex": {
+          "value": "^$|^[a-zA-Z][A-Za-z\\.\\- ]*",
+          "err": "একটি বৈধ নাম লিখুন"
+        },
+        "v_required": {
+          "value": false,
+          "err": "মান নির্বাচন করুন"
+        }
+      },
+      {
+        "key": "mother_name_bangla",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "mother_name_bangla",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "মাতার নাম (বাংলায়)",
+        "edit_type": "name",
+        "v_regex": {
+          "value": "[^A-Za-z0-9]*",
+          "err": "বাংলায় লিখুন"
+        },
+        "v_required": {
+          "value": false,
+          "err": "Please enter the mother/guardian's first name"
+        }
+      },
+      {
+        "key": "father_name_english",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "father_name_english",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "look_up": "true",
+        "hint": "পিতার নাম (ইংরেজীতে)",
+        "edit_type": "name",
+        "v_required": {
+          "value": "false",
+          "err": "Please enter the mother/guardian's first name"
+        },
+        "v_regex": {
+          "value": "[A-Za-z .]*",
+          "err": "Please enter a valid name"
+        }
+      },
+      {
+        "key": "father_name_bangla",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "father_name_bangla",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "পিতার নাম (বাংলায়)",
+        "edit_type": "name",
+        "v_regex": {
+          "value": "[^A-Za-z0-9]*",
+          "err": "বাংলায় লিখুন"
+        },
+        "v_required": {
+          "value": false,
+          "err": "Please enter the mother/guardian's first name"
+        }
+      },
+      {
+        "key": "is_birthday_known",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "DOB_known",
+        "type": "spinner",
+        "hint": "জন্ম তারিখ জানা আছে কি?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না":"no"
+        },
+        "v_required": {
+          "value": true,
+          "err": "জন্মতারিখ নির্বাচন করুন"
+        }
+      },
+      {
+        "key": "dob",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person",
+        "openmrs_entity_id": "birthdate",
+        "type": "date_picker",
+        "read_only": "true",
+        "hint": "জন্ম তারিখ",
+        "expanded": false,
+        "duration": {
+          "label": "Age"
+        },
+        "min_date": "today-120y",
+        "max_date": "today-5y",
+        "v_required": {
+          "value": "true",
+          "err": "জন্ম তারিখ প্রবেশ করুন"
+        },
+        "relevance": {
+          "step1:is_birthday_known": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "age_calculated",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "family_member_register_calculation.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "estimated_age",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "age",
+        "type": "edit_text",
+        "read_only": "true",
+        "hint": "সদস্যের বয়স",
+        "v_numeric": {
+          "value": "true",
+          "err": "Number must begin with 0 and must be a total of 10 digits in length"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "v_min": {
+          "value": "5",
+          "err": "বয়স 5 এর সমান বা 5 এর বেশি হতে হবে"
+        },
+        "v_max": {
+          "value": "120",
+          "err": "বয়স 120 এর সমান বা 120 এর কম হওয়া উচিত"
+        },
+        "relevance": {
+          "step1:is_birthday_known": {
+            "type": "string",
+            "ex": "equalTo(., \"না\")"
+          }
+        },
+        "v_required": {
+          "value": true,
+          "err": "বয়স প্রবেশ করুন"
+        }
+      },
+      {
+        "key": "sex",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person",
+        "openmrs_entity_id": "gender",
+        "type": "spinner",
+        "hint": "লিঙ্গ",
+        "values": [
+          "পুরুষ",
+          "নারী",
+          "তৃতীয় লিঙ্গ"
+
+        ],
+        "openmrs_choice_ids": {
+          "পুরুষ": "M",
+          "নারী":"F",
+          "তৃতীয় লিঙ্গ": "O"
+        },
+        "v_required": {
+          "value": true,
+          "err": "লিঙ্গ নির্বাচন করুন"
+        }
+      },
+      {
+        "key": "marital_status",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "Marital_Status",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "বৈবাহিক অবস্থা",
+        "values": [
+          "বিবাহিত",
+          "দাম্পত্য বিছিন্ন",
+          "তালাক প্রাপ্ত",
+          "অবিবাহিত",
+          "বিধবা",
+          "বিপত্নীক"
+        ],
+        "openmrs_choice_ids": {
+          "বিবাহিত": "Married",
+          "দাম্পত্য বিছিন্ন": "Separated",
+          "তালাক প্রাপ্ত": "Divorced",
+          "অবিবাহিত": "Unmarried",
+          "বিধবা": "Widow",
+          "বিপত্নীক": "Wife Died"
+        },
+        "v_required": {
+          "value": true,
+          "err": "বৈবাহিক অবস্থা নির্বাচন করুন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_family_member_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "spouse_name_english",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "spouse_name_english",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "look_up": "true",
+        "hint": "স্বামী/স্ত্রীর নাম (ইংরেজীতে)",
+        "v_required": {
+          "value": "false",
+          "err": "Please enter the spouseName_english"
+        },
+        "v_regex": {
+          "value": "[A-Za-z .]*",
+          "err": "Please Enter a Valid Name"
+        },
+        "relevance": {
+          "step1:marital_status": {
+            "type": "string",
+            "ex": "equalTo(., \"বিবাহিত\")"
+          }
+        }
+      },
+      {
+        "key": "spouse_name_bangla",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "spouse_name_bangla",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "স্বামী/স্ত্রীর নাম (বাংলায়)",
+        "v_required": {
+          "value": "false",
+          "err": "Please enter the spouseName bengali"
+        },
+        "v_regex": {
+          "value": "[^A-Za-z0-9]*",
+          "err": "Please enter a valid name"
+        },
+        "relevance": {
+          "step1:marital_status": {
+            "type": "string",
+            "ex": "equalTo(., \"বিবাহিত\")"
+          }
+        }
+      },
+      {
+        "key": "disability",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "disable",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "প্রতিবন্ধী",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+      {
+        "key": "disability_type",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "disability_type",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "প্রতিবন্ধীতা ধরন",
+        "values": [
+          "অটিজম বৈশিষ্ট্য সম্পন্ন ব্যাক্তি",
+          "শারীরিক প্রতিবন্ধীতা",
+          "দৃষ্টি ও শ্রবণ প্রতিবন্ধীতা",
+          "বাক ও শ্রবণ প্রতিবন্ধীতা",
+          "মানসিক প্রতিবন্ধীতা",
+          "বুদ্ধি প্রতিবন্ধীতা",
+          "সেরিব্রাল পালসিজনিত প্রতিবন্ধীতা",
+          "ডাউন সিনড্রমজনিত প্রতিবন্ধীতা",
+          "বহুমুখী প্রতিবন্ধীতা"
+        ],
+        "openmrs_choice_ids": {
+          "অটিজম বৈশিষ্ট্য সম্পন্ন ব্যাক্তি": "Autism",
+          "শারীরিক প্রতিবন্ধীতা": "Physical Disability",
+          "দৃষ্টি ও শ্রবণ প্রতিবন্ধীতা": "Auditory Disability",
+          "বাক ও শ্রবণ প্রতিবন্ধীতা": "Mute and Hearing Disability",
+          "মানসিক প্রতিবন্ধীতা": "Mental Disability",
+          "বুদ্ধি প্রতিবন্ধীতা": "Mentally Challenged",
+          "সেরিব্রাল পালসিজনিত প্রতিবন্ধীতা": "Cerebral Palsy",
+          "ডাউন সিনড্রমজনিত প্রতিবন্ধীতা": "Down Syndrome",
+          "বহুমুখী প্রতিবন্ধীতা": "Multidimensional Disability"
+        },
+        "relevance": {
+          "step1:disability": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "ethnicity",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "ethnicity",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "জাতিসত্তা",
+        "values": [
+          "বাঙ্গালী",
+          "চাকমা",
+          "মারমা",
+          "ত্রিপুরা",
+          "সাঁওতাল",
+          "গারো",
+          "মণিপুরী",
+          "ওঁরাও",
+          "তঞ্চ্যঙ্গা",
+          "বর্ম্মন",
+          "খাসিয়া বা খাসি",
+          "ম্রো",
+          "মুন্ডা",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "বাঙ্গালী": "Bengali",
+          "চাকমা": "Chakma",
+          "মারমা": "Marma",
+          "ত্রিপুরা": "Tripura",
+          "সাঁওতাল": "Santal",
+          "গারো": "Garo",
+          "মণিপুরী": "Manipuri",
+          "ওঁরাও": "Onrao",
+          "তঞ্চ্যঙ্গা": "Tanchanga",
+          "বর্ম্মন": "Barman",
+          "খাসিয়া বা খাসি": "Khasia",
+          "ম্রো": "Mro",
+          "মুন্ডা": "Munda",
+          "অন্যান্য": "Others (Ethnicity)"
+        }
+      },
+      {
+        "key": "ethnicity_other",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "ethnicity_other",
+        "type": "edit_text",
+        "hint": "অন্যান্য জাতিসত্তা",
+        "relevance": {
+          "step1:ethnicity": {
+            "type": "string",
+            "ex": "equalTo(., \"অন্যান্য\")"
+          }
+        }
+      },
+      {
+        "key": "education_qualification",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "education_qualification",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "শিক্ষাগত যোগ্যতা",
+        "values": [
+          "কোন শ্রেণীতে উত্তীর্ণ হয়নি",
+          "প্লে/নার্সারি/ কেজি",
+          "১ম শ্রেণী",
+          "২য় শ্রেণী",
+          "৩য় শ্রেণী",
+          "৪র্থ শ্রেণী",
+          "৫ম শ্রেণী",
+          "৬ষ্ঠ শ্রেণী",
+          "৭ম শ্রেণী",
+          "৮ম শ্রেণী",
+          "৯ম শ্রেণী",
+          "এসএসসি বা সমমান",
+          "এইচএসসি বা সমমান",
+          "স্নাতক বা সমমান",
+          "স্নাতকোত্তর বা সমমান",
+          "ডাক্তারী",
+          "ইঞ্জিনিয়ারিং",
+          "বৃত্তিমূলক",
+          "কারিগরি",
+          "ধাত্রীবিদ্যা/নার্সিং",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "কোন শ্রেণীতে উত্তীর্ণ হয়নি": "Uneducated",
+          "প্লে/নার্সারি/ কেজি": "Play/Nursery/KG",
+          "১ম শ্রেণী": "Class 1",
+          "২য় শ্রেণী": "Class 2",
+          "৩য় শ্রেণী": "Class 3",
+          "৪র্থ শ্রেণী": "Class 4",
+          "৫ম শ্রেণী": "Class 5",
+          "৬ষ্ঠ শ্রেণী": "Class 6",
+          "৭ম শ্রেণী": "Class 7",
+          "৮ম শ্রেণী": "Class 8",
+          "৯ম শ্রেণী": "Class 9",
+          "এসএসসি বা সমমান": "SSC or equivalent",
+          "এইচএসসি বা সমমান": "HSC or equivalent",
+          "স্নাতক বা সমমান": "Hons. or equivalent",
+          "স্নাতকোত্তর বা সমমান": "Masters or equivalent",
+          "ডাক্তারী": "Doctor",
+          "ইঞ্জিনিয়ারিং": "Engineering",
+          "বৃত্তিমূলক": "Vocational",
+          "কারিগরি": "Technical",
+          "ধাত্রীবিদ্যা/নার্সিং": "Midwife/Nursing",
+          "অন্যান্য": "Others (Education)"
+        }
+      },
+      {
+        "key": "education_other",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "education_other",
+        "type": "edit_text",
+        "hint": "অন্যান্য শিক্ষাগত যোগ্যতা(ইংরেজীতে)",
+        "relevance": {
+          "step1:educational_qualification": {
+            "type": "string",
+            "ex": "equalTo(., \"অন্যান্য\")"
+          }
+        }
+      },
+      {
+        "key": "occupation_category",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "occupation_category",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "পেশার ধরণ",
+        "values": [
+          "কারিগরী পেশা",
+          "অশ্রেনীভুক্ত পেশা",
+          "অদক্ষ শ্রমিক",
+          "দৈনিক ভিত্তিক শ্রমিক",
+          "কুঠির শিল্প",
+          "ব্যবসা",
+          "গৃহস্থালীর পরিচারক",
+          "ছাত্র-ছাত্রী",
+          "গৃহিণী",
+          "অন্যান্য পেশা"
+        ],
+        "openmrs_choice_ids": {
+          "কারিগরী পেশা": "Professional technical professionals",
+          "অশ্রেনীভুক্ত পেশা": "Semi-skilled labor service",
+          "অদক্ষ শ্রমিক": "Unskilled labor",
+          "দৈনিক ভিত্তিক শ্রমিক": "Factory worker, blue collar service",
+          "কুঠির শিল্প": "Home based manufacturing",
+          "ব্যবসা": "Business",
+          "গৃহস্থালীর পরিচারক": "Domestic Servant",
+          "ছাত্র-ছাত্রী": "Student",
+          "গৃহিণী": "Housewife",
+          "অন্যান্য পেশা": "Others Occupation"
+        }
+      },
+      {
+        "key": "technical_professionals",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "technical_professionals",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "কারিগরী পেশা",
+        "values": [
+          "ইঞ্জিনিয়ার",
+          "বিজ্ঞানী",
+          "অর্থনীতিবিদ",
+          "পরিসংখ্যানবিদ, গণিতবিদ, সিস্টেম এনালিস্ট এবং এতদসম্পকিত কর্মী",
+          "লেখক, সাংবাদিক এবং এতদসম্পর্কিত কর্মী",
+          "বিমান এবং জাহাজের কর্মকর্তা",
+          "চিকিৎসক, দন্ত চিকিৎসক ও প্রাণী চিকিৎসক",
+          "নার্স এবং চিকিৎসা-সংক্রান্ত অন্যান্য কর্মী",
+          "অভিনয়, কণ্ঠশিল্পী এবং নৃত্য শিল্পী",
+          "খেলোয়াড় এবং এতদসম্পর্কিত কর্মী",
+          "হিসাব রক্ষক",
+          "বিচারক",
+          "শিক্ষক",
+          "আইনজীবী",
+          "ম্যানেজার",
+          "সরকারী কর্মকর্তা",
+          "কৃষি খামার ব্যবস্থাপক ও তত্বাবধায়ক"
+        ],
+        "openmrs_choice_ids": {
+          "ইঞ্জিনিয়ার": "Engineer",
+          "বিজ্ঞানী": "Physical scientist and relevant technicians",
+          "অর্থনীতিবিদ": "Economist",
+          "পরিসংখ্যানবিদ, গণিতবিদ, সিস্টেম এনালিস্ট এবং এতদসম্পকিত কর্মী": "Statistician, Mathematician, System Analyst and Relevant",
+          "লেখক, সাংবাদিক এবং এতদসম্পর্কিত কর্মী": "Writer, Journalist and Relevant",
+          "বিমান এবং জাহাজের কর্মকর্তা": "Officer of Airplane and Ship",
+          "চিকিৎসক, দন্ত চিকিৎসক ও প্রাণী চিকিৎসক": "Medical doctor, Dentist & Veterinary",
+          "নার্স এবং চিকিৎসা-সংক্রান্ত অন্যান্য কর্মী": " Nurse and treatment related other stuffs",
+          "অভিনয়, কণ্ঠশিল্পী এবং নৃত্য শিল্পী": "Acting, Singing and Dancing",
+          "খেলোয়াড় এবং এতদসম্পর্কিত কর্মী": "Player and Relevant",
+          "হিসাব রক্ষক": "Accountant",
+          "বিচারক": "Judge",
+          "শিক্ষক": "Teacher",
+          "আইনজীবী": "Lawyer",
+          "ম্যানেজার": "Manager",
+          "সরকারী কর্মকর্তা": "Government Executive Officer",
+          "কৃষি খামার ব্যবস্থাপক ও তত্বাবধায়ক": "Agricultural Farm Manager and Supervisor"
+        },
+        "relevance": {
+          "step1:occupation_category": {
+            "type": "string",
+            "ex": "equalTo(., \"কারিগরী পেশা\")"
+          }
+        }
+      },
+      {
+        "key": "labor_service",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "labor_service",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "অশ্রেনীভুক্ত পেশা",
+        "values": [
+          "করণীক (কেরাণী)",
+          "টাইপিস্ট/স্টেনোগ্রাফার/কম্পিউটার অপারেটর",
+          "রেকর্ড কিপার,ক্যাশিয়ার এবং এতদসম্পর্কিত কর্মী",
+          "কম্পিউটার সম্পর্কিত কর্মী",
+          "পেশাগত, কারিগরি এবং অন্যান্য অশ্রেণীভুক্ত এতদসম্পর্কিত কর্মী",
+          "চিঠিপত্র বিলিকারী",
+          "টেলিফোন ও টেলিগ্রাফ অপারেটর",
+          "অশ্রেণীভুক্ত দাপ্তরিক কাজ",
+          "ভ্রমণ সংক্রান্ত কাজে নিয়োজিত কর্মী",
+          "উৎপাদন তত্ত্বাবধায়ক এবং ফোরম্যান",
+          "ধর্মীয় কর্মী",
+          "অশ্রেণীভুক্ত সেবা কর্মী",
+          "বনকর্মী",
+          "বৈদ্যুতিক কর্মী",
+          "বৈদ্যুতিক ব্যতীত অন্যান্য মেশিন কর্মী",
+          "স্বর্ণকার",
+          "গাড়ির চালক"
+        ],
+        "openmrs_choice_ids": {
+          "করণীক (কেরাণী)": "Clerk",
+          "টাইপিস্ট/স্টেনোগ্রাফার/কম্পিউটার অপারেটর": "Typist, Stenographer & Computer Operator",
+          "রেকর্ড কিপার,ক্যাশিয়ার এবং এতদসম্পর্কিত কর্মী": "Record Keeper, Cashier & Relevant",
+          "কম্পিউটার সম্পর্কিত কর্মী": "Computer Relevant Worker",
+          "পেশাগত, কারিগরি এবং অন্যান্য অশ্রেণীভুক্ত এতদসম্পর্কিত কর্মী": "Occupational, Technical and other non categorized worker",
+          "চিঠিপত্র বিলিকারী": "Postman",
+          "টেলিফোন ও টেলিগ্রাফ অপারেটর": "Telephone and Telegraph Operator",
+          "অশ্রেণীভুক্ত দাপ্তরিক কাজ": "Non-categorized Clerical Worker",
+          "ভ্রমণ সংক্রান্ত কাজে নিয়োজিত কর্মী": "Travelling Related Worker",
+          "উৎপাদন তত্ত্বাবধায়ক এবং ফোরম্যান": "Production Supervisor & Foreman",
+          "ধর্মীয় কর্মী": "Religious Worker",
+          "অশ্রেণীভুক্ত সেবা কর্মী": "Non-categorized Service Provider",
+          "বনকর্মী": "Forester",
+          "বৈদ্যুতিক কর্মী": "Electrician",
+          "বৈদ্যুতিক ব্যতীত অন্যান্য মেশিন কর্মী": "Machine Worker Other Then Electric",
+          "স্বর্ণকার": "Goldsmith",
+          "গাড়ির চালক": "Driver"
+        },
+        "relevance": {
+          "step1:occupation_category": {
+            "type": "string",
+            "ex": "equalTo(., \"অশ্রেনীভুক্ত পেশা\")"
+          }
+        }
+      },
+      {
+        "key": "unskilled_labor",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "unskilled_labor",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "অদক্ষ শ্রমিক",
+        "values": [
+          "বাবুর্চি, হোটেল বয় এবং এতদসম্পর্কিত সম্পর্কিত কর্মী",
+          "অশ্রেণীভুক্ত বিক্রয় কর্মী",
+          "যানবাহন ও যোগাযোগ তত্ত্বাবধায়ক",
+          "গাড়ির কন্ডাক্টর",
+          "শব্দ প্রচারকর্মী ও চলচ্চিত্র প্রদর্শনকারী",
+          "নিরাপত্তা কর্মী",
+          "দোকানদার",
+          "ধোপার কাজ"
+        ],
+        "openmrs_choice_ids": {
+          "বাবুর্চি, হোটেল বয় এবং এতদসম্পর্কিত সম্পর্কিত কর্মী": "Cook, Waiter & Relevant Worker",
+          "অশ্রেণীভুক্ত বিক্রয় কর্মী": "Non-categorized Sales Worker",
+          "যানবাহন ও যোগাযোগ তত্ত্বাবধায়ক": "Vehicle & Communication Supervisor",
+          "গাড়ির কন্ডাক্টর": "Car conductor",
+          "শব্দ প্রচারকর্মী ও চলচ্চিত্র প্রদর্শনকারী": "Announcer & Cinema Exhibitor",
+          "নিরাপত্তা কর্মী": "Guard",
+          "দোকানদার": "Shopkeeper",
+          "ধোপার কাজ": "Fuller"
+        },
+        "relevance": {
+          "step1:occupation_category": {
+            "type": "string",
+            "ex": "equalTo(., \"অদক্ষ শ্রমিক\")"
+          }
+        }
+      },
+      {
+        "key": "daily_workers",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "daily_workers",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "দৈনিক ভিত্তিক শ্রমিক",
+        "values": [
+          "খনন কর্মী ও খননকারী",
+          "ধাতু প্রক্রিয়াকারী",
+          "রাসায়নিক দ্রব্য প্রক্রিয়াকারী",
+          "খাদ্য ও পানীয় প্রক্রিয়া কারী",
+          "তামাক প্রক্রিয়াকারী",
+          "চামড়া প্রক্রিয়াকরণ",
+          "জুতা ও চামড়াজাত দ্রব্য প্রস্তুতকারী",
+          "রাবার ও প্লাস্টিক দ্রব্য প্রস্তুতকারী",
+          "কাগজ ও কাগজের বোর্ড প্রস্তুতকারী",
+          "মুদ্রণ কাজ",
+          "কর্মকার, ঢালাই কর্মী ও যন্ত্রাংশ প্রস্তুতকারী",
+          "পাথর কাটা ও প্রক্রিয়কারী",
+          "পানি ও পয়ঃনিষ্কাশন কাঠামো নির্মাণকারী",
+          "বজ্য ব্যবস্থাপনা কর্মী",
+          "ধাতু ঝালাইকারী",
+          "অকৃষি শ্রমিক",
+          "কৃষি শ্রমিক"
+        ],
+        "openmrs_choice_ids": {
+          "খনন কর্মী ও খননকারী": "Excavation and Digging",
+          "ধাতু প্রক্রিয়াকারী": "Metal Processing",
+          "রাসায়নিক দ্রব্য প্রক্রিয়াকারী": "Chemical Material Processing",
+          "খাদ্য ও পানীয় প্রক্রিয়া কারী": "Food & Drink Processing",
+          "তামাক প্রক্রিয়াকারী": "Tobacco Processing",
+          "চামড়া প্রক্রিয়াকরণ": " Leather Processing",
+          "জুতা ও চামড়াজাত দ্রব্য প্রস্তুতকারী": "Shoe & Lather Product Producer",
+          "রাবার ও প্লাস্টিক দ্রব্য প্রস্তুতকারী": "Rubber & Plastic Material Producer",
+          "কাগজ ও কাগজের বোর্ড প্রস্তুতকারী": "Paper & Paper Board Producer",
+          "মুদ্রণ কাজ": "Printing",
+          "কর্মকার, ঢালাই কর্মী ও যন্ত্রাংশ প্রস্তুতকারী": "Smith, Welding Worker & Machinery Parts Producer",
+          "পাথর কাটা ও প্রক্রিয়কারী": "Mason",
+          "পানি ও পয়ঃনিষ্কাশন কাঠামো নির্মাণকারী": "Plumber",
+          "বজ্য ব্যবস্থাপনা কর্মী": "Corporate management staff",
+          "ধাতু ঝালাইকারী": "Metal Welder",
+          "অকৃষি শ্রমিক": "Non-agricultural Worker",
+          "কৃষি শ্রমিক": "Agricultural Worker"
+        },
+        "relevance": {
+          "step1:occupation_category": {
+            "type": "string",
+            "ex": "equalTo(., \"দৈনিক ভিত্তিক শ্রমিক\")"
+          }
+        }
+      },
+      {
+        "key": "home_based_manufacturing",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "home_based_manufacturing",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "কুঠির শিল্প",
+        "values": [
+          "কাঠ মিস্ত্রি",
+          "দর্জি ও অন্যান্য সেলাই কর্মী",
+          "গ্লাস ও মাটির জিনিস প্রস্তুতকারী",
+          "তাঁতি কাপড় বোনা ও রং করা",
+          "জেলে, শিকারী এবং এতদসম্পর্কিত কর্মী",
+          "ফেরিওয়ালা"
+        ],
+        "openmrs_choice_ids": {
+          "কাঠ মিস্ত্রি": "Carpenter",
+          "দর্জি ও অন্যান্য সেলাই কর্মী": "Tailor & Relevant",
+          "গ্লাস ও মাটির জিনিস প্রস্তুতকারী": "Glass Maker & Potter",
+          "তাঁতি কাপড় বোনা ও রং করা": "Weaving & Painting",
+          "জেলে, শিকারী এবং এতদসম্পর্কিত কর্মী": "Fisherman, Hunter and Relevant",
+          "ফেরিওয়ালা": "Hawker"
+        },
+        "relevance": {
+          "step1:occupation_category": {
+            "type": "string",
+            "ex": "equalTo(., \"কুঠির শিল্প\")"
+          }
+        }
+      },
+      {
+        "key": "business",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "business",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "ব্যবসা",
+        "values": [
+          "পাইকারী ও খুচরা ব্যবসা",
+          "বীমা, রিয়েল এস্টেট ব্যবসা এবং এতদসম্পর্কিত সেবা বিক্রেতা",
+          "হোটেল মালিক",
+          "পোল্ট্রি মালিক "
+        ],
+        "openmrs_choice_ids": {
+          "পাইকারী ও খুচরা ব্যবসা": "Retail & Wholesale",
+          "বীমা, রিয়েল এস্টেট ব্যবসা এবং এতদসম্পর্কিত সেবা বিক্রেতা": "Insurance, Real State and Relevant Service Seller",
+          "হোটেল মালিক": "Hotel Owner",
+          "পোল্ট্রি মালিক": "Poultry owner"
+        },
+        "relevance": {
+          "step1:occupation_category": {
+            "type": "string",
+            "ex": "equalTo(., \"ব্যবসা\")"
+          }
+        }
+      },
+      {
+        "key": "domestic_servant",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "domestic_servant",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "গৃহস্থালীর পরিচারক",
+        "values": [
+          "অশ্রেণীভুক্ত গৃহপরিচারিকা",
+          "বাড়ির কেয়ারটেকার, ঝাড়ুদার এবং এতদসম্পর্কিত কর্মী"
+        ],
+        "openmrs_choice_ids": {
+          "অশ্রেণীভুক্ত গৃহপরিচারিকা": "Non-categorized Housemaid",
+          "বাড়ির কেয়ারটেকার, ঝাড়ুদার এবং এতদসম্পর্কিত কর্মী": "House Caretaker, Sweeper & Relevant Worker"
+        },
+        "relevance": {
+          "step1:occupation_category": {
+            "type": "string",
+            "ex": "equalTo(., \"গৃহস্থালীর পরিচারক\")"
+          }
+        }
+      },
+      {
+        "key": "religion",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "religion",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "ধর্ম",
+        "values": [
+          "ইসলাম",
+          "হিন্দু",
+          "বৌদ্ধ",
+          "খ্রিস্টান",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "ইসলাম": "Islam",
+          "হিন্দু": "Hindu",
+          "বৌদ্ধ": "Buddhist",
+          "খ্রিস্টান": "Christian",
+          "অন্যান্য": "Others (Religion)"
+        }
+      },
+      {
+        "key": "religion_other",
+        "openmrs_entity_parent": "person_attribute",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "religion_other",
+        "type": "edit_text",
+        "hint": "অন্যান্য ধর্ম(ইংরেজীতে)",
+        "relevance": {
+          "step1:religion": {
+            "type": "string",
+            "ex": "equalTo(., \"অন্যান্য\")"
+          }
+        }
+      },
+      {
+        "key": "blood_group",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "Blood_Group",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "রক্তের গ্রুপ",
+        "values": [
+          "A+",
+          "A-",
+          "B+",
+          "B-",
+          "O+",
+          "O-",
+          "AB+",
+          "AB-",
+          "রক্তের গ্রুপ জানা নেই"
+        ],
+        "openmrs_choice_ids": {
+          "A+": "A+",
+          "A-": "A-",
+          "B+": "B+",
+          "B-": "B-",
+          "O+": "O+",
+          "O-": "O-",
+          "AB+": "AB+",
+          "AB-": "AB-",
+          "রক্তের গ্রুপ জানা নেই": "Do Not Know Blood Group"
+        },
+        "v_required": {
+          "value": false,
+          "err": "রক্ত গ্রুপ নির্বাচন করুন"
+        }
+      },
+
+      {
+        "key": "illness_information",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "illness_information",
+        "openmrs_data_type": "text",
+        "type": "check_box",
+        "label": "রোগ  সম্পর্কিত পারিবারিক তথ্য",
+        "exclusive": [
+          "None"
+        ],
+        "options": [
+          {
+            "key": "Leprosy",
+            "text": "কুষ্ঠ",
+            "value": false,
+            "openmrs_choice_id": "Leprosy"
+          },
+          {
+            "key": "Tuberculosis",
+            "text": "যক্ষ্মা",
+            "value": false,
+            "openmrs_choice_id": "Tuberculosis"
+          },
+          {
+            "key": "Sexual Disease",
+            "text": "যৌন রোগ",
+            "value": false,
+            "openmrs_choice_id": "Sexual Disease"
+          },
+          {
+            "key": "Asthma",
+            "text": "হাঁপানি বা এ্যাজমা",
+            "value": false,
+            "openmrs_choice_id": "Asthma"
+          },
+          {
+            "key": "Diabetes",
+            "text": "ডায়াবেটিস",
+            "value": false,
+            "openmrs_choice_id": "Diabetes"
+          },
+          {
+            "key": "High Blood Pressure",
+            "text": "উচ্চ রক্তচাপ",
+            "value": false,
+            "openmrs_choice_id": "High Blood Pressure"
+          },
+          {
+            "key": "Disability",
+            "text": "প্রতিবন্ধিতা",
+            "value": false,
+            "openmrs_choice_id": "Disability"
+          },
+          {
+            "key": "Others (Family Disease)",
+            "text": "অন্যান্য রোগ",
+            "value": false,
+            "openmrs_choice_id": "Others (Family Disease)"
+          },
+          {
+            "key": "None",
+            "text": "নেই",
+            "value": false,
+            "openmrs_choice_id": "None"
+          }
+        ]
+      },
+      {
+        "key": "illness_other",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "illness_other",
+        "type": "edit_text",
+        "hint": "অন্যান্য রোগ  সম্পর্কিত পারিবারিক তথ্য",
+        "v_required": {
+          "value": true,
+          "err": "Please Type Other Conditions"
+        },
+        "relevance": {
+          "step1:illness_information": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "Others (Family Disease)"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "key": "risky_habits",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "risky_habits",
+        "openmrs_data_type": "text",
+        "type": "check_box",
+        "label": "ঝুঁকিপূর্ণ অভ্যাস",
+        "exclusive": [
+          "None"
+        ],
+        "options": [
+          {
+            "key": "Cigarette",
+            "text": "বিড়ি/সিগারেট",
+            "value": false,
+            "openmrs_choice_id": "Cigarette"
+          },
+          {
+            "key": "Tobacco / White Leaf",
+            "text": "তামাক/সাদা পাতা",
+            "value": false,
+            "openmrs_choice_id": "Tobacco / White Leaf"
+          },
+          {
+            "key": "Others (Tobacco)",
+            "text": "অন্যান্য তামাক",
+            "value": false,
+            "openmrs_choice_id": "Others (Tobacco)"
+          },
+          {
+            "key": "Drug Addiction",
+            "text": "মাদকাসক্ত",
+            "value": false,
+            "openmrs_choice_id": "Drug Addiction"
+          },
+          {
+            "key": "Obesity",
+            "text": "স্থুলকায়",
+            "value": false,
+            "openmrs_choice_id": "Obesity"
+          },
+          {
+            "key": "High Salt Intake",
+            "text": "অতিরিক্ত লবন",
+            "value": false,
+            "openmrs_choice_id": "High Salt Intake"
+          },
+          {
+            "key": "Others (Risky Habit)",
+            "text": "অন্যান্য",
+            "value": false,
+            "openmrs_choice_id": "Others (Risky Habit)"
+          },
+          {
+            "key": "None",
+            "text": "নেই",
+            "value": false,
+            "openmrs_choice_id": "None"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "sample-relevance-rules.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "habits_other",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "habits_other",
+        "type": "edit_text",
+        "hint": "অন্যান্য ঝুঁকিপূর্ণ অভ্যাস",
+        "v_required": {
+          "value": true,
+          "err": "Please Type Other Habits"
+        },
+        "relevance": {
+          "step1:risky_habits": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "Others (Risky Habit)"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "key": "gu_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "gu_id",
+        "type": "hidden"
+      }
+    ]
+  }
+}

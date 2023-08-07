@@ -134,7 +134,7 @@
                             android:layout_height="60dp"
                             android:paddingStart="15dp"
                             android:paddingLeft="15dp"
-                            android:visibility="gone"
+                            android:visibility="visible"
                             android:paddingBottom="15dp">
 
                             <ImageView

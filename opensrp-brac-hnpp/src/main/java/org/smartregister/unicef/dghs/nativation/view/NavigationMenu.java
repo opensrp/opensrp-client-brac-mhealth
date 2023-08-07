@@ -508,7 +508,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
                         LOCALE = new Locale("bn");
                         break;
                     default:
-                        LOCALE = Locale.ENGLISH;
+                        LOCALE = new Locale("bn");
                         break;
                 }
                 tvLang.setText(languages[which]);

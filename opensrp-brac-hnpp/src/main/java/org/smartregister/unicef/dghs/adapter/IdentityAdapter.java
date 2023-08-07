@@ -1,5 +1,6 @@
 package org.smartregister.unicef.dghs.adapter;
 
+import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.utils.IdentityModel;
 import org.smartregister.view.customcontrols.CustomFontTextView;
@@ -35,6 +37,7 @@ public class IdentityAdapter extends RecyclerView.Adapter<IdentityAdapter.Identi
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final IdentityViewHolder viewHolder, int position) {
         final IdentityModel content = contentList.get(position);
@@ -42,9 +45,9 @@ public class IdentityAdapter extends RecyclerView.Adapter<IdentityAdapter.Identi
         viewHolder.textViewName.setText(viewHolder.textViewName.getText()+", বয়স: "+content.getAge());
         viewHolder.textViewGuid.setText(content.getId());
         viewHolder.textViewTier.setText(content.getTier());
-        viewHolder.textViewFamilyName.setText("খানা প্রধান: "+content.getFamilyHead());
+        viewHolder.textViewFamilyName.setText(HnppApplication.getInstance().getApplicationContext().getString(R.string.house_hold)+content.getFamilyHead());
         if(!TextUtils.isEmpty(content.getHusband())){
-            viewHolder.textViewFamilyName.setText(viewHolder.textViewFamilyName.getText()+", "+"স্বামী: "+content.getHusband());
+            viewHolder.textViewFamilyName.setText(viewHolder.textViewFamilyName.getText()+", "+HnppApplication.getInstance().getApplicationContext().getString(R.string.husband)+content.getHusband());
         }
         viewHolder.itemView.setOnClickListener(v -> onClickAdapter.onClick(viewHolder.getAdapterPosition(), content));
     }

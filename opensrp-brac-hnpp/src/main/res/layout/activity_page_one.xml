@@ -22,7 +22,7 @@
             android:background="@color/tika_card_bg"
             android:gravity="center|left"
             android:padding="10dp"
-            android:text="প্রতিটি শিশুর রয়েছে সবগুলো টিকা পাওয়ার অধিকার"
+            android:text="@string/vaccination_right"
             android:textColor="#FFFFFF"
             android:textSize="15sp" />
 
@@ -43,7 +43,7 @@
                 android:background="@drawable/table_bg"
                 android:gravity="center|left"
                 app:layout_constraintWidth_percent="0.7"
-                android:text="ডোজ অনুযায়ী শিশুকে টিকাকেন্দ্রে আনতে হবে(রেজিস্ট্রেশনের সময় শিশুর জন্ম তারিখ অনুযায়ী ২নং, ৫নং ও ৬নং ঘরে পেন্টাভ্যালেন্ট-১/পিসিভি-১, এমআর -১ম ও ২য় ডোজ টিকা পাওয়ার তারিখ টিকার ক্যালেন্ডার থেকে লিখে দিবেন)"
+                android:text="@string/vaccine_msg"
                 />
 
 
@@ -58,7 +58,7 @@
                 android:fontFamily="@font/tonnymj"
                 android:gravity="center|left"
                 android:padding="10dp"
-                android:text="টিকা পাওয়ার তারিখ"
+                android:text="@string/vaccine_receive_date"
                 />
         </LinearLayout>
 
@@ -76,7 +76,7 @@
                 android:gravity="center|left"
                 android:fontFamily="@font/tonnymj"
                 android:padding="10dp"
-                android:text="১। বিসিজি টিকা পাওয়ার তারিখ" />
+                android:text="@string/bcg_vaccine_date" />
 
             <TextView
                 android:id="@+id/atBirthTikaGettingDate"
@@ -107,7 +107,7 @@
                 android:background="@drawable/table_bg"
                 android:fontFamily="@font/tonnymj"
                 android:padding="10dp"
-                android:text="২। ১ম বার : পেন্টা-১, ওপিভি-১, পিসিভি-১, এবং আইপিভি-১ টিকা পাওয়ার তারিখ (টিকার ক্যালেন্ডার থেকে)।"
+                android:text="@string/vaccine_2"
            />
 
             <TextView
@@ -140,7 +140,7 @@
                 android:fontFamily="@font/tonnymj"
                 android:gravity="center|left"
                 android:padding="10dp"
-                android:text="৩। ২য় বার : পেন্টা – ২, ওপিভি-২, এবং পিসিভি-২ টিকা পাওয়ার তারিখ (সেশন প্ল্যান থেকে)"
+                android:text="@string/vaccine_3"
                  />
 
             <TextView
@@ -174,7 +174,7 @@
                 android:gravity="center|left"
                 android:fontFamily="@font/tonnymj"
                 android:padding="10dp"
-                android:text="৪। ৩য় বার : পেন্টা - ৩, ওপিভি-৩, পিসিভি-৩ এবং আইপিভি-২ টিকা পাওয়ার তারিখ (সেশন প্ল্যান থেকে)"
+                android:text="@string/vaccine_4"
                />
 
             <TextView
@@ -207,7 +207,7 @@
                 android:background="@drawable/table_bg"
                 android:gravity="center|left"
                 android:padding="10dp"
-                android:text="৫। ৪র্থ বার: এমআর ১ম ডোজ টিকা পাওয়ার তারিখ ('টিকার) ক্যালেন্ডার থেকে)।"
+                android:text="@string/vaccine_5"
               />
 
             <TextView
@@ -239,7 +239,7 @@
                 android:background="@drawable/table_bg"
                 android:gravity="center|left"
                 android:padding="10dp"
-                android:text="৬। ৪র্থ বার: এমআর ২য় ডোজ টিকা পাওয়ার তারিখ ('টিকার)ক্যালেন্ডার থেকে)।"
+                android:text="@string/vaccine_6"
              />
 
             <TextView
@@ -265,10 +265,7 @@
             android:fontFamily="@font/tonnymj"
             android:gravity="center|left"
             android:padding="10dp"
-            android:text="৩নং ঘরে ১ম ডোজ টিকা প্রদানের পর সেশন প্ল্যান অনুযায়ী ২য় ডোজ টিকা
-নেওয়ার জন্য টিকাদানের কেন্দ্রে আসার তারিখ লিখে দিবেন। একইভাবে ৪নং
-ঘরে ৩য় ডোজ টিকা প্রদানের পর সেশন প্ল্যান অনুযায়ী টিকা নেওয়ার জন্য
-টিকাদান কেন্দ্রে আসার তারিখ লিখে দিবেন।"
+            android:text="@string/vaccine_date_write_msg"
             app:layout_constraintEnd_toEndOf="@+id/nineMonthDate"
             app:layout_constraintStart_toStartOf="@+id/textView12"
             app:layout_constraintTop_toBottomOf="@+id/eighteenMonth" />
@@ -281,9 +278,7 @@
             android:gravity="center|left"
             android:fontFamily="@font/tonnymj"
             android:padding="10dp"
-            android:text="টিকার এই কার্ড টি যত্ন করে রাখুন। ভবিষ্যতে শিশুর জন্ম নিবন্ধন সার্টিফিকেট
-নেওয়ার জন্য, শিশুকে স্কুলে ভর্তি করানোর সময়, বিদেশে গমনের সময় এই
-কার্ড টি প্রয়োজন হবে"
+            android:text="@string/vaccine_card_msg"
             android:textColor="#FFFFFF"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="@+id/textView16"

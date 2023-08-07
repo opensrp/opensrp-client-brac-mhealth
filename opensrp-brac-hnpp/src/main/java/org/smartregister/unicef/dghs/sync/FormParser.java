@@ -1,10 +1,7 @@
 package org.smartregister.unicef.dghs.sync;
 
 import android.annotation.SuppressLint;
-import android.app.IntentService;
 import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -1689,7 +1686,7 @@ public class FormParser {
     private static   void saveSSFormData(Visit visit)
     {
         try{
-            JSONObject form_object = new JSONObject(AssetHandler.readFileFromAssetsFolder("json.form/"+HnppConstants.JSON_FORMS.SS_FORM+".json", HnppApplication.getHNPPInstance().getApplicationContext()));
+            JSONObject form_object = new JSONObject(AssetHandler.readFileFromAssetsFolder("json.form-bn/" +HnppConstants.JSON_FORMS.SS_FORM+".json", HnppApplication.getHNPPInstance().getApplicationContext()));
             Event baseEvent = gson.fromJson(visit.getJson(), Event.class);
             String base_entity_id = baseEvent.getBaseEntityId();
             HashMap<String,Object>form_details = getFormNamesFromEventObject(baseEvent);
@@ -2286,7 +2283,7 @@ public class FormParser {
 
         try {
 
-            String jsonString = AssetHandler.readFileFromAssetsFolder("json.form/"+form_name, HnppApplication.getHNPPInstance().getApplicationContext());
+            String jsonString = AssetHandler.readFileFromAssetsFolder("json.form-bn/" +form_name, HnppApplication.getHNPPInstance().getApplicationContext());
             return new JSONObject(jsonString);
         } catch (Exception e) {
             Log.v("LOAD_FILE","file name:"+form_name+":encounter_type:"+encounter_type);

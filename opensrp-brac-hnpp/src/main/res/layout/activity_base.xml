@@ -150,7 +150,7 @@
                             android:textSize="20sp" />
                         <RelativeLayout
                             android:id="@+id/rlIconLang"
-                            android:visibility="gone"
+                            android:visibility="visible"
                             android:layout_width="match_parent"
                             android:layout_height="60dp"
                             android:paddingStart="15dp"
@@ -472,7 +472,7 @@
                                 android:layout_toEndOf="@+id/notification_img"
                                 android:layout_toRightOf="@+id/notification_img"
                                 android:fontFamily="sans-serif"
-                                android:text="নোটিফিকেশন"
+                                android:text="@string/menu_notification"
                                 android:textColor="@color/white"
                                 android:textSize="20sp" />
 

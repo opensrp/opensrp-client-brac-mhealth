@@ -217,7 +217,7 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
 
     private void dumpDatabase(){
         //AppExecutors appExecutors = new AppExecutors();
-        ((Button)findViewById(R.id.dump_btn)).setText("ডাটাবেস ডাম্প নেওয়া হচ্ছে ");
+        ((Button)findViewById(R.id.dump_btn)).setText(R.string.database_dump_started);
         Observable.create(e-> {
             try{
 
@@ -273,7 +273,7 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
 
                     @Override
                     public void onComplete() {
-                        ((Button)findViewById(R.id.dump_btn)).setText("ডাম্প নেওয়া শেষ হয়েছে");
+                        ((Button)findViewById(R.id.dump_btn)).setText(R.string.database_dump_complete);
                     }
                 });
    /*     Runnable runnable = () -> {

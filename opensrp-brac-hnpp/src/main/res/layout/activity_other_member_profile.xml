@@ -94,18 +94,19 @@
                             android:background="@drawable/button_cliick"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
-                            android:text="প্রোফাইল আপডেট" />
+                            android:text="@string/update_profile" />
 
                         <Button
                             android:id="@+id/member_visit_btn"
                             android:layout_width="130dp"
-                            android:layout_height="30dp"
+                            android:layout_height="wrap_content"
                             android:layout_below="@+id/update_profile_btn"
                             android:layout_marginTop="5dp"
                             android:background="@drawable/green_click_button"
+                            android:minHeight="30dp"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
-                            android:text="খানা সদস্য জরিপ"
+                            android:text="@string/house_member_survey"
                             android:textColor="@color/white" />
 
 

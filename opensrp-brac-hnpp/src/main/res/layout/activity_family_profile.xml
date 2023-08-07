@@ -84,7 +84,7 @@
                     android:layout_toEndOf="@id/update_profile_btn"
                     android:background="@drawable/button_cliick"
                     android:padding="5dp"
-                    android:text="প্রোফাইল আপডেট"
+                    android:text="@string/profile_update"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 

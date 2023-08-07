@@ -1,0 +1,847 @@
+{
+  "count": "1",
+  "encounter_type": "Remove Family Member",
+  "entity_id": "",
+  "relational_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location": "",
+    "look_up": {
+      "entity_id": "",
+      "value": ""
+    }
+  },
+  "step1": {
+    "title": "সদস্যকে বাতিল করুন",
+    "fields": [
+      {
+        "key": "form_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "Remove Family Member",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": "family_details_remove_member"
+      },
+
+      {
+        "key": "spacer",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spacer",
+        "spacer_height": "10sp"
+      },
+
+      {
+        "key": "details",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "label",
+        "text": "",
+        "text_size": "25px"
+      },
+
+      {
+        "key": "divider1",
+        "type": "h_line",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": ""
+      },
+
+      {
+        "key": "spacer",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spacer",
+        "spacer_height": "15dp"
+      },
+
+      {
+        "key": "remove_reason",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "remove_reason",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "সদস্য বাতিল করার কারণ",
+        "v_required": {
+          "value": "true",
+          "err": "সদস্য বাতিল করার কারণ নির্বাচন করুন"
+        },
+        "values": [
+          "স্থানান্তর",
+          "মৃত্যু নিবন্ধন",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "স্থানান্তর": "moved_away",
+          "মৃত্যু নিবন্ধন": "died",
+          "অন্যান্য": "other"
+        }
+      },
+
+      {
+        "key": "gender",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "concept",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": "none"
+      },
+
+      {
+        "key": "removed_other",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "removed_other",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "অন্যান্য কারণে খানা বাদ",
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "values": [
+          "ভুল তথ্য প্রদান করা হয়েছে",
+          "মেম্বারটি আগেই রেজিস্টারকৃত",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "ভুল তথ্য প্রদান করা হয়েছে": "incorrect_information_provided",
+          "মেম্বারটি আগেই রেজিস্টারকৃত": "registered_before_member",
+          "অন্যান্য": "other"
+        },
+        "relevance": {
+          "step1:remove_reason": {
+            "type": "string",
+            "ex": "equalTo(., \"অন্যান্য\")"
+          }
+        }
+      },
+
+      {
+        "key": "removed_other_reason",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "removed_other_reason",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "অন্যান্য",
+        "relevance": {
+          "step1:removed_other": {
+            "type": "string",
+            "ex": "equalTo(., \"অন্যান্য\")"
+          }
+        }
+      },
+
+      {
+        "key": "moved_away_place",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "moved_away_place",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "কোথায় স্থান্তরিত হয়েছে জানা আছে কিনা ?",
+        "v_required": {
+          "value": "true",
+          "err": "সদস্য স্থান্তরিত করার কারণ নির্বাচন করুন"
+        },
+        "values": [
+          "দেশের মধ্যে",
+          "বিদেশ গমন",
+          "জানা নেই"
+        ],
+        "openmrs_choice_ids": {
+          "দেশের মধ্যে": "local_migration",
+          "বিদেশ গমন": "abroad_migration",
+          "জানা নেই": "unknown"
+        },
+        "relevance": {
+          "step1:remove_reason": {
+            "type": "string",
+            "ex": "equalTo(., \"স্থানান্তর\")"
+          }
+        }
+      },
+
+      {
+        "key": "date_died",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "date_died",
+        "openmrs_data_type": "text",
+        "type": "date_picker",
+        "label": "মৃত্যু তারিখ",
+        "hint": "তারিখ",
+        "expanded": false,
+        "min_date": "",
+        "max_date": "today",
+        "v_required": {
+          "value": "true",
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "constraints": [
+          {
+            "type": "date",
+            "ex": "greaterThanEqualTo(., step1:dob)",
+            "err": "জন্মের তারিখের আগেই তারিখ সরে যায়"
+          }
+        ],
+        "relevance": {
+          "step1:remove_reason": {
+            "type": "string",
+            "ex": "equalTo(., \"মৃত্যু নিবন্ধন\")"
+          }
+        }
+      },
+
+      {
+        "key": "time_of_death",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "time_of_death",
+        "openmrs_data_type": "text",
+        "type": "time_picker",
+        "label": "মৃত্যু আনুমানিক সময়",
+        "hint": "আনুমানিক সময়",
+        "expanded": false,
+        "min_date": "",
+        "max_date": "today",
+        "v_required": {
+          "value": "true",
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "step1:remove_reason": {
+            "type": "string",
+            "ex": "equalTo(., \"মৃত্যু নিবন্ধন\")"
+          }
+        }
+      },
+
+      {
+        "key": "cause_of_death_women",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cause_of_death_women",
+        "type": "spinner",
+        "hint": "মৃত্যর ধরণ",
+        "values": [
+          "বার্ধক্য জনিত",
+          "কোভিড-১৯ এ আক্রান্ত হয়ে",
+          "কোভিড-১৯ এর লক্ষণ নিয়ে",
+          "গর্ভকালীন সময়",
+          "গর্ভপাতের পরে (২৮ সপ্তাহের মধ্যে)",
+          "প্রসবকালীন সময়",
+          "প্রসবোত্তর সময় (৪২ দিনের মধ্যে)",
+          "সড়ক দুর্ঘটনা",
+          "পানিতে ডুবে",
+          "অপঘাতে মৃত্যু",
+          "অন্যান্য"
+
+        ],
+        "openmrs_choice_ids": {
+          "বার্ধক্য জনিত": "old_age",
+          "কোভিড-১৯ এ আক্রান্ত হয়ে": "covid_cause",
+          "কোভিড-১৯ এর লক্ষণ নিয়ে": "covid_symptoms",
+          "গর্ভকালীন সময়": "during_pregnant",
+          "গর্ভপাতের পরে (২৮ সপ্তাহের মধ্যে)": "after_delivery",
+          "প্রসবকালীন সময়": "during_delivery",
+          "প্রসবোত্তর সময় (৪২ দিনের মধ্যে)": "before_delivery",
+          "সড়ক দুর্ঘটনা": "road_accidents",
+          "পানিতে ডুবে": "submerged_in_water",
+          "অপঘাতে মৃত্যু": "accidental_death",
+          "অন্যান্য": "other"
+        },
+        "v_required": {
+          "value": true,
+          "err": "মৃত্যুর সময় নির্বাচন করুন"
+        },
+
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "family_details_remove_member_rules.yml"
+            }
+          }
+        }
+      },
+
+      {
+        "key": "name_of_answerer",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "name_of_answerer",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "উত্তর দাতার নাম",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "family_details_remove_member_rules.yml"
+            }
+          }
+        }
+      },
+
+      {
+        "key": "relation_with_death",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "relation_with_death",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "মৃতের সাথে সম্পর্ক ",
+        "values": [
+          "স্বামী",
+          "স্ত্রী",
+          "পুত্র",
+          "কন্যা",
+          "পুত্রবধূ",
+          "নাতি",
+          "নাতনী",
+          "মাতা",
+          "পিতা",
+          "ভাই",
+          "বোন",
+          "ভাইপো",
+          "ভাইঝি",
+          "ভাগ্নে",
+          "ভাগ্নি",
+          "শ্বশুর",
+          "শাশুড়ি",
+          "শ্যালক",
+          "শ্যালিকা",
+          "দেবর",
+          "জা",
+          "ননদ",
+          "ভাইয়ের স্ত্রী",
+          "ভগ্নিপতি",
+          "জামাতা"
+        ],
+        "openmrs_entity_ids": {
+          "স্বামী": "Husband",
+          "স্ত্রী": "Wife",
+          "পুত্র": "Son",
+          "কন্যা": "Daughter",
+          "পুত্রবধূ": "Daughter-in-law",
+          "নাতি": "Grandson",
+          "নাতনি": "Grand-Daughter",
+          "পিতা": "Father",
+          "মাতা": "Mother",
+          "ভাই": "Brother",
+          "বোন ": "Sister",
+          "ভাইপো": "Nephew",
+          "ভাইঝি": "niece",
+          "ভাগ্নে": "Nephew",
+          "ভাগ্নি": "niece",
+          "শ্বশুর": "Father-in-law",
+          "শাশুড়ি": "Mother-in-law",
+          "শ্যালক": "brother-in-law",
+          "শ্যালিকা": "sister-in-law",
+          "দেবর": "brother-in-law",
+          "জা": "sister-in-law",
+          "ননদ": "Sister-in-law",
+          "ভাইয়ের স্ত্রী": "Brother's wife",
+          "ভগ্নিপতি": "sister-in-law",
+          "জামাতা": "Son-in-law"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "family_details_remove_member_rules.yml"
+            }
+          }
+        }
+      },
+
+      {
+        "key": "present_at_death",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "present_at_death",
+        "type": "spinner",
+        "hint": "তিনি কি মায়ের মৃত্যুর সময় উপস্থিত ছিলেন",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_entity_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "family_details_remove_member_rules.yml"
+            }
+          }
+        }
+      },
+
+      {
+        "key": "community_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "community_name",
+        "type": "edit_text",
+        "hint": "কমিউনিটি ক্লিনিকের নাম",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "family_details_remove_member_rules.yml"
+            }
+          }
+        }
+      },
+
+      {
+        "key": "community_code",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "community_code",
+        "type": "edit_text",
+        "hint": "কমিউনিটি ক্লিনিকের ফ্যাসিলিটি রেজিস্ট্রি কোড",
+        "v_numeric": {
+          "value": true,
+          "err": "Enter a valid Number"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "family_details_remove_member_rules.yml"
+            }
+          }
+        }
+      },
+
+      {
+        "key": "dhis_no",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "dhis_no",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "মায়ের অনলাইন রেজিস্ট্রেশন নাম্বার (ডি এইচ আই এস 2)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "family_details_remove_member_rules.yml"
+            }
+          }
+        }
+      },
+
+      {
+        "key": "death_anc_week",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "death_anc_week",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "মৃত্যুর সময় মায়ের গর্ভকাল কত সপ্তাহে ছিল?",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "family_details_remove_member_rules.yml"
+            }
+          }
+        }
+      },
+
+      {
+        "key": "anc_taken",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "anc_taken",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "কতবার প্রসবপূর্ব সেবা গ্রহণ করেছে",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "family_details_remove_member_rules.yml"
+            }
+          }
+        }
+      },
+
+      {
+        "key": "death_cause",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "death_cause",
+        "type": "spinner",
+        "hint": "চিকিৎসা সেবা গ্রহণ না করে থাকলে তার কারণ কি ছিল?",
+        "values": [
+          "অপ্রয়োজনীয় মনে করেছিল",
+          "ব্যয়বহুল ছিল",
+          "দূরত্ব বেশি ছিল",
+          "নিয়ে যাওয়ার সঙ্গী ছিল না",
+          "পারিবারিক অসম্মতি ছিল",
+          "কোথায় যেতে হবে জানা ছিল না",
+          "অর্থের অভাব ছিল",
+          "সেবা গ্রহণে ভয় পাওয়া",
+          "চিকিৎসার প্রয়োজন বুঝতে পারেনি",
+          "যানবাহনের অভাব ছিল",
+          "সেবার মান অনুন্নত",
+          "বাড়িতে ভালো সেবা পাওয়ায়",
+          "সময়ের অভাব ছিল",
+          "অন্যান্য"
+        ],
+        "openmrs_entity_ids": {
+          "অপ্রয়োজনীয় মনে করেছিল": "Think unncessary",
+          "ব্যয়বহুল ছিল": "Expensive",
+          "দূরত্ব বেশি ছিল": "Far from home",
+          "নিয়ে যাওয়ার সঙ্গী ছিল না": "No accompany",
+          "পারিবারিক অসম্মতি ছিল": "No family consent",
+          "কোথায় যেতে হবে জানা ছিল না": "No information to go",
+          "অর্থের অভাব ছিল": "Lack of Money",
+          "সেবা গ্রহণে ভয় পাওয়া": "Fear of taking service",
+          "চিকিৎসার প্রয়োজন বুঝতে পারেনি": "Lack of knowledgefor importance of service",
+          "যানবাহনের অভাব ছিল": "Lack of transport",
+          "সেবার মান অনুন্নত": "Lack of quality service",
+          "বাড়িতে ভালো সেবা পাওয়ায়": "Good homecare",
+          "সময়ের অভাব ছিল": "Lack of time",
+          "অন্যান্য": "Others"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "family_details_remove_member_rules.yml"
+            }
+          }
+        }
+      },
+
+      {
+        "key": "death_cause_by_reporter",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "death_cause_by_reporter",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "সাক্ষাৎকার গ্রহণকারীর মতে মৃত্যুর কি কারণ হতে পারে ?",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "family_details_remove_member_rules.yml"
+            }
+          }
+        }
+      },
+
+      {
+        "key": "death_cause_by_consultant",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "death_cause_by_consultant",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "কনসালট্যান্ট এর মতে মৃত্যুর কি কারণ হতে পারে ?",
+        "values": [
+          "Abruptio placentae",
+          "APH",
+          "Complication of Anaesthesia during Labour & Delivery",
+          "Complications of anaesthesia during pregnancy",
+          "Death from sequel of direct obstetric cause",
+          "Eclampsia",
+          "Ectopic Pregnancy",
+          "Failed Attempt abortion",
+          "Haemorrhage in Early Pregnancy",
+          "Malnutrition in pregnancy",
+          "Medical abortion",
+          "Obstetric Embolism",
+          "Obstructed Labour due to Malposition and Malpresentation of foetus",
+          "Placenta Previa",
+          "PPH",
+          "Puerperal Sepsis",
+          "Rupture Uterus"
+        ],
+        "openmrs_entity_ids": {
+          "Abruptio placentae": "Abruptio placentae",
+          "APH": "APH",
+          "Complication of Anaesthesia during Labour & Delivery": "Complication of Anaesthesia during Labour & Delivery",
+          "Complications of anaesthesia during pregnancy": "Complications of anaesthesia during pregnancy",
+          "Death from sequel of direct obstetric cause": "Death from sequel of direct obstetric cause",
+          "Eclampsia": "Eclampsia",
+          "Ectopic Pregnancy": "Ectopic Pregnancy",
+          "Failed Attempt abortion": "Failed Attempt abortion",
+          "Haemorrhage in Early Pregnancy": "Haemorrhage in Early Pregnancy",
+          "Malnutrition in pregnancy": "Malnutrition in pregnancy",
+          "Medical abortion": "Medical abortion",
+          "Obstetric Embolism": "Obstetric Embolism",
+          "Obstructed Labour due to Malposition and Malpresentation of foetus": "Obstructed Labour due to Malposition and Malpresentation of foetus",
+          "Placenta Previa": "Placenta Previa",
+          "PPH": "PPH",
+          "Puerperal Sepsis": "Puerperal Sepsis",
+          "Rupture Uterus": "Rupture Uterus"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "family_details_remove_member_rules.yml"
+            }
+          }
+        }
+      },
+
+      {
+        "key": "cause_of_death_men",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cause_of_death_men",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "মৃত্যর ধরণ",
+        "v_required": {
+          "value": "true",
+          "err": "মৃত্যর ধরণ নির্বাচন করুন"
+        },
+        "values": [
+          "বার্ধক্য জনিত",
+          "কোভিড-১৯ এ আক্রান্ত হয়ে",
+          "কোভিড-১৯ এর লক্ষণ নিয়ে",
+          "সড়ক দুর্ঘটনা",
+          "পানিতে ডুবে",
+          "অপঘাতে মৃত্যু",
+          "অন্যান্য"
+
+        ],
+        "openmrs_choice_ids": {
+          "বার্ধক্য জনিত": "old_age",
+          "শিশু মৃত্যু": "infant_death",
+          "কোভিড-১৯ এ আক্রান্ত হয়ে": "covid_cause",
+          "কোভিড-১৯ এর লক্ষণ নিয়ে": "covid_symptoms",
+          "সড়ক দুর্ঘটনা": "road_accidents",
+          "পানিতে ডুবে": "submerged_in_water",
+          "অপঘাতে মৃত্যু": "accidental_death",
+          "অন্যান্য": "other"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "family_details_remove_member_rules.yml"
+            }
+          }
+        }
+      },
+
+      {
+        "key": "death_history",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "death_history",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "বিবরণ",
+        "relevance": {
+          "step1:remove_reason": {
+            "type": "string",
+            "ex": "equalTo(., \"মৃত্যু নিবন্ধন\")"
+          }
+        }
+      },
+
+      {
+        "key": "place_of_death",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "place_of_death",
+        "type": "spinner",
+        "hint": "কোথায় মৃত্যু ঘটেছিল?",
+        "values": [
+          "মেডিকেল কলেজ হসপিটাল/বিশেষায়িত হসপিটাল",
+          "জেলা হাসপাতাল",
+          "উপজেলা স্বাস্থ্য কমপ্লেক্স",
+          "মাতৃমঙ্গল কেন্দ্র",
+          "ইন্ডিয়ান স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র/ইউনিয়ন স্বাস্থ্য কেন্দ্র",
+          "কমিউনিটি ক্লিনিক",
+          "প্রাইভেট হাসপাতাল",
+          "এনজিও ক্লিনিক",
+          "টি গার্ডেন স্বাস্থ্য সেবা কেন্দ্র",
+          "বাড়িতে",
+          "অন্যান্য"
+        ],
+        "openmrs_entity_ids": {
+          "মেডিকেল কলেজ হসপিটাল/বিশেষায়িত হসপিটাল": "Medical College Hospital/Specialized Hospital",
+          "জেলা হাসপাতাল": "District Hospital",
+          "উপজেলা স্বাস্থ্য কমপ্লেক্স": "Upazila Health Complex",
+          "মাতৃমঙ্গল কেন্দ্র": "MCWC",
+          "ইন্ডিয়ান স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র/ইউনিয়ন স্বাস্থ্য কেন্দ্র": "UH&FWC/USC",
+          "কমিউনিটি ক্লিনিক": "Community Clinic",
+          "প্রাইভেট হাসপাতাল": "Private Hospital",
+          "এনজিও ক্লিনিক": "NGO Clinic",
+          "টি গার্ডেন স্বাস্থ্য সেবা কেন্দ্র": "Tea Garden Facility",
+          "বাড়িতে": "Home",
+          "অন্যান্য": "Others"
+        },
+        "relevance": {
+          "step1:remove_reason": {
+            "type": "string",
+            "ex": "equalTo(., \"মৃত্যু নিবন্ধন\")"
+          }
+        }
+      },
+
+      {
+        "key": "jila",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "jila",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "জেলা",
+        "relevance": {
+          "step1:moved_away_place": {
+            "type": "string",
+            "ex": "equalTo(., \"দেশের মধ্যে\")"
+          }
+        }
+      },
+
+      {
+        "key": "upojila",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "upojila",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "উপজেলা/সিটি কর্পোরেশন",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_family_member_remove_relevance.yml"
+            }
+          }
+        }
+
+      },
+
+      {
+        "key": "dob",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "",
+        "type": "spacer",
+        "expanded": false,
+        "read_only": "true",
+        "hidden": "false"
+      },
+
+      {
+        "key": "date_moved",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "164133AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_data_type": "text",
+        "type": "date_picker",
+        "label": "Date moved away",
+        "hint": "Date moved away",
+        "expanded": false,
+        "min_date": "",
+        "max_date": "today",
+        "v_required": {
+          "value": "true",
+          "err": "Enter the date that the member moved away"
+        },
+        "constraints": [
+          {
+            "type": "date",
+            "ex": "greaterThanEqualTo(., step1:dob)",
+            "err": "Date moved away occur before date of birth"
+          }
+        ],
+        "relevance": {
+          "step1:remove_reason": {
+            "type": "string",
+            "ex": "equalTo(., \"Moved away\")"
+          }
+        }
+      },
+
+      {
+        "key": "age_at_death",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "age_at_death",
+        "label": "Age at death",
+        "hint": "Age at death",
+        "type": "edit_text",
+        "read_only": "true",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "family_remove_relevance.yml"
+            }
+          }
+        },
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "family_remove_calculation.yml"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

@@ -103,7 +103,8 @@
                             android:background="@drawable/button_cliick"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
-                            android:text="প্রোফাইল আপডেট" />
+                            android:text="@string/profile_update" />
+
                         <Button
                             android:id="@+id/member_visit_btn"
                             android:layout_width="130dp"
@@ -113,7 +114,7 @@
                             android:background="@drawable/green_click_button"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
-                            android:text="খানা সদস্য জরিপ"
+                            android:text="@string/house_member_survey"
                             android:textColor="@color/white" />
 
                         <ImageView

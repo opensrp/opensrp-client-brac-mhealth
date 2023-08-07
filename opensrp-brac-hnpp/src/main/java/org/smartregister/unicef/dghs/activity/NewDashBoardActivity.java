@@ -139,17 +139,17 @@ public class NewDashBoardActivity extends SecuredActivity implements View.OnClic
 //        });
         tabs = findViewById(R.id.tabs);
 
-        tabs.addTab(tabs.newTab().setText("দৈনিক পরিদর্শন"));
-        tabs.addTab(tabs.newTab().setText("মাসিক পরিদর্শন"));
+        tabs.addTab(tabs.newTab().setText(R.string.everyday_visit));
+        tabs.addTab(tabs.newTab().setText(R.string.monthly_visit));
         if(!HnppConstants.isPALogin()){
-            tabs.addTab(tabs.newTab().setText("দৈনিক সেবা"));
-            tabs.addTab(tabs.newTab().setText("মাসিক সেবা"));
+            tabs.addTab(tabs.newTab().setText(R.string.everyday_visit));
+            tabs.addTab(tabs.newTab().setText(R.string.monthly_visit));
         }
-        tabs.addTab(tabs.newTab().setText("ফোরাম"));
-        tabs.addTab(tabs.newTab().setText("স্টক"));
-        tabs.addTab(tabs.newTab().setText("জনসংখ্যা সারসংক্ষেপ"));
-        tabs.addTab(tabs.newTab().setText("কার্যক্রম সারসংক্ষেপ"));
-        tabs.addTab(tabs.newTab().setText("সেবিকা"));
+        tabs.addTab(tabs.newTab().setText(R.string.forum));
+        tabs.addTab(tabs.newTab().setText(R.string.stock));
+        tabs.addTab(tabs.newTab().setText(R.string.people_in_short));
+        tabs.addTab(tabs.newTab().setText(R.string.activity_in_short));
+        tabs.addTab(tabs.newTab().setText(R.string.nurse));
         //tabs.addTab(tabs.newTab().setText("স্টক"));
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

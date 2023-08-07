@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.google.android.gms.vision.text.Text;
 
+import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.holder.MemberDueViewHolder;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
@@ -48,30 +49,30 @@ public class MemberHistoryAdapter extends RecyclerView.Adapter<MemberDueViewHold
         final MemberHistoryData content = contentList.get(position);
         viewHolder.imageView.setImageResource(content.getImageSource());
         if(!TextUtils.isEmpty(content.getMemberName())){
-            viewHolder.textViewTitle.setText(content.getMemberName()+"\n সেবা:"+content.getTitle());
+            viewHolder.textViewTitle.setText(content.getMemberName()+"\n "+ HnppApplication.getInstance().getApplicationContext().getString(R.string.service) +content.getTitle());
         }else{
-            viewHolder.textViewTitle.setText("সেবা: "+content.getTitle());
+            viewHolder.textViewTitle.setText(HnppApplication.getInstance().getApplicationContext().getString(R.string.service)+content.getTitle());
         }
         viewHolder.textViewLastVisit.setVisibility(View.VISIBLE);
         if(!TextUtils.isEmpty(content.getVisitDay())){
-            viewHolder.textViewLastVisit.setText("তারিখ: "+content.getVisitDay());
+            viewHolder.textViewLastVisit.setText(context.getString(R.string.date)+content.getVisitDay());
 
         }else{
-            viewHolder.textViewLastVisit.setText("তারিখ: "+HnppConstants.DDMMYY.format(content.getVisitDate()));
+            viewHolder.textViewLastVisit.setText(context.getString(R.string.date)+HnppConstants.DDMMYY.format(content.getVisitDate()));
 
         }
         if(!TextUtils.isEmpty(content.getScheduleDate())){
             viewHolder.textViewScheduleDate.setVisibility(View.VISIBLE);
-            viewHolder.textViewScheduleDate.setText("নির্ধারিত তারিখ: "+content.getScheduleDate());
+            viewHolder.textViewScheduleDate.setText(context.getString(R.string.selected_date)+content.getScheduleDate());
 
         }
         if(!TextUtils.isEmpty(content.getServiceTakenDate())){
-            viewHolder.textViewLastVisit.setText("সেবা গ্রহণের তারিখ:"+content.getServiceTakenDate());
+            viewHolder.textViewLastVisit.setText(context.getString(R.string.service_receive_date)+content.getServiceTakenDate());
         }
         if(content.getEventType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME)){
             if(!TextUtils.isEmpty(content.getEddDate())){
                 viewHolder.textViewScheduleDate.setVisibility(View.VISIBLE);
-                viewHolder.textViewScheduleDate.setText("ই ডি ডি: "+content.getEddDate());
+                viewHolder.textViewScheduleDate.setText(context.getString(R.string.edd)+content.getEddDate());
 
             }
         }

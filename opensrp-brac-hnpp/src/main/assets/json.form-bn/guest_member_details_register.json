@@ -1,0 +1,462 @@
+{
+  "count": "1",
+  "encounter_type": "OOC Member Registration",
+  "entity_id": "",
+  "relational_id": "",
+  "mother_entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location": "",
+    "look_up": {
+      "entity_id": "",
+      "value": ""
+    }
+  },
+  "step1": {
+    "title": "বহিরাগত সদস্য যোগ করুন",
+    "fields": [
+      {
+        "key": "provider_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "provider_id",
+        "type": "hidden"
+      },
+      {
+        "key": "division_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "division_id",
+        "type": "hidden"
+      },
+      {
+        "key": "district_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "district_id",
+        "type": "hidden"
+      },
+      {
+        "key": "upazila_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "upazila_id",
+        "type": "hidden"
+      },
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "section",
+        "type": "section_label",
+        "name": "ঠিকানা"
+      },
+      {
+        "key": "division_per",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "division_per",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "বিভাগ",
+        "v_required": {
+          "value": "true",
+          "err": "নির্বাচন করুন"
+        }
+      },
+      {
+        "key": "district_per",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "district_per",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "জেলা/সিটি কর্পোরেশন",
+        "v_required": {
+          "value": "true",
+          "err": "নির্বাচন করুন"
+        }
+      },
+      {
+        "key": "upazila_per",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "upazila_per",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "উপজেলা/থানা",
+        "v_required": {
+          "value": "true",
+          "err": "নির্বাচন করুন"
+        }
+      },
+      {
+        "key": "shr_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_identifier",
+        "openmrs_entity_id": "shr_id",
+        "type": "edit_text",
+        "hint": "শেয়ারড হেলথ রেকর্ড আই ডি",
+        "read_only": true
+      },
+      {
+        "key": "unique_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_identifier",
+        "openmrs_entity_id": "opensrp_id",
+        "type": "edit_text",
+        "hint": "সিস্টেম নাম্বার",
+        "read_only": true,
+        "v_numeric": {
+          "value": "false",
+          "err": "একটি বৈধ আইডি লিখুন"
+        }
+      },
+      {
+        "key": "firstName",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person",
+        "openmrs_entity_id": "first_name",
+        "type": "edit_text",
+        "hint": "নামের প্রথম অংশ (ইংরেজীতে)",
+        "edit_type": "name",
+        "v_required": {
+          "value": "true",
+          "err": "নামের প্রথম অংশ লিখুন"
+        },
+        "v_regex": {
+          "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
+          "err": "একটি বৈধ নাম লিখুন"
+        }
+      },
+      {
+        "key": "last_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person",
+        "openmrs_entity_id": "last_name",
+        "type": "edit_text",
+        "hint": "নামের শেষ অংশ (ইংরেজীতে)",
+        "edit_type": "name",
+        "v_required": {
+          "value": "true",
+          "err": "নামের শেষ অংশ লিখুন"
+        },
+        "v_regex": {
+          "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
+          "err": "একটি বৈধ নাম লিখুন"
+        }
+      },
+      {
+        "key": "sex",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person",
+        "openmrs_entity_id": "gender",
+        "type": "spinner",
+        "hint": "লিঙ্গ",
+        "values": [
+          "পুরুষ",
+          "নারী",
+          "তৃতীয় লিঙ্গ"
+
+        ],
+        "openmrs_choice_ids": {
+          "পুরুষ": "M",
+          "নারী":"F",
+          "তৃতীয় লিঙ্গ": "O"
+        },
+        "v_required": {
+          "value": true,
+          "err": "লিঙ্গ নির্বাচন করুন"
+        }
+      },
+      {
+        "key": "is_birthday_known",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "DOB_known",
+        "type": "spinner",
+        "hint": "জন্ম তারিখ জানা আছে কি?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না":"no"
+        },
+        "v_required": {
+          "value": true,
+          "err": "জন্মতারিখ নির্বাচন করুন"
+        }
+      },
+      {
+        "key": "dob",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person",
+        "openmrs_entity_id": "birthdate",
+        "type": "date_picker",
+        "hint": "জন্ম তারিখ",
+        "expanded": false,
+        "duration": {
+          "label": "Age"
+        },
+        "min_date": "today-120y",
+        "max_date": "today",
+        "v_required": {
+          "value": "true",
+          "err": "জন্ম তারিখ প্রবেশ করুন"
+        },
+        "relevance": {
+          "step1:is_birthday_known": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "age_calculated",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "family_member_register_calculation.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "estimated_age",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "age",
+        "type": "edit_text",
+        "hint": "বয়স লিখুন (বছর)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Number must begin with 0 and must be a total of 10 digits in length"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "v_min": {
+          "value": "1",
+          "err": "বয়স 1 এর সমান বা 1 এর বেশি হতে হবে"
+        },
+        "v_max": {
+          "value": "120",
+          "err": "বয়স 120 এর সমান বা 120 এর কম হওয়া উচিত"
+        },
+        "relevance": {
+          "step1:is_birthday_known": {
+            "type": "string",
+            "ex": "equalTo(., \"না\")"
+          }
+        },
+        "v_required": {
+          "value": true,
+          "err": "বয়স প্রবেশ করুন"
+        }
+      },
+
+
+      {
+        "key": "mother_name_english",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "mother_name_english",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "edit_type": "name",
+        "hint": "মাতার নাম (ইংরেজীতে)",
+        "v_regex": {
+          "value": "^$|^[a-zA-Z][A-Za-z\\.\\- ]*",
+          "err": "একটি বৈধ নাম লিখুন"
+        },
+        "v_required": {
+          "value": false,
+          "err": "মান নির্বাচন করুন"
+        }
+      },
+      {
+        "key": "father_name_english",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "father_name_english",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "look_up": "true",
+        "hint": "পিতার নাম (ইংরেজীতে)",
+        "edit_type": "name",
+        "v_required": {
+          "value": "false",
+          "err": "Please enter the mother/guardian's first name"
+        },
+        "v_regex": {
+          "value": "[A-Za-z .]*",
+          "err": "Please enter a valid name"
+        }
+      },
+      {
+        "key": "id_avail",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "idtype",
+        "type": "check_box",
+        "label": "আপনার কোন পরিচয় পত্রটি আছে?",
+        "label_text_style": "normal",
+        "text_color": "#C0C0C0",
+        "exclusive": [
+          "chk_none"
+        ],
+        "options": [
+          {
+            "key": "chk_national_id",
+            "text": "জাতীয় পরিচয় পত্র",
+            "value": false,
+            "openmrs_entity": "person_attribute",
+            "openmrs_entity_id": "chk_national_id"
+          },
+          {
+            "key": "chk_birth_id",
+            "text": "জন্মনিবন্ধন",
+            "value": false,
+            "openmrs_entity": "person_attribute",
+            "openmrs_entity_id": "chk_birth_id"
+          }
+        ]
+      },
+      {
+        "key": "national_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "nationalId",
+        "type": "edit_text",
+        "hint": "জাতীয় পরিচয় পত্র",
+        "v_required": {
+          "value": "true",
+          "err": "জাতীয় পরিচয় পত্র আইডি লিখুন"
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "মোট 10/13/17 সংখ্যা হওয়া আবশ্যক"
+        },
+        "v_regex": {
+          "value": "([0-9]{10})|([0-9]{13})|([0-9]{17})|\\s*",
+          "err": "মোট 10/13/17 সংখ্যা হওয়া আবশ্যক"
+        },
+        "relevance": {
+          "step1:id_avail": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "chk_national_id"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "key": "birth_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "birthRegistrationID",
+        "type": "edit_text",
+        "hint": "জন্মনিবন্ধন নম্বর",
+        "v_numeric": {
+          "value": "true",
+          "err": "মোট 17 সংখ্যা হওয়া আবশ্যক"
+        },
+        "v_regex": {
+          "value": "([0-9]{16})|([0-9]{17})|\\s*",
+          "err": "মোট 16/17 সংখ্যা হওয়া আবশ্যক"
+        },
+        "relevance": {
+          "step1:id_avail": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "chk_birth_id"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "key": "phone_number",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "Mobile_Number",
+        "type": "edit_text",
+        "hint": "মোবাইল নম্বর",
+        "v_required": {
+          "value": true,
+          "err": "11 অঙ্কের মোবাইল নম্বর লিখুন"
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
+        },
+        "v_regex": {
+          "value": "0|(01[1-9][0-9]{8})|\s*",
+          "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
+        },
+        "v_max_length": {
+          "value": "11",
+          "err": "11 অঙ্কের মোবাইল নম্বর লিখুন",
+          "is_fixed_size":true
+        },
+        "v_min_length": {
+          "value": "1",
+          "err": "11 অঙ্কের মোবাইল নম্বর লিখুন"
+        }
+      }
+
+    ]
+  }
+}

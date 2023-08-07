@@ -1,0 +1,733 @@
+{
+  "count": "1",
+  "encounter_type": "NCD package",
+  "entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location": ""
+  },
+  "step1": {
+    "title": "অসংক্রামক রোগের সেবা",
+    "fields": [
+      {
+        "key": "form_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "NCD package",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": "hnpp_ncd_package"
+      },
+      {
+        "key": "add_to_stock",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "add_to_stock",
+        "type": "hidden",
+        "value": "0"
+      },
+      {
+        "key": "relational_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "relational_id",
+        "type": "hidden"
+      },
+      {
+        "key": "cause_of_ncd",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cause_of_ncd",
+        "type": "check_box",
+        "label": "নিচের কোন কোন সমস্যা আছে?",
+        "exclusive": [
+          "no_problem"
+        ],
+        "options": [
+          {
+            "key": "high_blood_pressure",
+            "text": "উচ্চরক্তচাপ",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "high_blood_pressure"
+          },
+          {
+            "key": "diabetics",
+            "text": "ডায়াবেটিস",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "diabetics"
+          },
+          {
+            "key": "Heart_disease",
+            "text": "হৃদরোগ",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Heart_disease"
+          },
+          {
+            "key": "Asthma",
+            "text": "হাঁপানি",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Asthma"
+          },
+          {
+            "key": "Tuberculosis",
+            "text": "যক্ষা",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Tuberculosis"
+          },
+          {
+            "key": "Cancer",
+            "text": "ক্যান্সার",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Cancer"
+          },
+          {
+            "key": "Stroke",
+            "text": "স্ট্রোক",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Stroke"
+          },
+          {
+            "key": "Arthritis",
+            "text": "আর্থ্রাইটিস",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Arthritis"
+          },
+          {
+            "key": "Kidney_problems",
+            "text": "কিডনি সমস্যা",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Kidney_problems"
+          },
+          {
+            "key": "Liver_problems",
+            "text": "লিভার সমস্যা",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Liver_problems"
+          },
+          {
+            "key": "other_option",
+            "text": "অন্যান্য",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "other_option"
+          },
+          {
+            "key": "no_problem",
+            "text": "সমস্যা নাই",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "no_problem"
+          }
+        ],
+        "v_required": {
+          "value": "true",
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "regular_medicine",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "regular_medicine",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "নিয়মিত কোন ঔষধ সেবন করছেন?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+
+      },
+      {
+        "key": "weight",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "weight",
+        "type": "edit_text",
+        "hint": "ওজন(কেজি)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*['.']?[0-9]*",
+          "err": "নাম্বার টাইপ হতে হবে"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "v_min": {
+          "value": "0",
+          "err": "সংখ্যাটি 0 এর সমান বা বড় হতে হবে"
+        }
+      },
+      {
+        "key": "height",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "height",
+        "type": "edit_text",
+        "hint": "ঊচচতা(সে.মি.)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+        "value": "[0-9]*['.']?[0-9]*",
+        "err": "নাম্বার টাইপ হতে হবে"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "v_min": {
+          "value": "0",
+          "err": "সংখ্যাটি 0 এর সমান বা বড় হতে হবে"
+        }
+      },
+      {
+        "key": "bmi",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "bmi",
+        "type": "edit_text",
+        "hint": "বি.এম.আই",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_bmi_calculation_rule.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "ncd_toaster",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "নিয়মিত ব্যায়াম এবং স্বাস্থ্যকর খাবার খেয়ে ওজন কমাতে হবে।  যেমন- তৈলাক্ত ও শর্করা জাতীয় খাবার - ভাত, আলু ইত্যাদি খাওয়া কমাতে হবে এবং  শাক-সবজি বেশি বেশি খেতে হবে",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_ncd_package_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "blood_pressure_label",
+        "type": "label",
+        "text": "রক্তচাপ",
+        "has_bg": true,
+        "left_padding": "20dp",
+        "right_padding": "20dp",
+        "text_size": "25sp",
+        "text_color": "#000000",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": ""
+      },
+      {
+        "key": "blood_pressure_systolic",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "blood_pressure_systolic",
+        "type": "edit_text",
+        "hint": "সিস্টোলিক (mmHg)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        }
+      },
+      {
+        "key": "bp_toaster_1",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "ওজন বেশি থাকলে কমাতে হবে। পরিমিত (কম) লবন এবং স্বাস্থ্যকর খাদ্য খেতে হবে",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_ncd_package_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "blood_pressure_diastolic",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "blood_pressure_diastolic",
+        "type": "edit_text",
+        "hint": "ডায়াস্টোলিক (mmHg)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        }
+      },
+      {
+        "key": "bp_toaster_2",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "ওজন বেশি থাকলে কমাতে হবে। পরিমিত (কম) লবন এবং স্বাস্থ্যকর খাদ্য খেতে হবে",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_ncd_package_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "pressure_test_hospital",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "pressure_test_hospital",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "হাসপাতালে গিয়ে  রক্তচাপ পরীক্ষা করেছে কিনা?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+
+      },
+      {
+        "key": "pressure_confirm_hospital",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "pressure_confirm_hospital",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "এই রোগীর রক্তচাপ কি হাসপাতালে নিশ্চিত হয়েছে? ",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_ncd_package_relevance.yml"
+            }
+          }
+        }
+
+      },
+      {
+        "key": "glucose_label",
+        "type": "label",
+        "text": "গ্লুকোজ(mmol/l) - রক্ত পরীক্ষা",
+        "has_bg": true,
+        "left_padding": "20dp",
+        "right_padding": "20dp",
+        "text_size": "25sp",
+        "text_color": "#000000",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": ""
+      },
+      {
+        "key": "blood_sugar_test_condition",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "blood_sugar_test_condition",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "কোন অবস্থায় পরীক্ষা করছেন?",
+        "values": [
+          "ফাস্টিং",
+          "রেন্ডম"
+        ],
+        "openmrs_choice_ids": {
+          "ফাস্টিং": "fasting",
+          "রেন্ডম": "random"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "fasting_blood_sugar",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "fasting_blood_sugar",
+        "type": "edit_text",
+        "hint": "ফাস্টিং (খাওয়ার ৮ ঘন্টা পর)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*['.']?[0-9]*",
+          "err": "নাম্বার টাইপ হতে হবে"
+        },
+        "relevance": {
+          "step1:blood_sugar_test_condition": {
+            "type": "string",
+            "ex": "equalTo(., \"ফাস্টিং\")"
+          }
+        }
+      },
+      {
+        "key": "glucose_toaster_1",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "চিনি এবং শর্করা জাতীয় খাবার কমাতে হবে, নিয়মিত ব্যায়াম করতে হবে।  তাছাড়াও নিয়মিত পরীক্ষা করতে হবে",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_ncd_package_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "random_blood_sugar",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "random_blood_sugar",
+        "type": "edit_text",
+        "hint": "রেন্ডম (খাওয়ার দুই ঘন্টা পর )",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_regex": {
+          "value": "[0-9]*['.']?[0-9]*",
+          "err": "নাম্বার টাইপ হতে হবে"
+        },
+        "relevance": {
+          "step1:blood_sugar_test_condition": {
+            "type": "string",
+            "ex": "equalTo(., \"রেন্ডম\")"
+          }
+        }
+      },
+
+      {
+        "key": "glucose_toaster_2",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "চিনি এবং শর্করা জাতীয় খাবার কমাতে হবে, নিয়মিত ব্যায়াম করতে হবে।  তাছাড়াও নিয়মিত পরীক্ষা করতে হবে",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_ncd_package_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "suger_test_hospital",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "suger_test_hospital",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "হাসপাতালে গিয়ে  ডায়েবেটিস পরীক্ষা করেছে কিনা?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+
+      },
+      {
+        "key": "suger_confirm_hospital",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "suger_confirm_hospital",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "এই রোগীর ডায়েবেটিস কি হাসপাতালে নিশ্চিত হয়েছে? ",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_ncd_package_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "refer_reason",
+        "type": "label",
+        "text":"রেফারেল এর কারণ: ক্লায়েন্ট উচ্চরক্তচাপ বা ডায়াবেটিকস এর ঝুঁকিতে আছে",
+        "has_bg": true,
+        "left_padding": "20dp",
+        "right_padding": "20dp",
+        "text_size": "25sp",
+        "text_color": "#000000",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": ""
+      },
+      {
+        "key": "other_refer_reason",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "other_refer_reason",
+        "type": "edit_text",
+        "hint": "অন্যান্য কারণ "
+      },
+      {
+        "key": "place_of_referral",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "place_of_referral",
+        "type": "check_box",
+        "label": "রেফারের স্থান",
+        "exclusive": [
+          "None"
+        ],
+        "options": [
+          {
+            "key": "brac_maternity_center",
+            "text": "ব্র্যাক ম্যাটারনিটি সেন্টার",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "brac_maternity_center"
+          },
+          {
+            "key": "union_health_center",
+            "text": "ইউনিয়ন উপ-স্বাস্থ্য কেন্দ্র",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "union_health_center"
+          },
+          {
+            "key": "upozzila_health_complex",
+            "text": "উপজেলা স্বাস্থ্য কমপ্লেক্স",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "upozzila_health_complex"
+          },
+          {
+            "key": "union_family_kollan_center",
+            "text": "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "union_family_kollan_center"
+          },
+          {
+            "key": "union_health_and_family_kollan_center",
+            "text": "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "union_health_and_family_kollan_center"
+          },
+          {
+            "key": "mother_child_kollan_center",
+            "text": "মা ও শিশু কল্যাণ কেন্দ্র",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "mother_child_kollan_center"
+          },
+          {
+            "key": "center_hospital",
+            "text": "সদর হাসপাতাল",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "center_hospital"
+          },
+          {
+            "key": "medical_collage_hospital",
+            "text": "মেডিকেল কলেজ হাসপাতাল",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "medical_collage_hospital"
+          },
+          {
+            "key": "private_clinic",
+            "text": "বেসরকারি ক্লিনিক",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "private_clinic"
+          },
+          {
+            "key": "spacial_hospital",
+            "text": "বিশেষায়িত হাসপাতাল",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "spacial_hospital"
+          },
+          {
+            "key": "other_option",
+            "text": "অন্যান্য",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "other_option"
+          }
+        ]
+      },
+      {
+        "key": "advice",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "advice",
+        "type": "edit_text",
+        "hint": "উপদেশ"
+      },
+      {
+        "key": "latitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "latitude",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "অক্ষাংশ"
+      },
+      {
+        "key": "longitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "longitude",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "দ্রাঘিমা"
+      }
+    ,
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "section",
+        "type": "section_label",
+        "section_background": "#3797ca",
+        "text_color": "#FFFFFF",
+        "text_size": "22px",
+        "label_text_style": "bold",
+        "name": "                    সব তথ্য পূরণ করা হলে জমা দিন"
+      },
+      {
+        "key": "spacer",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "spacer",
+        "type": "spacer",
+        "spacer_height": "20dp"
+      }
+    ]
+  }
+}

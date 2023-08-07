@@ -560,21 +560,21 @@ public class HnppConstants extends CoreConstants {
         TextView statusTxt = dialog.findViewById(R.id.status_tv);
         TextView messageTxt = dialog.findViewById(R.id.text_tv);
         if(type ==1){
-            titleTxt.setText("আপনার পেমেন্ট টি সফল হয়েছে");
+            titleTxt.setText(R.string.payment_succ);
             imageView.setImageResource(R.drawable.success);
             statusTxt.setText("Payment successfully");
             statusTxt.setTextColor(context.getResources().getColor(R.color.alert_complete_green));
             messageTxt.setText(message);
             messageTxt.setTextColor(context.getResources().getColor(R.color.alert_complete_green));
         }else if(type == 2){
-            titleTxt.setText("আপনার পেমেন্ট টি ফেইল্ড করেছে");
+            titleTxt.setText(R.string.payment_failed);
             imageView.setImageResource(R.drawable.failure);
             statusTxt.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
             statusTxt.setText("Payment failed");
             messageTxt.setText(message);
             messageTxt.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
         }else if(type == 3){
-            titleTxt.setText("আপনার পেমেন্ট টি বাতিল হয়েছে");
+            titleTxt.setText(R.string.payment_cancel);
             imageView.setImageResource(R.drawable.cancel);
             statusTxt.setText("Payment cancel");
             statusTxt.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
@@ -706,27 +706,27 @@ public class HnppConstants extends CoreConstants {
         String[] ancType = new String[2];
         switch (noOfPnc){
             case 1:
-                ancType[0]="প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি) - ১ম";
+                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_service_1);
                 ancType[1] = "PNC -1";
                 return ancType;
             case 2:
-                ancType[0]="প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি) - ২য়";
+                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_service_2);
                 ancType[1] = "ANC -2";
                 return ancType;
             case 3:
-                ancType[0]="প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি) - ৩য়";
+                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_service_3);
                 ancType[1] = "ANC -3";
                 return ancType;
             case 4:
-                ancType[0]="প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি) - ৪র্থ";
+                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_service_4);
                 ancType[1] = "ANC -4";
                 return ancType;
             case 5:
-                ancType[0]="প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি) - ৫ম";
+                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_service_5);
                 ancType[1] = "ANC -5";
                 return ancType;
             default:
-                ancType[0]="প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি)";
+                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_service);
                 ancType[1] = "PNC";
                 return ancType;
         }
@@ -735,23 +735,23 @@ public class HnppConstants extends CoreConstants {
         String[] ancType = new String[2];
         switch (noOfPnc){
             case 1:
-                ancType[0]="নবজাতক পি এন সি - ১ম";
+                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.newborn_pnc_1);
                 ancType[1] = "PNC -1";
                 return ancType;
             case 2:
-                ancType[0]="নবজাতক পি এন সি - ২য়";
+                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.newborn_pnc_2);
                 ancType[1] = "ANC -2";
                 return ancType;
             case 3:
-                ancType[0]="নবজাতক পি এন সি - ৩য়";
+                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.newborn_pnc_3);
                 ancType[1] = "ANC -3";
                 return ancType;
             case 4:
-                ancType[0]="নবজাতক পি এন সি - ৪র্থ";
+                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.newborn_pnc_4);
                 ancType[1] = "ANC -4";
                 return ancType;
             default:
-                ancType[0]="নবজাতক পি এন সি";
+                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.newborn_pnc);
                 ancType[1] = "PNC";
                 return ancType;
         }
@@ -760,39 +760,39 @@ public class HnppConstants extends CoreConstants {
         String[] ancType = new String[2];
         switch (noOfAnc){
             case 1:
-                ancType[0]="গর্ভবতী পরিচর্যা - ১ম";
+                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_service_1);
                 ancType[1] = "ANC -1";
                 return ancType;
             case 2:
-                ancType[0]="গর্ভবতী পরিচর্যা - ২য়";
+                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_service_2);
                 ancType[1] = "ANC -2";
                 return ancType;
             case 3:
-                ancType[0]="গর্ভবতী পরিচর্যা - ৩য়";
+                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_service_3);
                 ancType[1] = "ANC -3";
                 return ancType;
             case 4:
-                ancType[0]="গর্ভবতী পরিচর্যা - ৪র্থ";
+                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_service_4);
                 ancType[1] = "ANC -4";
                 return ancType;
             case 5:
-                ancType[0]="গর্ভবতী পরিচর্যা - ৫ম";
+                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_service_5);
                 ancType[1] = "ANC -5";
                 return ancType;
             case 6:
-                ancType[0]="গর্ভবতী পরিচর্যা - ৬ষ্ঠ";
+                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_service_6);
                 ancType[1] = "ANC -6";
                 return ancType;
             case 7:
-                ancType[0]="গর্ভবতী পরিচর্যা - ৭ম";
+                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_service_7);
                 ancType[1] = "ANC -7";
                 return ancType;
             case 8:
-                ancType[0]="গর্ভবতী পরিচর্যা - ৮ম";
+                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_service_8);
                 ancType[1] = "ANC -8";
                 return ancType;
             default:
-                ancType[0]="গর্ভবতী পরিচর্যা";
+                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_service);
                 ancType[1] = "ANC";
                 return ancType;
         }
@@ -987,10 +987,10 @@ public class HnppConstants extends CoreConstants {
     }
     public static String getGender(String value){
         if(value.equalsIgnoreCase("F")){
-            return "মহিলা";
+            return HnppApplication.getInstance().getApplicationContext().getString(R.string.woman);
         }
         if(value.equalsIgnoreCase("M")){
-            return "পুরুষ";
+            return HnppApplication.getInstance().getApplicationContext().getString(R.string.man);
         }
         return value;
     }
@@ -1467,23 +1467,23 @@ public class HnppConstants extends CoreConstants {
             .put("তৃতীয় লিঙ্গ","O")
             .build();
     public static final Map<String,String> vaccineNameMapping = ImmutableMap.<String,String> builder()
-            .put("bcg","বিসিজি")
-            .put("opv_0","পোলিও-0")
-            .put("opv_1","পোলিও-১")
-            .put("pcv_1","পিসিভি-১")
-            .put("penta_1","পেন্টা-১")
-            .put("opv_2","পোলিও-২")
-            .put("pcv_2","পিসিভি-২")
-            .put("penta_2","পেন্টা-২")
-            .put("opv_3","পোলিও-৩")
-            .put("ipv","আই পি ভি")
-            .put("pcv_3","পিসিভি-৩")
+            .put("bcg", HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.bcg))
+            .put("opv_0", HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.polio_0))
+            .put("opv_1",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.polio_1))
+            .put("pcv_1",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pcv_1))
+            .put("penta_1",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.penta_1))
+            .put("opv_2",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.polio_2))
+            .put("pcv_2",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pcv_2))
+            .put("penta_2",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.penta_2))
+            .put("opv_3",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.polio_3))
+            .put("ipv",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.ipv))
+            .put("pcv_3",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pcv_3))
             .put("penta_3","পেন্টা-৩")
-            .put("mr_1","MR-১")
-            .put("mr_2","MR-২")
-            .put("vitamin_a1","ভিটামিন")
-            .put("fipv_1","এফ আই পি ভি-১")
-            .put("fipv_2","এফ আই পি ভি-২")
+            .put("mr_1",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.mr_1))
+            .put("mr_2",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.mr_2))
+            .put("vitamin_a1",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.vitamin))
+            .put("fipv_1",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.fipv_1))
+            .put("fipv_2",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.fipv_2))
             .build();
     public static final Map<String,String> eventTypeFormNameMapping = ImmutableMap.<String,String> builder()
             .put(EVENT_TYPE.ANC_REGISTRATION,JSON_FORMS.ANC_FORM)
@@ -1584,287 +1584,288 @@ public class HnppConstants extends CoreConstants {
             .build();
     //need to show the title at row/option
     public static final Map<String,String> visitEventTypeMapping = ImmutableMap.<String,String> builder()
-            .put(EVENT_TYPE.ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন")
+            .put(EVENT_TYPE.ANC_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_reg))
 //            .put(EVENT_TYPE.ANC_GENERAL_DISEASE,"শারীরিক সমস্যা")
 //            .put(EVENT_TYPE.ANC_PREGNANCY_HISTORY,"পূর্বের গর্ভের ইতিহাস")
-            .put(EVENT_TYPE.ELCO,"সক্ষম দম্পতি পরিদর্শন")
-            .put(JSON_FORMS.ANC_FORM,"গর্ভবতী পরিচর্যা")
-            .put(EVENT_TYPE.ANC_HOME_VISIT,"গর্ভবতী পরিচর্যা")
+            .put(EVENT_TYPE.ELCO,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.elco_visit))
+            .put(JSON_FORMS.ANC_FORM,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.anc_service))
+            .put(EVENT_TYPE.ANC_HOME_VISIT,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.anc_service))
 //            .put(JSON_FORMS.GENERAL_DISEASE,"শারীরিক সমস্যা")
-            .put(EVENT_TYPE.MEMBER_REFERRAL,"রেফারেল")
-            .put(EVENT_TYPE.WOMEN_REFERRAL,"রেফারেল")
-            .put(EVENT_TYPE.CHILD_REFERRAL,"রেফারেল")
-            .put("Member referral","রেফারেল")
+            .put(EVENT_TYPE.MEMBER_REFERRAL,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.referrel))
+            .put(EVENT_TYPE.WOMEN_REFERRAL,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.referrel))
+            .put(EVENT_TYPE.CHILD_REFERRAL,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.referrel))
+            .put("Member referral",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.referrel))
 //            .put( JSON_FORMS.PREGNANCY_HISTORY,"পূর্বের গর্ভের ইতিহাস")
-            .put( EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসবের ফলাফল")
-            .put( EVENT_TYPE.PREGNANCY_OUTCOME_OOC,"প্রসবের ফলাফল")
-            .put( JSON_FORMS.PNC_FORM,"প্রসবোত্তর পরিচর্যা")
-            .put( EVENT_TYPE.PNC_REGISTRATION_OOC,"প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি)")
-            .put( EVENT_TYPE.PNC_REGISTRATION,"প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি)")
-            .put(EVENT_TYPE.WOMEN_PACKAGE,"নারী সেবা প্যাকেজ")
-            .put(EVENT_TYPE.GIRL_PACKAGE, "কিশোরী সেবা প্যাকেজ")
-            .put(EVENT_TYPE.NCD_PACKAGE, "অসংক্রামক রোগের সেবা")
-            .put(EVENT_TYPE.BLOOD_GROUP,"ব্লাড গ্রুপ")
-            .put(EVENT_TYPE.EYE_TEST,"চক্ষু পরীক্ষা")
-            .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)")
-            .put(EVENT_TYPE.ENC_REGISTRATION, "নবজাতকের সেবা")
-            .put(EVENT_TYPE.HOME_VISIT_FAMILY, "খানার প্রোফাইল আপডেট")
-            .put(EVENT_TYPE.CHILD_PROFILE_VISIT, "খানা সদস্য জরিপ")
-            .put(EVENT_TYPE.MEMBER_PROFILE_VISIT, "খানা সদস্য জরিপ")
-            .put(EVENT_TYPE.VACCINATION, "ভ্যাকসিনেশন")
-            .put(EVENT_TYPE.SERVICES, "ভিটামিন সার্ভিস")
-            .put(EVENT_TYPE.REFERREL_FOLLOWUP,"রেফারেল ফলোআপ")
-            .put(EVENT_TYPE.CHILD_FOLLOWUP,"শিশু ফলোআপ")
-            .put(EVENT_TYPE.NEW_BORN_PNC_1_4,"নবজাতক পি এন সি ১-৪")
-            .put(EVENT_TYPE.AEFI_CHILD, "এ ই এফ আই ফলোআপ")
-            .put(EVENT_TYPE.CHILD_DISEASE, "সাধারণ রোগের তথ্য")
-            .put(EVENT_TYPE.MEMBER_DISEASE, "সাধারণ রোগের তথ্য")
-            .put(EVENT_TYPE.CHILD_INFO_EBF12,"শিশু তথ্য")
-            .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,"শিশু তথ্য")
-            .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,"শিশু তথ্য")
-            .put(EVENT_TYPE.PNC_CHILD_REGISTRATION,"প্রসবের ফলাফল-শিশু")
-            .put(EVENT_TYPE.UPDATE_CHILD_REGISTRATION,"শিশু নিবন্ধন আপডেট")
-            .put("Update Family Registration","খানা নিবন্ধন আপডেট")
-            .put(EventType.REMOVE_FAMILY,"খানা বাতিল")
-            .put(EventType.REMOVE_MEMBER,"সদস্যকে বাতিল")
-            .put(EventType.REMOVE_CHILD,"শিশু বাতিল")
-            .put(EVENT_TYPE.CORONA_INDIVIDUAL,"করোনা তথ্য")
-            .put(EVENT_TYPE.SS_INFO,"স্বাস্থ্য সেবিকা তথ্য")
-            .put(EVENT_TYPE.FORUM_ADO,"কিশোরী ফোরাম")
-            .put(EVENT_TYPE.FORUM_WOMEN,"নারী ফোরাম")
-            .put(EVENT_TYPE.FORUM_CHILD,"শিশু ফোরাম")
-            .put(EVENT_TYPE.FORUM_NCD,"সাধারণ ফোরাম")
-            .put(EVENT_TYPE.FORUM_ADULT,"অ্যাডাল্ট ফোরাম")
+            
+            .put( EVENT_TYPE.PREGNANCY_OUTCOME,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_outcome))
+            .put( EVENT_TYPE.PREGNANCY_OUTCOME_OOC,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_outcome))
+            .put( JSON_FORMS.PNC_FORM,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.before_preg_service))
+            .put( EVENT_TYPE.PNC_REGISTRATION_OOC,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.before_preg_visit_pnc))
+            .put( EVENT_TYPE.PNC_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.before_preg_visit_pnc))
+            .put(EVENT_TYPE.WOMEN_PACKAGE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.woman_package))
+            .put(EVENT_TYPE.GIRL_PACKAGE, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.girl_package))
+            .put(EVENT_TYPE.NCD_PACKAGE, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.ncd_package))
+            .put(EVENT_TYPE.BLOOD_GROUP,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.blood_group))
+            .put(EVENT_TYPE.EYE_TEST,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.eye_test))
+            .put(EVENT_TYPE.IYCF_PACKAGE, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_package))
+            .put(EVENT_TYPE.ENC_REGISTRATION, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.newborn_package))
+            .put(EVENT_TYPE.HOME_VISIT_FAMILY, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.household_profile_update))
+            .put(EVENT_TYPE.CHILD_PROFILE_VISIT, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_profile_visit))
+            .put(EVENT_TYPE.MEMBER_PROFILE_VISIT, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.member_profile_visit))
+            .put(EVENT_TYPE.VACCINATION, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.vaccination))
+            .put(EVENT_TYPE.SERVICES, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.vitamin_service))
+            .put(EVENT_TYPE.REFERREL_FOLLOWUP,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.referrel_followup))
+            .put(EVENT_TYPE.CHILD_FOLLOWUP,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_followup))
+            .put(EVENT_TYPE.NEW_BORN_PNC_1_4,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.newborn_pnc_1_4))
+            .put(EVENT_TYPE.AEFI_CHILD, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.aifi_child))
+            .put(EVENT_TYPE.CHILD_DISEASE, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.common_disease_info))
+            .put(EVENT_TYPE.MEMBER_DISEASE, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.common_disease_info))
+            .put(EVENT_TYPE.CHILD_INFO_EBF12,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_info))
+            .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_info))
+            .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_info))
+            .put(EVENT_TYPE.PNC_CHILD_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_child_reg))
+            .put(EVENT_TYPE.UPDATE_CHILD_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_reg_update))
+            .put("Update Family Registration",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.house_reg_update))
+            .put(EventType.REMOVE_FAMILY,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.house_remove))
+            .put(EventType.REMOVE_MEMBER,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.member_remove))
+            .put(EventType.REMOVE_CHILD,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_remove))
+            .put(EVENT_TYPE.CORONA_INDIVIDUAL,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.corona_info))
+            .put(EVENT_TYPE.SS_INFO,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.ss_info))
+            .put(EVENT_TYPE.FORUM_ADO,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.girl_forum))
+            .put(EVENT_TYPE.FORUM_WOMEN,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.woman_forum))
+            .put(EVENT_TYPE.FORUM_CHILD,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_forum))
+            .put(EVENT_TYPE.FORUM_NCD,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.common_forum))
+            .put(EVENT_TYPE.FORUM_ADULT,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.adult_forum))
             .build();
 
     //for dashboard poridorshon
     public static final Map<String,String> targetTypeMapping = ImmutableMap.<String,String> builder()
 
-            .put(EVENT_TYPE.HOME_VISIT_FAMILY,"খানার প্রোফাইল আপডেট ")
-            .put(EVENT_TYPE.CHILD_PROFILE_VISIT,"খানা সদস্য জরিপ")
-            .put(EVENT_TYPE.MEMBER_PROFILE_VISIT,"খানা সদস্য জরিপ")
-            .put(EVENT_TYPE.ELCO,"সক্ষম দম্পতি পরিদর্শন")
-            .put(EVENT_TYPE.METHOD_USER,"পদ্ধতি ব্যবহারকারী")
-            .put(EVENT_TYPE.ADO_METHOD_USER,"পদ্ধতি ব্যবহারকারী (কিশোরী)")
-            .put(EVENT_TYPE.PREGNANCY_IDENTIFIED,"গর্ভবতী চিহ্নিত")
-            .put(EVENT_TYPE.INSTITUTIONALIZES_DELIVERY,"প্রাতিষ্ঠানিক প্রসব সংখ্যা")
-            .put(EVENT_TYPE.CHILD_VISIT_0_6,"০-৬ মাস বয়সী শিশু পরিদর্শন")
-            .put(EVENT_TYPE.CHILD_VISIT_7_24,"৭-২৪ মাস বয়সী শিশু প্রদর্শন")
-            .put(EVENT_TYPE.CHILD_VISIT_18_36,"১৮-৩৬ মাস বয়সী শিশু পরিদর্শন")
-            .put(EVENT_TYPE.CHILD_IMMUNIZATION_0_59,"০-৫৯ মাস বয়সী শিশুর টিকা")
-            .put(EVENT_TYPE.FORUM_ADO,"কিশোরী ফোরাম")
-            .put(EVENT_TYPE.FORUM_WOMEN,"নারী ফোরাম")
-            .put(EVENT_TYPE.FORUM_CHILD,"শিশু ফোরাম")
-            .put(EVENT_TYPE.FORUM_NCD,"সাধারণ ফোরাম")
-            .put(EVENT_TYPE.FORUM_ADULT,"অ্যাডাল্ট ফোরাম")
-            .put(EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসব")
-            .put(EVENT_TYPE.GIRL_PACKAGE,"কিশোরী সেবা")
-            .put(EVENT_TYPE.WOMEN_PACKAGE,"নারী সেবা")
-            .put(EVENT_TYPE.IYCF_PACKAGE,"শিশু সেবা")
-            .put(EVENT_TYPE.NCD_PACKAGE,"অসংক্রামক রোগের সেবা")
-            .put(EVENT_TYPE.ANC_SERVICE,"গর্ভবতী সেবা")
-            .put(EVENT_TYPE.PNC_SERVICE,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
-            .put(EVENT_TYPE.ANC_PACKAGE,"গর্ভবতী সেবা")
-            .put(EVENT_TYPE.PNC_PACKAGE,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
-            .put(EVENT_TYPE.PNC_REGISTRATION,"প্রসব-পরবর্তী সেবা")
-            .put(EVENT_TYPE.AVG_ATTEND_ADULT_FORUM,"অংশগ্রহণকারী সংখ্যা")
-            .put(EVENT_TYPE.ADULT_FORUM_ATTENDANCE,"অংশগ্রহণকারী সংখ্যা")
+            .put(EVENT_TYPE.HOME_VISIT_FAMILY,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.house_profile_update))
+            .put(EVENT_TYPE.CHILD_PROFILE_VISIT,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.house_member_survey))
+            .put(EVENT_TYPE.MEMBER_PROFILE_VISIT,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.house_member_survey))
+            .put(EVENT_TYPE.ELCO,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.elco))
+            .put(EVENT_TYPE.METHOD_USER,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.method_user))
+            .put(EVENT_TYPE.ADO_METHOD_USER,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.add_method_user))
+            .put(EVENT_TYPE.PREGNANCY_IDENTIFIED,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_identified))
+            .put(EVENT_TYPE.INSTITUTIONALIZES_DELIVERY,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.inst_delivery))
+            .put(EVENT_TYPE.CHILD_VISIT_0_6,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_visit_0_6))
+            .put(EVENT_TYPE.CHILD_VISIT_7_24,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_visit_7_24))
+            .put(EVENT_TYPE.CHILD_VISIT_18_36,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_visit_18_36))
+            .put(EVENT_TYPE.CHILD_IMMUNIZATION_0_59,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_imm_0_59))
+            .put(EVENT_TYPE.FORUM_ADO,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.girl_forum))
+            .put(EVENT_TYPE.FORUM_WOMEN,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.woman_forum))
+            .put(EVENT_TYPE.FORUM_CHILD,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_forum))
+            .put(EVENT_TYPE.FORUM_NCD,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.common_forum))
+            .put(EVENT_TYPE.FORUM_ADULT,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.adult_forum))
+            .put(EVENT_TYPE.PREGNANCY_OUTCOME,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.delivery))
+            .put(EVENT_TYPE.GIRL_PACKAGE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.girl_package))
+            .put(EVENT_TYPE.WOMEN_PACKAGE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.woman_package))
+            .put(EVENT_TYPE.IYCF_PACKAGE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.iycf_package))
+            .put(EVENT_TYPE.NCD_PACKAGE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.ncd_package))
+            .put(EVENT_TYPE.ANC_SERVICE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.anc_service2))
+            .put(EVENT_TYPE.PNC_SERVICE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_service_within_48))
+            .put(EVENT_TYPE.ANC_PACKAGE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.anc_package))
+            .put(EVENT_TYPE.PNC_PACKAGE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_within_48))
+            .put(EVENT_TYPE.PNC_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.after_delivery_service))
+            .put(EVENT_TYPE.AVG_ATTEND_ADULT_FORUM,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.number_of_attend))
+            .put(EVENT_TYPE.ADULT_FORUM_ATTENDANCE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.number_of_attend))
            // .put(EVENT_TYPE.NCD_BY_PA,"অসংক্রামক রোগের সেবা")
-            .put(EVENT_TYPE.ADULT_FORUM_SERVICE_TAKEN,"সেবা গ্রহীতার সংখ্যা")
-            .put(EVENT_TYPE.MARKED_PRESBYOPIA,"চিহ্নিত প্রেসবায়োপিয়া")
-            .put(EVENT_TYPE.PRESBYOPIA_CORRECTION,"প্রেসবায়োপিয়া কারেকশন")
-            .put(EVENT_TYPE.ESTIMATE_DIABETES,"সম্ভাব্য ডায়াবেটিস")
-            .put(EVENT_TYPE.ESTIMATE_HBP,"সম্ভাব্য উচ্চ রক্তচাপ")
-            .put(EVENT_TYPE.CATARACT_SURGERY_REFER,"ছানি অপারেশন এ রেফার")
-            .put(EVENT_TYPE.CATARACT_SURGERY,"ছানি অপারেশন")
+            .put(EVENT_TYPE.ADULT_FORUM_SERVICE_TAKEN,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.service_taken_num))
+            .put(EVENT_TYPE.MARKED_PRESBYOPIA,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.marked_presbyopia))
+            .put(EVENT_TYPE.PRESBYOPIA_CORRECTION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.presbyopia_correction))
+            .put(EVENT_TYPE.ESTIMATE_DIABETES,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.estimated_diabetes))
+            .put(EVENT_TYPE.ESTIMATE_HBP,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.estimated_hbp))
+            .put(EVENT_TYPE.CATARACT_SURGERY_REFER,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.cataract_surgery_refer))
+            .put(EVENT_TYPE.CATARACT_SURGERY,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.cateract_surgery))
             .build();
     //for dashboard workSummery
     public static final Map<String,String> workSummeryTypeMapping = ImmutableMap.<String,String> builder()
 
-            .put(HnppConstants.EventType.FAMILY_REGISTRATION,"খানা রেজিস্ট্রেশন")
-            .put(HnppConstants.EventType.FAMILY_MEMBER_REGISTRATION,"সদস্য রেজিস্ট্রেশন")
-            .put(EVENT_TYPE.HOME_VISIT_FAMILY,"খানার প্রোফাইল আপডেট ")
-            .put(EVENT_TYPE.CHILD_PROFILE_VISIT,"খানা সদস্য জরিপ")
-            .put(EVENT_TYPE.MEMBER_PROFILE_VISIT,"খানা সদস্য জরিপ")
-            .put(HnppConstants.EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,"সদস্য রেজিস্ট্রেশন")
-            .put("ANC","গর্ভবতী পরিচর্যা(এএনসি)")
-            .put("pnc","পূর্বের প্রসবোত্তর পরিচর্যা(পিএনসি)")
-            .put(EVENT_TYPE.ELCO,"সক্ষম দম্পতি পরিদর্শন")
-            .put(HnppConstants.EventType.CHILD_REGISTRATION,"শিশু রেজিস্ট্রেশন")
-            .put(EVENT_TYPE.ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন")
-            .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,"গর্ভবতী পরিচর্যা ভিজিট(এএনসি)")
+            .put(EventType.FAMILY_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.household_reg))
+            .put(EventType.FAMILY_MEMBER_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.member_reg))
+            .put(EVENT_TYPE.HOME_VISIT_FAMILY,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.house_profile_update))
+            .put(EVENT_TYPE.CHILD_PROFILE_VISIT,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.house_member_survey))
+            .put(EVENT_TYPE.MEMBER_PROFILE_VISIT,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.house_member_survey))
+            .put(EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.member_reg))
+            .put("ANC",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.anc_service_anc))
+            .put("pnc",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.old_pnc_service))
+            .put(EVENT_TYPE.ELCO,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.elco_visit))
+            .put(EventType.CHILD_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_reg))
+            .put(EVENT_TYPE.ANC_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_reg))
+            .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.preg_service_visit))
 
-            .put(EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসব")
-            .put(EVENT_TYPE.ENC_REGISTRATION, "নবজাতকের সেবা")
-            .put(EVENT_TYPE.CHILD_FOLLOWUP,"শিশু ফলোআপ")
-            .put(EVENT_TYPE.NEW_BORN_PNC_1_4,"নবজাতক পি এন সি ১-৪")
-            .put(EVENT_TYPE.AEFI_CHILD,"এ ই এফ আই ফলোআপ")
-            .put(EVENT_TYPE.CHILD_DISEASE, "সাধারণ রোগের তথ্য")
-            .put(EVENT_TYPE.MEMBER_DISEASE, "সাধারণ রোগের তথ্য")
-            .put(EVENT_TYPE.CHILD_INFO_EBF12,"শিশু তথ্য")
-            .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,"শিশু তথ্য")
-            .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,"শিশু তথ্য")
-            .put(EVENT_TYPE.FORUM_ADO,"কিশোরী ফোরাম")
-            .put(EVENT_TYPE.FORUM_WOMEN,"নারী ফোরাম")
-            .put(EVENT_TYPE.FORUM_CHILD,"শিশু ফোরাম")
-            .put(EVENT_TYPE.FORUM_NCD,"সাধারণ ফোরাম")
-            .put(EVENT_TYPE.FORUM_ADULT,"অ্যাডাল্ট ফোরাম")
-            .put(EVENT_TYPE.WOMEN_PACKAGE,"নারী সেবা প্যাকেজ")
-            .put(EVENT_TYPE.GIRL_PACKAGE, "কিশোরী সেবা প্যাকেজ")
-            .put(EVENT_TYPE.NCD_PACKAGE, "অসংক্রামক রোগের সেবা")
-            .put(EVENT_TYPE.BLOOD_GROUP,"ব্লাড গ্রুপ")
-            .put(EVENT_TYPE.EYE_TEST,"চক্ষু পরীক্ষা")
-            .put(EVENT_TYPE.GLASS,"মোট চশমা")
-            .put(EVENT_TYPE.SUN_GLASS,"সানগ্লাস")
-            .put(EVENT_TYPE.SV_1,"SV- 1.00")
-            .put(EVENT_TYPE.SV_1_5,"SV- 1.50")
-            .put(EVENT_TYPE.SV_2,"SV- 2.00")
-            .put(EVENT_TYPE.SV_2_5,"SV- 2.50")
-            .put(EVENT_TYPE.SV_3,"SV- 3.00")
-            .put(EVENT_TYPE.BF_1,"BF- 1.00")
-            .put(EVENT_TYPE.BF_1_5,"BF- 1.50")
-            .put(EVENT_TYPE.BF_2,"BF- 2.00")
-            .put(EVENT_TYPE.BF_2_5,"BF- 2.50")
-            .put(EVENT_TYPE.BF_3,"BF- 3.00")
-
-            .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)")
-            .put("familyplanning_method_known", "পরিবার পরিকল্পনা পদ্ধতি ব্যবহারকারী")
-            .put(EVENT_TYPE.ANC_SERVICE,"গর্ভবতী সেবা")
-            .put(EVENT_TYPE.PNC_SERVICE,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
-            .put(EVENT_TYPE.PNC_REGISTRATION,"পি.এন.সি")
+            .put(EVENT_TYPE.PREGNANCY_OUTCOME,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.delivery))
+            .put(EVENT_TYPE.ENC_REGISTRATION, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.newborn_service))
+            .put(EVENT_TYPE.CHILD_FOLLOWUP,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_followup))
+            .put(EVENT_TYPE.NEW_BORN_PNC_1_4,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.newborn_pnc_1_4))
+            .put(EVENT_TYPE.AEFI_CHILD,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.aefi_followup))
+            .put(EVENT_TYPE.CHILD_DISEASE, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.common_disease_info))
+            .put(EVENT_TYPE.MEMBER_DISEASE, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.common_disease_info))
+            .put(EVENT_TYPE.CHILD_INFO_EBF12,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_info))
+            .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_info))
+            .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_info))
+            .put(EVENT_TYPE.FORUM_ADO,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.girl_forum))
+            .put(EVENT_TYPE.FORUM_WOMEN,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.woman_forum))
+            .put(EVENT_TYPE.FORUM_CHILD,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.girl_forum))
+            .put(EVENT_TYPE.FORUM_NCD,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.common_forum))
+            .put(EVENT_TYPE.FORUM_ADULT,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.adult_forum))
+            .put(EVENT_TYPE.WOMEN_PACKAGE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.woman_package))
+            .put(EVENT_TYPE.GIRL_PACKAGE, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.girl_package))
+            .put(EVENT_TYPE.NCD_PACKAGE, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.ncd_package))
+            .put(EVENT_TYPE.BLOOD_GROUP,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.blood_group))
+            .put(EVENT_TYPE.EYE_TEST,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.eye_test))
+            .put(EVENT_TYPE.GLASS,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.total_glass))
+            .put(EVENT_TYPE.SUN_GLASS,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.sunglass))
+            .put(EVENT_TYPE.SV_1,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.sv_1))
+            .put(EVENT_TYPE.SV_1_5,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.sv_1_5))
+            .put(EVENT_TYPE.SV_2,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.sv_2))
+            .put(EVENT_TYPE.SV_2_5,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.sv_2_5))
+            .put(EVENT_TYPE.SV_3,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.sv_3))
+            .put(EVENT_TYPE.BF_1,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.bf_1))
+            .put(EVENT_TYPE.BF_1_5,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.bf_1_5))
+            .put(EVENT_TYPE.BF_2,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.bf_2))
+            .put(EVENT_TYPE.BF_2_5,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.bf_2_5))
+            .put(EVENT_TYPE.BF_3,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.bf_3))
+            
+              .put(EVENT_TYPE.IYCF_PACKAGE, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_package_iyocf))
+            .put("familyplanning_method_known", HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.family_planning_user))
+            .put(EVENT_TYPE.ANC_SERVICE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.anc_package))
+            .put(EVENT_TYPE.PNC_SERVICE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_within_48))
+            .put(EVENT_TYPE.PNC_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_only))
 
             .build();
     //for dashboard countSummery
     public static final Map<String,String> countSummeryTypeMapping = ImmutableMap.<String,String> builder()
 
-            .put(HnppConstants.EventType.FAMILY_REGISTRATION,"খানা সংখ্যা")
-            .put(HnppConstants.EventType.FAMILY_MEMBER_REGISTRATION,"সদস্য সংখ্যা")
-            .put(HnppConstants.EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,"সদস্য সংখ্যা")
-            .put(HnppConstants.EventType.CHILD_REGISTRATION,"শিশু সংখ্যা")
-            .put(EVENT_TYPE.ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন")
-            .put(EVENT_TYPE.HOME_VISIT_FAMILY,"খানার প্রোফাইল আপডেট ")
-            .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,"গর্ভবতী পরিচর্যা ভিজিট(এএনসি)")
-            .put(EVENT_TYPE.PNC_REGISTRATION,"পি.এন.সি.")
-            .put(EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসব")
+            .put(EventType.FAMILY_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.house_number))
+            .put(EventType.FAMILY_MEMBER_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.number_of_member))
+            .put(EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.number_of_member))
+            .put(EventType.CHILD_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.number_of_child))
+            .put(EVENT_TYPE.ANC_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_reg))
+            .put(EVENT_TYPE.HOME_VISIT_FAMILY,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.house_profile_update))
+            .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_service_visit))
+            .put(EVENT_TYPE.PNC_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_only))
+            .put(EVENT_TYPE.PREGNANCY_OUTCOME,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.delivery))
             .build();
 
 
 
     public static final Map<String,String> eventTypeMapping = ImmutableMap.<String,String> builder()
-            .put(HnppConstants.EventType.FAMILY_REGISTRATION,"খানা নিবন্ধন")
-            .put(HnppConstants.EventType.FAMILY_MEMBER_REGISTRATION,"সদস্য নিবন্ধন")
-            .put(HnppConstants.EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,"সদস্য আপডেট")
-            .put(HnppConstants.EventType.CHILD_REGISTRATION,"শিশু নিবন্ধন")
-            .put(HnppConstants.EVENT_TYPE.MEMBER_REFERRAL,"রেফারেল")
-            .put(EVENT_TYPE.WOMEN_REFERRAL,"রেফারেল")
-            .put(EVENT_TYPE.CHILD_REFERRAL,"রেফারেল")
-            .put(EVENT_TYPE.PREGNANCY_OUTCOME,"প্রসব")
-            .put("Member referral","রেফারেল")
-            .put(EVENT_TYPE.ELCO,"সক্ষম দম্পতি পরিদর্শন")
-            .put(EVENT_TYPE.ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন")
-            .put(EVENT_TYPE.UPDATE_ANC_REGISTRATION,"গর্ভবতী রেজিস্ট্রেশন আপডেট")
-            .put(EVENT_TYPE.WOMEN_PACKAGE,"নারী সেবা প্যাকেজ")
-            .put(EVENT_TYPE.GIRL_PACKAGE, "কিশোরী সেবা প্যাকেজ")
-            .put(EVENT_TYPE.NCD_PACKAGE, "অসংক্রামক রোগের সেবা")
-            .put(EVENT_TYPE.BLOOD_GROUP,"ব্লাড গ্রুপ")
-            .put(EVENT_TYPE.EYE_TEST,"চক্ষু পরীক্ষা")
-            .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)")
-            .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,"গর্ভবতী পরিচর্যা ভিজিট(এএনসি)")
-            .put( EVENT_TYPE.PNC_REGISTRATION,"পি.এন.সি.")
-            .put(EVENT_TYPE.ENC_REGISTRATION, "নবজাতকের সেবা")
-            .put(EVENT_TYPE.HOME_VISIT_FAMILY, "খানার প্রোফাইল আপডেট ")
-            .put(EVENT_TYPE.CHILD_PROFILE_VISIT, "খানা সদস্য জরিপ")
-            .put(EVENT_TYPE.MEMBER_PROFILE_VISIT, "খানা সদস্য জরিপ")
-            .put(EventType.CHILD_HOME_VISIT, "শিশু হোম ভিজিট")
-            .put(EVENT_TYPE.VACCINATION, "ভ্যাকসিনেশন")
-            .put(EVENT_TYPE.SERVICES, "ভিটামিন সার্ভিস")
-            .put(EVENT_TYPE.REFERREL_FOLLOWUP,"রেফারেল ফলোআপ")
-            .put(EVENT_TYPE.CHILD_FOLLOWUP,"শিশু ফলোআপ")
-            .put(EVENT_TYPE.NEW_BORN_PNC_1_4,"নবজাতক পি এন সি")
-            .put(EVENT_TYPE.AEFI_CHILD,"এ ই এফ আই ফলোআপ")
-            .put(EVENT_TYPE.CHILD_DISEASE, "সাধারণ রোগের তথ্য")
-            .put(EVENT_TYPE.MEMBER_DISEASE, "সাধারণ রোগের তথ্য")
-            .put(EVENT_TYPE.CHILD_INFO_EBF12,"শিশু তথ্য")
-            .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,"শিশু তথ্য")
-            .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,"শিশু তথ্য")
-            .put(EVENT_TYPE.PNC_CHILD_REGISTRATION,"প্রসবের ফলাফল-শিশু")
-            .put(EVENT_TYPE.UPDATE_CHILD_REGISTRATION,"শিশু নিবন্ধন আপডেট")
-            .put("Update Family Registration","খানা নিবন্ধন আপডেট")
-            .put(EventType.REMOVE_FAMILY,"খানা বাতিল")
-            .put(EventType.REMOVE_MEMBER,"সদস্যকে বাতিল")
-            .put(EventType.REMOVE_CHILD,"শিশু বাতিল")
-            .put(EVENT_TYPE.CORONA_INDIVIDUAL,"করোনা তথ্য")
-            .put(EVENT_TYPE.SS_INFO,"স্বাস্থ্য সেবিকা তথ্য")
-            .put(EVENT_TYPE.FORUM_ADO,"কিশোরী ফোরাম")
-            .put(EVENT_TYPE.FORUM_WOMEN,"নারী ফোরাম")
-            .put(EVENT_TYPE.FORUM_CHILD,"শিশু ফোরাম")
-            .put(EVENT_TYPE.FORUM_NCD,"সাধারণ ফোরাম")
-            .put(EVENT_TYPE.FORUM_ADULT,"অ্যাডাল্ট ফোরাম")
-            .put(EVENT_TYPE.ANC_SERVICE,"গর্ভবতী সেবা")
-            .put(EVENT_TYPE.PNC_SERVICE,"পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
-            .put("Guest Member Registration","বহিরাগত রেজিস্ট্রেশন")
-            .put("OOC Member Registration","বহিরাগত রেজিস্ট্রেশন")
+            .put(EventType.FAMILY_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.add_family))
+            .put(EventType.FAMILY_MEMBER_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.member_reg))
+            .put(EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.member_update))
+            .put(EventType.CHILD_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_reg))
+            .put(EVENT_TYPE.MEMBER_REFERRAL,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.referrel))
+            .put(EVENT_TYPE.WOMEN_REFERRAL,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.referrel))
+            .put(EVENT_TYPE.CHILD_REFERRAL,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.referrel))
+            .put(EVENT_TYPE.PREGNANCY_OUTCOME,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.delivery))
+            .put("Member referral",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.referrel))
+            .put(EVENT_TYPE.ELCO,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.elco_visit))
+            .put(EVENT_TYPE.ANC_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_reg))
+            .put(EVENT_TYPE.UPDATE_ANC_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_reg_update))
+            .put(EVENT_TYPE.WOMEN_PACKAGE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.woman_package))
+            .put(EVENT_TYPE.GIRL_PACKAGE, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.girl_package))
+            .put(EVENT_TYPE.NCD_PACKAGE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.ncd_package))
+            .put(EVENT_TYPE.BLOOD_GROUP,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.blood_group))
+            .put(EVENT_TYPE.EYE_TEST,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.eye_test))
+            .put(EVENT_TYPE.IYCF_PACKAGE, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_package_iyocf))
+            .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_service_visit))
+            .put( EVENT_TYPE.PNC_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_only))
+            .put(EVENT_TYPE.ENC_REGISTRATION, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.newborn_service))
+            .put(EVENT_TYPE.HOME_VISIT_FAMILY,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.house_profile_update))
+            .put(EVENT_TYPE.CHILD_PROFILE_VISIT, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.house_member_survey))
+            .put(EVENT_TYPE.MEMBER_PROFILE_VISIT, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.house_member_survey))
+            .put(EventType.CHILD_HOME_VISIT, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_home_visit))
+            .put(EVENT_TYPE.VACCINATION, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.vaccination))
+            .put(EVENT_TYPE.SERVICES, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.vitamin_service))
+            .put(EVENT_TYPE.REFERREL_FOLLOWUP,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.referrel_followup))
+            .put(EVENT_TYPE.CHILD_FOLLOWUP,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_followup))
+            .put(EVENT_TYPE.NEW_BORN_PNC_1_4,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.newborn_pnc))
+            .put(EVENT_TYPE.AEFI_CHILD,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.aefi_followup))
+            .put(EVENT_TYPE.CHILD_DISEASE, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.common_disease_info))
+            .put(EVENT_TYPE.MEMBER_DISEASE, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.common_disease_info))
+            .put(EVENT_TYPE.CHILD_INFO_EBF12,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_info))
+            .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_info))
+            .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_info))
+            .put(EVENT_TYPE.PNC_CHILD_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_child_reg))
+            .put(EVENT_TYPE.UPDATE_CHILD_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_reg_update))
+            .put("Update Family Registration",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.house_reg_update))
+            .put(EventType.REMOVE_FAMILY,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.house_remove))
+            .put(EventType.REMOVE_MEMBER,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.member_remove))
+            .put(EventType.REMOVE_CHILD,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_remove))
+            .put(EVENT_TYPE.CORONA_INDIVIDUAL,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.corona_info))
+            .put(EVENT_TYPE.SS_INFO,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.ss_info))
+            .put(EVENT_TYPE.FORUM_ADO,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.girl_forum))
+            .put(EVENT_TYPE.FORUM_WOMEN,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.woman_forum))
+            .put(EVENT_TYPE.FORUM_CHILD,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_forum))
+            .put(EVENT_TYPE.FORUM_NCD,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.common_forum))
+            .put(EVENT_TYPE.FORUM_ADULT,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.adult_forum))
+            .put(EVENT_TYPE.ANC_SERVICE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.anc_package))
+            .put(EVENT_TYPE.PNC_SERVICE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_within_48))
+            .put("Guest Member Registration",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.guest_reg))
+            .put("OOC Member Registration",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.guest_reg))
             .build();
     public static final Map<String,String> riskeyFactorMapping = ImmutableMap.<String,String> builder()
-            .put("Bleeding_Through_Birth_Canal","যোনিপথে রক্তক্ষরণ")
-            .put("High_Temperature_102_Degree_or_More","জ্বর")
-            .put("Convulsion","এক্লাম্পসিয়া/খিঁচুনি")
-            .put("Weakness_Blurred_vision","ঝাপসা দৃষ্টি / গুরুতর মাথাব্যথা")
-            .put("high_blood_pressure","উচ্চ রক্তচাপ")
-            .put("clinical_anemia","ক্লিনিকাল রক্তসল্পতা আছে")
-            .put("pph","প্রসবোত্তর রক্তক্ষরণের হয়েছে")
-            .put("postpartum_eclampsia","প্রসবোত্তর খিচুনী হয়েছে")
-            .put("puerperal_sepsis","প্রসবোত্তর কোনো প্রকার সংক্রমণ হয়েছ")
-            .put("vv_fistula_rv_fistula","ভিভি ফিস্টুলা/আরভি ফিস্টুলা দ্বারা সংক্রমিত হয়েছেন")
-            .put("perinal_tear","পেরিনাল টিয়ার হয়েছে")
-            .put("Fetal_Heart_Rate","ভ্রূণের হার্টবিট রেট")
-            .put("Hemoglobin_result","হিমোগ্লোবিন")
-            .put("fbs_result","ফাস্টিং")
-            .put("rbs_result","রেন্ডম")
-            .put("Urine_Albumin_result","প্রস্রাবের অ্যালবুমিন")
-            .put("Hb_tested_result","হেপাটাইটিস বি")
-            .put("chipilis_tested_result","সিফিলিস")
-            .put("hiv_tested_result","এইচ আই ভি")
-            .put("ultra_sound_result","আল্ট্রাসাউন্ড স্ক্যান")
-            .put("body_temp_fahrenheit","শরীরের তাপমাত্রা")
+            .put("Bleeding_Through_Birth_Canal",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.bleeding_birth_canel))
+            .put("High_Temperature_102_Degree_or_More",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.faver))
+            .put("Convulsion",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.convulsion))
+            .put("Weakness_Blurred_vision",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.blurred_vision))
+            .put("high_blood_pressure",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.high_blood_pressure))
+            .put("clinical_anemia",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.clinical_anemia))
+            .put("pph",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pph))
+            .put("postpartum_eclampsia",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.postpartum_eclampsia))
+            .put("puerperal_sepsis",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.puerpartum_sepsis))
+             .put("vv_fistula_rv_fistula",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.vv_fistula))
+            .put("perinal_tear",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.perinal_tear))
+            .put("Fetal_Heart_Rate",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.fetal_heard_rate))
+            .put("Hemoglobin_result",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.hemoglobin))
+            .put("fbs_result",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.fasting))
+            .put("rbs_result",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.rendom))
+            .put("Urine_Albumin_result",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.urine_albumin))
+            .put("Hb_tested_result",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.hb_test_result))
+            .put("chipilis_tested_result",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.chiphilis))
+            .put("hiv_tested_result",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.hiv))
+            .put("ultra_sound_result",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.ultra_sounf_scan))
+            .put("body_temp_fahrenheit",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.body_temp))
             .build();
     public static final Map<String,String> immunizationMapping = ImmutableMap.<String,String> builder()
-            .put("PENTA 1","পেন্টা-১")
-            .put("PENTA 2","পেন্টা-২")
-            .put("PENTA 3","পেন্টা-৩")
-            .put("OPV 1","পোলিও-১")
-            .put("OPV 2","পোলিও-২")
-            .put("OPV 3","পোলিও-৩")
-            .put("PCV 1","পিসিভি-১")
-            .put("PCV 2","পিসিভি-২")
-            .put("PCV 3","পিসিভি-৩")
-            .put("BCG","বিসিজি")
-            .put("VITAMIN A1","ভিটামিন এ")
+            .put("PENTA 1",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.penta_1))
+            .put("PENTA 2",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.penta_2))
+            .put("PENTA 3",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.penta_3))
+            .put("OPV 1",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.polio_1))
+            .put("OPV 2",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.polio_2))
+            .put("OPV 3",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.polio_3))
+            .put("PCV 1",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pcv_1))
+            .put("PCV 2",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pcv_2))
+            .put("PCV 3",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pcv_3))
+            .put("BCG",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.bcg))
+            .put("VITAMIN A1",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.vitamin_a))
             .build();
     public static final Map<String,String> referealResonMapping = ImmutableMap.<String,String> builder()
-            .put("child_problems","শিশু বিষয়ক সমস্যা")
-            .put("pregnancy_problems","গর্ভাবস্থার সমস্যা")
-            .put("delivery_problems","প্রসবে সমস্যা")
-            .put("pnc_problem","প্রসব পরবর্তী সমস্যা")
-            .put("problems_eyes","চোখে সমস্যা")
-            .put("diabetes","ডায়াবেটিস")
-            .put("high_blood_pressure","উচ্চ রক্তচাপ")
-            .put("problems_with_birth_control","জন্মবিরতিকরণ পদ্ধতি সংক্রান্ত সমস্যা")
-            .put("cataract_problem","চোখে ক্যাটারেক্ট (ছানি) সমস্যা")
-            .put("other","অন্যান্য")
+            .put("child_problems",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_problems))
+            .put("pregnancy_problems",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_problems))
+            .put("delivery_problems",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.delivery_problem))
+            .put("pnc_problem",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_problem))
+            .put("problems_eyes",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.eye_problem))
+            .put("diabetes",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.diabetes))
+            .put("high_blood_pressure",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.high_blood_pressure))
+            .put("problems_with_birth_control",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.birth_control_problem))
+            .put("cataract_problem",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.cataract_problem))
+            .put("other",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.other))
             .build();
     public static final Map<String,String> referealPlaceMapping = ImmutableMap.<String,String> builder()
-            .put("brac_maternity_center", "ব্র্যাক ম্যাটারনিটি সেন্টার")
-            .put("union_health_center","ইউনিয়ন উপ-স্বাস্থ্য কেন্দ্র")
-            .put("upozzila_health_complex","উপজেলা স্বাস্থ্য কমপ্লেক্স")
-            .put("union_family_kollan_center","ইউনিয়ন পরিবার কল্যাণ কেন্দ্র")
-            .put("union_health_and_family_kollan_center","ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র")
-            .put("mother_child_kollan_center","মা ও শিশু কল্যাণ কেন্দ্র")
-            .put("center_hospital","সদর হাসপাতাল")
-            .put("medical_collage_hospital","মেডিকেল কলেজ হাসপাতাল")
-            .put("private_clinic","বেসরকারি ক্লিনিক")
-            .put("spacial_hospital","বিশেষায়িত হাসপাতাল")
-            .put("other_option","অন্যান্য")
+            .put("brac_maternity_center", HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.brac_maternity_center))
+            .put("union_health_center",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.union_health_center))
+            .put("upozzila_health_complex",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.upazila_health_complex))
+            .put("union_family_kollan_center",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.union_family_kollan_center))
+            .put("union_health_and_family_kollan_center",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.union_health_and_family_kollan_center))
+            .put("mother_child_kollan_center",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.mother_child_kollan_center))
+            .put("center_hospital",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.center_hospital))
+            .put("medical_collage_hospital",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.medical_collage_hospital))
+            .put("private_clinic",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.private_clinic))
+            .put("spacial_hospital",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.special_hospital))
+            .put("other_option",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.other))
             .build();
 
     private static String getKeyByValue(String mapperObj, String value){

@@ -1,0 +1,376 @@
+{
+  "count": "1",
+  "encounter_type": "New Born PNC 1-4",
+  "entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location": ""
+  },
+  "step1": {
+    "title": "নবজাতক পি এন সি - ১ম",
+    "fields": [
+      {
+        "key": "form_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "New Born PNC 1-4",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": "new_born_pnc_1_4"
+      },
+      {
+        "key": "dob",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden"
+      },
+      {
+        "key": "month_diff",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_iycf_package_calculation.yml"
+            }
+          }
+        }
+      },
+
+      {
+        "key": "schedule_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "schedule_date",
+        "type": "hidden",
+        "read_only": true,
+        "hint": "সেবা গ্রহণের নির্ধারিত তারিখ"
+      },
+
+      {
+        "key": "service_taken_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "service_taken_date",
+        "type": "date_picker",
+        "hint": "সেবা গ্রহণের তারিখ"
+      },
+
+      {
+        "key": "weight",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "weight",
+        "type": "edit_text",
+        "v_required": {
+          "value": "true",
+          "err": "ওজন (গ্রাম) লিখুন"
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "সংখ্যাটি 0 এর চেয়ে সমান বা বড় হতে হবে"
+        },
+        "v_max": {
+          "value": "6001",
+          "err": "6001 এর কম হওয়া উচিত"
+        },
+        "v_min": {
+          "value": "500",
+          "err": "500 এর বেশী হওয়া উচিত"
+        },
+
+        "hint": "ওজন (গ্রাম)"
+      },
+
+      {
+        "key": "weight_warning_less",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "শিশুটির জন্ম ওজন কম। পর্যবেক্ষণে রাখুন",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "newborn-pnc-1-4-relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "weight_warning_up",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "শিশুটির জন্ম ওজন অত্যধিক বেশি। পর্যবেক্ষণে রাখুন",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "newborn-pnc-1-4-relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "term",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "term",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "প্রি টার্ম, টার্ম, পোস্ট টার্ম?",
+        "values": [
+          "প্রি টার্ম",
+          "টার্ম",
+          "পোস্ট টার্ম"
+        ],
+        "openmrs_entity_ids": {
+          "প্রি টার্ম": "Pre-term",
+          "টার্ম": "term",
+          "পোস্ট টার্ম": "post-term"
+        }
+      },
+      {
+        "key": "pre_term_warning",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "প্রি-টার্ম শিশু।পর্যবেক্ষণে রাখুন",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:term": {
+            "type": "string",
+            "ex": "equalTo(., \"প্রি টার্ম\")"
+          }
+        }
+      },
+      {
+        "key": "post_term_warning",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "পোস্ট -টার্ম শিশু।পর্যবেক্ষণে রাখুন",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:term": {
+            "type": "string",
+            "ex": "equalTo(., \"পোস্ট টার্ম\")"
+          }
+        }
+      },
+      {
+        "key": "newborn_body_info",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "newborn_body_info",
+        "type": "check_box",
+        "label": "নবজাতকের শারীরিক তথ্য",
+        "exclusive": [
+          "none"
+        ],
+        "options": [
+          {
+            "key": "ebf",
+            "text": "নবজাতক ইবিএফ গ্রহন করছে",
+            "value": false,
+            "openmrs_entity_id": "High_fever",
+            "openmrs_entity": "concept",
+            "openmrs_entity_parent": ""
+          },
+          {
+            "key": "redness_around_umbilicus",
+            "text": "আম্বিলিকাস বা অ্যাম্বিলিকাস ড্রেনিং পুসের চারপাশে লালভাব",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "redness_around_umbilicus"
+          },
+          {
+            "key": "lethargic_or_restricted_movement",
+            "text": "শারীরিক ভাবে অবস্থান পরিবর্তনে সীমাবদ্ধ",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "lethargic_or_restricted_movement"
+          },
+          {
+            "key": "unable_to_breastfed",
+            "text": "নবজাতক কে বুকের দুধ খাওয়াতে অক্ষম অথবা নবজাতক স্তন্যপানে অক্ষম",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "unable_to_breastfed"
+          },
+          {
+            "key": "fast_breathing",
+            "text": "স্বাভাবিক এর থেকে দ্রুত নিঃশ্বাস নিচ্ছে? (প্রতি মিনিটে ৬০ অথবা তার অধিক)",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "fast_breathing"
+          },
+          {
+            "key": "chest_in_drawing",
+            "text": "চেস্ট ইন ড্রয়িং",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "chest_in_drawing"
+          },
+          {
+            "key": "convulsion",
+            "text": "দ্রুত খিচুনী হয়েছে ",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "convulsion"
+          },
+          {
+            "key": "high_temperature",
+            "text": "উচ্চ তাপমাত্রা/ জ্বর ( তাপমাত্রা ৩৭.৫ সে . / ৯৯.৫ ফা. এর উপরে)",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Sweating_or_shivering"
+          }
+        ]
+      },
+
+      {
+        "key": "is_Referred",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_Referred",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "রেফার করা হয়েছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_entity_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+
+      {
+        "key":"Place_of_Refer",
+        "openmrs_entity_parent":"",
+        "openmrs_entity":"concept",
+        "openmrs_entity_id":"Place_of_Refer",
+        "openmrs_data_type":"",
+        "type":"spinner",
+        "hint":"রেফারের স্থান",
+        "values":[
+          "কমিউনিটি ক্লিনিক",
+          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র",
+          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র",
+          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
+          "মা ও শিশু কল্যাণ কেন্দ্র",
+          "১০ শয্যা বিশিষ্ট হাসপাতাল",
+          "২০ শয্যা বিশিষ্ট হাসপাতাল",
+          "উপজেলা স্বাস্থ্য কমপ্লেক্স",
+          "সদর হাসপাতাল",
+          "মেডিকেল কলেজ হাসপাতাল",
+          "বেসরকারী ক্লিনিক/হাসপাতাল",
+          "এনজিও",
+          "বিশেষায়িত হাসপাতাল",
+          "অন্যান্য"
+        ],
+        "openmrs_entity_ids":{
+          "কমিউনিটি ক্লিনিক":"Community_Clinic",
+          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র":"Union_Sub_Center",
+          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র":"Union_Family_Welfare_Center",
+          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র":"Union_Health_and_Family_Welfare_Center",
+          "মা ও শিশু কল্যাণ কেন্দ্র":"Metarnal_and_Child_Wellfare_Center",
+          "১০ শয্যা বিশিষ্ট হাসপাতাল":"10_Bed_Hospital",
+          "২০ শয্যা বিশিষ্ট হাসপাতাল":"20_Beds_Hospital",
+          "উপজেলা স্বাস্থ্য কমপ্লেক্স":"Upazila_Health_Complex",
+          "সদর হাসপাতাল":"District_Hospital",
+          "মেডিকেল কলেজ হাসপাতাল":"Medical_College_and_Hospital",
+          "বেসরকারী ক্লিনিক/হাসপাতাল": "Private_Clinic_and_Hospital",
+          "এনজিও": "Non-governmental_Organization",
+          "বিশেষায়িত হাসপাতাল":"Specialized_Hospital",
+          "অন্যান্য":"Others_Health_Facility"
+        },
+        "relevance": {
+          "step1:is_Referred": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "latitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "latitude",
+        "type": "hidden",
+        "read_only": true,
+        "hint": "অক্ষাংশ"
+      },
+      {
+        "key": "longitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "longitude",
+        "type": "hidden",
+        "read_only": true,
+        "hint": "দ্রাঘিমা"
+      }
+    ]
+  }
+}

@@ -806,7 +806,7 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
         MenuItem removeMember = menu.findItem(org.smartregister.chw.core.R.id.action_remove_member);
         MenuItem changeFamHead = menu.findItem(org.smartregister.chw.core.R.id.action_change_head);
         MenuItem changeCareGiver = menu.findItem(org.smartregister.chw.core.R.id.action_change_care_giver);
-        menu.findItem(R.id.action_remove_member).setTitle("খানা/সদস্য বাতিল করুন");
+        menu.findItem(R.id.action_remove_member).setTitle(R.string.remove_house_and_member);
 
         if (removeMember != null) {
             removeMember.setVisible(true);

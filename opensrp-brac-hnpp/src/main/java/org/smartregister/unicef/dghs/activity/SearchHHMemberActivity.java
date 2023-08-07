@@ -74,10 +74,10 @@ public class SearchHHMemberActivity extends SecuredActivity implements View.OnCl
         villageName = getIntent().getStringExtra(EXTRA_VILLAGE_NAME);
         clusterName = getIntent().getStringExtra(EXTRA_CLUSTER_NAME);
         if(searchType.equalsIgnoreCase(HnppConstants.SEARCH_TYPE.HH.toString())){
-            title.setText("খানা খুজুন");
+            title.setText(R.string.search_house);
             findViewById(R.id.add_btn).setVisibility(View.GONE);
         }else{
-            title.setText("সদস্য খুজুন");
+            title.setText(R.string.search_member);
         }
         SearchHHMemberAdapter.selectedId.clear();
         presenter = new SearchHHMemberPresenter(this);

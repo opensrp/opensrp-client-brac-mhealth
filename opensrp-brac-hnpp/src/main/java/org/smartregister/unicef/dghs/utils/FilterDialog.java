@@ -126,7 +126,7 @@ public class FilterDialog {
 //        monthTV.setText(HnppJsonFormUtils.monthBanglaStr[month-1]);
 //        yearTV.setText(year+"");
         monthTV.setText("");
-        yearTV.setText("সকল");
+        yearTV.setText(R.string.all);
         if(!isNeedToShowDate) monthView.setVisibility(View.GONE);
         village_spinner.setAdapter(villageSpinnerArrayAdapter);
         cluster_spinner.setAdapter(clusterSpinnerArrayAdapter);
@@ -169,7 +169,7 @@ public class FilterDialog {
             @Override
             public void onClick(View view) {
                 monthTV.setText("");
-                yearTV.setText("সকল");
+                yearTV.setText(R.string.all);
                 month = -1;
                 year = -1;
             }

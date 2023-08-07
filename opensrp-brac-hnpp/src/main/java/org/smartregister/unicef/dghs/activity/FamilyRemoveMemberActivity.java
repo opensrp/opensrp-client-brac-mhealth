@@ -27,8 +27,8 @@ public class FamilyRemoveMemberActivity  extends SecuredActivity implements View
         setContentView(org.smartregister.chw.core.R.layout.activity_family_remove_member);
         // set up views
         findViewById(org.smartregister.chw.core.R.id.close).setOnClickListener(this);
-        ((CustomFontTextView)findViewById(R.id.textview_title)).setText("খানা/সদস্য বাতিল করুন");
-        ((CustomFontTextView)findViewById(R.id.tvDetails)).setText("আপনি কোন সদস্যটিকে সরাতে চান?");
+        ((CustomFontTextView)findViewById(R.id.textview_title)).setText(R.string.remove_house_and_member);
+        ((CustomFontTextView)findViewById(R.id.tvDetails)).setText(R.string.which_member_want_to_remove);
         setRemoveMemberFragment();
         startFragment();
     }
