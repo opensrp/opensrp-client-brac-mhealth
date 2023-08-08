@@ -1268,7 +1268,7 @@
           "column_name": "is_risk",
           "type": "Client",
           "json_mapping": {
-            "field": "is_risk"
+            "field": "attributes.is_risk"
           }
         },
         {

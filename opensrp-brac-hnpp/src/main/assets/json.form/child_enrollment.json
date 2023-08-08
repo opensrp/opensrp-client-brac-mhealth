@@ -92,6 +92,20 @@
         "type": "hidden"
       },
       {
+        "key": "is_risk",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "is_risk",
+        "type": "hidden",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "family_member_register_calculation.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "shr_id",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_identifier",
@@ -383,7 +397,24 @@
         }
       },
       {
-        "key": "ad_toaster_birth_weight_up",
+        "key": "alert_birth_weight_down",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": " শিশুটির ওজন মারাত্মক কম। শিশুটিকে খুব দ্রুত নিকটস্থ হাসপাতালে নিয়ে যান।",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_default_baby.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "ad_toaster_birth_weight_down",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
@@ -400,7 +431,7 @@
         }
       },
       {
-        "key": "ad_toaster_birth_weight_down",
+        "key": "ad_toaster_birth_weight_up",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",

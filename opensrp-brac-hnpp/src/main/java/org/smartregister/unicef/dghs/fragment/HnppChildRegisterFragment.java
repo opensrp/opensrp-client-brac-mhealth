@@ -233,6 +233,7 @@ public class HnppChildRegisterFragment extends HnppBaseChildRegisterFragment imp
             String lastPart = mainSelect.substring(beforeIndex,length);
             String tempmainSelect = mainSelect.substring(0,beforeIndex);
             sql = tempmainSelect+" inner join ec_visit_log on ec_family_member.base_entity_id = ec_visit_log.base_entity_id "+lastPart;
+
         }else{
             sql = mainSelect;
         }
@@ -257,14 +258,29 @@ public class HnppChildRegisterFragment extends HnppBaseChildRegisterFragment imp
         }
 
         if(!StringUtils.isEmpty(selectedStartDateFilterValue)&&!StringUtils.isEmpty(selectedEndDateFilterValue)){
-            customFilter.append(MessageFormat.format(" and {0} between ''{1}'' and ''{2}'' ",HnppConstants.TABLE_NAME.CHILD+"."+ HnppConstants.KEY.DUE_VACCINE_DATE,selectedStartDateFilterValue,selectedEndDateFilterValue));
+            int beforeIndex = mainSelect.indexOf("WHERE");
+            int length = mainSelect.length();
+            String lastPart = mainSelect.substring(beforeIndex,length);
+            String tempmainSelect = mainSelect.substring(0,beforeIndex);
+            sql = tempmainSelect+" LEFT join t2 on t2.id = ec_child.id "+lastPart;
+            sqb = new SmartRegisterQueryBuilder(getSplitData()+sql);
+            customFilter.append(" and t2.value between '"+selectedStartDateFilterValue+"' and '"+selectedEndDateFilterValue+"' GROUP by ec_child.id");
+            //customFilter.append(MessageFormat.format(" and {0} between ''{1}'' and ''{2}'' ",HnppConstants.TABLE_NAME.CHILD+"."+ HnppConstants.KEY.DUE_VACCINE_WEEK,selectedStartDateFilterValue,selectedEndDateFilterValue));
         }else if(!StringUtils.isEmpty(selectedStartDateFilterValue)){
-            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ", HnppConstants.TABLE_NAME.CHILD, HnppConstants.KEY.DUE_VACCINE_DATE, selectedStartDateFilterValue));
+            customFilter.append(MessageFormat.format(" and {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.CHILD, HnppConstants.KEY.DUE_VACCINE_WEEK, selectedStartDateFilterValue));
 
         }else if(!StringUtils.isEmpty(selectedEndDateFilterValue)){
-            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.CHILD, HnppConstants.KEY.DUE_VACCINE_DATE, selectedEndDateFilterValue));
+            customFilter.append(MessageFormat.format(" and {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.CHILD, HnppConstants.KEY.DUE_VACCINE_WEEK, selectedEndDateFilterValue));
         } else if(!StringUtils.isEmpty(fromDate)&&!StringUtils.isEmpty(toDate)){
-            customFilter.append(MessageFormat.format(" and {0} between ''{1}'' and ''{2}'' ",HnppConstants.TABLE_NAME.CHILD+"."+ HnppConstants.KEY.DUE_VACCINE_DATE,fromDate,toDate));
+            int beforeIndex = mainSelect.indexOf("WHERE");
+            int length = mainSelect.length();
+            String lastPart = mainSelect.substring(beforeIndex,length);
+            String tempmainSelect = mainSelect.substring(0,beforeIndex);
+            sql = tempmainSelect+" LEFT join t2 on t2.id = ec_child.id "+lastPart;
+            sqb = new SmartRegisterQueryBuilder(getSplitData()+sql);
+            customFilter.append(" and t2.value between '"+fromDate+"' and '"+toDate+"' GROUP by ec_child.id");
+
+            //customFilter.append(MessageFormat.format(" and {0} between ''{1}'' and ''{2}'' ",HnppConstants.TABLE_NAME.CHILD+"."+ HnppConstants.KEY.DUE_VACCINE_WEEK,fromDate,toDate));
         }
 
         if(month!=-1){
@@ -284,9 +300,26 @@ public class HnppChildRegisterFragment extends HnppBaseChildRegisterFragment imp
         } catch (Exception e) {
             Timber.e(e);
         }
-        Log.v("CHILD_FILTER","filter:"+query);
+        Log.v("CHILD_FILTER_QUERY","filter:"+query);
 
         return query;
+    }
+    private String getSplitData(){
+        return "WITH RECURSIVE split(id, value, rest) AS (" +
+                "   SELECT ID, '', due_vaccine_week||',' FROM ec_child" +
+                "   UNION ALL SELECT" +
+                "   id," +
+                "   substr(rest, 0, instr(rest, ','))," +
+                "   substr(rest, instr(rest, ',')+1)" +
+                "   FROM split WHERE rest!=''" +
+                ")," +
+                "t2 as (SELECT  id,value" +
+                " FROM split" +
+                " WHERE value!='' )";
+    }
+    private String getYearMonthFromDate(String endDate){
+        String[] s = endDate.split("-");
+        return s[0]+"-"+s[1];
     }
 
     @Override

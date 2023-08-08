@@ -87,6 +87,7 @@ public class HnppChildRegisterProvider extends CoreChildRegisterProvider {
         String dueVaccineDate = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.DUE_VACCINE_DATE, true);
         String dueVaccineName = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.DUE_VACCINE_NAME, true);
         String isAefi = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.HAS_AEFI, true);
+        String isRisk = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.IS_RISK, true);
         StringBuilder builder = new StringBuilder();
         if(!TextUtils.isEmpty(weightValue)){
             builder.append("W:"+weightValue+" kg ");
@@ -116,10 +117,10 @@ public class HnppChildRegisterProvider extends CoreChildRegisterProvider {
         addButtonClickListeners(client, viewHolder);
         String baseEntityId = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.BASE_ENTITY_ID, false);
 
-        if(HnppDBUtils.childRisk(baseEntityId)){
-            viewHolder.riskView.setVisibility(View.VISIBLE);
+        if(!TextUtils.isEmpty(isRisk) && isRisk.equalsIgnoreCase("1")){
+            viewHolder.isRisk.setVisibility(View.VISIBLE);
         }else{
-            viewHolder.riskView.setVisibility(View.GONE);
+            viewHolder.isRisk.setVisibility(View.GONE);
         }
         if(!TextUtils.isEmpty(isAefi)&& isAefi.equalsIgnoreCase("yes")){
             viewHolder.aefiImage.setVisibility(View.VISIBLE);

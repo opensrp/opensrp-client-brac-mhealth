@@ -56,6 +56,8 @@ public class HnppChildRegisterFragmentModel extends CoreChildRegisterFragmentMod
         columnList.add(tableName + "." + HnppConstants.KEY.NEW_BORN_INFO);
         columnList.add(tableName + "." + HnppConstants.KEY.DUE_VACCINE_NAME);
         columnList.add(tableName + "." + HnppConstants.KEY.DUE_VACCINE_DATE);
+        columnList.add(tableName + "." + HnppConstants.KEY.DUE_VACCINE_WEEK);
+        columnList.add(tableName + "." + HnppConstants.KEY.IS_RISK);
         columnList.add(tableName + "." + HnppConstants.KEY.HAS_AEFI);
         columnList.add(tableName + "." + HnppConstants.KEY.AEFI_VACCINE);
         columnList.add(tableName + "." + HnppConstants.KEY.CHILD_MUAC);

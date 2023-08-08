@@ -1103,6 +1103,7 @@ public class HnppConstants extends CoreConstants {
         public static final String CHILD_STATUS = "child_status";
         public static final String DUE_VACCINE_NAME = "due_vaccine_name";
         public static final String DUE_VACCINE_DATE = "due_vaccine_date";
+        public static final String DUE_VACCINE_WEEK = "due_vaccine_week";
         public static final String HAS_AEFI = "has_aefi";
         public static final String AEFI_VACCINE = "aefi_vaccines";
     }

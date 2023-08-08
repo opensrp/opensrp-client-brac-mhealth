@@ -189,15 +189,12 @@ public class TikaCardViewActivity extends SecuredActivity {
             switch (vaacineInfo.vaccineName){
                 case "bcg":
                     ((TextView) findViewById(R.id.bcg_1)).setText(vaacineInfo.vaccineDate);
-                    ((TextView) findViewById(R.id.bcg_1)).setBackgroundResource(R.drawable.table_bg);
                     break;
                 case "opv_0":
-                    ((TextView) findViewById(R.id.opv_1)).setText(vaacineInfo.vaccineDate);
-                    ((TextView) findViewById(R.id.opv_1)).setBackgroundResource(R.drawable.table_bg);
+                    //((TextView) findViewById(R.id.opv_1)).setText(vaacineInfo.vaccineDate);
                     break;
                 case "opv_1":
-                    ((TextView) findViewById(R.id.opv_2)).setText(vaacineInfo.vaccineDate);
-                    ((TextView) findViewById(R.id.opv_2)).setBackgroundResource(R.drawable.table_bg);
+                    ((TextView) findViewById(R.id.opv_1)).setText(vaacineInfo.vaccineDate);
                     DateTime donDate = DateTimeFormat.forPattern("yyyy-MM-dd").parseDateTime(vaacineInfo.vaccineDate);
                     LocalDate sixWeekV = new LocalDate(donDate);
 //                    String s = DateTimeFormat.forPattern("yyyy-MM-dd").print(sixWeekV);
@@ -209,8 +206,7 @@ public class TikaCardViewActivity extends SecuredActivity {
                     ((TextView) findViewById(R.id.tenWeekDate)).setBackgroundResource(R.drawable.table_bg);
                     break;
                 case "opv_2":
-                    ((TextView) findViewById(R.id.opv_3)).setText(vaacineInfo.vaccineDate);
-                    ((TextView) findViewById(R.id.opv_3)).setBackgroundResource(R.drawable.table_bg);
+                    ((TextView) findViewById(R.id.opv_2)).setText(vaacineInfo.vaccineDate);
                     DateTime d = DateTimeFormat.forPattern("yyyy-MM-dd").parseDateTime(vaacineInfo.vaccineDate);
                     LocalDate fourTeenWeekV = new LocalDate(d);
                     LocalDate fourteenWeekDate = fourTeenWeekV.plusDays(28);
@@ -219,48 +215,37 @@ public class TikaCardViewActivity extends SecuredActivity {
                     ((TextView) findViewById(R.id.fourteenWeekDate)).setBackgroundResource(R.drawable.table_bg);
                     break;
                 case "opv_3":
-                    ((TextView) findViewById(R.id.opv_4)).setText(vaacineInfo.vaccineDate);
-                    ((TextView) findViewById(R.id.opv_4)).setBackgroundResource(R.drawable.table_bg);
+                    ((TextView) findViewById(R.id.opv_3)).setText(vaacineInfo.vaccineDate);
                     break;
                 case "penta_1":
                     ((TextView) findViewById(R.id.penta_1)).setText(vaacineInfo.vaccineDate);
-                    ((TextView) findViewById(R.id.penta_1)).setBackgroundResource(R.drawable.table_bg);
                     break;
                 case "penta_2":
                     ((TextView) findViewById(R.id.penta_2)).setText(vaacineInfo.vaccineDate);
-                    ((TextView) findViewById(R.id.penta_2)).setBackgroundResource(R.drawable.table_bg);
                     break;
                 case "penta_3":
                     ((TextView) findViewById(R.id.penta_3)).setText(vaacineInfo.vaccineDate);
-                    ((TextView) findViewById(R.id.penta_3)).setBackgroundResource(R.drawable.table_bg);
                     break;
                 case "fipv_1":
                     ((TextView) findViewById(R.id.fipv_1)).setText(vaacineInfo.vaccineDate);
-                    ((TextView) findViewById(R.id.fipv_1)).setBackgroundResource(R.drawable.table_bg);
                     break;
                 case "fipv_2":
-                    ((TextView) findViewById(R.id.fipv_2)).setText(vaacineInfo.vaccineDate);
-                    ((TextView) findViewById(R.id.fipv_2)).setBackgroundResource(R.drawable.table_bg);
+                    ((TextView) findViewById(R.id.fipv_3)).setText(vaacineInfo.vaccineDate);
                     break;
                 case "fipv_3":
                     ((TextView) findViewById(R.id.fipv_3)).setText(vaacineInfo.vaccineDate);
-                    ((TextView) findViewById(R.id.fipv_3)).setBackgroundResource(R.drawable.table_bg);
                     break;
                 case "pcv_1":
                     ((TextView) findViewById(R.id.pcv_1)).setText(vaacineInfo.vaccineDate);
-                    ((TextView) findViewById(R.id.pcv_1)).setBackgroundResource(R.drawable.table_bg);
                     break;
                 case "pcv_2":
                     ((TextView) findViewById(R.id.pcv_2)).setText(vaacineInfo.vaccineDate);
-                    ((TextView) findViewById(R.id.pcv_2)).setBackgroundResource(R.drawable.table_bg);
                     break;
                 case "pcv_3":
                     ((TextView) findViewById(R.id.pcv_3)).setText(vaacineInfo.vaccineDate);
-                    ((TextView) findViewById(R.id.pcv_3)).setBackgroundResource(R.drawable.table_bg);
                     break;
                 case "mr_1":
-                    ((TextView) findViewById(R.id.mr1_1)).setText(vaacineInfo.vaccineDate);
-                    ((TextView) findViewById(R.id.mr1_1)).setBackgroundResource(R.drawable.table_bg);
+                    ((TextView) findViewById(R.id.textView43)).setText(vaacineInfo.vaccineDate);
                     DateTime dob = DateTimeFormat.forPattern("yyyy-MM-dd").parseDateTime(tikaInfoModel.dob);
                     LocalDate dobL = new LocalDate(dob);
                     DateTime dV = DateTimeFormat.forPattern("yyyy-MM-dd").parseDateTime(vaacineInfo.vaccineDate);
@@ -274,8 +259,7 @@ public class TikaCardViewActivity extends SecuredActivity {
                     break;
 
                 case "mr_2":
-                    ((TextView) findViewById(R.id.mr2_1)).setText(vaacineInfo.vaccineDate);
-                    ((TextView) findViewById(R.id.mr2_1)).setBackgroundResource(R.drawable.table_bg);
+                    ((TextView) findViewById(R.id.textView50)).setText(vaacineInfo.vaccineDate);
                     break;
 
             }

@@ -831,7 +831,7 @@ public class HnppDBUtils {
     }
     public static boolean childRisk(String baseEntityId){
 
-        String query = "select count(*) from ec_child where base_entity_id = '"+baseEntityId+"' and is_risk ='true'";
+        String query = "select count(*) from ec_child where base_entity_id = '"+baseEntityId+"' and is_risk ='1'";
         Cursor cursor = null;
         int count=0;
         try {
@@ -1394,6 +1394,8 @@ public class HnppDBUtils {
         columnList.add(tableName + "." + HnppConstants.KEY.AEFI_VACCINE);
         columnList.add(tableName + "." + HnppConstants.KEY.DUE_VACCINE_NAME);
         columnList.add(tableName + "." + HnppConstants.KEY.DUE_VACCINE_DATE);
+        columnList.add(tableName + "." + HnppConstants.KEY.IS_RISK);
+        columnList.add(tableName + "." + HnppConstants.KEY.DUE_VACCINE_WEEK);
         columnList.add(tableName + "." + ChildDBConstants.PHONE_NUMBER);
         columnList.add(tableName + "." + HnppConstants.KEY.FATHER_NAME_ENGLISH);
         columnList.add(tableName + "." + HnppConstants.KEY.FATHER_NAME_BANGLA);

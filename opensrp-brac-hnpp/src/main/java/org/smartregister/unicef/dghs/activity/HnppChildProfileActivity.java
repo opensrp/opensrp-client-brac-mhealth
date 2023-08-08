@@ -176,6 +176,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         ViewPager viewPager = findViewById(R.id.viewpager);
         tabLayout.setupWithViewPager(setupViewPager(viewPager));
         String aefi = Utils.getValue(commonPersonObject.getColumnmaps(), HnppConstants.KEY.HAS_AEFI, false);
+        String isRisk = Utils.getValue(commonPersonObject.getColumnmaps(), HnppConstants.KEY.IS_RISK, false);
         String vaccineDueDate = Utils.getValue(commonPersonObject.getColumnmaps(), HnppConstants.KEY.DUE_VACCINE_DATE, false);
         if(HnppConstants.isMissedSchedule(vaccineDueDate)){
             findViewById(R.id.missed_schedule_img).setVisibility(View.VISIBLE);

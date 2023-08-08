@@ -19,3 +19,10 @@ priority: 1
 condition: "step1_sex == 'Female' && (step1_age_calculated >= 15 && step1_age_calculated <= 49)"
 actions:
   - "calculation = 1"
+---
+name: step1_is_risk
+description: is_risk calculation
+priority: 1
+condition: "step1_birth_weight<2500 && step1_child_age_calculated<=3"
+actions:
+  - "calculation = 1"

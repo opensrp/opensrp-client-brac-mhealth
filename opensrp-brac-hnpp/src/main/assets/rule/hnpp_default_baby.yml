@@ -111,14 +111,21 @@ condition: "helper.formatDate(step1_dob,'d') > 60 && helper.formatDate(step1_dob
 actions:
   - "isRelevant = true"
 ---
-name: step1_ad_toaster_birth_weight_up
+name: step1_ad_toaster_birth_weight_down
 description: trouble_seeing_hearing
 priority: 1
 condition: "step1_birth_weight<2500"
 actions:
   - "isRelevant = true"
 ---
-name: step1_ad_toaster_birth_weight_down
+name: step1_alert_birth_weight_down
+description: trouble_seeing_hearing
+priority: 1
+condition: "step1_birth_weight<2500 && step1_child_age_calculated<=3"
+actions:
+  - "isRelevant = true"
+---
+name: step1_ad_toaster_birth_weight_up
 description: trouble_seeing_hearing
 priority: 1
 condition: "step1_birth_weight>4500"
