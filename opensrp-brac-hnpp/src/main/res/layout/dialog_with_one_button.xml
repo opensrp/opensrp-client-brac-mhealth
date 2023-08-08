@@ -50,7 +50,7 @@
             android:shadowDy="1"
             android:shadowRadius="0.5"
             android:textStyle="bold"
-            android:text="ঠিক আছে"
+            android:text="@string/okay"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="18sp" />

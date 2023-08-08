@@ -159,7 +159,7 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
             stringBuilder.append(getTitle(count));
             stringBuilder.append("\n");
 //            stringBuilder.append("LMP:"+visitHistory.getLmpDate());
-            stringBuilder.append("ই ডি ডি:"+visitHistory.getEddDate());
+            stringBuilder.append(getActivity().getString(R.string.edd)+visitHistory.getEddDate());
             fName.setText(stringBuilder.toString());
             followupView.setTag(visitHistory);
             followupView.setOnClickListener(this);
@@ -171,11 +171,11 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
     private String getTitle(int no){
         switch (no){
             case 1:
-                return "১ম গর্ভের ইতিহাস ";
+                return getString(R.string.first_preg_history);
             case 2:
-                return "২য় গর্ভের ইতিহাস";
+                return getString(R.string.secont_preg_history);
             case 3:
-                return "৩য় গর্ভের ইতিহাস";
+                return getString(R.string.third_preg_history);
 
         }
         return "";

@@ -1,5 +1,7 @@
 package org.smartregister.unicef.dghs.interactor;
 
+import org.smartregister.unicef.dghs.HnppApplication;
+import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.contract.DashBoardContract;
 import org.smartregister.unicef.dghs.model.CountSummeryDashBoardModel;
 import org.smartregister.unicef.dghs.model.IndicatorDashBoardModel;
@@ -111,10 +113,10 @@ public class WorkSummeryDashBoardInteractor implements DashBoardContract.Interac
                 addToDashBoardList(indicatorModel.getEstimatedCoronaPatient(ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.getCoronaPatient(ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.getIsolationPatient(ssName,fromMonth,toMonth));
-                addToDashBoardList(indicatorModel.getRemoveMemberCount("সদস্য বাতিল",ssName,fromMonth,toMonth));
-                addToDashBoardList(indicatorModel.getRemoveHHCount("খানা বাতিল",ssName,fromMonth,toMonth));
-                addToDashBoardList(indicatorModel.getMigrateMemberCount("সদস্য স্থানান্তর",ssName,fromMonth,toMonth));
-                addToDashBoardList(indicatorModel.getMigratedHHCount("খানা স্থানান্তর",ssName,fromMonth,toMonth));
+                addToDashBoardList(indicatorModel.getRemoveMemberCount(HnppApplication.getInstance().getApplicationContext().getString(R.string.member_remove),ssName,fromMonth,toMonth));
+                addToDashBoardList(indicatorModel.getRemoveHHCount(HnppApplication.getInstance().getApplicationContext().getString(R.string.house_remove),ssName,fromMonth,toMonth));
+                addToDashBoardList(indicatorModel.getMigrateMemberCount(HnppApplication.getInstance().getApplicationContext().getString(R.string.member_transfer),ssName,fromMonth,toMonth));
+                addToDashBoardList(indicatorModel.getMigratedHHCount(HnppApplication.getInstance().getApplicationContext().getString(R.string.house_replace),ssName,fromMonth,toMonth));
             }
 
         }

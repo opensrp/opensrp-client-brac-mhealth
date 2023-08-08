@@ -15,6 +15,7 @@ import org.smartregister.chw.core.utils.CoreJsonFormUtils;
 import org.smartregister.domain.FetchStatus;
 import org.smartregister.family.presenter.BaseFamilyProfilePresenter;
 import org.smartregister.unicef.dghs.HnppApplication;
+import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.activity.HnppFamilyOtherMemberProfileActivity;
 import org.smartregister.unicef.dghs.model.HnppChildRegisterModel;
 import org.smartregister.unicef.dghs.model.HnppFamilyRegisterModel;
@@ -182,7 +183,7 @@ public class FamilyProfilePresenter extends BaseFamilyProfilePresenter implement
             Pair<Client, Event> pair = getChildRegisterModel().processRegistration(jsonString);
             if (pair == null) {
                 getView().hideProgressDialog();
-                getView().errorOccured("হাউসহোল্ড এড্রেস খুঁজে পাওয়া যায়নি। হাউসহোল্ড এডিট করুন");
+                getView().errorOccured(baseProfileActivity.getString(R.string.household_not_found_edit));
                 return;
             }
             saveChildRegistration(pair, jsonString, isEditMode, this);
@@ -198,7 +199,7 @@ public class FamilyProfilePresenter extends BaseFamilyProfilePresenter implement
         List<FamilyEventClient> familyEventClientList = new HnppFamilyRegisterModel().processRegistration(jsonString);
         if (familyEventClientList == null || familyEventClientList.isEmpty()) {
             if (getView() != null) getView().hideProgressDialog();
-            if (getView() != null) getView().errorOccured("হাউসহোল্ড এড্রেস খুঁজে পাওয়া যায়নি। হাউসহোল্ড এডিট করুন");
+            if (getView() != null) getView().errorOccured(baseProfileActivity.getString(R.string.household_not_found_edit));
             return;
         }
 

@@ -489,7 +489,28 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         tvLang.setText(StringUtils.capitalize(current.getDisplayLanguage()));
 
         rlIconLang.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            String currentLocal = LangUtils.getLanguage(context.getApplicationContext());
+            Locale LOCALE;
+            String language = "";
+            if(currentLocal.equals("bn")){
+                LOCALE = Locale.ENGLISH;
+                language = "বাংলা";
+            }else {
+                LOCALE = new Locale("bn");
+                language = "English";
+            }
+            LangUtils.saveLanguage(context.getApplicationContext(), LOCALE.getLanguage());
+
+            tvLang.setText(language);
+            // destroy current instance
+            drawer.closeDrawers();
+            instance = null;
+            Intent intent = context.getIntent();
+            context.finish();
+            context.startActivity(intent);
+            application.notifyAppContextChange();
+
+            /*AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle(context.getString(R.string.choose_language));
             builder.setItems(languages, (dialog, which) -> {
                 String lang = languages[which];
@@ -524,7 +545,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
             });
 
             AlertDialog dialog = builder.create();
-            dialog.show();
+            dialog.show();*/
         });
     }
 

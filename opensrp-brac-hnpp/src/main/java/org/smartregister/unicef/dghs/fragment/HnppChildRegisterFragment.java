@@ -165,7 +165,7 @@ public class HnppChildRegisterFragment extends HnppBaseChildRegisterFragment imp
     public void setTotalPatients() {
         if (headerTextDisplay != null) {
             headerTextDisplay.setText(
-                    String.format(getString(R.string.clients_child), HnppConstants.getTotalCountBn(clientAdapter.getTotalcount())));
+                    String.format(getString(R.string.clients_child), HnppConstants.getTotalCount(clientAdapter.getTotalcount())));
             headerTextDisplay.setTextColor(getResources().getColor(android.R.color.black));
             headerTextDisplay.setTypeface(Typeface.DEFAULT_BOLD);
             ((android.view.View)headerTextDisplay.getParent()).findViewById(R.id.filter_display_view).setVisibility(android.view.View.GONE);

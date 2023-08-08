@@ -3,6 +3,7 @@ package org.smartregister.unicef.dghs.fragment;
 import android.util.Log;
 import android.view.View;
 
+import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.adapter.DashBoardAdapter;
 import org.smartregister.unicef.dghs.presenter.WorkSummeryDashBoardPresenter;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
@@ -81,6 +82,6 @@ public class WorkSummeryDashBoardFragment extends BaseDashBoardFragment {
 
     @Override
     void updateTitle() {
-        super.updateTitle("কার্যক্রম সারসংক্ষেপ");
+        super.updateTitle(getString(R.string.activity_in_short));
     }
 }

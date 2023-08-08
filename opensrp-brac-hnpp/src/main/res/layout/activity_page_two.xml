@@ -46,7 +46,7 @@
                     android:fontFamily="@font/tonnymj"
                     android:gravity="center|left"
                     android:padding="10dp"
-                    android:text="টিকার নাম"
+                    android:text="@string/vacc_name"
                     />
 
             </LinearLayout>

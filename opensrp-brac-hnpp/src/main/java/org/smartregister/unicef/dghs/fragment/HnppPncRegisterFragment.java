@@ -100,7 +100,7 @@ public class HnppPncRegisterFragment extends HnppBasePncRegisterFragment impleme
     public void setTotalPatients() {
         if (headerTextDisplay != null) {
             headerTextDisplay.setText(
-                    String.format(getString(R.string.clients_member), HnppConstants.getTotalCountBn(clientAdapter.getTotalcount())));
+                    String.format(getString(R.string.clients_member), HnppConstants.getTotalCount(clientAdapter.getTotalcount())));
             headerTextDisplay.setTextColor(getResources().getColor(android.R.color.black));
             headerTextDisplay.setTypeface(Typeface.DEFAULT_BOLD);
             ((android.view.View)headerTextDisplay.getParent()).findViewById(R.id.filter_display_view).setVisibility(android.view.View.GONE);

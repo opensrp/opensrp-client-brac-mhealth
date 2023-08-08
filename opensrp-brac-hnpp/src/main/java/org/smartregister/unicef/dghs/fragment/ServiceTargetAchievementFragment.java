@@ -2,6 +2,7 @@ package org.smartregister.unicef.dghs.fragment;
 
 import android.support.v7.widget.LinearLayoutManager;
 
+import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.adapter.ServiceTargetAchievementAdapter;
 import org.smartregister.unicef.dghs.presenter.ServiceTargetAchievmentPresenter;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
@@ -82,7 +83,7 @@ public class ServiceTargetAchievementFragment extends BaseDashBoardFragment {
 
     @Override
     void updateTitle() {
-        super.updateTitle("দৈনিক পরিদর্শন");
+        super.updateTitle(getString(R.string.daily_visit));
 
     }
 }

@@ -44,7 +44,7 @@
             android:padding="10dp"
             android:layout_margin="10dp"
             android:background="@color/visit_status_ok"
-            android:text="না"
+            android:text="@string/no"
             android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -55,7 +55,7 @@
             android:padding="10dp"
             android:layout_margin="10dp"
             android:background="@color/visit_status_ok"
-            android:text="জানা নেই,খুঁজে দেখতে চাই"
+            android:text="@string/dont_know"
             android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

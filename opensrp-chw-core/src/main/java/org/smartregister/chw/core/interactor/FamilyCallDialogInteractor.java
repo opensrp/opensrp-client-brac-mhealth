@@ -83,7 +83,7 @@ public class FamilyCallDialogInteractor implements FamilyCallDialogContract.Inte
         if(TextUtils.isEmpty(baseID)){
             baseID = familyHeadID;
             tableName = Utils.metadata().familyRegister.tableName;
-            role = "পারিবারিক নাম্বার";
+            role = context.getString(R.string.family_no);
         }
         String[] namePhone = getNameMobile(baseID,tableName);
         String phNo = namePhone[1];

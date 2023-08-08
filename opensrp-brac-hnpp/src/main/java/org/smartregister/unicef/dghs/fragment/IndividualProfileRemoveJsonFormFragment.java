@@ -41,7 +41,7 @@ public class IndividualProfileRemoveJsonFormFragment extends JsonWizardFormFragm
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         super.onItemSelected(parent, view, position, id);
         if (position != -1 && parent instanceof MaterialSpinner) {
-            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase("জেলা")) {
+            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(getString(R.string.district_only))) {
                 districtIndex = position;
                 if(isManuallyPressed){
                     processUpazilaList(position);
@@ -64,7 +64,7 @@ public class IndividualProfileRemoveJsonFormFragment extends JsonWizardFormFragm
         Collection<View> formDataViews = getJsonApi().getFormDataViews();
         for (View v : formDataViews) {
             if (v instanceof MaterialSpinner) {
-                if (((MaterialSpinner) v).getFloatingLabelText().toString().equalsIgnoreCase("জেলা")) {
+                if (((MaterialSpinner) v).getFloatingLabelText().toString().equalsIgnoreCase(getString(R.string.district_only))) {
                     districtList = districtListRepository.getDistrictNames();
                     ((MaterialSpinner) v).setEnabled(true);
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), com.vijay.jsonwizard.R.layout.native_form_simple_list_item_1, districtList);
@@ -110,7 +110,7 @@ public class IndividualProfileRemoveJsonFormFragment extends JsonWizardFormFragm
                     if (formdataviews.get(i) instanceof MaterialSpinner) {
                         if (!TextUtils.isEmpty(((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText()) &&
                                 (((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText().toString().trim()
-                                        .equalsIgnoreCase("উপজেলা/সিটি কর্পোরেশন"))) {
+                                        .equalsIgnoreCase(getString(R.string.upazila_city_corp)))) {
 
 
                             MaterialSpinner spinner = (MaterialSpinner) formdataviews.get(i);

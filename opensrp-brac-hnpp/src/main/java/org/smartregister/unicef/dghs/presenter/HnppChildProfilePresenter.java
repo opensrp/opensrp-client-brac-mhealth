@@ -13,6 +13,7 @@ import org.smartregister.chw.core.utils.CoreChildService;
 import org.smartregister.domain.FetchStatus;
 import org.smartregister.domain.Task;
 import org.smartregister.repository.AllSharedPreferences;
+import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.interactor.HnppChildProfileInteractor;
 import org.smartregister.unicef.dghs.model.HnppChildRegisterModel;
 import org.smartregister.unicef.dghs.utils.HnppDBConstants;
@@ -147,7 +148,7 @@ public class HnppChildProfilePresenter implements CoreChildProfileContract.Prese
         Pair<Client, Event> pair = new HnppChildRegisterModel(houseHoldId,familyID).processRegistration(jsonString);
         if (pair == null) {
             getView().hideProgressDialog();
-            getView().errorOccured("হাউসহোল্ড এড্রেস খুঁজে পাওয়া যায়নি। হাউসহোল্ড এডিট করুন");
+            getView().errorOccured(HnppApplication.getInstance().getApplicationContext().getString(R.string.household_address_not_found_edit));
             return;
         }
 

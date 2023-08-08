@@ -30,6 +30,7 @@ import org.smartregister.repository.BaseRepository;
 import org.smartregister.sync.helper.ECSyncHelper;
 import org.smartregister.unicef.dghs.BuildConfig;
 import org.smartregister.unicef.dghs.HnppApplication;
+import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.location.CampModel;
 import org.smartregister.unicef.dghs.location.HALocation;
 import org.smartregister.unicef.dghs.location.HALocationHelper;
@@ -968,12 +969,12 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
             JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
             if(!TextUtils.isEmpty(sugervalue) && sugervalue.equalsIgnoreCase("yes")){
-                updateFormField(jsonArray,"suger_confirm_hospital","হ্যাঁ");
+                updateFormField(jsonArray,"suger_confirm_hospital",HnppApplication.getInstance().getApplicationContext().getString(R.string.yes));
                 JSONObject formObject = org.smartregister.util.JsonFormUtils.getFieldJSONObject(jsonArray, "suger_confirm_hospital");
                 formObject.put(org.smartregister.family.util.JsonFormUtils.READ_ONLY, true);
             }
             if(!TextUtils.isEmpty(pressurevalue) && pressurevalue.equalsIgnoreCase("yes")){
-                updateFormField(jsonArray,"pressure_confirm_hospital","হ্যাঁ");
+                updateFormField(jsonArray,"pressure_confirm_hospital",HnppApplication.getInstance().getApplicationContext().getString(R.string.year));
                 JSONObject formObject = org.smartregister.util.JsonFormUtils.getFieldJSONObject(jsonArray, "pressure_confirm_hospital");
                 formObject.put(org.smartregister.family.util.JsonFormUtils.READ_ONLY, true);
             }
@@ -1639,7 +1640,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         try {
             JSONObject dobUnknownObject = getFieldJSONObject(fields, "is_birthday_known");
             String dobUnKnownString = dobUnknownObject != null ? dobUnknownObject.getString("value") : null;
-            if (StringUtils.isNotBlank(dobUnKnownString) && dobUnKnownString.equalsIgnoreCase("না")) {
+            if (StringUtils.isNotBlank(dobUnKnownString) && dobUnKnownString.equalsIgnoreCase(HnppApplication.getInstance().getApplicationContext().getString(R.string.no))) {
                 String ageString = getFieldValue(fields, "estimated_age");
                 if (StringUtils.isNotBlank(ageString) && NumberUtils.isNumber(ageString)) {
                     int age = Integer.valueOf(ageString);
@@ -1865,7 +1866,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
            boolean isVisible = motherObj.optBoolean("is_visible",false);
            if(!isVisible){
                String motherNameSelected = motherAlterObj.optString(VALUE);
-               if(!TextUtils.isEmpty(motherNameSelected) && !motherNameSelected.equalsIgnoreCase("মাতা রেজিস্টার্ড নয়")){
+               if(!TextUtils.isEmpty(motherNameSelected) && !motherNameSelected.equalsIgnoreCase(HnppApplication.getInstance().getApplicationContext().getString(R.string.mother_not_reg))){
                    motherObj.put(VALUE,motherNameSelected);
                }
 

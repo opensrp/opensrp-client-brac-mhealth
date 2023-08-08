@@ -15,8 +15,7 @@
         android:padding="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="বর্তমানে থাকা হাউসহোল্ড এবং মেম্বার এর তথ্য মুছে ফেলতে মুছে ফেলি চাপুন।
-অটোমেটিক্যালি আনসিঙ্ক ডাটা গুলো আগে সিঙ্ক করা হবে "
+        android:text="@string/member_info_remove_msg"
         android:textColor="@color/black"
         android:textSize="20sp"/>
 
@@ -45,7 +44,7 @@
             android:shadowDy="1"
             android:shadowRadius="0.5"
             android:textStyle="bold"
-            android:text="মুছে ফেলি"
+            android:text="@string/clean"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="18sp" />

@@ -47,10 +47,10 @@ public class FilterDialog {
         Calendar calendar = Calendar.getInstance();
         ArrayList<String> villageSpinnerArray = new ArrayList<>();
         ArrayList<String> clasterList = HnppConstants.getClasterSpinnerArray();
-        ssSpinnerArray.add("সকল");
-        skSpinnerArray.add("সকল");
-        villageSpinnerArray.add("সকল");
-        clasterList.add(0,"সকল");
+        ssSpinnerArray.add(context.getString(R.string.all));
+        skSpinnerArray.add(context.getString(R.string.all));
+        villageSpinnerArray.add(context.getString(R.string.all));
+        clasterList.add(0,context.getString(R.string.all));
 
         if(!HnppConstants.isPALogin()){
             ArrayList<WardLocation> ssLocationForms = HALocationHelper.getInstance().getUnionList();
@@ -148,7 +148,7 @@ public class FilterDialog {
                         .setMinYear(2010)
                         .setActivatedYear(year)
                         .setMaxYear(calendar.get(Calendar.YEAR))
-                        .setTitle("মাস সিলেক্ট করুন")
+                        .setTitle(context.getString(R.string.select_month))
                         .setOnMonthChangedListener(new MonthPickerDialog.OnMonthChangedListener() {
                             @Override
                             public void onMonthChanged(int selectedMonth) {
@@ -183,7 +183,7 @@ public class FilterDialog {
                     if(position==0) return;
                     position = position -1;
                     villageSpinnerArray.clear();
-                    villageSpinnerArray.add("সকল");
+                    villageSpinnerArray.add(context.getString(R.string.all));
 
                     villageSpinnerArrayAdapter = new ArrayAdapter<String>
                             (context, android.R.layout.simple_spinner_item,

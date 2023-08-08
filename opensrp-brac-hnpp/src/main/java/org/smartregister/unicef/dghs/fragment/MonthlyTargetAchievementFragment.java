@@ -2,6 +2,8 @@ package org.smartregister.unicef.dghs.fragment;
 
 import android.view.View;
 
+import org.smartregister.unicef.dghs.R;
+
 import java.util.Calendar;
 
 public class MonthlyTargetAchievementFragment extends TargetAchievementFragment{
@@ -33,7 +35,7 @@ public class MonthlyTargetAchievementFragment extends TargetAchievementFragment{
 
     @Override
     void updateTitle() {
-        super.updateTitle("মাসিক পরিদর্শন");
+        super.updateTitle(getString(R.string.monthly_visit));
 
     }
 }

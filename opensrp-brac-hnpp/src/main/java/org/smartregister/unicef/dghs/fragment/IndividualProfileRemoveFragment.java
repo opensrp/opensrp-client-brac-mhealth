@@ -206,7 +206,7 @@ public class IndividualProfileRemoveFragment extends BaseFamilyProfileMemberFrag
         Form form = new Form();
         form.setActionBarBackground( HnppConstants.isReleaseBuild()?R.color.customAppThemeBlue:R.color.alert_urgent_red);
         form.setWizard(false);
-        form.setSaveLabel("জমা দিন");
+        form.setSaveLabel(getActivity().getString(R.string.submit));
         intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
 
         startActivityForResult(intent, JsonFormUtils.REQUEST_CODE_GET_JSON);
@@ -225,9 +225,9 @@ public class IndividualProfileRemoveFragment extends BaseFamilyProfileMemberFrag
             JSONObject removeReasonObj = org.smartregister.util.JsonFormUtils.getFieldJSONObject(field, "remove_reason");
             try{
                 String value = removeReasonObj.getString(CoreJsonFormUtils.VALUE);
-                if(value.equalsIgnoreCase("মৃত্যু নিবন্ধন")){
+                if(value.equalsIgnoreCase(getActivity().getString(R.string.dead_reg))){
                     title = String.format(getString(R.string.confirm_remove_text), memberName);
-                }else if(value.equalsIgnoreCase("স্থানান্তর")){
+                }else if(value.equalsIgnoreCase(getActivity().getString(R.string.replace_only))){
                     title = String.format(getString(R.string.confirm_migrate_text), memberName);
                 }else {
                     title = String.format(getString(R.string.confirm_other_text), memberName);

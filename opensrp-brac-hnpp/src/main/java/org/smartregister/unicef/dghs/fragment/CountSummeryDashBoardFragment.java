@@ -2,6 +2,7 @@ package org.smartregister.unicef.dghs.fragment;
 
 import android.view.View;
 
+import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.adapter.DashBoardAdapter;
 import org.smartregister.unicef.dghs.presenter.CountSummeryDashBoardPresenter;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
@@ -77,7 +78,7 @@ public class CountSummeryDashBoardFragment extends BaseDashBoardFragment {
 
     @Override
     void updateTitle() {
-        super.updateTitle("জনসংখ্যা সারসংক্ষেপ");
+        super.updateTitle(getActivity().getString(R.string.people_in_short));
 
     }
 }

@@ -100,7 +100,7 @@
             android:shadowDy="1"
             android:shadowRadius="0.5"
             android:textStyle="bold"
-            android:text="বাদ দিই"
+            android:text="@string/do_cancel"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="18sp" />
@@ -118,7 +118,7 @@
             android:shadowDy="1"
             android:shadowRadius="0.5"
             android:textStyle="bold"
-            android:text=" সিঙ্ক করি"
+            android:text="@string/start_sync"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="18sp" />

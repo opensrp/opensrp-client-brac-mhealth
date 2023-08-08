@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.util.Log;
 
 import org.smartregister.unicef.dghs.HnppApplication;
+import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.contract.StockDetailsContract;
 import org.smartregister.unicef.dghs.repository.StockRepository;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
@@ -181,7 +182,7 @@ public class StockDetailsModel implements StockDetailsContract.Model{
                 stockDetailsData.setCount(endBalance);
                 stockDetailsData.setEventType(visitType);
                 if(HnppConstants.isPALogin()&&visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.NCD_PACKAGE)){
-                        stockDetailsData.setTitle("প্রাপ্তবয়স্ক প্যাকেজ");
+                        stockDetailsData.setTitle(context.getString(R.string.adult_package));
 
                 }
                 else{

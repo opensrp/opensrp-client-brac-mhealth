@@ -102,7 +102,7 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
                 if(unSyncSpecificService()){
                     SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(ForceSyncActivity.this);
 
-                    showProgressDialog("আপনার ডাটাগুলো সার্ভার এর সাথে সিঙ্ক করা হচ্ছে ");
+                    showProgressDialog(getString(R.string.data_sync_msg));
                     HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
                 }else{
 
@@ -347,8 +347,8 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
     }
 
     private void compareData() {
-        new AlertDialog.Builder(this).setMessage("ডাটা কম্পেয়ার উইথ সার্ভার")
-                .setTitle("আপনার ডিভাইস এর ডাটা গুলো সার্ভার এর সাথে ম্যাচ আছে কিনা চেক করার জন্য পাঠাতে চান ?")
+        new AlertDialog.Builder(this).setMessage(R.string.compare_data_with_server)
+                .setTitle(R.string.compare_data_msg)
                 .setCancelable(false)
                 .setPositiveButton(R.string.yes_button_label, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
@@ -356,7 +356,7 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
                         IntentFilter intentFilter = new IntentFilter();
                         intentFilter.addAction("COMPARE_DATA");
                         registerReceiver(invalidDataBroadcastReceiver, intentFilter);
-                        showProgressDialog("ডাটা সিঙ্ক করা হচ্ছে....");
+                        showProgressDialog(getString(R.string.data_syncing));
                         CompareDataServiceJob.scheduleJobImmediately(CompareDataServiceJob.TAG);
                         dialog.dismiss();
                     }
@@ -371,7 +371,7 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("DATA_SYNC");
         registerReceiver(invalidDataBroadcastReceiver, intentFilter);
-        showProgressDialog("ডাটা সিঙ্ক করা হচ্ছে....");
+        showProgressDialog(getString(R.string.data_syncing));
         DataSyncByBaseEntityServiceJob.scheduleJobImmediately(DataSyncByBaseEntityServiceJob.TAG);
     }
     private void forceSyncData() {
@@ -379,7 +379,7 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ForceSyncIntentService.ACTION_SYNC);
         registerReceiver(invalidDataBroadcastReceiver, intentFilter);
-        showProgressDialog("ডাটা সিঙ্ক করা হচ্ছে....");
+        showProgressDialog(getString(R.string.data_syncing));
         SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(ForceSyncActivity.this);
         ForceSyncDataServiceJob.scheduleJobImmediately(ForceSyncDataServiceJob.TAG);
     }
@@ -439,14 +439,14 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
             @Override
             public void onClick(View v) {
                 if(cc==0 && ec==0){
-                    Toast.makeText(ForceSyncActivity.this,"কোনো ইনভ্যালিড ডাটা পাওয়া যায়নি",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ForceSyncActivity.this, R.string.no_invalid_data_found,Toast.LENGTH_SHORT).show();
                     return;
                 }
                 invalidDataBroadcastReceiver = new InvalidSyncBroadcast();
                 IntentFilter intentFilter = new IntentFilter();
                 intentFilter.addAction("INVALID_SYNC");
                 registerReceiver(invalidDataBroadcastReceiver, intentFilter);
-                showProgressDialog("ইনভ্যালিড ডাটা সিঙ্ক করা হচ্ছে....");
+                showProgressDialog(getString(R.string.invalidate_data_syncing));
                 dialog.dismiss();
                 SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(ForceSyncActivity.this);
                 InValidateSyncDataServiceJob.scheduleJobImmediately(InValidateSyncDataServiceJob.TAG);
@@ -463,7 +463,7 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                showProgressDialog("আপনার অনুমতি আছে কিনা চেক করা হচ্ছে ...");
+                showProgressDialog(getString(R.string.checking_permission_available_or_not));
             }
 
             @Override
@@ -502,12 +502,12 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
                         setServiceName();
 
                     }else{
-                        Toast.makeText(ForceSyncActivity.this,"আপনার অনুমতি নেই",Toast.LENGTH_LONG).show();
+                        Toast.makeText(ForceSyncActivity.this, R.string.no_permission,Toast.LENGTH_LONG).show();
 
                     }
 
                 }else{
-                    Toast.makeText(ForceSyncActivity.this,"আপনার অনুমতি নেই",Toast.LENGTH_LONG).show();
+                    Toast.makeText(ForceSyncActivity.this, R.string.no_permission,Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -576,7 +576,7 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
     public void onSyncComplete(FetchStatus fetchStatus) {
 
         hideProgressDialog();
-        Toast.makeText(this,"সিঙ্ক কমপ্লিট। আরো ইনভ্যালিড ডাটা থাকলে সিঙ্ক করুন",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.sync_complete_sync_start_if_inval_data_exist),Toast.LENGTH_SHORT).show();
         //finish();
     }
     private class InvalidSyncBroadcast extends BroadcastReceiver {
@@ -588,7 +588,7 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
                 if(intent != null && intent.getAction().equalsIgnoreCase("INVALID_SYNC")){
                     String value = intent.getStringExtra("EXTRA_INVALID_SYNC");
                     Toast.makeText(ForceSyncActivity.this,value,Toast.LENGTH_SHORT).show();
-                    showProgressDialog("ডাটা সিঙ্ক করা হচ্ছে....");
+                    showProgressDialog(getString(R.string.data_syncing));
                     HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
                 }
                 if(intent != null && intent.getAction().equalsIgnoreCase("DATA_SYNC")){
@@ -602,7 +602,7 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
                 if(intent != null && intent.getAction().equalsIgnoreCase(ForceSyncIntentService.ACTION_SYNC)){
                     String value = intent.getStringExtra(ForceSyncIntentService.EXTRA_SYNC);
                     Toast.makeText(ForceSyncActivity.this,value,Toast.LENGTH_SHORT).show();
-                    showProgressDialog("ডাটা সিঙ্ক করা হচ্ছে....");
+                    showProgressDialog(getString(R.string.data_syncing));
                     HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
                 }
             }catch (Exception e){

@@ -182,7 +182,7 @@ public class FamilyRegisterActivity extends BaseFamilyRegisterActivity {
     @Override
     public void startFormActivity(JSONObject jsonForm) {
         if(HALocationHelper.getInstance().getUnionList().size() == 0){
-            Toast.makeText(this,"কোনো লোকেশন পাওয়া যায়নি . পুনরায় লগইন করুন",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.location_not_found_try_again,Toast.LENGTH_LONG).show();
             return;
         }
 //        HnppConstants.getGPSLocation(FamilyRegisterActivity.this, new OnPostDataWithGps() {

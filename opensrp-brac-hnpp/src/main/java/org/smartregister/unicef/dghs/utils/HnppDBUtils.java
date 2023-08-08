@@ -402,12 +402,12 @@ public class HnppDBUtils {
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()) {
                     try{
-                        nameCount.append("স্টক নামঃ "+HnppConstants.workSummeryTypeMapping.get(cursor.getString(0))+"\n");
+                        nameCount.append(HnppApplication.getInstance().getApplicationContext().getString(R.string.stock_name)+HnppConstants.workSummeryTypeMapping.get(cursor.getString(0))+"\n");
                     }catch (Exception e){
-                        nameCount.append("স্টক নামঃ "+cursor.getString(0)+"\n");
+                        nameCount.append(HnppApplication.getInstance().getApplicationContext().getString(R.string.stock_name)+cursor.getString(0)+"\n");
 
                     }
-                    nameCount.append("শেষ ব্যালেন্স: "+cursor.getString(1)+"\n");
+                    nameCount.append(HnppApplication.getInstance().getApplicationContext().getString(R.string.end_balance_2)+cursor.getString(1)+"\n");
                     cursor.moveToNext();
                 }
 
@@ -433,8 +433,8 @@ public class HnppDBUtils {
             if(cursor !=null && cursor.getCount() > 0){
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()) {
-                    nameCount.append("নামঃ ").append(cursor.getString(0)).append("\n");
-                    nameCount.append("ইডিডি: ").append(cursor.getString(1)).append("\n");
+                    nameCount.append(HnppApplication.getInstance().getApplicationContext().getString(R.string.name_only)).append(cursor.getString(0)).append("\n");
+                    nameCount.append(HnppApplication.getInstance().getApplicationContext().getString(R.string.edd_only)).append(cursor.getString(1)).append("\n");
                     nameCount.append("------------------------------------"+"\n");
                     cursor.moveToNext();
                 }
@@ -976,19 +976,19 @@ public class HnppDBUtils {
     public static String translateValues(String value){
         if(value==null)return "";
         if(value.equalsIgnoreCase("Yes")){
-            return "হ্যাঁ";
+            return HnppApplication.getInstance().getApplicationContext().getString(R.string.yes);
         }
         if(value.equalsIgnoreCase("No")){
-            return "না";
+            return HnppApplication.getInstance().getApplicationContext().getString(R.string.no);
         }
         if(value.equalsIgnoreCase("M")){
-            return "পুরুষ";
+            return HnppApplication.getInstance().getApplicationContext().getString(R.string.man);
         }
         if(value.equalsIgnoreCase("F")){
-            return "নারী";
+            return HnppApplication.getInstance().getApplicationContext().getString(R.string.woman2);
         }
         if(value.equalsIgnoreCase("O")){
-            return "তৃতীয় লিঙ্গ";
+            return HnppApplication.getInstance().getApplicationContext().getString(R.string.third_gender);
         }
         return value;
     }
@@ -1018,8 +1018,8 @@ public class HnppDBUtils {
                                 eventType = HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
                             }
                             //if(FormApplicability.isDueAnyForm(profileDueInfo.getBaseEntityId(),eventType) && !TextUtils.isEmpty(eventType)){
-                                if(eventType.equalsIgnoreCase("পূর্বের গর্ভের ইতিহাস")){
-                                    profileDueInfo.setEventType("গর্ভবতী পরিচর্যা - ১ম ত্রিমাসিক");
+                                if(eventType.equalsIgnoreCase(HnppApplication.getInstance().getApplicationContext().getString(R.string.pregnancy_history))){
+                                    profileDueInfo.setEventType(HnppApplication.getInstance().getApplicationContext().getString(R.string.pregnancy_care_1_st_trimester));
                                 }else{
                                     profileDueInfo.setEventType(HnppConstants.visitEventTypeMapping.get(eventType));
                                 }

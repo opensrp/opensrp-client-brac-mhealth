@@ -58,6 +58,6 @@ public class StockDashBoardFragment extends BaseDashBoardFragment {
 
     @Override
     void updateTitle() {
-        super.updateTitle("হাতে থাকা প্যাকেজ");
+        super.updateTitle(getString(R.string.package_in_hand));
     }
 }

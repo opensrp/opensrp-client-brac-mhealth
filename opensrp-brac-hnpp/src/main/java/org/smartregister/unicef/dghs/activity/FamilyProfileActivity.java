@@ -710,7 +710,7 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_with_one_button);
         TextView titleTv = dialog.findViewById(R.id.title_tv);
-        titleTv.setText(isSuccess==1?"সার্ভিসটি দেওয়া সম্পূর্ণ হয়েছে":isSuccess==3?"সার্ভিসটি ইতিমধ্যে দেওয়া হয়েছে":"সার্ভিসটি দেওয়া সফল হয়নি। পুনরায় চেষ্টা করুন ");
+        titleTv.setText(isSuccess==1?getString(R.string.service_done_succ):isSuccess==3?getString(R.string.service_already_given):getString(R.string.survice_done_failed));
         Button ok_btn = dialog.findViewById(R.id.ok_btn);
 
         ok_btn.setOnClickListener(new View.OnClickListener() {

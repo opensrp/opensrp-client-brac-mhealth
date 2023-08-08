@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.contract.OtherServiceContract;
 import org.smartregister.unicef.dghs.model.ReferralFollowUpModel;
@@ -54,7 +55,7 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
         if(FormApplicability.isNcdApplicable(age) && FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.NCD_PACKAGE)){
             OtherServiceData otherServiceData3 = new OtherServiceData();
             otherServiceData3.setImageSource(R.drawable.ic_sugar_blood_level);
-            otherServiceData3.setTitle("অসংক্রামক রোগের সেবা");
+            otherServiceData3.setTitle(HnppApplication.getInstance().getApplicationContext().getString(R.string.ncd_package));
             otherServiceData3.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_NCD);
             otherServiceDataList.add(otherServiceData3);
         }
@@ -62,21 +63,21 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
         if(FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.EYE_TEST)){
             OtherServiceData otherServiceData = new OtherServiceData();
             otherServiceData.setImageSource(R.drawable.ic_eye);
-            otherServiceData.setTitle("চক্ষু পরীক্ষা");
+            otherServiceData.setTitle(HnppApplication.getInstance().getApplicationContext().getString(R.string.eye_test));
             otherServiceData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_EYE);
             otherServiceDataList.add(otherServiceData);
         }
         if( FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.BLOOD_GROUP)){
             OtherServiceData otherServiceData = new OtherServiceData();
             otherServiceData.setImageSource(R.drawable.ic_blood);
-            otherServiceData.setTitle("রক্ত পরীক্ষা");
+            otherServiceData.setTitle(HnppApplication.getInstance().getApplicationContext().getString(R.string.blood_test));
             otherServiceData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_BLOOD);
             otherServiceDataList.add(otherServiceData);
         }
         {
             OtherServiceData otherServiceData = new OtherServiceData();
             otherServiceData.setImageSource(R.mipmap.ic_refer);
-            otherServiceData.setTitle("রেফারেল");
+            otherServiceData.setTitle(HnppApplication.getInstance().getApplicationContext().getString(R.string.referrel));
             otherServiceData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_REFERRAL);
             otherServiceDataList.add(otherServiceData);
         }
@@ -108,7 +109,7 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
         if(FormApplicability.isNcdApplicable(age) && FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.NCD_PACKAGE)){
             OtherServiceData otherServiceData3 = new OtherServiceData();
             otherServiceData3.setImageSource(R.drawable.ic_sugar_blood_level);
-            otherServiceData3.setTitle("অসংক্রামক রোগের সেবা");
+            otherServiceData3.setTitle(HnppApplication.getInstance().getApplicationContext().getString(R.string.ncd_package));
             otherServiceData3.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_NCD);
             otherServiceDataList.add(otherServiceData3);
         }
@@ -116,7 +117,7 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
         if(FormApplicability.isWomenPackageApplicable(commonPersonObjectClient.getCaseId(),age,gender.equalsIgnoreCase("F"))&& FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.WOMEN_PACKAGE)){
             OtherServiceData otherServiceData = new OtherServiceData();
             otherServiceData.setImageSource(R.drawable.ic_women);
-            otherServiceData.setTitle("নারী সেবা প্যাকেজ");
+            otherServiceData.setTitle(HnppApplication.getInstance().getApplicationContext().getString(R.string.woman_package));
             otherServiceData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_WOMEN_PACKAGE);
             otherServiceDataList.add(otherServiceData);
         }
@@ -124,7 +125,7 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
         if(FormApplicability.isAdolescentApplicable(age,gender.equalsIgnoreCase("F"))&& FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.GIRL_PACKAGE)){
             OtherServiceData otherServiceData2 = new OtherServiceData();
             otherServiceData2.setImageSource(R.drawable.ic_adolescent);
-            otherServiceData2.setTitle("কিশোরী সেবা প্যাকেজ");
+            otherServiceData2.setTitle(HnppApplication.getInstance().getApplicationContext().getString(R.string.adolescent_package));
             otherServiceData2.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_GIRL_PACKAGE);
             otherServiceDataList.add(otherServiceData2);
         }
@@ -132,7 +133,7 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
         if(FormApplicability.isIycfApplicable(day) && FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.IYCF_PACKAGE)){
             OtherServiceData otherServiceData4 = new OtherServiceData();
             otherServiceData4.setImageSource(R.drawable.ic_child);
-            otherServiceData4.setTitle("শিশু সেবা প্যাকেজ (আই.ওয়াই.সি.এফ)");
+            otherServiceData4.setTitle(HnppApplication.getInstance().getApplicationContext().getString(R.string.child_package_iyocf));
             otherServiceData4.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_IYCF);
             otherServiceDataList.add(otherServiceData4);
         }

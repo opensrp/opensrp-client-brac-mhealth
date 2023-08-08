@@ -84,17 +84,17 @@ public class InvalidDataDisplayActivity extends SecuredActivity {
                     InvalidDataModel invalidDataModel = new InvalidDataModel();
                     invalidDataModel.baseEntityId = client.getBaseEntityId();
                     invalidDataModel.errorCause = "Synced,Invalid";
-                    invalidDataModel.action = "সিঙ্ক বাটন প্রেস করুন";
+                    invalidDataModel.action = getString(R.string.press_sync_btn);
                     if(TextUtils.isEmpty(invalidDataModel.baseEntityId)){
                         invalidDataModel.errorCause = "Base entity id null";
-                        invalidDataModel.action = "ডাটা ডিলিট করে দিন";
+                        invalidDataModel.action = getString(R.string.delete_data);
                         invalidDataModel.needToDelete = true;
                         invalidDataModel.rowId = key;
                     }
                     invalidDataModel.address = client.getAddresses().toString();
                     if(client.getAddresses().size() == 0){
-                        invalidDataModel.errorCause = "এড্রেস পাওয়া যায়নি";
-                        invalidDataModel.action = "এর হাউসহোল্ড টি এডিট করুন";
+                        invalidDataModel.errorCause = getString(R.string.location_not_found);
+                        invalidDataModel.action = getString(R.string.edit_house_hold);
                     }else{
                         invalidDataModel.address =  client.getAddresses().get(0).getCityVillage();
                     }
@@ -122,24 +122,24 @@ public class InvalidDataDisplayActivity extends SecuredActivity {
                     InvalidDataModel invalidDataModel = new InvalidDataModel();
                     invalidDataModel.baseEntityId = event.getBaseEntityId();
                     invalidDataModel.errorCause = "Synced,Invalid";
-                    invalidDataModel.action = "সিঙ্ক বাটন প্রেস করুন";
+                    invalidDataModel.action = getString(R.string.press_sync_btn);
                     if(TextUtils.isEmpty(invalidDataModel.baseEntityId)){
                         invalidDataModel.errorCause = "Base entity id null";
-                        invalidDataModel.action = "ডাটা ডিলিট করে দিন";
+                        invalidDataModel.action = getString(R.string.delete_data);
                         invalidDataModel.needToDelete = true;
                         invalidDataModel.rowId = key;
                     }
                     invalidDataModel.serverVersion = event.getServerVersion();
                     if(invalidDataModel.serverVersion ==0){
                         invalidDataModel.errorCause = "Server version null";
-                        invalidDataModel.action = "মেনু থেকে সিঙ্ক বাটন প্রেস করুন";
+                        invalidDataModel.action = getString(R.string.press_sync_from_menu);
                         invalidDataModel.needToDelete = false;
                     }
                     invalidDataModel.formSubmissionId = event.getFormSubmissionId();
 
                     if(TextUtils.isEmpty(invalidDataModel.formSubmissionId)){
                         invalidDataModel.errorCause = "formSubmissionId null";
-                        invalidDataModel.action = "ডাটা ডিলিট করে দিন";
+                        invalidDataModel.action = getString(R.string.delete_data);
                         invalidDataModel.needToDelete = true;
                         invalidDataModel.rowId = key;
                     }

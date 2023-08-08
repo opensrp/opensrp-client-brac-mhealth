@@ -14,7 +14,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="স্বাস্থ্য সেবিকার নাম"
+            android:text="@string/nurse_name"
             android:textColor="@color/black"
             android:textSize="18sp"/>
 
@@ -28,7 +28,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="গ্রামের নামঃ"
+            android:text="@string/village_name"
             android:textColor="@color/black"
             android:textSize="18sp"/>
 
@@ -73,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
              android:gravity="center_horizontal"
-            android:text="ফিঙ্গারপ্রিন্ট পাওয়া যায় নি"
+            android:text="@string/fingerprint_not_found"
             android:textColor="@color/black"
             android:textSize="18sp"/>
         <LinearLayout
@@ -96,7 +96,7 @@
                 android:shadowDy="1"
                 android:shadowRadius="0.5"
                 android:textStyle="bold"
-                android:text="আরেকবার চেষ্টা করি "
+                android:text="@string/try_again"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
@@ -114,7 +114,7 @@
                 android:shadowDy="1"
                 android:shadowRadius="0.5"
                 android:textStyle="bold"
-                android:text="মেনু-তে ফিরে যাই"
+                android:text="@string/back_to_menu"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="18sp" />

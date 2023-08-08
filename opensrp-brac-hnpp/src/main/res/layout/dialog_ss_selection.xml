@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="20dp"
-            android:text="যে গ্রামে স্থানান্তর করতে চাচ্ছেন  তা সিলেক্ট করুন "
+            android:text="@string/select_re_assign_vill"
             android:textColor="@color/black"
             android:textSize="18sp"/>
 
@@ -24,7 +24,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="স্বাস্থ্য সেবিকার নাম"
+                android:text="@string/nurse_name"
                 android:textColor="@color/black"
                 android:textSize="18sp"/>
 
@@ -40,7 +40,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="গ্রামের নামঃ"
+                android:text="@string/village_name"
                 android:textColor="@color/black"
                 android:textSize="18sp"/>
 

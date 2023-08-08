@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.vijay.jsonwizard.fragments.JsonWizardFormFragment;
 
+import org.smartregister.unicef.dghs.R;
+
 import java.util.Collection;
 
 public class HnppFormViewFragment extends JsonWizardFormFragment {
@@ -32,7 +34,7 @@ public class HnppFormViewFragment extends JsonWizardFormFragment {
         Collection<View> formDataViews = getJsonApi().getFormDataViews();
         for (View v : formDataViews) {
             if(v instanceof MaterialEditText) {
-                if (((MaterialEditText) v).getFloatingLabelText() != null && (((MaterialEditText) v).getFloatingLabelText().toString()).equals("বি.এম.আই")) {
+                if (((MaterialEditText) v).getFloatingLabelText() != null && (((MaterialEditText) v).getFloatingLabelText().toString()).equals(getString(R.string.bmi))) {
                     ((MaterialEditText) v).setEnabled(false);
                     break;
                 }

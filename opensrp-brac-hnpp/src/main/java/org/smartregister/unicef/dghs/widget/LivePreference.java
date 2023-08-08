@@ -89,16 +89,16 @@ public class LivePreference extends Preference  {
         alert.setCancelable(false);
         alert.setView(edittext);
 
-        alert.setPositiveButton("জমা দিন", (dialog, whichButton) -> {
+        alert.setPositiveButton(HnppApplication.getInstance().getApplicationContext().getString(R.string.submit), (dialog, whichButton) -> {
             if(edittext.getText().toString().isEmpty()){
-                Toast.makeText(context,"পাসওয়ার্ড দিন",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, HnppApplication.getInstance().getApplicationContext().getString(R.string.give_pass),Toast.LENGTH_SHORT).show();
                 return;
             }
 
             passwordCheck(edittext.getText().toString().trim());
 
         });
-        alert.setNegativeButton("বাতিল", new DialogInterface.OnClickListener() {
+        alert.setNegativeButton(R.string.batil, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
 
             }
@@ -151,10 +151,10 @@ public class LivePreference extends Preference  {
                     }
                 }else{
                     android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(getContext()).create();
-                    alertDialog.setTitle("পাসওয়ার্ড মিলে নাই");
+                    alertDialog.setTitle(HnppApplication.getInstance().getApplicationContext().getString(R.string.pass_not_match));
                     alertDialog.setCancelable(false);
 
-                    alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE, "ওকে",
+                    alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE, HnppApplication.getInstance().getApplicationContext().getString(R.string.ok_en),
                             (dialog, which) -> {
 
                             });

@@ -174,7 +174,7 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
 
                 dashBoardData1.setCount(cursor.getInt(0));
                 dashBoardData1.setEventType(HnppConstants.EVENT_TYPE.GLASS);
-                dashBoardData1.setTitle("চশমা বিক্রি");
+                dashBoardData1.setTitle(context.getString(R.string.glass_sell));
                 try{
                     dashBoardData1.setImageSource((int)HnppConstants.iconMapping.get(dashBoardData1.getEventType()));
                 }catch (Exception e){
@@ -194,13 +194,13 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
         return getVisitTypeCount(HnppConstants.EVENT_TYPE.ANC_REGISTRATION,ssName,fromMonth,toMonth);
     }
     public DashBoardData getFirstTrimsterRegisterCount(String ssName, long fromMonth, long toMonth){
-        return getANcTrimesterCount("প্রথম ট্রাইসেমিস্টার-এ সনাক্ত",ssName,fromMonth,toMonth,1,107);
+        return getANcTrimesterCount(context.getString(R.string.first_trimestar_count),ssName,fromMonth,toMonth,1,107);
     }
     public DashBoardData getSecondTrimsterRegisterCount(String ssName, long fromMonth, long toMonth){
-        return getANcTrimesterCount("দ্বিতীয় ট্রাইসেমিস্টার-এ সনাক্ত",ssName,fromMonth,toMonth,107,170);
+        return getANcTrimesterCount(context.getString(R.string.secont_trimster_count),ssName,fromMonth,toMonth,107,170);
     }
     public DashBoardData getThirdTrimsterRegisterCount(String ssName, long fromMonth, long toMonth){
-        return getANcTrimesterCount("তৃতীয় ট্রাইসেমিস্টার-এ সনাক্ত",ssName,fromMonth,toMonth,170,0);
+        return getANcTrimesterCount(context.getString(R.string.third_trimestarr_count),ssName,fromMonth,toMonth,170,0);
     }
     public DashBoardData getAnc1Count(String ssName,long fromMonth, long toMonth){
         return getVisitTypeCount(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT,ssName,fromMonth,toMonth);

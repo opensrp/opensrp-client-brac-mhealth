@@ -18,6 +18,7 @@ import org.smartregister.CoreLibrary;
 import org.smartregister.chw.core.model.NavigationOption;
 import org.smartregister.unicef.dghs.BuildConfig;
 import org.smartregister.unicef.dghs.HnppApplication;
+import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.activity.DFSActivity;
 import org.smartregister.unicef.dghs.activity.GrowthReportActivity;
 import org.smartregister.unicef.dghs.activity.MigrationActivity;
@@ -200,7 +201,7 @@ public class HnppNavigationPresenter implements NavigationContract.Presenter {
             activity.startActivity(browserIntent);
 
         }catch (Exception e){
-            Toast.makeText(activity,"আপনার ব্রাউজার চালু রাখুন",Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, R.string.active_your_browser,Toast.LENGTH_LONG).show();
         }
     }
 
@@ -330,10 +331,10 @@ public class HnppNavigationPresenter implements NavigationContract.Presenter {
                 @Override
                 public void run() {
                     android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(activity).create();
-                    alertDialog.setTitle("আপনার অ্যাকাউন্টটি নিষ্ক্রিয় করা হয়েছে");
+                    alertDialog.setTitle(activity.getString(R.string.acount_deactiving));
                     alertDialog.setCancelable(false);
 
-                    alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE, "ওকে",
+                    alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE, activity.getString(R.string.ok_en),
                             (dialog, which) -> {
                                 HnppApplication.getHNPPInstance().forceLogoutForRemoteLogin();
                             });

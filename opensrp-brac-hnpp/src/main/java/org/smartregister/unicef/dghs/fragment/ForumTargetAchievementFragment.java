@@ -2,6 +2,7 @@ package org.smartregister.unicef.dghs.fragment;
 
 import android.support.v7.widget.LinearLayoutManager;
 
+import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.adapter.ForumTargetAchievementAdapter;
 import org.smartregister.unicef.dghs.adapter.TargetAchievementAdapter;
 import org.smartregister.unicef.dghs.presenter.ForumTargetAchievementPresenter;
@@ -54,7 +55,7 @@ public class ForumTargetAchievementFragment extends BaseDashBoardFragment {
 
     @Override
     void updateTitle() {
-        super.updateTitle("ফোরাম");
+        super.updateTitle(getActivity().getString(R.string.forum));
 
     }
 }

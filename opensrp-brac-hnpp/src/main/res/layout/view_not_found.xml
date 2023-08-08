@@ -12,12 +12,12 @@
         android:padding="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="নিচের কোন কারণে সঠিক সদস্য পাওয়া যায়নি ?"
+        android:text="@string/cause_for_not_getting_actual_info"
         android:textColor="@color/black"
         android:textSize="18sp"/>
     <CheckBox
         android:id="@+id/check_box_0"
-        android:text=" এই ব্যক্তি ফিঙ্গারপ্রিন্ট দ্বারা রেজিস্টার্ড নয়"
+        android:text="@string/member_not_reg_with_finger"
         android:textColor="@color/black"
         android:layout_margin="10dp"
         android:layout_width="match_parent"
@@ -25,35 +25,35 @@
 
     <CheckBox
         android:id="@+id/check_box_1"
-        android:text=" রেজিস্ট্রেশন এ ভুল আঙুলের ছাপ দেওয়া হয়েছে "
+        android:text="@string/wrong_fingerprint"
         android:textColor="@color/black"
         android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <CheckBox
         android:id="@+id/check_box_2"
-        android:text=" খুঁজে বের করতে ভুল আঙুলের ছাপ দেওয়া হয়েছে"
+        android:text="@string/fingerprint_provided"
         android:textColor="@color/black"
         android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <CheckBox
         android:id="@+id/check_box_3"
-        android:text=" আঙুলের ছাপ সঠিক নিয়মে দেওয়া হয়নি "
+        android:text="@string/fingerprint_not_provided_right_way"
         android:textColor="@color/black"
         android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <CheckBox
         android:id="@+id/check_box_4"
-        android:text=" ভুল এলাকা নির্ধারণ করা হয়েছে  "
+        android:text="@string/wrong_state"
         android:textColor="@color/black"
         android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <CheckBox
         android:id="@+id/check_box_5"
-        android:text="জানা নেই"
+        android:text="@string/dont_know"
         android:textColor="@color/black"
         android:layout_margin="10dp"
         android:layout_width="match_parent"
@@ -64,7 +64,7 @@
         android:padding="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="* ভুল হয়ে থাকলে আরেকবার চেষ্টা করুন"
+        android:text="@string/try_again_if_wrong"
         android:textColor="@color/black"
         android:textSize="18sp"/>
     <LinearLayout
@@ -87,7 +87,7 @@
             android:shadowDy="1"
             android:shadowRadius="0.5"
             android:textStyle="bold"
-            android:text="আরেকবার চেষ্টা করি "
+            android:text="@string/try_another_time"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="18sp" />
@@ -105,7 +105,7 @@
             android:shadowDy="1"
             android:shadowRadius="0.5"
             android:textStyle="bold"
-            android:text="মেনু থেকে খুজুন"
+            android:text="@string/search_from_menu"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="18sp" />

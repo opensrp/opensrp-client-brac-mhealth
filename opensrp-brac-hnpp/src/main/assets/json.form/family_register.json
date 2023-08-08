@@ -52,7 +52,7 @@
     }
   },
   "step1": {
-    "title": "খানা নিবন্ধন",
+    "title": "Household registration",
     "fields": [
       {
         "key": "block_id",
@@ -74,7 +74,7 @@
         "openmrs_entity_id": "",
         "key": "section",
         "type": "section_label",
-        "name": "খানার বর্তমান ঠিকানা"
+        "name": "Household Present Address"
       },
       {
         "key": "union_zone",
@@ -82,14 +82,14 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "union_zone",
         "type": "spinner",
-        "hint": "ইউনিয়ন/ জোন",
+        "hint": "Union/Zone",
         "values": [
         ],
         "openmrs_choice_ids": {
         },
         "v_required": {
           "value": "true",
-          "err": "নির্বাচন করুন"
+          "err": "Select Union/Zone"
         }
       },
       {
@@ -98,14 +98,14 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "old_ward",
         "type": "spinner",
-        "hint": "পুরাতন ওয়ার্ড",
+        "hint": "Old ward",
         "values": [
         ],
         "openmrs_choice_ids": {
         },
         "v_required": {
           "value": "true",
-          "err": "নির্বাচন করুন"
+          "err": "Select Old ward"
         }
       },
       {
@@ -114,14 +114,14 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "ward_name",
         "type": "spinner",
-        "hint": "নতুন ওয়ার্ড",
+        "hint": "New Ward",
         "values": [
         ],
         "openmrs_choice_ids": {
         },
         "v_required": {
           "value": "true",
-          "err": "ওয়ার্ডের নাম নির্বাচন করুন"
+          "err": "Select ward name"
         }
       },
       {
@@ -130,14 +130,14 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "block_name",
         "type": "spinner",
-        "hint": "সাব-ব্লক/ সাইট",
+        "hint": "Sub-Block/ Site",
         "values": [
         ],
         "openmrs_choice_ids": {
         },
         "v_required": {
           "value": "true",
-          "err": "ব্লকের নাম নির্বাচন করুন"
+          "err": "Select Sub-Block/ Site name"
         }
       },
       {
@@ -147,7 +147,7 @@
         "openmrs_entity_id": "village",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "গ্রাম/মহল্লা/পাড়া"
+        "hint": "Village/Mahalla/Para\n"
       },
       {
         "key": "holding_no",
@@ -156,7 +156,7 @@
         "openmrs_entity_id": "holding_no",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "বাড়ি/ জি আর / হোল্ডিং নং"
+        "hint": "House/G R/Holding no"
 
       },
       {
@@ -166,14 +166,14 @@
         "openmrs_entity_id": "post_office_present",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "ডাকঘর(বর্তমান ঠিকানা)",
+        "hint": "Post Office( Present Address)",
         "values": [
         ],
         "openmrs_choice_ids": {
         },
         "v_required": {
           "value": false,
-          "err": "প্রশ্নের উত্তর দিন"
+          "err": "Answer question"
         }
       },
       {
@@ -183,18 +183,18 @@
         "openmrs_entity_id": "is_permanent_address",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "স্থায়ী ঠিকানা কি একই",
+        "hint": "Same Permanent Address?",
         "v_required": {
           "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
+          "err": "Answer question"
         },
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
         "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+          "Yes": "Yes",
+          "No": "No"
         }
       },
       {
@@ -203,19 +203,19 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "division_per",
         "type": "spinner",
-        "hint": "বিভাগ(স্থায়ী)",
+        "hint": "Division(Permanent)",
         "values": [
         ],
         "openmrs_choice_ids": {
         },
         "v_required": {
           "value": "true",
-          "err": "নির্বাচন করুন"
+          "err": "Select Division"
         },
         "relevance": {
           "step1:is_permanent_address": {
             "type": "string",
-            "ex": "equalTo(., \"না\")"
+            "ex": "equalTo(., \"No\")"
           }
         }
       },
@@ -225,19 +225,19 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "district_per",
         "type": "spinner",
-        "hint": "জেলা/সিটি কর্পোরেশন(স্থায়ী)",
+        "hint": "District/City Corporation(Permanent)",
         "values": [
         ],
         "openmrs_choice_ids": {
         },
         "v_required": {
           "value": "true",
-          "err": "নির্বাচন করুন"
+          "err": "Select District/City Corporation"
         },
         "relevance": {
           "step1:is_permanent_address": {
             "type": "string",
-            "ex": "equalTo(., \"না\")"
+            "ex": "equalTo(., \"No\")"
           }
         }
       },
@@ -247,19 +247,19 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "upazila_per",
         "type": "spinner",
-        "hint": "উপজেলা/থানা(স্থায়ী)",
+        "hint": "Upazilla/Thanana(Permanent)",
         "values": [
         ],
         "openmrs_choice_ids": {
         },
         "v_required": {
           "value": "true",
-          "err": "নির্বাচন করুন"
+          "err": "Select Upazilla/Thanana"
         },
         "relevance": {
           "step1:is_permanent_address": {
             "type": "string",
-            "ex": "equalTo(., \"না\")"
+            "ex": "equalTo(., \"No\")"
           }
         }
       },
@@ -269,7 +269,7 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "paurosova_per",
         "type": "spinner",
-        "hint": "পৌরসভা(স্থায়ী)",
+        "hint": "Paurosova(Permanent)",
         "values": [
         ],
         "openmrs_choice_ids": {
@@ -277,7 +277,7 @@
         "relevance": {
           "step1:is_permanent_address": {
             "type": "string",
-            "ex": "equalTo(., \"না\")"
+            "ex": "equalTo(., \"No\")"
           }
         }
       },
@@ -287,7 +287,7 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "union_per",
         "type": "spinner",
-        "hint": "ইউনিয়ন/ জোন (স্থায়ী)",
+        "hint": "Union/Zone (Permanent)",
         "values": [
         ],
         "openmrs_choice_ids": {
@@ -295,7 +295,7 @@
         "relevance": {
           "step1:is_permanent_address": {
             "type": "string",
-            "ex": "equalTo(., \"না\")"
+            "ex": "equalTo(., \"No\")"
           }
         }
       },
@@ -306,11 +306,11 @@
         "openmrs_entity_id": "village_per",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "গ্রাম/মহল্লা/পাড়া(স্থায়ী ঠিকানা)",
+        "hint": "Village/Mahalla/Para(Permanent)",
         "relevance": {
           "step1:is_permanent_address": {
             "type": "string",
-            "ex": "equalTo(., \"না\")"
+            "ex": "equalTo(., \"No\")"
           }
         }
       },
@@ -321,11 +321,11 @@
         "openmrs_entity_id": "holding_no_per",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "বাড়ি/ জি আর / হোল্ডিং নং(স্থায়ী ঠিকানা)",
+        "hint": "House/G R/Holding no(Permanent)",
         "relevance": {
           "step1:is_permanent_address": {
             "type": "string",
-            "ex": "equalTo(., \"না\")"
+            "ex": "equalTo(., \"No\")"
           }
         }
       },
@@ -336,19 +336,19 @@
         "openmrs_entity_id": "post_office_permanent",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "ডাকঘর(স্থায়ী ঠিকানা)",
+        "hint": "Post office (Permanent Address)",
         "values": [
         ],
         "openmrs_choice_ids": {
         },
         "v_required": {
           "value": false,
-          "err": "প্রশ্নের উত্তর দিন"
+          "err": "Answer question"
         },
         "relevance": {
           "step1:is_permanent_address": {
             "type": "string",
-            "ex": "equalTo(., \"না\")"
+            "ex": "equalTo(., \"No\")"
           }
         }
       },
@@ -357,7 +357,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "household_id",
-        "hint": "খানার নম্বর",
+        "hint": "Household no",
         "type": "hidden"
       },
       {
@@ -366,15 +366,15 @@
         "openmrs_entity": "person",
         "openmrs_entity_id": "first_name",
         "type": "edit_text",
-        "hint": "পরিবারের প্রধানের নাম এর প্রথম অংশ (ইংরেজীতে)",
+        "hint": "First Name of Household head(English)",
         "edit_type": "name",
         "v_required": {
           "value": "true",
-          "err": "খানা প্রধানের নাম লিখুন"
+          "err": "Enter First Name of Household"
         },
         "v_regex": {
           "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
-          "err": "একটি বৈধ নাম লিখুন"
+          "err": "Enter valid name"
         }
       },
       {
@@ -383,15 +383,15 @@
         "openmrs_entity": "person",
         "openmrs_entity_id": "last_name",
         "type": "edit_text",
-        "hint": "পরিবারের প্রধানের নাম এর শেষ অংশ (ইংরেজীতে)",
+        "hint": "Last Name of Household Head(English)",
         "edit_type": "name",
         "v_required": {
           "value": "true",
-          "err": "খানা প্রধানের নাম লিখুন"
+          "err": "Enter Last Name of Household"
         },
         "v_regex": {
           "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
-          "err": "একটি বৈধ নাম লিখুন"
+          "err": "Enter valid name"
         }
       },
       {
@@ -401,27 +401,27 @@
         "openmrs_entity_id": "HOH_Phone_Number",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "পরিবারের মোবাইল নম্বর",
+        "hint": "Important Number of Household",
         "v_required": {
           "value": true,
-          "err": "11 ডিজিটের মোবাইল নম্বর লিখুন"
+          "err": "Enter 11 digit mobile number"
         },
         "v_numeric": {
           "value": "true",
-          "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
+          "err": "The number must start with 011, 012, 013, 014, 015, 016,017,018 or 019 and must be 11 digits in total."
         },
         "v_regex": {
           "value": "(01[1-9][0-9]{8})|\s*",
-          "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
+          "err": "The number must start with 011, 012, 013, 014, 015, 016,017,018 or 019 and must be 11 digits in total."
         },
         "v_max_length": {
           "value": "11",
-          "err": "11 ডিজিটের মোবাইল নম্বর লিখুন",
+          "err": "Enter 11 digit mobile number",
           "is_fixed_size":true
         },
         "v_min_length": {
           "value": "1",
-          "err": "11 ডিজিটের মোবাইল নম্বর লিখুন"
+          "err": "Enter 11 digit mobile number"
         }
       },
       {
@@ -430,11 +430,11 @@
         "openmrs_entity": "person_identifier",
         "openmrs_entity_id": "opensrp_id",
         "type": "edit_text",
-        "hint": "সিস্টেম নাম্বার",
+        "hint": "System Number",
         "read_only": true,
         "v_numeric": {
           "value": "false",
-          "err": "একটি বৈধ আইডি লিখুন"
+          "err": "Enter valid id"
         }
       },
       {
@@ -443,7 +443,7 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "camp_type",
         "type": "hidden",
-        "hint": "কেন্দ্রের নাম নির্বাচন করুন",
+        "hint": "Select the campaign",
         "values": [
         ],
         "openmrs_choice_ids": {
@@ -460,7 +460,7 @@
         "openmrs_entity_id": "registration_date",
         "type": "edit_text",
         "read_only": true,
-        "hint": "রেজিস্ট্রেশনের তারিখ"
+        "hint": "Date of Registration"
       },
       {
         "key": "member_count",
@@ -468,23 +468,23 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "member_count",
         "type": "edit_text",
-        "hint": "খানার মোট সদস্য সংখ্যা",
+        "hint": "Total Member of Household ",
         "v_numeric": {
           "value": "true",
-          "err": "অবশ্যই সংখ্যা হতে হবে"
+          "err": "Must be number"
         },
         "v_regex": {
           "value": "(5[0]|[1-4][0-9]|[1-9])|\s*",
-          "err": "সদস্য সংখ্যা অবশ্যই ১-৫০ এর মধ্যে হবে এবং প্রথমে ০ দিয়ে শুরু করা যাবে না"
+          "err": "Member number must be between 1-50 and cannot start with 0"
         },
         "v_max_length": {
           "value": "2",
-          "err": "সর্বোচ্চ 50 হতে হবে",
+          "err": "Maximum should be 50",
           "is_fixed_size":true
         },
         "v_min_length": {
           "value": "1",
-          "err": "সর্বনিম্ন 1 হতে হবে"
+          "err": "Minimum must be 1"
         }
       },
       {

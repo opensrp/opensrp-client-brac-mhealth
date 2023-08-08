@@ -726,7 +726,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_with_one_button);
         TextView titleTv = dialog.findViewById(R.id.title_tv);
-        titleTv.setText(isSuccess==1?"সার্ভিসটি দেওয়া সম্পূর্ণ হয়েছে":isSuccess==3?"সার্ভিসটি ইতিমধ্যে দেওয়া হয়েছে":"সার্ভিসটি দেওয়া সফল হয়নি। পুনরায় চেষ্টা করুন ");
+        titleTv.setText(isSuccess==1?getString(R.string.service_done_succ):isSuccess==3?getString(R.string.service_already_given):getString(R.string.survice_done_failed));
         Button ok_btn = dialog.findViewById(R.id.ok_btn);
 
         ok_btn.setOnClickListener(v -> {
@@ -1177,13 +1177,13 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
 
     private void setupMenuOptions(Menu menu) {
 
-        menu.findItem(R.id.action_remove_member).setTitle("সদস্য বাদ দিন / মাইগ্রেট / মৃত্যু");
-        menu.findItem(R.id.action_anc_registration).setTitle("গর্ভবতী রেজিস্ট্রেশন");
+        menu.findItem(R.id.action_remove_member).setTitle(R.string.remove_member_or_migrade);
+        menu.findItem(R.id.action_anc_registration).setTitle(R.string.pregnancy_reg);
         menu.findItem(R.id.action_malaria_registration).setVisible(false);
         menu.findItem(R.id.action_malaria_followup_visit).setVisible(false);
         menu.findItem(R.id.action_sick_child_follow_up).setVisible(false);
-        menu.findItem(R.id.action_malaria_diagnosis).setTitle("PNC রেজিস্ট্রেশন");
-        menu.findItem(R.id.action_pregnancy_out_come).setTitle("প্রসবের ফলাফল");
+        menu.findItem(R.id.action_malaria_diagnosis).setTitle(R.string.pnc_reg);
+        menu.findItem(R.id.action_pregnancy_out_come).setTitle(R.string.preg_outcome);
         menu.findItem(R.id.action_pregnancy_out_come).setVisible(false);
 
         if(HnppConstants.isPALogin()){

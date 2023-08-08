@@ -57,13 +57,13 @@ public class StockFetchIntentService extends IntentService {
                         HnppApplication.getStockRepository().addOrUpdate(stockData);
                         timestamp = stockData.getTimestamp();
                         try{
-                            nameCount.append("স্টক নামঃ"+HnppConstants.workSummeryTypeMapping.get(stockData.getProductName())+"\n");
+                            nameCount.append(getString(R.string.stock_name)+HnppConstants.workSummeryTypeMapping.get(stockData.getProductName())+"\n");
                         }catch (Exception e){
-                            nameCount.append("স্টক নামঃ"+stockData.getProductName()+"\n");
+                            nameCount.append(getString(R.string.stock_name)+stockData.getProductName()+"\n");
 
                         }
 
-                        nameCount.append("স্টক সংখ্যাঃ"+stockData.getQuantity()+"\n");
+                        nameCount.append(getString(R.string.stock_no)+stockData.getQuantity()+"\n");
                         Log.v("STOCK_FETCH","lasttime:"+timestamp);
 
                     }
@@ -73,7 +73,7 @@ public class StockFetchIntentService extends IntentService {
             }
             if(jsonObjectLocation.length()>0){
                 if(nameCount.length() > 0){
-                    HnppConstants.insertAtNotificationTable(" নতুন স্টক এসেছে",nameCount.toString());
+                    HnppConstants.insertAtNotificationTable(getString(R.string.new_stock),nameCount.toString());
                     intent = new Intent(HnppConstants.ACTION_STOCK_COME);
                     intent.putExtra(HnppConstants.EXTRA_STOCK_COME, nameCount.toString());
                     sendBroadcast(intent);

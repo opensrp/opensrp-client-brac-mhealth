@@ -60,7 +60,7 @@ public class HNPPMemberJsonFormFragment extends JsonWizardFormFragment {
         if(position == -1)
             return;
         if (parent instanceof MaterialSpinner) {
-            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase("খানা প্রধানের সাথে সম্পর্ক")) {
+            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(getString(R.string.relation_with_hh))) {
                 processHouseholdName(position);
             }
         }
@@ -128,13 +128,13 @@ public class HNPPMemberJsonFormFragment extends JsonWizardFormFragment {
                 while (iterator.hasNext()) {
                      View field_view = iterator.next();
                     if (field_view instanceof MaterialEditText) {
-                        if (((MaterialEditText) field_view).getFloatingLabelText()!=null&&((MaterialEditText) field_view).getFloatingLabelText().toString().trim().equalsIgnoreCase("নামের প্রথম অংশ (ইংরেজীতে)")) {
+                        if (((MaterialEditText) field_view).getFloatingLabelText()!=null&&((MaterialEditText) field_view).getFloatingLabelText().toString().trim().equalsIgnoreCase(getString(R.string.first_name_in_english))) {
                             first_name_view = ((MaterialEditText) field_view);
                         }
-                        else if (((MaterialEditText) field_view).getFloatingLabelText()!=null&&((MaterialEditText) field_view).getFloatingLabelText().toString().trim().equalsIgnoreCase("নামের শেষ অংশ (ইংরেজীতে)")) {
+                        else if (((MaterialEditText) field_view).getFloatingLabelText()!=null&&((MaterialEditText) field_view).getFloatingLabelText().toString().trim().equalsIgnoreCase(getString(R.string.last_name_in_englist))) {
                             last_name_view = ((MaterialEditText) field_view);
                         }
-                        else if (((MaterialEditText) field_view).getFloatingLabelText()!=null&&((MaterialEditText) field_view).getFloatingLabelText().toString().trim().equalsIgnoreCase("মোবাইল নম্বর")) {
+                        else if (((MaterialEditText) field_view).getFloatingLabelText()!=null&&((MaterialEditText) field_view).getFloatingLabelText().toString().trim().equalsIgnoreCase(getString(R.string.mobile_no_only))) {
                             phone_number_view = ((MaterialEditText) field_view);
                         }
 

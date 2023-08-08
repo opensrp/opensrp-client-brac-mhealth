@@ -89,7 +89,7 @@
                     android:id="@+id/avg_title"
                     android:textColor="@color/black"
                     android:textSize="20sp"
-                    android:text="গড় উপস্থিতি"
+                    android:text="@string/attandance"
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="20dp"
                     android:layout_width="wrap_content"

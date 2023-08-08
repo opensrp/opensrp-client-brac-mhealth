@@ -3,6 +3,7 @@ package org.smartregister.unicef.dghs.fragment;
 import android.util.Log;
 import android.view.View;
 
+import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.adapter.DashBoardAdapter;
 import org.smartregister.unicef.dghs.adapter.SSDashboardAdapter;
 import org.smartregister.unicef.dghs.presenter.SSInfoDashBoardPresenter;
@@ -78,6 +79,6 @@ public class SSInfoDashBoardFragment extends BaseDashBoardFragment {
 
     @Override
     void updateTitle() {
-        super.updateTitle("স্বাস্থ্য সেবিকা ড্যাশবোর্ড");
+        super.updateTitle(getString(R.string.nurse_dashboard));
     }
 }

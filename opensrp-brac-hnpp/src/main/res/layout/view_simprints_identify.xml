@@ -45,7 +45,7 @@
             android:shadowDy="1"
             android:shadowRadius="0.5"
             android:textStyle="bold"
-            android:text="মেনু-তে ফিরে যাই"
+            android:text="@string/back_to_menu"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="18sp" />
@@ -63,7 +63,7 @@
             android:shadowDy="1"
             android:shadowRadius="0.5"
             android:textStyle="bold"
-            android:text="পাওয়া যায়নি"
+            android:text="@string/not_found"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="18sp" />

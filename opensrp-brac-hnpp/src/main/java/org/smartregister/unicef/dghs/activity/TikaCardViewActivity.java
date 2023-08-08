@@ -418,7 +418,7 @@ public class TikaCardViewActivity extends SecuredActivity {
             ActivityCompat.requestPermissions(TikaCardViewActivity.this, new String[] { permission }, requestCode);
         }
         else {
-            showProgressDialog("টিকা কার্ডটি বানানো হচ্ছে ....");
+            showProgressDialog(getString(R.string.tika_card_making));
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -456,7 +456,7 @@ public class TikaCardViewActivity extends SecuredActivity {
          if (requestCode == STORAGE_PERMISSION_CODE) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                showProgressDialog("টিকা কার্ডটি বানানো হচ্ছে ....");
+                showProgressDialog(getString(R.string.tika_card_making));
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {

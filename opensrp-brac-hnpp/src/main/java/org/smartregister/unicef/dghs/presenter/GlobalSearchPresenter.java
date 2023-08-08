@@ -1,5 +1,7 @@
 package org.smartregister.unicef.dghs.presenter;
 
+import org.smartregister.unicef.dghs.HnppApplication;
+import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.contract.MigrationContract;
 import org.smartregister.unicef.dghs.interactor.GlobalSearchInteractor;
 import org.smartregister.unicef.dghs.model.GlobalLocationModel;
@@ -67,7 +69,7 @@ public class GlobalSearchPresenter implements MigrationContract.Presenter, Migra
     public void onUpdateDivision(ArrayList<GlobalLocationModel> division) {
         this.divisionArrayList = division;
         GlobalLocationModel globalLocationModel = new GlobalLocationModel();
-        globalLocationModel.name = "সিলেক্ট করুন";
+        globalLocationModel.name = HnppApplication.getInstance().getApplicationContext().getString(R.string.select);
         divisionArrayList.add(0,globalLocationModel);
         view.updateDivisionSpinner();
     }

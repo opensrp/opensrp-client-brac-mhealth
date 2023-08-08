@@ -127,13 +127,13 @@ public class HnppBasePncRegisterFragment extends BasePncRegisterFragment impleme
             clients_header_layout.setVisibility(View.VISIBLE);
         }
         if(month == -1 && year == -1){
-            textViewMonthNameFilter.setText(getString(R.string.filter_month_name, "সকল"));
+            textViewMonthNameFilter.setText(getString(R.string.filter_month_name,  getString(R.string.all)));
         }else{
             String monthYearStr = HnppJsonFormUtils.monthBanglaStr[month-1]+","+year;
             textViewMonthNameFilter.setText(getString(R.string.filter_month_name, monthYearStr));
         }
         if(StringUtils.isEmpty(mSelectedVillageName)){
-            textViewVillageNameFilter.setText(getString(R.string.filter_village_name, "সকল"));
+            textViewVillageNameFilter.setText(getString(R.string.filter_village_name,  getString(R.string.all)));
 
         }else{
             textViewVillageNameFilter.setText(getString(R.string.filter_village_name, mSelectedVillageName));
@@ -143,7 +143,7 @@ public class HnppBasePncRegisterFragment extends BasePncRegisterFragment impleme
             clusterView.setVisibility(View.GONE);
         }else{
             if(StringUtils.isEmpty(mSelectedClasterName)){
-                textViewClasterNameFilter.setText(getString(R.string.claster_village_name, "সকল"));
+                textViewClasterNameFilter.setText(getString(R.string.claster_village_name,  getString(R.string.all)));
 
             }else{
                 textViewClasterNameFilter.setText(getString(R.string.claster_village_name, HnppConstants.getClusterNameFromValue(mSelectedClasterName)));

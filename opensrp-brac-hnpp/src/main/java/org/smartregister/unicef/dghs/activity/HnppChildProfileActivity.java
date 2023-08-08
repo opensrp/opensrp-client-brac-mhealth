@@ -167,9 +167,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
     @Override
     protected void updateTopBar() {
         commonPersonObject = ((HnppChildProfilePresenter)presenter()).commonPersonObjectClient;
-        if (gender.equalsIgnoreCase("পুরুষ")) {
+        if (gender.equalsIgnoreCase( getString(R.string.man))) {
             imageViewProfile.setBorderColor(getResources().getColor(org.smartregister.chw.core.R.color.light_blue));
-        } else if (gender.equalsIgnoreCase("মহিলা")) {
+        } else if (gender.equalsIgnoreCase( getString(R.string.woman))) {
             imageViewProfile.setBorderColor(getResources().getColor(org.smartregister.chw.core.R.color.light_pink));
         }
         TabLayout tabLayout = findViewById(R.id.tabs);
@@ -183,7 +183,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
             findViewById(R.id.missed_schedule_img).setVisibility(View.GONE);
         }
         if(!TextUtils.isEmpty(aefi)){
-            hasAefi = aefi.equalsIgnoreCase("yes")|| aefi.equalsIgnoreCase("হ্যাঁ");
+            hasAefi = aefi.equalsIgnoreCase("yes")|| aefi.equalsIgnoreCase( getString(R.string.yes));
             if(hasAefi){
                 aefiImageBtn.setVisibility(View.VISIBLE);
             }
@@ -479,7 +479,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         menu.findItem(R.id.action_anc_registration).setVisible(false);
         menu.findItem(R.id.action_malaria_registration).setVisible(false);
         menu.findItem(R.id.action_remove_member).setVisible(true);
-        menu.findItem(R.id.action_remove_member).setTitle("সদস্য বাদ দিন / মাইগ্রেট / মৃত্যু");
+        menu.findItem(R.id.action_remove_member).setTitle(R.string.remove_member_or_migrade);
         menu.findItem(R.id.action_sick_child_follow_up).setVisible(false);
         menu.findItem(R.id.action_malaria_diagnosis).setVisible(false);
         menu.findItem(R.id.action_pregnancy_out_come).setVisible(false);
@@ -748,9 +748,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                               setting aefi child status
                              */
                             if(key.equalsIgnoreCase("aefi_child_status")){
-                                String child_status = "না";
+                                String child_status = getString(R.string.no);
                                 if(hasAefi){
-                                    child_status = "হ্যাঁ";
+                                    child_status =  getString(R.string.yes);
                                 }
                                 jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,child_status);
                             }
@@ -985,7 +985,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_with_one_button);
         TextView titleTv = dialog.findViewById(R.id.title_tv);
-        titleTv.setText(isSuccess==1?"সার্ভিসটি দেওয়া সম্পূর্ণ হয়েছে":isSuccess==3?"সার্ভিসটি ইতিমধ্যে দেওয়া হয়েছে":"সার্ভিসটি দেওয়া সফল হয়নি। পুনরায় চেষ্টা করুন ");
+        titleTv.setText(isSuccess==1? getString(R.string.service_done_succ):isSuccess==3? getString(R.string.service_already_given): getString(R.string.survice_done_failed));
         Button ok_btn = dialog.findViewById(R.id.ok_btn);
 
         ok_btn.setOnClickListener(new View.OnClickListener() {

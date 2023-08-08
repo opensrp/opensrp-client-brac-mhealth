@@ -48,11 +48,11 @@ public class DashBoardModel implements DashBoardContract.Model {
                     dashBoardData1.setCount(cursor.getInt(1));
                     dashBoardData1.setEventType(cursor.getString(0));
                     if(dashBoardData1.getEventType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.MEMBER_REFERRAL)){
-                        dashBoardData1.setTitle("সদস্য রেফারেল");
+                        dashBoardData1.setTitle(context.getString(R.string.member_referrel));
                     }else if(dashBoardData1.getEventType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.WOMEN_REFERRAL)){
-                        dashBoardData1.setTitle("নারী রেফারেল");
+                        dashBoardData1.setTitle(context.getString(R.string.woman_referrel));
                     }else if(dashBoardData1.getEventType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_REFERRAL)){
-                        dashBoardData1.setTitle("শিশু রেফারেল");
+                        dashBoardData1.setTitle(context.getString(R.string.child_referrel));
                     }else{
                         dashBoardData1.setTitle(HnppConstants.eventTypeMapping.get(dashBoardData1.getEventType()));
                     }
@@ -73,7 +73,7 @@ public class DashBoardModel implements DashBoardContract.Model {
             if(countSimprints>0){
                 DashBoardData dashBoardData1 = new DashBoardData();
                 dashBoardData1.setCount(countSimprints);
-                dashBoardData1.setTitle("ফিঙ্গার প্রিন্ট দ্বারা নিবন্ধিত");
+                dashBoardData1.setTitle(context.getString(R.string.reg_with_fingerprint));
                 dashBoardData1.setImageSource(R.drawable.ic_fingerprint_id);
 
                 dashBoardDataArrayList.add(dashBoardData1);

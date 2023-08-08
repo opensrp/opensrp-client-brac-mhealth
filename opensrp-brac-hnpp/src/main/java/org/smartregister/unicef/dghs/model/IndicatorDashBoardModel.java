@@ -29,145 +29,145 @@ public class IndicatorDashBoardModel implements DashBoardContract.Model {
 
     //for jonosonkha sarsonkhep compilation sheet
     public DashBoardData getVerifiedBySimprints(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("বায়োমেট্রিক দ্বারা যাচাইকৃত","is_verified","true",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.verified_with_biomatric),"is_verified","true",ssName,fromMonth,toMonth);
     }
     public DashBoardData getIdentifiedBySimprints(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("বায়োমেট্রিক দ্বারা খোজকৃত","is_identified","true",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.searched_with_bio),"is_identified","true",ssName,fromMonth,toMonth);
     }
     public DashBoardData getFamilyMethodKnown(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("পরিবার পরিকল্পনা পদ্ধতি ব্যবহারকারী","familyplanning_method_known","yes",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.family_planning_user),"familyplanning_method_known","yes",ssName,fromMonth,toMonth);
     }
     public DashBoardData getNoFamilyMethodUser(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("পদ্ধতি ব্যবহারের বাইরে","familyplanning_method_known","no",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.out_of_plan),"familyplanning_method_known","no",ssName,fromMonth,toMonth);
     }
     public DashBoardData getFillUser(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("পিল ব্যবহারকারী","familyplanning_method","contraceptive_pill",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.pill_user),"familyplanning_method","contraceptive_pill",ssName,fromMonth,toMonth);
     }
     public DashBoardData getFillFromSS(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("স্বাস্থ্যসেবিকা থেকে পিল,কনডম ব্যবহারকারী","distribution_location","brac_health_worker",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.pill_cm_through_nurse),"distribution_location","brac_health_worker",ssName,fromMonth,toMonth);
     }
     public DashBoardData getFillFromOther(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("অন্যান্য উৎস থেকে পিল ব্যবহারকারী","distribution_other","other",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.pill_from_other_source),"distribution_other","other",ssName,fromMonth,toMonth);
     }
     public DashBoardData getCondomUser(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("কনডম ব্যবহারকারী","familyplanning_method","condom",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.cm_user),"familyplanning_method","condom",ssName,fromMonth,toMonth);
     }
     public DashBoardData getIudUser(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("আই.ইউ.ডি. ব্যবহারকারী","familyplanning_method","iud",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.iud_user),"familyplanning_method","iud",ssName,fromMonth,toMonth);
     }
     public DashBoardData getInjectionUser(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("ইনজেকশন ব্যবহারকারী","familyplanning_method","injection",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.injection_user),"familyplanning_method","injection",ssName,fromMonth,toMonth);
     }
     public DashBoardData getNorplantUser(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("ইমপ্ল্যান্ট ব্যবহারকারী","familyplanning_method","norplant",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.implant_user),"familyplanning_method","norplant",ssName,fromMonth,toMonth);
     }
     public DashBoardData getVasectomyUser(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("ভ্যাসেকটমি ব্যবহারকারী","familyplanning_method","vasectomy",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.vasectamy_user),"familyplanning_method","vasectomy",ssName,fromMonth,toMonth);
     }
     public DashBoardData getTubeUser(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("টিউব্যাকটোমি ব্যবহারকারী","familyplanning_method","ligation",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.tubactami_user),"familyplanning_method","ligation",ssName,fromMonth,toMonth);
     }
     //ss info dashboard
     public DashBoardData getHHVisitCount(String ssName, String fromMonth, String toMonth){
-        return getVisitTypeSum("খানা পরিদর্শন","no_of_hh_visit",ssName,fromMonth,toMonth);
+        return getVisitTypeSum(context.getString(R.string.hh_visit),"no_of_hh_visit",ssName,fromMonth,toMonth);
     }
     public DashBoardData getPregnancyIdentity(String ssName, String fromMonth, String toMonth){
-        return getAncRegistrationCount("গর্ভবতী সনাক্ত ",ssName,fromMonth,toMonth);
+        return getAncRegistrationCount(context.getString(R.string.pregnancy_identification),ssName,fromMonth,toMonth);
     }
     public DashBoardData getAfter1hrBirthAdviceCount(String ssName, String fromMonth, String toMonth){
-        return getVisitTypeSum("জন্মের ১ ঘন্টার মধ্যে মায়ের বুকে লাগানোর পরামর্শ","one_hour_after_birth",ssName,fromMonth,toMonth);
+        return getVisitTypeSum(context.getString(R.string.advice_after_1_hour_of_birth),"one_hour_after_birth",ssName,fromMonth,toMonth);
     }
     public DashBoardData getServiceTakenMemberCount(String ssName, String fromMonth, String toMonth){
-        return getVisitTypeSum("সেবাপ্রাপ্ত মানুষের সংখ্যা","m",ssName,fromMonth,toMonth);
+        return getVisitTypeSum(context.getString(R.string.num_of_service_receiver),"m",ssName,fromMonth,toMonth);
     }
     public DashBoardData getIncomeFromMedicineCount(String ssName, String fromMonth, String toMonth){
-        return getVisitTypeSum("ওষুধ থেকে আয়","income_from_medicine",ssName,fromMonth,toMonth);
+        return getVisitTypeSum(context.getString(R.string.income_from_medicine),"income_from_medicine",ssName,fromMonth,toMonth);
     }
     public DashBoardData getGlassSellCount(String ssName, String fromMonth, String toMonth){
-        return getVisitTypeSum("চশমা বিক্রির সংখ্যা","g",ssName,fromMonth,toMonth);
+        return getVisitTypeSum(context.getString(R.string.income_from_glass),"g",ssName,fromMonth,toMonth);
     }
     public DashBoardData getPresentEpiCount(String ssName, String fromMonth, String toMonth){
-        return getVisitTypeSum("ই.পি.এই সেন্টার এ উপস্থিত","no_of_epi_present",ssName,fromMonth,toMonth);
+        return getVisitTypeSum(context.getString(R.string.present_in_epi_center),"no_of_epi_present",ssName,fromMonth,toMonth);
     }
-
+    
 
     //work activity dashboard
     public DashBoardData getAnotherSource(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("এ\u200C এন সি অন্যান্য",HnppConstants.INDICATOR.ANC_OTHER_SOURCE,"true",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.anc_other),HnppConstants.INDICATOR.ANC_OTHER_SOURCE,"true",ssName,fromMonth,toMonth);
     }
     public DashBoardData get4PlusAnc(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("4+ এ এন সি","no_anc_at_pregnant","4",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.four_anc),"no_anc_at_pregnant","4",ssName,fromMonth,toMonth);
     }
     public DashBoardData getCigerDelivery(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("প্রসবের ফলাফল(সিজার)","delivery_method_c_section","c_section",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.pregnancy_outcome_cigar),"delivery_method_c_section","c_section",ssName,fromMonth,toMonth);
     }
     public DashBoardData getNormalDelivery(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("প্রসবের ফলাফল(স্বাভাবিক)","delivery_method_general","normal",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.pregnancy_outcome_normal),"delivery_method_general","normal",ssName,fromMonth,toMonth);
     }
     public DashBoardData getTTAncWomen(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("টিটি টিকা প্রাপ্ত গর্ভবতী মায়ের সংখ্যা",HnppConstants.INDICATOR.ANC_TT,"yes",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.tt_vacc_mother),HnppConstants.INDICATOR.ANC_TT,"yes",ssName,fromMonth,toMonth);
     }
     public DashBoardData getTTPNCWomen(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("টিটি টিকা প্রাপ্ত প্রসূতি মায়ের সংখ্যা",HnppConstants.INDICATOR.OUTCOME_TT,"yes",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.tt_vacc_delivered_mother),HnppConstants.INDICATOR.OUTCOME_TT,"yes",ssName,fromMonth,toMonth);
     }
     public DashBoardData getPncService48Hrs(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("৪৮ ঘণ্টার মধ্যে পি এন সি সেবা","is_delay","false",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.pnc_withing_48),"is_delay","false",ssName,fromMonth,toMonth);
     }
     public DashBoardData getPnc1to2(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("1-2 পি এন সি","number_of_pnc_1_2","2",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.pnc_1_2),"number_of_pnc_1_2","2",ssName,fromMonth,toMonth);
     }
     public DashBoardData getPnc3to4(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("3-3+পি এন সি","number_of_pnc_3","3",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.pnc_3_3),"number_of_pnc_3","3",ssName,fromMonth,toMonth);
     }
     public DashBoardData getReferrelByPregnency(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("গর্ভ সংক্রান্ত সমস্যার জন্য রেফার","cause_of_referral_woman","pregnancy_problems",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.pregnancy_problem_reffer),"cause_of_referral_woman","pregnancy_problems",ssName,fromMonth,toMonth);
     }
     public DashBoardData getVaccineChild(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("শিশুর টিকা","Vaccination",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.child_vacc),"Vaccination",ssName,fromMonth,toMonth);
     }
     public DashBoardData getVitaminChild(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("ভিটামিন প্রাপ্ত শিশুর সংখ্যা","Recurring Service",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.child_with_vitamin),"Recurring Service",ssName,fromMonth,toMonth);
     }
     public DashBoardData getBcgChild(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("বিসিজি টিকা প্রাপ্ত শিশুর সংখ্যা","bcg","",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.child_with_bcg),"bcg","",ssName,fromMonth,toMonth);
     }
     public DashBoardData getBrestFeedingByBirth(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("জন্মের এক ঘণ্টার মধ্যে বুকের দুধ খাওয়া শিশুর সংখ্যা","breastfeeding_time","1",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.breast_feeding_child_after_1_houe_of_birth),"breastfeeding_time","1",ssName,fromMonth,toMonth);
     }
     public DashBoardData getOnlyBrestFeeding(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("ছয় মাস পর্যন্ত শুধুমাত্র বুকের দুধ খাওয়া শিশুর সংখ্যা",HnppConstants.INDICATOR.FEEDING_UPTO_6_MONTH,"true",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.breast_feeding_till_6_month),HnppConstants.INDICATOR.FEEDING_UPTO_6_MONTH,"true",ssName,fromMonth,toMonth);
     }
     public DashBoardData getChildSevenMonth(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("সাত মাসে বাড়তি খাবার খাওয়া শিশুর সংখ্যা","solid_food_month","7",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.extra_food_child_7_months),"solid_food_month","7",ssName,fromMonth,toMonth);
     }
     public DashBoardData getTotalDeath(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("সদস্য মৃত্যু নিবন্ধন","remove_reason","died",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.member_dead_reg),"remove_reason","died",ssName,fromMonth,toMonth);
     }
     public DashBoardData getDeathBirth(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("নবজাতক মৃত্যু","preg_outcome","born_alive_died",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.newborn_dead),"preg_outcome","born_alive_died",ssName,fromMonth,toMonth);
     }
     public DashBoardData getMotherDeath(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("মাতৃমৃত্যু","cause_of_death","c",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.mother_dead),"cause_of_death","c",ssName,fromMonth,toMonth);
     }
     public DashBoardData getChildDeath(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("শিশুর মৃত্যু","cause_of_death_child","c",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.child_dead),"cause_of_death_child","c",ssName,fromMonth,toMonth);
     }
     public DashBoardData getOtherDeath(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("অন্যান্য মৃত্যু","cause_of_death_other","c",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.other_dead),"cause_of_death_other","c",ssName,fromMonth,toMonth);
     }
     public DashBoardData getEstimatedCoronaPatient(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("সাম্ভাব্য করোনা রোগীর সংখ্যা","is_affected_member","yes",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.estimated_corona_petient),"is_affected_member","yes",ssName,fromMonth,toMonth);
     }
     public DashBoardData getCoronaPatient(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("করোনা পজিটিভ রোগীর সংখ্যা","corona_test_result","positive",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.corona_positive_petient),"corona_test_result","positive",ssName,fromMonth,toMonth);
     }
     public DashBoardData getIsolationPatient(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount("করেন্টাইন পরিবারের সংখ্যা","isolation","Yes",ssName,fromMonth,toMonth);
+        return getVisitTypeCount(context.getString(R.string.isolation_patient),"isolation","Yes",ssName,fromMonth,toMonth);
     }
     public DashBoardData getNoOfMemberVisited(String ssName, long fromMonth, long toMonth){
         String fromMonthStr= HnppConstants.getDateFormateFromLong(fromMonth);
         String toMonthStr = HnppConstants.getDateFormateFromLong(toMonth);
-        return getVisitTypeSum("জনসংখ্যা পরিদর্শন","member_count",ssName,fromMonthStr,toMonthStr);
+        return getVisitTypeSum(context.getString(R.string.people_visit),"member_count",ssName,fromMonthStr,toMonthStr);
     }
     public DashBoardData getRemoveMemberCount(String title,String ssName, long fromMonth, long toMonth){
         DashBoardData dashBoardData1 = new DashBoardData();

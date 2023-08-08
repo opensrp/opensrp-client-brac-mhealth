@@ -50,6 +50,7 @@ import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.Utils;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.util.DateUtil;
+import org.smartregister.util.LangUtils;
 import org.smartregister.view.activity.BaseProfileActivity;
 
 import java.io.BufferedWriter;
@@ -995,15 +996,22 @@ public class HnppConstants extends CoreConstants {
         return value;
     }
 
-    public static String getTotalCountBn(int count) {
-        char[] bn_numbers = "০১২৩৪৫৬৭৮৯".toCharArray();
-        String c = String.valueOf(count);
-        String number_to_return = "";
-        for (char ch : c.toCharArray()) {
+    public static String getTotalCount(int count) {
+        String local = LangUtils.getLanguage(HnppApplication.getInstance().getApplicationContext());
 
-            number_to_return += bn_numbers[Integer.valueOf(ch) % Integer.valueOf('0')];
+        if(local.equals("bn")){
+            char[] bn_numbers = "০১২৩৪৫৬৭৮৯".toCharArray();
+            String c = String.valueOf(count);
+            String number_to_return = "";
+            for (char ch : c.toCharArray()) {
+
+                number_to_return += bn_numbers[Integer.valueOf(ch) % Integer.valueOf('0')];
+            }
+            return number_to_return;
+        }else {
+            return  String.valueOf(count);
         }
-        return number_to_return;
+
     }
     public static boolean isPALogin(){
         String role = org.smartregister.Context.getInstance().allSharedPreferences().fetchRegisteredRole();

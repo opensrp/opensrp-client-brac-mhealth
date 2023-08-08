@@ -299,8 +299,8 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         if(heightRepository.getMaximum(childDetails.entityId())!=null){
             previousHeight = heightRepository.getMaximum(childDetails.entityId()).getCm();
             if(heightWrapper.getHeight()<previousHeight){
-                String text = "পূর্বের উচ্চতা :"+previousHeight+"\n"+"বর্তমান উচ্চতা:"+heightWrapper.getHeight();
-                showDialogWithAction(getActivity(), "আপনি কি নতুন উচ্চতাটি যোগ করতে ইচ্ছুক?", text, new Runnable() {
+                String text = getString(R.string.old_height)+previousHeight+"\n"+getString(R.string.current_height)+heightWrapper.getHeight();
+                showDialogWithAction(getActivity(), getString(R.string.want_to_add_height), text, new Runnable() {
                     @Override
                     public void run() {
                         addHeight(heightWrapper);
@@ -319,8 +319,8 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         if(muacRepository.getMaximum(childDetails.entityId())!=null){
             previousHeight = muacRepository.getMaximum(childDetails.entityId()).getCm();
             if(muacWrapper.getHeight()<previousHeight){
-                String text = "পূর্বের MUAC :"+previousHeight+"\n"+"বর্তমান MUAC:"+muacWrapper.getHeight();
-                showDialogWithAction(getActivity(), "আপনি কি নতুন MUAC যোগ করতে ইচ্ছুক?", text, new Runnable() {
+                String text = getString(R.string.old_muac)+previousHeight+"\n"+getString(R.string.current_muac)+muacWrapper.getHeight();
+                showDialogWithAction(getActivity(), getString(R.string.want_to_add_muac), text, new Runnable() {
                     @Override
                     public void run() {
                         addMUAC(muacWrapper);
@@ -340,8 +340,8 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
             if(weightRepository.getMaximum(childDetails.entityId())!=null){
                 previousWeight = weightRepository.getMaximum(childDetails.entityId()).getKg();
                 if(tag.getWeight()<previousWeight){
-                    String text = "পূর্বের ওজোন :"+previousWeight+"\n"+"বর্তমান ওজোন:"+tag.getWeight();
-                    showDialogWithAction(getActivity(), "আপনি কি নতুন ওজোনটি যোগ করতে ইচ্ছুক?", text, new Runnable() {
+                    String text = getString(R.string.old_weight)+previousWeight+"\n"+getString(R.string.current_weight)+tag.getWeight();
+                    showDialogWithAction(getActivity(), getString(R.string.want_to_add_weight), text, new Runnable() {
                         @Override
                         public void run() {
                             addWeight(tag);

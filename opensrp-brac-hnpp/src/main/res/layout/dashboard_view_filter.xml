@@ -57,7 +57,7 @@
             android:orientation="horizontal">
             <org.smartregister.view.customcontrols.CustomFontTextView
                 android:id="@+id/month_text"
-                android:text="সেপ্টেম্বর"
+                android:text="@string/september"
                 android:gravity="center"
                 android:textSize="18sp"
                 android:layout_alignParentLeft="true"
@@ -67,7 +67,7 @@
                 android:layout_height="match_parent"/>
             <org.smartregister.view.customcontrols.CustomFontTextView
                 android:id="@+id/year_text"
-                android:text="২০১৭"
+                android:text="@string/seventeen"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
                 android:layout_marginStart="10dp"
@@ -120,7 +120,7 @@
             android:orientation="horizontal">
             <org.smartregister.view.customcontrols.CustomFontTextView
                 android:id="@+id/from_month_text"
-                android:text="সেপ্টেম্বর"
+                android:text="@string/september"
                 android:gravity="center"
                 android:textSize="18sp"
                 android:layout_alignParentLeft="true"
@@ -130,7 +130,7 @@
                 android:layout_height="match_parent"/>
             <org.smartregister.view.customcontrols.CustomFontTextView
                 android:id="@+id/from_year_text"
-                android:text="২০১৭"
+                android:text="@string/seventeen"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
                 android:layout_marginStart="10dp"
@@ -180,7 +180,7 @@
             android:orientation="horizontal">
             <org.smartregister.view.customcontrols.CustomFontTextView
                 android:id="@+id/to_month_text"
-                android:text="সেপ্টেম্বর"
+                android:text="@string/september"
                 android:gravity="center"
                 android:textSize="18sp"
                 android:layout_alignParentLeft="true"
@@ -190,7 +190,7 @@
                 android:layout_height="match_parent"/>
             <org.smartregister.view.customcontrols.CustomFontTextView
                 android:id="@+id/to_year_text"
-                android:text="২০১৭"
+                android:text="@string/seventeen"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
                 android:layout_marginStart="10dp"

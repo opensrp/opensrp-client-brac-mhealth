@@ -263,8 +263,8 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
             if(age>5 && guestMemberData.getGender().equalsIgnoreCase("F") ){
                 womanImmunizationFragment = WomanImmunizationFragment.newInstance(this.getIntent().getExtras());
                 womanImmunizationFragment.setChildDetails(commonPersonObject);
-                adapter.addFragment(memberDueFragment, "ফলোআপ");
-                adapter.addFragment(womanImmunizationFragment, "টিকাদান");
+                adapter.addFragment(memberDueFragment,  getString(R.string.followup));
+                adapter.addFragment(womanImmunizationFragment,  getString(R.string.tikadan));
                 adapter.addFragment(memberHistoryFragment, this.getString(R.string.activity).toUpperCase());
                 mViewPager.setOffscreenPageLimit(3);
 
@@ -275,13 +275,13 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
                 childImmunizationFragment.setComesFromGuestProfile(true);
                 growthFragment = GMPFragment.newInstance(this.getIntent().getExtras());
                 growthFragment.setChildDetails(commonPersonObject);
-                adapter.addFragment(childImmunizationFragment, "টিকাদান");
+                adapter.addFragment(childImmunizationFragment,  getString(R.string.tikadan));
                 adapter.addFragment(growthFragment, this.getString(R.string.gmp).toUpperCase());
-                adapter.addFragment(memberDueFragment, "ফলোআপ");
+                adapter.addFragment(memberDueFragment,  getString(R.string.followup));
                 adapter.addFragment(memberHistoryFragment, this.getString(R.string.activity).toUpperCase());
                 mViewPager.setOffscreenPageLimit(4);
             }else{
-                adapter.addFragment(memberDueFragment, "ফলোআপ");
+                adapter.addFragment(memberDueFragment,  getString(R.string.followup));
                 adapter.addFragment(memberHistoryFragment, this.getString(R.string.activity).toUpperCase());
                 mViewPager.setOffscreenPageLimit(2);
             }
@@ -568,7 +568,7 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_with_one_button);
         TextView titleTv = dialog.findViewById(R.id.title_tv);
-        titleTv.setText(isSuccess?"সার্ভিসটি দেওয়া সম্পূর্ণ হয়েছে":"সার্ভিসটি দেওয়া সফল হয়নি। পুনরায় চেষ্টা করুন ");
+        titleTv.setText(isSuccess? getString(R.string.service_done_succ): getString(R.string.survice_done_failed));
         Button ok_btn = dialog.findViewById(R.id.ok_btn);
 
         ok_btn.setOnClickListener(new View.OnClickListener() {

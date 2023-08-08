@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.json.JSONException;
@@ -38,10 +39,12 @@ import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.Utils;
 import org.smartregister.helper.ImageRenderHelper;
 import org.smartregister.util.AssetHandler;
+import org.smartregister.util.LangUtils;
 import org.smartregister.view.contract.SmartRegisterClient;
 import org.smartregister.view.customcontrols.FontVariant;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Executor;
@@ -106,7 +109,13 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
         String patientName = org.smartregister.family.util.Utils.getName(firstName, middleName, lastName);
         String entityType = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.ENTITY_TYPE, false);
         String relation_with_household_head = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.RELATION_WITH_HOUSEHOLD, false);
-        relation_with_household_head = HnppConstants.getRelationWithHouseholdHead(relation_with_household_head);
+        String locale = LangUtils.getLanguage(context);
+
+        //if local is bengali then fetch relation bengali data
+        //otherwise use english key only
+        if(!locale.equals("en")){
+            relation_with_household_head = HnppConstants.getRelationWithHouseholdHead(relation_with_household_head);
+        }
         String dob = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.DOB, false);
         String guId = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(),  HnppConstants.KEY.GU_ID, false);
         String dobString = org.smartregister.family.util.Utils.getDuration(dob);
@@ -158,9 +167,9 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
 
         String gender = "";
         if (gender_key.equalsIgnoreCase("M")) {
-            gender = "পুরুষ";
+            gender =context.getString(R.string.man);
         } else if (gender_key.equalsIgnoreCase("F")) {
-            gender = "নারী";
+            gender = context.getString(R.string.woman2);
         }
         String relationAge = context.getString(R.string.relation_with_member_and_head,relation_with_household_head) + "<br>"+context.getString(R.string.age,org.smartregister.family.util.Utils.getTranslatedDate(dobString, this.context))+", "+gender;
 

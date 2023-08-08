@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="মাস"
+            android:text="@string/month"
             android:gravity="center_horizontal"
             android:padding="10dp"
             android:textColor="@color/black"
@@ -31,7 +31,7 @@
             android:orientation="horizontal">
             <org.smartregister.view.customcontrols.CustomFontTextView
                 android:id="@+id/month_text"
-                android:text="সেপ্টেম্বর"
+                android:text="@string/september"
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:textSize="18sp"
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"/>
             <org.smartregister.view.customcontrols.CustomFontTextView
                 android:id="@+id/year_text"
-                android:text="২০১৭"
+                android:text="@string/seventeen"
                 android:textColor="@color/black"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
@@ -76,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="স্বাস্থ্য কর্মীর নাম"
+            android:text="@string/nurse_name"
             android:textColor="@color/black"
             android:textSize="18sp"/>
 
@@ -93,7 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="স্বাস্থ্য সেবিকার নাম"
+                android:text="@string/nurse_name"
                 android:textColor="@color/black"
                 android:textSize="18sp"/>
 
@@ -109,7 +109,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="গ্রামের নামঃ"
+                android:text="@string/village_name"
                 android:padding="10dp"
                 android:textColor="@color/black"
                 android:textSize="18sp"/>
@@ -132,7 +132,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ক্লাস্টারঃ"
+            android:text="@string/cluster"
             android:padding="10dp"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"

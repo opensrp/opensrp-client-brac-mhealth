@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.whiteelephant.monthpicker.MonthPickerDialog;
 
+import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.contract.StockDetailsContract;
 import org.smartregister.unicef.dghs.interactor.StockDetailsInteractor;
@@ -83,7 +84,7 @@ public class StockDashBoardDialogFragment extends DialogFragment implements Stoc
                         .setMinYear(1990)
                         .setActivatedYear(calendar.get(Calendar.YEAR))
                         .setMaxYear(Calendar.getInstance().get(Calendar.YEAR))
-                        .setTitle("মাস সিলেক্ট করুন")
+                        .setTitle(getString(R.string.select_month))
                         .setOnMonthChangedListener(new MonthPickerDialog.OnMonthChangedListener() {
                             @Override
                             public void onMonthChanged(int selectedMonth) {

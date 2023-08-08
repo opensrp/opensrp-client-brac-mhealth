@@ -16,6 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.unicef.dghs.HnppApplication;
+import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.model.ForumDetails;
 import org.smartregister.unicef.dghs.model.HHMemberProperty;
 import org.smartregister.unicef.dghs.repository.StockRepository;
@@ -484,7 +485,7 @@ public class FormParser {
                 if(details.containsKey("delivery_place")&&!StringUtils.isEmpty(details.get("delivery_place"))) {
                     String value = details.get("delivery_place");
                     Log.v("TARGET_FETCH","delivery_place>>"+value);
-                    if(!value.equalsIgnoreCase("home") || !value.equalsIgnoreCase("বাড়ি")){
+                    if(!value.equalsIgnoreCase("home") || !value.equalsIgnoreCase(HnppApplication.getInstance().getApplicationContext().getString(R.string.house))){
                         HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.INSTITUTIONALIZES_DELIVERY,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getBlockName(),log.getBaseEntityId(),formSubmissionId);
                     }
 

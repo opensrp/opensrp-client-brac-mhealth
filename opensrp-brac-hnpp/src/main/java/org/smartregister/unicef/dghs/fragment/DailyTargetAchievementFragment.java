@@ -2,6 +2,8 @@ package org.smartregister.unicef.dghs.fragment;
 
 import android.view.View;
 
+import org.smartregister.unicef.dghs.R;
+
 import java.util.Calendar;
 
 public class DailyTargetAchievementFragment extends TargetAchievementFragment{
@@ -30,7 +32,7 @@ public class DailyTargetAchievementFragment extends TargetAchievementFragment{
 
     @Override
     void updateTitle() {
-        super.updateTitle("দৈনিক পরিদর্শন");
+        super.updateTitle(getActivity().getString(R.string.everyday_visit));
 
     }
 }

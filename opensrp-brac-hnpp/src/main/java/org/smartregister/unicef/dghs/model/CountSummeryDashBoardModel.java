@@ -349,7 +349,7 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
                 dashBoardData1 = new DashBoardData();
                 dashBoardData1.setCount(cursor.getInt(0));
                 dashBoardData1.setEventType(HnppConstants.EventType.FAMILY_MEMBER_REGISTRATION);
-                dashBoardData1.setTitle("ফিঙ্গার প্রিন্ট দ্বারা নিবন্ধিত");
+                dashBoardData1.setTitle(context.getString(R.string.reg_with_fingerprint));
                 dashBoardData1.setImageSource(R.drawable.ic_fingerprint_id);
                 cursor.moveToNext();
             }
@@ -361,45 +361,45 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
         return dashBoardData1;
     }
     public DashBoardData getGirlChildUnder5(String ssName,long fromMonth, long toMonth){
-        return getChildUnder5("F",ssName,fromMonth,toMonth,"মেয়ে শিশু ( ৫ বছরের কম)");
+        return getChildUnder5("F",ssName,fromMonth,toMonth,context.getString(R.string.female_child_under_5));
     }
     public DashBoardData getBoyChildUnder5(String ssName,long fromMonth, long toMonth){
-        return getChildUnder5("M",ssName,fromMonth,toMonth,"ছেলে শিশু ( ৫ বছরের কম)");
+        return getChildUnder5("M",ssName,fromMonth,toMonth,context.getString(R.string.male_child_under_5));
     }
     public DashBoardData getMenUp50(String ssName,long fromMonth, long toMonth){
-        return getUp50("M",ssName,fromMonth,toMonth,"৫০ উর্ধ পুরুষ");
+        return getUp50("M",ssName,fromMonth,toMonth,context.getString(R.string.male_over_50));
     }
     public DashBoardData getWoMenUp50(String ssName,long fromMonth, long toMonth){
-        return getUp50("F",ssName,fromMonth,toMonth,"৫০ উর্ধ মহিলা");
+        return getUp50("F",ssName,fromMonth,toMonth,context.getString(R.string.female_over_50));
     }
     public DashBoardData getGirlChild5To9(String ssName,long fromMonth, long toMonth){
-        return getChildAgeBased("F",5,9,ssName,fromMonth,toMonth,"৫-৯ বছরের মেয়ে শিশু");
+        return getChildAgeBased("F",5,9,ssName,fromMonth,toMonth,context.getString(R.string.female_chils_5_9));
     }
     public DashBoardData getBoyChild5To9(String ssName,long fromMonth, long toMonth){
-        return getChildAgeBased("M",5,9,ssName,fromMonth,toMonth,"৫-৯ বছরের ছেলে শিশু");
+        return getChildAgeBased("M",5,9,ssName,fromMonth,toMonth,context.getString(R.string.male_child_5_9));
     }
 
     public DashBoardData getGirlChild10To19(String ssName,long fromMonth, long toMonth){
-        return getChildAgeBased("F",10,19,ssName,fromMonth,toMonth,"১০-১৯ বছরের মেয়ে");
+        return getChildAgeBased("F",10,19,ssName,fromMonth,toMonth,context.getString(R.string.female_10_19));
     }
     public DashBoardData getBoyChild10To19(String ssName,long fromMonth, long toMonth){
-        return getChildAgeBased("M",10,19,ssName,fromMonth,toMonth,"১০-১৯ বছরের ছেলে");
+        return getChildAgeBased("M",10,19,ssName,fromMonth,toMonth,context.getString(R.string.male_10_19));
     }
     public DashBoardData getAdoGirl(String ssName,long fromMonth, long toMonth){
-        return getChildAgeBased("F",10,19,ssName,fromMonth,toMonth,"কিশোরী");
+        return getChildAgeBased("F",10,19,ssName,fromMonth,toMonth,context.getString(R.string.female_adolescent));
     }
     public DashBoardData getAdoBoy(String ssName,long fromMonth, long toMonth){
-        return getChildAgeBased("M",10,19,ssName,fromMonth,toMonth,"কিশোর");
+        return getChildAgeBased("M",10,19,ssName,fromMonth,toMonth,context.getString(R.string.male_adolescent));
     }
     public DashBoardData getAdoElco(String ssName,long fromMonth, long toMonth){
-        return getAdoElco("F",10,19,ssName,fromMonth,toMonth,"কিশোরী সক্ষম দম্পতি");
+        return getAdoElco("F",10,19,ssName,fromMonth,toMonth,context.getString(R.string.female_adol_elco));
     }
 
     public DashBoardData getGirlChild20To50(String ssName,long fromMonth, long toMonth){
-        return getChildAgeBased("F",20,50,ssName,fromMonth,toMonth,"২০-৫০ বছরের মহিলা");
+        return getChildAgeBased("F",20,50,ssName,fromMonth,toMonth,context.getString(R.string.female_20_50));
     }
     public DashBoardData getBoyChild20To50(String ssName,long fromMonth, long toMonth){
-        return getChildAgeBased("M",20,50,ssName,fromMonth,toMonth,"২০-৫০ বছরের পুরুষ");
+        return getChildAgeBased("M",20,50,ssName,fromMonth,toMonth,context.getString(R.string.male_20_50));
     }
     public DashBoardData getEddThisMonth(String ssName,long fromMonth, long toMonth){
         String query = getEddQuery(ssName,fromMonth,toMonth);
@@ -413,9 +413,9 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
             while (!cursor.isAfterLast()) {
 
                 dashBoardData1.setCount(cursor.getInt(0));
-                dashBoardData1.setTitle("প্রসবের সম্ভাব্য তারিখ এই মাসে");
+                dashBoardData1.setTitle(context.getString(R.string.probable_delivery_this_month));
                 if(fromMonth ==-1 || toMonth == -1){
-                    dashBoardData1.setTitle("সম্ভাব্য প্রসব");
+                    dashBoardData1.setTitle(context.getString(R.string.probable_delivery));
                 }
                 dashBoardData1.setImageSource(R.mipmap.ic_anc_pink);
 
@@ -440,7 +440,7 @@ public class CountSummeryDashBoardModel implements DashBoardContract.Model {
             while (!cursor.isAfterLast()) {
 
                 dashBoardData1.setCount(cursor.getInt(0));
-                dashBoardData1.setTitle("ঝুঁকিপূর্ণ মা");
+                dashBoardData1.setTitle(context.getString(R.string.risky_mother));
                 dashBoardData1.setImageSource(R.mipmap.ic_anc_pink);
 
                 cursor.moveToNext();

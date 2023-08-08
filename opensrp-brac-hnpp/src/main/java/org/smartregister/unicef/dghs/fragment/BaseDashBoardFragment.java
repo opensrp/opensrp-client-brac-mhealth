@@ -311,7 +311,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
                         .setMinYear(2010)
                         .setActivatedYear(year)
                         .setMaxYear(calendar.get(Calendar.YEAR))
-                        .setTitle("মাস সিলেক্ট করুন")
+                        .setTitle(getString(R.string.select_month))
                         .setOnMonthChangedListener(new MonthPickerDialog.OnMonthChangedListener() {
                             @Override
                             public void onMonthChanged(int selectedMonth) {
@@ -387,7 +387,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
                         .setMinYear(2010)
                         .setActivatedYear(year)
                         .setMaxYear(calendar.get(Calendar.YEAR))
-                        .setTitle("মাস সিলেক্ট করুন")
+                        .setTitle(getActivity().getString(R.string.select_month))
                         .setOnMonthChangedListener(new MonthPickerDialog.OnMonthChangedListener() {
                             @Override
                             public void onMonthChanged(int selectedMonth) {
@@ -428,7 +428,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
                         .setMinYear(2010)
                         .setActivatedYear(year)
                         .setMaxYear(calendar.get(Calendar.YEAR))
-                        .setTitle("মাস সিলেক্ট করুন")
+                        .setTitle(getActivity().getString(R.string.select_month))
                         .setOnMonthChangedListener(new MonthPickerDialog.OnMonthChangedListener() {
                             @Override
                             public void onMonthChanged(int selectedMonth) {

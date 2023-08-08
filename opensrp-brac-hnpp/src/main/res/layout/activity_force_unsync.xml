@@ -42,7 +42,7 @@
                     android:shadowDy="1"
                     android:shadowRadius="0.5"
                     android:textStyle="bold"
-                    android:text="পারমিশন চেক করুন"
+                    android:text="@string/permission_check"
                     android:textAllCaps="true"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
@@ -90,7 +90,7 @@
                         android:shadowDy="1"
                         android:shadowRadius="0.5"
                         android:textStyle="bold"
-                        android:text="বাদ দিন"
+                        android:text="@string/back"
                         android:visibility="gone"
                         android:textAllCaps="true"
                         android:textColor="@color/white"
@@ -109,7 +109,7 @@
                         android:shadowDy="1"
                         android:shadowRadius="0.5"
                         android:textStyle="bold"
-                        android:text="সিলেক্টেড ডাটা ফোর্স সিঙ্ক"
+                        android:text="@string/selected_force_sync"
                         android:textAllCaps="true"
                         android:textColor="@color/white"
                         android:textSize="18sp" />
@@ -127,7 +127,7 @@
                         android:shadowDy="1"
                         android:shadowRadius="0.5"
                         android:textStyle="bold"
-                        android:text="ডাটা কম্পেয়ার উইথ সার্ভার"
+                        android:text="@string/data_dump_with_server"
                         android:textAllCaps="true"
                         android:textColor="@color/white"
                         android:textSize="18sp" />
@@ -160,7 +160,7 @@
                 android:shadowDy="1"
                 android:shadowRadius="0.5"
                 android:textStyle="bold"
-                android:text="ডাম্প ডাটাবেস"
+                android:text="@string/dump_database"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
@@ -178,7 +178,7 @@
                 android:shadowDy="1"
                 android:shadowRadius="0.5"
                 android:textStyle="bold"
-                android:text="ইনভ্যালিড ডাটা"
+                android:text="@string/invalidate_data"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
@@ -196,7 +196,7 @@
                 android:shadowDy="1"
                 android:shadowRadius="0.5"
                 android:textStyle="bold"
-                android:text="ফোর্স আনসিঙ্ক ডাটা "
+                android:text="@string/force_sync_data"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
@@ -214,7 +214,7 @@
                 android:shadowDy="1"
                 android:shadowRadius="0.5"
                 android:textStyle="bold"
-                android:text="আইডি দিয়ে ডাটা সিঙ্ক"
+                android:text="@string/sync_with_id"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="18sp" />

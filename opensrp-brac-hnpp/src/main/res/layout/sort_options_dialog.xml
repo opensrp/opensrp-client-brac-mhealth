@@ -9,7 +9,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="সর্ট করুন"
+                android:text="@string/do_sort"
                 android:layout_margin="10dp"
                 android:textColor="@color/black"
                 android:textSize="18sp"/>
@@ -27,7 +27,7 @@
                     android:drawablePadding="5dp"
                     android:background="@drawable/login_button_bg"
                     android:drawableLeft="@drawable/ic_home"
-                    android:text="সর্বশেষ নিবন্ধিত খানা"/>
+                    android:text="@string/last_registered_house"/>
 
                 <TextView
                     android:id="@+id/last_visit_sort_btn"
@@ -43,7 +43,7 @@
                     android:drawablePadding="5dp"
                     android:background="@drawable/login_button_bg"
                     android:drawableLeft="@drawable/childrow_history"
-                    android:text="শেষ পরিদর্শন তারিখ অনুযায়ী"/>
+                    android:text="@string/based_on_last_visit"/>
 
 
 
