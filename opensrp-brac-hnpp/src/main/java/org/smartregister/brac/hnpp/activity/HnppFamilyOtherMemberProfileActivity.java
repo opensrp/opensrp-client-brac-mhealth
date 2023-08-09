@@ -479,10 +479,6 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                 JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
                 JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
                 updateFormField(jsonArray,"height",height);
-
-                if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PREGNANT_WOMAN_DIETARY_DIVERSITY)){
-                    HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"woman_height",height);
-                }
             }
 
             intent = new Intent(this, HnppAncJsonFormActivity.class);

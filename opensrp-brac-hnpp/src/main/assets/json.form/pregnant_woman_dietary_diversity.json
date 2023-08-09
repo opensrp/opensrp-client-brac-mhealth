@@ -70,15 +70,6 @@
       },
 
       {
-        "key": "woman_height",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "is_valid_lmp",
-        "type": "hidden",
-        "read_only": true
-      },
-
-      {
         "key": "woman_weight",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -100,39 +91,6 @@
         "v_max": {
           "value": "200",
           "err": "200 এর সমান বা 200 এর কম হওয়া উচিত"
-        }
-      },
-
-      {
-        "key": "woman_bmi",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "woman_bmi",
-        "type": "edit_text",
-        "hint": "বি.এম.আই",
-        "editable": false,
-        "v_numeric": {
-          "value": "true",
-          "err": "Enter a valid Number"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "calculation": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_bmi_calculation_rule.yml"
-            }
-          }
-        },
-        "v_min": {
-          "value": "20",
-          "err": "20 এর সমান বা 20 এর বেশি হতে হবে"
-        },
-        "v_max": {
-          "value": "50",
-          "err": "50 এর সমান বা 50 এর কম হওয়া উচিত"
         }
       },
 
