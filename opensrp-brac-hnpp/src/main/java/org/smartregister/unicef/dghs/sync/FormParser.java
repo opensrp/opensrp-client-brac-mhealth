@@ -39,6 +39,7 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.util.AssetHandler;
+import org.smartregister.util.LangUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -1687,7 +1688,13 @@ public class FormParser {
     private static   void saveSSFormData(Visit visit)
     {
         try{
-            JSONObject form_object = new JSONObject(AssetHandler.readFileFromAssetsFolder("json.form-bn/" +HnppConstants.JSON_FORMS.SS_FORM+".json", HnppApplication.getHNPPInstance().getApplicationContext()));
+            String local = LangUtils.getLanguage(HnppApplication.getInstance().getApplicationContext());
+            String lang = "";
+            if(local.equals("bn")){
+                lang = "-bn";
+            }
+
+            JSONObject form_object = new JSONObject(AssetHandler.readFileFromAssetsFolder("json.form"+lang+"/" +HnppConstants.JSON_FORMS.SS_FORM+".json", HnppApplication.getHNPPInstance().getApplicationContext()));
             Event baseEvent = gson.fromJson(visit.getJson(), Event.class);
             String base_entity_id = baseEvent.getBaseEntityId();
             HashMap<String,Object>form_details = getFormNamesFromEventObject(baseEvent);
@@ -2283,8 +2290,12 @@ public class FormParser {
 
 
         try {
-
-            String jsonString = AssetHandler.readFileFromAssetsFolder("json.form-bn/" +form_name, HnppApplication.getHNPPInstance().getApplicationContext());
+            String local = LangUtils.getLanguage(HnppApplication.getInstance().getApplicationContext());
+            String lang = "";
+            if(local.equals("bn")){
+                lang = "-bn";
+            }
+            String jsonString = AssetHandler.readFileFromAssetsFolder("json.form"+lang+"/" +form_name, HnppApplication.getHNPPInstance().getApplicationContext());
             return new JSONObject(jsonString);
         } catch (Exception e) {
             Log.v("LOAD_FILE","file name:"+form_name+":encounter_type:"+encounter_type);

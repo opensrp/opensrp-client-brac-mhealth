@@ -384,7 +384,7 @@
           "বিশেষায়িত হাসপাতাল",
           "অন্যান্য"
         ],
-        "openmrs_entity_ids":{
+        "openmrs_choice_ids":{
           "কমিউনিটি ক্লিনিক":"Community_Clinic",
           "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র":"Union_Sub_Center",
           "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র":"Union_Family_Welfare_Center",

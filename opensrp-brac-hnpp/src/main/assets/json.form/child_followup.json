@@ -47,7 +47,7 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "শিশু ফলোআপ",
+    "title": "Child Followup",
     "fields": [
       {
         "key": "form_name",
@@ -85,7 +85,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "service_taken_date",
         "type": "date_picker",
-        "hint": "সেবা গ্রহণের তারিখ"
+        "hint": "Report Date"
       },
       {
         "key": "syndrom",
@@ -100,7 +100,7 @@
         "options": [
           {
             "key": "High_fever",
-            "text": "মাত্রাতিরিক্ত জ্বর",
+            "text": "High fever",
             "value": false,
             "openmrs_entity_id": "High_fever",
             "openmrs_entity": "concept",
@@ -108,7 +108,7 @@
           },
           {
             "key": "Cough",
-            "text": "কাশি",
+            "text": "Cough",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -116,7 +116,7 @@
           },
           {
             "key": "Runny_nose",
-            "text": "সর্দি",
+            "text": "Runny nose",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -124,7 +124,7 @@
           },
           {
             "key": "Red_watery_eyes",
-            "text": "লাল/জলভরা চোখ",
+            "text": "Red/watery eyes",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -132,7 +132,7 @@
           },
           {
             "key": "Rash",
-            "text": "ফুসকুড়ি",
+            "text": "Rash",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -140,7 +140,7 @@
           },
           {
             "key": "Difficulty_in_breathing",
-            "text": "শ্বাস নিতে কষ্ট হওয়া",
+            "text": "Difficulty in breathing",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -148,7 +148,7 @@
           },
           {
             "key": "Rapid_heartbeat",
-            "text": "দ্রুত হৃদস্পন্দন",
+            "text": "Rapid heartbeat",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -156,7 +156,7 @@
           },
           {
             "key": "Sweating_or_shivering",
-            "text": "ঘাম বা কাঁপুনি",
+            "text": "Sweating or shivering",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -164,7 +164,7 @@
           },
           {
             "key": "Loss_of_appetite",
-            "text": "ক্ষুধামান্দ্য",
+            "text": "Loss of appetite",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -172,7 +172,7 @@
           },
           {
             "key": "Recent_diarrhoea_episodes",
-            "text": "সাম্প্রতিক ডায়রিয়া",
+            "text": "Recent diarrhoea episodes",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -180,7 +180,7 @@
           },
           {
             "key": "none",
-            "text": "কোনোটিই নয়",
+            "text": "None",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -195,14 +195,14 @@
         "openmrs_entity_id": "sound",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "শিশু কি শব্দে সাড়া দেয়?",
+        "hint": "Hearing screening (Does child respond to sound?)",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
         "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+          "Yes": "Yes",
+          "No": "No"
         }
       },
 
@@ -213,14 +213,14 @@
         "openmrs_entity_id": "light",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "শিশুর কি আলোর দিকে সাড়া দেয়?",
+        "hint": "Vision screeninig (Does child have proper visual tracking?)",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
         "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+          "Yes": "Yes",
+          "No": "No"
         }
       },
 
@@ -230,14 +230,14 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "presence_of_swelling",
         "type": "spinner",
-        "hint": "অঙ্গ-প্রত্যঙ্গের ফোলা উপস্থিত আছে? (ইডিমা এবং কোয়াশিওরকরের চিহ্ন)",
+        "hint": "Presence of swelling of the limbs ( sign for odema and Kwashiorkor)",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
         "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+          "Yes": "Yes",
+          "No": "No"
         }
 
       },
@@ -248,14 +248,14 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "discoloration_of_skins",
         "type": "spinner",
-        "hint": "চামড়ার বিবর্ণতা উপস্থিত আছে? (পিঠে হলুদ বা গোলাপী ছোপ)",
+        "hint": "Discoloration of skins ( yellow or pink patches in the back )",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
         "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+          "Yes": "Yes",
+          "No": "No"
         }
 
       },
@@ -266,14 +266,14 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "presence_of_muscle_wasting",
         "type": "spinner",
-        "hint": "পেশী নষ্ট হওয়ার চিহ্ন আছে? (পাঁজরের দৃশ্যমানতা) (মারাসমাসের লক্ষণ)",
+        "hint": "Presence of muscle wasting ( visibility of ribs) ( signs of marasmus)",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
         "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+          "Yes": "Yes",
+          "No": "No"
         }
 
       },
@@ -284,14 +284,14 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "counseling",
         "type": "spinner",
-        "hint": "পি এন সি সেবার জন্য ফ্যাসিলিটিতে যাওয়ার জন্য কাউন্সেলিং করা হয়েছে?",
+        "hint": "Counselling done for facility visit for PNC",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
         "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+          "Yes": "Yes",
+          "No": "No"
         }
 
       },
@@ -302,14 +302,14 @@
         "openmrs_entity_id": "facility_counseling",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "অন্যান্য জটিল সমস্যার জন্য ফ্যাসিলিটিতে যাওয়ার জন্য কাউন্সেলিং করা হয়েছে?",
+        "hint": "Counselling done for facility visit for other complication",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
         "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+          "Yes": "Yes",
+          "No": "No"
         }
       },
 
@@ -319,14 +319,14 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "actions_taken",
         "type": "check_box",
-        "label": "কোন পদক্ষেপ নেওয়া হয়েছে?",
+        "label": "What actions taken?",
         "exclusive": [
           "none"
         ],
         "options": [
           {
             "key": "consultation",
-            "text": "পরামর্শ  প্রদান করা হয়েছে",
+            "text": "Consultation",
             "value": false,
             "openmrs_entity_id": "consultation",
             "openmrs_entity": "concept",
@@ -334,7 +334,7 @@
           },
           {
             "key": "treatment",
-            "text": "চিকিৎসা দেয়া হয়েছে",
+            "text": "Treatment",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -342,7 +342,7 @@
           },
           {
             "key": "referral",
-            "text": "রেফার করা হয়েছে",
+            "text": "Referral",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -367,38 +367,38 @@
         "openmrs_entity_id":"Place_of_Refer",
         "openmrs_data_type":"",
         "type":"spinner",
-        "hint":"রেফারের স্থান",
+        "hint":"Place of Refer",
         "values":[
-          "কমিউনিটি ক্লিনিক",
-          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র",
-          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র",
-          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
-          "মা ও শিশু কল্যাণ কেন্দ্র",
-          "১০ শয্যা বিশিষ্ট হাসপাতাল",
-          "২০ শয্যা বিশিষ্ট হাসপাতাল",
-          "উপজেলা স্বাস্থ্য কমপ্লেক্স",
-          "সদর হাসপাতাল",
-          "মেডিকেল কলেজ হাসপাতাল",
-          "বেসরকারী ক্লিনিক/হাসপাতাল",
-          "এনজিও",
-          "বিশেষায়িত হাসপাতাল",
-          "অন্যান্য"
+          "Community Clinic",
+          "Union Sub-center (USC)",
+          "UFWC (Union Family Welfare Center)",
+          "UH & FWC",
+          "Metarnal and Child Wellfare Center",
+          "10 Bed Hospital",
+          "20 Beds Hospital",
+          "UHC (Upazila Health Complex)",
+          "District Hospital",
+          "Medical College Hospital",
+          "Private Hospital / NGO clinic",
+          "NGO",
+          "Specialized Hospital",
+          "Others Health Facility"
         ],
-        "openmrs_entity_ids":{
-          "কমিউনিটি ক্লিনিক":"Community_Clinic",
-          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র":"Union_Sub_Center",
-          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র":"Union_Family_Welfare_Center",
-          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র":"Union_Health_and_Family_Welfare_Center",
-          "মা ও শিশু কল্যাণ কেন্দ্র":"Metarnal_and_Child_Wellfare_Center",
-          "১০ শয্যা বিশিষ্ট হাসপাতাল":"10_Bed_Hospital",
-          "২০ শয্যা বিশিষ্ট হাসপাতাল":"20_Beds_Hospital",
-          "উপজেলা স্বাস্থ্য কমপ্লেক্স":"Upazila_Health_Complex",
-          "সদর হাসপাতাল":"District_Hospital",
-          "মেডিকেল কলেজ হাসপাতাল":"Medical_College_and_Hospital",
-          "বেসরকারী ক্লিনিক/হাসপাতাল": "Private_Clinic_and_Hospital",
-          "এনজিও": "Non-governmental_Organization",
-          "বিশেষায়িত হাসপাতাল":"Specialized_Hospital",
-          "অন্যান্য":"Others_Health_Facility"
+        "openmrs_choice_ids":{
+          "Community Clinic":"Community_Clinic",
+          "Union Sub-center (USC)":"Union_Sub_Center",
+          "UFWC (Union Family Welfare Center)":"Union_Family_Welfare_Center",
+          "UH & FWC":"Union_Health_and_Family_Welfare_Center",
+          "Metarnal and Child Wellfare Center":"Metarnal_and_Child_Wellfare_Center",
+          "10 Bed Hospital":"10_Bed_Hospital",
+          "20 Beds Hospital":"20_Beds_Hospital",
+          "Upazila Health Complex":"Upazila_Health_Complex",
+          "District Hospital":"District_Hospital",
+          "Medical College Hospital":"Medical_College_and_Hospital",
+          "Private Hospital / NGO clinic": "Private_Clinic_and_Hospital",
+          "NGO": "Non-governmental_Organization",
+          "Specialized Hospital":"Specialized_Hospital",
+          "Others Health Facility":"Others_Health_Facility"
         },
         "relevance": {
           "step1:actions_taken": {
@@ -420,7 +420,7 @@
         "openmrs_entity_id": "latitude",
         "type": "hidden",
         "read_only": true,
-        "hint": "অক্ষাংশ"
+        "hint": "Latitude"
       },
       {
         "key": "longitude",
@@ -429,7 +429,7 @@
         "openmrs_entity_id": "longitude",
         "type": "hidden",
         "read_only": true,
-        "hint": "দ্রাঘিমা"
+        "hint": "Longitude"
       }
     ]
   }

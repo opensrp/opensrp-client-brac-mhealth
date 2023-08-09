@@ -479,27 +479,42 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         //refreshSyncProgressSpinner();
     }
 
+    Locale LOCALE;
+    String language = "";
+
     private void registerLanguageSwitcher(final Activity context) {
 
         View rlIconLang = rootView.findViewById(R.id.rlIconLang);
         final TextView tvLang = rootView.findViewById(R.id.tvLang);
 
         final String[] languages = menuFlavor.getSupportedLanguages();
-        Locale current = context.getResources().getConfiguration().locale;
-        tvLang.setText(StringUtils.capitalize(current.getDisplayLanguage()));
+
+        HnppApplication.getInstance().getApplicationContext().getResources().getConfiguration().setLocale(new Locale(LangUtils.getLanguage(context)));
+        Locale current =  HnppApplication.getInstance().getApplicationContext().getResources().getConfiguration().locale;
+
+
+
+        if(current.getLanguage().equals("bn")){
+            LOCALE = Locale.ENGLISH;
+            language = "English";
+        }else {
+            LOCALE = new Locale("bn");
+            language = "বাংলা";
+        }
+
+        tvLang.setText(language);
 
         rlIconLang.setOnClickListener(v -> {
             String currentLocal = LangUtils.getLanguage(context.getApplicationContext());
-            Locale LOCALE;
-            String language = "";
             if(currentLocal.equals("bn")){
                 LOCALE = Locale.ENGLISH;
-                language = "বাংলা";
+                language = "English";
             }else {
                 LOCALE = new Locale("bn");
-                language = "English";
+                language = "বাংলা";
             }
             LangUtils.saveLanguage(context.getApplicationContext(), LOCALE.getLanguage());
+            HnppApplication.getInstance().getApplicationContext().getResources().getConfiguration().setLocale(LOCALE);
 
             tvLang.setText(language);
             // destroy current instance

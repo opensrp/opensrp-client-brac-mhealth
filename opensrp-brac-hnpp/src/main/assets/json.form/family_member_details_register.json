@@ -53,7 +53,7 @@
     }
   },
   "step1": {
-    "title": "সদস্য যোগ করুন",
+    "title": "Add member",
     "fields": [
       {
         "key": "block_name",

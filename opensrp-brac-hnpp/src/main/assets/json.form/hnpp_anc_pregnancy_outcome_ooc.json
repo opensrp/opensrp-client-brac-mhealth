@@ -49,7 +49,7 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "প্রসবের ফলাফল",
+    "title": "Pregnancy Outcome",
     "fields": [
       {
         "key": "form_name",
@@ -102,7 +102,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "preg_outcome",
         "type": "check_box",
-        "label": "প্রসবের ফলাফল",
+        "label": "Result of Delivery",
         "label_text_style": "bold",
         "text_color": "#000000",
         "exclusive": [
@@ -111,7 +111,7 @@
         "options": [
           {
             "key": "born_alive",
-            "text": "জীবিত জন্ম",
+            "text": "Live Birth",
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "born_alive",
@@ -119,7 +119,7 @@
           },
           {
             "key": "still_born",
-            "text": "মৃত জন্ম",
+            "text": "Still Birth",
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "still_born",
@@ -127,7 +127,7 @@
           },
           {
             "key": "born_alive_died",
-            "text": "নবজাতকের মৃত্যু",
+            "text": "Newborn dead",
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "born_alive_died",
@@ -135,7 +135,7 @@
           },
           {
             "key": "miscarriage",
-            "text": "গর্ভপাত",
+            "text": "Miscarriage / Abortion",
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "miscarriage",
@@ -153,7 +153,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "delivery_date",
         "type": "date_picker",
-        "hint": "প্রসবের তারিখ",
+        "hint": "Delivery date",
         "expanded": false,
         "max_date": "today",
         "min_date": "",
@@ -179,7 +179,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "delivery_time",
         "type": "time_picker",
-        "hint": "প্রসবের সময়",
+        "hint": "Delivery time",
         "expanded": false,
         "v_required": {
           "value": "true",
@@ -204,18 +204,18 @@
         "openmrs_entity_id": "no_born_alive",
         "openmrs_data_type": "select one",
         "type": "edit_text",
-        "hint": "জীবিত জন্ম সংখ্যা",
+        "hint": "Number of live births",
         "v_numeric": {
           "value": true,
           "err": "Enter a valid Number"
         },
         "v_max_length": {
           "value": "1",
-          "err": "1 ডিজিটের বেশি দেওয়া যাবে না"
+          "err": "Cannot enter more than 1 digit"
         },
         "v_regex": {
           "value": "[0-9]*",
-          "err": "দশমিক অনুমোদিত নয়"
+          "err": "Decimals are not allowed"
         },
         "relevance": {
           "step1:preg_outcome": {
@@ -236,19 +236,19 @@
         "openmrs_entity_id": "no_still_born",
         "openmrs_data_type": "select one",
         "type": "edit_text",
-        "hint": "মৃত জন্ম সংখ্যা",
+        "hint": "Number of Stillbirths",
         "v_numeric": {
           "value": true,
           "err": "Enter a valid Number"
         },
         "v_max_length": {
           "value": "1",
-          "err": "1 ডিজিটের বেশি দেওয়া যাবে না",
+          "err": "Cannot enter more than 1 digit",
           "is_fixed_size":true
         },
         "v_regex": {
           "value": "[0-9]*",
-          "err": "দশমিক অনুমোদিত নয়"
+          "err": "Decimals are not allowed"
         },
         "relevance": {
           "step1:preg_outcome": {
@@ -270,7 +270,7 @@
         "openmrs_entity_id": "no_miscarriage",
         "openmrs_data_type": "select one",
         "type": "edit_text",
-        "hint": "গর্ভপাত সংখ্যা",
+        "hint": "Number of miscarriage",
         "relevance": {
           "step1:preg_outcome": {
             "ex-checkbox": [
@@ -284,7 +284,7 @@
         },
         "v_max_length": {
           "value": "1",
-          "err": "1 ডিজিটের বেশি দেওয়া যাবে না",
+          "err": "Cannot enter more than 1 digit",
           "is_fixed_size":true
         },
         "v_numeric": {
@@ -293,7 +293,7 @@
         },
         "v_regex": {
           "value": "[0-9]*",
-          "err": "দশমিক অনুমোদিত নয়"
+          "err": "Decimals are not allowed"
         }
       },
       {
@@ -736,14 +736,14 @@
         "openmrs_entity_id": "delivery_method",
         "openmrs_data_type": "select one",
         "type": "spinner",
-        "hint": "প্রসবের পদ্ধতি",
+        "hint": "Mode of Delivery",
         "values": [
-          "স্বাভাবিক",
-          "সিজারিয়ান"
+          "Normal",
+          "Cesarean Section"
         ],
         "openmrs_choice_ids": {
-          "স্বাভাবিক": "normal",
-          "সিজারিয়ান": "c_section"
+          "Normal": "normal",
+          "Cesarean Section": "c_section"
         },
         "v_required": {
           "value": "true",

@@ -357,7 +357,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "health_care_center_other",
         "type": "edit_text",
-        "hint": "অন্যান্য স্বাস্থ্য সেবা কেন্দ্র",
+        "hint": "Other health facilities",
         "v_required": {
           "value": false,
           "err": "Please Type Facility Name"
@@ -369,7 +369,7 @@
         "relevance": {
           "step1:health_care_center": {
             "type": "string",
-            "ex": "equalTo(., \"অন্যান্য\")"
+            "ex": "equalTo(., \"Others Health Facility\")"
           }
         }
       },
@@ -379,7 +379,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "community_clinic",
         "type": "edit_text",
-        "hint": "আপনার নিকটবর্তী কমিউনিটি ক্লিনিকটির নাম কি?",
+        "hint": "Name of nearby community Clinic ?",
         "v_required": {
           "value": "false",
           "err": "Please enter the value"
@@ -392,20 +392,20 @@
         "openmrs_entity_id": "clinic_distance",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "নিকটবর্তী কমিউনিটি ক্লিনিকের আনুমানিক দুরত্ব কত কিঃ মিঃ",
+        "hint": "Distance from nearby community clinic",
         "values": [
-          "৫০০ মিটারের কম",
-          "৫০০ মিটার থেকে ১ কিলোমিটার",
-          "১ কিলোমিটার থেকে ২ কিলোমিটার",
-          "২ কিলোমিটার থেকে ৩ কিলোমিটার",
-          "৩ কিলোমিটারের বেশী"
+          "Less than 500 meter",
+          "500 meter to 1km",
+          "1km to 2 km",
+          "2km to 3km",
+          "More than 3km"
         ],
         "openmrs_choice_ids": {
-          "৫০০ মিটারের কম":"Less than 500 meter",
-          "৫০০ মিটার থেকে ১ কিলোমিটার":"500 meter to 1km",
-          "১ কিলোমিটার থেকে ২ কিলোমিটার":"1km to 2 km",
-          "২ কিলোমিটার থেকে ৩ কিলোমিটার":"2km to 3km",
-          "৩ কিলোমিটারের বেশী":"More than 3km"
+          "Less than 500 meter":"Less than 500 meter",
+          "500 meter to 1km":"500 meter to 1km",
+          "1km to 2 km":"1km to 2 km",
+          "2km to 3km":"2km to 3km",
+          "More than 3km":"More than 3km"
         }
       },
       {
@@ -414,7 +414,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "name_info",
         "type": "edit_text",
-        "hint": "তথ্য প্রদানকারীর নাম:"
+        "hint": "Name of information provider"
       },
       {
         "key": "gps",

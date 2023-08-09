@@ -852,7 +852,7 @@
     <string name="member_referrel">Member Referral</string>
     <string name="woman_referrel">Woman Referral</string>
     <string name="child_referrel">Child Referral</string>
-    <string name="service_done_succ">Service done</string>
+    <string name="service_done_succ">Service successfully done</string>
     <string name="service_already_given">Service already given</string>
     <string name="survice_done_failed">\"Service failed. Please try again\"</string>
     <string name="household_not_found_edit">Household address not found. Edit Household</string>

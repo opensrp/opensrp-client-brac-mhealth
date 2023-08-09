@@ -221,7 +221,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
             form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
         }
-        form.setWizard(false);
+        form.setWizard(true);
 
         intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
         startActivityForResult(intent, org.smartregister.family.util.JsonFormUtils.REQUEST_CODE_GET_JSON);
@@ -782,7 +782,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                     intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
 
                     Form form = new Form();
-                    form.setWizard(false);
+                    form.setWizard(true);
                     if(!HnppConstants.isReleaseBuild()){
                         form.setActionBarBackground(R.color.test_app_color);
 

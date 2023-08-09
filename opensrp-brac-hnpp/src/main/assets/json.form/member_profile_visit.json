@@ -47,7 +47,7 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "খানা সদস্য জরিপ",
+    "title": "",
     "fields": [
       {
         "key": "form_name",
@@ -65,10 +65,10 @@
         "openmrs_entity_id": "member_name_bengla",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "সম্পূর্ণ নাম (বাংলায়)",
+        "hint": "Full name (in bengali)",
         "v_regex": {
           "value": "[^A-Za-z0-9]*",
-          "err": "বাংলায় লিখুন"
+          "err": "Write in bengali"
         },
         "expanded": false,
         "v_required": {
@@ -83,11 +83,11 @@
         "openmrs_entity_id": "mother_name_bangla",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "মাতার নাম (বাংলায়)",
+        "hint": "Mother's name (in bengali)",
         "edit_type": "name",
         "v_regex": {
           "value": "[^A-Za-z0-9]*",
-          "err": "বাংলায় লিখুন"
+          "err": "Write in bengali"
         },
         "v_required": {
           "value": false,
@@ -101,11 +101,11 @@
         "openmrs_entity_id": "father_name_bangla",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "পিতার নাম (বাংলায়)",
+        "hint": "Father's name (in bengali)",
         "edit_type": "name",
         "v_regex": {
           "value": "[^A-Za-z0-9]*",
-          "err": "বাংলায় লিখুন"
+          "err": "Write in bengali"
         },
         "v_required": {
           "value": false,
