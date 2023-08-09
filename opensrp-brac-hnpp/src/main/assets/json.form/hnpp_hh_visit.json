@@ -47,7 +47,7 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "খানার প্রোফাইল আপডেট",
+    "title": "HH Profile Update",
     "fields": [
       {
         "key": "form_name",
@@ -65,16 +65,16 @@
         "openmrs_entity_id": "household_type",
         "openmrs_data_type": "Coded",
         "type": "spinner",
-        "hint": "আপনার বাসস্থানের ধরণ কি?",
+        "hint": "Type of House ?",
         "values": [
-          "কাচা",
-          "সেমি পাকা",
-          "পাকা"
+          "Mud-Built",
+          "Semi Brick Built",
+          "Brick built"
         ],
         "openmrs_choice_ids": {
-          "কাচা": "Mud-Built",
-          "সেমি পাকা" : "Semi Brick Built",
-          "পাকা" : "Brick built"
+          "Mud-Built": "Mud-Built",
+          "Semi Brick Built" : "Semi Brick Built",
+          "Brick built" : "Brick built"
         },
         "v_required": {
           "value": "false",
@@ -87,22 +87,22 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "latrine_structure",
         "type": "spinner",
-        "hint": "আপনার সদস্যগণ কি ধরণের ল্যাট্রিন ব্যবহার করে?",
+        "hint": "Type of latrine ?",
         "values": [
-          "স্যানিটারী",
-          "পাকা",
-          "কাচা",
-          "খােলা জায়গা",
-          "ঝোপ জংগল",
-          "অন্যান্য"
+          "Sanitary",
+          "Pakka-latrine",
+          "Rudimentary",
+          "Open area",
+          "Shrub",
+          "Other latrines"
         ],
         "openmrs_choice_ids": {
-          "স্যানিটারী": "Sanitary",
-          "পাকা": "pakka-latrine",
-          "কাচা": "rudimentary",
-          "খােলা জায়গা": "open area",
-          "ঝোপ জংগল" : "shrub",
-          "অন্যান্য": "Other latrines"
+          "Sanitary": "Sanitary",
+          "Pakka-latrine": "pakka-latrine",
+          "Rudimentary": "rudimentary",
+          "Open area": "open area",
+          "Shrub" : "shrub",
+          "Other latrines": "Other latrines"
         }
       },
       {
@@ -111,11 +111,11 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "other_latrine",
         "type": "edit_text",
-        "hint": "অন্যান্য ধরণের ল্যাট্রিন",
+        "hint": "Write other latrine sources",
         "relevance": {
           "step1:latrine_structure": {
             "type": "string",
-            "ex": "regex(., \"অন্যান্য\")"
+            "ex": "regex(., \"Other latrines\")"
           }
         }
       },
@@ -125,28 +125,28 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "water_source",
         "type": "spinner",
-        "hint": "আপনার পরিবারের প্রধান খাবার পানির উৎস কি?",
+        "hint": "Main source of water ?",
         "values": [
-          "টিউবওয়েল (লাল)",
-          "টিউবওয়েল (সবুজ)",
-          "টিউবওয়েল (আর্সেনিক পরিক্ষা করা হয়নি)",
-          "বৃষ্টির পানি",
-          "নদী/খাল",
-          "ট্যাপ",
-          "কুয়া/ইন্দারা",
-          "পুকুর/ভোৰা",
-          "অন্যান্য"
+          "Tubewell(red)",
+          "Tubewell(green)",
+          "No Arsenic test tubewell",
+          "Rain Water",
+          "River/Canal",
+          "Tap",
+          "Well/indira",
+          "Pond",
+          "Other water sources"
         ],
         "openmrs_choice_ids": {
-          "টিউবওয়েল (লাল)": "Tubewell(red)",
-          "টিউবওয়েল (সবুজ)" : "Tubewell(green)",
-          "টিউবওয়েল (আর্সেনিক পরিক্ষা করা হয়নি)" : "No Arsenic test tubewell",
-          "বৃষ্টির পানি" : "Rain Water",
-          "নদী/খাল" : "River/Canal",
-          "ট্যাপ" : "Tap",
-          "কুয়া/ইন্দারা" : "Well/indira",
-          "পুকুর/ভোৰা" : "Pond",
-          "অন্যান্য" : "Other water sources"
+          "Tubewell(red)": "Tubewell(red)",
+          "Tubewell(green)" : "Tubewell(green)",
+          "No Arsenic test tubewell" : "No Arsenic test tubewell",
+          "Rain Water" : "Rain Water",
+          "River/Canal" : "River/Canal",
+          "Tap" : "Tap",
+          "Well/indira" : "Well/indira",
+          "Pond" : "Pond",
+          "Other water sources" : "Other water sources"
         }
       },
       {
@@ -155,7 +155,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "water_other",
         "type": "edit_text",
-        "hint": "অন্যান্য পানির উৎস",
+        "hint": "Write other water sources",
         "v_required": {
           "value": false,
           "err": "Please Type Water Source"
@@ -163,7 +163,7 @@
         "relevance": {
           "step1:water_source": {
             "type": "string",
-            "ex": "equalTo(., \"অন্যান্য\")"
+            "ex": "equalTo(., \"Other water sources\")"
           }
         }
       },
@@ -173,22 +173,22 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "financial_status",
         "type": "spinner",
-        "hint": "আপনার পরিবারের আর্থিক অবস্থা কি?",
+        "hint": "Family Financial Status ?",
         "values": [
-          "সর্বদা অভাব অনটন",
-          "সাময়িক অভাব অনটন",
-          "আয়-ব্যয় সমান",
-          "সচ্ছল",
-          "সঞ্চয় হয়",
-          "অন্যান্য"
+          "Always hand to mouth",
+          "Sometimes hand to mouth",
+          "Income and expenditure equal",
+          "Solvent",
+          "Can save",
+          "Other financial status"
         ],
         "openmrs_choice_ids": {
-          "সর্বদা অভাব অনটন": "Always hand to mouth",
-          "সাময়িক অভাব অনটন" : "Sometimes hand to mouth",
-          "আয়-ব্যয় সমান" : "Income and expenditure equal",
-          "সচ্ছল" : "Solvent",
-          "সঞ্চয় হয়" : "Can save",
-          "অন্যান্য" : "Other financial status"
+          "Always hand to mouth": "Always hand to mouth",
+          "Sometimes hand to mouth" : "Sometimes hand to mouth",
+          "Income and expenditure equal" : "Income and expenditure equal",
+          "Solvent" : "Solvent",
+          "Can save" : "Can save",
+          "Other financial status" : "Other financial status"
 
         }
       },
@@ -198,7 +198,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "finance_other",
         "type": "edit_text",
-        "hint": "আর্থিক অবস্থা অন্যান্য",
+        "hint": "Write other financial status",
         "v_required": {
           "value": false,
           "err": "Please Type Financial Status"
@@ -206,7 +206,7 @@
         "relevance": {
           "step1:financial_status": {
             "type": "string",
-            "ex": "equalTo(., \"অন্যান্য\")"
+            "ex": "equalTo(., \"Other financial status\")"
           }
         }
       },
@@ -217,7 +217,7 @@
         "openmrs_entity_id": "monthly_expenditure",
         "openmrs_data_type": "Numeric",
         "type": "edit_text",
-        "hint": "পরিবারের আনুমানিক মাসিক ব্যয় কত? (টাকা) ",
+        "hint": "Estimated Expense of family",
         "v_required": {
           "value": "false",
           "err": "Please enter the amount"
@@ -227,53 +227,56 @@
           "err": "Enter a valid amount"
         }
       },
+
       {
-        "key": "nearby_health_facility",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "nearby_health_facility",
-        "type": "spinner",
-        "hint": "নিকটবর্তী স্বাস্থ্য সেবা কেন্দ্র কোনটি?",
-        "values": [
-          "কমিউনিটি ক্লিনিক",
-          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র",
-          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র",
-          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
-          "মা ও শিশু কল্যাণ কেন্দ্র",
-          "১০ শয্যা বিশিষ্ট হাসপাতাল",
-          "২০ শয্যা বিশিষ্ট হাসপাতাল",
-          "উপজেলা স্বাস্থ্য কমপ্লেক্স",
-          "সদর হাসপাতাল",
-          "মেডিকেল কলেজ হাসপাতাল",
-          "বেসরকারী ক্লিনিক/হাসপাতাল",
-          "এনজিও",
-          "বিশেষায়িত হাসপাতাল",
-          "অন্যান্য"
+        "key":"nearby_health_facility",
+        "openmrs_entity_parent":"",
+        "openmrs_entity":"concept",
+        "openmrs_entity_id":"nearby_health_facility",
+        "openmrs_data_type":"",
+        "type":"spinner",
+        "hint":"Nearby health center",
+        "values":[
+          "Community Clinic",
+          "Union Sub-center (USC)",
+          "UFWC (Union Family Welfare Center)",
+          "UH & FWC",
+          "Metarnal and Child Wellfare Center",
+          "10 Bed Hospital",
+          "20 Beds Hospital",
+          "UHC (Upazila Health Complex)",
+          "District Hospital",
+          "Medical College Hospital",
+          "Private Hospital / NGO clinic",
+          "NGO",
+          "Specialized Hospital",
+          "Others Health Facility"
         ],
-        "openmrs_choice_ids": {
-          "কমিউনিটি ক্লিনিক": "Community Clinic",
-          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র": "Union Sub-center (USC)",
-          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র":"UFWC (Union Family Welfare Center)",
-          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র":"UH & FWC",
-          "মা ও শিশু কল্যাণ কেন্দ্র":"Maternal & Child Welfate Center",
-          "১০ শয্যা বিশিষ্ট হাসপাতাল":"10 Bed Hospital",
-          "২০ শয্যা বিশিষ্ট হাসপাতাল":"20 Bed Hospital",
-          "উপজেলা স্বাস্থ্য কমপ্লেক্স":"UHC",
-          "সদর হাসপাতাল": "District Hospital",
-          "মেডিকেল কলেজ হাসপাতাল": "Medical College Hospital",
-          "বেসরকারী ক্লিনিক/হাসপাতাল":"Private Hospital / NGO clinic",
-          "এনজিও":"Non-governmental Organization",
-          "বিশেষায়িত হাসপাতাল": "Specialized Hospital",
-          "অন্যান্য":"Other health facilities"
+        "openmrs_entity_ids":{
+          "Community_Clinic":"Community_Clinic",
+          "Union Sub-center (USC)":"Union_Sub_Center",
+          "UFWC (Union Family Welfare Center)":"Union_Family_Welfare_Center",
+          "UH & FWC":"Union_Health_and_Family_Welfare_Center",
+          "Metarnal and Child Wellfare Center":"Metarnal_and_Child_Wellfare_Center",
+          "10 Bed Hospital":"10_Bed_Hospital",
+          "20 Beds Hospital":"20_Beds_Hospital",
+          "Upazila Health Complex":"Upazila_Health_Complex",
+          "District Hospital":"District_Hospital",
+          "Medical College Hospital":"Medical_College_and_Hospital",
+          "Private Hospital / NGO clinic": "Private_Clinic_and_Hospital",
+          "NGO": "Non-governmental_Organization",
+          "Specialized Hospital":"Specialized_Hospital",
+          "Others Health Facility":"Others_Health_Facility"
         }
       },
+
       {
         "key": "facility_other",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "facility_other",
         "type": "edit_text",
-        "hint": "অন্যান্য স্বাস্থ্য সেবা কেন্দ্র",
+        "hint": "Other health facilities",
         "v_required": {
           "value": false,
           "err": "Please Type Facility Name"
@@ -281,7 +284,7 @@
         "relevance": {
           "step1:nearby_health_facility": {
             "type": "string",
-            "ex": "equalTo(., \"অন্যান্য\")"
+            "ex": "equalTo(., \"Others Health Facility\")"
           }
         }
       },
@@ -291,20 +294,20 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "health_facility_distance",
         "type": "spinner",
-        "hint": "নিকটবর্তী স্বাস্থ্য সেবা কেন্দ্রের আনুমানিক দুরত্ব কত কিঃ মিঃ",
+        "hint": "Distance from nearby health center",
         "values": [
-          "৫০০ মিটারের কম",
-          "৫০০ মিটার থেকে ১ কিলোমিটার",
-          "১ কিলোমিটার থেকে ২ কিলোমিটার",
-          "২ কিলোমিটার থেকে ৩ কিলোমিটার",
-          "৩ কিলোমিটারের বেশী"
+          "Less than 500 meter",
+          "500 meter to 1km",
+          "1km to 2 km",
+          "2km to 3km",
+          "More than 3km"
         ],
         "openmrs_choice_ids": {
-          "৫০০ মিটারের কম":"Less than 500 meter",
-          "৫০০ মিটার থেকে ১ কিলোমিটার":"500 meter to 1km",
-          "১ কিলোমিটার থেকে ২ কিলোমিটার":"1km to 2 km",
-          "২ কিলোমিটার থেকে ৩ কিলোমিটার":"2km to 3km",
-          "৩ কিলোমিটারের বেশী":"More than 3km"
+          "Less than 500 meter":"Less than 500 meter",
+          "500 meter to 1km":"500 meter to 1km",
+          "1km to 2 km":"1km to 2 km",
+          "2km to 3km":"2km to 3km",
+          "More than 3km":"More than 3km"
         }
       },
       {
@@ -314,38 +317,38 @@
         "openmrs_entity_id": "health_care_center",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "পরিবারের সদস্যগন সাধারনত কোন স্বাস্থ্য সেবা কেন্দ্র থেকে স্বাস্থ্য সেবা নিয়ে থাকেন?",
-        "values": [
-          "কমিউনিটি ক্লিনিক",
-          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র",
-          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র",
-          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
-          "মা ও শিশু কল্যাণ কেন্দ্র",
-          "১০ শয্যা বিশিষ্ট হাসপাতাল",
-          "২০ শয্যা বিশিষ্ট হাসপাতাল",
-          "উপজেলা স্বাস্থ্য কমপ্লেক্স",
-          "সদর হাসপাতাল",
-          "মেডিকেল কলেজ হাসপাতাল",
-          "বেসরকারী ক্লিনিক/হাসপাতাল",
-          "এনজিও",
-          "বিশেষায়িত হাসপাতাল",
-          "অন্যান্য"
+        "hint": "Where do family members usually go?",
+        "values":[
+          "Community Clinic",
+          "Union Sub-center (USC)",
+          "UFWC (Union Family Welfare Center)",
+          "UH & FWC",
+          "Metarnal and Child Wellfare Center",
+          "10 Bed Hospital",
+          "20 Beds Hospital",
+          "UHC (Upazila Health Complex)",
+          "District Hospital",
+          "Medical College Hospital",
+          "Private Hospital / NGO clinic",
+          "NGO",
+          "Specialized Hospital",
+          "Others Health Facility"
         ],
-        "openmrs_choice_ids": {
-          "কমিউনিটি ক্লিনিক":"Community Clinic",
-          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র":"Union Sub-center (USC)",
-          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র":"UFWC (Union Family Welfare Center)",
-          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র":"UH & FWC",
-          "মা ও শিশু কল্যাণ কেন্দ্র":"Maternal & Child Welfate Center",
-          "১০ শয্যা বিশিষ্ট হাসপাতাল":"10 Bed Hospital",
-          "২০ শয্যা বিশিষ্ট হাসপাতাল":"20 Bed Hospital",
-          "উপজেলা স্বাস্থ্য কমপ্লেক্স":"UHC",
-          "সদর হাসপাতাল":"District Hospital",
-          "মেডিকেল কলেজ হাসপাতাল":"Medical College Hospital",
-          "বেসরকারী ক্লিনিক/হাসপাতাল":"Private Hospital / NGO clinic",
-          "এনজিও":"NGO",
-          "বিশেষায়িত হাসপাতাল":"Specialized Hospital",
-          "অন্যান্য":"Other health facilities"
+        "openmrs_entity_ids":{
+          "Community_Clinic":"Community_Clinic",
+          "Union Sub-center (USC)":"Union_Sub_Center",
+          "UFWC (Union Family Welfare Center)":"Union_Family_Welfare_Center",
+          "UH & FWC":"Union_Health_and_Family_Welfare_Center",
+          "Metarnal and Child Wellfare Center":"Metarnal_and_Child_Wellfare_Center",
+          "10 Bed Hospital":"10_Bed_Hospital",
+          "20 Beds Hospital":"20_Beds_Hospital",
+          "Upazila Health Complex":"Upazila_Health_Complex",
+          "District Hospital":"District_Hospital",
+          "Medical College Hospital":"Medical_College_and_Hospital",
+          "Private Hospital / NGO clinic": "Private_Clinic_and_Hospital",
+          "NGO": "Non-governmental_Organization",
+          "Specialized Hospital":"Specialized_Hospital",
+          "Others Health Facility":"Others_Health_Facility"
         }
       },
       {

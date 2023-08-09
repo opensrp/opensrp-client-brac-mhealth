@@ -47,7 +47,7 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "গর্ভবতী পরিচর্যা",
+    "title": "Pregnancy Service",
     "next": "step2",
     "fields": [
       {
@@ -102,7 +102,7 @@
         "openmrs_entity_id": "anc_count",
         "type": "edit_text",
         "read_only": true,
-        "hint": "এ এন সি সেবা নং"
+        "hint": "ANC Service No"
       },
       {
         "key": "edd",
@@ -120,7 +120,7 @@
         "openmrs_entity_id": "schedule_date",
         "type": "edit_text",
         "read_only": true,
-        "hint": "সেবা গ্রহণের নির্ধারিত তারিখ"
+        "hint": "Scheduled Date of ANC"
       },
       {
         "key": "service_taken_date",
@@ -128,7 +128,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "service_taken_date",
         "type": "date_picker",
-        "hint": "সেবা গ্রহণের তারিখ",
+        "hint": "Report Date",
         "max_date": "today"
       },
       {
@@ -138,32 +138,32 @@
         "openmrs_entity_id": "place_of_service_taken",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "সেবা গ্রহনের স্থান",
+        "hint": "Place of service *",
         "values": [
-          "মেডিকেল কলেজ হাসপাতাল",
-          "সদর হাসপাতাল",
-          "উপজেলা স্বাস্থ্য কমপ্লেক্স",
-          "মা ও শিশু কল্যাণ কেন্দ্র",
-          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
-          "কমিউনিটি ক্লিনিক",
-          "বেসরকারী ক্লিনিক/হাসপাতাল",
-          "এনজিও ক্লিনিক",
-          "চা বাগান ফেসিলিটি",
-          "বাড়িতে",
-          "অন্যান্য"
+          "Medical College Hospital/Specialized Hospital",
+          "District Hospital",
+          "Upazila Health Complex",
+          "MCWC",
+          "UH&FWC/USC",
+          "Community Clinic",
+          "Private Hospital",
+          "NGO Clinic",
+          "Tea Garden Facility",
+          "Home",
+          "Others"
         ],
         "openmrs_entity_ids": {
-          "মেডিকেল কলেজ হাসপাতাল": "Medical_College_and_Hospital",
-          "সদর হাসপাতাল": "District_Hospital",
-          "উপজেলা স্বাস্থ্য কমপ্লেক্স": "Upazila_Health_Complex",
-          "মা ও শিশু কল্যাণ কেন্দ্র": "MCWC",
-          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র": "Union_Health_and_Family_Welfare_Center",
-          "কমিউনিটি ক্লিনিক": "Community Clinic",
-          "বেসরকারী ক্লিনিক/হাসপাতাল": "Private_Clinic_and_Hospital",
-          "এনজিও ক্লিনিক": "Non-governmental_Organization",
-          "চা বাগান ফেসিলিটি": "Tea_Garden_Facility",
-          "বাড়িতে": "Home",
-          "অন্যান্য": "Others"
+          "Medical College Hospital/Specialized Hospital": "Medical_College_and_Hospital",
+          "District Hospital": "District_Hospital",
+          "Upazila Health Complex": "Upazila_Health_Complex",
+          "MCWC": "MCWC",
+          "UH&FWC/USC": "Union_Health_and_Family_Welfare_Center",
+          "Community Clinic": "Community Clinic",
+          "Private Hospital": "Private_Clinic_and_Hospital",
+          "NGO Clinic": "Non-governmental_Organization",
+          "Tea Garden Facility": "Tea_Garden_Facility",
+          "Home": "Home",
+          "Others": "Others"
         }
       },
       {
@@ -173,22 +173,22 @@
         "openmrs_entity_id": "service_provider",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "সেবা প্রদানকারী",
+        "hint": "Service provider *",
         "values": [
-          "ডাক্তার",
-          "নার্স",
-          "মিডওয়াইফ",
-          "এফ.ডাব্লিউ.ভি.",
-          "সিএসবিএ",
-          "অন্যান্য_কেউ"
+          "Doctor",
+          "Nurse",
+          "Midwife",
+          "FWV",
+          "CSBA",
+          "Others"
         ],
         "openmrs_entity_ids": {
-          "ডাক্তার": "Doctor",
-          "নার্স": "Nurse",
-          "মিডওয়াইফ": "Midwife",
-          "এফ.ডাব্লিউ.ভি.": "FWV",
-          "সিএসবিএ": "CSBA",
-          "অন্যান্য_কেউ": "Others"
+          "Doctor": "Doctor",
+          "Nurse": "Nurse",
+          "Midwife": "Midwife",
+          "FWV": "FWV",
+          "CSBA": "CSBA",
+          "Others": "Others"
         }
       },
       {
@@ -198,18 +198,18 @@
         "openmrs_entity_id": "Weight",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "ওজন(কেজি)",
+        "hint": "Weight (kg)",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
         },
         "v_min": {
           "value": "30",
-          "err": "30 এর বেশি হওয়া উচিত"
+          "err": "Should be more than 30"
         },
         "v_max": {
           "value": "150",
-          "err": "150 এর কম হওয়া উচিত"
+          "err": "Should be less than 150"
         }
       },
       {
@@ -219,18 +219,18 @@
         "openmrs_entity_id": "Height",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "উচ্চতা(ইঞ্চি)",
+        "hint": "Height (Inch)",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
         },
         "v_min": {
           "value": "45",
-          "err": "45 এর বেশি হওয়া উচিত"
+          "err": "Should be more than 45"
         },
         "v_max": {
           "value": "84",
-          "err": "84 এর কম হওয়া উচিত"
+          "err": "Should be less than 84"
         }
       },
       {
@@ -240,18 +240,18 @@
         "openmrs_entity_id": "Systolic",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "সিস্টোলিক রক্তচাপ",
+        "hint": "Systolic blood pressure",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
         },
         "v_max": {
           "value": "400",
-          "err": "400 এর কম হওয়া উচিত"
+          "err": "Should be less than 400"
         },
         "v_min": {
           "value": "1",
-          "err": "1 এর বেশি হওয়া উচিত"
+          "err": "Should be greater than 1"
         }
       },
       {
@@ -260,7 +260,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "রোগীর রক্তচাপ বেশি। পর্যবেক্ষণ করুন",
+        "text": "Patient's Blood pressure is High. Please monitor",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
@@ -278,18 +278,18 @@
         "openmrs_entity_id": "diastolic",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "ডায়াস্টোলিক রক্তচাপ",
+        "hint": "Diastolic BP",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
         },
         "v_min": {
           "value": "1",
-          "err": "1 এর বেশি হওয়া উচিত"
+          "err": "Should be greater than 1"
         },
         "v_max": {
           "value": "400",
-          "err": "400 এর কম হওয়া উচিত"
+          "err": "Should be less than 400"
         }
       },
       {
@@ -298,7 +298,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "রক্তচাপ প্রতি সপ্তাহে মাপা  প্রয়োজন এবং ওষুধের জন্য সেবা প্রদানকারীর সাথে পরামর্শ করুন",
+        "text": "Need to check weekly and consultation with service provider for medicine",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
@@ -316,7 +316,7 @@
         "openmrs_entity_id": "blood_group",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "রক্তের গ্রুপ",
+        "hint": "Blood group",
         "values": [
           "A+",
           "A-",
@@ -326,7 +326,7 @@
           "O-",
           "AB+",
           "AB-",
-          "রক্তের গ্রুপ জানা নেই"
+          "Do Not Know Blood Group"
         ],
         "openmrs_choice_ids": {
           "A+": "A+",
@@ -337,11 +337,11 @@
           "O-": "O-",
           "AB+": "AB+",
           "AB-": "AB-",
-          "রক্তের গ্রুপ জানা নেই": "Do Not Know Blood Group"
+          "Do Not Know Blood Group": "Do Not Know Blood Group"
         },
         "v_required": {
           "value": false,
-          "err": "রক্ত গ্রুপ নির্বাচন করুন"
+          "err": "Select Blood Group"
         }
       },
       {
@@ -351,7 +351,7 @@
         "openmrs_entity_id": "Temperature",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "শরীরের তাপমাত্রা ( ফারেনহাইট)",
+        "hint": "Temperature (F)",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
@@ -380,14 +380,14 @@
         "openmrs_entity_id": "Clinical_Anemia",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "ক্লিনিকাল রক্তসল্পতা আছে?",
+        "hint": "Clinical Anemia",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
         "openmrs_entity_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+          "Yes": "Yes",
+          "No": "No"
         }
       },
 
@@ -398,7 +398,7 @@
         "openmrs_entity_id": "Fundal_height",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "ফান্ডাল হাইট (উইক/ সে মি)",
+        "hint": "Fundal height (week/cm)",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
@@ -411,7 +411,7 @@
         "openmrs_entity_id": "Fetal_position",
         "openmrs_data_type": "select one",
         "type": "spinner",
-        "hint": "ভ্রূণের অবস্থান",
+        "hint": "Fetal position",
         "values": [
           "Cephalic",
           "Transverse lie",
@@ -431,7 +431,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "চিকিৎসা মূল্যায়ন প্রয়োজন, বাহ্যিক সিফালিক ভারশন অথবা সিজারিয়ান সেকশনের জন্য পরিকল্পনা করুন",
+        "text": "Needs further medical evaluation, external cephalic version or planned for caesarean section",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
@@ -449,14 +449,14 @@
         "openmrs_entity_id": "Fetal_movement",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "বাচ্চা নড়াচড়া করে কিনা?",
+        "hint": "Fetal movement ?",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
         "openmrs_entity_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+          "Yes": "Yes",
+          "No": "No"
         }
       },
       {
@@ -466,14 +466,14 @@
         "openmrs_entity_id": "Fetal_Heart_Rate",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "ভ্রূণের হার্টবিট রেট",
+        "hint": "Fetal Heart Rate (b/min)",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
         },
         "v_min": {
           "value": "1",
-          "err": "1 এর বেশি হওয়া উচিত"
+          "err": "Should be greater than 1"
         }
       },
       {
@@ -496,7 +496,7 @@
     ]
   },
   "step2": {
-    "title": "স্বাস্থ্য পরীক্ষা তথ্য",
+    "title": "Health Checkup Information",
     "next": "step3",
     "fields": [
       {
