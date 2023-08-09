@@ -229,7 +229,8 @@ public class HnppConstants extends CoreConstants {
         Calendar calendar = Calendar.getInstance();
         String date = calendar.get(Calendar.DAY_OF_MONTH) + "";
         String yymm = YYYYMM.format(new Date(toMonth == -1 ? System.currentTimeMillis() : toMonth));
-        String returnDate = yymm + "-" + date;
+        String[] yearMonth = yymm.split("-");
+        String returnDate = yearMonth[0]+"-"+addZeroForMonth(yearMonth[1])+"-" +addZeroForDay(date);
         Log.v("ANC_TRIMESTER", "returnDate:" + returnDate);
         return returnDate;
     }
