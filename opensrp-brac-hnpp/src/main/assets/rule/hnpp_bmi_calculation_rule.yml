@@ -5,3 +5,11 @@ priority: 1
 condition: "step1_weight != '' && step1_height != '' && step1_weight!= 0 && step1_height!= 0"
 actions:
   - "calculation =  (step1_weight*10000)/(step1_height*step1_height) "
+
+---
+name: step1_woman_bmi
+description: Calculated woman_bmi
+priority: 1
+condition: "step1_woman_weight != '' && step1_woman_height != '' && step1_woman_weight!= 0 && step1_woman_height!= 0"
+actions:
+  - "calculation =  (step1_woman_weight*10000)/(step1_woman_height*step1_woman_height) "
