@@ -52,7 +52,7 @@
     }
   },
   "step1": {
-    "title": "শিশু সদস্যকে বাতিল করুন",
+    "title": "Cancel the child member",
     "fields": [
       {
         "key": "form_name",
@@ -101,7 +101,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "dob",
         "type": "hidden",
-        "hint": "জন্ম তারিখ"
+        "hint": "Birth date"
       },
       {
         "key": "remove_reason",
@@ -110,20 +110,20 @@
         "openmrs_entity_id": "remove_reason",
         "openmrs_data_type": "select one",
         "type": "spinner",
-        "hint": "সদস্য বাতিল করার কারণ",
+        "hint": "Reasons for cancellation of membership",
         "v_required": {
           "value": "true",
-          "err": "সদস্য বাতিল করার কারণ নির্বাচন করুন"
+          "err": "Select Reasons for cancellation of membership"
         },
         "values": [
-          "স্থানান্তর",
-          "মৃত্যু নিবন্ধন",
-          "অন্যান্য"
+          "Moved away",
+          "Died",
+          "Other"
         ],
         "openmrs_choice_ids": {
-          "স্থানান্তর": "moved_away",
-          "মৃত্যু নিবন্ধন": "died",
-          "অন্যান্য": "other"
+          "Moved away": "moved_away",
+          "Died": "died",
+          "Other": "other"
         }
       },
       {

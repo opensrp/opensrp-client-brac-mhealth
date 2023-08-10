@@ -53,7 +53,7 @@
     }
   },
   "step1": {
-    "title": "৫ বছরের কম বয়সী শিশু যুক্ত করুন",
+    "title": "Add children under 5 years of age",
     "fields": [
       {
         "key": "is_consent",
@@ -97,7 +97,7 @@
         "openmrs_entity": "person_identifier",
         "openmrs_entity_id": "shr_id",
         "type": "edit_text",
-        "hint": "শেয়ারড হেলথ রেকর্ড আই ডি",
+        "hint": "SHR ID",
         "read_only": true
       },
       {
@@ -106,7 +106,7 @@
         "openmrs_entity": "person_identifier",
         "openmrs_entity_id": "opensrp_id",
         "type": "edit_text",
-        "hint": "সিস্টেম নম্বর",
+        "hint": "System number",
         "read_only": true
       },
 
@@ -124,7 +124,7 @@
         "openmrs_entity_id": "camp_type",
         "openmrs_data_type": "text",
         "type": "hidden",
-        "hint": "ক্যাম্পেইন টাইপ",
+        "hint": "Campaign type",
         "read_only": "true"
       },
       {
@@ -133,15 +133,15 @@
         "openmrs_entity": "person",
         "openmrs_entity_id": "first_name",
         "type": "edit_text",
-        "hint": "নামের প্রথম অংশ (ইংরেজীতে)",
+        "hint": "First name (in english)",
         "edit_type": "name",
         "v_required": {
           "value": "true",
-          "err": "নাম লিখুন"
+          "err": "Please enter name"
         },
         "v_regex": {
           "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
-          "err": "একটি বৈধ নাম লিখুন"
+          "err": "Please enter a valid name"
         }
       },
       {
@@ -150,7 +150,7 @@
         "openmrs_entity": "person",
         "openmrs_entity_id": "last_name",
         "type": "edit_text",
-        "hint": "নামের শেষ অংশ (ইংরেজীতে)",
+        "hint": "Last name (in english)",
         "edit_type": "name",
         "v_required": {
           "value": "true",
@@ -168,27 +168,27 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "Mobile_Number",
         "type": "edit_text",
-        "hint": "মা/বাবা/অভিভাবক এর মোবাইল নং",
+        "hint": "Father/Mother/Guardian Mobile no",
         "v_required": {
           "value": true,
-          "err": "11 অঙ্কের মোবাইল নম্বর লিখুন"
+          "err": "Enter 11 digit mobile number"
         },
         "v_numeric": {
           "value": "true",
-          "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
+          "err": "The number must start with 011, 012, 013, 014, 015, 016,017,018 or 019 and must be 11 digits in total."
         },
         "v_regex": {
           "value": "(01[1-9][0-9]{8})|\s*",
-          "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
+          "err": "The number must start with 011, 012, 013, 014, 015, 016,017,018 or 019 and must be 11 digits in total."
         },
         "v_max_length": {
           "value": "11",
-          "err": "11 অঙ্কের মোবাইল নম্বর লিখুন",
+          "err": "Enter 11 digit mobile number",
           "is_fixed_size":true
         },
         "v_min_length": {
           "value": "1",
-          "err": "11 অঙ্কের মোবাইল নম্বর লিখুন"
+          "err": "Enter 11 digit mobile number"
         }
       },
       {
@@ -199,14 +199,14 @@
         "openmrs_data_type": "text",
         "type": "edit_text",
         "edit_type": "name",
-        "hint": "মাতার নাম (ইংরেজীতে)",
+        "hint": "Enter 11 digit mobile number",
         "v_regex": {
           "value": "^$|^[a-zA-Z][A-Za-z\\.\\- ]*",
-          "err": "একটি বৈধ নাম লিখুন"
+          "err": "Please enter valid name"
         },
         "v_required": {
           "value": true,
-          "err": "মান নির্বাচন করুন"
+          "err": "Name required"
         }
       },
       {
@@ -217,7 +217,7 @@
         "openmrs_data_type": "text",
         "type": "edit_text",
         "look_up": "true",
-        "hint": "পিতার নাম (ইংরেজীতে)",
+        "hint": "Father's name (in english)",
         "edit_type": "name",
         "v_required": {
           "value": "false",
@@ -234,7 +234,7 @@
         "openmrs_entity": "person",
         "openmrs_entity_id": "birthdate",
         "type": "date_picker",
-        "hint": "জন্ম তারিখ",
+        "hint": "Birth Date",
         "expanded": false,
         "duration": {
           "label": "Age"
@@ -243,7 +243,7 @@
         "max_date": "today",
         "v_required": {
           "value": "true",
-          "err": "জন্ম তারিখ প্রবেশ করুন"
+          "err": "Enter date of birth"
         }
       },
       {
@@ -268,56 +268,56 @@
         "openmrs_entity_id": "Relation_with_HOH",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "খানা প্রধানের সাথে সম্পর্ক",
+        "hint": "Relationship with Household Head",
         "values": [
-          "পুত্র",
-          "কন্যা",
-          "পুত্রবধূ",
-          "নাতি",
-          "নাতনী",
-          "মাতা",
-          "পিতা",
-          "ভাই",
-          "বোন",
-          "ভাইপো",
-          "ভাইঝি",
-          "ভাগ্নে",
-          "ভাগ্নি",
-          "শ্যালক",
-          "শ্যালিকা",
-          "দেবর",
-          "জা",
-          "ননদ",
-          "ভাইয়ের স্ত্রী",
-          "ভগ্নিপতি",
-          "জামাতা"
+          "Son",
+          "Daughter",
+          "Daughter-in-law",
+          "Grandson",
+          "Grand-Daughter",
+          "Mother",
+          "Father",
+          "Brother",
+          "Sister",
+          "Nephew(Vaipo)",
+          "Niece(Vaiji)",
+          "Nephew(Vagne)",
+          "Niece(Vagni)",
+          "Brother-in-law(Shalok)",
+          "Sister-in-law(Shalika)",
+          "Brother-in-law(Debor)",
+          "Sister-in-law(Ja)",
+          "Sister-in-law(Nonod)",
+          "Brother's wife",
+          "Sister-in-law(Vognipoti)",
+          "Son-in-law"
         ],
         "openmrs_choice_ids": {
-          "পুত্র" :	"Son",
-          "কন্যা":	"Daughter",
-          "পুত্রবধূ":	"Daughter-in-law",
-          "নাতি":"Grandson"	,
-          "নাতনি": 	"Grand-Daughter",
-          "পিতা"	:"Father",
-          "মাতা":	"Mother",
-          "ভাই": "Brother",
-          "বোন ":	"Sister",
-          "ভাইপো" :	"Nephew",
-          "ভাইঝি":	"niece",
-          "ভাগ্নে"	:"Nephew",
-          "ভাগ্নি" :	"niece",
-          "শ্যালক":	"brother-in-law",
-          "শ্যালিকা":	"sister-in-law",
-          "দেবর":	"brother-in-law",
-          "জা":	"sister-in-law",
-          "ননদ" :	"Sister-in-law",
-          "ভাইয়ের স্ত্রী" :	"Brother's wife",
-          "ভগ্নিপতি":	"sister-in-law",
-          "জামাতা" :	"Son-in-law"
+          "Son" :	"Son",
+          "Daughter":	"Daughter",
+          "Daughter-in-law":	"Daughter-in-law",
+          "Grandson":    "Grandson"	,
+          "Grand-Daughter": 	"Grand-Daughter",
+          "Father"	:   "Father",
+          "Mother":	"Mother",
+          "Brother":     "Brother",
+          "Sister ":	"Sister",
+          "Nephew(Vaipo)" :	"Nephew",
+          "Niece(Vaiji)":	"niece",
+          "Nephew(Vagne)"	:   "Nephew",
+          "Niece(Vagni)" :	"niece",
+          "Brother-in-law(Shalok)":	"brother-in-law",
+          "Sister-in-law(Shalika)":	"sister-in-law",
+          "Brother-in-law(Debor)":	"brother-in-law",
+          "Sister-in-law(Ja)":	    "sister-in-law",
+          "Sister-in-law(Nonod)" :	"Sister-in-law",
+          "Brother's wife" :	"Brother's wife",
+          "Sister-in-law(Vognipoti)":	"sister-in-law",
+          "Son-in-law" :	"Son-in-law"
         },
         "v_required": {
           "value": true,
-          "err": "সম্পর্ক নির্বাচন করুন"
+          "err": "Select Relationship"
         }
       },
       {
@@ -326,14 +326,14 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "birthRegistrationID",
         "type": "edit_text",
-        "hint": "জন্ম নিবন্ধন সনদ",
+        "hint": "Birth registration certificate",
         "v_numeric": {
           "value": "true",
-          "err": "মোট 17 সংখ্যা হওয়া আবশ্যক"
+          "err": "Total must be 17 digits"
         },
         "v_regex": {
           "value": "([0-9]{16})|([0-9]{17})|\\s*",
-          "err": "মোট 16/17 সংখ্যা হওয়া আবশ্যক"
+          "err": "Total must be 16/17 numbers"
         }
       },
       {
@@ -342,21 +342,21 @@
         "openmrs_entity": "person",
         "openmrs_entity_id": "gender",
         "type": "spinner",
-        "hint": "লিঙ্গ",
+        "hint": "Sex",
         "values": [
-          "পুরুষ",
-          "নারী",
-          "তৃতীয় লিঙ্গ"
+          "Male",
+          "Female",
+          "Third gender"
 
         ],
         "openmrs_choice_ids": {
-          "পুরুষ": "M",
-          "নারী":"F",
-          "তৃতীয় লিঙ্গ": "O"
+          "Male": "M",
+          "Female":"F",
+          "Third gender": "O"
         },
         "v_required": {
           "value": true,
-          "err": "লিঙ্গ প্রবেশ করুন"
+          "err": "Enetr gender"
         }
       },
       {
@@ -365,14 +365,14 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "birth_weight",
         "type": "edit_text",
-        "hint": "জন্ম ওজন(গ্রাম)",
+        "hint": "Birth weight (grams)",
         "v_numeric": {
           "value": "true",
-          "err": "প্রশ্নের উত্তর দিন"
+          "err": "Answer the questions"
         },
         "v_required": {
           "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
+          "err": "Answer the questions"
         },
         "relevance": {
           "rules-engine": {
@@ -388,7 +388,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": " শিশুটির জন্ম ওজন কম। পর্যবেক্ষণে রাখুন",
+        "text": "The baby's birth weight is low. Keep under observation",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
@@ -405,7 +405,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": " শিশুটির জন্ম ওজন অত্যধিক বেশি। পর্যবেক্ষণে রাখুন",
+        "text": "The baby's birth weight is too high. Please Monitor",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
@@ -422,7 +422,7 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "new_born_info",
         "type": "check_box",
-        "label": "নবজাতক সম্পর্কিত গুরুত্বপূর্ণ তথ্য",
+        "label": "Important information about newborn",
         "label_text_style": "normal",
         "text_color": "#C0C0C0",
         "exclusive": [
@@ -431,56 +431,56 @@
         "options": [
           {
             "key": "head_body_covered",
-            "text": "নবজাতক জন্মের সাথে সাথে তাকে মোড়ানো এবং আবৃত করা হয়েছিল",
+            "text": "Dried and wrapped immediately after birth",
             "value": false,
             "openmrs_entity": "person_attribute",
             "openmrs_entity_id": "head_body_covered"
           },
           {
             "key": "breastfeeding_time",
-            "text": "নবজাতক জন্মের ১ ঘন্টার মধ্যে তাকে মায়ের বুকে লাগানো হয়েছিল",
+            "text": "Skin to skin contact",
             "value": false,
             "openmrs_entity": "person_attribute",
             "openmrs_entity_id": "breastfeeding_time"
           },
           {
             "key": "delay_cord_cutting",
-            "text": "বিলম্বিত কর্ড কাটা",
+            "text": "Delayed cord cutting",
             "value": false,
             "openmrs_entity": "person_attribute",
             "openmrs_entity_id": "delay_cord_cutting"
           },
           {
             "key": "chlorohexadin",
-            "text": "প্রসবকালীন সময়ে সিএইচএক্স(৭.১%) ব্যবহৃত হয়েছিল",
+            "text": "Application of CHX (7.1%)",
             "value": false,
             "openmrs_entity": "person_attribute",
             "openmrs_entity_id": "chlorohexadin"
           },
           {
             "key": "Skin_to_Skin_contact",
-            "text": "প্রসবের ১ ঘন্টার মধ্যে নবজাতককে বুকের দুধ খাওয়ানো হয়েছিল",
+            "text": "Newborn breastfeed within 1 hour of delivery",
             "value": false,
             "openmrs_entity": "person_attribute",
             "openmrs_entity_id": "Skin_to_Skin_contact"
           },
           {
             "key": "Delayed_bathing",
-            "text": "বিলম্বিত গোসল করানো হয়েছিল",
+            "text": "Delayed bathing",
             "value": false,
             "openmrs_entity": "person_attribute",
             "openmrs_entity_id": "Delayed_bathing"
           },
           {
             "key": "Visible_birth_defect",
-            "text": "নবজাতকের দৃশ্যমান জন্মগত ত্রুটি আছে",
+            "text": "Visible birth defect",
             "value": false,
             "openmrs_entity": "person_attribute",
             "openmrs_entity_id": "Visible_birth_defect"
           },
           {
             "key": "Counselling_on_Newborn_danger",
-            "text": "নবজাতকের আসন্ন ঝুকি সমূহ এবং ইএনসি সংক্রান্ত কাউন্সেলিং প্রদান করা হয়েছে",
+            "text": "Counselling on Newborn danger sign",
             "value": false,
             "openmrs_entity": "person_attribute",
             "openmrs_entity_id": "Counselling_on_Newborn_danger"
@@ -488,7 +488,7 @@
         ],
         "v_required": {
           "value": true,
-          "err": " নির্বাচন করুন"
+          "err": "Select Important information about newborn"
         },
         "relevance": {
           "rules-engine": {
@@ -505,14 +505,14 @@
         "openmrs_entity_id": "disable",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "প্রতিবন্ধী",
+        "hint": "Disabled",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
         "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+          "Yes": "Yes",
+          "No": "No"
         }
       },
       {
@@ -522,33 +522,33 @@
         "openmrs_entity_id": "disability_type",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "প্রতিবন্ধীতা ধরন",
+        "hint": "Type of disability",
         "values": [
-          "অটিজম বৈশিষ্ট্য সম্পন্ন ব্যাক্তি",
-          "শারীরিক প্রতিবন্ধীতা",
-          "দৃষ্টি ও শ্রবণ প্রতিবন্ধীতা",
-          "বাক ও শ্রবণ প্রতিবন্ধীতা",
-          "মানসিক প্রতিবন্ধীতা",
-          "বুদ্ধি প্রতিবন্ধীতা",
-          "সেরিব্রাল পালসিজনিত প্রতিবন্ধীতা",
-          "ডাউন সিনড্রমজনিত প্রতিবন্ধীতা",
-          "বহুমুখী প্রতিবন্ধীতা"
+          "Autism",
+          "Physical Disability",
+          "Auditory Disability",
+          "Mute and Hearing Disability",
+          "Mental Disability",
+          "Mentally Challenged",
+          "Cerebral Palsy",
+          "Down Syndrome",
+          "Multidimensional Disability"
         ],
         "openmrs_choice_ids": {
-          "অটিজম বৈশিষ্ট্য সম্পন্ন ব্যাক্তি": "Autism",
-          "শারীরিক প্রতিবন্ধীতা": "Physical Disability",
-          "দৃষ্টি ও শ্রবণ প্রতিবন্ধীতা": "Auditory Disability",
-          "বাক ও শ্রবণ প্রতিবন্ধীতা": "Mute and Hearing Disability",
-          "মানসিক প্রতিবন্ধীতা": "Mental Disability",
-          "বুদ্ধি প্রতিবন্ধীতা": "Mentally Challenged",
-          "সেরিব্রাল পালসিজনিত প্রতিবন্ধীতা": "Cerebral Palsy",
-          "ডাউন সিনড্রমজনিত প্রতিবন্ধীতা": "Down Syndrome",
-          "বহুমুখী প্রতিবন্ধীতা": "Multidimensional Disability"
+          "Autism": "Autism",
+          "Physical Disability": "Physical Disability",
+          "Auditory Disability": "Auditory Disability",
+          "Mute and Hearing Disability": "Mute and Hearing Disability",
+          "Mental Disability": "Mental Disability",
+          "Mentally Challenged": "Mentally Challenged",
+          "Cerebral Palsy": "Cerebral Palsy",
+          "Down Syndrome": "Down Syndrome",
+          "Multidimensional Disability": "Multidimensional Disability"
         },
         "relevance": {
           "step1:disability": {
             "type": "string",
-            "ex": "equalTo(., \"হ্যাঁ\")"
+            "ex": "equalTo(., \"Yes\")"
           }
         }
       },
@@ -559,7 +559,7 @@
         "openmrs_entity_id": "Blood_Group",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "রক্তের গ্রুপ",
+        "hint": "Blood group",
         "values": [
           "A+",
           "A-",
@@ -569,7 +569,7 @@
           "O-",
           "AB+",
           "AB-",
-          "রক্তের গ্রুপ জানা নেই"
+          "Doesn’t know blood group"
         ],
         "openmrs_choice_ids": {
           "A+": "A+",
@@ -580,11 +580,11 @@
           "O-": "O-",
           "AB+": "AB+",
           "AB-": "AB-",
-          "রক্তের গ্রুপ জানা নেই": "Do Not Know Blood Group"
+          "Doesn’t know blood group": "Do Not Know Blood Group"
         },
         "v_required": {
           "value": true,
-          "err": "রক্ত গ্রুপ নির্বাচন করুন"
+          "err": "Select Blood group"
         },
         "relevance": {
           "rules-engine": {
