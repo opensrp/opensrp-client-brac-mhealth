@@ -387,6 +387,8 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
         long startTime = System.currentTimeMillis();
         try {
             JSONObject form = new JSONObject(jsonString);
+            HnppJsonFormUtils.setEncounterDateTime(form);
+
             JSONObject step1 = form.getJSONObject(STEP1);
             encounter_type = form.optString(Constants.JSON_FORM_EXTRA.ENCOUNTER_TYPE);
             if(encounter_type.equalsIgnoreCase(CoreConstants.EventType.PREGNANCY_OUTCOME)){
