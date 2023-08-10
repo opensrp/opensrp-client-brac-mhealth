@@ -84,6 +84,24 @@
       },
 
       {
+        "key": "is_any_birth_problem",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_any_birth_problem",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "শিশুর জন্মগত ত্রুটি আছে কিনা ?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        }
+      },
+
+      {
         "key": "child_food_in_24_hours",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -295,6 +313,24 @@
             "openmrs_entity_id": "eye_problem"
           }
         ]
+      },
+
+      {
+        "key": "does_child_look_at_sound_color",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "does_child_look_at_sound_color",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "শিশু শব্দ, আলো বা রঙ্গিন কিছুর দিকে তাকায় কি না ?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        }
       },
 
       {

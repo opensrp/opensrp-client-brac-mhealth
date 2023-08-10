@@ -266,6 +266,26 @@
         }
 
       },
+
+      {
+        "key": "is_using_family_plan",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_using_family_plan",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "পরিবার পরিকল্পনা পদ্ধতি ব্যাবহার করছেন ?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        }
+
+      },
+
       {
         "key": "family_planning",
         "openmrs_entity_parent": "",
