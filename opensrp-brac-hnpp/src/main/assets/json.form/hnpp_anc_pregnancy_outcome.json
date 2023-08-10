@@ -346,7 +346,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "is_tt_completed",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "আপনার কি টিটি টিকা ডোজ সম্পূর্ণ করা আছে?",
         "values": [
@@ -364,7 +363,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "type_miscarriage",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "গর্ভপাতের ধরণ",
         "values": [
@@ -396,7 +394,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "cause_born_alive_died",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "নবজাতকের মৃত্যুর কারণ",
         "values": [
@@ -438,7 +435,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "delivery_place",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "প্রসবের স্থান",
         "values": [
@@ -504,7 +500,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "pnc_received",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "জন্মদানের পর ৪৮ ঘন্টার মধ্যে গর্ভপরবর্তী সেবা (পি.এন.সি.) পেয়েছে কিনা?",
         "values": [
@@ -532,7 +527,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "delivery_assistance",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "প্রসবের সহায়তাকারী",
         "values": [
@@ -601,8 +595,7 @@
         "key": "delivery_method_general",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "delivery_method",
-        "openmrs_data_type": "select one",
+        "openmrs_entity_id": "delivery_method_general",
         "type": "spinner",
         "hint": "প্রসবের পদ্ধতি",
         "values": [
@@ -627,8 +620,7 @@
         "key": "delivery_method_c_section",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "delivery_method",
-        "openmrs_data_type": "select one",
+        "openmrs_entity_id": "delivery_method_c_section",
         "type": "spinner",
         "hint": "প্রসবের পদ্ধতি",
         "values": [
@@ -656,7 +648,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "delivery_complication",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "প্রসবকালীন কোন জটিলতা হয়েছিল কিনা",
         "values": [
@@ -688,7 +679,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "complications",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "প্রসবকালীন জটিলতা",
         "values": [
@@ -725,7 +715,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "other_complications",
-        "openmrs_data_type": "text",
         "type": "edit_text",
         "edit_type": "name",
         "hint": "লিখুন",
@@ -776,7 +765,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "add_child",
-        "openmrs_data_type": "select one",
         "type": "hidden",
         "hint": "শিশু নিবন্ধন",
         "values": [
@@ -899,7 +887,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "Relation_with_HOH",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "খানা প্রধান এই সদস্যের কি হয়?",
         "values": [
@@ -943,7 +930,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "birth_weight_taken",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "জন্মকালীন ওজন নেওয়া হয়েছে?",
         "values": [
@@ -1020,7 +1006,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "chlorohexadin",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "নাভিতে ৭.১% ক্লোরোহেক্সিডিন দেয়া হয়েছে কিনা?",
         "values": [
@@ -1053,7 +1038,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "breastfeeding_time_in_hour",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "প্রসবের কতক্ষনের মধ্যে মায়ের দুধ খাওয়ানো হয়েছে? (ঘন্টা)",
         "values": [
@@ -1132,7 +1116,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "head_body_covered",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "শিশুর মাথা সহ শরীর মোড়ানো হয়েছে কিনা ?",
         "values": [
@@ -1164,7 +1147,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "physically_challenged",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "শিশুর জন্ম গত ক্রুটি আছে কিনা?",
         "values": [
