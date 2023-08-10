@@ -214,6 +214,7 @@ public class GuestMemberActivity extends BaseProfileActivity implements GuestMem
             try {
                 String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
                 JSONObject formWithConsent = new JSONObject(jsonString);
+                HnppJsonFormUtils.setEncounterDateTime(formWithConsent);
                 presenter.saveMember(formWithConsent.toString(),false);
 
             }catch (JSONException e){

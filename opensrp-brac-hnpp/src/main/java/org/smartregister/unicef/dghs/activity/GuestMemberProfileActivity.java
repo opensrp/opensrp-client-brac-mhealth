@@ -491,6 +491,7 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
             try {
                 String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
                 JSONObject formWithConsent = new JSONObject(jsonString);
+                HnppJsonFormUtils.setEncounterDateTime(formWithConsent);
                 presenter.saveMember(formWithConsent.toString(),fromNewReg);
 //
 //                String[] generatedString;
@@ -602,6 +603,7 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
         AllSharedPreferences allSharedPreferences = AncLibrary.getInstance().context().allSharedPreferences();
         Event baseEvent = org.smartregister.chw.anc.util.JsonFormUtils.processJsonForm(allSharedPreferences, jsonString, table);
         JSONObject form = new JSONObject(jsonString);
+        HnppJsonFormUtils.setEncounterDateTime(form);
         String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
         type = HnppJsonFormUtils.getEncounterType(type);
         baseEvent.setEntityType(type);
