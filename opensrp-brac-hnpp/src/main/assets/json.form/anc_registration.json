@@ -101,7 +101,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "type": "date_picker",
-        "hint": "শেষ মাসিকের তারিখ",
+        "hint": "LMP",
         "expanded": false,
         "min_date": "today-308d",
         "max_date": "today-42d",

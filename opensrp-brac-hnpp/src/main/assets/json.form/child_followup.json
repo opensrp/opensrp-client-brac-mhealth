@@ -93,7 +93,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "syndrom",
         "type": "check_box",
-        "label": "কোন লক্ষণ গুলো আছে?",
+        "label": "Any symptoms Found?",
         "exclusive": [
           "none"
         ],

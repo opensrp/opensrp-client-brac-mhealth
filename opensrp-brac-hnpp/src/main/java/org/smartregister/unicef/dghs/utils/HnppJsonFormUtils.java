@@ -1951,4 +1951,22 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             baseEvent.setFormSubmissionId(formSubmissionID);
         }
     }
+
+    /**
+     * setting encounter type from end date
+     * @param form is a json object
+     */
+    public static void setEncounterDateTime(JSONObject form){
+        try {
+            if(!form.getJSONObject("metadata").getJSONObject("end").getString("value").isEmpty()){
+                form.getJSONObject("metadata").getJSONObject("today").put("value",form.getJSONObject("metadata").getJSONObject("end").getString("value"));
+            }else {
+                form.getJSONObject("metadata").getJSONObject("today").put("value","");
+            }
+
+            Log.v("DATEEEE",""+form.getJSONObject("metadata").getJSONObject("today").getString("value"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }

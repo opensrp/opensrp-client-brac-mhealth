@@ -107,7 +107,7 @@ actions:
 name: step1_disease_Type_2m_5y
 description: disease_Type_2m_5y
 priority: 1
-condition: "helper.formatDate(step1_dob,'d') > 60 && helper.formatDate(step1_dob,'y') <5 && step1_has_disease.equalsIgnoreCase('হ্যাঁ')"
+condition: "helper.formatDate(step1_dob,'d') > 60 && helper.formatDate(step1_dob,'y') <5 && (step1_has_disease.equalsIgnoreCase('হ্যাঁ') || step1_has_disease.equalsIgnoreCase('Yes'))"
 actions:
   - "isRelevant = true"
 ---

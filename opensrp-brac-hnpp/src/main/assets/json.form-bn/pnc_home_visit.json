@@ -176,16 +176,15 @@
       {
         "key": "pnc_problem",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "pnc_problem",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "প্রসবোত্তর কোন জটিলতা আছে?",
         "values": [
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         }
@@ -257,16 +256,15 @@
       {
         "key": "is_normal_breast_condition",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "is_normal_breast_condition",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "বুকের অবস্থা স্বাভাবিক আছে?",
         "values": [
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         }
@@ -274,16 +272,15 @@
       {
         "key": "family_planning_counseling",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "family_planning_counseling",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "ফ্যামিলি প্ল্যানিং সেবা গুলো নিয়ে কাউন্সেলিং দেয়া হয়েছে?",
         "values": [
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         }
@@ -291,16 +288,15 @@
       {
         "key": "vitamin_a_capsule",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "vitamin_a_capsule",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "ভিটামিন এ ক্যাপসুল দেয়া হয়েছে?",
         "values": [
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         }

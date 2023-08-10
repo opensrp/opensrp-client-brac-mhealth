@@ -221,38 +221,38 @@
         "openmrs_entity_id": "ethnicity",
         "openmrs_data_type": "select one",
         "type": "spinner",
-        "hint": "জাতিসত্তা",
+        "hint": "Nationality",
         "values": [
-          "বাঙ্গালী",
-          "চাকমা",
-          "মারমা",
-          "ত্রিপুরা",
-          "সাঁওতাল",
-          "গারো",
-          "মণিপুরী",
-          "ওঁরাও",
-          "তঞ্চ্যঙ্গা",
-          "বর্ম্মন",
-          "খাসিয়া বা খাসি",
-          "ম্রো",
-          "মুন্ডা",
-          "অন্যান্য"
+          "Bengali",
+          "Chakma",
+          "Marma",
+          "Tripura",
+          "Santal",
+          "Garo",
+          "Manipuri",
+          "Onrao",
+          "Tanchanga",
+          "Barman",
+          "Khasia",
+          "Mro",
+          "Munda",
+          "Others (Ethnicity)"
         ],
         "openmrs_choice_ids": {
-          "বাঙ্গালী": "Bengali",
-          "চাকমা": "Chakma",
-          "মারমা": "Marma",
-          "ত্রিপুরা": "Tripura",
-          "সাঁওতাল": "Santal",
-          "গারো": "Garo",
-          "মণিপুরী": "Manipuri",
-          "ওঁরাও": "Onrao",
-          "তঞ্চ্যঙ্গা": "Tanchanga",
-          "বর্ম্মন": "Barman",
-          "খাসিয়া বা খাসি": "Khasia",
-          "ম্রো": "Mro",
-          "মুন্ডা": "Munda",
-          "অন্যান্য": "Others (Ethnicity)"
+          "Bengali": "Bengali",
+          "Chakma": "Chakma",
+          "Marma": "Marma",
+          "Tripura": "Tripura",
+          "Santal": "Santal",
+          "Garo": "Garo",
+          "Manipuri": "Manipuri",
+          "Onrao": "Onrao",
+          "Tanchanga": "Tanchanga",
+          "Barman": "Barman",
+          "Khasia": "Khasia",
+          "Mro": "Mro",
+          "Munda": "Munda",
+          "Others (Ethnicity)": "Others (Ethnicity)"
         }
       },
       {
@@ -261,11 +261,11 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "ethnicity_other",
         "type": "edit_text",
-        "hint": "অন্যান্য জাতিসত্তা",
+        "hint": "Other Nationality",
         "relevance": {
           "step1:ethnicity": {
             "type": "string",
-            "ex": "equalTo(., \"অন্যান্য\")"
+            "ex": "equalTo(., \"Others (Ethnicity)\")"
           }
         }
       },
@@ -276,52 +276,52 @@
         "openmrs_entity_id": "education_qualification",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "শিক্ষাগত যোগ্যতা",
+        "hint": "Educational qualification",
         "values": [
-          "কোন শ্রেণীতে উত্তীর্ণ হয়নি",
-          "প্লে/নার্সারি/ কেজি",
-          "১ম শ্রেণী",
-          "২য় শ্রেণী",
-          "৩য় শ্রেণী",
-          "৪র্থ শ্রেণী",
-          "৫ম শ্রেণী",
-          "৬ষ্ঠ শ্রেণী",
-          "৭ম শ্রেণী",
-          "৮ম শ্রেণী",
+          "Uneducated",
+          "Play/Nursery/KG",
+          "Class 1",
+          "Class 2",
+          "Class 3",
+          "Class 4",
+          "Class 5",
+          "Class 6",
+          "Class 7",
+          "Class 8",
           "৯ম শ্রেণী",
-          "এসএসসি বা সমমান",
-          "এইচএসসি বা সমমান",
-          "স্নাতক বা সমমান",
-          "স্নাতকোত্তর বা সমমান",
-          "ডাক্তারী",
-          "ইঞ্জিনিয়ারিং",
-          "বৃত্তিমূলক",
-          "কারিগরি",
-          "ধাত্রীবিদ্যা/নার্সিং",
-          "অন্যান্য"
+          "SSC or equivalent",
+          "HSC or equivalent",
+          "Hons. or equivalent",
+          "Masters or equivalent",
+          "Doctor",
+          "Engineering",
+          "Vocational",
+          "Technical",
+          "Midwife/Nursing",
+          "Others (Education)"
         ],
         "openmrs_choice_ids": {
-          "কোন শ্রেণীতে উত্তীর্ণ হয়নি": "Uneducated",
-          "প্লে/নার্সারি/ কেজি": "Play/Nursery/KG",
-          "১ম শ্রেণী": "Class 1",
-          "২য় শ্রেণী": "Class 2",
-          "৩য় শ্রেণী": "Class 3",
-          "৪র্থ শ্রেণী": "Class 4",
-          "৫ম শ্রেণী": "Class 5",
-          "৬ষ্ঠ শ্রেণী": "Class 6",
-          "৭ম শ্রেণী": "Class 7",
-          "৮ম শ্রেণী": "Class 8",
-          "৯ম শ্রেণী": "Class 9",
-          "এসএসসি বা সমমান": "SSC or equivalent",
-          "এইচএসসি বা সমমান": "HSC or equivalent",
-          "স্নাতক বা সমমান": "Hons. or equivalent",
-          "স্নাতকোত্তর বা সমমান": "Masters or equivalent",
-          "ডাক্তারী": "Doctor",
-          "ইঞ্জিনিয়ারিং": "Engineering",
-          "বৃত্তিমূলক": "Vocational",
-          "কারিগরি": "Technical",
-          "ধাত্রীবিদ্যা/নার্সিং": "Midwife/Nursing",
-          "অন্যান্য": "Others (Education)"
+          "Uneducated": "Uneducated",
+          "Play/Nursery/KG": "Play/Nursery/KG",
+          "Class 1": "Class 1",
+          "Class 2": "Class 2",
+          "Class 3": "Class 3",
+          "Class 4": "Class 4",
+          "Class 5": "Class 5",
+          "Class 6": "Class 6",
+          "Class 7": "Class 7",
+          "Class 8": "Class 8",
+          "Class 9": "Class 9",
+          "SSC or equivalent": "SSC or equivalent",
+          "HSC or equivalent": "HSC or equivalent",
+          "Hons. or equivalent": "Hons. or equivalent",
+          "Masters or equivalent": "Masters or equivalent",
+          "Doctor": "Doctor",
+          "Engineering": "Engineering",
+          "Vocational": "Vocational",
+          "Technical": "Technical",
+          "Midwife/Nursing": "Midwife/Nursing",
+          "Others (Education)": "Others (Education)"
         }
       },
       {
@@ -334,7 +334,7 @@
         "relevance": {
           "step1:educational_qualification": {
             "type": "string",
-            "ex": "equalTo(., \"অন্যান্য\")"
+            "ex": "equalTo(., \"Others (Education)\")"
           }
         }
       },
@@ -345,30 +345,30 @@
         "openmrs_entity_id": "occupation_category",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "পেশার ধরণ",
+        "hint": "Type of occupation",
         "values": [
-          "কারিগরী পেশা",
-          "অশ্রেনীভুক্ত পেশা",
-          "অদক্ষ শ্রমিক",
-          "দৈনিক ভিত্তিক শ্রমিক",
-          "কুঠির শিল্প",
-          "ব্যবসা",
-          "গৃহস্থালীর পরিচারক",
-          "ছাত্র-ছাত্রী",
-          "গৃহিণী",
-          "অন্যান্য পেশা"
+          "Professional technical professionals",
+          "Semi-skilled labor service",
+          "Unskilled labor",
+          "Factory worker, blue collar service",
+          "Home based manufacturing",
+          "Business",
+          "Domestic Servant",
+          "Student",
+          "Housewife",
+          "Others Occupation"
         ],
         "openmrs_choice_ids": {
-          "কারিগরী পেশা": "Professional technical professionals",
-          "অশ্রেনীভুক্ত পেশা": "Semi-skilled labor service",
-          "অদক্ষ শ্রমিক": "Unskilled labor",
-          "দৈনিক ভিত্তিক শ্রমিক": "Factory worker, blue collar service",
-          "কুঠির শিল্প": "Home based manufacturing",
-          "ব্যবসা": "Business",
-          "গৃহস্থালীর পরিচারক": "Domestic Servant",
-          "ছাত্র-ছাত্রী": "Student",
-          "গৃহিণী": "Housewife",
-          "অন্যান্য পেশা": "Others Occupation"
+          "Professional technical professionals": "Professional technical professionals",
+          "Semi-skilled labor service": "Semi-skilled labor service",
+          "Unskilled labor": "Unskilled labor",
+          "Factory worker, blue collar service": "Factory worker, blue collar service",
+          "Home based manufacturing": "Home based manufacturing",
+          "Business": "Business",
+          "Domestic Servant": "Domestic Servant",
+          "Student": "Student",
+          "Housewife": "Housewife",
+          "Others Occupation": "Others Occupation"
         }
       },
       {
@@ -420,7 +420,7 @@
         "relevance": {
           "step1:occupation_category": {
             "type": "string",
-            "ex": "equalTo(., \"কারিগরী পেশা\")"
+            "ex": "equalTo(., \"Professional technical professionals\")"
           }
         }
       },
@@ -473,7 +473,7 @@
         "relevance": {
           "step1:occupation_category": {
             "type": "string",
-            "ex": "equalTo(., \"অশ্রেনীভুক্ত পেশা\")"
+            "ex": "equalTo(., \"Semi-skilled labor service\")"
           }
         }
       },
@@ -508,7 +508,7 @@
         "relevance": {
           "step1:occupation_category": {
             "type": "string",
-            "ex": "equalTo(., \"অদক্ষ শ্রমিক\")"
+            "ex": "equalTo(., \"Unskilled labor\")"
           }
         }
       },
@@ -561,7 +561,7 @@
         "relevance": {
           "step1:occupation_category": {
             "type": "string",
-            "ex": "equalTo(., \"দৈনিক ভিত্তিক শ্রমিক\")"
+            "ex": "equalTo(., \"Factory worker, blue collar service\")"
           }
         }
       },
@@ -592,7 +592,7 @@
         "relevance": {
           "step1:occupation_category": {
             "type": "string",
-            "ex": "equalTo(., \"কুঠির শিল্প\")"
+            "ex": "equalTo(., \"Home based manufacturing\")"
           }
         }
       },
@@ -619,7 +619,7 @@
         "relevance": {
           "step1:occupation_category": {
             "type": "string",
-            "ex": "equalTo(., \"ব্যবসা\")"
+            "ex": "equalTo(., \"Business\")"
           }
         }
       },
@@ -642,7 +642,7 @@
         "relevance": {
           "step1:occupation_category": {
             "type": "string",
-            "ex": "equalTo(., \"গৃহস্থালীর পরিচারক\")"
+            "ex": "equalTo(., \"Domestic Servant\")"
           }
         }
       },
@@ -653,20 +653,20 @@
         "openmrs_entity_id": "religion",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "ধর্ম",
+        "hint": "Religion",
         "values": [
-          "ইসলাম",
-          "হিন্দু",
-          "বৌদ্ধ",
-          "খ্রিস্টান",
-          "অন্যান্য"
+          "Islam",
+          "Hindu",
+          "Buddhist",
+          "Christian",
+          "Others (Religion)"
         ],
         "openmrs_choice_ids": {
-          "ইসলাম": "Islam",
-          "হিন্দু": "Hindu",
-          "বৌদ্ধ": "Buddhist",
-          "খ্রিস্টান": "Christian",
-          "অন্যান্য": "Others (Religion)"
+          "Islam": "Islam",
+          "Hindu": "Hindu",
+          "Buddhist": "Buddhist",
+          "Christian": "Christian",
+          "Others (Religion)": "Others (Religion)"
         }
       },
       {
@@ -675,11 +675,11 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "religion_other",
         "type": "edit_text",
-        "hint": "অন্যান্য ধর্ম(ইংরেজীতে)",
+        "hint": "Other Religions (in english)",
         "relevance": {
           "step1:religion": {
             "type": "string",
-            "ex": "equalTo(., \"অন্যান্য\")"
+            "ex": "equalTo(., \"Others (Religion)\")"
           }
         }
       },
@@ -690,14 +690,14 @@
         "openmrs_entity_id": "has_disease",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "রোগ আছে কিনা?",
+        "hint": "Is there any disease?",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
         "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+          "Yes": "Yes",
+          "No": "No"
         }
       },
       {
@@ -707,20 +707,20 @@
         "openmrs_entity_id": "disease_Type",
         "openmrs_data_type": "text",
         "type": "check_box",
-        "label": "রোগের ধরণ",
+        "label": "Disease type",
         "exclusive": [
           "None"
         ],
         "options": [
           {
             "key": "Communicable",
-            "text": "সংক্রামক রোগ",
+            "text": "Communicable",
             "value": false,
             "openmrs_choice_id": "Communicable"
           },
           {
             "key": "NonContaminable",
-            "text": "অসংক্রামক রোগ",
+            "text": "Non Contaminable",
             "value": false,
             "openmrs_choice_id": "NonContaminable"
           }
@@ -728,7 +728,7 @@
         "relevance": {
           "step1:has_disease": {
             "type": "string",
-            "ex": "equalTo(., \"হ্যাঁ\")"
+            "ex": "equalTo(., \"Yes\")"
           }
         }
       },
@@ -739,80 +739,80 @@
         "openmrs_entity_id": "comm_disease",
         "openmrs_data_type": "text",
         "type": "check_box",
-        "label": "সংক্রামক রোগ",
+        "label": "Communicable Disease",
         "exclusive": [
           "None"
         ],
         "options": [
           {
             "key": "maleria",
-            "text": "জ্বর (ম্যালারিয়া)",
+            "text": "Maleria",
             "value": false,
             "openmrs_choice_id": "maleria"
           },
           {
             "key": "Dengue",
-            "text": "ডেঙ্গু",
+            "text": "Dengue",
             "value": false,
             "openmrs_choice_id": "Dengue"
           },
           {
             "key": "Leprosy",
-            "text": "কুষ্ঠ",
+            "text": "Leprosy",
             "value": false,
             "openmrs_choice_id": "Leprosy"
           },
           {
             "key": "Tuberculosis",
-            "text": "যক্ষ্মা",
+            "text": "Tuberculosis",
             "value": false,
             "openmrs_choice_id": "Tuberculosis"
           },
           {
             "key": "Rabies",
-            "text": "জলাতঙ্ক",
+            "text": "Rabies",
             "value": false,
             "openmrs_choice_id": "Rabies"
           },
           {
             "key": "Avian Flu",
-            "text": "এভিয়েন ইনফ্লুয়েঞ্জা",
+            "text": "Avian Flu",
             "value": false,
             "openmrs_choice_id": "Avian Flu"
           },
           {
             "key": "Swine Flu",
-            "text": "সোয়াইন ফ্লু",
+            "text": "Swine Flu",
             "value": false,
             "openmrs_choice_id": "Swine Flu"
           },
           {
             "key": "Nipah",
-            "text": "নিপাহ",
+            "text": "Nipah",
             "value": false,
             "openmrs_choice_id": "Nipah"
           },
           {
             "key": "Acute Viral Hepatitis",
-            "text": "যকৃতের ভাইরাস জনিত প্রদাহ",
+            "text": "Acute Viral Hepatitis",
             "value": false,
             "openmrs_choice_id": "Acute Viral Hepatitis"
           },
           {
             "key": "Diarrhoea",
-            "text": "ডায়ারিয়া",
+            "text": "Diarrhoea",
             "value": false,
             "openmrs_choice_id": "Diarrhoea"
           },
           {
             "key": "Worms Infection",
-            "text": "কৃমি সংক্রামণ",
+            "text": "Worms Infection",
             "value": false,
             "openmrs_choice_id": "Worms Infection"
           },
           {
             "key": "Sexual Disease",
-            "text": "যৌন রোগ",
+            "text": "Sexual Disease",
             "value": false,
             "openmrs_choice_id": "Sexual Disease"
           }
@@ -836,44 +836,44 @@
         "openmrs_entity_id": "non_comnta_disease",
         "openmrs_data_type": "text",
         "type": "check_box",
-        "label": "অসংক্রামক রোগ",
+        "label": "Non-communicable diseases",
         "exclusive": [
           "None"
         ],
         "options": [
           {
             "key": "Arsenicosis",
-            "text": "আর্সেনিকোসিস",
+            "text": "Arsenicosis",
             "value": false,
             "openmrs_choice_id": "Arsenicosis"
           },
           {
             "key": "Asthma",
-            "text": "হাঁপানি বা এ্যাজমা",
+            "text": "Asthma",
             "value": false,
             "openmrs_choice_id": "Asthma"
           },
           {
             "key": "Diabetes",
-            "text": "ডায়াবেটিস",
+            "text": "Diabetes",
             "value": false,
             "openmrs_choice_id": "Diabetes"
           },
           {
             "key": "High Blood Pressure",
-            "text": "উচ্চ রক্তচাপ",
+            "text": "High Blood Pressure",
             "value": false,
             "openmrs_choice_id": "High Blood Pressure"
           },
           {
             "key": "Stroke",
-            "text": "স্ট্রোক",
+            "text": "Stroke",
             "value": false,
             "openmrs_choice_id": "Stroke"
           },
           {
             "key": "Tumor or Cancer",
-            "text": "টিউমার বা ক্যানসার",
+            "text": "Tumor or Cancer",
             "value": false,
             "openmrs_choice_id": "Tumor or Cancer"
           }
@@ -897,62 +897,62 @@
         "openmrs_entity_id": "illness_information",
         "openmrs_data_type": "text",
         "type": "check_box",
-        "label": "রোগ  সম্পর্কিত পারিবারিক তথ্য",
+        "label": "Family information about the disease",
         "exclusive": [
           "None"
         ],
         "options": [
           {
             "key": "Leprosy",
-            "text": "কুষ্ঠ",
+            "text": "Leprosy",
             "value": false,
             "openmrs_choice_id": "Leprosy"
           },
           {
             "key": "Tuberculosis",
-            "text": "যক্ষ্মা",
+            "text": "Tuberculosis",
             "value": false,
             "openmrs_choice_id": "Tuberculosis"
           },
           {
             "key": "Sexual Disease",
-            "text": "যৌন রোগ",
+            "text": "Sexual Disease",
             "value": false,
             "openmrs_choice_id": "Sexual Disease"
           },
           {
             "key": "Asthma",
-            "text": "হাঁপানি বা এ্যাজমা",
+            "text": "Asthma",
             "value": false,
             "openmrs_choice_id": "Asthma"
           },
           {
             "key": "Diabetes",
-            "text": "ডায়াবেটিস",
+            "text": "Diabetes",
             "value": false,
             "openmrs_choice_id": "Diabetes"
           },
           {
             "key": "High Blood Pressure",
-            "text": "উচ্চ রক্তচাপ",
+            "text": "High Blood Pressure",
             "value": false,
             "openmrs_choice_id": "High Blood Pressure"
           },
           {
             "key": "Disability",
-            "text": "প্রতিবন্ধিতা",
+            "text": "Disability",
             "value": false,
             "openmrs_choice_id": "Disability"
           },
           {
             "key": "Others (Family Disease)",
-            "text": "অন্যান্য রোগ",
+            "text": "Others (Family Disease)",
             "value": false,
             "openmrs_choice_id": "Others (Family Disease)"
           },
           {
             "key": "None",
-            "text": "নেই",
+            "text": "None",
             "value": false,
             "openmrs_choice_id": "None"
           }
@@ -964,7 +964,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "illness_other",
         "type": "edit_text",
-        "hint": "অন্যান্য রোগ  সম্পর্কিত পারিবারিক তথ্য",
+        "hint": "অন্যান্য রোগ সম্পর্কিত পারিবারিক তথ্য",
         "v_required": {
           "value": true,
           "err": "Please Type Other Conditions"
@@ -988,56 +988,56 @@
         "openmrs_entity_id": "risky_habits",
         "openmrs_data_type": "text",
         "type": "check_box",
-        "label": "ঝুঁকিপূর্ণ অভ্যাস",
+        "label": "Risky habits",
         "exclusive": [
           "None"
         ],
         "options": [
           {
             "key": "Cigarette",
-            "text": "বিড়ি/সিগারেট",
+            "text": "Bidi/Cigarette",
             "value": false,
             "openmrs_choice_id": "Cigarette"
           },
           {
             "key": "Tobacco / White Leaf",
-            "text": "তামাক/সাদা পাতা",
+            "text": "Tobacco/white leaf",
             "value": false,
             "openmrs_choice_id": "Tobacco / White Leaf"
           },
           {
             "key": "Others (Tobacco)",
-            "text": "অন্যান্য তামাক",
+            "text": "Other tobacco",
             "value": false,
             "openmrs_choice_id": "Others (Tobacco)"
           },
           {
             "key": "Drug Addiction",
-            "text": "মাদকাসক্ত",
+            "text": "Drug addict",
             "value": false,
             "openmrs_choice_id": "Drug Addiction"
           },
           {
             "key": "Obesity",
-            "text": "স্থুলকায়",
+            "text": "Obese",
             "value": false,
             "openmrs_choice_id": "Obesity"
           },
           {
             "key": "High Salt Intake",
-            "text": "অতিরিক্ত লবন",
+            "text": "Excess salt",
             "value": false,
             "openmrs_choice_id": "High Salt Intake"
           },
           {
             "key": "Others (Risky Habit)",
-            "text": "অন্যান্য",
+            "text": "Other",
             "value": false,
             "openmrs_choice_id": "Others (Risky Habit)"
           },
           {
             "key": "None",
-            "text": "নেই",
+            "text": "No bad habbit",
             "value": false,
             "openmrs_choice_id": "None"
           }
