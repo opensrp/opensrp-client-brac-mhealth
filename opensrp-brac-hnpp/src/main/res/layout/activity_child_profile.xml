@@ -83,31 +83,17 @@
                             app:civ_border_width="2dp" />
 
                         <ImageView
-                            android:id="@+id/missed_schedule_img"
+                            android:id="@+id/is_risk"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_marginStart="5dp"
                             android:layout_marginEnd="5dp"
-                            android:layout_marginBottom="5dp"
+                            android:layout_marginBottom="15dp"
                             android:adjustViewBounds="true"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/danger_vaccine"
+                            android:src="@drawable/is_risk_icon"
                             android:visibility="gone" />
 
-                        <ImageView
-                            android:id="@+id/aefi_child_img"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_alignBottom="@+id/update_profile_btn"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginEnd="5dp"
-                            android:layout_marginBottom="25dp"
-                            android:adjustViewBounds="true"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/aefi_icon"
-                            android:visibility="gone" />
 
                         <Button
                             android:id="@+id/update_profile_btn"
@@ -118,6 +104,7 @@
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
                             android:text="প্রোফাইল আপডেট" />
+
                         <Button
                             android:id="@+id/member_visit_btn"
                             android:layout_width="130dp"
@@ -130,18 +117,6 @@
                             android:text="খানা সদস্য জরিপ"
                             android:textColor="@color/white" />
 
-                        <ImageView
-                            android:id="@+id/is_risk"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_alignRight="@+id/update_profile_btn"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5dp"
-                            android:layout_marginBottom="15dp"
-                            android:adjustViewBounds="true"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/is_risk_icon"
-                            android:visibility="gone" />
 
                     </RelativeLayout>
 
@@ -224,6 +199,36 @@
 
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/px_16_to_sp" />
+
+                            <ImageView
+                                android:id="@+id/missed_schedule_img"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_below="@+id/textview_name_age"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_marginBottom="5dp"
+                                android:adjustViewBounds="true"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/danger_vaccine"
+                                android:visibility="gone" />
+
+                            <ImageView
+                                android:id="@+id/aefi_child_img"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_below="@+id/textview_name_age"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_marginBottom="25dp"
+                                android:layout_toRightOf="@+id/missed_schedule_img"
+                                android:adjustViewBounds="true"
+                                android:padding="5dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/aefi_icon"
+                                android:visibility="gone" />
 
                             <org.smartregister.view.customcontrols.CustomFontTextView
                                 android:id="@+id/textview_edit_btn"

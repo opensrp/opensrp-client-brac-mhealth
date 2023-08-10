@@ -93,7 +93,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "has_disease",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "রোগ আছে কিনা?",
         "values": [
@@ -300,14 +299,13 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "is_Referred",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "রেফার করা হয়েছে?",
         "values": [
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         }
@@ -336,7 +334,7 @@
           "বিশেষায়িত হাসপাতাল",
           "অন্যান্য"
         ],
-        "openmrs_entity_ids":{
+        "openmrs_choice_ids":{
           "কমিউনিটি ক্লিনিক":"Community_Clinic",
           "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র":"Union_Sub_Center",
           "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র":"Union_Family_Welfare_Center",

@@ -490,6 +490,8 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 blockId =  HnppDBUtils.getBlocksIdFromMember(memberID);
             }
         }
+
+
         Log.v("SAVE_VISIT","blockId>>>"+blockId);
         HALocation selectedLocation = HnppApplication.getHALocationRepository().getLocationByBlock(blockId);
         baseEvent.setIdentifiers(HALocationHelper.getInstance().getGeoIdentifier(selectedLocation));

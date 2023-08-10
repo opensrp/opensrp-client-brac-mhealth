@@ -63,7 +63,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "household_type",
-        "openmrs_data_type": "Coded",
         "type": "spinner",
         "hint": "আপনার বাসস্থানের ধরণ কি?",
         "values": [

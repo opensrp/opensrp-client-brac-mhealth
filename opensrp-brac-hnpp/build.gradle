@@ -163,20 +163,18 @@ android {
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
             buildConfigField "boolean", 'IS_MIS', 'true'
-            buildConfigField "String", 'opensrp_url_training', '"http://unicef-ha.mpower-social.com/opensrp/"'
-            buildConfigField "String", 'opensrp_url_live', '"http://unicef-ha.mpower-social.com/opensrp/"'
+            buildConfigField "String", 'opensrp_url_training', '"https://dghsha-training.dghs.gov.bd/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"https://dghsha-training.dghs.gov.bd/opensrp/"'
 
         }
         mis_prod{
-            versionCode 6
-            versionName "1.0.6"
+            versionCode 1
+            versionName "1.0.1"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
             buildConfigField "boolean", 'IS_MIS', 'true'
-//            buildConfigField "String", 'opensrp_url_training', '"http://unicef-ha.mpower-social.com/opensrp/"'
-//            buildConfigField "String", 'opensrp_url_live', '"http://unicef-ha.mpower-social.com/opensrp/"'
-            buildConfigField "String", 'opensrp_url_training', '"https://dghsha-training.dghs.gov.bd/opensrp/"'
-            buildConfigField "String", 'opensrp_url_live', '"https://dghsha-training.dghs.gov.bd/opensrp/"'
+            buildConfigField "String", 'opensrp_url_training', '"https://ha.dghs.gov.bd/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"https://ha.dghs.gov.bd/opensrp/"'
 
         }
         qa{

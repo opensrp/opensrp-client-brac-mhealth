@@ -84,7 +84,7 @@
                             android:layout_height="40dp"
                             android:layout_marginRight="5dp"
                             android:background="@drawable/is_risk_icon"
-                            android:visibility="visible" />
+                            android:visibility="gone" />
 
                         <Button
                             android:id="@+id/update_profile_btn"

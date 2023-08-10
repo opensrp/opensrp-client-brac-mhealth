@@ -111,7 +111,7 @@ public class HnppDBUtils {
         return birthWeight;
     }
     public static ArrayList<VaacineInfo> getVaccineInfo(String baseEntityId){
-        String query = "select name,date from vaccines where base_entity_id ='"+baseEntityId+"'";
+        String query = "select name,date,is_invalid from vaccines where base_entity_id ='"+baseEntityId+"' ";
         Cursor cursor = null;
         ArrayList<VaacineInfo> vaacineInfos = new ArrayList<>();
         try {
@@ -122,10 +122,12 @@ public class HnppDBUtils {
                     VaacineInfo vaacineInfo = new VaacineInfo();
                     String name = cursor.getString(0);
                     long date = cursor.getLong(1);
+                    int invalid = cursor.getInt(2);
                     Date regdate = new Date(date);
                     String vaccineDate = AbstractDao.getDobDateFormat().format(regdate);
                     vaacineInfo.vaccineName = name;
                     vaacineInfo.vaccineDate = vaccineDate;
+                    vaacineInfo.invalid = invalid;
                     vaacineInfos.add(vaacineInfo);
                     cursor.moveToNext();
                 }
@@ -640,6 +642,18 @@ public class HnppDBUtils {
 
         }
     }
+    public static void updateDeathMember(String base_entity_id){
+        try{
+            SQLiteDatabase database = HnppApplication.getInstance().getRepository().getWritableDatabase();
+            String dodDate = HnppConstants.DDMMYY.format(System.currentTimeMillis());
+            String sql = "update ec_family_member set dod = '"+dodDate+"', is_closed ='1', date_removed ='"+dodDate+"' where " +
+                    "base_entity_id = '"+base_entity_id+"' ;";
+            database.execSQL(sql);
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
+    }
     public static void updateIsRiskFamilyMember(String base_entity_id, String value, String eventType){
         try{
             SQLiteDatabase database = HnppApplication.getInstance().getRepository().getWritableDatabase();
@@ -849,7 +863,25 @@ public class HnppDBUtils {
     }
     public static boolean isAncRisk(String baseEntityId){
         //String query = "select count(*) from ec_family_member where base_entity_id = '"+baseEntityId+"' and is_risk ='true' and (risk_event_type ='"+ HnppConstants.EVENT_TYPE.ANC_REGISTRATION +"' OR risk_event_type ='"+ HnppConstants.EventType.ANC_HOME_VISIT +"' OR risk_event_type ='"+ HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY +"' OR risk_event_type ='"+ HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE +"')";
-        String query = "select count(*) from ec_family_member where base_entity_id = '"+baseEntityId+"' and is_risk ='true' and (risk_event_type ='"+ HnppConstants.EVENT_TYPE.ANC_REGISTRATION +"' OR risk_event_type ='"+ HnppConstants.EventType.ANC_HOME_VISIT +"' OR risk_event_type ='"+ HnppConstants.EventType.PNC_HOME_VISIT +"' )";
+        String query = "select count(*) from ec_family_member where base_entity_id = '"+baseEntityId+"' and is_risk ='true' and (risk_event_type ='"+ HnppConstants.EVENT_TYPE.ANC_REGISTRATION +"' OR risk_event_type ='"+ HnppConstants.EventType.ANC_HOME_VISIT +"' )";
+
+        Cursor cursor = null;
+        int count=0;
+        try {
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                count = cursor.getInt(0);
+            }
+            if(cursor!=null)cursor.close();
+            return count>0;
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return count>0;
+    }
+    public static boolean isPncRisk(String baseEntityId){
+        String query = "select count(*) from ec_family_member where base_entity_id = '"+baseEntityId+"' and is_risk ='true' and risk_event_type ='"+ HnppConstants.EVENT_TYPE.PNC_REGISTRATION +"' )";
 
         Cursor cursor = null;
         int count=0;
@@ -1426,6 +1458,12 @@ public class HnppDBUtils {
         List<Map<String, String>> valus = AbstractDao.readData(lmp, new String[]{baseEntityId});
 
         return valus.get(0).get("last_menstrual_period");
+    }
+    public static String getWeight(String baseEntityId) {
+        String lmp = "SELECT birth_weight FROM ec_child where base_entity_id = ? ";
+        List<Map<String, String>> valus = AbstractDao.readData(lmp, new String[]{baseEntityId});
+
+        return valus.get(0).get("birth_weight");
     }
     public static String getBloodGroup(String baseEntityId) {
         String lmp = "SELECT blood_group FROM ec_family_member where base_entity_id = ? ";

@@ -76,13 +76,31 @@ public class RiskyDataDisplayActivity extends SecuredActivity {
                 if(fs.length>0){
                     for (String key:fs) {
                         Log.v("RISK_FACTOR","key>>"+key+":value:"+riskyModel.riskyValue);
+                        if(builder.length()>0){
+                            builder.append(",") ;
+                        }
                         builder.append(HnppConstants.riskeyFactorMapping.get(key)==null?key:HnppConstants.riskeyFactorMapping.get(key));
                     }
                 }else{
                     Log.v("RISK_FACTOR","key>>"+riskyModel.riskyKey+":value:"+riskyModel.riskyValue);
                     builder.append(HnppConstants.riskeyFactorMapping.get(riskyModel.riskyKey)==null?riskyModel.riskyKey:HnppConstants.riskeyFactorMapping.get(riskyModel.riskyKey));
                 }
+                StringBuilder builderValue = new StringBuilder();
+                String[] rV= riskyModel.riskyValue.split(",");
+                if(rV.length>0){
+                    for (String value:rV) {
+                        Log.v("RISK_FACTOR","value>>"+value+":values:"+rV);
+                        if(builderValue.length()>0){
+                            builderValue.append(",") ;
+                        }
+                        builderValue.append(HnppConstants.riskeyFactorMapping.get(value)==null?value.replace("_"," "):HnppConstants.riskeyFactorMapping.get(value));
+                    }
+                }else{
+                    Log.v("RISK_FACTOR","key>>"+riskyModel.riskyKey+":value:"+riskyModel.riskyValue);
+                    builderValue.append(HnppConstants.riskeyFactorMapping.get(riskyModel.riskyValue)==null?riskyModel.riskyValue:HnppConstants.riskeyFactorMapping.get(riskyModel.riskyValue));
+                }
                 riskyModel.riskyKey = builder.toString();
+                riskyModel.riskyValue = builderValue.toString();
                 if(riskyModel.eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT)){
                     riskyModel.eventType = FormApplicability.getANCTitleForHistory(riskyModel.ancCount);
                 }else if(riskyModel.eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION)){

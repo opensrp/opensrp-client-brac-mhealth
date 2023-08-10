@@ -464,11 +464,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
         if(!TextUtils.isEmpty(shrId)){
             textViewDetails3.setText("ID: " + shrId);
         }
-        if(HnppDBUtils.isAncRisk(baseEntityId)){
-            findViewById(R.id.risk_view).setVisibility(View.VISIBLE);
-        }else{
-            findViewById(R.id.risk_view).setVisibility(View.GONE);
-        }
+
 
     }
 //    MemberOtherServiceFragment memberOtherServiceFragment;
@@ -489,11 +485,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
             commonPersonObject.getColumnmaps().put("gender", gender);
             commonPersonObject.getColumnmaps().put("marital_status", maritalStatus);
         }
-        if(gender.equalsIgnoreCase("F") && maritalStatus!=null && maritalStatus.equalsIgnoreCase("Married") && FormApplicability.getNoOfBornChild(baseEntityId)){
-            addChildBtn.setVisibility(View.VISIBLE);
-        }else{
-            addChildBtn.setVisibility(View.GONE);
-        }
+
         if(!HnppConstants.isPALogin()){
             profileMemberFragment =(HnppMemberProfileDueFragment) HnppMemberProfileDueFragment.newInstance(this.getIntent().getExtras());
             profileMemberFragment.setCommonPersonObjectClient(commonPersonObject);
@@ -741,11 +733,6 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
                             profileMemberFragment.updateStaticView();
                         }
                         mViewPager.setCurrentItem(0,true);
-                        if(HnppDBUtils.isAncRisk(baseEntityId)){
-                            findViewById(R.id.risk_view).setVisibility(View.VISIBLE);
-                        }else{
-                            findViewById(R.id.risk_view).setVisibility(View.GONE);
-                        }
                     },500);
                 }
         });
@@ -803,6 +790,11 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
                                 @Override
                                 public void onComplete() {
                                     Log.d("visitCalledCompleted","true");
+                                    if(isSave.get() == -1){
+                                        hideProgressDialog();
+                                        finish();
+                                        openFamilyDueTab();
+                                    }
                                     if(isSave.get() == 1){
                                         hideProgressDialog();
                                         showServiceDoneDialog(1);
@@ -900,7 +892,12 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
                             HnppConstants.appendLog("SAVE_VISIT","processVisitLog done formSubmissionId:"+formSubmissionId+":type:"+type);
 
                            // return true;
-                            e.onNext(1);//success
+                            if(visit.getVisitId().equals("-1")){
+                                e.onNext(-1);
+                            }else{
+                                e.onNext(1);
+                            }
+                            //success
                             e.onComplete();
 
                         }else if(visit!=null && visit.getVisitId().equals("0")){
@@ -976,6 +973,10 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
                 return true;
             case R.id.action_remove_member:
                 removeIndividualProfile();
+                return true;
+            case R.id.action_show_risk:
+                RiskyDataDisplayActivity.startInvalidActivity(baseEntityId,HnppFamilyOtherMemberProfileActivity.this);
+
                 return true;
         }
 
@@ -1206,15 +1207,25 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
 
 
     }
+    private void updateRiskView(boolean isRisk){
+        findViewById(R.id.risk_view).setVisibility(isRisk?View.VISIBLE:View.GONE);
+    }
     public void updatePregnancyOutcomeVisible(String eventType){
 //        if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)
 
         if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT)){
+
             menu.findItem(R.id.action_pregnancy_out_come).setVisible(true);
             addChildBtn.setVisibility(View.GONE);
+            updateRiskView(HnppDBUtils.isAncRisk(baseEntityId));
         }else{
+            updateRiskView(HnppDBUtils.isPncRisk(baseEntityId));
             menu.findItem(R.id.action_pregnancy_out_come).setVisible(false);
-            addChildBtn.setVisibility(View.GONE);
+            if(gender.equalsIgnoreCase("F") && maritalStatus!=null && maritalStatus.equalsIgnoreCase("Married") && FormApplicability.getNoOfBornChild(baseEntityId)){
+                addChildBtn.setVisibility(View.VISIBLE);
+            }else{
+                addChildBtn.setVisibility(View.GONE);
+            }
         }
     }
     public void updateAncRegisterVisible(String eventType){

@@ -355,6 +355,15 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
 
         }
     }
+    private void showIYCFDialog(){
+        showDialogWithAction(getActivity(), "আপনার কি পরিমাপ নেয়া শেষ  হয়েছে?", "", new Runnable() {
+            @Override
+            public void run() {
+                int month = getMonthDifferenceByDOB();
+                showGenericDialog(getCountByMonth(month),1,month);
+            }
+        });
+    }
     private void addWeight(WeightWrapper tag){
         final WeightRepository weightRepository = GrowthMonitoringLibrary.getInstance().weightRepository();
         Weight weight = new Weight();
@@ -397,10 +406,12 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         tag.setPatientAge(formattedAge);
         WeightIntentServiceJob.scheduleJobImmediately(WeightIntentServiceJob.TAG);
         String text = refreshEditWeightLayout(true);
+        showIYCFDialog();
         showGMPDialog(text,1);
         showGrowthChart();
-        int month = getMonthDifferenceByDOB();
-        showGenericDialog(getCountByMonth(month),1,month);
+
+//        int month = getMonthDifferenceByDOB();
+//        showGenericDialog(getCountByMonth(month),1,month);
         updateProfileColor();
         HnppConstants.isViewRefresh = true;
     }
@@ -445,11 +456,13 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
 
         String text = refreshEditHeightLayout(true);
         updateProfileColor();
+
+        showIYCFDialog();
         showGMPDialog(text,2);
         HnppConstants.isViewRefresh = true;
         showHeightChart();
-        int month = getMonthDifferenceByDOB();
-        showGenericDialog(getCountByMonth(month),1,month);
+//        int month = getMonthDifferenceByDOB();
+//        showGenericDialog(getCountByMonth(month),1,month);
     }
     private void addMUAC(MUACWrapper muacWrapper){
         if (muacWrapper != null) {
@@ -475,11 +488,13 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         MuactIntentServiceJob.scheduleJobImmediately(MuactIntentServiceJob.TAG);
         String text = refreshEditMuacLayout(true);
         updateProfileColor();
+
+        showIYCFDialog();
         showGMPDialog(text,3);
         HnppConstants.isViewRefresh = true;
         showMuacChart();
-        int month = getMonthDifferenceByDOB();
-        showGenericDialog(getCountByMonth(month),1,month);
+//        int month = getMonthDifferenceByDOB();
+//        showGenericDialog(getCountByMonth(month),1,month);
     }
     private int getCountByMonth(int month){
         if(month<6) return 2;
@@ -521,11 +536,11 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
     int globalCount = 1;
     private void showGenericDialog(int totalCount,int count, int month){
         Log.v("CLICK_COUNT","showGenericDialog totalCount>>"+totalCount+":count :"+count );
-        if(Boolean.TRUE.equals(HnppConstants.GMPMessage.get(childDetails.entityId()))){
-            return;
-        }else{
-            HnppConstants.GMPMessage.put(childDetails.entityId(),true);
-        }
+//        if(Boolean.TRUE.equals(HnppConstants.GMPMessage.get(childDetails.entityId()))){
+//            return;
+//        }else{
+//            HnppConstants.GMPMessage.put(childDetails.entityId(),true);
+//        }
         String dialogMessage = getGenericMessage(count,month);
         Dialog dialog = new Dialog(mActivity);
         dialog.setCancelable(true);

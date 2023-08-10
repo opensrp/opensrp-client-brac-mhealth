@@ -239,7 +239,7 @@
                 android:background="@drawable/table_bg"
                 android:gravity="center|left"
                 android:padding="10dp"
-                android:text="৬। ৪র্থ বার: এমআর ২য় ডোজ টিকা পাওয়ার তারিখ ('টিকার)ক্যালেন্ডার থেকে)।"
+                android:text="৬। ৫ম বার: এমআর ২য় ডোজ টিকা পাওয়ার তারিখ ('টিকার)ক্যালেন্ডার থেকে)।"
              />
 
             <TextView

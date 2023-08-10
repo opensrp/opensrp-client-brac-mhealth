@@ -118,11 +118,13 @@
         "values": [
           "স্থানান্তর",
           "মৃত্যু নিবন্ধন",
+          "নবজাতকের মৃত্যু (জন্মের ৪২ দিনের মধ্যে)",
           "অন্যান্য"
         ],
         "openmrs_choice_ids": {
           "স্থানান্তর": "moved_away",
           "মৃত্যু নিবন্ধন": "died",
+          "নবজাতকের মৃত্যু (জন্মের ৪২ দিনের মধ্যে)": "new_born_death",
           "অন্যান্য": "other"
         }
       },
@@ -441,7 +443,7 @@
           "খালা/খালু, চাচা/চাচি, মামা/মামী, ফুফা/ ফুফু",
           "অন্যান্য"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "মা": "mother",
           "বাবা": "father",
           "দাদা/দাদি, নানা/নানী": "grandfather_grandmother",
@@ -469,7 +471,7 @@
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         },
@@ -586,7 +588,7 @@
           "বাড়িতে",
           "অন্যান্য"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "মেডিকেল কলেজ হসপিটাল/বিশেষায়িত হসপিটাল": "Medical College Hospital/Specialized Hospital",
           "জেলা হাসপাতাল": "District Hospital",
           "উপজেলা স্বাস্থ্য কমপ্লেক্স": "Upazila Health Complex",
@@ -639,7 +641,7 @@
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         },
@@ -666,7 +668,7 @@
           "৪",
           "৪+"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "১": "1",
           "২": "2",
           "৩": "3",
@@ -778,7 +780,7 @@
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         },
@@ -930,7 +932,7 @@
           "সময়ের অভাব ছিল",
           "অন্যান্য"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "অপ্রয়োজনীয় মনে করেছিল": "Think unncessary",
           "ব্যয়বহুল ছিল": "Expensive",
           "দূরত্ব বেশি ছিল": "Far from home",

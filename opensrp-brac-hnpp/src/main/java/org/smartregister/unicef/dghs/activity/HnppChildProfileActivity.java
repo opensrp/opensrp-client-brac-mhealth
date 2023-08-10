@@ -90,6 +90,7 @@ import org.smartregister.family.adapter.ViewPagerAdapter;
 import org.smartregister.family.util.AppExecutors;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.Utils;
+import org.smartregister.unicef.dghs.utils.RiskyModel;
 import org.smartregister.util.DateUtil;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
@@ -151,7 +152,33 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                 openChildProfileVisit();
             }
         });
+        findViewById(R.id.is_risk).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openRiskFactorDialog();
+            }
+        });
 
+    }
+    private void openRiskFactorDialog(){
+
+        String weight = HnppDBUtils.getBirthWeight(childBaseEntityId);
+        Dialog dialog = new Dialog(this);
+        dialog.setCancelable(false);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_with_one_button);
+        TextView titleTv = dialog.findViewById(R.id.title_tv);
+        TextView message = dialog.findViewById(R.id.text_tv);
+        titleTv.setText("যে কারনে ঝুঁকিপূর্ণ :");
+        message.setText("শিশুটির ওজন মারাত্মক কম: "+weight+" গ্রাম");
+        Button ok_btn = dialog.findViewById(R.id.ok_btn);
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
     public void updateProfileIconColor(int color,String text){
 
@@ -189,6 +216,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                 aefiImageBtn.setVisibility(View.VISIBLE);
             }
         }
+        if(!TextUtils.isEmpty(isRisk) && isRisk.equalsIgnoreCase("1")){
+            findViewById(R.id.is_risk).setVisibility(View.VISIBLE);
+        }
         aefiVaccine = Utils.getValue(commonPersonObject.getColumnmaps(), HnppConstants.KEY.AEFI_VACCINE, false);
 
 
@@ -222,7 +252,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
             form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
         }
-        form.setWizard(false);
+        form.setWizard(true);
 
         intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
         startActivityForResult(intent, org.smartregister.family.util.JsonFormUtils.REQUEST_CODE_GET_JSON);
@@ -483,6 +513,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         menu.findItem(R.id.action_remove_member).setTitle("সদস্য বাদ দিন / মাইগ্রেট / মৃত্যু");
         menu.findItem(R.id.action_sick_child_follow_up).setVisible(false);
         menu.findItem(R.id.action_malaria_diagnosis).setVisible(false);
+        menu.findItem(R.id.action_show_risk).setVisible(false);
         menu.findItem(R.id.action_pregnancy_out_come).setVisible(false);
 
         return true;
@@ -783,7 +814,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                     intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
 
                     Form form = new Form();
-                    form.setWizard(false);
+                    form.setWizard(true);
                     if(!HnppConstants.isReleaseBuild()){
                         form.setActionBarBackground(R.color.test_app_color);
 

@@ -193,7 +193,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "sound",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "শিশু কি শব্দে সাড়া দেয়?",
         "values": [
@@ -211,7 +210,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "light",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "শিশুর কি আলোর দিকে সাড়া দেয়?",
         "values": [
@@ -300,7 +298,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "facility_counseling",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "অন্যান্য জটিল সমস্যার জন্য ফ্যাসিলিটিতে যাওয়ার জন্য কাউন্সেলিং করা হয়েছে?",
         "values": [
@@ -384,7 +381,7 @@
           "বিশেষায়িত হাসপাতাল",
           "অন্যান্য"
         ],
-        "openmrs_entity_ids":{
+        "openmrs_choice_ids":{
           "কমিউনিটি ক্লিনিক":"Community_Clinic",
           "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র":"Union_Sub_Center",
           "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র":"Union_Family_Welfare_Center",

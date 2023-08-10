@@ -56,6 +56,7 @@ import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.EventClientRepository;
+import org.smartregister.unicef.dghs.utils.HouseHoldInfo;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 
 import java.text.ParseException;
@@ -311,6 +312,26 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
                         @Override
                         public void onNext(String eventType) {
                             hideProgressDialog();
+                            if(eventType.equalsIgnoreCase("dead")){
+                                HnppConstants.isViewRefresh = true;
+                                refreshList(FetchStatus.fetched);
+                                finish();
+                                Intent intent = new Intent(HnppAncRegisterActivity.this,FamilyProfileActivity.class);
+                                HouseHoldInfo houseHoldInfo = HnppDBUtils.getHouseHoldInfo(familyBaseEntityId);
+                                if(houseHoldInfo !=null){
+                                    intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_HEAD, houseHoldInfo.getHouseHoldHeadId());
+                                    intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.PRIMARY_CAREGIVER, houseHoldInfo.getPrimaryCaregiverId());
+                                    intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_NAME, houseHoldInfo.getHouseHoldName());
+                                    intent.putExtra(DBConstants.KEY.UNIQUE_ID, houseHoldInfo.getHouseHoldUniqueId());
+                                    intent.putExtra(HnppConstants.KEY.MODULE_ID, houseHoldInfo.getModuleId());
+                                    intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.VILLAGE_TOWN, houseHoldInfo.getBlockName());
+                                }
+                                intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, familyBaseEntityId);
+                                intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.BASE_ENTITY_ID, baseEntityId);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+
+                            }
                             if (eventType.equalsIgnoreCase(Constants.EVENT_TYPE.PREGNANCY_OUTCOME)) {
 
                                 HnppPncRegisterActivity.startHnppPncRegisterActivity(HnppAncRegisterActivity.this, baseEntityId);
@@ -364,7 +385,8 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
             intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, familyBaseEntityId);
 //            intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_HEAD, ((BaseFamilyProfileMemberPresenter) presenter).getFamilyHead());
 //            intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.PRIMARY_CAREGIVER, ((BaseFamilyProfileMemberPresenter) presenter).getPrimaryCaregiver());
-            startActivity(intent);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
 
     }
     Observable<String> executeQuery( Intent data){
@@ -395,7 +417,12 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
 
                 try{
 
-                    saveRegistration(form.toString(), HnppConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME);
+                   boolean isSaved =  saveRegistration(form.toString(), HnppConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME);
+                   if(!isSaved){
+                       return "dead";
+                   }
+
+
                 }catch (Exception e){
                     e.printStackTrace();
 
@@ -424,7 +451,7 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
 
         return jsonObject;
     }
-    private void saveRegistration(final String jsonString, String table) throws Exception {
+    private Boolean saveRegistration(final String jsonString, String table) throws Exception {
         AllSharedPreferences allSharedPreferences = AncLibrary.getInstance().context().allSharedPreferences();
         Event baseEvent = org.smartregister.chw.anc.util.JsonFormUtils.processJsonForm(allSharedPreferences, jsonString, table);
         JSONObject form = new JSONObject(jsonString);
@@ -450,6 +477,12 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
         FormParser.processVisitLog(visit);
         NCUtils.addEvent(allSharedPreferences, baseEvent);
         NCUtils.startClientProcessing();
+        String isDeath = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"mother_is_death");
+        if(!TextUtils.isEmpty(isDeath)&& (isDeath.equalsIgnoreCase("হ্যাঁ") || isDeath.equalsIgnoreCase("yes"))){
+            HnppDBUtils.updateDeathMember(baseEvent.getBaseEntityId());
+            return false;
+        }
+        return true;
     }
 
     private void processChild(JSONArray fields, AllSharedPreferences allSharedPreferences, String entityId, String familyBaseEntityId, String motherBaseId) {

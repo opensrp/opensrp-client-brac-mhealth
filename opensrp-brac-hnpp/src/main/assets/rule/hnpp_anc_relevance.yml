@@ -41,10 +41,24 @@ condition: "step1_Systolic>=140"
 actions:
   - "isRelevant = true"
 ---
+name: step1_toaster_Systolic
+description: fetal
+priority: 3
+condition: "step1_blood_pressure_systolic>=140"
+actions:
+  - "isRelevant = true"
+---
 name: step1_ad_toaster_diastolic
 description: fetal
 priority: 3
 condition: "step1_diastolic>=90"
+actions:
+  - "isRelevant = true"
+---
+name: step1_toaster_diastolic
+description: fetal
+priority: 3
+condition: "step1_blood_pressure_diastolic>=90"
 actions:
   - "isRelevant = true"
 ---
