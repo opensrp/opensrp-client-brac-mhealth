@@ -151,7 +151,33 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                 openChildProfileVisit();
             }
         });
+        findViewById(R.id.is_risk).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openRiskFactorDialog();
+            }
+        });
 
+    }
+    private void openRiskFactorDialog(){
+
+        String weight = HnppDBUtils.getBirthWeight(childBaseEntityId);
+        Dialog dialog = new Dialog(this);
+        dialog.setCancelable(false);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_with_one_button);
+        TextView titleTv = dialog.findViewById(R.id.title_tv);
+        TextView message = dialog.findViewById(R.id.text_tv);
+        titleTv.setText("যে কারনে ঝুঁকিপূর্ণ :");
+        message.setText("শিশুটির ওজন মারাত্মক কম: "+weight+" গ্রাম");
+        Button ok_btn = dialog.findViewById(R.id.ok_btn);
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
     public void updateProfileIconColor(int color,String text){
 
@@ -176,6 +202,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         ViewPager viewPager = findViewById(R.id.viewpager);
         tabLayout.setupWithViewPager(setupViewPager(viewPager));
         String aefi = Utils.getValue(commonPersonObject.getColumnmaps(), HnppConstants.KEY.HAS_AEFI, false);
+        String isRisk = Utils.getValue(commonPersonObject.getColumnmaps(), HnppConstants.KEY.IS_RISK, false);
         String vaccineDueDate = Utils.getValue(commonPersonObject.getColumnmaps(), HnppConstants.KEY.DUE_VACCINE_DATE, false);
         if(HnppConstants.isMissedSchedule(vaccineDueDate)){
             findViewById(R.id.missed_schedule_img).setVisibility(View.VISIBLE);
@@ -187,6 +214,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
             if(hasAefi){
                 aefiImageBtn.setVisibility(View.VISIBLE);
             }
+        }
+        if(!TextUtils.isEmpty(isRisk) && isRisk.equalsIgnoreCase("1")){
+            findViewById(R.id.is_risk).setVisibility(View.VISIBLE);
         }
         aefiVaccine = Utils.getValue(commonPersonObject.getColumnmaps(), HnppConstants.KEY.AEFI_VACCINE, false);
 
@@ -947,6 +977,8 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
             if(TextUtils.isEmpty(childBaseEntityId)) e.onNext(2);
             try {
                 JSONObject form = new JSONObject(jsonString);
+                HnppJsonFormUtils.setEncounterDateTime(form);
+
                 String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
                 type = HnppJsonFormUtils.getEncounterType(type);
                 Map<String, String> jsonStrings = new HashMap<>();

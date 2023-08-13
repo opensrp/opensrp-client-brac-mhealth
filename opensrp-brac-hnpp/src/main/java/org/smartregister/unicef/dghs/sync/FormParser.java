@@ -16,7 +16,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.unicef.dghs.HnppApplication;
-import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.model.ForumDetails;
 import org.smartregister.unicef.dghs.model.HHMemberProperty;
 import org.smartregister.unicef.dghs.repository.StockRepository;
@@ -168,11 +167,11 @@ public class FormParser {
                         }
                         if(CoreConstants.EventType.ANC_HOME_VISIT.equalsIgnoreCase(encounter_type)){
 
-                            updateAncHomeVisitRisk(encounter_type,base_entity_id,details,log.visitDate);
+                            updateAncHomeVisitRisk(encounter_type,base_entity_id,details,log.getVisitDate());
                         }
                         if(CoreConstants.EventType.PNC_HOME_VISIT.equalsIgnoreCase(encounter_type)){
 
-                            updatePNCHomeVisitRisk(encounter_type,base_entity_id,details,log.visitDate);
+                            updatePNCHomeVisitRisk(encounter_type,base_entity_id,details,log.getVisitDate());
                         }
                         if(ANC_REGISTRATION.equalsIgnoreCase(encounter_type)){
                             FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",0+"");
@@ -444,6 +443,13 @@ public class FormParser {
                 }
                 break;
             case PREGNANCY_OUTCOME:
+                if(details.containsKey("mother_is_death")&&!StringUtils.isEmpty(details.get("mother_is_death"))) {
+                    String isDeath = details.get("mother_is_death");
+                    if(!TextUtils.isEmpty(isDeath)&& (isDeath.equalsIgnoreCase("হ্যাঁ") || isDeath.equalsIgnoreCase("yes"))){
+                        HnppDBUtils.updateDeathMember(log.getBaseEntityId());
+                    }
+
+                }
                 if(details.containsKey("is_tt_completed")&&!StringUtils.isEmpty(details.get("is_tt_completed"))) {
                     String value = details.get("is_tt_completed");
                     if(value.equalsIgnoreCase("yes")){
@@ -452,45 +458,45 @@ public class FormParser {
                     }
 
                 }
-                if(details.containsKey("no_anc_at_pregnant")&&!StringUtils.isEmpty(details.get("no_anc_at_pregnant"))) {
-                    String value = details.get("no_anc_at_pregnant");
-                    HnppApplication.getIndicatorRepository().updateValue("no_anc_at_pregnant",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getBlockName(),log.getBaseEntityId());
-
-                }
-
-                if(details.containsKey("breastfeeding_time")&&!StringUtils.isEmpty(details.get("breastfeeding_time"))) {
-                    String value = details.get("breastfeeding_time");
-                    HnppApplication.getIndicatorRepository().updateValue("breastfeeding_time",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getBlockName(),log.getBaseEntityId());
-
-                }
-                if(details.containsKey("delivery_method_c_section")&&!StringUtils.isEmpty(details.get("delivery_method_c_section"))) {
-                    String value = details.get("delivery_method_c_section");
-                    HnppApplication.getIndicatorRepository().updateValue("delivery_method_c_section",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getBlockName(),log.getBaseEntityId());
-
-                }
-                if(details.containsKey("delivery_method_general")&&!StringUtils.isEmpty(details.get("delivery_method_general"))) {
-                    String value = details.get("delivery_method_general");
-                    HnppApplication.getIndicatorRepository().updateValue("delivery_method_general",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getBlockName(),log.getBaseEntityId());
-
-                }
-                if(details.containsKey("breastfeeding_time")&&!StringUtils.isEmpty(details.get("breastfeeding_time"))) {
-                    String value = details.get("breastfeeding_time");
-                    HnppApplication.getIndicatorRepository().updateValue("breastfeeding_time",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getBlockName(),log.getBaseEntityId());
-
-                }
-                if(details.containsKey("preg_outcome")&&!StringUtils.isEmpty(details.get("preg_outcome"))) {
-                    String value = details.get("preg_outcome");
-                    HnppApplication.getIndicatorRepository().updateValue("preg_outcome",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getBlockName(),log.getBaseEntityId());
-
-                }
-                if(details.containsKey("delivery_place")&&!StringUtils.isEmpty(details.get("delivery_place"))) {
-                    String value = details.get("delivery_place");
-                    Log.v("TARGET_FETCH","delivery_place>>"+value);
-                    if(!value.equalsIgnoreCase("home") || !value.equalsIgnoreCase(HnppApplication.getInstance().getApplicationContext().getString(R.string.house))){
-                        HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.INSTITUTIONALIZES_DELIVERY,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getBlockName(),log.getBaseEntityId(),formSubmissionId);
-                    }
-
-                }
+//                if(details.containsKey("no_anc_at_pregnant")&&!StringUtils.isEmpty(details.get("no_anc_at_pregnant"))) {
+//                    String value = details.get("no_anc_at_pregnant");
+//                    HnppApplication.getIndicatorRepository().updateValue("no_anc_at_pregnant",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getBlockName(),log.getBaseEntityId());
+//
+//                }
+//
+//                if(details.containsKey("breastfeeding_time")&&!StringUtils.isEmpty(details.get("breastfeeding_time"))) {
+//                    String value = details.get("breastfeeding_time");
+//                    HnppApplication.getIndicatorRepository().updateValue("breastfeeding_time",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getBlockName(),log.getBaseEntityId());
+//
+//                }
+//                if(details.containsKey("delivery_method_c_section")&&!StringUtils.isEmpty(details.get("delivery_method_c_section"))) {
+//                    String value = details.get("delivery_method_c_section");
+//                    HnppApplication.getIndicatorRepository().updateValue("delivery_method_c_section",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getBlockName(),log.getBaseEntityId());
+//
+//                }
+//                if(details.containsKey("delivery_method_general")&&!StringUtils.isEmpty(details.get("delivery_method_general"))) {
+//                    String value = details.get("delivery_method_general");
+//                    HnppApplication.getIndicatorRepository().updateValue("delivery_method_general",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getBlockName(),log.getBaseEntityId());
+//
+//                }
+//                if(details.containsKey("breastfeeding_time")&&!StringUtils.isEmpty(details.get("breastfeeding_time"))) {
+//                    String value = details.get("breastfeeding_time");
+//                    HnppApplication.getIndicatorRepository().updateValue("breastfeeding_time",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getBlockName(),log.getBaseEntityId());
+//
+//                }
+//                if(details.containsKey("preg_outcome")&&!StringUtils.isEmpty(details.get("preg_outcome"))) {
+//                    String value = details.get("preg_outcome");
+//                    HnppApplication.getIndicatorRepository().updateValue("preg_outcome",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getBlockName(),log.getBaseEntityId());
+//
+//                }
+//                if(details.containsKey("delivery_place")&&!StringUtils.isEmpty(details.get("delivery_place"))) {
+//                    String value = details.get("delivery_place");
+//                    Log.v("TARGET_FETCH","delivery_place>>"+value);
+//                    if(!value.equalsIgnoreCase("home") || !value.equalsIgnoreCase("বাড়ি")){
+//                        HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.INSTITUTIONALIZES_DELIVERY,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getBlockName(),log.getBaseEntityId(),formSubmissionId);
+//                    }
+//
+//                }
                 break;
             case CHILD_FOLLOWUP:
                 String bfValue ="",efValue="";
@@ -525,6 +531,23 @@ public class FormParser {
                     db.execSQL("UPDATE ec_child set has_aefi='"+status+"',aefi_vaccines ='"+vaccineS+"' where base_entity_id='"+log.getBaseEntityId()+"'");
                 }
                 break;
+            case NEW_BORN_PNC_1_4:
+                if (details.containsKey("is_risk") && !StringUtils.isEmpty(details.get("is_risk"))) {
+                    String status = details.get("is_risk");
+                    if(status.equalsIgnoreCase("1")){
+                        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+                        db.execSQL("UPDATE ec_child set is_risk='1' where base_entity_id='"+log.getBaseEntityId()+"'");
+
+                    }
+                }
+                if (details.containsKey("weight") && !StringUtils.isEmpty(details.get("weight"))) {
+                    String status = details.get("weight");
+                        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+                        db.execSQL("UPDATE ec_child set birth_weight='"+status+"' where base_entity_id='"+log.getBaseEntityId()+"'");
+
+
+                }
+                    break;
             case HnppConstants.EventType.REMOVE_MEMBER: {
                 if (details.containsKey("cause_of_death") && !StringUtils.isEmpty(details.get("cause_of_death"))) {
                     String value = details.get("cause_of_death");
@@ -1013,18 +1036,22 @@ public class FormParser {
     private static void updatePNCHomeVisitRisk(String eventType , String baseEntityId,HashMap<String,String>details, long visitDate) {
         boolean isAncHomeVisitRisk = false;
         if(details.containsKey("Denger_Signs_During_PNC") && !StringUtils.isEmpty(details.get("Denger_Signs_During_PNC"))) {
-            isAncHomeVisitRisk = true;
+
             String dengerValue = details.get("Denger_Signs_During_PNC");
-            String pncCount = details.get("pnc_count");
-            Log.v("RISK_ANC","dengerValue>>"+dengerValue);
-            RiskyModel riskynBPSModel = new RiskyModel();
-            riskynBPSModel.riskyValue = "yes";
-            riskynBPSModel.riskyKey = dengerValue;
-            riskynBPSModel.eventType = eventType;
-            riskynBPSModel.baseEntityId = baseEntityId;
-            riskynBPSModel.visitDate = visitDate;
-            riskynBPSModel.ancCount = Integer.parseInt(pncCount+"");
-            HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
+            if(!dengerValue.equalsIgnoreCase("none")){
+                isAncHomeVisitRisk = true;
+                String pncCount = details.get("pnc_count");
+                Log.v("RISK_ANC","dengerValue>>"+dengerValue);
+                RiskyModel riskynBPSModel = new RiskyModel();
+                riskynBPSModel.riskyValue = dengerValue;
+                riskynBPSModel.riskyKey = "Denger_Signs_During_PNC";
+                riskynBPSModel.eventType = eventType;
+                riskynBPSModel.baseEntityId = baseEntityId;
+                riskynBPSModel.visitDate = visitDate;
+                riskynBPSModel.ancCount = Integer.parseInt(pncCount+"");
+                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
+            }
+
         }
         if(details.containsKey("body_temp_fahrenheit") && !StringUtils.isEmpty(details.get("body_temp_fahrenheit"))) {
 
@@ -1169,7 +1196,7 @@ public class FormParser {
         if(details.containsKey("Hb_tested_result") && !StringUtils.isEmpty(details.get("Hb_tested_result"))){
             String fhr = details.get("Hb_tested_result");
             Log.v("ANC_RISK","Hb_tested_result>>"+fhr);
-            if(!TextUtils.isEmpty(fhr) && fhr.equalsIgnoreCase("positive")){
+            if(!TextUtils.isEmpty(fhr) && (fhr.equalsIgnoreCase("positive") || fhr.equalsIgnoreCase("পজিটিভ"))){
                 isAncHomeVisitRisk = true;
                 String ancCount = details.get("anc_count");
                 RiskyModel riskynBPSModel = new RiskyModel();
@@ -1186,7 +1213,7 @@ public class FormParser {
         if(details.containsKey("chipilis_tested_result") && !StringUtils.isEmpty(details.get("chipilis_tested_result"))){
             String fhr = details.get("chipilis_tested_result");
             Log.v("ANC_RISK","chipilis_tested_result>>"+fhr);
-            if(!TextUtils.isEmpty(fhr) && fhr.equalsIgnoreCase("positive")){
+            if(!TextUtils.isEmpty(fhr) && (fhr.equalsIgnoreCase("positive")|| fhr.equalsIgnoreCase("পজিটিভ"))){
                 isAncHomeVisitRisk = true;
                 String ancCount = details.get("anc_count");
                 RiskyModel riskynBPSModel = new RiskyModel();
@@ -1203,7 +1230,7 @@ public class FormParser {
         if(details.containsKey("hiv_tested_result") && !StringUtils.isEmpty(details.get("hiv_tested_result"))){
             String fhr = details.get("hiv_tested_result");
             Log.v("ANC_RISK","hiv_tested_result>>"+fhr);
-            if(!TextUtils.isEmpty(fhr) && fhr.equalsIgnoreCase("positive")){
+            if(!TextUtils.isEmpty(fhr) && (fhr.equalsIgnoreCase("positive")|| fhr.equalsIgnoreCase("পজিটিভ"))){
                 isAncHomeVisitRisk = true;
                 String ancCount = details.get("anc_count");
                 RiskyModel riskynBPSModel = new RiskyModel();
@@ -1220,7 +1247,7 @@ public class FormParser {
         if(details.containsKey("ultra_sound_result") && !StringUtils.isEmpty(details.get("ultra_sound_result"))){
             String fhr = details.get("ultra_sound_result");
             Log.v("ANC_RISK","ultra_sound_result>>"+fhr);
-            if(!TextUtils.isEmpty(fhr) && !fhr.equalsIgnoreCase("Normal USG")){
+            if(!TextUtils.isEmpty(fhr) && !fhr.equalsIgnoreCase("Normal_USG")){
                 isAncHomeVisitRisk = true;
                 String ancCount = details.get("anc_count");
                 RiskyModel riskynBPSModel = new RiskyModel();
@@ -1694,7 +1721,7 @@ public class FormParser {
                 lang = "-bn";
             }
 
-            JSONObject form_object = new JSONObject(AssetHandler.readFileFromAssetsFolder("json.form"+lang+"/" +HnppConstants.JSON_FORMS.SS_FORM+".json", HnppApplication.getHNPPInstance().getApplicationContext()));
+            JSONObject form_object = new JSONObject(AssetHandler.readFileFromAssetsFolder("json.form" +lang+"/" +HnppConstants.JSON_FORMS.SS_FORM+".json", HnppApplication.getHNPPInstance().getApplicationContext()));
             Event baseEvent = gson.fromJson(visit.getJson(), Event.class);
             String base_entity_id = baseEvent.getBaseEntityId();
             HashMap<String,Object>form_details = getFormNamesFromEventObject(baseEvent);
@@ -2295,7 +2322,7 @@ public class FormParser {
             if(local.equals("bn")){
                 lang = "-bn";
             }
-            String jsonString = AssetHandler.readFileFromAssetsFolder("json.form"+lang+"/" +form_name, HnppApplication.getHNPPInstance().getApplicationContext());
+            String jsonString = AssetHandler.readFileFromAssetsFolder("json.form" +lang+"/" +form_name, HnppApplication.getHNPPInstance().getApplicationContext());
             return new JSONObject(jsonString);
         } catch (Exception e) {
             Log.v("LOAD_FILE","file name:"+form_name+":encounter_type:"+encounter_type);

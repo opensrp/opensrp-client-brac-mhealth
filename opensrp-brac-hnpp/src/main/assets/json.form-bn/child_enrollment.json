@@ -92,6 +92,20 @@
         "type": "hidden"
       },
       {
+        "key": "is_risk",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "is_risk",
+        "type": "hidden",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "family_member_register_calculation.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "shr_id",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_identifier",
@@ -326,7 +340,7 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "birthRegistrationID",
         "type": "edit_text",
-        "hint": "জন্ম নিবন্ধন সনদ",
+        "hint": "জন্ম নিবন্ধন সনদ নম্বর",
         "v_numeric": {
           "value": "true",
           "err": "মোট 17 সংখ্যা হওয়া আবশ্যক"
@@ -383,7 +397,24 @@
         }
       },
       {
-        "key": "ad_toaster_birth_weight_up",
+        "key": "alert_birth_weight_down",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": " শিশুটির ওজন মারাত্মক কম। শিশুটিকে খুব দ্রুত নিকটস্থ হাসপাতালে নিয়ে যান।",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_default_baby.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "ad_toaster_birth_weight_down",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
@@ -400,7 +431,7 @@
         }
       },
       {
-        "key": "ad_toaster_birth_weight_down",
+        "key": "ad_toaster_birth_weight_up",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
@@ -423,8 +454,9 @@
         "openmrs_entity_id": "new_born_info",
         "type": "check_box",
         "label": "নবজাতক সম্পর্কিত গুরুত্বপূর্ণ তথ্য",
-        "label_text_style": "normal",
-        "text_color": "#C0C0C0",
+        "label_text_style": "bold",
+        "text_color": "#3495bf",
+        "text_size": "25px",
         "exclusive": [
           "chk_none"
         ],
@@ -581,10 +613,6 @@
           "AB+": "AB+",
           "AB-": "AB-",
           "রক্তের গ্রুপ জানা নেই": "Do Not Know Blood Group"
-        },
-        "v_required": {
-          "value": true,
-          "err": "রক্ত গ্রুপ নির্বাচন করুন"
         },
         "relevance": {
           "rules-engine": {

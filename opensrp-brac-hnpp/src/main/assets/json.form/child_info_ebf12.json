@@ -64,7 +64,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "within_an_hour_birth",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "জন্মের এক ঘন্টার মধ্যে শিশুকে মায়ের বুকে লাগানো হয়েছে?",
         "values": [
@@ -81,7 +80,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "counseled_on_EBF",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "শিশুর সেবাদানকারী কি ৬ মাস পর্যন্ত শুধুমাত্র মায়ের বুকের দুধ খাওয়ানোর জন্য যথাযথ পরামর্শ ও নির্দেশনা পেয়েছে?",
         "values": [
@@ -98,7 +96,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "exclusively_breast_fed",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "গত ২৪ ঘন্টায় শিশুটি শুধুমাত্র মায়ের বুকের দুধ খেয়েছে ?",
         "values": [
@@ -115,7 +112,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "child_had_diarrhea",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "গত ১৫ দিনে শিশুর ডায়রিয়া হয়েছে কিনা?",
         "values": [
@@ -133,7 +129,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "eaten_food_saline",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "খাবার স্যালাইন খেয়েছে কিনা?",
         "values": [
@@ -156,7 +151,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "saline_collected_from_nurse",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "খাবার স্যালাইন স্বাস্থ্য সেবিকার নিকট থেকে সংগ্রহ করা হয়েছিল?",
         "values": [

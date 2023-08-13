@@ -1,5 +1,6 @@
 package org.smartregister.unicef.dghs.presenter;
 
+import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.HnppDBConstants;
 import org.smartregister.chw.anc.contract.BaseAncRegisterFragmentContract;
 import org.smartregister.chw.anc.util.DBConstants;
@@ -10,9 +11,9 @@ public class HnppRiskAncRegisterFragmentPresenter extends AncRegisterFragmentPre
     public HnppRiskAncRegisterFragmentPresenter(BaseAncRegisterFragmentContract.View view, BaseAncRegisterFragmentContract.Model model, String viewConfigurationIdentifier) {
         super(view, model, viewConfigurationIdentifier);
     }
-//
-//    @Override
-//    public String getMainCondition() {
-//        return super.getMainCondition()+" AND "+ CoreConstants.TABLE_NAME.FAMILY_MEMBER + ".is_risk = 'true'";
-//    }
+
+    @Override
+    public String getMainCondition() {
+        return super.getMainCondition()+" AND "+ CoreConstants.TABLE_NAME.FAMILY_MEMBER + ".is_risk = 'true' and "+CoreConstants.TABLE_NAME.FAMILY_MEMBER +".risk_event_type ='"+ HnppConstants.EVENT_TYPE.ANC_HOME_VISIT +"'";
+    }
 }

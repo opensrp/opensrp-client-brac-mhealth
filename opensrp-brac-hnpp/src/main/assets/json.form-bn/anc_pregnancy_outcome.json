@@ -224,9 +224,8 @@
       {
         "key": "place_of_delivery",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "place_of_delivery",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "প্রসবের স্থান",
         "values": [
@@ -246,7 +245,7 @@
           "বিশেষায়িত হাসপাতাল",
           "অন্যান্য"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "বাড়িতে": "Home",
           "কমিউনিটি ক্লিনিক": "Community Clinic",
           "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র": "Union_Sub_Center",
@@ -278,9 +277,8 @@
       {
         "key": "delivery_conducted_by_cc",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "delivery_conducted_by_cc",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "প্রসব পরিচালনাকারী",
         "values": [
@@ -291,7 +289,7 @@
           "সিএসবিএ",
           "অন্যান্য_কেউ"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "ডাক্তার": "Doctor",
           "নার্স": "Nurse",
           "মিডওয়াইফ": "Midwife",
@@ -312,18 +310,37 @@
         }
       },
       {
+        "key": "miscarriage_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "miscarriage_date",
+        "type": "date_picker",
+        "max_date": "today",
+        "hint": "গর্ভপাতের তারিখ",
+        "relevance": {
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "miscarriage"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
         "key": "place_of_miscarriage",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "place_of_miscarriage",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "গর্ভপাতের স্থান",
         "values": [
           "বাড়িতে",
           "ফ্যাসিলিটিতে"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "বাড়িতে": "home",
           "ফ্যাসিলিটিতে": "facility"
         },
@@ -350,7 +367,7 @@
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         },
@@ -369,9 +386,8 @@
       {
         "key": "type_of_delivery",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "type_of_delivery",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "প্রসবের পদ্ধতি",
         "values": [
@@ -380,7 +396,7 @@
           "সহায়ক নরমাল ডেলিভারি",
           "ডেস্ট্রাক্টিভ অপারেশন"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "নরমাল ডেলিভারি": "NVD",
           "সিজারিয়ান": "Cesarean",
           "সহায়ক নরমাল ডেলিভারি": "Assisted vaginal delivery (AVD)",
@@ -593,7 +609,7 @@
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         }
@@ -618,7 +634,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "relation_with_death",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "মৃতের সাথে সম্পর্ক ",
         "values": [
@@ -648,7 +663,7 @@
           "ভগ্নিপতি",
           "জামাতা"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "স্বামী": "Husband",
           "স্ত্রী": "Wife",
           "পুত্র": "Son",
@@ -693,7 +708,7 @@
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         },
@@ -761,6 +776,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "death_date",
         "type": "date_picker",
+        "max_date": "today",
         "hint": "মৃত্যুর তারিখ",
         "relevance": {
           "step2:mother_is_death": {
@@ -797,7 +813,7 @@
           "প্রসবকালীন সময়",
           "প্রসবোত্তর সময় (৪২ দিনের মধ্যে)"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "গর্ভকালীন সময়": "at_pregnancy_time",
           "গর্ভপাতের পরে (২৮ সপ্তাহের মধ্যে)": "after_mischarage",
           "প্রসবকালীন সময়": "at_delivery",
@@ -830,7 +846,7 @@
           "বাড়িতে",
           "অন্যান্য"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "মেডিকেল কলেজ হসপিটাল/বিশেষায়িত হসপিটাল": "Medical College Hospital/Specialized Hospital",
           "জেলা হাসপাতাল": "District Hospital",
           "উপজেলা স্বাস্থ্য কমপ্লেক্স": "Upazila Health Complex",
@@ -911,7 +927,7 @@
           "সময়ের অভাব ছিল",
           "অন্যান্য"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "অপ্রয়োজনীয় মনে করেছিল": "Think unncessary",
           "ব্যয়বহুল ছিল": "Expensive",
           "দূরত্ব বেশি ছিল": "Far from home",
@@ -976,7 +992,7 @@
           "Puerperal Sepsis",
           "Rupture Uterus"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "Abruptio placentae": "Abruptio placentae",
           "APH": "APH",
           "Complication of Anaesthesia during Labour & Delivery": "Complication of Anaesthesia during Labour & Delivery",
@@ -1071,7 +1087,7 @@
           "ক্ষয় হওয়া",
           "তরতাজা"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "ক্ষয় হওয়া": "macereted",
           "তরতাজা": "fresh"
         },
@@ -1123,7 +1139,7 @@
           "খালা/খালু, চাচা/চাচি, মামা/মামী, ফুফা/ ফুফু",
           "অন্যান্য"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "মা": "mother",
           "বাবা": "father",
           "দাদা/দাদি, নানা/নানী": "grandfather_grandmother",
@@ -1155,7 +1171,7 @@
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         },
@@ -1230,7 +1246,7 @@
           "বাড়িতে",
           "অন্যান্য"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "মেডিকেল কলেজ হসপিটাল/বিশেষায়িত হসপিটাল": "Medical College Hospital/Specialized Hospital",
           "জেলা হাসপাতাল": "District Hospital",
           "উপজেলা স্বাস্থ্য কমপ্লেক্স": "Upazila Health Complex",
@@ -1270,7 +1286,7 @@
           "৪",
           "৪+"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "১": "1",
           "২": "2",
           "৩": "3",
@@ -1301,7 +1317,7 @@
           "নারী",
           "তৃতীয় লিঙ্গ"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "পুরুষ": "M",
           "নারী": "F",
           "তৃতীয় লিঙ্গ": "O"
@@ -1354,7 +1370,7 @@
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         },
@@ -1392,7 +1408,7 @@
           "সেবা পেতে দেরি হওয়া",
           "অন্যান্য"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "পারিবারিক দারিদ্র্যতা": "Family poverty",
           "গর্ভাবস্থায় জটিলতা/সমস্যা বুজতে পারিনাই": "Did not recognize the complications / problem during pregnancy",
           "পারিবারিক সীমাবদ্ধতা": "Family restriction",

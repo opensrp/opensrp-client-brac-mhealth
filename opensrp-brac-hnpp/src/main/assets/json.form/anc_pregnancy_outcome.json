@@ -224,9 +224,8 @@
       {
         "key": "place_of_delivery",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "place_of_delivery",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "Delivery place",
         "values":[
@@ -278,9 +277,8 @@
       {
         "key": "delivery_conducted_by_cc",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "delivery_conducted_by_cc",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "প্রসব পরিচালনাকারী",
         "values": [
@@ -312,11 +310,30 @@
         }
       },
       {
+        "key": "miscarriage_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "miscarriage_date",
+        "type": "date_picker",
+        "max_date": "today",
+        "hint": "Miscarriage date",
+        "relevance": {
+          "step1:preg_outcome": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "miscarriage"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
         "key": "place_of_miscarriage",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "place_of_miscarriage",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "Miscarriage / Abortion Place",
         "values": [
@@ -369,9 +386,8 @@
       {
         "key": "type_of_delivery",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "type_of_delivery",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "Mode of Delivery",
         "values": [
@@ -618,7 +634,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "relation_with_death",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "Relationship with Deceased Mother",
         "values": [
@@ -1065,7 +1080,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "still_birth_type",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "Still births type",
         "values": [
@@ -1111,9 +1125,8 @@
       {
         "key": "relation_with_still_birth",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "relation_with_still_birth",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "Relationship with Deceased",
         "values": [
@@ -1147,9 +1160,8 @@
       {
         "key": "present_at_death_child",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "present_at_death_child",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "Does he/she present at time of stillbirth?",
         "values": [
@@ -1261,7 +1273,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "mother_anc_count",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "How many ANC taken by the mother?",
         "values": [
@@ -1326,7 +1337,7 @@
         "openmrs_entity_id": "mother_pregnency_duration",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "মHow many weeks of pregnancy at the time of stillbirth?(complete gestational age)?",
+        "hint": "How many weeks of pregnancy at the time of stillbirth?(complete gestational age)?",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
@@ -1348,7 +1359,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "before_pregnancy_kit",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "Contraception use just prior to pregnancy",
         "values": [

@@ -906,14 +906,13 @@
       {
         "key": "ultra_sound_result",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "ultra_sound_result",
-        "openmrs_data_type": "",
         "type": "check_box",
         "label_text_style": "bold",
         "text_color": "#3495bf",
         "text_size": "25px",
-        "hint": "আল্ট্রাসাউন্ড স্ক্যান পরীক্ষার ফলাফল",
+        "label": "আল্ট্রাসাউন্ড স্ক্যান পরীক্ষার ফলাফল",
         "exclusive":[
           "Normal_USG"
         ],
@@ -1014,7 +1013,7 @@
         "label_text_style": "bold",
         "text_color": "#3495bf",
         "text_size": "25px",
-        "label":"আপনার জটিলতা সমূহ নির্ধারণ করুন",
+        "label":"গর্ভকালীন জটিলতা সমূহ নির্ধারণ করুন",
         "exclusive":[
           "No_Denger_Sign"
         ],
@@ -1105,7 +1104,7 @@
         "options": [
           {
             "key": "calsium",
-            "text": "ক্যালসিয়াম ট্যাবলেট  বিতরণ করা হয়েছে?",
+            "text": "ক্যালসিয়াম ট্যাবলেট  বিতরণ করা হয়েছে",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -1113,7 +1112,7 @@
           },
           {
             "key": "ifa_mms",
-            "text": "আইএফএ/ মাল্টিপল মাইক্রো নিউট্রিয়েন্ট সাপ্লিমেন্ট (এম এম এস) বিতরণ করা হয়েছে?",
+            "text": "আইএফএ/ মাল্টিপল মাইক্রো নিউট্রিয়েন্ট সাপ্লিমেন্ট (এম এম এস) বিতরণ করা হয়েছে",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",

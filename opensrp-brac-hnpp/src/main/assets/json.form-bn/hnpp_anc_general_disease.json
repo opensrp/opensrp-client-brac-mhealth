@@ -63,7 +63,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "high_blood_pressure",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "উচ্চ রক্তচাপ আছে কিনা?",
         "values": [
@@ -101,7 +100,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "diabetes",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "ডায়াবেটিস আছে কিনা?",
         "values": [
@@ -139,7 +137,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "heart_disease",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "হৃদরোগ আছে কিনা?",
         "values": [
@@ -177,7 +174,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "asthma",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "হাপানি আছে কিনা?",
         "values": [
@@ -216,7 +212,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "kidney_disease",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "কিডনী সমস্যা আছে কিনা?",
         "values": [
@@ -254,7 +249,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "tuberculosis",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "যক্ষা আছে কিনা?",
         "values": [

@@ -42,8 +42,10 @@ public class VaccineDueUpdateIntentService extends IntentService {
     public VaccineDueUpdateIntentService() {
         super("VaccineDueUpdateIntentService");
     }
-    private final String TEST_BASE="a60f22b5-434a-4b01-b2fa-941d00e128e8-mahmud101";
-
+    private final String TEST_BASE="362243b3-9c00-45eb-8fc5-778ff08db909-pros";
+    public enum VACCINE_WEEK {
+        AT_BIRTH, SIX_WEEK, TEN_WEEK, FOURTEEN_WEEK,NINE_MONTH,FIFTEEN_MONTH
+    }
     @Override
     protected void onHandleIntent(Intent intent) {
        //need to get all due vaccine name,date from alert table group by baseentityid
@@ -95,6 +97,7 @@ public class VaccineDueUpdateIntentService extends IntentService {
         String query ="select alerts.*,ec_child.dob from alerts INNER JOIN  ec_child on ec_child.base_entity_id  = alerts.caseID  where startDate is not null and status !='expired' and scheduleName!='Vitamin A1' order by status desc,startDate asc";
         Cursor cursor = null;
         HashMap<String,Alert> vaccineMapByBase = new HashMap<>();
+        HashMap<String,List<Alert>> allVaccineMapById = new HashMap<>();
         try{
             cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
@@ -124,6 +127,21 @@ public class VaccineDueUpdateIntentService extends IntentService {
                      if exist then skip otherwise add case id
                      */
                         Alert dd = vaccineMapByBase.get(baseEntityId);
+                        List<Alert> alerts = allVaccineMapById.get(baseEntityId);
+                        if(alerts == null){
+                            if(baseEntityId.equalsIgnoreCase(TEST_BASE)) {
+                                Log.v("VACCINE_DUE_FILTER", "new" + processedAlert.scheduleName() + ":" + processedAlert.startDate() + ":" + baseEntityId);
+                            }
+                            alerts = new ArrayList<>();
+                            alerts.add(processedAlert);
+                            allVaccineMapById.put(baseEntityId,alerts);
+                        }else{
+                            if(baseEntityId.equalsIgnoreCase(TEST_BASE)) {
+                                Log.v("VACCINE_DUE_FILTER", "addedd" + processedAlert.scheduleName() + ":" + processedAlert.startDate() + ":" + baseEntityId);
+                            }
+                            alerts.add(processedAlert);
+                            allVaccineMapById.put(baseEntityId,alerts);
+                        }
                         if(dd==null){
                             if(baseEntityId.equalsIgnoreCase(TEST_BASE)) {
                                 Log.v("CHILD_FILTER", "1added>>" + processedAlert.scheduleName() + ":" + processedAlert.startDate() + ":" + baseEntityId);
@@ -147,7 +165,9 @@ public class VaccineDueUpdateIntentService extends IntentService {
                                 vaccineMapByBase.put(baseEntityId,processedAlert);
                             }
                         }
-
+                    if(baseEntityId.equalsIgnoreCase(TEST_BASE)) {
+                        Log.v("VACCINE_DUE_FILTER", "allVaccineMapById" + allVaccineMapById.get(TEST_BASE).size());
+                    }
                     cursor.moveToNext();
                 }
 
@@ -176,6 +196,80 @@ public class VaccineDueUpdateIntentService extends IntentService {
             }
 
         }
+        for (Map.Entry<String, List<Alert>> map : allVaccineMapById.entrySet()) {
+            List<Alert> alerts = map.getValue();
+            StringBuilder atBirthBuilder = new StringBuilder();
+            StringBuilder sixWeekBuilder = new StringBuilder();
+            StringBuilder tenWeekBuilder = new StringBuilder();
+            StringBuilder fourteenWeekBuilder = new StringBuilder();
+            StringBuilder nineMonthBuilder = new StringBuilder();
+            StringBuilder fifteenMonthBuilder = new StringBuilder();
+            StringBuilder dueVaccineWeekBuilder = new StringBuilder();
+            for(Alert alert : alerts){
+                if(dueVaccineWeekBuilder.length()>1){
+                    dueVaccineWeekBuilder.append(" ");
+                }
+                dueVaccineWeekBuilder.append(alert.startDate());
+//                if(getVaccineWeek(alert.scheduleName()).equalsIgnoreCase(VACCINE_WEEK.AT_BIRTH.name())) {
+//                    if(atBirthBuilder.length()>1){
+//                        atBirthBuilder.append(" ");
+//                    }
+//                    atBirthBuilder.append(alert.startDate());
+//
+//                }
+//                if(getVaccineWeek(alert.scheduleName()).equalsIgnoreCase(VACCINE_WEEK.SIX_WEEK.name())) {
+//                    if(sixWeekBuilder.length()>1){
+//                        sixWeekBuilder.append(" ");
+//                    }
+//                    sixWeekBuilder.append(alert.startDate());
+//
+//                }
+//                if(getVaccineWeek(alert.scheduleName()).equalsIgnoreCase(VACCINE_WEEK.TEN_WEEK.name())){
+//                    if(tenWeekBuilder.length()>1){
+//                        tenWeekBuilder.append(" ");
+//                    }
+//                    tenWeekBuilder.append(alert.startDate());
+//
+//                }
+//                if(getVaccineWeek(alert.scheduleName()).equalsIgnoreCase(VACCINE_WEEK.FOURTEEN_WEEK.name())){
+//                    if(fourteenWeekBuilder.length()>1){
+//                        fourteenWeekBuilder.append(" ");
+//                    }
+//                    fourteenWeekBuilder.append(alert.startDate());
+//
+//                }
+//                if(getVaccineWeek(alert.scheduleName()).equalsIgnoreCase(VACCINE_WEEK.NINE_MONTH.name())){
+//                    if(nineMonthBuilder.length()>1){
+//                        nineMonthBuilder.append(" ");
+//                    }
+//                    nineMonthBuilder.append(alert.startDate());
+//
+//                }
+//                if(getVaccineWeek(alert.scheduleName()).equalsIgnoreCase(VACCINE_WEEK.FIFTEEN_MONTH.name())){
+//                    if(fifteenMonthBuilder.length()>1){
+//                        fifteenMonthBuilder.append(" ");
+//                    }
+//                    fifteenMonthBuilder.append(alert.startDate());
+//
+//                }
+                if(alert.caseId().equalsIgnoreCase(TEST_BASE)) {
+
+                    Log.v("VACCINE_DUE_FILTER", "getVaccineWeek>>" + dueVaccineWeekBuilder.toString().replace(" ",",")+"");
+                }
+
+            }
+
+            try{
+                SQLiteDatabase database = HnppApplication.getInstance().getRepository().getWritableDatabase();
+                String sql = "update ec_child set due_vaccine_week='"+dueVaccineWeekBuilder.toString().replace(" ",",")+"' where " +
+                        "base_entity_id = '"+alerts.get(0).caseId()+"' ;";
+                database.execSQL(sql);
+            }catch(Exception e){
+                e.printStackTrace();
+
+            }
+
+        }
         broadcastStatus("updated");
         return true;
     }
@@ -188,6 +282,48 @@ public class VaccineDueUpdateIntentService extends IntentService {
 
         }
 
+    }
+    private static String getVaccineWeek(String vaccineName){
+        switch (vaccineName){
+            case "BCG":
+            case "bcg":
+            case "OPV 0":
+            case "opv_0":
+                return VACCINE_WEEK.AT_BIRTH.name();
+
+            case "OPV 1":
+            case "opv_1":
+            case "PENTA 1":
+            case "penta_1":
+            case "PCV 1":
+            case "pcv_1":
+            case "fIPV 1":
+            case "fipv_1":
+                return VACCINE_WEEK.SIX_WEEK.name();
+            case "OPV 2":
+            case "opv_2":
+            case "PENTA 2":
+            case "penta_2":
+            case "PCV 2":
+            case "pcv_2":
+                return VACCINE_WEEK.TEN_WEEK.name();
+            case "OPV 3":
+            case "opv_3":
+            case "PENTA 3":
+            case "penta_3":
+            case "PCV 3":
+            case "pcv_3":
+            case "fIPV 2":
+            case "fipv_2":
+                return VACCINE_WEEK.FOURTEEN_WEEK.name();
+            case "MR 1":
+            case "mr_1":
+                return VACCINE_WEEK.NINE_MONTH.name();
+            case "MR 2":
+            case "mr_2":
+                return VACCINE_WEEK.FIFTEEN_MONTH.name();
+        }
+        return "";
     }
     private static int getVaccineOrder(String vaccineName){
         switch (vaccineName){
@@ -227,6 +363,9 @@ public class VaccineDueUpdateIntentService extends IntentService {
             case "PCV 3":
             case "pcv_3":
                 return 11;
+            case "fIPV 2":
+            case "fipv_2":
+                return 12;
         }
         return -1;
     }

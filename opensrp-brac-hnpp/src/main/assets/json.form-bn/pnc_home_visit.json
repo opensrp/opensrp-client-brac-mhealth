@@ -119,6 +119,23 @@
           "err": "সিস্টোলিক রক্তচাপ লিখুন"
         }
       },
+      {
+        "key": "toaster_Systolic",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "রোগীর রক্তচাপ বেশি। পর্যবেক্ষণ করুন",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_anc_relevance.yml"
+            }
+          }
+        }
+      },
 
       {
         "key": "blood_pressure_diastolic",
@@ -142,6 +159,23 @@
         "v_required": {
           "value": "true",
           "err": "ডায়াস্টোলিক রক্তচাপ লিখুন"
+        }
+      },
+      {
+        "key": "toaster_diastolic",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "রক্তচাপ প্রতি সপ্তাহে মাপা  প্রয়োজন এবং ওষুধের জন্য সেবা প্রদানকারীর থেকে পরামর্শ নিন",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_anc_relevance.yml"
+            }
+          }
         }
       },
 
@@ -171,22 +205,6 @@
             "type": "numeric",
             "ex": "greaterThanEqualTo(., \"100\")"
           }
-        }
-      },
-      {
-        "key": "pnc_problem",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "pnc_problem",
-        "type": "spinner",
-        "hint": "প্রসবোত্তর কোন জটিলতা আছে?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
         }
       },
 
@@ -243,14 +261,15 @@
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "perinal_tear"
+          },
+          {
+            "key": "none",
+            "text": "জটিলতা নেই",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "none"
           }
-        ],
-        "relevance": {
-          "step1:pnc_problem": {
-            "type": "string",
-            "ex": "regex(., \"হ্যাঁ\")"
-          }
-        }
+        ]
       },
 
       {
@@ -259,7 +278,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "is_normal_breast_condition",
         "type": "spinner",
-        "hint": "বুকের অবস্থা স্বাভাবিক আছে?",
+        "hint": "স্তনের অবস্থা স্বাভাবিক আছে?",
         "values": [
           "হ্যাঁ",
           "না"
@@ -289,7 +308,6 @@
         "key": "vitamin_a_capsule",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "vitamin_a_capsule",
         "type": "spinner",
         "hint": "ভিটামিন এ ক্যাপসুল দেয়া হয়েছে?",
         "values": [
@@ -299,6 +317,65 @@
         "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
+        }
+      },
+      {
+        "key": "is_Referred",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_Referred",
+        "type": "spinner",
+        "hint": "রেফার করা হয়েছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+      {
+        "key":"Place_of_Refer",
+        "openmrs_entity_parent":"",
+        "openmrs_entity":"concept",
+        "type":"spinner",
+        "hint":"রেফারের স্থান",
+        "values":[
+          "কমিউনিটি ক্লিনিক",
+          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র",
+          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র",
+          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
+          "মা ও শিশু কল্যাণ কেন্দ্র",
+          "১০ শয্যা বিশিষ্ট হাসপাতাল",
+          "২০ শয্যা বিশিষ্ট হাসপাতাল",
+          "উপজেলা স্বাস্থ্য কমপ্লেক্স",
+          "সদর হাসপাতাল",
+          "মেডিকেল কলেজ হাসপাতাল",
+          "বিশেষায়িত হাসপাতাল",
+          "অন্যান্য",
+          "রেফার করা হয়নি"
+        ],
+        "openmrs_choice_ids":{
+          "কমিউনিটি ক্লিনিক":"Community_Clinic",
+          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র":"Union_Sub_Center",
+          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র":"Union_Family_Welfare_Center",
+          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র":"Union_Health_and_Family_Welfare_Center",
+          "মা ও শিশু কল্যাণ কেন্দ্র":"Metarnal_and_Child_Wellfare_Center",
+          "১০ শয্যা বিশিষ্ট হাসপাতাল":"10_Bed_Hospital",
+          "২০ শয্যা বিশিষ্ট হাসপাতাল":"20_Beds_Hospital",
+          "উপজেলা স্বাস্থ্য কমপ্লেক্স":"Upazila_Health_Complex",
+          "সদর হাসপাতাল":"District_Hospital",
+          "মেডিকেল কলেজ হাসপাতাল":"Medical_College_and_Hospital",
+          "বিশেষায়িত হাসপাতাল":"Specialized_Hospital",
+          "অন্যান্য":"Others_Health_Facility",
+          "রেফার করা হয়নি":"Not_referred"
+        },
+        "relevance": {
+          "step3:is_Referred": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
         }
       }
     ]

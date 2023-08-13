@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DGHS-HA</string>
+    <string name="app_name">e-tracker</string>
     <string-array name="gender">
         <item>নারী</item>
         <item>পুরুষ</item>
@@ -9,7 +9,6 @@
         <item>সিলেক্ট করুন</item>
         <item>NID</item>
         <item>BRID</item>
-        <item>EPI No</item>
         <item>System ID</item>
     </string-array>
     <string-array name="edema_value">
@@ -91,6 +90,7 @@
     <string name="title_child">শিশু ফোরাম</string>
     <string name="title_ncd">সাধারণ ফোরাম</string>
     <string name="title_adult">অ্যাডাল্ট ফোরাম</string>
+    <string name="risk_history">পূর্বের ঝুঁকিপূর্ণ ইতিহাস</string>
     <string name="clicked_sick_child">You have clicked the sick child follow-up action</string>
     <string name="clicked_malaria_diagnosis">You have clicked the malaria diagnosis action</string>
     <string name="referral_for">Referral for %s</string>

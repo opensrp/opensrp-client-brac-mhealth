@@ -46,6 +46,11 @@
         android:enabled="true"
         android:title="@string/malaria_diagnosis"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_show_risk"
+        android:enabled="true"
+        android:title="@string/risk_history"
+        app:showAsAction="never" />
 <!--    <item-->
 <!--        android:id="@+id/action_mm_survey"-->
 <!--        android:enabled="false"-->

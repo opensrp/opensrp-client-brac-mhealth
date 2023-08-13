@@ -108,7 +108,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "remove_reason",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "সদস্য বাতিল করার কারণ",
         "v_required": {
@@ -118,11 +117,13 @@
         "values": [
           "স্থানান্তর",
           "মৃত্যু নিবন্ধন",
+          "নবজাতকের মৃত্যু (জন্মের ৪২ দিনের মধ্যে)",
           "অন্যান্য"
         ],
         "openmrs_choice_ids": {
           "স্থানান্তর": "moved_away",
           "মৃত্যু নিবন্ধন": "died",
+          "নবজাতকের মৃত্যু (জন্মের ৪২ দিনের মধ্যে)": "new_born_death",
           "অন্যান্য": "other"
         }
       },
@@ -131,7 +132,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "removed_other",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "অন্যান্য কারণে খানা বাদ",
         "v_required": {
@@ -175,7 +175,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "moved_away_place",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "কোথায় স্থান্তরিত হয়েছে জানা আছে কিনা ?",
         "v_required": {
@@ -259,7 +258,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "cause_of_death",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "মৃত্যর ধরণ",
         "v_required": {
@@ -314,7 +312,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "place_of_death",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "মৃত্যর স্থান",
         "v_required": {
@@ -346,7 +343,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "jila",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "জেলা",
         "relevance": {
@@ -361,7 +357,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "upojila",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "উপজেলা/সিটি কর্পোরেশন",
         "relevance": {
@@ -428,9 +423,8 @@
       {
         "key": "new_born_relation_with_still_birth",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "new_born_relation_with_still_birth",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "মৃতের সাথে সম্পর্ক",
         "values": [
@@ -441,7 +435,7 @@
           "খালা/খালু, চাচা/চাচি, মামা/মামী, ফুফা/ ফুফু",
           "অন্যান্য"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "মা": "mother",
           "বাবা": "father",
           "দাদা/দাদি, নানা/নানী": "grandfather_grandmother",
@@ -460,16 +454,15 @@
       {
         "key": "present_at_newborn_death_child",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "present_at_newborn_death_child",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "তিনি কি নবজাতকের  মৃত্যুর সময় উপস্থিত ছিলেন ",
         "values": [
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         },
@@ -586,7 +579,7 @@
           "বাড়িতে",
           "অন্যান্য"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "মেডিকেল কলেজ হসপিটাল/বিশেষায়িত হসপিটাল": "Medical College Hospital/Specialized Hospital",
           "জেলা হাসপাতাল": "District Hospital",
           "উপজেলা স্বাস্থ্য কমপ্লেক্স": "Upazila Health Complex",
@@ -639,7 +632,7 @@
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         },
@@ -656,7 +649,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "new_born_mother_anc_count",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "মা গর্ভাবস্থায়  সর্বমোট কয়টি এ এন সি সেবা পেয়ছিল? ",
         "values": [
@@ -666,7 +658,7 @@
           "৪",
           "৪+"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "১": "1",
           "২": "2",
           "৩": "3",
@@ -778,7 +770,7 @@
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         },
@@ -930,7 +922,7 @@
           "সময়ের অভাব ছিল",
           "অন্যান্য"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "অপ্রয়োজনীয় মনে করেছিল": "Think unncessary",
           "ব্যয়বহুল ছিল": "Expensive",
           "দূরত্ব বেশি ছিল": "Far from home",

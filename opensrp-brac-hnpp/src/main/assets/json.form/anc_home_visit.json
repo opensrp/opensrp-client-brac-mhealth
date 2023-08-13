@@ -908,7 +908,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "ultra_sound_result",
-        "openmrs_data_type": "",
         "type": "check_box",
         "label_text_style": "bold",
         "text_color": "#3495bf",

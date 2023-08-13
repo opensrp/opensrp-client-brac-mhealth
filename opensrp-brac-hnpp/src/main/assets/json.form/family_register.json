@@ -164,7 +164,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "post_office_present",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "Post Office( Present Address)",
         "values": [
@@ -181,7 +180,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "is_permanent_address",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "Same Permanent Address?",
         "v_required": {

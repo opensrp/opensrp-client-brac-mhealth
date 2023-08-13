@@ -23,7 +23,19 @@
         android:paddingBottom="@dimen/register_list_top_bottom_min_padding"
         android:scaleType="centerCrop"
         android:src="@drawable/rowavatar_member" />
-
+    <ImageView
+        android:id="@+id/is_risk"
+        android:layout_alignTop="@+id/profile_img"
+        android:layout_alignRight="@+id/profile_img"
+        android:visibility="visible"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_icon_danger" />
     <ImageView
         android:id="@+id/missed_schedule_img"
         android:layout_width="40dp"
@@ -89,7 +101,7 @@
                 android:layout_height="20dp"
                 android:layout_marginRight="5dp"
                 android:background="@color/vaccine_red_bg_end"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <org.smartregister.view.customcontrols.CustomFontTextView
                 android:id="@+id/textview_parent_name"

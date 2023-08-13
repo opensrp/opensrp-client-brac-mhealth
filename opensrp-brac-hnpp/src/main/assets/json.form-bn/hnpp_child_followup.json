@@ -84,7 +84,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "breast_feed_in_24hr",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "গত ২৪ ঘন্টার মধ্যে শিশুকে শুধুমাত্র বুকের দুধ খাওয়ানো হয়েছে কিনা?",
         "values": [
@@ -113,7 +112,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "extra_food_in_24hr",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "গত ২৪ ঘন্টার মধ্যে বাড়তি খাবার খেয়েছে ?",
         "values": [

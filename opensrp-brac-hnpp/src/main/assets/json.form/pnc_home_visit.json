@@ -116,7 +116,24 @@
         },
         "v_required": {
           "value": "true",
-          "err": "Enter the systolic blood pressure"
+          "err": "Enter Systolic blood pressure"
+        }
+      },
+      {
+        "key": "toaster_Systolic",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "Patient's Blood pressure is High. Please monitor.",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_anc_relevance.yml"
+            }
+          }
         }
       },
 
@@ -142,6 +159,24 @@
         "v_required": {
           "value": "true",
           "err": "Enter the systolic blood pressure"
+        }
+      },
+
+      {
+        "key": "toaster_diastolic",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "Need to check weekly and consultation with service provider for medicine",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_anc_relevance.yml"
+            }
+          }
         }
       },
 
@@ -179,14 +214,14 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "pnc_problem",
         "type": "spinner",
-        "hint": "প্রসবোত্তর কোন জটিলতা আছে?",
+        "hint": "Are there any postpartum complications?",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
         "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+          "Yes": "Yes",
+          "No": "No"
         }
       },
 
@@ -243,14 +278,15 @@
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "perinal_tear"
+          },
+          {
+            "key": "none",
+            "text": "No Complication",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "none"
           }
-        ],
-        "relevance": {
-          "step1:pnc_problem": {
-            "type": "string",
-            "ex": "regex(., \"হ্যাঁ\")"
-          }
-        }
+        ]
       },
 
       {
@@ -293,12 +329,76 @@
         "type": "spinner",
         "hint": "Vitamin A capsule provided",
         "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+      {
+        "key": "is_Referred",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_Referred",
+        "type": "spinner",
+        "hint": "Referred?",
+        "values": [
           "Yes",
           "No"
         ],
         "openmrs_choice_ids": {
           "Yes": "Yes",
           "No": "No"
+        }
+      },
+      {
+        "key":"Place_of_Refer",
+        "openmrs_entity_parent":"",
+        "openmrs_entity":"concept",
+        "openmrs_entity_id":"Place_of_Refer",
+        "type":"spinner",
+        "hint":"Place of Refer",
+        "values":[
+          "Community Clinic",
+          "Union Sub-center (USC)",
+          "UFWC (Union Family Welfare Center)",
+          "UH & FWC",
+          "Metarnal and Child Wellfare Center",
+          "10 Bed Hospital",
+          "20 Beds Hospital",
+          "UHC (Upazila Health Complex)",
+          "District Hospital",
+          "Medical College Hospital",
+          "Private Hospital / NGO clinic",
+          "NGO",
+          "Specialized Hospital",
+          "Others Health Facility",
+          "No referred"
+        ],
+        "openmrs_choice_ids":{
+          "Community Clinic":"Community_Clinic",
+          "Union Sub-center (USC)":"Union_Sub_Center",
+          "UFWC (Union Family Welfare Center)":"Union_Family_Welfare_Center",
+          "UH & FWC":"Union_Health_and_Family_Welfare_Center",
+          "Metarnal and Child Wellfare Center":"Metarnal_and_Child_Wellfare_Center",
+          "10 Bed Hospital":"10_Bed_Hospital",
+          "20 Beds Hospital":"20_Beds_Hospital",
+          "Upazila Health Complex":"Upazila_Health_Complex",
+          "District Hospital":"District_Hospital",
+          "Medical College Hospital":"Medical_College_and_Hospital",
+          "Private Hospital / NGO clinic": "Private_Clinic_and_Hospital",
+          "NGO": "Non-governmental_Organization",
+          "Specialized Hospital":"Specialized_Hospital",
+          "Others Health Facility":"Others_Health_Facility",
+          "No referred":"No_referred"
+        },
+        "relevance": {
+          "step3:is_Referred": {
+            "type": "string",
+            "ex": "regex(., \"Yes\")"
+          }
         }
       }
     ]

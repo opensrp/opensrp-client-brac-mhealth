@@ -102,7 +102,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "baby_been_breastfed",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "গত ২৪ ঘন্টায় বাচ্চাটি মায়ের বুকের দুধ খেয়েছে কি?",
         "values": [
@@ -140,7 +139,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "child_been_given_complementary_food",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "গত ২৪ ঘন্টায় শিশুকে পরিপূরক খাবার দেওয়া হয়েছে কি?",
         "values": [
@@ -157,7 +155,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "proper_hand_washing_system",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "বাসায় সঠিকভাবে হাত ধোয়ার ব্যবস্থা আছে কি?",
         "values": [

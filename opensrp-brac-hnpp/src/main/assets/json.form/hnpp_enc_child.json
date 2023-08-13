@@ -239,7 +239,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "navel_condition",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "নাভির অবস্থা",
         "values": [
@@ -274,7 +273,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "eye_condition",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "চোখের অবস্থা",
         "values": [
@@ -309,7 +307,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "skin_condition",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "ত্বক",
         "values": [
@@ -344,7 +341,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "health_condition",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "শারিরিক অবস্থা/ নড়াচড়া",
         "values": [
@@ -379,7 +375,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "newborn_toilet",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "গত ২৪ ঘণ্টায় নবজাতক পায়খানা প্রস্রাব করেছে কিনা",
         "values": [

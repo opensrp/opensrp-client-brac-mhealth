@@ -93,7 +93,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "has_disease",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "Is there any disease?",
         "values": [
@@ -279,7 +278,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "is_Referred",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "Referred?",
         "values": [

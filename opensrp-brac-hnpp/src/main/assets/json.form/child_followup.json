@@ -193,7 +193,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "sound",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "Hearing screening (Does child respond to sound?)",
         "values": [
@@ -211,7 +210,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "light",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "Vision screeninig (Does child have proper visual tracking?)",
         "values": [
@@ -300,7 +298,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "facility_counseling",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "Counselling done for facility visit for other complication",
         "values": [
@@ -365,7 +362,6 @@
         "openmrs_entity_parent":"",
         "openmrs_entity":"concept",
         "openmrs_entity_id":"Place_of_Refer",
-        "openmrs_data_type":"",
         "type":"spinner",
         "hint":"Place of Refer",
         "values":[

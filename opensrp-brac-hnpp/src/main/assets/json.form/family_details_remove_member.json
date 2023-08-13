@@ -105,7 +105,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "remove_reason",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "Reason for Member Cancellation",
         "v_required": {
@@ -185,7 +184,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "moved_away_place",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "কোথায় স্থান্তরিত হয়েছে জানা আছে কিনা ?",
         "v_required": {
@@ -335,7 +333,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "relation_with_death",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "মৃতের সাথে সম্পর্ক ",
         "values": [
@@ -412,7 +409,7 @@
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         },
@@ -594,7 +591,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "death_cause_by_consultant",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "কনসালট্যান্ট এর মতে মৃত্যুর কি কারণ হতে পারে ?",
         "values": [
@@ -616,7 +612,7 @@
           "Puerperal Sepsis",
           "Rupture Uterus"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "Abruptio placentae": "Abruptio placentae",
           "APH": "APH",
           "Complication of Anaesthesia during Labour & Delivery": "Complication of Anaesthesia during Labour & Delivery",
@@ -649,7 +645,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "cause_of_death_men",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "মৃত্যর ধরণ",
         "v_required": {
@@ -721,7 +716,7 @@
           "বাড়িতে",
           "অন্যান্য"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "মেডিকেল কলেজ হসপিটাল/বিশেষায়িত হসপিটাল": "Medical College Hospital/Specialized Hospital",
           "জেলা হাসপাতাল": "District Hospital",
           "উপজেলা স্বাস্থ্য কমপ্লেক্স": "Upazila Health Complex",
@@ -747,7 +742,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "jila",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "জেলা",
         "relevance": {
@@ -763,7 +757,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "upojila",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "উপজেলা/সিটি কর্পোরেশন",
         "relevance": {

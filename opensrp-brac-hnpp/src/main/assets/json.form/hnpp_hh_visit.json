@@ -315,7 +315,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "health_care_center",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "Where do family members usually go?",
         "values":[
@@ -334,7 +333,7 @@
           "Specialized Hospital",
           "Others Health Facility"
         ],
-        "openmrs_entity_ids":{
+        "openmrs_choice_ids":{
           "Community_Clinic":"Community_Clinic",
           "Union Sub-center (USC)":"Union_Sub_Center",
           "UFWC (Union Family Welfare Center)":"Union_Family_Welfare_Center",

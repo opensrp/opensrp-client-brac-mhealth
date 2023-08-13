@@ -85,7 +85,7 @@ public class RiskDetailsRepository extends BaseRepository {
         Cursor cursor = null;
         ArrayList<RiskyModel> locations = new ArrayList<>();
         try {
-            cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getLocationTableName()+" where base_entity_id = '"+baseEntityId+"' order by "+VISIT_DATE+" desc", null);
+            cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getLocationTableName()+" where base_entity_id = '"+baseEntityId+"' order by "+VISIT_DATE+" DESC", null);
 
             if(cursor !=null && cursor.getCount() >0) {
 
@@ -117,6 +117,7 @@ public class RiskDetailsRepository extends BaseRepository {
         riskyModel.riskyValue = riskyValue;
         riskyModel.date = date;
         riskyModel.visitDate = Long.parseLong(cursor.getString(cursor.getColumnIndex(VISIT_DATE)));
+        Log.v("RISK_VISIT_DATE","riskyModel.visitDate>>"+riskyModel.visitDate);
         riskyModel.ancCount = Integer.parseInt(cursor.getString(cursor.getColumnIndex(ANC_COUNT)));
         return riskyModel;
     }

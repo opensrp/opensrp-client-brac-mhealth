@@ -64,7 +64,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "baby_eat_nutrients_24_hours",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "গত ২৪ ঘন্টায় বাচ্চা কি পুষ্টিকণা খেয়েছে?",
         "values": [

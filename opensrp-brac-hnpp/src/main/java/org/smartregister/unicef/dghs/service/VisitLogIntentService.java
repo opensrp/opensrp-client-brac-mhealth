@@ -1650,7 +1650,7 @@ public class VisitLogIntentService extends IntentService {
 //    private  void saveSSFormData(Visit visit)
 //    {
 //        try{
-//            JSONObject form_object = new JSONObject(AssetHandler.readFileFromAssetsFolder("json.form-bn/"+HnppConstants.JSON_FORMS.SS_FORM+".json",VisitLogIntentService.this));
+//            JSONObject form_object = new JSONObject(AssetHandler.readFileFromAssetsFolder("json.form-bn-bn-bn-en-bn/"+HnppConstants.JSON_FORMS.SS_FORM+".json",VisitLogIntentService.this));
 //            Event baseEvent = gson.fromJson(visit.getJson(), Event.class);
 //            String base_entity_id = baseEvent.getBaseEntityId();
 //            HashMap<String,Object>form_details = getFormNamesFromEventObject(baseEvent);
@@ -2191,7 +2191,7 @@ public class VisitLogIntentService extends IntentService {
 //
 //        try {
 //
-//            String jsonString = AssetHandler.readFileFromAssetsFolder("json.form-bn/"+form_name, context);
+//            String jsonString = AssetHandler.readFileFromAssetsFolder("json.form-bn-bn-bn-en-bn/"+form_name, context);
 //            return new JSONObject(jsonString);
 //        } catch (Exception e) {
 //            Log.v("LOAD_FILE","file name:"+form_name+":encounter_type:"+encounter_type);

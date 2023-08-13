@@ -124,7 +124,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "ethnicity",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "জাতিসত্তা",
         "values": [
@@ -179,7 +178,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "religion",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "ধর্ম",
         "values": [

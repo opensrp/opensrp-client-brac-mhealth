@@ -119,22 +119,22 @@
         "openmrs_entity_id": "Marital_Status",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "বৈবাহিক অবস্থা",
+        "hint": "Marital status",
         "values": [
-          "বিবাহিত",
-          "দাম্পত্য বিছিন্ন",
-          "তালাক প্রাপ্ত",
-          "অবিবাহিত",
-          "বিধবা",
-          "বিপত্নীক"
+          "Married",
+          "Separated",
+          "Divorced",
+          "Unmarried",
+          "Widow",
+          "Wife Died"
         ],
         "openmrs_choice_ids": {
-          "বিবাহিত": "Married",
-          "দাম্পত্য বিছিন্ন": "Separated",
-          "তালাক প্রাপ্ত": "Divorced",
-          "অবিবাহিত": "Unmarried",
-          "বিধবা": "Widow",
-          "বিপত্নীক": "Wife Died"
+          "Married": "Married",
+          "Separated": "Separated",
+          "Divorced": "Divorced",
+          "Unmarried": "Unmarried",
+          "Widow": "Widow",
+          "Wife Died": "Wife Died"
         }
       },
       {
@@ -144,7 +144,7 @@
         "openmrs_entity_id": "spouse_name_bangla",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "স্বামী/স্ত্রীর নাম (বাংলায়)",
+        "hint": "Husband/Wife name in bengali",
         "v_required": {
           "value": "false",
           "err": "Please enter the spouseName bengali"
@@ -156,7 +156,7 @@
         "relevance": {
           "step1:marital_status": {
             "type": "string",
-            "ex": "equalTo(., \"বিবাহিত\")"
+            "ex": "equalTo(., \"Married\")"
           }
         }
       },
@@ -165,16 +165,15 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "disable",
-        "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "প্রতিবন্ধী",
+        "hint": "Disable",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
         "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+          "Yes": "Yes",
+          "No": "No"
         }
       },
       {
@@ -182,35 +181,34 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "disability_type",
-        "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "প্রতিবন্ধীতা ধরন",
+        "hint": "Disability type",
         "values": [
-          "অটিজম বৈশিষ্ট্য সম্পন্ন ব্যাক্তি",
-          "শারীরিক প্রতিবন্ধীতা",
-          "দৃষ্টি ও শ্রবণ প্রতিবন্ধীতা",
-          "বাক ও শ্রবণ প্রতিবন্ধীতা",
-          "মানসিক প্রতিবন্ধীতা",
-          "বুদ্ধি প্রতিবন্ধীতা",
-          "সেরিব্রাল পালসিজনিত প্রতিবন্ধীতা",
-          "ডাউন সিনড্রমজনিত প্রতিবন্ধীতা",
-          "বহুমুখী প্রতিবন্ধীতা"
+          "Autism",
+          "Physical Disability",
+          "Auditory Disability",
+          "Mute and Hearing Disability",
+          "Mental Disability",
+          "Mentally Challenged",
+          "Cerebral Palsy",
+          "Down Syndrome",
+          "Multidimensional Disability"
         ],
         "openmrs_choice_ids": {
-          "অটিজম বৈশিষ্ট্য সম্পন্ন ব্যাক্তি": "Autism",
-          "শারীরিক প্রতিবন্ধীতা": "Physical Disability",
-          "দৃষ্টি ও শ্রবণ প্রতিবন্ধীতা": "Auditory Disability",
-          "বাক ও শ্রবণ প্রতিবন্ধীতা": "Mute and Hearing Disability",
-          "মানসিক প্রতিবন্ধীতা": "Mental Disability",
-          "বুদ্ধি প্রতিবন্ধীতা": "Mentally Challenged",
-          "সেরিব্রাল পালসিজনিত প্রতিবন্ধীতা": "Cerebral Palsy",
-          "ডাউন সিনড্রমজনিত প্রতিবন্ধীতা": "Down Syndrome",
-          "বহুমুখী প্রতিবন্ধীতা": "Multidimensional Disability"
+          "Autism": "Autism",
+          "Physical Disability": "Physical Disability",
+          "দAuditory Disability": "Auditory Disability",
+          "Mute and Hearing Disability": "Mute and Hearing Disability",
+          "Mental Disability": "Mental Disability",
+          "Mentally Challenged": "Mentally Challenged",
+          "Cerebral Palsy": "Cerebral Palsy",
+          "Down Syndrome": "Down Syndrome",
+          "Multidimensional Disability": "Multidimensional Disability"
         },
         "relevance": {
           "step1:disability": {
             "type": "string",
-            "ex": "equalTo(., \"হ্যাঁ\")"
+            "ex": "equalTo(., \"Yes\")"
           }
         }
       },
@@ -219,7 +217,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "ethnicity",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "Nationality",
         "values": [
@@ -274,7 +271,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "education_qualification",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "Educational qualification",
         "values": [
@@ -288,7 +284,7 @@
           "Class 6",
           "Class 7",
           "Class 8",
-          "৯ম শ্রেণী",
+          "Class 9",
           "SSC or equivalent",
           "HSC or equivalent",
           "Hons. or equivalent",
@@ -343,7 +339,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "occupation_category",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "Type of occupation",
         "values": [
@@ -371,281 +366,7 @@
           "Others Occupation": "Others Occupation"
         }
       },
-      {
-        "key": "technical_professionals",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "technical_professionals",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "কারিগরী পেশা",
-        "values": [
-          "ইঞ্জিনিয়ার",
-          "বিজ্ঞানী",
-          "অর্থনীতিবিদ",
-          "পরিসংখ্যানবিদ, গণিতবিদ, সিস্টেম এনালিস্ট এবং এতদসম্পকিত কর্মী",
-          "লেখক, সাংবাদিক এবং এতদসম্পর্কিত কর্মী",
-          "বিমান এবং জাহাজের কর্মকর্তা",
-          "চিকিৎসক, দন্ত চিকিৎসক ও প্রাণী চিকিৎসক",
-          "নার্স এবং চিকিৎসা-সংক্রান্ত অন্যান্য কর্মী",
-          "অভিনয়, কণ্ঠশিল্পী এবং নৃত্য শিল্পী",
-          "খেলোয়াড় এবং এতদসম্পর্কিত কর্মী",
-          "হিসাব রক্ষক",
-          "বিচারক",
-          "শিক্ষক",
-          "আইনজীবী",
-          "ম্যানেজার",
-          "সরকারী কর্মকর্তা",
-          "কৃষি খামার ব্যবস্থাপক ও তত্বাবধায়ক"
-        ],
-        "openmrs_choice_ids": {
-          "ইঞ্জিনিয়ার": "Engineer",
-          "বিজ্ঞানী": "Physical scientist and relevant technicians",
-          "অর্থনীতিবিদ": "Economist",
-          "পরিসংখ্যানবিদ, গণিতবিদ, সিস্টেম এনালিস্ট এবং এতদসম্পকিত কর্মী": "Statistician, Mathematician, System Analyst and Relevant",
-          "লেখক, সাংবাদিক এবং এতদসম্পর্কিত কর্মী": "Writer, Journalist and Relevant",
-          "বিমান এবং জাহাজের কর্মকর্তা": "Officer of Airplane and Ship",
-          "চিকিৎসক, দন্ত চিকিৎসক ও প্রাণী চিকিৎসক": "Medical doctor, Dentist & Veterinary",
-          "নার্স এবং চিকিৎসা-সংক্রান্ত অন্যান্য কর্মী": " Nurse and treatment related other stuffs",
-          "অভিনয়, কণ্ঠশিল্পী এবং নৃত্য শিল্পী": "Acting, Singing and Dancing",
-          "খেলোয়াড় এবং এতদসম্পর্কিত কর্মী": "Player and Relevant",
-          "হিসাব রক্ষক": "Accountant",
-          "বিচারক": "Judge",
-          "শিক্ষক": "Teacher",
-          "আইনজীবী": "Lawyer",
-          "ম্যানেজার": "Manager",
-          "সরকারী কর্মকর্তা": "Government Executive Officer",
-          "কৃষি খামার ব্যবস্থাপক ও তত্বাবধায়ক": "Agricultural Farm Manager and Supervisor"
-        },
-        "relevance": {
-          "step1:occupation_category": {
-            "type": "string",
-            "ex": "equalTo(., \"Professional technical professionals\")"
-          }
-        }
-      },
-      {
-        "key": "labor_service",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "labor_service",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "অশ্রেনীভুক্ত পেশা",
-        "values": [
-          "করণীক (কেরাণী)",
-          "টাইপিস্ট/স্টেনোগ্রাফার/কম্পিউটার অপারেটর",
-          "রেকর্ড কিপার,ক্যাশিয়ার এবং এতদসম্পর্কিত কর্মী",
-          "কম্পিউটার সম্পর্কিত কর্মী",
-          "পেশাগত, কারিগরি এবং অন্যান্য অশ্রেণীভুক্ত এতদসম্পর্কিত কর্মী",
-          "চিঠিপত্র বিলিকারী",
-          "টেলিফোন ও টেলিগ্রাফ অপারেটর",
-          "অশ্রেণীভুক্ত দাপ্তরিক কাজ",
-          "ভ্রমণ সংক্রান্ত কাজে নিয়োজিত কর্মী",
-          "উৎপাদন তত্ত্বাবধায়ক এবং ফোরম্যান",
-          "ধর্মীয় কর্মী",
-          "অশ্রেণীভুক্ত সেবা কর্মী",
-          "বনকর্মী",
-          "বৈদ্যুতিক কর্মী",
-          "বৈদ্যুতিক ব্যতীত অন্যান্য মেশিন কর্মী",
-          "স্বর্ণকার",
-          "গাড়ির চালক"
-        ],
-        "openmrs_choice_ids": {
-          "করণীক (কেরাণী)": "Clerk",
-          "টাইপিস্ট/স্টেনোগ্রাফার/কম্পিউটার অপারেটর": "Typist, Stenographer & Computer Operator",
-          "রেকর্ড কিপার,ক্যাশিয়ার এবং এতদসম্পর্কিত কর্মী": "Record Keeper, Cashier & Relevant",
-          "কম্পিউটার সম্পর্কিত কর্মী": "Computer Relevant Worker",
-          "পেশাগত, কারিগরি এবং অন্যান্য অশ্রেণীভুক্ত এতদসম্পর্কিত কর্মী": "Occupational, Technical and other non categorized worker",
-          "চিঠিপত্র বিলিকারী": "Postman",
-          "টেলিফোন ও টেলিগ্রাফ অপারেটর": "Telephone and Telegraph Operator",
-          "অশ্রেণীভুক্ত দাপ্তরিক কাজ": "Non-categorized Clerical Worker",
-          "ভ্রমণ সংক্রান্ত কাজে নিয়োজিত কর্মী": "Travelling Related Worker",
-          "উৎপাদন তত্ত্বাবধায়ক এবং ফোরম্যান": "Production Supervisor & Foreman",
-          "ধর্মীয় কর্মী": "Religious Worker",
-          "অশ্রেণীভুক্ত সেবা কর্মী": "Non-categorized Service Provider",
-          "বনকর্মী": "Forester",
-          "বৈদ্যুতিক কর্মী": "Electrician",
-          "বৈদ্যুতিক ব্যতীত অন্যান্য মেশিন কর্মী": "Machine Worker Other Then Electric",
-          "স্বর্ণকার": "Goldsmith",
-          "গাড়ির চালক": "Driver"
-        },
-        "relevance": {
-          "step1:occupation_category": {
-            "type": "string",
-            "ex": "equalTo(., \"Semi-skilled labor service\")"
-          }
-        }
-      },
-      {
-        "key": "unskilled_labor",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "unskilled_labor",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "অদক্ষ শ্রমিক",
-        "values": [
-          "বাবুর্চি, হোটেল বয় এবং এতদসম্পর্কিত সম্পর্কিত কর্মী",
-          "অশ্রেণীভুক্ত বিক্রয় কর্মী",
-          "যানবাহন ও যোগাযোগ তত্ত্বাবধায়ক",
-          "গাড়ির কন্ডাক্টর",
-          "শব্দ প্রচারকর্মী ও চলচ্চিত্র প্রদর্শনকারী",
-          "নিরাপত্তা কর্মী",
-          "দোকানদার",
-          "ধোপার কাজ"
-        ],
-        "openmrs_choice_ids": {
-          "বাবুর্চি, হোটেল বয় এবং এতদসম্পর্কিত সম্পর্কিত কর্মী": "Cook, Waiter & Relevant Worker",
-          "অশ্রেণীভুক্ত বিক্রয় কর্মী": "Non-categorized Sales Worker",
-          "যানবাহন ও যোগাযোগ তত্ত্বাবধায়ক": "Vehicle & Communication Supervisor",
-          "গাড়ির কন্ডাক্টর": "Car conductor",
-          "শব্দ প্রচারকর্মী ও চলচ্চিত্র প্রদর্শনকারী": "Announcer & Cinema Exhibitor",
-          "নিরাপত্তা কর্মী": "Guard",
-          "দোকানদার": "Shopkeeper",
-          "ধোপার কাজ": "Fuller"
-        },
-        "relevance": {
-          "step1:occupation_category": {
-            "type": "string",
-            "ex": "equalTo(., \"Unskilled labor\")"
-          }
-        }
-      },
-      {
-        "key": "daily_workers",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "daily_workers",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "দৈনিক ভিত্তিক শ্রমিক",
-        "values": [
-          "খনন কর্মী ও খননকারী",
-          "ধাতু প্রক্রিয়াকারী",
-          "রাসায়নিক দ্রব্য প্রক্রিয়াকারী",
-          "খাদ্য ও পানীয় প্রক্রিয়া কারী",
-          "তামাক প্রক্রিয়াকারী",
-          "চামড়া প্রক্রিয়াকরণ",
-          "জুতা ও চামড়াজাত দ্রব্য প্রস্তুতকারী",
-          "রাবার ও প্লাস্টিক দ্রব্য প্রস্তুতকারী",
-          "কাগজ ও কাগজের বোর্ড প্রস্তুতকারী",
-          "মুদ্রণ কাজ",
-          "কর্মকার, ঢালাই কর্মী ও যন্ত্রাংশ প্রস্তুতকারী",
-          "পাথর কাটা ও প্রক্রিয়কারী",
-          "পানি ও পয়ঃনিষ্কাশন কাঠামো নির্মাণকারী",
-          "বজ্য ব্যবস্থাপনা কর্মী",
-          "ধাতু ঝালাইকারী",
-          "অকৃষি শ্রমিক",
-          "কৃষি শ্রমিক"
-        ],
-        "openmrs_choice_ids": {
-          "খনন কর্মী ও খননকারী": "Excavation and Digging",
-          "ধাতু প্রক্রিয়াকারী": "Metal Processing",
-          "রাসায়নিক দ্রব্য প্রক্রিয়াকারী": "Chemical Material Processing",
-          "খাদ্য ও পানীয় প্রক্রিয়া কারী": "Food & Drink Processing",
-          "তামাক প্রক্রিয়াকারী": "Tobacco Processing",
-          "চামড়া প্রক্রিয়াকরণ": " Leather Processing",
-          "জুতা ও চামড়াজাত দ্রব্য প্রস্তুতকারী": "Shoe & Lather Product Producer",
-          "রাবার ও প্লাস্টিক দ্রব্য প্রস্তুতকারী": "Rubber & Plastic Material Producer",
-          "কাগজ ও কাগজের বোর্ড প্রস্তুতকারী": "Paper & Paper Board Producer",
-          "মুদ্রণ কাজ": "Printing",
-          "কর্মকার, ঢালাই কর্মী ও যন্ত্রাংশ প্রস্তুতকারী": "Smith, Welding Worker & Machinery Parts Producer",
-          "পাথর কাটা ও প্রক্রিয়কারী": "Mason",
-          "পানি ও পয়ঃনিষ্কাশন কাঠামো নির্মাণকারী": "Plumber",
-          "বজ্য ব্যবস্থাপনা কর্মী": "Corporate management staff",
-          "ধাতু ঝালাইকারী": "Metal Welder",
-          "অকৃষি শ্রমিক": "Non-agricultural Worker",
-          "কৃষি শ্রমিক": "Agricultural Worker"
-        },
-        "relevance": {
-          "step1:occupation_category": {
-            "type": "string",
-            "ex": "equalTo(., \"Factory worker, blue collar service\")"
-          }
-        }
-      },
-      {
-        "key": "home_based_manufacturing",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "home_based_manufacturing",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "কুঠির শিল্প",
-        "values": [
-          "কাঠ মিস্ত্রি",
-          "দর্জি ও অন্যান্য সেলাই কর্মী",
-          "গ্লাস ও মাটির জিনিস প্রস্তুতকারী",
-          "তাঁতি কাপড় বোনা ও রং করা",
-          "জেলে, শিকারী এবং এতদসম্পর্কিত কর্মী",
-          "ফেরিওয়ালা"
-        ],
-        "openmrs_choice_ids": {
-          "কাঠ মিস্ত্রি": "Carpenter",
-          "দর্জি ও অন্যান্য সেলাই কর্মী": "Tailor & Relevant",
-          "গ্লাস ও মাটির জিনিস প্রস্তুতকারী": "Glass Maker & Potter",
-          "তাঁতি কাপড় বোনা ও রং করা": "Weaving & Painting",
-          "জেলে, শিকারী এবং এতদসম্পর্কিত কর্মী": "Fisherman, Hunter and Relevant",
-          "ফেরিওয়ালা": "Hawker"
-        },
-        "relevance": {
-          "step1:occupation_category": {
-            "type": "string",
-            "ex": "equalTo(., \"Home based manufacturing\")"
-          }
-        }
-      },
-      {
-        "key": "business",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "business",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "ব্যবসা",
-        "values": [
-          "পাইকারী ও খুচরা ব্যবসা",
-          "বীমা, রিয়েল এস্টেট ব্যবসা এবং এতদসম্পর্কিত সেবা বিক্রেতা",
-          "হোটেল মালিক",
-          "পোল্ট্রি মালিক "
-        ],
-        "openmrs_choice_ids": {
-          "পাইকারী ও খুচরা ব্যবসা": "Retail & Wholesale",
-          "বীমা, রিয়েল এস্টেট ব্যবসা এবং এতদসম্পর্কিত সেবা বিক্রেতা": "Insurance, Real State and Relevant Service Seller",
-          "হোটেল মালিক": "Hotel Owner",
-          "পোল্ট্রি মালিক": "Poultry owner"
-        },
-        "relevance": {
-          "step1:occupation_category": {
-            "type": "string",
-            "ex": "equalTo(., \"Business\")"
-          }
-        }
-      },
-      {
-        "key": "domestic_servant",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "domestic_servant",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "গৃহস্থালীর পরিচারক",
-        "values": [
-          "অশ্রেণীভুক্ত গৃহপরিচারিকা",
-          "বাড়ির কেয়ারটেকার, ঝাড়ুদার এবং এতদসম্পর্কিত কর্মী"
-        ],
-        "openmrs_choice_ids": {
-          "অশ্রেণীভুক্ত গৃহপরিচারিকা": "Non-categorized Housemaid",
-          "বাড়ির কেয়ারটেকার, ঝাড়ুদার এবং এতদসম্পর্কিত কর্মী": "House Caretaker, Sweeper & Relevant Worker"
-        },
-        "relevance": {
-          "step1:occupation_category": {
-            "type": "string",
-            "ex": "equalTo(., \"Domestic Servant\")"
-          }
-        }
-      },
+
       {
         "key": "religion",
         "openmrs_entity_parent": "",
@@ -688,7 +409,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "has_disease",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "Is there any disease?",
         "values": [
@@ -964,7 +684,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "illness_other",
         "type": "edit_text",
-        "hint": "অন্যান্য রোগ সম্পর্কিত পারিবারিক তথ্য",
+        "hint": "Family information about the disease",
         "v_required": {
           "value": true,
           "err": "Please Type Other Conditions"
@@ -1056,7 +776,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "habits_other",
         "type": "edit_text",
-        "hint": "অন্যান্য ঝুঁকিপূর্ণ অভ্যাস",
+        "hint": "Others (Risky Habit)",
         "v_required": {
           "value": true,
           "err": "Please Type Other Habits"

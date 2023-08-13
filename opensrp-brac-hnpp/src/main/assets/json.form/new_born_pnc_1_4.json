@@ -124,7 +124,20 @@
 
         "hint": "Weight (gm)"
       },
-
+      {
+        "key": "is_risk",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_risk",
+        "type": "hidden",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "newborn-pnc-1-4-relevance.yml"
+            }
+          }
+        }
+      },
       {
         "key": "weight_warning_less",
         "openmrs_entity_parent": "",
@@ -164,7 +177,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "term",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "Pre-term, term, post term ?",
         "values": [
@@ -172,7 +184,7 @@
           "Term",
           "Post-term"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "Pre-term": "Pre-term",
           "Term": "term",
           "Post-term": "post-term"
@@ -293,14 +305,13 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "is_Referred",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "Referred?",
         "values": [
           "Yes",
           "No"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "Yes": "Yes",
           "No": "No"
         }

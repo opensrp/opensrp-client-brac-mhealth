@@ -203,9 +203,9 @@
                 android:fontFamily="@font/tonnymj"
                 android:layout_height="wrap_content"/>
             <TextView
-                android:text="৫। শিশুর বয়স ৬ সপ্তাহ/৪২ দিন হলেই পেন্টাভ্যালেন্ট (ডিপিটি, হেপাটাইটিস-বি, হিব),
+                android:text="৫। শিশুর বয়স ৬ সপ্তাহ অথবা ৪২ দিন হলেই পেন্টাভ্যালেন্ট (ডিপিটি, হেপাটাইটিস-বি, হিব),
 ওপিভি এবং পিসিভি টিকার ১ম ডোজ দিতে হবে । তারপর কমপক্ষে ৪ সপ্তাহ/২৮
-দিনের ব্যবধানে এ সকল টিকার হয় এবং ৩য় ডোজ দিতে হবে।"
+দিনের ব্যবধানে এ সকল টিকার ২য় এবং ৩য় ডোজ দিতে হবে।"
                 android:layout_width="match_parent"
                 android:textSize="15sp"
                 android:textColor="@color/black"
@@ -214,8 +214,8 @@
                 android:fontFamily="@font/tonnymj"
                 android:layout_height="wrap_content"/>
             <TextView
-                android:text="৬। ১০ মাসে পড়লেই/২৭০ দিন পূর্ণ হলেই শিশুকে ১ম ডোজ এবং ১৫ মাস বয়স পূর্ণ
-হলেই এমআর (হাম ও রুবেলা) টিকা দিতে হবে।"
+                android:text="৬। ১০ মাসে পড়লেই অথবা ২৭০ দিন পূর্ণ হলেই শিশুকে এমআর টিকা ১ম ডোজ এবং ১৫ মাস বয়স পূর্ণ
+হলেই এমআর টিকা ২য় ডোজ দিতে হবে।"
                 android:layout_width="match_parent"
                 android:textSize="15sp"
                 android:textColor="@color/black"

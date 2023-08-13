@@ -92,7 +92,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "service_taken_date",
         "type": "date_picker",
-        "hint": "সেবা গ্রহণের তারিখ",
+        "hint": "Report Date",
         "max_date": "today"
       },
       {
@@ -107,7 +107,7 @@
         "max_date": "today-42d",
         "v_required": {
           "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
+          "err": "Answer question"
         }
       },
       {
@@ -116,7 +116,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "type": "edit_text",
-        "hint": "সম্ভাব্য প্রসবের তারিখ",
+        "hint": "EDD",
         "read_only": true,
         "calculation": {
           "rules-engine": {
@@ -133,18 +133,18 @@
         "openmrs_entity_id": "no_prev_preg",
         "type": "edit_text",
         "edit_type": "number",
-        "hint": "পূর্বে কতবার অন্তঃসত্ত্বা হয়েছেন",
+        "hint": "Gravida",
         "v_required": {
           "value": "true",
-          "err": "সংখ্যাটি 0 এর চেয়ে সমান বা বড় হতে হবে"
+          "err": "The number must be equal to or greater than 0"
         },
         "v_numeric": {
           "value": "true",
-          "err": "সংখ্যাটি 0 এর চেয়ে সমান বা বড় হতে হবে"
+          "err": "The number must be equal to or greater than 0"
         },
         "v_min": {
           "value": "0",
-          "err": "সংখ্যাটি 0 এর চেয়ে সমান বা বড় হতে হবে"
+          "err": "The number must be equal to or greater than 0"
         }
       },
       {
@@ -154,7 +154,7 @@
         "openmrs_entity_id": "164894AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "type": "edit_text",
         "edit_type": "number",
-        "hint": "কতজন জীবিত সন্তান জন্ম হয়েছে?",
+        "hint": "Para",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -164,23 +164,23 @@
         },
         "v_required": {
           "value": "true",
-          "err": "সংখ্যাটি 0 এর সমান বা বড় হতে হবে"
+          "err": "The number must be equal to or greater than 0"
         },
         "v_numeric": {
           "value": "true",
-          "err": "সংখ্যাটি 0 এর সমান বা বড় হতে হবে"
+          "err": "The number must be equal to or greater than 0"
         },
         "v_regex": {
           "value": "[0-9]*",
-          "err": "দশমিক অনুমোদিত নয়"
+          "err": "Decimals are not allowed"
         },
         "v_min": {
           "value": "0",
-          "err": "সংখ্যাটি 0 এর সমান বা বড় হতে হবে"
+          "err": "The number must be equal to or greater than 0"
         },
         "v_max": {
           "value": "20",
-          "err": "সংখ্যাটি 20 এর সমান বা কম হতে হবে"
+          "err": "The number must be equal to or less than 20"
         }
       },
       {
@@ -189,18 +189,18 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "height",
         "type": "hidden",
-        "hint": "উচ্চতা (ইঞ্চি)",
+        "hint": "Height ( Inch )",
         "v_numeric": {
           "value": "true",
-          "err": "একটি সঠিক নম্বর লিখুন"
+          "err": "Enter a correct number"
         },
         "v_required": {
           "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
+          "err": "Answer question"
         },
         "v_max": {
           "value": "209",
-          "err": "সংখ্যাটি 210 এর কম হতে হবে"
+          "err": "The number must be less than 210"
         }
       },
       {

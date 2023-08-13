@@ -176,9 +176,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1.6"
                 android:textStyle="bold"
-                android:background="@drawable/dose_bg"
+                android:text="........."
                 android:fontFamily="@font/tonnymj"
-                android:gravity="center|left"
+                android:gravity="center"
                 android:padding="10dp"
                 />
 
@@ -201,11 +201,10 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1.6"
-                android:background="@drawable/dose_bg"
                 android:fontFamily="@font/tonnymj"
-                android:gravity="center|left"
+                android:gravity="center"
                 android:padding="10dp"
-                android:text=""
+                android:text="........."
                 />
 
             <TextView
@@ -260,9 +259,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1.6"
                 android:textStyle="bold"
-                android:background="@drawable/dose_bg"
+                android:gravity="center"
+                android:text="........."
+                android:background="@drawable/table_bg"
                 android:fontFamily="@font/tonnymj"
-                android:gravity="center|left"
+
                 android:padding="10dp"
                 />
 
@@ -273,11 +274,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1.6"
                 android:textStyle="bold"
-                android:background="@drawable/dose_bg"
                 android:fontFamily="@font/tonnymj"
-                android:gravity="center|left"
+                android:gravity="center"
+                android:text="........."
+                android:background="@drawable/table_bg"
                 android:padding="10dp"
-                android:text=""
                 />
 
             <TextView
@@ -286,11 +287,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1.6"
                 android:textStyle="bold"
-                android:background="@drawable/dose_bg"
                 android:fontFamily="@font/tonnymj"
-                android:gravity="center|left"
                 android:padding="10dp"
-                android:text=""
+                android:gravity="center"
+                android:text="........."
+                android:background="@drawable/table_bg"
                 />
 
             <TextView
@@ -344,10 +345,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1.6"
                 android:textStyle="bold"
-                android:background="@drawable/dose_bg"
-                android:gravity="center|left"
                 android:padding="10dp"
                 android:fontFamily="@font/tonnymj"
+                android:gravity="center"
+                android:text="........."
+                android:background="@drawable/table_bg"
                 />
 
 
@@ -356,12 +358,12 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1.6"
-                android:background="@drawable/dose_bg"
-                android:gravity="center|left"
                 android:padding="10dp"
                 android:textStyle="bold"
                 android:fontFamily="@font/tonnymj"
-                android:text=""
+                android:gravity="center"
+                android:text="........."
+                android:background="@drawable/table_bg"
                 />
 
             <TextView
@@ -370,11 +372,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1.6"
                 android:textStyle="bold"
-                android:background="@drawable/dose_bg"
                 android:fontFamily="@font/tonnymj"
-                android:gravity="center|left"
                 android:padding="10dp"
-                android:text=""
+                android:gravity="center"
+                android:text="........."
+                android:background="@drawable/table_bg"
                 />
 
             <TextView
@@ -429,10 +431,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1.6"
                 android:textStyle="bold"
-                android:background="@drawable/dose_bg"
-                android:gravity="center|left"
                 android:fontFamily="@font/tonnymj"
                 android:padding="10dp"
+                android:gravity="center"
+                android:text="........."
+                android:background="@drawable/table_bg"
                 />
 
 
@@ -442,11 +445,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1.6"
                 android:textStyle="bold"
-                android:background="@drawable/dose_bg"
                 android:fontFamily="@font/tonnymj"
-                android:gravity="center|left"
                 android:padding="10dp"
-                android:text=""
+                android:gravity="center"
+                android:text="........."
+                android:background="@drawable/table_bg"
                 />
 
             <TextView
@@ -455,11 +458,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1.6"
                 android:textStyle="bold"
-                android:background="@drawable/dose_bg"
                 android:fontFamily="@font/tonnymj"
-                android:gravity="center|left"
                 android:padding="10dp"
-                android:text=""
+                android:gravity="center"
+                android:text="........."
+                android:background="@drawable/table_bg"
                 />
 
             <TextView
@@ -513,10 +516,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1.6"
                 android:textStyle="bold"
-                android:background="@drawable/dose_bg"
                 android:fontFamily="@font/tonnymj"
-                android:gravity="center|left"
                 android:padding="10dp"
+                android:gravity="center"
+                android:text="........."
+                android:background="@drawable/table_bg"
                 />
 
 
@@ -539,11 +543,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1.6"
                 android:textStyle="bold"
-                android:background="@drawable/dose_bg"
                 android:fontFamily="@font/tonnymj"
-                android:gravity="center|left"
                 android:padding="10dp"
-                android:text=""
+                android:gravity="center"
+                android:text="........."
+                android:background="@drawable/table_bg"
                 />
 
             <TextView
@@ -587,7 +591,7 @@
                 android:fontFamily="@font/tonnymj"
                 android:gravity="center|left"
                 android:padding="10dp"
-                android:text="এমআর (হাম ও রুবেলা) (১ম ডোজ)"
+                android:text="এমআর (১ম ডোজ)"
                 />
 
 
@@ -635,11 +639,11 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1.6"
-                android:background="@drawable/dose_bg"
                 android:fontFamily="@font/tonnymj"
-                android:gravity="center|left"
                 android:padding="10dp"
-                android:text=""
+                android:gravity="center"
+                android:text="........."
+                android:background="@drawable/table_bg"
                 />
 
             <TextView
@@ -733,11 +737,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1.6"
                 android:textStyle="bold"
-                android:background="@drawable/dose_bg"
                 android:fontFamily="@font/tonnymj"
-                android:gravity="center|left"
                 android:padding="10dp"
-                android:text=""
+                android:gravity="center"
+                android:text="........."
+                android:background="@drawable/table_bg"
                 />
 
         </LinearLayout>
@@ -752,9 +756,8 @@
             android:gravity="center|left"
             android:fontFamily="@font/tonnymj"
             android:padding="10dp"
-            android:text="টিকার এই কার্ড টি যত্ন করে রাখুন। ভবিষ্যতে শিশুর জন্ম নিবন্ধন সার্টি ফিকেট
-নেওয়ার জন্য, শিশুকে স্কু লে ভর্তি করানোর সময়, বিদেশে গমনের সময় এই
-কার্ড টি প্রয়োজন হবে"
+            android:text="টিকা দেওয়ার পর যে কোন সমস্যা/অসুবিধা হলে সাথে সাথে স্বাস্থ্যকর্মীকে
+খবর দিন। প্রয়োজনে শিশুকে নিকটস্থ স্বাস্থ্যকেন্দ্রে নিয়ে আসুন।"
             android:textColor="#FFFFFF"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"

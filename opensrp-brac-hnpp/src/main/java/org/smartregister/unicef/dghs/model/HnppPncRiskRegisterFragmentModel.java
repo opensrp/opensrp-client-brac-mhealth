@@ -22,7 +22,7 @@ public class HnppPncRiskRegisterFragmentModel extends HnppPncRegisterFragmentMod
         queryBuilder.customJoin("INNER JOIN " + HnppConstants.TABLE_NAME.ANC_MEMBER + " ON  " + tableName + "." + DBConstants.KEY.BASE_ENTITY_ID + " = " + HnppConstants.TABLE_NAME.ANC_MEMBER + "." + DBConstants.KEY.BASE_ENTITY_ID + " AND " + tableName + "." + HnppDBConstants.IS_CLOSED + " IS " + 0 + " AND " + tableName + "." + HnppDBConstants.DELIVERY_DATE + " IS NOT NULL COLLATE NOCASE ");
 
         queryBuilder.customJoin(" AND " + HnppConstants.TABLE_NAME.FAMILY_MEMBER + "." + org.smartregister.chw.anc.util.DBConstants.KEY.DATE_REMOVED + " is null");
-        queryBuilder.customJoin(" AND " + HnppConstants.TABLE_NAME.FAMILY_MEMBER + ".is_risk = 'true'");
+        queryBuilder.customJoin(" AND " + HnppConstants.TABLE_NAME.FAMILY_MEMBER + ".is_risk = 'true' and "+HnppConstants.TABLE_NAME.FAMILY_MEMBER+".risk_event_type ='"+ HnppConstants.EVENT_TYPE.PNC_REGISTRATION +"'");
 
         return queryBuilder.mainCondition(mainCondition);
     }

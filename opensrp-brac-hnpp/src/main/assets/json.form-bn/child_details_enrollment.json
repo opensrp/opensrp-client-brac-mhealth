@@ -266,7 +266,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "Relation_with_HOH",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "খানা প্রধানের সাথে সম্পর্ক",
         "values": [
@@ -470,7 +469,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "disable",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "প্রতিবন্ধী",
         "values": [
@@ -487,7 +485,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "disability_type",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "প্রতিবন্ধীতা ধরন",
         "values": [
@@ -524,7 +521,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "Blood_Group",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "রক্তের গ্রুপ",
         "values": [
