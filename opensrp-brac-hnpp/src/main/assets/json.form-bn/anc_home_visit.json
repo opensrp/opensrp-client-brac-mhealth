@@ -134,9 +134,8 @@
       {
         "key": "place_of_service_taken",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "place_of_service_taken",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "সেবা গ্রহনের স্থান",
         "values": [
@@ -152,7 +151,7 @@
           "বাড়িতে",
           "অন্যান্য"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "মেডিকেল কলেজ হাসপাতাল": "Medical_College_and_Hospital",
           "সদর হাসপাতাল": "District_Hospital",
           "উপজেলা স্বাস্থ্য কমপ্লেক্স": "Upazila_Health_Complex",
@@ -169,9 +168,8 @@
       {
         "key": "service_provider",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "service_provider",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "সেবা প্রদানকারী",
         "values": [
@@ -182,7 +180,7 @@
           "সিএসবিএ",
           "অন্যান্য_কেউ"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "ডাক্তার": "Doctor",
           "নার্স": "Nurse",
           "মিডওয়াইফ": "Midwife",
@@ -314,7 +312,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "blood_group",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "রক্তের গ্রুপ",
         "values": [
@@ -376,16 +373,15 @@
       {
         "key": "Clinical_Anemia",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "Clinical_Anemia",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "ক্লিনিকাল রক্তসল্পতা আছে?",
         "values": [
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         }
@@ -407,9 +403,8 @@
       {
         "key": "Fetal_position",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "Fetal_position",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "ভ্রূণের অবস্থান",
         "values": [
@@ -418,7 +413,7 @@
           "Breech",
           "Other"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "Cephalic": "Cephalic",
           "Transverse lie": "Transverse lie",
           "Breech": "Breech",
@@ -445,16 +440,15 @@
       {
         "key": "Fetal_movement",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "Fetal_movement",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "বাচ্চা নড়াচড়া করে কিনা?",
         "values": [
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         }
@@ -502,16 +496,15 @@
       {
         "key": "jaundice_exam",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "jaundice_exam",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "জন্ডিস  পরীক্ষা করানো হয়েছে? ",
         "values": [
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         }
@@ -519,16 +512,15 @@
       {
         "key": "hemoglobin_exam",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "hemoglobin_exam",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "হিমোগ্লোবিন পরীক্ষা করানো হয়েছে?",
         "values": [
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         }
@@ -593,16 +585,15 @@
       {
         "key": "blood_sugar_exam",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "blood_sugar_exam",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": " রক্তে গ্লুকোজের মাত্রা পরীক্ষা করানো হয়েছে? ",
         "values": [
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         }
@@ -673,16 +664,15 @@
       {
         "key": "Urine_Albumin_exam",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "Urine_Albumin_exam",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "প্রস্রাবের অ্যালবুমিন পরীক্ষা করানো হয়েছে?",
         "values": [
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         }
@@ -690,9 +680,8 @@
       {
         "key": "Urine_Albumin_result",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "Urine_Albumin_result",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "প্রস্রাবের অ্যালবুমিন পরীক্ষার ফলাফল",
         "values": [
@@ -702,7 +691,7 @@
           "৪+",
           "স্বাভাবিক"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "১+": "1+",
           "২+": "2+",
           "৩+": "3+",
@@ -736,16 +725,15 @@
       {
         "key": "Hb_tested_exam",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "Hb_tested_exam",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "হেপাটাইটিস বি পরীক্ষা করানো হয়েছে?",
         "values": [
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         }
@@ -753,16 +741,15 @@
       {
         "key": "Hb_tested_result",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "Hb_tested_result",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": " হেপাটাইটিস বি পরীক্ষার ফলাফল",
         "values": [
           "পজিটিভ",
           "নেগেটিভ"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "পজিটিভ": "positive",
           "নেগেটিভ": "negative"
         },
@@ -793,16 +780,15 @@
       {
         "key": "chipilis_tested_exam",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "chipilis_tested_exam",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "সিফিলিস পরীক্ষা করানো হয়েছে?",
         "values": [
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         }
@@ -810,16 +796,15 @@
       {
         "key": "chipilis_tested_result",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "chipilis_tested_result",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "সিফিলিস পরীক্ষার ফলাফল",
         "values": [
           "পজিটিভ",
           "নেগেটিভ"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "পজিটিভ": "positive",
           "নেগেটিভ": "negative"
         },
@@ -850,16 +835,15 @@
       {
         "key": "hiv_tested_exam",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "hiv_tested_exam",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "এইচ আই ভি পরীক্ষা করানো হয়েছে?",
         "values": [
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         }
@@ -867,16 +851,15 @@
       {
         "key": "hiv_tested_result",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "hiv_tested_result",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "এইচ আই ভি পরীক্ষার ফলাফল",
         "values": [
           "পজিটিভ",
           "নেগেটিভ"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "পজিটিভ": "positive",
           "নেগেটিভ": "negative"
         },
@@ -907,16 +890,15 @@
       {
         "key": "ultra_sound_exam",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "ultra_sound_exam",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "আল্ট্রাসাউন্ড স্ক্যান পরীক্ষা করানো হয়েছে?",
         "values": [
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         }
@@ -1176,16 +1158,15 @@
       {
         "key": "is_Referred",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "is_Referred",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "রেফার করা হয়েছে?",
         "values": [
           "হ্যাঁ",
           "না"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
         }
@@ -1193,9 +1174,8 @@
       {
         "key":"Place_of_Refer",
         "openmrs_entity_parent":"",
-        "openmrs_entity":"",
+        "openmrs_entity":"concept",
         "openmrs_entity_id":"Place_of_Refer",
-        "openmrs_data_type":"text",
         "type":"spinner",
         "hint":"রেফারের স্থান",
         "values":[
@@ -1213,7 +1193,7 @@
           "অন্যান্য",
           "রেফার করা হয়নি"
         ],
-        "openmrs_entity_ids":{
+        "openmrs_choice_ids":{
           "কমিউনিটি ক্লিনিক":"Community_Clinic",
           "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র":"Union_Sub_Center",
           "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র":"Union_Family_Welfare_Center",
