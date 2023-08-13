@@ -4,6 +4,8 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -29,6 +31,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.smartregister.chw.core.R;
 import org.smartregister.chw.core.activity.ChwP2pModeSelectActivity;
 import org.smartregister.chw.core.adapter.NavigationAdapter;
+import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.contract.NavigationContract;
 import org.smartregister.chw.core.listener.NavigationListener;
 import org.smartregister.chw.core.model.NavigationModel;
@@ -36,6 +39,7 @@ import org.smartregister.chw.core.model.NavigationOption;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.domain.FetchStatus;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
+import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.nativation.presenter.HnppNavigationPresenter;
 import org.smartregister.util.LangUtils;
@@ -483,6 +487,8 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     String language = "";
 
     private void registerLanguageSwitcher(final Activity context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        AllSharedPreferences allSharedPreferences = new AllSharedPreferences(preferences);
 
         View rlIconLang = rootView.findViewById(R.id.rlIconLang);
         final TextView tvLang = rootView.findViewById(R.id.tvLang);
@@ -491,6 +497,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
 
         HnppApplication.getInstance().getApplicationContext().getResources().getConfiguration().setLocale(new Locale(LangUtils.getLanguage(context)));
         Locale current =  HnppApplication.getInstance().getApplicationContext().getResources().getConfiguration().locale;
+        allSharedPreferences.saveLanguagePreference(LangUtils.getLanguage(context));
 
 
 
@@ -515,6 +522,8 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
             }
             LangUtils.saveLanguage(context.getApplicationContext(), LOCALE.getLanguage());
             HnppApplication.getInstance().getApplicationContext().getResources().getConfiguration().setLocale(LOCALE);
+
+            allSharedPreferences.saveLanguagePreference(LOCALE.getLanguage());
 
             tvLang.setText(language);
             // destroy current instance

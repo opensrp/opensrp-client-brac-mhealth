@@ -52,7 +52,7 @@
     }
   },
   "step1": {
-    "title": "খানা বাতিল করুন",
+    "title": "Remove Family",
     "fields": [
       {
         "key": "spacer",
@@ -102,18 +102,18 @@
         "openmrs_entity_id": "closure_reason_fam",
         "openmrs_data_type": "select one",
         "type": "spinner",
-        "hint": "বাতিল করার কারণ",
+        "hint": "Reason for Member Cancellation",
         "v_required": {
           "value": "true",
-          "err": "খানা বাতিল করার কারণ নির্বাচন করুন"
+          "err": "Select Reason for Member Cancellation"
         },
         "values": [
-          "স্থানান্তর",
-          "অন্যান্য"
+          "Migration",
+          "Other"
         ],
         "openmrs_choice_ids": {
-          "স্থানান্তর": "moved_away",
-          "অন্যান্য": "other"
+          "Migration": "moved_away",
+          "Other": "other"
         }
       },
       {
@@ -141,7 +141,7 @@
         "relevance": {
           "step1:closure_reason_fam": {
             "type": "string",
-            "ex": "equalTo(., \"অন্যান্য\")"
+            "ex": "equalTo(., \"other\")"
           }
         }
       },
@@ -160,7 +160,7 @@
         "relevance": {
           "step1:closure_reason_other_fam": {
             "type": "string",
-            "ex": "equalTo(., \"অন্যান্য\")"
+            "ex": "equalTo(., \"other\")"
           }
         }
       },
@@ -190,7 +190,7 @@
         "relevance": {
           "step1:closure_reason_fam": {
             "type": "string",
-            "ex": "equalTo(., \"স্থানান্তর\")"
+            "ex": "equalTo(., \"Migration\")"
           }
         }
       },

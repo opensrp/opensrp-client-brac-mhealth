@@ -65,35 +65,35 @@ actions:
 name: step2_ad_toaster_Urine_Albumin
 description: q3-q2grater1
 priority: 3
-condition: "step2_Urine_Albumin_result.equals('১+') || step2_Urine_Albumin_result.equals('২+') || step2_Urine_Albumin_result.equals('৩+') || step2_Urine_Albumin_result.equals('৪+')"
+condition: "(step2_Urine_Albumin_result.equals('১+') || step2_Urine_Albumin_result.equals('1+')) || (step2_Urine_Albumin_result.equals('২+') || step2_Urine_Albumin_result.equals('2+')) || (step2_Urine_Albumin_result.equals('৩+') || step2_Urine_Albumin_result.equals('3+')) || (step2_Urine_Albumin_result.equals('৪+') || step2_Urine_Albumin_result.equals('4+'))"
 actions:
   - "isRelevant = true"
 ---
 name: step2_ad_toaster_Hb_tested
 description: q3-q2grater1
 priority: 3
-condition: "step2_Hb_tested_result.equals('পজিটিভ')"
+condition: "(step2_Hb_tested_result.equals('পজিটিভ') || step2_Hb_tested_result.equals('Positive'))"
 actions:
   - "isRelevant = true"
 ---
 name: step2_ad_toaster_chipilis_tested
 description: q3-q2grater1
 priority: 3
-condition: "step2_chipilis_tested_result.equals('পজিটিভ')"
+condition: "(step2_chipilis_tested_result.equals('পজিটিভ') || step2_chipilis_tested_result.equals('Positive'))"
 actions:
   - "isRelevant = true"
 ---
 name: step2_ad_toaster_chipilis_tested
 description: q3-q2grater1
 priority: 3
-condition: "step2_chipilis_tested_result.equals('পজিটিভ')"
+condition: "(step2_chipilis_tested_result.equals('পজিটিভ') || step2_chipilis_tested_result.equals('Positive'))"
 actions:
   - "isRelevant = true"
 ---
 name: step2_ad_toaster_hiv_tested
 description: q3-q2grater1
 priority: 3
-condition: "step2_hiv_tested_result.equals('পজিটিভ')"
+condition: "(step2_hiv_tested_result.equals('পজিটিভ') || step2_hiv_tested_result.equals('Positive'))"
 actions:
   - "isRelevant = true"
 ---

@@ -52,7 +52,7 @@
     }
   },
   "step1": {
-    "title": "সদস্যকে বাতিল করুন",
+    "title": "Remove Family Member",
     "fields": [
       {
         "key": "form_name",
@@ -107,20 +107,20 @@
         "openmrs_entity_id": "remove_reason",
         "openmrs_data_type": "select one",
         "type": "spinner",
-        "hint": "সদস্য বাতিল করার কারণ",
+        "hint": "Reason for Member Cancellation",
         "v_required": {
           "value": "true",
-          "err": "সদস্য বাতিল করার কারণ নির্বাচন করুন"
+          "err": "Select Reason for Member Cancellation"
         },
         "values": [
-          "স্থানান্তর",
-          "মৃত্যু নিবন্ধন",
-          "অন্যান্য"
+          "Migration",
+          "Death Registration",
+          "Other"
         ],
         "openmrs_choice_ids": {
-          "স্থানান্তর": "moved_away",
-          "মৃত্যু নিবন্ধন": "died",
-          "অন্যান্য": "other"
+          "Migration": "moved_away",
+          "Death Registration": "died",
+          "Other": "other"
         }
       },
 
@@ -159,7 +159,7 @@
         "relevance": {
           "step1:remove_reason": {
             "type": "string",
-            "ex": "equalTo(., \"অন্যান্য\")"
+            "ex": "equalTo(., \"Other\")"
           }
         }
       },
@@ -171,11 +171,11 @@
         "openmrs_entity_id": "removed_other_reason",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "অন্যান্য",
+        "hint": "Other",
         "relevance": {
           "step1:removed_other": {
             "type": "string",
-            "ex": "equalTo(., \"অন্যান্য\")"
+            "ex": "equalTo(., \"Other\")"
           }
         }
       },
@@ -205,7 +205,7 @@
         "relevance": {
           "step1:remove_reason": {
             "type": "string",
-            "ex": "equalTo(., \"স্থানান্তর\")"
+            "ex": "equalTo(., \"Migration\")"
           }
         }
       },
@@ -236,7 +236,7 @@
         "relevance": {
           "step1:remove_reason": {
             "type": "string",
-            "ex": "equalTo(., \"মৃত্যু নিবন্ধন\")"
+            "ex": "equalTo(., \"Death Registration\")"
           }
         }
       },
@@ -260,7 +260,7 @@
         "relevance": {
           "step1:remove_reason": {
             "type": "string",
-            "ex": "equalTo(., \"মৃত্যু নিবন্ধন\")"
+            "ex": "equalTo(., \"Death Registration\")"
           }
         }
       },
@@ -339,58 +339,58 @@
         "type": "spinner",
         "hint": "মৃতের সাথে সম্পর্ক ",
         "values": [
-          "স্বামী",
-          "স্ত্রী",
-          "পুত্র",
-          "কন্যা",
-          "পুত্রবধূ",
-          "নাতি",
-          "নাতনী",
-          "মাতা",
-          "পিতা",
-          "ভাই",
-          "বোন",
-          "ভাইপো",
-          "ভাইঝি",
-          "ভাগ্নে",
-          "ভাগ্নি",
-          "শ্বশুর",
-          "শাশুড়ি",
-          "শ্যালক",
-          "শ্যালিকা",
-          "দেবর",
-          "জা",
-          "ননদ",
-          "ভাইয়ের স্ত্রী",
-          "ভগ্নিপতি",
-          "জামাতা"
+          "Husband",
+          "Wife",
+          "Son",
+          "Daughter",
+          "Daughter-in-law",
+          "Grandson",
+          "Grand-Daughter",
+          "Mother",
+          "Father",
+          "Brother",
+          "Sister",
+          "Nephew(Vaipo)",
+          "Niece(Vaiji)",
+          "Nephew(Vagne)",
+          "Niece(Vagni)",
+          "Father-in-law",
+          "Mother-in-law",
+          "Brother-in-law(Shalok)",
+          "Sister-in-law(Shalika)",
+          "Brother-in-law(Debor)",
+          "Sister-in-law(Ja)",
+          "Sister-in-law(Nonod)",
+          "Brother's wife",
+          "Sister-in-law(Vognipoti)",
+          "Son-in-law"
         ],
-        "openmrs_entity_ids": {
-          "স্বামী": "Husband",
-          "স্ত্রী": "Wife",
-          "পুত্র": "Son",
-          "কন্যা": "Daughter",
-          "পুত্রবধূ": "Daughter-in-law",
-          "নাতি": "Grandson",
-          "নাতনি": "Grand-Daughter",
-          "পিতা": "Father",
-          "মাতা": "Mother",
-          "ভাই": "Brother",
-          "বোন ": "Sister",
-          "ভাইপো": "Nephew",
-          "ভাইঝি": "niece",
-          "ভাগ্নে": "Nephew",
-          "ভাগ্নি": "niece",
-          "শ্বশুর": "Father-in-law",
-          "শাশুড়ি": "Mother-in-law",
-          "শ্যালক": "brother-in-law",
-          "শ্যালিকা": "sister-in-law",
-          "দেবর": "brother-in-law",
-          "জা": "sister-in-law",
-          "ননদ": "Sister-in-law",
-          "ভাইয়ের স্ত্রী": "Brother's wife",
-          "ভগ্নিপতি": "sister-in-law",
-          "জামাতা": "Son-in-law"
+        "openmrs_choice_ids": {
+          "Husband" : "Husband",
+          "Wife" :	"Wife",
+          "Son" :	"Son",
+          "Daughter":	"Daughter",
+          "Daughter-in-law":	"Daughter-in-law",
+          "Grandson":    "Grandson"	,
+          "Grand-Daughter": 	"Grand-Daughter",
+          "Father"	:   "Father",
+          "Mother":	"Mother",
+          "Brother":     "Brother",
+          "Sister ":	"Sister",
+          "Nephew(Vaipo)" :	"Nephew",
+          "Niece(Vaiji)":	"niece",
+          "Nephew(Vagne)"	:   "Nephew",
+          "Niece(Vagni)" :	"niece",
+          "Father-in-law":	"Father-in-law",
+          "Mother-in-law" :	"Mother-in-law",
+          "Brother-in-law(Shalok)":	"brother-in-law",
+          "Sister-in-law(Shalika)":	"sister-in-law",
+          "Brother-in-law(Debor)":	"brother-in-law",
+          "Sister-in-law(Ja)":	    "sister-in-law",
+          "Sister-in-law(Nonod)" :	"Sister-in-law",
+          "Brother's wife" :	"Brother's wife",
+          "Sister-in-law(Vognipoti)":	"sister-in-law",
+          "Son-in-law" :	"Son-in-law"
         },
         "relevance": {
           "rules-engine": {
@@ -532,36 +532,36 @@
         "type": "spinner",
         "hint": "চিকিৎসা সেবা গ্রহণ না করে থাকলে তার কারণ কি ছিল?",
         "values": [
-          "অপ্রয়োজনীয় মনে করেছিল",
-          "ব্যয়বহুল ছিল",
-          "দূরত্ব বেশি ছিল",
-          "নিয়ে যাওয়ার সঙ্গী ছিল না",
-          "পারিবারিক অসম্মতি ছিল",
-          "কোথায় যেতে হবে জানা ছিল না",
-          "অর্থের অভাব ছিল",
-          "সেবা গ্রহণে ভয় পাওয়া",
-          "চিকিৎসার প্রয়োজন বুঝতে পারেনি",
-          "যানবাহনের অভাব ছিল",
-          "সেবার মান অনুন্নত",
-          "বাড়িতে ভালো সেবা পাওয়ায়",
-          "সময়ের অভাব ছিল",
-          "অন্যান্য"
+          "Think unncessary",
+          "Expensive",
+          "Far from home",
+          "No accompany",
+          "No family consent",
+          "No information to go",
+          "Lack of Money",
+          "Fear of taking service",
+          "Lack of knowledgefor",
+          "Lack of transport",
+          "Lack of quality service",
+          "Good homecare",
+          "Lack of time",
+          "Others"
         ],
         "openmrs_entity_ids": {
-          "অপ্রয়োজনীয় মনে করেছিল": "Think unncessary",
-          "ব্যয়বহুল ছিল": "Expensive",
-          "দূরত্ব বেশি ছিল": "Far from home",
-          "নিয়ে যাওয়ার সঙ্গী ছিল না": "No accompany",
-          "পারিবারিক অসম্মতি ছিল": "No family consent",
-          "কোথায় যেতে হবে জানা ছিল না": "No information to go",
-          "অর্থের অভাব ছিল": "Lack of Money",
-          "সেবা গ্রহণে ভয় পাওয়া": "Fear of taking service",
-          "চিকিৎসার প্রয়োজন বুঝতে পারেনি": "Lack of knowledgefor importance of service",
-          "যানবাহনের অভাব ছিল": "Lack of transport",
-          "সেবার মান অনুন্নত": "Lack of quality service",
-          "বাড়িতে ভালো সেবা পাওয়ায়": "Good homecare",
-          "সময়ের অভাব ছিল": "Lack of time",
-          "অন্যান্য": "Others"
+          "Think unncessary": "Think unncessary",
+          "Expensive": "Expensive",
+          "Far from home": "Far from home",
+          "No accompany": "No accompany",
+          "No family consent": "No family consent",
+          "No information to go": "No information to go",
+          "Lack of Money": "Lack of Money",
+          "Fear of taking service": "Fear of taking service",
+          "Lack of knowledgefor": "Lack of knowledgefor importance of service",
+          "Lack of transport": "Lack of transport",
+          "Lack of quality service": "Lack of quality service",
+          "Good homecare": "Good homecare",
+          "Lack of time": "Lack of time",
+          "Others": "Others"
         },
         "relevance": {
           "rules-engine": {
@@ -696,7 +696,7 @@
         "relevance": {
           "step1:remove_reason": {
             "type": "string",
-            "ex": "equalTo(., \"মৃত্যু নিবন্ধন\")"
+            "ex": "equalTo(., \"Death Registration\")"
           }
         }
       },
@@ -737,7 +737,7 @@
         "relevance": {
           "step1:remove_reason": {
             "type": "string",
-            "ex": "equalTo(., \"মৃত্যু নিবন্ধন\")"
+            "ex": "equalTo(., \"Death Registration\")"
           }
         }
       },
@@ -813,7 +813,7 @@
         "relevance": {
           "step1:remove_reason": {
             "type": "string",
-            "ex": "equalTo(., \"Moved away\")"
+            "ex": "equalTo(., \"Migration\")"
           }
         }
       },

@@ -86,63 +86,63 @@ actions:
 name: step1_newborn_death_sick
 description: after ss name select
 priority: 1
-condition: "helper.formatDate(step1_dob,'d') <= 42&&step1_remove_reason.equalsIgnoreCase('মৃত্যু নিবন্ধন')"
+condition: "helper.formatDate(step1_dob,'d') <= 42 &&  (step1_remove_reason.equalsIgnoreCase('মৃত্যু নিবন্ধন') || step1_remove_reason.equalsIgnoreCase('Died')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_new_born_death_place
 description: after ss name select
 priority: 1
-condition: "helper.formatDate(step1_dob,'d') <= 42 && step1_remove_reason.equalsIgnoreCase('মৃত্যু নিবন্ধন')"
+condition: "helper.formatDate(step1_dob,'d') <= 42 && (step1_remove_reason.equalsIgnoreCase('মৃত্যু নিবন্ধন') || step1_remove_reason.equalsIgnoreCase('Died'))"
 actions:
   - "isRelevant = true"
 ---
 name: step1_new_born_death_time
 description: after ss name select
 priority: 1
-condition: "helper.formatDate(step1_dob,'d') <= 42 && step1_remove_reason.equalsIgnoreCase('মৃত্যু নিবন্ধন')"
+condition: "helper.formatDate(step1_dob,'d') <= 42 &&  (step1_remove_reason.equalsIgnoreCase('মৃত্যু নিবন্ধন') || step1_remove_reason.equalsIgnoreCase('Died')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_new_born_death_date
 description: after ss name select
 priority: 1
-condition: "helper.formatDate(step1_dob,'d') <= 42 && step1_remove_reason.equalsIgnoreCase('মৃত্যু নিবন্ধন')"
+condition: "helper.formatDate(step1_dob,'d') <= 42 &&  (step1_remove_reason.equalsIgnoreCase('মৃত্যু নিবন্ধন') || step1_remove_reason.equalsIgnoreCase('Died')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_newborn_death_dhis_no
 description: after ss name select
 priority: 1
-condition: "helper.formatDate(step1_dob,'d') <= 42 && step1_remove_reason.equalsIgnoreCase('মৃত্যু নিবন্ধন')"
+condition: "helper.formatDate(step1_dob,'d') <= 42 &&  (step1_remove_reason.equalsIgnoreCase('মৃত্যু নিবন্ধন') || step1_remove_reason.equalsIgnoreCase('Died')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_community_code
 description: after ss name select
 priority: 1
-condition: "helper.formatDate(step1_dob,'d') <= 42 && step1_remove_reason.equalsIgnoreCase('মৃত্যু নিবন্ধন')"
+condition: "helper.formatDate(step1_dob,'d') <= 42 &&  (step1_remove_reason.equalsIgnoreCase('মৃত্যু নিবন্ধন') || step1_remove_reason.equalsIgnoreCase('Died')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_community_name
 description: after ss name select
 priority: 1
-condition: "helper.formatDate(step1_dob,'d') <= 42 && step1_remove_reason.equalsIgnoreCase('মৃত্যু নিবন্ধন')"
+condition: "helper.formatDate(step1_dob,'d') <= 42 &&  (step1_remove_reason.equalsIgnoreCase('মৃত্যু নিবন্ধন') || step1_remove_reason.equalsIgnoreCase('Died')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_present_at_newborn_death_child
 description: after ss name select
 priority: 1
-condition: "helper.formatDate(step1_dob,'d') <= 42 && step1_remove_reason.equalsIgnoreCase('মৃত্যু নিবন্ধন')"
+condition: "helper.formatDate(step1_dob,'d') <= 42 &&  (step1_remove_reason.equalsIgnoreCase('মৃত্যু নিবন্ধন') || step1_remove_reason.equalsIgnoreCase('Died')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_new_born_relation_with_still_birth
 description: after ss name select
 priority: 1
-condition: "helper.formatDate(step1_dob,'d') <= 42 && step1_remove_reason.equalsIgnoreCase('মৃত্যু নিবন্ধন')"
+condition: "helper.formatDate(step1_dob,'d') <= 42 &&  (step1_remove_reason.equalsIgnoreCase('মৃত্যু নিবন্ধন') || step1_remove_reason.equalsIgnoreCase('Died')"
 actions:
   - "isRelevant = true"
 ---
@@ -157,6 +157,6 @@ actions:
 name: step1_newborn_death_name_of_answerer
 description: newborn_death_name_of_answerer
 priority: 1
-condition: "helper.formatDate(step1_dob,'d') <= 42 && step1_remove_reason.equalsIgnoreCase('মৃত্যু নিবন্ধন')"
+condition: "helper.formatDate(step1_dob,'d') <= 42 &&  (step1_remove_reason.equalsIgnoreCase('মৃত্যু নিবন্ধন') || step1_remove_reason.equalsIgnoreCase('Died')"
 actions:
   - "isRelevant = true"

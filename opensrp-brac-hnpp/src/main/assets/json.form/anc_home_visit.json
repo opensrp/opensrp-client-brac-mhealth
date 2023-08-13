@@ -47,7 +47,7 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "Pregnancy Service",
+    "title": "ANC",
     "next": "step2",
     "fields": [
       {
@@ -111,7 +111,7 @@
         "openmrs_entity_id": "edd",
         "type": "hidden",
         "read_only": true,
-        "hint": "সম্ভাব্য প্রসবের তারিখ"
+        "hint": "Probable date of delivery"
       },
       {
         "key": "schedule_date",
@@ -134,9 +134,8 @@
       {
         "key": "place_of_service_taken",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "place_of_service_taken",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "Place of service *",
         "values": [
@@ -152,7 +151,7 @@
           "Home",
           "Others"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "Medical College Hospital/Specialized Hospital": "Medical_College_and_Hospital",
           "District Hospital": "District_Hospital",
           "Upazila Health Complex": "Upazila_Health_Complex",
@@ -169,9 +168,8 @@
       {
         "key": "service_provider",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "service_provider",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "Service provider *",
         "values": [
@@ -182,7 +180,7 @@
           "CSBA",
           "Others"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "Doctor": "Doctor",
           "Nurse": "Nurse",
           "Midwife": "Midwife",
@@ -314,7 +312,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "blood_group",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "Blood group",
         "values": [
@@ -363,7 +360,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": " জ্বর। পর্যবেক্ষণে রাখুন",
+        "text": "Fever, Keep under observation",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
@@ -376,16 +373,15 @@
       {
         "key": "Clinical_Anemia",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "Clinical_Anemia",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "Clinical Anemia",
         "values": [
           "Yes",
           "No"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "Yes": "Yes",
           "No": "No"
         }
@@ -407,9 +403,8 @@
       {
         "key": "Fetal_position",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "Fetal_position",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "Fetal position",
         "values": [
@@ -418,7 +413,7 @@
           "Breech",
           "Other"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "Cephalic": "Cephalic",
           "Transverse lie": "Transverse lie",
           "Breech": "Breech",
@@ -445,16 +440,15 @@
       {
         "key": "Fetal_movement",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "Fetal_movement",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "Fetal movement ?",
         "values": [
           "Yes",
           "No"
         ],
-        "openmrs_entity_ids": {
+        "openmrs_choice_ids": {
           "Yes": "Yes",
           "No": "No"
         }
@@ -482,7 +476,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "ফিটাল ডিসট্রেস (Foetal Distress)। পর্যবেক্ষণে রাখুন",
+        "text": "Foetal Distress. Please monitor",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
@@ -502,35 +496,33 @@
       {
         "key": "jaundice_exam",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "jaundice_exam",
-        "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "জন্ডিস  পরীক্ষা করানো হয়েছে? ",
+        "hint": "Examine for jaundice?",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
-        "openmrs_entity_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+        "openmrs_choice_ids": {
+          "Yes": "Yes",
+          "No": "No"
         }
       },
       {
         "key": "hemoglobin_exam",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "hemoglobin_exam",
-        "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "হিমোগ্লোবিন পরীক্ষা করানো হয়েছে?",
+        "hint": "Hemoglobin tested?",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
-        "openmrs_entity_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+        "openmrs_choice_ids": {
+          "Yes": "Yes",
+          "No": "No"
         }
       },
       {
@@ -540,19 +532,19 @@
         "openmrs_entity_id": "Hemoglobin_result",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "হিমোগ্লোবিন পরীক্ষার ফলাফল (gm/dl)",
+        "hint": "Hemoglobin test result (gm/dl)",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
         },
         "v_min": {
           "value": "1",
-          "err": "1 এর বেশি হওয়া উচিত"
+          "err": "Should be greater than 1"
         },
         "relevance": {
           "step2:hemoglobin_exam": {
             "type": "string",
-            "ex": "regex(., \"হ্যাঁ\")"
+            "ex": "regex(., \"Yes\")"
           }
         }
       },
@@ -562,7 +554,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "রক্তশূন্যতা ( Anaemia )।পর্যবেক্ষণে রাখুন",
+        "text": "Anaemia. Please Monitor",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
@@ -579,7 +571,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "পলিসিথেমিয়া ( Polycythemia) । পর্যবেক্ষণে রাখুন",
+        "text": "Polycythemia. Please Monitor",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
@@ -593,18 +585,17 @@
       {
         "key": "blood_sugar_exam",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "blood_sugar_exam",
-        "openmrs_data_type": "",
         "type": "spinner",
-        "hint": " রক্তে গ্লুকোজের মাত্রা পরীক্ষা করানো হয়েছে? ",
+        "hint": "Blood sugar tested?",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
-        "openmrs_entity_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+        "openmrs_choice_ids": {
+          "Yes": "Yes",
+          "No": "No"
         }
       },
       {
@@ -614,19 +605,19 @@
         "openmrs_entity_id": "fbs_result",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": " রক্তে গ্লুকোজের মাত্রা পরীক্ষার ফলাফল -ফাস্টিং (mmol/dl) ",
+        "hint": "Blood sugar test result- Fasting (mmol/L)",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
         },
         "v_min": {
           "value": "1",
-          "err": "1 এর বেশি হওয়া উচিত"
+          "err": "Should be greater than 1"
         },
         "relevance": {
           "step2:blood_sugar_exam": {
             "type": "string",
-            "ex": "regex(., \"হ্যাঁ\")"
+            "ex": "regex(., \"Yes\")"
           }
         }
       },
@@ -637,14 +628,14 @@
         "openmrs_entity_id": "rbs_result",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": " রক্তে গ্লুকোজের মাত্রা পরীক্ষার ফলাফল -রেন্ডম (mmol/dl) ",
+        "hint": "Blood sugar test result- Random (mmol/L)",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
         },
         "v_min": {
           "value": "1",
-          "err": "1 এর বেশি হওয়া উচিত"
+          "err": "Should be greater than 1"
         },
         "relevance": {
           "step2:blood_sugar_exam": {
@@ -659,7 +650,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "জেস্টেশনাল ডায়াবেটিস মেলাইটিস (Gestational Diabetes Mellitus)। পর্যবেক্ষণে রাখুন",
+        "text": "Gestational Diabetes Mellitus. Please Monitor",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
@@ -673,46 +664,44 @@
       {
         "key": "Urine_Albumin_exam",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "Urine_Albumin_exam",
-        "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "প্রস্রাবের অ্যালবুমিন পরীক্ষা করানো হয়েছে?",
+        "hint": "Urine albumin tested ?",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
-        "openmrs_entity_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+        "openmrs_choice_ids": {
+          "Yes": "Yes",
+          "No": "No"
         }
       },
       {
         "key": "Urine_Albumin_result",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "Urine_Albumin_result",
-        "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "প্রস্রাবের অ্যালবুমিন পরীক্ষার ফলাফল",
+        "hint": "Urine Albumin test result",
         "values": [
-          "১+",
-          "২+",
-          "৩+",
-          "৪+",
-          "স্বাভাবিক"
+          "1+",
+          "2+",
+          "3+",
+          "4+",
+          "Normal"
         ],
-        "openmrs_entity_ids": {
-          "১+": "1+",
-          "২+": "2+",
-          "৩+": "3+",
-          "৪+": "4+",
-          "স্বাভাবিক": "Normal"
+        "openmrs_choice_ids": {
+          "1+": "1+",
+          "2+": "2+",
+          "3+": "3+",
+          "4+": "4+",
+          "Normal": "Normal"
         },
         "relevance": {
           "step2:Urine_Albumin_exam": {
             "type": "string",
-            "ex": "regex(., \"হ্যাঁ\")"
+            "ex": "regex(., \"Yes\")"
           }
         }
       },
@@ -722,7 +711,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "প্রোটিনুরিয়া (Proteinuria)। পর্যবেক্ষণে রাখুন",
+        "text": "Proteinuria. Please Monitor",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
@@ -736,40 +725,38 @@
       {
         "key": "Hb_tested_exam",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "Hb_tested_exam",
-        "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "হেপাটাইটিস বি পরীক্ষা করানো হয়েছে?",
+        "hint": "Hepatitis B tested?",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
-        "openmrs_entity_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+        "openmrs_choice_ids": {
+          "Yes": "Yes",
+          "No": "No"
         }
       },
       {
         "key": "Hb_tested_result",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "Hb_tested_result",
-        "openmrs_data_type": "",
         "type": "spinner",
-        "hint": " হেপাটাইটিস বি পরীক্ষার ফলাফল",
+        "hint": "Hepatitis B test result",
         "values": [
-          "পজিটিভ",
-          "নেগেটিভ"
+          "Positive",
+          "Negative"
         ],
-        "openmrs_entity_ids": {
-          "পজিটিভ": "positive",
-          "নেগেটিভ": "negative"
+        "openmrs_choice_ids": {
+          "Positive": "positive",
+          "Negative": "negative"
         },
         "relevance": {
           "step2:Hb_tested_exam": {
             "type": "string",
-            "ex": "regex(., \"হ্যাঁ\")"
+            "ex": "regex(., \"Yes\")"
           }
         }
       },
@@ -779,7 +766,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": " হেপাটাইটিস বি পরীক্ষার ফলাফল পজিটিভ। পর্যবেক্ষণে রাখুন",
+        "text": "Hepatitis B Test Positive. Please Monitor",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
@@ -793,40 +780,38 @@
       {
         "key": "chipilis_tested_exam",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "chipilis_tested_exam",
-        "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "সিফিলিস পরীক্ষা করানো হয়েছে?",
+        "hint": "Syphillis tested?",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
-        "openmrs_entity_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+        "openmrs_choice_ids": {
+          "Yes": "Yes",
+          "No": "No"
         }
       },
       {
         "key": "chipilis_tested_result",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "chipilis_tested_result",
-        "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "সিফিলিস পরীক্ষার ফলাফল",
+        "hint": "Syphillis test result",
         "values": [
-          "পজিটিভ",
-          "নেগেটিভ"
+          "Positive",
+          "Negative"
         ],
-        "openmrs_entity_ids": {
-          "পজিটিভ": "positive",
-          "নেগেটিভ": "negative"
+        "openmrs_choice_ids": {
+          "Positive": "positive",
+          "Negative": "negative"
         },
         "relevance": {
           "step2:chipilis_tested_exam": {
             "type": "string",
-            "ex": "regex(., \"হ্যাঁ\")"
+            "ex": "regex(., \"Yes\")"
           }
         }
       },
@@ -836,7 +821,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": " সিফিলিস পরীক্ষার ফলাফল পজিটিভ। পর্যবেক্ষণে রাখুন",
+        "text": "Syphillis Test Positive. Please Monitor",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
@@ -850,40 +835,38 @@
       {
         "key": "hiv_tested_exam",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "hiv_tested_exam",
-        "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "এইচ আই ভি পরীক্ষা করানো হয়েছে?",
+        "hint": "HIV tested?",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
-        "openmrs_entity_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+        "openmrs_choice_ids": {
+          "Yes": "Yes",
+          "No": "No"
         }
       },
       {
         "key": "hiv_tested_result",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "hiv_tested_result",
-        "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "এইচ আই ভি পরীক্ষার ফলাফল",
+        "hint": "HIV test result",
         "values": [
-          "পজিটিভ",
-          "নেগেটিভ"
+          "Positive",
+          "Negative"
         ],
-        "openmrs_entity_ids": {
-          "পজিটিভ": "positive",
-          "নেগেটিভ": "negative"
+        "openmrs_choice_ids": {
+          "Positive": "positive",
+          "Negative": "negative"
         },
         "relevance": {
           "step2:hiv_tested_exam": {
             "type": "string",
-            "ex": "regex(., \"হ্যাঁ\")"
+            "ex": "regex(., \"Yes\")"
           }
         }
       },
@@ -893,7 +876,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": " এইচ আই ভি পরীক্ষার ফলাফল পজিটিভ। পর্যবেক্ষণে রাখুন",
+        "text": "HIV Test Positive. Please Monitor",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
@@ -907,18 +890,17 @@
       {
         "key": "ultra_sound_exam",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "ultra_sound_exam",
-        "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "আল্ট্রাসাউন্ড স্ক্যান পরীক্ষা করানো হয়েছে?",
+        "hint": "Ultrasound scan tested?",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
-        "openmrs_entity_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+        "openmrs_choice_ids": {
+          "Yes": "Yes",
+          "No": "No"
         }
       },
       {
@@ -931,7 +913,7 @@
         "label_text_style": "bold",
         "text_color": "#3495bf",
         "text_size": "25px",
-        "hint": "আল্ট্রাসাউন্ড স্ক্যান পরীক্ষার ফলাফল",
+        "hint": "Ultrasound scan result",
         "exclusive":[
           "Normal_USG"
         ],
@@ -996,7 +978,7 @@
         "relevance": {
           "step2:ultra_sound_exam": {
             "type": "string",
-            "ex": "regex(., \"হ্যাঁ\")"
+            "ex": "regex(., \"Yes\")"
           }
         }
       },
@@ -1006,7 +988,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": " অস্বাভাবিক ইউএসজি। পর্যবেক্ষণে রাখুন",
+        "text": "Abnormal USG. Please Monitor",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
@@ -1020,7 +1002,7 @@
     ]
   },
   "step3": {
-    "title": "বিপদচিহ্ন, কাউন্সেলিং  ও রেফারেল",
+    "title": "Warning signs, counseling and referral",
     "previous": "step2",
     "fields": [
       {
@@ -1032,14 +1014,14 @@
         "label_text_style": "bold",
         "text_color": "#3495bf",
         "text_size": "25px",
-        "label":"আপনার জটিলতা সমূহ নির্ধারণ করুন",
+        "label":"Pregnancy Complications",
         "exclusive":[
           "No_Denger_Sign"
         ],
         "options":[
           {
             "key":"Bleeding_Through_Birth_Canal",
-            "text":"যোনিপথে রক্তক্ষরণ",
+            "text":"Vaginal bleeding",
             "value":false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -1047,7 +1029,7 @@
           },
           {
             "key":"Weakness_Blurred_vision",
-            "text":"ঝাপসা দৃষ্টি / গুরুতর মাথাব্যথা",
+            "text":"Blurring of vision/ severe headache",
             "value":false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -1055,7 +1037,7 @@
           },
           {
             "key":"high_blood_pressure",
-            "text":"উচ্চ রক্তচাপ",
+            "text":"Hypertension",
             "value":false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -1063,7 +1045,7 @@
           },
           {
             "key":"Convulsion",
-            "text":"এক্লাম্পসিয়া/খিঁচুনি",
+            "text":"Eclampsia/convulsion",
             "value":false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -1071,7 +1053,7 @@
           },
           {
             "key":"High_Temperature_102_Degree_or_More",
-            "text":"জ্বর",
+            "text":"Fever",
             "value":false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -1079,7 +1061,7 @@
           },
           {
             "key":"No_Denger_Sign",
-            "text":"জটিলতা নেই",
+            "text":"No complication",
             "value":false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -1088,7 +1070,7 @@
         ],
         "v_required": {
           "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
+          "err": "Answer question"
         }
 
       },
@@ -1098,7 +1080,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": " গর্ভকালীন বিপদচিহ্ন উপস্থিত। পর্যবেক্ষণে রাখুন",
+        "text": "Maternal Danger Signs Present. Please Monitor",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
@@ -1118,12 +1100,12 @@
         "label_text_style": "bold",
         "text_color": "#3495bf",
         "text_size": "25px",
-        "label": "চিকিৎসা সেবা",
+        "label": "Treatment",
         "exclusive": ["none"],
         "options": [
           {
             "key": "calsium",
-            "text": "ক্যালসিয়াম ট্যাবলেট  বিতরণ করা হয়েছে?",
+            "text": "Provided Calcium Tab",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -1131,7 +1113,7 @@
           },
           {
             "key": "ifa_mms",
-            "text": "আইএফএ/ মাল্টিপল মাইক্রো নিউট্রিয়েন্ট সাপ্লিমেন্ট (এম এম এস) বিতরণ করা হয়েছে?",
+            "text": "IFA/Multiple micro nutrient Suppliment (MMS) distributed",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -1150,12 +1132,12 @@
         "label_text_style": "bold",
         "text_color": "#3495bf",
         "text_size": "25px",
-        "label": "কাউন্সেলিং",
+        "label": "Counselling",
         "exclusive": ["none"],
         "options": [
           {
             "key": "counseling",
-            "text": "কাউন্সেলিং (পুষ্টি, জন্ম পরিকল্পনা, ইবিএফ, ইএনসি, টিকাদান সংক্রান্ত) প্রদান করা হয়েছ ",
+            "text": "Provided counselling including (Nutrition, Danger Sign, Birth Planning, EBF, ENC, Immunization, PPFP)",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -1163,7 +1145,7 @@
           },
           {
             "key": "pregnancy_preparation",
-            "text": "জন্মদান বিষয়ক প্রস্তুতি ( প্রসবের স্থান, যাতায়াত, অর্থ, রক্তদাতা, সহায়তাকারী ) নেয়া হয়েছে ",
+            "text": "Birth preparedness planning done(Place of delivery, transport plan, money savings, blood donor  and hospital accompanying person)",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -1176,62 +1158,64 @@
       {
         "key": "is_Referred",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "is_Referred",
-        "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "রেফার করা হয়েছে?",
+        "hint": "Referred?",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
-        "openmrs_entity_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+        "openmrs_choice_ids": {
+          "Yes": "Yes",
+          "No": "No"
         }
       },
       {
         "key":"Place_of_Refer",
         "openmrs_entity_parent":"",
-        "openmrs_entity":"",
+        "openmrs_entity":"concept",
         "openmrs_entity_id":"Place_of_Refer",
-        "openmrs_data_type":"text",
         "type":"spinner",
-        "hint":"রেফারের স্থান",
+        "hint":"Place of Refer",
         "values":[
-          "কমিউনিটি ক্লিনিক",
-          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র",
-          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র",
-          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
-          "মা ও শিশু কল্যাণ কেন্দ্র",
-          "১০ শয্যা বিশিষ্ট হাসপাতাল",
-          "২০ শয্যা বিশিষ্ট হাসপাতাল",
-          "উপজেলা স্বাস্থ্য কমপ্লেক্স",
-          "সদর হাসপাতাল",
-          "মেডিকেল কলেজ হাসপাতাল",
-          "বিশেষায়িত হাসপাতাল",
-          "অন্যান্য",
-          "রেফার করা হয়নি"
+          "Community Clinic",
+          "Union Sub-center (USC)",
+          "UFWC (Union Family Welfare Center)",
+          "UH & FWC",
+          "Metarnal and Child Wellfare Center",
+          "10 Bed Hospital",
+          "20 Beds Hospital",
+          "UHC (Upazila Health Complex)",
+          "District Hospital",
+          "Medical College Hospital",
+          "Private Hospital / NGO clinic",
+          "NGO",
+          "Specialized Hospital",
+          "Others Health Facility",
+          "No referred"
         ],
-        "openmrs_entity_ids":{
-          "কমিউনিটি ক্লিনিক":"Community_Clinic",
-          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র":"Union_Sub_Center",
-          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র":"Union_Family_Welfare_Center",
-          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র":"Union_Health_and_Family_Welfare_Center",
-          "মা ও শিশু কল্যাণ কেন্দ্র":"Metarnal_and_Child_Wellfare_Center",
-          "১০ শয্যা বিশিষ্ট হাসপাতাল":"10_Bed_Hospital",
-          "২০ শয্যা বিশিষ্ট হাসপাতাল":"20_Beds_Hospital",
-          "উপজেলা স্বাস্থ্য কমপ্লেক্স":"Upazila_Health_Complex",
-          "সদর হাসপাতাল":"District_Hospital",
-          "মেডিকেল কলেজ হাসপাতাল":"Medical_College_and_Hospital",
-          "বিশেষায়িত হাসপাতাল":"Specialized_Hospital",
-          "অন্যান্য":"Others_Health_Facility",
-          "রেফার করা হয়নি":"Not_referred"
+        "openmrs_choice_ids":{
+          "Community Clinic":"Community_Clinic",
+          "Union Sub-center (USC)":"Union_Sub_Center",
+          "UFWC (Union Family Welfare Center)":"Union_Family_Welfare_Center",
+          "UH & FWC":"Union_Health_and_Family_Welfare_Center",
+          "Metarnal and Child Wellfare Center":"Metarnal_and_Child_Wellfare_Center",
+          "10 Bed Hospital":"10_Bed_Hospital",
+          "20 Beds Hospital":"20_Beds_Hospital",
+          "Upazila Health Complex":"Upazila_Health_Complex",
+          "District Hospital":"District_Hospital",
+          "Medical College Hospital":"Medical_College_and_Hospital",
+          "Private Hospital / NGO clinic": "Private_Clinic_and_Hospital",
+          "NGO": "Non-governmental_Organization",
+          "Specialized Hospital":"Specialized_Hospital",
+          "Others Health Facility":"Others_Health_Facility",
+          "No referred":"No_referred"
         },
         "relevance": {
           "step3:is_Referred": {
             "type": "string",
-            "ex": "regex(., \"হ্যাঁ\")"
+            "ex": "regex(., \"Yes\")"
           }
         }
       },
@@ -1242,7 +1226,7 @@
         "openmrs_entity_id": "latitude",
         "type": "hidden",
         "read_only": true,
-        "hint": "অক্ষাংশ"
+        "hint": "Latitude"
       },
       {
         "key": "longitude",
@@ -1251,7 +1235,7 @@
         "openmrs_entity_id": "longitude",
         "type": "hidden",
         "read_only": true,
-        "hint": "দ্রাঘিমা"
+        "hint": "Longitude"
       }
     ]
   }
