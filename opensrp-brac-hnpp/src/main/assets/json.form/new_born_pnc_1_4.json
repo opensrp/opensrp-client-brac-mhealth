@@ -177,7 +177,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "term",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "প্রি টার্ম, টার্ম, পোস্ট টার্ম?",
         "values": [
@@ -306,7 +305,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "is_Referred",
-        "openmrs_data_type": "",
         "type": "spinner",
         "hint": "রেফার করা হয়েছে?",
         "values": [

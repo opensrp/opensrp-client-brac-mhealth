@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DGHS-HA</string>
+    <string name="app_name">e-tracker</string>
     <string-array name="gender">
         <item>নারী</item>
         <item>পুরুষ</item>

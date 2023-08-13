@@ -212,7 +212,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "Relation_with_HOH",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "খানা প্রধানের সাথে সম্পর্ক",
         "values": [
@@ -615,7 +614,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "Marital_Status",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "বৈবাহিক অবস্থা",
         "values": [
@@ -698,7 +696,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "disable",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "প্রতিবন্ধী",
         "values": [
@@ -715,7 +712,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "disability_type",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "প্রতিবন্ধীতা ধরন",
         "values": [
@@ -752,7 +748,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "ethnicity",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "জাতিসত্তা",
         "values": [
@@ -807,7 +802,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "education_qualification",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "শিক্ষাগত যোগ্যতা",
         "values": [
@@ -876,7 +870,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "occupation_category",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "পেশার ধরণ",
         "values": [
@@ -909,7 +902,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "technical_professionals",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "কারিগরী পেশা",
         "values": [
@@ -962,7 +954,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "labor_service",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "অশ্রেনীভুক্ত পেশা",
         "values": [
@@ -1015,7 +1006,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "unskilled_labor",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "অদক্ষ শ্রমিক",
         "values": [
@@ -1050,7 +1040,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "daily_workers",
-        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "দৈনিক ভিত্তিক শ্রমিক",
         "values": [

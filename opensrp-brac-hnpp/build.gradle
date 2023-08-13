@@ -173,8 +173,8 @@ android {
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
             buildConfigField "boolean", 'IS_MIS', 'true'
-            buildConfigField "String", 'opensrp_url_training', '"https://ha.dghs.gov.bd/opensrp/"'
-            buildConfigField "String", 'opensrp_url_live', '"https://ha.dghs.gov.bd/opensrp/"'
+            buildConfigField "String", 'opensrp_url_training', '"https://e-tracker.dghs.gov.bd/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"https://e-tracker.dghs.gov.bd/opensrp/"'
 
         }
         qa{
