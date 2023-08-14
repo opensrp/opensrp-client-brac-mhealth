@@ -121,20 +121,20 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "closure_reason_other_fam",
         "type": "spinner",
-        "hint": "অন্যান্য কারণে খানা বাদ",
+        "hint": "Removed for other reason",
         "v_required": {
           "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
+          "err": "Answer question"
         },
         "values": [
-          "ভুল তথ্য প্রদান করা হয়েছে",
-          "এই খানাটি অন্য খানার অংশ",
-          "অন্যান্য"
+          "Incorrect information provided",
+          "Registered before member",
+          "Other"
         ],
         "openmrs_choice_ids": {
-          "ভুল তথ্য প্রদান করা হয়েছে": "incorrect_information_provided",
-          "এই খানাটি অন্য খানার অংশ": "registered_before_member",
-          "অন্যান্য": "other"
+          "Incorrect information provided": "incorrect_information_provided",
+          "Registered before member": "registered_before_member",
+          "Other": "other"
         },
         "relevance": {
           "step1:closure_reason_fam": {
@@ -150,10 +150,10 @@
         "openmrs_entity_id": "closure_reason_other_fam_detail",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "অন্যান্য কারণে খানা বাদ",
+        "hint": "Other reasons",
         "v_required": {
           "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
+          "err": "Answer question"
         },
         "relevance": {
           "step1:closure_reason_other_fam": {
@@ -169,20 +169,20 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "closure_reason_relocation_fam",
         "type": "spinner",
-        "hint": "কোথায় স্থান্তরিত হয়েছে জানা আছে কিনা ?",
+        "hint": "Do you know where it has been migrated?",
         "v_required": {
           "value": "true",
-          "err": "সদস্য স্থান্তরিত করার কারণ নির্বাচন করুন"
+          "err": "Select the reason for migrating the member"
         },
         "values": [
-          "দেশের মধ্যে",
-          "বিদেশ গমন",
-          "জানা নেই"
+          "Local Migration",
+          "Abroad Migration",
+          "Unknown"
         ],
         "openmrs_choice_ids": {
-          "দেশের মধ্যে": "local_migration",
-          "বিদেশ গমন": "abroad_migration",
-          "জানা নেই": "unknown"
+          "Local Migration": "local_migration",
+          "Abroad Migration": "abroad_migration",
+          "Unknown": "unknown"
         },
         "relevance": {
           "step1:closure_reason_fam": {
@@ -197,11 +197,11 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "jila",
         "type": "spinner",
-        "hint": "জেলা",
+        "hint": "District",
         "relevance": {
           "step1:closure_reason_relocation_fam": {
             "type": "string",
-            "ex": "equalTo(., \"দেশের মধ্যে\")"
+            "ex": "equalTo(., \"Local Migration\")"
           }
         }
       },
@@ -211,7 +211,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "upojila",
         "type": "spinner",
-        "hint": "উপজেলা/সিটি কর্পোরেশন",
+        "hint": "Upazila/City Corporation",
         "relevance": {
           "rules-engine": {
             "ex-rules": {

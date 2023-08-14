@@ -3,7 +3,7 @@
 name: step1_cause_of_death_women
 description: woman death cause
 priority: 1
-condition: "step1_remove_reason.equals('মৃত্যু নিবন্ধন') && step1_gender.equals('F')"
+condition: "(step1_remove_reason.equals('Death Registration') || step1_remove_reason.equals('মৃত্যু নিবন্ধন')) && step1_gender.equals('F')"
 actions:
   - "isRelevant = true"
 
@@ -11,7 +11,7 @@ actions:
 name: step1_cause_of_death_men
 description: men death cause
 priority: 1
-condition: "step1_remove_reason.equals('মৃত্যু নিবন্ধন') && step1_gender.equals('M')"
+condition: "(step1_remove_reason.equals('Death Registration') || step1_remove_reason.equals('মৃত্যু নিবন্ধন')) && step1_gender.equals('M')"
 actions:
   - "isRelevant = true"
 
@@ -20,7 +20,7 @@ actions:
 name: step1_name_of_answerer
 description: field for woman
 priority: 1
-condition: "step1_cause_of_death_women.equals('গর্ভকালীন সময়') || step1_cause_of_death_women.equals('গর্ভপাতের পরে (২৮ সপ্তাহের মধ্যে)') || step1_cause_of_death_women.equals('প্রসবকালীন সময়') || step1_cause_of_death_women.equals('প্রসবোত্তর সময় (৪২ দিনের মধ্যে)')"
+condition: "(step1_cause_of_death_women.equals('During Pregnancy') || step1_cause_of_death_women.equals('গর্ভকালীন সময়')) || (step1_cause_of_death_women.equals('After termination of pregnancy (within 28 weeks)') || step1_cause_of_death_women.equals('গর্ভপাতের পরে (২৮ সপ্তাহের মধ্যে)')) || (step1_cause_of_death_women.equals('During Delivery') || step1_cause_of_death_women.equals('প্রসবকালীন সময়')) || (step1_cause_of_death_women.equals('Neonatal death (within 42 days of birth)') || step1_cause_of_death_women.equals('প্রসবোত্তর সময় (৪২ দিনের মধ্যে)'))"
 actions:
   - "isRelevant = true"
 
@@ -29,7 +29,7 @@ actions:
 name: step1_relation_with_death
 description: field for woman
 priority: 1
-condition: "step1_cause_of_death_women.equals('গর্ভকালীন সময়') || step1_cause_of_death_women.equals('গর্ভপাতের পরে (২৮ সপ্তাহের মধ্যে)') || step1_cause_of_death_women.equals('প্রসবকালীন সময়') || step1_cause_of_death_women.equals('প্রসবোত্তর সময় (৪২ দিনের মধ্যে)')"
+condition: "(step1_cause_of_death_women.equals('During Pregnancy') || step1_cause_of_death_women.equals('গর্ভকালীন সময়')) || (step1_cause_of_death_women.equals('After termination of pregnancy (within 28 weeks)') || step1_cause_of_death_women.equals('গর্ভপাতের পরে (২৮ সপ্তাহের মধ্যে)')) || (step1_cause_of_death_women.equals('During Delivery') || step1_cause_of_death_women.equals('প্রসবকালীন সময়')) || (step1_cause_of_death_women.equals('Neonatal death (within 42 days of birth)') || step1_cause_of_death_women.equals('প্রসবোত্তর সময় (৪২ দিনের মধ্যে)'))"
 actions:
   - "isRelevant = true"
 
@@ -38,7 +38,7 @@ actions:
 name: step1_present_at_death
 description: field for woman
 priority: 1
-condition: "step1_cause_of_death_women.equals('গর্ভকালীন সময়') || step1_cause_of_death_women.equals('গর্ভপাতের পরে (২৮ সপ্তাহের মধ্যে)') || step1_cause_of_death_women.equals('প্রসবকালীন সময়') || step1_cause_of_death_women.equals('প্রসবোত্তর সময় (৪২ দিনের মধ্যে)')"
+condition: "(step1_cause_of_death_women.equals('During Pregnancy') || step1_cause_of_death_women.equals('গর্ভকালীন সময়')) || (step1_cause_of_death_women.equals('After termination of pregnancy (within 28 weeks)') || step1_cause_of_death_women.equals('গর্ভপাতের পরে (২৮ সপ্তাহের মধ্যে)')) || (step1_cause_of_death_women.equals('During Delivery') || step1_cause_of_death_women.equals('প্রসবকালীন সময়')) || (step1_cause_of_death_women.equals('Neonatal death (within 42 days of birth)') || step1_cause_of_death_women.equals('প্রসবোত্তর সময় (৪২ দিনের মধ্যে)'))"
 actions:
   - "isRelevant = true"
 
@@ -47,7 +47,7 @@ actions:
 name: step1_community_name
 description: field for woman
 priority: 1
-condition: "step1_cause_of_death_women.equals('গর্ভকালীন সময়') || step1_cause_of_death_women.equals('গর্ভপাতের পরে (২৮ সপ্তাহের মধ্যে)') || step1_cause_of_death_women.equals('প্রসবকালীন সময়') || step1_cause_of_death_women.equals('প্রসবোত্তর সময় (৪২ দিনের মধ্যে)')"
+condition: "(step1_cause_of_death_women.equals('During Pregnancy') || step1_cause_of_death_women.equals('গর্ভকালীন সময়')) || (step1_cause_of_death_women.equals('After termination of pregnancy (within 28 weeks)') || step1_cause_of_death_women.equals('গর্ভপাতের পরে (২৮ সপ্তাহের মধ্যে)')) || (step1_cause_of_death_women.equals('During Delivery') || step1_cause_of_death_women.equals('প্রসবকালীন সময়')) || (step1_cause_of_death_women.equals('Neonatal death (within 42 days of birth)') || step1_cause_of_death_women.equals('প্রসবোত্তর সময় (৪২ দিনের মধ্যে)'))"
 actions:
   - "isRelevant = true"
 
@@ -56,7 +56,7 @@ actions:
 name: step1_community_code
 description: field for woman
 priority: 1
-condition: "step1_cause_of_death_women.equals('গর্ভকালীন সময়') || step1_cause_of_death_women.equals('গর্ভপাতের পরে (২৮ সপ্তাহের মধ্যে)') || step1_cause_of_death_women.equals('প্রসবকালীন সময়') || step1_cause_of_death_women.equals('প্রসবোত্তর সময় (৪২ দিনের মধ্যে)')"
+condition: "(step1_cause_of_death_women.equals('During Pregnancy') || step1_cause_of_death_women.equals('গর্ভকালীন সময়')) || (step1_cause_of_death_women.equals('After termination of pregnancy (within 28 weeks)') || step1_cause_of_death_women.equals('গর্ভপাতের পরে (২৮ সপ্তাহের মধ্যে)')) || (step1_cause_of_death_women.equals('During Delivery') || step1_cause_of_death_women.equals('প্রসবকালীন সময়')) || (step1_cause_of_death_women.equals('Neonatal death (within 42 days of birth)') || step1_cause_of_death_women.equals('প্রসবোত্তর সময় (৪২ দিনের মধ্যে)'))"
 actions:
   - "isRelevant = true"
 
@@ -65,7 +65,7 @@ actions:
 name: step1_dhis_no
 description: field for woman
 priority: 1
-condition: "step1_cause_of_death_women.equals('গর্ভকালীন সময়') || step1_cause_of_death_women.equals('গর্ভপাতের পরে (২৮ সপ্তাহের মধ্যে)') || step1_cause_of_death_women.equals('প্রসবকালীন সময়') || step1_cause_of_death_women.equals('প্রসবোত্তর সময় (৪২ দিনের মধ্যে)')"
+condition: "(step1_cause_of_death_women.equals('During Pregnancy') || step1_cause_of_death_women.equals('গর্ভকালীন সময়')) || (step1_cause_of_death_women.equals('After termination of pregnancy (within 28 weeks)') || step1_cause_of_death_women.equals('গর্ভপাতের পরে (২৮ সপ্তাহের মধ্যে)')) || (step1_cause_of_death_women.equals('During Delivery') || step1_cause_of_death_women.equals('প্রসবকালীন সময়')) || (step1_cause_of_death_women.equals('Neonatal death (within 42 days of birth)') || step1_cause_of_death_women.equals('প্রসবোত্তর সময় (৪২ দিনের মধ্যে)'))"
 actions:
   - "isRelevant = true"
 
@@ -74,7 +74,7 @@ actions:
 name: step1_death_anc_week
 description: field for woman
 priority: 1
-condition: "step1_cause_of_death_women.equals('গর্ভকালীন সময়') || step1_cause_of_death_women.equals('গর্ভপাতের পরে (২৮ সপ্তাহের মধ্যে)') || step1_cause_of_death_women.equals('প্রসবকালীন সময়') || step1_cause_of_death_women.equals('প্রসবোত্তর সময় (৪২ দিনের মধ্যে)')"
+condition: "(step1_cause_of_death_women.equals('During Pregnancy') || step1_cause_of_death_women.equals('গর্ভকালীন সময়')) || (step1_cause_of_death_women.equals('After termination of pregnancy (within 28 weeks)') || step1_cause_of_death_women.equals('গর্ভপাতের পরে (২৮ সপ্তাহের মধ্যে)')) || (step1_cause_of_death_women.equals('During Delivery') || step1_cause_of_death_women.equals('প্রসবকালীন সময়')) || (step1_cause_of_death_women.equals('Neonatal death (within 42 days of birth)') || step1_cause_of_death_women.equals('প্রসবোত্তর সময় (৪২ দিনের মধ্যে)'))"
 actions:
   - "isRelevant = true"
 
@@ -83,7 +83,7 @@ actions:
 name: step1_anc_taken
 description: field for woman
 priority: 1
-condition: "step1_cause_of_death_women.equals('গর্ভকালীন সময়') || step1_cause_of_death_women.equals('গর্ভপাতের পরে (২৮ সপ্তাহের মধ্যে)') || step1_cause_of_death_women.equals('প্রসবকালীন সময়') || step1_cause_of_death_women.equals('প্রসবোত্তর সময় (৪২ দিনের মধ্যে)')"
+condition: "(step1_cause_of_death_women.equals('During Pregnancy') || step1_cause_of_death_women.equals('গর্ভকালীন সময়')) || (step1_cause_of_death_women.equals('After termination of pregnancy (within 28 weeks)') || step1_cause_of_death_women.equals('গর্ভপাতের পরে (২৮ সপ্তাহের মধ্যে)')) || (step1_cause_of_death_women.equals('During Delivery') || step1_cause_of_death_women.equals('প্রসবকালীন সময়')) || (step1_cause_of_death_women.equals('Neonatal death (within 42 days of birth)') || step1_cause_of_death_women.equals('প্রসবোত্তর সময় (৪২ দিনের মধ্যে)'))"
 actions:
   - "isRelevant = true"
 
@@ -92,7 +92,7 @@ actions:
 name: step1_death_cause
 description: field for woman
 priority: 1
-condition: "step1_cause_of_death_women.equals('গর্ভকালীন সময়') || step1_cause_of_death_women.equals('গর্ভপাতের পরে (২৮ সপ্তাহের মধ্যে)') || step1_cause_of_death_women.equals('প্রসবকালীন সময়') || step1_cause_of_death_women.equals('প্রসবোত্তর সময় (৪২ দিনের মধ্যে)')"
+condition: "(step1_cause_of_death_women.equals('During Pregnancy') || step1_cause_of_death_women.equals('গর্ভকালীন সময়')) || (step1_cause_of_death_women.equals('After termination of pregnancy (within 28 weeks)') || step1_cause_of_death_women.equals('গর্ভপাতের পরে (২৮ সপ্তাহের মধ্যে)')) || (step1_cause_of_death_women.equals('During Delivery') || step1_cause_of_death_women.equals('প্রসবকালীন সময়')) || (step1_cause_of_death_women.equals('Neonatal death (within 42 days of birth)') || step1_cause_of_death_women.equals('প্রসবোত্তর সময় (৪২ দিনের মধ্যে)'))"
 actions:
   - "isRelevant = true"
 
@@ -101,7 +101,7 @@ actions:
 name: step1_death_cause_by_reporter
 description: field for woman
 priority: 1
-condition: "step1_cause_of_death_women.equals('গর্ভকালীন সময়') || step1_cause_of_death_women.equals('গর্ভপাতের পরে (২৮ সপ্তাহের মধ্যে)') || step1_cause_of_death_women.equals('প্রসবকালীন সময়') || step1_cause_of_death_women.equals('প্রসবোত্তর সময় (৪২ দিনের মধ্যে)')"
+condition: "(step1_cause_of_death_women.equals('During Pregnancy') || step1_cause_of_death_women.equals('গর্ভকালীন সময়')) || (step1_cause_of_death_women.equals('After termination of pregnancy (within 28 weeks)') || step1_cause_of_death_women.equals('গর্ভপাতের পরে (২৮ সপ্তাহের মধ্যে)')) || (step1_cause_of_death_women.equals('During Delivery') || step1_cause_of_death_women.equals('প্রসবকালীন সময়')) || (step1_cause_of_death_women.equals('Neonatal death (within 42 days of birth)') || step1_cause_of_death_women.equals('প্রসবোত্তর সময় (৪২ দিনের মধ্যে)'))"
 actions:
   - "isRelevant = true"
 
@@ -110,7 +110,7 @@ actions:
 name: step1_death_cause_by_consultant
 description: field for woman
 priority: 1
-condition: "step1_cause_of_death_women.equals('গর্ভকালীন সময়') || step1_cause_of_death_women.equals('গর্ভপাতের পরে (২৮ সপ্তাহের মধ্যে)') || step1_cause_of_death_women.equals('প্রসবকালীন সময়') || step1_cause_of_death_women.equals('প্রসবোত্তর সময় (৪২ দিনের মধ্যে)')"
+condition: "(step1_cause_of_death_women.equals('During Pregnancy') || step1_cause_of_death_women.equals('গর্ভকালীন সময়')) || (step1_cause_of_death_women.equals('After termination of pregnancy (within 28 weeks)') || step1_cause_of_death_women.equals('গর্ভপাতের পরে (২৮ সপ্তাহের মধ্যে)')) || (step1_cause_of_death_women.equals('During Delivery') || step1_cause_of_death_women.equals('প্রসবকালীন সময়')) || (step1_cause_of_death_women.equals('Neonatal death (within 42 days of birth)') || step1_cause_of_death_women.equals('প্রসবোত্তর সময় (৪২ দিনের মধ্যে)'))"
 actions:
   - "isRelevant = true"
 

@@ -213,7 +213,7 @@
         "openmrs_data_type": "text",
         "type": "edit_text",
         "edit_type": "name",
-        "hint": "Enter 11 digit mobile number",
+        "hint": "Mother's name (in english)",
         "v_regex": {
           "value": "^$|^[a-zA-Z][A-Za-z\\.\\- ]*",
           "err": "Please enter valid name"

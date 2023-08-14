@@ -140,20 +140,20 @@
         "openmrs_entity_id": "removed_other",
         "openmrs_data_type": "select one",
         "type": "spinner",
-        "hint": "অন্যান্য কারণে খানা বাদ",
+        "hint": "Removed for other reason",
         "v_required": {
           "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
+          "err": "Answer question"
         },
         "values": [
-          "ভুল তথ্য প্রদান করা হয়েছে",
-          "মেম্বারটি আগেই রেজিস্টারকৃত",
-          "অন্যান্য"
+          "Incorrect information provided",
+          "Registered before member",
+          "Other"
         ],
         "openmrs_choice_ids": {
-          "ভুল তথ্য প্রদান করা হয়েছে": "incorrect_information_provided",
-          "মেম্বারটি আগেই রেজিস্টারকৃত": "registered_before_member",
-          "অন্যান্য": "other"
+          "Incorrect information provided": "incorrect_information_provided",
+          "Registered before member": "registered_before_member",
+          "Other": "other"
         },
         "relevance": {
           "step1:remove_reason": {
@@ -185,21 +185,16 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "moved_away_place",
         "type": "spinner",
-        "hint": "কোথায় স্থান্তরিত হয়েছে জানা আছে কিনা ?",
+        "hint": "Do you know where it has been migrated?",
         "v_required": {
           "value": "true",
-          "err": "সদস্য স্থান্তরিত করার কারণ নির্বাচন করুন"
+          "err": "Select the reason for migrating the member"
         },
         "values": [
-          "দেশের মধ্যে",
-          "বিদেশ গমন",
-          "জানা নেই"
+          "Local Migration",
+          "Abroad Migration",
+          "Unknown"
         ],
-        "openmrs_choice_ids": {
-          "দেশের মধ্যে": "local_migration",
-          "বিদেশ গমন": "abroad_migration",
-          "জানা নেই": "unknown"
-        },
         "relevance": {
           "step1:remove_reason": {
             "type": "string",
@@ -215,20 +210,20 @@
         "openmrs_entity_id": "date_died",
         "openmrs_data_type": "text",
         "type": "date_picker",
-        "label": "মৃত্যু তারিখ",
-        "hint": "তারিখ",
+        "label": "Date of death",
+        "hint": "Date",
         "expanded": false,
         "min_date": "",
         "max_date": "today",
         "v_required": {
           "value": "true",
-          "err": "প্রশ্নের উত্তর দিন"
+          "err": "Answer question"
         },
         "constraints": [
           {
             "type": "date",
             "ex": "greaterThanEqualTo(., step1:dob)",
-            "err": "জন্মের তারিখের আগেই তারিখ সরে যায়"
+            "err": "The date moves before the date of birth"
           }
         ],
         "relevance": {
@@ -246,14 +241,14 @@
         "openmrs_entity_id": "time_of_death",
         "openmrs_data_type": "text",
         "type": "time_picker",
-        "label": "মৃত্যু আনুমানিক সময়",
-        "hint": "আনুমানিক সময়",
+        "label": "Estimated time of death",
+        "hint": "Estimated time of death",
         "expanded": false,
         "min_date": "",
         "max_date": "today",
         "v_required": {
           "value": "true",
-          "err": "প্রশ্নের উত্তর দিন"
+          "err": "Answer question"
         },
         "relevance": {
           "step1:remove_reason": {
@@ -269,37 +264,37 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "cause_of_death_women",
         "type": "spinner",
-        "hint": "মৃত্যর ধরণ",
+        "hint": "Type of death",
         "values": [
-          "বার্ধক্য জনিত",
-          "কোভিড-১৯ এ আক্রান্ত হয়ে",
-          "কোভিড-১৯ এর লক্ষণ নিয়ে",
-          "গর্ভকালীন সময়",
-          "গর্ভপাতের পরে (২৮ সপ্তাহের মধ্যে)",
-          "প্রসবকালীন সময়",
-          "প্রসবোত্তর সময় (৪২ দিনের মধ্যে)",
-          "সড়ক দুর্ঘটনা",
-          "পানিতে ডুবে",
-          "অপঘাতে মৃত্যু",
-          "অন্যান্য"
+          "Old age death",
+          "Death due to covid-19",
+          "Death with covid-19 symptoms",
+          "During Pregnancy",
+          "After termination of pregnancy (within 28 weeks)",
+          "During Delivery",
+          "Neonatal death (within 42 days of birth)",
+          "Road accident",
+          "Drown in water",
+          "Accidental death",
+          "Other"
 
         ],
         "openmrs_choice_ids": {
-          "বার্ধক্য জনিত": "old_age",
-          "কোভিড-১৯ এ আক্রান্ত হয়ে": "covid_cause",
-          "কোভিড-১৯ এর লক্ষণ নিয়ে": "covid_symptoms",
-          "গর্ভকালীন সময়": "during_pregnant",
-          "গর্ভপাতের পরে (২৮ সপ্তাহের মধ্যে)": "after_delivery",
-          "প্রসবকালীন সময়": "during_delivery",
-          "প্রসবোত্তর সময় (৪২ দিনের মধ্যে)": "before_delivery",
-          "সড়ক দুর্ঘটনা": "road_accidents",
-          "পানিতে ডুবে": "submerged_in_water",
-          "অপঘাতে মৃত্যু": "accidental_death",
-          "অন্যান্য": "other"
+          "Old age death": "old_age",
+          "Death due to covid-19": "covid_cause",
+          "Death with covid-19 symptoms": "covid_symptoms",
+          "During Pregnancy": "during_pregnant",
+          "After termination of pregnancy (within 28 weeks)": "after_delivery",
+          "During Delivery": "during_delivery",
+          "Neonatal death (within 42 days of birth)": "before_delivery",
+          "Road accident": "road_accidents",
+          "Drown in water": "submerged_in_water",
+          "Accidental death": "accidental_death",
+          "Other": "other"
         },
         "v_required": {
-          "value": true,
-          "err": "মৃত্যুর সময় নির্বাচন করুন"
+          "value": "true",
+          "err": "Select Type of death"
         },
 
         "relevance": {
@@ -318,7 +313,7 @@
         "openmrs_entity_id": "name_of_answerer",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "উত্তর দাতার নাম",
+        "hint": "Name of answerer",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -404,14 +399,14 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "present_at_death",
         "type": "spinner",
-        "hint": "তিনি কি মায়ের মৃত্যুর সময় উপস্থিত ছিলেন",
+        "hint": "Was he present at the time of mother's death?",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
         "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+          "Yes": "Yes",
+          "No": "No"
         },
         "relevance": {
           "rules-engine": {
@@ -428,7 +423,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "community_name",
         "type": "edit_text",
-        "hint": "কমিউনিটি ক্লিনিকের নাম",
+        "hint": "Community clinic name",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -444,7 +439,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "community_code",
         "type": "edit_text",
-        "hint": "কমিউনিটি ক্লিনিকের ফ্যাসিলিটি রেজিস্ট্রি কোড",
+        "hint": "Community Clinic Facility Registry Code",
         "v_numeric": {
           "value": true,
           "err": "Enter a valid Number"
@@ -465,7 +460,7 @@
         "openmrs_entity_id": "dhis_no",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "মায়ের অনলাইন রেজিস্ট্রেশন নাম্বার (ডি এইচ আই এস 2)",
+        "hint": "Mother's Online Registration Number (DHIS2)",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
@@ -486,7 +481,7 @@
         "openmrs_entity_id": "death_anc_week",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "মৃত্যুর সময় মায়ের গর্ভকাল কত সপ্তাহে ছিল?",
+        "hint": "How many weeks was the mother's pregnancy at the time of death?",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
@@ -507,7 +502,7 @@
         "openmrs_entity_id": "anc_taken",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "কতবার প্রসবপূর্ব সেবা গ্রহণ করেছে",
+        "hint": "How many times have you received ANC care?",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
@@ -527,7 +522,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "death_cause",
         "type": "spinner",
-        "hint": "চিকিৎসা সেবা গ্রহণ না করে থাকলে তার কারণ কি ছিল?",
+        "hint": "What are the reasons for not receiving service",
         "values": [
           "Think unncessary",
           "Expensive",
@@ -576,7 +571,7 @@
         "openmrs_entity_id": "death_cause_by_reporter",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "সাক্ষাৎকার গ্রহণকারীর মতে মৃত্যুর কি কারণ হতে পারে ?",
+        "hint": "What is cause of Death (according to interviewer)?",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -592,7 +587,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "death_cause_by_consultant",
         "type": "spinner",
-        "hint": "কনসালট্যান্ট এর মতে মৃত্যুর কি কারণ হতে পারে ?",
+        "hint": "According to the consultant, what could be the cause of death?",
         "values": [
           "Abruptio placentae",
           "APH",
@@ -646,30 +641,30 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "cause_of_death_men",
         "type": "spinner",
-        "hint": "মৃত্যর ধরণ",
+        "hint": "Type of death",
         "v_required": {
           "value": "true",
-          "err": "মৃত্যর ধরণ নির্বাচন করুন"
+          "err": "Select Type of death"
         },
         "values": [
-          "বার্ধক্য জনিত",
-          "কোভিড-১৯ এ আক্রান্ত হয়ে",
-          "কোভিড-১৯ এর লক্ষণ নিয়ে",
-          "সড়ক দুর্ঘটনা",
-          "পানিতে ডুবে",
-          "অপঘাতে মৃত্যু",
-          "অন্যান্য"
+          "Old age death",
+          "Death due to covid-19",
+          "Death with covid-19 symptoms",
+          "Road accident",
+          "Drown in water",
+          "Accidental death",
+          "Other"
 
         ],
         "openmrs_choice_ids": {
-          "বার্ধক্য জনিত": "old_age",
+          "Old age death": "old_age",
           "শিশু মৃত্যু": "infant_death",
-          "কোভিড-১৯ এ আক্রান্ত হয়ে": "covid_cause",
-          "কোভিড-১৯ এর লক্ষণ নিয়ে": "covid_symptoms",
-          "সড়ক দুর্ঘটনা": "road_accidents",
-          "পানিতে ডুবে": "submerged_in_water",
-          "অপঘাতে মৃত্যু": "accidental_death",
-          "অন্যান্য": "other"
+          "Death due to covid-19": "covid_cause",
+          "Death with covid-19 symptoms": "covid_symptoms",
+          "Road accident": "road_accidents",
+          "Drown in water": "submerged_in_water",
+          "Accidental death": "accidental_death",
+          "Other": "other"
         },
         "relevance": {
           "rules-engine": {
@@ -687,7 +682,7 @@
         "openmrs_entity_id": "death_history",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "বিবরণ",
+        "hint": "Details",
         "relevance": {
           "step1:remove_reason": {
             "type": "string",
@@ -702,32 +697,32 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "place_of_death",
         "type": "spinner",
-        "hint": "কোথায় মৃত্যু ঘটেছিল?",
+        "hint": "Place of death",
         "values": [
-          "মেডিকেল কলেজ হসপিটাল/বিশেষায়িত হসপিটাল",
-          "জেলা হাসপাতাল",
-          "উপজেলা স্বাস্থ্য কমপ্লেক্স",
-          "মাতৃমঙ্গল কেন্দ্র",
-          "ইন্ডিয়ান স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র/ইউনিয়ন স্বাস্থ্য কেন্দ্র",
-          "কমিউনিটি ক্লিনিক",
-          "প্রাইভেট হাসপাতাল",
-          "এনজিও ক্লিনিক",
-          "টি গার্ডেন স্বাস্থ্য সেবা কেন্দ্র",
-          "বাড়িতে",
-          "অন্যান্য"
+          "Medical College Hospital/Specialized Hospital",
+          "District Hospital",
+          "Upazila Health Complex",
+          "MCWC",
+          "UH&FWC/USC",
+          "Community Clinic",
+          "Private Hospital",
+          "NGO Clinic",
+          "Tea Garden Facility",
+          "Home",
+          "Others"
         ],
         "openmrs_choice_ids": {
-          "মেডিকেল কলেজ হসপিটাল/বিশেষায়িত হসপিটাল": "Medical College Hospital/Specialized Hospital",
-          "জেলা হাসপাতাল": "District Hospital",
-          "উপজেলা স্বাস্থ্য কমপ্লেক্স": "Upazila Health Complex",
-          "মাতৃমঙ্গল কেন্দ্র": "MCWC",
-          "ইন্ডিয়ান স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র/ইউনিয়ন স্বাস্থ্য কেন্দ্র": "UH&FWC/USC",
-          "কমিউনিটি ক্লিনিক": "Community Clinic",
-          "প্রাইভেট হাসপাতাল": "Private Hospital",
-          "এনজিও ক্লিনিক": "NGO Clinic",
-          "টি গার্ডেন স্বাস্থ্য সেবা কেন্দ্র": "Tea Garden Facility",
-          "বাড়িতে": "Home",
-          "অন্যান্য": "Others"
+          "Medical College Hospital/Specialized Hospital": "Medical College Hospital/Specialized Hospital",
+          "District Hospital": "District Hospital",
+          "Upazila Health Complex": "Upazila Health Complex",
+          "MCWC": "MCWC",
+          "UH&FWC/USC": "UH&FWC/USC",
+          "Community Clinic": "Community Clinic",
+          "Private Hospital": "Private Hospital",
+          "NGO Clinic": "NGO Clinic",
+          "Tea Garden Facility": "Tea Garden Facility",
+          "Home": "Home",
+          "Others": "Others"
         },
         "relevance": {
           "step1:remove_reason": {
@@ -743,11 +738,11 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "jila",
         "type": "spinner",
-        "hint": "জেলা",
+        "hint": "District",
         "relevance": {
           "step1:moved_away_place": {
             "type": "string",
-            "ex": "equalTo(., \"দেশের মধ্যে\")"
+            "ex": "equalTo(., \"Local Migration\")"
           }
         }
       },
@@ -758,7 +753,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "upojila",
         "type": "spinner",
-        "hint": "উপজেলা/সিটি কর্পোরেশন",
+        "hint": "Upazila/City Corporation",
         "relevance": {
           "rules-engine": {
             "ex-rules": {

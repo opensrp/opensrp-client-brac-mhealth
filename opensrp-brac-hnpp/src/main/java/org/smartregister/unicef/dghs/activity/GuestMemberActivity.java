@@ -182,7 +182,7 @@ public class GuestMemberActivity extends BaseProfileActivity implements GuestMem
 //                    public void onPost(double latitude, double longitude) {
                         try{
                             Intent intent = new Intent(GuestMemberActivity.this, GuestAddMemberJsonFormActivity.class);
-                            JSONObject jsonForm = FormUtils.getInstance(GuestMemberActivity.this).getFormJson(HnppConstants.JSON_FORMS.GUEST_MEMBER_FORM);
+                            JSONObject jsonForm = HnppJsonFormUtils.getJsonObject(HnppConstants.JSON_FORMS.GUEST_MEMBER_FORM);
                             JSONArray divJsonArray = new JSONArray();
                             ArrayList<GlobalLocationModel> divModels = HnppApplication.getGlobalLocationRepository().getLocationByTagId(GlobalLocationRepository.LOCATION_TAG.DIVISION.getValue());
                             for (GlobalLocationModel globalLocationModel:divModels){

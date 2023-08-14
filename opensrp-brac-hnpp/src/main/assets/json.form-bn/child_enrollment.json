@@ -534,8 +534,7 @@
         "key": "disability",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "disable",
-        "openmrs_data_type": "text",
+        "openmrs_entity_id": "disability",
         "type": "spinner",
         "hint": "প্রতিবন্ধী",
         "values": [

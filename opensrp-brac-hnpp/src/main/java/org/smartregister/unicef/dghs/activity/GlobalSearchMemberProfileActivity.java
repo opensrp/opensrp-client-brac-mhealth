@@ -358,7 +358,7 @@ public class GlobalSearchMemberProfileActivity extends BaseProfileActivity imple
         }
 
         try {
-            JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
+            JSONObject jsonForm = HnppJsonFormUtils.getJsonObject(formName);
             HnppJsonFormUtils.addEDDField(formName,jsonForm, client.getBaseEntityId());
             HnppJsonFormUtils.addRelationalIdAsGuest(jsonForm);
             try{

@@ -149,7 +149,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
             if (formdataviews.get(i) instanceof MaterialSpinner) {
                 if (!TextUtils.isEmpty(((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText()) &&
                         (((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText().toString().trim()
-                                .equalsIgnoreCase(getContext().getResources().getString(R.string.district_per)))) {
+                                .equalsIgnoreCase(getContext().getResources().getString(R.string.district_per).trim()))) {
 
                     try{
                         JSONObject oldWardNameObj = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "district_per");
@@ -211,7 +211,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
             if (formdataviews.get(i) instanceof MaterialSpinner) {
                 if (!TextUtils.isEmpty(((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText()) &&
                         (((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText().toString().trim()
-                                .equalsIgnoreCase(getContext().getResources().getString(R.string.upazila_per)))) {
+                                .equalsIgnoreCase(getContext().getResources().getString(R.string.upazila_per).trim()))) {
 
                     try{
                         JSONObject oldWardNameObj = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "upazila_per");
@@ -272,7 +272,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
             if (formdataviews.get(i) instanceof MaterialSpinner) {
                 if (!TextUtils.isEmpty(((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText()) &&
                         (((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText().toString().trim()
-                                .equalsIgnoreCase(getContext().getResources().getString(R.string.paurosova_per)))) {
+                                .equalsIgnoreCase(getContext().getResources().getString(R.string.paurosova_per).trim()))) {
 
                     try{
                         JSONObject oldWardNameObj = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "paurosova_per");
@@ -331,7 +331,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
             if (formdataviews.get(i) instanceof MaterialSpinner) {
                 if (!TextUtils.isEmpty(((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText()) &&
                         (((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText().toString().trim()
-                                .equalsIgnoreCase(getContext().getResources().getString(R.string.union_per)))) {
+                                .equalsIgnoreCase(getContext().getResources().getString(R.string.union_per).trim()))) {
 
                     try{
                         JSONObject oldWardNameObj = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "union_per");
@@ -390,7 +390,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
             if (formdataviews.get(i) instanceof MaterialSpinner) {
                 if (!TextUtils.isEmpty(((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText()) &&
                         (((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText().toString().trim()
-                                .equalsIgnoreCase(getContext().getResources().getString(R.string.post_office_per)))) {
+                                .equalsIgnoreCase(getContext().getResources().getString(R.string.post_office_per).trim()))) {
 
                     try{
                         JSONObject poPerNameObj = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "post_office_permanent");
@@ -447,7 +447,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
             if (formdataviews.get(i) instanceof MaterialSpinner) {
                 if (!TextUtils.isEmpty(((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText()) &&
                         (((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText().toString().trim()
-                                .equalsIgnoreCase(getContext().getResources().getString(R.string.post_office_present)))) {
+                                .equalsIgnoreCase(getContext().getResources().getString(R.string.post_office_present).trim()))) {
 
                     try{
                         JSONObject poPerNameObj = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "post_office_present");
@@ -518,7 +518,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
             if (formdataviews.get(i) instanceof MaterialSpinner) {
                 if (!TextUtils.isEmpty(((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText()) &&
                         (((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText().toString().trim()
-                                .equalsIgnoreCase(getContext().getResources().getString(R.string.old_ward)))) {
+                                .equalsIgnoreCase(getContext().getResources().getString(R.string.old_ward).trim()))) {
 
                     try{
                         JSONObject oldWardNameObj = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "old_ward");
@@ -542,7 +542,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.old_ward))) {
+                            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.old_ward).trim())) {
                                 if(position!=-1){
                                     selectedOldWardName = adapter.getItem(position);
                                     processNewWard(oldWardIds.get(position));
@@ -572,7 +572,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
             if (formdataviews.get(i) instanceof MaterialSpinner) {
                 if (!TextUtils.isEmpty(((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText()) &&
                         (((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText().toString().trim()
-                                .equalsIgnoreCase(getContext().getResources().getString(R.string.new_ward)))) {
+                                .equalsIgnoreCase(getContext().getResources().getString(R.string.new_ward).trim()))) {
 
                     try{
                         JSONObject oldWardNameObj = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "ward_name");
@@ -597,7 +597,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.new_ward))) {
+                            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.new_ward).trim())) {
                                 if(position!=-1){
                                     selectedNewWardName = adapter.getItem(position);
                                     processBlock(newWardIds.get(position));
@@ -630,7 +630,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
             if (formdataviews.get(i) instanceof MaterialSpinner) {
                 if (!TextUtils.isEmpty(((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText()) &&
                         (((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText().toString().trim()
-                                .equalsIgnoreCase(getContext().getResources().getString(R.string.block_outreach)))) {
+                                .equalsIgnoreCase(getContext().getResources().getString(R.string.block_outreach).trim()))) {
 
                     try{
                         JSONObject blockNameObj = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "block_name");
@@ -655,7 +655,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.block_outreach))) {
+                            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.block_outreach).trim())) {
                                 if(position!=-1){
                                     processHouseHoldId(position);
                                     try{

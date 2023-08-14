@@ -334,7 +334,7 @@ public class HnppChildProfilePresenter implements CoreChildProfileContract.Prese
     @Override
     public void startSickChildReferralForm() {
         try {
-            getView().startFormActivity(getFormUtils().getFormJson(CoreConstants.JSON_FORM.getChildReferralForm()));
+            getView().startFormActivity(HnppJsonFormUtils.getJsonObject(CoreConstants.JSON_FORM.getChildReferralForm()));
         } catch (Exception e) {
             Timber.e(e);
         }

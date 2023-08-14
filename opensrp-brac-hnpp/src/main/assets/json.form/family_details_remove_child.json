@@ -115,13 +115,13 @@
           "err": "Select Reasons for cancellation of membership"
         },
         "values": [
-          "Moved away",
-          "Died",
+          "Migration",
+          "Death Registration",
           "Other"
         ],
         "openmrs_choice_ids": {
-          "Moved away": "moved_away",
-          "Died": "died",
+          "Migration": "moved_away",
+          "Death Registration": "died",
           "Other": "other"
         }
       },
@@ -131,25 +131,25 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "removed_other",
         "type": "spinner",
-        "hint": "অন্যান্য কারণে খানা বাদ",
+        "hint": "Removed for other reason",
         "v_required": {
           "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
+          "err": "Answer question"
         },
         "values": [
-          "ভুল তথ্য প্রদান করা হয়েছে",
-          "মেম্বারটি আগেই রেজিস্টারকৃত",
-          "অন্যান্য"
+          "Incorrect information provided",
+          "Registered before member",
+          "Other"
         ],
         "openmrs_choice_ids": {
-          "ভুল তথ্য প্রদান করা হয়েছে": "incorrect_information_provided",
-          "মেম্বারটি আগেই রেজিস্টারকৃত": "registered_before_member",
-          "অন্যান্য": "other"
+          "Incorrect information provided": "incorrect_information_provided",
+          "Registered before member": "registered_before_member",
+          "Other": "other"
         },
         "relevance": {
           "step1:remove_reason": {
             "type": "string",
-            "ex": "equalTo(., \"অন্যান্য\")"
+            "ex": "equalTo(., \"Other\")"
           }
         }
       },
@@ -160,11 +160,11 @@
         "openmrs_entity_id": "removed_other_reason",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "অন্যান্য",
+        "hint": "Others",
         "relevance": {
           "step1:removed_other": {
             "type": "string",
-            "ex": "equalTo(., \"অন্যান্য\")"
+            "ex": "equalTo(., \"Other\")"
           }
         }
       },
@@ -174,25 +174,25 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "moved_away_place",
         "type": "spinner",
-        "hint": "কোথায় স্থান্তরিত হয়েছে জানা আছে কিনা ?",
+        "hint": "Do you know where it has been migrated?",
         "v_required": {
           "value": "true",
-          "err": "সদস্য স্থান্তরিত করার কারণ নির্বাচন করুন"
+          "err": "Select the reason for migrating the member"
         },
         "values": [
-          "দেশের মধ্যে",
-          "বিদেশ গমন",
-          "জানা নেই"
+          "Local Migration",
+          "Abroad Migration",
+          "Unknown"
         ],
         "openmrs_choice_ids": {
-          "দেশের মধ্যে": "local_migration",
-          "বিদেশ গমন": "abroad_migration",
-          "জানা নেই": "unknown"
+          "Local Migration": "local_migration",
+          "Abroad Migration": "abroad_migration",
+          "Unknown": "unknown"
         },
         "relevance": {
           "step1:remove_reason": {
             "type": "string",
-            "ex": "equalTo(., \"স্থানান্তর\")"
+            "ex": "equalTo(., \"Migration\")"
           }
         }
       },
@@ -203,20 +203,20 @@
         "openmrs_entity_id": "date_died",
         "openmrs_data_type": "text",
         "type": "date_picker",
-        "label": "মৃত্যু তারিখ",
-        "hint": "তারিখ",
+        "label": "Date of death",
+        "hint": "Date",
         "expanded": false,
         "min_date": "",
         "max_date": "today",
         "v_required": {
           "value": "true",
-          "err": "প্রশ্নের উত্তর দিন"
+          "err": "Answer question"
         },
         "constraints": [
           {
             "type": "date",
             "ex": "greaterThanEqualTo(., step1:dob)",
-            "err": "জন্মের তারিখের আগেই তারিখ সরে যায়"
+            "err": "The date moves before the date of birth"
           }
         ],
         "relevance": {
@@ -234,14 +234,14 @@
         "openmrs_entity_id": "time_of_death",
         "openmrs_data_type": "text",
         "type": "time_picker",
-        "label": "মৃত্যু আনুমানিক সময়",
-        "hint": "আনুমানিক সময়",
+        "label": "Estimated time of death",
+        "hint": "Estimated time of death",
         "expanded": false,
         "min_date": "",
         "max_date": "today",
         "v_required": {
           "value": "true",
-          "err": "প্রশ্নের উত্তর দিন"
+          "err": "Answer question"
         },
         "relevance": {
           "rules-engine": {
@@ -257,29 +257,29 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "cause_of_death",
         "type": "spinner",
-        "hint": "মৃত্যর ধরণ",
+        "hint": "Type of death",
         "v_required": {
           "value": "true",
-          "err": "মৃত্যর ধরণ নির্বাচন করুন"
+          "err": "Select Type of death"
         },
         "values": [
-          "শিশু মৃত্যু",
-          "সড়ক দুর্ঘটনা",
-          "পানিতে ডুবে",
-          "অপঘাতে মৃত্যু",
-          "অন্যান্য"
+          "Infant death",
+          "Road accidents",
+          "Submerged in water",
+          "Accidental death",
+          "Other"
 
         ],
         "openmrs_choice_ids": {
           "বার্ধক্য জনিত": "old_age",
-          "শিশু মৃত্যু": "infant_death",
+          "Infant death": "infant_death",
           "গর্ভকালীন মৃত্যু": "preterm_death",
           "প্রসবকালীন মৃত্যু": "childbirth_death",
           "প্রসবোত্তর মৃত্যু": "postnatal_death",
-          "সড়ক দুর্ঘটনা": "road_accidents",
-          "পানিতে ডুবে": "submerged_in_water",
-          "অপঘাতে মৃত্যু": "accidental_death",
-          "অন্যান্য": "other"
+          "Road accidents": "road_accidents",
+          "Submerged in water": "submerged_in_water",
+          "Accidental death": "accidental_death",
+          "Other": "other"
         },
         "relevance": {
           "rules-engine": {
@@ -296,7 +296,7 @@
         "openmrs_entity_id": "death_history",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "বিবরণ",
+        "hint": "Details",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -311,22 +311,22 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "place_of_death",
         "type": "spinner",
-        "hint": "মৃত্যর স্থান",
+        "hint": "Place od death",
         "v_required": {
           "value": "true",
-          "err": "মৃত্যুর স্থান"
+          "err": "Select Place od death"
         },
         "values": [
-          "বাড়িতে",
-          "হাসপাতালে",
-          "রাস্তায়",
-          "অন্যান্য"
+          "At home",
+          "At hospital",
+          "At road",
+          "Other"
         ],
         "openmrs_choice_ids": {
-          "বাড়িতে": "at_home",
-          "হাসপাতালে": "at_hospital",
-          "রাস্তায়": "at_road",
-          "অন্যান্য": "other"
+          "At home": "at_home",
+          "At hospital": "at_hospital",
+          "At road": "at_road",
+          "Other": "other"
         },
         "relevance": {
           "rules-engine": {
@@ -342,11 +342,11 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "jila",
         "type": "spinner",
-        "hint": "জেলা",
+        "hint": "District",
         "relevance": {
           "step1:moved_away_place": {
             "type": "string",
-            "ex": "equalTo(., \"দেশের মধ্যে\")"
+            "ex": "equalTo(., \"Local Migration\")"
           }
         }
       },
@@ -356,13 +356,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "upojila",
         "type": "spinner",
-        "hint": "উপজেলা/সিটি কর্পোরেশন",
-        "relevance": {
-          "step1:moved_away_place": {
-            "type": "string",
-            "ex": "equalTo(., \"দেশের মধ্যে\")"
-          }
-        },
+        "hint": "Upazila/City Corporation",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -397,7 +391,7 @@
         "relevance": {
           "step1:remove_reason": {
             "type": "string",
-            "ex": "equalTo(., \"Moved away\")"
+            "ex": "equalTo(., \"Migration\")"
           }
         }
       },
@@ -409,7 +403,7 @@
         "openmrs_entity_id": "newborn_death_name_of_answerer",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "উত্তর দাতার নাম",
+        "hint": "Name of answerer",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -424,22 +418,22 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "new_born_relation_with_still_birth",
         "type": "spinner",
-        "hint": "মৃতের সাথে সম্পর্ক",
+        "hint": "Relationship with Deceased Neonate",
         "values": [
-          "মা",
-          "বাবা",
-          "দাদা/দাদি, নানা/নানী",
-          "বোন / ভাই",
-          "খালা/খালু, চাচা/চাচি, মামা/মামী, ফুফা/ ফুফু",
-          "অন্যান্য"
+          "Mother",
+          "Father",
+          "Grandfather/Grandmother",
+          "Brother/Sister",
+          "Uncle/Aunty",
+          "Other"
         ],
-        "openmrs_choice_ids": {
-          "মা": "mother",
-          "বাবা": "father",
-          "দাদা/দাদি, নানা/নানী": "grandfather_grandmother",
-          "বোন / ভাই": "brother_sister",
-          "খালা/খালু, চাচা/চাচি, মামা/মামী, ফুফা/ ফুফু": "uncle_aunty",
-          "অন্যান্য": "other"
+        "openmrs_entity_ids": {
+          "Mother": "mother",
+          "Father": "father",
+          "Grandfather/Grandmother": "grandfather_grandmother",
+          "Brother/Sister": "brother_sister",
+          "Uncle/Aunty": "uncle_aunty",
+          "Other": "other"
         },
         "relevance": {
           "rules-engine": {
@@ -455,14 +449,14 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "present_at_newborn_death_child",
         "type": "spinner",
-        "hint": "তিনি কি নবজাতকের  মৃত্যুর সময় উপস্থিত ছিলেন ",
+        "hint": "Does he/she present at time of death",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
         "openmrs_entity_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+          "Yes": "Yes",
+          "No": "No"
         },
         "relevance": {
           "rules-engine": {
@@ -478,7 +472,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "community_name",
         "type": "edit_text",
-        "hint": "কমিউনিটি ক্লিনিকের নাম",
+        "hint": "Community clinic name",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -493,7 +487,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "community_code",
         "type": "edit_text",
-        "hint": "কমিউনিটি ক্লিনিকের ফ্যাসিলিটি রেজিস্ট্রি কোড",
+        "hint": "Community Clinic Facility Registry Code",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -513,7 +507,7 @@
         "openmrs_entity_id": "newborn_death_dhis_no",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": " নবজাতকের রেজিস্ট্রেশন নাম্বার (ডি এইচ আই এস 2)",
+        "hint": "Newborn death dhis no",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
@@ -532,7 +526,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "new_born_death_date",
         "type": "date_picker",
-        "hint": "মৃত্যুর তারিখ",
+        "hint": "Date of death",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -547,7 +541,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "new_born_death_time",
         "type": "time_picker",
-        "hint": "মৃত্যুর সময়",
+        "hint": "Time of Death",
         "expanded": false,
         "relevance": {
           "rules-engine": {
@@ -563,7 +557,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "new_born_death_place",
         "type": "spinner",
-        "hint": "কোথায় মৃত্যু ঘটেছিল?",
+        "hint": "Place of Death",
         "values": [
           "Medical College Hospital/Specialized Hospital",
           "District Hospital",
@@ -605,7 +599,7 @@
         "openmrs_entity_id": "newborn_death_sick",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": " নবজাতক মৃত্যুর পূর্বে কত দিন  অসুস্থ ছিল?",
+        "hint": "How many days he/she was ill before death",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
@@ -624,14 +618,14 @@
         "openmrs_entity":"",
         "openmrs_entity_id":"newborn_death_hurt",
         "type":"spinner",
-        "hint":"নবজাতক কি কোনো শারীরিক আঘাতে মৃত্যু বরণ করেছে ",
+        "hint":"Does he/she died due to physical trauma",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
         "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+          "Yes": "Yes",
+          "No": "No"
         },
         "relevance": {
           "rules-engine": {
@@ -647,20 +641,20 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "new_born_mother_anc_count",
         "type": "spinner",
-        "hint": "মা গর্ভাবস্থায়  সর্বমোট কয়টি এ এন সি সেবা পেয়ছিল? ",
+        "hint": "How many ANC taken by the mother",
         "values": [
-          "১",
-          "২",
-          "৩",
-          "৪",
-          "৪+"
+          "1",
+          "2",
+          "3",
+          "4",
+          "4+"
         ],
         "openmrs_choice_ids": {
-          "১": "1",
-          "২": "2",
-          "৩": "3",
-          "৪": "4",
-          "৪+": "4+"
+          "1": "1",
+          "2": "2",
+          "3": "3",
+          "4": "4",
+          "4+": "4+"
         },
         "relevance": {
           "rules-engine": {
@@ -677,14 +671,14 @@
         "openmrs_entity_id": "new_born_birth_problem",
         "openmrs_data_type": "text",
         "type": "check_box",
-        "label": "জন্মগত ত্রুটি",
+        "label": "Birth Defect",
         "exclusive": [
           "None"
         ],
         "options": [
           {
             "key": "Cleft_Palate",
-            "text": "তালু কাটা",
+            "text": "Cleft Palate",
             "value": false,
             "openmrs_entity_id": "Cleft_Palate",
             "openmrs_entity": "concept",
@@ -692,7 +686,7 @@
           },
           {
             "key": "Cleft_Lip",
-            "text": "ঠোঁট কাটা",
+            "text": "Cleft Lip",
             "value": false,
             "openmrs_entity_id": "Cleft_Lip",
             "openmrs_entity": "concept",
@@ -700,7 +694,7 @@
           },
           {
             "key": "Anal_Deformities",
-            "text": "পায়ু পথে ত্রুটি",
+            "text": "Anal Deformities",
             "value": false,
             "openmrs_entity_id": "Anal_Deformities",
             "openmrs_entity": "concept",
@@ -708,7 +702,7 @@
           },
           {
             "key": "Clubhead",
-            "text": "মাথা়য় ত্রুটি",
+            "text": "Clubhead",
             "value": false,
             "openmrs_entity_id": "Clubhead",
             "openmrs_entity": "concept",
@@ -716,7 +710,7 @@
           },
           {
             "key": "Clubshoulder",
-            "text": "কাধে ত্রুটি",
+            "text": "Clubshoulder",
             "value": false,
             "openmrs_entity_id": "Clubshoulder",
             "openmrs_entity": "concept",
@@ -724,7 +718,7 @@
           },
           {
             "key": "Clubfoot",
-            "text": "পায়ে ত্রুটি",
+            "text": "Clubfoot",
             "value": false,
             "openmrs_entity_id": "Clubfoot",
             "openmrs_entity": "concept",
@@ -732,7 +726,7 @@
           },
           {
             "key": "Clubelbow",
-            "text": "কনুইয়ে ত্রুটি",
+            "text": "Clubelbow",
             "value": false,
             "openmrs_entity_id": "Clubelbow",
             "openmrs_entity": "concept",
@@ -740,7 +734,7 @@
           },
           {
             "key": "Others",
-            "text": "অন্যান্য",
+            "text": "Others",
             "value": false,
             "openmrs_entity_id": "Counselling_Newborn",
             "openmrs_entity": "Others",
@@ -761,14 +755,14 @@
         "openmrs_entity":"",
         "openmrs_entity_id":"newborn_cry_at_birth",
         "type":"spinner",
-        "hint":"নবজাতক জন্মের পর কান্না করেছিল কিনা?",
+        "hint":"Newborn cried immidiate after birth?",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
         "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+          "Yes": "Yes",
+          "No": "No"
         },
         "relevance": {
           "rules-engine": {
@@ -785,14 +779,14 @@
         "openmrs_entity_id": "new_born_danger_sign",
         "openmrs_data_type": "text",
         "type": "check_box",
-        "label": "নবজাতকের কোনো বিপদচিহ্ন ছিল কিনা?",
+        "label": "Were there any danger sign of neonate?",
         "exclusive": [
           "None"
         ],
         "options": [
           {
             "key": "Convulsions",
-            "text":  "খিঁচুনি",
+            "text":  "Convulsions",
             "value": false,
             "openmrs_entity_id": "Convulsions",
             "openmrs_entity": "concept",
@@ -800,7 +794,7 @@
           },
           {
             "key": "No_feed",
-            "text": "নবজাতক বুকের দুধ খেতে অক্ষম/দুর্বল",
+            "text": "No feed or reluctant to feed",
             "value": false,
             "openmrs_entity_id": "No_feed",
             "openmrs_entity": "concept",
@@ -808,7 +802,7 @@
           },
           {
             "key": "Fast_breathing",
-            "text": "দ্রুত শ্বাস-প্রশ্বাস",
+            "text": "Fast breathing",
             "value": false,
             "openmrs_entity_id": "Fast_breathing",
             "openmrs_entity": "concept",
@@ -816,7 +810,7 @@
           },
           {
             "key": "Chest_indrawing_with_Fast_breathing",
-            "text": "দ্রুত শ্বাস-প্রশ্বাসের সাথে বুক ডেবে যাওয়া",
+            "text": "Chest indrawing with Fast_breathing",
             "value": false,
             "openmrs_entity_id": "Chest_indrawing_with_Fast_breathing",
             "openmrs_entity": "concept",
@@ -824,7 +818,7 @@
           },
           {
             "key": "Hypothermia_of_hand_and_feet",
-            "text": "হাত পা ঠান্ডা হয়ে যাওয়া",
+            "text": "Hypothermia of hand and feet",
             "value": false,
             "openmrs_entity_id": "Hypothermia_of_hand_and_feet",
             "openmrs_entity": "concept",
@@ -832,7 +826,7 @@
           },
           {
             "key": "Lack_of_movement_or_less_movement",
-            "text": "নড়াচড়া নেই",
+            "text": "Lack of movement or less movement",
             "value": false,
             "openmrs_entity_id": "Lack_of_movement_or_less_movement",
             "openmrs_entity": "concept",
@@ -840,7 +834,7 @@
           },
           {
             "key": "Fever",
-            "text": "জ্বর",
+            "text": "Fever",
             "value": false,
             "openmrs_entity_id": "Fever",
             "openmrs_entity": "concept",
@@ -848,7 +842,7 @@
           },
           {
             "key": "Yellow_colouation_of_eyes_Skin",
-            "text": "চোখ ও গায়ের চামড়া হলুদ বর্ণের হওয়া",
+            "text": "Yellow colouation of eyes Skin",
             "value": false,
             "openmrs_entity_id": "Yellow_colouation_of_eyes_Skin",
             "openmrs_entity": "Others",
@@ -856,7 +850,7 @@
           },
           {
             "key": "Reddish_umbilicus_Pus_secretion_from_umbilicus",
-            "text": "নাভির লাল বর্ণ ধারণ বা নাভি থেকে পুঁজ বের হওয়া",
+            "text": "Reddish umbilicus Pus secretion from umbilicus",
             "value": false,
             "openmrs_entity_id": "Reddish_umbilicus_Pus_secretion_from_umbilicus",
             "openmrs_entity": "concept",
@@ -864,7 +858,7 @@
           },
           {
             "key": "Diarrhoea",
-            "text": " পাতলা পায়খানা",
+            "text": "Diarrhoea",
             "value": false,
             "openmrs_entity_id": "Diarrhoea",
             "openmrs_entity": "concept",
@@ -872,7 +866,7 @@
           },
           {
             "key": "vesicle_in_the_skin",
-            "text": "চামড়ায় পুজসহ ফোঁড়া",
+            "text": "Vesicle in the skin",
             "value": false,
             "openmrs_entity_id": "vesicle_in_the_skin",
             "openmrs_entity": "concept",
@@ -880,7 +874,7 @@
           },
           {
             "key": "other",
-            "text": "অন্যান্য",
+            "text": "Other",
             "value": false,
             "openmrs_entity_id": "other",
             "openmrs_entity": "concept",
@@ -901,38 +895,38 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "new_born_death_cause",
         "type": "spinner",
-        "hint": "চিকিৎসা সেবা গ্রহণ না করে থাকলে তার কারণ কি ছিল?",
+        "hint": "What are the reasons for not receiving service?",
         "values": [
-          "অপ্রয়োজনীয় মনে করেছিল",
-          "ব্যয়বহুল ছিল",
-          "দূরত্ব বেশি ছিল",
-          "নিয়ে যাওয়ার সঙ্গী ছিল না",
-          "পারিবারিক অসম্মতি ছিল",
-          "কোথায় যেতে হবে জানা ছিল না",
-          "অর্থের অভাব ছিল",
-          "সেবা গ্রহণে ভয় পাওয়া",
-          "চিকিৎসার প্রয়োজন বুঝতে পারেনি",
-          "যানবাহনের অভাব ছিল",
-          "সেবার মান অনুন্নত",
-          "বাড়িতে ভালো সেবা পাওয়ায়",
-          "সময়ের অভাব ছিল",
-          "অন্যান্য"
+          "Think unncessary",
+          "Expensive",
+          "Far from home",
+          "No accompany",
+          "No family consent",
+          "No information to go",
+          "Lack of Money",
+          "Fear of taking service",
+          "Lack of knowledgefor",
+          "Lack of transport",
+          "Lack of quality service",
+          "Good homecare",
+          "Lack of time",
+          "Others"
         ],
-        "openmrs_choice_ids": {
-          "অপ্রয়োজনীয় মনে করেছিল": "Think unncessary",
-          "ব্যয়বহুল ছিল": "Expensive",
-          "দূরত্ব বেশি ছিল": "Far from home",
-          "নিয়ে যাওয়ার সঙ্গী ছিল না": "No accompany",
-          "পারিবারিক অসম্মতি ছিল": "No family consent",
-          "কোথায় যেতে হবে জানা ছিল না": "No information to go",
-          "অর্থের অভাব ছিল": "Lack of Money",
-          "সেবা গ্রহণে ভয় পাওয়া": "Fear of taking service",
-          "চিকিৎসার প্রয়োজন বুঝতে পারেনি": "Lack of knowledgefor importance of service",
-          "যানবাহনের অভাব ছিল": "Lack of transport",
-          "সেবার মান অনুন্নত": "Lack of quality service",
-          "বাড়িতে ভালো সেবা পাওয়ায়": "Good homecare",
-          "সময়ের অভাব ছিল": "Lack of time",
-          "অন্যান্য": "Others"
+        "openmrs_entity_ids": {
+          "Think unncessary": "Think unncessary",
+          "Expensive": "Expensive",
+          "Far from home": "Far from home",
+          "No accompany": "No accompany",
+          "No family consent": "No family consent",
+          "No information to go": "No information to go",
+          "Lack of Money": "Lack of Money",
+          "Fear of taking service": "Fear of taking service",
+          "Lack of knowledgefor": "Lack of knowledgefor importance of service",
+          "Lack of transport": "Lack of transport",
+          "Lack of quality service": "Lack of quality service",
+          "Good homecare": "Good homecare",
+          "Lack of time": "Lack of time",
+          "Others": "Others"
         },
         "relevance": {
           "rules-engine": {
@@ -949,7 +943,7 @@
         "openmrs_entity_id": "new_born_death_cause_by_reporter",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "সাক্ষাৎকার গ্রহণকারীর মতে মৃত্যুর কি কারণ হতে পারে ?",
+        "hint": "What is cause of Death (according to interviewer)?",
         "relevance": {
           "rules-engine": {
             "ex-rules": {

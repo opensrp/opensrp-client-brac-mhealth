@@ -349,7 +349,7 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
         }
 
         try {
-            JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
+            JSONObject jsonForm = HnppJsonFormUtils.getJsonObject(formName);;
             HnppJsonFormUtils.addEDDField(formName,jsonForm,baseEntityId);
             HnppJsonFormUtils.addRelationalIdAsGuest(jsonForm);
             try{

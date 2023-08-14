@@ -42,6 +42,7 @@ import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.domain.Response;
 import org.smartregister.exception.NoHttpResponseException;
 import org.smartregister.job.PullUniqueIdsServiceJob;
+import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
 import org.smartregister.util.FormUtils;
 import org.smartregister.repository.EventClientRepository;
 
@@ -149,7 +150,7 @@ public class HnppNavigationPresenter implements NavigationContract.Presenter {
     public void startAnyFormActivity(Activity activity) {
         try {
             String baseEntityId = JsonFormUtils.generateRandomUUIDString();
-            JSONObject jsonForm = FormUtils.getInstance(activity.getApplicationContext()).getFormJson("covid19");
+            JSONObject jsonForm = HnppJsonFormUtils.getJsonObject("covid19");
 
             jsonForm.put(JsonFormUtils.ENTITY_ID, baseEntityId);
             Intent intent;

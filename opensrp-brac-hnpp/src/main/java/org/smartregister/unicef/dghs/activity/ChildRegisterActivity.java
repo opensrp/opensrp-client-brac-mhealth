@@ -74,7 +74,7 @@ public class ChildRegisterActivity extends BaseRegisterActivity implements CoreC
         Form form = new Form();
         form.setName(getString(R.string.add_family));
         form.setSaveLabel(getString(R.string.save));
-        form.setWizard(false);
+        form.setWizard(true);
         if(!HnppConstants.isReleaseBuild()){
             form.setActionBarBackground(R.color.test_app_color);
 

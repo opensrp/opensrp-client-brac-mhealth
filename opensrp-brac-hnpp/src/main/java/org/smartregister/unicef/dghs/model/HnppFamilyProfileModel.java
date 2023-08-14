@@ -41,7 +41,7 @@ public class HnppFamilyProfileModel extends CoreFamilyProfileModel {
     public JSONObject getFormAsJson(String formName, String entityId, String currentLocationId) throws Exception {
         Log.v("INVALID_REQ","getFormAsJson>>familyBaseEntityId:"+familyBaseEntityId+":houseHoldId:"+houseHoldId+":moduleId:"+moduleId);
         HnppConstants.appendLog("INVALID_REQ","getFormAsJson>>familyBaseEntityId:"+familyBaseEntityId+":houseHoldId:"+houseHoldId+":moduleId:"+moduleId);
-        JSONObject form = getFormUtils().getFormJson(formName);
+        JSONObject form = HnppJsonFormUtils.getJsonObject(formName);;
         if (form == null || TextUtils.isEmpty(familyBaseEntityId)) {
             return null;
         }

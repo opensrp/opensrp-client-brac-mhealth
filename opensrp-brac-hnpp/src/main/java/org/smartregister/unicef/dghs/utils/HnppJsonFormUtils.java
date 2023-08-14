@@ -64,6 +64,7 @@ import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.EventClientRepository;
 import org.smartregister.util.AssetHandler;
 import org.smartregister.util.FormUtils;
+import org.smartregister.util.LangUtils;
 import org.smartregister.view.LocationPickerView;
 
 import java.text.SimpleDateFormat;
@@ -132,8 +133,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         clients.add(familyClient);
 
 
-        JSONObject metadata = FormUtils.getInstance(context)
-                .getFormJson(org.smartregister.chw.core.utils.Utils.metadata().familyRegister.formName)
+        JSONObject metadata = HnppJsonFormUtils.getJsonObject(org.smartregister.chw.core.utils.Utils.metadata().familyRegister.formName)
                 .getJSONObject(org.smartregister.family.util.JsonFormUtils.METADATA);
 
         metadata.put(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_LOCATION, lastLocationId);
@@ -1403,7 +1403,8 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
     public static JSONObject getAutoPopulatedJsonEditFormString(String formName, Context context, CommonPersonObjectClient client, String eventType) {
         try {
-            JSONObject form = FormUtils.getInstance(context).getFormJson(formName);
+            JSONObject form =  HnppJsonFormUtils.getJsonObject(formName);
+            ;
             LocationPickerView lpv = new LocationPickerView(context);
             lpv.init();
             Timber.d("Form is %s", form.toString());
@@ -1970,5 +1971,27 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * getting language here
+     */
+    public static JSONObject getJsonObject(String formName) throws JSONException {
+        String local = LangUtils.getLanguage(HnppApplication.getInstance().getApplicationContext());
+        String lang = "";
+        String jsonEx = ".json";
+        if(local.equals("bn")){
+            lang = "-bn";
+        }
+        String[] localSP = formName.split("\\.");
+
+        if(localSP.length>1){
+            if(localSP[1].equals("json")){
+                jsonEx = "";
+            }
+        }
+
+
+        return  new JSONObject(AssetHandler.readFileFromAssetsFolder("json.form" +lang+"/" +formName+jsonEx, HnppApplication.getHNPPInstance().getApplicationContext()));
     }
 }

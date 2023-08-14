@@ -35,6 +35,7 @@ import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.dao.AlertDao;
 import org.smartregister.unicef.dghs.enums.ImmunizationState;
 import org.smartregister.unicef.dghs.utils.ChwServiceSchedule;
+import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.HnppDBUtils;
 import org.smartregister.chw.core.contract.CoreChildProfileContract;
 import org.smartregister.chw.core.utils.ChildDBConstants;
@@ -346,7 +347,7 @@ public class HnppChildProfileInteractor implements CoreChildProfileContract.Inte
     @Override
     public JSONObject getAutoPopulatedJsonEditFormString(String formName, String title, Context context, CommonPersonObjectClient client) {
         try {
-            JSONObject form = FormUtils.getInstance(context).getFormJson(formName);
+            JSONObject form = HnppJsonFormUtils.getJsonObject(formName);
             LocationPickerView lpv = new LocationPickerView(context);
             lpv.init();
             if (form != null) {

@@ -42,6 +42,7 @@ import org.smartregister.chw.core.fragment.FamilyCallDialogFragment;
 import org.smartregister.domain.FetchStatus;
 import org.smartregister.family.activity.BaseFamilyProfileActivity;
 import org.smartregister.family.fragment.BaseFamilyProfileMemberFragment;
+import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.contract.MigrationContract;
 import org.smartregister.unicef.dghs.custom_view.FamilyFloatingMenu;
@@ -426,7 +427,7 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
                     form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
                 }
-                form.setWizard(false);
+                form.setWizard(true);
 
                 intent.putExtra("form", form);
                 this.startActivityForResult(intent, JsonFormUtils.REQUEST_CODE_GET_JSON);
@@ -846,7 +847,8 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
 //            public void onPost(double latitude, double longitude) {
                 try{
                     Map<String,String> hhByBaseEntityId = HnppDBUtils.getDetails(familyBaseEntityId,"ec_family");
-                    JSONObject jsonForm = FormUtils.getInstance(getApplicationContext()).getFormJson(HnppConstants.JSON_FORMS.HOME_VISIT_FAMILY);
+                    //JSONObject jsonForm = FormUtils.getInstance(HnppApplication.getInstance().getApplicationContext()).getFormJson(HnppConstants.JSON_FORMS.HOME_VISIT_FAMILY);
+                    JSONObject jsonForm = HnppJsonFormUtils.getJsonObject(HnppConstants.JSON_FORMS.HOME_VISIT_FAMILY);
                     HnppJsonFormUtils.updateHhVisitForm(jsonForm, hhByBaseEntityId);
                     HnppJsonFormUtils.setEncounterDateTime(jsonForm);
 //                    HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,familyBaseEntityId);
@@ -892,7 +894,7 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
             intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
 
             Form form = new Form();
-            form.setWizard(false);
+            form.setWizard(true);
             if(!HnppConstants.isReleaseBuild()){
                 form.setActionBarBackground(R.color.test_app_color);
 
@@ -916,7 +918,7 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
     }
     public void startAnyFormActivity(String formName, int requestCode) {
         try {
-            JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
+            JSONObject jsonForm = HnppJsonFormUtils.getJsonObject(formName);
 
             jsonForm.put(org.smartregister.util.JsonFormUtils.ENTITY_ID, familyBaseEntityId);
             Intent intent;

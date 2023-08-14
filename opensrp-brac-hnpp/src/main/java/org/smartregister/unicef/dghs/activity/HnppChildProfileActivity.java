@@ -607,7 +607,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
     public void openCoronaIndividualForm(){
         Intent intent = new Intent(this, HnppAncJsonFormActivity.class);
         try{
-            JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(HnppConstants.JSON_FORMS.CORONA_INDIVIDUAL);
+            JSONObject jsonForm = HnppJsonFormUtils.getJsonObject(HnppConstants.JSON_FORMS.CORONA_INDIVIDUAL);
             intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
 
             Form form = new Form();
@@ -646,7 +646,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                     }
                     HnppConstants.appendLog("SAVE_VISIT", "openReferealFollowUp>>childBaseEntityId:"+childBaseEntityId);
 
-                    JSONObject jsonForm = FormUtils.getInstance(HnppChildProfileActivity.this).getFormJson(HnppConstants.JSON_FORMS.REFERREL_FOLLOWUP);
+                    JSONObject jsonForm = HnppJsonFormUtils.getJsonObject(HnppConstants.JSON_FORMS.REFERREL_FOLLOWUP);
                     jsonForm.put(JsonFormUtils.ENTITY_ID, childBaseEntityId);
                     try{
                         HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,0,0,getFamilyBaseId());
@@ -701,7 +701,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                     }
                     HnppConstants.appendLog("SAVE_VISIT", "open form>>childBaseEntityId:"+childBaseEntityId+":formName:"+formName);
 
-                    JSONObject jsonForm = FormUtils.getInstance(HnppChildProfileActivity.this).getFormJson(formName);
+                    JSONObject jsonForm = HnppJsonFormUtils.getJsonObject(formName);
 //                    try{
 //                        HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,getFamilyBaseId());
 //                    }catch (Exception e){

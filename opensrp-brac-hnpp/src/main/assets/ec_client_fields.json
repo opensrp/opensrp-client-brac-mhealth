@@ -1655,6 +1655,15 @@
         },
 
         {
+          "column_name": "which_problem",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.which_problem"
+
+          }
+        },
+
+        {
           "column_name": "breast_feeded",
           "type": "Client",
           "json_mapping": {
@@ -1662,6 +1671,7 @@
 
           }
         },
+
         {
           "column_name": "geopoint",
           "type": "Client",

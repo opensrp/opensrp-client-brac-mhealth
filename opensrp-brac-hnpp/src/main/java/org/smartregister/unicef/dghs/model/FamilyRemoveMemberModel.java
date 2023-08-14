@@ -11,6 +11,8 @@ import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.Utils;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.activity.HnppChildProfileActivity;
+import org.smartregister.unicef.dghs.utils.HnppConstants;
+import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
 
@@ -20,7 +22,7 @@ public class FamilyRemoveMemberModel extends CoreFamilyRemoveMemberModel {
     @Override
     public JSONObject prepareJsonForm(CommonPersonObjectClient client, String formType) {
         try {
-            JSONObject form = FormUtils.getInstance(HnppApplication.getInstance().getApplicationContext()).getFormJson(formType);
+            JSONObject form = HnppJsonFormUtils.getJsonObject(formType);
 
             form.put(JsonFormUtils.ENTITY_ID, Utils.getValue(client.getColumnmaps(), DBConstants.KEY.BASE_ENTITY_ID, false));
             // inject data into the form
@@ -64,6 +66,32 @@ public class FamilyRemoveMemberModel extends CoreFamilyRemoveMemberModel {
 
                     jsonObject.put("text", details);
 
+                }
+            }
+
+            return form;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public JSONObject prepareFamilyRemovalForm(String familyID, String familyName, String details) {
+        try {
+            JSONObject form = HnppJsonFormUtils.getJsonObject(CoreConstants.JSON_FORM.FAMILY_DETAILS_REMOVE_FAMILY);
+            form.put(JsonFormUtils.ENTITY_ID, familyID);
+
+            JSONObject stepOne = form.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+            JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                if (jsonObject.getString(org.smartregister.family.util.JsonFormUtils.KEY).equalsIgnoreCase(CoreConstants.JsonAssets.DETAILS)) {
+                    jsonObject.put("text", details);
+                }
+                if (jsonObject.getString(org.smartregister.family.util.JsonFormUtils.KEY).equalsIgnoreCase(CoreConstants.JsonAssets.FAM_NAME)) {
+                    jsonObject.put("text", familyName);
                 }
             }
 

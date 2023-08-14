@@ -149,7 +149,7 @@ public class FamilyProfilePresenter extends BaseFamilyProfilePresenter implement
         }
     }
     public void startChildFromWithMotherInfo(String motherEntityId) throws Exception {
-        JSONObject form = FormUtils.getInstance(org.smartregister.family.util.Utils.context().applicationContext()).getFormJson(CoreConstants.JSON_FORM.getChildRegister());
+        JSONObject form = HnppJsonFormUtils.getJsonObject(CoreConstants.JSON_FORM.CHILD_REGISTER);
         Map<String, String> womenInfo = HnppDBUtils.getMotherName(motherEntityId);
 
         HnppJsonFormUtils.updateFormWithMotherName(form,womenInfo.get("first_name")+" "+womenInfo.get("last_name"),womenInfo.get("member_name_bengla"),motherEntityId,familyBaseEntityId,womenInfo.get("phone_number"));

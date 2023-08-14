@@ -79,8 +79,10 @@ import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.helper.ImageRenderHelper;
 import org.smartregister.unicef.dghs.utils.RiskyModel;
+import org.smartregister.util.AssetHandler;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
+import org.smartregister.util.LangUtils;
 import org.smartregister.view.contract.BaseProfileContract;
 import org.smartregister.view.customcontrols.CustomFontTextView;
 
@@ -547,7 +549,8 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
             HnppConstants.appendLog("SAVE_VISIT","processJsonForm>>>formName:"+formName);
             Form form = new Form();
             form.setWizard(true);
-            JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
+            JSONObject jsonForm =  HnppJsonFormUtils.getJsonObject(formName);
+
             HnppJsonFormUtils.addEDDField(formName,jsonForm,baseEntityId);
 //            try{
 //                HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,familyBaseEntityId);
@@ -678,7 +681,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
 
     }
     private void startChildForm() throws Exception{
-        JSONObject form = FormUtils.getInstance(org.smartregister.family.util.Utils.context().applicationContext()).getFormJson(CoreConstants.JSON_FORM.getChildRegister());
+        JSONObject form = HnppJsonFormUtils.getJsonObject(CoreConstants.JSON_FORM.CHILD_REGISTER);
         Map<String, String> womenInfo = HnppDBUtils.getMotherName(baseEntityId);
         HouseHoldInfo houseHoldInfo = HnppDBUtils.getHouseHoldInfo(familyBaseEntityId);
         if(houseHoldInfo!=null){
@@ -1027,7 +1030,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
                 try{
                     HnppConstants.appendLog("SAVE_VISIT","openCoronaIndividualForm>>>baseEntityId:"+baseEntityId);
 
-                    JSONObject jsonForm = FormUtils.getInstance(HnppFamilyOtherMemberProfileActivity.this).getFormJson(HnppConstants.JSON_FORMS.CORONA_INDIVIDUAL);
+                    JSONObject jsonForm = HnppJsonFormUtils.getJsonObject(HnppConstants.JSON_FORMS.CORONA_INDIVIDUAL);
 
 
                     Form form = new Form();
@@ -1098,7 +1101,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
                 try {
                     HnppConstants.appendLog("SAVE_VISIT","openREFERREL_FOLLOWUPForm>>>baseEntityId:"+baseEntityId);
 
-                    JSONObject jsonForm = FormUtils.getInstance(HnppFamilyOtherMemberProfileActivity.this).getFormJson(HnppConstants.JSON_FORMS.REFERREL_FOLLOWUP);
+                    JSONObject jsonForm = HnppJsonFormUtils.getJsonObject(HnppConstants.JSON_FORMS.REFERREL_FOLLOWUP);
                     jsonForm.put(JsonFormUtils.ENTITY_ID, baseEntityId);
                     try{
                         HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,familyBaseEntityId);

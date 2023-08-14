@@ -33,7 +33,7 @@ public class HnppFamilyRegisterModel extends BaseFamilyRegisterModel {
 
     @Override
     public JSONObject getFormAsJson(String formName, String entityId, String currentLocationId) throws Exception {
-        JSONObject form = getFormUtils().getFormJson(formName);
+        JSONObject form = HnppJsonFormUtils.getJsonObject(formName);
         if (form == null) {
             return null;
         }
