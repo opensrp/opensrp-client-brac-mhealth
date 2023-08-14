@@ -421,6 +421,365 @@
           "err": "Minimum must be 1"
         }
       },
+
+      {
+        "key": "household_type",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "household_type",
+        "openmrs_data_type": "Coded",
+        "type": "spinner",
+        "hint": "Type of House ?",
+        "values": [
+          "Mud-Built",
+          "Semi Brick Built",
+          "Brick built"
+        ],
+        "openmrs_choice_ids": {
+          "Mud-Built": "Mud-Built",
+          "Semi Brick Built" : "Semi Brick Built",
+          "Brick built" : "Brick built"
+        },
+        "v_required": {
+          "value": "false",
+          "err": "Please answer the question"
+        }
+      },
+      {
+        "key": "latrine_structure",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "latrine_structure",
+        "type": "spinner",
+        "hint": "Type of latrine ?",
+        "values": [
+          "Sanitary",
+          "Pakka-latrine",
+          "Rudimentary",
+          "Open area",
+          "Shrub",
+          "Other latrines"
+        ],
+        "openmrs_choice_ids": {
+          "Sanitary": "Sanitary",
+          "Pakka-latrine": "pakka-latrine",
+          "Rudimentary": "rudimentary",
+          "Open area": "open area",
+          "Shrub" : "shrub",
+          "Other latrines": "Other latrines"
+        }
+      },
+      {
+        "key": "other_latrine",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "other_latrine",
+        "type": "edit_text",
+        "hint": "Write other latrine sources",
+        "relevance": {
+          "step1:latrine_structure": {
+            "type": "string",
+            "ex": "regex(., \"Other latrines\")"
+          }
+        }
+      },
+      {
+        "key": "water_source",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "water_source",
+        "type": "spinner",
+        "hint": "Main source of water ?",
+        "values": [
+          "Tubewell(red)",
+          "Tubewell(green)",
+          "No Arsenic test tubewell",
+          "Rain Water",
+          "River/Canal",
+          "Tap",
+          "Well/indira",
+          "Pond",
+          "Other water sources"
+        ],
+        "openmrs_choice_ids": {
+          "Tubewell(red)": "Tubewell(red)",
+          "Tubewell(green)" : "Tubewell(green)",
+          "No Arsenic test tubewell" : "No Arsenic test tubewell",
+          "Rain Water" : "Rain Water",
+          "River/Canal" : "River/Canal",
+          "Tap" : "Tap",
+          "Well/indira" : "Well/indira",
+          "Pond" : "Pond",
+          "Other water sources" : "Other water sources"
+        }
+      },
+      {
+        "key": "water_other",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "water_other",
+        "type": "edit_text",
+        "hint": "Write other water sources",
+        "v_required": {
+          "value": false,
+          "err": "Please Type Water Source"
+        },
+        "relevance": {
+          "step1:water_source": {
+            "type": "string",
+            "ex": "equalTo(., \"Other water sources\")"
+          }
+        }
+      },
+      {
+        "key": "financial_status",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "financial_status",
+        "type": "spinner",
+        "hint": "Family Financial Status ?",
+        "values": [
+          "Always hand to mouth",
+          "Sometimes hand to mouth",
+          "Income and expenditure equal",
+          "Solvent",
+          "Can save",
+          "Other financial status"
+        ],
+        "openmrs_choice_ids": {
+          "Always hand to mouth": "Always hand to mouth",
+          "Sometimes hand to mouth" : "Sometimes hand to mouth",
+          "Income and expenditure equal" : "Income and expenditure equal",
+          "Solvent" : "Solvent",
+          "Can save" : "Can save",
+          "Other financial status" : "Other financial status"
+
+        }
+      },
+      {
+        "key": "finance_other",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "finance_other",
+        "type": "edit_text",
+        "hint": "Write other financial status",
+        "v_required": {
+          "value": false,
+          "err": "Please Type Financial Status"
+        },
+        "relevance": {
+          "step1:financial_status": {
+            "type": "string",
+            "ex": "equalTo(., \"Other financial status\")"
+          }
+        }
+      },
+      {
+        "key": "monthly_expenditure",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "monthly_expenditure",
+        "openmrs_data_type": "Numeric",
+        "type": "edit_text",
+        "hint": "Estimated Expense of family",
+        "v_required": {
+          "value": "false",
+          "err": "Please enter the amount"
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid amount"
+        }
+      },
+
+      {
+        "key":"nearby_health_facility",
+        "openmrs_entity_parent":"",
+        "openmrs_entity":"person_attribute",
+        "openmrs_entity_id":"nearby_health_facility",
+        "openmrs_data_type":"",
+        "type":"spinner",
+        "hint":"Nearby health center",
+        "values":[
+          "Community Clinic",
+          "Union Sub-center (USC)",
+          "UFWC (Union Family Welfare Center)",
+          "UH & FWC",
+          "Metarnal and Child Wellfare Center",
+          "10 Bed Hospital",
+          "20 Beds Hospital",
+          "UHC (Upazila Health Complex)",
+          "District Hospital",
+          "Medical College Hospital",
+          "Private Hospital / NGO clinic",
+          "NGO",
+          "Specialized Hospital",
+          "Others Health Facility"
+        ],
+        "openmrs_entity_ids":{
+          "Community_Clinic":"Community_Clinic",
+          "Union Sub-center (USC)":"Union_Sub_Center",
+          "UFWC (Union Family Welfare Center)":"Union_Family_Welfare_Center",
+          "UH & FWC":"Union_Health_and_Family_Welfare_Center",
+          "Metarnal and Child Wellfare Center":"Metarnal_and_Child_Wellfare_Center",
+          "10 Bed Hospital":"10_Bed_Hospital",
+          "20 Beds Hospital":"20_Beds_Hospital",
+          "Upazila Health Complex":"Upazila_Health_Complex",
+          "District Hospital":"District_Hospital",
+          "Medical College Hospital":"Medical_College_and_Hospital",
+          "Private Hospital / NGO clinic": "Private_Clinic_and_Hospital",
+          "NGO": "Non-governmental_Organization",
+          "Specialized Hospital":"Specialized_Hospital",
+          "Others Health Facility":"Others_Health_Facility"
+        }
+      },
+
+      {
+        "key": "facility_other",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "facility_other",
+        "type": "edit_text",
+        "hint": "Other health facilities",
+        "v_required": {
+          "value": false,
+          "err": "Please Type Facility Name"
+        },
+        "relevance": {
+          "step1:nearby_health_facility": {
+            "type": "string",
+            "ex": "equalTo(., \"Others Health Facility\")"
+          }
+        }
+      },
+      {
+        "key": "health_facility_distance",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "health_facility_distance",
+        "type": "spinner",
+        "hint": "Distance from nearby health center",
+        "values": [
+          "Less than 500 meter",
+          "500 meter to 1km",
+          "1km to 2 km",
+          "2km to 3km",
+          "More than 3km"
+        ],
+        "openmrs_choice_ids": {
+          "Less than 500 meter":"Less than 500 meter",
+          "500 meter to 1km":"500 meter to 1km",
+          "1km to 2 km":"1km to 2 km",
+          "2km to 3km":"2km to 3km",
+          "More than 3km":"More than 3km"
+        }
+      },
+      {
+        "key": "health_care_center",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "health_care_center",
+        "type": "spinner",
+        "hint": "Where do family members usually go?",
+        "values":[
+          "Community Clinic",
+          "Union Sub-center (USC)",
+          "UFWC (Union Family Welfare Center)",
+          "UH & FWC",
+          "Metarnal and Child Wellfare Center",
+          "10 Bed Hospital",
+          "20 Beds Hospital",
+          "UHC (Upazila Health Complex)",
+          "District Hospital",
+          "Medical College Hospital",
+          "Private Hospital / NGO clinic",
+          "NGO",
+          "Specialized Hospital",
+          "Others Health Facility"
+        ],
+        "openmrs_choice_ids":{
+          "Community_Clinic":"Community_Clinic",
+          "Union Sub-center (USC)":"Union_Sub_Center",
+          "UFWC (Union Family Welfare Center)":"Union_Family_Welfare_Center",
+          "UH & FWC":"Union_Health_and_Family_Welfare_Center",
+          "Metarnal and Child Wellfare Center":"Metarnal_and_Child_Wellfare_Center",
+          "10 Bed Hospital":"10_Bed_Hospital",
+          "20 Beds Hospital":"20_Beds_Hospital",
+          "Upazila Health Complex":"Upazila_Health_Complex",
+          "District Hospital":"District_Hospital",
+          "Medical College Hospital":"Medical_College_and_Hospital",
+          "Private Hospital / NGO clinic": "Private_Clinic_and_Hospital",
+          "NGO": "Non-governmental_Organization",
+          "Specialized Hospital":"Specialized_Hospital",
+          "Others Health Facility":"Others_Health_Facility"
+        }
+      },
+      {
+        "key": "health_care_center_other",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "health_care_center_other",
+        "type": "edit_text",
+        "hint": "Other health facilities",
+        "v_required": {
+          "value": false,
+          "err": "Please Type Facility Name"
+        },
+        "v_regex": {
+          "value": "[^A-Za-z0-9]*",
+          "err": "Please enter a valid Facility Name"
+        },
+        "relevance": {
+          "step1:health_care_center": {
+            "type": "string",
+            "ex": "equalTo(., \"Others Health Facility\")"
+          }
+        }
+      },
+      {
+        "key": "community_clinic",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "community_clinic",
+        "type": "edit_text",
+        "hint": "Name of nearby community Clinic ?",
+        "v_required": {
+          "value": "false",
+          "err": "Please enter the value"
+        }
+      },
+      {
+        "key": "clinic_distance",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "clinic_distance",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "Distance from nearby community clinic",
+        "values": [
+          "Less than 500 meter",
+          "500 meter to 1km",
+          "1km to 2 km",
+          "2km to 3km",
+          "More than 3km"
+        ],
+        "openmrs_choice_ids": {
+          "Less than 500 meter":"Less than 500 meter",
+          "500 meter to 1km":"500 meter to 1km",
+          "1km to 2 km":"1km to 2 km",
+          "2km to 3km":"2km to 3km",
+          "More than 3km":"More than 3km"
+        }
+      },
+      {
+        "key": "name_info",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "name_info",
+        "type": "edit_text",
+        "hint": "Name of information provider"
+      },
+
       {
         "key": "gps",
         "openmrs_entity_parent": "usual_residence",
