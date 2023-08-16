@@ -585,6 +585,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
                 int pncCount = (FormApplicability.getPNCCount(baseEntityId)+1);
                 String date = HnppConstants.getSchedulePncDate(deliveryDate,pncCount);
                 HnppJsonFormUtils.changeFormTitle(jsonForm,FormApplicability.getPncTitle(baseEntityId));
+                HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"delivery_date", deliveryDate+"");
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"pnc_count", pncCount+"");
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"schedule_date", date);
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
@@ -977,6 +978,9 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
             case R.id.action_show_risk:
                 RiskyDataDisplayActivity.startInvalidActivity(baseEntityId,HnppFamilyOtherMemberProfileActivity.this);
 
+                return true;
+            case R.id.action_general_disease:
+                openMemberDisease();
                 return true;
         }
 

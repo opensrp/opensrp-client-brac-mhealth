@@ -51,6 +51,11 @@
         android:enabled="true"
         android:title="@string/risk_history"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_general_disease"
+        android:enabled="true"
+        android:title="@string/general_disease"
+        app:showAsAction="never" />
 <!--    <item-->
 <!--        android:id="@+id/action_mm_survey"-->
 <!--        android:enabled="false"-->

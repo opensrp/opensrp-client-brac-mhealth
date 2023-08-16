@@ -126,12 +126,8 @@ android {
             applicationIdSuffix ".training"
             buildConfigField "boolean", 'IS_TRAINING', 'true'
             buildConfigField "boolean", 'IS_MIS', 'false'
-//            buildConfigField "String", 'opensrp_url_training', '"https://hnpptest1.mpower-social.com/opensrp/"'
-//            buildConfigField "String", 'opensrp_url_live', '"https://hnpptest1.mpower-social.com/opensrp/"'
-            buildConfigField "String", 'opensrp_url_training', '"https://mhealthtest.brac.net/opensrp/"'
-            buildConfigField "String", 'opensrp_url_live', '"https://mhealthtest.brac.net/opensrp/"'
-//            buildConfigField "String", 'opensrp_url_training', '"http://hnppqa.mpower-social.com:8080/opensrp/"'
-//            buildConfigField "String", 'opensrp_url_live', '"http://hnppqa.mpower-social.com:8080/opensrp/"'
+            buildConfigField "String", 'opensrp_url_training', '"https://dghsha-training.dghs.gov.bd/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"https://dghsha-training.dghs.gov.bd/opensrp/"'
         }
         normal{
             versionCode 1

@@ -16,6 +16,7 @@ import org.smartregister.domain.FetchStatus;
 import org.smartregister.family.presenter.BaseFamilyProfilePresenter;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.activity.HnppFamilyOtherMemberProfileActivity;
+import org.smartregister.unicef.dghs.contract.FamilyRegisterInteractorCallBack;
 import org.smartregister.unicef.dghs.model.HnppChildRegisterModel;
 import org.smartregister.unicef.dghs.model.HnppFamilyRegisterModel;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
@@ -48,6 +49,7 @@ public class FamilyProfilePresenter extends BaseFamilyProfilePresenter implement
     HnppChildRegisterModel childProfileModel;
     BaseProfileActivity baseProfileActivity;
     WeakReference<FamilyProfileExtendedContract.View> viewReference;
+    protected String baseEntityId;
     protected CoreChildRegisterInteractor childRegisterInteractor;
     public FamilyProfilePresenter(FamilyProfileExtendedContract.View loginView, FamilyProfileContract.Model model, String houseHoldId, String familyBaseEntityId, String familyHead, String primaryCaregiver, String familyName) {
         super(loginView, model, familyBaseEntityId, familyHead, primaryCaregiver, familyName);
@@ -60,6 +62,11 @@ public class FamilyProfilePresenter extends BaseFamilyProfilePresenter implement
         getChildRegisterModel();
         verifyHasPhone();
     }
+
+    public String getBaseEntityId() {
+        return baseEntityId;
+    }
+
     public void updateHouseIdAndModuleId(String houseHoldId){
         this.houseHoldId = houseHoldId;
     }
@@ -239,6 +246,7 @@ public class FamilyProfilePresenter extends BaseFamilyProfilePresenter implement
 
     @Override
     public void onRegistrationSaved(boolean isEdit, String baseEntityId) {
+        this.baseEntityId = baseEntityId;
         getView().refreshMemberList(FetchStatus.fetched);
         getView().hideProgressDialog();
     }
@@ -258,7 +266,31 @@ public class FamilyProfilePresenter extends BaseFamilyProfilePresenter implement
             }
             org.smartregister.util.Utils.appendLog("SAVE_VISIT","familyEventClient>>baseentityid:"+familyEventClient.getClient().getBaseEntityId());
 
-            interactor.saveRegistration(familyEventClient, jsonString, false, this);
+//            interactor.saveRegistration(familyEventClient, jsonString, false, this);
+            ((HnppFamilyProfileInteractor)interactor).saveRegistration(familyEventClient, jsonString, false, new FamilyRegisterInteractorCallBack() {
+                @Override
+                public void onRegistrationSaved(boolean isEditMode, String baseId) {
+                    baseEntityId = baseId;
+                    getView().refreshMemberList(FetchStatus.fetched);
+                    getView().hideProgressDialog();
+                }
+
+                @Override
+                public void onUniqueIdFetched(Triple<String, String, String> triple, String s) {
+
+                }
+
+                @Override
+                public void onNoUniqueId() {
+
+                }
+
+                @Override
+                public void onRegistrationSaved(boolean b) {
+                    getView().refreshMemberList(FetchStatus.fetched);
+                    getView().hideProgressDialog();
+                }
+            });
             return familyEventClient.getClient().getBaseEntityId();
         } catch (Exception e) {
             Timber.e(e);

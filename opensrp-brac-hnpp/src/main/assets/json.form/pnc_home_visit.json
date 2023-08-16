@@ -75,6 +75,14 @@
         "read_only": true,
         "hint": "পি এন সি সেবা নং"
       },
+      {
+        "key": "delivery_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "delivery_date",
+        "type": "hidden"
+      },
+
 
       {
         "key": "schedule_date",

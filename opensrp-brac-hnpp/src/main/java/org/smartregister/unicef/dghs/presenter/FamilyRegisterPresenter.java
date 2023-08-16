@@ -1,5 +1,10 @@
 package org.smartregister.unicef.dghs.presenter;
 
+import android.util.Log;
+
+import org.apache.commons.lang3.tuple.Triple;
+import org.smartregister.domain.FetchStatus;
+import org.smartregister.unicef.dghs.contract.FamilyRegisterInteractorCallBack;
 import org.smartregister.unicef.dghs.contract.HnppFamilyRegisterContract;
 import org.smartregister.unicef.dghs.interactor.HnppFamilyRegisterInteractor;
 import org.smartregister.unicef.dghs.model.HnppFamilyRegisterModel;
@@ -12,10 +17,25 @@ import java.util.List;
 
 import timber.log.Timber;
 
-public class FamilyRegisterPresenter extends BaseFamilyRegisterPresenter  {
+public class FamilyRegisterPresenter  extends BaseFamilyRegisterPresenter implements FamilyRegisterInteractorCallBack {
+    protected String baseEntityId;
+    HnppFamilyRegisterInteractor interactor;
     public FamilyRegisterPresenter(FamilyRegisterContract.View view, FamilyRegisterContract.Model model) {
         super(view, model);
         interactor  = new HnppFamilyRegisterInteractor();
+    }
+    public String getBaseEntityId() {
+        return baseEntityId;
+    }
+    @Override
+    public void onRegistrationSaved(boolean isEditMode, String baseEntityId) {
+        Log.v("OPEN_PROFILE","<<<onRegistrationSaved>>>"+baseEntityId);
+        if (getView() != null) {
+            this.baseEntityId = baseEntityId;
+            this.getView().refreshList(FetchStatus.fetched);
+            this.getView().hideProgressDialog();
+        }
+
     }
     @Override
     public void saveForm(String jsonString, boolean isEditMode) {
@@ -30,7 +50,33 @@ public class FamilyRegisterPresenter extends BaseFamilyRegisterPresenter  {
                 return;
             }
 
-            interactor.saveRegistration(familyEventClientList, jsonString, isEditMode, this);
+            interactor.saveRegistration(familyEventClientList, jsonString, isEditMode, new FamilyRegisterInteractorCallBack() {
+                @Override
+                public void onRegistrationSaved(boolean isEditMode, String baseId) {
+                    Log.v("OPEN_PROFILE","onRegistrationSaved>>"+baseId);
+                    if (getView() != null) {
+                        baseEntityId = baseId;
+                        getView().refreshList(FetchStatus.fetched);
+                        getView().hideProgressDialog();
+                    }
+                }
+
+                @Override
+                public void onUniqueIdFetched(Triple<String, String, String> triple, String s) {
+
+                }
+
+                @Override
+                public void onNoUniqueId() {
+
+                }
+
+                @Override
+                public void onRegistrationSaved(boolean b) {
+                    getView().refreshList(FetchStatus.fetched);
+                    getView().hideProgressDialog();
+                }
+            });
 
         } catch (Exception e) {
             Timber.e(e);

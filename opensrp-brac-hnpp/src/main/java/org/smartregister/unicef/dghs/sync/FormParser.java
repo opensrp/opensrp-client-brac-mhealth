@@ -1188,8 +1188,8 @@ public class FormParser {
                     riskynBPSModel.riskyKey = "Urine_Albumin_result";
                     riskynBPSModel.eventType = eventType;
                     riskynBPSModel.baseEntityId = baseEntityId;
-                riskynBPSModel.visitDate = visitDate;
-                riskynBPSModel.ancCount = Integer.parseInt(ancCount+"");
+                    riskynBPSModel.visitDate = visitDate;
+                    riskynBPSModel.ancCount = Integer.parseInt(ancCount+"");
                     HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
 
             }

@@ -334,6 +334,16 @@ public class FormApplicability {
         }
         return "";
     }
+    public static String  getEdd(String baseEntityId){
+        String DeliveryDateSql = "SELECT edd FROM ec_anc_register where base_entity_id = ? ";
+
+        List<Map<String, String>> valus = HnppDBUtils.readData(DeliveryDateSql, new String[]{baseEntityId});
+        if(valus.size() > 0&&valus.get(0).get("edd")!=null){
+            return valus.get(0).get("edd");
+
+        }
+        return "";
+    }
     public static int getDaysFromEDD(String edd){
         int dayPass = Days.daysBetween(new DateTime(),DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(edd)).getDays();
         return 281 - dayPass;

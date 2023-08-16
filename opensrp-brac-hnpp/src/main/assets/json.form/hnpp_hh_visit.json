@@ -418,7 +418,7 @@
         "openmrs_entity": "person_address",
         "openmrs_entity_id": "geopoint",
         "openmrs_data_type": "text",
-        "type": "gps"
+        "type": "hidden"
       }
     ]
   }

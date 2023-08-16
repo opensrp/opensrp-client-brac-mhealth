@@ -24,6 +24,7 @@ public class MemberDueViewHolder extends RecyclerView.ViewHolder {
     public MemberDueViewHolder(@NonNull View itemView) {
         super(itemView);
         itemBg = itemView.findViewById(R.id.register_columns);
+        itemBg.setBackgroundColor(itemView.getResources().getColor(R.color.light_gray));
         statusImage = itemView.findViewById(R.id.status);
         imageView = itemView.findViewById(R.id.image_view);
         nextArrowBtn = itemView.findViewById(R.id.next_arrow_column);

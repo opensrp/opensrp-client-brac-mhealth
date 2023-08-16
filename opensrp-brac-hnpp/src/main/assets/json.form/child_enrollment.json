@@ -384,10 +384,6 @@
           "value": "true",
           "err": "প্রশ্নের উত্তর দিন"
         },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -628,7 +624,7 @@
         "openmrs_entity": "person_address",
         "openmrs_entity_id": "geopoint",
         "openmrs_data_type": "text",
-        "type": "gps"
+        "type": "hidden"
       }
     ]
   }

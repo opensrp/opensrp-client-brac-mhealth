@@ -19,6 +19,8 @@ import org.smartregister.unicef.dghs.fragment.HnppMemberProfileDueFragment;
 import org.smartregister.unicef.dghs.model.ReferralFollowUpModel;
 import org.smartregister.unicef.dghs.utils.FormApplicability;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
+import org.smartregister.unicef.dghs.utils.HnppDBUtils;
+import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
 import org.smartregister.unicef.dghs.utils.MemberProfileDueData;
 import org.smartregister.unicef.dghs.utils.OtherServiceData;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
@@ -56,10 +58,19 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                         memberProfileDueData.setTitle(FormApplicability.getANCTitle(baseEntityId));
                         memberProfileDueData.setImageSource(R.mipmap.ic_anc_pink);
                         memberProfileDueData.setEventType(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT);
+                        String lmpDate = HnppDBUtils.getLmpDate(baseEntityId);
+                        int noOfAnc = (FormApplicability.getANCCount(baseEntityId)+1);
+                        String date = HnppConstants.getScheduleLmpDate(lmpDate,noOfAnc);
+                        memberProfileDueData.setSubTitle("নির্ধারিত তারিখ: "+date);
+
                     }else{
                         memberProfileDueData.setTitle(FormApplicability.getPncTitle(baseEntityId));
                         memberProfileDueData.setImageSource(HnppConstants.iconMapping.get(eventType));
                         memberProfileDueData.setEventType(eventType);
+                        String deliveryDate = FormApplicability.getDeliveryDate(baseEntityId);
+                        int pncCount = (FormApplicability.getPNCCount(baseEntityId)+1);
+                        String date = HnppConstants.getSchedulePncDate(deliveryDate,pncCount);
+                        memberProfileDueData.setSubTitle("নির্ধারিত তারিখ: "+date);
                     }
                     memberProfileDueDataArrayList.add(memberProfileDueData);
 
@@ -82,7 +93,9 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                     memberProfileDueData2.setImageSource(HnppConstants.iconMapping.get(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME));
                     memberProfileDueData2.setType(HnppMemberProfileDueFragment.TAG_OPEN_DELIVERY);
                     memberProfileDueData2.setTitle(HnppConstants.visitEventTypeMapping.get(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME));
+                    memberProfileDueData2.setSubTitle("ই ডি ডি: "+FormApplicability.getEdd(baseEntityId));
                     memberProfileDueDataArrayList.add(memberProfileDueData2);
+
                 }
             }
 //        {
@@ -92,15 +105,15 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
 //            memberProfileDueData.setType(TAG_OPEN_ANC_HISTORY);
 //            memberProfileDueDataArrayList.add(memberProfileDueData);
 //        }
-        if(BuildConfig.IS_MIS){
-
-                MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
-                memberProfileDueData.setImageSource(R.drawable.rowavatar_member);
-                memberProfileDueData.setTitle(eventTypeMapping.get(HnppConstants.EVENT_TYPE.MEMBER_DISEASE));
-                memberProfileDueData.setType(HnppMemberProfileDueFragment.TAG_MEMBER_DISEASE);
-                memberProfileDueDataArrayList.add(memberProfileDueData);
-
-        }
+//        if(BuildConfig.IS_MIS){
+//
+//                MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
+//                memberProfileDueData.setImageSource(R.drawable.rowavatar_member);
+//                memberProfileDueData.setTitle(eventTypeMapping.get(HnppConstants.EVENT_TYPE.MEMBER_DISEASE));
+//                memberProfileDueData.setType(HnppMemberProfileDueFragment.TAG_MEMBER_DISEASE);
+//                memberProfileDueDataArrayList.add(memberProfileDueData);
+//
+//        }
 
 
 

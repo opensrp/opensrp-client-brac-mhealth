@@ -5,6 +5,7 @@ import android.util.Log;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.smartregister.unicef.dghs.HnppApplication;
+import org.smartregister.unicef.dghs.contract.FamilyRegisterInteractorCallBack;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.clientandeventmodel.Event;
@@ -23,17 +24,16 @@ public class HnppFamilyRegisterInteractor extends org.smartregister.family.inter
 
 
 
-    @Override
-    public void saveRegistration(List<FamilyEventClient> familyEventClientList, String jsonString, boolean isEditMode, FamilyRegisterContract.InteractorCallBack callBack) {
+    public void saveRegistration(List<FamilyEventClient> familyEventClientList, String jsonString, boolean isEditMode, FamilyRegisterInteractorCallBack callBack) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
 
-                saveRegistration(familyEventClientList, jsonString, isEditMode);
+                String baseEntityId = saveRegistration(familyEventClientList, jsonString, isEditMode);
                 appExecutors.mainThread().execute(new Runnable() {
                     @Override
                     public void run() {
-                        callBack.onRegistrationSaved(isEditMode);
+                        callBack.onRegistrationSaved(isEditMode,baseEntityId);
                     }
                 });
             }
@@ -41,7 +41,7 @@ public class HnppFamilyRegisterInteractor extends org.smartregister.family.inter
 
         appExecutors.diskIO().execute(runnable);
     }
-    private void saveRegistration(List<FamilyEventClient> familyEventClientList, String jsonString, boolean isEditMode) {
+    private String saveRegistration(List<FamilyEventClient> familyEventClientList, String jsonString, boolean isEditMode) {
 
         try {
 
@@ -49,6 +49,7 @@ public class HnppFamilyRegisterInteractor extends org.smartregister.family.inter
             //status change in householdidtable;
 
 //            String address =
+            String baseEntityId = "";
             List<EventClient> eventClientList = new ArrayList<>();
             for (int i = 0; i < familyEventClientList.size(); i++) {
                 FamilyEventClient familyEventClient = familyEventClientList.get(i);
@@ -69,6 +70,7 @@ public class HnppFamilyRegisterInteractor extends org.smartregister.family.inter
                 if (baseEvent != null) {
                     eventJson = new JSONObject(JsonFormUtils.gson.toJson(baseEvent));
                     getSyncHelper().addEvent(baseEvent.getBaseEntityId(), eventJson);
+                    baseEntityId = baseEvent.getBaseEntityId();
                 }
 
                 if (isEditMode) {
@@ -117,8 +119,11 @@ public class HnppFamilyRegisterInteractor extends org.smartregister.family.inter
 
             processClient(eventClientList);
             getAllSharedPreferences().saveLastUpdatedAtDate(lastSyncDate.getTime());
+            return baseEntityId;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return "";
+
     }
 }
