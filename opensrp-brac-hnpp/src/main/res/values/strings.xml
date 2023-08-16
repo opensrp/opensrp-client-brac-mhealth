@@ -512,7 +512,6 @@
     <string name="add_child"><![CDATA[<b><font color=#f70d1a>+Add Child</font></b>]]></string>
     <string name="kg">কেজি</string>
     <string name="cm">সেঃমিঃ</string>
-
     <string name="muac_taken_today">আজ MUAC নেওয়া হয়েছে</string>
     <string name="weight_taken_today">আজ ওজন নেওয়া হয়েছে </string>
     <string name="weight_taken_earlier">পূর্বে ওজন নেওয়া হয়েছে </string>
@@ -971,6 +970,7 @@
     <string name="first_trimestar_count">প্রথম ট্রাইসেমিস্টার-এ সনাক্ত</string>
     <string name="secont_trimster_count">দ্বিতীয় ট্রাইসেমিস্টার-এ সনাক্ত</string>
     <string name="third_trimestarr_count">তৃতীয় ট্রাইসেমিস্টার-এ সনাক্ত</string>
+    <string name="general_disease">সাধারণ রোগের তথ্য</string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>

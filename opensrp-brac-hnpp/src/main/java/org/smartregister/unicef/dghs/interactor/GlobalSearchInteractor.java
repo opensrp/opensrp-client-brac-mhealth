@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
 import org.smartregister.unicef.dghs.HnppApplication;
+import org.smartregister.unicef.dghs.activity.GlobalSearchActivity;
 import org.smartregister.unicef.dghs.contract.MigrationContract;
 import org.smartregister.unicef.dghs.model.GlobalLocationModel;
 import org.smartregister.unicef.dghs.repository.GlobalLocationRepository;
@@ -49,7 +50,12 @@ public class GlobalSearchInteractor implements MigrationContract.Interactor {
         Runnable runnable = () -> {
             upazilaArrayList.clear();
             upazilaArrayList = HnppApplication.getGlobalLocationRepository().getLocationByTagIdWithParentId(GlobalLocationRepository.LOCATION_TAG.UPAZILA.getValue(),Integer.parseInt(districtId));
+            GlobalLocationModel selectModel = new GlobalLocationModel();
+            selectModel.id = -1;
+            selectModel.code = "-1";
+            selectModel.name = "বাছাই করুন";
 
+            upazilaArrayList.add(0,selectModel);
             appExecutors.mainThread().execute(() -> callBack.onUpdateUpazila(upazilaArrayList));
         };
         appExecutors.diskIO().execute(runnable);

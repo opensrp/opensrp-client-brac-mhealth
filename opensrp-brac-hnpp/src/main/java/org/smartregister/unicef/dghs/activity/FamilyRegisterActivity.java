@@ -20,7 +20,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
+import org.smartregister.domain.FetchStatus;
 import org.smartregister.family.activity.BaseFamilyRegisterActivity;
+import org.smartregister.family.util.DBConstants;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.location.HALocationHelper;
 import org.smartregister.unicef.dghs.listener.HnppBottomNavigationListener;
@@ -47,6 +49,8 @@ import org.smartregister.simprint.SimPrintsLibrary;
 import org.smartregister.repository.EventClientRepository;
 import org.smartregister.sync.intent.InValidateIntentService;
 import org.smartregister.sync.intent.ValidateIntentService;
+import org.smartregister.unicef.dghs.utils.HnppDBUtils;
+import org.smartregister.unicef.dghs.utils.HouseHoldInfo;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 
 
@@ -330,6 +334,29 @@ public class FamilyRegisterActivity extends BaseFamilyRegisterActivity {
     protected void onDestroy() {
         super.onDestroy();
         if(notificationBroadcastReceiver!=null)unregisterReceiver(notificationBroadcastReceiver);
+    }
+
+    @Override
+    public void refreshList(FetchStatus fetchStatus) {
+        super.refreshList(fetchStatus);
+        if(TextUtils.isEmpty(((FamilyRegisterPresenter)presenter).getBaseEntityId())){
+            openFamilyDueTab(((FamilyRegisterPresenter)presenter).getBaseEntityId());
+        }
+    }
+    public void openFamilyDueTab(String familyBaseEntityId) {
+        Intent intent = new Intent(this, FamilyProfileActivity.class);
+        intent.putExtras(getIntent().getExtras());
+        HouseHoldInfo houseHoldInfo = HnppDBUtils.getHouseHoldInfo(familyBaseEntityId);
+        if(houseHoldInfo !=null){
+            intent.putExtra(Constants.INTENT_KEY.FAMILY_HEAD, houseHoldInfo.getHouseHoldHeadId());
+            intent.putExtra(Constants.INTENT_KEY.PRIMARY_CAREGIVER, houseHoldInfo.getPrimaryCaregiverId());
+            intent.putExtra(Constants.INTENT_KEY.FAMILY_NAME, houseHoldInfo.getHouseHoldName());
+            intent.putExtra(DBConstants.KEY.UNIQUE_ID, houseHoldInfo.getHouseHoldUniqueId());
+            intent.putExtra(HnppConstants.KEY.MODULE_ID, houseHoldInfo.getModuleId());
+
+        }
+        intent.putExtra(CoreConstants.INTENT_KEY.SERVICE_DUE, true);
+        startActivity(intent);
     }
 
     private class NotificationBroadcastReceiver extends BroadcastReceiver {

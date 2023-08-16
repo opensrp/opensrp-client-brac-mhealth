@@ -25,6 +25,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -64,9 +65,12 @@ public class TikaCardViewActivity extends SecuredActivity {
     String baseEntityId;
     boolean isComesFromGuest = false;
     ImageView qrcodeImage;
+    TextView tenWeekDateTV,fourteenWeekDateTV;
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_tika_card);
+        tenWeekDateTV = (TextView) findViewById(R.id.tenWeekDate);
+        fourteenWeekDateTV = (TextView) findViewById(R.id.fourteenWeekDate);
         baseEntityId = getIntent().getStringExtra("BASE_ENTITY_ID");
         isComesFromGuest = getIntent().getBooleanExtra(PUT_EXTRA_COMES,false);
 //        tikaInfoModel = isComesFromGuest?HnppDBUtils.getTikaDetailsForGuestProfike(baseEntityId):HnppDBUtils.getTikaDetails(baseEntityId);
@@ -195,7 +199,7 @@ public class TikaCardViewActivity extends SecuredActivity {
                     break;
                 case "opv_1":
                     ((TextView) findViewById(R.id.opv_1)).setText(vaacineInfo.vaccineDate);
-                    if(vaacineInfo.invalid==0){
+                    if(vaacineInfo.invalid==0 && TextUtils.isEmpty(tenWeekDateTV.getText())){
                         DateTime donDate = DateTimeFormat.forPattern("yyyy-MM-dd").parseDateTime(vaacineInfo.vaccineDate);
                         LocalDate sixWeekV = new LocalDate(donDate);
 //                    String s = DateTimeFormat.forPattern("yyyy-MM-dd").print(sixWeekV);
@@ -203,20 +207,20 @@ public class TikaCardViewActivity extends SecuredActivity {
                         //update tenweek
                         LocalDate tenWeekV = sixWeekV.plusDays(28);
                         String t = DateTimeFormat.forPattern("yyyy-MM-dd").print(tenWeekV);
-                        ((TextView) findViewById(R.id.tenWeekDate)).setText(t);
-                        ((TextView) findViewById(R.id.tenWeekDate)).setBackgroundResource(R.drawable.table_bg);
+                        tenWeekDateTV.setText(t);
+                        tenWeekDateTV.setBackgroundResource(R.drawable.table_bg);
                     }
 
                     break;
                 case "opv_2":
                     ((TextView) findViewById(R.id.opv_2)).setText(vaacineInfo.vaccineDate);
-                    if(vaacineInfo.invalid==0){
+                    if(vaacineInfo.invalid==0 && TextUtils.isEmpty(fourteenWeekDateTV.getText())){
                         DateTime d = DateTimeFormat.forPattern("yyyy-MM-dd").parseDateTime(vaacineInfo.vaccineDate);
                         LocalDate fourTeenWeekV = new LocalDate(d);
                         LocalDate fourteenWeekDate = fourTeenWeekV.plusDays(28);
                         String f = DateTimeFormat.forPattern("yyyy-MM-dd").print(fourteenWeekDate);
-                        ((TextView) findViewById(R.id.fourteenWeekDate)).setText(f);
-                        ((TextView) findViewById(R.id.fourteenWeekDate)).setBackgroundResource(R.drawable.table_bg);
+                        fourteenWeekDateTV.setText(f);
+                        fourteenWeekDateTV.setBackgroundResource(R.drawable.table_bg);
                     }
 
                     break;
@@ -225,7 +229,7 @@ public class TikaCardViewActivity extends SecuredActivity {
                     break;
                 case "penta_1":
                     ((TextView) findViewById(R.id.penta_1)).setText(vaacineInfo.vaccineDate);
-                    if(vaacineInfo.invalid==0){
+                    if(vaacineInfo.invalid==0 && TextUtils.isEmpty(tenWeekDateTV.getText())){
                         DateTime donDate = DateTimeFormat.forPattern("yyyy-MM-dd").parseDateTime(vaacineInfo.vaccineDate);
                         LocalDate sixWeekV = new LocalDate(donDate);
 //                    String s = DateTimeFormat.forPattern("yyyy-MM-dd").print(sixWeekV);
@@ -233,19 +237,19 @@ public class TikaCardViewActivity extends SecuredActivity {
                         //update tenweek
                         LocalDate tenWeekV = sixWeekV.plusDays(28);
                         String t = DateTimeFormat.forPattern("yyyy-MM-dd").print(tenWeekV);
-                        ((TextView) findViewById(R.id.tenWeekDate)).setText(t);
-                        ((TextView) findViewById(R.id.tenWeekDate)).setBackgroundResource(R.drawable.table_bg);
+                        tenWeekDateTV.setText(t);
+                        tenWeekDateTV.setBackgroundResource(R.drawable.table_bg);
                     }
                     break;
                 case "penta_2":
                     ((TextView) findViewById(R.id.penta_2)).setText(vaacineInfo.vaccineDate);
-                    if(vaacineInfo.invalid==0){
+                    if(vaacineInfo.invalid==0 && TextUtils.isEmpty(fourteenWeekDateTV.getText())){
                         DateTime d = DateTimeFormat.forPattern("yyyy-MM-dd").parseDateTime(vaacineInfo.vaccineDate);
                         LocalDate fourTeenWeekV = new LocalDate(d);
                         LocalDate fourteenWeekDate = fourTeenWeekV.plusDays(28);
                         String f = DateTimeFormat.forPattern("yyyy-MM-dd").print(fourteenWeekDate);
-                        ((TextView) findViewById(R.id.fourteenWeekDate)).setText(f);
-                        ((TextView) findViewById(R.id.fourteenWeekDate)).setBackgroundResource(R.drawable.table_bg);
+                        fourteenWeekDateTV.setText(f);
+                        fourteenWeekDateTV.setBackgroundResource(R.drawable.table_bg);
                     }
                     break;
                 case "penta_3":
@@ -253,7 +257,7 @@ public class TikaCardViewActivity extends SecuredActivity {
                     break;
                 case "fipv_1":
                     ((TextView) findViewById(R.id.fipv_1)).setText(vaacineInfo.vaccineDate);
-                    if(vaacineInfo.invalid==0){
+                    if(vaacineInfo.invalid==0 && TextUtils.isEmpty(tenWeekDateTV.getText())){
                         DateTime donDate = DateTimeFormat.forPattern("yyyy-MM-dd").parseDateTime(vaacineInfo.vaccineDate);
                         LocalDate sixWeekV = new LocalDate(donDate);
 //                    String s = DateTimeFormat.forPattern("yyyy-MM-dd").print(sixWeekV);
@@ -261,8 +265,8 @@ public class TikaCardViewActivity extends SecuredActivity {
                         //update tenweek
                         LocalDate tenWeekV = sixWeekV.plusDays(28);
                         String t = DateTimeFormat.forPattern("yyyy-MM-dd").print(tenWeekV);
-                        ((TextView) findViewById(R.id.tenWeekDate)).setText(t);
-                        ((TextView) findViewById(R.id.tenWeekDate)).setBackgroundResource(R.drawable.table_bg);
+                        tenWeekDateTV.setText(t);
+                        tenWeekDateTV.setBackgroundResource(R.drawable.table_bg);
                     }
                     break;
                 case "fipv_2":
@@ -273,7 +277,7 @@ public class TikaCardViewActivity extends SecuredActivity {
                     break;
                 case "pcv_1":
                     ((TextView) findViewById(R.id.pcv_1)).setText(vaacineInfo.vaccineDate);
-                    if(vaacineInfo.invalid==0){
+                    if(vaacineInfo.invalid==0 && TextUtils.isEmpty(tenWeekDateTV.getText())){
                         DateTime donDate = DateTimeFormat.forPattern("yyyy-MM-dd").parseDateTime(vaacineInfo.vaccineDate);
                         LocalDate sixWeekV = new LocalDate(donDate);
 //                    String s = DateTimeFormat.forPattern("yyyy-MM-dd").print(sixWeekV);
@@ -281,19 +285,19 @@ public class TikaCardViewActivity extends SecuredActivity {
                         //update tenweek
                         LocalDate tenWeekV = sixWeekV.plusDays(28);
                         String t = DateTimeFormat.forPattern("yyyy-MM-dd").print(tenWeekV);
-                        ((TextView) findViewById(R.id.tenWeekDate)).setText(t);
-                        ((TextView) findViewById(R.id.tenWeekDate)).setBackgroundResource(R.drawable.table_bg);
+                        tenWeekDateTV.setText(t);
+                        tenWeekDateTV.setBackgroundResource(R.drawable.table_bg);
                     }
                     break;
                 case "pcv_2":
                     ((TextView) findViewById(R.id.pcv_2)).setText(vaacineInfo.vaccineDate);
-                    if(vaacineInfo.invalid==0){
+                    if(vaacineInfo.invalid==0 && TextUtils.isEmpty(fourteenWeekDateTV.getText())){
                         DateTime d = DateTimeFormat.forPattern("yyyy-MM-dd").parseDateTime(vaacineInfo.vaccineDate);
                         LocalDate fourTeenWeekV = new LocalDate(d);
                         LocalDate fourteenWeekDate = fourTeenWeekV.plusDays(28);
                         String f = DateTimeFormat.forPattern("yyyy-MM-dd").print(fourteenWeekDate);
-                        ((TextView) findViewById(R.id.fourteenWeekDate)).setText(f);
-                        ((TextView) findViewById(R.id.fourteenWeekDate)).setBackgroundResource(R.drawable.table_bg);
+                        fourteenWeekDateTV.setText(f);
+                        fourteenWeekDateTV.setBackgroundResource(R.drawable.table_bg);
                     }
                     break;
                 case "pcv_3":

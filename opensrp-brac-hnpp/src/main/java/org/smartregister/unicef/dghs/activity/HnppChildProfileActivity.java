@@ -493,6 +493,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
             case R.id.action_remove_member:
                 removeIndividualProfile();
                 return true;
+            case R.id.action_general_disease:
+                openChildDiseaseForm();
+                return true;
             default:
                 break;
         }

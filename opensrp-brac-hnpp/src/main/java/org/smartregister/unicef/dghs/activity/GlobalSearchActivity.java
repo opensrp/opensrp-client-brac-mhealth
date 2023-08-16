@@ -202,7 +202,7 @@ public class GlobalSearchActivity extends SecuredActivity implements View.OnClic
                 if(!TextUtils.isEmpty(phoneNo))searchContentData.setPhoneNo(phoneNo);
                 searchContentData.setDivisionId(division.id+"");
                 searchContentData.setDistrictId(district.id+"");
-                if(upozilla!=null)searchContentData.setUpozillaId(upozilla.id+"");
+                if(upozilla!=null && upozilla.id !=-1)searchContentData.setUpozillaId(upozilla.id+"");
                 searchContentData.setMigrationType(migrationType);
                 searchContentData.setFamilyBaseEntityId(familyBaseEntityId);
                 searchContentData.setGender(gender);

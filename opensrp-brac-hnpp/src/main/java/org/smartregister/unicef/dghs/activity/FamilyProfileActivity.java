@@ -90,6 +90,7 @@ import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 import static org.smartregister.unicef.dghs.activity.HnppFamilyOtherMemberProfileActivity.REQUEST_HOME_VISIT;
+import static org.smartregister.util.JsonFormUtils.ENTITY_ID;
 
 public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements FamilyProfileExtendedContract.View{
 
@@ -170,6 +171,10 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
                     refreshList(adapter.getItem(i));
                 }
             });
+        }
+        if(!TextUtils.isEmpty(((FamilyProfilePresenter) presenter).getBaseEntityId())){
+            String baseEntityId = ((FamilyProfilePresenter) presenter).getBaseEntityId();
+            openProfile(baseEntityId);
         }
     }
 
@@ -888,7 +893,7 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
             return;
         }
         try {
-            jsonForm.put(org.smartregister.util.JsonFormUtils.ENTITY_ID, familyBaseEntityId);
+            jsonForm.put(ENTITY_ID, familyBaseEntityId);
             Intent intent;
             intent = new Intent(this, org.smartregister.family.util.Utils.metadata().familyMemberFormActivity);
             intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
@@ -920,7 +925,7 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
         try {
             JSONObject jsonForm = HnppJsonFormUtils.getJsonObject(formName);
 
-            jsonForm.put(org.smartregister.util.JsonFormUtils.ENTITY_ID, familyBaseEntityId);
+            jsonForm.put(ENTITY_ID, familyBaseEntityId);
             Intent intent;
             intent = new Intent(this, org.smartregister.family.util.Utils.metadata().familyMemberFormActivity);
             intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());

@@ -383,10 +383,6 @@
           "value": "true",
           "err": "Answer the questions"
         },
-        "v_required": {
-          "value": true,
-          "err": "Answer the questions"
-        },
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -515,7 +511,7 @@
         "key": "disability",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "disable",
+        "openmrs_entity_id": "disability",
         "type": "spinner",
         "hint": "Disabled",
         "values": [
@@ -610,7 +606,7 @@
         "openmrs_entity": "person_address",
         "openmrs_entity_id": "geopoint",
         "openmrs_data_type": "text",
-        "type": "gps"
+        "type": "hidden"
       }
     ]
   }
