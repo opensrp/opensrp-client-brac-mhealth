@@ -69,7 +69,7 @@ public class GlobalSearchPresenter implements MigrationContract.Presenter, Migra
     public void onUpdateDivision(ArrayList<GlobalLocationModel> division) {
         this.divisionArrayList = division;
         GlobalLocationModel globalLocationModel = new GlobalLocationModel();
-        globalLocationModel.name = HnppApplication.getInstance().getApplicationContext().getString(R.string.select);
+        globalLocationModel.name = HnppApplication.appContext.getString(R.string.select);
         divisionArrayList.add(0,globalLocationModel);
         view.updateDivisionSpinner();
     }

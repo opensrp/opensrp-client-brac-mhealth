@@ -39,6 +39,7 @@ import org.smartregister.immunization.job.VaccineServiceJob;
 import org.smartregister.job.InValidateSyncDataServiceJob;
 import org.smartregister.job.PullUniqueIdsServiceJob;
 import org.smartregister.task.SaveTeamLocationsTask;
+import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
 import org.smartregister.util.Utils;
 import org.smartregister.view.activity.BaseLoginActivity;
 import org.smartregister.view.contract.BaseLoginContract;
@@ -59,6 +60,8 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         passwordText = findViewById(R.id.login_password_edit_text);
         userNameView = findViewById(R.id.login_user_name_view);
         passwordView = findViewById(R.id.login_password_view);
+
+        HnppApplication.initContext(this);
 //        if(BuildConfig.DEBUG){
 //            passwordText.setText("brac2019");
 //        }

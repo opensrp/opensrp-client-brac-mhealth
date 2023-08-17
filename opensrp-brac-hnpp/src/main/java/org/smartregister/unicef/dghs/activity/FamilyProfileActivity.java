@@ -693,10 +693,10 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
         } else if (encounter_type.equals(Utils.metadata().familyMemberRegister.registerEventType)) {
 
             String careGiver = presenter().saveChwFamilyMember(jsonString);
-            if(TextUtils.isEmpty(careGiver) || TextUtils.isEmpty(familyBaseEntityId)){
+           /* if(TextUtils.isEmpty(careGiver) || TextUtils.isEmpty(familyBaseEntityId)){
                 Toast.makeText(this,getString(R.string.address_not_found),Toast.LENGTH_LONG).show();
                 return;
-            }
+            }*/
             if (presenter().updatePrimaryCareGiver(getApplicationContext(), jsonString, familyBaseEntityId, careGiver)) {
                 setPrimaryCaregiver(careGiver);
                 refreshPresenter();

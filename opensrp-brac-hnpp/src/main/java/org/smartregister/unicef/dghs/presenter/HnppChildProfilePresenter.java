@@ -148,7 +148,7 @@ public class HnppChildProfilePresenter implements CoreChildProfileContract.Prese
         Pair<Client, Event> pair = new HnppChildRegisterModel(houseHoldId,familyID).processRegistration(jsonString);
         if (pair == null) {
             getView().hideProgressDialog();
-            getView().errorOccured(HnppApplication.getInstance().getApplicationContext().getString(R.string.household_address_not_found_edit));
+            getView().errorOccured(HnppApplication.appContext.getString(R.string.household_address_not_found_edit));
             return;
         }
 
