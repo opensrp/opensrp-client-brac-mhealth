@@ -707,27 +707,27 @@ public class HnppConstants extends CoreConstants {
         String[] ancType = new String[2];
         switch (noOfPnc){
             case 1:
-                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_service_1);
+                ancType[0]=HnppApplication.appContext.getString(R.string.pnc_service_1);
                 ancType[1] = "PNC -1";
                 return ancType;
             case 2:
-                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_service_2);
+                ancType[0]=HnppApplication.appContext.getString(R.string.pnc_service_2);
                 ancType[1] = "ANC -2";
                 return ancType;
             case 3:
-                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_service_3);
+                ancType[0]=HnppApplication.appContext.getString(R.string.pnc_service_3);
                 ancType[1] = "ANC -3";
                 return ancType;
             case 4:
-                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_service_4);
+                ancType[0]=HnppApplication.appContext.getString(R.string.pnc_service_4);
                 ancType[1] = "ANC -4";
                 return ancType;
             case 5:
-                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_service_5);
+                ancType[0]=HnppApplication.appContext.getString(R.string.pnc_service_5);
                 ancType[1] = "ANC -5";
                 return ancType;
             default:
-                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_service);
+                ancType[0]=HnppApplication.appContext.getString(R.string.pnc_service);
                 ancType[1] = "PNC";
                 return ancType;
         }
@@ -736,23 +736,23 @@ public class HnppConstants extends CoreConstants {
         String[] ancType = new String[2];
         switch (noOfPnc){
             case 1:
-                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.newborn_pnc_1);
+                ancType[0]=HnppApplication.appContext.getString(R.string.newborn_pnc_1);
                 ancType[1] = "PNC -1";
                 return ancType;
             case 2:
-                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.newborn_pnc_2);
+                ancType[0]=HnppApplication.appContext.getString(R.string.newborn_pnc_2);
                 ancType[1] = "ANC -2";
                 return ancType;
             case 3:
-                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.newborn_pnc_3);
+                ancType[0]=HnppApplication.appContext.getString(R.string.newborn_pnc_3);
                 ancType[1] = "ANC -3";
                 return ancType;
             case 4:
-                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.newborn_pnc_4);
+                ancType[0]=HnppApplication.appContext.getString(R.string.newborn_pnc_4);
                 ancType[1] = "ANC -4";
                 return ancType;
             default:
-                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.newborn_pnc);
+                ancType[0]=HnppApplication.appContext.getString(R.string.newborn_pnc);
                 ancType[1] = "PNC";
                 return ancType;
         }
@@ -761,39 +761,39 @@ public class HnppConstants extends CoreConstants {
         String[] ancType = new String[2];
         switch (noOfAnc){
             case 1:
-                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_service_1);
+                ancType[0]=HnppApplication.appContext.getString(R.string.pregnancy_service_1);
                 ancType[1] = "ANC -1";
                 return ancType;
             case 2:
-                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_service_2);
+                ancType[0]=HnppApplication.appContext.getString(R.string.pregnancy_service_2);
                 ancType[1] = "ANC -2";
                 return ancType;
             case 3:
-                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_service_3);
+                ancType[0]=HnppApplication.appContext.getString(R.string.pregnancy_service_3);
                 ancType[1] = "ANC -3";
                 return ancType;
             case 4:
-                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_service_4);
+                ancType[0]=HnppApplication.appContext.getString(R.string.pregnancy_service_4);
                 ancType[1] = "ANC -4";
                 return ancType;
             case 5:
-                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_service_5);
+                ancType[0]=HnppApplication.appContext.getString(R.string.pregnancy_service_5);
                 ancType[1] = "ANC -5";
                 return ancType;
             case 6:
-                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_service_6);
+                ancType[0]=HnppApplication.appContext.getString(R.string.pregnancy_service_6);
                 ancType[1] = "ANC -6";
                 return ancType;
             case 7:
-                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_service_7);
+                ancType[0]=HnppApplication.appContext.getString(R.string.pregnancy_service_7);
                 ancType[1] = "ANC -7";
                 return ancType;
             case 8:
-                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_service_8);
+                ancType[0]=HnppApplication.appContext.getString(R.string.pregnancy_service_8);
                 ancType[1] = "ANC -8";
                 return ancType;
             default:
-                ancType[0]=HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_service);
+                ancType[0]=HnppApplication.appContext.getString(R.string.pregnancy_service);
                 ancType[1] = "ANC";
                 return ancType;
         }
@@ -988,10 +988,10 @@ public class HnppConstants extends CoreConstants {
     }
     public static String getGender(String value){
         if(value.equalsIgnoreCase("F")){
-            return HnppApplication.getInstance().getApplicationContext().getString(R.string.woman);
+            return HnppApplication.appContext.getString(R.string.woman);
         }
         if(value.equalsIgnoreCase("M")){
-            return HnppApplication.getInstance().getApplicationContext().getString(R.string.man);
+            return HnppApplication.appContext.getString(R.string.man);
         }
         return value;
     }
@@ -1476,23 +1476,23 @@ public class HnppConstants extends CoreConstants {
             .put("তৃতীয় লিঙ্গ","O")
             .build();
     public static final Map<String,String> vaccineNameMapping = ImmutableMap.<String,String> builder()
-            .put("bcg", HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.bcg))
-            .put("opv_0", HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.polio_0))
-            .put("opv_1",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.polio_1))
-            .put("pcv_1",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pcv_1))
-            .put("penta_1",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.penta_1))
-            .put("opv_2",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.polio_2))
-            .put("pcv_2",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pcv_2))
-            .put("penta_2",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.penta_2))
-            .put("opv_3",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.polio_3))
-            .put("ipv",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.ipv))
-            .put("pcv_3",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pcv_3))
+            .put("bcg", HnppApplication.appContext.getString(R.string.bcg))
+            .put("opv_0", HnppApplication.appContext.getString(R.string.polio_0))
+            .put("opv_1",HnppApplication.appContext.getString(R.string.polio_1))
+            .put("pcv_1",HnppApplication.appContext.getString(R.string.pcv_1))
+            .put("penta_1",HnppApplication.appContext.getString(R.string.penta_1))
+            .put("opv_2",HnppApplication.appContext.getString(R.string.polio_2))
+            .put("pcv_2",HnppApplication.appContext.getString(R.string.pcv_2))
+            .put("penta_2",HnppApplication.appContext.getString(R.string.penta_2))
+            .put("opv_3",HnppApplication.appContext.getString(R.string.polio_3))
+            .put("ipv",HnppApplication.appContext.getString(R.string.ipv))
+            .put("pcv_3",HnppApplication.appContext.getString(R.string.pcv_3))
             .put("penta_3","পেন্টা-৩")
-            .put("mr_1",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.mr_1))
-            .put("mr_2",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.mr_2))
-            .put("vitamin_a1",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.vitamin))
-            .put("fipv_1",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.fipv_1))
-            .put("fipv_2",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.fipv_2))
+            .put("mr_1",HnppApplication.appContext.getString(R.string.mr_1))
+            .put("mr_2",HnppApplication.appContext.getString(R.string.mr_2))
+            .put("vitamin_a1",HnppApplication.appContext.getString(R.string.vitamin))
+            .put("fipv_1",HnppApplication.appContext.getString(R.string.fipv_1))
+            .put("fipv_2",HnppApplication.appContext.getString(R.string.fipv_2))
             .build();
     public static final Map<String,String> eventTypeFormNameMapping = ImmutableMap.<String,String> builder()
             .put(EVENT_TYPE.ANC_REGISTRATION,JSON_FORMS.ANC_FORM)
@@ -1593,288 +1593,290 @@ public class HnppConstants extends CoreConstants {
             .build();
     //need to show the title at row/option
     public static final Map<String,String> visitEventTypeMapping = ImmutableMap.<String,String> builder()
-            .put(EVENT_TYPE.ANC_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_reg))
+            .put(EVENT_TYPE.ANC_REGISTRATION,HnppApplication.appContext.getString(R.string.pregnancy_reg))
 //            .put(EVENT_TYPE.ANC_GENERAL_DISEASE,"শারীরিক সমস্যা")
 //            .put(EVENT_TYPE.ANC_PREGNANCY_HISTORY,"পূর্বের গর্ভের ইতিহাস")
-            .put(EVENT_TYPE.ELCO,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.elco_visit))
-            .put(JSON_FORMS.ANC_FORM,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.anc_service))
-            .put(EVENT_TYPE.ANC_HOME_VISIT,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.anc_service))
+            .put(EVENT_TYPE.ELCO,HnppApplication.appContext.getString(R.string.elco_visit))
+            .put(JSON_FORMS.ANC_FORM,HnppApplication.appContext.getString(R.string.anc_service))
+            .put(EVENT_TYPE.ANC_HOME_VISIT,HnppApplication.appContext.getString(R.string.anc_service))
 //            .put(JSON_FORMS.GENERAL_DISEASE,"শারীরিক সমস্যা")
-            .put(EVENT_TYPE.MEMBER_REFERRAL,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.referrel))
-            .put(EVENT_TYPE.WOMEN_REFERRAL,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.referrel))
-            .put(EVENT_TYPE.CHILD_REFERRAL,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.referrel))
-            .put("Member referral",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.referrel))
+            .put(EVENT_TYPE.MEMBER_REFERRAL,HnppApplication.appContext.getString(R.string.referrel))
+            .put(EVENT_TYPE.WOMEN_REFERRAL,HnppApplication.appContext.getString(R.string.referrel))
+            .put(EVENT_TYPE.CHILD_REFERRAL,HnppApplication.appContext.getString(R.string.referrel))
+            .put("Member referral",HnppApplication.appContext.getString(R.string.referrel))
 //            .put( JSON_FORMS.PREGNANCY_HISTORY,"পূর্বের গর্ভের ইতিহাস")
             
-            .put( EVENT_TYPE.PREGNANCY_OUTCOME,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_outcome))
-            .put( EVENT_TYPE.PREGNANCY_OUTCOME_OOC,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_outcome))
-            .put( JSON_FORMS.PNC_FORM,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.before_preg_service))
-            .put( EVENT_TYPE.PNC_REGISTRATION_OOC,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.before_preg_visit_pnc))
-            .put( EVENT_TYPE.PNC_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.before_preg_visit_pnc))
-            .put(EVENT_TYPE.WOMEN_PACKAGE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.woman_package))
-            .put(EVENT_TYPE.GIRL_PACKAGE, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.girl_package))
-            .put(EVENT_TYPE.NCD_PACKAGE, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.ncd_package))
-            .put(EVENT_TYPE.BLOOD_GROUP,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.blood_group))
-            .put(EVENT_TYPE.EYE_TEST,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.eye_test))
-            .put(EVENT_TYPE.IYCF_PACKAGE, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_package))
-            .put(EVENT_TYPE.ENC_REGISTRATION, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.newborn_package))
-            .put(EVENT_TYPE.HOME_VISIT_FAMILY, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.household_profile_update))
-            .put(EVENT_TYPE.CHILD_PROFILE_VISIT, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_profile_visit))
-            .put(EVENT_TYPE.MEMBER_PROFILE_VISIT, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.member_profile_visit))
-            .put(EVENT_TYPE.VACCINATION, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.vaccination))
-            .put(EVENT_TYPE.SERVICES, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.vitamin_service))
-            .put(EVENT_TYPE.REFERREL_FOLLOWUP,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.referrel_followup))
-            .put(EVENT_TYPE.CHILD_FOLLOWUP,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_followup))
-            .put(EVENT_TYPE.NEW_BORN_PNC_1_4,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.newborn_pnc_1_4))
-            .put(EVENT_TYPE.AEFI_CHILD, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.aifi_child))
-            .put(EVENT_TYPE.CHILD_DISEASE, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.common_disease_info))
-            .put(EVENT_TYPE.MEMBER_DISEASE, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.common_disease_info))
-            .put(EVENT_TYPE.CHILD_INFO_EBF12,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_info))
-            .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_info))
-            .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_info))
-            .put(EVENT_TYPE.PNC_CHILD_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_child_reg))
-            .put(EVENT_TYPE.UPDATE_CHILD_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_reg_update))
-            .put("Update Family Registration",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.house_reg_update))
-            .put(EventType.REMOVE_FAMILY,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.house_remove))
-            .put(EventType.REMOVE_MEMBER,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.member_remove))
-            .put(EventType.REMOVE_CHILD,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_remove))
-            .put(EVENT_TYPE.CORONA_INDIVIDUAL,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.corona_info))
-            .put(EVENT_TYPE.SS_INFO,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.ss_info))
-            .put(EVENT_TYPE.FORUM_ADO,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.girl_forum))
-            .put(EVENT_TYPE.FORUM_WOMEN,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.woman_forum))
-            .put(EVENT_TYPE.FORUM_CHILD,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_forum))
-            .put(EVENT_TYPE.FORUM_NCD,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.common_forum))
-            .put(EVENT_TYPE.FORUM_ADULT,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.adult_forum))
+            .put( EVENT_TYPE.PREGNANCY_OUTCOME,HnppApplication.appContext.getString(R.string.pregnancy_outcome))
+            .put( EVENT_TYPE.PREGNANCY_OUTCOME_OOC,HnppApplication.appContext.getString(R.string.pregnancy_outcome))
+            .put( JSON_FORMS.PNC_FORM,HnppApplication.appContext.getString(R.string.before_preg_service))
+            .put( EVENT_TYPE.PNC_REGISTRATION_OOC,HnppApplication.appContext.getString(R.string.before_preg_visit_pnc))
+            .put( EVENT_TYPE.PNC_REGISTRATION,HnppApplication.appContext.getString(R.string.before_preg_visit_pnc))
+            .put(EVENT_TYPE.WOMEN_PACKAGE,HnppApplication.appContext.getString(R.string.woman_package))
+            .put(EVENT_TYPE.GIRL_PACKAGE, HnppApplication.appContext.getString(R.string.girl_package))
+            .put(EVENT_TYPE.NCD_PACKAGE, HnppApplication.appContext.getString(R.string.ncd_package))
+            .put(EVENT_TYPE.BLOOD_GROUP,HnppApplication.appContext.getString(R.string.blood_group))
+            .put(EVENT_TYPE.EYE_TEST,HnppApplication.appContext.getString(R.string.eye_test))
+            .put(EVENT_TYPE.IYCF_PACKAGE, HnppApplication.appContext.getString(R.string.child_package))
+            .put(EVENT_TYPE.ENC_REGISTRATION, HnppApplication.appContext.getString(R.string.newborn_package))
+            .put(EVENT_TYPE.HOME_VISIT_FAMILY, HnppApplication.appContext.getString(R.string.household_profile_update))
+            .put(EVENT_TYPE.CHILD_PROFILE_VISIT, HnppApplication.appContext.getString(R.string.child_profile_visit))
+            .put(EVENT_TYPE.MEMBER_PROFILE_VISIT, HnppApplication.appContext.getString(R.string.member_profile_visit))
+            .put(EVENT_TYPE.VACCINATION, HnppApplication.appContext.getString(R.string.vaccination))
+            .put(EVENT_TYPE.SERVICES, HnppApplication.appContext.getString(R.string.vitamin_service))
+            .put(EVENT_TYPE.REFERREL_FOLLOWUP,HnppApplication.appContext.getString(R.string.referrel_followup))
+            .put(EVENT_TYPE.CHILD_FOLLOWUP,HnppApplication.appContext.getString(R.string.child_followup))
+            .put(EVENT_TYPE.NEW_BORN_PNC_1_4,HnppApplication.appContext.getString(R.string.newborn_pnc_1_4))
+            .put(EVENT_TYPE.AEFI_CHILD, HnppApplication.appContext.getString(R.string.aifi_child))
+            .put(EVENT_TYPE.CHILD_DISEASE, HnppApplication.appContext.getString(R.string.common_disease_info))
+            .put(EVENT_TYPE.MEMBER_DISEASE, HnppApplication.appContext.getString(R.string.common_disease_info))
+            .put(EVENT_TYPE.CHILD_INFO_EBF12,HnppApplication.appContext.getString(R.string.child_info))
+            .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,HnppApplication.appContext.getString(R.string.child_info))
+            .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,HnppApplication.appContext.getString(R.string.child_info))
+            .put(EVENT_TYPE.PNC_CHILD_REGISTRATION,HnppApplication.appContext.getString(R.string.pnc_child_reg))
+            .put(EVENT_TYPE.UPDATE_CHILD_REGISTRATION,HnppApplication.appContext.getString(R.string.child_reg_update))
+            .put("Update Family Registration",HnppApplication.appContext.getString(R.string.house_reg_update))
+            .put(EventType.REMOVE_FAMILY,HnppApplication.appContext.getString(R.string.house_remove))
+            .put(EventType.REMOVE_MEMBER,HnppApplication.appContext.getString(R.string.member_remove))
+            .put(EventType.REMOVE_CHILD,HnppApplication.appContext.getString(R.string.child_remove))
+            .put(EVENT_TYPE.CORONA_INDIVIDUAL,HnppApplication.appContext.getString(R.string.corona_info))
+            .put(EVENT_TYPE.SS_INFO,HnppApplication.appContext.getString(R.string.ss_info))
+            .put(EVENT_TYPE.FORUM_ADO,HnppApplication.appContext.getString(R.string.girl_forum))
+            .put(EVENT_TYPE.FORUM_WOMEN,HnppApplication.appContext.getString(R.string.woman_forum))
+            .put(EVENT_TYPE.FORUM_CHILD,HnppApplication.appContext.getString(R.string.child_forum))
+            .put(EVENT_TYPE.FORUM_NCD,HnppApplication.appContext.getString(R.string.common_forum))
+            .put(EVENT_TYPE.FORUM_ADULT,HnppApplication.appContext.getString(R.string.adult_forum))
             .build();
 
     //for dashboard poridorshon
     public static final Map<String,String> targetTypeMapping = ImmutableMap.<String,String> builder()
 
-            .put(EVENT_TYPE.HOME_VISIT_FAMILY,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.house_profile_update))
-            .put(EVENT_TYPE.CHILD_PROFILE_VISIT,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.house_member_survey))
-            .put(EVENT_TYPE.MEMBER_PROFILE_VISIT,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.house_member_survey))
-            .put(EVENT_TYPE.ELCO,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.elco))
-            .put(EVENT_TYPE.METHOD_USER,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.method_user))
-            .put(EVENT_TYPE.ADO_METHOD_USER,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.add_method_user))
-            .put(EVENT_TYPE.PREGNANCY_IDENTIFIED,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_identified))
-            .put(EVENT_TYPE.INSTITUTIONALIZES_DELIVERY,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.inst_delivery))
-            .put(EVENT_TYPE.CHILD_VISIT_0_6,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_visit_0_6))
-            .put(EVENT_TYPE.CHILD_VISIT_7_24,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_visit_7_24))
-            .put(EVENT_TYPE.CHILD_VISIT_18_36,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_visit_18_36))
-            .put(EVENT_TYPE.CHILD_IMMUNIZATION_0_59,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_imm_0_59))
-            .put(EVENT_TYPE.FORUM_ADO,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.girl_forum))
-            .put(EVENT_TYPE.FORUM_WOMEN,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.woman_forum))
-            .put(EVENT_TYPE.FORUM_CHILD,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_forum))
-            .put(EVENT_TYPE.FORUM_NCD,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.common_forum))
-            .put(EVENT_TYPE.FORUM_ADULT,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.adult_forum))
-            .put(EVENT_TYPE.PREGNANCY_OUTCOME,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.delivery))
-            .put(EVENT_TYPE.GIRL_PACKAGE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.girl_package))
-            .put(EVENT_TYPE.WOMEN_PACKAGE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.woman_package))
-            .put(EVENT_TYPE.IYCF_PACKAGE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.iycf_package))
-            .put(EVENT_TYPE.NCD_PACKAGE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.ncd_package))
-            .put(EVENT_TYPE.ANC_SERVICE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.anc_service2))
-            .put(EVENT_TYPE.PNC_SERVICE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_service_within_48))
-            .put(EVENT_TYPE.ANC_PACKAGE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.anc_package))
-            .put(EVENT_TYPE.PNC_PACKAGE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_within_48))
-            .put(EVENT_TYPE.PNC_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.after_delivery_service))
-            .put(EVENT_TYPE.AVG_ATTEND_ADULT_FORUM,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.number_of_attend))
-            .put(EVENT_TYPE.ADULT_FORUM_ATTENDANCE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.number_of_attend))
+            .put(EVENT_TYPE.HOME_VISIT_FAMILY,HnppApplication.appContext.getString(R.string.house_profile_update))
+            .put(EVENT_TYPE.CHILD_PROFILE_VISIT,HnppApplication.appContext.getString(R.string.house_member_survey))
+            .put(EVENT_TYPE.MEMBER_PROFILE_VISIT,HnppApplication.appContext.getString(R.string.house_member_survey))
+            .put(EVENT_TYPE.ELCO,HnppApplication.appContext.getString(R.string.elco))
+            .put(EVENT_TYPE.METHOD_USER,HnppApplication.appContext.getString(R.string.method_user))
+            .put(EVENT_TYPE.ADO_METHOD_USER,HnppApplication.appContext.getString(R.string.add_method_user))
+            .put(EVENT_TYPE.PREGNANCY_IDENTIFIED,HnppApplication.appContext.getString(R.string.pregnancy_identified))
+            .put(EVENT_TYPE.INSTITUTIONALIZES_DELIVERY,HnppApplication.appContext.getString(R.string.inst_delivery))
+            .put(EVENT_TYPE.CHILD_VISIT_0_6,HnppApplication.appContext.getString(R.string.child_visit_0_6))
+            .put(EVENT_TYPE.CHILD_VISIT_7_24,HnppApplication.appContext.getString(R.string.child_visit_7_24))
+            .put(EVENT_TYPE.CHILD_VISIT_18_36,HnppApplication.appContext.getString(R.string.child_visit_18_36))
+            .put(EVENT_TYPE.CHILD_IMMUNIZATION_0_59,HnppApplication.appContext.getString(R.string.child_imm_0_59))
+            .put(EVENT_TYPE.FORUM_ADO,HnppApplication.appContext.getString(R.string.girl_forum))
+            .put(EVENT_TYPE.FORUM_WOMEN,HnppApplication.appContext.getString(R.string.woman_forum))
+            .put(EVENT_TYPE.FORUM_CHILD,HnppApplication.appContext.getString(R.string.child_forum))
+            .put(EVENT_TYPE.FORUM_NCD,HnppApplication.appContext.getString(R.string.common_forum))
+            .put(EVENT_TYPE.FORUM_ADULT,HnppApplication.appContext.getString(R.string.adult_forum))
+            .put(EVENT_TYPE.PREGNANCY_OUTCOME,HnppApplication.appContext.getString(R.string.delivery))
+            .put(EVENT_TYPE.GIRL_PACKAGE,HnppApplication.appContext.getString(R.string.girl_package))
+            .put(EVENT_TYPE.WOMEN_PACKAGE,HnppApplication.appContext.getString(R.string.woman_package))
+            .put(EVENT_TYPE.IYCF_PACKAGE,HnppApplication.appContext.getString(R.string.iycf_package))
+            .put(EVENT_TYPE.NCD_PACKAGE,HnppApplication.appContext.getString(R.string.ncd_package))
+            .put(EVENT_TYPE.ANC_SERVICE,HnppApplication.appContext.getString(R.string.anc_service2))
+            .put(EVENT_TYPE.PNC_SERVICE,HnppApplication.appContext.getString(R.string.pnc_service_within_48))
+            .put(EVENT_TYPE.ANC_PACKAGE,HnppApplication.appContext.getString(R.string.anc_package))
+            .put(EVENT_TYPE.PNC_PACKAGE,HnppApplication.appContext.getString(R.string.pnc_within_48))
+            .put(EVENT_TYPE.PNC_REGISTRATION,HnppApplication.appContext.getString(R.string.after_delivery_service))
+            .put(EVENT_TYPE.AVG_ATTEND_ADULT_FORUM,HnppApplication.appContext.getString(R.string.number_of_attend))
+            .put(EVENT_TYPE.ADULT_FORUM_ATTENDANCE,HnppApplication.appContext.getString(R.string.number_of_attend))
            // .put(EVENT_TYPE.NCD_BY_PA,"অসংক্রামক রোগের সেবা")
-            .put(EVENT_TYPE.ADULT_FORUM_SERVICE_TAKEN,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.service_taken_num))
-            .put(EVENT_TYPE.MARKED_PRESBYOPIA,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.marked_presbyopia))
-            .put(EVENT_TYPE.PRESBYOPIA_CORRECTION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.presbyopia_correction))
-            .put(EVENT_TYPE.ESTIMATE_DIABETES,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.estimated_diabetes))
-            .put(EVENT_TYPE.ESTIMATE_HBP,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.estimated_hbp))
-            .put(EVENT_TYPE.CATARACT_SURGERY_REFER,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.cataract_surgery_refer))
-            .put(EVENT_TYPE.CATARACT_SURGERY,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.cateract_surgery))
+            .put(EVENT_TYPE.ADULT_FORUM_SERVICE_TAKEN,HnppApplication.appContext.getString(R.string.service_taken_num))
+            .put(EVENT_TYPE.MARKED_PRESBYOPIA,HnppApplication.appContext.getString(R.string.marked_presbyopia))
+            .put(EVENT_TYPE.PRESBYOPIA_CORRECTION,HnppApplication.appContext.getString(R.string.presbyopia_correction))
+            .put(EVENT_TYPE.ESTIMATE_DIABETES,HnppApplication.appContext.getString(R.string.estimated_diabetes))
+            .put(EVENT_TYPE.ESTIMATE_HBP,HnppApplication.appContext.getString(R.string.estimated_hbp))
+            .put(EVENT_TYPE.CATARACT_SURGERY_REFER,HnppApplication.appContext.getString(R.string.cataract_surgery_refer))
+            .put(EVENT_TYPE.CATARACT_SURGERY,HnppApplication.appContext.getString(R.string.cateract_surgery))
             .build();
+
+
     //for dashboard workSummery
     public static final Map<String,String> workSummeryTypeMapping = ImmutableMap.<String,String> builder()
 
-            .put(EventType.FAMILY_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.household_reg))
-            .put(EventType.FAMILY_MEMBER_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.member_reg))
-            .put(EVENT_TYPE.HOME_VISIT_FAMILY,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.house_profile_update))
-            .put(EVENT_TYPE.CHILD_PROFILE_VISIT,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.house_member_survey))
-            .put(EVENT_TYPE.MEMBER_PROFILE_VISIT,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.house_member_survey))
-            .put(EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.member_reg))
-            .put("ANC",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.anc_service_anc))
-            .put("pnc",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.old_pnc_service))
-            .put(EVENT_TYPE.ELCO,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.elco_visit))
-            .put(EventType.CHILD_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_reg))
-            .put(EVENT_TYPE.ANC_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_reg))
-            .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.preg_service_visit))
+            .put(EventType.FAMILY_REGISTRATION,HnppApplication.appContext.getString(R.string.household_reg))
+            .put(EventType.FAMILY_MEMBER_REGISTRATION,HnppApplication.appContext.getString(R.string.member_reg))
+            .put(EVENT_TYPE.HOME_VISIT_FAMILY,HnppApplication.appContext.getString(R.string.house_profile_update))
+            .put(EVENT_TYPE.CHILD_PROFILE_VISIT,HnppApplication.appContext.getString(R.string.house_member_survey))
+            .put(EVENT_TYPE.MEMBER_PROFILE_VISIT,HnppApplication.appContext.getString(R.string.house_member_survey))
+            .put(EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,HnppApplication.appContext.getString(R.string.member_reg))
+            .put("ANC",HnppApplication.appContext.getString(R.string.anc_service_anc))
+            .put("pnc",HnppApplication.appContext.getString(R.string.old_pnc_service))
+            .put(EVENT_TYPE.ELCO,HnppApplication.appContext.getString(R.string.elco_visit))
+            .put(EventType.CHILD_REGISTRATION,HnppApplication.appContext.getString(R.string.child_reg))
+            .put(EVENT_TYPE.ANC_REGISTRATION,HnppApplication.appContext.getString(R.string.pregnancy_reg))
+            .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,HnppApplication.appContext.getString(R.string.preg_service_visit))
 
-            .put(EVENT_TYPE.PREGNANCY_OUTCOME,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.delivery))
-            .put(EVENT_TYPE.ENC_REGISTRATION, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.newborn_service))
-            .put(EVENT_TYPE.CHILD_FOLLOWUP,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_followup))
-            .put(EVENT_TYPE.NEW_BORN_PNC_1_4,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.newborn_pnc_1_4))
-            .put(EVENT_TYPE.AEFI_CHILD,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.aefi_followup))
-            .put(EVENT_TYPE.CHILD_DISEASE, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.common_disease_info))
-            .put(EVENT_TYPE.MEMBER_DISEASE, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.common_disease_info))
-            .put(EVENT_TYPE.CHILD_INFO_EBF12,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_info))
-            .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_info))
-            .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_info))
-            .put(EVENT_TYPE.FORUM_ADO,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.girl_forum))
-            .put(EVENT_TYPE.FORUM_WOMEN,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.woman_forum))
-            .put(EVENT_TYPE.FORUM_CHILD,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.girl_forum))
-            .put(EVENT_TYPE.FORUM_NCD,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.common_forum))
-            .put(EVENT_TYPE.FORUM_ADULT,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.adult_forum))
-            .put(EVENT_TYPE.WOMEN_PACKAGE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.woman_package))
-            .put(EVENT_TYPE.GIRL_PACKAGE, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.girl_package))
-            .put(EVENT_TYPE.NCD_PACKAGE, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.ncd_package))
-            .put(EVENT_TYPE.BLOOD_GROUP,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.blood_group))
-            .put(EVENT_TYPE.EYE_TEST,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.eye_test))
-            .put(EVENT_TYPE.GLASS,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.total_glass))
-            .put(EVENT_TYPE.SUN_GLASS,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.sunglass))
-            .put(EVENT_TYPE.SV_1,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.sv_1))
-            .put(EVENT_TYPE.SV_1_5,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.sv_1_5))
-            .put(EVENT_TYPE.SV_2,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.sv_2))
-            .put(EVENT_TYPE.SV_2_5,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.sv_2_5))
-            .put(EVENT_TYPE.SV_3,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.sv_3))
-            .put(EVENT_TYPE.BF_1,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.bf_1))
-            .put(EVENT_TYPE.BF_1_5,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.bf_1_5))
-            .put(EVENT_TYPE.BF_2,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.bf_2))
-            .put(EVENT_TYPE.BF_2_5,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.bf_2_5))
-            .put(EVENT_TYPE.BF_3,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.bf_3))
+            .put(EVENT_TYPE.PREGNANCY_OUTCOME,HnppApplication.appContext.getString(R.string.delivery))
+            .put(EVENT_TYPE.ENC_REGISTRATION, HnppApplication.appContext.getString(R.string.newborn_service))
+            .put(EVENT_TYPE.CHILD_FOLLOWUP,HnppApplication.appContext.getString(R.string.child_followup))
+            .put(EVENT_TYPE.NEW_BORN_PNC_1_4,HnppApplication.appContext.getString(R.string.newborn_pnc_1_4))
+            .put(EVENT_TYPE.AEFI_CHILD,HnppApplication.appContext.getString(R.string.aefi_followup))
+            .put(EVENT_TYPE.CHILD_DISEASE, HnppApplication.appContext.getString(R.string.common_disease_info))
+            .put(EVENT_TYPE.MEMBER_DISEASE, HnppApplication.appContext.getString(R.string.common_disease_info))
+            .put(EVENT_TYPE.CHILD_INFO_EBF12,HnppApplication.appContext.getString(R.string.child_info))
+            .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,HnppApplication.appContext.getString(R.string.child_info))
+            .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,HnppApplication.appContext.getString(R.string.child_info))
+            .put(EVENT_TYPE.FORUM_ADO,HnppApplication.appContext.getString(R.string.girl_forum))
+            .put(EVENT_TYPE.FORUM_WOMEN,HnppApplication.appContext.getString(R.string.woman_forum))
+            .put(EVENT_TYPE.FORUM_CHILD,HnppApplication.appContext.getString(R.string.girl_forum))
+            .put(EVENT_TYPE.FORUM_NCD,HnppApplication.appContext.getString(R.string.common_forum))
+            .put(EVENT_TYPE.FORUM_ADULT,HnppApplication.appContext.getString(R.string.adult_forum))
+            .put(EVENT_TYPE.WOMEN_PACKAGE,HnppApplication.appContext.getString(R.string.woman_package))
+            .put(EVENT_TYPE.GIRL_PACKAGE, HnppApplication.appContext.getString(R.string.girl_package))
+            .put(EVENT_TYPE.NCD_PACKAGE, HnppApplication.appContext.getString(R.string.ncd_package))
+            .put(EVENT_TYPE.BLOOD_GROUP,HnppApplication.appContext.getString(R.string.blood_group))
+            .put(EVENT_TYPE.EYE_TEST,HnppApplication.appContext.getString(R.string.eye_test))
+            .put(EVENT_TYPE.GLASS,HnppApplication.appContext.getString(R.string.total_glass))
+            .put(EVENT_TYPE.SUN_GLASS,HnppApplication.appContext.getString(R.string.sunglass))
+            .put(EVENT_TYPE.SV_1,HnppApplication.appContext.getString(R.string.sv_1))
+            .put(EVENT_TYPE.SV_1_5,HnppApplication.appContext.getString(R.string.sv_1_5))
+            .put(EVENT_TYPE.SV_2,HnppApplication.appContext.getString(R.string.sv_2))
+            .put(EVENT_TYPE.SV_2_5,HnppApplication.appContext.getString(R.string.sv_2_5))
+            .put(EVENT_TYPE.SV_3,HnppApplication.appContext.getString(R.string.sv_3))
+            .put(EVENT_TYPE.BF_1,HnppApplication.appContext.getString(R.string.bf_1))
+            .put(EVENT_TYPE.BF_1_5,HnppApplication.appContext.getString(R.string.bf_1_5))
+            .put(EVENT_TYPE.BF_2,HnppApplication.appContext.getString(R.string.bf_2))
+            .put(EVENT_TYPE.BF_2_5,HnppApplication.appContext.getString(R.string.bf_2_5))
+            .put(EVENT_TYPE.BF_3,HnppApplication.appContext.getString(R.string.bf_3))
             
-              .put(EVENT_TYPE.IYCF_PACKAGE, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_package_iyocf))
-            .put("familyplanning_method_known", HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.family_planning_user))
-            .put(EVENT_TYPE.ANC_SERVICE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.anc_package))
-            .put(EVENT_TYPE.PNC_SERVICE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_within_48))
-            .put(EVENT_TYPE.PNC_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_only))
+              .put(EVENT_TYPE.IYCF_PACKAGE, HnppApplication.appContext.getString(R.string.child_package_iyocf))
+            .put("familyplanning_method_known", HnppApplication.appContext.getString(R.string.family_planning_user))
+            .put(EVENT_TYPE.ANC_SERVICE,HnppApplication.appContext.getString(R.string.anc_package))
+            .put(EVENT_TYPE.PNC_SERVICE,HnppApplication.appContext.getString(R.string.pnc_within_48))
+            .put(EVENT_TYPE.PNC_REGISTRATION,HnppApplication.appContext.getString(R.string.pnc_only))
 
             .build();
     //for dashboard countSummery
     public static final Map<String,String> countSummeryTypeMapping = ImmutableMap.<String,String> builder()
 
-            .put(EventType.FAMILY_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.house_number))
-            .put(EventType.FAMILY_MEMBER_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.number_of_member))
-            .put(EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.number_of_member))
-            .put(EventType.CHILD_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.number_of_child))
-            .put(EVENT_TYPE.ANC_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_reg))
-            .put(EVENT_TYPE.HOME_VISIT_FAMILY,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.house_profile_update))
-            .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_service_visit))
-            .put(EVENT_TYPE.PNC_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_only))
-            .put(EVENT_TYPE.PREGNANCY_OUTCOME,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.delivery))
+            .put(EventType.FAMILY_REGISTRATION,HnppApplication.appContext.getString(R.string.house_number))
+            .put(EventType.FAMILY_MEMBER_REGISTRATION,HnppApplication.appContext.getString(R.string.number_of_member))
+            .put(EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,HnppApplication.appContext.getString(R.string.number_of_member))
+            .put(EventType.CHILD_REGISTRATION,HnppApplication.appContext.getString(R.string.number_of_child))
+            .put(EVENT_TYPE.ANC_REGISTRATION,HnppApplication.appContext.getString(R.string.pregnancy_reg))
+            .put(EVENT_TYPE.HOME_VISIT_FAMILY,HnppApplication.appContext.getString(R.string.house_profile_update))
+            .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,HnppApplication.appContext.getString(R.string.pregnancy_service_visit))
+            .put(EVENT_TYPE.PNC_REGISTRATION,HnppApplication.appContext.getString(R.string.pnc_only))
+            .put(EVENT_TYPE.PREGNANCY_OUTCOME,HnppApplication.appContext.getString(R.string.delivery))
             .build();
 
 
 
     public static final Map<String,String> eventTypeMapping = ImmutableMap.<String,String> builder()
-            .put(EventType.FAMILY_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.add_family))
-            .put(EventType.FAMILY_MEMBER_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.member_reg))
-            .put(EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.member_update))
-            .put(EventType.CHILD_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_reg))
-            .put(EVENT_TYPE.MEMBER_REFERRAL,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.referrel))
-            .put(EVENT_TYPE.WOMEN_REFERRAL,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.referrel))
-            .put(EVENT_TYPE.CHILD_REFERRAL,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.referrel))
-            .put(EVENT_TYPE.PREGNANCY_OUTCOME,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.delivery))
-            .put("Member referral",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.referrel))
-            .put(EVENT_TYPE.ELCO,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.elco_visit))
-            .put(EVENT_TYPE.ANC_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_reg))
-            .put(EVENT_TYPE.UPDATE_ANC_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_reg_update))
-            .put(EVENT_TYPE.WOMEN_PACKAGE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.woman_package))
-            .put(EVENT_TYPE.GIRL_PACKAGE, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.girl_package))
-            .put(EVENT_TYPE.NCD_PACKAGE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.ncd_package))
-            .put(EVENT_TYPE.BLOOD_GROUP,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.blood_group))
-            .put(EVENT_TYPE.EYE_TEST,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.eye_test))
-            .put(EVENT_TYPE.IYCF_PACKAGE, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_package_iyocf))
-            .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_service_visit))
-            .put( EVENT_TYPE.PNC_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_only))
-            .put(EVENT_TYPE.ENC_REGISTRATION, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.newborn_service))
-            .put(EVENT_TYPE.HOME_VISIT_FAMILY,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.house_profile_update))
-            .put(EVENT_TYPE.CHILD_PROFILE_VISIT, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.house_member_survey))
-            .put(EVENT_TYPE.MEMBER_PROFILE_VISIT, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.house_member_survey))
-            .put(EventType.CHILD_HOME_VISIT, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_home_visit))
-            .put(EVENT_TYPE.VACCINATION, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.vaccination))
-            .put(EVENT_TYPE.SERVICES, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.vitamin_service))
-            .put(EVENT_TYPE.REFERREL_FOLLOWUP,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.referrel_followup))
-            .put(EVENT_TYPE.CHILD_FOLLOWUP,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_followup))
-            .put(EVENT_TYPE.NEW_BORN_PNC_1_4,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.newborn_pnc))
-            .put(EVENT_TYPE.AEFI_CHILD,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.aefi_followup))
-            .put(EVENT_TYPE.CHILD_DISEASE, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.common_disease_info))
-            .put(EVENT_TYPE.MEMBER_DISEASE, HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.common_disease_info))
-            .put(EVENT_TYPE.CHILD_INFO_EBF12,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_info))
-            .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_info))
-            .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_info))
-            .put(EVENT_TYPE.PNC_CHILD_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_child_reg))
-            .put(EVENT_TYPE.UPDATE_CHILD_REGISTRATION,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_reg_update))
-            .put("Update Family Registration",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.house_reg_update))
-            .put(EventType.REMOVE_FAMILY,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.house_remove))
-            .put(EventType.REMOVE_MEMBER,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.member_remove))
-            .put(EventType.REMOVE_CHILD,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_remove))
-            .put(EVENT_TYPE.CORONA_INDIVIDUAL,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.corona_info))
-            .put(EVENT_TYPE.SS_INFO,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.ss_info))
-            .put(EVENT_TYPE.FORUM_ADO,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.girl_forum))
-            .put(EVENT_TYPE.FORUM_WOMEN,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.woman_forum))
-            .put(EVENT_TYPE.FORUM_CHILD,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_forum))
-            .put(EVENT_TYPE.FORUM_NCD,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.common_forum))
-            .put(EVENT_TYPE.FORUM_ADULT,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.adult_forum))
-            .put(EVENT_TYPE.ANC_SERVICE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.anc_package))
-            .put(EVENT_TYPE.PNC_SERVICE,HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_within_48))
-            .put("Guest Member Registration",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.guest_reg))
-            .put("OOC Member Registration",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.guest_reg))
+            .put(EventType.FAMILY_REGISTRATION,HnppApplication.appContext.getString(R.string.add_family))
+            .put(EventType.FAMILY_MEMBER_REGISTRATION,HnppApplication.appContext.getString(R.string.member_reg))
+            .put(EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,HnppApplication.appContext.getString(R.string.member_update))
+            .put(EventType.CHILD_REGISTRATION,HnppApplication.appContext.getString(R.string.child_reg))
+            .put(EVENT_TYPE.MEMBER_REFERRAL,HnppApplication.appContext.getString(R.string.referrel))
+            .put(EVENT_TYPE.WOMEN_REFERRAL,HnppApplication.appContext.getString(R.string.referrel))
+            .put(EVENT_TYPE.CHILD_REFERRAL,HnppApplication.appContext.getString(R.string.referrel))
+            .put(EVENT_TYPE.PREGNANCY_OUTCOME,HnppApplication.appContext.getString(R.string.delivery))
+            .put("Member referral",HnppApplication.appContext.getString(R.string.referrel))
+            .put(EVENT_TYPE.ELCO,HnppApplication.appContext.getString(R.string.elco_visit))
+            .put(EVENT_TYPE.ANC_REGISTRATION,HnppApplication.appContext.getString(R.string.pregnancy_reg))
+            .put(EVENT_TYPE.UPDATE_ANC_REGISTRATION,HnppApplication.appContext.getString(R.string.pregnancy_reg_update))
+            .put(EVENT_TYPE.WOMEN_PACKAGE,HnppApplication.appContext.getString(R.string.woman_package))
+            .put(EVENT_TYPE.GIRL_PACKAGE, HnppApplication.appContext.getString(R.string.girl_package))
+            .put(EVENT_TYPE.NCD_PACKAGE,HnppApplication.appContext.getString(R.string.ncd_package))
+            .put(EVENT_TYPE.BLOOD_GROUP,HnppApplication.appContext.getString(R.string.blood_group))
+            .put(EVENT_TYPE.EYE_TEST,HnppApplication.appContext.getString(R.string.eye_test))
+            .put(EVENT_TYPE.IYCF_PACKAGE, HnppApplication.appContext.getString(R.string.child_package_iyocf))
+            .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,HnppApplication.appContext.getString(R.string.pregnancy_service_visit))
+            .put( EVENT_TYPE.PNC_REGISTRATION,HnppApplication.appContext.getString(R.string.pnc_only))
+            .put(EVENT_TYPE.ENC_REGISTRATION, HnppApplication.appContext.getString(R.string.newborn_service))
+            .put(EVENT_TYPE.HOME_VISIT_FAMILY,HnppApplication.appContext.getString(R.string.house_profile_update))
+            .put(EVENT_TYPE.CHILD_PROFILE_VISIT, HnppApplication.appContext.getString(R.string.house_member_survey))
+            .put(EVENT_TYPE.MEMBER_PROFILE_VISIT, HnppApplication.appContext.getString(R.string.house_member_survey))
+            .put(EventType.CHILD_HOME_VISIT, HnppApplication.appContext.getString(R.string.child_home_visit))
+            .put(EVENT_TYPE.VACCINATION, HnppApplication.appContext.getString(R.string.vaccination))
+            .put(EVENT_TYPE.SERVICES, HnppApplication.appContext.getString(R.string.vitamin_service))
+            .put(EVENT_TYPE.REFERREL_FOLLOWUP,HnppApplication.appContext.getString(R.string.referrel_followup))
+            .put(EVENT_TYPE.CHILD_FOLLOWUP,HnppApplication.appContext.getString(R.string.child_followup))
+            .put(EVENT_TYPE.NEW_BORN_PNC_1_4,HnppApplication.appContext.getString(R.string.newborn_pnc))
+            .put(EVENT_TYPE.AEFI_CHILD,HnppApplication.appContext.getString(R.string.aefi_followup))
+            .put(EVENT_TYPE.CHILD_DISEASE, HnppApplication.appContext.getString(R.string.common_disease_info))
+            .put(EVENT_TYPE.MEMBER_DISEASE, HnppApplication.appContext.getString(R.string.common_disease_info))
+            .put(EVENT_TYPE.CHILD_INFO_EBF12,HnppApplication.appContext.getString(R.string.child_info))
+            .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,HnppApplication.appContext.getString(R.string.child_info))
+            .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,HnppApplication.appContext.getString(R.string.child_info))
+            .put(EVENT_TYPE.PNC_CHILD_REGISTRATION,HnppApplication.appContext.getString(R.string.pnc_child_reg))
+            .put(EVENT_TYPE.UPDATE_CHILD_REGISTRATION,HnppApplication.appContext.getString(R.string.child_reg_update))
+            .put("Update Family Registration",HnppApplication.appContext.getString(R.string.house_reg_update))
+            .put(EventType.REMOVE_FAMILY,HnppApplication.appContext.getString(R.string.house_remove))
+            .put(EventType.REMOVE_MEMBER,HnppApplication.appContext.getString(R.string.member_remove))
+            .put(EventType.REMOVE_CHILD,HnppApplication.appContext.getString(R.string.child_remove))
+            .put(EVENT_TYPE.CORONA_INDIVIDUAL,HnppApplication.appContext.getString(R.string.corona_info))
+            .put(EVENT_TYPE.SS_INFO,HnppApplication.appContext.getString(R.string.ss_info))
+            .put(EVENT_TYPE.FORUM_ADO,HnppApplication.appContext.getString(R.string.girl_forum))
+            .put(EVENT_TYPE.FORUM_WOMEN,HnppApplication.appContext.getString(R.string.woman_forum))
+            .put(EVENT_TYPE.FORUM_CHILD,HnppApplication.appContext.getString(R.string.child_forum))
+            .put(EVENT_TYPE.FORUM_NCD,HnppApplication.appContext.getString(R.string.common_forum))
+            .put(EVENT_TYPE.FORUM_ADULT,HnppApplication.appContext.getString(R.string.adult_forum))
+            .put(EVENT_TYPE.ANC_SERVICE,HnppApplication.appContext.getString(R.string.anc_package))
+            .put(EVENT_TYPE.PNC_SERVICE,HnppApplication.appContext.getString(R.string.pnc_within_48))
+            .put("Guest Member Registration",HnppApplication.appContext.getString(R.string.guest_reg))
+            .put("OOC Member Registration",HnppApplication.appContext.getString(R.string.guest_reg))
             .build();
     public static final Map<String,String> riskeyFactorMapping = ImmutableMap.<String,String> builder()
-            .put("Bleeding_Through_Birth_Canal",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.bleeding_birth_canel))
-            .put("High_Temperature_102_Degree_or_More",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.faver))
-            .put("Convulsion",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.convulsion))
-            .put("Weakness_Blurred_vision",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.blurred_vision))
-            .put("high_blood_pressure",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.high_blood_pressure))
-            .put("clinical_anemia",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.clinical_anemia))
-            .put("pph",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pph))
-            .put("postpartum_eclampsia",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.postpartum_eclampsia))
-            .put("puerperal_sepsis",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.puerpartum_sepsis))
-             .put("vv_fistula_rv_fistula",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.vv_fistula))
-            .put("perinal_tear",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.perinal_tear))
-            .put("Fetal_Heart_Rate",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.fetal_heard_rate))
-            .put("Hemoglobin_result",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.hemoglobin))
-            .put("fbs_result",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.fasting))
-            .put("rbs_result",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.rendom))
-            .put("Urine_Albumin_result",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.urine_albumin))
-            .put("Hb_tested_result",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.hb_test_result))
-            .put("chipilis_tested_result",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.chiphilis))
-            .put("hiv_tested_result",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.hiv))
-            .put("ultra_sound_result",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.ultra_sounf_scan))
-            .put("body_temp_fahrenheit",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.body_temp))
+            .put("Bleeding_Through_Birth_Canal",HnppApplication.appContext.getString(R.string.bleeding_birth_canel))
+            .put("High_Temperature_102_Degree_or_More",HnppApplication.appContext.getString(R.string.faver))
+            .put("Convulsion",HnppApplication.appContext.getString(R.string.convulsion))
+            .put("Weakness_Blurred_vision",HnppApplication.appContext.getString(R.string.blurred_vision))
+            .put("high_blood_pressure",HnppApplication.appContext.getString(R.string.high_blood_pressure))
+            .put("clinical_anemia",HnppApplication.appContext.getString(R.string.clinical_anemia))
+            .put("pph",HnppApplication.appContext.getString(R.string.pph))
+            .put("postpartum_eclampsia",HnppApplication.appContext.getString(R.string.postpartum_eclampsia))
+            .put("puerperal_sepsis",HnppApplication.appContext.getString(R.string.puerpartum_sepsis))
+             .put("vv_fistula_rv_fistula",HnppApplication.appContext.getString(R.string.vv_fistula))
+            .put("perinal_tear",HnppApplication.appContext.getString(R.string.perinal_tear))
+            .put("Fetal_Heart_Rate",HnppApplication.appContext.getString(R.string.fetal_heard_rate))
+            .put("Hemoglobin_result",HnppApplication.appContext.getString(R.string.hemoglobin))
+            .put("fbs_result",HnppApplication.appContext.getString(R.string.fasting))
+            .put("rbs_result",HnppApplication.appContext.getString(R.string.rendom))
+            .put("Urine_Albumin_result",HnppApplication.appContext.getString(R.string.urine_albumin))
+            .put("Hb_tested_result",HnppApplication.appContext.getString(R.string.hb_test_result))
+            .put("chipilis_tested_result",HnppApplication.appContext.getString(R.string.chiphilis))
+            .put("hiv_tested_result",HnppApplication.appContext.getString(R.string.hiv))
+            .put("ultra_sound_result",HnppApplication.appContext.getString(R.string.ultra_sounf_scan))
+            .put("body_temp_fahrenheit",HnppApplication.appContext.getString(R.string.body_temp))
             .build();
     public static final Map<String,String> immunizationMapping = ImmutableMap.<String,String> builder()
-            .put("PENTA 1",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.penta_1))
-            .put("PENTA 2",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.penta_2))
-            .put("PENTA 3",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.penta_3))
-            .put("OPV 1",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.polio_1))
-            .put("OPV 2",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.polio_2))
-            .put("OPV 3",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.polio_3))
-            .put("PCV 1",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pcv_1))
-            .put("PCV 2",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pcv_2))
-            .put("PCV 3",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pcv_3))
-            .put("BCG",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.bcg))
-            .put("VITAMIN A1",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.vitamin_a))
+            .put("PENTA 1",HnppApplication.appContext.getString(R.string.penta_1))
+            .put("PENTA 2",HnppApplication.appContext.getString(R.string.penta_2))
+            .put("PENTA 3",HnppApplication.appContext.getString(R.string.penta_3))
+            .put("OPV 1",HnppApplication.appContext.getString(R.string.polio_1))
+            .put("OPV 2",HnppApplication.appContext.getString(R.string.polio_2))
+            .put("OPV 3",HnppApplication.appContext.getString(R.string.polio_3))
+            .put("PCV 1",HnppApplication.appContext.getString(R.string.pcv_1))
+            .put("PCV 2",HnppApplication.appContext.getString(R.string.pcv_2))
+            .put("PCV 3",HnppApplication.appContext.getString(R.string.pcv_3))
+            .put("BCG",HnppApplication.appContext.getString(R.string.bcg))
+            .put("VITAMIN A1",HnppApplication.appContext.getString(R.string.vitamin_a))
             .build();
     public static final Map<String,String> referealResonMapping = ImmutableMap.<String,String> builder()
-            .put("child_problems",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.child_problems))
-            .put("pregnancy_problems",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pregnancy_problems))
-            .put("delivery_problems",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.delivery_problem))
-            .put("pnc_problem",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.pnc_problem))
-            .put("problems_eyes",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.eye_problem))
-            .put("diabetes",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.diabetes))
-            .put("high_blood_pressure",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.high_blood_pressure))
-            .put("problems_with_birth_control",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.birth_control_problem))
-            .put("cataract_problem",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.cataract_problem))
-            .put("other",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.other))
+            .put("child_problems",HnppApplication.appContext.getString(R.string.child_problems))
+            .put("pregnancy_problems",HnppApplication.appContext.getString(R.string.pregnancy_problems))
+            .put("delivery_problems",HnppApplication.appContext.getString(R.string.delivery_problem))
+            .put("pnc_problem",HnppApplication.appContext.getString(R.string.pnc_problem))
+            .put("problems_eyes",HnppApplication.appContext.getString(R.string.eye_problem))
+            .put("diabetes",HnppApplication.appContext.getString(R.string.diabetes))
+            .put("high_blood_pressure",HnppApplication.appContext.getString(R.string.high_blood_pressure))
+            .put("problems_with_birth_control",HnppApplication.appContext.getString(R.string.birth_control_problem))
+            .put("cataract_problem",HnppApplication.appContext.getString(R.string.cataract_problem))
+            .put("other",HnppApplication.appContext.getString(R.string.other))
             .build();
     public static final Map<String,String> referealPlaceMapping = ImmutableMap.<String,String> builder()
-            .put("brac_maternity_center", HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.brac_maternity_center))
-            .put("union_health_center",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.union_health_center))
-            .put("upozzila_health_complex",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.upazila_health_complex))
-            .put("union_family_kollan_center",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.union_family_kollan_center))
-            .put("union_health_and_family_kollan_center",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.union_health_and_family_kollan_center))
-            .put("mother_child_kollan_center",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.mother_child_kollan_center))
-            .put("center_hospital",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.center_hospital))
-            .put("medical_collage_hospital",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.medical_collage_hospital))
-            .put("private_clinic",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.private_clinic))
-            .put("spacial_hospital",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.special_hospital))
-            .put("other_option",HnppApplication.getHNPPInstance().getApplicationContext().getString(R.string.other))
+            .put("brac_maternity_center", HnppApplication.appContext.getString(R.string.brac_maternity_center))
+            .put("union_health_center",HnppApplication.appContext.getString(R.string.union_health_center))
+            .put("upozzila_health_complex",HnppApplication.appContext.getString(R.string.upazila_health_complex))
+            .put("union_family_kollan_center",HnppApplication.appContext.getString(R.string.union_family_kollan_center))
+            .put("union_health_and_family_kollan_center",HnppApplication.appContext.getString(R.string.union_health_and_family_kollan_center))
+            .put("mother_child_kollan_center",HnppApplication.appContext.getString(R.string.mother_child_kollan_center))
+            .put("center_hospital",HnppApplication.appContext.getString(R.string.center_hospital))
+            .put("medical_collage_hospital",HnppApplication.appContext.getString(R.string.medical_collage_hospital))
+            .put("private_clinic",HnppApplication.appContext.getString(R.string.private_clinic))
+            .put("spacial_hospital",HnppApplication.appContext.getString(R.string.special_hospital))
+            .put("other_option",HnppApplication.appContext.getString(R.string.other))
             .build();
 
     private static String getKeyByValue(String mapperObj, String value){

@@ -89,9 +89,9 @@ public class LivePreference extends Preference  {
         alert.setCancelable(false);
         alert.setView(edittext);
 
-        alert.setPositiveButton(HnppApplication.getInstance().getApplicationContext().getString(R.string.submit), (dialog, whichButton) -> {
+        alert.setPositiveButton(HnppApplication.appContext.getString(R.string.submit), (dialog, whichButton) -> {
             if(edittext.getText().toString().isEmpty()){
-                Toast.makeText(context, HnppApplication.getInstance().getApplicationContext().getString(R.string.give_pass),Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, HnppApplication.appContext.getString(R.string.give_pass),Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -151,10 +151,10 @@ public class LivePreference extends Preference  {
                     }
                 }else{
                     android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(getContext()).create();
-                    alertDialog.setTitle(HnppApplication.getInstance().getApplicationContext().getString(R.string.pass_not_match));
+                    alertDialog.setTitle(HnppApplication.appContext.getString(R.string.pass_not_match));
                     alertDialog.setCancelable(false);
 
-                    alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE, HnppApplication.getInstance().getApplicationContext().getString(R.string.ok_en),
+                    alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE, HnppApplication.appContext.getString(R.string.ok_en),
                             (dialog, which) -> {
 
                             });

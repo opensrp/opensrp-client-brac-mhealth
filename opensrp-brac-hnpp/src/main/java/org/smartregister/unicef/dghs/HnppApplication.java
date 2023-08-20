@@ -122,11 +122,18 @@ public class HnppApplication extends DrishtiApplication implements CoreApplicati
     private String password;
 
     private RulesEngineHelper rulesEngineHelper;
+
+    public static android.content.Context appContext;
+
+    public  static void initContext(android.content.Context context){
+        appContext = context;
+    }
     @Override
     public void onCreate() {
         super.onCreate();
         mInstance = this;
         context = Context.getInstance();
+        appContext = this;
 
         //init Job Manager
         SyncStatusBroadcastReceiver.init(this);

@@ -113,10 +113,10 @@ public class WorkSummeryDashBoardInteractor implements DashBoardContract.Interac
                 addToDashBoardList(indicatorModel.getEstimatedCoronaPatient(ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.getCoronaPatient(ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.getIsolationPatient(ssName,fromMonth,toMonth));
-                addToDashBoardList(indicatorModel.getRemoveMemberCount(HnppApplication.getInstance().getApplicationContext().getString(R.string.member_remove),ssName,fromMonth,toMonth));
-                addToDashBoardList(indicatorModel.getRemoveHHCount(HnppApplication.getInstance().getApplicationContext().getString(R.string.house_remove),ssName,fromMonth,toMonth));
-                addToDashBoardList(indicatorModel.getMigrateMemberCount(HnppApplication.getInstance().getApplicationContext().getString(R.string.member_transfer),ssName,fromMonth,toMonth));
-                addToDashBoardList(indicatorModel.getMigratedHHCount(HnppApplication.getInstance().getApplicationContext().getString(R.string.house_replace),ssName,fromMonth,toMonth));
+                addToDashBoardList(indicatorModel.getRemoveMemberCount(HnppApplication.appContext.getString(R.string.member_remove),ssName,fromMonth,toMonth));
+                addToDashBoardList(indicatorModel.getRemoveHHCount(HnppApplication.appContext.getString(R.string.house_remove),ssName,fromMonth,toMonth));
+                addToDashBoardList(indicatorModel.getMigrateMemberCount(HnppApplication.appContext.getString(R.string.member_transfer),ssName,fromMonth,toMonth));
+                addToDashBoardList(indicatorModel.getMigratedHHCount(HnppApplication.appContext.getString(R.string.house_replace),ssName,fromMonth,toMonth));
             }
 
         }
