@@ -97,6 +97,18 @@
                             android:text="প্রোফাইল আপডেট" />
 
                         <Button
+                            android:id="@+id/add_child_btn"
+                            android:layout_width="130dp"
+                            android:layout_height="30dp"
+                            android:layout_below="@+id/update_profile_btn"
+                            android:layout_marginTop="5dp"
+                            android:layout_toRightOf="@+id/image_panel"
+                            android:background="@drawable/red_click_button"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:text="+ Add Child"
+                            android:textColor="@color/white" />
+                        <Button
                             android:id="@+id/member_visit_btn"
                             android:layout_width="130dp"
                             android:layout_height="30dp"
@@ -105,7 +117,8 @@
                             android:background="@drawable/green_click_button"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
-                            android:text="খানা সদস্য জরিপ"
+                            android:visibility="gone"
+                            android:text="@string/member_survey"
                             android:textColor="@color/white" />
 
 
@@ -238,18 +251,7 @@
 
                     </LinearLayout>
 
-                    <Button
-                        android:id="@+id/add_child_btn"
-                        android:layout_width="130dp"
-                        android:layout_height="30dp"
-                        android:layout_below="@+id/profile_name_layout"
-                        android:layout_marginTop="15dp"
-                        android:layout_toRightOf="@+id/image_panel"
-                        android:background="@drawable/red_click_button"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:text="+ Add Child"
-                        android:textColor="@color/white" />
+
                     <Button
                         android:id="@+id/edit_member_btn"
                         android:background="@color/others"

@@ -497,6 +497,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
             case R.id.action_general_disease:
                 openChildDiseaseForm();
                 return true;
+            case R.id.action_member_survey:
+                openChildProfileVisit();
+                return true;
             default:
                 break;
         }
