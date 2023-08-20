@@ -985,6 +985,9 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
             case R.id.action_general_disease:
                 openMemberDisease();
                 return true;
+            case R.id.action_member_survey:
+                openMemberProfileUpdate();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

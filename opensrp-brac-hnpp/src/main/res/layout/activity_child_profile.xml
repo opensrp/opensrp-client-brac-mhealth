@@ -113,7 +113,8 @@
                             android:background="@drawable/green_click_button"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
-                            android:text="@string/house_member_survey"
+                            android:visibility="gone"
+                            android:text="খানা সদস্য জরিপ"
                             android:textColor="@color/white" />
 
 

@@ -97,16 +97,27 @@
                             android:text="@string/update_profile" />
 
                         <Button
+                            android:id="@+id/add_child_btn"
+                            android:layout_width="130dp"
+                            android:layout_height="30dp"
+                            android:layout_below="@+id/update_profile_btn"
+                            android:layout_marginTop="5dp"
+                            android:layout_toRightOf="@+id/image_panel"
+                            android:background="@drawable/red_click_button"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:text="+ Add Child"
+                            android:textColor="@color/white" />
+                        <Button
                             android:id="@+id/member_visit_btn"
                             android:layout_width="130dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="30dp"
                             android:layout_below="@+id/update_profile_btn"
                             android:layout_marginTop="5dp"
                             android:background="@drawable/green_click_button"
-                            android:minHeight="30dp"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
-                            android:text="@string/house_member_survey"
+                            android:visibility="gone"
                             android:textColor="@color/white" />
 
 
@@ -239,18 +250,7 @@
 
                     </LinearLayout>
 
-                    <Button
-                        android:id="@+id/add_child_btn"
-                        android:layout_width="130dp"
-                        android:layout_height="30dp"
-                        android:layout_below="@+id/profile_name_layout"
-                        android:layout_marginTop="15dp"
-                        android:layout_toRightOf="@+id/image_panel"
-                        android:background="@drawable/red_click_button"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:text="+ Add Child"
-                        android:textColor="@color/white" />
+
                     <Button
                         android:id="@+id/edit_member_btn"
                         android:background="@color/others"

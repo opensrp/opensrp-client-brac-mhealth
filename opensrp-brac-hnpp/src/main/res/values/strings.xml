@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">e-Tracker</string>
+    <string name="app_name">eReach</string>
     <string-array name="gender">
         <item>নারী</item>
         <item>পুরুষ</item>
@@ -971,8 +971,9 @@
     <string name="secont_trimster_count">দ্বিতীয় ট্রাইসেমিস্টার-এ সনাক্ত</string>
     <string name="third_trimestarr_count">তৃতীয় ট্রাইসেমিস্টার-এ সনাক্ত</string>
     <string name="general_disease">সাধারণ রোগের তথ্য</string>
-    <string name="schedule_date">\"নির্ধারিত তারিখ: \"</string>
-    <string name="edd_date">\"ই ডি ডি: \"</string>
+    <string name="member_survey">খানা সদস্য জরিপ</string>
+    <string name="schedule_date">নির্ধারিত তারিখ: </string>
+    <string name="edd_date">ই ডি ডি: </string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>

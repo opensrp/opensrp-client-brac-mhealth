@@ -340,6 +340,23 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
                 addmemberFragment.show(getFragmentManager(), AddMemberFragment.DIALOG_TAG);
             }
         });
+        familyFloatingMenu.addMemberBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startFormActivity(CoreConstants.JSON_FORM.getFamilyMemberRegister(), null, null);
+            }
+        });
+        familyFloatingMenu.addChildBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    startChildForm(CoreConstants.JSON_FORM.getChildRegister(), "", "", "");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
         familyFloatingMenu.setClickListener(
                 FloatingMenuListener.getInstance(this, presenter().familyBaseEntityId())
         );

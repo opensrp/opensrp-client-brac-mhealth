@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -17,12 +18,13 @@ import org.smartregister.unicef.dghs.listener.OnClickFloatingMenu;
 
 public class FamilyFloatingMenu extends LinearLayout implements View.OnClickListener {
     private RelativeLayout activityMain;
-    public FloatingActionButton fab;
+    public FloatingActionButton fab,addMemberBtn,addChildBtn;
     private LinearLayout menuBar;
     private Animation fabOpen, fabClose, rotateForward, rotateBack;
     private boolean isFabMenuOpen = false;
     private OnClickFloatingMenu onClickFloatingMenu;
 
+//    public Button addMemberBtn,addChildBtn;
     private View callLayout;
     private View addNewMember;
 
@@ -36,7 +38,8 @@ public class FamilyFloatingMenu extends LinearLayout implements View.OnClickList
         activityMain = findViewById(R.id.activity_main);
         menuBar = findViewById(R.id.menu_bar);
         fab = findViewById(R.id.fab);
-
+        addMemberBtn = findViewById(R.id.add_member);
+        addChildBtn = findViewById(R.id.add_child_btn);
         fabOpen = AnimationUtils.loadAnimation(getContext(), R.anim.fab_open);
         fabClose = AnimationUtils.loadAnimation(getContext(), R.anim.fab_close);
         rotateForward = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_forward);

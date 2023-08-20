@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import org.apache.commons.lang3.text.WordUtils;
+import org.smartregister.chw.core.utils.ChildDBConstants;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.HnppDBUtils;
@@ -53,16 +54,17 @@ public class HnppAllMemberRegisterProvider extends CoreChildRegisterProvider {
         String childName = org.smartregister.util.Utils.getName(firstName, middleName + " " + lastName);
 
         //fillValue(viewHolder.textViewChildName, WordUtils.capitalize(childName));
-        String houseHoldHead = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.HOUSE_HOLD_NAME, true);
-        viewHolder.textViewChildName.setText(context.getString(R.string.house_hold_head_name,houseHoldHead));
-        String serialNo = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.SERIAL_NO, true);
-        if(serialNo.isEmpty() || serialNo.equalsIgnoreCase("H")){
-            serialNo="";
-        }
-        if(!TextUtils.isEmpty(serialNo)){
-            viewHolder.textViewChildName.setText(viewHolder.textViewChildName.getText()+", "+context.getString(R.string.serial_no,serialNo));
-
-        }
+//        String houseHoldHead = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.HOUSE_HOLD_NAME, true);
+        String phoneNo = Utils.getValue(pc.getColumnmaps(), ChildDBConstants.PHONE_NUMBER, true);
+        viewHolder.textViewChildName.setText(phoneNo);
+//        String serialNo = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.SERIAL_NO, true);
+//        if(serialNo.isEmpty() || serialNo.equalsIgnoreCase("H")){
+//            serialNo="";
+//        }
+//        if(!TextUtils.isEmpty(serialNo)){
+//            viewHolder.textViewChildName.setText(viewHolder.textViewChildName.getText()+", "+context.getString(R.string.serial_no,serialNo));
+//
+//        }
         String dobString = Utils.getDuration(Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.DOB, false));
         //dobString = dobString.contains("y") ? dobString.substring(0, dobString.indexOf("y")) : dobString;
         fillValue(viewHolder.textViewParentName, WordUtils.capitalize(childName) + " " + context.getResources().getString(org.smartregister.chw.core.R.string.age, WordUtils.capitalize(Utils.getTranslatedDate(dobString, context))));
