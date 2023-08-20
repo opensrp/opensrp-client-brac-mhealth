@@ -137,7 +137,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "place_of_service_taken",
         "type": "spinner",
-        "hint": "Place of service *",
+        "hint": "Place of service",
         "values": [
           "Medical College Hospital/Specialized Hospital",
           "District Hospital",
@@ -166,7 +166,7 @@
         },
         "v_required": {
           "value": true,
-          "err": "রক্ত গ্রুপ নির্বাচন করুন"
+          "err": "Select Place of service"
         }
       },
       {
@@ -175,7 +175,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "service_provider",
         "type": "spinner",
-        "hint": "Service provider *",
+        "hint": "Service provider",
         "values": [
           "Doctor",
           "Nurse",
@@ -194,7 +194,7 @@
         },
         "v_required": {
           "value": true,
-          "err": "রক্ত গ্রুপ নির্বাচন করুন"
+          "err": "Select Service provider"
         }
       },
       {

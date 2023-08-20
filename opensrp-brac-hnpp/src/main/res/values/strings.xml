@@ -974,6 +974,19 @@
     <string name="member_survey">খানা সদস্য জরিপ</string>
     <string name="schedule_date">নির্ধারিত তারিখ: </string>
     <string name="edd_date">ই ডি ডি: </string>
+    <string name="search_shr_id">শেয়ারড হেলথ রেকর্ড আই ডি দিয়ে খুঁজুন</string>
+    <string name="search_by_address">পূর্ববর্তী ঠিকানা থেকে খুঁজুন</string>
+    <string name="previous_address_info">সদস্যের এবং তার পূর্ববর্তী ঠিকানা সম্পর্কে নিম্নোক্ত তথ্যগুলো দিনঃ</string>
+    <string name="shr_id">শেয়ারড হেলথ রেকর্ড আই ডি</string>
+    <string name="devision_medatory">বিভাগ *</string>
+    <string name="district_mendatory">জেলা/সিটি কর্পোরেশন *</string>
+    <string name="upozilla_thana">উপজেলা/থানা</string>
+    <string name="gender_mendatory">লিঙ্গ *</string>
+    <string name="mobile">মোবাইল</string>
+    <string name="hint_mb_no">মোবাইল নম্বর</string>
+    <string name="id_dea">আইডি দিয়ে</string>
+    <string name="enter_id">আইডি নম্বর</string>
+    <string name="dob_hint">জন্ম তারিখ</string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>
