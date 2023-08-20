@@ -40,10 +40,12 @@ import org.smartregister.job.InValidateSyncDataServiceJob;
 import org.smartregister.job.PullUniqueIdsServiceJob;
 import org.smartregister.task.SaveTeamLocationsTask;
 import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
+import org.smartregister.util.LangUtils;
 import org.smartregister.util.Utils;
 import org.smartregister.view.activity.BaseLoginActivity;
 import org.smartregister.view.contract.BaseLoginContract;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class LoginActivity extends BaseLoginActivity implements BaseLoginContract.View {
@@ -128,6 +130,13 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
                 }
             }
         });
+        String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
+
+        if(TextUtils.isEmpty(userName)){
+            LangUtils.saveLanguage(this, "bn");
+            HnppApplication.getInstance().getResources().getConfiguration().setLocale(new Locale("bn"));
+             HnppApplication.initContext(this);
+        }
 
 
     }

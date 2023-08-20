@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.smartregister.unicef.dghs.BuildConfig;
+import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.activity.HnppFamilyOtherMemberProfileActivity;
 import org.smartregister.unicef.dghs.contract.HnppMemberProfileContract;
@@ -61,7 +62,7 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                         String lmpDate = HnppDBUtils.getLmpDate(baseEntityId);
                         int noOfAnc = (FormApplicability.getANCCount(baseEntityId)+1);
                         String date = HnppConstants.getScheduleLmpDate(lmpDate,noOfAnc);
-                        memberProfileDueData.setSubTitle("নির্ধারিত তারিখ: "+date);
+                        memberProfileDueData.setSubTitle(HnppApplication.getHNPPInstance().getString(R.string.schedule_date)+date);
 
                     }else{
                         memberProfileDueData.setTitle(FormApplicability.getPncTitle(baseEntityId));
@@ -70,7 +71,7 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                         String deliveryDate = FormApplicability.getDeliveryDate(baseEntityId);
                         int pncCount = (FormApplicability.getPNCCount(baseEntityId)+1);
                         String date = HnppConstants.getSchedulePncDate(deliveryDate,pncCount);
-                        memberProfileDueData.setSubTitle("নির্ধারিত তারিখ: "+date);
+                        memberProfileDueData.setSubTitle(HnppApplication.getHNPPInstance().getString(R.string.schedule_date)+date);
                     }
                     memberProfileDueDataArrayList.add(memberProfileDueData);
 
@@ -93,7 +94,7 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                     memberProfileDueData2.setImageSource(HnppConstants.iconMapping.get(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME));
                     memberProfileDueData2.setType(HnppMemberProfileDueFragment.TAG_OPEN_DELIVERY);
                     memberProfileDueData2.setTitle(HnppConstants.visitEventTypeMapping.get(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME));
-                    memberProfileDueData2.setSubTitle("ই ডি ডি: "+FormApplicability.getEdd(baseEntityId));
+                    memberProfileDueData2.setSubTitle(HnppApplication.getHNPPInstance().getString(R.string.edd_date)+FormApplicability.getEdd(baseEntityId));
                     memberProfileDueDataArrayList.add(memberProfileDueData2);
 
                 }

@@ -495,24 +495,17 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
 
         final String[] languages = menuFlavor.getSupportedLanguages();
 
-        HnppApplication.getInstance().getApplicationContext().getResources().getConfiguration().setLocale(new Locale(LangUtils.getLanguage(context)));
-        Locale current =  HnppApplication.getInstance().getApplicationContext().getResources().getConfiguration().locale;
-        allSharedPreferences.saveLanguagePreference(LangUtils.getLanguage(context));
-
-
-
+//        HnppApplication.getInstance().getApplicationContext().getResources().getConfiguration().setLocale(new Locale(LangUtils.getLanguage(context)));
+        Locale current =  HnppApplication.getHNPPInstance().getApplicationContext().getResources().getConfiguration().locale;
+//        allSharedPreferences.saveLanguagePreference(LangUtils.getLanguage(context));
         if(current.getLanguage().equals("bn")){
-            LOCALE = Locale.ENGLISH;
-            language = "English";
+            tvLang.setText("English");
         }else {
-            LOCALE = new Locale("bn");
-            language = "বাংলা";
+            tvLang.setText("বাংলা");
         }
 
-        tvLang.setText(language);
-
         rlIconLang.setOnClickListener(v -> {
-            String currentLocal = LangUtils.getLanguage(context.getApplicationContext());
+            String currentLocal = LangUtils.getLanguage(context);
             if(currentLocal.equals("bn")){
                 LOCALE = Locale.ENGLISH;
                 language = "English";
@@ -520,11 +513,9 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
                 LOCALE = new Locale("bn");
                 language = "বাংলা";
             }
-            LangUtils.saveLanguage(context.getApplicationContext(), LOCALE.getLanguage());
-            HnppApplication.getInstance().getApplicationContext().getResources().getConfiguration().setLocale(LOCALE);
-
-            allSharedPreferences.saveLanguagePreference(LOCALE.getLanguage());
-
+            LangUtils.saveLanguage(context, LOCALE.getLanguage());
+            HnppApplication.initContext(context);
+            HnppApplication.getInstance().getResources().getConfiguration().setLocale(LOCALE);
             tvLang.setText(language);
             // destroy current instance
             drawer.closeDrawers();
