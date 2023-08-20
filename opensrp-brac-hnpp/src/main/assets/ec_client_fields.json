@@ -11,6 +11,13 @@
           }
         },
         {
+          "column_name": "family_head",
+          "type": "Client",
+          "json_mapping": {
+            "field": "family_head"
+          }
+        },
+        {
           "column_name": "primary_caregiver",
           "type": "Client",
           "json_mapping": {

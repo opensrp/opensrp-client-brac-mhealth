@@ -444,7 +444,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "DOB_known",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "জন্ম তারিখ জানা আছে কি?",
         "values": [
@@ -537,7 +536,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person",
         "openmrs_entity_id": "gender",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "লিঙ্গ",
         "values": [
@@ -561,7 +559,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "Marital_Status",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "বৈবাহিক অবস্থা",
         "values": [
@@ -596,8 +593,7 @@
         "key": "disability",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "disable",
-        "openmrs_data_type": "select one",
+        "openmrs_entity_id": "disability",
         "type": "spinner",
         "hint": "প্রতিবন্ধী",
         "values": [
@@ -614,7 +610,6 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "disability_type",
-        "openmrs_data_type": "select one",
         "type": "spinner",
         "hint": "প্রতিবন্ধীতা ধরন",
         "values": [
