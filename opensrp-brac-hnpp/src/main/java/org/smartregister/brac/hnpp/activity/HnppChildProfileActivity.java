@@ -49,6 +49,7 @@ import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.brac.hnpp.utils.HouseHoldInfo;
+import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.util.DBConstants;
 import org.smartregister.chw.anc.util.NCUtils;
@@ -140,6 +141,12 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
 
         textViewGender.append(","+parentName);
     }
+
+    public CommonPersonObjectClient getCommonPersonObject(){
+        return commonPersonObject;
+    }
+
+
 
     @Override
     public void startFormActivity(JSONObject jsonForm) {
@@ -291,6 +298,8 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
         viewPager.setAdapter(adapter);
         return viewPager;
     }
+
+
     public void startChildHomeVisit(){
 
     }
@@ -536,6 +545,19 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
 
 
     }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public String getBirthDate() {
+        return ((HnppChildProfilePresenter) presenter).getDateOfBirth();
+    }
+
+    public MemberObject getMemberObject() {
+        return  memberObject;
+    }
+
     public void startAnyFormActivity(String formName, int requestCode) {
         if(!HnppApplication.getStockRepository().isAvailableStock(HnppConstants.formNameEventTypeMapping.get(formName))){
             HnppConstants.showOneButtonDialog(this,getString(R.string.dialog_stock_sell_end),"");
@@ -722,7 +744,8 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
             };
             appExecutors.diskIO().execute(runnable);*/
 
-        }else if(resultCode == Activity.RESULT_OK && requestCode == org.smartregister.chw.anc.util.Constants.REQUEST_CODE_HOME_VISIT){
+        }
+        else if(resultCode == Activity.RESULT_OK && requestCode == org.smartregister.chw.anc.util.Constants.REQUEST_CODE_HOME_VISIT){
            if(mViewPager!=null) mViewPager.setCurrentItem(0,true);
         } else if(resultCode == Activity.RESULT_OK && requestCode == ChildVaccinationActivity.VACCINE_REQUEST_CODE){
             profileMemberFragment.setUserVisibleHint(true);

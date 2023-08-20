@@ -29,21 +29,32 @@ public class ChildVaccinationActivity extends SecuredActivity implements Vaccina
     private Bundle bundle;
     private boolean isActionTaken;
 
+    boolean isVacc = false;
+
     public static void startChildVaccinationActivity(Activity activity, Bundle bundle , CommonPersonObjectClient childDetails){
 
         Intent intent = new Intent(activity,ChildVaccinationActivity.class);
         intent.putExtra(INTENT_BUNDLE,bundle);
         intent.putExtra(INTENT_COMMONOBJECT,childDetails);
         activity.startActivityForResult(intent,VACCINE_REQUEST_CODE);
-
-
     }
+
+    public static void startChildVaccinationActivity(Activity activity, Bundle bundle , CommonPersonObjectClient childDetails,boolean isVacc){
+
+        Intent intent = new Intent(activity,ChildVaccinationActivity.class);
+        intent.putExtra(INTENT_BUNDLE,bundle);
+        intent.putExtra(INTENT_COMMONOBJECT,childDetails);
+        intent.putExtra(ChildFollowupActivity.IS_ONLY_VACC,isVacc);
+        activity.startActivityForResult(intent,VACCINE_REQUEST_CODE);
+    }
+
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_child_immunization);
         setUpToolbar();
         bundle = getIntent().getParcelableExtra(INTENT_BUNDLE);
         childDetails = (CommonPersonObjectClient) getIntent().getSerializableExtra(INTENT_COMMONOBJECT);
+        isVacc = getIntent().getBooleanExtra(ChildFollowupActivity.IS_ONLY_VACC,false);
         initializeFragment();
     }
     private void setUpToolbar(){
@@ -64,7 +75,7 @@ public class ChildVaccinationActivity extends SecuredActivity implements Vaccina
     }
     ChildImmunizationFragment immunizationFragment;
     private void initializeFragment(){
-        immunizationFragment = ChildImmunizationFragment.newInstance(bundle);
+        immunizationFragment = ChildImmunizationFragment.newInstance(bundle,isVacc);
         immunizationFragment.setChildDetails(childDetails);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction =

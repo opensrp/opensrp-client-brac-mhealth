@@ -66,6 +66,8 @@ import static org.smartregister.util.Utils.getName;
 
 public class ChildImmunizationFragment extends BaseProfileFragment {
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
+    private static boolean isVacc;
+
 
     public void setChildDetails(CommonPersonObjectClient childDetails){
         this.childDetails = childDetails;
@@ -77,6 +79,18 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
         if (args == null) {
             args = new Bundle();
         }
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static ChildImmunizationFragment newInstance(Bundle bundle,boolean isVac) {
+        Bundle args = bundle;
+
+        ChildImmunizationFragment fragment = new ChildImmunizationFragment();
+        if (args == null) {
+            args = new Bundle();
+        }
+        isVacc = isVac;
         fragment.setArguments(args);
         return fragment;
     }
@@ -677,7 +691,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
             }
 
             updateServiceViews(serviceTypeMap, serviceRecords, alertList);
-            updateVaccinationViews(vaccineList, alertList);
+            //updateVaccinationViews(vaccineList, alertList);
         }
 
         @Override

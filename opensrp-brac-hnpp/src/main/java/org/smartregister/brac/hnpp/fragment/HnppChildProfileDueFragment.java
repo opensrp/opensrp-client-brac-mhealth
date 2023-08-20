@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.activity.ChildFollowupActivity;
 import org.smartregister.brac.hnpp.activity.HnppChildProfileActivity;
 import org.smartregister.brac.hnpp.model.MemberProfileDueModel;
 import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
@@ -518,60 +520,68 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                     break;*/
 
                 case TAG_CHILD_FOLLOWUP_0_3_MONTHS:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                    /*if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
                         activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_0_3_MONTHS);
-                    }
+                    }*/
+                    startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_0_3_MONTHS,false);
                     break;
 
                 case TAG_CHILD_FOLLOWUP_3_6_MONTHS:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                    /*if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
                         activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_3_6_MONTHS);
-                    }
+                    }*/
+                    startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_3_6_MONTHS,false);
                     break;
 
                 case TAG_CHILD_FOLLOWUP_7_11_MONTHS:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                    /*if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
                         activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_7_11_MONTHS);
-                    }
+                    }*/
+                    startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_7_11_MONTHS,false);
                     break;
 
 
                 case TAG_CHILD_FOLLOWUP_12_18_MONTHS:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                   /* if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
                         activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_12_18_MONTHS);
-                    }
+                    }*/
+                    startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_12_18_MONTHS,false);
                     break;
 
                 case TAG_CHILD_FOLLOWUP_19_24_MONTHS:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                    /*if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
                         activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_19_24_MONTHS);
-                    }
+                    }*/
+                    startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_19_24_MONTHS,false);
                     break;
 
                 case TAG_CHILD_FOLLOWUP_2_3_YEARS:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                   /* if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
                         activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_2_3_YEARS);
-                    }
+                    }*/
+                    startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_2_3_YEARS,true);
                     break;
 
                 case TAG_CHILD_FOLLOWUP_3_4_YEARS:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                    /*if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
                         activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_3_4_YEARS);
-                    }
+                    }*/
+                    startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_3_4_YEARS,true);
                     break;
 
                 case TAG_CHILD_FOLLOWUP_4_5_YEARS:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                    /*if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
                         activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_4_5_YEARS);
-                    }
+                    }*/
+                    startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_4_5_YEARS,true);
                     break;
                 case TAG_OPEN_CORONA:
                     if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
@@ -599,6 +609,20 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                     break;*/
             }
         }
+    }
+
+    private void startFollowupActivity(String formType,boolean isOnlyVaccine) {
+        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+        Intent intent = new Intent(getActivity(), ChildFollowupActivity.class);
+        intent.putExtra(ChildFollowupActivity.TYPE,formType);
+        intent.putExtra(ChildFollowupActivity.BASE_ENTITY_ID,activity.childBaseEntityId);
+        intent.putExtra(ChildFollowupActivity.GENDER,activity.getGender());
+        intent.putExtra(ChildFollowupActivity.BIRTH_DATE,activity.getBirthDate());
+        intent.putExtra(ChildFollowupActivity.FAMILY_HEAD,activity.getMemberObject());
+        intent.putExtra(ChildFollowupActivity.COMMON_PERSON,activity.getCommonPersonObject());
+        intent.putExtra(ChildFollowupActivity.BUNDLE,activity.getIntent().getExtras());
+        intent.putExtra(ChildFollowupActivity.IS_ONLY_VACC,isOnlyVaccine);
+        startActivity(intent);
     }
 
     @Override
