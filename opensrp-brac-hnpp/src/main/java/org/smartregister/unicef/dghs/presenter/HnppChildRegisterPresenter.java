@@ -21,6 +21,7 @@ import org.smartregister.family.model.BaseFamilyRegisterModel;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
 import org.smartregister.repository.AllSharedPreferences;
+import org.smartregister.unicef.dghs.utils.HnppJsonFormUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -101,7 +102,9 @@ public class HnppChildRegisterPresenter implements CoreChildRegisterContract.Pre
             return;
         }
         if (TextUtils.isEmpty(familyId)) {
-            JSONObject form = new BaseFamilyRegisterModel().getFormAsJson(formName, entityId, currentLocationId);
+            //JSONObject form = new BaseFamilyRegisterModel().getFormAsJson(formName, entityId, currentLocationId);
+            JSONObject f = HnppJsonFormUtils.getJsonObject(formName);
+            JSONObject form = JsonFormUtils.getFormAsJson(f, formName, entityId, currentLocationId);
             getView().startFormActivity(form);
         } else {
             JSONObject form = model.getFormAsJson(formName, entityId, currentLocationId, familyId);
