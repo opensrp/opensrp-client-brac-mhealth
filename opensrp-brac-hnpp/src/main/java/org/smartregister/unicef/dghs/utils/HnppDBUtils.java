@@ -881,7 +881,7 @@ public class HnppDBUtils {
         return count>0;
     }
     public static boolean isPncRisk(String baseEntityId){
-        String query = "select count(*) from ec_family_member where base_entity_id = '"+baseEntityId+"' and is_risk ='true' and risk_event_type ='"+ HnppConstants.EVENT_TYPE.PNC_REGISTRATION +"' )";
+        String query = "select count(*) from ec_family_member where base_entity_id = '"+baseEntityId+"' and is_risk ='true' and risk_event_type ='"+ HnppConstants.EVENT_TYPE.PNC_REGISTRATION +"'";
 
         Cursor cursor = null;
         int count=0;

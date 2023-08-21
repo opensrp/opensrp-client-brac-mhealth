@@ -520,6 +520,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
                 LOCALE = new Locale("bn");
                 language = "বাংলা";
             }
+
             LangUtils.saveLanguage(context.getApplicationContext(), LOCALE.getLanguage());
             HnppApplication.getInstance().getApplicationContext().getResources().getConfiguration().setLocale(LOCALE);
 
