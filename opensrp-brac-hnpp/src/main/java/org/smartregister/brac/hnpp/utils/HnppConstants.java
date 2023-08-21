@@ -950,6 +950,8 @@ public class HnppConstants extends CoreConstants {
         public static final String BLOOD_GROUP = "blood_group";
         public static final String LAST_HOME_VISIT = "last_home_visit";
         public static final String DATE_CREATED = "date_created";
+
+        public static final String BIRTH_WEIGHT = "birth_weight";
     }
 
     public static class IDENTIFIER {

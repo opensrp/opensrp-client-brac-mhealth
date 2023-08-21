@@ -84,6 +84,10 @@ public class HnppJobCreator implements JobCreator {
                 return new DataDeleteJob();
             case SurveyHistoryJob.TAG:
                 return new SurveyHistoryJob();
+            case WeightIntentServiceJob.TAG:
+                return new WeightIntentServiceJob();
+            case HeightIntentServiceJob.TAG:
+                return new HeightIntentServiceJob();
             default:
                 Timber.d("Please create job and specify the right job tag");
                 return null;

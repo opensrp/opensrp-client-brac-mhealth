@@ -81,7 +81,7 @@ public class ChildFollowupActivity extends AppCompatActivity {
     CommonPersonObjectClient commonPersonObjectClient;
     Bundle bundle;
 
-    boolean isVacc = false;
+    boolean isOnlyVacc = false;
 
 
     @Override
@@ -111,7 +111,7 @@ public class ChildFollowupActivity extends AppCompatActivity {
         gender = intent.getStringExtra(GENDER);
         commonPersonObjectClient = (CommonPersonObjectClient) intent.getSerializableExtra(COMMON_PERSON);
         bundle = intent.getParcelableExtra(BUNDLE);
-        isVacc = intent.getBooleanExtra(IS_ONLY_VACC,false);
+        isOnlyVacc = intent.getBooleanExtra(IS_ONLY_VACC,false);
     }
 
     private void viewInteraction() {
@@ -124,14 +124,23 @@ public class ChildFollowupActivity extends AppCompatActivity {
         childFollowUpLay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startAnyFormActivity(formType,REQUEST_HOME_VISIT);
+                if(childFollowUpJsonString.isEmpty()){
+                    startAnyFormActivity(formType,REQUEST_HOME_VISIT);
+                }
             }
         });
 
         immunizationLay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ChildVaccinationActivity.startChildVaccinationActivity(ChildFollowupActivity.this,bundle,commonPersonObjectClient,isVacc);
+                ChildVaccinationActivity.startChildVaccinationActivity(ChildFollowupActivity.this,bundle,commonPersonObjectClient,isOnlyVacc);
+            }
+        });
+
+        gmpLay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ChildGMPActivity.startGMPActivity(ChildFollowupActivity.this,bundle,commonPersonObjectClient);
             }
         });
     }
@@ -228,23 +237,29 @@ public class ChildFollowupActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
-           // if(isProcessing) return;
-            AtomicInteger isSave = new AtomicInteger(2);
-            showProgressDialog(R.string.please_wait_message);
+        if (resultCode == Activity.RESULT_OK){
+            if(requestCode == REQUEST_HOME_VISIT){
+                // if(isProcessing) return;
+                AtomicInteger isSave = new AtomicInteger(2);
+                showProgressDialog(R.string.please_wait_message);
 
-           // isProcessing = true;
-            String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
-            String formSubmissionId = JsonFormUtils.generateRandomUUIDString();
-            String visitId = JsonFormUtils.generateRandomUUIDString();
-            HnppConstants.appendLog("SAVE_VISIT", "save form>>childBaseEntityId:"+childBaseEntityId+":formSubmissionId:"+formSubmissionId);
+                // isProcessing = true;
+                String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
+                String formSubmissionId = JsonFormUtils.generateRandomUUIDString();
+                String visitId = JsonFormUtils.generateRandomUUIDString();
+                HnppConstants.appendLog("SAVE_VISIT", "save form>>childBaseEntityId:"+childBaseEntityId+":formSubmissionId:"+formSubmissionId);
 
-            childFollowUpJsonString = jsonString;
+                childFollowUpJsonString = jsonString;
 
-            if(!childFollowUpJsonString.isEmpty()){
-                childFollowupCheckIm.setImageResource(R.drawable.success);
-                hideProgressDialog();
-                showServiceDoneDialog();
+                if(!childFollowUpJsonString.isEmpty()){
+                    childFollowupCheckIm.setImageResource(R.drawable.success);
+                    hideProgressDialog();
+                    showServiceDoneDialog();
+                }
+            }
+
+            if (data != null && data.getBooleanExtra("VACCINE_TAKEN", false)) {
+                immunizationCheckIm.setImageResource(R.drawable.success);
             }
 /*
             processVisitFormAndSave(jsonString,formSubmissionId,visitId)

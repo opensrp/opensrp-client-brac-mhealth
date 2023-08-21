@@ -29,7 +29,7 @@ public class ChildVaccinationActivity extends SecuredActivity implements Vaccina
     private Bundle bundle;
     private boolean isActionTaken;
 
-    boolean isVacc = false;
+    boolean isOnlyVacc = false;
 
     public static void startChildVaccinationActivity(Activity activity, Bundle bundle , CommonPersonObjectClient childDetails){
 
@@ -39,12 +39,12 @@ public class ChildVaccinationActivity extends SecuredActivity implements Vaccina
         activity.startActivityForResult(intent,VACCINE_REQUEST_CODE);
     }
 
-    public static void startChildVaccinationActivity(Activity activity, Bundle bundle , CommonPersonObjectClient childDetails,boolean isVacc){
+    public static void startChildVaccinationActivity(Activity activity, Bundle bundle , CommonPersonObjectClient childDetails,boolean isOnlyVacc){
 
         Intent intent = new Intent(activity,ChildVaccinationActivity.class);
         intent.putExtra(INTENT_BUNDLE,bundle);
         intent.putExtra(INTENT_COMMONOBJECT,childDetails);
-        intent.putExtra(ChildFollowupActivity.IS_ONLY_VACC,isVacc);
+        intent.putExtra(ChildFollowupActivity.IS_ONLY_VACC,isOnlyVacc);
         activity.startActivityForResult(intent,VACCINE_REQUEST_CODE);
     }
 
@@ -54,7 +54,7 @@ public class ChildVaccinationActivity extends SecuredActivity implements Vaccina
         setUpToolbar();
         bundle = getIntent().getParcelableExtra(INTENT_BUNDLE);
         childDetails = (CommonPersonObjectClient) getIntent().getSerializableExtra(INTENT_COMMONOBJECT);
-        isVacc = getIntent().getBooleanExtra(ChildFollowupActivity.IS_ONLY_VACC,false);
+        isOnlyVacc = getIntent().getBooleanExtra(ChildFollowupActivity.IS_ONLY_VACC,false);
         initializeFragment();
     }
     private void setUpToolbar(){
@@ -75,7 +75,7 @@ public class ChildVaccinationActivity extends SecuredActivity implements Vaccina
     }
     ChildImmunizationFragment immunizationFragment;
     private void initializeFragment(){
-        immunizationFragment = ChildImmunizationFragment.newInstance(bundle,isVacc);
+        immunizationFragment = ChildImmunizationFragment.newInstance(bundle,isOnlyVacc);
         immunizationFragment.setChildDetails(childDetails);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction =

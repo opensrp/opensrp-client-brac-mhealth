@@ -415,6 +415,10 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
         //ChildHomeVisitActivity.startMe(this, memberObject, isEditMode, ChildHomeVisitActivity.class);
     }
 
+    public void openGMPScreen() {
+        ChildGMPActivity.startGMPActivity(this,this.getIntent().getExtras(),commonPersonObject);
+    }
+
     @SuppressLint("NonConstantResourceId")
     public OnClickFloatingMenu getOnClickFloatingMenu(final Activity activity, final HnppChildProfilePresenter presenter) {
         return viewId -> {
