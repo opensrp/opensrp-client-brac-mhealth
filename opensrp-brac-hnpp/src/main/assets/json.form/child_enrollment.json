@@ -355,7 +355,7 @@
         "openmrs_entity": "person",
         "openmrs_entity_id": "gender",
         "type": "spinner",
-        "hint": "Sex",
+        "hint": "Gender",
         "values": [
           "Male",
           "Female",
@@ -369,7 +369,7 @@
         },
         "v_required": {
           "value": true,
-          "err": "Enetr gender"
+          "err": "Enter gender"
         }
       },
       {
