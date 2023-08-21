@@ -131,11 +131,18 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             }
         });
         String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
+        String language = LangUtils.getLanguage(this);
 
-        if(TextUtils.isEmpty(userName)){
+        if(TextUtils.isEmpty(userName) && language.equalsIgnoreCase("en")){
             LangUtils.saveLanguage(this, "bn");
             HnppApplication.getInstance().getResources().getConfiguration().setLocale(new Locale("bn"));
-             HnppApplication.initContext(this);
+
+            Runtime.getRuntime().exit(0);
+            Intent intent = new Intent(this,org.smartregister.unicef.dghs.activity.LoginActivity.class);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
 
 

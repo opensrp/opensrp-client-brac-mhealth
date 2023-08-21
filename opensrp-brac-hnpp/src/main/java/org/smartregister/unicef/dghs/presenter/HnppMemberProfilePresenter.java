@@ -20,7 +20,7 @@ public class HnppMemberProfilePresenter implements HnppMemberProfileContract.Pre
     public HnppMemberProfilePresenter(HnppMemberProfileContract.View view) {
         this.view = view;
         data = new ArrayList<>();
-        interactor = new HnppMemberProfileInteractor(new AppExecutors());
+        interactor = new HnppMemberProfileInteractor(new AppExecutors(),getView().getContext());
     }
 
     @Override

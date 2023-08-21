@@ -496,7 +496,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         final String[] languages = menuFlavor.getSupportedLanguages();
 
 //        HnppApplication.getInstance().getApplicationContext().getResources().getConfiguration().setLocale(new Locale(LangUtils.getLanguage(context)));
-        Locale current =  HnppApplication.getHNPPInstance().getApplicationContext().getResources().getConfiguration().locale;
+        Locale current =  HnppApplication.appContext.getResources().getConfiguration().locale;
 //        allSharedPreferences.saveLanguagePreference(LangUtils.getLanguage(context));
         if(current.getLanguage().equals("bn")){
             tvLang.setText("English");

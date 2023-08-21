@@ -53,7 +53,7 @@ android {
         buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "1800000l"
         buildConfigField "boolean", "TIME_CHECK", "false"
         buildConfigField "String", "SYNC_TYPE", '"teamId"'
-        buildConfigField "int", "MAX_SYNC_RETRIES", '3'
+        buildConfigField "int", "MAX_SYNC_RETRIES", '5'
         buildConfigField "long", "BUILD_TIMESTAMP", System.currentTimeMillis() + "L"
         buildConfigField "boolean", "IS_SYNC_SETTINGS", "false"
         buildConfigField "int", "NOTIFICATION_GENERATE", '360'
@@ -135,10 +135,10 @@ android {
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'true'
             buildConfigField "boolean", 'IS_MIS', 'false'
-//            buildConfigField "String", 'opensrp_url_training', '"http://unicef-ha.mpower-social.com/opensrp/"'
-//            buildConfigField "String", 'opensrp_url_live', '"http://unicef-ha.mpower-social.com/opensrp/"'
-            buildConfigField "String", 'opensrp_url_training', '"http://192.168.22.22:8080/opensrp/"'
-            buildConfigField "String", 'opensrp_url_live', '"http://192.168.22.22:8080/opensrp/"'
+            buildConfigField "String", 'opensrp_url_training', '"http://unicef-ha.mpower-social.com/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"http://unicef-ha.mpower-social.com/opensrp/"'
+//            buildConfigField "String", 'opensrp_url_training', '"http://192.168.22.22:8080/opensrp/"'
+//            buildConfigField "String", 'opensrp_url_live', '"http://192.168.22.22:8080/opensrp/"'
 
         }
         production{

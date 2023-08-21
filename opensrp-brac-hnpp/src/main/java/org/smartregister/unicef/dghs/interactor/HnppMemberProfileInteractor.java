@@ -38,9 +38,11 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
     private static final int TAG_OPEN_CORONA = 88888;
     public static final int TAG_OPEN_ANC_HISTORY = 111111;
     private AppExecutors appExecutors;
+    private Context context;
 
-    public HnppMemberProfileInteractor(AppExecutors appExecutors){
+    public HnppMemberProfileInteractor(AppExecutors appExecutors,Context context){
         this.appExecutors = appExecutors;
+        this.context = context;
     }
     String eventType = "";
     private ArrayList<MemberProfileDueData> getOtherService(CommonPersonObjectClient commonPersonObjectClient,String baseEntityId) {
@@ -62,7 +64,7 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                         String lmpDate = HnppDBUtils.getLmpDate(baseEntityId);
                         int noOfAnc = (FormApplicability.getANCCount(baseEntityId)+1);
                         String date = HnppConstants.getScheduleLmpDate(lmpDate,noOfAnc);
-                        memberProfileDueData.setSubTitle(HnppApplication.getHNPPInstance().getString(R.string.schedule_date)+date);
+                        memberProfileDueData.setSubTitle(context.getString(R.string.schedule_date)+date);
 
                     }else{
                         memberProfileDueData.setTitle(FormApplicability.getPncTitle(baseEntityId));
@@ -71,7 +73,7 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                         String deliveryDate = FormApplicability.getDeliveryDate(baseEntityId);
                         int pncCount = (FormApplicability.getPNCCount(baseEntityId)+1);
                         String date = HnppConstants.getSchedulePncDate(deliveryDate,pncCount);
-                        memberProfileDueData.setSubTitle(HnppApplication.getHNPPInstance().getString(R.string.schedule_date)+date);
+                        memberProfileDueData.setSubTitle(context.getString(R.string.schedule_date)+date);
                     }
                     memberProfileDueDataArrayList.add(memberProfileDueData);
 
@@ -83,7 +85,7 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                     memberProfileDueData2.setImageSource(R.drawable.childrow_family);
                     memberProfileDueData2.setType(HnppMemberProfileDueFragment.TAG_OPEN_ANC_REGISTRATION);
                     memberProfileDueData2.setImageSource(HnppConstants.iconMapping.get(HnppConstants.EVENT_TYPE.ANC_REGISTRATION));
-                    memberProfileDueData2.setTitle(HnppConstants.visitEventTypeMapping.get(HnppConstants.EVENT_TYPE.ANC_REGISTRATION));
+                    memberProfileDueData2.setTitle(HnppConstants.getVisitEventTypeMapping().get(HnppConstants.EVENT_TYPE.ANC_REGISTRATION));
                     memberProfileDueDataArrayList.add(memberProfileDueData2);
                 }
 //                if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)
@@ -93,63 +95,12 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                     MemberProfileDueData memberProfileDueData2 = new MemberProfileDueData();
                     memberProfileDueData2.setImageSource(HnppConstants.iconMapping.get(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME));
                     memberProfileDueData2.setType(HnppMemberProfileDueFragment.TAG_OPEN_DELIVERY);
-                    memberProfileDueData2.setTitle(HnppConstants.visitEventTypeMapping.get(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME));
-                    memberProfileDueData2.setSubTitle(HnppApplication.getHNPPInstance().getString(R.string.edd_date)+FormApplicability.getEdd(baseEntityId));
+                    memberProfileDueData2.setTitle(HnppConstants.getVisitEventTypeMapping().get(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME));
+                    memberProfileDueData2.setSubTitle(context.getString(R.string.edd_date)+FormApplicability.getEdd(baseEntityId));
                     memberProfileDueDataArrayList.add(memberProfileDueData2);
 
                 }
             }
-//        {
-//            MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
-//            memberProfileDueData.setImageSource(R.mipmap.ic_anc_pink);
-//            memberProfileDueData.setTitle("গর্ভবতী সেবার ইতিহাস");
-//            memberProfileDueData.setType(TAG_OPEN_ANC_HISTORY);
-//            memberProfileDueDataArrayList.add(memberProfileDueData);
-//        }
-//        if(BuildConfig.IS_MIS){
-//
-//                MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
-//                memberProfileDueData.setImageSource(R.drawable.rowavatar_member);
-//                memberProfileDueData.setTitle(eventTypeMapping.get(HnppConstants.EVENT_TYPE.MEMBER_DISEASE));
-//                memberProfileDueData.setType(HnppMemberProfileDueFragment.TAG_MEMBER_DISEASE);
-//                memberProfileDueDataArrayList.add(memberProfileDueData);
-//
-//        }
-
-
-
-
-//            {
-//                MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
-//                memberProfileDueData.setImageSource(R.mipmap.ic_refer);
-//                memberProfileDueData.setTitle("রেফারেল");
-//                memberProfileDueData.setType(TAG_OPEN_REFEREAL);
-//                memberProfileDueDataArrayList.add(memberProfileDueData);
-//            }
-
-//            ArrayList<ReferralFollowUpModel> getList = FormApplicability.getReferralFollowUp(baseEntityId);
-//            for(ReferralFollowUpModel referralFollowUpModel : getList){
-//                MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
-//                memberProfileDueData.setImageSource(iconMapping.get(HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP));
-//                memberProfileDueData.setTitle(eventTypeMapping.get(HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP));
-//                memberProfileDueData.setType(TAG_OPEN_REFEREAL);
-//                memberProfileDueData.setSubTitle(referralFollowUpModel.getReferralReason());
-//                memberProfileDueData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_REFERRAL_FOLLOW_UP);
-//                memberProfileDueData.setReferralFollowUpModel(referralFollowUpModel);
-//                memberProfileDueDataArrayList.add(memberProfileDueData);
-//
-//            }
-//            if(FormApplicability.isDueCoronaForm(baseEntityId)){
-//                MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
-//                memberProfileDueData.setImageSource(R.drawable.ic_virus);
-//                memberProfileDueData.setTitle("করোনা তথ্য");
-//                memberProfileDueData.setType(TAG_OPEN_CORONA);
-//                memberProfileDueDataArrayList.add(memberProfileDueData);
-//            }
-//        }catch (Exception e){
-//            e.printStackTrace();
-//
-//        }
 
         return memberProfileDueDataArrayList;
     }

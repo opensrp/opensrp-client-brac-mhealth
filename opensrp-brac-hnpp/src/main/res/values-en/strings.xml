@@ -145,10 +145,10 @@
     <string name="Female">F</string>
     <string name="male">M</string>
     <string name="female">F</string>
-    <string name="abbrv_years">\u0020 years</string>
-    <string name="abbrv_months">\u0020 months</string>
-    <string name="abbrv_weeks">\u0020 weeks</string>
-    <string name="abbrv_days">\u0020 days</string>
+    <string name="abbrv_years">y</string>
+    <string name="abbrv_months">m</string>
+    <string name="abbrv_weeks">w</string>
+    <string name="abbrv_days"> d</string>
     <string name="relation_with_member_and_head">Relation : %s</string>
     <string name="care_giver_initials">Mother Name : %s</string>
     <string name="age">Age : %s</string>
@@ -977,7 +977,7 @@
     <string name="secont_trimster_count">Detected in second trimester</string>
     <string name="third_trimestarr_count">Detected in third trimester</string>
     <string name="schedule_date">Schedule Date</string>
-    <string name="edd_date">EDD</string>
+    <string name="edd_date">EDD:</string>
     <string name="general_disease">General Disease Survey</string>
     <string name="search_shr_id">Search by SHR ID</string>
     <string name="search_by_address">Search by Address,NID etc</string>

@@ -1795,7 +1795,7 @@
           "type": "Event",
           "json_mapping": {
             "field": "obs.fieldCode",
-            "concept": "1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            "concept": "last_menstrual_period"
           }
         },
         {
@@ -1811,7 +1811,7 @@
           "type": "Event",
           "json_mapping": {
             "field": "obs.fieldCode",
-            "concept": "5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            "concept": "edd"
           }
         },
         {
@@ -1819,7 +1819,7 @@
           "type": "Event",
           "json_mapping": {
             "field": "obs.fieldCode",
-            "concept": "1438AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            "concept": "no_prev_preg"
           }
         },
         {
@@ -1843,7 +1843,7 @@
           "type": "Event",
           "json_mapping": {
             "field": "obs.fieldCode",
-            "concept": "164894AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            "concept": "no_surv_children"
           }
         },
         {

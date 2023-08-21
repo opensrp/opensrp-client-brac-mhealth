@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.evernote.android.job.JobManager;
@@ -86,6 +87,7 @@ import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.EventClientRepository;
 import org.smartregister.repository.Repository;
+import org.smartregister.util.LangUtils;
 import org.smartregister.util.Utils;
 import org.smartregister.view.activity.DrishtiApplication;
 
@@ -127,6 +129,7 @@ public class HnppApplication extends DrishtiApplication implements CoreApplicati
 
     public  static void initContext(android.content.Context context){
         appContext = context;
+        Context.getInstance().updateApplicationContext(appContext);
     }
     @Override
     public void onCreate() {
@@ -140,8 +143,8 @@ public class HnppApplication extends DrishtiApplication implements CoreApplicati
         JobManager.create(this).addJobCreator(new HnppJobCreator());
 
         //Necessary to determine the right form to pick from assets
-        CoreConstants.JSON_FORM.setLocaleAndAssetManager(HnppApplication.getCurrentLocale(),
-                HnppApplication.getInstance().getApplicationContext().getAssets());
+//        CoreConstants.JSON_FORM.setLocaleAndAssetManager(HnppApplication.getCurrentLocale(),
+//                HnppApplication.getInstance().getApplicationContext().getAssets());
 
         context.updateApplicationContext(getApplicationContext());
         context.updateCommonFtsObject(createCommonFtsObject());
@@ -175,7 +178,14 @@ public class HnppApplication extends DrishtiApplication implements CoreApplicati
         return ancRegisterRepository;
     }
     public static Locale getCurrentLocale() {
-        return mInstance == null ? Locale.getDefault() : mInstance.getResources().getConfiguration().locale;
+        String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
+
+        if(TextUtils.isEmpty(userName)){
+            return new Locale("bn");
+        }
+        return  HnppApplication.getHNPPInstance().getApplicationContext().getResources().getConfiguration().locale;
+
+        //return mInstance == null ? Locale.getDefault() : mInstance.getResources().getConfiguration().locale;
     }
     @Override
     public String getPassword() {
@@ -228,6 +238,13 @@ public class HnppApplication extends DrishtiApplication implements CoreApplicati
         saveLanguage(current.getLanguage());
         CoreConstants.JSON_FORM.setLocaleAndAssetManager(current, getAssets());
         FamilyLibrary.getInstance().setMetadata(getMetadata());
+        Runtime.getRuntime().exit(0);
+        Intent intent = new Intent(this,org.smartregister.unicef.dghs.activity.LoginActivity.class);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.userService().logoutSession();
+        startActivity(intent);
     }
 
     @Override

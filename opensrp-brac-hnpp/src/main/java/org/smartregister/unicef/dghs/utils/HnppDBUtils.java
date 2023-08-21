@@ -1053,10 +1053,10 @@ public class HnppDBUtils {
                                 if(eventType.equalsIgnoreCase(HnppApplication.appContext.getString(R.string.pregnancy_history))){
                                     profileDueInfo.setEventType(HnppApplication.appContext.getString(R.string.pregnancy_care_1_st_trimester));
                                 }else{
-                                    profileDueInfo.setEventType(HnppConstants.visitEventTypeMapping.get(eventType));
+                                    profileDueInfo.setEventType(HnppConstants.getVisitEventTypeMapping().get(eventType));
                                 }
                                 if(FormApplicability.isDueCoronaForm(profileDueInfo.getBaseEntityId())){
-                                    profileDueInfo.setEventType(HnppConstants.visitEventTypeMapping.get(HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL));
+                                    profileDueInfo.setEventType(HnppConstants.getVisitEventTypeMapping().get(HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL));
 
                                 }
                                 profileDueInfoArrayList.add(profileDueInfo);
@@ -1065,7 +1065,7 @@ public class HnppDBUtils {
 
                         }else{
                             if(FormApplicability.isDueCoronaForm(profileDueInfo.getBaseEntityId())){
-                                profileDueInfo.setEventType(HnppConstants.visitEventTypeMapping.get(HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL));
+                                profileDueInfo.setEventType(HnppConstants.getVisitEventTypeMapping().get(HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL));
 
                             }
                             profileDueInfoArrayList.add(profileDueInfo);
@@ -1075,7 +1075,7 @@ public class HnppDBUtils {
 //                            Date dob = Utils.dobStringToDate(profileDueInfo.getDob());
 //                            boolean isEnc = FormApplicability.isEncVisible(dob);
 //                            if(isEnc){
-//                                profileDueInfo.setEventType(HnppConstants.visitEventTypeMapping.get(HnppConstants.EVENT_TYPE.ENC_REGISTRATION));
+//                                profileDueInfo.setEventType(HnppConstants.getVisitEventTypeMapping().get(HnppConstants.EVENT_TYPE.ENC_REGISTRATION));
 //                                profileDueInfoArrayList.add(profileDueInfo);
 //                            }
 //                        }

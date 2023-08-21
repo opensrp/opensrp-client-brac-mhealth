@@ -101,7 +101,7 @@ public class FamilyHistoryInteractor implements MemberHistoryContract.Interactor
             historyData.setVisitId(visitLog.getVisitId());
             historyData.setEventType(eventType);
             historyData.setMemberName(HnppDBUtils.getNameBaseEntityId(visitLog.getBaseEntityId()));
-            historyData.setTitle(HnppConstants.visitEventTypeMapping.get(eventType));
+            historyData.setTitle(HnppConstants.getVisitEventTypeMapping().get(eventType));
             try{
                 historyData.setImageSource(HnppConstants.iconMapping.get(eventType));
             }catch(NullPointerException e){

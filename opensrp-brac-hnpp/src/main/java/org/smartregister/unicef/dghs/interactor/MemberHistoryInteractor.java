@@ -124,7 +124,7 @@ public class MemberHistoryInteractor implements MemberHistoryContract.Interactor
                 historyData.setTitle(FormApplicability.getPNCTitleForHistory(pncCount));
             }
             else{
-                historyData.setTitle(HnppConstants.visitEventTypeMapping.get(eventType));
+                historyData.setTitle(HnppConstants.getVisitEventTypeMapping().get(eventType));
             }
 
             try{
@@ -161,7 +161,7 @@ public class MemberHistoryInteractor implements MemberHistoryContract.Interactor
                 historyData.setTitle(FormApplicability.getPNCTitleForHistory(pncCount));
             }
             else{
-                historyData.setTitle(HnppConstants.visitEventTypeMapping.get(eventType));
+                historyData.setTitle(HnppConstants.getVisitEventTypeMapping().get(eventType));
             }
 
             try{

@@ -109,7 +109,7 @@ public class ChildHistoryInteractor implements MemberHistoryContract.Interactor 
                 count--;
                 historyData.setTitle(FormApplicability.getNewBornTitleForHistory(count));
             }else{
-                historyData.setTitle(HnppConstants.visitEventTypeMapping.get(eventType));
+                historyData.setTitle(HnppConstants.getVisitEventTypeMapping().get(eventType));
             }
 
             try{
@@ -152,7 +152,7 @@ public class ChildHistoryInteractor implements MemberHistoryContract.Interactor 
                     memberHistoryData1.setTitle(HnppConstants.vaccineNameMapping.get(vaccineName));
 
                 }else{
-                    memberHistoryData1.setTitle(HnppConstants.visitEventTypeMapping.get(eventType));
+                    memberHistoryData1.setTitle(HnppConstants.getVisitEventTypeMapping().get(eventType));
 
                 }
                 try{

@@ -51,6 +51,7 @@ import org.smartregister.domain.db.EventClient;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.location.helper.LocationHelper;
 import org.smartregister.util.JsonFormUtils;
+import org.smartregister.util.LangUtils;
 import org.smartregister.util.PermissionUtils;
 
 import java.text.MessageFormat;
@@ -386,28 +387,29 @@ public abstract class Utils extends org.smartregister.family.util.Utils {
     }
 
     public static String getFileName(String form_name, Locale current, AssetManager assetManager) {
-        String formIdentity = MessageFormat.format("{0}_{1}", form_name, current.getLanguage());
-        try {
-            if (assets == null) {
-                assets = new ArrayList<>();
-            }
 
-
-            if (assets.size() == 0) {
-                String[] local_assets = assetManager.list("json.form");
-                if (local_assets != null && local_assets.length > 0) {
-                    for (String s : local_assets) {
-                        assets.add(s.substring(0, s.length() - 5));
-                    }
-                }
-            }
-
-            if (assets.contains(formIdentity)) {
-                return formIdentity;
-            }
-        } catch (Exception e) {
-            Timber.v(e);
-        }
+//        String formIdentity = MessageFormat.format("{0}_{1}", form_name, current.getLanguage());
+//        try {
+//            if (assets == null) {
+//                assets = new ArrayList<>();
+//            }
+//
+//
+//            if (assets.size() == 0) {
+//                String[] local_assets = assetManager.list("json.form");
+//                if (local_assets != null && local_assets.length > 0) {
+//                    for (String s : local_assets) {
+//                        assets.add(s.substring(0, s.length() - 5));
+//                    }
+//                }
+//            }
+//
+//            if (assets.contains(formIdentity)) {
+//                return formIdentity;
+//            }
+//        } catch (Exception e) {
+//            Timber.v(e);
+//        }
         return form_name;
     }
 

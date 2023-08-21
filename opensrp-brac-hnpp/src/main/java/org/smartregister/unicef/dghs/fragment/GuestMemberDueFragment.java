@@ -89,7 +89,7 @@ public class GuestMemberDueFragment extends Fragment implements View.OnClickList
                 if(FormApplicability.isElco(age)){
                     String eventType = FormApplicability.getGuestMemberDueFormForWomen(guestMemberData.getBaseEntityId(),age);
                     if(FormApplicability.isDueAnyForm(guestMemberData.getBaseEntityId(),eventType) && !TextUtils.isEmpty(eventType)){
-                        nameanc1View.setText(HnppConstants.visitEventTypeMapping.get(eventType));
+                        nameanc1View.setText(HnppConstants.getVisitEventTypeMapping().get(eventType));
                         imageanc1View.setImageResource(HnppConstants.iconMapping.get(eventType));
                         anc1View.setTag(org.smartregister.family.R.id.VIEW_ID,eventType);
 
@@ -104,7 +104,7 @@ public class GuestMemberDueFragment extends Fragment implements View.OnClickList
                         TextView name =  ancRegistration.findViewById(R.id.patient_name_age);
                         ancRegistration.findViewById(R.id.status).setVisibility(View.INVISIBLE);
                         image.setImageResource(HnppConstants.iconMapping.get(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME));
-                        name.setText(HnppConstants.visitEventTypeMapping.get(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME));
+                        name.setText(HnppConstants.getVisitEventTypeMapping().get(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME));
                         ancRegistration.setTag(TAG_OPEN_DELIVERY);
                         ancRegistration.setOnClickListener(this);
                         otherServiceView.addView(ancRegistration);
