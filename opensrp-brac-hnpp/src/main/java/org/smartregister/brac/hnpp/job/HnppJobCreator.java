@@ -84,6 +84,8 @@ public class HnppJobCreator implements JobCreator {
                 return new DataDeleteJob();
             case SurveyHistoryJob.TAG:
                 return new SurveyHistoryJob();
+            case ZScoreRefreshServiceJob.TAG:
+                return new ZScoreRefreshServiceJob();
             case WeightIntentServiceJob.TAG:
                 return new WeightIntentServiceJob();
             case HeightIntentServiceJob.TAG:

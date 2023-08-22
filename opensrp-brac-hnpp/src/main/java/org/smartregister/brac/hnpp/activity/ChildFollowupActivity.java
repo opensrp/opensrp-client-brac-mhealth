@@ -82,6 +82,8 @@ public class ChildFollowupActivity extends AppCompatActivity {
     Bundle bundle;
 
     boolean isOnlyVacc = false;
+    private boolean isImmunizationTaken = false;
+    private boolean isGmpTaken = false;
 
 
     @Override
@@ -133,16 +135,29 @@ public class ChildFollowupActivity extends AppCompatActivity {
         immunizationLay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ChildVaccinationActivity.startChildVaccinationActivity(ChildFollowupActivity.this,bundle,commonPersonObjectClient,isOnlyVacc);
+                if(!isImmunizationTaken){
+                    ChildVaccinationActivity.startChildVaccinationActivity(ChildFollowupActivity.this,bundle,commonPersonObjectClient,isOnlyVacc);
+                }
             }
         });
 
         gmpLay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ChildGMPActivity.startGMPActivity(ChildFollowupActivity.this,bundle,commonPersonObjectClient);
+                if(!isGmpTaken){
+                    ChildGMPActivity.startGMPActivity(ChildFollowupActivity.this,bundle,commonPersonObjectClient);
+                }
             }
         });
+
+        referralLay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startAnyFormActivity(HnppConstants.JSON_FORMS.CHILD_REFERRAL,REQUEST_HOME_VISIT);
+            }
+        });
+
+
     }
 
     private void initView() {
@@ -260,6 +275,10 @@ public class ChildFollowupActivity extends AppCompatActivity {
 
             if (data != null && data.getBooleanExtra("VACCINE_TAKEN", false)) {
                 immunizationCheckIm.setImageResource(R.drawable.success);
+                isImmunizationTaken = true;
+            }else  if (data != null && data.getBooleanExtra("GMP_TAKEN", false)) {
+                gmpCheckIm.setImageResource(R.drawable.success);
+                isGmpTaken = true;
             }
 /*
             processVisitFormAndSave(jsonString,formSubmissionId,visitId)

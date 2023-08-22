@@ -101,7 +101,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="Immunization"
+            android:text="@string/immunizations"
             android:textColor="@color/black"
             android:textSize="18sp" />
     </LinearLayout>
@@ -138,7 +138,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="GMP"
+            android:text="@string/gmp"
             android:textColor="@color/black"
             android:textSize="18sp" />
     </LinearLayout>
@@ -175,7 +175,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="Referral"
+            android:text="@string/refer"
             android:textColor="@color/black"
             android:textSize="18sp" />
     </LinearLayout>

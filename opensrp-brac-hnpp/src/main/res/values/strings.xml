@@ -396,10 +396,11 @@
     <string name="update_last_visit_succ_msg">পরিদর্শনের তারিখ আপডেট হয়েছে</string>
     <string name="event_syncing">ইভেন্ট সিঙ্ক হচ্ছে...</string>
     <string name="event_sync_success">ইভেন্ট সিঙ্ক সম্পূর্ণ হয়েছে</string>
-    <string name="child_followup">Child Followup</string>
+    <string name="child_followup">শিশু ফলোআপ</string>
     <string name="survice_added">সার্ভিসটি যোগ করা হয়েছে</string>
 
    <string name="gmp">গ্রোথ মনিটরিং</string>
+   <string name="refer">রেফারেল</string>
    <string name="old_height">পূর্বের উচ্চতা :</string>
    <string name="current_height">বর্তমান উচ্চতা:</string>
    <string name="want_to_add_height">আপনি কি নতুন উচ্চতাটি যোগ করতে ইচ্ছুক?</string>
@@ -463,4 +464,6 @@
    <string name="over_9m_11m">শিশুটির বয়সের তুলনায় ওজন বেশি। শিশুকে মায়ের দুধের পাশাপাশি আধা বাটি করে দিনে তিন বার মূল খাবার এবং ১-২ বার ঘরে তৈরি পুষ্টিকর নাস্তা দিন। এর বাইরে পিজ্জা, বার্গার, চিপস, ফ্রেঞ্চফ্রাই, চকলেট, অন্যান্য প্যাকেটজাত খাবার এবং রঙিন জুস বা কোল্ড ড্রিংক বা এনার্জি ড্রিংক ইত্যাদি দিবেন না।</string>
    <string name="over_12m_23m">শিশুটির বয়সের তুলনায় ওজন বেশি। শিশুকে মায়ের দুধের পাশাপাশি ১ বাটি করে দিনে তিন বার মূল খাবার এবং ১-২ বার ঘরে তৈরি পুষ্টিকর নাস্তা দিন। এর বাইরে পিজ্জা, বার্গার, চিপস, ফ্রেঞ্চফ্রাই, চকলেট, অন্যান্য প্যাকেটজাত খাবার এবং রঙিন জুস বা কোল্ড ড্রিংক বা এনার্জি ড্রিংক ইত্যাদি দিবেন না।</string>
    <string name="grow_filter">বৃদ্ধি ফিল্টারিং</string>
+    <string name="z_score">পুষ্টি স্কোর</string>
+    <string name="score_status">পুষ্টি অবস্থা</string>
 </resources>

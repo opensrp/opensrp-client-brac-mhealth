@@ -36,6 +36,7 @@ import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.adapter.ReferralCardViewAdapter;
 import org.smartregister.brac.hnpp.custom_view.FamilyMemberFloatingMenu;
 import org.smartregister.brac.hnpp.fragment.ChildHistoryFragment;
+import org.smartregister.brac.hnpp.fragment.GMPFragment;
 import org.smartregister.brac.hnpp.fragment.HnppChildProfileDueFragment;
 import org.smartregister.brac.hnpp.fragment.MemberOtherServiceFragment;
 import org.smartregister.brac.hnpp.job.SurveyHistoryJob;
@@ -101,6 +102,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     public CommonPersonObjectClient commonPersonObject;
     Handler handler;
     AppExecutors appExecutors = new AppExecutors();
+    GMPFragment growthFragment;
 
     @Override
     protected void onCreation() {
@@ -286,6 +288,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
             memberHistoryFragment = ChildHistoryFragment.getInstance(this.getIntent().getExtras());
             memberHistoryFragment.setBaseEntityId(childBaseEntityId);
             memberOtherServiceFragment.setCommonPersonObjectClient(commonPersonObject);
+            growthFragment = GMPFragment.newInstance(this.getIntent().getExtras());
+            growthFragment.setChildDetails(commonPersonObject);
+
             adapter.addFragment(memberOtherServiceFragment, this.getString(R.string.other_service).toUpperCase());
             adapter.addFragment(memberHistoryFragment, this.getString(R.string.activity).toUpperCase());
             if(HnppConstants.isPALogin()){

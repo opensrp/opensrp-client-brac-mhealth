@@ -220,7 +220,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         List<Height> heightList = wp.getMaximum12(childDetails.entityId());
         if (heightList.size() > 0) {
             try {
-                HeightUtils.refreshPreviousHeightsTable(mActivity, heightTable, getGender(), dobToDateTime(childDetails).toDate(), heightList, Calendar.getInstance());
+                GrowthUtil.refreshPreviousHeightsTable(mActivity, heightTable, getGender(), dobToDateTime(childDetails).toDate(), heightList, isNeedToUpdateDB,Calendar.getInstance());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -268,7 +268,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
     }
     private void updateChildProfileColor(int resultColor,String text){
         if(mActivity!=null && !mActivity.isFinishing()){
-            HnppChildProfileActivity profileActivity = (HnppChildProfileActivity) mActivity;
+            //HnppChildProfileActivity profileActivity = (HnppChildProfileActivity) mActivity;
             //profileActivity.updateProfileIconColor(resultColor,text);
 
         }
@@ -401,7 +401,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         tag.setPatientAge(formattedAge);
         WeightIntentServiceJob.scheduleJobImmediately(WeightIntentServiceJob.TAG);
         String text = refreshEditWeightLayout(true);
-        showIYCFDialog();
+        //showIYCFDialog();
         showGMPDialog(text,1);
         showGrowthChart();
 
@@ -452,7 +452,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         String text = refreshEditHeightLayout(true);
         updateProfileColor();
 
-        showIYCFDialog();
+        //showIYCFDialog();
         showGMPDialog(text,2);
         HnppConstants.isViewRefresh = true;
         showHeightChart();

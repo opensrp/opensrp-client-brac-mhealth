@@ -56,6 +56,7 @@ import org.smartregister.brac.hnpp.job.StockFetchJob;
 import org.smartregister.brac.hnpp.job.SurveyHistoryJob;
 import org.smartregister.brac.hnpp.job.TargetFetchJob;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
+import org.smartregister.brac.hnpp.job.ZScoreRefreshServiceJob;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SaveDistrictTask;
 import org.smartregister.brac.hnpp.presenter.LoginPresenter;
@@ -506,6 +507,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
             VaccineServiceJob.scheduleJobImmediately(VaccineServiceJob.TAG);
             VaccineRecurringServiceJob.scheduleJobImmediately(VaccineRecurringServiceJob.TAG);
+            ZScoreRefreshServiceJob.scheduleJobImmediately(ZScoreRefreshServiceJob.TAG);
             if(HnppConstants.isPALogin() && SSLocationHelper.getInstance().getSsModels().size()==0){
                 startActivity(new Intent(this, SkSelectionActivity.class));
             }

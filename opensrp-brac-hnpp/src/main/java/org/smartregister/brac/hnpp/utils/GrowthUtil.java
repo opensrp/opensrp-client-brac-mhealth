@@ -36,6 +36,7 @@ import org.smartregister.domain.Photo;
 import org.smartregister.growthmonitoring.GrowthMonitoringLibrary;
 import org.smartregister.growthmonitoring.domain.Height;
 import org.smartregister.growthmonitoring.domain.HeightWrapper;
+import org.smartregister.growthmonitoring.domain.HeightZScore;
 import org.smartregister.growthmonitoring.domain.MUAC;
 import org.smartregister.growthmonitoring.domain.MUACWrapper;
 import org.smartregister.growthmonitoring.domain.Weight;
@@ -56,6 +57,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class GrowthUtil {
@@ -248,7 +250,7 @@ public class GrowthUtil {
             result.add(weightHashMap.get(curKey));
         }
 
-        weights = result;
+        //weights = result;
 
 
         Calendar[] weighingDates = getMinAndMaxWeighingDates(dob);
@@ -309,7 +311,26 @@ public class GrowthUtil {
             zScoreTextView.setText(String.valueOf(zScore));
             //}
             curRow.addView(zScoreTextView);
+            //previousweightholder.addView(curRow);
+
+            ///each Weight status
+            Double eachZScoreDouble = ZScore.calculate(gender, dob, weight.getDate(), weight.getKg());
+            double eachZScore = (eachZScoreDouble == null) ? 0 : eachZScoreDouble.doubleValue();
+            String eachWeightText = ZScore.getZScoreText(ZScore.roundOff(eachZScore));
+            // double zScore = ZScore.calculate(gender, dob, weight.getDate(), weight.getKg());
+
+            TextView statusTextView = new TextView(previousweightholder.getContext());
+            statusTextView.setHeight(context.getResources().getDimensionPixelSize(R.dimen.table_contents_text_height));
+            statusTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                    context.getResources().getDimension(R.dimen.weight_table_contents_text_size));
+            statusTextView.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+            statusTextView.setTextColor(context.getResources().getColor(ZScore.getZScoreColor(zScore)));
+            statusTextView.setText(eachWeightText);
+
+            curRow.addView(statusTextView);
             previousweightholder.addView(curRow);
+
+
         }
         //Now set the expand button if items are too many
 
@@ -324,6 +345,130 @@ public class GrowthUtil {
         }
         return weightText;
     }
+
+    public static String refreshPreviousHeightsTable(Activity context, TableLayout previousHeightHolder, Gender gender, Date dob, List<Height> heights,boolean isNeedToUpdateDB,Calendar calendar) {
+        String heightText = "";
+        HashMap<Long, Height> heightHashMap = new HashMap<>();
+        for (Height curHeight : heights) {
+            if (curHeight.getDate() != null) {
+                Calendar curCalendar = Calendar.getInstance();
+                curCalendar.setTime(curHeight.getDate());
+                standardiseCalendarDate(curCalendar);
+
+                if (!heightHashMap.containsKey(curCalendar.getTimeInMillis())) {
+                    heightHashMap.put(curCalendar.getTimeInMillis(), curHeight);
+                } else if (curHeight.getUpdatedAt() > heightHashMap.get(curCalendar.getTimeInMillis()).getUpdatedAt()) {
+                    heightHashMap.put(curCalendar.getTimeInMillis(), curHeight);
+                }
+            }
+        }
+
+        List<Long> keys = new ArrayList<>(heightHashMap.keySet());
+        Collections.sort(keys, Collections.<Long>reverseOrder());
+
+        List<Height> result = new ArrayList<>();
+        for (Long curKey : keys) {
+            result.add(heightHashMap.get(curKey));
+        }
+
+        //heights = result;
+
+
+        Calendar[] weighingDates = getMinAndMaxWeighingDates(dob);
+        Calendar minWeighingDate = weighingDates[0];
+        Calendar maxWeighingDate = weighingDates[1];
+        if (minWeighingDate == null || maxWeighingDate == null) {
+            return heightText;
+        }
+
+        for (Height height : heights) {
+            TableRow dividerRow = new TableRow(previousHeightHolder.getContext());
+            View divider = new View(previousHeightHolder.getContext());
+            TableRow.LayoutParams params = (TableRow.LayoutParams) divider.getLayoutParams();
+            if (params == null) params = new TableRow.LayoutParams();
+            params.width = TableRow.LayoutParams.MATCH_PARENT;
+            params.height = context.getResources().getDimensionPixelSize(R.dimen.weight_table_divider_height);
+            params.span = 3;
+            divider.setLayoutParams(params);
+            divider.setBackgroundColor(context.getResources().getColor(R.color.client_list_header_dark_grey));
+            dividerRow.addView(divider);
+            previousHeightHolder.addView(dividerRow);
+
+            TableRow curRow = new TableRow(previousHeightHolder.getContext());
+
+            TextView ageTextView = new TextView(previousHeightHolder.getContext());
+            ageTextView.setHeight(context.getResources().getDimensionPixelSize(R.dimen.table_contents_text_height));
+            ageTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                    context.getResources().getDimension(R.dimen.weight_table_contents_text_size));
+            ageTextView.setText(DateUtil.getDuration(height.getDate().getTime() - dob.getTime()));
+            ageTextView.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+            ageTextView.setTextColor(context.getResources().getColor(R.color.client_list_grey));
+            curRow.addView(ageTextView);
+
+
+            TextView heightTextView = new TextView(previousHeightHolder.getContext());
+            heightTextView.setHeight(context.getResources().getDimensionPixelSize(R.dimen.table_contents_text_height));
+            heightTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                    context.getResources().getDimension(R.dimen.weight_table_contents_text_size));
+            heightTextView.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+            heightTextView.setText(
+                    String.format("%s %s", height.getCm(), context.getString(R.string.cm)));
+            heightTextView.setTextColor(context.getResources().getColor(R.color.client_list_grey));
+            curRow.addView(heightTextView);
+
+            TextView zScoreTextView = new TextView(previousHeightHolder.getContext());
+            zScoreTextView.setHeight(context.getResources().getDimensionPixelSize(R.dimen.table_contents_text_height));
+            zScoreTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                    context.getResources().getDimension(R.dimen.weight_table_contents_text_size));
+            zScoreTextView.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+//            if (weight.getDate().compareTo(maxWeighingDate.getTime()) > 0) {
+//                zScoreTextView.setText("");
+//            } else { //TODO
+            Double zScoreDouble = HeightZScore.calculate(gender, dob, height.getDate(), height.getCm());
+            double zScore = (zScoreDouble == null) ? 0 : zScoreDouble.doubleValue();
+            // double zScore = ZScore.calculate(gender, dob, weight.getDate(), weight.getKg());
+            zScore = HeightZScore.roundOff(zScore);
+            String text = HeightZScore.getZScoreText(zScore);
+            zScoreTextView.setTextColor(context.getResources().getColor(HeightZScore.getZScoreColor(zScore)));
+            zScoreTextView.setText(String.valueOf(zScore));
+            //}
+            curRow.addView(zScoreTextView);
+            //previousweightholder.addView(curRow);
+
+            ///each Weight status
+            Double eachZScoreDouble = HeightZScore.calculate(gender, dob, height.getDate(), height.getCm());
+            double eachZScore = (eachZScoreDouble == null) ? 0 : eachZScoreDouble.doubleValue();
+            String eachHeightText = HeightZScore.getZScoreText(HeightZScore.roundOff(eachZScore));
+            // double zScore = ZScore.calculate(gender, dob, weight.getDate(), weight.getKg());
+
+            TextView statusTextView = new TextView(previousHeightHolder.getContext());
+            statusTextView.setHeight(context.getResources().getDimensionPixelSize(R.dimen.table_contents_text_height));
+            statusTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                    context.getResources().getDimension(R.dimen.weight_table_contents_text_size));
+            statusTextView.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+            statusTextView.setTextColor(context.getResources().getColor(HeightZScore.getZScoreColor(zScore)));
+            statusTextView.setText(eachHeightText);
+
+            curRow.addView(statusTextView);
+            previousHeightHolder.addView(curRow);
+
+
+        }
+        //Now set the expand button if items are too many
+
+        if (heights.size() > 0) {
+            Height height = heights.get(0);
+            Double zScoreDouble = HeightZScore.calculate(gender, dob, height.getDate(), height.getCm());
+            double zScore = (zScoreDouble == null) ? 0 : zScoreDouble.doubleValue();
+            // double zScore = ZScore.calculate(gender, dob, weight.getDate(), weight.getKg());
+            zScore = HeightZScore.roundOff(zScore);
+            heightText = HeightZScore.getZScoreText(zScore);
+            if(isNeedToUpdateDB) updateLastHeight(height.getCm(),zScore,height.getBaseEntityId(),heightText);
+        }
+        return heightText;
+    }
+
+
     public static void updateLastWeight(float kg,double weightZscore,String baseEntityId,String status){
         SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
         Log.v("CHILD_STATUS","updateLastWeight>>"+status);
