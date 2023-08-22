@@ -730,10 +730,10 @@
     <string name="nurse">সেবিকা</string>
     <string name="search_house">খানা খুজুন</string>
     <string name="search_member">সদস্য খুজুন</string>
-    <string name="house_hold">\"খানা প্রধান: \"</string>
-    <string name="husband">\"স্বামী: \"</string>
-    <string name="date">\"তারিখ: \"</string>
-    <string name="selected_date">\"নির্ধারিত তারিখ: \"</string>
+    <string name="house_hold">খানা প্রধান: </string>
+    <string name="husband">স্বামী: </string>
+    <string name="date">তারিখ: </string>
+    <string name="selected_date">নির্ধারিত তারিখ:</string>
     <string name="service_receive_date">সেবা গ্রহণের তারিখ:</string>
     <string name="edd">\"ই ডি ডি: \"</string>
     <string name="nurse_name">স্বাস্থ্য সেবিকার নাম :</string>
@@ -987,6 +987,7 @@
     <string name="id_dea">আইডি দিয়ে</string>
     <string name="enter_id">আইডি নম্বর</string>
     <string name="dob_hint">জন্ম তারিখ</string>
+    <string name="denger_sign_pnc">প্রসবোত্তর জটিলতা সমূহ</string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>

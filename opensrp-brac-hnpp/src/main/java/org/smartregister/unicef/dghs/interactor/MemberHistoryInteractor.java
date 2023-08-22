@@ -182,7 +182,7 @@ public class MemberHistoryInteractor implements MemberHistoryContract.Interactor
                     String std = (String) obs.getValue();
                     historyData.setServiceTakenDate(std);
                 }
-                if(key.equalsIgnoreCase("edd")){
+                if(key.equalsIgnoreCase("delivery_date")){
                     String std = (String) obs.getValue();
                     historyData.setEddDate(std);
                 }

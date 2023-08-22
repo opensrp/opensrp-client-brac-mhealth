@@ -197,14 +197,14 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
             if(fs.length>0){
                 for (String key:fs) {
                     Log.v("RISK_FACTOR","key>>"+key+":value:"+riskyModel.riskyValue);
-                    builder.append(HnppConstants.riskeyFactorMapping.get(key)==null?key:HnppConstants.riskeyFactorMapping.get(key));
+                    builder.append(HnppConstants.getRiskeyFactorMapping().get(key)==null?key:HnppConstants.getRiskeyFactorMapping().get(key));
                     builder.append(":");
                     builder.append(riskyModel.riskyValue);
                     builder.append("\n");
                 }
             }else{
                 Log.v("RISK_FACTOR","key>>"+riskyModel.riskyKey+":value:"+riskyModel.riskyValue);
-                builder.append(HnppConstants.riskeyFactorMapping.get(riskyModel.riskyKey)==null?riskyModel.riskyKey:HnppConstants.riskeyFactorMapping.get(riskyModel.riskyKey));
+                builder.append(HnppConstants.getRiskeyFactorMapping().get(riskyModel.riskyKey)==null?riskyModel.riskyKey:HnppConstants.getRiskeyFactorMapping().get(riskyModel.riskyKey));
                 builder.append(":");
                 builder.append(riskyModel.riskyValue);
                 builder.append("\n");

@@ -1,5 +1,6 @@
 package org.smartregister.unicef.dghs.provider;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -59,6 +60,7 @@ public class HnppAncRegisterProvider extends ChwAncRegisterProvider {
         populateLastColumn(pc,viewHolder);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void populatePatientColumn(@NotNull CommonPersonObjectClient pc, SmartRegisterClient client, @NotNull final AncRegisterProvider.RegisterViewHolder viewHolder1) {
         HnppAncRegisterViewHolder viewHolder = (HnppAncRegisterViewHolder)viewHolder1;
@@ -119,7 +121,7 @@ public class HnppAncRegisterProvider extends ChwAncRegisterProvider {
         }else{
             viewHolder.riskView.setVisibility(View.GONE);
         }
-        if(HnppConstants.isEddImportant(lmpString)){
+        if(!TextUtils.isEmpty(lmpString) && HnppConstants.isEddImportant(lmpString)){
             viewHolder.eddView.setVisibility(View.VISIBLE);
         }else{
             viewHolder.eddView.setVisibility(View.GONE);
@@ -143,13 +145,13 @@ public class HnppAncRegisterProvider extends ChwAncRegisterProvider {
             String[] fs= riskyModel.riskyKey.split(",");
             if(fs.length>0){
                 for (String key:fs) {
-                    builder.append(HnppConstants.riskeyFactorMapping.get(key));
+                    builder.append(HnppConstants.getRiskeyFactorMapping().get(key));
                     builder.append(":");
                     builder.append(riskyModel.riskyValue);
                     builder.append("\n");
                 }
             }else{
-                builder.append(HnppConstants.riskeyFactorMapping.get(riskyModel.riskyKey));
+                builder.append(HnppConstants.getRiskeyFactorMapping().get(riskyModel.riskyKey));
                 builder.append(":");
                 builder.append(riskyModel.riskyValue);
                 builder.append("\n");

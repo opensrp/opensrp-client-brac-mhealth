@@ -72,7 +72,7 @@ public class MemberHistoryAdapter extends RecyclerView.Adapter<MemberDueViewHold
         if(content.getEventType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME)){
             if(!TextUtils.isEmpty(content.getEddDate())){
                 viewHolder.textViewScheduleDate.setVisibility(View.VISIBLE);
-                viewHolder.textViewScheduleDate.setText(context.getString(R.string.edd)+content.getEddDate());
+                viewHolder.textViewScheduleDate.setText(context.getString(R.string.delivery_date)+content.getEddDate());
 
             }
         }

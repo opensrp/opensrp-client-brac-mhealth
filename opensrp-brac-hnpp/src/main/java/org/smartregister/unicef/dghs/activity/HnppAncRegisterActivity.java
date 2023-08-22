@@ -119,16 +119,10 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
 
     @Override
     protected void onStartActivityWithAction() {
-        //super.onStartActivityWithAction();
-        JSONObject form = null;
-        try {
-            form = HnppJsonFormUtils.getJsonObject(this.getRegistrationForm());
-            form.put("entity_id", this.BASE_ENTITY_ID);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (ACTION != null && ACTION.equals(Constants.ACTIVITY_PAYLOAD_TYPE.REGISTRATION)) {
+            startFormActivity(getRegistrationForm(), BASE_ENTITY_ID, null);
         }
 
-        startFormActivity(form);
     }
 
     @Override

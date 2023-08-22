@@ -106,6 +106,7 @@
                             android:background="@drawable/red_click_button"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
+                            android:visibility="gone"
                             android:text="+ Add Child"
                             android:textColor="@color/white" />
                         <Button

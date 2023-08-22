@@ -1307,6 +1307,13 @@
           }
         },
         {
+          "column_name": "mother_id",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.mother_id"
+          }
+        },
+        {
           "column_name": "mother_entity_id",
           "type": "Client",
           "json_mapping": {

@@ -1096,6 +1096,7 @@ public class HnppConstants extends CoreConstants {
         public static final String IS_BITHDAY_KNOWN = "is_birthday_known";
         public static final String BLOOD_GROUP = "blood_group";
         public static final String SHR_ID = "shr_id";
+        public static final String MOTHER_ID = "mother_id";
         public static final String LAST_HOME_VISIT = "last_home_visit";
         public static final String DATE_CREATED = "date_created";
         public static final String BIRTH_WEIGHT = "birth_weight";
@@ -1820,29 +1821,33 @@ public class HnppConstants extends CoreConstants {
             .put("Guest Member Registration",HnppApplication.appContext.getString(R.string.guest_reg))
             .put("OOC Member Registration",HnppApplication.appContext.getString(R.string.guest_reg))
             .build();
-    public static final Map<String,String> riskeyFactorMapping = ImmutableMap.<String,String> builder()
-            .put("Bleeding_Through_Birth_Canal",HnppApplication.appContext.getString(R.string.bleeding_birth_canel))
-            .put("High_Temperature_102_Degree_or_More",HnppApplication.appContext.getString(R.string.faver))
-            .put("Convulsion",HnppApplication.appContext.getString(R.string.convulsion))
-            .put("Weakness_Blurred_vision",HnppApplication.appContext.getString(R.string.blurred_vision))
-            .put("high_blood_pressure",HnppApplication.appContext.getString(R.string.high_blood_pressure))
-            .put("clinical_anemia",HnppApplication.appContext.getString(R.string.clinical_anemia))
-            .put("pph",HnppApplication.appContext.getString(R.string.pph))
-            .put("postpartum_eclampsia",HnppApplication.appContext.getString(R.string.postpartum_eclampsia))
-            .put("puerperal_sepsis",HnppApplication.appContext.getString(R.string.puerpartum_sepsis))
-             .put("vv_fistula_rv_fistula",HnppApplication.appContext.getString(R.string.vv_fistula))
-            .put("perinal_tear",HnppApplication.appContext.getString(R.string.perinal_tear))
-            .put("Fetal_Heart_Rate",HnppApplication.appContext.getString(R.string.fetal_heard_rate))
-            .put("Hemoglobin_result",HnppApplication.appContext.getString(R.string.hemoglobin))
-            .put("fbs_result",HnppApplication.appContext.getString(R.string.fasting))
-            .put("rbs_result",HnppApplication.appContext.getString(R.string.rendom))
-            .put("Urine_Albumin_result",HnppApplication.appContext.getString(R.string.urine_albumin))
-            .put("Hb_tested_result",HnppApplication.appContext.getString(R.string.hb_test_result))
-            .put("chipilis_tested_result",HnppApplication.appContext.getString(R.string.chiphilis))
-            .put("hiv_tested_result",HnppApplication.appContext.getString(R.string.hiv))
-            .put("ultra_sound_result",HnppApplication.appContext.getString(R.string.ultra_sounf_scan))
-            .put("body_temp_fahrenheit",HnppApplication.appContext.getString(R.string.body_temp))
-            .build();
+    public static Map<String,String> getRiskeyFactorMapping(){
+        Map<String,String> riskeyFactorMapping = ImmutableMap.<String,String> builder()
+                .put("Bleeding_Through_Birth_Canal",HnppApplication.appContext.getString(R.string.bleeding_birth_canel))
+                .put("High_Temperature_102_Degree_or_More",HnppApplication.appContext.getString(R.string.faver))
+                .put("Convulsion",HnppApplication.appContext.getString(R.string.convulsion))
+                .put("Weakness_Blurred_vision",HnppApplication.appContext.getString(R.string.blurred_vision))
+                .put("high_blood_pressure",HnppApplication.appContext.getString(R.string.high_blood_pressure))
+                .put("clinical_anemia",HnppApplication.appContext.getString(R.string.clinical_anemia))
+                .put("pph",HnppApplication.appContext.getString(R.string.pph))
+                .put("postpartum_eclampsia",HnppApplication.appContext.getString(R.string.postpartum_eclampsia))
+                .put("puerperal_sepsis",HnppApplication.appContext.getString(R.string.puerpartum_sepsis))
+                .put("vv_fistula_rv_fistula",HnppApplication.appContext.getString(R.string.vv_fistula))
+                .put("perinal_tear",HnppApplication.appContext.getString(R.string.perinal_tear))
+                .put("Fetal_Heart_Rate",HnppApplication.appContext.getString(R.string.fetal_heard_rate))
+                .put("Hemoglobin_result",HnppApplication.appContext.getString(R.string.hemoglobin))
+                .put("fbs_result",HnppApplication.appContext.getString(R.string.fasting))
+                .put("rbs_result",HnppApplication.appContext.getString(R.string.rendom))
+                .put("Urine_Albumin_result",HnppApplication.appContext.getString(R.string.urine_albumin))
+                .put("Hb_tested_result",HnppApplication.appContext.getString(R.string.hb_test_result))
+                .put("chipilis_tested_result",HnppApplication.appContext.getString(R.string.chiphilis))
+                .put("hiv_tested_result",HnppApplication.appContext.getString(R.string.hiv))
+                .put("ultra_sound_result",HnppApplication.appContext.getString(R.string.ultra_sounf_scan))
+                .put("body_temp_fahrenheit",HnppApplication.appContext.getString(R.string.body_temp))
+                .put("Denger_Signs_During_PNC",HnppApplication.appContext.getString(R.string.denger_sign_pnc))
+                .build();
+        return riskeyFactorMapping;
+    }
     public static final Map<String,String> immunizationMapping = ImmutableMap.<String,String> builder()
             .put("PENTA 1",HnppApplication.appContext.getString(R.string.penta_1))
             .put("PENTA 2",HnppApplication.appContext.getString(R.string.penta_2))

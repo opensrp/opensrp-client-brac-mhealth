@@ -2,6 +2,7 @@ package org.smartregister.unicef.dghs.provider;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import org.smartregister.unicef.dghs.R;
+import org.smartregister.unicef.dghs.activity.RiskyDataDisplayActivity;
 import org.smartregister.unicef.dghs.task.UpdateBornChildCountTask;
 import org.smartregister.unicef.dghs.task.UpdatePncLastServiceInfoTask;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
@@ -82,6 +84,15 @@ public class HnppPncRegisterProvider extends PncRegisterProvider {
         }else{
             viewHolder.riskView.setVisibility(View.GONE);
         }
+        viewHolder.riskView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, RiskyDataDisplayActivity.class);
+                intent.putExtra(RiskyDataDisplayActivity.BASE_ENTITY_ID,baseEntityId);
+                context.startActivity(intent);
+                //openRiskFactorDialog(baseEntityId);
+            }
+        });
     }
     public class HnppPncRegisterViewHolder extends PncRegisterProvider.RegisterViewHolder{
         public TextView riskView,eddView;

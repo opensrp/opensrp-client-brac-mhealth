@@ -1452,7 +1452,12 @@ public class HnppDBUtils {
         String mName = getMotherNameFromMemberTable(motherEntityId);
         return TextUtils.isEmpty(mName)?motherName:mName;
     }
+    public static String getMotherId(String baseEntityId) {
+        String motherQuery = "SELECT mother_id FROM ec_child where base_entity_id = ? ";
+        List<Map<String, String>> valus = AbstractDao.readData(motherQuery, new String[]{baseEntityId});
 
+        return valus.get(0).get("mother_id");
+    }
     public static String getLmpDate(String baseEntityId) {
         String lmp = "SELECT last_menstrual_period FROM ec_anc_register where base_entity_id = ? ";
         List<Map<String, String>> valus = AbstractDao.readData(lmp, new String[]{baseEntityId});

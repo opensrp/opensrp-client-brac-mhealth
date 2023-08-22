@@ -992,6 +992,8 @@
     <string name="id_dea">By ID</string>
     <string name="enter_id">Enter ID Number</string>
     <string name="dob_hint">DOB</string>
+    <string name="member_survey">Member Survey</string>
+    <string name="denger_sign_pnc">Danger sign during PNC</string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>
