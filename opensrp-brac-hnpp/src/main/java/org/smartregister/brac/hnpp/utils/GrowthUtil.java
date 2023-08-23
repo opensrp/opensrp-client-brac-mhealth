@@ -57,7 +57,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public class GrowthUtil {
@@ -316,7 +315,7 @@ public class GrowthUtil {
             ///each Weight status
             Double eachZScoreDouble = ZScore.calculate(gender, dob, weight.getDate(), weight.getKg());
             double eachZScore = (eachZScoreDouble == null) ? 0 : eachZScoreDouble.doubleValue();
-            String eachWeightText = ZScore.getZScoreText(ZScore.roundOff(eachZScore));
+            String eachWeightText = getWeightBengaliText(ZScore.getZScoreText(ZScore.roundOff(eachZScore)));
             // double zScore = ZScore.calculate(gender, dob, weight.getDate(), weight.getKg());
 
             TextView statusTextView = new TextView(previousweightholder.getContext());
@@ -346,7 +345,23 @@ public class GrowthUtil {
         return weightText;
     }
 
-    public static String refreshPreviousHeightsTable(Activity context, TableLayout previousHeightHolder, Gender gender, Date dob, List<Height> heights,boolean isNeedToUpdateDB,Calendar calendar) {
+    private static String getWeightBengaliText(String zScoreText) {
+        switch (zScoreText.toUpperCase()){
+            case "SAM":
+                return "মারাত্মক অপুষ্টি";
+            case "DARK YELLOW":
+                return "মাঝারি অপুষ্টি";
+            case "MAM":
+                return "স্বল্প অপুষ্টি";
+            case "OVER WEIGHT":
+                return "বেশি ওজন";
+            default:
+                return "স্বাভাবিক";
+
+        }
+    }
+
+    public static void refreshPreviousHeightsTable(Activity context, TableLayout previousHeightHolder, Gender gender, Date dob, List<Height> heights, boolean isNeedToUpdateDB, Calendar calendar) {
         String heightText = "";
         HashMap<Long, Height> heightHashMap = new HashMap<>();
         for (Height curHeight : heights) {
@@ -378,7 +393,7 @@ public class GrowthUtil {
         Calendar minWeighingDate = weighingDates[0];
         Calendar maxWeighingDate = weighingDates[1];
         if (minWeighingDate == null || maxWeighingDate == null) {
-            return heightText;
+            return;
         }
 
         for (Height height : heights) {
@@ -438,7 +453,7 @@ public class GrowthUtil {
             ///each Weight status
             Double eachZScoreDouble = HeightZScore.calculate(gender, dob, height.getDate(), height.getCm());
             double eachZScore = (eachZScoreDouble == null) ? 0 : eachZScoreDouble.doubleValue();
-            String eachHeightText = HeightZScore.getZScoreText(HeightZScore.roundOff(eachZScore));
+            String eachHeightText = getBengaliHeightStatus(HeightZScore.getZScoreText(HeightZScore.roundOff(eachZScore)));
             // double zScore = ZScore.calculate(gender, dob, weight.getDate(), weight.getKg());
 
             TextView statusTextView = new TextView(previousHeightHolder.getContext());
@@ -465,7 +480,20 @@ public class GrowthUtil {
             heightText = HeightZScore.getZScoreText(zScore);
             if(isNeedToUpdateDB) updateLastHeight(height.getCm(),zScore,height.getBaseEntityId(),heightText);
         }
-        return heightText;
+    }
+
+    private static String getBengaliHeightStatus(String zScoreText) {
+        switch (zScoreText.toUpperCase()){
+            case "SAM":
+                return "মারাত্মক খর্ব";
+            case "DARK YELLOW":
+                return "মাঝারি খর্ব";
+            case "MAM":
+                return "স্বল্প খর্ব";
+            default:
+                return "স্বাভাবিক";
+
+        }
     }
 
 

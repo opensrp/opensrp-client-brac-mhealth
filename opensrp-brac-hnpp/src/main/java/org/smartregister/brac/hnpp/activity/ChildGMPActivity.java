@@ -23,26 +23,35 @@ public class ChildGMPActivity extends SecuredActivity implements WeightActionLis
 
     private static final String INTENT_BUNDLE =" intent_bundle";
     private static final String INTENT_COMMONOBJECT ="intent_common_object";
+    private static final String INTENT_IS_READ_ONLY ="intent_is_read_only";
     public static final int VACCINE_REQUEST_CODE = 10000;
+    public static final int GMP_RESULT_CODE = 12121;
 
     private CommonPersonObjectClient childDetails;
     private Bundle bundle;
     private boolean isActionTaken;
+    public boolean isReadOnly = false;
 
     public static void startGMPActivity(Activity activity, Bundle bundle , CommonPersonObjectClient childDetails){
-
         Intent intent = new Intent(activity,ChildGMPActivity.class);
         intent.putExtra(INTENT_BUNDLE,bundle);
         intent.putExtra(INTENT_COMMONOBJECT,childDetails);
         activity.startActivityForResult(intent,VACCINE_REQUEST_CODE);
-
-
     }
+    public static void startGMPActivity(Activity activity, Bundle bundle , CommonPersonObjectClient childDetails,boolean isReadOnly){
+        Intent intent = new Intent(activity,ChildGMPActivity.class);
+        intent.putExtra(INTENT_BUNDLE,bundle);
+        intent.putExtra(INTENT_COMMONOBJECT,childDetails);
+        intent.putExtra(INTENT_IS_READ_ONLY,isReadOnly);
+        activity.startActivityForResult(intent,VACCINE_REQUEST_CODE);
+    }
+
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_child_immunization);
         setUpToolbar();
         bundle = getIntent().getParcelableExtra(INTENT_BUNDLE);
+        isReadOnly = getIntent().getBooleanExtra(INTENT_IS_READ_ONLY,false);
         childDetails = (CommonPersonObjectClient) getIntent().getSerializableExtra(INTENT_COMMONOBJECT);
         initializeFragment();
     }
@@ -65,7 +74,7 @@ public class ChildGMPActivity extends SecuredActivity implements WeightActionLis
     }
     GMPFragment gmpFragment;
     private void initializeFragment(){
-        gmpFragment = GMPFragment.newInstance(bundle);
+        gmpFragment = GMPFragment.newInstance(bundle,isReadOnly);
         gmpFragment.setChildDetails(childDetails);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction =
@@ -79,7 +88,7 @@ public class ChildGMPActivity extends SecuredActivity implements WeightActionLis
         if(isActionTaken){
             Intent intent = getIntent();
             intent.putExtra("GMP_TAKEN",true);
-            setResult(RESULT_OK, intent);
+            setResult(GMP_RESULT_CODE, intent);
             finish();
         }else{
             super.onBackPressed();

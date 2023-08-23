@@ -466,4 +466,7 @@
    <string name="grow_filter">বৃদ্ধি ফিল্টারিং</string>
     <string name="z_score">পুষ্টি স্কোর</string>
     <string name="score_status">পুষ্টি অবস্থা</string>
+    <string name="weight_for_age">Weight for age: </string>
+    <string name="not_referred">রেফার করা হয়নি</string>
+    <string name="data_adding">ডাটা যোগ করা হচ্ছে.....</string>
 </resources>

@@ -23,6 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Triple;
 import org.joda.time.DateTime;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.activity.ChildVaccinationActivity;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.domain.Alert;
@@ -83,17 +84,6 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
         return fragment;
     }
 
-    public static ChildImmunizationFragment newInstance(Bundle bundle,boolean isOnlyVac) {
-        Bundle args = bundle;
-
-        ChildImmunizationFragment fragment = new ChildImmunizationFragment();
-        if (args == null) {
-            args = new Bundle();
-        }
-        isOnlyVacc = isOnlyVac;
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onDestroy() {
@@ -102,11 +92,13 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
     }
 
     Activity mActivity;
+    ChildVaccinationActivity activity;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mActivity = (Activity) getActivity();
+        activity = (ChildVaccinationActivity) getActivity();
     }
 
     @Override
@@ -146,6 +138,10 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
 
         View fragmentView = inflater.inflate(R.layout.immunization_activity_main, container, false);
         this.view = fragmentView;
+
+        if(activity.isReadOnly){
+            view.findViewById(R.id.read_only_lay).setVisibility(View.VISIBLE);
+        }
 //        cia = new ChildImmunizationFragment(fragmentView,mActivity);
         return fragmentView;
     }
@@ -300,6 +296,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
             });
             serviceGroupCanvasLL.addView(curGroup);
             serviceGroups.add(curGroup);
+
         }
 
     }
@@ -692,7 +689,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
 
             updateServiceViews(serviceTypeMap, serviceRecords, alertList);
 
-            if(!isOnlyVacc){
+            if(!activity.isOnlyVacc){
                 updateVaccinationViews(vaccineList, alertList);
             }
 

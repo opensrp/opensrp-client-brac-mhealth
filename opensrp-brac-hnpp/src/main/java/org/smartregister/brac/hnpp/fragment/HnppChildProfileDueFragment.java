@@ -75,6 +75,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
     private boolean isFirstAnc = false;
     private Handler handler;
     private boolean isStart = true;
+    private static final int RESULT_CHILD_FOLLOW_UP = 8656;
 
 
     public static BaseFamilyProfileDueFragment newInstance(Bundle bundle) {
@@ -520,68 +521,69 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                     break;*/
 
                 case TAG_CHILD_FOLLOWUP_0_3_MONTHS:
-                    /*if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
-                        activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_0_3_MONTHS);
-                    }*/
-                    startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_0_3_MONTHS,false);
+                        //activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_0_3_MONTHS);
+                        startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_0_3_MONTHS,activity.isOnlyVacc);
+                    }
                     break;
 
                 case TAG_CHILD_FOLLOWUP_3_6_MONTHS:
-                    /*if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
-                        activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_3_6_MONTHS);
-                    }*/
-                    startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_3_6_MONTHS,false);
+                        //activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_3_6_MONTHS);
+                        startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_3_6_MONTHS,activity.isOnlyVacc);
+                    }
+
                     break;
 
                 case TAG_CHILD_FOLLOWUP_7_11_MONTHS:
-                    /*if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
-                        activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_7_11_MONTHS);
-                    }*/
-                    startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_7_11_MONTHS,false);
+                        //activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_7_11_MONTHS);
+                        startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_7_11_MONTHS,activity.isOnlyVacc);
+                    }
                     break;
 
 
                 case TAG_CHILD_FOLLOWUP_12_18_MONTHS:
-                   /* if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
-                        activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_12_18_MONTHS);
-                    }*/
-                    startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_12_18_MONTHS,false);
+                        //activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_12_18_MONTHS);
+                        startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_12_18_MONTHS,activity.isOnlyVacc);
+                    }
                     break;
 
                 case TAG_CHILD_FOLLOWUP_19_24_MONTHS:
-                    /*if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
-                        activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_19_24_MONTHS);
-                    }*/
-                    startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_19_24_MONTHS,false);
+                        //activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_19_24_MONTHS);
+                        startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_19_24_MONTHS,activity.isOnlyVacc);
+                    }
                     break;
 
                 case TAG_CHILD_FOLLOWUP_2_3_YEARS:
-                   /* if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
-                        activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_2_3_YEARS);
-                    }*/
-                    startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_2_3_YEARS,true);
+                        //activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_2_3_YEARS);
+                        startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_2_3_YEARS,activity.isOnlyVacc);
+                    }
                     break;
 
                 case TAG_CHILD_FOLLOWUP_3_4_YEARS:
-                    /*if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
                         activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_3_4_YEARS);
-                    }*/
-                    startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_3_4_YEARS,true);
+                        startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_3_4_YEARS,activity.isOnlyVacc);
+                    }
                     break;
 
                 case TAG_CHILD_FOLLOWUP_4_5_YEARS:
-                    /*if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
                         activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_4_5_YEARS);
-                    }*/
-                    startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_4_5_YEARS,true);
+                        startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_4_5_YEARS,activity.isOnlyVacc);
+                    }
                     break;
                 case TAG_OPEN_CORONA:
                     if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
@@ -622,7 +624,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         intent.putExtra(ChildFollowupActivity.COMMON_PERSON,activity.getCommonPersonObject());
         intent.putExtra(ChildFollowupActivity.BUNDLE,activity.getIntent().getExtras());
         intent.putExtra(ChildFollowupActivity.IS_ONLY_VACC,isOnlyVaccine);
-        startActivity(intent);
+        startActivityForResult(intent,RESULT_CHILD_FOLLOW_UP);
     }
 
     @Override

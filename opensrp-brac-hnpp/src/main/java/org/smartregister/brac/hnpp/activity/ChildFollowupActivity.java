@@ -8,10 +8,10 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -28,7 +28,6 @@ import org.json.JSONObject;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
-import org.smartregister.brac.hnpp.presenter.HnppChildProfilePresenter;
 import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
 import org.smartregister.brac.hnpp.sync.FormParser;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -40,11 +39,11 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.util.Utils;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
-import org.smartregister.view.activity.BaseProfileActivity;
-import org.smartregister.view.activity.SecuredActivity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -63,9 +62,15 @@ public class ChildFollowupActivity extends AppCompatActivity {
     public static String COMMON_PERSON = "commonPersonObj";
     public static String BUNDLE = "bundle";
     public static String IS_ONLY_VACC = "is_only_vacc";
+    public static String IS_READ_ONLY = "is_read_only";
+
+    public static final int REQUEST_REFERRAL = 101;
+    public static final int RESULT_CHILD_FOLLOW_UP = 10111;
 
     ImageView closeImage;
     TextView saveText;
+
+    Button notReferredBt;
 
     LinearLayout childFollowUpLay,immunizationLay,gmpLay,referralLay;
     ImageView childFollowupCheckIm,immunizationCheckIm,gmpCheckIm,referralCheckIm;
@@ -78,12 +83,14 @@ public class ChildFollowupActivity extends AppCompatActivity {
     Dialog dialog;
 
     String childFollowUpJsonString = "";
+    String childReferralJsonString;
     CommonPersonObjectClient commonPersonObjectClient;
     Bundle bundle;
 
     boolean isOnlyVacc = false;
-    private boolean isImmunizationTaken = false;
+    private Boolean isImmunizationTaken = null;
     private boolean isGmpTaken = false;
+    ArrayList<String> jsonStringList = new ArrayList<String>();
 
 
     @Override
@@ -120,13 +127,26 @@ public class ChildFollowupActivity extends AppCompatActivity {
         closeImage.setOnClickListener(view -> finish());
 
         saveText.setOnClickListener(view -> {
+            if(!childFollowUpJsonString.isEmpty() && childReferralJsonString!=null && isImmunizationTaken!=null && isGmpTaken){
+                submitData();
+            }else {
+                Toast.makeText(ChildFollowupActivity.this,"Please fill-up all data to submit",Toast.LENGTH_SHORT).show();
+            }
+        });
 
+        notReferredBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                childReferralJsonString = "";
+                referralCheckIm.setImageResource(R.drawable.success);
+                referralCheckIm.setColorFilter(ContextCompat.getColor(ChildFollowupActivity.this, android.R.color.holo_orange_dark));
+            }
         });
 
         childFollowUpLay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(childFollowUpJsonString.isEmpty()){
+                if(childReferralJsonString == null || childReferralJsonString.isEmpty()){
                     startAnyFormActivity(formType,REQUEST_HOME_VISIT);
                 }
             }
@@ -135,7 +155,7 @@ public class ChildFollowupActivity extends AppCompatActivity {
         immunizationLay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!isImmunizationTaken){
+                if(isImmunizationTaken == null){
                     ChildVaccinationActivity.startChildVaccinationActivity(ChildFollowupActivity.this,bundle,commonPersonObjectClient,isOnlyVacc);
                 }
             }
@@ -153,11 +173,68 @@ public class ChildFollowupActivity extends AppCompatActivity {
         referralLay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startAnyFormActivity(HnppConstants.JSON_FORMS.CHILD_REFERRAL,REQUEST_HOME_VISIT);
+                if(childReferralJsonString == null){
+                    startAnyFormActivity(HnppConstants.JSON_FORMS.CHILD_REFERRAL,REQUEST_REFERRAL);
+                }
             }
         });
 
 
+    }
+
+    private void submitData() {
+        jsonStringList.clear();
+        showProgressDialog(R.string.data_adding);
+        jsonStringList.add(childFollowUpJsonString);
+        if(childReferralJsonString!=null && !childReferralJsonString.isEmpty()){
+            jsonStringList.add(childReferralJsonString);
+        }
+
+        processForm();
+        //hideProgressDialog();
+
+    }
+
+    void processForm(){
+        processVisitFormAndSave()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Integer>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(Integer integer) {
+                        //isSave.set(integer);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(ChildFollowupActivity.this,""+e.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
+                        hideProgressDialog();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        /*if(isSave.get() == 1){
+                            hideProgressDialog();
+                            //showServiceDoneDialog(1);
+                        }else if(isSave.get() == 3){
+                            hideProgressDialog();
+                            //showServiceDoneDialog(3);
+                        }else {
+                            hideProgressDialog();
+                            //showServiceDoneDialog(false);
+                        }*/
+
+                        hideProgressDialog();
+                        Intent intent = getIntent();
+                        setResult(ChildFollowupActivity.RESULT_CHILD_FOLLOW_UP, intent);
+                        finish();
+                    }
+                });
     }
 
     private void initView() {
@@ -173,6 +250,8 @@ public class ChildFollowupActivity extends AppCompatActivity {
         immunizationCheckIm = findViewById(R.id.immunization_check_im);
         gmpCheckIm = findViewById(R.id.gmp_check_im);
         referralCheckIm = findViewById(R.id.referral_check_im);
+
+        notReferredBt = findViewById(R.id.not_referred);
     }
 
     /**
@@ -272,13 +351,28 @@ public class ChildFollowupActivity extends AppCompatActivity {
                     showServiceDoneDialog();
                 }
             }
+            else if(requestCode == REQUEST_REFERRAL){
+                AtomicInteger isSave = new AtomicInteger(2);
+                showProgressDialog(R.string.please_wait_message);
 
-            if (data != null && data.getBooleanExtra("VACCINE_TAKEN", false)) {
-                immunizationCheckIm.setImageResource(R.drawable.success);
-                isImmunizationTaken = true;
-            }else  if (data != null && data.getBooleanExtra("GMP_TAKEN", false)) {
-                gmpCheckIm.setImageResource(R.drawable.success);
-                isGmpTaken = true;
+                // isProcessing = true;
+                String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
+                String formSubmissionId = JsonFormUtils.generateRandomUUIDString();
+                String visitId = JsonFormUtils.generateRandomUUIDString();
+                HnppConstants.appendLog("SAVE_VISIT", "save form>>childBaseEntityId:"+childBaseEntityId+":formSubmissionId:"+formSubmissionId);
+
+                childReferralJsonString = jsonString==null?"":jsonString;
+
+                if(!childReferralJsonString.isEmpty()){
+                    referralCheckIm.setImageResource(R.drawable.success);
+                    hideProgressDialog();
+                    showServiceDoneDialog();
+                }else{
+                    referralCheckIm.setImageResource(R.drawable.success);
+                    referralCheckIm.setColorFilter(ContextCompat.getColor(this, android.R.color.holo_orange_dark));
+                    hideProgressDialog();
+                    showServiceDoneDialog();
+                }
             }
 /*
             processVisitFormAndSave(jsonString,formSubmissionId,visitId)
@@ -314,64 +408,67 @@ public class ChildFollowupActivity extends AppCompatActivity {
                             }
                         }
                     });*/
-          /*  Runnable runnable = () -> {
-                if(!isProcessing){
-                    isProcessing = true;
-                    String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
-                    String formSubmissionId = JsonFormUtils.generateRandomUUIDString();
-                    String visitId = JsonFormUtils.generateRandomUUIDString();
-                    HnppConstants.appendLog("SAVE_VISIT", "save form>>childBaseEntityId:"+childBaseEntityId+":formSubmissionId:"+formSubmissionId);
+        }
+        else  if(resultCode == ChildGMPActivity.GMP_RESULT_CODE){
+            if (data != null && data.getBooleanExtra("GMP_TAKEN", false)) {
+                gmpCheckIm.setImageResource(R.drawable.success);
+                isGmpTaken = true;
+            }
+        }else if(resultCode == ChildVaccinationActivity.VACCINE_RESULT_CODE){
+            isImmunizationTaken = data.getBooleanExtra("VACCINE_TAKEN", false);
 
-                    isSave.set(processVisitFormAndSave(jsonString,formSubmissionId,visitId));
-                }
-                appExecutors.mainThread().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(isSave.get()){
-                            hideProgressDialog();
-                            showServiceDoneDialog(true);
-                        }else {
-                            hideProgressDialog();
-                            showServiceDoneDialog(false);
-                        }
-                    }
-                });
-            };
-            appExecutors.diskIO().execute(runnable);*/
-
+            if (isImmunizationTaken) {
+                immunizationCheckIm.setImageResource(R.drawable.success);
+            }else{
+                immunizationCheckIm.setImageResource(R.drawable.success);
+                immunizationCheckIm.setColorFilter(ContextCompat.getColor(this, android.R.color.holo_orange_dark));
+            }
         }
     }
 
-    private Observable<Integer> processVisitFormAndSave(String jsonString, String formSubmissionid, String visitId){
+    private Observable<Integer> processVisitFormAndSave(){
+
         return Observable.create(e-> {
             if(TextUtils.isEmpty(childBaseEntityId)) e.onNext(2);
             try {
-                JSONObject form = new JSONObject(jsonString);
-                HnppJsonFormUtils.setEncounterDateTime(form);
+                int successCount = 0;
+                for(String jsonString : jsonStringList){
+                    String formSubmissionId = JsonFormUtils.generateRandomUUIDString();
+                    String visitId = JsonFormUtils.generateRandomUUIDString();
 
-                String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
-                type = HnppJsonFormUtils.getEncounterType(type);
-                Map<String, String> jsonStrings = new HashMap<>();
-                jsonStrings.put("First",form.toString());
-                HnppConstants.appendLog("SAVE_VISIT", "save form>>childBaseEntityId:"+childBaseEntityId+":type:"+type);
+                    JSONObject form = new JSONObject(jsonString);
+                    HnppJsonFormUtils.setEncounterDateTime(form);
 
-                Visit visit = HnppJsonFormUtils.saveVisit(false,false,false,"", childBaseEntityId, type, jsonStrings, "",formSubmissionid,visitId);
-                if(visit!=null && !visit.getVisitId().equals("0")){
-                    HnppHomeVisitIntentService.processVisits();
-                    FormParser.processVisitLog(visit);
-                    HnppConstants.appendLog("SAVE_VISIT", "processVisitLog done:"+formSubmissionid+":type:"+type);
+                    String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
+                    type = HnppJsonFormUtils.getEncounterType(type);
+                    Map<String, String> jsonStrings = new HashMap<>();
+                    jsonStrings.put("First",form.toString());
+                    HnppConstants.appendLog("SAVE_VISIT", "save form>>childBaseEntityId:"+childBaseEntityId+":type:"+type);
 
-                    //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
-                    e.onNext(1);
-                    e.onComplete();
+                    Visit visit = HnppJsonFormUtils.saveVisit(false,false,false,"", childBaseEntityId, type, jsonStrings, "",formSubmissionId,visitId);
+                    if(visit!=null && !visit.getVisitId().equals("0")){
+                        HnppHomeVisitIntentService.processVisits();
+                        FormParser.processVisitLog(visit);
+                        HnppConstants.appendLog("SAVE_VISIT", "processVisitLog done:"+formSubmissionId+":type:"+type);
 
-                }else if(visit != null && visit.getVisitId().equals("0")){
-                    e.onNext(3);
-                    e.onComplete();
-                }else{
-                    e.onNext(2);
-                    e.onComplete();
+                        //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+                        successCount++;
+
+
+                    }/*else if(visit != null && visit.getVisitId().equals("0")){
+                        e.onNext(3);
+                        e.onComplete();
+                    }else{
+                        e.onNext(2);
+                        e.onComplete();
+                    }*/
                 }
+                if(successCount == jsonStringList.size()){
+                    e.onNext(1);
+                }else {
+                    e.onNext(2);
+                }
+                e.onComplete();
             } catch (Exception ex) {
                 HnppConstants.appendLog("SAVE_VISIT","exception processVisitFormAndSave >>"+ex.getMessage());
                 e.onNext(1);

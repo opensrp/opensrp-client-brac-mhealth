@@ -46,6 +46,7 @@ import org.smartregister.brac.hnpp.model.Survey;
 import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
 import org.smartregister.brac.hnpp.sync.FormParser;
 import org.smartregister.brac.hnpp.utils.ChildDBConstants;
+import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
@@ -103,6 +104,8 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     Handler handler;
     AppExecutors appExecutors = new AppExecutors();
     GMPFragment growthFragment;
+
+    public boolean isOnlyVacc = false;
 
     @Override
     protected void onCreation() {
@@ -275,6 +278,12 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     @Override
     protected ViewPager setupViewPager(ViewPager viewPager) {
         commonPersonObject = ((HnppChildProfilePresenter)presenter()).commonPersonObjectClient;
+        long day = FormApplicability.getDay(commonPersonObject);
+
+        if(day>730){//means greater than 24 month
+            isOnlyVacc = true;
+        }
+
         this.mViewPager = viewPager;
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         if(!HnppConstants.isPALogin()){
@@ -288,8 +297,8 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
             memberHistoryFragment = ChildHistoryFragment.getInstance(this.getIntent().getExtras());
             memberHistoryFragment.setBaseEntityId(childBaseEntityId);
             memberOtherServiceFragment.setCommonPersonObjectClient(commonPersonObject);
-            growthFragment = GMPFragment.newInstance(this.getIntent().getExtras());
-            growthFragment.setChildDetails(commonPersonObject);
+           /* growthFragment = GMPFragment.newInstance(this.getIntent().getExtras(),i);
+            growthFragment.setChildDetails(commonPersonObject);*/
 
             adapter.addFragment(memberOtherServiceFragment, this.getString(R.string.other_service).toUpperCase());
             adapter.addFragment(memberHistoryFragment, this.getString(R.string.activity).toUpperCase());
@@ -765,8 +774,8 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
             }else {
                 Toast.makeText(this,"Fail to Survey",Toast.LENGTH_SHORT).show();
             }
-
-
+        }else if(resultCode == ChildFollowupActivity.RESULT_CHILD_FOLLOW_UP){
+            if(mViewPager!=null) mViewPager.setCurrentItem(2,true);
         }
         super.onActivityResult(requestCode, resultCode, data);
 

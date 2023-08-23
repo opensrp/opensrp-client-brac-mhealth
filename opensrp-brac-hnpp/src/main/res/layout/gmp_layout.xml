@@ -34,6 +34,7 @@
             android:paddingTop="10dp">
 
             <org.smartregister.view.customcontrols.CustomFontTextView
+                android:id="@+id/age_tv"
                 style="@style/CustomFontTextViewStyle.ClientList"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -153,6 +153,7 @@
 
     <!--Referral-->
     <LinearLayout
+        android:weightSum="10"
         android:id="@+id/referral_ley"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -163,21 +164,44 @@
         app:layout_constraintStart_toStartOf="@+id/view3"
         app:layout_constraintTop_toBottomOf="@+id/view3">
 
-        <ImageView
-            android:id="@+id/referral_check_im"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_margin="10dp"
-            android:contentDescription="check"
-            android:src="@drawable/circle_background" />
+        <LinearLayout
+            android:layout_weight="7"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center|left">
+            <ImageView
+                android:id="@+id/referral_check_im"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
+                android:contentDescription="check"
+                android:src="@drawable/circle_background" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="@string/refer"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/refer"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center|right">
+            <Button
+                android:id="@+id/not_referred"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="@string/not_referred"
+                android:textColor="@color/white"
+                android:padding="10dp"
+                android:background="@drawable/vaccine_card_background_blue"
+                android:textSize="18sp" />
+        </LinearLayout>
     </LinearLayout>
 
     <View

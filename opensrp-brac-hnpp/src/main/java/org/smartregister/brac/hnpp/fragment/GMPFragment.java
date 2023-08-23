@@ -29,6 +29,7 @@ import android.widget.Toast;
 import org.joda.time.DateTime;
 import org.opensrp.api.constants.Gender;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.activity.ChildGMPActivity;
 import org.smartregister.brac.hnpp.activity.HnppChildProfileActivity;
 import org.smartregister.brac.hnpp.job.HeightIntentServiceJob;
 import org.smartregister.brac.hnpp.job.WeightIntentServiceJob;
@@ -63,6 +64,7 @@ import org.smartregister.util.DateUtil;
 import org.smartregister.util.Utils;
 import org.smartregister.view.fragment.BaseProfileFragment;
 
+import java.text.MessageFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -71,8 +73,9 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
     public static final String DIALOG_TAG = "GMPFragment_DIALOG_TAG";
     View fragmentView;
     Activity mActivity;
+    boolean isReadOnly = false;
     public CommonPersonObjectClient childDetails;
-    public static GMPFragment newInstance(Bundle bundle) {
+    public static GMPFragment newInstance(Bundle bundle,boolean isReadOnly) {
         Bundle args = bundle;
         GMPFragment fragment = new GMPFragment();
         if (args == null) {
@@ -117,6 +120,17 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
             Toast.makeText(mActivity,"DOB invalid formate",Toast.LENGTH_SHORT).show();
             return;
         }
+
+        if (!TextUtils.isEmpty(dobString)) {
+            DateTime dateTime = new DateTime(dobString);
+            Date dob = dateTime.toDate();
+            long timeDiff = Calendar.getInstance().getTimeInMillis() - dob.getTime();
+            if (timeDiff >= 0) {
+               TextView ageTv = fragmentView.findViewById(R.id.age_tv);
+                ageTv.setText(String.format("%s %s", getString(R.string.weight_for_age), DateUtil.getDuration(timeDiff)));
+            }
+        }
+
         initViews();
         updateGenderInChildDetails();
         refreshEditWeightLayout(false);
@@ -128,7 +142,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
 //    String muacText;
 
     private void initViews() {
-
+        ChildGMPActivity activity = (ChildGMPActivity) getActivity();
         ImageButton growthChartButton = (ImageButton) fragmentView.findViewById(R.id.growth_chart_button);
         growthChartButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,24 +150,31 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
                 Utils.startAsyncTask(new ShowGrowthChartTask(), null);
             }
         });
-        fragmentView.findViewById(R.id.record_height).setOnClickListener(new View.OnClickListener() {
+        LinearLayout linearLayoutRecordHeight = fragmentView.findViewById(R.id.record_height);
+
+        linearLayoutRecordHeight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 GrowthUtil.showHeightRecordDialog(mActivity, childDetails, 1, DIALOG_TAG);
             }
         });
-        fragmentView.findViewById(R.id.record_weight).setOnClickListener(new View.OnClickListener() {
+
+        LinearLayout linearLayoutRecordWeight = fragmentView.findViewById(R.id.record_weight);
+
+        linearLayoutRecordWeight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 GrowthUtil.showWeightRecordDialog(mActivity, childDetails, 1, DIALOG_TAG);
             }
         });
+
         fragmentView.findViewById(R.id.height_chart_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Utils.startAsyncTask(new ShowHeightChartTask(), null);
             }
         });
+
         fragmentView.findViewById(R.id.refer_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -180,6 +201,19 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
                 Utils.startAsyncTask(new ShowMuacChartTask(), null);
             }
         });
+
+
+        assert activity != null;
+        if(activity.isReadOnly){
+            linearLayoutRecordHeight.setEnabled(false);
+            linearLayoutRecordWeight.setEnabled(false);
+
+            TextView heightTv = fragmentView.findViewById(R.id.record_height_text);
+            heightTv.setTextColor(getResources().getColor(R.color.grey));
+
+            TextView weightTv = fragmentView.findViewById(R.id.record_weight_text);
+            weightTv.setTextColor(getResources().getColor(R.color.grey));
+        }
 
     }
     String heightText = "";
