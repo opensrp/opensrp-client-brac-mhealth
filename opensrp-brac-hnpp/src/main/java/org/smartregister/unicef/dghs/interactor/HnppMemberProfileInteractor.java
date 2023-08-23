@@ -100,6 +100,16 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                     memberProfileDueDataArrayList.add(memberProfileDueData2);
 
                 }
+            }else{
+
+
+                MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
+                memberProfileDueData.setImageSource(R.drawable.rowavatar_member);
+                memberProfileDueData.setTitle(HnppConstants.getVisitEventTypeMapping().get(HnppConstants.EVENT_TYPE.MEMBER_DISEASE));
+                memberProfileDueData.setType(HnppMemberProfileDueFragment.TAG_MEMBER_DISEASE);
+                memberProfileDueDataArrayList.add(memberProfileDueData);
+
+
             }
 
         return memberProfileDueDataArrayList;

@@ -1300,6 +1300,9 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         JSONObject phoneNoObj = getFieldJSONObject(field, "phone_number");
         phoneNoObj.put("value",mobileNo);
 
+        JSONObject motherIdObj = getFieldJSONObject(field, "mother_id");
+        motherIdObj.put("value",motherBaseEntityId);
+
         JSONObject metaDataJson = form.getJSONObject("metadata");
         JSONObject lookup = metaDataJson.getJSONObject("look_up");
         lookup.put("entity_id", "mother");

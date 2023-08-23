@@ -331,7 +331,7 @@
             "key": "ebf",
             "text": "নবজাতক ইবিএফ গ্রহন করছে",
             "value": false,
-            "openmrs_entity_id": "High_fever",
+            "openmrs_entity_id": "ebf",
             "openmrs_entity": "concept",
             "openmrs_entity_parent": ""
           },
@@ -416,7 +416,6 @@
         "openmrs_entity_parent":"",
         "openmrs_entity":"concept",
         "openmrs_entity_id":"Place_of_Refer",
-        "openmrs_data_type":"",
         "type":"spinner",
         "hint":"রেফারের স্থান",
         "values":[

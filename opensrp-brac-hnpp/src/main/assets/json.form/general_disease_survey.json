@@ -47,7 +47,7 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "সাধারণ রোগের তথ্য",
+    "title": "General Disease Survey",
     "fields": [
 
       {
@@ -91,43 +91,49 @@
       {
         "key": "has_disease",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "has_disease",
-        "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "রোগ আছে কিনা?",
+        "hint": "Is there any disease?",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
         "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+          "Yes": "Yes",
+          "No": "No"
         }
       },
       {
         "key": "disease_Type",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "disease_Type",
         "openmrs_data_type": "text",
         "type": "check_box",
-        "label": "রোগের ধরণ",
+        "label_text_style": "bold",
+        "text_color": "#3495bf",
+        "text_size": "25px",
+        "label": "Disease type",
         "exclusive": [
           "None"
         ],
         "options": [
           {
             "key": "Communicable",
-            "text": "সংক্রামক রোগ",
+            "text": "Communicable",
             "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
             "openmrs_entity_id": "Communicable"
           },
           {
-            "key": "NonContaminable",
-            "text": "অসংক্রামক রোগ",
+            "key": "Noncommunicable",
+            "text": "Noncommunicable",
             "value": false,
-            "openmrs_entity_id": "NonContaminable"
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Noncommunicable"
           }
         ],
         "relevance": {
@@ -140,86 +146,113 @@
       {
         "key": "comm_disease",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "comm_disease",
         "openmrs_data_type": "text",
         "type": "check_box",
-        "label": "সংক্রামক রোগ",
+        "label_text_style": "bold",
+        "text_color": "#3495bf",
+        "text_size": "25px",
+        "label": "Communicable Disease",
         "exclusive": [
           "None"
         ],
         "options": [
           {
             "key": "maleria",
-            "text": "জ্বর (ম্যালারিয়া)",
+            "text": "Maleria",
             "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
             "openmrs_entity_id": "maleria"
           },
           {
             "key": "Dengue",
-            "text": "ডেঙ্গু",
+            "text": "Dengue",
             "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
             "openmrs_entity_id": "Dengue"
           },
           {
             "key": "Leprosy",
-            "text": "কুষ্ঠ",
+            "text": "Leprosy",
             "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
             "openmrs_entity_id": "Leprosy"
           },
           {
             "key": "Tuberculosis",
-            "text": "যক্ষ্মা",
+            "text": "Tuberculosis",
             "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
             "openmrs_entity_id": "Tuberculosis"
           },
           {
             "key": "Rabies",
-            "text": "জলাতঙ্ক",
+            "text": "Rabies",
             "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
             "openmrs_entity_id": "Rabies"
           },
           {
-            "key": "Avian Flu",
-            "text": "এভিয়েন ইনফ্লুয়েঞ্জা",
+            "key": "Avian_Flu",
+            "text": "Avian Flu",
             "value": false,
-            "openmrs_entity_id": "Avian Flu"
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Avian_Flu"
           },
           {
-            "key": "Swine Flu",
-            "text": "সোয়াইন ফ্লু",
+            "key": "Swine_Flu",
+            "text": "Swine Flu",
             "value": false,
-            "openmrs_entity_id": "Swine Flu"
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Swine_Flu"
           },
           {
             "key": "Nipah",
-            "text": "নিপাহ",
+            "text": "Nipah",
             "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
             "openmrs_entity_id": "Nipah"
           },
           {
-            "key": "Acute Viral Hepatitis",
-            "text": "যকৃতের ভাইরাস জনিত প্রদাহ",
+            "key": "Acute_Viral_Hepatitis",
+            "text": "Acute Viral Hepatitis",
             "value": false,
-            "openmrs_entity_id": "Acute Viral Hepatitis"
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Acute_Viral_Hepatitis"
           },
           {
             "key": "Diarrhoea",
-            "text": "ডায়ারিয়া",
+            "text": "Diarrhoea",
             "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
             "openmrs_entity_id": "Diarrhoea"
           },
           {
-            "key": "Worms Infection",
-            "text": "কৃমি সংক্রামণ",
+            "key": "Worms_Infection",
+            "text": "Worms Infection",
             "value": false,
-            "openmrs_entity_id": "Worms Infection"
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Worms_Infection"
           },
           {
-            "key": "Sexual Disease",
-            "text": "যৌন রোগ",
+            "key": "Sexual_Disease",
+            "text": "Sexual Disease",
             "value": false,
-            "openmrs_entity_id": "Sexual Disease"
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Sexual_Disease"
           }
         ],
         "relevance": {
@@ -237,50 +270,65 @@
       {
         "key": "non_comnta_disease",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "non_comnta_disease",
         "openmrs_data_type": "text",
         "type": "check_box",
-        "label": "অসংক্রামক রোগ",
+        "label_text_style": "bold",
+        "text_color": "#3495bf",
+        "text_size": "25px",
+        "label": "Non-communicable diseases",
         "exclusive": [
           "None"
         ],
         "options": [
           {
             "key": "Arsenicosis",
-            "text": "আর্সেনিকোসিস",
+            "text": "Arsenicosis",
             "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
             "openmrs_choice_id": "Arsenicosis"
           },
           {
             "key": "Asthma",
-            "text": "হাঁপানি বা এ্যাজমা",
+            "text": "Asthma",
             "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
             "openmrs_choice_id": "Asthma"
           },
           {
             "key": "Diabetes",
-            "text": "ডায়াবেটিস",
+            "text": "Diabetes",
             "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
             "openmrs_choice_id": "Diabetes"
           },
           {
-            "key": "High Blood Pressure",
-            "text": "উচ্চ রক্তচাপ",
+            "key": "High_Blood_Pressure",
+            "text": "High Blood Pressure",
             "value": false,
-            "openmrs_choice_id": "High Blood Pressure"
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "High_Blood_Pressure"
           },
           {
             "key": "Stroke",
-            "text": "স্ট্রোক",
+            "text": "Stroke",
             "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
             "openmrs_choice_id": "Stroke"
           },
           {
-            "key": "Tumor or Cancer",
-            "text": "টিউমার বা ক্যানসার",
+            "key": "Tumor_or_Cancer",
+            "text": "Tumor or Cancer",
             "value": false,
-            "openmrs_choice_id": "Tumor or Cancer"
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "Tumor_or_Cancer"
           }
         ],
         "relevance": {
@@ -288,7 +336,7 @@
             "ex-checkbox": [
               {
                 "or": [
-                  "NonContaminable"
+                  "Noncommunicable"
                 ]
               }
             ]
@@ -301,14 +349,14 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "is_Referred",
         "type": "spinner",
-        "hint": "রেফার করা হয়েছে?",
+        "hint": "Referred?",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
         "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+          "Yes": "Yes",
+          "No": "No"
         }
       },
       {
@@ -316,45 +364,46 @@
         "openmrs_entity_parent":"",
         "openmrs_entity":"concept",
         "openmrs_entity_id":"Place_of_Refer",
-        "openmrs_data_type":"",
         "type":"spinner",
-        "hint":"রেফারের স্থান",
+        "hint":"Place of Refer",
         "values":[
-          "কমিউনিটি ক্লিনিক",
-          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র",
-          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র",
-          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
-          "মা ও শিশু কল্যাণ কেন্দ্র",
-          "১০ শয্যা বিশিষ্ট হাসপাতাল",
-          "২০ শয্যা বিশিষ্ট হাসপাতাল",
-          "উপজেলা স্বাস্থ্য কমপ্লেক্স",
-          "সদর হাসপাতাল",
-          "মেডিকেল কলেজ হাসপাতাল",
-          "বেসরকারী ক্লিনিক/হাসপাতাল",
-          "এনজিও",
-          "বিশেষায়িত হাসপাতাল",
-          "অন্যান্য"
+          "Community Clinic",
+          "Union Sub-center (USC)",
+          "UFWC (Union Family Welfare Center)",
+          "UH & FWC",
+          "Metarnal and Child Wellfare Center",
+          "10 Bed Hospital",
+          "20 Beds Hospital",
+          "UHC (Upazila Health Complex)",
+          "District Hospital",
+          "Medical College Hospital",
+          "Private Hospital / NGO clinic",
+          "NGO",
+          "Specialized Hospital",
+          "Others Health Facility",
+          "No referred"
         ],
         "openmrs_choice_ids":{
-          "কমিউনিটি ক্লিনিক":"Community_Clinic",
-          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র":"Union_Sub_Center",
-          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র":"Union_Family_Welfare_Center",
-          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র":"Union_Health_and_Family_Welfare_Center",
-          "মা ও শিশু কল্যাণ কেন্দ্র":"Metarnal_and_Child_Wellfare_Center",
-          "১০ শয্যা বিশিষ্ট হাসপাতাল":"10_Bed_Hospital",
-          "২০ শয্যা বিশিষ্ট হাসপাতাল":"20_Beds_Hospital",
-          "উপজেলা স্বাস্থ্য কমপ্লেক্স":"Upazila_Health_Complex",
-          "সদর হাসপাতাল":"District_Hospital",
-          "মেডিকেল কলেজ হাসপাতাল":"Medical_College_and_Hospital",
-          "বেসরকারী ক্লিনিক/হাসপাতাল": "Private_Clinic_and_Hospital",
-          "এনজিও": "Non-governmental_Organization",
-          "বিশেষায়িত হাসপাতাল":"Specialized_Hospital",
-          "অন্যান্য":"Others_Health_Facility"
+          "Community Clinic":"Community_Clinic",
+          "Union Sub-center (USC)":"Union_Sub_Center",
+          "UFWC (Union Family Welfare Center)":"Union_Family_Welfare_Center",
+          "UH & FWC":"Union_Health_and_Family_Welfare_Center",
+          "Metarnal and Child Wellfare Center":"Metarnal_and_Child_Wellfare_Center",
+          "10 Bed Hospital":"10_Bed_Hospital",
+          "20 Beds Hospital":"20_Beds_Hospital",
+          "Upazila Health Complex":"Upazila_Health_Complex",
+          "District Hospital":"District_Hospital",
+          "Medical College Hospital":"Medical_College_and_Hospital",
+          "Private Hospital / NGO clinic": "Private_Clinic_and_Hospital",
+          "NGO": "Non-governmental_Organization",
+          "Specialized Hospital":"Specialized_Hospital",
+          "Others Health Facility":"Others_Health_Facility",
+          "No referred":"No_referred"
         },
         "relevance": {
           "step1:is_Referred": {
             "type": "string",
-            "ex": "regex(., \"হ্যাঁ\")"
+            "ex": "regex(., \"Yes\")"
           }
         }
       }

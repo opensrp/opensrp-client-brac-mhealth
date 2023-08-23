@@ -496,7 +496,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
 
 //        memberOtherServiceFragment = new MemberOtherServiceFragment();
         memberHistoryFragment = MemberHistoryFragment.getInstance(this.getIntent().getExtras());
-        memberHistoryFragment.setIsNeedAncTitle(true);
+        memberHistoryFragment.setIsNeedAncTitle(FormApplicability.isWomenImmunizationApplicable(commonPersonObject));
 //        memberOtherServiceFragment.setCommonPersonObjectClient(commonPersonObject);
         womanImmunizationFragment = WomanImmunizationFragment.newInstance(this.getIntent().getExtras());
         womanImmunizationFragment.setChildDetails(commonPersonObject);

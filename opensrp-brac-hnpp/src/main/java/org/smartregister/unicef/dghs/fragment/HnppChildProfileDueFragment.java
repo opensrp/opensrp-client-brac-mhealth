@@ -251,29 +251,29 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             TextView fName =  followupView.findViewById(R.id.patient_name_age);
             followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
             fImg.setImageResource(iconMapping.get(HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP));
-            fName.setText(eventTypeMapping.get(HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP));
+            fName.setText(HnppConstants.getVisitEventTypeMapping().get(HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP));
             followupView.setTag(TAG_CHILD_FOLLOWUP);
             followupView.setOnClickListener(this);
             otherServiceView.addView(followupView);
         }
-        if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.CHILD_DISEASE) && BuildConfig.IS_MIS){
-            @SuppressLint("InflateParams") View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
-            ImageView fImg = followupView.findViewById(R.id.image_view);
-            TextView fName =  followupView.findViewById(R.id.patient_name_age);
-            followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-            fImg.setImageResource(iconMapping.get(HnppConstants.EVENT_TYPE.CHILD_DISEASE));
-            fName.setText(eventTypeMapping.get(HnppConstants.EVENT_TYPE.CHILD_DISEASE));
-            followupView.setTag(TAG_CHILD_DISEASE);
-            followupView.setOnClickListener(this);
-            otherServiceView.addView(followupView);
-        }
+//        if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.CHILD_DISEASE) && BuildConfig.IS_MIS){
+//            @SuppressLint("InflateParams") View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+//            ImageView fImg = followupView.findViewById(R.id.image_view);
+//            TextView fName =  followupView.findViewById(R.id.patient_name_age);
+//            followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+//            fImg.setImageResource(iconMapping.get(HnppConstants.EVENT_TYPE.CHILD_DISEASE));
+//            fName.setText(HnppConstants.getVisitEventTypeMapping().get(HnppConstants.EVENT_TYPE.CHILD_DISEASE));
+//            followupView.setTag(TAG_CHILD_DISEASE);
+//            followupView.setOnClickListener(this);
+//            otherServiceView.addView(followupView);
+//        }
         if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.AEFI_CHILD)){
             @SuppressLint("InflateParams") View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
             ImageView fImg = followupView.findViewById(R.id.image_view);
             TextView fName =  followupView.findViewById(R.id.patient_name_age);
             followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
             fImg.setImageResource(iconMapping.get(HnppConstants.EVENT_TYPE.AEFI_CHILD));
-            fName.setText(eventTypeMapping.get(HnppConstants.EVENT_TYPE.AEFI_CHILD));
+            fName.setText(HnppConstants.getVisitEventTypeMapping().get(HnppConstants.EVENT_TYPE.AEFI_CHILD));
             followupView.setTag(TAG_AEFI_CHILD);
             followupView.setOnClickListener(this);
             otherServiceView.addView(followupView);

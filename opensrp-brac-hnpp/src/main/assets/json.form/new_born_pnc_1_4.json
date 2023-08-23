@@ -66,6 +66,13 @@
         "type": "hidden"
       },
       {
+        "key": "relational_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "relational_id",
+        "type": "hidden"
+      },
+      {
         "key": "month_diff",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
@@ -311,7 +318,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "new_born_info",
         "type": "check_box",
-        "label": "নবজাতক সম্পর্কিত গুরুত্বপূর্ণ তথ্য",
+        "label": "Important information about newborn",
         "label_text_style": "bold",
         "text_color": "#3495bf",
         "text_size": "25px",
@@ -321,58 +328,58 @@
         "options": [
           {
             "key": "head_body_covered",
-            "text": "নবজাতক জন্মের সাথে সাথে তাকে মোড়ানো এবং আবৃত করা হয়েছিল",
+            "text": "Dried and wrapped immediately after birth",
             "value": false,
-            "openmrs_entity": "person_attribute",
+            "openmrs_entity": "concept",
             "openmrs_entity_id": "head_body_covered"
           },
           {
-            "key": "breastfeeding_time",
-            "text": "নবজাতক জন্মের ১ ঘন্টার মধ্যে তাকে মায়ের বুকে লাগানো হয়েছিল",
+            "key": "skin_contact",
+            "text": "Skin to skin contact",
             "value": false,
-            "openmrs_entity": "person_attribute",
-            "openmrs_entity_id": "breastfeeding_time"
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "skin_contact"
           },
           {
             "key": "delay_cord_cutting",
-            "text": "বিলম্বিত কর্ড কাটা",
+            "text": "Delayed cord cutting",
             "value": false,
-            "openmrs_entity": "person_attribute",
+            "openmrs_entity": "concept",
             "openmrs_entity_id": "delay_cord_cutting"
           },
           {
             "key": "chlorohexadin",
-            "text": "প্রসবকালীন সময়ে সিএইচএক্স(৭.১%) ব্যবহৃত হয়েছিল",
+            "text": "Application of CHX (7.1%)",
             "value": false,
-            "openmrs_entity": "person_attribute",
+            "openmrs_entity": "concept",
             "openmrs_entity_id": "chlorohexadin"
           },
           {
             "key": "Skin_to_Skin_contact",
-            "text": "প্রসবের ১ ঘন্টার মধ্যে নবজাতককে বুকের দুধ খাওয়ানো হয়েছিল",
+            "text": "Newborn breastfeed within 1 hour of delivery",
             "value": false,
-            "openmrs_entity": "person_attribute",
+            "openmrs_entity": "concept",
             "openmrs_entity_id": "Skin_to_Skin_contact"
           },
           {
             "key": "Delayed_bathing",
-            "text": "বিলম্বিত গোসল করানো হয়েছিল",
+            "text": "Delayed bathing",
             "value": false,
-            "openmrs_entity": "person_attribute",
+            "openmrs_entity": "concept",
             "openmrs_entity_id": "Delayed_bathing"
           },
           {
             "key": "Visible_birth_defect",
-            "text": "নবজাতকের দৃশ্যমান জন্মগত ত্রুটি আছে",
+            "text": "Visible birth defect",
             "value": false,
-            "openmrs_entity": "person_attribute",
+            "openmrs_entity": "concept",
             "openmrs_entity_id": "Visible_birth_defect"
           },
           {
             "key": "Counselling_on_Newborn_danger",
-            "text": "নবজাতকের আসন্ন ঝুকি সমূহ এবং ইএনসি সংক্রান্ত কাউন্সেলিং প্রদান করা হয়েছে",
+            "text": "Counselling on Newborn danger sign",
             "value": false,
-            "openmrs_entity": "person_attribute",
+            "openmrs_entity": "concept",
             "openmrs_entity_id": "Counselling_on_Newborn_danger"
           }
         ]
@@ -395,7 +402,7 @@
             "key": "ebf",
             "text": "EBF",
             "value": false,
-            "openmrs_entity_id": "High_fever",
+            "openmrs_entity_id": "ebf",
             "openmrs_entity": "concept",
             "openmrs_entity_parent": ""
           },
@@ -480,7 +487,6 @@
         "openmrs_entity_parent":"",
         "openmrs_entity":"concept",
         "openmrs_entity_id":"Place_of_Refer",
-        "openmrs_data_type":"",
         "type":"spinner",
         "hint":"Place_of_Refer",
         "values":[
@@ -499,7 +505,7 @@
           "Specialized Hospital",
           "Others Health Facility"
         ],
-        "openmrs_entity_ids":{
+        "openmrs_choice_ids":{
           "Community_Clinic":"Community_Clinic",
           "Union Sub-center (USC)":"Union_Sub_Center",
           "UFWC (Union Family Welfare Center)":"Union_Family_Welfare_Center",

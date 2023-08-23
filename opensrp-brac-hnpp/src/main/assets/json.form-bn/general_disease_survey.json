@@ -91,7 +91,7 @@
       {
         "key": "has_disease",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "has_disease",
         "type": "spinner",
         "hint": "রোগ আছে কিনা?",
@@ -107,10 +107,13 @@
       {
         "key": "disease_Type",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "disease_Type",
         "openmrs_data_type": "text",
         "type": "check_box",
+        "label_text_style": "bold",
+        "text_color": "#3495bf",
+        "text_size": "25px",
         "label": "রোগের ধরণ",
         "exclusive": [
           "None"
@@ -120,12 +123,16 @@
             "key": "Communicable",
             "text": "সংক্রামক রোগ",
             "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
             "openmrs_entity_id": "Communicable"
           },
           {
             "key": "NonContaminable",
             "text": "অসংক্রামক রোগ",
             "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
             "openmrs_entity_id": "NonContaminable"
           }
         ],
@@ -139,10 +146,13 @@
       {
         "key": "comm_disease",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "comm_disease",
         "openmrs_data_type": "text",
         "type": "check_box",
+        "label_text_style": "bold",
+        "text_color": "#3495bf",
+        "text_size": "25px",
         "label": "সংক্রামক রোগ",
         "exclusive": [
           "None"
@@ -152,73 +162,97 @@
             "key": "maleria",
             "text": "জ্বর (ম্যালারিয়া)",
             "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
             "openmrs_entity_id": "maleria"
           },
           {
             "key": "Dengue",
             "text": "ডেঙ্গু",
             "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
             "openmrs_entity_id": "Dengue"
           },
           {
             "key": "Leprosy",
             "text": "কুষ্ঠ",
             "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
             "openmrs_entity_id": "Leprosy"
           },
           {
             "key": "Tuberculosis",
             "text": "যক্ষ্মা",
             "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
             "openmrs_entity_id": "Tuberculosis"
           },
           {
             "key": "Rabies",
             "text": "জলাতঙ্ক",
             "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
             "openmrs_entity_id": "Rabies"
           },
           {
-            "key": "Avian Flu",
+            "key": "Avian_Flu",
             "text": "এভিয়েন ইনফ্লুয়েঞ্জা",
             "value": false,
-            "openmrs_entity_id": "Avian Flu"
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Avian_Flu"
           },
           {
-            "key": "Swine Flu",
+            "key": "Swine_Flu",
             "text": "সোয়াইন ফ্লু",
             "value": false,
-            "openmrs_entity_id": "Swine Flu"
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Swine_Flu"
           },
           {
             "key": "Nipah",
             "text": "নিপাহ",
             "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
             "openmrs_entity_id": "Nipah"
           },
           {
-            "key": "Acute Viral Hepatitis",
+            "key": "Acute_Viral_Hepatitis",
             "text": "যকৃতের ভাইরাস জনিত প্রদাহ",
             "value": false,
-            "openmrs_entity_id": "Acute Viral Hepatitis"
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Acute_Viral_Hepatitis"
           },
           {
             "key": "Diarrhoea",
             "text": "ডায়ারিয়া",
             "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
             "openmrs_entity_id": "Diarrhoea"
           },
           {
-            "key": "Worms Infection",
+            "key": "Worms_Infection",
             "text": "কৃমি সংক্রামণ",
             "value": false,
-            "openmrs_entity_id": "Worms Infection"
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Worms_Infection"
           },
           {
-            "key": "Sexual Disease",
+            "key": "Sexual_Disease",
             "text": "যৌন রোগ",
             "value": false,
-            "openmrs_entity_id": "Sexual Disease"
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Sexual_Disease"
           }
         ],
         "relevance": {
@@ -236,10 +270,13 @@
       {
         "key": "non_comnta_disease",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "non_comnta_disease",
         "openmrs_data_type": "text",
         "type": "check_box",
+        "label_text_style": "bold",
+        "text_color": "#3495bf",
+        "text_size": "25px",
         "label": "অসংক্রামক রোগ",
         "exclusive": [
           "None"
@@ -249,37 +286,49 @@
             "key": "Arsenicosis",
             "text": "আর্সেনিকোসিস",
             "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
             "openmrs_choice_id": "Arsenicosis"
           },
           {
             "key": "Asthma",
             "text": "হাঁপানি বা এ্যাজমা",
             "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
             "openmrs_choice_id": "Asthma"
           },
           {
             "key": "Diabetes",
             "text": "ডায়াবেটিস",
             "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
             "openmrs_choice_id": "Diabetes"
           },
           {
-            "key": "High Blood Pressure",
+            "key": "High_Blood_Pressure",
             "text": "উচ্চ রক্তচাপ",
             "value": false,
-            "openmrs_choice_id": "High Blood Pressure"
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "High_Blood_Pressure"
           },
           {
             "key": "Stroke",
             "text": "স্ট্রোক",
             "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
             "openmrs_choice_id": "Stroke"
           },
           {
-            "key": "Tumor or Cancer",
+            "key": "Tumor_or_Cancer",
             "text": "টিউমার বা ক্যানসার",
             "value": false,
-            "openmrs_choice_id": "Tumor or Cancer"
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_choice_id": "Tumor_or_Cancer"
           }
         ],
         "relevance": {
@@ -315,7 +364,6 @@
         "openmrs_entity_parent":"",
         "openmrs_entity":"concept",
         "openmrs_entity_id":"Place_of_Refer",
-        "openmrs_data_type":"",
         "type":"spinner",
         "hint":"রেফারের স্থান",
         "values":[

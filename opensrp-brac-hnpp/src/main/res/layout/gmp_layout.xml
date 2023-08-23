@@ -181,25 +181,23 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="139dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/card_category_horizontal_margin"
         android:background="@color/white"
         android:clickable="false"
+        android:minHeight="135dp"
         android:foreground="?android:attr/selectableItemBackground"
         app:cardCornerRadius="@dimen/card_view_corner_radius"
         app:cardElevation="@dimen/card_elevation">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+
 
             <LinearLayout
                 android:id="@+id/weight_group_canvas_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"></LinearLayout>
-        </LinearLayout>
+                android:orientation="vertical"/>
+
     </android.support.v7.widget.CardView>
     <android.support.v7.widget.CardView
         android:id="@+id/height_widget"
