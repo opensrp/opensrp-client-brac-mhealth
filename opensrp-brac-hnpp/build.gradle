@@ -146,21 +146,19 @@ android {
             versionName "1.0.6"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
-            buildConfigField "boolean", 'IS_MIS', 'false'
-//            buildConfigField "String", 'opensrp_url_training', '"http://unicef-ha.mpower-social.com/opensrp/"'
-//            buildConfigField "String", 'opensrp_url_live', '"http://unicef-ha.mpower-social.com/opensrp/"'
-            buildConfigField "String", 'opensrp_url_training', '"https://dghsha-training.dghs.gov.bd/opensrp/"'
-            buildConfigField "String", 'opensrp_url_live', '"https://dghsha-training.dghs.gov.bd/opensrp/"'
+            buildConfigField "boolean", 'IS_MIS', 'true'
+            buildConfigField "String", 'opensrp_url_training', '"https://e-tracker.dghs.gov.bd/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"https://e-tracker.dghs.gov.bd/opensrp/"'
 
         }
         mis_dev{
-            versionCode 6
-            versionName "1.0.6"
+            versionCode 7
+            versionName "1.0.7"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
             buildConfigField "boolean", 'IS_MIS', 'true'
-            buildConfigField "String", 'opensrp_url_training', '"https://dghsha-training.dghs.gov.bd/opensrp/"'
-            buildConfigField "String", 'opensrp_url_live', '"https://dghsha-training.dghs.gov.bd/opensrp/"'
+            buildConfigField "String", 'opensrp_url_training', '"http://unicef-ha.mpower-social.com/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"http://unicef-ha.mpower-social.com/opensrp/"'
 
         }
         mis_prod{
@@ -169,8 +167,8 @@ android {
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
             buildConfigField "boolean", 'IS_MIS', 'true'
-            buildConfigField "String", 'opensrp_url_training', '"https://e-tracker.dghs.gov.bd/opensrp/"'
-            buildConfigField "String", 'opensrp_url_live', '"https://e-tracker.dghs.gov.bd/opensrp/"'
+            buildConfigField "String", 'opensrp_url_training', '"https://dghsha-training.dghs.gov.bd/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"https://dghsha-training.dghs.gov.bd/opensrp/"'
 
         }
         qa{

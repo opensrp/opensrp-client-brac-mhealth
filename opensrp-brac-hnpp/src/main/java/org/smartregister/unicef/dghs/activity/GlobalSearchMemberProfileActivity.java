@@ -89,7 +89,7 @@ import io.reactivex.schedulers.Schedulers;
 public class GlobalSearchMemberProfileActivity extends BaseProfileActivity implements GuestMemberContract.View,View.OnClickListener, WeightActionListener, HeightActionListener, MUACActionListener, VaccinationActionListener, ServiceActionListener {
 
     private static final String CLIENT_EXTRA = "client_extra";
-    public static Client client;
+    private static Client client;
     private GuestMemberData guestMemberData;
     private TextView textViewMemberId,textViewName,textViewAge;
     private Button editBtn;
@@ -98,7 +98,6 @@ public class GlobalSearchMemberProfileActivity extends BaseProfileActivity imple
     private ViewPagerAdapter adapter;
     private GuestMemberProfilePresenter presenter;
     private Handler handler;
-    AppExecutors appExecutors = new AppExecutors();
     private boolean isProcessing = false;
 
     public static void startGlobalMemberProfileActivity(Activity activity , Client sClient){
