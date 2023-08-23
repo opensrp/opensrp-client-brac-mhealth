@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">e-Tracker</string>
+    <string name="app_name">Smart Health BD</string>
     <string-array name="gender">
         <item>Women</item>
         <item>Male</item>

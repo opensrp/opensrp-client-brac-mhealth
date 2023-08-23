@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">eReach</string>
+    <string name="app_name">Smart Health BD</string>
     <string-array name="gender">
         <item>নারী</item>
         <item>পুরুষ</item>
