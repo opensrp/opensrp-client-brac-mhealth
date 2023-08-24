@@ -54,6 +54,7 @@ import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.brac.hnpp.utils.HouseHoldInfo;
+import org.smartregister.brac.hnpp.utils.MemberProfileDueData;
 import org.smartregister.brac.hnpp.utils.OnDialogOptionSelect;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.anc.domain.Visit;
@@ -100,6 +101,7 @@ import timber.log.Timber;
 
 import static com.vijay.jsonwizard.constants.JsonFormConstants.FIELDS;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.MEMBER_ID_SUFFIX;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.eventTypeFormNameMapping;
 import static org.smartregister.brac.hnpp.utils.HnppJsonFormUtils.makeReadOnlyFields;
 
 public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberProfileActivity {
@@ -368,7 +370,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         viewPager.setAdapter(adapter);
         return viewPager;
     }
-    String requestedFormName;
+    public String requestedFormName;
     int requestedRequestCode;
 
     public void startAnyFormActivity(String formName, int requestCode) {
@@ -497,6 +499,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             }
             intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
             intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
+            intent.putExtra(CoreConstants.INTENT_KEY.EVENT_TYPE, formName);
             startActivityForResult(intent, requestCode);
 
         }catch (Exception e){
@@ -740,6 +743,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         titleTv.setText(isSuccess==1?"সার্ভিসটি দেওয়া সম্পূর্ণ হয়েছে":isSuccess==3?"সার্ভিসটি ইতিমধ্যে দেওয়া হয়েছে":"সার্ভিসটি দেওয়া সফল হয়নি। পুনরায় চেষ্টা করুন ");
         Button ok_btn = dialog.findViewById(R.id.ok_btn);
 
+        //Log.v("rrrrrrrrrrrrrrrrr",requestedFormName);
         ok_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -755,19 +759,44 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                                 hideProgressDialog();
 //                        memberHistoryFragment.onActivityResult(0,0,null);
                                 if(!HnppConstants.isPALogin()){
+                                    //show anc form submit alert if pregnancy women DD form submitted
+                                    if(requestedFormName!=null && requestedFormName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PREGNANT_WOMAN_DIETARY_DIVERSITY)){
+                                        MemberProfileDueData data = getAncForm();
+                                        if(data!=null){
+                                            showAncFormSubmitAlertDialog(data);
+                                            if(profileMemberFragment !=null){
+                                                profileMemberFragment.updateStaticView();
+                                            }
+                                            if(memberOtherServiceFragment !=null){
+                                                memberOtherServiceFragment.updateStaticView();
+                                            }
+                                        }else {
+                                            if(profileMemberFragment !=null){
+                                                profileMemberFragment.updateStaticView();
+                                            }
+                                            if(memberOtherServiceFragment !=null){
+                                                memberOtherServiceFragment.updateStaticView();
+                                            }
+                                            mViewPager.setCurrentItem(2,true);
+                                        }
+                                    }else {
+                                        if(profileMemberFragment !=null){
+                                            profileMemberFragment.updateStaticView();
+                                        }
+                                        if(memberOtherServiceFragment !=null){
+                                            memberOtherServiceFragment.updateStaticView();
+                                        }
+                                        mViewPager.setCurrentItem(2,true);
+                                    }
 
-                                    if(profileMemberFragment !=null){
-                                        profileMemberFragment.updateStaticView();
-                                    }
-                                    if(memberOtherServiceFragment !=null){
-                                        memberOtherServiceFragment.updateStaticView();
-                                    }
-                                    mViewPager.setCurrentItem(2,true);
+
                                 }else{
-                                    if(memberOtherServiceFragment !=null){
-                                        memberOtherServiceFragment.updateStaticView();
-                                    }
-                                    mViewPager.setCurrentItem(1,true);
+                                        if(memberOtherServiceFragment !=null){
+                                            memberOtherServiceFragment.updateStaticView();
+                                        }
+
+                                        mViewPager.setCurrentItem(1,true);
+
 
                                 }
 
@@ -781,6 +810,26 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         dialog.show();
 
     }
+
+    /**
+     * getting anc1,2,3 from here
+     */
+    private MemberProfileDueData getAncForm() {
+        ArrayList<MemberProfileDueData> profileDueDataArrayList = profileMemberFragment.getPresenter().getData();
+        for (MemberProfileDueData data : profileDueDataArrayList){
+            if(data!=null){
+                if(data.getEventType()!=null){
+                    if(data.getEventType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION) ||
+                            data.getEventType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION) ||
+                            data.getEventType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
+                        return data;
+                    }
+                }
+            }
+        }
+        return  null;
+    }
+
     public void startSimprintVerify(){
         if(!TextUtils.isEmpty(moduleId)){
             SimPrintsVerifyActivity.startSimprintsVerifyActivity(HnppFamilyOtherMemberProfileActivity.this,moduleId,guId,REQUEST_SIMPRINTS_VERIFY);
@@ -869,6 +918,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                                     if(isSave.get() == 1){
                                         hideProgressDialog();
                                         showServiceDoneDialog(1);
+
                                     }else if(isSave.get() == 3){
                                         hideProgressDialog();
                                         showServiceDoneDialog(3);
@@ -878,6 +928,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                                     }
                                 }
                             });
+
         }
        else if (resultCode == Activity.RESULT_OK && requestCode == org.smartregister.chw.anc.util.Constants.REQUEST_CODE_HOME_VISIT){
             if(isProcessingANCVisit) return;
@@ -978,6 +1029,71 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         }
 
     }
+
+    private void showAncFormSubmitAlertDialog(MemberProfileDueData data) {
+        requestedFormName = "";
+        Dialog dialog = new Dialog(this);
+        dialog.setCancelable(false);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_with_two_button);
+        TextView titleTv = dialog.findViewById(R.id.title_tv);
+        titleTv.setText(R.string.anc_form_submit_alert);
+        Button ok_btn = dialog.findViewById(R.id.ok_btn);
+        Button close_btn = dialog.findViewById(R.id.close_btn);
+
+        ok_btn.setText(R.string.yes);
+        close_btn.setText(R.string.no);
+
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                if(FormApplicability.isFirstTimeAnc(baseEntityId)){
+                    openHomeVisitForm();
+                }else {
+                    openHomeVisitSingleForm(eventTypeFormNameMapping.get(data.getEventType()));
+                }
+            }
+        });
+
+        close_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                if(profileMemberFragment !=null){
+                    profileMemberFragment.updateStaticView();
+                }
+                if(memberOtherServiceFragment !=null){
+                    memberOtherServiceFragment.updateStaticView();
+                }
+                mViewPager.setCurrentItem(2,true);
+            }
+        });
+
+        dialog.show();
+
+       /* new AlertDialog.Builder(this).
+                 setMessage(R.string.anc_form_submit_alert)
+                .setTitle(R.string.alert).setCancelable(false)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                       //startAnyFormActivity(eventTypeFormNameMapping.get(data.getEventType()),REQUEST_HOME_VISIT);
+                        if(FormApplicability.isFirstTimeAnc(baseEntityId)){
+                            openHomeVisitForm();
+                        }else {
+                            openHomeVisitSingleForm(eventTypeFormNameMapping.get(data.getEventType()));
+                        }
+                    }
+                })
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.dismiss();
+                    }
+                }).show();*/
+    }
+
     private boolean processSurveyResponse(Intent data){
         String response = data.getStringExtra(HnppConstants.SURVEY_KEY.DATA);
         Log.v("SURVEY_APP","response processSurveyResponse:"+response);

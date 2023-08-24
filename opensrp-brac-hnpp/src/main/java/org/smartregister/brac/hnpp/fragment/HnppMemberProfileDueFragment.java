@@ -311,6 +311,7 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
                     if (mActivity != null && mActivity instanceof HnppFamilyOtherMemberProfileActivity) {
                         HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) mActivity;
                         String eventType = (String) content.getEventType();
+                        activity.requestedFormName = content.from;
                         if(!eventType.equals(HnppConstants.EVENT_TYPE.ELCO)
                                 && !eventType.equals(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour)
                                 && !eventType.equals(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour)

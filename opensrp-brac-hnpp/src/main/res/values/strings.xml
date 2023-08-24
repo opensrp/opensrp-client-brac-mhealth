@@ -469,4 +469,6 @@
     <string name="weight_for_age">Weight for age: </string>
     <string name="not_referred">রেফার করা হয়নি</string>
     <string name="data_adding">ডাটা যোগ করা হচ্ছে.....</string>
+    <string name="alert">এলার্ট</string>
+    <string name="anc_form_submit_alert">আপনি কি এ.এন. সি. ফরম সাবমিট করতে চান ?</string>
 </resources>
