@@ -281,6 +281,14 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
             ServiceGroup curGroup = new ServiceGroup(mActivity);
             curGroup.setChildActive(isChildActive);
             curGroup.setData(childDetails, foundServiceTypeMap, serviceRecordList, alerts);
+            /*
+             * disable grideview and child active status on read mode view
+             */
+
+            if(activity.isReadOnly){
+                curGroup.getServicesGV().setEnabled(false);
+                curGroup.setChildActive(false);
+            }
             curGroup.setOnServiceClickedListener(new ServiceGroup.OnServiceClickedListener() {
                 @Override
                 public void onClick(ServiceGroup serviceGroup, ServiceWrapper
@@ -323,6 +331,16 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
         VaccineGroup curGroup = new VaccineGroup(mActivity);
         curGroup.setChildActive(isChildActive);
         curGroup.setData(vaccineGroupData, childDetails, vaccineList, alerts, "child");
+
+        /*
+         * disable grideview and child active status on read mode view
+         */
+
+        if(activity.isReadOnly){
+            curGroup.getVaccinesGV().setEnabled(false);
+            curGroup.setChildActive(false);
+        }
+
         curGroup.setOnRecordAllClickListener(new VaccineGroup.OnRecordAllClickListener() {
             @Override
             public void onClick(VaccineGroup vaccineGroup, ArrayList<VaccineWrapper> dueVaccines) {
@@ -687,9 +705,15 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
 
             }
 
+            /*
+             * if read only show vaccine and service both for over 24 month child
+             * else show only service
+             */
+
             updateServiceViews(serviceTypeMap, serviceRecords, alertList);
 
-            if(!activity.isOnlyVacc){
+
+            if(activity.isReadOnly || !activity.isOnlyVacc ){
                 updateVaccinationViews(vaccineList, alertList);
             }
 

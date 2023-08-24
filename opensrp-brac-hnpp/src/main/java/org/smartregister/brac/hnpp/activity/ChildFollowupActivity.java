@@ -110,7 +110,9 @@ public class ChildFollowupActivity extends AppCompatActivity {
     }
 
 
-
+    /**
+     * getting intent data here
+     */
     private void getIntentData() {
         Intent intent = getIntent();
         familyHead = intent.getStringExtra(BIRTH_DATE);
@@ -123,6 +125,9 @@ public class ChildFollowupActivity extends AppCompatActivity {
         isOnlyVacc = intent.getBooleanExtra(IS_ONLY_VACC,false);
     }
 
+    /**
+     * view interaction like button click
+     */
     private void viewInteraction() {
         closeImage.setOnClickListener(view -> finish());
 
@@ -182,6 +187,9 @@ public class ChildFollowupActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * submit all collected data
+     */
     private void submitData() {
         jsonStringList.clear();
         showProgressDialog(R.string.data_adding);
@@ -195,6 +203,9 @@ public class ChildFollowupActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * process all data
+     */
     void processForm(){
         processVisitFormAndSave()
                 .subscribeOn(Schedulers.io())
@@ -237,6 +248,9 @@ public class ChildFollowupActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * initializing all views here
+     */
     private void initView() {
         closeImage = findViewById(R.id.close_image_view);
         saveText = findViewById(R.id.submit_tv);
@@ -328,10 +342,17 @@ public class ChildFollowupActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * handle all data collection result here
+     * @param requestCode request code
+     * @param resultCode result code
+     * @param data returned data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK){
+            //handling child followup submission here
             if(requestCode == REQUEST_HOME_VISIT){
                 // if(isProcessing) return;
                 AtomicInteger isSave = new AtomicInteger(2);
@@ -351,11 +372,10 @@ public class ChildFollowupActivity extends AppCompatActivity {
                     showServiceDoneDialog();
                 }
             }
+            //handling referral submission here
             else if(requestCode == REQUEST_REFERRAL){
-                AtomicInteger isSave = new AtomicInteger(2);
                 showProgressDialog(R.string.please_wait_message);
 
-                // isProcessing = true;
                 String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
                 String formSubmissionId = JsonFormUtils.generateRandomUUIDString();
                 String visitId = JsonFormUtils.generateRandomUUIDString();
@@ -374,47 +394,17 @@ public class ChildFollowupActivity extends AppCompatActivity {
                     showServiceDoneDialog();
                 }
             }
-/*
-            processVisitFormAndSave(jsonString,formSubmissionId,visitId)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<Integer>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
-
-                        @Override
-                        public void onNext(Integer integer) {
-                            isSave.set(integer);
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            hideProgressDialog();
-                        }
-
-                        @Override
-                        public void onComplete() {
-                            if(isSave.get() == 1){
-                                hideProgressDialog();
-                                //showServiceDoneDialog(1);
-                            }else if(isSave.get() == 3){
-                                hideProgressDialog();
-                                //showServiceDoneDialog(3);
-                            }else {
-                                hideProgressDialog();
-                                //showServiceDoneDialog(false);
-                            }
-                        }
-                    });*/
         }
+
+        //handling gmp submission status
         else  if(resultCode == ChildGMPActivity.GMP_RESULT_CODE){
             if (data != null && data.getBooleanExtra("GMP_TAKEN", false)) {
                 gmpCheckIm.setImageResource(R.drawable.success);
                 isGmpTaken = true;
             }
-        }else if(resultCode == ChildVaccinationActivity.VACCINE_RESULT_CODE){
+        }
+        //handling vaccine submission status
+        else if(resultCode == ChildVaccinationActivity.VACCINE_RESULT_CODE){
             isImmunizationTaken = data.getBooleanExtra("VACCINE_TAKEN", false);
 
             if (isImmunizationTaken) {
@@ -426,6 +416,7 @@ public class ChildFollowupActivity extends AppCompatActivity {
         }
     }
 
+    //process prom via rxJava
     private Observable<Integer> processVisitFormAndSave(){
 
         return Observable.create(e-> {
@@ -493,6 +484,9 @@ public class ChildFollowupActivity extends AppCompatActivity {
         alertDialog.dismiss();
     }
 
+    /**
+     * service done dialog
+     */
     private void showServiceDoneDialog(){
         if(dialog != null) return;
         dialog = new Dialog(this);
