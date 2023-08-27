@@ -125,7 +125,7 @@ android {
             dimension = 'baseDimension'
             applicationIdSuffix ".training"
             buildConfigField "boolean", 'IS_TRAINING', 'true'
-            buildConfigField "boolean", 'IS_MIS', 'false'
+            buildConfigField "boolean", 'IS_MIS', 'true'
             buildConfigField "String", 'opensrp_url_training', '"https://dghsha-training.dghs.gov.bd/opensrp/"'
             buildConfigField "String", 'opensrp_url_live', '"https://dghsha-training.dghs.gov.bd/opensrp/"'
         }

@@ -988,6 +988,7 @@
     <string name="enter_id">আইডি নম্বর</string>
     <string name="dob_hint">জন্ম তারিখ</string>
     <string name="denger_sign_pnc">প্রসবোত্তর জটিলতা সমূহ</string>
+    <string name="risky_title">ঝুঁকিপূর্ণ ডাটা</string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>

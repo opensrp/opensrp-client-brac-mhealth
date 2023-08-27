@@ -49,9 +49,9 @@ public class MemberHistoryAdapter extends RecyclerView.Adapter<MemberDueViewHold
         final MemberHistoryData content = contentList.get(position);
         viewHolder.imageView.setImageResource(content.getImageSource());
         if(!TextUtils.isEmpty(content.getMemberName())){
-            viewHolder.textViewTitle.setText(content.getMemberName()+"\n "+ HnppApplication.appContext.getString(R.string.service) +content.getTitle());
+            viewHolder.textViewTitle.setText(content.getMemberName()+"\n "+content.getTitle());
         }else{
-            viewHolder.textViewTitle.setText(HnppApplication.appContext.getString(R.string.service)+content.getTitle());
+            viewHolder.textViewTitle.setText(content.getTitle());
         }
         viewHolder.textViewLastVisit.setVisibility(View.VISIBLE);
         if(!TextUtils.isEmpty(content.getVisitDay())){

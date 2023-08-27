@@ -910,7 +910,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "death_cause",
         "type": "spinner",
-        "hint": "How many times ANC taken?",
+        "hint": "What was the reason for not receiving medical care?",
         "values": [
           "Think unncessary",
           "Expensive",
@@ -1031,7 +1031,7 @@
         "openmrs_entity_id": "no_death",
         "openmrs_data_type": "",
         "type": "toaster_notes",
-        "text": "আপনার তথ্যের জন্য ধন্যবাদ। পূর্বের দেয়া কোনো তথ্যে সংশোধন করতে চাইলে পূর্ববর্তী বাটনে ক্লিক করুন",
+        "text": "Thanks for your information. If you want to correct any previous information, click on the previous button",
         "text_color": "#3495bf",
         "toaster_type": "info",
         "relevance": {
@@ -1400,7 +1400,7 @@
           "Transport was too expensive",
           "No facility within reasonable distance",
           "Lack of road access",
-          "সেবা পেতে দেরি হওয়া",
+          "Delay in receiving care",
           "Others"
         ],
         "openmrs_entity_ids": {

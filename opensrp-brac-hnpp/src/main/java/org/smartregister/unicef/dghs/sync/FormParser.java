@@ -173,11 +173,7 @@ public class FormParser {
 
                             updatePNCHomeVisitRisk(encounter_type,base_entity_id,details,log.getVisitDate());
                         }
-                        if(ANC_REGISTRATION.equalsIgnoreCase(encounter_type)){
-                            FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",0+"");
-                            FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_PNC",0+"");
-                            //updateAncRegistrationRisk(base_entity_id,details);
-                        }
+
                         if(IYCF_PACKAGE.equalsIgnoreCase(encounter_type)){
                             updateIYCFRisk(base_entity_id,details);
                         }

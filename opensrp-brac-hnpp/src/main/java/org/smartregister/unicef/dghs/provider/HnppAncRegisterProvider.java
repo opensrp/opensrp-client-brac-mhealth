@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,10 +71,13 @@ public class HnppAncRegisterProvider extends ChwAncRegisterProvider {
         );
 
         String patientName = Utils.getName(fname, Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.LAST_NAME, true));
+        Log.v("ANC_NAME","patientName:"+patientName);
 
         // calculate LMP
         String dobString = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.DOB, false);
         String lmpString = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.LAST_MENSTRUAL_PERIOD, false);
+        Log.v("ANC_NAME","lmpString:"+lmpString);
+        viewHolder.patientName.setText(patientName);
         if (StringUtils.isNotBlank(dobString) && StringUtils.isNotBlank(lmpString)) {
             int age = Years.yearsBetween(new DateTime(dobString), new DateTime()).getYears();
 
@@ -83,17 +87,8 @@ public class HnppAncRegisterProvider extends ChwAncRegisterProvider {
                     context.getString(R.string.abbrv_weeks),
                     context.getString(R.string.interpunct));
 
-            String patientNameAge = MessageFormat.format("{0},{1}: {2}", patientName,context.getString(R.string.boyos), age);
-            viewHolder.patientName.setText(patientNameAge);
+            viewHolder.patientName.append(context.getString(R.string.boyos)+":"+age);
             viewHolder.patientAge.setText(gaLocation);
-
-        }
-        String serialNo = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.SERIAL_NO, true);
-        if(serialNo.isEmpty() || serialNo.equalsIgnoreCase("H")){
-            serialNo="";
-        }
-        if(!TextUtils.isEmpty(serialNo)){
-            viewHolder.patientName.setText(viewHolder.patientName.getText()+", "+context.getString(R.string.serial_no,serialNo));
 
         }
         String ssName = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.BLOCK_NAME, true);

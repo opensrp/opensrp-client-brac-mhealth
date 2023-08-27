@@ -206,7 +206,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": " জ্বর। পর্যবেক্ষণে রাখুন",
+        "text": " Fever,Keep under observation",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {

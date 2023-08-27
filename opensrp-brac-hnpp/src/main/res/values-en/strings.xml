@@ -242,7 +242,7 @@
     <string name="pnc_visit">PNC</string>
     <string name="anc_visit">ANC</string>
     <string name="submit">Submit</string>
-    <string name="boyos">Boys</string>
+    <string name="boyos">Age</string>
     <string name="gps_searching">Searching GPS data</string>
     <string name="date_given">Given</string>
     <string name="vaccine_service_due"><![CDATA[%1$s <font color=#000000>due (%2$s)</font></b>]]></string>
@@ -522,28 +522,9 @@
     <string name="height_taken_today">Height taken today </string>
     <string name="height_taken_earlier">Height taken earlier</string>
     <string name="show_tika_card">View Tika Card</string>
-    <string name="resistration_no">Registration No :</string>
-    <string name="registration_date">Date of registration :</string>
-    <string name="name_tika">Name :</string>
-    <string name="gender_tika">Gender :</string>
-    <string name="day">Day :</string>
-    <string name="month">Month :</string>
-    <string name="year">Year :</string>
-    <string name="mother_name_title">Mother Name :</string>
-    <string name="father_name_title">Father Name :</string>
     <string name="mother_name">Mother Name : %s</string>
     <string name="father_name">Father name : %s</string>
-    <string name="house_no_title">House/GR/Holding No :</string>
-    <string name="village_title">Village/Mahalla/Para :</string>
     <string name="village">Village: %s</string>
-    <string name="upazilla_title">Upazilla/Municipality/City Corporation :</string>
-    <string name="district_title">District/CC :</string>
-    <string name="union_title">Union/Zone :</string>
-    <string name="ward_no_title">Ward No :</string>
-    <string name="center_name_title">Center name :</string>
-    <string name="sub_block_title">Sub-block :</string>
-    <string name="brid_title">Birth Registration No :</string>
-    <string name="system_msg"><![CDATA[This is a System Generated Vaccine Card – Provided by EPI, DGHS, MoH&FW.]]></string>
     <string name="global_search">Global Search</string>
     <string name="from_date">From Date</string>
     <string name="to_date">To Date</string>
@@ -751,18 +732,8 @@
 
     <string name="member_transfer">Member Transfer</string>
     <string name="house_transfer">House Transfer</string>
-    <string name="vaccination_right">Every child has a right to all vaccinations</string>
-    <string name="vaccine_msg">The child should be brought to Ticandre according to the dose (2nd, 5th and 6th format Pentavent-1/PCV-1, MR-1st OM 2nd dose vaccine according to the date of birth of the child at the time of registration. </string>
     <string name="update_profile">Profile Update</string>
-    <string name="vaccine_receive_date">vaccine.net date</string>
-    <string name="bcg_vaccine_date">1. BCG vaccination</string>
-    <string name="vaccine_2">2. 1st time : Penta-1, OPV-1, PCV-1, and IPV-1 vaccines.net (from vaccine calendar).</string>
-    <string name="vaccine_3">3. 2nd Time : Penta-2, OPV-2, and PCV-2 Vaccination.NET (From Session Plan)</string>
-    <string name="vaccine_4">4. 3rd round: Penta-3, OPV-3, PCV-3 and IPV-2 vaccinations.</string>
-    <string name="vaccine_5">5. 4th time: MR 1st dose vaccination date (from \'vaccine) calendar).</string>
-    <string name="vaccine_6">6. 4th time: MR 2nd dose vaccination date (from \'vaccine)calendar).</string>
-    <string name="vaccine_date_write_msg">Form 3 after giving 1st dose vaccination to get 2nd dose vaccination as per session plan on Awami date at vaccination center. Similarly after administering the 3rd dose vaccination in step 4, get vaccinated as per the session plan and crowd zone for the assembly date at the vaccination centre.</string>
-    <string name="vaccine_card_msg">The vaccinator cares for this card. This card is required for getting child birth portal certificate, child making school, team visit</string>
+
     <string name="pregnancy_service_history">Pregnancy Service History</string>
     <string name="gender">Gender</string>
     <string name="village_name">Village Name:</string>
@@ -780,12 +751,6 @@
     <string name="forum_name">Forum name</string>
     <string name="no_of_participant">Number of participants</string>
     <string name="details">Details</string>
-    <string name="epi_tika_card">EPI Immunization Card (Child)</string>
-    <string name="vaccine_advice">Complete all vaccinations according to the vaccination schedule</string>
-    <string name="nurse_or_vaccination_worker">Health Assistant/Immunization Worker ...................................</string>
-    <string name="mobile_no">Mobile number :</string>
-    <string name="child_dead_msg">If a child dies or is born with measles (at any age) within C28 in your area, or if the child under 15 has a word or hand or foot paralysis, take it to the nearest health center in Raleigh Hall. Go or notify the field.</string>
-    <string name="re_edition_seventeen">Re-edition - October 2017</string>
     <string name="woman">Female</string>
     <string name="man">Male</string>
     <string name="woman2">Female</string>
@@ -803,7 +768,6 @@
     <string name="force_sync_data">Force unsync data</string>
     <string name="sync_with_id">Sync data with id</string>
     <string name="need_to_come_5_time_for_vacc">The child needs to come to the vaccination center at least 5 times for all vaccinations</string>
-    <string name="vacc_name">Victory Name</string>
     <string name="fingerprint_not_found">Fingerprint not found</string>
     <string name="try_again">Try again</string>
     <string name="back_to_menu">Back to menu</string>
@@ -994,6 +958,7 @@
     <string name="dob_hint">DOB</string>
     <string name="member_survey">Member Survey</string>
     <string name="denger_sign_pnc">Danger sign during PNC</string>
+    <string name="risky_title">Risky Data Details</string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>
