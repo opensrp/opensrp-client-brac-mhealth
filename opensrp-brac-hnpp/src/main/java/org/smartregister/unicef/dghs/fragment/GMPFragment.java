@@ -56,6 +56,7 @@ import org.smartregister.growthmonitoring.util.HeightUtils;
 import org.smartregister.growthmonitoring.util.MUACUtils;
 import org.smartregister.location.helper.LocationHelper;
 import org.smartregister.unicef.dghs.R;
+import org.smartregister.unicef.dghs.activity.GlobalSearchMemberProfileActivity;
 import org.smartregister.unicef.dghs.activity.HnppChildProfileActivity;
 import org.smartregister.unicef.dghs.job.HeightIntentServiceJob;
 import org.smartregister.unicef.dghs.job.MuactIntentServiceJob;
@@ -273,8 +274,11 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
     }
     private void updateChildProfileColor(int resultColor,String text){
         if(mActivity!=null && !mActivity.isFinishing()){
-            HnppChildProfileActivity profileActivity = (HnppChildProfileActivity) mActivity;
-            profileActivity.updateProfileIconColor(resultColor,text);
+            if(mActivity instanceof HnppChildProfileActivity){
+                HnppChildProfileActivity profileActivity = (HnppChildProfileActivity) mActivity;
+                profileActivity.updateProfileIconColor(resultColor,text);
+            }
+
 
         }
         showReferedBtn();
