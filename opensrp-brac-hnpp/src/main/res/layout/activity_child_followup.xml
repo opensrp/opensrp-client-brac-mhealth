@@ -27,14 +27,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/submit_tv"
+        <Button
+            android:id="@+id/submit_btn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginEnd="10dp"
             android:text="Submit"
-            android:textColor="@color/white"
+            android:enabled="false"
+            android:textColor="@color/grey"
             android:textSize="18sp"
+            android:background="@color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
