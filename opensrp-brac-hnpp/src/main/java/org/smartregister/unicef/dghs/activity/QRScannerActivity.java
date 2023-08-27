@@ -16,6 +16,8 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +27,7 @@ import org.smartregister.chw.core.utils.CoreChildUtils;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.clientandeventmodel.Event;
+import org.smartregister.clientandeventmodel.Obs;
 import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.commonregistry.CommonRepository;
@@ -50,7 +53,10 @@ import org.smartregister.view.activity.SecuredActivity;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
@@ -64,6 +70,9 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
     protected void onCreation() {
 
         scannerView = new ZXingScannerView(this);
+        List<BarcodeFormat> barcodeFormats = new ArrayList<>();
+        barcodeFormats.add(BarcodeFormat.QR_CODE);
+        scannerView.setFormats(barcodeFormats);
         // this paramter will make your HUAWEI phone works great!
         //scannerView.setAspectTolerance(0.5f);
         setContentView(scannerView);
@@ -91,8 +100,11 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
     }
 
     private void startScanner() {
-        scannerView.setResultHandler(this);
-        scannerView.startCamera();
+        if (scannerView!=null){
+            scannerView.setResultHandler(this);
+            scannerView.startCamera();
+        }
+
     }
 
     private void requestCameraPermission() {
@@ -112,13 +124,10 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
             }
         }
     }
+    private void processResult(String scanResult){
+        Log.v("SCANNER_RESULT","scannedData>>"+scanResult);
 
-    @Override
-    public void handleResult(Result result) {
-        String scannedData = result.getText(); // The scanned QR code data
-        Log.v("SCANNER_RESULT","scannedData>>"+scannedData);
-        String[] ss = scannedData.split(",");
-
+           String[] ss = scanResult.split(",");
         if (ss.length > 1) {
             //http://unicef-ha.mpower-social.com/opensrp-dashboard/epi-card.html,base_entity,registrationId,divisionId,districtId,dob,gender
             String baseEntityId = ss[0];
@@ -164,6 +173,7 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
                 globalSearchContentData = new GlobalSearchContentData();
                 globalSearchContentData.setId(isShr?"shr_id=":"unique_id="+""+shrId);
                 if(isShr)globalSearchContentData.setShrId(shrId);
+                globalSearchContentData.setMigrationType(HnppConstants.MIGRATION_TYPE.Member.name());
                 globalSearchContentData.setDivisionId(divId);
                 globalSearchContentData.setDistrictId(disId);
                 globalSearchContentData.setGender(gender);
@@ -177,8 +187,14 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
 
             }
         }else{
-            Toast.makeText(this,scannedData,Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"ScanResult not valid, please try again",Toast.LENGTH_LONG).show();
+            finish();
         }
+    }
+
+    @Override
+    public void handleResult(Result result) {
+        processResult(result.getText());
     }
     private GlobalSearchContentData globalSearchContentData;
     private GlobalSearchResult globalSearchResult;
@@ -210,7 +226,7 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        scannerView.stopCamera();
+        if (scannerView!=null)scannerView.stopCamera();
     }
 
     @Override
@@ -224,50 +240,121 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
             finish();
         }
     }
-    @SuppressLint("SimpleDateFormat")
+//    @SuppressLint("SimpleDateFormat")
+//    private void saveClientAndEvent(Client baseClient){
+//
+//        try{
+//            if(baseClient == null) return;
+//            if(globalSearchContentData.getMigrationType().equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.HH.name())) {
+//                List<String> ids = new ArrayList<>();
+//                ids.add(globalSearchContentData.getFamilyBaseEntityId());
+//                ids.add(globalSearchContentData.getFamilyBaseEntityId());
+//                baseClient.getRelationships().put("family",ids);
+//            }
+//            JSONObject clientJson = new JSONObject(JsonFormUtils.gson.toJson(baseClient));
+//
+//            getSyncHelper().addClient(baseClient.getBaseEntityId(), clientJson);
+//
+//            for (Event baseEvent: globalSearchResult.events) {
+//                if(baseEvent.getBaseEntityId().equalsIgnoreCase(baseClient.getBaseEntityId())){
+//                    JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(baseEvent));
+//                    getSyncHelper().addEvent(baseEvent.getBaseEntityId(), eventJson);
+//                }
+//            }
+//
+//            long lastSyncTimeStamp = getAllSharedPreferences().fetchLastUpdatedAtDate(0);
+//            Date lastSyncDate = new Date(lastSyncTimeStamp);
+//            getClientProcessorForJava().processClient(getSyncHelper().getEvents(lastSyncDate, BaseRepository.TYPE_Unprocessed));
+//            getAllSharedPreferences().saveLastUpdatedAtDate(lastSyncDate.getTime());
+//                ContentValues values = new ContentValues();
+//                values.put(org.smartregister.chw.anc.util.DBConstants.KEY.DATE_REMOVED, new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+//                values.put("is_closed", 1);
+//                HnppApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.FAMILY_MEMBER, values,
+//                        org.smartregister.chw.anc.util.DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseClient.getBaseEntityId()});
+//
+//
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                GlobalSearchMemberProfileActivity.startGlobalMemberProfileActivity(QRScannerActivity.this, baseClient);
+//                finish();
+//            }
+//        },1000);
+//
+//    }
     private void saveClientAndEvent(Client baseClient){
+        AppExecutors appExecutors = new AppExecutors();
+        Runnable runnable = () -> {
+            try{
+                if(baseClient == null) return;
+                if(globalSearchContentData.getMigrationType().equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.HH.name())) {
+                    List<String> ids = new ArrayList<>();
+                    ids.add(globalSearchContentData.getFamilyBaseEntityId());
+                    ids.add(globalSearchContentData.getFamilyBaseEntityId());
+                    baseClient.getRelationships().put("family",ids);
+                    String previousProviderId = baseClient.getAttribute("provider_id")+"";
+                    Log.v("GLOBAL_SEARCH","previousProviderId>>"+previousProviderId);
+                    if(!TextUtils.isEmpty(previousProviderId) && !previousProviderId.equalsIgnoreCase("null")){
+                        Map<String,String> identifiers =  baseClient.getIdentifiers();
+                        if(identifiers ==null) identifiers = new HashMap<>();
+                        identifiers.put("previous_provider", previousProviderId);
+                        identifiers.put("is_migrated", "true");
+                        baseClient.setIdentifiers(identifiers);
+                    }
 
-        try{
-            if(baseClient == null) return;
-            if(globalSearchContentData.getMigrationType().equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.HH.name())) {
-                List<String> ids = new ArrayList<>();
-                ids.add(globalSearchContentData.getFamilyBaseEntityId());
-                ids.add(globalSearchContentData.getFamilyBaseEntityId());
-                baseClient.getRelationships().put("family",ids);
-            }
-            JSONObject clientJson = new JSONObject(JsonFormUtils.gson.toJson(baseClient));
-
-            getSyncHelper().addClient(baseClient.getBaseEntityId(), clientJson);
-
-            for (Event baseEvent: globalSearchResult.events) {
-                if(baseEvent.getBaseEntityId().equalsIgnoreCase(baseClient.getBaseEntityId())){
-                    JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(baseEvent));
-                    getSyncHelper().addEvent(baseEvent.getBaseEntityId(), eventJson);
                 }
+                JSONObject clientJson = new JSONObject(JsonFormUtils.gson.toJson(baseClient));
+
+                getSyncHelper().addClient(baseClient.getBaseEntityId(), clientJson);
+
+                for (Event baseEvent: globalSearchResult.events) {
+                    if(baseEvent.getEventType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)
+                            || baseEvent.getEventType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_UPDATE_REGISTRATION)){
+                        for (Obs observation:baseEvent.getObs()) {
+                            if(Objects.equals(observation.getFieldCode(), "age_calculated")){
+                                int age = Integer.parseInt(observation.getValues().get(0)+"");
+                                if(age>5){
+                                    baseEvent.setEventType(HnppConstants.EVENT_TYPE.FAMILY_MEMBER_REGISTRATION);
+                                }else{
+                                    baseEvent.setEventType(HnppConstants.EVENT_TYPE.CHILD_REGISTRATION);
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    if(baseEvent.getBaseEntityId().equalsIgnoreCase(baseClient.getBaseEntityId())){
+                        JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(baseEvent));
+                        getSyncHelper().addEvent(baseEvent.getBaseEntityId(), eventJson);
+                    }
+                }
+
+                long lastSyncTimeStamp = getAllSharedPreferences().fetchLastUpdatedAtDate(0);
+                Date lastSyncDate = new Date(lastSyncTimeStamp);
+                getClientProcessorForJava().processClient(getSyncHelper().getEvents(lastSyncDate, BaseRepository.TYPE_Unprocessed));
+                getAllSharedPreferences().saveLastUpdatedAtDate(lastSyncDate.getTime());
+                if(globalSearchContentData.getMigrationType().equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.Member.name())) {
+                    ContentValues values = new ContentValues();
+                    values.put(org.smartregister.chw.anc.util.DBConstants.KEY.DATE_REMOVED, new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+                    values.put("is_closed", 1);
+                    HnppApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.FAMILY_MEMBER, values,
+                            org.smartregister.chw.anc.util.DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseClient.getBaseEntityId()});
+                }
+                Log.v("FAMILY_IDS","saveClientAndEvent>>"+globalSearchContentData.getFamilyBaseEntityId());
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-            long lastSyncTimeStamp = getAllSharedPreferences().fetchLastUpdatedAtDate(0);
-            Date lastSyncDate = new Date(lastSyncTimeStamp);
-            getClientProcessorForJava().processClient(getSyncHelper().getEvents(lastSyncDate, BaseRepository.TYPE_Unprocessed));
-            getAllSharedPreferences().saveLastUpdatedAtDate(lastSyncDate.getTime());
-                ContentValues values = new ContentValues();
-                values.put(org.smartregister.chw.anc.util.DBConstants.KEY.DATE_REMOVED, new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-                values.put("is_closed", 1);
-                HnppApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.FAMILY_MEMBER, values,
-                        org.smartregister.chw.anc.util.DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseClient.getBaseEntityId()});
-
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
+            appExecutors.mainThread().execute(() -> {
                 GlobalSearchMemberProfileActivity.startGlobalMemberProfileActivity(QRScannerActivity.this, baseClient);
                 finish();
-            }
-        },1000);
+            });
+        };
+        appExecutors.diskIO().execute(runnable);
+//
 
     }
     @Override
@@ -299,7 +386,7 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
     @Override
     protected void onPause() {
         super.onPause();
-        scannerView.stopCamera();
+        if (scannerView!=null)scannerView.stopCamera();
     }
 
 

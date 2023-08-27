@@ -85,6 +85,7 @@ public class SearchDetailsInteractor implements SearchDetailsContract.Interactor
                 throw new NoHttpResponseException(GLOBAL_SEARCH_URL + " not returned data");
             }
             JSONObject jsonObject = new JSONObject((String)resp.payload());
+            Log.v("GLOBAL_SEARCH_URL", "jsonObject:" + jsonObject);
             return jsonObject;
 
         } catch (Exception e) {

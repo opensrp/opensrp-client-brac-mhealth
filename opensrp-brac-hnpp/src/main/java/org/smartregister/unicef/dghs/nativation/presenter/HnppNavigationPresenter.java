@@ -12,7 +12,6 @@ import android.widget.Toast;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
 import org.smartregister.chw.core.model.NavigationOption;
@@ -22,16 +21,12 @@ import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.activity.DFSActivity;
 import org.smartregister.unicef.dghs.activity.GrowthReportActivity;
 import org.smartregister.unicef.dghs.activity.MigrationActivity;
-import org.smartregister.unicef.dghs.activity.NewDashBoardActivity;
 import org.smartregister.unicef.dghs.activity.NotificationActivity;
 import org.smartregister.unicef.dghs.activity.QRScannerActivity;
 import org.smartregister.unicef.dghs.job.DataDeleteJob;
 import org.smartregister.unicef.dghs.job.HnppSyncIntentServiceJob;
 import org.smartregister.unicef.dghs.activity.COVIDJsonFormActivity;
 import org.smartregister.unicef.dghs.activity.ForceSyncActivity;
-import org.smartregister.unicef.dghs.job.MigrationFetchJob;
-import org.smartregister.unicef.dghs.job.StockFetchJob;
-import org.smartregister.unicef.dghs.job.TargetFetchJob;
 import org.smartregister.unicef.dghs.job.VaccineDueUpdateServiceJob;
 import org.smartregister.unicef.dghs.nativation.interactor.NavigationInteractor;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
@@ -54,7 +49,6 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import rx.Observable;
 import timber.log.Timber;
 
 
