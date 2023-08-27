@@ -131,8 +131,11 @@ public class HnppChildProfileInteractor implements CoreChildProfileContract.Inte
                     CommonPersonObjectClient client = null;
                     if(!TextUtils.isEmpty(familyId)){
                         final CommonPersonObject familyPersonObject = getCommonRepository(Utils.metadata().familyRegister.tableName).findByBaseEntityId(familyId);
-                        client = new CommonPersonObjectClient(familyPersonObject.getCaseId(), familyPersonObject.getDetails(), "");
-                        client.setColumnmaps(familyPersonObject.getColumnmaps());
+                        if(familyPersonObject !=null){
+                            client = new CommonPersonObjectClient(familyPersonObject.getCaseId(), familyPersonObject.getDetails(), "");
+                            client.setColumnmaps(familyPersonObject.getColumnmaps());
+                        }
+
                     }
                     String primaryCaregiverID = null,familyHeadID = null,familyFirstName = null,familyLastName = null;
                     if(client!=null){

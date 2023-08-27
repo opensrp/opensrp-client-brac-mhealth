@@ -126,7 +126,7 @@ public class TikaCardViewActivity extends SecuredActivity {
         String text =baseEntityId+","+tikaInfoModel.registrationNo+","+tikaInfoModel.divisionId+","+tikaInfoModel.districtId+","+tikaInfoModel.dob+","+tikaInfoModel.genderEnglish+", "+baseUrl+"/opensrp-dashboard/view-epi-card.html?id="+baseEntityId;
         try {
             Log.v("SCANNER","scan result:"+text);
-            qrcodeImage.setImageBitmap(generateQRCode(text,700));
+            qrcodeImage.setImageBitmap(generateQRCode(text,900));
         } catch (WriterException e) {
             e.printStackTrace();
         }

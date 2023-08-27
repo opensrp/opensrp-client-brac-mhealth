@@ -16,6 +16,8 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 
 import org.apache.commons.lang3.StringUtils;
@@ -68,6 +70,9 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
     protected void onCreation() {
 
         scannerView = new ZXingScannerView(this);
+        List<BarcodeFormat> barcodeFormats = new ArrayList<>();
+        barcodeFormats.add(BarcodeFormat.QR_CODE);
+        scannerView.setFormats(barcodeFormats);
         // this paramter will make your HUAWEI phone works great!
         //scannerView.setAspectTolerance(0.5f);
         setContentView(scannerView);
@@ -95,8 +100,11 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
     }
 
     private void startScanner() {
-        scannerView.setResultHandler(this);
-        scannerView.startCamera();
+        if (scannerView!=null){
+            scannerView.setResultHandler(this);
+            scannerView.startCamera();
+        }
+
     }
 
     private void requestCameraPermission() {
@@ -116,13 +124,10 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
             }
         }
     }
+    private void processResult(String scanResult){
+        Log.v("SCANNER_RESULT","scannedData>>"+scanResult);
 
-    @Override
-    public void handleResult(Result result) {
-        String scannedData = result.getText(); // The scanned QR code data
-        Log.v("SCANNER_RESULT","scannedData>>"+scannedData);
-        String[] ss = scannedData.split(",");
-
+           String[] ss = scanResult.split(",");
         if (ss.length > 1) {
             //http://unicef-ha.mpower-social.com/opensrp-dashboard/epi-card.html,base_entity,registrationId,divisionId,districtId,dob,gender
             String baseEntityId = ss[0];
@@ -168,6 +173,7 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
                 globalSearchContentData = new GlobalSearchContentData();
                 globalSearchContentData.setId(isShr?"shr_id=":"unique_id="+""+shrId);
                 if(isShr)globalSearchContentData.setShrId(shrId);
+                globalSearchContentData.setMigrationType(HnppConstants.MIGRATION_TYPE.Member.name());
                 globalSearchContentData.setDivisionId(divId);
                 globalSearchContentData.setDistrictId(disId);
                 globalSearchContentData.setGender(gender);
@@ -181,8 +187,14 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
 
             }
         }else{
-            Toast.makeText(this,scannedData,Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"ScanResult not valid, please try again",Toast.LENGTH_LONG).show();
+            finish();
         }
+    }
+
+    @Override
+    public void handleResult(Result result) {
+        processResult(result.getText());
     }
     private GlobalSearchContentData globalSearchContentData;
     private GlobalSearchResult globalSearchResult;
@@ -214,7 +226,7 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        scannerView.stopCamera();
+        if (scannerView!=null)scannerView.stopCamera();
     }
 
     @Override
@@ -374,7 +386,7 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
     @Override
     protected void onPause() {
         super.onPause();
-        scannerView.stopCamera();
+        if (scannerView!=null)scannerView.stopCamera();
     }
 
 
