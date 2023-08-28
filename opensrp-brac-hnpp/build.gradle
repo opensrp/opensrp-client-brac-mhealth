@@ -162,8 +162,8 @@ android {
 
         }
         mis_prod{
-            versionCode 6
-            versionName "1.0.6"
+            versionCode 7
+            versionName "1.0.7"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
             buildConfigField "boolean", 'IS_MIS', 'true'
