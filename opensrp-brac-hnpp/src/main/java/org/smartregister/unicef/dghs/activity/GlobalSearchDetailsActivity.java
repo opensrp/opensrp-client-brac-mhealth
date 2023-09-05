@@ -484,13 +484,13 @@ public class GlobalSearchDetailsActivity extends SecuredActivity implements View
 //    }
 
     private void migrateHH() {
-        HnppConstants.showDialogWithAction(this,getString(R.string.dialog_title), "", new Runnable() {
+        HnppConstants.showDialogWithAction(this, getString(R.string.dialog_title), "", new Runnable() {
             @Override
             public void run() {
                 new MigrationInteractor(new AppExecutors()).migrateHH(globalSearchContentData, new MigrationContract.MigrationPostInteractorCallBack() {
                     @Override
                     public void onSuccess() {
-                        Toast.makeText(GlobalSearchDetailsActivity.this,"Successfully migrated,Syncing data",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(GlobalSearchDetailsActivity.this, "Successfully migrated,Syncing data", Toast.LENGTH_SHORT).show();
                         HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
                         Intent intent = new Intent(GlobalSearchDetailsActivity.this, FamilyRegisterActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -501,11 +501,16 @@ public class GlobalSearchDetailsActivity extends SecuredActivity implements View
 
                     @Override
                     public void onFail() {
-                        Toast.makeText(GlobalSearchDetailsActivity.this,"Fail to migrate",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(GlobalSearchDetailsActivity.this, "Fail to migrate", Toast.LENGTH_SHORT).show();
 
 
                     }
                 });
+
+            }
+        }, new Runnable() {
+            @Override
+            public void run() {
 
             }
         });

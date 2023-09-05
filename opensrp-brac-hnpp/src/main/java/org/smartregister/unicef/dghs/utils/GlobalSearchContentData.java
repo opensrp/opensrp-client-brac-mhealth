@@ -23,6 +23,16 @@ public class GlobalSearchContentData implements Serializable {
     private String dob;
     private String shrId;
 
+    public OtherVaccineContentData getOtherVaccineContentData() {
+        return otherVaccineContentData;
+    }
+
+    public void setOtherVaccineContentData(OtherVaccineContentData otherVaccineContentData) {
+        this.otherVaccineContentData = otherVaccineContentData;
+    }
+
+    private OtherVaccineContentData otherVaccineContentData;
+
     public void setShrId(String shrId) {
         this.shrId = shrId;
     }

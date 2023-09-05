@@ -1,9 +1,11 @@
 package org.smartregister.unicef.dghs.activity;
 
 import static org.smartregister.unicef.dghs.activity.HnppFamilyOtherMemberProfileActivity.IS_COMES_IDENTITY;
+import static org.smartregister.unicef.dghs.utils.HnppConstants.showDialogWithAction;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -15,6 +17,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
@@ -42,12 +47,16 @@ import org.smartregister.repository.BaseRepository;
 import org.smartregister.sync.ClientProcessorForJava;
 import org.smartregister.sync.helper.ECSyncHelper;
 import org.smartregister.unicef.dghs.HnppApplication;
+import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.contract.SearchDetailsContract;
 import org.smartregister.unicef.dghs.interactor.SearchDetailsInteractor;
+import org.smartregister.unicef.dghs.job.GlobalLocationFetchJob;
+import org.smartregister.unicef.dghs.job.OtherVaccineJob;
 import org.smartregister.unicef.dghs.model.GlobalSearchResult;
 import org.smartregister.unicef.dghs.utils.GlobalSearchContentData;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.HnppDBUtils;
+import org.smartregister.unicef.dghs.utils.OtherVaccineContentData;
 import org.smartregister.view.activity.SecuredActivity;
 
 import java.text.SimpleDateFormat;
@@ -76,22 +85,23 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
         // this paramter will make your HUAWEI phone works great!
         //scannerView.setAspectTolerance(0.5f);
         setContentView(scannerView);
-        if (ContextCompat.checkSelfPermission(QRScannerActivity.this, Manifest.permission.CAMERA)
-                == PackageManager.PERMISSION_GRANTED) {
-            startScanner();
-        } else {
-            requestCameraPermission();
-        }
+//        if (ContextCompat.checkSelfPermission(QRScannerActivity.this, Manifest.permission.CAMERA)
+//                == PackageManager.PERMISSION_GRANTED) {
+//            startScanner();
+//        } else {
+//            requestCameraPermission();
+//        }
+        processResult("camp,HPV,11111111111111111,2023-09-04,loy loy,ffg,fgfg");
     }
 
     @Override
     protected void onResumption() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                == PackageManager.PERMISSION_GRANTED) {
-            startScanner();
-        } else {
-            requestCameraPermission();
-        }
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+//                == PackageManager.PERMISSION_GRANTED) {
+//            startScanner();
+//        } else {
+//            requestCameraPermission();
+//        }
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,12 +134,18 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
             }
         }
     }
+
     private void processResult(String scanResult){
         Log.v("SCANNER_RESULT","scannedData>>"+scanResult);
 
            String[] ss = scanResult.split(",");
         if (ss.length > 1) {
-            //http://unicef-ha.mpower-social.com/opensrp-dashboard/epi-card.html,base_entity,registrationId,divisionId,districtId,dob,gender
+           //base_entity,registrationId,divisionId,districtId,dob,gender,http://unicef-ha.mpower-social.com/opensrp-dashboard/epi-card.html,
+            //other vaccine camp,HPV,brn,dob
+            if(ss[0].equalsIgnoreCase("camp")){
+                processOtherVaccine(ss);
+                return;
+            }
             String baseEntityId = ss[0];
             String shrId =ss[1];
             boolean isShr = ss[1].length() == 11;
@@ -191,7 +207,111 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
             finish();
         }
     }
+    private String vaccineName,dob;
+    private void processOtherVaccine(String[] result){
+        vaccineName = result[1];
+        String brn = result[2];
+        dob = result[3];
+        if(!HnppConstants.isConnectedToInternet(this)){
+            HnppConstants.checkNetworkConnection(this);
+            return;
+        }
+        OtherVaccineContentData otherVaccineContentData = new OtherVaccineContentData();
+        otherVaccineContentData.brn = brn;
+        otherVaccineContentData.vaccine_name = vaccineName;
+        otherVaccineContentData.dob = dob;
+        String date = HnppConstants.DDMMYY.format(System.currentTimeMillis());
+        otherVaccineContentData.vaccineDate = date;
+        globalSearchContentData = new GlobalSearchContentData();
+        globalSearchContentData.setMigrationType(HnppConstants.MIGRATION_TYPE.OTHER_VACCINE.name());
+        globalSearchContentData.setOtherVaccineContentData(otherVaccineContentData);
+        if(!TextUtils.isEmpty(otherVaccineContentData.brn) && !TextUtils.isEmpty(otherVaccineContentData.dob)){
+            SearchDetailsContract.Interactor interactor = new SearchDetailsInteractor(new AppExecutors());
+            showProgressDialog("Searching....");
+            interactor.fetchOtherVaccineData(otherVaccineContentData,this);
 
+        }else{
+            Toast.makeText(this,"BRN not found",Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+    }
+    @Override
+    public void onUpdateOtherVaccine(OtherVaccineContentData otherVaccineContentData) {
+        hideProgressDialog();
+        otherVaccineContentData.vaccine_name = vaccineName;
+        String date = HnppConstants.DDMMYY.format(System.currentTimeMillis());
+        otherVaccineContentData.vaccineDate = date;
+        otherVaccineContentData.dob = dob;
+        if(otherVaccineContentData!=null)showDetailsDialog(otherVaccineContentData);
+    }
+    private void showDetailsDialog(OtherVaccineContentData content){
+        String buttonName= getString(R.string.other_vaccine_button,content.vaccine_name);
+        StringBuilder builder = new StringBuilder();
+        String name = content.firstName+" "+content.lastName;
+        builder.append(this.getString(R.string.name,name)+"\n");
+        builder.append(this.getString(R.string.father_name,content.fatherName)+"\n");
+        builder.append(this.getString(R.string.mother_name,content.motherName)+"\n");
+        builder.append(this.getString(R.string.dob, content.dob)+"\n");
+        builder.append(this.getString(R.string.bid,content.brn));
+        if(TextUtils.isEmpty(content.brn)){
+            Toast.makeText(this,"No result found",Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        showDialogWithAction(this, buttonName, builder.toString(), new Runnable() {
+            @Override
+            public void run() {
+                saveOtherVaccineInfo(content);
+                finish();
+            }
+        }, new Runnable() {
+            @Override
+            public void run() {
+                finish();
+            }
+        });
+
+//
+//        Dialog dialog = new Dialog(this, android.R.style.Theme_NoTitleBar_Fullscreen);
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog.setContentView(R.layout.migration_member_details_dialog);
+//        TextView textViewName = dialog.findViewById(R.id.name_TV);
+//        TextView textViewVillage = dialog.findViewById(R.id.village_TV);
+//        textViewVillage.setVisibility(View.GONE);
+//        TextView textViewPhoneNo = dialog.findViewById(R.id.phone_no_TV);
+//        textViewName.setText(this.getString(R.string.name,content.name));
+//        textViewName.append("\n");
+//        textViewName.append(this.getString(R.string.father_name,content.fatherName));
+//        textViewName.append("\n");
+//        textViewName.append(this.getString(R.string.mother_name,content.motherName));
+//
+//        StringBuilder builder = new StringBuilder();
+//        builder.append(this.getString(R.string.dob, content.dob)+"\n");
+//        builder.append(this.getString(R.string.bid,content.brn));
+//        textViewPhoneNo.setVisibility(View.VISIBLE);
+//        textViewPhoneNo.setText(builder.toString());
+//        String buttonName= getString(R.string.other_vaccine_button,content.vaccine_name);
+//        ((TextView)dialog.findViewById(R.id.migration_btn)).setText(buttonName);
+//        dialog.findViewById(R.id.cross_btn).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
+//        dialog.findViewById(R.id.migration_btn).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//                saveOtherVaccineInfo(content);
+//                finish();
+//
+//
+//            }
+//        });
+//        dialog.show();
+
+    }
     @Override
     public void handleResult(Result result) {
         processResult(result.getText());
@@ -288,7 +408,7 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
 //    }
     private void saveClientAndEvent(Client baseClient){
         AppExecutors appExecutors = new AppExecutors();
-        Runnable runnable = () -> {
+        @SuppressLint("SimpleDateFormat") Runnable runnable = () -> {
             try{
                 if(baseClient == null) return;
                 if(globalSearchContentData.getMigrationType().equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.HH.name())) {
@@ -360,6 +480,18 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
     @Override
     public void setGlobalSearchResult(GlobalSearchResult globalSearchResult) {
         this.globalSearchResult = globalSearchResult;
+
+    }
+
+
+    private void saveOtherVaccineInfo(OtherVaccineContentData contentData){
+        HnppApplication.getOtherVaccineRepository().addOtherVaccine(contentData);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        OtherVaccineJob.scheduleJobImmediately(OtherVaccineJob.TAG);
 
     }
     public ECSyncHelper getSyncHelper() {

@@ -7,12 +7,19 @@ import com.google.gson.Gson;
 import org.apache.http.NoHttpResponseException;
 import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
+import org.smartregister.domain.Response;
+import org.smartregister.unicef.dghs.BuildConfig;
+import org.smartregister.unicef.dghs.HnppApplication;
+import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.contract.SearchDetailsContract;
 import org.smartregister.unicef.dghs.model.GlobalSearchResult;
 import org.smartregister.unicef.dghs.utils.GlobalSearchContentData;
 import org.smartregister.family.util.AppExecutors;
 import org.smartregister.service.HTTPAgent;
+import org.smartregister.unicef.dghs.utils.HnppConstants;
+import org.smartregister.unicef.dghs.utils.OtherVaccineContentData;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 
@@ -20,6 +27,7 @@ public class SearchDetailsInteractor implements SearchDetailsContract.Interactor
     private AppExecutors appExecutors;
     private GlobalSearchResult globalSearchResult;
     private static final String GLOBAL_SEARCH_URL = "/rest/event/global-search?";
+    private static final String OTHER_VACCINE_URL = "rest/api/vaccination/verify";
 
 
     public SearchDetailsInteractor(AppExecutors appExecutors){
@@ -43,6 +51,49 @@ public class SearchDetailsInteractor implements SearchDetailsContract.Interactor
         appExecutors.diskIO().execute(runnable);
     }
 
+    @Override
+    public void fetchOtherVaccineData(OtherVaccineContentData otherVaccineContentData, SearchDetailsContract.InteractorCallBack callBack) {
+        Runnable runnable = () -> {
+            JSONObject jsonObject = getOtherVaccineInfo(otherVaccineContentData);
+            if(jsonObject!=null){
+                OtherVaccineContentData otherVaccineContentData1 = new Gson().fromJson(jsonObject.toString(), OtherVaccineContentData.class);
+                appExecutors.mainThread().execute(() -> callBack.onUpdateOtherVaccine(otherVaccineContentData1));
+
+            }else{
+                appExecutors.mainThread().execute(() -> callBack.onUpdateOtherVaccine(new OtherVaccineContentData()));
+
+            }
+
+        };
+        appExecutors.diskIO().execute(runnable);
+    }
+    private JSONObject getOtherVaccineInfo(OtherVaccineContentData contentData){
+        try{
+            String url = BuildConfig.citizen_url +OTHER_VACCINE_URL;//+"brn="+contentData.brn+"&dob="+contentData.dob;
+
+            JSONObject request = new JSONObject();
+            request.put("brn",contentData.brn);
+            request.put("dob",contentData.dob);
+            String jsonPayload = request.toString();
+           // Response response = httpAgent.fetchWithoutAuth(url);
+            HTTPAgent httpAgent = CoreLibrary.getInstance().context().getHttpAgent();
+
+            Response<String> response = httpAgent.post(url
+                    ,
+                    jsonPayload);
+
+            HnppConstants.appendLog("GLOBAL_SEARCH_URL", "pushECToServer:response comes"+response.payload());
+            if (response.isFailure()) {
+                throw new NoHttpResponseException(url + " not returned data");
+            }
+            JSONObject jsonObject = new JSONObject((String)response.payload());
+            Log.v("GLOBAL_SEARCH_URL", "jsonObject:" + jsonObject);
+            return jsonObject;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     private JSONObject getGlobalSearchMemberList(GlobalSearchContentData globalSearchContentData){
 

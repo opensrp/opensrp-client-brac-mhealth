@@ -19,7 +19,6 @@ import android.widget.EditText;
 import org.smartregister.unicef.dghs.BuildConfig;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
-import org.smartregister.unicef.dghs.job.CampFetchJob;
 import org.smartregister.unicef.dghs.job.GlobalLocationFetchJob;
 import org.smartregister.unicef.dghs.job.HnppPncCloseJob;
 import org.smartregister.unicef.dghs.job.HnppSyncIntentServiceJob;

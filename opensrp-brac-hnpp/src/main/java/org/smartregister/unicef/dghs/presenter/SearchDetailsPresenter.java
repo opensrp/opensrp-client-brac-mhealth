@@ -9,6 +9,7 @@ import org.smartregister.unicef.dghs.model.GlobalSearchResult;
 import org.smartregister.unicef.dghs.model.Migration;
 import org.smartregister.family.util.AppExecutors;
 import org.smartregister.unicef.dghs.utils.GlobalSearchContentData;
+import org.smartregister.unicef.dghs.utils.OtherVaccineContentData;
 
 import java.util.ArrayList;
 
@@ -81,6 +82,11 @@ public class SearchDetailsPresenter implements SearchDetailsContract.Presenter,S
     @Override
     public void setGlobalSearchResult(GlobalSearchResult globalSearchResult) {
         this.globalSearchResult = globalSearchResult;
+    }
+
+    @Override
+    public void onUpdateOtherVaccine(OtherVaccineContentData otherVaccineContentData) {
+
     }
 
     @Override

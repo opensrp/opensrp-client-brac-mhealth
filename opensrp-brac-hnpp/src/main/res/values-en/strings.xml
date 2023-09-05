@@ -959,6 +959,7 @@
     <string name="member_survey">Member Survey</string>
     <string name="denger_sign_pnc">Danger sign during PNC</string>
     <string name="risky_title">Risky Data Details</string>
+    <string name="other_vaccine_button">want to taken %s vaccine?</string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>

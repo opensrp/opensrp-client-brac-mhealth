@@ -104,6 +104,7 @@ public class HnppChwRepository extends Repository {
         IMDatabaseUtils.populateRecurringServices(context, database, recurringServiceTypeRepository);
         database.execSQL(AlertRepository.ALTER_ADD_OFFLINE_COLUMN);
         database.execSQL(AlertRepository.OFFLINE_INDEX);
+        OtherVaccineRepository.createTable(database);
     }
 
     @Override

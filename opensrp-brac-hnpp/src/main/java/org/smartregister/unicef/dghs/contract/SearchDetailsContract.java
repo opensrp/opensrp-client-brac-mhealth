@@ -6,6 +6,7 @@ import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.unicef.dghs.model.GlobalSearchResult;
 import org.smartregister.unicef.dghs.model.Migration;
 import org.smartregister.unicef.dghs.utils.GlobalSearchContentData;
+import org.smartregister.unicef.dghs.utils.OtherVaccineContentData;
 
 import java.util.ArrayList;
 
@@ -26,8 +27,10 @@ public interface SearchDetailsContract {
     interface InteractorCallBack{
         void onUpdateList(ArrayList<Client> list);
         void setGlobalSearchResult(GlobalSearchResult globalSearchResult);
+        void onUpdateOtherVaccine(OtherVaccineContentData otherVaccineContentData);
     }
     interface Interactor{
         void fetchData(GlobalSearchContentData globalSearchContentData, SearchDetailsContract.InteractorCallBack callBack);
+        void fetchOtherVaccineData(OtherVaccineContentData otherVaccineContentData,SearchDetailsContract.InteractorCallBack callBack);
     }
 }

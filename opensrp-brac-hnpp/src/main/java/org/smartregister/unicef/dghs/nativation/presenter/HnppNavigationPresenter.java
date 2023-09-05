@@ -27,6 +27,7 @@ import org.smartregister.unicef.dghs.job.DataDeleteJob;
 import org.smartregister.unicef.dghs.job.HnppSyncIntentServiceJob;
 import org.smartregister.unicef.dghs.activity.COVIDJsonFormActivity;
 import org.smartregister.unicef.dghs.activity.ForceSyncActivity;
+import org.smartregister.unicef.dghs.job.OtherVaccineJob;
 import org.smartregister.unicef.dghs.job.VaccineDueUpdateServiceJob;
 import org.smartregister.unicef.dghs.nativation.interactor.NavigationInteractor;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
@@ -351,7 +352,7 @@ public class HnppNavigationPresenter implements NavigationContract.Presenter {
         HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
         PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
         VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
-
+        OtherVaccineJob.scheduleJobImmediately(OtherVaccineJob.TAG);
 //        TargetFetchJob.scheduleJobImmediately(TargetFetchJob.TAG);
 //        StockFetchJob.scheduleJobImmediately(StockFetchJob.TAG);
         DataDeleteJob.scheduleJobImmediately(DataDeleteJob.TAG);
