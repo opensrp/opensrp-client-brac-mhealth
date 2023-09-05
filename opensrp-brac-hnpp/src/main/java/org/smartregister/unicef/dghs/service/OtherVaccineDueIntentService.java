@@ -75,7 +75,7 @@ public class OtherVaccineDueIntentService extends IntentService {
             jsonPayload = jsonPayload.replace("\\","").replace("\"[","[").replace("]\"","]");
             HTTPAgent httpAgent = CoreLibrary.getInstance().context().getHttpAgent();
             Log.v("OTHER_VACCINE","jsonPayload after replace>>>"+jsonPayload);
-            Response<String> response = httpAgent.post(add_url, jsonPayload);
+            Response<String> response = httpAgent.postWithBasicAuthInfo(add_url, jsonPayload,BuildConfig.AUTH_USER,BuildConfig.AUTH_PASS);
             if (response.isFailure()) {
                 HnppConstants.appendLog("SYNC_URL", "pushECToServer:response response.isFailure");
                 return;

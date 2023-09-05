@@ -5,17 +5,26 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import org.apache.commons.lang3.StringUtils;
+import org.smartregister.CoreLibrary;
 import org.smartregister.unicef.dghs.BuildConfig;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
@@ -44,8 +53,18 @@ import org.smartregister.util.Utils;
 import org.smartregister.view.activity.BaseLoginActivity;
 import org.smartregister.view.contract.BaseLoginContract;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class LoginActivity extends BaseLoginActivity implements BaseLoginContract.View {
     public static final String TAG = BaseLoginActivity.class.getCanonicalName();
@@ -163,6 +182,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
 //            userNameText.setText("mahmud101");//userNameText.setText("baby@ha.4");
 //            passwordText.setText("123456");
         }
+        if(!BuildConfig.DEBUG)updateAppVersion();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -192,7 +212,64 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         super.onDestroy();
         mActivity = null;
     }
+    private void updateAppVersion(){
+        HnppConstants.getAppVersionFromServer()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {}
 
+                    @Override
+                    public void onNext(String s) {
+                        Log.v("APP_UPDATE","onNext>>s:"+s);
+                        if(!TextUtils.isEmpty(s)){
+                            PackageInfo pInfo = null;
+                            try {
+                                pInfo = LoginActivity.this.getPackageManager().getPackageInfo(getPackageName(), 0);
+                                String version = pInfo.versionName;
+                                Log.v("APP_UPDATE","onNext>>version:"+version);
+                                AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
+                                alertDialog.setTitle("New version available");
+                                alertDialog.setMessage("Your using version:"+version);
+                                alertDialog.setCancelable(false);
+                                alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE, "UPDATE",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                try {
+                                                    final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                                                    try {
+                                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                                                    } catch (android.content.ActivityNotFoundException anfe) {
+                                                    }
+
+
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        });
+                                if (mActivity != null)
+                                    alertDialog.show();
+                            } catch (PackageManager.NameNotFoundException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.v("NEXT_DELETE_ERROR",""+e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.v("NEXT_DELETE_COMPLETE","completed");
+                    }
+                });
+    }
     @Override
     public void onClick(View v) {
         if (v.getId() == org.smartregister.R.id.login_login_btn) {

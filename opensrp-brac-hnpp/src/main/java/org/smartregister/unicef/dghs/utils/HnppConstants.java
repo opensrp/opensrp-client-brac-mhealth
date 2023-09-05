@@ -28,6 +28,7 @@ import android.widget.TextView;
 import com.google.android.gms.vision.L;
 import com.google.common.collect.ImmutableMap;
 
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
@@ -36,6 +37,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.CoreLibrary;
 import org.smartregister.unicef.dghs.BuildConfig;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
@@ -53,10 +55,13 @@ import org.smartregister.util.DateUtil;
 import org.smartregister.util.LangUtils;
 import org.smartregister.view.activity.BaseProfileActivity;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
@@ -67,6 +72,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import io.reactivex.Observable;
 
 public class HnppConstants extends CoreConstants {
     public static final String LOCATION_UPDATED = "location_updated";
@@ -120,30 +126,74 @@ public class HnppConstants extends CoreConstants {
                     "Anytime"
             )
     );
+    public static Observable<String> getAppVersionFromServer() {
 
-    public static void deleteLogFile(){
-//        try{
-//        Context context= HnppApplication.getInstance().getApplicationContext();
-//        String path = context.getExternalFilesDir(null) + "/hnpp_log";
-//        File directory = new File(path);
-//        File[] files = directory.listFiles();
-//        if(files!=null){
-//         for(int i = 0; i< files.length; i++){
-//            if(files.length>3){
-//                if(i<3){
-//                    File f = new File(directory + "/" + files[i].getName());
-//                    boolean isDeleted = deleteDirectory(f.getAbsoluteFile());
-//                    Log.v("LOG_FILE", " for delete FileName: isDeleted" + isDeleted + ":" + f.getAbsolutePath());
-//
-//                }
-//            }
-//        }
-//        }
-//        }catch (Exception e){
-//
-//        }
+        return  Observable.create(e->{
+                    try {
+                        String baseUrl = CoreLibrary.getInstance().context().
+                                configuration().dristhiBaseURL();
+                        // Create a URL for the desired page
+                        String base_url = HnppApplication.getHNPPInstance().getString(R.string.opensrp_url).replace("opensrp/", "");
+                        if (!StringUtils.isEmpty(baseUrl) && baseUrl.contains("opensrp")) {
+                            base_url = baseUrl.replace("opensrp/", "");
+                        }
+                        Log.v("VERSION_CODE","base_url:"+base_url);
+
+                        URL url = new URL(base_url + "opt/multimedia/app-version.txt");
+
+                        // Read all the text returned by the server
+                        BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+                        String str;
+                        str = "";
+                        String version_code ="";
+                        while ((str = in.readLine()) != null) {
+                            // str is one line of text; readLine() strips the newline character(s)
+                            version_code += str;
+                        }
+                        in.close();
+                        e.onNext(version_code);//error
+                        e.onComplete();
+                    } catch (Exception ex) {
+                        e.onNext("");//error
+                        e.onComplete();
+                    }
+
+                }
+        );
 
     }
+    public static Observable<Boolean> deleteLogFile() {
+
+        return  Observable.create(e->{
+                    try {
+                        Context context= HnppApplication.getInstance().getApplicationContext();
+                        String path = context.getExternalFilesDir(null) + "/hnpp_log";
+                        File directory = new File(path);
+                        File[] files = directory.listFiles();
+                        if(files!=null){
+                            for(int i = 0; i< files.length; i++){
+                                if(files.length>3){
+                                    if(i<3){
+                                        File f = new File(directory + "/" + files[i].getName());
+                                        boolean isDeleted = deleteDirectory(f.getAbsoluteFile());
+                                        Log.v("LOG_FILE", " for delete FileName: isDeleted" + isDeleted + ":" + f.getAbsolutePath());
+
+                                    }
+                                }
+                            }
+                        }
+                        e.onNext(true);//error
+                        e.onComplete();
+                    } catch (Exception ex) {
+                        e.onNext(false);//error
+                        e.onComplete();
+                    }
+
+                }
+        );
+
+    }
+
     static boolean deleteDirectory(File path) {
         if(path.exists()) {
             File[] files = path.listFiles();

@@ -80,7 +80,7 @@ dependencies {
         exclude group: 'io.ona.rdt-capture', module: 'lib'
     }
 //branch: hnpp_android_update
-    api('org.smartregister:opensrp-client-core:4.7.62-android-update-SNAPSHOT') {
+    api('org.smartregister:opensrp-client-core:4.7.62-android-update-auth-SNAPSHOT') {
         transitive = true
 //        exclude group: 'com.github.lecho', module: 'hellocharts-library'
         exclude group: 'com.github.bmelnychuk', module: 'atv'

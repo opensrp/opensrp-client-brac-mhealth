@@ -85,23 +85,23 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
         // this paramter will make your HUAWEI phone works great!
         //scannerView.setAspectTolerance(0.5f);
         setContentView(scannerView);
-//        if (ContextCompat.checkSelfPermission(QRScannerActivity.this, Manifest.permission.CAMERA)
-//                == PackageManager.PERMISSION_GRANTED) {
-//            startScanner();
-//        } else {
-//            requestCameraPermission();
-//        }
-        processResult("camp,HPV,11111111111111111,2023-09-04,loy loy,ffg,fgfg");
+        if (ContextCompat.checkSelfPermission(QRScannerActivity.this, Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_GRANTED) {
+            startScanner();
+        } else {
+            requestCameraPermission();
+        }
+//        processResult("camp,HPV,11111111111111111,2023-09-04,loy loy,ffg,fgfg");
     }
 
     @Override
     protected void onResumption() {
-//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-//                == PackageManager.PERMISSION_GRANTED) {
-//            startScanner();
-//        } else {
-//            requestCameraPermission();
-//        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_GRANTED) {
+            startScanner();
+        } else {
+            requestCameraPermission();
+        }
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {

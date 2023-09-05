@@ -41,8 +41,12 @@ android {
         targetSdkVersion 30
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
-
-
+        Properties properties = new Properties()
+        if (rootProject.file("local.properties").exists()) {
+            properties.load(rootProject.file("local.properties").newDataInputStream())
+        }
+        buildConfigField "String", 'AUTH_USER', properties.getProperty("AUTH_USER", "")
+        buildConfigField "String", 'AUTH_PASS', properties.getProperty("AUTH_PASS", "")
         buildConfigField "String", "SIMPRINT_PROJECT_ID_TRAINING",'"pcmqBbcaB4xWvfRHRELG"'
         buildConfigField "String", "SIMPRINT_PROJECT_ID_RELEASE",'"pcmqBbcaB4xWvfRHRELG"'
         buildConfigField "String[]", "ALLOWED_LOCATION_LEVELS", '{"MOH Jhpiego Facility Name" , "Village"}'
@@ -166,8 +170,8 @@ android {
             buildConfigField "String", 'citizen_url', '"http://citizen-portal.mpower-social.com/"'
         }
         mis_prod{
-            versionCode 7
-            versionName "1.0.7"
+            versionCode 8
+            versionName "1.0.8"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
             buildConfigField "boolean", 'IS_MIS', 'true'
