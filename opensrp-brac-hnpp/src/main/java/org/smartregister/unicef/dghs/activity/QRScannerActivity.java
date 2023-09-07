@@ -221,7 +221,7 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
         otherVaccineContentData.vaccine_name = vaccineName;
         otherVaccineContentData.dob = dob;
         String date = HnppConstants.DDMMYY.format(System.currentTimeMillis());
-        otherVaccineContentData.vaccineDate = date;
+        otherVaccineContentData.date = date;
         globalSearchContentData = new GlobalSearchContentData();
         globalSearchContentData.setMigrationType(HnppConstants.MIGRATION_TYPE.OTHER_VACCINE.name());
         globalSearchContentData.setOtherVaccineContentData(otherVaccineContentData);
@@ -240,8 +240,8 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
     public void onUpdateOtherVaccine(OtherVaccineContentData otherVaccineContentData) {
         hideProgressDialog();
         otherVaccineContentData.vaccine_name = vaccineName;
-        String date = HnppConstants.DDMMYY.format(System.currentTimeMillis());
-        otherVaccineContentData.vaccineDate = date;
+        String date = HnppConstants.YYMMDD.format(System.currentTimeMillis());
+        otherVaccineContentData.date = date;
         otherVaccineContentData.dob = dob;
         if(otherVaccineContentData!=null)showDetailsDialog(otherVaccineContentData);
     }

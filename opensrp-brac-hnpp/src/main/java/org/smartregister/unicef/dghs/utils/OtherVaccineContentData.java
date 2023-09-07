@@ -6,7 +6,7 @@ public class OtherVaccineContentData implements Serializable {
     public String brn;
     public String dob;
     public String vaccine_name;
-    public String vaccineDate;
+    public String date;
     public String firstName;
     public String lastName;
     public String motherName;

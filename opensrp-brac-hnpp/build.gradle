@@ -132,8 +132,8 @@ android {
             buildConfigField "boolean", 'IS_MIS', 'true'
             buildConfigField "String", 'opensrp_url_training', '"https://dghsha-training.dghs.gov.bd/opensrp/"'
             buildConfigField "String", 'opensrp_url_live', '"https://dghsha-training.dghs.gov.bd/opensrp/"'
-//            buildConfigField "String", 'citizen_url', '"http://citizen-portal.mpower-social.com/"'
-            buildConfigField "String", 'citizen_url', '"http://192.168.22.22:9003/"'
+            buildConfigField "String", 'citizen_url', '"https://api-training-vaxepi.dghs.gov.bd/"'
+//            buildConfigField "String", 'citizen_url', '"http://192.168.22.22:9003/"'
 
         }
         normal{

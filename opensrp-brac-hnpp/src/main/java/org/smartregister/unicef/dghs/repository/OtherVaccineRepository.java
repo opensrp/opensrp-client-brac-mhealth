@@ -64,7 +64,7 @@ public class OtherVaccineRepository extends BaseRepository {
     public  void addOtherVaccine(OtherVaccineContentData otherVaccineContentData){
         ContentValues contentValues = new ContentValues();
         contentValues.put(VACCINE_NAME, otherVaccineContentData.vaccine_name);
-        contentValues.put(VACCINE_DATE, otherVaccineContentData.vaccineDate);
+        contentValues.put(VACCINE_DATE, otherVaccineContentData.date);
         contentValues.put(BRN, otherVaccineContentData.brn);
         contentValues.put(DOB, otherVaccineContentData.dob);
         contentValues.put(VACCINE_JSON,gson.toJson(otherVaccineContentData));
@@ -90,7 +90,7 @@ public class OtherVaccineRepository extends BaseRepository {
     public boolean findUnique(SQLiteDatabase db, OtherVaccineContentData otherVaccineContentData) {
         SQLiteDatabase database = (db == null) ? getReadableDatabase() : db;
         String selection = VACCINE_NAME + " = ? " + COLLATE_NOCASE + " and " + VACCINE_DATE + " = ? " + COLLATE_NOCASE+" and "+BRN+" = ?"+COLLATE_NOCASE+" and "+DOB+" = ?"+COLLATE_NOCASE;
-        String[] selectionArgs = new String[]{otherVaccineContentData.vaccine_name, otherVaccineContentData.vaccineDate,otherVaccineContentData.brn,otherVaccineContentData.dob};
+        String[] selectionArgs = new String[]{otherVaccineContentData.vaccine_name, otherVaccineContentData.date,otherVaccineContentData.brn,otherVaccineContentData.dob};
         Cursor cursor = database.query(getTableName(), null, selection, selectionArgs, null, null, null, null);
         if(cursor!=null && cursor.getCount() > 0){
             cursor.close();
