@@ -178,14 +178,14 @@ android {
             buildConfigField "String", 'citizen_url', '"http://citizen-portal.mpower-social.com/"'
         }
         qa{
-            versionCode 6
-            versionName "1.0.6_qa"
+            versionCode 1
+            versionName "2.0.1_qa"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
             buildConfigField "boolean", 'IS_MIS', 'true'
             buildConfigField "String", 'opensrp_url_training', '"http://unicef-ha-qa.mpower-social.com/opensrp/"'
             buildConfigField "String", 'opensrp_url_live', '"http://unicef-ha-qa.mpower-social.com/opensrp/"'
-            buildConfigField "String", 'citizen_url', '"http://citizen-portal.mpower-social.com/"'
+            buildConfigField "String", 'citizen_url', '"https://api-training-vaxepi.dghs.gov.bd/"'
         }
     }
 
