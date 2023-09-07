@@ -150,25 +150,25 @@ public class ChildFollowupActivity extends AppCompatActivity {
         });
 
         childFollowUpLay.setOnClickListener(view -> {
-            if(childReferralJsonString == null || childReferralJsonString.isEmpty()){
+            if(childFollowUpJsonString == null || childFollowUpJsonString.isEmpty()){
                 startAnyFormActivity(formType,REQUEST_HOME_VISIT);
             }
         });
 
         immunizationLay.setOnClickListener(view -> {
-            if(isImmunizationTaken == null){
+            //if(isImmunizationTaken == null){
                 ChildVaccinationActivity.startChildVaccinationActivity(ChildFollowupActivity.this,bundle,commonPersonObjectClient,isOnlyVacc);
-            }
+            //}
         });
 
         gmpLay.setOnClickListener(view -> {
-            if(!isGmpTaken){
+            //if(!isGmpTaken){
                 ChildGMPActivity.startGMPActivity(ChildFollowupActivity.this,bundle,commonPersonObjectClient);
-            }
+           // }
         });
 
         referralLay.setOnClickListener(view -> {
-            if(childReferralJsonString == null){
+            if(childReferralJsonString == null || childReferralJsonString.isEmpty()){
                 startAnyFormActivity(HnppConstants.JSON_FORMS.CHILD_REFERRAL,REQUEST_REFERRAL);
             }
         });
@@ -218,17 +218,6 @@ public class ChildFollowupActivity extends AppCompatActivity {
 
                     @Override
                     public void onComplete() {
-                        /*if(isSave.get() == 1){
-                            hideProgressDialog();
-                            //showServiceDoneDialog(1);
-                        }else if(isSave.get() == 3){
-                            hideProgressDialog();
-                            //showServiceDoneDialog(3);
-                        }else {
-                            hideProgressDialog();
-                            //showServiceDoneDialog(false);
-                        }*/
-
                         hideProgressDialog();
                         Intent intent = getIntent();
                         setResult(ChildFollowupActivity.RESULT_CHILD_FOLLOW_UP, intent);
@@ -376,6 +365,7 @@ public class ChildFollowupActivity extends AppCompatActivity {
 
                     if(!childReferralJsonString.isEmpty()){
                         referralCheckIm.setImageResource(R.drawable.success);
+                        referralCheckIm.setColorFilter(ContextCompat.getColor(this, R.color.others));
                         hideProgressDialog();
                         showServiceDoneDialog();
                     }else{
@@ -398,10 +388,13 @@ public class ChildFollowupActivity extends AppCompatActivity {
         //handling vaccine submission status
         else if(resultCode == ChildVaccinationActivity.VACCINE_RESULT_CODE){
             if(data != null){
-                isImmunizationTaken = data.getBooleanExtra("VACCINE_TAKEN", false);
+                if(isImmunizationTaken==null || !isImmunizationTaken){
+                    isImmunizationTaken = data.getBooleanExtra("VACCINE_TAKEN", false);
+                }
 
                 if (isImmunizationTaken) {
                     immunizationCheckIm.setImageResource(R.drawable.success);
+                    immunizationCheckIm.setColorFilter(ContextCompat.getColor(this, R.color.others));
                 }else{
                     immunizationCheckIm.setImageResource(R.drawable.success);
                     immunizationCheckIm.setColorFilter(ContextCompat.getColor(this, android.R.color.holo_orange_dark));

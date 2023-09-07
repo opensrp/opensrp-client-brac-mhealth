@@ -336,7 +336,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
          * disable grideview and child active status on read mode view
          */
 
-        if(activity.isReadOnly){
+        if(activity.isReadOnly || activity.isOnlyVacc){
             curGroup.getVaccinesGV().setEnabled(false);
             curGroup.setChildActive(false);
         }
@@ -713,9 +713,9 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
             updateServiceViews(serviceTypeMap, serviceRecords, alertList);
 
 
-            if(activity.isReadOnly || !activity.isOnlyVacc ){
+            //if(activity.isReadOnly){
                 updateVaccinationViews(vaccineList, alertList);
-            }
+            //}
 
         }
 

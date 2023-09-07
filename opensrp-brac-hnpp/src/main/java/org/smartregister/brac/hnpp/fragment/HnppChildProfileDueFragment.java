@@ -109,7 +109,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             public void run() {
                 if(getActivity() ==null || getActivity().isFinishing()) return;
                 addStaticView();
-                String dobString = Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOB, false);
+                /*String dobString = Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOB, false);
                 Date dob = Utils.dobStringToDate(dobString);
                 boolean isImmunizationVisible = FormApplicability.isImmunizationVisible(dob);
                 if(isImmunizationVisible){
@@ -118,7 +118,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                         b.updateImmunizationData();
                     }
                 }
-
+*/
 
             }
         },500);
@@ -252,7 +252,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         Date dob = Utils.dobStringToDate(dobString);
         long day = FormApplicability.getDay(commonPersonObjectClient);
         boolean isEnc = FormApplicability.isEncVisible(dob);
-        if(isEnc){
+        /*if(isEnc){
             if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.ENC_REGISTRATION)){
                 View encView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
                 ImageView image1 = encView.findViewById(R.id.image_view);
@@ -265,7 +265,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                 otherServiceView.addView(encView);
             }
 
-        }
+        }*/
 
 
         View familyView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
@@ -278,7 +278,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         familyView.setOnClickListener(this);
         otherServiceView.addView(familyView);
 
-        {
+        /*{
             View referelView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
             ImageView imageReferel = referelView.findViewById(R.id.image_view);
             TextView nameReferel =  referelView.findViewById(R.id.patient_name_age);
@@ -288,7 +288,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             referelView.setTag(TAG_OPEN_REFEREAL);
             referelView.setOnClickListener(this);
             otherServiceView.addView(referelView);
-        }
+        }*/
         //if(!isEnc){
             eventType = FormApplicability.isDueChildFollowUp(day);
 
