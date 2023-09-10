@@ -67,8 +67,6 @@ import static org.smartregister.util.Utils.getName;
 
 public class ChildImmunizationFragment extends BaseProfileFragment {
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
-    private static boolean isOnlyVacc;
-
 
     public void setChildDetails(CommonPersonObjectClient childDetails){
         this.childDetails = childDetails;
@@ -336,7 +334,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
          * disable grideview and child active status on read mode view
          */
 
-        if(activity.isReadOnly || activity.isOnlyVacc){
+        if(activity.isReadOnly || activity.isOnlyService){
             curGroup.getVaccinesGV().setEnabled(false);
             curGroup.setChildActive(false);
         }

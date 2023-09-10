@@ -62,7 +62,7 @@ public class ChildFollowupActivity extends AppCompatActivity {
     public static String FAMILY_HEAD = "familyHead";
     public static String COMMON_PERSON = "commonPersonObj";
     public static String BUNDLE = "bundle";
-    public static String IS_ONLY_VACC = "is_only_vacc";
+    public static String IS_ONLY_SERVICE = "is_only_service";
     public static String IS_READ_ONLY = "is_read_only";
 
     public static final int REQUEST_REFERRAL = 101;
@@ -126,7 +126,7 @@ public class ChildFollowupActivity extends AppCompatActivity {
         gender = intent.getStringExtra(GENDER);
         commonPersonObjectClient = (CommonPersonObjectClient) intent.getSerializableExtra(COMMON_PERSON);
         bundle = intent.getParcelableExtra(BUNDLE);
-        isOnlyVacc = intent.getBooleanExtra(IS_ONLY_VACC,false);
+        isOnlyVacc = intent.getBooleanExtra(IS_ONLY_SERVICE,false);
     }
 
     /**
@@ -147,6 +147,7 @@ public class ChildFollowupActivity extends AppCompatActivity {
             childReferralJsonString = "";
             referralCheckIm.setImageResource(R.drawable.success);
             referralCheckIm.setColorFilter(ContextCompat.getColor(ChildFollowupActivity.this, android.R.color.holo_orange_dark));
+            checkButtonEnableStatus();
         });
 
         childFollowUpLay.setOnClickListener(view -> {

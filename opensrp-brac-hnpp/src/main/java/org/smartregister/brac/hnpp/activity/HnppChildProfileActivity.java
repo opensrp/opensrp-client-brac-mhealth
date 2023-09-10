@@ -280,9 +280,8 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
         commonPersonObject = ((HnppChildProfilePresenter)presenter()).commonPersonObjectClient;
         long day = FormApplicability.getDay(commonPersonObject);
 
-        if(day>730){//means greater than 24 month
-            isOnlyVacc = true;
-        }
+        //means greater than 24 month
+        isOnlyVacc = day >= 577;
 
         this.mViewPager = viewPager;
         adapter = new ViewPagerAdapter(getSupportFragmentManager());

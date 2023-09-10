@@ -623,7 +623,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         intent.putExtra(ChildFollowupActivity.FAMILY_HEAD,activity.getMemberObject());
         intent.putExtra(ChildFollowupActivity.COMMON_PERSON,activity.getCommonPersonObject());
         intent.putExtra(ChildFollowupActivity.BUNDLE,activity.getIntent().getExtras());
-        intent.putExtra(ChildFollowupActivity.IS_ONLY_VACC,isOnlyVaccine);
+        intent.putExtra(ChildFollowupActivity.IS_ONLY_SERVICE,isOnlyVaccine);
         startActivityForResult(intent,RESULT_CHILD_FOLLOW_UP);
     }
 

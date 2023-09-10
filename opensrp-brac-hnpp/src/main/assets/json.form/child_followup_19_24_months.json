@@ -108,7 +108,25 @@
         "openmrs_entity_id": "feed_extra_food_in_24_hours",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "গত 24 ঘন্টায় শিশুকে বাড়তি খাবার দেওয়া হয়েছে কিনা ?",
+        "hint": "গত ২৪ ঘন্টায় শিশুকে বাড়তি খাবার দেওয়া হয়েছে কিনা ?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        }
+      },
+
+      {
+        "key": "feed_pusti_kona_in_24_hours",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "feed_pusti_kona_in_24_hours",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "গত ২৪ ঘন্টায় পুষ্টিকণা খাওয়ানো হয়েছে ?",
         "values": [
           "হ্যাঁ",
           "না"
@@ -178,12 +196,34 @@
       },
 
       {
+        "key": "is_child_taken_all_vaccine",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_child_taken_all_vaccine",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "শিশু সবগুলো টিকা গ্রহণ করেছে কিনা ? টিকার কার্ড দেখে তথ্য নিতে হবে।",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+
+      {
         "key": "difficulty",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "difficulty",
         "type": "check_box",
-        "label": "কোনো জটিলতা থাকলে লিখুন",
+        "label": "অন্য কোনো জটিলতা থাকলে লিখুন",
         "exclusive": [
           "None"
         ],
@@ -203,151 +243,27 @@
             "openmrs_entity_id": "pneumonia"
           },
           {
-            "key": "convulsions",
-            "text": "খিঁচুনি",
-            "value": false,
-            "openmrs_entity": "convulsions",
-            "openmrs_entity_id": "box_milk"
-          },
-          {
-            "key": "rapid_breathing",
-            "text": "দ্রুত শ্বাস/ বুকের খাঁচা ডেবে যাওয়া",
+            "key": "unable_to_stand_up",
+            "text": "দাঁড়াতে না পারা বা হাঁটতে না পারা",
             "value": false,
             "openmrs_entity": "concept",
-            "openmrs_entity_id": "rapid_breathing"
+            "openmrs_entity_id": "unable_to_stand_up"
           },
           {
-            "key": "fever",
-            "text": "জ্বর বা শরীর ঠান্ডা হওয়া",
+            "key": "unable_to_maintain_balance",
+            "text": "শরীরের ভারসাম্য রাখতে না পারা",
             "value": false,
             "openmrs_entity": "concept",
-            "openmrs_entity_id": "fever"
+            "openmrs_entity_id": "unable_to_maintain_balance"
           },
-
           {
-            "key": "leading",
-            "text": "নেতিয়ে পরা",
+            "key": "cant_speak_two_meaningful_word",
+            "text": "দুটি অর্থবোধক শব্দ বলতে না পারা",
             "value": false,
             "openmrs_entity": "concept",
-            "openmrs_entity_id": "leading"
-          },
-
-          {
-            "key": "unable_to_drink_milk",
-            "text": "দুধ টেনে খেতে না পারা",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "unable_to_drink_milk"
-          },
-
-          {
-            "key": "red_navel",
-            "text": "নাভি লাল বা ফুলে যাওয়া",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "red_navel"
-          },
-
-          {
-            "key": "skin_rash",
-            "text": "ত্বকে ফুস্করি",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "skin_rash"
-          },
-
-          {
-            "key": "eye_problem",
-            "text": "চোখ সমস্যা",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "eye_problem"
+            "openmrs_entity_id": "cant_speak_two_meaningful_word"
           }
         ]
-      },
-
-      {
-        "key": "is_referred",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "is_referred",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "রেফার করা হয়েছে কিনা?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "yes",
-          "না": "no"
-        }
-      },
-
-      {
-        "key": "refer_place",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "refer_place",
-        "type": "check_box",
-        "label": "রেফারের স্থান",
-        "exclusive": [
-          "None"
-        ],
-        "options": [
-          {
-            "key": "medical_collage_hos",
-            "text": "মেডিকেল কলেজ হাসপাতাল",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "medical_collage_hos"
-          },
-          {
-            "key": "gov_hos",
-            "text": "সরকারী হাসপাতাল",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "gov_hos"
-          },
-          {
-            "key": "upazila_health_com",
-            "text": "উপজেলা স্বাস্থ্য কমপ্লেক্স",
-            "value": false,
-            "openmrs_entity": "convulsions",
-            "openmrs_entity_id": "upazila_health_com"
-          },
-          {
-            "key": "non_gov_hos",
-            "text": "বেসরকারি হাসপাতাল/ক্লিনিক",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "non_gov_hos"
-          },
-          {
-            "key": "health_family_welfare_centre",
-            "text": "স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "health_family_welfare_centre"
-          },
-
-          {
-            "key": "community_clinic",
-            "text": "কমিউনিটি ক্লিনিক",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "community_clinic"
-          }
-
-        ],
-
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "child_followup_rules.yml"
-            }
-          }
-        }
       }
     ]
   }

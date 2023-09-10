@@ -30,7 +30,7 @@ public class ChildVaccinationActivity extends SecuredActivity implements Vaccina
     private Bundle bundle;
     private boolean isActionTaken;
 
-    public boolean isOnlyVacc = false;
+    public boolean isOnlyService = false;
     public boolean isReadOnly = false;
 
     public static void startChildVaccinationActivity(Activity activity, Bundle bundle , CommonPersonObjectClient childDetails){
@@ -46,7 +46,7 @@ public class ChildVaccinationActivity extends SecuredActivity implements Vaccina
         Intent intent = new Intent(activity,ChildVaccinationActivity.class);
         intent.putExtra(INTENT_BUNDLE,bundle);
         intent.putExtra(INTENT_COMMONOBJECT,childDetails);
-        intent.putExtra(ChildFollowupActivity.IS_ONLY_VACC,isOnlyVacc);
+        intent.putExtra(ChildFollowupActivity.IS_ONLY_SERVICE,isOnlyVacc);
         activity.startActivityForResult(intent,VACCINE_REQUEST_CODE);
     }
 
@@ -55,7 +55,7 @@ public class ChildVaccinationActivity extends SecuredActivity implements Vaccina
         Intent intent = new Intent(activity,ChildVaccinationActivity.class);
         intent.putExtra(INTENT_BUNDLE,bundle);
         intent.putExtra(INTENT_COMMONOBJECT,childDetails);
-        intent.putExtra(ChildFollowupActivity.IS_ONLY_VACC,isOnlyVacc);
+        intent.putExtra(ChildFollowupActivity.IS_ONLY_SERVICE,isOnlyVacc);
         intent.putExtra(ChildFollowupActivity.IS_READ_ONLY,isReadOnly);
         activity.startActivityForResult(intent,VACCINE_REQUEST_CODE);
     }
@@ -66,7 +66,7 @@ public class ChildVaccinationActivity extends SecuredActivity implements Vaccina
         setUpToolbar();
         bundle = getIntent().getParcelableExtra(INTENT_BUNDLE);
         childDetails = (CommonPersonObjectClient) getIntent().getSerializableExtra(INTENT_COMMONOBJECT);
-        isOnlyVacc = getIntent().getBooleanExtra(ChildFollowupActivity.IS_ONLY_VACC,false);
+        isOnlyService = getIntent().getBooleanExtra(ChildFollowupActivity.IS_ONLY_SERVICE,false);
         isReadOnly = getIntent().getBooleanExtra(ChildFollowupActivity.IS_READ_ONLY,false);
         initializeFragment();
     }
