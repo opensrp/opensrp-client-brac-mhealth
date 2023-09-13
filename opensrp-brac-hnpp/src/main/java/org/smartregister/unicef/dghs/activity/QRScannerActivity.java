@@ -248,7 +248,7 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
     private void showDetailsDialog(OtherVaccineContentData content){
         String buttonName= getString(R.string.other_vaccine_button,content.vaccine_name);
         StringBuilder builder = new StringBuilder();
-        String name = content.firstName+" "+content.lastName;
+        String name = content.firstNameBN;//+" "+content.lastName;
         builder.append(this.getString(R.string.name,name)+"\n");
         builder.append(this.getString(R.string.father_name,content.fatherName)+"\n");
         builder.append(this.getString(R.string.mother_name,content.motherName)+"\n");

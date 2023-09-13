@@ -85,7 +85,7 @@ public class OtherVaccineRepository extends BaseRepository {
 //        getWritableDatabase().execSQL("update "+getLocationTableName()+" set achievemnt_count = achievemnt_count +1,"+DAY+" = "+day+" , "+MONTH+" = "+month+" , "+YEAR+" = "+year+" where "+INDICATOR_NAME+" = '"+targetName+"'");
     }
     public void updateOtherVaccineStatus(OtherVaccineContentData otherVaccineContentData){
-        getWritableDatabase().execSQL("update "+getTableName()+" set is_sync = 1, where "+VACCINE_NAME+" = '"+otherVaccineContentData.vaccine_name+"' and "+BRN+" ="+otherVaccineContentData.brn);
+        getWritableDatabase().execSQL("update "+getTableName()+" set is_sync = 1, where "+VACCINE_NAME+" = '"+otherVaccineContentData.vaccine_name+"' and "+BRN+" ='"+otherVaccineContentData.brn+"'");
     }
     public boolean findUnique(SQLiteDatabase db, OtherVaccineContentData otherVaccineContentData) {
         SQLiteDatabase database = (db == null) ? getReadableDatabase() : db;

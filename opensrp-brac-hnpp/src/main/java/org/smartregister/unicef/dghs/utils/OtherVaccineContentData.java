@@ -11,5 +11,6 @@ public class OtherVaccineContentData implements Serializable {
     public String lastName;
     public String motherName;
     public String fatherName;
+    public String firstNameBN;
 
 }

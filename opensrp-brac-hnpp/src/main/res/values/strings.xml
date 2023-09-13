@@ -112,7 +112,7 @@
     <string name="powered_by_mpower">Powered by mPower </string>
     <string name="member_count">খানার মোট সদস্যঃ %s</string>
     <string name="nid">জাতীয় পরিচয় পত্র: %s</string>
-    <string name="bid">জন্ম নিবন্দন: %s</string>
+    <string name="bid">জন্ম নিবন্ধন: %s</string>
     <string name="registered_count"><br>সদস্য:</br> %s</string>
     <string name="next_visit_date">পরবর্তী দেখার তারিখ: %s</string>
     <string name="house_hold_id">খানা: <br>%s</br> (%s)</string>
