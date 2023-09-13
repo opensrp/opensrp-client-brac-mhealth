@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,8 +10,8 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:background="@color/pnc_circle_red"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -32,11 +31,11 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginEnd="10dp"
-            android:text="@string/submit"
+            android:background="@color/transparent"
             android:enabled="false"
+            android:text="@string/submit"
             android:textColor="@color/grey"
             android:textSize="18sp"
-            android:background="@color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -47,8 +46,8 @@
         android:id="@+id/child_followup_lay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="70dp"
         android:gravity="center|left"
+        android:minHeight="70dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,35 +75,56 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#DDDDDD"
-        app:layout_constraintTop_toBottomOf="@+id/child_followup_lay"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/child_followup_lay" />
 
     <!--Immunization-->
     <LinearLayout
         android:id="@+id/immunization_lay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center|start"
         android:minHeight="70dp"
-        android:gravity="center|left"
         android:orientation="horizontal"
+        android:weightSum="10"
         app:layout_constraintEnd_toEndOf="@+id/view1"
         app:layout_constraintStart_toStartOf="@+id/view1"
         app:layout_constraintTop_toBottomOf="@+id/view1">
 
-        <ImageView
-            android:id="@+id/immunization_check_im"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_margin="10dp"
-            android:contentDescription="check"
-            android:src="@drawable/circle_background" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center|start"
+            android:layout_weight="7">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="@string/immunizations"
-            android:textColor="@color/black"
+            <ImageView
+                android:id="@+id/immunization_check_im"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
+                android:contentDescription="check"
+                android:src="@drawable/circle_background" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/immunizations"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/no_immunization_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="3"
+            android:background="@drawable/vaccine_card_background_blue"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/no_immunization_info"
+            android:textColor="@color/white"
             android:textSize="18sp" />
     </LinearLayout>
 
@@ -113,16 +133,15 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#DDDDDD"
-        app:layout_constraintTop_toBottomOf="@+id/immunization_lay"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/immunization_lay" />
 
     <!--Gmp-->
     <LinearLayout
         android:id="@+id/gmp_lay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="70dp"
         android:gravity="center|left"
+        android:minHeight="70dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="@+id/view2"
         app:layout_constraintStart_toStartOf="@+id/view2"
@@ -150,27 +169,27 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#DDDDDD"
-        app:layout_constraintTop_toBottomOf="@+id/gmp_lay"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/gmp_lay" />
 
     <!--Referral-->
     <LinearLayout
-        android:weightSum="10"
         android:id="@+id/referral_ley"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="70dp"
         android:gravity="center|left"
+        android:minHeight="70dp"
         android:orientation="horizontal"
+        android:weightSum="10"
         app:layout_constraintEnd_toEndOf="@+id/view3"
         app:layout_constraintStart_toStartOf="@+id/view3"
         app:layout_constraintTop_toBottomOf="@+id/view3">
 
         <LinearLayout
-            android:layout_weight="7"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="7"
             android:gravity="center|left">
+
             <ImageView
                 android:id="@+id/referral_check_im"
                 android:layout_width="30dp"
@@ -188,22 +207,18 @@
                 android:textSize="18sp" />
         </LinearLayout>
 
-        <LinearLayout
+
+        <Button
+            android:id="@+id/not_referred"
             android:layout_weight="3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:gravity="center|right">
-            <Button
-                android:id="@+id/not_referred"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:text="@string/not_referred"
-                android:textColor="@color/white"
-                android:padding="10dp"
-                android:background="@drawable/vaccine_card_background_blue"
-                android:textSize="18sp" />
-        </LinearLayout>
+            android:layout_marginRight="10dp"
+            android:background="@drawable/vaccine_card_background_blue"
+            android:padding="10dp"
+            android:text="@string/not_referred"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
     </LinearLayout>
 
     <View
@@ -211,6 +226,5 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#DDDDDD"
-        app:layout_constraintTop_toBottomOf="@+id/referral_ley"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/referral_ley" />
 </android.support.constraint.ConstraintLayout>

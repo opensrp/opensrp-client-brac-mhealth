@@ -84,6 +84,17 @@
       },
 
       {
+        "key": "health_condition_title",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "label",
+        "text_color": "#000000",
+        "text": "স্বাস্থ্য সংক্রান্ত অবস্থা",
+        "text_size": "30sp"
+      },
+
+      {
         "key": "is_any_birth_problem",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -99,6 +110,17 @@
           "হ্যাঁ": "yes",
           "না": "no"
         }
+      },
+
+      {
+        "key": "nutrition_title",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "label",
+        "text_color": "#000000",
+        "text": "পুষ্টিঃ",
+        "text_size": "30sp"
       },
 
       {
@@ -224,6 +246,46 @@
           "২৪": "24",
           "২৪ ঘন্টা পর": "after_24"
         }
+      },
+
+      {
+        "key": "ecd_title",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "label",
+        "text_color": "#000000",
+        "text": "ই সি ডি",
+        "text_size": "30sp"
+      },
+
+      {
+        "key": "is_child_look_at_light",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_child_look_at_light",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "শিশু শব্দ, আলো বা রঙ্গিন কিছুর দিকে তাকায় কি না?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        }
+      },
+
+      {
+        "key": "difficulty_title",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "label",
+        "text_color": "#000000",
+        "text": "অসুস্থতা/ জটিলতা",
+        "text_size": "30sp"
       },
 
       {

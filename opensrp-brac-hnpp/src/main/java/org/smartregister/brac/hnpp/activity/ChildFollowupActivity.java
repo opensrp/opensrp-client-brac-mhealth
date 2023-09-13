@@ -71,7 +71,7 @@ public class ChildFollowupActivity extends AppCompatActivity {
     ImageView closeImage;
     Button saveButton;
 
-    Button notReferredBt;
+    Button notReferredBt,noImmunizationBt;
 
     LinearLayout childFollowUpLay,immunizationLay,gmpLay,referralLay;
     ImageView childFollowupCheckIm,immunizationCheckIm,gmpCheckIm,referralCheckIm;
@@ -147,6 +147,13 @@ public class ChildFollowupActivity extends AppCompatActivity {
             childReferralJsonString = "";
             referralCheckIm.setImageResource(R.drawable.success);
             referralCheckIm.setColorFilter(ContextCompat.getColor(ChildFollowupActivity.this, android.R.color.holo_orange_dark));
+            checkButtonEnableStatus();
+        });
+
+        noImmunizationBt.setOnClickListener(view -> {
+            isImmunizationTaken = false;
+            immunizationCheckIm.setImageResource(R.drawable.success);
+            immunizationCheckIm.setColorFilter(ContextCompat.getColor(ChildFollowupActivity.this, android.R.color.holo_orange_dark));
             checkButtonEnableStatus();
         });
 
@@ -245,6 +252,7 @@ public class ChildFollowupActivity extends AppCompatActivity {
         referralCheckIm = findViewById(R.id.referral_check_im);
 
         notReferredBt = findViewById(R.id.not_referred);
+        noImmunizationBt = findViewById(R.id.no_immunization_button);
     }
 
     /**

@@ -1,6 +1,7 @@
 package org.smartregister.brac.hnpp.fragment;
 
 import static org.smartregister.util.Utils.dobToDateTime;
+import static org.smartregister.util.Utils.showToast;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -26,11 +27,13 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.sqlcipher.Cursor;
+import net.sqlcipher.database.SQLiteDatabase;
+
 import org.joda.time.DateTime;
 import org.opensrp.api.constants.Gender;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.ChildGMPActivity;
-import org.smartregister.brac.hnpp.activity.HnppChildProfileActivity;
 import org.smartregister.brac.hnpp.job.HeightIntentServiceJob;
 import org.smartregister.brac.hnpp.job.WeightIntentServiceJob;
 import org.smartregister.brac.hnpp.utils.GrowthUtil;
@@ -57,17 +60,17 @@ import org.smartregister.growthmonitoring.listener.WeightActionListener;
 import org.smartregister.growthmonitoring.repository.HeightRepository;
 import org.smartregister.growthmonitoring.repository.MUACRepository;
 import org.smartregister.growthmonitoring.repository.WeightRepository;
-import org.smartregister.growthmonitoring.util.HeightUtils;
-import org.smartregister.growthmonitoring.util.MUACUtils;
 import org.smartregister.location.helper.LocationHelper;
+import org.smartregister.repository.LocationRepository;
 import org.smartregister.util.DateUtil;
 import org.smartregister.util.Utils;
 import org.smartregister.view.fragment.BaseProfileFragment;
 
-import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class GMPFragment extends BaseProfileFragment implements WeightActionListener, HeightActionListener, MUACActionListener {
     public static final String DIALOG_TAG = "GMPFragment_DIALOG_TAG";
@@ -216,6 +219,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         }
 
     }
+
     String heightText = "";
     String weightText = "";
     @SuppressLint("InflateParams")
@@ -394,6 +398,10 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         });
     }
     private void addWeight(WeightWrapper tag){
+        if(checkWeightExistOrNot(tag.getUpdatedWeightDate().toDate())){
+            showAlertDialog(getActivity(),getString(R.string.alert),getString(R.string.already_weight_taken_msg));
+            return;
+        }
         final WeightRepository weightRepository = GrowthMonitoringLibrary.getInstance().weightRepository();
         Weight weight = new Weight();
         weight.setBaseEntityId(childDetails.entityId());
@@ -443,8 +451,13 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
 //        showGenericDialog(getCountByMonth(month),1,month);
         updateProfileColor();
         HnppConstants.isViewRefresh = true;
+        ChildGMPActivity.isActionTaken = true;
     }
     private void addHeight(HeightWrapper heightWrapper){
+        if(checkHeightExistOrNot(heightWrapper.getUpdatedHeightDate().toDate())){
+            showAlertDialog(getActivity(),getString(R.string.alert),getString(R.string.already_height_taken));
+            return;
+        }
         if (heightWrapper != null) {
             final HeightRepository heightRepository = GrowthMonitoringLibrary.getInstance().getHeightRepository();
             Height height = new Height();
@@ -489,9 +502,42 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         //showIYCFDialog();
         showGMPDialog(text,2);
         HnppConstants.isViewRefresh = true;
+        ChildGMPActivity.isActionTaken = true;
         showHeightChart();
 //        int month = getMonthDifferenceByDOB();
 //        showGenericDialog(getCountByMonth(month),1,month);
+    }
+
+    private boolean checkHeightExistOrNot(Date date){
+        SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd",new Locale("en"));
+        String dateStr = dtf.format(date);
+
+        SQLiteDatabase hDb = GrowthMonitoringLibrary.getInstance().getHeightRepository().getReadableDatabase();
+        try (Cursor cursor = hDb.rawQuery("SELECT date from heights where date(date/1000,'unixepoch') = '"+dateStr+"' and base_entity_id = '"+childDetails.entityId()+"'", null)) {
+            if(cursor.getCount() > 0){
+                return true;
+            }
+        } catch (Exception e) {
+            Log.e(LocationRepository.class.getCanonicalName(), e.getMessage(), e);
+            return false;
+        }
+        return false;
+    }
+
+    private boolean checkWeightExistOrNot(Date date){
+        SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd",new Locale("en"));
+        String dateStr = dtf.format(date);
+
+        SQLiteDatabase hDb = GrowthMonitoringLibrary.getInstance().getHeightRepository().getReadableDatabase();
+        try (Cursor cursor = hDb.rawQuery("SELECT date from weights where date(date/1000,'unixepoch') = '"+dateStr+"' and base_entity_id = '"+childDetails.entityId()+"'", null)) {
+            if(cursor.getCount() > 0){
+                return true;
+            }
+        } catch (Exception e) {
+            Log.e(LocationRepository.class.getCanonicalName(), e.getMessage(), e);
+            return false;
+        }
+        return false;
     }
    /* private void addMUAC(MUACWrapper muacWrapper){
         if (muacWrapper != null) {
@@ -562,6 +608,24 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         });
         dialog.show();
     }
+
+    public static void showAlertDialog(Context context,String title, String text){
+        Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_with_one_button);
+        TextView textViewTitle = dialog.findViewById(R.id.text_tv);
+        TextView titleTxt = dialog.findViewById(R.id.title_tv);
+        titleTxt.setText(title);
+        textViewTitle.setText(text);
+        dialog.findViewById(R.id.ok_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
     int globalCount = 1;
     private void showGenericDialog(int totalCount,int count, int month){
         Log.v("CLICK_COUNT","showGenericDialog totalCount>>"+totalCount+":count :"+count );

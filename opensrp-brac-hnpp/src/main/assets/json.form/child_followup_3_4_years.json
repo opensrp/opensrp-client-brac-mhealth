@@ -84,6 +84,17 @@
       },
 
       {
+        "key": "ecd_title",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "label",
+        "text_color": "#000000",
+        "text": "ই সি ডি",
+        "text_size": "30sp"
+      },
+
+      {
         "key": "can_say",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -117,6 +128,17 @@
           "হ্যাঁ": "yes",
           "না": "no"
         }
+      },
+
+      {
+        "key": "difficulty_title",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "label",
+        "text_color": "#000000",
+        "text": "অসুস্থতা/ জটিলতা",
+        "text_size": "30sp"
       },
 
       {

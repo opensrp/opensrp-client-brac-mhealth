@@ -51,12 +51,14 @@ import org.smartregister.growthmonitoring.util.ImageUtils;
 import org.smartregister.util.DateUtil;
 import org.smartregister.util.Utils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class GrowthUtil {
@@ -274,6 +276,20 @@ public class GrowthUtil {
 
             TableRow curRow = new TableRow(previousweightholder.getContext());
 
+            ///each Weight date
+            String eachDateText = formatDate(weight.getDate());
+            // double zScore = ZScore.calculate(gender, dob, weight.getDate(), weight.getKg());
+
+            TextView dateTextView = new TextView(previousweightholder.getContext());
+            dateTextView.setHeight(context.getResources().getDimensionPixelSize(R.dimen.table_contents_text_height));
+            dateTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                    context.getResources().getDimension(R.dimen.weight_table_contents_text_size));
+            dateTextView.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+            dateTextView.setTextColor(context.getResources().getColor(R.color.client_list_grey));
+            dateTextView.setText(eachDateText);
+
+            curRow.addView(dateTextView);
+
             TextView ageTextView = new TextView(previousweightholder.getContext());
             ageTextView.setHeight(context.getResources().getDimensionPixelSize(R.dimen.table_contents_text_height));
             ageTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
@@ -293,23 +309,23 @@ public class GrowthUtil {
             weightTextView.setTextColor(context.getResources().getColor(R.color.client_list_grey));
             curRow.addView(weightTextView);
 
-            TextView zScoreTextView = new TextView(previousweightholder.getContext());
+           /* TextView zScoreTextView = new TextView(previousweightholder.getContext());
             zScoreTextView.setHeight(context.getResources().getDimensionPixelSize(R.dimen.table_contents_text_height));
             zScoreTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                     context.getResources().getDimension(R.dimen.weight_table_contents_text_size));
-            zScoreTextView.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+            zScoreTextView.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);*/
 //            if (weight.getDate().compareTo(maxWeighingDate.getTime()) > 0) {
 //                zScoreTextView.setText("");
 //            } else { //TODO
             Double zScoreDouble = ZScore.calculate(gender, dob, weight.getDate(), weight.getKg());
             double zScore = (zScoreDouble == null) ? 0 : zScoreDouble.doubleValue();
             // double zScore = ZScore.calculate(gender, dob, weight.getDate(), weight.getKg());
-            zScore = ZScore.roundOff(zScore);
+            /*zScore = ZScore.roundOff(zScore);
             String text = ZScore.getZScoreText(zScore);
             zScoreTextView.setTextColor(context.getResources().getColor(ZScore.getZScoreColor(zScore)));
             zScoreTextView.setText(String.valueOf(zScore));
             //}
-            curRow.addView(zScoreTextView);
+            curRow.addView(zScoreTextView);*/
             //previousweightholder.addView(curRow);
 
             ///each Weight status
@@ -359,6 +375,11 @@ public class GrowthUtil {
                 return "স্বাভাবিক";
 
         }
+    }
+
+    static String formatDate(Date date){
+        SimpleDateFormat sp =   new SimpleDateFormat("dd-MM-yyyy",new Locale("bn"));
+        return sp.format(date);
     }
 
     public static void refreshPreviousHeightsTable(Activity context, TableLayout previousHeightHolder, Gender gender, Date dob, List<Height> heights, boolean isNeedToUpdateDB, Calendar calendar) {
@@ -411,6 +432,21 @@ public class GrowthUtil {
 
             TableRow curRow = new TableRow(previousHeightHolder.getContext());
 
+            ///each Height date
+            String eachDateText = formatDate(height.getDate());
+            // double zScore = ZScore.calculate(gender, dob, weight.getDate(), weight.getKg());
+
+            TextView dateTextView = new TextView(previousHeightHolder.getContext());
+            dateTextView.setHeight(context.getResources().getDimensionPixelSize(R.dimen.table_contents_text_height));
+            dateTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                    context.getResources().getDimension(R.dimen.weight_table_contents_text_size));
+            dateTextView.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+            dateTextView.setTextColor(context.getResources().getColor(R.color.client_list_grey));
+            dateTextView.setText(eachDateText);
+
+            curRow.addView(dateTextView);
+
+
             TextView ageTextView = new TextView(previousHeightHolder.getContext());
             ageTextView.setHeight(context.getResources().getDimensionPixelSize(R.dimen.table_contents_text_height));
             ageTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
@@ -431,23 +467,23 @@ public class GrowthUtil {
             heightTextView.setTextColor(context.getResources().getColor(R.color.client_list_grey));
             curRow.addView(heightTextView);
 
-            TextView zScoreTextView = new TextView(previousHeightHolder.getContext());
+           /*TextView zScoreTextView = new TextView(previousHeightHolder.getContext());
             zScoreTextView.setHeight(context.getResources().getDimensionPixelSize(R.dimen.table_contents_text_height));
             zScoreTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                     context.getResources().getDimension(R.dimen.weight_table_contents_text_size));
-            zScoreTextView.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+            zScoreTextView.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);*/
 //            if (weight.getDate().compareTo(maxWeighingDate.getTime()) > 0) {
 //                zScoreTextView.setText("");
 //            } else { //TODO
             Double zScoreDouble = HeightZScore.calculate(gender, dob, height.getDate(), height.getCm());
             double zScore = (zScoreDouble == null) ? 0 : zScoreDouble.doubleValue();
             // double zScore = ZScore.calculate(gender, dob, weight.getDate(), weight.getKg());
-            zScore = HeightZScore.roundOff(zScore);
+             /*zScore = HeightZScore.roundOff(zScore);
             String text = HeightZScore.getZScoreText(zScore);
             zScoreTextView.setTextColor(context.getResources().getColor(HeightZScore.getZScoreColor(zScore)));
             zScoreTextView.setText(String.valueOf(zScore));
             //}
-            curRow.addView(zScoreTextView);
+            curRow.addView(zScoreTextView);*/
             //previousweightholder.addView(curRow);
 
             ///each Weight status

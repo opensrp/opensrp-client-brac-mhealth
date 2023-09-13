@@ -63,6 +63,22 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
+
+                        <org.smartregister.view.customcontrols.CustomFontTextView
+                            style="@style/CustomFontTextViewStyle.ClientList.Medium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="0dp"
+                            android:layout_marginRight="10dp"
+                            android:gravity="left|center_vertical"
+                            android:minWidth="@dimen/weight_table_column_min_width"
+                            android:paddingLeft="0dp"
+                            android:text="@string/date_bangla"
+                            android:textColor="@color/client_list_grey"
+                            android:textSize="@dimen/record_weight_tv_text_size"
+                            android:textStyle="bold" />
+
+
                         <org.smartregister.view.customcontrols.CustomFontTextView
                             style="@style/CustomFontTextViewStyle.ClientList.Medium"
                             android:layout_width="wrap_content"
@@ -91,7 +107,7 @@
                             android:textSize="@dimen/record_weight_tv_text_size"
                             android:textStyle="bold" />
 
-                        <org.smartregister.view.customcontrols.CustomFontTextView
+                   <!--     <org.smartregister.view.customcontrols.CustomFontTextView
                             style="@style/CustomFontTextViewStyle.ClientList.Medium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -103,8 +119,7 @@
                             android:text="@string/z_score"
                             android:textColor="@color/client_list_grey"
                             android:textSize="@dimen/record_weight_tv_text_size"
-                            android:textStyle="bold" />
-
+                            android:textStyle="bold" />-->
                         <org.smartregister.view.customcontrols.CustomFontTextView
                             style="@style/CustomFontTextViewStyle.ClientList.Medium"
                             android:layout_width="wrap_content"

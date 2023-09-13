@@ -403,6 +403,7 @@
    <string name="refer">রেফারেল</string>
    <string name="old_height">পূর্বের উচ্চতা :</string>
    <string name="current_height">বর্তমান উচ্চতা:</string>
+   <string name="height_bn">উচ্চতা</string>
    <string name="want_to_add_height">আপনি কি নতুন উচ্চতাটি যোগ করতে ইচ্ছুক?</string>
    <string name="old_weight">পূর্বের ওজোন :</string>
    <string name="current_weight">বর্তমান ওজোন:</string>
@@ -471,4 +472,7 @@
     <string name="data_adding">ডাটা যোগ করা হচ্ছে.....</string>
     <string name="alert">এলার্ট</string>
     <string name="anc_form_submit_alert">আপনি কি এ এন সি সেবা নিতে ইচ্ছুক ?</string>
+    <string name="no_immunization_info">টিকা তথ্য নেই</string>
+    <string name="already_weight_taken_msg">এই দিনে ইতিমধ্যে ওজন নেওয়া হয়েছে</string>
+    <string name="already_height_taken">"এই দিনে ইতিমধ্যে উচ্চতা নেওয়া হয়েছে "</string>
 </resources>

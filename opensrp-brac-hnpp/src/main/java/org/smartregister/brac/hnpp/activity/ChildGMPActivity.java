@@ -29,7 +29,7 @@ public class ChildGMPActivity extends SecuredActivity implements WeightActionLis
 
     private CommonPersonObjectClient childDetails;
     private Bundle bundle;
-    private boolean isActionTaken;
+    public static boolean isActionTaken = false;
     public boolean isReadOnly = false;
 
     public static void startGMPActivity(Activity activity, Bundle bundle , CommonPersonObjectClient childDetails){
@@ -100,7 +100,7 @@ public class ChildGMPActivity extends SecuredActivity implements WeightActionLis
         if(gmpFragment!=null){
             gmpFragment.onHeightTaken(heightWrapper);
         }
-        isActionTaken = true;
+        //isActionTaken = true;
     }
 
     @Override
@@ -108,7 +108,7 @@ public class ChildGMPActivity extends SecuredActivity implements WeightActionLis
         if(gmpFragment!=null){
             gmpFragment.onMUACTaken(muacWrapper);
         }
-        isActionTaken = true;
+        //isActionTaken = true;
     }
 
     @Override
@@ -116,7 +116,7 @@ public class ChildGMPActivity extends SecuredActivity implements WeightActionLis
         if(gmpFragment!=null){
             gmpFragment.onWeightTaken(weightWrapper);
         }
-        isActionTaken = true;
+        //isActionTaken = true;
     }
 
 }

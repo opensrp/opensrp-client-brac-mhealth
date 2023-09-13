@@ -84,6 +84,17 @@
       },
 
       {
+        "key": "ecd_title",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "label",
+        "text_color": "#000000",
+        "text": "ই সি ডি",
+        "text_size": "30sp"
+      },
+
+      {
         "key": "can_say_two_three_words",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -139,6 +150,17 @@
           "গোলাকার চিনহ আকতে পারে": "can_draw_circle",
           "অন্য শিশুদের সাথে খেলা করে": "can_play"
         }
+      },
+
+      {
+        "key": "difficulty_title",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "label",
+        "text_color": "#000000",
+        "text": "অসুস্থতা/ জটিলতা",
+        "text_size": "30sp"
       },
 
       {
