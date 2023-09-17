@@ -46,6 +46,7 @@ import org.smartregister.unicef.dghs.listener.OnGpsDataGenerateListener;
 import org.smartregister.unicef.dghs.listener.OnPostDataWithGps;
 import org.smartregister.unicef.dghs.activity.TermAndConditionWebView;
 import org.smartregister.unicef.dghs.model.Notification;
+import org.smartregister.unicef.dghs.service.OtherVaccineDueIntentService;
 import org.smartregister.unicef.dghs.task.GenerateGPSTask;
 import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.core.utils.CoreConstants;
@@ -158,6 +159,22 @@ public class HnppConstants extends CoreConstants {
                         e.onComplete();
                     }
 
+                }
+        );
+
+    }
+    public static Observable<String> postOtherVaccineData() {
+
+        return  Observable.create(e->{
+                    try {
+                        OtherVaccineDueIntentService.processUnSyncData(0);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        e.onNext("");//error
+                        e.onComplete();
+                    }
+                    e.onNext("done");//error
+                    e.onComplete();
                 }
         );
 

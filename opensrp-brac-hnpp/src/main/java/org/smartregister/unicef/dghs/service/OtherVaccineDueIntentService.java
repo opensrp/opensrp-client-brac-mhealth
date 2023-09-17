@@ -54,7 +54,7 @@ public class OtherVaccineDueIntentService extends IntentService {
         processUnSyncData(0);
 
     }
-    private void processUnSyncData(int count){
+    public static void processUnSyncData(int count){
         ArrayList<OtherVaccineContentData> vaccineContentData = HnppApplication.getOtherVaccineRepository().getUnSyncData();
 
         ArrayList<String> list = new ArrayList<>();

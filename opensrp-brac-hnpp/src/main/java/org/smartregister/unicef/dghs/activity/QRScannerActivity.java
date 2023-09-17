@@ -491,7 +491,8 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        OtherVaccineJob.scheduleJobImmediately(OtherVaccineJob.TAG);
+        HnppConstants.postOtherVaccineData();
+        //OtherVaccineJob.scheduleJobImmediately(OtherVaccineJob.TAG);
 
     }
     public ECSyncHelper getSyncHelper() {
