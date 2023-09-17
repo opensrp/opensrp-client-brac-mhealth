@@ -469,10 +469,12 @@
     <string name="score_status">পুষ্টি অবস্থা</string>
     <string name="weight_for_age">Weight for age: </string>
     <string name="not_referred">রেফার করা হয়নি</string>
+    <string name="referred_followup_not_given">রেফারাল ফলোআপ করা হয়নি</string>
     <string name="data_adding">ডাটা যোগ করা হচ্ছে.....</string>
     <string name="alert">এলার্ট</string>
     <string name="anc_form_submit_alert">আপনি কি এ এন সি সেবা নিতে ইচ্ছুক ?</string>
     <string name="no_immunization_info">টিকা তথ্য নেই</string>
     <string name="already_weight_taken_msg">এই দিনে ইতিমধ্যে ওজন নেওয়া হয়েছে</string>
     <string name="already_height_taken">"এই দিনে ইতিমধ্যে উচ্চতা নেওয়া হয়েছে "</string>
+    <string name="referral_followup">রেফারাল ফলোআপ</string>
 </resources>

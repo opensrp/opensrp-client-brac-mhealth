@@ -8,10 +8,14 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
@@ -28,7 +32,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.adapter.ReferralFollowupAdapter;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
+import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
+import org.smartregister.brac.hnpp.model.ReferralFollowupJsonModel;
 import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
 import org.smartregister.brac.hnpp.sync.FormParser;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -63,18 +70,26 @@ public class ChildFollowupActivity extends AppCompatActivity {
     public static String COMMON_PERSON = "commonPersonObj";
     public static String BUNDLE = "bundle";
     public static String IS_ONLY_SERVICE = "is_only_service";
+    public static String REFERRAL_FOLLOWUP_LIST = "referral_followup_list";
     public static String IS_READ_ONLY = "is_read_only";
 
+
     public static final int REQUEST_REFERRAL = 101;
+
+    public static final int REQUEST_REFERRAL_FOLLOWUP = 201;
     public static final int RESULT_CHILD_FOLLOW_UP = 10111;
 
     ImageView closeImage;
     Button saveButton;
 
-    Button notReferredBt,noImmunizationBt;
+    Button notReferredBt,noImmunizationBt,noReferFollowupGivenBt;
 
-    LinearLayout childFollowUpLay,immunizationLay,gmpLay,referralLay;
-    ImageView childFollowupCheckIm,immunizationCheckIm,gmpCheckIm,referralCheckIm;
+    LinearLayout childFollowUpLay,immunizationLay,gmpLay,referralLay,referralFollowupLay;
+    ImageView childFollowupCheckIm,immunizationCheckIm,gmpCheckIm,referralCheckIm,referralFollowupCheckIm;
+
+    RecyclerView referralFollowupRv;
+
+    TextView referralFollowupCauseTv;
 
     String childBaseEntityId,formType,gender,birthDate,familyHead;
     MemberObject memberObj;
@@ -92,7 +107,9 @@ public class ChildFollowupActivity extends AppCompatActivity {
     private Boolean isImmunizationTaken = null;
     private boolean isGmpTaken = false;
     ArrayList<String> jsonStringList = new ArrayList<>();
-
+    private ArrayList<ReferralFollowupJsonModel> referralFollowupJsonList;
+    ReferralFollowupAdapter adapter;
+    private int clickedItemPos = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,12 +144,36 @@ public class ChildFollowupActivity extends AppCompatActivity {
         commonPersonObjectClient = (CommonPersonObjectClient) intent.getSerializableExtra(COMMON_PERSON);
         bundle = intent.getParcelableExtra(BUNDLE);
         isOnlyVacc = intent.getBooleanExtra(IS_ONLY_SERVICE,false);
+        if(intent.getParcelableArrayListExtra(REFERRAL_FOLLOWUP_LIST) == null){
+            referralFollowupJsonList = new ArrayList<>();
+        }else {
+            referralFollowupJsonList = intent.getParcelableArrayListExtra(REFERRAL_FOLLOWUP_LIST);
+        }
+
     }
 
     /**
      * view interaction like button click
      */
     private void viewInteraction() {
+        if(!referralFollowupJsonList.isEmpty()){
+            referralFollowupLay.setVisibility(View.VISIBLE);
+            referralFollowupRv.setLayoutManager(new LinearLayoutManager(this));
+            adapter = new ReferralFollowupAdapter(this, new ReferralFollowupAdapter.OnClickAdapter() {
+                @Override
+                public void onClick(int position, ReferralFollowupJsonModel content) {
+                    if(content.getJson().isEmpty()){
+                        clickedItemPos = position;
+                        openReferealFollowUp(content);
+                    }
+                }
+            });
+            adapter.setData(referralFollowupJsonList);
+            referralFollowupRv.setAdapter(adapter);
+        }else {
+            referralFollowupLay.setVisibility(View.GONE);
+        }
+
         closeImage.setOnClickListener(view -> finish());
 
         saveButton.setOnClickListener(view -> {
@@ -164,9 +205,7 @@ public class ChildFollowupActivity extends AppCompatActivity {
         });
 
         immunizationLay.setOnClickListener(view -> {
-            //if(isImmunizationTaken == null){
-                ChildVaccinationActivity.startChildVaccinationActivity(ChildFollowupActivity.this,bundle,commonPersonObjectClient,isOnlyVacc);
-            //}
+            ChildVaccinationActivity.startChildVaccinationActivity(ChildFollowupActivity.this,bundle,commonPersonObjectClient,isOnlyVacc);
         });
 
         gmpLay.setOnClickListener(view -> {
@@ -182,6 +221,7 @@ public class ChildFollowupActivity extends AppCompatActivity {
         });
 
 
+
     }
 
     /**
@@ -195,6 +235,9 @@ public class ChildFollowupActivity extends AppCompatActivity {
             jsonStringList.add(childReferralJsonString);
         }
 
+        for(ReferralFollowupJsonModel model : referralFollowupJsonList){
+            jsonStringList.add(model.getJson());
+        }
         processForm();
         //hideProgressDialog();
 
@@ -245,14 +288,18 @@ public class ChildFollowupActivity extends AppCompatActivity {
         immunizationLay = findViewById(R.id.immunization_lay);
         gmpLay = findViewById(R.id.gmp_lay);
         referralLay = findViewById(R.id.referral_ley);
+        referralFollowupLay = findViewById(R.id.referral_followup_ley);
 
         childFollowupCheckIm = findViewById(R.id.child_followup_check_im);
         immunizationCheckIm = findViewById(R.id.immunization_check_im);
         gmpCheckIm = findViewById(R.id.gmp_check_im);
         referralCheckIm = findViewById(R.id.referral_check_im);
+        referralFollowupCheckIm = findViewById(R.id.referral_followup_check_im);
 
         notReferredBt = findViewById(R.id.not_referred);
         noImmunizationBt = findViewById(R.id.no_immunization_button);
+        referralFollowupCauseTv = findViewById(R.id.referral_followup_cause_tv);
+        referralFollowupRv = findViewById(R.id.referral_followup_rv);
     }
 
     /**
@@ -325,6 +372,61 @@ public class ChildFollowupActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * start referral followup form
+     * @param referralFollowUpModel /// item model
+     */
+    public void openReferealFollowUp(ReferralFollowupJsonModel referralFollowUpModel) {
+        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public void onPost(double latitude, double longitude) {
+                try {
+                    if(TextUtils.isEmpty(childBaseEntityId)){
+                        Toast.makeText(ChildFollowupActivity.this, "baseentityid null", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                    HnppConstants.appendLog("SAVE_VISIT", "openReferealFollowUp>>childBaseEntityId:"+childBaseEntityId);
+
+                    JSONObject jsonForm = FormUtils.getInstance(ChildFollowupActivity.this).getFormJson(HnppConstants.JSON_FORMS.REFERREL_FOLLOWUP);
+                    jsonForm.put(JsonFormUtils.ENTITY_ID, childBaseEntityId);
+                    try{
+                        HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    HnppJsonFormUtils.addReferrelReasonPlaceField(jsonForm,referralFollowUpModel.getReferralFollowUpModel().getReferralReason(),referralFollowUpModel.getReferralFollowUpModel().getReferralPlace());
+                    Intent intent;
+                    intent = new Intent(ChildFollowupActivity.this, HnppAncJsonFormActivity.class);
+                    intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+
+                    Form form = new Form();
+                    form.setWizard(false);
+                    if(!HnppConstants.isReleaseBuild()){
+                        form.setActionBarBackground(R.color.test_app_color);
+
+                    }else{
+                        form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
+
+                    }
+                    if(HnppConstants.isPALogin()){
+                        form.setHideSaveLabel(true);
+                        form.setSaveLabel("");
+                    }
+                    intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+                    intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
+                    startActivityForResult(intent, REQUEST_REFERRAL_FOLLOWUP);
+
+                }catch (Exception e){
+
+                }
+            }
+        });
+
+
+    }
+
+
 
     /**
      * handle all data collection result here
@@ -385,6 +487,27 @@ public class ChildFollowupActivity extends AppCompatActivity {
                     }
                 }
             }
+            else if(requestCode == REQUEST_REFERRAL_FOLLOWUP){
+                showProgressDialog(R.string.please_wait_message);
+
+                if(data!=null){
+                    String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
+                    String formSubmissionId = JsonFormUtils.generateRandomUUIDString();
+                    String visitId = JsonFormUtils.generateRandomUUIDString();
+                    HnppConstants.appendLog("SAVE_VISIT", "save form>>childBaseEntityId:"+childBaseEntityId+":formSubmissionId:"+formSubmissionId);
+
+                    String childReferralFollowupJsonString = jsonString==null?"":jsonString;
+
+                    if(clickedItemPos <= 0){
+                        if(!childReferralFollowupJsonString.isEmpty()){
+                            referralFollowupJsonList.get(clickedItemPos).setJson(childReferralFollowupJsonString);
+                        }
+                    }
+                    hideProgressDialog();
+                    showServiceDoneDialog();
+                    adapter.notifyDataSetChanged();
+                }
+            }
         }
 
         //handling gmp submission status
@@ -415,8 +538,17 @@ public class ChildFollowupActivity extends AppCompatActivity {
 
     private void checkButtonEnableStatus() {
         if(!childFollowUpJsonString.isEmpty() && childReferralJsonString!=null && isImmunizationTaken!=null && isGmpTaken){
+            for(ReferralFollowupJsonModel model : referralFollowupJsonList){
+                if(model.getJson().isEmpty()){
+                    saveButton.setEnabled(false);
+                    saveButton.setTextColor(Color.GRAY);
+                    return;
+                }
+            }
+
             saveButton.setEnabled(true);
             saveButton.setTextColor(Color.WHITE);
+
         }else {
             saveButton.setEnabled(false);
             saveButton.setTextColor(Color.GRAY);
@@ -474,7 +606,6 @@ public class ChildFollowupActivity extends AppCompatActivity {
             }
         });
     }
-
     /**
      * show progressbar
      * @param message //progress dialog message

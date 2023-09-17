@@ -93,8 +93,8 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:gravity="center|start"
-            android:layout_weight="7">
+            android:layout_weight="7"
+            android:gravity="center|start">
 
             <ImageView
                 android:id="@+id/immunization_check_im"
@@ -210,10 +210,10 @@
 
         <Button
             android:id="@+id/not_referred"
-            android:layout_weight="3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginRight="10dp"
+            android:layout_weight="3"
             android:background="@drawable/vaccine_card_background_blue"
             android:padding="10dp"
             android:text="@string/not_referred"
@@ -227,4 +227,33 @@
         android:layout_height="1dp"
         android:background="#DDDDDD"
         app:layout_constraintTop_toBottomOf="@+id/referral_ley" />
+
+    <!--Referral follow up-->
+    <LinearLayout
+        android:id="@+id/referral_followup_ley"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center|start"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        app:layout_constraintEnd_toEndOf="@+id/view4"
+        app:layout_constraintStart_toStartOf="@+id/view4"
+        app:layout_constraintTop_toBottomOf="@+id/view4">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/referral_followup_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:scrollbars="vertical" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view5"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#DDDDDD"
+        app:layout_constraintTop_toBottomOf="@+id/referral_followup_ley" />
 </android.support.constraint.ConstraintLayout>
