@@ -25,9 +25,7 @@ public class MemberListRepository extends BaseRepository {
         try {
             String query = "";
             if(memberTypeEnum == MemberTypeEnum.DEATH){
-                query = "SELECT * FROM ec_family_member where relational_id = '"+familyId+"' where date_removed not null";
-            }else {
-
+                query = "SELECT * FROM ec_family_member where relational_id = '"+familyId+"' and date_removed is null";
             }
             cursor = getReadableDatabase().rawQuery(query, null);
 

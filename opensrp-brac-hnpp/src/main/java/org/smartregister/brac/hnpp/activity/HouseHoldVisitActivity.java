@@ -84,12 +84,14 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity{
     Dialog dialog;
     public static ArrayList<String> memberListJson = new ArrayList<>();
     public static ArrayList<String> removedMemberListJson = new ArrayList<>();
+    public static ArrayList<String> migratedMemberListJson = new ArrayList<>();
 
 
 
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_hh_visit);
+        resetData();
         initializePresenter();
 
         nextButton = findViewById(R.id.next_button);
@@ -113,6 +115,10 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity{
             }
         });
 
+    }
+
+    private void resetData() {
+        memberListJson.clear();
     }
 
     /**

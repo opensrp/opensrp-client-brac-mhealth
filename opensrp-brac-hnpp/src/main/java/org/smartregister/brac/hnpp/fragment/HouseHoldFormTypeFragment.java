@@ -8,24 +8,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.AppCompatTextView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
+import android.widget.LinearLayout;
 
 import com.rey.material.widget.Button;
-import com.rey.material.widget.TextView;
 
 import org.smartregister.brac.hnpp.R;
-import org.smartregister.brac.hnpp.activity.FamilyRemoveMemberActivity;
 import org.smartregister.brac.hnpp.activity.HouseHoldVisitActivity;
 import org.smartregister.brac.hnpp.contract.MemberListContract;
 import org.smartregister.brac.hnpp.model.Member;
 import org.smartregister.brac.hnpp.presenter.MemberListPresenter;
-import org.smartregister.brac.hnpp.utils.HnppDBConstants;
 import org.smartregister.brac.hnpp.utils.MemberTypeEnum;
-import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.family.util.Constants;
 
 import java.util.ArrayList;
@@ -34,16 +32,31 @@ import java.util.Locale;
 public class HouseHoldFormTypeFragment extends Fragment implements MemberListContract.View {
     public static String TAG = "HouseHoldFormTypeFragment";
 
-    RadioButton newBornRadio;
-    RadioButton deathInfoRadio;
-    RadioButton pregnancyRegRadio;
-    RadioButton hhUpdate;
+    LinearLayout newBornLay;
+    LinearLayout deathInfoLay;
+    LinearLayout migrationInfoLay;
+    LinearLayout pregnancyRegLay;
+    LinearLayout hhUpdateLay;
 
     Button noNewBornBt;
-    Button noDeathBornBt;
+    Button noDeathBt;
+    Button noMigrationBt;
     Button noPregnancyBt;
 
-    TextView newBornCountTv;
+    AppCompatImageView newBornCheckIm;
+    AppCompatImageView deathCheckIm;
+    AppCompatImageView migrationCheckIm;
+    AppCompatImageView pregnancyCheckIm;
+
+    AppCompatImageView hh_info_CheckIm;
+
+    AppCompatTextView newBornCountTv;
+    AppCompatTextView deathCountTv;
+    AppCompatTextView migrationCountTv;
+
+    boolean isValidateNewborn = false;
+    boolean isValidateDeath = false;
+    boolean isValidateMigration = false;
     public static MemberListPresenter memberHistoryPresenter;
 
     public HouseHoldFormTypeFragment() {
@@ -54,86 +67,151 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_house_hold_form_type, container, false);
+        View view = inflater.inflate(R.layout.fragment_house_hold_form_type, container, false);
         initUi(view);
 
 
         return view;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
+
     private void initUi(View view) {
         initializeMemberPresenter();
 
-        newBornRadio = view.findViewById(R.id.new_born_radio);
-        deathInfoRadio = view.findViewById(R.id.death_info_radio);
-        pregnancyRegRadio = view.findViewById(R.id.pregnancy_reg_radio);
-        hhUpdate = view.findViewById(R.id.hh_info_update_radio);
+        newBornLay = view.findViewById(R.id.newborn_lay);
+        deathInfoLay = view.findViewById(R.id.death_info_lay);
+        migrationInfoLay = view.findViewById(R.id.migration_info_lay);
+        pregnancyRegLay = view.findViewById(R.id.pregnancy_lay);
+        hhUpdateLay = view.findViewById(R.id.hh_info_update_lay);
 
         noNewBornBt = view.findViewById(R.id.no_new_born_bt);
-        noDeathBornBt = view.findViewById(R.id.no_death_bt);
-        noPregnancyBt = view.findViewById(R.id.no_pregnancy_bt);
+        noDeathBt = view.findViewById(R.id.dead_info_bt);
+        noMigrationBt = view.findViewById(R.id.migration_info_bt);
+        noPregnancyBt = view.findViewById(R.id.pregnancy_bt);
+
+        newBornCheckIm = view.findViewById(R.id.newborn_check_im);
+        deathCheckIm = view.findViewById(R.id.death_info_im);
+        migrationCheckIm = view.findViewById(R.id.migration_info_im);
+        pregnancyCheckIm = view.findViewById(R.id.pregnancy_check_im);
+        hh_info_CheckIm = view.findViewById(R.id.hh_info_check_im);
+
 
         newBornCountTv = view.findViewById(R.id.new_born_count_tv);
+        deathCountTv = view.findViewById(R.id.death_count_tv);
+        migrationCountTv = view.findViewById(R.id.migration_count_tv);
 
         ///new born button handle
         noNewBornBt.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("NewApi")
             @Override
             public void onClick(View view) {
-                if(HouseHoldVisitActivity.memberListJson.size()>0){
-                    newBornRadio.setChecked(true);
+                if ((view.getTag()) == null) {
+                    newBornCheckIm.setImageResource(R.drawable.success);
+                    newBornCheckIm.setColorFilter(ContextCompat.getColor(getActivity(), android.R.color.holo_orange_dark));
+                    newBornLay.setClickable(true);
+                    isValidateNewborn = true;
+                    return;
+                }
+
+                if (HouseHoldVisitActivity.memberListJson.size() > 0) {
+                    //newBornLay.setChecked(true);
                     AddCustomMemberFragment addmemberFragment = AddCustomMemberFragment.newInstance();
                     addmemberFragment.setContext(getActivity());
                     addmemberFragment.show(getActivity().getFragmentManager(), AddCustomMemberFragment.DIALOG_TAG);
-                    newBornRadio.setButtonTintList(getActivity().getResources().getColorStateList(R.color.deep_green));
-                }else {
-                    newBornRadio.setChecked(true);
-                    newBornRadio.setButtonTintList(getActivity().getResources().getColorStateList(R.color.pnc_circle_yellow));
+                } else {
                 }
+
             }
         });
 
-        newBornRadio.setOnClickListener(new View.OnClickListener() {
+        newBornLay.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("NewApi")
             @Override
             public void onClick(View view) {
-                newBornRadio.setChecked(true);
                 AddCustomMemberFragment addmemberFragment = AddCustomMemberFragment.newInstance();
                 addmemberFragment.setContext(getActivity());
                 addmemberFragment.show(getActivity().getFragmentManager(), AddCustomMemberFragment.DIALOG_TAG);
-                newBornRadio.setButtonTintList(getActivity().getResources().getColorStateList(R.color.deep_green));
             }
         });
 
 
         ///death info button handle
-        noDeathBornBt.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("NewApi")
+        deathInfoLay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deathInfoRadio.setChecked(true);
-               /* Intent frm_intent = new Intent(getActivity(), FamilyRemoveMemberActivity.class);
-                frm_intent.putExtra(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, getArguments().getString(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID,""));
-                frm_intent.putExtra(Constants.INTENT_KEY.FAMILY_HEAD, getArguments().getString(Constants.INTENT_KEY.FAMILY_HEAD,""));
-                frm_intent.putExtra(Constants.INTENT_KEY.PRIMARY_CAREGIVER, getArguments().getString(Constants.INTENT_KEY.PRIMARY_CAREGIVER,""));
-                frm_intent.putExtra("from", "true");
-                startActivityForResult(frm_intent, CoreConstants.ProfileActivityResults.CHANGE_COMPLETED);*/
                 memberHistoryPresenter.fetchMemberList(MemberTypeEnum.DEATH);
                 ArrayList<Member> memberArrayList = memberHistoryPresenter.getMemberList();
                 MemberListDialogFragment memberListDialogFragment = MemberListDialogFragment.newInstance();
                 memberListDialogFragment.setContext(getActivity());
-                memberListDialogFragment.setData(memberArrayList);
+                memberListDialogFragment.setData(memberArrayList,MemberTypeEnum.DEATH);
                 memberListDialogFragment.show(getActivity().getFragmentManager(), MemberListDialogFragment.DIALOG_TAG);
-                deathInfoRadio.setButtonTintList(getActivity().getResources().getColorStateList(R.color.pnc_circle_yellow));
             }
         });
 
-        deathInfoRadio.setOnClickListener(new View.OnClickListener() {
+        noDeathBt.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("NewApi")
             @Override
             public void onClick(View view) {
-                deathInfoRadio.setChecked(true);
-                deathInfoRadio.setButtonTintList(getActivity().getResources().getColorStateList(R.color.deep_green));
+                if ((view.getTag()) == null) {
+                    deathCheckIm.setImageResource(R.drawable.success);
+                    deathCheckIm.setColorFilter(ContextCompat.getColor(getActivity(), android.R.color.holo_orange_dark));
+                    deathInfoLay.setClickable(true);
+                    isValidateDeath = true;
+                    return;
+                }
+
+                if (HouseHoldVisitActivity.removedMemberListJson.size() > 0) {
+                    memberHistoryPresenter.fetchMemberList(MemberTypeEnum.DEATH);
+                    ArrayList<Member> memberArrayList = memberHistoryPresenter.getMemberList();
+                    MemberListDialogFragment memberListDialogFragment = MemberListDialogFragment.newInstance();
+                    memberListDialogFragment.setContext(getActivity());
+                    memberListDialogFragment.setData(memberArrayList, MemberTypeEnum.DEATH);
+                    memberListDialogFragment.show(getActivity().getFragmentManager(), MemberListDialogFragment.DIALOG_TAG);
+                } else {
+
+                }
+            }
+        });
+
+        migrationInfoLay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                memberHistoryPresenter.fetchMemberList(MemberTypeEnum.DEATH);
+                ArrayList<Member> memberArrayList = memberHistoryPresenter.getMemberList();
+                MemberListDialogFragment memberListDialogFragment = MemberListDialogFragment.newInstance();
+                memberListDialogFragment.setContext(getActivity());
+                memberListDialogFragment.setData(memberArrayList, MemberTypeEnum.MIGRATION);
+                memberListDialogFragment.show(getActivity().getFragmentManager(), MemberListDialogFragment.DIALOG_TAG);
+            }
+        });
+
+        noMigrationBt.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NewApi")
+            @Override
+            public void onClick(View view) {
+                if ((view.getTag()) == null) {
+                    migrationCheckIm.setImageResource(R.drawable.success);
+                    migrationCheckIm.setColorFilter(ContextCompat.getColor(getActivity(), android.R.color.holo_orange_dark));
+                    migrationInfoLay.setClickable(true);
+                    isValidateMigration = true;
+                    return;
+                }
+
+                if (HouseHoldVisitActivity.migratedMemberListJson.size() > 0) {
+                    memberHistoryPresenter.fetchMemberList(MemberTypeEnum.DEATH);
+                    ArrayList<Member> memberArrayList = memberHistoryPresenter.getMemberList();
+                    MemberListDialogFragment memberListDialogFragment = MemberListDialogFragment.newInstance();
+                    memberListDialogFragment.setContext(getActivity());
+                    memberListDialogFragment.setData(memberArrayList, MemberTypeEnum.MIGRATION);
+                    memberListDialogFragment.show(getActivity().getFragmentManager(), MemberListDialogFragment.DIALOG_TAG);
+                } else {
+
+                }
             }
         });
 
@@ -142,23 +220,21 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
             @SuppressLint("NewApi")
             @Override
             public void onClick(View view) {
-                pregnancyRegRadio.setChecked(true);
+                //pregnancyRegRadio.setChecked(true);
                 memberHistoryPresenter.fetchMemberList(MemberTypeEnum.ELCO);
                 ArrayList<Member> memberArrayList = memberHistoryPresenter.getMemberList();
                 MemberListDialogFragment memberListDialogFragment = MemberListDialogFragment.newInstance();
                 memberListDialogFragment.setContext(getActivity());
-                memberListDialogFragment.setData(memberArrayList);
+                memberListDialogFragment.setData(memberArrayList, MemberTypeEnum.DEATH);
                 memberListDialogFragment.show(getActivity().getFragmentManager(), MemberListDialogFragment.DIALOG_TAG);
-                pregnancyRegRadio.setButtonTintList(getActivity().getResources().getColorStateList(R.color.pnc_circle_yellow));
             }
         });
 
-        pregnancyRegRadio.setOnClickListener(new View.OnClickListener() {
+        pregnancyRegLay.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("NewApi")
             @Override
             public void onClick(View view) {
-                pregnancyRegRadio.setChecked(true);
-                pregnancyRegRadio.setButtonTintList(getActivity().getResources().getColorStateList(R.color.deep_green));
+
             }
         });
 
@@ -167,33 +243,64 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
     @Override
     public void onResume() {
         super.onResume();
-        if(HouseHoldVisitActivity.memberListJson.size()>0){
+        //newborn component handling
+        if (HouseHoldVisitActivity.memberListJson.size() > 0) {
             newBornCountTv.setVisibility(View.VISIBLE);
-            newBornCountTv.setText(String.format(Locale.US,"%d%s", HouseHoldVisitActivity.memberListJson.size()+HouseHoldVisitActivity.removedMemberListJson.size(), getString(R.string.record_added)));
+            newBornCountTv.setText(String.format(new Locale("bn"), "%d%s", HouseHoldVisitActivity.memberListJson.size(), getActivity().getString(R.string.record_added)));
             noNewBornBt.setText(R.string.add_more_member);
-            //noNewBornBt.setdrawablel
-            newBornRadio.setClickable(false);
-        }else {
+            noNewBornBt.setTag(true);
+            newBornCheckIm.setImageResource(R.drawable.success);
+            newBornCheckIm.setColorFilter(ContextCompat.getColor(getActivity(), R.color.others));
+            newBornLay.setClickable(false);
+            isValidateNewborn = true;
+        } else {
             newBornCountTv.setVisibility(View.GONE);
         }
+
+        //death component handling
+        if (HouseHoldVisitActivity.removedMemberListJson.size() > 0) {
+            deathCountTv.setVisibility(View.VISIBLE);
+            deathCountTv.setText(String.format(new Locale("bn"), "%d%s", HouseHoldVisitActivity.removedMemberListJson.size(), getActivity().getString(R.string.record_added)));
+            noDeathBt.setText(R.string.add_more_member);
+            noDeathBt.setTag(true);
+            deathCheckIm.setImageResource(R.drawable.success);
+            deathCheckIm.setColorFilter(ContextCompat.getColor(getActivity(), R.color.others));
+            deathInfoLay.setClickable(false);
+            isValidateDeath = true;
+        } else {
+            deathCountTv.setVisibility(View.GONE);
+        }
+
+        //migration component handling
+        if (HouseHoldVisitActivity.migratedMemberListJson.size() > 0) {
+            migrationCountTv.setVisibility(View.VISIBLE);
+            migrationCountTv.setText(String.format(new Locale("bn"), "%d%s", HouseHoldVisitActivity.migratedMemberListJson.size(), getActivity().getString(R.string.record_added)));
+            noMigrationBt.setText(R.string.add_more_member);
+            noMigrationBt.setTag(true);
+            migrationCheckIm.setImageResource(R.drawable.success);
+            migrationCheckIm.setColorFilter(ContextCompat.getColor(getActivity(), R.color.others));
+            migrationInfoLay.setClickable(false);
+            isValidateMigration = true;
+        } else {
+            migrationCountTv.setVisibility(View.GONE);
+        }
+
     }
 
 
     @Override
     public void showProgressBar() {
-        Log.d("mmmm","stared prog");
-        showProgressDialog(R.string.loading_location,R.string.exit_app_message,getActivity());
+        showProgressDialog(R.string.loading_location, R.string.exit_app_message, getActivity());
     }
 
     @Override
     public void hideProgressBar() {
         hideProgressDialog();
-        Log.d("mmmm","end prog");
     }
 
     @Override
     public void initializeMemberPresenter() {
-        memberHistoryPresenter = new MemberListPresenter(this,getArguments().getString(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID,""));
+        memberHistoryPresenter = new MemberListPresenter(this, getArguments().getString(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, ""));
     }
 
     @Override

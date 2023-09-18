@@ -1,102 +1,343 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.HouseHoldFormTypeFragment">
 
-    <android.support.v7.widget.AppCompatRadioButton
-        android:id="@+id/new_born_radio"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/newborn_lay"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:buttonTint="@color/deep_green"
-        android:gravity="center"
-        android:text="@string/new_born"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.rey.material.widget.TextView
-        android:id="@+id/new_born_count_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:text="sdfgsdf"
-        android:textColor="@color/black"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="@+id/new_born_radio"
-        app:layout_constraintTop_toBottomOf="@+id/new_born_radio" />
-
-    <com.rey.material.widget.Button
-        android:id="@+id/no_new_born_bt"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:drawableLeft="@drawable/ic_baseline_circle_24"
-        android:drawablePadding="5dp"
-        android:text="@string/no_new_born"
-        android:layout_marginRight="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/new_born_count_tv"
+        android:gravity="center|left"
+        android:minHeight="70dp"
+        android:weightSum="10"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/new_born_radio" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-    <android.support.v7.widget.AppCompatRadioButton
-        android:id="@+id/death_info_radio"
-        android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:gravity="center|left"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/newborn_check_im"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
+                android:contentDescription="check"
+                android:src="@drawable/circle_background" />
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="vertical">
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginLeft="10dp"
+                   android:text="@string/new_born"
+                   android:textColor="@color/black"
+                   android:textSize="18sp" />
+
+               <TextView
+                   android:id="@+id/new_born_count_tv"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:visibility="gone"
+                   android:layout_marginLeft="10dp"
+                   android:text="1 record added"
+                   android:textColor="@color/black"
+                   android:textSize="18sp" />
+           </LinearLayout>
+        </LinearLayout>
+
+
+        <com.rey.material.widget.Button
+            android:id="@+id/no_new_born_bt"
+            android:layout_width="wrap_content"
+            android:layout_weight="3"
+            android:layout_height="40dp"
+            android:drawableLeft="@drawable/ic_baseline_circle_24"
+            android:drawablePadding="5dp"
+            android:text="@string/no_new_born"
+            android:layout_marginRight="10dp" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"
+        app:layout_constraintTop_toBottomOf="@id/newborn_lay"
+        />
+
+
+    <LinearLayout
+        android:id="@+id/death_info_lay"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/death_info"
-        android:buttonTint="@color/deep_green"
-        app:layout_constraintBottom_toBottomOf="@+id/no_death_bt"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/no_death_bt" />
-
-    <com.rey.material.widget.Button
-        android:id="@+id/no_death_bt"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:text="@string/no_death"
-        android:drawableLeft="@drawable/ic_baseline_circle_24"
-        android:layout_marginTop="10dp"
-        android:drawablePadding="5dp"
+        android:gravity="center|left"
+        android:minHeight="70dp"
+        android:orientation="horizontal"
+        android:weightSum="10"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
-        app:layout_constraintStart_toEndOf="@+id/death_info_radio"
-        app:layout_constraintTop_toBottomOf="@+id/no_new_born_bt" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newborn_lay">
 
-    <android.support.v7.widget.AppCompatRadioButton
-        android:id="@+id/pregnancy_reg_radio"
-        android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:gravity="center|left"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/death_info_im"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
+                android:contentDescription="check"
+                android:src="@drawable/circle_background" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/death_info"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/death_count_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:layout_marginLeft="10dp"
+                    android:text="1 record added"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <com.rey.material.widget.Button
+            android:id="@+id/dead_info_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_weight="3"
+            android:layout_marginRight="10dp"
+            android:drawableLeft="@drawable/ic_baseline_circle_24"
+            android:drawablePadding="5dp"
+            android:text="@string/no_death" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"
+        app:layout_constraintTop_toBottomOf="@id/death_info_lay" />
+
+    <LinearLayout
+        android:id="@+id/migration_info_lay"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/pregnancy_reg"
-        android:buttonTint="@color/deep_green"
-        app:layout_constraintBottom_toBottomOf="@+id/no_pregnancy_bt"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/no_pregnancy_bt" />
-
-    <com.rey.material.widget.Button
-        android:id="@+id/no_pregnancy_bt"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:drawableLeft="@drawable/ic_baseline_circle_24"
-        android:layout_marginTop="10dp"
-        android:drawablePadding="5dp"
-        android:text="@string/no_pregnancy"
+        android:gravity="center|left"
+        android:minHeight="70dp"
+        android:orientation="horizontal"
+        android:weightSum="10"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
-        app:layout_constraintStart_toEndOf="@+id/pregnancy_reg_radio"
-        app:layout_constraintTop_toBottomOf="@+id/no_death_bt" />
-
-    <android.support.v7.widget.AppCompatRadioButton
-        android:id="@+id/hh_info_update_radio"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:text="@string/hh_info_update"
-        android:buttonTint="@color/deep_green"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/no_pregnancy_bt" />
+        app:layout_constraintTop_toBottomOf="@+id/death_info_lay">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:gravity="center|left"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/migration_info_im"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
+                android:contentDescription="check"
+                android:src="@drawable/circle_background" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/migration_info"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/migration_count_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="1 record added"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <com.rey.material.widget.Button
+            android:id="@+id/migration_info_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="3"
+            android:drawableLeft="@drawable/ic_baseline_circle_24"
+            android:drawablePadding="5dp"
+            android:text="@string/no_migration" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"
+        app:layout_constraintTop_toBottomOf="@+id/migration_info_lay" />
+
+
+    <LinearLayout
+        android:id="@+id/pregnancy_lay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center|left"
+        android:minHeight="70dp"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/migration_info_lay">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:gravity="center|left"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/pregnancy_check_im"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
+                android:contentDescription="check"
+                android:src="@drawable/circle_background" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/pregnancy_reg"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+
+        <com.rey.material.widget.Button
+            android:id="@+id/pregnancy_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="3"
+            android:drawableLeft="@drawable/ic_baseline_circle_24"
+            android:drawablePadding="5dp"
+            android:text="@string/no_pregnancy" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"
+        app:layout_constraintTop_toBottomOf="@id/pregnancy_lay"
+        />
+
+    <LinearLayout
+        android:id="@+id/hh_info_update_lay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center|left"
+        android:minHeight="70dp"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pregnancy_lay">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:gravity="center|left"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/hh_info_check_im"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
+                android:contentDescription="check"
+                android:src="@drawable/circle_background" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/hh_info_update"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3">
+
+            <!-- <com.rey.material.widget.Button
+                 android:id="@+id/pregnancy_bt"
+                 android:layout_width="wrap_content"
+                 android:layout_height="40dp"
+                 android:layout_marginRight="10dp"
+                 android:drawableLeft="@drawable/ic_baseline_circle_24"
+                 android:drawablePadding="5dp"
+                 android:text="@string/no_pregnancy"
+                 app:layout_constraintBottom_toBottomOf="@+id/new_born_count_tv"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintTop_toTopOf="@+id/new_born_radio" />-->
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"
+        app:layout_constraintTop_toBottomOf="@id/hh_info_update_lay"
+        />
+
 
 </android.support.constraint.ConstraintLayout>

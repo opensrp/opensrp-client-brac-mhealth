@@ -398,10 +398,12 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="new_born">নতুন জন্ম</string>
     <string name="death_info">মৃত্যু তথ্য</string>
+    <string name="migration_info">স্থানান্তর তথ্য</string>
     <string name="pregnancy_reg">গর্ভবতী রেজিস্ট্রেশন</string>
     <string name="hh_info_update">খানার তথ্য আপডেট</string>
     <string name="no_new_born">নতুন জন্ম জানা নেই</string>
     <string name="no_death">মৃত্যু নেই</string>
+    <string name="no_migration">স্থানান্তর নেই</string>
     <string name="no_pregnancy">গর্ভবতী নেই</string>
     <string name="add_more_member">আরো যোগ করুন</string>
    <string name="record_added"> টি নতুন জন্ম রেকর্ড করা হয়েছে</string>
