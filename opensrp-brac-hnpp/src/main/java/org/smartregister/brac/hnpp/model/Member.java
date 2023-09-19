@@ -1,6 +1,9 @@
 package org.smartregister.brac.hnpp.model;
 
-public class Member {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Member implements Parcelable {
     String name;
     String gender;
     String age;
@@ -18,6 +21,30 @@ public class Member {
         this.careGiver = careGiver;
         this.familyHead = familyHead;
     }
+
+    Member(){}
+
+    protected Member(Parcel in) {
+        name = in.readString();
+        gender = in.readString();
+        age = in.readString();
+        baseEntityId = in.readString();
+        familyBaseEntityId = in.readString();
+        careGiver = in.readString();
+        familyHead = in.readString();
+    }
+
+    public static final Creator<Member> CREATOR = new Creator<Member>() {
+        @Override
+        public Member createFromParcel(Parcel in) {
+            return new Member(in);
+        }
+
+        @Override
+        public Member[] newArray(int size) {
+            return new Member[size];
+        }
+    };
 
     public String getName() {
         return name;
@@ -45,5 +72,21 @@ public class Member {
 
     public String getFamilyHead() {
         return familyHead;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(name);
+        parcel.writeString(gender);
+        parcel.writeString(age);
+        parcel.writeString(baseEntityId);
+        parcel.writeString(familyBaseEntityId);
+        parcel.writeString(careGiver);
+        parcel.writeString(familyHead);
     }
 }

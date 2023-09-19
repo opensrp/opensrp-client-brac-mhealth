@@ -401,27 +401,6 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
             String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
             String formSubmissionId = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
             String visitId = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
-            /*Runnable runnable = () -> {
-                Log.v("SAVE_VISIT","isProcessing>>"+isProcessing);
-                if(!isProcessing){
-                    isProcessing = true;
-                    String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
-                    String formSubmissionId = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
-                    String visitId = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
-                    isSave.set(processAndSaveVisitForm(jsonString,formSubmissionId,visitId));
-                }
-                appExecutors.mainThread().execute(() -> {
-                    isProcessing = false;
-                    if(isSave.get()){
-                        hideProgressDialog();
-                        showServiceDoneDialog(true);
-                    }else {
-                        hideProgressDialog();
-                        showServiceDoneDialog(false);
-                    }
-
-                });
-            };*/
 
             processAndSaveVisitForm(jsonString,formSubmissionId,visitId)
                     .subscribeOn(Schedulers.io())
@@ -459,13 +438,6 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                             }
                         }
                     });
-           /* appExecutors.diskIO().execute(runnable);*/
-//            try{
-//                Thread.sleep(5000);
-//            }catch (Exception e){
-//
-//            }
-//            appExecutors.diskIO().execute(runnable);
 
         }
         else if(resultCode == Activity.RESULT_OK && requestCode == HnppConstants.SURVEY_KEY.HH_SURVEY_REQUEST_CODE){
